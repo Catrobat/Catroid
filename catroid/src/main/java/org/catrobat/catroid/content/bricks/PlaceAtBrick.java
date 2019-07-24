@@ -30,10 +30,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -99,8 +101,18 @@ public class PlaceAtBrick extends FormulaBrick {
 			return;
 		}
 
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Formula formulax = getFormulaWithBrickField(BrickField.X_POSITION);
+		Formula formulay = getFormulaWithBrickField(BrickField.Y_POSITION);
 		Intent intent = new Intent(view.getContext(), VisualPlacementActivity.class);
 		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
+		try {
+			intent.putExtra("X", formulax.interpretInteger(currentSprite));
+			intent.putExtra("Y", formulay.interpretInteger(currentSprite));
+		} catch (InterpretationException interpretationException) {
+			intent.putExtra("X", 0);
+			intent.putExtra("Y", 0);
+		}
 		activity.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT);
 	}
 
