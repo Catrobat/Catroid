@@ -168,7 +168,6 @@ public final class ProjectManager {
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9991f) {
 			project.setCatrobatLanguageVersion(0.9992f);
-			project.setCatrobatLanguageVersion(0.9992f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9992f) {
 			project.setCatrobatLanguageVersion(0.9993f);
@@ -187,6 +186,9 @@ public final class ProjectManager {
 			project.setCatrobatLanguageVersion(0.9997f);
 		}
 		if (project.getCatrobatLanguageVersion() == 0.9997f) {
+			project.setCatrobatLanguageVersion(0.9998f);
+		}
+		if (project.getCatrobatLanguageVersion() == 0.9998f) {
 			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 		}
 		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {

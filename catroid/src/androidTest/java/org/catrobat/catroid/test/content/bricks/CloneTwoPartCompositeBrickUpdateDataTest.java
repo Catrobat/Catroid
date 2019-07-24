@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -93,11 +93,11 @@ public class CloneTwoPartCompositeBrickUpdateDataTest {
 	@Test
 	public void testUpdateUserVariable() {
 		sprite.addUserVariable(USER_VARIABLE);
-		UserVariableBrick variableBrick = new SetVariableBrick(new Formula(0), USER_VARIABLE);
+		UserVariableBrickWithFormula variableBrick = new SetVariableBrick(new Formula(0), USER_VARIABLE);
 		compositeBrick.getNestedBricks().add(variableBrick);
 		Sprite cloneSprite = new SpriteController().copyForCloneBrick(sprite);
 		CompositeBrick clonedCompositeBrick = (CompositeBrick) cloneSprite.getScript(0).getBrick(0);
-		UserVariableBrick clonedUserVariableBrick = (UserVariableBrick) clonedCompositeBrick.getNestedBricks().get(0);
+		UserVariableBrickWithFormula clonedUserVariableBrick = (UserVariableBrickWithFormula) clonedCompositeBrick.getNestedBricks().get(0);
 		assertEquals(USER_VARIABLE, clonedUserVariableBrick.getUserVariable());
 		assertNotSame(USER_VARIABLE, clonedUserVariableBrick.getUserVariable());
 	}
