@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -36,7 +35,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.fragment.ColorSeekbar;
 
 public class SetPenColorBrick extends FormulaBrick {
 
@@ -61,15 +59,6 @@ public class SetPenColorBrick extends FormulaBrick {
 		setFormulaWithBrickField(BrickField.PEN_COLOR_RED, red);
 		setFormulaWithBrickField(BrickField.PEN_COLOR_GREEN, green);
 		setFormulaWithBrickField(BrickField.PEN_COLOR_BLUE, blue);
-	}
-
-	@Override
-	public View getCustomView(Context context) {
-		ColorSeekbar colorSeekbar = new ColorSeekbar(this,
-				BrickField.PEN_COLOR_RED,
-				BrickField.PEN_COLOR_GREEN,
-				BrickField.PEN_COLOR_BLUE);
-		return colorSeekbar.getView(context);
 	}
 
 	@Override
