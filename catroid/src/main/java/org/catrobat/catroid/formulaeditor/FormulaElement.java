@@ -1082,14 +1082,12 @@ public class FormulaElement implements Serializable {
 		return userList.getList().size();
 	}
 
-	public boolean isSingleNumberFormula() {
+	boolean isNumber() {
 		if (type == ElementType.OPERATOR) {
 			Operators operator = Operators.getOperatorByValue(value);
-			return (operator == Operators.MINUS) && (leftChild == null) && rightChild.isSingleNumberFormula();
-		} else if (type == ElementType.NUMBER) {
-			return true;
+			return (operator == Operators.MINUS) && (leftChild == null) && rightChild.isNumber();
 		}
-		return false;
+		return type == ElementType.NUMBER;
 	}
 
 	@Override

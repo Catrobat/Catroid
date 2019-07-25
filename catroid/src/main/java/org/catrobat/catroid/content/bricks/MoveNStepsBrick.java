@@ -62,7 +62,7 @@ public class MoveNStepsBrick extends FormulaBrick {
 		super.getView(context);
 
 		TextView label = view.findViewById(R.id.brick_move_n_steps_step_text_view);
-		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
 			try {
 				label.setText(view.getResources().getQuantityString(
 						R.plurals.brick_move_n_step_plural,

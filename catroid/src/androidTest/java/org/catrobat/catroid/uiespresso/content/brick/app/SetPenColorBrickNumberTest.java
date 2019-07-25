@@ -23,23 +23,25 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
-import org.catrobat.catroid.testsuites.annotations.Cat;
-import org.catrobat.catroid.testsuites.annotations.Level;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -48,9 +50,31 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.hamcrest.Matchers.containsString;
 
-@RunWith(AndroidJUnit4.class)
-public class SetPenColorBrickTest {
+@RunWith(Parameterized.class)
+public class SetPenColorBrickNumberTest {
+
 	private int brickPosition;
+
+	@Parameterized.Parameters(name = "{0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{"negativeParametersTest", -23, -1, -1},
+				{"allZeroParametersTest", 0, 0, 0},
+				{"positiveParametersTest", 2, 3, 4}
+		});
+	}
+
+	@Parameterized.Parameter
+	public String name;
+
+	@Parameterized.Parameter(1)
+	public Object red;
+
+	@Parameterized.Parameter(2)
+	public Object green;
+
+	@Parameterized.Parameter(3)
+	public Object blue;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -59,12 +83,38 @@ public class SetPenColorBrickTest {
 	@Before
 	public void setUp() {
 		brickPosition = 1;
+
+		Object[] parameters = {red, green, blue};
+		ArrayList<Formula> formula = new ArrayList<>();
+
+		for (Object color : parameters) {
+			formula.add(new Formula((Integer) color));
+		}
+
 		createProjectAndGetStartScript("SetPenColorBrickTest")
-				.addBrick(new SetPenColorBrick());
+				.addBrick(new SetPenColorBrick(formula.get(0), formula.get(1), formula.get(2)));
+
+		formula.clear();
 		baseActivityTestRule.launchActivity();
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPenColorShowDialog() {
+		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_pen_color);
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
+				.checkShowsNumber((Integer) red);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
+				.checkShowsNumber((Integer) green);
+
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
+				.checkShowsNumber((Integer) blue)
+				.perform(click());
+
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(matches(isDisplayed()));
+	}
+
 	@Test
 	public void testPickColor() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_pen_color);
@@ -84,7 +134,6 @@ public class SetPenColorBrickTest {
 				.check(matches(withText(containsString("205"))));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testPickColorCancel() {
 		onBrickAtPosition(brickPosition).checkShowsText(R.string.brick_pen_color);
@@ -96,11 +145,11 @@ public class SetPenColorBrickTest {
 				.perform(click());
 		onView(withId(R.id.color_picker_button_cancel))
 				.perform(click());
-		onView(withId(R.id.brick_set_pen_color_action_red_edit_text))
-				.check(matches(withText(containsString("0"))));
-		onView(withId(R.id.brick_set_pen_color_action_green_edit_text))
-				.check(matches(withText(containsString("0"))));
-		onView(withId(R.id.brick_set_pen_color_action_blue_edit_text))
-				.check(matches(withText(containsString("0"))));
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_red_edit_text)
+				.checkShowsNumber((Integer) red);
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_green_edit_text)
+				.checkShowsNumber((Integer) green);
+		onBrickAtPosition(brickPosition).onFormulaTextField(R.id.brick_set_pen_color_action_blue_edit_text)
+				.checkShowsNumber((Integer) blue);
 	}
 }

@@ -161,7 +161,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		TextView textView = view.findViewById(R.id.brick_seconds_label);
 		Context context = textView.getContext();
 
-		if (getFormulaWithBrickField(brickField).isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(brickField).isNumber()) {
 			try {
 				Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 				Double formulaValue = formulaMap.get(brickField).interpretDouble(sprite);

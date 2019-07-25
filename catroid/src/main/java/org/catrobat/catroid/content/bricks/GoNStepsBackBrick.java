@@ -63,7 +63,7 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 		TextView times = view.findViewById(R.id.brick_go_back_layers_text_view);
 
-		if (getFormulaWithBrickField(BrickField.STEPS).isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
 			try {
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.brick_go_back_layer_plural,
