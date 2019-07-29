@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.runner;
 
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
@@ -51,7 +51,7 @@ public class AndroidPackageRunner extends ParentRunner<Runner> {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
 	@Inherited
-	@interface PackagePath {
+	public @interface PackagePath {
 		String value();
 	}
 

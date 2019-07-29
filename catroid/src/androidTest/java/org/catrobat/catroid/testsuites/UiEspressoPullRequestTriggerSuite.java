@@ -21,8 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites;
 
+import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -36,6 +37,6 @@ import org.junit.runners.Suite;
 		Cat.RTLTests.class,
 		Cat.PocketMusicUiTests.class})
 
-@Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class PullRequestTriggerSuite {
+@Suite.SuiteClasses(AllUiEspressoTestsSuite.class)
+public class UiEspressoPullRequestTriggerSuite {
 }

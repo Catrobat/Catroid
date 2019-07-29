@@ -37,11 +37,12 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectListActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,8 +69,11 @@ import static org.hamcrest.Matchers.is;
 public class ProjectListActivityRecreateRegressionTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ProjectListActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectListActivity.class, true, false);
+	public BaseActivityTestRule<ProjectListActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(ProjectListActivity.class, true, false);
+
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	private String projectName = "testProject";
 

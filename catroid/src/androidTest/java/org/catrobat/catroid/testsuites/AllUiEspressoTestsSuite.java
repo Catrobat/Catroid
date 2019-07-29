@@ -21,15 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites;
 
-import org.junit.experimental.categories.Categories;
+import org.catrobat.catroid.runner.AndroidPackageRunner;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
-@RunWith(Categories.class)
-@Categories.IncludeCategory({Cat.RTLTests.class})
-
-@Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class RTLTestSuite {
+@RunWith(AndroidPackageRunner.class)
+@AndroidPackageRunner.PackagePath("org.catrobat.catroid.uiespresso")
+public class AllUiEspressoTestsSuite {
 }

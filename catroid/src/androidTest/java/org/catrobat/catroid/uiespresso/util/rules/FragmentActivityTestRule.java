@@ -20,18 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.annotations;
+package org.catrobat.catroid.uiespresso.util.rules;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import android.app.Activity;
+import android.content.Intent;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.METHOD;
+public class FragmentActivityTestRule<T extends Activity> extends BaseActivityTestRule<T> {
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({METHOD, ANNOTATION_TYPE})
-public @interface Flaky {
-	int value() default 3;
+	private Intent launchIntent;
+
+	public FragmentActivityTestRule(Class<T> activityClass, String extraFragementPosition, int fragment) {
+		super(activityClass, true, false);
+		launchIntent = new Intent();
+		launchIntent.putExtra(extraFragementPosition, fragment);
+	}
+
+	public void launchActivity() {
+		super.launchActivity(launchIntent);
+	}
 }
-

@@ -38,10 +38,10 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -59,8 +59,8 @@ public class DisabledBrickInClonesRegressionTest {
 	private ScriptEvaluationGateBrick lastBrickInCloneScript;
 
 	@Rule
-	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(StageActivity.class);
+	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(StageActivity.class, false, false);
 
 	@Before
 	public void setUp() throws Exception {
@@ -98,7 +98,7 @@ public class DisabledBrickInClonesRegressionTest {
 	@Category({Level.Functional.class, Cat.CatrobatLanguage.class})
 	@Test
 	public void setVariableInCloneShouldNotBeExecutedTest() {
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 		lastBrickInCloneScript.waitUntilEvaluated(3000);
 		assertUserVariableEqualsWithTimeout(userVariable, 1D, 3000);
 	}

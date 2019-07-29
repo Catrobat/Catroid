@@ -21,14 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites;
 
-import org.junit.experimental.categories.Categories;
+import org.catrobat.catroid.runner.AndroidPackageRunner;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
-@RunWith(Categories.class)
-@Categories.IncludeCategory({Level.Smoke.class})
-@Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class SmokeTestsSuite {
+@RunWith(AndroidPackageRunner.class)
+@AndroidPackageRunner.PackagePath("org.catrobat.catroid.test")
+public class AllHeadlessTestsSuite {
 }

@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites.util;
 
 import org.catrobat.catroid.uiespresso.formulaeditor.FormulaEditorMovementPropertiesTest;
 import org.catrobat.catroid.uiespresso.intents.looks.gallery.LookFromGalleryIntentDismissTest;

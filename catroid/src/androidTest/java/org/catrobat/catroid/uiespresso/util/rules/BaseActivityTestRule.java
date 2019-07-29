@@ -23,34 +23,46 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
-import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.ActivityTestRule;
+import android.util.Log;
 
 import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.XstreamSerializer;
 
-public class DontGenerateDefaultProjectActivityInstrumentationRule<T extends Activity> extends
-		BaseActivityInstrumentationRule<T> {
+import java.io.File;
+import java.io.IOException;
 
-	public DontGenerateDefaultProjectActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
+import static org.catrobat.catroid.io.StorageOperations.deleteDir;
+
+public class BaseActivityTestRule<T extends Activity> extends ActivityTestRule<T> {
+
+	private static final String TAG = BaseActivityTestRule.class.getSimpleName();
+
+	public BaseActivityTestRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
 		super(activityClass, initialTouchMode, launchActivity);
-		setUpDummyProject();
+		deleteAllProjects();
 	}
 
-	public DontGenerateDefaultProjectActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode) {
+	public BaseActivityTestRule(Class<T> activityClass, boolean initialTouchMode) {
 		super(activityClass, initialTouchMode);
-		setUpDummyProject();
+		deleteAllProjects();
 	}
 
-	public DontGenerateDefaultProjectActivityInstrumentationRule(Class<T> activityClass) {
+	public BaseActivityTestRule(Class<T> activityClass) {
 		super(activityClass);
-		setUpDummyProject();
+		deleteAllProjects();
 	}
 
-	void setUpDummyProject() {
-		FlavoredConstants.DEFAULT_ROOT_DIRECTORY.mkdir();
-		Project project = new Project(InstrumentationRegistry.getTargetContext(),
-				"DummyToPreventDefaultProjectCreation");
-		XstreamSerializer.getInstance().saveProject(project);
+	public void deleteAllProjects() {
+		if (FlavoredConstants.DEFAULT_ROOT_DIRECTORY.exists() && FlavoredConstants.DEFAULT_ROOT_DIRECTORY.isDirectory()) {
+			for (File file : FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
+				if (file.isDirectory()) {
+					try {
+						deleteDir(file);
+					} catch (IOException ioException) {
+						Log.d(TAG, "unable to delete project " + file.getName());
+					}
+				}
+			}
+		}
 	}
 }
