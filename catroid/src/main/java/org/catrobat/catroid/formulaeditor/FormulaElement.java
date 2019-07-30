@@ -301,8 +301,24 @@ public class FormulaElement implements Serializable {
 			return 0d;
 		}
 
-		secondLook = secondSprite.look;
-		return CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook);
+		List<Sprite> spriteAndClones = new ArrayList<>();
+		spriteAndClones.add(secondSprite);
+		if (StageActivity.stageListener != null) {
+			spriteAndClones.addAll(StageActivity.stageListener.getAllClonesOfSprite(secondSprite));
+		}
+
+		for (Sprite sprite : spriteAndClones) {
+			secondLook = sprite.look;
+			if (firstLook.equals(secondLook)) {
+				continue;
+			}
+
+			if (CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook) == 1d) {
+				return 1d;
+			}
+		}
+
+		return 0d;
 	}
 
 	private Object interpretUserList(Sprite sprite) {

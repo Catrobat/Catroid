@@ -28,6 +28,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
@@ -39,39 +40,33 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectRenameTaskTest {
 
 	private final String projectName = "testProject";
 	private final String renamedProjectName = "renamedTestProject";
-	private final String slashRenamedProject = "renamed/TestProject";
-	private final String slashEncodedRenamedProject = "renamed%2FTestProject";
 
 	private Project defaultProject;
 
 	@Before
 	public void setUp() throws IOException {
-		TestUtils.deleteProjects(projectName, renamedProjectName, slashEncodedRenamedProject);
+		TestUtils.deleteProjects(projectName, renamedProjectName);
 		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(projectName,
 				InstrumentationRegistry.getTargetContext(), false);
 	}
 
 	@After
 	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(projectName, renamedProjectName, slashEncodedRenamedProject);
+		TestUtils.deleteProjects(projectName, renamedProjectName);
 	}
 
 	@Test
 	public void projectRenameTaskTest() throws IOException {
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-	}
-
-	@Test
-	public void projectRenameSlashTaskTest() throws IOException {
-		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), slashRenamedProject);
-		assertEquals(slashEncodedRenamedProject, renamedDirectory.getName());
+		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
 	}
 
 	@Test
@@ -79,13 +74,6 @@ public class ProjectRenameTaskTest {
 		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(expectedDirectory, renamedDirectory);
-	}
-
-	@Test
-	public void projectDirectoryRenameSlashTest() throws IOException {
-
-		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), slashEncodedRenamedProject);
-		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), slashRenamedProject);
-		assertEquals(expectedDirectory, renamedDirectory);
+		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
 	}
 }
