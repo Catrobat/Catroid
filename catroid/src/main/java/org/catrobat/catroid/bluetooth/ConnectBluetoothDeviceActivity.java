@@ -49,6 +49,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Set;
@@ -185,7 +186,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 				btDevice.setConnection(btConnection);
 				result = RESULT_OK;
 				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-				btDeviceService.deviceConnected(btDevice);
+				try {
+					btDeviceService.deviceConnected(btDevice);
+				} catch (MindstormsException e) {
+					ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
+				}
 			} else {
 				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
 			}

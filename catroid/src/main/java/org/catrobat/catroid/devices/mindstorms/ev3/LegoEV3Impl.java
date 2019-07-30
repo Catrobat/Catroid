@@ -299,7 +299,7 @@ public class LegoEV3Impl implements LegoEV3, LegoSensorService.OnSensorChangedLi
 	}
 
 	@Override
-	public synchronized void initialise() {
+	public synchronized void initialise() throws MindstormsException {
 
 		if (isInitialized) {
 			return;
@@ -331,7 +331,7 @@ public class LegoEV3Impl implements LegoEV3, LegoSensorService.OnSensorChangedLi
 	}
 
 	@Override
-	public void start() {
+	public void start() throws MindstormsException {
 		initialise();
 		assignSensorsToPorts();
 		sensorService.resumeSensorUpdate();

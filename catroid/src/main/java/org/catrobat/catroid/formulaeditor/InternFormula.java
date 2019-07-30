@@ -23,6 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -45,16 +46,20 @@ public class InternFormula {
 		USER_SELECTION, PARSER_ERROR_SELECTION
 	}
 
-	private ExternInternRepresentationMapping externInternRepresentationMapping;
+	@VisibleForTesting
+	public ExternInternRepresentationMapping externInternRepresentationMapping;
 
 	private List<InternToken> internTokenFormulaList;
 	private String externFormulaString;
 
-	private InternFormulaTokenSelection internFormulaTokenSelection;
+	@VisibleForTesting
+	public InternFormulaTokenSelection internFormulaTokenSelection;
 
-	private int externCursorPosition;
+	@VisibleForTesting
+	public int externCursorPosition;
 
-	private InternToken cursorPositionInternToken;
+	@VisibleForTesting
+	public InternToken cursorPositionInternToken;
 	private int cursorPositionInternTokenIndex;
 	private CursorTokenPosition cursorTokenPosition;
 
@@ -424,7 +429,8 @@ public class InternFormula {
 		}
 	}
 
-	private void setExternCursorPositionLeftTo(int internTokenIndex) {
+	@VisibleForTesting
+	public void setExternCursorPositionLeftTo(int internTokenIndex) {
 		if (internTokenFormulaList.size() < 1) {
 			externCursorPosition = 1;
 			return;
@@ -443,7 +449,8 @@ public class InternFormula {
 		cursorTokenPosition = CursorTokenPosition.LEFT;
 	}
 
-	private void setExternCursorPositionRightTo(int internTokenIndex) {
+	@VisibleForTesting
+	public void setExternCursorPositionRightTo(int internTokenIndex) {
 
 		if (internTokenFormulaList.size() < 1) {
 			return;
@@ -478,7 +485,8 @@ public class InternFormula {
 		return externFormulaString;
 	}
 
-	private void selectCursorPositionInternToken(TokenSelectionType internTokenSelectionType) {
+	@VisibleForTesting
+	public void selectCursorPositionInternToken(TokenSelectionType internTokenSelectionType) {
 
 		internFormulaTokenSelection = null;
 		if (cursorPositionInternToken == null) {
@@ -732,7 +740,8 @@ public class InternFormula {
 		return CursorTokenPropertiesAfterModification.RIGHT;
 	}
 
-	private CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(
+	@VisibleForTesting
+	public CursorTokenPropertiesAfterModification replaceCursorPositionInternTokenByTokenList(
 			List<InternToken> internTokensToReplaceWith) {
 
 		Log.i(TAG, "replaceCursorPositionInternTokenByTokenList:enter");

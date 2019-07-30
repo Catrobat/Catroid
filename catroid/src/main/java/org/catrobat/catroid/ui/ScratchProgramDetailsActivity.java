@@ -148,7 +148,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 			final String originalImageURL = programData.getImage().getUrl().toString();
 			final String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
 			ImageView image = findViewById(R.id.project_image_view);
-			Picasso.with(this).load(thumbnailImageURL).into(image);
+			Picasso.get().load(thumbnailImageURL).into(image);
 		}
 
 		fetchRemixesTask

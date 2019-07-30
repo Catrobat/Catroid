@@ -143,7 +143,7 @@ public class LegoNXTImpl implements LegoNXT, LegoSensorService.OnSensorChangedLi
 		}
 	}
 
-	private int tryGetKeepAliveTime() {
+	private int tryGetKeepAliveTime() throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.KEEP_ALIVE, true);
 
 		byte[] alive = mindstormsConnection.sendAndReceive(command);
@@ -172,7 +172,7 @@ public class LegoNXTImpl implements LegoNXT, LegoSensorService.OnSensorChangedLi
 		}
 	}
 
-	private int tryGetBatteryLevel() {
+	private int tryGetBatteryLevel() throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.GET_BATTERY_LEVEL, true);
 
 		NXTReply reply = new NXTReply(mindstormsConnection.sendAndReceive(command));
@@ -259,7 +259,12 @@ public class LegoNXTImpl implements LegoNXT, LegoSensorService.OnSensorChangedLi
 			return;
 		}
 
-		mindstormsConnection.init();
+		try {
+			mindstormsConnection.init();
+		} catch (MindstormsException e) {
+			isInitialized = false;
+			return;
+		}
 
 		motorA = new NXTMotor(0, mindstormsConnection);
 		motorB = new NXTMotor(1, mindstormsConnection);
