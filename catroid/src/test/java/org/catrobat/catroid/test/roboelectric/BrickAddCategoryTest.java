@@ -129,6 +129,12 @@ public class BrickAddCategoryTest {
 	public void categoriesTest() {
 		List<String> expectedCategories = translateAll(Arrays.asList(
 				R.string.category_embroidery,
+				R.string.category_lego_nxt,
+				R.string.category_lego_ev3,
+				R.string.category_drone,
+				R.string.category_arduino,
+				R.string.category_raspi,
+				R.string.category_phiro,
 				R.string.category_event,
 				R.string.category_control,
 				R.string.category_motion,
@@ -136,12 +142,6 @@ public class BrickAddCategoryTest {
 				R.string.category_looks,
 				R.string.category_pen,
 				R.string.category_data,
-				R.string.category_lego_nxt,
-				R.string.category_lego_ev3,
-				R.string.category_drone,
-				R.string.category_phiro,
-				R.string.category_arduino,
-				R.string.category_raspi,
 				R.string.category_assertions));
 
 		ListAdapter listAdapter = brickCategoryFragment.getListAdapter();
