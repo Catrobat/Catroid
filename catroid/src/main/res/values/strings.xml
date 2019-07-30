@@ -2053,16 +2053,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
 
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-     <string name="KiloByte_short">KB</string>
-     <string name="MegaByte_short">MB</string>
-     <string name="GigaByte_short">GB</string>
-     <string name="TeraByte_short">TB</string>
-     <string name="PetaByte_short">PB</string>
-     <string name="ExaByte_short">EB</string>
-    <!--  -->
-
     <string name="sans_serif_font" translatable="false">sans_serif</string>
     <string name="serif_font" translatable="false">serif</string>
 
