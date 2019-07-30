@@ -44,7 +44,7 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 	}
 
 	@Override
-	public void init() {
+	public void init() throws MindstormsException {
 
 		try {
 			legoInputStream = new DataInputStream(bluetoothConnection.getInputStream());
@@ -73,13 +73,13 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 	}
 
 	@Override
-	public synchronized byte[] sendAndReceive(MindstormsCommand command) {
+	public synchronized byte[] sendAndReceive(MindstormsCommand command) throws MindstormsException {
 		send(command);
 		return receive();
 	}
 
 	@Override
-	public void send(MindstormsCommand command) {
+	public void send(MindstormsCommand command) throws MindstormsException {
 		try {
 			int messageLength = command.getLength();
 			byte[] message = command.getRawCommand();
@@ -108,7 +108,7 @@ public class MindstormsConnectionImpl implements MindstormsConnection {
 		commandCounter++;
 	}
 
-	protected byte[] receive() {
+	protected byte[] receive() throws MindstormsException {
 		byte[] data = new byte[2];
 		byte[] payload;
 

@@ -24,13 +24,13 @@ package org.catrobat.catroid.devices.mindstorms;
 
 public interface MindstormsConnection {
 
-	void init();
+	void init() throws MindstormsException;
 	boolean isConnected();
 	void disconnect();
 
-	byte[] sendAndReceive(MindstormsCommand command);
+	byte[] sendAndReceive(MindstormsCommand command) throws MindstormsException;
 
-	void send(MindstormsCommand command);
+	void send(MindstormsCommand command) throws MindstormsException;
 
 	short getCommandCounter();
 

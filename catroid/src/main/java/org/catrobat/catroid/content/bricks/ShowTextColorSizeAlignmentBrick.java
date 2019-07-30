@@ -22,12 +22,9 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
@@ -37,19 +34,17 @@ import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
+import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
-import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.v4.app.DialogFragment.STYLE_NORMAL;
-
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 
@@ -59,11 +54,15 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
+	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
+
 	public ShowTextColorSizeAlignmentBrick() {
 		addAllowedBrickField(BrickField.X_POSITION, R.id.brick_show_variable_color_size_edit_text_x);
 		addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_show_variable_color_size_edit_text_y);
 		addAllowedBrickField(BrickField.SIZE, R.id.brick_show_variable_color_size_edit_relative_size);
 		addAllowedBrickField(BrickField.COLOR, R.id.brick_show_variable_color_size_edit_color);
+
+		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
 
 	public ShowTextColorSizeAlignmentBrick(int xPosition, int yPosition, double size, String color) {
@@ -83,83 +82,17 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(final View view) {
-		AppCompatActivity activityFromView = UiUtils.getActivityFromView(view);
-		if (activityFromView == null) {
-			showFormulaEditor(view);
-			return;
-		}
-
-		Fragment currentFragment = activityFromView.getSupportFragmentManager()
-				.findFragmentById(R.id.fragment_container);
-
-		boolean validView = view.getId() == R.id.brick_show_variable_color_size_edit_color && currentFragment instanceof ScriptFragment;
-
-		if (validView) {
-			showSelectEditDialog(view);
+	public void showFormulaEditorToEditFormula(View view) {
+		if (view.getId() == R.id.brick_show_variable_color_size_edit_color) {
+			ShowFormulaEditorStrategy.Callback callback = new ShowTextColorSizeAlignmentBrickCallback(view);
+			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
 		} else {
-			showFormulaEditor(view);
+			superShowFormulaEditor(view);
 		}
 	}
 
-	private void showSelectEditDialog(View view) {
-		new AlertDialog.Builder(view.getContext())
-				.setItems(R.array.brick_select_color_picker, (dialog, which) -> switchSelectEditDialogOption(view, which))
-				.show();
-	}
-
-	private void showFormulaEditor(View view) {
+	private void superShowFormulaEditor(View view) {
 		super.showFormulaEditorToEditFormula(view);
-	}
-
-	private void switchSelectEditDialogOption(View view, int which) {
-		if (which == 0) {
-			showColorPicker(view);
-		} else if (which == 1) {
-			showFormulaEditor(view);
-		}
-	}
-
-	private void showColorPicker(View view) {
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (activity == null) {
-			return;
-		}
-
-		FragmentManager fragmentManager = activity.getSupportFragmentManager();
-		if (!fragmentManager.isStateSaved()) {
-			int currentColor = getCurrentColor();
-			ColorPickerDialog dialog = ColorPickerDialog.newInstance(currentColor);
-			dialog.addOnColorPickedListener(newColor -> setNewColor(activity, newColor));
-			dialog.setStyle(STYLE_NORMAL, R.style.AlertDialogWithTitle);
-			dialog.show(fragmentManager, null);
-		}
-	}
-
-	private int getCurrentColor() {
-		String formulaString = getColorFormulaString();
-		boolean validColorString = formulaString != null && formulaString.length() == 7 && formulaString.matches("^#[0-9a-fA-F]+$");
-		return validColorString ? Color.parseColor(formulaString) : Color.BLACK;
-	}
-
-	private @Nullable String getColorFormulaString() {
-		Formula formula = getFormulaWithBrickField(BrickField.COLOR);
-		FormulaElement formulaTree = formula.getFormulaTree();
-		if (formulaTree.getElementType() == FormulaElement.ElementType.STRING) {
-			return formulaTree.getValue();
-		} else {
-			return null;
-		}
-	}
-
-	private void setNewColor(AppCompatActivity activity, int color) {
-		String colorString = convertColorToString(color);
-		setFormulaWithBrickField(BrickField.COLOR, new Formula(colorString));
-		notifyDataSetChanged(activity);
-	}
-
-	private String convertColorToString(int color) {
-		return String.format("#%02X%02X%02X", Color.red(color), Color.green(color), Color.blue(color));
 	}
 
 	@Override
@@ -236,6 +169,53 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
 		@Override
 		public void setName(String name) {
 			this.name = name;
+		}
+	}
+
+	private final class ShowTextColorSizeAlignmentBrickCallback implements ShowFormulaEditorStrategy.Callback {
+		private View view;
+
+		private ShowTextColorSizeAlignmentBrickCallback(View view) {
+			this.view = view;
+		}
+
+		@Override
+		public void showFormulaEditor(View view) {
+			superShowFormulaEditor(view);
+		}
+
+		@Override
+		public void setValue(int value) {
+			String colorString = convertColorToString(value);
+			setFormulaWithBrickField(BrickField.COLOR, new Formula(colorString));
+
+			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			notifyDataSetChanged(activity);
+		}
+
+		private String convertColorToString(int color) {
+			return String.format("#%02X%02X%02X", Color.red(color), Color.green(color), Color.blue(color));
+		}
+
+		@Override
+		public int getValue() {
+			if (!isColorBrickFieldAString()) {
+				return Color.BLACK;
+			}
+			String formulaString = getColorBrickFieldStringValue();
+			if (formulaString.length() == 7 && formulaString.matches("^#[0-9a-fA-F]+$")) {
+				return Color.parseColor(formulaString);
+			} else {
+				return Color.BLACK;
+			}
+		}
+
+		private boolean isColorBrickFieldAString() {
+			return getFormulaWithBrickField(BrickField.COLOR).getRoot().getElementType() == ElementType.STRING;
+		}
+
+		private String getColorBrickFieldStringValue() {
+			return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
 		}
 	}
 }

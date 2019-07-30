@@ -44,6 +44,10 @@ public class WhenRaspiPinChangedBrick extends ScriptBrickBaseType {
 
 	private RaspiInterruptScript script;
 
+	public WhenRaspiPinChangedBrick() {
+		script = new RaspiInterruptScript();
+	}
+
 	public WhenRaspiPinChangedBrick(RaspiInterruptScript script) {
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();

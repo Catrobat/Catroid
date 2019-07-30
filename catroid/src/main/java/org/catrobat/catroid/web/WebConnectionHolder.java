@@ -26,13 +26,14 @@ package org.catrobat.catroid.web;
 import android.support.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
-import com.squareup.okhttp.ConnectionSpec;
-import com.squareup.okhttp.Dispatcher;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import okhttp3.ConnectionSpec;
+import okhttp3.Dispatcher;
+import okhttp3.OkHttpClient;
 
 public class WebConnectionHolder {
 	private static final int MAX_CONNECTIONS = 10;
@@ -42,20 +43,21 @@ public class WebConnectionHolder {
 	public final OkHttpClient okHttpClient;
 
 	public WebConnectionHolder() {
-		okHttpClient = new OkHttpClient();
-		okHttpClient.setConnectTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS);
-		okHttpClient.setReadTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS);
-		okHttpClient.setWriteTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS);
+		OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
+		httpClientBuilder.connectTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS);
+		httpClientBuilder.readTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS);
+		httpClientBuilder.writeTimeout(TIMEOUT_DURATION, TimeUnit.SECONDS);
 
 		ConnectionSpec modernTlsSpec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS).build();
 		ConnectionSpec compatibleTlsSpec = new ConnectionSpec.Builder(ConnectionSpec.COMPATIBLE_TLS).build();
 		ConnectionSpec cleartextSpec = new ConnectionSpec.Builder(ConnectionSpec.CLEARTEXT).build();
-		okHttpClient.setConnectionSpecs(ImmutableList.of(modernTlsSpec, compatibleTlsSpec, cleartextSpec));
+		httpClientBuilder.connectionSpecs(ImmutableList.of(modernTlsSpec, compatibleTlsSpec, cleartextSpec));
 
 		Dispatcher dispatcher = new Dispatcher();
 		dispatcher.setMaxRequests(10);
 		dispatcher.setMaxRequestsPerHost(10);
-		okHttpClient.setDispatcher(dispatcher);
+		httpClientBuilder.dispatcher(dispatcher);
+		okHttpClient = httpClientBuilder.build();
 	}
 
 	public synchronized void onPause() {

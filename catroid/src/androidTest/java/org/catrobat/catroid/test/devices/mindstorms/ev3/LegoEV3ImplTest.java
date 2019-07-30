@@ -27,6 +27,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 import org.junit.Before;
@@ -57,7 +58,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testSimplePlayToneTest() {
+	public void testSimplePlayToneTest() throws MindstormsException {
 
 		int inputHz = 9000;
 		int expectedHz = 9000;
@@ -76,7 +77,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testPlayToneHzOverMaxValue() {
+	public void testPlayToneHzOverMaxValue() throws MindstormsException {
 
 		// MaxHz = 10000;
 		int inputHz = 16000;
@@ -96,7 +97,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testPlayToneCheckDuration() {
+	public void testPlayToneCheckDuration() throws MindstormsException {
 
 		int inputHz = 9000;
 		int durationInMs = 2000;
@@ -115,7 +116,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testPlayToneCheckVolume() {
+	public void testPlayToneCheckVolume() throws MindstormsException {
 
 		int inputHz = 9000;
 		int durationInMs = 2000;
@@ -141,7 +142,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testPlayToneWithZeroDuration() {
+	public void testPlayToneWithZeroDuration() throws MindstormsException {
 
 		int inputHz = 13000;
 		int inputDurationInMs = 0;
@@ -171,7 +172,7 @@ public class LegoEV3ImplTest {
 	}
 
 	@Test
-	public void testSimpleLED() {
+	public void testSimpleLED() throws MindstormsException {
 
 		int ledStatus = 0x04;
 		int expectedLedStatus = 0x04;

@@ -30,14 +30,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
@@ -254,22 +252,9 @@ public class WebViewActivity extends BaseActivity {
 		return extension;
 	}
 
-	//taken from http://stackoverflow.com/a/28998241/
-	@SuppressWarnings("deprecated")
-	@SuppressLint("NewApi")
-	public static void clearCookies(Context context) {
-		if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP_MR1) {
-			CookieSyncManager cookieSyncMngr = CookieSyncManager.createInstance(context);
-			cookieSyncMngr.startSync();
-			CookieManager cookieManager = CookieManager.getInstance();
-			cookieManager.removeAllCookie();
-			cookieManager.removeSessionCookie();
-			cookieSyncMngr.stopSync();
-			cookieSyncMngr.sync();
-		} else {
-			CookieManager.getInstance().removeAllCookies(null);
-			CookieManager.getInstance().flush();
-		}
+	public static void clearCookies() {
+		CookieManager.getInstance().removeAllCookies(null);
+		CookieManager.getInstance().flush();
 	}
 
 	private boolean isWhatsappInstalled() {

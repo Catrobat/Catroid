@@ -28,6 +28,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
@@ -62,7 +63,7 @@ public class LegoEV3MotorTest {
 	}
 
 	@Test
-	public void testMotorMoveTest() {
+	public void testMotorMoveTest() throws MindstormsException {
 		int inputSpeed = -70;
 		byte outputField = (byte) 0x01;
 
@@ -93,7 +94,7 @@ public class LegoEV3MotorTest {
 	}
 
 	@Test
-	public void testStopMotorTest() {
+	public void testStopMotorTest() throws MindstormsException {
 		byte outputField = (byte) 0x01;
 		byte expectedOutputField = (byte) 0x01;
 
@@ -108,7 +109,7 @@ public class LegoEV3MotorTest {
 	}
 
 	@Test
-	public void testMotorTurnAngle360DegreeTest() {
+	public void testMotorTurnAngle360DegreeTest() throws MindstormsException {
 		int step2Degrees = 360 - POWER_DOWN_RAMP_DEGREES;
 		int step3Degrees = POWER_DOWN_RAMP_DEGREES;
 		int inputSpeed = -70;
@@ -149,7 +150,7 @@ public class LegoEV3MotorTest {
 	}
 
 	@Test
-	public void testMotorTurnAngleMinus15DegreeTest() {
+	public void testMotorTurnAngleMinus15DegreeTest() throws MindstormsException {
 		int step2Degrees = 15;
 		int step3Degrees = 0;
 		int inputSpeed = -70;

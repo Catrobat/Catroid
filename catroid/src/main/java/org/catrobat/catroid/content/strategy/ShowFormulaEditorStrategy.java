@@ -21,14 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.content.strategy;
 
-import org.junit.experimental.categories.Categories;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import android.view.View;
 
-@RunWith(Categories.class)
-@Categories.IncludeCategory({Cat.ApiLevel19Regression.class})
-@Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class ApiLevel19RegressionTestsSuite {
+public interface ShowFormulaEditorStrategy {
+	void showFormulaEditorToEditFormula(View view, Callback callback);
+
+	interface Callback {
+		void showFormulaEditor(View view);
+		void setValue(int value);
+		int getValue();
+	}
 }

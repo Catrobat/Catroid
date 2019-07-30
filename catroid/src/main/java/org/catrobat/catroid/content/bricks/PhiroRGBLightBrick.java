@@ -23,6 +23,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -32,14 +34,18 @@ import android.widget.Spinner;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
+import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.ui.fragment.ColorSeekbar;
-import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.ui.UiUtils;
 
 public class PhiroRGBLightBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private final transient ShowFormulaEditorStrategy showFormulaEditorStrategy;
 
 	private String eye;
 
@@ -52,6 +58,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_GREEN, R.id.brick_phiro_rgb_led_action_green_edit_text);
 		addAllowedBrickField(BrickField.PHIRO_LIGHT_BLUE, R.id.brick_phiro_rgb_led_action_blue_edit_text);
 		eye = Eye.BOTH.name();
+
+		showFormulaEditorStrategy = new ShowColorPickerFormulaEditorStrategy();
 	}
 
 	public PhiroRGBLightBrick(Eye eyeEnum, int red, int green, int blue) {
@@ -69,12 +77,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_phiro_rgb_light;
-	}
-
-	@Override
-	public View getCustomView(Context context) {
-		return new ColorSeekbar(this, BrickField.PHIRO_LIGHT_RED,
-				BrickField.PHIRO_LIGHT_GREEN, BrickField.PHIRO_LIGHT_BLUE).getView(context);
 	}
 
 	@Override
@@ -105,7 +107,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
 		if (areAllBrickFieldsNumbers()) {
-			FormulaEditorFragment.showCustomFragment(view.getContext(), this, getClickedBrickField(view));
+			ShowFormulaEditorStrategy.Callback callback = new SetPhiroRGBLightBrickCallback(view);
+			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
 		} else {
 			super.showFormulaEditorToEditFormula(view);
 		}
@@ -125,18 +128,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				== FormulaElement.ElementType.NUMBER);
 	}
 
-	private BrickField getClickedBrickField(View view) {
-		switch (view.getId()) {
-			case R.id.brick_phiro_rgb_led_action_green_edit_text:
-				return BrickField.PHIRO_LIGHT_GREEN;
-			case R.id.brick_phiro_rgb_led_action_blue_edit_text:
-				return BrickField.PHIRO_LIGHT_BLUE;
-			case R.id.brick_phiro_rgb_led_action_red_edit_text:
-			default:
-				return BrickField.PHIRO_LIGHT_RED;
-		}
-	}
-
 	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_PHIRO);
@@ -149,5 +140,46 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN),
 				getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE)));
+	}
+
+	private final class SetPhiroRGBLightBrickCallback implements ShowFormulaEditorStrategy.Callback {
+		private final View view;
+
+		private SetPhiroRGBLightBrickCallback(View view) {
+			this.view = view;
+		}
+
+		@Override
+		public void showFormulaEditor(View view) {
+			PhiroRGBLightBrick.super.showFormulaEditorToEditFormula(view);
+		}
+
+		@Override
+		public void setValue(int value) {
+			setFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED, new Formula(Color.red(value)));
+			setFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN, new Formula(Color.green(value)));
+			setFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE, new Formula(Color.blue(value)));
+
+			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			notifyDataSetChanged(activity);
+		}
+
+		@Override
+		public int getValue() {
+			int red = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_RED);
+			int green = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_GREEN);
+			int blue = getColorValueFromBrickField(BrickField.PHIRO_LIGHT_BLUE);
+			return Color.rgb(red, green, blue);
+		}
+
+		private int getColorValueFromBrickField(BrickField brickField) {
+			Formula formula = getFormulaWithBrickField(brickField);
+			try {
+				int value = formula.interpretInteger(null);
+				return Math.max(0, Math.min(255, value));
+			} catch (InterpretationException e) {
+				return 0;
+			}
+		}
 	}
 }

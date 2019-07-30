@@ -23,9 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.TableRow;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
@@ -33,7 +31,6 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.testsuites.Cat;
 import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
-import org.catrobat.paintroid.colorpicker.PresetSelectorView;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,16 +40,12 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static android.support.test.espresso.matcher.ViewMatchers.withParentIndex;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
-import static org.hamcrest.Matchers.allOf;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.hamcrest.Matchers.containsString;
 
 @RunWith(AndroidJUnit4.class)
@@ -79,7 +72,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_pick_color))
 				.perform(click());
-		onFirstPresetButton()
+		onColorPickerPresetButton(0, 0)
 				.perform(click());
 		onView(withId(R.id.color_picker_button_ok))
 				.perform(click());
@@ -95,18 +88,11 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_pick_color))
 				.perform(click());
-		onFirstPresetButton()
+		onColorPickerPresetButton(0, 0)
 				.perform(click());
 		onView(withId(R.id.color_picker_button_cancel))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
 				.check(matches(withText(containsString("0"))));
-	}
-
-	private static ViewInteraction onFirstPresetButton() {
-		return onView(allOf(
-				isDescendantOfA(isAssignableFrom(PresetSelectorView.class)),
-				withParent(allOf(isAssignableFrom(TableRow.class), withParentIndex(0))),
-				withParentIndex(0)));
 	}
 }

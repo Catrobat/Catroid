@@ -47,12 +47,17 @@ def allFlavoursParameters() {
     return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''
 }
 
+def useDebugLabelParameter(defaultLabel){
+    return env.DEBUG_LABEL?.trim() ? env.DEBUG_LABEL : defaultLabel
+}
+
 pipeline {
     agent none
 
     parameters {
-        booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         booleanParam name: 'USE_WEB_TEST', defaultValue: false, description: 'When selected all the archived APKs will point to the test Catrobat web server, useful for testing web changes.'
+        booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
+        string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
     }
 
     options {
@@ -76,7 +81,7 @@ pipeline {
                             dir d.dir
                             additionalBuildArgs d.buildArgs
                             args d.args
-                            label d.label
+                            label useDebugLabelParameter(d.label)
                         }
                     }
 
@@ -133,7 +138,7 @@ pipeline {
 
                         stage('Instrumented Unit Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test'''
                             }
@@ -145,23 +150,9 @@ pipeline {
                             }
                         }
 
-                        stage('Legacy Tests') {
-                            steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=legacy_logcat.txt -Pemulator=android19 \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.ApiLevel19RegressionTestsSuite'''
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'legacy'
-                                }
-                            }
-                        }
-
                         stage('Testrunner Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android28 \
                                                 startEmulator createCatroidDebugAndroidTestCoverageReport \
                                                 -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
 
@@ -181,7 +172,7 @@ pipeline {
                             }
 
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
                             }
@@ -208,14 +199,14 @@ pipeline {
                             dir d.dir
                             additionalBuildArgs d.buildArgs
                             args d.args
-                            label d.label
+                            label useDebugLabelParameter(d.label)
                         }
                     }
 
                     stages {
                         stage('Pull Request Suite') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite'''
                             }

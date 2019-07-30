@@ -52,6 +52,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneController;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
@@ -416,7 +417,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initFinishedRunStage() {
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
+		try {
+			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
+		} catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
 		stageActivity.setupAskHandler();
 		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
 				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);

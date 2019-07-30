@@ -60,7 +60,7 @@ public class NXTMotor implements MindstormsMotor {
 		}
 	}
 
-	private void trySetOutputState(OutputState state, boolean reply) {
+	private void trySetOutputState(OutputState state, boolean reply) throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.SET_OUTPUT_STATE, false);
 		command.append((byte) port);
 		command.append(state.getSpeed());

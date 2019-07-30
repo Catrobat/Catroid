@@ -29,7 +29,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.Arrays;
 
-public class AskSpeechBrick extends UserVariableBrick {
+public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 

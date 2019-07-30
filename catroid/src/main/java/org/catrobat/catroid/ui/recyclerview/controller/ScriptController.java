@@ -34,13 +34,11 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
-import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickInterface;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
-import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -85,25 +83,11 @@ public class ScriptController {
 						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof WriteVariableOnDeviceBrick && ((WriteVariableOnDeviceBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((WriteVariableOnDeviceBrick) brick).getUserVariable();
+			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
 				UserVariable updatedUserVar = UserDataWrapper
 						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((WriteVariableOnDeviceBrick) brick).setUserVariable(updatedUserVar);
-			}
-
-			if (brick instanceof ReadVariableFromDeviceBrick && ((ReadVariableFromDeviceBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((ReadVariableFromDeviceBrick) brick).getUserVariable();
-				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((ReadVariableFromDeviceBrick) brick).setUserVariable(updatedUserVar);
-			}
-
-			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
-				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((UserVariableBrick) brick).setUserVariable(updatedUserVar);
+				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
@@ -210,25 +194,11 @@ public class ScriptController {
 								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof WriteVariableOnDeviceBrick && ((WriteVariableOnDeviceBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((WriteVariableOnDeviceBrick) brick).getUserVariable();
+			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
 				UserVariable updatedUserVar = UserDataWrapper
 						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((WriteVariableOnDeviceBrick) brick).setUserVariable(updatedUserVar);
-			}
-
-			if (brick instanceof ReadVariableFromDeviceBrick && ((ReadVariableFromDeviceBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((ReadVariableFromDeviceBrick) brick).getUserVariable();
-				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((ReadVariableFromDeviceBrick) brick).setUserVariable(updatedUserVar);
-			}
-
-			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
-				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((UserVariableBrick) brick).setUserVariable(updatedUserVar);
+				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
