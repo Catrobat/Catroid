@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
+import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -103,6 +104,7 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
+import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -277,6 +279,12 @@ public class BrickSingleFormulaFieldTest {
 				{RaspiPwmBrick.class.getSimpleName() + " frequency", new RaspiPwmBrick(), R.id.brick_raspi_pwm_frequency_edit_text},
 				{RaspiPwmBrick.class.getSimpleName() + " percentage", new RaspiPwmBrick(), R.id.brick_raspi_pwm_percentage_edit_text},
 				{RaspiIfLogicBeginBrick.class.getSimpleName(), new RaspiIfLogicBeginBrick(), R.id.brick_if_begin_edit_text},
+
+				//Testing bricks
+				{TapAtBrick.class.getSimpleName() + " x", new TapAtBrick(), R.id.brick_tap_at_edit_text_x},
+				{TapAtBrick.class.getSimpleName() + " y", new TapAtBrick(), R.id.brick_tap_at_edit_text_y},
+				{AssertEqualsBrick.class.getSimpleName() + " actual", new AssertEqualsBrick(), R.id.brick_assert_actual},
+				{AssertEqualsBrick.class.getSimpleName() + " expected", new AssertEqualsBrick(), R.id.brick_assert_expected},
 		});
 	}
 

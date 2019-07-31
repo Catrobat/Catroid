@@ -151,6 +151,7 @@ import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
+import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
@@ -1222,6 +1223,13 @@ public class ActionFactory extends Actions {
 		action.setExpectedVariable(expectedVariable);
 		action.setSetupVariable(setupVariable);
 
+		return action;
+	}
+
+	public Action createTapAtAction(Sprite sprite, Formula x, Formula y) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setPosition(x, y);
+		action.setSprite(sprite);
 		return action;
 	}
 
