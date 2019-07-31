@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.robolectric;
+package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.support.annotation.IdRes;
@@ -328,7 +328,7 @@ public class BrickSingleFormulaFieldTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		TextView brickFormulaTextView = (TextView) brickView.findViewById(formulaTextFieldId);
+		TextView brickFormulaTextView = brickView.findViewById(formulaTextFieldId);
 		assertNotNull(brickFormulaTextView);
 		assertEquals("5 ", brickFormulaTextView.getText().toString());
 	}
@@ -337,7 +337,7 @@ public class BrickSingleFormulaFieldTest {
 		View brickView = brick.getView(activity);
 		assertNotNull(brickView);
 
-		TextView brickFormulaTextView = (TextView) brickView.findViewById(formulaTextFieldId);
+		TextView brickFormulaTextView = brickView.findViewById(formulaTextFieldId);
 		assertNotNull(brickFormulaTextView);
 
 		brick.onClick(brickFormulaTextView);
@@ -359,7 +359,7 @@ public class BrickSingleFormulaFieldTest {
 		assertThat(fragment, is(instanceOf(fragmentClazz)));
 	}
 
-	public void createProject(Activity activity) {
+	private void createProject(Activity activity) {
 		Project project = new Project(activity, getClass().getSimpleName());
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
