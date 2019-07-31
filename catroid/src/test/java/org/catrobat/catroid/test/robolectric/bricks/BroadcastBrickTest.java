@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.robolectric;
+package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.content.DialogInterface;
