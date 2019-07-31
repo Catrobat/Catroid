@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites.annotations;
 
 public interface Cat {
 	//AppUi for all  tests focusing on the pocket code application, so the menus, fragments, lists, and their functionality

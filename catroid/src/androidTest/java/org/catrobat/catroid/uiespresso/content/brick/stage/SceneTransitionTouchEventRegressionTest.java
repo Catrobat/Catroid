@@ -42,7 +42,7 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.UserVariableAssertions;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -60,8 +60,8 @@ public class SceneTransitionTouchEventRegressionTest {
 	private ScriptEvaluationGateBrick firstBrickInScript;
 
 	@Rule
-	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
+	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(StageActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {

@@ -20,66 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.uiespresso.util.rules;
+package org.catrobat.catroid.rules;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 
-import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
+import org.catrobat.catroid.runner.Flaky;
+import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
-import java.io.File;
-import java.io.IOException;
+public class FlakyTestRule<T extends Activity> implements TestRule {
 
-import static org.catrobat.catroid.io.StorageOperations.deleteDir;
-
-public class BaseActivityInstrumentationRule<T extends Activity> extends ActivityTestRule<T> {
-
-	private static final String TAG = BaseActivityInstrumentationRule.class.getSimpleName();
-	private Intent launchIntent = null;
-
-	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode, boolean launchActivity) {
-		super(activityClass, initialTouchMode, launchActivity);
-		deleteAllProjects();
-	}
-
-	public BaseActivityInstrumentationRule(Class<T> activityClass, boolean initialTouchMode) {
-		super(activityClass, initialTouchMode);
-		deleteAllProjects();
-	}
-
-	public BaseActivityInstrumentationRule(Class<T> activityClass) {
-		super(activityClass);
-		deleteAllProjects();
-	}
-
-	public void deleteAllProjects() {
-		if (FlavoredConstants.DEFAULT_ROOT_DIRECTORY.exists() && FlavoredConstants.DEFAULT_ROOT_DIRECTORY.isDirectory()) {
-			for (File file : FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles()) {
-				if (file.isDirectory()) {
-					try {
-						deleteDir(file);
-					} catch (IOException ioException) {
-						Log.d(TAG, "unable to delete project " + file.getName());
-					}
-				}
-			}
-		}
-	}
-
-	public BaseActivityInstrumentationRule(Class<T> activityClass, String extraFragementPosition, int fragment) {
-		super(activityClass, true, false);
-		launchIntent = new Intent();
-		launchIntent.putExtra(extraFragementPosition, fragment);
-	}
-
-	public void launchActivity() {
-		super.launchActivity(launchIntent);
-	}
+	private static final String TAG = FlakyTestRule.class.getSimpleName();
 
 	//http://stackoverflow.com/questions/8295100/how-to-re-run-failed-junit-tests-immediately
 	//http://stackoverflow.com/questions/1492856/easy-way-of-running-the-same-junit-test-over-and-over
@@ -108,9 +61,6 @@ public class BaseActivityInstrumentationRule<T extends Activity> extends Activit
 					} catch (Throwable t) {
 						caughtThrowable = t;
 						Log.e(TAG, description.getDisplayName() + ": run " + (i + 1) + " failed", t);
-						if (getActivity() != null) {
-							getActivity().finish();
-						}
 					}
 				}
 				Log.e(TAG, description.getDisplayName() + ": giving up after " + flakyTestRetryCount + " failures");

@@ -41,12 +41,12 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteAttributesActivity;
 import org.catrobat.catroid.uiespresso.annotations.Device;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -92,8 +92,8 @@ public class PlaySoundAndWaitBrickTest {
 	private int playSoundBrickPosition;
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteAttributesActivity> programMenuActivityRule = new
-			BaseActivityInstrumentationRule<>(SpriteAttributesActivity.class, true, false);
+	public BaseActivityTestRule<SpriteAttributesActivity> programMenuActivityRule = new
+			BaseActivityTestRule<>(SpriteAttributesActivity.class, true, false);
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);

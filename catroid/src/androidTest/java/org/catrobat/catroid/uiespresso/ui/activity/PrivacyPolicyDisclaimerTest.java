@@ -30,7 +30,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -50,8 +50,8 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECT
 public class PrivacyPolicyDisclaimerTest {
 
 	@Rule
-	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
+	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	private boolean bufferedPrivacyPolicyPreferenceSetting;
 	private boolean bufferedImportFromExternalStoragePreferenceSetting;
@@ -89,7 +89,7 @@ public class PrivacyPolicyDisclaimerTest {
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false)
 				.commit();
 
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 
 		onView(withId(R.id.header)).check(matches(isDisplayed()));
 	}
@@ -101,7 +101,7 @@ public class PrivacyPolicyDisclaimerTest {
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
 				.commit();
 
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 
 		onView(withText(R.string.main_menu_continue))
 				.check(matches(isDisplayed()));

@@ -174,12 +174,26 @@ pipeline {
                             steps {
                                 sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
                             }
 
                             post {
                                 always {
                                     postEmulator 'quarantined'
+                                }
+                            }
+                        }
+
+                        stage('RTL Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
+                            }
+
+                            post {
+                                always {
+                                    postEmulator 'rtltests'
                                 }
                             }
                         }
@@ -208,7 +222,7 @@ pipeline {
                             steps {
                                 sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite'''
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
                             }
 
                             post {

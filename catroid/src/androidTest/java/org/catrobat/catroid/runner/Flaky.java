@@ -20,16 +20,18 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.runner;
 
-package org.catrobat.catroid.uiespresso.testsuites;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import org.junit.experimental.categories.Categories;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.METHOD;
 
-@RunWith(Categories.class)
-@Categories.IncludeCategory({Cat.Quarantine.class})
-
-@Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class QuarantineTestSuite {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({METHOD, ANNOTATION_TYPE})
+public @interface Flaky {
+	int value() default 3;
 }
+

@@ -21,11 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid;
 
+import org.catrobat.catroid.catrobattestrunner.CatrobatTestRunner;
+import org.catrobat.catroid.catrobattestrunner.CatrobatTestRunnerTest;
+import org.catrobat.catroid.testsuites.AllHeadlessTestsSuite;
+import org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite;
+import org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite;
+import org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite;
 import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-@RunWith(AndroidPackageRunner.class)
-@AndroidPackageRunner.PackagePath("org.catrobat.catroid.uiespresso")
-public class AllEspressoTestsSuite {
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+		UiEspressoPullRequestTriggerSuite.class,
+		CatrobatTestRunner.class,
+		CatrobatTestRunnerTest.class,
+		AllHeadlessTestsSuite.class,
+		UiEspressoRtlTestSuite.class,
+		UiEspressoQuarantineTestSuite.class
+})
+
+public class AllEmulatorTestsSuite {
 }

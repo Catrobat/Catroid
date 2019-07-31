@@ -21,15 +21,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites;
 
+import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.junit.experimental.categories.Categories;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Categories.class)
-@Categories.IncludeCategory({Level.Smoke.class, Level.Functional.class, Level.Detailed.class})
+@Categories.IncludeCategory({Cat.SensorBox.class})
 
-@Suite.SuiteClasses(AllEspressoTestsSuite.class)
-public class DetailedTestsSuite {
+@Suite.SuiteClasses(AllUiEspressoTestsSuite.class)
+public class UiEspressoSensorboxTestSuite {
 }

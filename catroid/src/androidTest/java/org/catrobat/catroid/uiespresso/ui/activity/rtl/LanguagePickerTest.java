@@ -30,11 +30,11 @@ import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -58,8 +58,8 @@ import static org.hamcrest.core.StringStartsWith.startsWith;
 public class LanguagePickerTest {
 
 	@Rule
-	public DontGenerateDefaultProjectActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityInstrumentationRule<>(SettingsActivity.class);
+	public DontGenerateDefaultProjectActivityTestRule<SettingsActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityTestRule<>(SettingsActivity.class, false, false);
 
 	private boolean bufferedPrivacyPolicyPreferenceSetting;
 	private boolean bufferedImportFromExternalStoragePreferenceSetting;

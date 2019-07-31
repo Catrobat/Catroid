@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.roboelectric;
+package org.catrobat.catroid.test.robolectric;
 
 import android.app.Activity;
 import android.content.Context;

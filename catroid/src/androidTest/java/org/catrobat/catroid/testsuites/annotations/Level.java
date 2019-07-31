@@ -1,9 +1,4 @@
-#!/bin/bash
-
-IMPORTS="$(find .. -name '*Test.java' | sed 's/\.\.\//import org.catrobat.catroid.uiespresso./' | sed 's/\//\./g' | sed 's/.java/;/' | sort)"
-IMPORTED_CLASSES="$(find .. -name '*Test.java' | sed 's/^.*\///' | sed 's/java/class/' | sed 's/$/,/' | sed '$s/,//' | sed 's/^/		/')"
-
-echo "/*
+/*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
@@ -26,17 +21,15 @@ echo "/*
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.testsuites;
+package org.catrobat.catroid.testsuites.annotations;
 
-${IMPORTS}
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+public interface Level {
+	interface Detailed {
+	}
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-${IMPORTED_CLASSES}
-})
-public class AllEspressoTestsDebugSuite {
-}" > AllEspressoTestsDebugSuite.java
+	interface Functional {
+	}
 
-exit
+	interface Smoke {
+	}
+}
