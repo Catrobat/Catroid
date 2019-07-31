@@ -195,7 +195,9 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -639,6 +641,15 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(ArduinoSendDigitalValueBrick.class, R.id.brick_arduino_send_digital_layout);
 
 		checkIfBrickISRtl(ArduinoSendPWMValueBrick.class, R.id.brick_arduino_send_analog_layout);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
+	@Test
+	public void userBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
+		openCategory(R.string.category_user_bricks);
+		onView(allOf(withId(android.R.id.list), withParent(withId(R.id.add_brick_fragment_list)))).check(matches(hasChildCount(0)));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

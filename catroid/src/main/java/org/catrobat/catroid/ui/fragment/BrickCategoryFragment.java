@@ -201,6 +201,9 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
 		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
+		if (!onlyBeginnerBricks()) {
+			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
+		}
 		if (BuildConfig.DEBUG) {
 			categories.add(inflater.inflate(R.layout.brick_category_assert, null));
 		}
