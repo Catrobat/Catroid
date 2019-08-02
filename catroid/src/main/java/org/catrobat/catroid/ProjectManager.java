@@ -64,6 +64,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
 public final class ProjectManager {
 
@@ -124,6 +125,9 @@ public final class ProjectManager {
 		}
 		if (project.getCatrobatLanguageVersion() <= 0.9993f) {
 			ProjectManager.updateScriptsToTreeStructure(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.99992f) {
+			removePermissionsFile(project);
 		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
@@ -368,6 +372,14 @@ public final class ProjectManager {
 					script.getBrickList().addAll(brickTreeBuilder.toList());
 				}
 			}
+		}
+	}
+
+	@VisibleForTesting
+	public static void removePermissionsFile(Project project) {
+		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
+		if (permissionsFile.exists()) {
+			permissionsFile.delete();
 		}
 	}
 

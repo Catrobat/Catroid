@@ -126,6 +126,9 @@ public class LoadProjectsTest {
 
 		PowerMockito.verifyStatic(ProjectManager.class, times(1));
 		ProjectManager.updateScriptsToTreeStructure(projectMock);
+
+		PowerMockito.verifyStatic(ProjectManager.class, times(1));
+		ProjectManager.removePermissionsFile(projectMock);
 	}
 
 	@Test
@@ -153,5 +156,8 @@ public class LoadProjectsTest {
 
 		PowerMockito.verifyStatic(ProjectManager.class, times(0));
 		ProjectManager.updateScriptsToTreeStructure(projectMock);
+
+		PowerMockito.verifyStatic(ProjectManager.class, times(0));
+		ProjectManager.removePermissionsFile(projectMock);
 	}
 }
