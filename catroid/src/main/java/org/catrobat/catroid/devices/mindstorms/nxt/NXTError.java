@@ -32,7 +32,7 @@ public final class NXTError {
 
 	public static final String TAG = NXTError.class.getSimpleName();
 
-	public static void checkForError(MindstormsReply reply, int expectedLength) {
+	public static void checkForError(MindstormsReply reply, int expectedLength) throws NXTException {
 		if (reply.hasError()) {
 			throw new NXTException(ErrorCode.getTypeByValue(reply.getStatusByte()),
 					CommandByte.getTypeByValue(reply.getCommandByte()));

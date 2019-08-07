@@ -31,11 +31,13 @@ import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickInterface;
 import org.catrobat.catroid.content.bricks.WebRequestBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
@@ -68,6 +70,8 @@ public class CloneBrickUpdateVariableTest {
 				{"ShowTextBrick", new ShowTextBrick()},
 				{"ShowTextColorSizeAlignmentBrick", new ShowTextColorSizeAlignmentBrick()},
 				{"WebRequestBrick", new WebRequestBrick()},
+				{"ReadVariableFromDeviceBrick", new ReadVariableFromDeviceBrick()},
+				{"WriteVariableOnDeviceBrick", new WriteVariableOnDeviceBrick()},
 		});
 	}
 
@@ -75,7 +79,7 @@ public class CloneBrickUpdateVariableTest {
 	public String name;
 
 	@Parameterized.Parameter(1)
-	public UserVariableBrick brick;
+	public UserVariableBrickInterface brick;
 
 	private Sprite sprite;
 	private Sprite clonedSprite;
@@ -97,7 +101,7 @@ public class CloneBrickUpdateVariableTest {
 
 	@Test
 	public void testClonedSpriteAndBrickVariableSame() {
-		UserVariableBrick clonedBrick = (UserVariableBrick) clonedSprite.getScript(0).getBrick(0);
+		UserVariableBrickInterface clonedBrick = (UserVariableBrickInterface) clonedSprite.getScript(0).getBrick(0);
 
 		UserVariable clonedVariable = clonedSprite.getUserVariable(VARIABLE_NAME);
 		UserVariable clonedVariableFromBrick = clonedBrick.getUserVariable();
@@ -110,7 +114,7 @@ public class CloneBrickUpdateVariableTest {
 	public void testOriginalAndClonedVariableEquals() {
 		UserVariable spriteVariable = sprite.getUserVariable(VARIABLE_NAME);
 
-		UserVariableBrick clonedBrick = (UserVariableBrick) clonedSprite.getScript(0).getBrick(0);
+		UserVariableBrickInterface clonedBrick = (UserVariableBrickInterface) clonedSprite.getScript(0).getBrick(0);
 		UserVariable clonedVariableFromBrick = clonedBrick.getUserVariable();
 
 		assertEquals(spriteVariable, clonedVariableFromBrick);
@@ -122,7 +126,7 @@ public class CloneBrickUpdateVariableTest {
 
 		UserVariable clonedVariable = clonedSprite.getUserVariable(VARIABLE_NAME);
 
-		UserVariableBrick clonedBrick = (UserVariableBrick) clonedSprite.getScript(0).getBrick(0);
+		UserVariableBrickInterface clonedBrick = (UserVariableBrickInterface) clonedSprite.getScript(0).getBrick(0);
 		UserVariable clonedVariableFromBrick = clonedBrick.getUserVariable();
 
 		assertNotSame(spriteVariable, clonedVariable);

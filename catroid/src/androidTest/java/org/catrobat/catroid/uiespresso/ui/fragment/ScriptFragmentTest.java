@@ -42,7 +42,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -74,8 +74,8 @@ import static org.hamcrest.core.IsNot.not;
 public class ScriptFragmentTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before

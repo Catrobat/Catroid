@@ -36,6 +36,10 @@ public class BroadcastReceiverBrick extends BroadcastMessageBrick implements Scr
 
 	private BroadcastScript broadcastScript;
 
+	public BroadcastReceiverBrick() {
+		broadcastScript = new BroadcastScript();
+	}
+
 	public BroadcastReceiverBrick(BroadcastScript broadcastScript) {
 		broadcastScript.setScriptBrick(this);
 		commentedOut = broadcastScript.isCommentedOut();

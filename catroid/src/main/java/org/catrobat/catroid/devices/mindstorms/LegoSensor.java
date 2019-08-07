@@ -26,7 +26,7 @@ import org.catrobat.catroid.common.Constants;
 
 public interface LegoSensor {
 
-	float getValue();
+	float getValue() throws MindstormsException;
 
 	int getUpdateInterval();
 	void updateLastSensorValue();

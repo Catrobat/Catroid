@@ -22,12 +22,24 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt;
 
+import android.support.annotation.VisibleForTesting;
+
 import org.catrobat.catroid.devices.mindstorms.MindstormsReply;
 
 public class NXTReply extends MindstormsReply {
 
 	public static final byte NO_ERROR = 0X0;
 	public static final int MIN_REPLY_MESSAGE_LENGTH = 3;
+
+	@VisibleForTesting
+	public static final String INSUFFICIENT_REPLY_LENGTH_EXCEPTION_MESSAGE =
+			"Invalid NXT Reply! Message length is smaller than MIN_REPLY_MESSAGE_LENGTH.";
+	@VisibleForTesting
+	public static final String INVALID_COMMAND_BYTE_EXCEPTION_MESSAGE =
+			"Invalid NXT Reply! data[1] must be member of CommandByte.";
+	@VisibleForTesting
+	public static final String INVALID_FIRST_BYTE_EXCEPTION_MESSAGE =
+			"Invalid NXT Reply! First Byte must be REPLY_COMMAND.";
 
 	public static final String TAG = NXTReply.class.getSimpleName();
 
@@ -49,19 +61,19 @@ public class NXTReply extends MindstormsReply {
 		return data[1];
 	}
 
-	public NXTReply(byte[] data) {
+	public NXTReply(byte[] data) throws NXTException {
 		super(data);
 
 		if (data.length < MIN_REPLY_MESSAGE_LENGTH) {
-			throw new NXTException("Invalid NXT Reply");
+			throw new NXTException(INSUFFICIENT_REPLY_LENGTH_EXCEPTION_MESSAGE);
 		}
 
 		if (!CommandByte.isMember(data[1])) {
-			throw new NXTException("Invalid NXT Reply");
+			throw new NXTException(INVALID_COMMAND_BYTE_EXCEPTION_MESSAGE);
 		}
 
 		if (data[0] != CommandType.REPLY_COMMAND.getByte()) {
-			throw new NXTException("Invalid NXT Reply");
+			throw new NXTException(INVALID_FIRST_BYTE_EXCEPTION_MESSAGE);
 		}
 	}
 }

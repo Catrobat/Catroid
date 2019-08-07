@@ -43,10 +43,10 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -73,16 +73,17 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 
 @RunWith(AndroidJUnit4.class)
 public class CopySceneTest {
+
 	@Rule
-	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
+	public BaseActivityTestRule<ProjectActivity> baseActivityTestRule = new BaseActivityTestRule<>(ProjectActivity.class, false, false);
+
 	private String projectName = "CopySceneTest";
 	private String toBeCopiedSceneName = "Scene 1";
 
 	@Before
 	public void setUp() throws Exception {
 		createProject(InstrumentationRegistry.getTargetContext(), projectName);
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 	}
 
 	@After
@@ -92,7 +93,7 @@ public class CopySceneTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void name() {
+	public void copySceneTest() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.copy))
 				.perform(click());

@@ -44,7 +44,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrick {
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 

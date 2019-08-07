@@ -23,10 +23,12 @@
 package org.catrobat.catroid.io;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -193,12 +195,13 @@ import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
@@ -212,6 +215,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -286,7 +290,7 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(Setting.class);
-		xstream.processAnnotations(UserVariableBrick.class);
+		xstream.processAnnotations(UserVariableBrickWithFormula.class);
 		xstream.processAnnotations(UserListBrick.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
@@ -317,6 +321,7 @@ public final class XstreamSerializer {
 
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
+		xstream.omitField(HideTextBrick.class, "formulaList");
 
 		xstream.omitField(SayBubbleBrick.class, "type");
 		xstream.omitField(SayBubbleBrick.class, "type");
@@ -493,6 +498,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
 		xstream.alias("brick", AssertEqualsBrick.class);
+		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);
 		xstream.alias("brick", JumpingSumoJumpHighBrick.class);
@@ -511,6 +517,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StitchBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
+		xstream.alias("brick", WhenTouchDownBrick.class);
 
 		xstream.alias("script", WhenBounceOffScript.class);
 		xstream.alias("brick", WhenBounceOffBrick.class);
@@ -585,7 +592,15 @@ public final class XstreamSerializer {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName();
+		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
+		StringFinder stringFinder = new StringFinder();
+
+		if (!stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG, PROGRAM_NAME_END_TAG)) {
+			return false;
+		}
+
+		String srcName = stringFinder.getResult();
+		dstName = getXMLEncodedString(dstName);
 
 		if (srcName.equals(dstName)) {
 			return true;
@@ -593,7 +608,6 @@ public final class XstreamSerializer {
 
 		String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
 		String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
 		String newXml = currentXml.replace(srcProjectNameTag, dstProjectNameTag);
 
 		if (currentXml.equals(newXml)) {
@@ -603,6 +617,13 @@ public final class XstreamSerializer {
 
 		StorageOperations.writeToFile(xmlFile, newXml);
 		return true;
+	}
+
+	private static String getXMLEncodedString(String srcName) {
+		srcName = new XStream().toXML(srcName);
+		srcName = srcName.replace("<string>", "");
+		srcName = srcName.replace("</string>", "");
+		return srcName;
 	}
 
 	private static void setFileReferences(Project project) {
@@ -787,5 +808,10 @@ public final class XstreamSerializer {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
 		return null;
+	}
+
+	@VisibleForTesting
+	public BackwardCompatibleCatrobatLanguageXStream getXstream() {
+		return xstream;
 	}
 }

@@ -41,11 +41,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -86,8 +86,8 @@ public class SpriteFromGalleryIntentTest {
 			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
 
 	@Rule
-	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
+	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);

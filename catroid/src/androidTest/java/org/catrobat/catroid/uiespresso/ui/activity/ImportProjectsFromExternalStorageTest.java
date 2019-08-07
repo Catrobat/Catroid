@@ -35,7 +35,7 @@ import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.junit.After;
 import org.junit.Before;
@@ -66,8 +66,8 @@ import static org.junit.Assert.assertTrue;
 public class ImportProjectsFromExternalStorageTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(MainMenuActivity.class, true, false);
+	public BaseActivityTestRule<MainMenuActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule
@@ -108,7 +108,7 @@ public class ImportProjectsFromExternalStorageTest {
 				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true)
 				.commit();
 
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 	}
 
 	@After

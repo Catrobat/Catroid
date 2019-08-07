@@ -23,6 +23,7 @@
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 public class NXTSoundSensor extends NXTSensor {
 
@@ -35,7 +36,7 @@ public class NXTSoundSensor extends NXTSensor {
 	}
 
 	@Override
-	public float getValue() {
+	public float getValue() throws MindstormsException {
 		return getScaledValue();
 	}
 }

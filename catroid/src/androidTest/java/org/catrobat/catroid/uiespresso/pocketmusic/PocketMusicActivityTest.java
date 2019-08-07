@@ -38,12 +38,13 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
 import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 import org.catrobat.catroid.pocketmusic.ui.TrackView;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.util.SystemAnimations;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.junit.AfterClass;
@@ -75,8 +76,11 @@ public class PocketMusicActivityTest {
 
 	private static final int TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON = 3;
 	@Rule
-	public BaseActivityInstrumentationRule<PocketMusicActivity> pocketMusicActivityRule =
-			new BaseActivityInstrumentationRule<>(PocketMusicActivity.class, true, false);
+	public BaseActivityTestRule<PocketMusicActivity> pocketMusicActivityRule =
+			new BaseActivityTestRule<>(PocketMusicActivity.class, true, false);
+
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	// For testing all Animations are disabled, this causes troubles, because the PocketMusic
 	// functionality is highly coupled with the Animation-Framework. To avoid rewrites of

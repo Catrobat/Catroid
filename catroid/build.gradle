@@ -179,9 +179,9 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 63
+        versionCode 65
         println "VersionCode is $versionCode"
-        versionName "0.9.62"
+        versionName "0.9.63"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
@@ -371,7 +371,7 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.0.1"
     supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.4.0"
+    paintroidVersion = "2.4.1"
 }
 
 configurations {
@@ -465,6 +465,9 @@ dependencies {
     testImplementation 'org.robolectric:robolectric:4.2.1'
     testImplementation "org.robolectric:shadows-multidex:4.2.1"
 
+    testImplementation "org.reflections:reflections:0.9.11"
+
+    androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
 

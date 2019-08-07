@@ -138,7 +138,7 @@ pipeline {
 
                         stage('Instrumented Unit Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test'''
                             }
@@ -152,7 +152,7 @@ pipeline {
 
                         stage('Testrunner Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android28 \
                                                 startEmulator createCatroidDebugAndroidTestCoverageReport \
                                                 -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
 
@@ -172,14 +172,28 @@ pipeline {
                             }
 
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.QuarantineTestSuite'''
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
                             }
 
                             post {
                                 always {
                                     postEmulator 'quarantined'
+                                }
+                            }
+                        }
+
+                        stage('RTL Tests') {
+                            steps {
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
+                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
+                            }
+
+                            post {
+                                always {
+                                    postEmulator 'rtltests'
                                 }
                             }
                         }
@@ -206,9 +220,9 @@ pipeline {
                     stages {
                         stage('Pull Request Suite') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android24 \
+                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.uiespresso.testsuites.PullRequestTriggerSuite'''
+                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
                             }
 
                             post {

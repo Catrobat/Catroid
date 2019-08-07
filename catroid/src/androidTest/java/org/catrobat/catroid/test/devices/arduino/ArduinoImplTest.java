@@ -30,6 +30,7 @@ import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.arduino.ArduinoImpl;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,7 +80,7 @@ public class ArduinoImplTest {
 	}
 
 	@Test
-	public void testSetDigitalArduinoPinIndividually() {
+	public void testSetDigitalArduinoPinIndividually() throws MindstormsException {
 		arduino.initialise();
 		doTestFirmataInitialization();
 
@@ -93,7 +94,7 @@ public class ArduinoImplTest {
 	}
 
 	@Test
-	public void testSetDigitalArduinoPinInterleavedOnPort() {
+	public void testSetDigitalArduinoPinInterleavedOnPort() throws MindstormsException {
 		arduino.initialise();
 		doTestFirmataInitialization();
 
@@ -155,7 +156,7 @@ public class ArduinoImplTest {
 	}
 
 	@Test
-	public void testSetDigitalArduinoPinInterleavedBetweenPorts() {
+	public void testSetDigitalArduinoPinInterleavedBetweenPorts() throws MindstormsException {
 		arduino.initialise();
 		doTestFirmataInitialization();
 
@@ -171,7 +172,7 @@ public class ArduinoImplTest {
 	}
 
 	@Test
-	public void testSetAnalogArduinoPin() {
+	public void testSetAnalogArduinoPin() throws MindstormsException {
 		arduino.initialise();
 		doTestFirmataInitialization();
 
@@ -194,7 +195,7 @@ public class ArduinoImplTest {
 	}
 
 	@Test
-	public void testGetDigitalArduinoPin() {
+	public void testGetDigitalArduinoPin() throws MindstormsException {
 		arduino.initialise();
 		doTestFirmataInitialization();
 
@@ -202,7 +203,7 @@ public class ArduinoImplTest {
 	}
 
 	@Test
-	public void testGetAnalogArduinoPin() {
+	public void testGetAnalogArduinoPin() throws MindstormsException {
 		arduino.initialise();
 		doTestFirmataInitialization();
 

@@ -52,6 +52,10 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 
 	private transient BrickSpinner<Scene> spinner;
 
+	public SceneTransitionBrick() {
+		sceneForTransition = "";
+	}
+
 	public SceneTransitionBrick(String scene) {
 		this.sceneForTransition = scene;
 	}

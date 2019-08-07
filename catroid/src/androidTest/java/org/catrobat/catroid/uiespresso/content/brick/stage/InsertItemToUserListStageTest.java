@@ -31,7 +31,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,8 +45,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class InsertItemToUserListStageTest {
 	@Rule
-	public BaseActivityInstrumentationRule<StageActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(StageActivity.class, true, false);
+	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(StageActivity.class, true, false);
 	private Float valueToInsert;
 	private UserList userList;
 

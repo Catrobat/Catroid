@@ -30,7 +30,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class SetVariableBrick extends UserVariableBrick {
+public class SetVariableBrick extends UserVariableBrickWithFormula {
 
 	private static final long serialVersionUID = 1L;
 

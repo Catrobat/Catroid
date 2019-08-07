@@ -23,71 +23,46 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import android.support.annotation.IdRes;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
-import static org.junit.runners.Parameterized.Parameter;
-import static org.junit.runners.Parameterized.Parameters;
+import static org.hamcrest.Matchers.containsString;
 
-@Category({Cat.AppUi.class, Level.Smoke.class})
-@RunWith(Parameterized.class)
+@RunWith(AndroidJUnit4.class)
 public class PhiroColorBrickTest {
 
 	private static final Integer INIT_COLOR = 0;
-	private static final Integer SET_COLOR = 100;
 
 	private static Integer whenBrickPosition = 0;
 	private static Integer phiroRGBLightBrickPosition = 1;
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-
-	@Parameters(name = "{2}")
-	public static Iterable<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{R.id.brick_phiro_rgb_led_action_red_edit_text,
-						R.id.rgb_red_value,
-						"ColorRedTest"},
-				{R.id.brick_phiro_rgb_led_action_green_edit_text,
-						R.id.rgb_green_value,
-						"ColorGreenTest"},
-				{R.id.brick_phiro_rgb_led_action_blue_edit_text,
-						R.id.rgb_blue_value,
-						"ColorBlueTest"},
-		});
-	}
-
-	@Parameter
-	public @IdRes int brickActionEditTextId;
-
-	@Parameter(1)
-	public @IdRes int rgbValueId;
-
-	@Parameter(2)
-	public String testName;
+	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() throws Exception {
@@ -97,24 +72,85 @@ public class PhiroColorBrickTest {
 		baseActivityTestRule.launchActivity();
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void testPhiroLightRGBValues() {
+	public void testPhiroLightRGBValuesWithFormulaEditor() {
 		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(phiroRGBLightBrickPosition).checkShowsText(R.string.brick_phiro_rgb_led_action);
-		onBrickAtPosition(phiroRGBLightBrickPosition).checkShowsText(R.string.phiro_rgb_led_red);
-		onBrickAtPosition(phiroRGBLightBrickPosition).checkShowsText(R.string.phiro_rgb_led_green);
-		onBrickAtPosition(phiroRGBLightBrickPosition).checkShowsText(R.string.phiro_rgb_led_blue);
-
-		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
 				.checkShowsNumber(INIT_COLOR)
 				.perform(click());
-		onView(withId(rgbValueId))
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
-				.performEnterNumber(SET_COLOR)
+				.performEnterString("1+2 ")
 				.performCloseAndSave();
 
-		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(brickActionEditTextId)
-				.checkShowsNumber(SET_COLOR);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_green_edit_text)
+				.checkShowsNumber(INIT_COLOR)
+				.perform(click());
+		onFormulaEditor()
+				.check(matches(isDisplayed()));
+		pressBack();
+
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_blue_edit_text)
+				.checkShowsNumber(INIT_COLOR)
+				.perform(click());
+		onFormulaEditor()
+				.check(matches(isDisplayed()));
+		pressBack();
+
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
+				.perform(click());
+		onFormulaEditor()
+				.check(matches(isDisplayed()));
+		onFormulaEditor()
+				.performEnterNumber(24)
+				.performCloseAndSave();
+
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPhiroLightRGBValuesWithColorPicker() {
+		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
+				.checkShowsNumber(INIT_COLOR)
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_pick_color))
+				.perform(click());
+		onColorPickerPresetButton(0, 0)
+				.perform(click());
+		onView(withId(R.id.color_picker_button_ok))
+				.perform(click());
+		onView(withId(R.id.brick_phiro_rgb_led_action_red_edit_text))
+				.check(matches(withText(containsString("0"))));
+		onView(withId(R.id.brick_phiro_rgb_led_action_green_edit_text))
+				.check(matches(withText(containsString("116"))));
+		onView(withId(R.id.brick_phiro_rgb_led_action_blue_edit_text))
+				.check(matches(withText(containsString("205"))));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testPhiroLightRGBPickColorCancel() {
+		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
+		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_pick_color))
+				.perform(click());
+		onColorPickerPresetButton(0, 0)
+				.perform(click());
+		onView(withId(R.id.color_picker_button_cancel))
+				.perform(click());
+		onView(withId(R.id.brick_phiro_rgb_led_action_red_edit_text))
+				.check(matches(withText(containsString("0"))));
+		onView(withId(R.id.brick_phiro_rgb_led_action_green_edit_text))
+				.check(matches(withText(containsString("0"))));
+		onView(withId(R.id.brick_phiro_rgb_led_action_blue_edit_text))
+				.check(matches(withText(containsString("0"))));
 	}
 }

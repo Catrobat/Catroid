@@ -26,9 +26,11 @@ package org.catrobat.catroid.uiespresso.annotations;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -43,9 +45,12 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 public class FlakyTestTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
+
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	private static int flakyTestCounter;
 

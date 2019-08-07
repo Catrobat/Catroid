@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.stage.StageResourceInterface;
 
 public interface BluetoothDeviceService extends CatroidService, StageResourceInterface {
@@ -41,7 +42,7 @@ public interface BluetoothDeviceService extends CatroidService, StageResourceInt
 	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
 			Context context);
 
-	void deviceConnected(BluetoothDevice device);
+	void deviceConnected(BluetoothDevice device) throws MindstormsException;
 	void disconnectDevices();
 
 	<T extends BluetoothDevice> T getDevice(Class<T> btDevice);

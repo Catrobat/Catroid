@@ -400,6 +400,56 @@ public class ParserTestFunctions {
 	}
 
 	@Test
+	public void testArctan2NormalParameters() {
+		List<InternToken> firstParameter = new LinkedList<InternToken>();
+		List<InternToken> secondParameter = new LinkedList<InternToken>();
+		firstParameter.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		firstParameter.add(new InternToken(InternTokenType.NUMBER, "1"));
+		secondParameter.add(new InternToken(InternTokenType.NUMBER, "0"));
+
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, firstParameter,
+				secondParameter, -90.0, testSprite);
+
+		firstParameter = new LinkedList<InternToken>();
+		secondParameter = new LinkedList<InternToken>();
+		firstParameter.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		firstParameter.add(new InternToken(InternTokenType.NUMBER, "1"));
+		secondParameter.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		secondParameter.add(new InternToken(InternTokenType.NUMBER, "1"));
+
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, firstParameter,
+				secondParameter, -135.0, testSprite);
+	}
+
+	@Test
+	public void testArctan2ZeroParameter() {
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.NUMBER, "0",
+				InternTokenType.NUMBER, "0", 0.0, 180.0, testSprite);
+	}
+
+	@Test
+	public void testArctan2StringParameters() {
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.STRING, "1",
+				InternTokenType.STRING, "1", 45.0, testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.STRING, "-1",
+				InternTokenType.STRING, "-1", -135.0, testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.STRING, "",
+				InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.STRING, "7",
+				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.STRING, "",
+				InternTokenType.STRING, "", 0d, testSprite);
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.STRING, "7",
+				InternTokenType.STRING, NOT_NUMERICAL_STRING, 0d, testSprite);
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
+				InternTokenType.STRING, "anotherString");
+		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, firstParameterList, secondParameterList,
+				Double.NaN, testSprite);
+	}
+
+	@Test
 	public void testExp() {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "2", Math.exp(2),
 				testSprite);

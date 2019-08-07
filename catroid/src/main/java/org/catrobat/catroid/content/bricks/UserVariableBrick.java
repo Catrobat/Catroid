@@ -23,13 +23,11 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.RadioButton;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -38,25 +36,25 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
+import org.catrobat.catroid.content.bricks.brickspinner.UserVariableBrickTextInputDialogBuilder;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserVariableBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserVariable> {
+public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
 
 	protected UserVariable userVariable;
 
 	private transient BrickSpinner<UserVariable> spinner;
 
+	@Override
 	public UserVariable getUserVariable() {
 		return userVariable;
 	}
 
+	@Override
 	public void setUserVariable(UserVariable userVariable) {
 		this.userVariable = userVariable;
 	}
@@ -98,36 +96,10 @@ public abstract class UserVariableBrick extends FormulaBrick implements BrickSpi
 		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
-		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
+		UserVariableBrickTextInputDialogBuilder builder =
+				new UserVariableBrickTextInputDialogBuilder(currentProject, currentSprite, userVariable, activity, spinner);
 
-		builder.setHint(activity.getString(R.string.data_label))
-				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
-				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
-					UserVariable userVariable = new UserVariable(textInput);
-
-					RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
-					boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
-
-					if (addToProjectVariables) {
-						currentProject.addUserVariable(userVariable);
-					} else {
-						currentSprite.addUserVariable(userVariable);
-					}
-					spinner.add(userVariable);
-					spinner.setSelection(userVariable);
-
-					ScriptFragment parentFragment = (ScriptFragment) activity
-							.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
-					if (parentFragment != null) {
-						parentFragment.notifyDataSetChanged();
-					}
-				});
-
-		builder.setTitle(R.string.formula_editor_variable_dialog_title)
-				.setView(R.layout.dialog_new_user_data)
-				.setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(userVariable))
-				.setOnCancelListener(dialog -> spinner.setSelection(userVariable))
-				.show();
+		builder.show();
 	}
 
 	@Override

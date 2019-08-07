@@ -52,6 +52,10 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 
 	private transient BrickSpinner<Scene> spinner;
 
+	public SceneStartBrick() {
+		sceneToStart = "";
+	}
+
 	public SceneStartBrick(String sceneToStart) {
 		this.sceneToStart = sceneToStart;
 	}

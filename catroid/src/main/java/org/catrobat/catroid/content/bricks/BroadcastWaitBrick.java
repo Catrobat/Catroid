@@ -31,6 +31,9 @@ public class BroadcastWaitBrick extends BroadcastBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public BroadcastWaitBrick() {
+	}
+
 	public BroadcastWaitBrick(String broadcastMessage) {
 		super(broadcastMessage);
 	}

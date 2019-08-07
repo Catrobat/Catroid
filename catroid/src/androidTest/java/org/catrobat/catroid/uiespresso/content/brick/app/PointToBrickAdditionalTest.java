@@ -47,7 +47,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -84,8 +84,8 @@ public class PointToBrickAdditionalTest {
 	private final File tmpPath = new File(
 			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
 

@@ -31,11 +31,11 @@ import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
@@ -58,8 +58,8 @@ import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundl
 public class OpenFromShareLinkTest {
 
 	@Rule
-	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
+	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
 	private boolean bufferedPreferenceSetting;
