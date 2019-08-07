@@ -75,13 +75,13 @@ public class DeleteInternTokenTest {
 				{"Invalid Sin Deletion Begin", new InternToken[]{
 						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name())},
-						1, "sinus( "},
+						1, "sine( "},
 				{"Invalid Sin Deletion End", new InternToken[]{
 						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
 						new InternToken(InternTokenType.NUMBER, "42.42")},
 						InstrumentationRegistry.getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
-								.length(), "sinus( 42.42 "},
+								.length(), "sine( 42.42 "},
 		});
 	}
 

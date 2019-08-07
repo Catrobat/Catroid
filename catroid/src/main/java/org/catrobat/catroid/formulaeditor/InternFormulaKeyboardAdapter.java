@@ -105,6 +105,10 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.ARCCOS, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_arctan:
 				return buildSingleParameterFunction(Functions.ARCTAN, InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_arctan2:
+				return buildDoubleParameterFunctionWithNegativeValues(Functions.ARCTAN2,
+						true, InternTokenType.NUMBER, "1",
+						false, InternTokenType.NUMBER, "0");
 			case R.string.formula_editor_function_exp:
 				return buildSingleParameterFunction(Functions.EXP, InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_power:
@@ -454,6 +458,25 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildString(String myString) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.STRING, myString));
+		return returnList;
+	}
+
+	private List<InternToken> buildDoubleParameterFunctionWithNegativeValues(Functions function,
+			boolean isFirstParameterNegative, InternTokenType firstParameter, String firstParameterNumberValue,
+			boolean isSecondParameterNegative, InternTokenType secondParameter, String secondParameterNumberValue) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
+		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		if (isFirstParameterNegative) {
+			returnList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		}
+		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
+		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		if (isSecondParameterNegative) {
+			returnList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+		}
+		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
+		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return returnList;
 	}
 }

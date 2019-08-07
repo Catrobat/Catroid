@@ -454,6 +454,15 @@ public class FormulaElement implements Serializable {
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
 			case ARCTAN:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
+			case ARCTAN2:
+				if (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) {
+					return defaultReturnValue;
+				}
+				if ((doubleValueOfLeftChild == 0) && (doubleValueOfRightChild == 0)) {
+					return -180 + java.lang.Math.random() * 360;
+				} else {
+					return java.lang.Math.toDegrees(java.lang.Math.atan2(doubleValueOfLeftChild, doubleValueOfRightChild));
+				}
 			case EXP:
 				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.exp(doubleValueOfLeftChild);
 			case POWER:
