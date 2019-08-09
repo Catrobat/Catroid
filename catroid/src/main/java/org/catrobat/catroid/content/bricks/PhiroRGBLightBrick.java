@@ -124,10 +124,6 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 				&& isBrickFieldANumber(BrickField.PHIRO_LIGHT_BLUE);
 	}
 
-	private boolean isBrickFieldANumber(BrickField brickField) {
-		return getFormulaWithBrickField(brickField).isNumber();
-	}
-
 	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
 		requiredResourcesSet.add(BLUETOOTH_PHIRO);

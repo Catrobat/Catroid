@@ -90,10 +90,6 @@ public class SetPenColorBrick extends FormulaBrick {
 				&& isBrickFieldANumber(BrickField.PEN_COLOR_BLUE);
 	}
 
-	private boolean isBrickFieldANumber(BrickField brickField) {
-		return getFormulaWithBrickField(brickField).isNumber();
-	}
-
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSetPenColorAction(sprite,
