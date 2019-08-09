@@ -239,18 +239,16 @@ public class DataListFragment extends Fragment implements
 	}
 
 	public void showDeleteAlert(final List<UserData> selectedItems) {
-		new AlertDialog.Builder(getContext())
-				.setTitle(R.string.deletion_alert_title)
-				.setMessage(R.string.deletion_alert_text)
-				.setPositiveButton(R.string.deletion_alert_yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						deleteItems(selectedItems);
-					}
-				})
-				.setNegativeButton(R.string.no, null)
-				.setCancelable(false)
-				.show();
+		if (isItemUsed(selectedItems)){
+			new AlertDialog.Builder(getContext())
+					.setTitle(R.string.deletion_alert_title)
+					.setMessage(R.string.deletion_alert_text)
+					.setPositiveButton(R.string.deletion_alert_yes, null)
+					.setCancelable(true)
+					.show();
+		} else{
+			deleteItems((selectedItems));
+		}
 	}
 
 	private void deleteItems(List<UserData> selectedItems) {
@@ -261,6 +259,13 @@ public class DataListFragment extends Fragment implements
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_Items,
 				selectedItems.size(),
 				selectedItems.size()));
+	}
+
+	private boolean isItemUsed(List<UserData> selectedItems){
+		//check if items are used
+		//if one of them being used - true, otherwise - false
+
+		return false;
 	}
 
 	private void showRenameDialog(List<UserData> selectedItems) {
