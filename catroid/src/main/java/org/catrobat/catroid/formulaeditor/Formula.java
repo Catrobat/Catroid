@@ -187,8 +187,8 @@ public class Formula implements Serializable {
 		return formulaTree.containsElement(elementType);
 	}
 
-	public boolean isSingleNumberFormula() {
-		return formulaTree.isSingleNumberFormula();
+	public boolean isNumber() {
+		return formulaTree.isNumber();
 	}
 
 	@Override
