@@ -33,6 +33,9 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+
+import java.io.IOException;
 
 public final class TextInputDialog extends AlertDialog {
 
@@ -144,6 +147,6 @@ public final class TextInputDialog extends AlertDialog {
 
 	public interface OnClickListener {
 
-		void onPositiveButtonClick(DialogInterface dialog, String textInput);
+		void onPositiveButtonClick(DialogInterface dialog, String textInput) throws IOException, LoadingProjectException;
 	}
 }

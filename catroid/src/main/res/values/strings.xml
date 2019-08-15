@@ -763,7 +763,8 @@
 
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="merging_project_failed">Sorry! The two projjects cannot be merged now</string>
+    <string name="merging_project_successful">Merge Successful!</string>
     <!--  -->
 
     <!-- NewSpriteDialog -->
