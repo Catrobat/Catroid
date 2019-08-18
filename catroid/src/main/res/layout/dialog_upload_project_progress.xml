@@ -55,6 +55,21 @@
             android:visibility="gone"
             android:layout_marginBottom="@dimen/material_design_spacing_large"
             android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/dialog_upload_progress_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/material_design_spacing_large"
+            android:layout_gravity="center" />
+        <TextView
+            android:id="@+id/dialog_upload_message_failed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/material_design_spacing_x_large"
+            android:text="@string/progress_upload_dialog_failed" />
+
 
     </LinearLayout>
 </ScrollView>

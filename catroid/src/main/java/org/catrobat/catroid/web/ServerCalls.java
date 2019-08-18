@@ -153,7 +153,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private final Gson gson;
 	public int oldNotificationId = 0;
 	private String resultString;
-	private int projectId;
+	private String projectId;
 
 	private ServerCalls() {
 		okHttpClient = new OkHttpClient.Builder()
@@ -960,14 +960,14 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	static class UploadResponse {
-		int projectId;
+		String projectId;
 		int statusCode;
 		String answer;
 		String token;
 	}
 
 	public interface UploadSuccessCallback {
-		void onSuccess(int projectId, String username, String token);
+		void onSuccess(String projectId, String username, String token);
 	}
 
 	public interface UploadErrorCallback {

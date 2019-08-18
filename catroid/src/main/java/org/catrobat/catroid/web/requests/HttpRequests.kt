@@ -43,8 +43,8 @@ private const val PROJECT_CHECKSUM_TAG = "fileChecksum"
 private const val USER_EMAIL = "userEmail"
 private const val DEVICE_LANGUAGE = "deviceLanguage"
 private val MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip")
-private const val FILE_UPLOAD_URL = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json"
-private const val TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json"
+private const val FILE_UPLOAD_URL: String = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json"
+private const val TEST_FILE_UPLOAD_URL_HTTP: String = BASE_URL_TEST_HTTPS + "api/upload/upload.json"
 
 private val serverUrl: String
     get() {

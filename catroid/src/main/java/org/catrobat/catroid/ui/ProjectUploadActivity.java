@@ -341,10 +341,15 @@ public class ProjectUploadActivity extends BaseActivity implements
 	@Override
 	public void onReceiveResult(int resultCode, @Nullable Bundle resultData) {
 		if (resultCode != UPLOAD_RESULT_RECEIVER_RESULT_CODE || resultData == null || !uploadProgressDialog.isShowing()) {
+			uploadProgressDialog.findViewById(R.id.dialog_upload_progress_progressbar).setVisibility(View.GONE);
+			uploadProgressDialog.findViewById(R.id.dialog_upload_message_failed).setVisibility(View.VISIBLE);
+			ImageView image = uploadProgressDialog.findViewById(R.id.dialog_upload_progress_image);
+			image.setImageResource(R.drawable.ic_upload_failed);
+			image.setVisibility(View.VISIBLE);
 			return;
 		}
 
-		int projectId = resultData.getInt(EXTRA_PROJECT_ID, 0);
+		String projectId = resultData.getString(EXTRA_PROJECT_ID);
 		Button positiveButton = uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE);
 		positiveButton.setOnClickListener((view) -> {
 			String projectUrl = SHARE_PROGRAM_URL + projectId;
@@ -356,7 +361,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		positiveButton.setEnabled(true);
 
 		uploadProgressDialog.findViewById(R.id.dialog_upload_progress_progressbar).setVisibility(View.GONE);
-		ImageView image = uploadProgressDialog.findViewById(R.id.dialog_upload_progress_success_image);
+		ImageView image = uploadProgressDialog.findViewById(R.id.dialog_upload_progress_image);
 		image.setImageResource(R.drawable.ic_upload_success);
 		image.setVisibility(View.VISIBLE);
 	}

@@ -152,6 +152,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				setShowProgressBar(true);
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
 				saveProject(currentProject);
+				startActivity(new Intent(this, ProjectUploadActivity.class)
+						.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory()));
+
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
