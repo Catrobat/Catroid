@@ -75,7 +75,7 @@ public final class TextInputDialog extends AlertDialog {
 				public void onClick(DialogInterface dialog, int which) {
 					TextInputLayout textInputLayout = ((Dialog) dialog).findViewById(R.id.input);
 					String text = textInputLayout.getEditText().getText().toString();
-					listener.onPositiveButtonClick(dialog, text);
+						listener.onPositiveButtonClick(dialog, text);
 				}
 			});
 			return this;

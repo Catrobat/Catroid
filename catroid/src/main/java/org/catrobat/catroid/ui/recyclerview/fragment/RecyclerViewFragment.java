@@ -34,6 +34,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,7 +44,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.merge.MergeProject;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
@@ -55,6 +61,8 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
@@ -66,7 +74,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE})
-	@interface ActionModeType {}
+	@interface ActionModeType {
+	}
 
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
@@ -435,18 +444,21 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			ToastUtil.showError(getContext(), R.string.am_merge_error);
 		} else {
 			TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-
 			builder.setHint(getString(R.string.project_name_label))
 					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
 							-> {
-						mergeProjects(selectedItems, textInput);
+						try {
+							mergeProjects(selectedItems, textInput);
+						} catch (IOException e) {
+							Log.e(getClass().getSimpleName(), "merging failed");
+						} catch (LoadingProjectException e) {
+							Log.e(getClass().getSimpleName(), "formula interpretation in ask brick failed");
+						}
 					});
-
 			builder.setTitle(R.string.new_merge_project_dialog_title)
 					.setNegativeButton(R.string.cancel, null)
 					.show();
 		}
-
 		setShowProgressBar(true);
 		finishActionMode();
 	}
@@ -461,8 +473,22 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		finishActionMode();
 	}
 
-	protected void mergeProjects(List<T> selectedProjects, String mergeProjectName) {
-		ToastUtil.showSuccess(getContext(), R.string.merging_project_text);
+	protected void mergeProjects(List<T> selectedProjects, String mergeProjectName) throws IOException, LoadingProjectException {
+		File firstProjectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, selectedProjects.get(0).getName());
+		File secondProjectDir = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, selectedProjects.get(1).getName());
+		if (firstProjectDir.exists() && firstProjectDir.isDirectory() && secondProjectDir.exists() && secondProjectDir.isDirectory()) {
+			Project firstProject = XstreamSerializer.getInstance().loadProject(firstProjectDir,
+					getContext());
+			Project secondProject = XstreamSerializer.getInstance().loadProject(secondProjectDir,
+					getContext());
+			Project mergedProject = new MergeProject(firstProject, secondProject, getContext(), false).performMerge(mergeProjectName);
+			if (mergedProject != null) {
+				ToastUtil.showSuccess(getContext(), R.string.merging_project_successful);
+			} else {
+				ToastUtil.showSuccess(getContext(), R.string.merging_project_failed);
+			}
+		}
 		finishActionMode();
 	}
 }
+
