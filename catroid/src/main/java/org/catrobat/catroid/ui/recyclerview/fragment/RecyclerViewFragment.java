@@ -44,6 +44,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
@@ -437,6 +438,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 			TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 
 			builder.setHint(getString(R.string.project_name_label))
+					.setTextWatcher(new NewProjectNameTextWatcher<>())
 					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
 							-> {
 						mergeProjects(selectedItems, textInput);
