@@ -52,6 +52,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 	private transient BrickSpinner<Sprite> spinner;
 
 	public WhenBounceOffBrick() {
+		this(new WhenBounceOffScript());
 	}
 
 	public WhenBounceOffBrick(WhenBounceOffScript script) {
