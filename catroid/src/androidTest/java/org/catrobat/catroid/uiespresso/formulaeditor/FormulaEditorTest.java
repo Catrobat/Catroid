@@ -71,9 +71,7 @@ public class FormulaEditorTest {
 
 		//typeText not working for formula editor, so use CustomActions.typeInValue
 		onFormulaEditor()
-				.performEnterNumber(12345.678);
-
-		onFormulaEditor()
+				.performEnterNumber(12345.678)
 				.performCloseAndSave();
 	}
 
