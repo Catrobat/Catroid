@@ -110,7 +110,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public FormulaEditorWrapper checkShows(String expected) {
 		onView(FORMULA_EDITOR_TEXT_FIELD_MATCHER)
-				.check(matches(withText(expected)));
+				.check(matches(withText(equalToIgnoringWhiteSpace(expected))));
 		return new FormulaEditorWrapper();
 	}
 

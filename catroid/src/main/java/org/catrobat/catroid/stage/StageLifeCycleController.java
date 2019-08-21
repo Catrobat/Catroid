@@ -41,6 +41,7 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
@@ -190,7 +191,11 @@ public final class StageLifeCycleController {
 			if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
 					|| resourcesSet.contains(Brick.BLUETOOTH_PHIRO)
 					|| resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
-				ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+				try {
+					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).start();
+				} catch (MindstormsException e) {
+					Log.e(TAG, e.getMessage());
+				}
 			}
 
 			if (resourcesSet.contains(Brick.CAMERA_BACK)

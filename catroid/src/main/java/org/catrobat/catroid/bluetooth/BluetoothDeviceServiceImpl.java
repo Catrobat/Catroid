@@ -25,14 +25,18 @@ package org.catrobat.catroid.bluetooth;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
+
+	private static final String TAG = BluetoothDeviceServiceImpl.class.getSimpleName();
 
 	private Map<Class<? extends BluetoothDevice>, BluetoothDevice> connectedDevices =
 			new HashMap<Class<? extends BluetoothDevice>, BluetoothDevice>();
@@ -69,11 +73,14 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 		BluetoothDevice device = connectedDevices.get(deviceToConnect);
 
 		if (device != null) {
-			if (device.isAlive()) {
-				device.start();
-				return true;
+			try {
+				if (device.isAlive()) {
+					device.start();
+					return true;
+				}
+			} catch (MindstormsException e) {
+				Log.e(TAG, e.getMessage());
 			}
-
 			device.disconnect();
 			connectedDevices.remove(device);
 		}
@@ -81,7 +88,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	}
 
 	@Override
-	public synchronized void deviceConnected(BluetoothDevice device) {
+	public synchronized void deviceConnected(BluetoothDevice device) throws MindstormsException {
 		connectedDevices.put(device.getDeviceType(), device);
 		device.start();
 	}
@@ -111,14 +118,14 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	}
 
 	@Override
-	public synchronized void initialise() {
+	public synchronized void initialise() throws MindstormsException {
 		for (BluetoothDevice device : connectedDevices.values()) {
 			device.initialise();
 		}
 	}
 
 	@Override
-	public synchronized void start() {
+	public synchronized void start() throws MindstormsException {
 		for (BluetoothDevice device : connectedDevices.values()) {
 			device.start();
 		}

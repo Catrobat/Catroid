@@ -25,8 +25,11 @@ package org.catrobat.catroid.devices.mindstorms.nxt;
 import org.catrobat.catroid.devices.mindstorms.MindstormsCommand;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 
 public class Command implements MindstormsCommand {
+
+	private static final String TAG = Command.class.getSimpleName();
 
 	private ByteArrayOutputStream commandData = new ByteArrayOutputStream();
 
@@ -62,5 +65,20 @@ public class Command implements MindstormsCommand {
 
 	public byte[] getRawCommand() {
 		return commandData.toByteArray();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Command)) {
+			return false;
+		}
+
+		Command command = (Command) obj;
+		return Arrays.equals(commandData.toByteArray(), command.commandData.toByteArray());
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode() * TAG.hashCode();
 	}
 }

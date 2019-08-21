@@ -28,11 +28,12 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -59,8 +60,11 @@ import static org.hamcrest.Matchers.is;
 public class MainMenuFragemtnActivityRecreateRegressionTest {
 
 	@Rule
-	public DontGenerateDefaultProjectActivityInstrumentationRule<MainMenuActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityInstrumentationRule<>(MainMenuActivity.class);
+	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
+			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
+
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
 	private boolean bufferedPreferenceSetting;

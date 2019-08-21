@@ -30,11 +30,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.annotations.Flaky;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -57,9 +58,12 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 public class SceneFragmentActivityRecreateRegressionTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
+	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION,
 			ProjectActivity.FRAGMENT_SCENES);
+
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	private String sceneName = "secondScene";
 

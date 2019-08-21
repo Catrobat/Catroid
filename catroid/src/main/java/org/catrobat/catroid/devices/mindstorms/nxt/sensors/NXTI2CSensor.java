@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
@@ -54,12 +56,12 @@ public abstract class NXTI2CSensor extends NXTSensor {
 	}
 
 	@Override
-	protected void initialize() {
+	protected void initialize() throws MindstormsException {
 		super.initialize();
 		readRegister(0x00, 0x01);
 	}
 
-	protected void writeRegister(byte register, byte data, boolean reply) {
+	protected void writeRegister(byte register, byte data, boolean reply) throws MindstormsException {
 		if (!hasInit) {
 			initialize();
 		}
@@ -67,7 +69,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		write(command, (byte) 0, reply);
 	}
 
-	protected byte[] readRegister(int register, int rxLength) {
+	protected byte[] readRegister(int register, int rxLength) throws MindstormsException {
 		if (!hasInit) {
 			initialize();
 		}
@@ -75,7 +77,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		return writeAndRead(command, (byte) rxLength);
 	}
 
-	private void waitForBytes(byte numberOfBytes) {
+	private void waitForBytes(byte numberOfBytes) throws MindstormsException {
 		Stopwatch stopWatch = new Stopwatch();
 		byte bytesRead = 0;
 		stopWatch.start();
@@ -88,7 +90,7 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		}
 	}
 
-	private byte tryGetNumberOfBytesAreReadyToRead() {
+	private byte tryGetNumberOfBytesAreReadyToRead() throws MindstormsException {
 		try {
 			return getNumberOfBytesAreReadyToRead();
 		} catch (NXTException e) {
@@ -102,13 +104,14 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		}
 	}
 
-	protected byte[] writeAndRead(byte[] data, byte rxLength) {
+	protected byte[] writeAndRead(byte[] data, byte rxLength) throws MindstormsException {
 		write(data, rxLength, false);
 		waitForBytes(rxLength);
 		return read();
 	}
 
-	protected void write(byte[] txData, byte rxLength, boolean reply) {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public void write(byte[] txData, byte rxLength, boolean reply) throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.LS_WRITE, reply);
 		command.append((byte) port);
 		command.append((byte) txData.length);
@@ -123,7 +126,8 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		}
 	}
 
-	private byte[] read() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public byte[] read() throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.LS_READ, true);
 		command.append((byte) port);
 		NXTReply reply = new NXTReply(connection.sendAndReceive(command));
@@ -132,7 +136,8 @@ public abstract class NXTI2CSensor extends NXTSensor {
 		return reply.getData(4, size);
 	}
 
-	private byte getNumberOfBytesAreReadyToRead() {
+	@VisibleForTesting
+	public byte getNumberOfBytesAreReadyToRead() throws MindstormsException {
 		Command command = new Command(CommandType.DIRECT_COMMAND, CommandByte.LS_GET_STATUS, true);
 		command.append((byte) port);
 		NXTReply reply = new NXTReply(connection.sendAndReceive(command));

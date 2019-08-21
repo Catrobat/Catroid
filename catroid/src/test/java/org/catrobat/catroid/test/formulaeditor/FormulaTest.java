@@ -105,13 +105,13 @@ public class FormulaTest {
 	public void testIsSingleNumberFormula() {
 
 		Formula formula = new Formula(1);
-		assertTrue(formula.isSingleNumberFormula());
+		assertTrue(formula.isNumber());
 
 		formula = new Formula(1.0d);
-		assertTrue(formula.isSingleNumberFormula());
+		assertTrue(formula.isNumber());
 
 		formula = new Formula(1.0f);
-		assertTrue(formula.isSingleNumberFormula());
+		assertTrue(formula.isNumber());
 
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 
@@ -126,7 +126,7 @@ public class FormulaTest {
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertTrue(formula.isSingleNumberFormula());
+		assertTrue(formula.isNumber());
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
@@ -139,7 +139,7 @@ public class FormulaTest {
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertTrue(formula.isSingleNumberFormula());
+		assertTrue(formula.isNumber());
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
@@ -154,7 +154,7 @@ public class FormulaTest {
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertFalse(formula.isSingleNumberFormula());
+		assertFalse(formula.isNumber());
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
@@ -169,7 +169,7 @@ public class FormulaTest {
 		internTokenList.clear();
 
 		formula = new Formula(parseTree);
-		assertFalse(formula.isSingleNumberFormula());
+		assertFalse(formula.isNumber());
 	}
 
 	@Test

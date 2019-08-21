@@ -102,6 +102,9 @@ public class DSTFileGeneratorTest {
 		if (dstFile.exists()) {
 			dstFile.delete();
 		}
+		if (!Constants.CACHE_DIR.exists()) {
+			Constants.CACHE_DIR.mkdirs();
+		}
 		dstFile.createNewFile();
 		DSTFileGenerator fileGenerator = new DSTFileGenerator(stitchpoints);
 		fileGenerator.writeToDSTFile(dstFile);

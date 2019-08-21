@@ -296,7 +296,7 @@ public abstract class EV3Sensor implements LegoSensor {
 		return command;
 	}
 
-	private EV3Reply sendCommandAndGetReply(EV3Command command, int commandCounter) {
+	private EV3Reply sendCommandAndGetReply(EV3Command command, int commandCounter) throws MindstormsException {
 		EV3Reply reply = new EV3Reply(connection.sendAndReceive(command));
 
 		if (!reply.isValid(commandCounter)) {

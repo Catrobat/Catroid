@@ -61,6 +61,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Utils {
@@ -332,6 +333,13 @@ public final class Utils {
 		return ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
+	public static void setLastUsedProjectName(Context context, String projectName) {
+		PreferenceManager.getDefaultSharedPreferences(context)
+				.edit()
+				.putString(PREF_PROJECTNAME_KEY, projectName)
+				.commit();
+	}
+
 	public static boolean isDefaultProject(Project projectToCheck, Context context) {
 		try {
 			String uniqueProjectName = "project_" + System.currentTimeMillis();
@@ -428,7 +436,7 @@ public final class Utils {
 				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN);
 
 		sharedPreferenceEditor.commit();
-		WebViewActivity.clearCookies(context);
+		WebViewActivity.clearCookies();
 	}
 
 	public static boolean isUserLoggedIn(Context context) {

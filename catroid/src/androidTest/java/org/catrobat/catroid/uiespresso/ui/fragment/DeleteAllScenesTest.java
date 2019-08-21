@@ -33,11 +33,11 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -66,8 +66,8 @@ public class DeleteAllScenesTest {
 	private String projectName = "DeleteScenesTest";
 
 	@Rule
-	public BaseActivityInstrumentationRule<ProjectActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(ProjectActivity.class);
+	public BaseActivityTestRule<ProjectActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(ProjectActivity.class, false, false);
 
 	@After
 	public void tearDown() throws Exception {
@@ -77,7 +77,7 @@ public class DeleteAllScenesTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject(InstrumentationRegistry.getTargetContext(), projectName);
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

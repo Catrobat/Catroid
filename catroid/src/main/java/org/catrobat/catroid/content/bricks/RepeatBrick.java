@@ -160,7 +160,7 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 		super.getView(context);
 
 		TextView label = view.findViewById(R.id.brick_repeat_time_text_view);
-		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isNumber()) {
 			try {
 				label.setText(view.getResources().getQuantityString(
 						R.plurals.time_plural,

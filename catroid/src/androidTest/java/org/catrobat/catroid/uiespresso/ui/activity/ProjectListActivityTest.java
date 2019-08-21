@@ -30,10 +30,10 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectListActivity;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -57,8 +57,8 @@ public class ProjectListActivityTest {
 	private static final String INVALID_PROJECT_XML = "invalid_project.xml";
 
 	@Rule
-	public BaseActivityInstrumentationRule<ProjectListActivity> activityTestRule =
-			new BaseActivityInstrumentationRule<>(ProjectListActivity.class, false, false);
+	public BaseActivityTestRule<ProjectListActivity> activityTestRule =
+			new BaseActivityTestRule<>(ProjectListActivity.class, false, false);
 
 	@Before
 	public void setUp() throws Exception {
@@ -84,7 +84,7 @@ public class ProjectListActivityTest {
 		assertTrue(projectDirectory.mkdir());
 		assertTrue(codeXML.createNewFile());
 
-		activityTestRule.launchActivity();
+		activityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -97,7 +97,7 @@ public class ProjectListActivityTest {
 		InputStream inputStream = getAssets().open(INVALID_PROJECT_XML);
 		StorageOperations.copyStreamToFile(inputStream, codeXML);
 
-		activityTestRule.launchActivity();
+		activityTestRule.launchActivity(null);
 	}
 
 	private AssetManager getAssets() {

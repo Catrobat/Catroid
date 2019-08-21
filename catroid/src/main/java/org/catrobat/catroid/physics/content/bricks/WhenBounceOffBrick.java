@@ -51,6 +51,9 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 
 	private transient BrickSpinner<Sprite> spinner;
 
+	public WhenBounceOffBrick() {
+	}
+
 	public WhenBounceOffBrick(WhenBounceOffScript script) {
 		script.setScriptBrick(this);
 		commentedOut = script.isCommentedOut();
