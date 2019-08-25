@@ -70,7 +70,6 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -234,26 +233,14 @@ import org.catrobat.catroid.utils.StringFinder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.catrobat.catroid.common.Constants.ARDRONE_SUPPORT;
-import static org.catrobat.catroid.common.Constants.BLUETOOTH_LEGO_NXT;
-import static org.catrobat.catroid.common.Constants.BLUETOOTH_PHIRO_PRO;
-import static org.catrobat.catroid.common.Constants.CAMERA_FLASH;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.FACE_DETECTION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.JUMPING_SUMO_SUPPORT;
-import static org.catrobat.catroid.common.Constants.NFC;
-import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.TEXT_TO_SPEECH;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.VIBRATOR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class XstreamSerializer {
@@ -695,17 +682,7 @@ public final class XstreamSerializer {
 			for (Scene scene : project.getSceneList()) {
 				StorageOperations.createSceneDirectory(scene.getDirectory());
 			}
-
-			StringBuilder stringBuilder = new StringBuilder();
-			for (String resource : generatePermissionsSetFromResource(project.getRequiredResources())) {
-				stringBuilder.append(resource);
-				stringBuilder.append('\n');
-			}
-
 			StorageOperations.writeToFile(tmpCodeFile, currentXml);
-
-			File permissionFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
-			StorageOperations.writeToFile(permissionFile, stringBuilder.toString());
 
 			if (currentCodeFile.exists() && !currentCodeFile.delete()) {
 				Log.e(TAG, "Cannot delete " + currentCodeFile.getName());
@@ -757,39 +734,6 @@ public final class XstreamSerializer {
 			loadSaveLock.unlock();
 		}
 		return xmlString;
-	}
-
-	private Set<String> generatePermissionsSetFromResource(Brick.ResourcesSet resources) {
-		Set<String> permissionsSet = new HashSet<>();
-
-		if (resources.contains(Brick.TEXT_TO_SPEECH)) {
-			permissionsSet.add(TEXT_TO_SPEECH);
-		}
-		if (resources.contains(Brick.BLUETOOTH_LEGO_NXT)) {
-			permissionsSet.add(BLUETOOTH_LEGO_NXT);
-		}
-		if (resources.contains(Brick.ARDRONE_SUPPORT)) {
-			permissionsSet.add(ARDRONE_SUPPORT);
-		}
-		if (resources.contains(Brick.JUMPING_SUMO)) {
-			permissionsSet.add(JUMPING_SUMO_SUPPORT);
-		}
-		if (resources.contains(Brick.BLUETOOTH_PHIRO)) {
-			permissionsSet.add(BLUETOOTH_PHIRO_PRO);
-		}
-		if (resources.contains(Brick.CAMERA_FLASH)) {
-			permissionsSet.add(CAMERA_FLASH);
-		}
-		if (resources.contains(Brick.VIBRATOR)) {
-			permissionsSet.add(VIBRATOR);
-		}
-		if (resources.contains(Brick.FACE_DETECTION)) {
-			permissionsSet.add(FACE_DETECTION);
-		}
-		if (resources.contains(Brick.NFC_ADAPTER)) {
-			permissionsSet.add(NFC);
-		}
-		return permissionsSet;
 	}
 
 	public static String extractDefaultSceneNameFromXml(File projectDir) {

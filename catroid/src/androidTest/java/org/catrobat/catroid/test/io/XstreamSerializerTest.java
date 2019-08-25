@@ -29,7 +29,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -63,13 +62,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -260,26 +255,13 @@ public class XstreamSerializerTest {
 	}
 
 	@Test
-	public void testWritePermissionFile() throws IOException {
+	public void testPermissionFileRemoved() {
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setCurrentProject(project);
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
-		assertTrue(permissionsFile.exists());
-
-		//only for assertions. Add future permission; Vibration and LED not activated
-		Set<String> permissions = new HashSet<>();
-		permissions.add(Constants.ARDRONE_SUPPORT);
-		permissions.add(Constants.BLUETOOTH_LEGO_NXT);
-		permissions.add(Constants.TEXT_TO_SPEECH);
-		permissions.add(Constants.FACE_DETECTION);
-
-		BufferedReader reader = new BufferedReader(new FileReader(permissionsFile));
-		String line;
-		while ((line = reader.readLine()) != null) {
-			assertTrue(permissions.contains(line));
-		}
+		assertFalse(permissionsFile.exists());
 	}
 
 	@Test
