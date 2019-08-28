@@ -180,6 +180,18 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	public void updateListName(String oldName, String newName) {
+		if (leftChild != null) {
+			leftChild.updateVariableReferences(oldName, newName);
+		}
+		if (rightChild != null) {
+			rightChild.updateVariableReferences(oldName, newName);
+		}
+		if (type == ElementType.USER_LIST && value.equals(oldName)) {
+			value = newName;
+		}
+	}
+
 	public void getVariableAndListNames(List<String> variables, List<String> lists) {
 		if (leftChild != null) {
 			leftChild.getVariableAndListNames(variables, lists);

@@ -97,6 +97,16 @@ public class Formula implements Serializable {
 		formulaTree.updateCollisionFormulaToVersion();
 	}
 
+	public void updateVariableName(String oldName, String newName) {
+		internFormula.updateVariableReferences(oldName, newName, CatroidApplication.getAppContext());
+		formulaTree.updateVariableReferences(oldName, newName);
+	}
+
+	public void updateUserlistName(String oldName, String newName) {
+		internFormula.updateListReferences(oldName, newName, CatroidApplication.getAppContext());
+		formulaTree.updateListName(oldName, newName);
+	}
+
 	public boolean containsSpriteInCollision(String name) {
 		return formulaTree.containsSpriteInCollision(name);
 	}

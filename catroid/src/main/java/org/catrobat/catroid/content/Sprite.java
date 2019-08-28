@@ -383,16 +383,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private boolean hasToCollideWith(Sprite other) {
 		for (Script script : getScriptList()) {
-			Brick scriptBrick = script.getScriptBrick();
-			if (scriptBrick instanceof FormulaBrick) {
-				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-				for (Formula formula : formulaBrick.getFormulas()) {
-					if (formula.containsSpriteInCollision(other.getName())) {
-						return true;
-					}
-				}
-			}
-			for (Brick brick : script.getBrickList()) {
+			List<Brick> flatList = new ArrayList();
+			script.addToFlatList(flatList);
+			for (Brick brick : flatList) {
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
 					for (Formula formula : formulaBrick.getFormulas()) {
