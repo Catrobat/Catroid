@@ -73,7 +73,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 
 	public static final String TAG = ScratchProgramDetailsActivity.class.getSimpleName();
 
-	private static ScratchDataFetcher dataFetcher = ServerCalls.getInstance();
+	private static ScratchDataFetcher dataFetcher = new ServerCalls();
 	private static ConversionManager conversionManager;
 
 	private ScratchProgramData programData;

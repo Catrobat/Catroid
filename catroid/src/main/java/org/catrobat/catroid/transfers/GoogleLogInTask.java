@@ -81,7 +81,7 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			userSignedIn = ServerCalls.getInstance().googleLogin(mail, username, id, locale, context);
+			userSignedIn = new ServerCalls().googleLogin(mail, username, id, locale, context);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));

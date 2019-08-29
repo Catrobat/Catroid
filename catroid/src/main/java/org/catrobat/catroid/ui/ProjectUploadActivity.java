@@ -59,7 +59,6 @@ import org.catrobat.catroid.transfers.project.ResultReceiverWrapperInterface;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -79,6 +78,8 @@ import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
 import static org.catrobat.catroid.common.Constants.SHARE_PROGRAM_URL;
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public class ProjectUploadActivity extends BaseActivity implements
 		ProjectLoadTask.ProjectLoadListener,
@@ -368,8 +369,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 
 		boolean isTokenSetInPreferences = !token.equals(Constants.NO_TOKEN)
-				&& token.length() == ServerCalls.TOKEN_LENGTH
-				&& !token.equals(ServerCalls.TOKEN_CODE_INVALID);
+				&& token.length() == TOKEN_LENGTH
+				&& !token.equals(TOKEN_CODE_INVALID);
 
 		if (isTokenSetInPreferences) {
 			new CheckTokenTask(this)

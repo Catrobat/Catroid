@@ -38,8 +38,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.FacebookSdk;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -168,7 +166,6 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 		setShowProgressBar(true);
 
-		FacebookSdk.sdkInitialize(getApplicationContext());
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
 		}

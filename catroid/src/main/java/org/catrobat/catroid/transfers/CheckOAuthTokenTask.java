@@ -30,7 +30,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
@@ -76,7 +76,7 @@ public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 				return false;
 			}
 
-			tokenAvailable = ServerCalls.getInstance().checkOAuthToken(id, provider, activity);
+			tokenAvailable = new CatrobatServerCalls().checkOAuthToken(id, provider, activity);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));

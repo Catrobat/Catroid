@@ -52,10 +52,10 @@
     <string name="backpack_add">ಬ್ಯಾಕ್ ಪ್ಯಾಕ್ ನಲ್ಲಿ ಸೇರಿಸಿ</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
+
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
+
+
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="delete_account">ನನ್ನ ಖಾತೆಯನ್ನು ಅಳಿಸಿ</string>
@@ -868,7 +868,7 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>

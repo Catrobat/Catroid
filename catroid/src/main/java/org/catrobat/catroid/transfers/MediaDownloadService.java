@@ -66,7 +66,7 @@ public class MediaDownloadService extends IntentService {
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
-			ServerCalls.getInstance().downloadMedia(url, fileString, receiver);
+			new ServerCalls().downloadMedia(url, fileString, receiver);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
