@@ -140,23 +140,13 @@ public final class Constants {
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
-	public static final String FACEBOOK_TOKEN_REFRESH_NEEDED = "FACEBOOK_TOKEN_REFRESH_NEEDED";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
 	public static final String EMAIL = "email";
 	public static final String NO_EMAIL = "no_email";
 	public static final String LOCALE = "locale";
 	public static final String RESTRICTED_USER = "restricted_user";
-	public static final String FACEBOOK_ID = "FACEBOOK_ID";
-	public static final String NO_FACEBOOK_ID = "NO_FACEBOOK_ID";
-	public static final String FACEBOOK_USERNAME = "FACEBOOK_USERNAME";
-	public static final String NO_FACEBOOK_USERNAME = "NO_FACEBOOK_USERNAME";
-	public static final String FACEBOOK_LOCALE = "FACEBOOK_LOCALE";
-	public static final String NO_FACEBOOK_LOCALE = "NO_FACEBOOK_LOCALE";
-	public static final String FACEBOOK_EMAIL = "FACEBOOK_EMAIL";
-	public static final String NO_FACEBOOK_EMAIL = "NO_FACEBOOK_EMAIL";
 	public static final String JSON_ERROR_CODE = "errorCode";
-	public static final int ERROR_CODE_FACEBOOK_SESSION_EXPIRED = 190;
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
@@ -171,7 +161,6 @@ public final class Constants {
 	public static final String GOOGLE_EXCHANGE_CODE = "GOOGLE_EXCHANGE_CODE";
 	public static final String NO_GOOGLE_EXCHANGE_CODE = "NO_GOOGLE_EXCHANGE_CODE";
 	public static final String CURRENT_OAUTH_PROVIDER = "PROVIDER";
-	public static final String FACEBOOK = "FACEBOOK";
 	public static final String GOOGLE_PLUS = "GPLUS";
 	public static final String NO_OAUTH_PROVIDER = "NATIVE";
 

@@ -20,38 +20,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.transfers;
 
-import android.content.Context;
-import android.os.AsyncTask;
+package org.catrobat.catroid.testsuites;
 
-import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.CatrobatServerCalls;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.junit.experimental.categories.Categories;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
+@RunWith(Categories.class)
+@Categories.IncludeCategory({Cat.OutgoingNetworkTests.class})
 
-	private Context context;
-	private String username;
-
-	public LogoutTask(Context activity, String username) {
-		this.context = activity;
-		this.username = username;
-	}
-
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (context == null) {
-			return;
-		}
-	}
-
-	@Override
-	protected Boolean doInBackground(Void... arg0) {
-		if (!Utils.isNetworkAvailable(context)) {
-			return false;
-		}
-		new CatrobatServerCalls().logout(username);
-		return true;
-	}
+@Suite.SuiteClasses(AllHeadlessTestsSuite.class)
+public class OutgoingNetworkCallsTestSuite {
 }

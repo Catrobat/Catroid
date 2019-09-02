@@ -34,7 +34,6 @@ import org.catrobat.catroid.transfers.project.ProjectUploadData
 import org.catrobat.catroid.transfers.project.UPLOAD_FILE_NAME
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.web.ServerCalls
-import org.catrobat.catroid.web.ServerCalls.BASE_URL_TEST_HTTPS
 
 private const val FILE_UPLOAD_TAG = "upload"
 private const val PROJECT_NAME_TAG = "projectTitle"
@@ -44,22 +43,12 @@ private const val USER_EMAIL = "userEmail"
 private const val DEVICE_LANGUAGE = "deviceLanguage"
 private val MEDIA_TYPE_ZIPFILE = MediaType.parse("application/zip")
 private const val FILE_UPLOAD_URL = FlavoredConstants.BASE_URL_HTTPS + "api/upload/upload.json"
-private const val TEST_FILE_UPLOAD_URL_HTTP = BASE_URL_TEST_HTTPS + "api/upload/upload.json"
-
-private val serverUrl: String
-    get() {
-        return if (ServerCalls.useTestUrl) {
-            TEST_FILE_UPLOAD_URL_HTTP
-        } else {
-            FILE_UPLOAD_URL
-        }
-    }
 
 fun createUploadRequest(
     uploadData: ProjectUploadData
 ): Request {
 
-    Log.v(ServerCalls.TAG, "Building request to upload to: $serverUrl")
+    Log.v(ServerCalls.TAG, "Building request to upload to: $FILE_UPLOAD_URL")
 
     val requestBody = MultipartBody.Builder()
         .setType(MultipartBody.FORM)
@@ -77,7 +66,7 @@ fun createUploadRequest(
         .build()
 
     return Request.Builder()
-        .url(serverUrl)
+        .url(FILE_UPLOAD_URL)
         .post(requestBody)
         .build()
 }

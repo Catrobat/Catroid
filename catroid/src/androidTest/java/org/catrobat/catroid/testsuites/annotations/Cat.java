@@ -47,7 +47,7 @@ public interface Cat {
 	}
 
 	//Network for all tests that do require an internet connection and or any network services, etc.
-	interface Network {
+	interface OutgoingNetworkTests {
 	}
 
 	//SensorBox include all tests utilizing the Sensor testing box

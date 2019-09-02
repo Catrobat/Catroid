@@ -25,7 +25,7 @@ package org.catrobat.catroid.transfers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class CheckUserNameAvailableTask extends AsyncTask<Void, Void, Boolean> {
@@ -47,7 +47,7 @@ public class CheckUserNameAvailableTask extends AsyncTask<Void, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(Void... params) {
 		try {
-			userNameAvailable = ServerCalls.getInstance().checkUserNameAvailable(username);
+			userNameAvailable = new CatrobatServerCalls().isUserNameAvailable(username);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
