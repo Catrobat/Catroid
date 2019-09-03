@@ -119,6 +119,6 @@ public class InsertItemToUserListTest {
 				.checkShowsNumber(indexToInsert + 1);
 		UserList userList = ProjectManager.getInstance().getCurrentProject().getUserList(userListName);
 
-		assertEquals(0, userList.getList().size());
+		assertEquals(0, userList.getValue().size());
 	}
 }

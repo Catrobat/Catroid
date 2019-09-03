@@ -37,7 +37,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99993f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99994f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -51,6 +51,7 @@ public final class Constants {
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 
 	public static final String DEVICE_VARIABLE_JSON_FILENAME = "DeviceVariables.json";
+	public static final String DEVICE_LIST_JSON_FILENAME = "DeviceLists.json";
 
 	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
 	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(

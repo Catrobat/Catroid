@@ -20,42 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.io;
 
-import org.catrobat.catroid.content.Project;
+package org.catrobat.catroid.content.bricks;
+
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import java.io.File;
-import java.util.List;
+public class WriteListOnDeviceBrick extends UserListBrick {
+	private static final long serialVersionUID = 1L;
 
-import static org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME;
-
-public final class DeviceVariableAccessor extends DeviceUserDataAccessor {
-
-	private static final Object LOCK = new Object();
-
-	public DeviceVariableAccessor(File projectDirectory) {
-		super(projectDirectory);
+	public WriteListOnDeviceBrick() {
 	}
 
 	@Override
-	protected Object getLock() {
-		return LOCK;
+	public int getViewResource() {
+		return R.layout.brick_write_list_on_device;
+	}
+
+	protected int getSpinnerId() {
+		return R.id.write_list_spinner;
 	}
 
 	@Override
-	protected String getDeviceFileName() {
-		return DEVICE_VARIABLE_JSON_FILENAME;
-	}
-
-	@Override
-	public List<? extends UserData> getUserData(Sprite sprite) {
-		return sprite.getUserVariables();
-	}
-
-	@Override
-	public List<? extends UserData> getUserData(Project project) {
-		return project.getUserVariables();
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		if (userList == null || userList.getName() == null) {
+			return;
+		}
+		sequence.addAction(sprite.getActionFactory().createWriteListOnDeviceAction(userList));
 	}
 }
