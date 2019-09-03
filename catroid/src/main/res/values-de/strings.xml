@@ -902,7 +902,7 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="category_sound">Klang</string>
     <string name="category_control">Steuerung</string>
     <string name="category_event">Event</string>
-    <string name="category_user_bricks">Meine Bausteine</string>
+    <string name="category_user_bricks">Deine Bausteine</string>
     <string name="category_data">Daten</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">LEGO EV3</string>
