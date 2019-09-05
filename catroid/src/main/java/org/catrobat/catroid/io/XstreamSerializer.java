@@ -270,6 +270,7 @@ public final class XstreamSerializer {
 				new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 
 		xstream.allowTypesByWildcard(new String[] {"org.catrobat.catroid.**"});
+		xstream.setMode(XStream.ID_REFERENCES);
 
 		xstream.processAnnotations(projectClass);
 		xstream.processAnnotations(sceneClass);
