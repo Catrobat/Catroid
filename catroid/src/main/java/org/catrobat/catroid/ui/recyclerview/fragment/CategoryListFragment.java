@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
+import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -499,7 +500,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getRaspberrySensorItems() {
-		return SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
+		return RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_RASPBERRY, SENSORS_RASPBERRY_PARAMS), getString(R.string.formula_editor_device_raspberry))
 				: Collections.<CategoryListItem>emptyList();
 	}
