@@ -262,15 +262,19 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
 								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-						TypedArray sensorPorts = type == Constants.NXT
-								? getResources().obtainTypedArray(R.array.formula_editor_nxt_ports)
-								: getResources().obtainTypedArray(R.array.formula_editor_ev3_ports);
-						int resourceId = sensorPorts.getResourceId(selectedPort, 0);
-						if (resourceId != 0) {
-							formulaEditor.addResourceToActiveFormula(resourceId);
-							formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+						int sensorPortsId = type == Constants.NXT
+								? R.array.formula_editor_nxt_ports
+								: R.array.formula_editor_ev3_ports;
+						TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
+						try {
+							int resourceId = sensorPorts.getResourceId(selectedPort, 0);
+							if (resourceId != 0) {
+								formulaEditor.addResourceToActiveFormula(resourceId);
+								formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+							}
+						} finally {
+							sensorPorts.recycle();
 						}
-
 						getActivity().onBackPressed();
 					}
 				})

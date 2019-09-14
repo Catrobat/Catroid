@@ -120,12 +120,14 @@ task buildStandalone() {
     }
 }
 
-task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
-task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
-task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
+task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') {doLast {}}
+task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') {doLast {}}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') {doLast {}}
 
-task testremoveIntentFilters() << {
-    messUpIntentFilters()
+task testremoveIntentFilters() {
+    doLast {
+        messUpIntentFilters()
+    }
 }
 
 def makeAppsCache() {

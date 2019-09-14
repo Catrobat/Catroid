@@ -28,8 +28,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.21.5'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'io.fabric.tools:gradle:1.26.0'
+        classpath 'com.google.gms:google-services:4.3.2'
     }
 }
 
@@ -497,21 +497,23 @@ project.gradle.taskGraph.whenReady {
 }
 
 task copyAndroidNatives() {
-    file("src/main/jniLibs/armeabi-v7a/").mkdirs()
-    file("src/main/jniLibs/arm64-v8a/").mkdirs()
-    file("src/main/jniLibs/x86/").mkdirs()
-    file("src/main/jniLibs/x86_64/").mkdirs()
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
-        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("src/main/jniLibs/arm64-v8a")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
-        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("src/main/jniLibs/x86_64")
-        if (outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
+    doFirst {
+        file("src/main/jniLibs/armeabi-v7a/").mkdirs()
+        file("src/main/jniLibs/arm64-v8a/").mkdirs()
+        file("src/main/jniLibs/x86/").mkdirs()
+        file("src/main/jniLibs/x86_64/").mkdirs()
+        configurations.natives.files.each { jar ->
+            def outputDir = null
+            if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
+            if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("src/main/jniLibs/arm64-v8a")
+            if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
+            if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("src/main/jniLibs/x86_64")
+            if (outputDir != null) {
+                copy {
+                    from zipTree(jar)
+                    into outputDir
+                    include "*.so"
+                }
             }
         }
     }
