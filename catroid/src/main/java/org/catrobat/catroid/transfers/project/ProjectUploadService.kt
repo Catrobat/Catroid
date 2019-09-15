@@ -119,7 +119,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 notificationManager?.notify(UPLOAD_NOTIFICATION_ID, createUploadFinishedNotification(projectName))
 
                 ToastUtil.showSuccess(this, R.string.notification_upload_finished)
-                val result = Bundle().apply { putInt(Constants.EXTRA_PROJECT_ID, projectId) }
+                val result = Bundle().apply { putString(Constants.EXTRA_PROJECT_ID, projectId) }
                 resultReceiver.send(UPLOAD_RESULT_RECEIVER_RESULT_CODE, result)
             },
             errorCallback = { errorCode, errorMessage ->
@@ -128,6 +128,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 ToastUtil.showError(this, resources.getString(R.string.error_project_upload) + " " + errorMessage)
                 StatusBarNotificationManager.getInstance()
                     .createUploadRejectedNotification(applicationContext, errorCode, errorMessage, reUploadBundle)
+                resultReceiver.send(0, null)
             }
         )
     }

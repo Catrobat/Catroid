@@ -38,7 +38,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.Locale
 
-typealias UploadProjectSuccessCallback = (projectId: Int) -> Unit
+typealias UploadProjectSuccessCallback = (projectId: String) -> Unit
 typealias UploadProjectErrorCallback = (errorCode: Int, errorMessage: String) -> Unit
 
 class ProjectUpload(

@@ -70,9 +70,6 @@ public final class Constants {
 	// Files and Directories:
 	public static final String NO_MEDIA_FILE = ".nomedia";
 
-	public static final String AUTOMATIC_SCREENSHOT_FILE_NAME = "automatic_screenshot.png";
-	public static final String MANUAL_SCREENSHOT_FILE_NAME = "manual_screenshot.png";
-
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 
@@ -102,8 +99,7 @@ public final class Constants {
 	// Web:
 	public static final String MAIN_URL_HTTPS = BuildConfig.MAIN_URL_HTTPS;
 
-	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
-	public static final String STANDALONE_URL = "https://catrob.at/csadttwt";
+	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
@@ -116,25 +112,12 @@ public final class Constants {
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 
 	// XStream:
-	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
-	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
-	public static final String JUMPING_SUMO_SUPPORT = "JUMPING_SUMO_SUPPORT";
-	public static final String CAMERA_FLASH = "CAMERA_FLASH";
-	public static final String VIBRATOR = "VIBRATOR";
-	public static final String FACE_DETECTION = "FACE_DETECTION";
 	public static final String NFC = "NFC";
 
 	//Broadcast system:
-	public static final String ACTION_SPRITE_SEPARATOR = "#";
-	public static final String BROADCAST_NOTIFY_ACTION = "broadcast_notify";
-	public static final String START_SCRIPT = "start_script";
-	public static final String BROADCAST_SCRIPT = "broadcast_script";
-	public static final String RASPI_SCRIPT = "raspi_pinchange_script";
 	public static final String RASPI_BROADCAST_PREFIX = "#RASPI#";
-	public static final String RASPI_BROADCAST_INTERRUPT_PREFIX = RASPI_BROADCAST_PREFIX + "interrupt ";
-	public static final String OPENING_BRACE = "(";
 
 	// Login:
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
@@ -172,7 +155,6 @@ public final class Constants {
 	public static final String WHATSAPP_URI = "whatsapp://";
 
 	// Scratch Converter
-	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
@@ -193,7 +175,6 @@ public final class Constants {
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
-	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
 	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
 
 	// Lego
@@ -227,7 +208,6 @@ public final class Constants {
 	public static final String EXTRA_SCENE_NAMES = "sceneNames";
 	public static final String EXTRA_USER_EMAIL = "userEmail";
 	public static final String EXTRA_LANGUAGE = "language";
-	public static final String EXTRA_NOTIFICATION_ID = "notificationId";
 	public static final String EXTRA_RESULT_RECEIVER = "resultReceiver";
 	public static final String EXTRA_PROVIDER = "provider";
 	public static final String EXTRA_UPLOAD_NAME = "uploadName";
@@ -261,9 +241,7 @@ public final class Constants {
 	public static final int TEXT_SIZE_BUBBLE = 30;
 	public static final int LINE_SPACING_BUBBLES = 3;
 	public static final int PADDING_TOP = 40;
-	public static final int PADDING_LEFT = 30;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
-	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
 	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
