@@ -91,7 +91,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	private final OkHttpClient okHttpClient;
 	private int oldNotificationId = 0;
 	private String resultString;
-	private int projectId;
+	private String projectId;
 
 	public ServerCalls() {
 		okHttpClient = CatrobatWebClient.INSTANCE.getClient();
@@ -448,7 +448,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	static class UploadResponse {
-		int projectId;
+		String projectId;
 		int statusCode;
 		String answer;
 		String token;
@@ -523,7 +523,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public interface UploadSuccessCallback {
-		void onSuccess(int projectId, String username, String token);
+		void onSuccess(String projectId, String username, String token);
 	}
 
 	public interface UploadErrorCallback {
