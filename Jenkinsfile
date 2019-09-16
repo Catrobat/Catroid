@@ -97,7 +97,7 @@ pipeline {
 
                                 // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
                                 // The resulting APK is not verified itself.
-                                sh """./gradlew assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                                sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
                                             -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
 
                                 // Build the flavors so that they can be installed next independently of older versions.
@@ -220,7 +220,7 @@ pipeline {
                     stages {
                         stage('Pull Request Suite') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
+                                sh '''./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
                             }
