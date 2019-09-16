@@ -215,6 +215,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
+        unitTests.all {
+            jvmArgs '-Xmx2g'
+        }
     }
 
     dexOptions.javaMaxHeapSize "4g"
