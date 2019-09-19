@@ -43,7 +43,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
@@ -141,7 +140,7 @@ public class SceneController {
 		String name = uniqueNameProvider
 				.getUniqueNameInNameables(sceneToPack.getName(), BackpackListManager.getInstance().getScenes());
 
-		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
+		File dir = new File(BackpackListManager.getInstance().backpackSceneDirectory, name);
 
 		if (!createDirectory(dir)) {
 			throw new IOException("Directory for Scene " + name + " could not be created.");

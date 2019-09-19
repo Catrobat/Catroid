@@ -86,6 +86,7 @@ emulators {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco-android'
@@ -181,7 +182,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         applicationId appId
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
         versionCode 66
         println "VersionCode is $versionCode"
         versionName "0.9.64"
@@ -220,6 +221,12 @@ android {
         unitTests.includeAndroidResources = true
         unitTests.all {
             jvmArgs '-Xmx2g'
+        }
+    }
+
+    sourceSets {
+        androidTest {
+            resources.srcDirs += ['src/androidTest/res', 'src/androidTest/assets']
         }
     }
 
@@ -424,6 +431,13 @@ dependencies {
 
     implementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Dagger
+    implementation 'com.google.dagger:dagger:2.21'
+    implementation 'com.google.dagger:dagger-android:2.21'
+    implementation 'com.google.dagger:dagger-android-support:2.21'
+    kapt 'com.google.dagger:dagger-compiler:2.21'
+    kapt 'com.google.dagger:dagger-android-processor:2.21'
 
     // Drone
     implementation 'com.parrot:arsdk:3.12.6'

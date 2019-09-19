@@ -50,6 +50,7 @@ import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
@@ -68,10 +69,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -81,6 +85,9 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECT
 
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
+
+	@Inject
+	ProjectManager projectManager;
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 	public static final int REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE = 501;
@@ -113,6 +120,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AndroidInjection.inject(this);
 
 		SettingsFragment.setToChosenLanguage(this);
 
@@ -194,7 +202,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
 			for (File project : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
 				if (project.isDirectory()
-						&& !project.getName().equals(Constants.BACKPACK_DIRECTORY.getName())
+						&& !project.getName().equals(Constants.BACKPACK_DIRECTORY_NAME)
 						&& !project.getName().equals("tmp")
 						&& new File(project, CODE_XML_FILE_NAME).exists()) {
 					return true;
@@ -224,7 +232,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	}
 
 	private void importProjectsFromExternalStorage() {
-		ProjectManager.getInstance().setCurrentProject(null);
+		projectManager.setCurrentProject(null);
 
 		PreferenceManager.getDefaultSharedPreferences(this)
 				.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
@@ -233,12 +241,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 		List<File> dirs = new ArrayList<>();
 
 		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
-			if (dir.getName().equals(BACKPACK_DIRECTORY.getName())) {
+			File backpackDirectory = BackpackListManager.getInstance().backpackDirectory;
+			if (dir.getName().equals(backpackDirectory.getName())) {
 				try {
-					if (BACKPACK_DIRECTORY.exists()) {
-						StorageOperations.deleteDir(BACKPACK_DIRECTORY);
+					if (backpackDirectory.exists()) {
+						StorageOperations.deleteDir(backpackDirectory);
 					}
-					StorageOperations.copyDir(dir, BACKPACK_DIRECTORY);
+					StorageOperations.copyDir(dir, backpackDirectory);
 				} catch (IOException e) {
 					Log.e(TAG, "Cannot import backpack from external storage", e);
 				}
@@ -275,7 +284,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public void onPause() {
 		super.onPause();
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 
 		if (currentProject != null) {
 			new ProjectSaveTask(currentProject, getApplicationContext())

@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -66,9 +67,9 @@ import java.util.List;
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
-public final class ProjectManager {
+public final class ProjectManager implements EagerSingleton {
 
-	private static final ProjectManager INSTANCE = new ProjectManager();
+	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
 	private Project project;
@@ -77,13 +78,34 @@ public final class ProjectManager {
 	private Scene startScene;
 	private Sprite currentSprite;
 
-	private ProjectManager() {
+	private Context applicationContext;
+
+	public ProjectManager(Context applicationContext) {
+		if (instance != null) {
+			throw new RuntimeException("ProjectManager should be instantiated only once");
+		}
+		this.applicationContext = applicationContext;
+		instance = this;
 	}
 
+	/**
+	 * Replaced with dependency injection
+	 *
+	 * @deprecated use dependency injection with Dagger instead.
+	 */
+	@Deprecated
 	public static ProjectManager getInstance() {
-		return INSTANCE;
+		return instance;
 	}
 
+	public void loadProject(File projectDir) throws ProjectException {
+		loadProject(projectDir, applicationContext);
+	}
+
+	/**
+	 * @deprecated use {@link #loadProject(File projectDir)} without Context instead.
+	 */
+	@Deprecated
 	public void loadProject(File projectDir, Context context) throws ProjectException {
 
 		Project previousProject = project;
@@ -378,6 +400,15 @@ public final class ProjectManager {
 		}
 	}
 
+	@SuppressWarnings({"unused", "WeakerAccess"})
+	public boolean initializeDefaultProject() {
+		return initializeDefaultProject(applicationContext);
+	}
+
+	/**
+	 * @deprecated use {@link #initializeDefaultProject()} without Context instead.
+	 */
+	@Deprecated
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
@@ -391,6 +422,15 @@ public final class ProjectManager {
 		}
 	}
 
+	@SuppressWarnings({"unused"})
+	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
+		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
+	}
+
+	/**
+	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean)} ()} without Context instead.
+	 */
+	@Deprecated
 	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
 		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
 		currentSprite = null;
@@ -398,6 +438,15 @@ public final class ProjectManager {
 		currentlyPlayingScene = currentlyEditedScene;
 	}
 
+	@SuppressWarnings({"unused"})
+	public void createNewExampleProject(String name, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
+	}
+
+	/**
+	 * @deprecated use {@link #createNewExampleProject(String, ProjectCreatorType, boolean)} ()} without Context instead.
+	 */
+	@Deprecated
 	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
 		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
 		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);

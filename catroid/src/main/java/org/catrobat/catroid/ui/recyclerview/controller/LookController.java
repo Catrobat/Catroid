@@ -34,7 +34,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 
 public class LookController {
@@ -69,7 +68,8 @@ public class LookController {
 		String name = uniqueNameProvider.getUniqueNameInNameables(
 				lookToPack.getName(), BackpackListManager.getInstance().getBackpackedLooks());
 
-		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), BACKPACK_IMAGE_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(lookToPack.getFile(),
+				BackpackListManager.getInstance().backpackImageDirectory);
 
 		return new LookData(name, file);
 	}
@@ -80,7 +80,7 @@ public class LookController {
 				return look;
 			}
 		}
-		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), BACKPACK_IMAGE_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(lookToPack.getFile(), BackpackListManager.getInstance().backpackImageDirectory);
 		LookData look = new LookData(lookToPack.getName(), file);
 		dstSprite.getLookList().add(look);
 

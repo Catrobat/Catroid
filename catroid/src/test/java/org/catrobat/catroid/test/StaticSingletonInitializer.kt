@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,28 +21,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package org.catrobat.catroid.test
 
-buildscript {
-    ext.kotlin_version = '1.3.30'
-    repositories {
-        google()
-        jcenter()
-    }
+import android.content.Context
+import org.catrobat.catroid.ProjectManager
 
-    dependencies {
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath 'com.android.tools.build:gradle:3.5.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
-        classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
-    }
-}
+/**
+ * Static singleton methods need to be initialized until they are removed entirely.
+ *
+ * Necessary steps
+ * 1. Migrate entirely to dependency injection
+ * 2. Remove {@link RuntimeException} from constructor
+ * 3. Create instances of e.g. {@link ProjectManager} in each test
+ *
+ */
+@Deprecated("should be removed with all static singleton e.g. {@link ProjectManager#getInstance()}")
+class StaticSingletonInitializer private constructor() {
+    companion object {
+        @JvmStatic
+        fun initializeStaticSingletonMethods() {
+            MockUtil.mockContextForProject()
+        }
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
+        @JvmStatic
+        fun initializeStaticSingletonMethodsWith(contextMock: Context) {
+            if (ProjectManager.getInstance() == null) {
+                ProjectManager(contextMock)
+            }
+        }
     }
 }
