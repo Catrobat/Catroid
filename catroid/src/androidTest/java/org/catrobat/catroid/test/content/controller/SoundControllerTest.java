@@ -46,7 +46,6 @@ import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
@@ -60,9 +59,11 @@ public class SoundControllerTest {
 	private Scene scene;
 	private Sprite sprite;
 	private SoundInfo soundInfo;
+	private BackpackListManager backpackListManager;
 
 	@Before
 	public void setUp() throws IOException {
+		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack();
 		createProject();
 	}
@@ -97,10 +98,11 @@ public class SoundControllerTest {
 		SoundController controller = new SoundController();
 		SoundInfo packedSound = controller.pack(soundInfo);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedSounds().size());
+		assertEquals(0, backpackListManager.getBackpackedSounds().size());
 
 		assertFileExists(packedSound.getFile());
-		assertFileExistsInDirectory(packedSound.getFile(), BACKPACK_SOUND_DIRECTORY);
+		assertFileExistsInDirectory(packedSound.getFile(),
+				backpackListManager.backpackSoundDirectory);
 	}
 
 	@Test
@@ -112,7 +114,7 @@ public class SoundControllerTest {
 		assertEquals(0, BackpackListManager.getInstance().getBackpackedSounds().size());
 
 		assertFileDoesNotExist(packedSound.getFile());
-		assertFileDoesNotExistInDirectory(packedSound.getFile(), BACKPACK_SOUND_DIRECTORY);
+		assertFileDoesNotExistInDirectory(packedSound.getFile(), backpackListManager.backpackSoundDirectory);
 
 		assertEquals(1, sprite.getSoundList().size());
 		assertFileExists(soundInfo.getFile());
@@ -127,7 +129,7 @@ public class SoundControllerTest {
 		assertEquals(0, BackpackListManager.getInstance().getBackpackedSounds().size());
 
 		assertFileExists(packedSound.getFile());
-		assertFileExistsInDirectory(packedSound.getFile(), BACKPACK_SOUND_DIRECTORY);
+		assertFileExistsInDirectory(packedSound.getFile(), backpackListManager.backpackSoundDirectory);
 
 		assertEquals(1, sprite.getSoundList().size());
 		assertFileExists(unpackedSound.getFile());
@@ -147,10 +149,10 @@ public class SoundControllerTest {
 	}
 
 	private void clearBackPack() throws IOException {
-		if (BACKPACK_SOUND_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(BACKPACK_SOUND_DIRECTORY);
+		if (backpackListManager.backpackSoundDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackSoundDirectory);
 		}
-		BACKPACK_SOUND_DIRECTORY.mkdirs();
+		backpackListManager.backpackSoundDirectory.mkdirs();
 	}
 
 	private void createProject() throws IOException {

@@ -36,12 +36,13 @@ import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.PowerMockUtil;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -61,16 +62,14 @@ public class SpeakActionTest {
 	private Formula text2;
 	private Formula textString;
 	private ActionFactory factory = new ActionFactory();
+	private TemporaryFolder temporaryFolder = new TemporaryFolder();
 
 	@Before
 	public void setUp() throws Exception {
-		PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(Mockito.mock(File.class));
-		Context contextMock = Mockito.mock(Context.class);
-		Mockito.when(contextMock.getCacheDir()).thenReturn(Mockito.mock(File.class));
-		PowerMockito.mockStatic(CatroidApplication.class);
-		PowerMockito.when(CatroidApplication.getAppContext()).thenReturn(contextMock);
-		PowerMockito.mockStatic(FlavoredConstants.class);
-		PowerMockito.mockStatic(Constants.class);
+		Context contextMock = PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons();
+		temporaryFolder.create();
+		File temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest");
+		Mockito.when(contextMock.getCacheDir()).thenAnswer(invocation -> temporaryCacheFolder);
 
 		sprite = new SingleSprite("testSprite");
 		text = new Formula(666);

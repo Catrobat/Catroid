@@ -34,7 +34,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 public class SoundController {
@@ -69,7 +68,8 @@ public class SoundController {
 		String name = uniqueNameProvider.getUniqueNameInNameables(
 				soundToPack.getName(), BackpackListManager.getInstance().getBackpackedSounds());
 
-		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), BACKPACK_SOUND_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(soundToPack.getFile(),
+				BackpackListManager.getInstance().backpackSoundDirectory);
 
 		return new SoundInfo(name, file);
 	}
@@ -81,7 +81,7 @@ public class SoundController {
 			}
 		}
 
-		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), BACKPACK_SOUND_DIRECTORY);
+		File file = StorageOperations.copyFileToDir(soundToPack.getFile(), BackpackListManager.getInstance().backpackSoundDirectory);
 		SoundInfo sound = new SoundInfo(soundToPack.getName(), file);
 		dstSprite.getSoundList().add(sound);
 

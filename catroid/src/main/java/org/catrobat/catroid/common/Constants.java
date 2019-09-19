@@ -75,11 +75,11 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 
 	// Backpack Directories
-	public static final File BACKPACK_DIRECTORY = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "backpack");
-	public static final File BACKPACK_FILE = new File(BACKPACK_DIRECTORY, "backpack.json");
-	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
-	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
-	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
+	public static final String BACKPACK_DIRECTORY_NAME = "backpack";
+	public static final String BACKPACK_JSON_FILE_NAME = "backpack.json";
+	public static final String BACKBACK_SCENES_DIRECTORY_NAME = "scenes";
+	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
+	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();

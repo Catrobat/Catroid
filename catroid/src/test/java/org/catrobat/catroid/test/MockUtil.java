@@ -54,6 +54,9 @@ public final class MockUtil {
 			throw new RuntimeException(e);
 		}
 		ScreenValues.setToDefaultScreenSize();
+
+		StaticSingletonInitializer.initializeStaticSingletonMethodsWith(contextMock);
+
 		return contextMock;
 	}
 }
