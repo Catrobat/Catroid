@@ -24,9 +24,9 @@
 package org.catrobat.catroid.test.transfers
 
 import android.content.SharedPreferences
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
-import junit.framework.Assert.fail
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver

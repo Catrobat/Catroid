@@ -21,6 +21,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+
+check.dependsOn 'checkstyle'
+check.dependsOn 'pmd'
+check.dependsOn 'detekt'
+
+dependencies {
+    pmd 'net.sourceforge.pmd:pmd-core:5.8.1'
+    pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
+
+    checkstyle 'com.puppycrawl.tools:checkstyle:8.26'
+
+    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.0.1"
+}
+
 task checkstyle(type: Checkstyle) {
     configFile file('config/checkstyle.xml')
     source '.'
@@ -54,4 +70,11 @@ task pmd(type: Pmd) {
         html.enabled = false
         xml.destination file("build/reports/pmd.xml")
     }
+}
+
+detekt {
+    toolVersion = "1.1.1"
+    config = files("config/detekt.yml")
+    input = files("src")
+    filters = ".*/resources/.*,.*/build/.*"
 }

@@ -30,9 +30,6 @@
   <module name="TreeWalker">
     <property name="tabWidth" value="4" />
 
-    <!-- To enable SuppressWithNearbyCommentFilter -->
-    <module name="FileContentsHolder" />
-
     <!-- Annotations -->
     <module name="AnnotationLocation">
       <property name="allowSamelineMultipleAnnotations" value="false" />
@@ -172,8 +169,10 @@
     <module name="ImportOrder">
       <property name="option" value="bottom" />
       <property name="groups" value="android,com,cucumber,edu,junit,net,org,java,javax" />
+      <property name="staticGroups" value="android,com,cucumber,edu,junit,net,org,java,javax" />
       <property name="ordered" value="true" />
       <property name="separated" value="true" />
+      <property name="separatedStaticGroups" value="true" />
     </module>
     <module name="RedundantImport" />
     <module name="PackageDeclaration" />
@@ -229,6 +228,17 @@
       <property name="format" value="^\t* " />
       <property name="ignoreComments" value="true" />
       <property name="message" value="Spaces aren't allowed for indentation. Tabs only" />
+    </module>
+
+    <module name="SuppressWithNearbyCommentFilter">
+      <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES" />
+      <property name="checkFormat" value="$1" />
+      <property name="influenceFormat" value="$2" />
+    </module>
+
+    <module name="SuppressionCommentFilter">
+      <property name="offCommentFormat" value="@formatter\:off" />
+      <property name="onCommentFormat" value="@formatter\:on" />
     </module>
   </module>
 
@@ -287,17 +297,6 @@
     <property name="fileExtensions" value="java,xml" />
     <property name="format" value="&amp;#8230;" />
     <property name="message" value="Use ellipses character … instead of &amp;#8230;." />
-  </module>
-
-  <module name="SuppressWithNearbyCommentFilter">
-    <property name="commentFormat" value="CHECKSTYLE DISABLE ([\w\|]+) FOR (-?\d+) LINES" />
-    <property name="checkFormat" value="$1" />
-    <property name="influenceFormat" value="$2" />
-  </module>
-
-  <module name="SuppressionCommentFilter">
-    <property name="offCommentFormat" value="@formatter\:off" />
-    <property name="onCommentFormat" value="@formatter\:on" />
   </module>
 
   <module name="SuppressionFilter">
