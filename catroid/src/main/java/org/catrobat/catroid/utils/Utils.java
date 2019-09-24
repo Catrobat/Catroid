@@ -332,7 +332,7 @@ public final class Utils {
 		PreferenceManager.getDefaultSharedPreferences(context)
 				.edit()
 				.putString(PREF_PROJECTNAME_KEY, projectName)
-				.commit();
+				.apply();
 	}
 
 	public static boolean isDefaultProject(Project projectToCheck, Context context) {
@@ -403,19 +403,16 @@ public final class Utils {
 		LogoutTask logoutTask = new LogoutTask(context, userName);
 		logoutTask.execute();
 
-		SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
-
-		sharedPreferenceEditor.putString(Constants.TOKEN, Constants.NO_TOKEN)
-				.putString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		sharedPreferenceEditor.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
+		sharedPreferences.edit()
+				.putString(Constants.TOKEN, Constants.NO_TOKEN)
+				.putString(Constants.USERNAME, Constants.NO_USERNAME)
+				.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
 				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
 				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
 				.putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID)
 				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
-				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN);
-
-		sharedPreferenceEditor.commit();
+				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN)
+				.apply();
 		WebViewActivity.clearCookies();
 	}
 

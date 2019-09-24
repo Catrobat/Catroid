@@ -294,7 +294,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
 						.putBoolean(sharedPreferenceDetailsKey, adapter.showDetails)
-						.commit();
+						.apply();
 				adapter.notifyDataSetChanged();
 				break;
 			default:

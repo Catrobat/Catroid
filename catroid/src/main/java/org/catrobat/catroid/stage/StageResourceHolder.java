@@ -196,7 +196,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 										.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
 								PreferenceManager.getDefaultSharedPreferences(stageActivity)
 										.edit()
-										.putBoolean(SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, checkBox.isChecked());
+										.putBoolean(SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, checkBox.isChecked())
+										.apply();
 								onDroneTermsOfUseAgreed();
 							}
 						})
@@ -244,7 +245,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 								PreferenceManager.getDefaultSharedPreferences(stageActivity)
 										.edit()
 										.putBoolean(SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
-												checkBox.isChecked());
+												checkBox.isChecked())
+										.apply();
 								onJSDroneTermsOfUseAgreed();
 							}
 						})

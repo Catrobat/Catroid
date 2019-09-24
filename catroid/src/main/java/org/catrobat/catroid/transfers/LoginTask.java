@@ -94,7 +94,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 		ServerAuthenticator authenticator = new ServerAuthenticator(username, password, token,
 				CatrobatWebClient.INSTANCE.getClient(),
 				FlavoredConstants.BASE_URL_HTTPS,
-				sharedPreferences.edit(),
+				sharedPreferences,
 				new ServerAuthenticator.TaskListener() {
 					@Override
 					public void onError(int statusCode, String errorMessage) {

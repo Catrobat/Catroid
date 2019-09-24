@@ -147,6 +147,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
+                        android:layout_toStartOf="@id/date_modified_view"
                         android:textSize="?attr/small"
                         android:textStyle="italic" />
                 </RelativeLayout>

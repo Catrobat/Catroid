@@ -84,7 +84,9 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
 		preferenceChanged = true;
-		sharedPreferences.edit().putBoolean(CUSTOM_PROFILE, true);
+		sharedPreferences.edit()
+				.putBoolean(CUSTOM_PROFILE, true)
+				.apply();
 	}
 
 	@Override
