@@ -82,8 +82,7 @@ public class LoginTask extends AsyncTask<Void, Void, Void> {
 			return null;
 		}
 
-		if (!Utils.isNetworkAvailable(context)) {
-			ToastUtil.showError(context, R.string.error_internet_connection);
+		if (!Utils.checkIsNetworkAvailableAndShowErrorMessage(context)) {
 			userLoggedIn = false;
 			return null;
 		}

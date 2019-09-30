@@ -187,13 +187,10 @@ public class WebViewActivity extends AppCompatActivity {
 
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			int errorMessage;
-			if (!Utils.isNetworkAvailable(WebViewActivity.this)) {
-				errorMessage = R.string.error_internet_connection;
-			} else {
-				errorMessage = R.string.error_unknown_error;
+			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
+				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
 			}
-			ToastUtil.showError(getBaseContext(), errorMessage);
+			finish();
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {

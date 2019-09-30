@@ -204,15 +204,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.menu_rate_app:
-				if (Utils.isNetworkAvailable(this)) {
+				if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
 					try {
 						startActivity(new Intent(Intent.ACTION_VIEW,
 								Uri.parse("market://details?id=" + getPackageName())));
 					} catch (ActivityNotFoundException e) {
 						ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
 					}
-				} else {
-					ToastUtil.showError(this, R.string.error_internet_connection);
 				}
 				break;
 			case R.id.menu_terms_of_use:
@@ -225,10 +223,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
 				break;
 			case R.id.menu_scratch_converter:
-				if (Utils.isNetworkAvailable(this)) {
+				if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
 					startActivity(new Intent(this, ScratchConverterActivity.class));
-				} else {
-					ToastUtil.showError(this, R.string.error_internet_connection);
 				}
 				break;
 			case R.id.settings:
