@@ -199,6 +199,10 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	private void saveProject(Project currentProject) {
+		if (currentProject == null) {
+			Utils.setLastUsedProjectName(getApplicationContext(), null);
+			return;
+		}
 		new ProjectSaveTask(currentProject, getApplicationContext())
 				.execute();
 		Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());

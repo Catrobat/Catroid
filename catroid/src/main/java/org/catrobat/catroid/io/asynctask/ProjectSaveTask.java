@@ -61,6 +61,9 @@ public class ProjectSaveTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	private static void saveLegoSettings(Project project, Context context) {
+		if (project == null) {
+			return;
+		}
 		saveLegoNXTSettingsToProject(project, context);
 		saveLegoEV3SettingsToProject(project, context);
 	}
