@@ -40,19 +40,21 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
 	private static final String TAG = ProjectExportTask.class.getSimpleName();
 
+	private final StatusBarNotificationManager statusBarNotificationManager;
 	private File projectDir;
 	private int notificationId;
 
-	public ProjectExportTask(File projectDir, int notificationId) {
+	public ProjectExportTask(StatusBarNotificationManager statusBarNotificationManager, File projectDir, int notificationId) {
+		this.statusBarNotificationManager = statusBarNotificationManager;
 		this.projectDir = projectDir;
 		this.notificationId = notificationId;
 	}
 
-	public static void task(File projectDir, int notificationId) {
+	private void task(File projectDir, int notificationId) {
 		exportProjectToExternalStorage(projectDir, notificationId);
 	}
 
-	private static void exportProjectToExternalStorage(File projectDir, int notificationId) {
+	private void exportProjectToExternalStorage(File projectDir, int notificationId) {
 		File projectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectDir.getName() + CATROBAT_EXTENSION);
 
 		EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs();
@@ -67,7 +69,7 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 		try {
 			new ZipArchiver()
 					.zip(projectZip, projectDir.listFiles());
-			StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
+			statusBarNotificationManager.showOrUpdateNotification(notificationId, 100);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot create archive.", e);
 			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId,

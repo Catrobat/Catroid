@@ -71,6 +71,8 @@ public final class ProjectManager implements EagerSingleton {
 
 	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
+	private final XstreamSerializer xstreamSerializer;
+	private final DefaultProjectHandler defaultProjectHandler;
 
 	private Project project;
 	private Scene currentlyEditedScene;
@@ -80,11 +82,15 @@ public final class ProjectManager implements EagerSingleton {
 
 	private Context applicationContext;
 
-	public ProjectManager(Context applicationContext) {
+	public ProjectManager(Context applicationContext, XstreamSerializer xstreamSerializer,
+			DefaultProjectHandler defaultProjectHandler) {
 		if (instance != null) {
-			throw new RuntimeException("ProjectManager should be instantiated only once");
+			throw new RuntimeException("For the time being this class should be instantiated only "
+					+ "once");
 		}
 		this.applicationContext = applicationContext;
+		this.xstreamSerializer = xstreamSerializer;
+		this.defaultProjectHandler = defaultProjectHandler;
 		instance = this;
 	}
 
@@ -111,7 +117,7 @@ public final class ProjectManager implements EagerSingleton {
 		Project previousProject = project;
 
 		try {
-			project = XstreamSerializer.getInstance().loadProject(projectDir, context);
+			project = xstreamSerializer.loadProject(projectDir, context);
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			restorePreviousProject(previousProject);
@@ -411,7 +417,7 @@ public final class ProjectManager implements EagerSingleton {
 	@Deprecated
 	public boolean initializeDefaultProject(Context context) {
 		try {
-			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
+			project = defaultProjectHandler.createAndSaveDefaultProject();
 			currentSprite = null;
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
@@ -432,7 +438,7 @@ public final class ProjectManager implements EagerSingleton {
 	 */
 	@Deprecated
 	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
-		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+		project = defaultProjectHandler.createAndSaveEmptyProject(name, landscapeMode, castEnabled);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
@@ -448,8 +454,8 @@ public final class ProjectManager implements EagerSingleton {
 	 */
 	@Deprecated
 	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
-		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
-		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
+		defaultProjectHandler.setDefaultProjectCreator(projectCreatorType);
+		project = defaultProjectHandler.createAndSaveDefaultProject(name, landscapeMode);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;

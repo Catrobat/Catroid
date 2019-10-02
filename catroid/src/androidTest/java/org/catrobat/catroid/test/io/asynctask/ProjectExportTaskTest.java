@@ -47,12 +47,37 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectExportTaskTest {
+
+	private class CurrentThreadExecutor implements Executor {
+		public void execute(Runnable r) {
+			r.run();
+		}
+	}
+
+	private final class ObservableProjectExportTask extends ProjectExportTask {
+		private final CountDownLatch countDownLatch;
+
+		private ObservableProjectExportTask(CountDownLatch countDownLatch,
+				StatusBarNotificationManager statusBarNotificationManager, File projectDir, int notificationId) {
+			super(statusBarNotificationManager, projectDir, notificationId);
+			this.countDownLatch = countDownLatch;
+		}
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			super.onPostExecute(aVoid);
+			countDownLatch.countDown();
+		}
+	}
 
 	private Project project;
 
@@ -76,9 +101,22 @@ public class ProjectExportTaskTest {
 		StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 		int notificationId = notificationManager
 				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), project.getName());
-		ProjectExportTask
-				.task(project.getDirectory(), notificationId);
+		CountDownLatch countDownLatch = new CountDownLatch(1);
 
+		ProjectExportTask projectExportTask =
+				new ObservableProjectExportTask(
+						countDownLatch,
+						notificationManager,
+						project.getDirectory(),
+						notificationId);
+
+		projectExportTask.executeOnExecutor(new CurrentThreadExecutor());
+
+		try {
+			countDownLatch.await(2, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			Assert.fail("Task did not finish");
+		}
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
 		Assert.assertTrue(externalProjectZip.exists());

@@ -41,6 +41,7 @@ import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
@@ -48,13 +49,13 @@ import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.Constants.MAX_PERCENT;
 
-public final class StatusBarNotificationManager {
+public final class StatusBarNotificationManager implements EagerSingleton {
 	private static final String TAG = StatusBarNotificationManager.class.getSimpleName();
 	private static final String ACTION_UPDATE_POCKET_CODE_VERSION = "update_pocket_code_version";
 	private static final String ACTION_RETRY_UPLOAD = "retry_upload";
 	private static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
 
-	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
+	private static StatusBarNotificationManager instance;
 	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
 
 	private static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
@@ -67,19 +68,27 @@ public final class StatusBarNotificationManager {
 	private Context context;
 	private NotificationManager notificationManager;
 
-	private StatusBarNotificationManager() {
-	}
-
-	public static StatusBarNotificationManager getInstance() {
-		return INSTANCE;
-	}
-
-	private void initNotificationManager(Context context) {
-		if (notificationManager == null) {
-			notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			createNotificationChannel(context);
+	public StatusBarNotificationManager(Context context) {
+		if (instance != null) {
+			throw new RuntimeException("For the time being this class should be instantiated only "
+					+ "once");
 		}
 		this.context = context;
+		if (notificationManager == null) {
+			notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+			createNotificationChannel();
+		}
+		instance = this;
+	}
+
+	/**
+	 * Replaced with dependency injection
+	 *
+	 * @deprecated use dependency injection with Dagger instead.
+	 */
+	@Deprecated
+	public static StatusBarNotificationManager getInstance() {
+		return instance;
 	}
 
 	private int createAndShowUploadNotification(Context context, String programName) {
@@ -98,7 +107,7 @@ public final class StatusBarNotificationManager {
 				context.getString(R.string.notification_upload_pending), context.getString(R.string.notification_upload_finished),
 				0, MAX_PERCENT, false, false);
 
-		int id = createNotification(context, data);
+		int id = createNotification(data);
 		showOrUpdateNotification(id, 0);
 		return id;
 	}
@@ -117,16 +126,16 @@ public final class StatusBarNotificationManager {
 				context.getString(R.string.notification_save_project_to_external_storage_open, EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY),
 				0, MAX_PERCENT, false, false);
 
-		int id = createNotification(context, data);
+		int id = createNotification(data);
 		showOrUpdateNotification(id, 0);
 		return id;
 	}
 
-	public int createDownloadNotification(Context context, String programName) {
-		if (context == null || programName == null) {
+	public int createDownloadNotification(String programName) {
+		if (programName == null) {
 			return -1;
 		}
-		initNotificationManager(context);
+		createNotificationChannel();
 
 		Intent downloadIntent = new Intent(context, MainMenuActivity.class);
 		downloadIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -140,11 +149,11 @@ public final class StatusBarNotificationManager {
 				context.getString(R.string.notification_download_pending), context.getString(R.string.notification_download_finished),
 				0, MAX_PERCENT, false, false);
 
-		return createNotification(context, data);
+		return createNotification(data);
 	}
 
-	private int createNotification(Context context, NotificationData data) {
-		initNotificationManager(context);
+	private int createNotification(NotificationData data) {
+		createNotificationChannel();
 
 		data.setOngoing(true);
 		notificationDataMap.put(notificationId, data);
@@ -310,12 +319,11 @@ public final class StatusBarNotificationManager {
 		}
 	}
 
-	public void createNotificationChannel(Context context) {
+	public void createNotificationChannel() {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			CharSequence name = context.getResources().getString(R.string.app_name);
 			String description = context.getResources().getString(R.string.channel_description, name);
 
-			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
 			if (notificationManager == null || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
 				return;
 			}

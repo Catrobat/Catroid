@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -49,12 +50,15 @@ public class ProjectRenameTaskTest {
 	private final String renamedProjectName = "renamedTestProject";
 
 	private Project defaultProject;
+	private Context targetContext;
 
 	@Before
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(projectName, renamedProjectName);
-		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(projectName,
-				InstrumentationRegistry.getTargetContext(), false);
+		targetContext = InstrumentationRegistry.getTargetContext();
+		DefaultProjectHandler defaultProjectHandler = TestUtils.createDefaultProjectHandler(targetContext);
+		defaultProject = defaultProjectHandler.createAndSaveDefaultProject(projectName,
+				false);
 	}
 
 	@After
@@ -66,7 +70,7 @@ public class ProjectRenameTaskTest {
 	public void projectRenameTaskTest() throws IOException {
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, targetContext));
 	}
 
 	@Test
@@ -74,6 +78,6 @@ public class ProjectRenameTaskTest {
 		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, targetContext));
 	}
 }

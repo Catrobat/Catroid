@@ -32,6 +32,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
 import org.catrobat.catroid.transfers.MediaDownloadService;
@@ -49,8 +50,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-public final class DownloadUtil {
-	private static final DownloadUtil INSTANCE = new DownloadUtil();
+public final class DownloadUtil implements EagerSingleton {
+	private static DownloadUtil instance;
 	private static final String TAG = DownloadUtil.class.getSimpleName();
 	private static final String FILENAME_TAG = "fname=";
 
@@ -59,13 +60,27 @@ public final class DownloadUtil {
 
 	private WebViewActivity webViewActivity = null;
 
-	private DownloadUtil() {
+	private StatusBarNotificationManager statusBarNotificationManager;
+
+	public DownloadUtil(StatusBarNotificationManager statusBarNotificationManager) {
+		if (instance != null) {
+			throw new RuntimeException("For the time being this class should be instantiated only "
+					+ "once");
+		}
+		this.statusBarNotificationManager = statusBarNotificationManager;
 		programDownloadQueue = Collections.synchronizedSet(new HashSet<>());
 		programDownloadCallback = null;
+		instance = this;
 	}
 
+	/**
+	 * Replaced with dependency injection
+	 *
+	 * @deprecated use dependency injection with Dagger instead.
+	 */
+	@Deprecated
 	public static DownloadUtil getInstance() {
-		return INSTANCE;
+		return instance;
 	}
 
 	public void setDownloadCallback(DownloadCallback callback) {
@@ -117,8 +132,7 @@ public final class DownloadUtil {
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
 		downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
 		downloadIntent.putExtra(ProjectDownloadService.RENAME_AFTER_DOWNLOAD, renameProject);
-		StatusBarNotificationManager manager = StatusBarNotificationManager.getInstance();
-		int notificationId = manager.createDownloadNotification(context, programName);
+		int notificationId = statusBarNotificationManager.createDownloadNotification(programName);
 		downloadIntent.putExtra(ProjectDownloadService.ID_TAG, notificationId);
 		context.startService(downloadIntent);
 	}

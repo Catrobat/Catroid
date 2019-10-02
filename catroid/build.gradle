@@ -439,6 +439,12 @@ dependencies {
     kapt 'com.google.dagger:dagger-compiler:2.21'
     kapt 'com.google.dagger:dagger-android-processor:2.21'
 
+    androidTestImplementation 'com.google.dagger:dagger:2.21'
+    androidTestImplementation 'com.google.dagger:dagger-android:2.21'
+    androidTestImplementation 'com.google.dagger:dagger-android-support:2.21'
+    kaptAndroidTest 'com.google.dagger:dagger-compiler:2.21'
+    kaptAndroidTest 'com.google.dagger:dagger-android-processor:2.21'
+
     // Drone
     implementation 'com.parrot:arsdk:3.12.6'
 

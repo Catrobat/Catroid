@@ -139,7 +139,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
     }
 
     private fun createUploadNotification(programName: String): Notification {
-        StatusBarNotificationManager.getInstance().createNotificationChannel(applicationContext)
+        StatusBarNotificationManager.getInstance().createNotificationChannel()
 
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN

@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid
 
-import org.catrobat.catroid.dagger.CatroidModule
-import org.catrobat.catroid.dagger.DaggerAppComponent
-
 class UiTestCatroidApplication : CatroidApplication() {
 
     companion object {
@@ -34,18 +31,8 @@ class UiTestCatroidApplication : CatroidApplication() {
 
     override fun createApplicationComponents() {
         val uiTestCatroidModule = UiTestCatroidModule(this)
-        appComponents = DaggerAppComponent.builder()
+        appComponents = DaggerUiTestAppComponent.builder()
             .catroidModule(uiTestCatroidModule)
             .build()
-    }
-}
-
-class UiTestCatroidModule(application: CatroidApplication) :
-    CatroidModule(application = application) {
-
-    override fun provideProjectManager(): ProjectManager {
-        val projectManager = super.provideProjectManager()
-        UiTestCatroidApplication.projectManager = projectManager
-        return projectManager
     }
 }

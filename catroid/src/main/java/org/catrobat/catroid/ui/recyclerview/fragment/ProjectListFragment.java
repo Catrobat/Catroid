@@ -440,10 +440,12 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 			@Override
 			public void task() {
-				int notificationId = StatusBarNotificationManager.getInstance()
+				StatusBarNotificationManager statusBarNotificationManager = StatusBarNotificationManager.getInstance();
+				int notificationId = statusBarNotificationManager
 						.createSaveProjectToExternalMemoryNotification(getContext(), item.getName());
 
-				new ProjectExportTask(item.getDirectory(), notificationId)
+				new ProjectExportTask(statusBarNotificationManager, item.getDirectory(),
+						notificationId)
 						.execute();
 			}
 		}.execute(getActivity());

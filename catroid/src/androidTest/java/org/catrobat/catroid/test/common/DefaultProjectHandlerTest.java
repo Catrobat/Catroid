@@ -30,6 +30,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,13 +54,15 @@ public class DefaultProjectHandlerTest {
 
 	@Before
 	public void setUp() throws IOException {
-		DefaultProjectHandler.getInstance()
-				.setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
-
 		String projectName = "defaultProject";
 
-		project = DefaultProjectHandler
-				.createAndSaveDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
+		DefaultProjectHandler defaultProjectHandler =
+				TestUtils.createDefaultProjectHandler(InstrumentationRegistry.getTargetContext());
+		defaultProjectHandler
+				.setDefaultProjectCreator(DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
+
+		project = defaultProjectHandler
+				.createAndSaveDefaultProject(projectName, false);
 	}
 
 	@After

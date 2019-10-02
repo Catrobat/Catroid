@@ -32,6 +32,7 @@ import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.StaticSingletonInitializer;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +40,7 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import java.io.File;
 
@@ -74,9 +76,14 @@ public class LoadProjectsTest {
 		PowerMockito.mockStatic(XstreamSerializer.class);
 		PowerMockito.mockStatic(ProjectManager.class);
 
-		when(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock);
+		Whitebox.setInternalState(projectManagerSpy, "xstreamSerializer", xstreamSerializerMock);
 		when(projectMock.getRequiredResources()).thenReturn(new Brick.ResourcesSet());
 		doReturn(projectMock).when(xstreamSerializerMock).loadProject(Mockito.any(), Mockito.any());
+	}
+
+	@After
+	public void tearDown() {
+		Whitebox.setInternalState(projectManagerSpy, "xstreamSerializer", XstreamSerializer.getInstance());
 	}
 
 	@Test (expected = CompatibilityProjectException.class)

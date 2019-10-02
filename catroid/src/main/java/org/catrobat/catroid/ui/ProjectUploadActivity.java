@@ -47,6 +47,7 @@ import android.widget.TextView;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -66,6 +67,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_ID;
 import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
@@ -89,6 +94,12 @@ public class ProjectUploadActivity extends BaseActivity implements
 	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
 
+	@Inject
+	DefaultProjectHandler defaultProjectHandler;
+
+	@Inject
+	ProjectManager projectManager;
+
 	private Project project;
 
 	private AlertDialog uploadProgressDialog;
@@ -107,6 +118,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		AndroidInjection.inject(this);
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_upload);
@@ -136,7 +148,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 	public void onLoadFinished(boolean success) {
 		if (success) {
 			getTags();
-			project = ProjectManager.getInstance().getCurrentProject();
+			project = projectManager.getCurrentProject();
 			projectUploadController = createProjectUploadController();
 			verifyUserIdentity();
 		} else {
@@ -226,7 +238,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		setShowProgressBar(true);
 
-		if (Utils.isDefaultProject(project, this)) {
+		if (defaultProjectHandler.isDefaultProject(project)) {
 			nameInputLayout.setError(getString(R.string.error_upload_default_project));
 			nameInputLayout.getEditText().removeTextChangedListener(nameInputTextWatcher);
 			nameInputLayout.setEnabled(false);
@@ -275,7 +287,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 			try {
 				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
 				ProjectLoadTask.task(renamedDirectory, getApplicationContext());
-				project = ProjectManager.getInstance().getCurrentProject();
+				project = projectManager.getCurrentProject();
 			} catch (IOException e) {
 				Log.e(TAG, "Creating renamed directory failed!", e);
 			}

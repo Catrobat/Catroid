@@ -51,6 +51,10 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
@@ -66,6 +70,9 @@ public class WebViewActivity extends BaseActivity {
 	public static final String MEDIA_FILE_PATH = "media_file_path";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
+	@Inject
+	DownloadUtil downloadUtil;
+
 	private WebView webView;
 	private boolean allowGoBack = false;
 	private ProgressDialog progressDialog;
@@ -75,6 +82,7 @@ public class WebViewActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AndroidInjection.inject(this);
 		setContentView(R.layout.activity_webview);
 
 		String url = getIntent().getStringExtra(INTENT_PARAMETER_URL);
@@ -102,7 +110,7 @@ public class WebViewActivity extends BaseActivity {
 					long contentLength) {
 
 				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
-					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
+					downloadUtil.prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
 				} else if (url.contains(LIBRARY_BASE_URL)) {
 					String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
 
@@ -114,16 +122,16 @@ public class WebViewActivity extends BaseActivity {
 
 					File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
 					resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
-					DownloadUtil.getInstance()
+					downloadUtil
 							.startMediaDownload(WebViewActivity.this, url, fileName, file.getAbsolutePath());
 				} else {
 					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
-					request.setTitle(getString(R.string.notification_download_title_pending) + " " + DownloadUtil.getInstance().getProjectNameFromUrl(url));
+					request.setTitle(getString(R.string.notification_download_title_pending) + " " + downloadUtil.getProjectNameFromUrl(url));
 					request.setDescription(getString(R.string.notification_download_pending));
 					request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
-							DownloadUtil.getInstance().getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
+							downloadUtil.getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
 					request.setMimeType(mimetype);
 
 					DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);

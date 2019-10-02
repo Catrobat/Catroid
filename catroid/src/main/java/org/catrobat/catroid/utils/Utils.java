@@ -37,13 +37,8 @@ import com.google.common.base.Splitter;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScratchProgramData;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
-import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.io.XstreamSerializer;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -333,47 +328,6 @@ public final class Utils {
 				.edit()
 				.putString(PREF_PROJECTNAME_KEY, projectName)
 				.commit();
-	}
-
-	public static boolean isDefaultProject(Project projectToCheck, Context context) {
-		try {
-			String uniqueProjectName = "project_" + System.currentTimeMillis();
-
-			while (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(uniqueProjectName)) {
-				uniqueProjectName = "project_" + System.currentTimeMillis();
-			}
-
-			Project defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(uniqueProjectName, context, false);
-
-			String defaultProjectXml = XstreamSerializer.getInstance().getXmlAsStringFromProject(defaultProject);
-
-			StorageOperations.deleteDir(defaultProject.getDirectory());
-
-			StringFinder stringFinder = new StringFinder();
-
-			if (!stringFinder.findBetween(defaultProjectXml, "<scenes>", "</scenes>")) {
-				return false;
-			}
-
-			String defaultProjectSpriteList = stringFinder.getResult();
-
-			ProjectSaveTask
-					.task(projectToCheck, context);
-
-			String projectToCheckXML = XstreamSerializer.getInstance().getXmlAsStringFromProject(projectToCheck);
-
-			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
-				return false;
-			}
-
-			String projectToCheckSpriteList = stringFinder.getResult();
-			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-		}
-		return true;
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {
