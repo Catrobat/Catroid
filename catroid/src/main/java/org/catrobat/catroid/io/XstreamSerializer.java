@@ -241,6 +241,7 @@ import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
+import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -264,7 +265,7 @@ import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
-public final class XstreamSerializer {
+public final class XstreamSerializer implements EagerSingleton {
 
 	private static XstreamSerializer instance;
 	private static final String TAG = XstreamSerializer.class.getSimpleName();
@@ -275,14 +276,22 @@ public final class XstreamSerializer {
 	private BackwardCompatibleCatrobatLanguageXStream xstream;
 	private Lock loadSaveLock = new ReentrantLock();
 
-	private XstreamSerializer() {
+	public XstreamSerializer() {
+		if (instance != null) {
+			throw new RuntimeException("For the time being this class should be instantiated only "
+					+ "once");
+		}
 		prepareXstream(Project.class, Scene.class);
+		instance = this;
 	}
 
+	/**
+	 * Replaced with dependency injection
+	 *
+	 * @deprecated use dependency injection with Dagger instead.
+	 */
+	@Deprecated
 	public static XstreamSerializer getInstance() {
-		if (instance == null) {
-			instance = new XstreamSerializer();
-		}
 		return instance;
 	}
 

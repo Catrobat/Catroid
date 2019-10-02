@@ -43,6 +43,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -54,6 +57,30 @@ import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectExportTaskTest {
+
+	private class CurrentThreadExecutor implements Executor {
+		public void execute(Runnable r) {
+			r.run();
+		}
+	}
+
+	private final class ObservableProjectExportTask extends ProjectExportTask {
+		private final CountDownLatch countDownLatch;
+
+		private ObservableProjectExportTask(CountDownLatch countDownLatch,
+				StatusBarNotificationManager statusBarNotificationManager, File projectDir,
+				NotificationData notificationData) {
+			super(projectDir, notificationData, ApplicationProvider.getApplicationContext(),
+					statusBarNotificationManager);
+			this.countDownLatch = countDownLatch;
+		}
+
+		@Override
+		protected void onPostExecute(Void aVoid) {
+			super.onPostExecute(aVoid);
+			countDownLatch.countDown();
+		}
+	}
 
 	private Project project;
 	private Context contextMock;
@@ -83,10 +110,22 @@ public class ProjectExportTaskTest {
 		StatusBarNotificationManager notificationManager = new StatusBarNotificationManager(contextMock);
 		NotificationData notificationData = notificationManager
 				.createSaveProjectToExternalMemoryNotification(ApplicationProvider.getApplicationContext(), project.getName());
+		CountDownLatch countDownLatch = new CountDownLatch(1);
 
-		new ProjectExportTask(project.getDirectory(), notificationData,
-				ApplicationProvider.getApplicationContext()).exportProjectToExternalStorage();
+		ProjectExportTask projectExportTask =
+				new ObservableProjectExportTask(
+						countDownLatch,
+						notificationManager,
+						project.getDirectory(),
+						notificationData);
 
+		projectExportTask.executeOnExecutor(new CurrentThreadExecutor());
+
+		try {
+			countDownLatch.await(2, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			Assert.fail("Task did not finish");
+		}
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
 		Assert.assertTrue(externalProjectZip.exists());

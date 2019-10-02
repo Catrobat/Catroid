@@ -452,11 +452,13 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				if (context == null) {
 					return;
 				}
-				NotificationData notificationData = new StatusBarNotificationManager(context)
+				StatusBarNotificationManager statusBarNotificationManager =
+						new StatusBarNotificationManager(context.getApplicationContext());
+				NotificationData notificationData = statusBarNotificationManager
 						.createSaveProjectToExternalMemoryNotification(context, item.getName());
 
-				new ProjectExportTask(item.getDirectory(), notificationData, context)
-						.execute();
+				new ProjectExportTask(item.getDirectory(), notificationData, context,
+						statusBarNotificationManager).execute();
 			}
 		}.execute(getActivity());
 	}

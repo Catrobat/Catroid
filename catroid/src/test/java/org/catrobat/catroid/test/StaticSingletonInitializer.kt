@@ -25,6 +25,8 @@ package org.catrobat.catroid.test
 
 import android.content.Context
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.DefaultProjectHandler
+import org.catrobat.catroid.io.XstreamSerializer
 
 /**
  * Static singleton methods need to be initialized until they are removed entirely.
@@ -44,9 +46,18 @@ class StaticSingletonInitializer private constructor() {
         }
 
         @JvmStatic
-        fun initializeStaticSingletonMethodsWith(contextMock: Context) {
+        fun initializeStaticSingletonMethodsWith(
+            contextMock: Context
+        ) {
+            if (XstreamSerializer.getInstance() == null) {
+                XstreamSerializer()
+            }
             if (ProjectManager.getInstance() == null) {
-                ProjectManager(contextMock)
+                ProjectManager(
+                    contextMock,
+                    XstreamSerializer.getInstance(),
+                    DefaultProjectHandler(contextMock, XstreamSerializer.getInstance())
+                )
             }
         }
     }

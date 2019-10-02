@@ -29,6 +29,7 @@ import android.preference.PreferenceManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 
+import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
@@ -82,6 +83,11 @@ public final class TestUtils {
 
 		XstreamSerializer.getInstance().saveProject(project);
 		return project;
+	}
+
+	public static DefaultProjectHandler createDefaultProjectHandler(Context context) {
+		return new DefaultProjectHandler(context,
+				XstreamSerializer.getInstance());
 	}
 
 	public static void removeFromPreferences(Context context, String key) {

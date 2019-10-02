@@ -69,7 +69,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class ProjectUploadRatingDialogTest {
 
-	private ProjectUploadController projectUploadController;
 	private Bundle bundle;
 	private SharedPreferences sharedPreferences;
 	private static final String PROJECT_NAME = ProjectUploadRatingDialogTest.class.getSimpleName();
@@ -117,7 +116,8 @@ public class ProjectUploadRatingDialogTest {
 		onView(withText(R.string.next))
 				.perform(click());
 
-		projectUploadController = activityTestRule.getActivity().getProjectUploadController();
+		ProjectUploadController projectUploadController =
+				activityTestRule.getActivity().getProjectUploadController();
 
 		verify(projectUploadController, times(1)).startUpload(eq("ProjectUploadRatingDialogTest"), eq(""), any());
 	}

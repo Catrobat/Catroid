@@ -88,9 +88,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		int oldPrivacyPolicyHash = PreferenceManager.getDefaultSharedPreferences(this)
-						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 		int currentPrivacyPolicyHash = getResources().getString(R.string.dialog_privacy_policy_text)
-						.hashCode();
+				.hashCode();
 		if (oldPrivacyPolicyHash == currentPrivacyPolicyHash) {
 			loadContent();
 		} else {
