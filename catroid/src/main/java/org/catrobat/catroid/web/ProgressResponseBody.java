@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.web;
 
-import android.os.Bundle;
-import android.os.ResultReceiver;
-
-import org.catrobat.catroid.common.Constants;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
@@ -42,24 +39,15 @@ public class ProgressResponseBody extends ResponseBody {
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
 	public static final String TAG_NOTIFICATION_ID = "notificationId";
-	public static final String TAG_PROGRAM_NAME = "programName";
 	public static final String TAG_REQUEST_URL = "requestUrl";
 
 	private final ResponseBody responseBody;
-	private final ResultReceiver receiver;
-	private final int notificationId;
-	private final String programName;
-	private final String requestUrl;
-
 	private BufferedSource bufferedSource;
+	private ServerCalls.DownloadProgressCallback progressCallback;
 
-	public ProgressResponseBody(ResponseBody responseBody, ResultReceiver receiver, int notificationId,
-			String programName, String requestUrl) throws IOException {
+	ProgressResponseBody(ResponseBody responseBody,
+			ServerCalls.DownloadProgressCallback progressCallback) {
 		this.responseBody = responseBody;
-		this.receiver = receiver;
-		this.notificationId = notificationId;
-		this.programName = programName;
-		this.requestUrl = requestUrl;
 	}
 
 	@Override
@@ -86,7 +74,7 @@ public class ProgressResponseBody extends ResponseBody {
 			long lastProgress = -1L;
 
 			@Override
-			public long read(Buffer sink, long byteCount) throws IOException {
+			public long read(@NotNull Buffer sink, long byteCount) throws IOException {
 				long bytesRead = super.read(sink, byteCount);
 				totalBytesRead += bytesRead != -1 ? bytesRead : 0;
 				long progress = (100 * totalBytesRead) / contentLength();
@@ -101,12 +89,6 @@ public class ProgressResponseBody extends ResponseBody {
 	}
 
 	private void sendUpdateIntent(long progress, boolean endOfFileReached) {
-		Bundle progressBundle = new Bundle();
-		progressBundle.putLong(TAG_PROGRESS, progress);
-		progressBundle.putBoolean(TAG_ENDOFFILE, endOfFileReached);
-		progressBundle.putInt(TAG_NOTIFICATION_ID, notificationId);
-		progressBundle.putString(TAG_PROGRAM_NAME, programName);
-		progressBundle.putString(TAG_REQUEST_URL, requestUrl);
-		receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, progressBundle);
+		progressCallback.onProgress(progress);
 	}
 }

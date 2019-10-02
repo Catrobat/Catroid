@@ -27,6 +27,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebScratchProgramException;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -69,7 +70,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testScratchSearchWithEmptyQueryParam() throws WebconnectionException, InterruptedIOException {
-		ScratchSearchResult searchResult = new ServerCalls().scratchSearch("", 20, 0);
+		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(programDataList);
@@ -103,7 +104,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testScratchSearchWithQueryParam() throws WebconnectionException, InterruptedIOException {
-		ScratchSearchResult searchResult = new ServerCalls().scratchSearch("test", 20, 0);
+		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("test", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(searchResult);
@@ -122,7 +123,7 @@ public class ScratchServerCallsTest {
 	public void testScratchSearchMaxNumberOfItemsParam() throws WebconnectionException, InterruptedIOException {
 		final int maxNumberOfItems = 10;
 
-		ScratchSearchResult searchResult = new ServerCalls().scratchSearch("test", maxNumberOfItems, 0);
+		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("test", maxNumberOfItems, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(searchResult);
@@ -141,7 +142,7 @@ public class ScratchServerCallsTest {
 	@Test
 	public void testScratchSearchPagination() throws WebconnectionException, InterruptedIOException {
 		for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
-			ScratchSearchResult searchResult = new ServerCalls().scratchSearch("test", 20, pageIndex);
+			ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).scratchSearch("test", 20, pageIndex);
 			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 			assertNotNull(searchResult);
@@ -159,7 +160,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebconnectionException {
-		ScratchSearchResult searchResult = new ServerCalls().fetchDefaultScratchPrograms();
+		ScratchSearchResult searchResult = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).fetchDefaultScratchPrograms();
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(searchResult);
@@ -183,7 +184,7 @@ public class ScratchServerCallsTest {
 		String expectedProgramTitle = "Dancin' in the Castle";
 		String expectedProgramOwner = "jschombs";
 		try {
-			ScratchProgramData programData = new ServerCalls().fetchScratchProgramDetails(expectedProgramID);
+			ScratchProgramData programData = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).fetchScratchProgramDetails(expectedProgramID);
 			checkScratchProgramData(programData);
 			assertEquals(programData.getId(), expectedProgramID);
 			assertEquals(programData.getTitle(), expectedProgramTitle);

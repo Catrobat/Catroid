@@ -57,6 +57,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -73,7 +74,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 
 	public static final String TAG = ScratchProgramDetailsActivity.class.getSimpleName();
 
-	private static ScratchDataFetcher dataFetcher = new ServerCalls();
+	private static ScratchDataFetcher dataFetcher = new ServerCalls(CatrobatWebClient.INSTANCE.getClient());
 	private static ConversionManager conversionManager;
 
 	private ScratchProgramData programData;

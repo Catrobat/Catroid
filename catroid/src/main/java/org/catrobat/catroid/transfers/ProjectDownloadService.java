@@ -34,6 +34,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -80,7 +81,14 @@ public class ProjectDownloadService extends IntentService {
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 
 		try {
-			new ServerCalls().downloadProject(url, zipFileString, projectName, receiver, notificationId);
+			// TODO begin
+			File destinationFile = new File(zipFileString);
+			if (!(destinationFile.getParentFile().mkdirs() || destinationFile.getParentFile().isDirectory())) {
+				throw new IOException("Directory not created");
+			}
+			// TODO end
+
+			new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).downloadProject(url, destinationFile, projectName, receiver, notificationId);
 
 			boolean renameProject = intent.getBooleanExtra(RENAME_AFTER_DOWNLOAD, false);
 

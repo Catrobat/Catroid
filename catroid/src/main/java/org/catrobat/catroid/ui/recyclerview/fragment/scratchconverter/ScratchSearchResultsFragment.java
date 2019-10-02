@@ -54,6 +54,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ScratchProgramAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -86,7 +87,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	private ConversionManager conversionManager;
 	private SearchScratchProgramsTask searchTask;
-	private ScratchDataFetcher dataFetcher = new ServerCalls();
+	private ScratchDataFetcher dataFetcher = new ServerCalls(CatrobatWebClient.INSTANCE.getClient());
 
 	class OnQueryListener implements SearchView.OnQueryTextListener {
 

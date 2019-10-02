@@ -113,7 +113,7 @@ public final class DownloadUtil {
 			programDownloadCallback.onDownloadStarted(url);
 		}
 		Intent downloadIntent = new Intent(context, ProjectDownloadService.class);
-		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadProjectReceiver(new Handler()));
+//		downloadIntent.putExtra(ProjectDownloadService.RECEIVER_TAG, new DownloadProjectReceiver(new Handler()));
 		downloadIntent.putExtra(ProjectDownloadService.DOWNLOAD_NAME_TAG, programName);
 		downloadIntent.putExtra(ProjectDownloadService.URL_TAG, url);
 		downloadIntent.putExtra(ProjectDownloadService.RENAME_AFTER_DOWNLOAD, renameProject);
@@ -135,13 +135,7 @@ public final class DownloadUtil {
 		return programDownloadQueue.contains(programName.toLowerCase(Locale.getDefault()));
 	}
 
-	ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
-
-	public void downloadCanceled(String url) {
-		if (programDownloadCallback != null) {
-			programDownloadCallback.onUserCanceledDownload(url);
-		}
-	}
+	private ArrayList<Integer> notificationIdArray = new ArrayList<Integer>();
 
 	@SuppressLint("ParcelCreator")
 	private class DownloadProjectReceiver extends ResultReceiver {

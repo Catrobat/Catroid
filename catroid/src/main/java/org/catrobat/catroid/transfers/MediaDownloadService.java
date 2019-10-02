@@ -31,6 +31,7 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -66,7 +67,7 @@ public class MediaDownloadService extends IntentService {
 
 		receiver = intent.getParcelableExtra(RECEIVER_TAG);
 		try {
-			new ServerCalls().downloadMedia(url, fileString, receiver);
+			new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).downloadMedia(url, fileString, receiver);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			result = false;
