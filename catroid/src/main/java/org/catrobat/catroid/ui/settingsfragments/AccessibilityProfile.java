@@ -32,6 +32,7 @@ import org.catrobat.catroid.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -62,15 +63,16 @@ public class AccessibilityProfile {
 	}
 
 	private static final String FONT_STYLE = "accessibility_font_style";
+	private final Set<String> setPreferences = new HashSet<>();
 
-	private Set<String> setPreferences = new HashSet<>();
-
-	private AccessibilityProfile(Set<String> preferences) {
-		setPreferences = preferences;
+	private AccessibilityProfile(Collection<String> preferences) {
+		if (preferences != null) {
+			setPreferences.addAll(preferences);
+		}
 	}
 
 	AccessibilityProfile(String... preferences) {
-		setPreferences = new HashSet<>(Arrays.asList(preferences));
+		this(Arrays.asList(preferences));
 	}
 
 	public static AccessibilityProfile fromCurrentPreferences(SharedPreferences sharedPreferences) {
@@ -85,7 +87,7 @@ public class AccessibilityProfile {
 		return new AccessibilityProfile(preferences);
 	}
 
-	static AccessibilityProfile fromCustomProfile(SharedPreferences sharedPreferences) {
+	public static AccessibilityProfile fromCustomProfile(SharedPreferences sharedPreferences) {
 		return new AccessibilityProfile(sharedPreferences.getStringSet(CUSTOM_ACCESSIBILITY_PROFILE, null));
 	}
 
@@ -104,7 +106,7 @@ public class AccessibilityProfile {
 		editor.commit();
 	}
 
-	void setAsCurrent(SharedPreferences sharedPreferences) {
+	public void setAsCurrent(SharedPreferences sharedPreferences) {
 		clearCurrent(sharedPreferences);
 		SharedPreferences.Editor editor = sharedPreferences.edit();
 		for (@AccessibilityFlags String preference : setPreferences) {
