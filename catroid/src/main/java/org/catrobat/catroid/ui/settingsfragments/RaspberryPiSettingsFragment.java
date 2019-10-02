@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.ui.settingsfragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -92,5 +94,13 @@ public class RaspberryPiSettingsFragment extends PreferenceFragment {
 				}
 			});
 		}
+	}
+
+	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
+		PreferenceManager.setDefaultValues(context, R.xml.raspberry_preferences, true);
+		Boolean isPreferenceEnabled = PreferenceManager.getDefaultSharedPreferences(context)
+				.getBoolean(SETTINGS_SHOW_RASPI_BRICKS, false);
+		PreferenceManager.setDefaultValues(context, R.xml.preferences, true);
+		return isPreferenceEnabled;
 	}
 }
