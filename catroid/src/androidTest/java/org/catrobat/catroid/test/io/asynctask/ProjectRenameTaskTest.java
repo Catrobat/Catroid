@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
+import android.content.Context;
+
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -49,12 +51,15 @@ public class ProjectRenameTaskTest {
 	private final String renamedProjectName = "renamedTestProject";
 
 	private Project defaultProject;
+	private Context targetContext;
 
 	@Before
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(projectName, renamedProjectName);
-		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(projectName,
-				ApplicationProvider.getApplicationContext(), false);
+		targetContext = ApplicationProvider.getApplicationContext();
+		DefaultProjectHandler defaultProjectHandler = TestUtils.createDefaultProjectHandler(targetContext);
+		defaultProject = defaultProjectHandler.createAndSaveDefaultProject(projectName,
+				false);
 	}
 
 	@After
@@ -66,7 +71,7 @@ public class ProjectRenameTaskTest {
 	public void projectRenameTaskTest() throws IOException {
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, targetContext));
 	}
 
 	@Test
@@ -74,6 +79,6 @@ public class ProjectRenameTaskTest {
 		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, targetContext));
 	}
 }

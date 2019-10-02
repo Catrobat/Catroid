@@ -27,6 +27,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoSet
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.io.XstreamSerializer
 
 interface EagerSingleton
 
@@ -36,4 +37,9 @@ abstract class EagerSingletonsModule {
     @Binds
     @IntoSet
     internal abstract fun eagerInitProjectManager(projectManager: ProjectManager): EagerSingleton
+
+    @Binds
+    @IntoSet
+    internal abstract fun eagerInitXstreamSerializer(xstreamSerializer: XstreamSerializer):
+        EagerSingleton
 }

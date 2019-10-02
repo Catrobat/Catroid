@@ -54,6 +54,7 @@ public final class StatusBarNotificationManager {
 	private static final String ACTION_UPDATE_POCKET_CODE_VERSION = "update_pocket_code_version";
 	private static final String ACTION_RETRY_UPLOAD = "retry_upload";
 	private static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
+
 	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
 
 	private static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
@@ -271,7 +272,6 @@ public final class StatusBarNotificationManager {
 			CharSequence name = context.getResources().getString(R.string.app_name);
 			String description = context.getResources().getString(R.string.channel_description, name);
 
-			NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
 			if (notificationManager == null || notificationManager.getNotificationChannel(CHANNEL_ID) != null) {
 				return;
 			}

@@ -23,6 +23,7 @@
 package org.catrobat.catroid.common;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.common.defaultprojectcreators.ArDroneProjectCreator;
@@ -31,11 +32,22 @@ import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.JumpingSumoProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ProjectCreator;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.StringFinder;
 
 import java.io.IOException;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+
 public final class DefaultProjectHandler {
+
+	public static final String TAG = DefaultProjectHandler.class.getSimpleName();
+
+	private final Context context;
+	private final XstreamSerializer xstreamSerializer;
 
 	public enum ProjectCreatorType {
 		PROJECT_CREATOR_DEFAULT,
@@ -44,31 +56,24 @@ public final class DefaultProjectHandler {
 		PROJECT_CREATOR_JUMPING_SUMO
 	}
 
-	private static DefaultProjectHandler instance = null;
-
 	private ProjectCreator defaultProjectCreator;
 
-	public static DefaultProjectHandler getInstance() {
-		if (instance == null) {
-			instance = new DefaultProjectHandler();
-		}
-		return instance;
-	}
-
-	private DefaultProjectHandler() {
+	public DefaultProjectHandler(Context context, XstreamSerializer xstreamSerializer) {
+		this.context = context;
+		this.xstreamSerializer = xstreamSerializer;
 		setDefaultProjectCreator(ProjectCreatorType.PROJECT_CREATOR_DEFAULT);
 	}
 
-	public static Project createAndSaveDefaultProject(Context context) throws IOException {
-		String name = context.getString(getInstance().defaultProjectCreator.getDefaultProjectNameID());
-		return createAndSaveDefaultProject(name, context, false);
+	public Project createAndSaveDefaultProject() throws IOException {
+		String name = context.getString(defaultProjectCreator.getDefaultProjectNameID());
+		return createAndSaveDefaultProject(name, false);
 	}
 
-	public static Project createAndSaveDefaultProject(String name, Context context, boolean landscapeMode) throws IOException {
-		return getInstance().defaultProjectCreator.createDefaultProject(name, context, landscapeMode);
+	public Project createAndSaveDefaultProject(String name, boolean landscapeMode) throws IOException {
+		return defaultProjectCreator.createDefaultProject(name, context, landscapeMode);
 	}
 
-	public static Project createAndSaveEmptyProject(String name, Context context, boolean landscapeMode, boolean isCastEnabled) throws IOException {
+	public Project createAndSaveEmptyProject(String name, boolean landscapeMode, boolean isCastEnabled) throws IOException {
 		Project project = new Project(context, name, landscapeMode, isCastEnabled);
 
 		if (project.getDirectory().exists()) {
@@ -77,7 +82,7 @@ public final class DefaultProjectHandler {
 					+ ", directory already exists.");
 		}
 
-		XstreamSerializer.getInstance().saveProject(project);
+		xstreamSerializer.saveProject(project);
 		return project;
 	}
 
@@ -106,5 +111,46 @@ public final class DefaultProjectHandler {
 				}
 				break;
 		}
+	}
+
+	public boolean isDefaultProject(Project projectToCheck) {
+		try {
+			String uniqueProjectName = "project_" + System.currentTimeMillis();
+
+			while (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(uniqueProjectName)) {
+				uniqueProjectName = "project_" + System.currentTimeMillis();
+			}
+
+			Project defaultProject = createAndSaveDefaultProject(uniqueProjectName, false);
+
+			String defaultProjectXml = xstreamSerializer.getXmlAsStringFromProject(defaultProject);
+
+			StorageOperations.deleteDir(defaultProject.getDirectory());
+
+			StringFinder stringFinder = new StringFinder();
+
+			if (!stringFinder.findBetween(defaultProjectXml, "<scenes>", "</scenes>")) {
+				return false;
+			}
+
+			String defaultProjectSpriteList = stringFinder.getResult();
+
+			ProjectSaveTask
+					.task(projectToCheck, context);
+
+			String projectToCheckXML = xstreamSerializer.getXmlAsStringFromProject(projectToCheck);
+
+			if (!stringFinder.findBetween(projectToCheckXML, "<scenes>", "</scenes")) {
+				return false;
+			}
+
+			String projectToCheckSpriteList = stringFinder.getResult();
+			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
+		} catch (IllegalArgumentException illegalArgumentException) {
+			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
+		} catch (IOException ioException) {
+			Log.e(TAG, Log.getStackTraceString(ioException));
+		}
+		return true;
 	}
 }

@@ -45,14 +45,17 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
 	private static final String TAG = ProjectExportTask.class.getSimpleName();
 
+	private final StatusBarNotificationManager statusBarNotificationManager;
 	private File projectDir;
 	private NotificationData notificationData;
 	private WeakReference<Context> contextWeakReference;
 
-	public ProjectExportTask(File projectDir, NotificationData notificationData, Context context) {
+	public ProjectExportTask(File projectDir, NotificationData notificationData, Context context,
+			StatusBarNotificationManager statusBarNotificationManager) {
 		this.projectDir = projectDir;
 		this.notificationData = notificationData;
 		this.contextWeakReference = new WeakReference<>(context);
+		this.statusBarNotificationManager = statusBarNotificationManager;
 	}
 
 	@VisibleForTesting
@@ -73,11 +76,11 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
 		try {
 			new ZipArchiver().zip(projectZip, projectDir.listFiles());
-			new StatusBarNotificationManager(context)
+			statusBarNotificationManager
 					.showOrUpdateNotification(context, notificationData, 100, null);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot create archive.", e);
-			new StatusBarNotificationManager(context)
+			statusBarNotificationManager
 					.abortProgressNotificationWithMessage(context, notificationData,
 					R.string.save_project_to_external_storage_io_exception_message);
 		}

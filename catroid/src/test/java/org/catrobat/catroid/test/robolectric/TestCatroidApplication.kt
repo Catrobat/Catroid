@@ -25,8 +25,12 @@ package org.catrobat.catroid.test.robolectric
 
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.dagger.CatroidModule
 import org.catrobat.catroid.dagger.DaggerAppComponent
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.utils.DownloadUtil
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.robolectric.TestLifecycleApplication
 import java.lang.reflect.Method
 
@@ -34,8 +38,20 @@ class TestCatroidApplication : CatroidApplication(), TestLifecycleApplication {
 
     companion object {
         lateinit var projectManager: ProjectManager
-
         fun isProjectManagerInitialized(): Boolean = ::projectManager.isInitialized
+
+        lateinit var defaultProjectHandler: DefaultProjectHandler
+        fun isDefaultProjectHandlerInitialized(): Boolean = ::defaultProjectHandler.isInitialized
+
+        lateinit var downloadUtil: DownloadUtil
+        fun isDownloadUtilInitialized(): Boolean = ::downloadUtil.isInitialized
+
+        lateinit var xstreamSerializer: XstreamSerializer
+        fun isXstreamSerializerInitialized(): Boolean = ::xstreamSerializer.isInitialized
+
+        lateinit var statusBarNotificationManager: StatusBarNotificationManager
+        fun isStatusBarNotificationManagerInitialized(): Boolean =
+            ::statusBarNotificationManager.isInitialized
     }
 
     override fun createApplicationComponents() {
@@ -55,10 +71,46 @@ class TestCatroidApplication : CatroidApplication(), TestLifecycleApplication {
 class TestCatroidModule(application: CatroidApplication) :
     CatroidModule(application = application) {
 
-    override fun provideProjectManager(): ProjectManager {
+    override fun provideProjectManager(
+        xstreamSerializer: XstreamSerializer,
+        defaultProjectHandler: DefaultProjectHandler
+    ): ProjectManager {
         if (!TestCatroidApplication.isProjectManagerInitialized()) {
-            TestCatroidApplication.projectManager = super.provideProjectManager()
+            TestCatroidApplication.projectManager =
+                super.provideProjectManager(xstreamSerializer, defaultProjectHandler)
         }
         return TestCatroidApplication.projectManager
+    }
+
+    override fun provideDefaultProjectHandler(xstreamSerializer: XstreamSerializer): DefaultProjectHandler {
+        if (!TestCatroidApplication.isDefaultProjectHandlerInitialized()) {
+            TestCatroidApplication.defaultProjectHandler =
+                super.provideDefaultProjectHandler(xstreamSerializer)
+        }
+        return TestCatroidApplication.defaultProjectHandler
+    }
+
+    override fun provideDownloadUtil(statusBarNotificationManager: StatusBarNotificationManager):
+        DownloadUtil {
+        if (!TestCatroidApplication.isDownloadUtilInitialized()) {
+            TestCatroidApplication.downloadUtil =
+                super.provideDownloadUtil(statusBarNotificationManager)
+        }
+        return TestCatroidApplication.downloadUtil
+    }
+
+    override fun provideStatusBarNotificationManager(): StatusBarNotificationManager {
+        if (!TestCatroidApplication.isStatusBarNotificationManagerInitialized()) {
+            TestCatroidApplication.statusBarNotificationManager =
+                super.provideStatusBarNotificationManager()
+        }
+        return TestCatroidApplication.statusBarNotificationManager
+    }
+
+    override fun provideXstreamSerializer(): XstreamSerializer {
+        if (!TestCatroidApplication.isXstreamSerializerInitialized()) {
+            TestCatroidApplication.xstreamSerializer = super.provideXstreamSerializer()
+        }
+        return TestCatroidApplication.xstreamSerializer
     }
 }

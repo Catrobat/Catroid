@@ -25,13 +25,14 @@ package org.catrobat.catroid.dagger
 
 import dagger.Component
 import dagger.android.AndroidInjectionModule
+import dagger.android.support.AndroidSupportInjectionModule
 import org.catrobat.catroid.CatroidApplication
 import javax.inject.Singleton
 
 @Singleton
 @Component(
     modules = [
-        AndroidInjectionModule::class,
+        AndroidSupportInjectionModule::class,
         ActivityBindingModule::class,
         CatroidModule::class,
         EagerSingletonsModule::class

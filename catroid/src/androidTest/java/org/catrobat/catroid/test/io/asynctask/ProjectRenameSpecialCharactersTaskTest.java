@@ -47,6 +47,8 @@ import static org.junit.Assert.assertTrue;
 @RunWith(Parameterized.class)
 public class ProjectRenameSpecialCharactersTaskTest {
 
+	private DefaultProjectHandler defaultProjectHandler;
+
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
@@ -80,6 +82,7 @@ public class ProjectRenameSpecialCharactersTaskTest {
 	@Before
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(specialCharacterEncodedProjectName, projectNameWithoutSpecialCharacter);
+		defaultProjectHandler = TestUtils.createDefaultProjectHandler(ApplicationProvider.getApplicationContext());
 	}
 
 	@After
@@ -89,8 +92,9 @@ public class ProjectRenameSpecialCharactersTaskTest {
 
 	@Test
 	public void testRenameFromSpecialCharacter() throws IOException {
-		Project project = DefaultProjectHandler.createAndSaveDefaultProject(specialCharacterProjectName,
-				ApplicationProvider.getApplicationContext(), false);
+		Project project =
+				defaultProjectHandler.createAndSaveDefaultProject(specialCharacterProjectName,
+						false);
 
 		File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), projectNameWithoutSpecialCharacter);
 
@@ -104,8 +108,9 @@ public class ProjectRenameSpecialCharactersTaskTest {
 
 	@Test
 	public void testRenameToSpecialCharacter() throws IOException {
-		Project project = DefaultProjectHandler.createAndSaveDefaultProject(projectNameWithoutSpecialCharacter,
-				ApplicationProvider.getApplicationContext(), false);
+		Project project =
+				defaultProjectHandler.createAndSaveDefaultProject(projectNameWithoutSpecialCharacter,
+						false);
 
 		File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), specialCharacterProjectName);
 		File expectedDirectory = new File(project.getDirectory().getParent(), specialCharacterEncodedProjectName);

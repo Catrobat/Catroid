@@ -33,7 +33,7 @@ import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,6 +60,7 @@ public class DefaultProjectComparatorTest {
 
 	private int screenWidthBuffer;
 	private int screenHeightBuffer;
+	private DefaultProjectHandler defaultProjectHandler;
 
 	@Before
 	public void setUp() throws IOException {
@@ -73,8 +74,9 @@ public class DefaultProjectComparatorTest {
 			StorageOperations.deleteDir(projectDir);
 		}
 
-		defaultProject = DefaultProjectHandler
-				.createAndSaveDefaultProject(PROJECT_NAME, ApplicationProvider.getApplicationContext(), false);
+		defaultProjectHandler = TestUtils.createDefaultProjectHandler(ApplicationProvider.getApplicationContext());
+		defaultProject = defaultProjectHandler
+				.createAndSaveDefaultProject(PROJECT_NAME, false);
 	}
 
 	@After
@@ -89,7 +91,8 @@ public class DefaultProjectComparatorTest {
 
 	@Test
 	public void testCompareProjectToDefaultProject() {
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject
+		));
 
 		addSpriteAndCompareToDefaultProject();
 		addScriptAndCompareToDefalutProject();
@@ -102,18 +105,18 @@ public class DefaultProjectComparatorTest {
 	private void addSpriteAndCompareToDefaultProject() {
 		Sprite sprite = new SingleSprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);
-		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertFalse(defaultProjectHandler.isDefaultProject(defaultProject));
 		defaultProject.getDefaultScene().removeSprite(sprite);
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject));
 	}
 
 	private void addScriptAndCompareToDefalutProject() {
 		Sprite sprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		WhenScript whenScript = new WhenScript();
 		sprite.addScript(whenScript);
-		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertFalse(defaultProjectHandler.isDefaultProject(defaultProject));
 		sprite.removeScript(whenScript);
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject));
 	}
 
 	private void addBrickAndCompareToDefaultProject() {
@@ -121,9 +124,9 @@ public class DefaultProjectComparatorTest {
 		Brick brick = new HideBrick();
 		Script script = sprite.getScript(0);
 		script.addBrick(brick);
-		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertFalse(defaultProjectHandler.isDefaultProject(defaultProject));
 		script.removeBrick(brick);
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject));
 	}
 
 	private void removeBrickAndCompareToDefaultProject() {
@@ -131,20 +134,20 @@ public class DefaultProjectComparatorTest {
 		List<Brick> brickList = script.getBrickList();
 		Brick brick = brickList.get(brickList.size() - 1);
 		brickList.remove(brickList.size() - 1);
-		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertFalse(defaultProjectHandler.isDefaultProject(defaultProject));
 
 		brickList.add(brick);
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject));
 	}
 
 	private void removeScriptAndCompareToDefaultProject() {
 		Script script = defaultProject.getDefaultScene().getSpriteList().get(1).getScript(0);
 		Sprite sprite = defaultProject.getDefaultScene().getSpriteList().get(1);
 		sprite.removeScript(script);
-		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertFalse(defaultProjectHandler.isDefaultProject(defaultProject));
 
 		sprite.addScript(script);
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject));
 	}
 
 	private void removeSpriteAndCompareToDefaultProject() {
@@ -152,9 +155,9 @@ public class DefaultProjectComparatorTest {
 		int lastIndex = defaultProject.getDefaultScene().getSpriteList().size() - 1;
 		List<Sprite> spriteList = defaultProject.getDefaultScene().getSpriteList();
 		spriteList.remove(lastIndex);
-		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertFalse(defaultProjectHandler.isDefaultProject(defaultProject));
 
 		spriteList.add(sprite);
-		assertTrue(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
+		assertTrue(defaultProjectHandler.isDefaultProject(defaultProject));
 	}
 }
