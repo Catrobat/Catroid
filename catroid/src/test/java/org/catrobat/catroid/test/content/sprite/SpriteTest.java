@@ -30,6 +30,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
+import org.catrobat.catroid.content.bricks.ForeverBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -165,5 +167,16 @@ public class SpriteTest {
 		for (UserVariable userVariable : userVariableList) {
 			assertTrue(hashSet.add(userVariable.getName()));
 		}
+	}
+
+	@Test
+	public void testBrickCount() {
+		Sprite sprite = new SingleSprite("new SingleSprite");
+		Script script = new StartScript();
+		ForeverBrick foreverBrick = new ForeverBrick();
+		foreverBrick.addBrick(new SetXBrick());
+		script.addBrick(foreverBrick);
+		sprite.addScript(script);
+		assertEquals(3, sprite.getNumberOfBricks());
 	}
 }
