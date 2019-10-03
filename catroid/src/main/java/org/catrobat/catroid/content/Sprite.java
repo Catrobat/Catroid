@@ -407,15 +407,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 				if (currentScript == null) {
 					return;
 				}
-				Brick scriptBrick = currentScript.getScriptBrick();
-				if (scriptBrick instanceof FormulaBrick) {
-					FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-					for (Formula formula : formulaBrick.getFormulas()) {
-						formula.updateCollisionFormulas(oldName, newName, context);
-					}
-				}
-				List<Brick> brickList = currentScript.getBrickList();
-				for (Brick brick : brickList) {
+				List<Brick> flatList = new ArrayList();
+				currentScript.addToFlatList(flatList);
+				for (Brick brick : flatList) {
 					if (brick instanceof FormulaBrick) {
 						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
 						for (Formula formula : formulaList) {
