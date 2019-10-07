@@ -311,11 +311,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	public int getNumberOfBricks() {
-		int brickCount = 0;
-		for (Script s : scriptList) {
-			brickCount += s.getBrickList().size();
+		List<Brick> flatList = new ArrayList<>();
+		for (Script script : scriptList) {
+			script.addToFlatList(flatList);
 		}
-		return brickCount;
+		return flatList.size() - scriptList.size();
 	}
 
 	public int getScriptIndex(Script script) {
