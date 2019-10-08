@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.xmlformat;
 
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.test.StaticSingletonInitializer;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -63,6 +65,11 @@ public class BricksXmlSerializerTest {
 
 	@Parameterized.Parameter(1)
 	public Class brickClass;
+
+	@Before
+	public void setUp() {
+		StaticSingletonInitializer.initializeStaticSingletonMethods();
+	}
 
 	@Test
 	public void testBrickAlias() throws IllegalAccessException, InstantiationException {

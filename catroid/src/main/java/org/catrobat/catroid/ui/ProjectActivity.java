@@ -55,15 +55,20 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.inject.Inject;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EV3;
@@ -78,7 +83,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled;
 
-public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener {
+public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener, HasSupportFragmentInjector {
 
 	public static final String TAG = ProjectActivity.class.getSimpleName();
 
@@ -92,8 +97,15 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 
+	@Inject
+	ProjectManager projectManager;
+
+	@Inject
+	DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		AndroidInjection.inject(this);
 		super.onCreate(savedInstanceState);
 
 		if (isFinishing()) {
@@ -154,9 +166,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 			case R.id.upload:
 				setShowProgressBar(true);
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				Project currentProject = projectManager.getCurrentProject();
 				new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
-				Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+				projectManager.saveCurrentProjectName();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -169,7 +181,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		setShowProgressBar(false);
 		// deliberately ignoring success value, because XstreamSerializer returns false: when
 		// saving was unnecessary but was successful or when it did not succeed.
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 		Intent intent = new Intent(this, ProjectUploadActivity.class);
 		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());
 		startActivity(intent);
@@ -178,18 +190,17 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 		saveProject(currentProject);
 	}
 
 	@Override
 	public void onBackPressed() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 		if (currentProject == null) {
 			finish();
 			return;
 		}
-
 		saveProject(currentProject);
 
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
@@ -197,7 +208,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			return;
 		}
 
-		boolean multiSceneProject = ProjectManager.getInstance().getCurrentProject().getSceneList().size() > 1;
+		boolean multiSceneProject = projectManager.getCurrentProject().getSceneList().size() > 1;
 
 		if (getCurrentFragment() instanceof SpriteListFragment && multiSceneProject) {
 			getSupportFragmentManager().beginTransaction()
@@ -210,12 +221,12 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 	private void saveProject(Project currentProject) {
 		if (currentProject == null) {
-			Utils.setLastUsedProjectName(getApplicationContext(), null);
+			projectManager.saveCurrentProjectName();
 			return;
 		}
 		new ProjectSaveTask(currentProject, getApplicationContext())
 				.execute();
-		Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+		projectManager.saveCurrentProjectName();
 	}
 
 	@Override
@@ -234,7 +245,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		if (resultCode != RESULT_OK) {
 			if (isCastSharedPreferenceEnabled(this)
-					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+					&& projectManager.getCurrentProject().isCastProject()
 					&& !CastManager.getInstance().isConnected()) {
 
 				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
@@ -273,7 +284,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	public void addSpriteFromUri(final Uri uri) {
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		final Scene currentScene = projectManager.getCurrentlyEditedScene();
 
 		String resolvedName;
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
@@ -344,7 +355,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	public void handleAddSceneButton() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 
 		String defaultSceneName = SceneController
 				.getUniqueDefaultSceneName(getResources(), currentProject.getSceneList());
@@ -407,7 +418,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	public void handlePlayButton(View view) {
-		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+		StageActivity.handlePlayButton(projectManager, this);
 	}
 
 	private void showLegoSensorConfigInfo() {
@@ -418,7 +429,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		boolean ev3DialogDisabled = preferences
 				.getBoolean(SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED, false);
 
-		Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+		Brick.ResourcesSet resourcesSet = projectManager.getCurrentProject().getRequiredResources();
 		if (!nxtDialogDisabled && resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
 			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(NXT);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
@@ -427,5 +438,10 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			DialogFragment dialog = LegoSensorConfigInfoDialog.newInstance(EV3);
 			dialog.show(getSupportFragmentManager(), LegoSensorConfigInfoDialog.DIALOG_FRAGMENT_TAG);
 		}
+	}
+
+	@Override
+	public AndroidInjector<Fragment> supportFragmentInjector() {
+		return dispatchingAndroidInjector;
 	}
 }

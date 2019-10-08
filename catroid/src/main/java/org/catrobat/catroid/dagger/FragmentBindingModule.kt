@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,22 +23,23 @@
 
 package org.catrobat.catroid.dagger
 
-import dagger.Component
-import dagger.android.support.AndroidSupportInjectionModule
-import org.catrobat.catroid.CatroidApplication
-import javax.inject.Singleton
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment
+import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment
+import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment
 
-@Singleton
-@Component(
-    modules = [
-        AndroidSupportInjectionModule::class,
-        ActivityBindingModule::class,
-        CatroidModule::class,
-        EagerSingletonsModule::class
-    ]
-)
-interface AppComponent {
-    fun initializeEagerSingletons(): Set<EagerSingleton>
+@Module
+abstract class MainMenuActivityFragmentModule {
+    @ContributesAndroidInjector
+    abstract fun contributeMainMenuFragment(): MainMenuFragment
+}
 
-    fun inject(app: CatroidApplication)
+@Module
+abstract class ProjectActivityFragmentModule {
+    @ContributesAndroidInjector
+    abstract fun contributeSpriteListFragment(): SpriteListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeSceneListFragment(): SceneListFragment
 }

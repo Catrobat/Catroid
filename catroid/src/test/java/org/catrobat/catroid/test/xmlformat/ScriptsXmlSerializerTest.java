@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.xmlformat;
 
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.test.StaticSingletonInitializer;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -63,6 +65,11 @@ public class ScriptsXmlSerializerTest {
 
 	@Parameterized.Parameter(1)
 	public Class scriptClass;
+
+	@Before
+	public void setUp() {
+		StaticSingletonInitializer.initializeStaticSingletonMethods();
+	}
 
 	@Test
 	public void testScriptAlias() throws IllegalAccessException, InstantiationException {
