@@ -23,8 +23,11 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
@@ -56,6 +59,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
@@ -67,6 +71,8 @@ import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class ProjectManager implements EagerSingleton {
 
@@ -106,15 +112,7 @@ public final class ProjectManager implements EagerSingleton {
 	}
 
 	public void loadProject(File projectDir) throws ProjectException {
-		loadProject(projectDir, applicationContext);
-	}
-
-	/**
-	 * @deprecated use {@link #loadProject(File projectDir)} without Context instead.
-	 */
-	@Deprecated
-	public void loadProject(File projectDir, Context context) throws ProjectException {
-
+		Context context = applicationContext;
 		Project previousProject = project;
 
 		try {
@@ -182,6 +180,14 @@ public final class ProjectManager implements EagerSingleton {
 
 		currentlyPlayingScene = project.getDefaultScene();
 		currentSprite = null;
+	}
+
+	/**
+	 * @deprecated use {@link #loadProject(File projectDir)} without Context instead.
+	 */
+	@Deprecated
+	public void loadProject(File projectDir, Context context) throws ProjectException {
+		loadProject(projectDir);
 	}
 
 	private void restorePreviousProject(Project previousProject) {
@@ -407,16 +413,41 @@ public final class ProjectManager implements EagerSingleton {
 		}
 	}
 
-	@SuppressWarnings({"unused", "WeakerAccess"})
-	public boolean initializeDefaultProject() {
-		return initializeDefaultProject(applicationContext);
+	public String getCurrentProjectName() {
+		if (getCurrentProject() == null) {
+
+			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
+				initializeDefaultProject();
+			}
+
+			SharedPreferences sharedPreferences =
+					PreferenceManager.getDefaultSharedPreferences(applicationContext);
+			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
+			if (currentProjectName == null
+					|| !FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(currentProjectName)) {
+				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
+			}
+			return currentProjectName;
+		}
+		return getCurrentProject().getName();
 	}
 
-	/**
-	 * @deprecated use {@link #initializeDefaultProject()} without Context instead.
-	 */
-	@Deprecated
-	public boolean initializeDefaultProject(Context context) {
+	public void saveCurrentProjectName() {
+		if (getCurrentProject() == null) {
+			PreferenceManager.getDefaultSharedPreferences(applicationContext)
+					.edit()
+					.remove(PREF_PROJECTNAME_KEY)
+					.apply();
+		} else {
+			PreferenceManager.getDefaultSharedPreferences(applicationContext)
+					.edit()
+					.putString(PREF_PROJECTNAME_KEY, getCurrentProject().getName())
+					.apply();
+		}
+	}
+
+	@SuppressWarnings({"WeakerAccess"})
+	public boolean initializeDefaultProject() {
 		try {
 			project = defaultProjectHandler.createAndSaveDefaultProject();
 			currentSprite = null;
@@ -429,9 +460,20 @@ public final class ProjectManager implements EagerSingleton {
 		}
 	}
 
-	@SuppressWarnings({"unused"})
+	/**
+	 * @deprecated use {@link #initializeDefaultProject()} without Context instead.
+	 */
+	@Deprecated
+	public boolean initializeDefaultProject(Context context) {
+		return initializeDefaultProject();
+	}
+
+	@SuppressWarnings({"WeakerAccess"})
 	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
-		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
+		project = defaultProjectHandler.createAndSaveEmptyProject(name, landscapeMode, castEnabled);
+		currentSprite = null;
+		currentlyEditedScene = project.getDefaultScene();
+		currentlyPlayingScene = currentlyEditedScene;
 	}
 
 	/**
@@ -439,15 +481,16 @@ public final class ProjectManager implements EagerSingleton {
 	 */
 	@Deprecated
 	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
-		project = defaultProjectHandler.createAndSaveEmptyProject(name, landscapeMode, castEnabled);
+		createNewEmptyProject(name, landscapeMode, castEnabled);
+	}
+
+	@SuppressWarnings({"WeakerAccess"})
+	public void createNewExampleProject(String name, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+		defaultProjectHandler.setDefaultProjectCreator(projectCreatorType);
+		project = defaultProjectHandler.createAndSaveDefaultProject(name, landscapeMode);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
-	}
-
-	@SuppressWarnings({"unused"})
-	public void createNewExampleProject(String name, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
-		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
 	}
 
 	/**
@@ -455,11 +498,7 @@ public final class ProjectManager implements EagerSingleton {
 	 */
 	@Deprecated
 	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
-		defaultProjectHandler.setDefaultProjectCreator(projectCreatorType);
-		project = defaultProjectHandler.createAndSaveDefaultProject(name, landscapeMode);
-		currentSprite = null;
-		currentlyEditedScene = project.getDefaultScene();
-		currentlyPlayingScene = currentlyEditedScene;
+		createNewExampleProject(name, projectCreatorType, landscapeMode);
 	}
 
 	public Project getCurrentProject() {

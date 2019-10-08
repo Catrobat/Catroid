@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
@@ -53,11 +54,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import dagger.android.support.AndroidSupportInjection;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 
@@ -104,6 +108,15 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		}
 	}
 
+	@Inject
+	ProjectManager projectManager;
+
+	@Override
+	public void onAttach(Context context) {
+		AndroidSupportInjection.inject(this);
+		super.onAttach(context);
+	}
+
 	@Override
 	boolean shouldShowEmptyView() {
 		return adapter.getItemCount() == 1;
@@ -112,13 +125,13 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	public void onResume() {
 		super.onResume();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 		String title;
 
 		if (currentProject.getSceneList().size() < 2) {
 			title = currentProject.getName();
 		} else {
-			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+			Scene currentScene = projectManager.getCurrentlyEditedScene();
 			title = currentProject.getName() + ": " + currentScene.getName();
 		}
 
@@ -172,7 +185,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
-		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+		List<Sprite> items = projectManager.getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
 		emptyView.setText(R.string.fragment_sprite_text_description);
 		onAdapterReady();
@@ -218,8 +231,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	@Override
 	protected void copyItems(List<Sprite> selectedItems) {
 		setShowProgressBar(true);
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Project currentProject = projectManager.getCurrentProject();
+		Scene currentScene = projectManager.getCurrentlyEditedScene();
 		int copiedItemCnt = 0;
 
 		for (Sprite item : selectedItems) {
@@ -311,7 +324,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			groupSprite.setCollapsed(!groupSprite.getCollapsed());
 			adapter.notifyDataSetChanged();
 		} else if (actionModeType == NONE) {
-			ProjectManager.getInstance().setCurrentSprite(item);
+			projectManager.setCurrentSprite(item);
 			Intent intent = new Intent(getActivity(), SpriteAttributesActivity.class);
 			startActivity(intent);
 		}

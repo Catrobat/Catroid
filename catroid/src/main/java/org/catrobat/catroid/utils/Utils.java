@@ -34,7 +34,6 @@ import android.util.Log;
 
 import com.google.common.base.Splitter;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
@@ -57,8 +56,6 @@ import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
@@ -314,31 +311,6 @@ public final class Utils {
 			Log.e(TAG, "Name not found", nameNotFoundException);
 		}
 		return versionName;
-	}
-
-	public static String getCurrentProjectName(Context context) {
-		if (ProjectManager.getInstance().getCurrentProject() == null) {
-
-			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
-				ProjectManager.getInstance().initializeDefaultProject(context);
-			}
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String currentProjectName = sharedPreferences.getString(Constants.PREF_PROJECTNAME_KEY, null);
-			if (currentProjectName == null
-					|| !FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).contains(currentProjectName)) {
-				currentProjectName = FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).get(0);
-			}
-			return currentProjectName;
-		}
-		return ProjectManager.getInstance().getCurrentProject().getName();
-	}
-
-	public static void setLastUsedProjectName(Context context, String projectName) {
-		PreferenceManager.getDefaultSharedPreferences(context)
-				.edit()
-				.putString(PREF_PROJECTNAME_KEY, projectName)
-				.apply();
 	}
 
 	public static int convertDoubleToPluralInteger(double value) {

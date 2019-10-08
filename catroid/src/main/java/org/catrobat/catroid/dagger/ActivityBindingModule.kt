@@ -3,14 +3,19 @@ package org.catrobat.catroid.dagger
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import org.catrobat.catroid.ui.MainMenuActivity
+import org.catrobat.catroid.ui.ProjectActivity
 import org.catrobat.catroid.ui.ProjectUploadActivity
 import org.catrobat.catroid.ui.WebViewActivity
 
 @Module
 abstract class ActivityBindingModule {
     @ActivityScope
-    @ContributesAndroidInjector(modules = [])
+    @ContributesAndroidInjector(modules = [MainMenuActivityFragmentModule::class])
     abstract fun contributeMainActivityInjector(): MainMenuActivity
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [ProjectActivityFragmentModule::class])
+    abstract fun contributeProjectActivityInjector(): ProjectActivity
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [])

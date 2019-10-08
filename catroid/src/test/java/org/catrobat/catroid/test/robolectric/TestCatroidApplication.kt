@@ -29,7 +29,6 @@ import org.catrobat.catroid.common.DefaultProjectHandler
 import org.catrobat.catroid.dagger.CatroidModule
 import org.catrobat.catroid.dagger.DaggerAppComponent
 import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.utils.DownloadUtil
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.robolectric.TestLifecycleApplication
 import java.lang.reflect.Method
@@ -42,9 +41,6 @@ class TestCatroidApplication : CatroidApplication(), TestLifecycleApplication {
 
         lateinit var defaultProjectHandler: DefaultProjectHandler
         fun isDefaultProjectHandlerInitialized(): Boolean = ::defaultProjectHandler.isInitialized
-
-        lateinit var downloadUtil: DownloadUtil
-        fun isDownloadUtilInitialized(): Boolean = ::downloadUtil.isInitialized
 
         lateinit var xstreamSerializer: XstreamSerializer
         fun isXstreamSerializerInitialized(): Boolean = ::xstreamSerializer.isInitialized
@@ -88,15 +84,6 @@ class TestCatroidModule(application: CatroidApplication) :
                 super.provideDefaultProjectHandler(xstreamSerializer)
         }
         return TestCatroidApplication.defaultProjectHandler
-    }
-
-    override fun provideDownloadUtil(statusBarNotificationManager: StatusBarNotificationManager):
-        DownloadUtil {
-        if (!TestCatroidApplication.isDownloadUtilInitialized()) {
-            TestCatroidApplication.downloadUtil =
-                super.provideDownloadUtil(statusBarNotificationManager)
-        }
-        return TestCatroidApplication.downloadUtil
     }
 
     override fun provideStatusBarNotificationManager(): StatusBarNotificationManager {

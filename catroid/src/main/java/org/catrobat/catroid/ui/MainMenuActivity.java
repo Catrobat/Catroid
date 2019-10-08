@@ -64,23 +64,30 @@ import java.io.InputStream;
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 
 public class MainMenuActivity extends BaseCastActivity implements
-		ProjectLoadTask.ProjectLoadListener {
+		ProjectLoadTask.ProjectLoadListener, HasSupportFragmentInjector {
 
 	@Inject
 	ProjectManager projectManager;
+
+	@Inject
+	DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		AndroidInjection.inject(this);
+		super.onCreate(savedInstanceState);
 
 		SettingsFragment.setToChosenLanguage(this);
 
@@ -178,7 +185,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 			new ProjectSaveTask(currentProject, getApplicationContext())
 					.execute();
 
-			Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+			projectManager.saveCurrentProjectName();
 		}
 	}
 
@@ -283,5 +290,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	@Override
+	public AndroidInjector<Fragment> supportFragmentInjector() {
+		return dispatchingAndroidInjector;
 	}
 }

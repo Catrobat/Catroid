@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -43,7 +45,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.lang.annotation.Retention;
@@ -51,12 +52,15 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import dagger.android.support.AndroidSupportInjection;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -66,6 +70,9 @@ public class MainMenuFragment extends Fragment implements
 		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
+
+	@Inject
+	ProjectManager projectManager;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({CONTINUE, NEW, PROGRAMS, HELP, EXPLORE, UPLOAD})
@@ -82,6 +89,12 @@ public class MainMenuFragment extends Fragment implements
 	private View parent;
 	private RecyclerView recyclerView;
 	private ButtonAdapter adapter;
+
+	@Override
+	public void onAttach(Context context) {
+		AndroidSupportInjection.inject(this);
+		super.onAttach(context);
+	}
 
 	@Nullable
 	@Override
@@ -133,7 +146,7 @@ public class MainMenuFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();
 		setShowProgressBar(false);
-		adapter.items.get(0).subtitle = Utils.getCurrentProjectName(getActivity());
+		adapter.items.get(0).subtitle = projectManager.getCurrentProjectName();
 		adapter.notifyDataSetChanged();
 
 		String projectName = getActivity().getIntent().getStringExtra(EXTRA_PROJECT_NAME);
@@ -161,7 +174,7 @@ public class MainMenuFragment extends Fragment implements
 			case CONTINUE:
 				setShowProgressBar(true);
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-						.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity())));
+						.encodeSpecialCharsForFileSystem(projectManager.getCurrentProjectName()));
 				new ProjectLoadTask(projectDir, getContext())
 						.setListener(this)
 						.execute();
@@ -187,7 +200,7 @@ public class MainMenuFragment extends Fragment implements
 				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
 						.putExtra(ProjectUploadActivity.PROJECT_DIR,
 								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
+										.encodeSpecialCharsForFileSystem(projectManager.getCurrentProjectName())));
 				startActivity(intent);
 				break;
 		}
