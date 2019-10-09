@@ -22,10 +22,7 @@
  */
 package org.catrobat.catroid.common.bluetooth;
 
-import android.app.Instrumentation;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.util.Log;
 
 import junit.framework.Assert;
 
@@ -33,14 +30,12 @@ import org.catrobat.catroid.bluetooth.ConnectBluetoothDeviceActivity;
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
 import org.catrobat.catroid.bluetooth.base.BluetoothConnectionFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.UUID;
 
 public final class BluetoothTestUtils {
-	private static final String TAG = BluetoothTestUtils.class.getSimpleName();
 
 	private BluetoothTestUtils() {
 	}
@@ -87,62 +82,8 @@ public final class BluetoothTestUtils {
 		});
 	}
 
-	static void hookInTestDevice(final BluetoothDevice testDevice) {
-		ConnectBluetoothDeviceActivity.setDeviceFactory(new BluetoothDeviceFactory() {
-			@Override
-			public <T extends BluetoothDevice> BluetoothDevice createDevice(Class<T> service, Context applicationContext) {
-				return testDevice;
-			}
-		});
-	}
-
 	static void resetConnectionHooks() {
 		ConnectBluetoothDeviceActivity.setConnectionFactory(null);
 		ConnectBluetoothDeviceActivity.setDeviceFactory(null);
-	}
-
-	public static void enableBluetooth() {
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		Assert.assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-
-		if (!bluetoothAdapter.isEnabled()) {
-			bluetoothAdapter.enable();
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {
-				Log.w(TAG, "Sleep was interrupted", e);
-			}
-		}
-	}
-
-	public static void disableBluetooth() {
-
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		Assert.assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-
-		if (bluetoothAdapter.isEnabled()) {
-			bluetoothAdapter.disable();
-			try {
-				Thread.sleep(4000);
-			} catch (InterruptedException e) {
-				Log.w(TAG, "Sleep was interrupted", e);
-			}
-		}
-	}
-
-	public static boolean isBluetoothEnabled() {
-		BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-		Assert.assertTrue("Bluetooth not supported on device", bluetoothAdapter != null);
-
-		return bluetoothAdapter.isEnabled();
-	}
-
-	public static void addPairedDevice(final String deviceName, final ConnectBluetoothDeviceActivity activity, Instrumentation instrumentation) {
-		instrumentation.runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				activity.addPairedDevice(deviceName + "-00:00:00:00:00:00");
-			}
-		});
 	}
 }
