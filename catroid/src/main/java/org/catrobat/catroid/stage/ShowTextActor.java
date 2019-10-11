@@ -133,7 +133,7 @@ public class ShowTextActor extends Actor {
 							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition, color);
 						} else if (variableValue.isEmpty()) {
 							drawText(batch,
-									android.content.res.Resources.getSystem().getString(R.string.no_variable_set),
+									android.content.res.Resources.getSystem().getString(R.string.no_value_set),
 									xPosition
 									, yPosition,
 									color);

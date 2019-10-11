@@ -2061,7 +2061,7 @@ needs read and write access to it. You can always change permissions through you
     
     <!--Information-->
     <string name="no_variable_selected" translatable="true">No Variable Selected</string>
-    <string name="no_variable_set" translatable="true">No Variable Set</string>
+    <string name="no_value_set" translatable="true">No Value Set</string>
     <!-- -->
 
 </resources>
