@@ -141,7 +141,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable = new UserVariable("NoVariableSet", android.content.res.Resources.getSystem().getString(R.string.no_variable_selected));
 			userVariable.setDummy(true);
 		}
 

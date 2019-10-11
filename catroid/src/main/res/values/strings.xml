@@ -2058,5 +2058,10 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="sans_serif_font" translatable="false">sans_serif</string>
     <string name="serif_font" translatable="false">serif</string>
+    
+    <!--Information-->
+    <string name="no_variable_selected" translatable="true">No Variable Selected</string>
+    <string name="no_variable_set" translatable="true">No Variable Set</string>
+    <!-- -->
 
 </resources>
