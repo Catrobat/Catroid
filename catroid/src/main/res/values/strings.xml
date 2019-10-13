@@ -2059,4 +2059,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="sans_serif_font" translatable="false">sans_serif</string>
     <string name="serif_font" translatable="false">serif</string>
 
+    <!--Information-->
+    <string name="no_variable_selected">No variable selected</string>
+    <string name="no_value_set">No value set</string>
+    <!-- -->
+
 </resources>
