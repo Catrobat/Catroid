@@ -151,7 +151,8 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			case R.id.upload:
 				setShowProgressBar(true);
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				saveProject(currentProject);
+				new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
+				Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -162,8 +163,8 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	@Override
 	public void onSaveProjectComplete(boolean success) {
 		setShowProgressBar(false);
-		// deliberately ignoring success value, because XstreamSerializer returns false: when saving was
-		// unnecessary but was successful or when it did not succeed.
+		// deliberately ignoring success value, because XstreamSerializer returns false: when
+		// saving was unnecessary but was successful or when it did not succeed.
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Intent intent = new Intent(this, ProjectUploadActivity.class);
 		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());

@@ -23,26 +23,46 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.ProjectUploadActivity;
+import org.catrobat.catroid.uiespresso.content.brick.app.PlaceAtBrickTest;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -62,6 +82,13 @@ public class ProjectActivityTest {
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		Intents.init();
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		Intents.release();
+		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -78,6 +105,21 @@ public class ProjectActivityTest {
 		String prefProjectName = getDefaultSharedPreferences()
 				.getString(Constants.PREF_PROJECTNAME_KEY, null);
 		assertEquals(PROJECT_NAME, prefProjectName);
+	}
+
+	@Test
+	public void testUploadActivityLaunchedWhenUploadButtonClicked() {
+		Intent intent = new Intent();
+		Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
+
+		baseActivityTestRule.launchActivity();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+
+		intending(anyIntent()).respondWith(intentResult);
+
+		onView(withText(R.string.upload_button)).perform(click());
+
+		intended(allOf(hasComponent(ProjectUploadActivity.class.getName())));
 	}
 
 	private SharedPreferences getDefaultSharedPreferences() {
