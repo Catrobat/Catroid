@@ -86,7 +86,7 @@
     </PreferenceScreen>
 
     <CheckBoxPreference
-        android:defaultValue="false"
+        android:defaultValue="@string/FEATURE_PHIRO_PREFERENCES_ENABLED"
         android:key="setting_enable_phiro_bricks"
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
