@@ -252,8 +252,7 @@ public class WebViewActivity extends BaseActivity {
 	private String getExtensionFromContentDisposition(String contentDisposition) {
 		int extensionIndex = contentDisposition.lastIndexOf('.');
 		String extension = contentDisposition.substring(extensionIndex);
-		extension = extension.substring(0, extension.length() - 1);
-		return extension;
+		return extension.replace("\"","");
 	}
 
 	public static void clearCookies() {
