@@ -52,10 +52,7 @@
     <string name="backpack_add">Aggiungi allo zaino</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-
     <string name="loading_check_oauth_token">Verifica dati di login&#8230;</string>
-
-
     <string name="loading_google_exchange_code">Scambio dati con Google+&#8230;</string>
     <string name="loading_google_login">Login completo con dati da Google+&#8230;</string>
     <string name="delete_account">Elimina il mio account</string>
@@ -273,14 +270,14 @@
     <string name="name_empty">Inserire un testo</string>
     <!-- Recycler View -->
     <string name="am_empty_list">In questa lista non ci sono ancora elementi. Aggiungine qualcuno per prima cosa.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_merge_error">Unione non effettuata. Per unire i progetti devono essere selezionati esattamente 2 progetti.</string>
     <string name="am_backpack">Impacchetta</string>
     <string name="am_unpack">Scompatta</string>
     <string name="am_copy">Copiare</string>
     <string name="am_delete">Eliminare</string>
     <string name="am_rename">Rinomina</string>
     <string name="am_convert">Converti</string>
-    <string name="am_merge">Merge</string>
+    <string name="am_merge">Unisci</string>
     <string name="dialog_confirm_delete">Non è possibile annullarlo!</string>
     <string name="list_headline_sprites">Attori ed oggetti</string>
     <!-- Options Menu Options -->
@@ -288,7 +285,7 @@
     <string name="copy">Copiare</string>
     <string name="delete">Eliminare</string>
     <string name="rename">Rinomina</string>
-    <string name="merge">Merge</string>
+    <string name="merge">Unisci</string>
     <string name="show_details">Visualizza i dettagli</string>
     <string name="hide_details">Nascondi i dettagli</string>
     <!-- Action Mode Titles -->
@@ -314,8 +311,8 @@
         <item quantity="other">Converti %d progetti</item>
     </plurals>
     <plurals name="am_merge_projects_title">
-        <item quantity="one">Merge %d project</item>
-        <item quantity="other">Merge %d projects</item>
+        <item quantity="one">Unisci %d progetto</item>
+        <item quantity="other">Unisci %d progetti</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -488,7 +485,7 @@
     <string name="data_label">Nome</string>
     <!-- Details -->
     <string name="project_details">Ultimo accesso: %s, dimensione: %s</string>
-    <string name="last_access_today">today, %s</string>
+    <string name="last_access_today">oggi, %s</string>
     <string name="scene_details">Oggetti: %d, aspetti: %d, suoni: %d</string>
     <string name="sprite_details">Mattoncini: %d, aspetti: %d, suoni: %d</string>
     <string name="look_details">Misura: %s, dimensione: %s</string>
@@ -683,6 +680,10 @@
     <string name="project_orientation_title">Orientazione:</string>
     <string name="project_select_screen_title">Schermo:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Nuovo oggetto</string>
     <!--  -->
@@ -865,8 +866,7 @@
     <string name="show_password">Mostra Password</string>
     <string name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>
     <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
-
+    <string name="error_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
     <string name="sign_in_with_google">Accedi con Google</string>
     <string name="error_register_empty_username">Nome utente vuoto</string>
     <string name="error_register_username_as_email">Non si può usare l\'Indirizzo di e-mail come nome utente</string>
@@ -951,7 +951,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Trasmetti</string>
     <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
+    <string name="category_assertions">Verifica</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posiziona a "</string>
@@ -1099,9 +1099,10 @@
     <string name="brick_clone_this">me stesso</string>
     <string name="brick_when_cloned">Quando vengo clonato</string>
     <string name="brick_delete_this_clone">Elimina questo clone</string>
-    <string name="brick_assert_that">Assert:</string>
-    <string name="brick_is_equal_to">equal to expected:</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_assert_that">Asserzione:</string>
+    <string name="brick_is_equal_to">uguale al previsto:</string>
+    <string name="brick_wait_till_idle">Attendi che tutti gli altri script siano stati fermati</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">volta</item>
         <item quantity="other">volte</item>
@@ -1113,6 +1114,8 @@
     <string name="brick_if_end">Fine Se</string>
     <string name="brick_set_variable">Imposta variabile</string>
     <string name="brick_change_variable">Cambia variabile</string>
+    <string name="brick_write_variable_on_device">Scrivi la variabile sul dispositivo</string>
+    <string name="brick_read_variable_from_device">Leggi la variabile dal dispositivo</string>
     <string name="brick_note_default_value">aggiungi qui un commento&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Ciao!</string>
@@ -1127,8 +1130,8 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Sostituisci l\'elemento nella lista</string>
     <string name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string name="brick_replace_item_in_userlist_with_value">con</string>
-    <string name="brick_web_request">Send web request to</string>
-    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request">Invia richiesta web a</string>
+    <string name="brick_web_request_result">e memorizza la risposta in</string>
     <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
@@ -1263,7 +1266,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="error_drone_wrong_platform_title">Non c\'è supporto ad AR.Drone 2.0.</string>
     <string name="error_drone_wrong_platform">Impossibile eseguire il progetto AR.Drone 2.0 sul tuo dispositivo.</string>
     <string name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
-    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
+    <string name="error_embroidery_file_export">Qualcosa è andato storto durante la condivisione del file.</string>
     <string name="error_unknown_error">Si è verificato un errore sconosciuto.</string>
     <string name="error_gps_not_available">Errore, GPS non disponibile.</string>
     <string name="error_set_description">Errore durante il salvataggio della nuova descrizione.</string>
@@ -1528,7 +1531,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="color_red">rosso</string>
     <string name="color_green">verde</string>
     <string name="color_blue">blu</string>
-    <string name="color_preview">Anteprima colore</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Dati</string>
@@ -1573,6 +1575,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arcotangente</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">potenza</string>
@@ -1593,8 +1597,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_letter_parameter">(1,\'ciao mondo\')</string>
     <string name="formula_editor_function_join">concatena</string>
     <string name="formula_editor_function_join_parameter">(\'ciao\', \'mondo\')</string>
-    <string name="formula_editor_function_regex">regular expression</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex">espressione regolare</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Sono un panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digitale</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1791,7 +1795,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="brick_show_variable_aligned_centered">centrato</string>
     <string name="brick_show_variable_aligned_left">sinistra</string>
     <string name="brick_show_variable_aligned_right">destra</string>
-    <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_color">Scegli colore</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Gira la videocamera</string>
@@ -1829,6 +1833,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="progress_upload_dialog_message">Il programma viene caricato sulla pagina della community dove gli altri lo possono usare
         e scaricare.
         Puoi anche scaricare l\'app come applicazione standalone per android.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Mostra il programma</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1852,13 +1858,4 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

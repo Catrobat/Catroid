@@ -52,10 +52,7 @@
     <string name="backpack_add">In den Rucksack packen</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-
     <string name="loading_check_oauth_token">Anmeldedaten werden überprüft&#8230;</string>
-
-
     <string name="loading_google_exchange_code">Tausche Google Login Daten aus&#8230;</string>
     <string name="loading_google_login">Google Login am Server abgeschlossen&#8230;</string>
     <string name="delete_account">Meinen Account löschen</string>
@@ -265,9 +262,8 @@
     <!-- Project Handling Errors -->
     <string name="error_copy_project">Fehler beim Kopieren des Projekts aufgetreten</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">Dieser Benutzername ist bereits vergeben. Bitte versuche es mit einem anderen.</string>
-    <string name="name_consists_of_spaces_only">Für den Usernamen wurden Leerzeichen genutzt. Bitte benutze einen Namen
-        aus Buchstaben, Zahlen und anderen Sonderzeichen.</string>
+    <string name="name_already_exists">Dieser Name ist bereits vergeben. Bitte versuche es mit einem anderen.</string>
+    <string name="name_consists_of_spaces_only">Der Text besteht nur aus Leerzeichen. Bitte verwende Buchstaben, Zahlen und anderen Sonderzeichen.</string>
     <string name="name_empty">Bitte gib einen Text ein</string>
     <!-- Recycler View -->
     <string name="am_empty_list">Es existieren keine Einträge in der Liste. Bitte füge zuerst neue hinzu.</string>
@@ -681,6 +677,10 @@
     <string name="project_orientation_title">Ausrichtung:</string>
     <string name="project_select_screen_title">Bildschirm:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Neue Figur oder Objekt</string>
     <!--  -->
@@ -824,17 +824,16 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="accountName">E-Mail</string>
     <string name="signin_thanks">Danke für deine Anmeldung!</string>
     <string name="signin_choose_username">Bitte wähle deinen Benutzernamen:</string>
-    <string name="signin_choose_username_empty">Bitte einen Benutzernamen eingeben</string>
-    <string name="signin_choose_username_hint">Der Benutzername sollte nicht dein richtiger Name sein.</string>
+    <string name="signin_choose_username_empty">Bitte einen Benutzernamen eingeben.</string>
+    <string name="signin_choose_username_hint">Der Benutzername sollte nicht dein richtiger Name und nicht deine Email-Adresse sein.</string>
     <string name="oauth_username_taken">Jemand anderes verwendet bereits diesen Namen. Bitte wähle einen anderen Namen!</string>
     <string name="show_password">Passwort anzeigen</string>
     <string name="sign_in_error">Beim Anmelden ist etwas schief gelaufen.</string>
     <string name="error_google_plus_sign_in">Google Sign-In Fehler. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-
     <string name="sign_in_with_google">Mit Goggle einloggen</string>
     <string name="error_register_empty_username">Leerer Benuzername</string>
-    <string name="error_register_username_as_email">E-Mail-Adresse kann nicht als Benutzername verwendet werden</string>
+    <string name="error_register_username_as_email">E-Mail-Adressen können nicht als Benutzername verwendet werden.</string>
     <string name="error_register_invalid_username">Benutzernamen dürfen nur Buchstaben (a–Z), Zahlen (0–9), Bindestriche (-), Unterstriche (_) und Punkte (.) enthalten.</string>
     <string name="error_register_username_start_with">Benutzername darf nicht mit Bindestrichen (-), Unterstrichen (_) oder Punkten (.) beginnen.</string>
     <string name="error_register_invalid_email_format">Ungültiges E-Mail-Format</string>
@@ -1063,6 +1062,7 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">mal</item>
         <item quantity="other">mal</item>
@@ -1074,6 +1074,8 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="brick_if_end">sonst Ende</string>
     <string name="brick_set_variable">Setze Variable</string>
     <string name="brick_change_variable">Ändere Variable</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">Kommentar hier hinzufügen&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hallo!</string>
@@ -1164,7 +1166,7 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">Bildvorschau gespeichert</string>
-    <string name="notification_download_project_cancel">Projekt-Download abgebrochen</string>
+    <string name="notification_download_project_cancel">Projektdownload abbrechen</string>
     <string name="notification_reconvert_download_program_cancel">Download/Rückkonvertierung des Projektes abgebrochen</string>
     <string name="notification_upload_title_pending">"Hochladen von "</string>
     <string name="notification_upload_title_finished">"Anschauen von "</string>
@@ -1483,7 +1485,6 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="color_red">Rot</string>
     <string name="color_green">Grün</string>
     <string name="color_blue">Blau</string>
-    <string name="color_preview">Farbvorschau</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Daten</string>
@@ -1528,6 +1529,8 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">Arkustangens</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">Exponent</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">Potenziere</string>
@@ -1782,6 +1785,8 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <string name="deletion_alert_yes">Ja, trotzdem löschen!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Dein Projekt wird nun auf unsere Community Seite hochgeladen. Hier können andere dein Projekt verwenden und herunterladen. Du kannst dein Projekt auch als eigenständige App herunterladen.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Projekt anzeigen</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1802,13 +1807,4 @@ Die vorherige, mittlerweile ungültige, Version (2.0) unserer Datenschutzvereinb
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>
