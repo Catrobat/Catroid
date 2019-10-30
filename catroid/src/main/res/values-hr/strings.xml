@@ -909,7 +909,7 @@ Ako se ne osjecate ugodno kako bi to ucinili, mozete koristiti nase besplatne we
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Play scene:</string>
     <string name="play_scene_dialog_default">First scene (%1$s)</string>
-    <string name="play_scene_dialog_current">Trenutni prizor</string>
+    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Prijavite se</string>

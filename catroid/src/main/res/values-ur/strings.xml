@@ -1264,7 +1264,7 @@
     <string name="notification_upload_rejected">اپ لوڈ کردہ منصوبے کو مسترد کر دیا</string>
     <string name="notification_upload_retry">دوبارہ کوشش کریں</string>
     <string name="notification_open_play_store">اپلی کیشن اسٹور کھولیں</string>
-    <string name="notification_download_title_pending">"ڈاؤن لوڈ کیا جا رہا ہے ..."</string>
+    <string name="notification_download_title_pending">"ڈاؤن لوڈ کیا جا رہا ہے …"</string>
     <string name="notification_download_pending">ڈاؤن لوڈ جاری ہے</string>
     <string name="notification_download_finished">ڈاؤن لوڈ کامیاب</string>
     <string name="notification_title_open">"کھولیں"</string>
@@ -1326,7 +1326,7 @@
     <string name="notification_blueth_err">بلوٹوت کو فعال نہیں کر سکتے ہیں، براہ مہربانی دوبارہ کوشش کریں اور پھر دوبارہ کوشش کریں.</string>
     <string name="title_paired_devices">جوڑی آلات</string>
     <string name="title_other_devices">جوڑی آلات</string>
-    <string name="searching_devices">آلات تلاش کر رہے ہیں ...</string>
+    <string name="searching_devices">آلات تلاش کر رہے ہیں …</string>
     <string name="button_scan">بلوٹوت آلات تلاش کریں</string>
     <string name="select_device">آلہ منتخب کریں:</string>
     <string name="connecting_please_wait">آپ کے آلہ سے جڑ رہا ہے ۔\n&#8230; براۓ مہربانی انتظار کريں</string>

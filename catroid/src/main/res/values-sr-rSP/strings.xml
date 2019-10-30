@@ -219,7 +219,7 @@
     <string name="status_download_finished">Преузимање завршено.</string>
     <string name="status_download_canceled">Преузимање отказано!</string>
     <string name="scratch_programs_in_progress_title">У току</string>
-    <string name="scratch_programs_finished_title">Конвертуј %d пројекте</string>
+    <string name="scratch_programs_finished_title">Converted projects</string>
     <string name="by_x">од %1$s</string>
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
         convert it but it might not work.</string>
