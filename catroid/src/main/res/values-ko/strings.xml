@@ -52,9 +52,9 @@
     <string name="backpack_add">스크립트 모음에 추가</string>
     <string name="share_website_text">공유</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">로그인 데이터 확인...</string>
-    <string name="loading_google_exchange_code">Google + 데이터 교환중...</string>
-    <string name="loading_google_login">Google+ 로그인 완료...</string>
+    <string name="loading_check_oauth_token">로그인 데이터 확인…</string>
+    <string name="loading_google_exchange_code">Google + 데이터 교환중…</string>
+    <string name="loading_google_login">Google+ 로그인 완료…</string>
     <string name="delete_account">내 계정 삭제</string>
     <string name="logout_successful">로그아웃 성공</string>
     <string name="degrees">도</string>
@@ -184,7 +184,7 @@
     <string name="connection_failed">처리할 수 없습니다. 나중에 다시 시도하세요.</string>
     <string name="authentication_failed">연결에 문제가 있습니다. Catrobat의 도움을 받으세요.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">스크래치 프로젝트 %d 추가...</item>
+        <item quantity="other">스크래치 프로젝트 %d 추가…</item>
     </plurals>
     <string name="scratch_conversion_started">스크래치 프로그램을 변환하기 시작&#8230;</string>
     <string name="convert">변환</string>
@@ -1230,7 +1230,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="lego_port_3">포트 3</string>
     <string name="lego_port_4">포트 4</string>
     <string name="lego_sensor_config_dont_show_again">이 메시지를 다시 표시하지 않음</string>
-    <string name="lego_sensor_port_config_dialog_title">%1$에 연결하는 포트를 선택하세요.</string>
+    <string name="lego_sensor_port_config_dialog_title">%1$s에 연결하는 포트를 선택하세요.</string>
     <string name="lego_ev3_sensor_config_info_title">EV3 센서 구성</string>
     <string name="preference_disable_ev3_info_dialog_description">프로그램 특정 EV3 설정 프로그램을 열 때 표시되지 않습니다.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">EV3 센서 포트의 연결은 특수하여 열린 프로그램에 대해서만 구성할 수 있습니다!</string>
