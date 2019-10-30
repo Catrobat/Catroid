@@ -20,27 +20,20 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.embroidery;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
 
-public class StitchAction extends TemporalAction {
+public interface StitchCommand {
+	float getX();
+	float getY();
+	int getLayer();
+	Sprite getSprite();
 
-	private Sprite sprite;
+	void act(EmbroideryWorkSpace workSpace, EmbroideryStream stream,
+			StitchCommand previousCommandOfSprite);
 
-	@Override
-	protected void update(float delta) {
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+	boolean equals(Object object);
+	int hashCode();
 }
