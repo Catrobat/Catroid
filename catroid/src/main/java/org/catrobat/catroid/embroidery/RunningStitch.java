@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,30 +20,45 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.embroidery;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
 
-public class StitchAction extends TemporalAction {
-
+public class RunningStitch {
 	private Sprite sprite;
+	private boolean isRunning = false;
+	private RunningStitchType type;
 
-	@Override
-	protected void update(float delta) {
-		sprite.runningStitch.pause();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-		sprite.runningStitch.setStartCoordinates(x, y);
-		sprite.runningStitch.resume();
+	public void activateStitching(Sprite sprite, RunningStitchType type) {
+		if (sprite != null && type != null) {
+			this.sprite = sprite;
+			this.type = type;
+			isRunning = true;
+		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void update() {
+		if (isRunning) {
+			float currentX = sprite.look.getXInUserInterfaceDimensionUnit();
+			float currentY = sprite.look.getYInUserInterfaceDimensionUnit();
+			type.update(currentX, currentY);
+		}
+	}
+
+	public void setStartCoordinates(float xStart, float yStart) {
+		if (type != null) {
+			type.setStartCoordinates(xStart, yStart);
+		}
+	}
+
+	public void pause() {
+		isRunning = false;
+	}
+
+	public void resume() {
+		if (type != null) {
+			isRunning = true;
+		}
 	}
 }
