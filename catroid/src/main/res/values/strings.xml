@@ -1172,6 +1172,7 @@
 
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
+    <string name="brick_running_stitch">Start running stitch with length</string>
     <!--  -->
 
     <!-- Control bricks -->

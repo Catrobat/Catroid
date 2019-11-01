@@ -76,6 +76,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
@@ -205,6 +206,7 @@ public class BrickFormulaDefaultValueTest {
 				{"WaitUntilBrick - R.id.brick_wait_until_edit_text", "Control", WaitUntilBrick.class, R.id.brick_wait_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_until_edit_text", "Control", RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_edit_text", "Control", RepeatBrick.class, R.id.brick_repeat_edit_text, "10 "},
+				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
 		});
 	}
 

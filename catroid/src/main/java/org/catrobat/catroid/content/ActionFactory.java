@@ -122,6 +122,7 @@ import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -853,6 +854,13 @@ public class ActionFactory extends Actions {
 	public static Action createStitchAction(Sprite sprite) {
 		StitchAction action = Actions.action(StitchAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createRunningStitchAction(Sprite sprite, Formula length) {
+		RunningStitchAction action = Actions.action(RunningStitchAction.class);
+		action.setSprite(sprite);
+		action.setLength(length);
 		return action;
 	}
 

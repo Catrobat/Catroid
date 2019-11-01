@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,30 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.embroidery;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
-
-public class StitchAction extends TemporalAction {
-
-	private Sprite sprite;
-
-	@Override
-	protected void update(float delta) {
-		sprite.runningStitch.pause();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-		sprite.runningStitch.setStartCoordinates(x, y);
-		sprite.runningStitch.resume();
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
+public interface RunningStitchType {
+	void setStartCoordinates(float x, float y);
+	void update(float currentX, float currentY);
 }

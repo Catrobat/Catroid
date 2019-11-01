@@ -136,6 +136,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -645,6 +646,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupEmbroideryCategoryList() {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
+		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
 		return embroideryBrickList;
 	}
 

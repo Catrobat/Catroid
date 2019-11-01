@@ -163,6 +163,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -506,6 +507,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SetTextBrick.class);
 		xstream.alias("brick", ShowTextColorSizeAlignmentBrick.class);
 		xstream.alias("brick", StitchBrick.class);
+		xstream.alias("brick", RunningStitchBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
 		xstream.alias("brick", WhenTouchDownBrick.class);

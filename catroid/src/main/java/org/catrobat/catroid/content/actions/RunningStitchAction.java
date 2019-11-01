@@ -22,28 +22,37 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.embroidery.SimpleRunningStitch;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class StitchAction extends TemporalAction {
+public class RunningStitchAction extends TemporalAction {
 
 	private Sprite sprite;
+	private Formula length;
 
 	@Override
 	protected void update(float delta) {
-		sprite.runningStitch.pause();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-		sprite.runningStitch.setStartCoordinates(x, y);
-		sprite.runningStitch.resume();
+		int lengthInterpretation;
+		try {
+			lengthInterpretation = length == null ? 0 : length.interpretInteger(sprite);
+		} catch (InterpretationException interpretationException) {
+			lengthInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
+		this.sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite, lengthInterpretation));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setLength(Formula length) {
+		this.length = length;
 	}
 }
