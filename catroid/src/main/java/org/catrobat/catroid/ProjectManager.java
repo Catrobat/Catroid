@@ -287,14 +287,9 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					Brick scriptBrick = script.getScriptBrick();
-					if (scriptBrick instanceof FormulaBrick) {
-						FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-						for (Formula formula : formulaBrick.getFormulas()) {
-							formula.updateCollisionFormulasToVersion();
-						}
-					}
-					for (Brick brick : script.getBrickList()) {
+					List<Brick> flatList = new ArrayList();
+					script.addToFlatList(flatList);
+					for (Brick brick : flatList) {
 						if (brick instanceof FormulaBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
 							for (Formula formula : formulaBrick.getFormulas()) {

@@ -68,7 +68,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	private static final int STATUS_CODE_USER_ADD_EMAIL_EXISTS = 757;
 	private static final int STATUS_CODE_USER_EMAIL_INVALID = 765;
 	private static final int STATUS_CODE_AUTHENTICATION_FAILED = 601;
-	private static final int STATUS_CODE_USER_NOT_EXISTING = 764;
+	private static final int STATUS_CODE_USERNAME_NOT_FOUND = 803;
 	private static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 
 	private ServerAuthenticator authenticator;
@@ -131,7 +131,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 	@Flaky
 	public void testLoginWithNotExistingUser() {
 		authenticator.performCatrobatLogin();
-		verify(listenerMock, times(1)).onError(eq(STATUS_CODE_USER_NOT_EXISTING), Mockito.matches(".+"));
+		verify(listenerMock, times(1)).onError(eq(STATUS_CODE_USERNAME_NOT_FOUND), Mockito.matches(".+"));
 		verify(listenerMock, never()).onSuccess();
 	}
 
