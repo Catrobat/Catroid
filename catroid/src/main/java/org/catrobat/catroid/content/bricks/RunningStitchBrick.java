@@ -20,30 +20,39 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.bricks;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-public class StitchAction extends TemporalAction {
+public class RunningStitchBrick extends FormulaBrick {
 
-	private Sprite sprite;
+	private static final long serialVersionUID = 1L;
 
-	@Override
-	protected void update(float delta) {
-		sprite.runningStitch.pause();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-		sprite.runningStitch.setStartCoordinates(x, y);
-		sprite.runningStitch.resume();
+	public RunningStitchBrick() {
+		addAllowedBrickField(BrickField.EMBROIDERY_LENGTH, R.id.brick_running_stitch_edit_text_length);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public RunningStitchBrick(Formula length) {
+		this();
+		setFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH, length);
+	}
+
+	@Override
+	public BrickField getDefaultBrickField() {
+		return BrickField.EMBROIDERY_LENGTH;
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_running_stitch_with_length;
+	}
+
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createRunningStitchAction(sprite,
+				getFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH)));
 	}
 }
