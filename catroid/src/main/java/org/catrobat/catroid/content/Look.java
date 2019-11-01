@@ -197,6 +197,7 @@ public class Look extends Image {
 	public void act(float delta) {
 		scheduler.tick(delta);
 		if (sprite != null) {
+			sprite.runningStitch.update();
 			sprite.evaluateConditionScriptTriggers();
 		}
 	}

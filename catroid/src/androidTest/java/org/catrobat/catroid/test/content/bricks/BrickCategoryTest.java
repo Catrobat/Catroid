@@ -127,6 +127,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -177,6 +178,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
@@ -231,7 +233,8 @@ public class BrickCategoryTest {
 						SetMassBrick.class,
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
-				{"Embroidery", Arrays.asList(StitchBrick.class)},
+				{"Embroidery", Arrays.asList(StitchBrick.class,
+						RunningStitchBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,

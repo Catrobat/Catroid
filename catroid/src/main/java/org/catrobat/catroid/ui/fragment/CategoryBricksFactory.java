@@ -80,6 +80,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -645,6 +646,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupEmbroideryCategoryList() {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
+		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_STEPS)));
 		return embroideryBrickList;
 	}
 
