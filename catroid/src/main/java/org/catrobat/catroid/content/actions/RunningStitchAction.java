@@ -22,28 +22,40 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.embroidery.SimpleRunningStitch;
+import org.catrobat.catroid.embroidery.SimpleRunningStitchSteps;
+import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class StitchAction extends TemporalAction {
+public class RunningStitchAction extends TemporalAction {
 
 	private Sprite sprite;
+	private Formula steps;
 
 	@Override
 	protected void update(float delta) {
-		sprite.runningStitch.pause();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite));
-		sprite.runningStitch.setStartCoordinates(x, y);
-		sprite.runningStitch.resume();
+		int stepsInterpretation;
+		try {
+			stepsInterpretation = steps == null ? 0 : steps.interpretInteger(sprite);
+		} catch (InterpretationException interpretationException) {
+			stepsInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
+		this.sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitchSteps(sprite,
+				stepsInterpretation));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
+
+	public void setSteps(Formula steps) {
+		this.steps = steps;
+	}
+
 }

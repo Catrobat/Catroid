@@ -69,6 +69,7 @@ import org.catrobat.catroid.content.actions.DroneTurnLeftAction;
 import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
+import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.FinishStageAction;
@@ -854,6 +855,13 @@ public class ActionFactory extends Actions {
 	public static Action createStitchAction(Sprite sprite) {
 		StitchAction action = Actions.action(StitchAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createRunningStitchAction(Sprite sprite, Formula steps) {
+		RunningStitchAction action = Actions.action(RunningStitchAction.class);
+		action.setSprite(sprite);
+		action.setSteps(steps);
 		return action;
 	}
 
