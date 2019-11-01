@@ -378,6 +378,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Motion%20Bricks/#MoveNStepsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#ShowTextColorSizeAlignmentBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RunningStitchBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#RunningStitchBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
