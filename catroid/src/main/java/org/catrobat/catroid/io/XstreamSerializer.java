@@ -202,6 +202,7 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -510,6 +511,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SetTextBrick.class);
 		xstream.alias("brick", ShowTextColorSizeAlignmentBrick.class);
 		xstream.alias("brick", StitchBrick.class);
+		xstream.alias("brick", StopRunningStitchBrick.class);
 		xstream.alias("brick", RunningStitchBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
