@@ -229,6 +229,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -514,6 +515,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StitchBrick.class);
 		xstream.alias("brick", StopRunningStitchBrick.class);
 		xstream.alias("brick", RunningStitchBrick.class);
+		xstream.alias("brick", ZigZagStitchBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
 		xstream.alias("brick", WhenTouchDownBrick.class);
