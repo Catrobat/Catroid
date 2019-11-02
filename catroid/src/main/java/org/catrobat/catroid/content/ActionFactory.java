@@ -166,6 +166,7 @@ import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
+import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
@@ -862,6 +863,14 @@ public class ActionFactory extends Actions {
 		RunningStitchAction action = Actions.action(RunningStitchAction.class);
 		action.setSprite(sprite);
 		action.setSteps(steps);
+		return action;
+	}
+
+	public Action createZigZagStitchAction(Sprite sprite, Formula length, Formula width) {
+		ZigZagStitchAction action = Actions.action(ZigZagStitchAction.class);
+		action.setSprite(sprite);
+		action.setLength(length);
+		action.setWidth(width);
 		return action;
 	}
 

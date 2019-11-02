@@ -190,6 +190,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
@@ -648,6 +649,8 @@ public class CategoryBricksFactory {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_STEPS)));
+		embroideryBrickList.add(new ZigZagStitchBrick(new Formula(BrickValues.STITCH_LENGTH),
+				new Formula(BrickValues.STITCH_WIDTH)));
 		embroideryBrickList.add(new StopRunningStitchBrick());
 		return embroideryBrickList;
 	}

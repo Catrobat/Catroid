@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,24 +20,51 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.bricks;
 
-		import org.catrobat.catroid.R;
-		import org.catrobat.catroid.content.ActionFactory;
-		import org.catrobat.catroid.content.Sprite;
-		import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-public class StitchBrick extends BrickBaseType {
+import android.view.View;
+
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
+
+public class ZigZagStitchBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
+	public ZigZagStitchBrick() {
+		addAllowedBrickField(BrickField.EMBROIDERY_LENGTH, R.id.brick_zigzag_stitch_edit_text_length);
+		addAllowedBrickField(BrickField.EMBROIDERY_WIDTH, R.id.brick_zigzag_stitch_edit_text_width);
+	}
+
+	public ZigZagStitchBrick(Formula length, Formula width) {
+		this();
+		setFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH, length);
+		setFormulaWithBrickField(BrickField.EMBROIDERY_WIDTH, width);
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(final View view) {
+		super.showFormulaEditorToEditFormula(view);
+	}
+
+	@Override
+	public BrickField getDefaultBrickField() {
+		return BrickField.EMBROIDERY_LENGTH;
+	}
+
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_stitch;
+		return R.layout.brick_zigzag_stitch;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(ActionFactory.createStitchAction(sprite));
+		sequence.addAction(sprite.getActionFactory().createZigZagStitchAction(sprite,
+				getFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH),
+				getFormulaWithBrickField(BrickField.EMBROIDERY_WIDTH)));
 	}
 }

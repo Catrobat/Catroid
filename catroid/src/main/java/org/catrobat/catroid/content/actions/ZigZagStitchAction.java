@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
@@ -27,35 +28,45 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.SimpleRunningStitch;
-import org.catrobat.catroid.embroidery.SimpleRunningStitchSteps;
+import org.catrobat.catroid.embroidery.ZigZagRunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
-public class RunningStitchAction extends TemporalAction {
+public class ZigZagStitchAction extends TemporalAction {
 
 	private Sprite sprite;
-	private Formula steps;
+	private Formula length;
+	private Formula width;
 
 	@Override
 	protected void update(float delta) {
-		int stepsInterpretation;
+		float lengthInterpretation;
+		float heightInterpretation;
 		try {
-			stepsInterpretation = steps == null ? 0 : steps.interpretInteger(sprite);
+			lengthInterpretation = length == null ? 0 : length.interpretFloat(sprite);
 		} catch (InterpretationException interpretationException) {
-			stepsInterpretation = 0;
+			lengthInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
-		this.sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite,
-				stepsInterpretation));
+		try {
+			heightInterpretation = width == null ? 0 : width.interpretFloat(sprite);
+		} catch (InterpretationException interpretationException) {
+			heightInterpretation = 0;
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
+		}
+		this.sprite.runningStitch.activateStitching(sprite, new ZigZagRunningStitch(sprite,
+				lengthInterpretation, heightInterpretation));
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setSteps(Formula steps) {
-		this.steps = steps;
+	public void setLength(Formula length) {
+		this.length = length;
 	}
 
+	public void setWidth(Formula width) {
+		this.width = width;
+	}
 }

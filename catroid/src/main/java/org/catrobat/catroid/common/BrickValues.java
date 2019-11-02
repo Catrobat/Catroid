@@ -175,6 +175,8 @@ public final class BrickValues {
 	//Constants Embroidery
 	public static final float STITCH_SIZE = 3.15f;
 	public static final int STITCH_STEPS = 10;
+	public static final int STITCH_LENGTH = 2;
+	public static final int STITCH_WIDTH = 10;
 
 	private BrickValues() {
 		throw new AssertionError("No.");

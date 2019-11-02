@@ -1173,6 +1173,8 @@
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
     <string name="brick_running_stitch">Start running stitch with length</string>
+    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
+    <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
     <!--  -->
 
