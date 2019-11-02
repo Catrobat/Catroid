@@ -64,10 +64,7 @@
     <string name="share_website_text">share.catrob.at</string>
 
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data…</string>
     <string name="loading_check_oauth_token">Checking login data…</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data…</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete…</string>
     <string name="loading_google_exchange_code">Exchanging Google login data…</string>
     <string name="loading_google_login">Google login on our server is complete…</string>
 
@@ -761,6 +758,11 @@
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
 
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
+
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">New actor or object</string>
     <!--  -->
@@ -963,7 +965,6 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -2026,7 +2027,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
-     <string name="progress_upload_dialog_show_program">Show project</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
+    <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
 
     <!-- Snackbar hints -->

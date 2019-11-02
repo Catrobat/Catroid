@@ -298,6 +298,12 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
+	public void renameItem(Sprite item, String name) {
+		item.rename(name);
+		finishActionMode();
+	}
+
+	@Override
 	public void onItemClick(Sprite item) {
 		if (item instanceof GroupSprite) {
 			GroupSprite groupSprite = (GroupSprite) item;

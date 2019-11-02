@@ -158,7 +158,9 @@ public class Scene implements Nameable, Serializable {
 				if (currentScript instanceof BroadcastScript) {
 					messagesInUse.add(((BroadcastScript) currentScript).getBroadcastMessage());
 				}
-				for (Brick currentBrick : currentScript.getBrickList()) {
+				List<Brick> flatList = new ArrayList();
+				currentScript.addToFlatList(flatList);
+				for (Brick currentBrick : flatList) {
 					if (currentBrick instanceof BroadcastMessageBrick) {
 						messagesInUse.add(((BroadcastMessageBrick) currentBrick).getBroadcastMessage());
 					}

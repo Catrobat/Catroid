@@ -37,7 +37,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.UiUtils;
 
@@ -120,12 +119,9 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 	}
 
 	private boolean areAllBrickFieldsNumbers() {
-		return (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_RED).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_GREEN).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER)
-				&& (getFormulaWithBrickField(BrickField.PHIRO_LIGHT_BLUE).getRoot().getElementType()
-				== FormulaElement.ElementType.NUMBER);
+		return isBrickFieldANumber(BrickField.PHIRO_LIGHT_RED)
+				&& isBrickFieldANumber(BrickField.PHIRO_LIGHT_GREEN)
+				&& isBrickFieldANumber(BrickField.PHIRO_LIGHT_BLUE);
 	}
 
 	@Override

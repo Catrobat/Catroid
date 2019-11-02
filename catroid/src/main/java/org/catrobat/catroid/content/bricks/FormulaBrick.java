@@ -153,6 +153,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return formulaMap.keys().nextElement();
 	}
 
+	boolean isBrickFieldANumber(BrickField brickField) {
+		return getFormulaWithBrickField(brickField).isNumber();
+	}
+
 	public View getCustomView(Context context) {
 		throw new IllegalStateException("There is no custom view for the " + getClass().getSimpleName() + ".");
 	}
@@ -161,7 +165,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		TextView textView = view.findViewById(R.id.brick_seconds_label);
 		Context context = textView.getContext();
 
-		if (getFormulaWithBrickField(brickField).isSingleNumberFormula()) {
+		if (getFormulaWithBrickField(brickField).isNumber()) {
 			try {
 				Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 				Double formulaValue = formulaMap.get(brickField).interpretDouble(sprite);

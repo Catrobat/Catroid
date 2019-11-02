@@ -22,10 +22,8 @@
  */
 package org.catrobat.catroid.ui.recyclerview.dialog.login;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -35,22 +33,16 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 
-import com.facebook.AccessToken;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
-import org.catrobat.catroid.transfers.FacebookExchangeTokenTask;
-import org.catrobat.catroid.transfers.FacebookLogInTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
 
 public class OAuthUsernameDialogFragment extends DialogFragment implements
 		CheckUserNameAvailableTask.OnCheckUserNameAvailableCompleteListener,
-		FacebookExchangeTokenTask.OnFacebookExchangeTokenCompleteListener,
-		FacebookLogInTask.OnFacebookLogInCompleteListener,
-		GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener,
+		GoogleExchangeCodeTask.OnGoogleExchangeCodeCompleteListener,
 		GoogleLogInTask.OnGoogleServerLogInCompleteListener {
 
 	public static final String TAG = OAuthUsernameDialogFragment.class.getSimpleName();
@@ -81,20 +73,12 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 				.setPositiveButton(R.string.ok, null)
 				.create();
 
-		alertDialog.setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				Button buttonPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				buttonPositive.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						onPositiveButtonClick();
-					}
-				});
-				buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
-				DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, false);
-				inputLayout.getEditText().addTextChangedListener(inputWatcher);
-			}
+		alertDialog.setOnShowListener(dialog -> {
+			Button buttonPositive = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+			buttonPositive.setOnClickListener(view1 -> onPositiveButtonClick());
+			buttonPositive.setEnabled(!inputLayout.getEditText().getText().toString().isEmpty());
+			DialogInputWatcher inputWatcher = new DialogInputWatcher(inputLayout, buttonPositive, false);
+			inputLayout.getEditText().addTextChangedListener(inputWatcher);
 		});
 
 		return alertDialog;
@@ -127,18 +111,7 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 					.show();
 		} else {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-			if (openAuthProvider.equals(Constants.FACEBOOK)) {
-				sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, username).commit();
-				FacebookExchangeTokenTask facebookExchangeTokenTask = new FacebookExchangeTokenTask(getActivity(),
-						AccessToken.getCurrentAccessToken().getToken(),
-						sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-						sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-						sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-						sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-				);
-				facebookExchangeTokenTask.setOnFacebookExchangeTokenCompleteListener(this);
-				facebookExchangeTokenTask.execute();
-			} else if (openAuthProvider.equals(Constants.GOOGLE_PLUS)) {
+			if (openAuthProvider.equals(Constants.GOOGLE_PLUS)) {
 				sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, username).commit();
 
 				GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(getActivity(),
@@ -152,25 +125,6 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 				googleExchangeCodeTask.execute();
 			}
 		}
-	}
-
-	@Override
-	public void onFacebookExchangeTokenComplete(Activity activity) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		FacebookLogInTask facebookLogInTask = new FacebookLogInTask(getActivity(),
-				sharedPreferences.getString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL),
-				sharedPreferences.getString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME),
-				sharedPreferences.getString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID),
-				sharedPreferences.getString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE)
-		);
-		facebookLogInTask.setOnFacebookLogInCompleteListener(this);
-		facebookLogInTask.execute();
-	}
-
-	@Override
-	public void onFacebookLogInComplete() {
-		signInCompleteListener.onLoginSuccessful(null);
-		dismiss();
 	}
 
 	@Override

@@ -23,10 +23,8 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -34,10 +32,10 @@ import android.widget.RadioGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
+import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.IOException;
 
@@ -62,32 +60,9 @@ public class NewProjectDialogFragment extends DialogFragment {
 			view.findViewById(R.id.project_default_jumping_sumo_radio_button).setVisibility(View.VISIBLE);
 		}
 
-		final TextInputDialog.TextWatcher textWatcher = new TextInputDialog.TextWatcher() {
-
-			@Nullable
-			@Override
-			public String validateInput(String input, Context context) {
-				String error = null;
-
-				if (input.isEmpty()) {
-					return context.getString(R.string.name_empty);
-				}
-
-				input = input.trim();
-
-				if (input.isEmpty()) {
-					error = context.getString(R.string.name_consists_of_spaces_only);
-				} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(input)) {
-					error = context.getString(R.string.name_already_exists);
-				}
-
-				return error;
-			}
-		};
-
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setHint(getString(R.string.project_name_label))
-				.setTextWatcher(textWatcher)
+				.setTextWatcher(new NewProjectNameTextWatcher<>())
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					switch (radioGroup.getCheckedRadioButtonId()) {
 						case R.id.project_empty_radio_button:

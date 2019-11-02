@@ -33,7 +33,6 @@ Also make sure to read our guidelines for [creating a pull request](https://gith
 * [Statistics on OpenHub](https://www.openhub.net/p/catrobat/)
 * [Twitter](http://twitter.com/Catroid)
 * [Google+](https://plus.google.com/u/0/+CatrobatOrgAdmin/posts)
-* [Facebook](https://www.facebook.com/CatrobatPocketCode?fref=ts)
 * [Our Google group](https://groups.google.com/forum/?fromgroups#!forum/catrobat)
 
 # License #

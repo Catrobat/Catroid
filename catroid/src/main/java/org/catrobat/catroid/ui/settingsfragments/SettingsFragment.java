@@ -129,7 +129,7 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
-			PreferenceScreen phiroPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
+			CheckBoxPreference phiroPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
 		}
@@ -287,10 +287,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_NFC_BRICKS, context);
-	}
-
-	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
 	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {

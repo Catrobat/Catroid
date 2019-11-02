@@ -23,7 +23,6 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -180,6 +179,18 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	public void updateListName(String oldName, String newName) {
+		if (leftChild != null) {
+			leftChild.updateVariableReferences(oldName, newName);
+		}
+		if (rightChild != null) {
+			rightChild.updateVariableReferences(oldName, newName);
+		}
+		if (type == ElementType.USER_LIST && value.equals(oldName)) {
+			value = newName;
+		}
+	}
+
 	public void getVariableAndListNames(List<String> variables, List<String> lists) {
 		if (leftChild != null) {
 			leftChild.getVariableAndListNames(variables, lists);
@@ -273,7 +284,6 @@ public class FormulaElement implements Serializable {
 					returnValue = interpretCollision(sprite, value);
 				} catch (Exception exception) {
 					returnValue = 0d;
-					Log.e(getClass().getSimpleName(), Log.getStackTraceString(exception));
 				}
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
@@ -403,7 +413,7 @@ public class FormulaElement implements Serializable {
 				try {
 					doubleValueOfLeftChild = Double.valueOf((String) left);
 				} catch (NumberFormatException numberFormatException) {
-					Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+					//This is expected
 				}
 			} else {
 				doubleValueOfLeftChild = (Double) left;
@@ -416,7 +426,7 @@ public class FormulaElement implements Serializable {
 				try {
 					doubleValueOfRightChild = Double.valueOf((String) right);
 				} catch (NumberFormatException numberFormatException) {
-					Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+					//This is expected
 				}
 			} else {
 				doubleValueOfRightChild = (Double) right;
@@ -515,7 +525,7 @@ public class FormulaElement implements Serializable {
 					try {
 						return connection.getPin(pin) ? 1d : 0d;
 					} catch (Exception e) {
-						Log.e(getClass().getSimpleName(), "RPi: exception during getPin: " + e);
+						//This is expected
 					}
 				}
 				break;
@@ -581,7 +591,7 @@ public class FormulaElement implements Serializable {
 				Double doubleValueOfLeftChild = Double.valueOf((String) left);
 				index = doubleValueOfLeftChild.intValue();
 			} catch (NumberFormatException numberFormatexception) {
-				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
+				//This is expected
 			}
 		} else if (left != null) {
 			index = ((Double) left).intValue();
@@ -700,7 +710,7 @@ public class FormulaElement implements Serializable {
 				Double doubleValueOfLeftChild = Double.valueOf((String) left);
 				index = doubleValueOfLeftChild.intValue();
 			} catch (NumberFormatException numberFormatexception) {
-				Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatexception);
+				//This is expected
 			}
 		} else if (left != null) {
 			index = ((Double) left).intValue();
@@ -1082,14 +1092,12 @@ public class FormulaElement implements Serializable {
 		return userList.getList().size();
 	}
 
-	public boolean isSingleNumberFormula() {
+	boolean isNumber() {
 		if (type == ElementType.OPERATOR) {
 			Operators operator = Operators.getOperatorByValue(value);
-			return (operator == Operators.MINUS) && (leftChild == null) && rightChild.isSingleNumberFormula();
-		} else if (type == ElementType.NUMBER) {
-			return true;
+			return (operator == Operators.MINUS) && (leftChild == null) && rightChild.isNumber();
 		}
-		return false;
+		return type == ElementType.NUMBER;
 	}
 
 	@Override

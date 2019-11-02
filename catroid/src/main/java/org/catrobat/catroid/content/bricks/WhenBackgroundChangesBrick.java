@@ -146,4 +146,14 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		spinner.add(item);
 		spinner.setSelection(item);
 	}
+
+	@Override
+	public List<Brick> getDragAndDropTargetList() {
+		return getScript().getBrickList();
+	}
+
+	@Override
+	public int getPositionInDragAndDropTargetList() {
+		return -1;
+	}
 }

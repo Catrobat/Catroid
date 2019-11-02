@@ -56,7 +56,7 @@ public class SetBackgroundEventId extends EventId {
 	public int hashCode() {
 		int result = super.hashCode();
 		result = 31 * result + sprite.hashCode();
-		result = 31 * result + lookData.hashCode();
+		result = 31 * result + (lookData != null ? lookData.hashCode() : 0);
 		return result;
 	}
 }

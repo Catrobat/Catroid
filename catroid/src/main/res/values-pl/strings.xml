@@ -52,10 +52,10 @@
     <string name="backpack_add">Dodaj do plecaka</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Pobieranie danych Facebooka&#8230;</string>
+
     <string name="loading_check_oauth_token">Sprawdzanie danych logowania&#8230;</string>
-    <string name="loading_facebook_exchange_token">Wymiana danych z Facebooka&#8230;</string>
-    <string name="loading_facebook_login">Logowanie do Facebooka na naszym serwerze zostało zakończone&#8230;</string>
+
+
     <string name="loading_google_exchange_code">Wymiana danych z Google+&#8230;</string>
     <string name="loading_google_login">Logowanie do Google+ na naszym serwerze zostało zakończone&#8230;</string>
     <string name="delete_account">Usuń moje konto</string>
@@ -979,7 +979,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="sign_in_error">Coś poszło nie tak podczas logowania.</string>
     <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Zaloguj się przez Facebooka</string>
+
     <string name="sign_in_with_google">Zaloguj się za pomocą Google</string>
     <string name="error_register_empty_username">Puste pole nazwy użytkownika</string>
     <string name="error_register_username_as_email">Adres e-mail nie może służyć jako nazwa użytkownika</string>

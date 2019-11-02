@@ -47,13 +47,10 @@ import org.catrobat.catroid.common.Constants.EXTRA_RESULT_RECEIVER
 import org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES
 import org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME
 import org.catrobat.catroid.common.Constants.EXTRA_USER_EMAIL
-import org.catrobat.catroid.common.Constants.FACEBOOK
-import org.catrobat.catroid.common.Constants.FACEBOOK_EMAIL
 import org.catrobat.catroid.common.Constants.GOOGLE_EMAIL
 import org.catrobat.catroid.common.Constants.GOOGLE_PLUS
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
 import org.catrobat.catroid.common.Constants.NO_EMAIL
-import org.catrobat.catroid.common.Constants.NO_FACEBOOK_EMAIL
 import org.catrobat.catroid.common.Constants.NO_GOOGLE_EMAIL
 import org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
@@ -113,7 +110,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_height)
             ),
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this),
-            serverCalls = ServerCalls.getInstance()
+            serverCalls = ServerCalls()
         ).start(
             successCallback = { projectId ->
                 Log.v(TAG, "Upload successful")
@@ -122,7 +119,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 notificationManager?.notify(UPLOAD_NOTIFICATION_ID, createUploadFinishedNotification(projectName))
 
                 ToastUtil.showSuccess(this, R.string.notification_upload_finished)
-                val result = Bundle().apply { putInt(Constants.EXTRA_PROJECT_ID, projectId) }
+                val result = Bundle().apply { putString(Constants.EXTRA_PROJECT_ID, projectId) }
                 resultReceiver.send(UPLOAD_RESULT_RECEIVER_RESULT_CODE, result)
             },
             errorCallback = { errorCode, errorMessage ->
@@ -131,6 +128,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 ToastUtil.showError(this, resources.getString(R.string.error_project_upload) + " " + errorMessage)
                 StatusBarNotificationManager.getInstance()
                     .createUploadRejectedNotification(applicationContext, errorCode, errorMessage, reUploadBundle)
+                resultReceiver.send(0, null)
             }
         )
     }
@@ -191,7 +189,6 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
         val email = when (provider) {
-            FACEBOOK -> sharedPreferences.getString(FACEBOOK_EMAIL, NO_FACEBOOK_EMAIL)
             GOOGLE_PLUS -> sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL)
             else -> sharedPreferences.getString(EMAIL, NO_EMAIL)
         }

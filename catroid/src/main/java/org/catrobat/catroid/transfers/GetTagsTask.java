@@ -26,7 +26,7 @@ package org.catrobat.catroid.transfers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +48,7 @@ public class GetTagsTask extends AsyncTask<String, Void, String> {
 
 	@Override
 	protected String doInBackground(String... arg0) {
-		return ServerCalls.getInstance().getTags(Locale.getDefault().getLanguage());
+		return new CatrobatServerCalls().getTags(Locale.getDefault().getLanguage());
 	}
 
 	@Override

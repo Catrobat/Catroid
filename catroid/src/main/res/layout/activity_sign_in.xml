@@ -47,22 +47,6 @@
             android:onClick="onButtonClick"/>
 
         <Button
-            android:id="@+id/sign_in_facebook_login_button"
-            style="@style/Widget.AppCompat.Button.Borderless"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/sign_in_with_facebook"
-            android:textSize="?attr/medium"
-            android:background="@color/facebook_blue"
-            android:textColor="@color/solid_white"
-            android:paddingStart="@dimen/material_design_spacing_large"
-            android:drawableStart="@drawable/sign_in_with_facebook"
-            android:layout_marginStart="@dimen/material_design_spacing_x_large"
-            android:layout_marginEnd="@dimen/material_design_spacing_x_large"
-            android:layout_marginTop="@dimen/material_design_spacing_large"
-            android:onClick="onButtonClick"/>
-
-        <Button
             android:id="@+id/sign_in_gplus_login_button"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"

@@ -52,10 +52,10 @@
     <string name="backpack_add">بستہ میں جمع کریں</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">فیس بک لاگ ان ڈیٹا کو دوبارہ حاصل کریں&#8230;</string>
+
     <string name="loading_check_oauth_token">لاگ ان کے اعداد و شمار کی جانچ پڑتال&#8230;</string>
-    <string name="loading_facebook_exchange_token">فیس بک لاگ ان کے اعداد و شمار کے تبادلے میں </string>
-    <string name="loading_facebook_login">ہمارے سرور پر فیس بک لاگ ان مکمل ہو گیا ہے &#8230;</string>
+
+
     <string name="loading_google_exchange_code">گوگل لاگ ان کے اعداد و شمار کو تبدیل کرنے&#8230;</string>
     <string name="loading_google_login">ہمارے سرور پر گوگل لاگ ان مکمل ہو گیا ہے&#8230;</string>
     <string name="delete_account">  میرا اکاؤنٹ ختم کریں</string>
@@ -915,7 +915,7 @@
     <string name="sign_in_error">سائن اپ کے دوران کچ غلط ہوگیا</string>
     <string name="error_google_plus_sign_in">Google سائن ان کی خرابی. حیثیت:٪ %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">فیس بک کے ذریعہ سائن اپ کریں</string>
+
     <string name="sign_in_with_google">گوگل کے ساتھ سائن ان کریں</string>
     <string name="error_register_empty_username">خالی صارف نام</string>
     <string name="error_register_username_as_email">ای میل ایڈریس صارف نام کے طور پر استعمال نہیں کیا جاسکتا</string>

@@ -33,6 +33,7 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -52,8 +53,15 @@ import static org.hamcrest.Matchers.is;
 @RunWith(JUnit4.class)
 public class FormulaTest {
 
+	private List<InternToken> internTokenList;
+
+	@Before
+	public void setUp() {
+		internTokenList = new LinkedList<InternToken>();
+	}
+
 	@Test
-	public void testRequiredResources() {
+	public void resourceWithSensorsvariationTest() {
 		Formula formula0 = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.FACE_DETECTED.name(), null));
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formula0.addRequiredResources(resourcesSet);
@@ -73,16 +81,22 @@ public class FormulaTest {
 		resourcesSet = new Brick.ResourcesSet();
 		formula3.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
+	}
 
+	@Test
+	public void resourceSetEmptyTest() {
 		Formula simpleFormula = new Formula(42.0d);
-		resourcesSet = new Brick.ResourcesSet();
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		simpleFormula.addRequiredResources(resourcesSet);
 		assertThat(resourcesSet, is(empty()));
+	}
 
+	@Test
+	public void resourceWithMultipleElementsAndSensorsTest() {
 		Formula formulaWithResourceLeft = new Formula(new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(),
 				null, new FormulaElement(ElementType.SENSOR, Sensors.FACE_Y_POSITION.name(), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(96d), null)));
-		resourcesSet = new Brick.ResourcesSet();
+		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		formulaWithResourceLeft.addRequiredResources(resourcesSet);
 		assertTrue(resourcesSet.contains(Brick.FACE_DETECTION));
 
@@ -102,19 +116,25 @@ public class FormulaTest {
 	}
 
 	@Test
-	public void testIsSingleNumberFormula() {
-
+	public void singleNumberAsIntegerTest() {
 		Formula formula = new Formula(1);
-		assertTrue(formula.isSingleNumberFormula());
+		assertTrue(formula.isNumber());
+	}
 
-		formula = new Formula(1.0d);
-		assertTrue(formula.isSingleNumberFormula());
+	@Test
+	public void singleNumberAsDoubleTest() {
+		Formula formula = new Formula(1.0d);
+		assertTrue(formula.isNumber());
+	}
 
-		formula = new Formula(1.0f);
-		assertTrue(formula.isSingleNumberFormula());
+	@Test
+	public void singleNumberAsFloatTest() {
+		Formula formula = new Formula(1.0f);
+		assertTrue(formula.isNumber());
+	}
 
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
-
+	@Test
+	public void minusOneIntegerTest() {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
@@ -125,55 +145,64 @@ public class FormulaTest {
 		assertEquals(-1d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
-		formula = new Formula(parseTree);
-		assertTrue(formula.isSingleNumberFormula());
+		Formula formula = new Formula(parseTree);
+		assertTrue(formula.isNumber());
+	}
 
+	@Test
+	public void minusOneDoubleTest() {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull(parseTree);
 		assertEquals(-1d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
-		formula = new Formula(parseTree);
-		assertTrue(formula.isSingleNumberFormula());
+		Formula formula = new Formula(parseTree);
+		assertTrue(formula.isNumber());
+	}
 
+	@Test
+	public void subtractionWithDoubleTest() {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull(parseTree);
 		assertEquals(-2d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
-		formula = new Formula(parseTree);
-		assertFalse(formula.isSingleNumberFormula());
+		Formula formula = new Formula(parseTree);
+		assertFalse(formula.isNumber());
+	}
 
+	@Test
+	public void roundValue() {
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ROUND.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, "("));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.1111"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
 
-		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
+		FormulaElement parseTree = internParser.parseFormula();
 
 		assertNotNull(parseTree);
 		assertEquals(1d, parseTree.interpretRecursive(null));
 		internTokenList.clear();
 
-		formula = new Formula(parseTree);
-		assertFalse(formula.isSingleNumberFormula());
+		Formula formula = new Formula(parseTree);
+		assertFalse(formula.isNumber());
 	}
 
 	@Test
-	public void testComputeDialogResult() {
+	public void stringConcatenationTest() {
 		FormulaElement helloStringFormulaElement = new FormulaElement(ElementType.STRING, "hello", null);
 		FormulaElement worldStringFormulaElement = new FormulaElement(ElementType.STRING, "world", null);
 		FormulaElement joinFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
@@ -181,21 +210,39 @@ public class FormulaTest {
 		Formula joinFormula = new Formula(joinFunctionFormulaElement);
 		String computeDialogResult = joinFormula.getResultForComputeDialog(null);
 		assertEquals("helloworld", computeDialogResult);
+	}
 
+	@Test
+	public void letterAtIndexTest() {
+		FormulaElement helloStringFormulaElement = new FormulaElement(ElementType.STRING, "hello", null);
 		FormulaElement indexFormulaElement = new FormulaElement(ElementType.NUMBER, "1", null);
 		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
 		Formula letterFormula = new Formula(letterFunctionFormulaElement);
-		computeDialogResult = letterFormula.getResultForComputeDialog(null);
+		String computeDialogResult = letterFormula.getResultForComputeDialog(null);
 		assertEquals("h", computeDialogResult);
+	}
 
+	@Test
+	public void regularExpressionTest() {
 		FormulaElement regexStringFormulaElement = new FormulaElement(ElementType.STRING, " an? ([^ .]+)", null);
 		FormulaElement iamanelephantStringFormulaElement = new FormulaElement(ElementType.STRING, "I am an elephant.",
 				null);
 		FormulaElement regexFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
 		Formula regexFormula = new Formula(regexFunctionFormulaElement);
-		computeDialogResult = regexFormula.getResultForComputeDialog(null);
+		String computeDialogResult = regexFormula.getResultForComputeDialog(null);
 		assertEquals("elephant", computeDialogResult);
+	}
+
+	@Test
+	public void bracketsWrappedFormulaTest() {
+		FormulaElement bracketOpenFormulaElement = new FormulaElement(ElementType.BRACKET, null, null);
+		FormulaElement numberFormulaElement = new FormulaElement(ElementType.NUMBER, "1", bracketOpenFormulaElement);
+		bracketOpenFormulaElement.replaceElement(
+				new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
+		Formula bracketWrappedFormula = new Formula(bracketOpenFormulaElement);
+		String computeDialogResult = bracketWrappedFormula.getResultForComputeDialog(null);
+		assertEquals("1.0", computeDialogResult);
 	}
 }

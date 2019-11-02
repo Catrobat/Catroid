@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
+import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -262,15 +263,19 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
 								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-						TypedArray sensorPorts = type == Constants.NXT
-								? getResources().obtainTypedArray(R.array.formula_editor_nxt_ports)
-								: getResources().obtainTypedArray(R.array.formula_editor_ev3_ports);
-						int resourceId = sensorPorts.getResourceId(selectedPort, 0);
-						if (resourceId != 0) {
-							formulaEditor.addResourceToActiveFormula(resourceId);
-							formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+						int sensorPortsId = type == Constants.NXT
+								? R.array.formula_editor_nxt_ports
+								: R.array.formula_editor_ev3_ports;
+						TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
+						try {
+							int resourceId = sensorPorts.getResourceId(selectedPort, 0);
+							if (resourceId != 0) {
+								formulaEditor.addResourceToActiveFormula(resourceId);
+								formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+							}
+						} finally {
+							sensorPorts.recycle();
 						}
-
 						getActivity().onBackPressed();
 					}
 				})
@@ -495,7 +500,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getRaspberrySensorItems() {
-		return SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
+		return RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_RASPBERRY, SENSORS_RASPBERRY_PARAMS), getString(R.string.formula_editor_device_raspberry))
 				: Collections.<CategoryListItem>emptyList();
 	}
