@@ -167,6 +167,7 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -647,6 +648,7 @@ public class CategoryBricksFactory {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_STEPS)));
+		embroideryBrickList.add(new StopRunningStitchBrick());
 		return embroideryBrickList;
 	}
 

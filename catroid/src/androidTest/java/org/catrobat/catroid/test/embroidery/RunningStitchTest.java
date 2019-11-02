@@ -130,4 +130,20 @@ public class RunningStitchTest {
 
 		Mockito.verify(runningStitchType, Mockito.times(0)).setStartCoordinates(anyFloat(), anyFloat());
 	}
+
+	@Test
+	public void testDeactivateRunningStitch() {
+		runningStitch.activateStitching(sprite, runningStitchType);
+		runningStitch.deactivate();
+		final float xCoord = 1;
+		final float yCoord = 2;
+		runningStitch.setStartCoordinates(xCoord, yCoord);
+		runningStitch.update();
+
+		Mockito.verify(runningStitchType, Mockito.times(0)).setStartCoordinates(xCoord, yCoord);
+		Mockito.verify(spriteLook, Mockito.times(0)).getXInUserInterfaceDimensionUnit();
+		Mockito.verify(spriteLook, Mockito.times(0)).getYInUserInterfaceDimensionUnit();
+		Mockito.verify(runningStitchType, Mockito.times(0)).update(anyFloat(), anyFloat());
+
+	}
 }

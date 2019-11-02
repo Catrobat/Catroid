@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,51 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions;
 
-package org.catrobat.catroid.embroidery;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.embroidery.DSTStitchCommand;
+import org.catrobat.catroid.stage.StageActivity;
 
-public class RunningStitch {
+public class StopRunningStitchAction extends TemporalAction {
+
 	private Sprite sprite;
-	private  boolean isRunning = false;
-	private RunningStitchType type;
 
-	public void activateStitching(Sprite sprite, RunningStitchType type) {
-		if (sprite != null && type != null) {
-			this.sprite = sprite;
-			this.type = type;
-			isRunning = true;
-		}
+	@Override
+	protected void update(float delta) {
+		sprite.runningStitch.deactivate();
 	}
 
-	public void update() {
-		if (isRunning) {
-			float currentX = sprite.look.getXInUserInterfaceDimensionUnit();
-			float currentY = sprite.look.getYInUserInterfaceDimensionUnit();
-			type.update(currentX, currentY);
-		}
-	}
-
-	public void setStartCoordinates(float xStart, float yStart) {
-		if (type != null) {
-			type.setStartCoordinates(xStart, yStart);
-		}
-	}
-
-	public void pause() {
-		isRunning = false;
-	}
-
-	public void resume() {
-		if (type != null) {
-			isRunning = true;
-		}
-	}
-
-	public void deactivate() {
-		isRunning = false;
-		type = null;
-		sprite = null;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }
