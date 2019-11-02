@@ -164,6 +164,7 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -234,7 +235,8 @@ public class BrickCategoryTest {
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
 				{"Embroidery", Arrays.asList(StitchBrick.class,
-						RunningStitchBrick.class)},
+						RunningStitchBrick.class,
+						StopRunningStitchBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
