@@ -172,6 +172,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -651,6 +652,7 @@ public class CategoryBricksFactory {
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_STEPS)));
 		embroideryBrickList.add(new ZigZagStitchBrick(new Formula(BrickValues.STITCH_LENGTH),
 				new Formula(BrickValues.STITCH_WIDTH)));
+		embroideryBrickList.add(new TripleStitchBrick(new Formula(BrickValues.STITCH_STEPS)));
 		embroideryBrickList.add(new StopRunningStitchBrick());
 		return embroideryBrickList;
 	}

@@ -163,6 +163,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -239,6 +240,7 @@ public class BrickCategoryTest {
 				{"Embroidery", Arrays.asList(StitchBrick.class,
 						RunningStitchBrick.class,
 						ZigZagStitchBrick.class,
+						TripleStitchBrick.class,
 						StopRunningStitchBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
