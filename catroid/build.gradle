@@ -321,6 +321,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         standalone {
@@ -338,6 +339,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         createAtSchool {
@@ -351,6 +353,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         lunaAndCat {
@@ -364,6 +367,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         phiro {
@@ -377,6 +381,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
         }
 
         arduino {
@@ -390,6 +395,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "true"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
     }
 }
