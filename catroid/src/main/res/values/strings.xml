@@ -671,19 +671,6 @@
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
 
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">Copy</string>
-    <string name="import_dialog_move_btn">Move</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
-    <!--  -->
-
     <string name="error_no_files_found">No project files found.</string>
 
     <!-- ScriptListFragment -->
