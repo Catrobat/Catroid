@@ -48,7 +48,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
 
 @RunWith(AndroidJUnit4.class)
 public class AboutDialogTest {
@@ -58,7 +57,6 @@ public class AboutDialogTest {
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, true, false);
 
 	private boolean bufferedPrivacyPolicyPreferenceSetting;
-	private boolean bufferedImportFromExternalStoragePreferenceSetting;
 
 	@Before
 	public void setUp() throws Exception {
@@ -68,13 +66,9 @@ public class AboutDialogTest {
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
 
-		bufferedImportFromExternalStoragePreferenceSetting = sharedPreferences
-				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
-
 		sharedPreferences
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
-				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
 				.commit();
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -84,7 +78,6 @@ public class AboutDialogTest {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
-				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
 				.commit();
 	}
 

@@ -49,7 +49,6 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResources;
 
 @RunWith(AndroidJUnit4.class)
@@ -60,7 +59,6 @@ public class RTLMainMenuTest {
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
 	private boolean bufferedPrivacyPolicyPreferenceSetting;
-	private boolean bufferedImportFromExternalStoragePreferenceSetting;
 
 	private static final Locale ARABIC_LOCALE = new Locale("ar");
 	private static final Locale GERMAN_LOCALE = Locale.GERMAN;
@@ -75,13 +73,9 @@ public class RTLMainMenuTest {
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
 
-		bufferedImportFromExternalStoragePreferenceSetting = sharedPreferences
-				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
-
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
-				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
 				.commit();
 	}
 
@@ -90,7 +84,6 @@ public class RTLMainMenuTest {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
-				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
 				.commit();
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
 	}
