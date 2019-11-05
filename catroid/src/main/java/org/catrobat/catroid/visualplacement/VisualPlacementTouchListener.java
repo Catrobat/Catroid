@@ -23,16 +23,33 @@
 
 package org.catrobat.catroid.visualplacement;
 
-import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VisualPlacementTouchListener {
 
 	private Mode mode;
-	private float previousY;
+	private static final long TAP_DELAY_THRESHOLD = 100;
+	private static final long JITTER_DELAY_THRESHOLD = 30;
+	private static final float JITTER_DISTANCE_THRESHOLD = 10.f * 10.f;
 	private float previousX;
-	private long lastTimeMove = 0;
+	private float previousY;
+	private List<TouchEventData> recentTouchEventsData = new ArrayList<>();
+
+	private final class TouchEventData {
+		private final long timeStamp;
+		private final float xCoordinate;
+		private final float yCoordinate;
+
+		private TouchEventData(long time, float x, float y) {
+			timeStamp = time;
+			xCoordinate = x;
+			yCoordinate = y;
+		}
+	}
 
 	private void setMode(Mode mode) {
 		this.mode = mode;
@@ -42,31 +59,50 @@ public class VisualPlacementTouchListener {
 		if (event.getPointerId(0) == 0) {
 			float currentX = event.getRawX();
 			float currentY = event.getRawY();
+			long motionEventTime = event.getEventTime();
 
 			switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
 					setMode(Mode.TAP);
 					previousX = currentX;
 					previousY = currentY;
-					lastTimeMove = SystemClock.elapsedRealtime();
+					recentTouchEventsData.add(new TouchEventData(motionEventTime, currentX, currentY));
 					break;
 				case MotionEvent.ACTION_CANCEL:
 				case MotionEvent.ACTION_UP:
 					if (mode == Mode.TAP) {
 						imageView.setX(event.getX() - (float) imageView.getWidth() / 2);
 						imageView.setY(event.getY() - (float) imageView.getHeight() / 2);
+					} else {
+						removeObsoleteTouchEventsData(motionEventTime);
+						float dX = currentX - previousX;
+						float dY = currentY - previousY;
+						if (!recentTouchEventsData.isEmpty() && recentTouchEventsData.size() > 1) {
+							TouchEventData oldestEntry = recentTouchEventsData.get(0);
+							float distanceCorrectionX = currentX - oldestEntry.xCoordinate;
+							float distanceCorrectionY = currentY - oldestEntry.yCoordinate;
+							double distance = distanceCorrectionX * distanceCorrectionX + distanceCorrectionY * distanceCorrectionY;
+							if (distance < JITTER_DISTANCE_THRESHOLD && distance != 0) {
+								dX -= distanceCorrectionX;
+								dY -= distanceCorrectionY;
+							}
+						}
+						imageView.setX(imageView.getX() + dX);
+						imageView.setY(imageView.getY() + dY);
 					}
 					break;
 				case MotionEvent.ACTION_MOVE:
-					long delayTime = SystemClock.elapsedRealtime() - lastTimeMove;
-					if (delayTime > 100) {
+					long delayTime = motionEventTime - event.getDownTime();
+					if (delayTime > TAP_DELAY_THRESHOLD) {
 						setMode(Mode.MOVE);
 						float dX = currentX - previousX;
 						float dY = currentY - previousY;
 						imageView.setX(imageView.getX() + dX);
 						imageView.setY(imageView.getY() + dY);
+						recentTouchEventsData.add(new TouchEventData(motionEventTime, currentX, currentY));
 						previousX = currentX;
 						previousY = currentY;
+						removeObsoleteTouchEventsData(motionEventTime);
 					}
 					break;
 			}
@@ -76,6 +112,20 @@ public class VisualPlacementTouchListener {
 		} else {
 			return false;
 		}
+	}
+
+	private void removeObsoleteTouchEventsData(long timeStamp) {
+		List<TouchEventData> obsoleteTouchEventsData = new ArrayList<>();
+		for (TouchEventData touchEventData : recentTouchEventsData) {
+			if (touchEventData != null) {
+				if ((timeStamp - touchEventData.timeStamp) > JITTER_DELAY_THRESHOLD) {
+					obsoleteTouchEventsData.add(touchEventData);
+				} else {
+					break;
+				}
+			}
+		}
+		recentTouchEventsData.removeAll(obsoleteTouchEventsData);
 	}
 
 	public enum Mode {MOVE, TAP}
