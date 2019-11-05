@@ -61,7 +61,6 @@ public class AddBrickFragment extends ListFragment {
 	private ScriptFragment scriptFragment;
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
-
 	private static int listIndexToFocus = -1;
 
 	private boolean onlyBeginnerBricks() {
