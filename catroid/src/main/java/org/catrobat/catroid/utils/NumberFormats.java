@@ -30,7 +30,7 @@ public final class NumberFormats {
 	}
 	public static final String TAG = NumberFormats.class.getSimpleName();
 
-	public static String stringWithoutTrailingZero(String value) {
+	public static String trimTrailingCharacters(String value) {
 		if (value == null) {
 			value = "";
 		}
@@ -40,15 +40,14 @@ public final class NumberFormats {
 		return value;
 	}
 
-	public static String humanFriendlyFormattedShortNumber(final int number) {
-		if (number < 1_000) {
-			return Integer.toString(number);
-		} else if (number < 10_000) {
-			return Integer.toString(number / 1_000) + (number % 1_000 > 100 ? "."
-					+ Integer.toString((number % 1_000) / 100) : "") + "k";
-		} else if (number < 1_000_000) {
-			return Integer.toString(number / 1_000) + "k";
+	public static String toMetricPostfixNotation(int number) {
+		if (number >= 1_000_000) {
+			return number / 1_000_000 + "M";
+		} else if (number >= 10_000) {
+			return number / 1_000 + (number % 1_000 > 100 ? "." + (number % 1_000) / 100 : "") + "k";
+		} else if (number >= 1_000) {
+			return number / 1_000 + "k";
 		}
-		return Integer.toString(number / 1_000_000) + "M";
+		return Integer.toString(number);
 	}
 }

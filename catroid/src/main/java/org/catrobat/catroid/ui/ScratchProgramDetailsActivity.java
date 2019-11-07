@@ -63,10 +63,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static org.catrobat.catroid.utils.NumberFormats.humanFriendlyFormattedShortNumber;
+import static org.catrobat.catroid.utils.NumberFormats.toMetricPostfixNotation;
 
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
@@ -95,7 +94,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 
 		setContentView(R.layout.activity_scratch_project_details);
 
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		String scratchConverter = getString(R.string.main_menu_scratch_converter);
 		SpannableString scratchConverterBeta = new SpannableString(scratchConverter
@@ -270,11 +269,11 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		}
 
 		((TextView) findViewById(R.id.scratch_project_favorites_text))
-				.setText(humanFriendlyFormattedShortNumber(programData.getFavorites()));
+				.setText(toMetricPostfixNotation(programData.getFavorites()));
 		((TextView) findViewById(R.id.scratch_project_loves_text))
-				.setText(humanFriendlyFormattedShortNumber(programData.getLoves()));
+				.setText(toMetricPostfixNotation(programData.getLoves()));
 		((TextView) findViewById(R.id.scratch_project_views_text))
-				.setText(humanFriendlyFormattedShortNumber(programData.getViews()));
+				.setText(toMetricPostfixNotation(programData.getViews()));
 
 		TextView dateSharedView = findViewById(R.id.date_shared_view);
 		TextView dateModifiedView = findViewById(R.id.date_modified_view);
