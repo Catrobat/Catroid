@@ -76,7 +76,7 @@ public class FormulaElementTest {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
-		assertEquals(FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(null));
 	}
 
 	@Test
@@ -84,7 +84,7 @@ public class FormulaElementTest {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_LIST, "notExistingUserList", null);
-		assertEquals(FormulaElement.NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(null));
 	}
 
 	@Test

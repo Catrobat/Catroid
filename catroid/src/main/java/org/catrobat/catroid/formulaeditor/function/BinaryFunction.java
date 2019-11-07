@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,33 +21,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.formulaeditor.function;
 
-public final class NumberFormats {
+public class BinaryFunction implements FormulaFunction, BinaryFunctionAction {
+	private final BinaryFunctionAction action;
 
-	private NumberFormats() {
-		throw new AssertionError();
-	}
-	public static final String TAG = NumberFormats.class.getSimpleName();
-
-	public static String trimTrailingCharacters(String value) {
-		if (value == null) {
-			value = "";
-		}
-		if (value.contains(".") && value.matches("[0-9.-]+")) {
-			value = !value.contains(".") ? value : value.replaceAll("0*$", "").replaceAll("\\.$", "");
-		}
-		return value;
+	public BinaryFunction(BinaryFunctionAction action) {
+		this.action = action;
 	}
 
-	public static String toMetricPostfixNotation(int number) {
-		if (number >= 1_000_000) {
-			return number / 1_000_000 + "M";
-		} else if (number >= 10_000) {
-			return number / 1_000 + (number % 1_000 > 100 ? "." + (number % 1_000) / 100 : "") + "k";
-		} else if (number >= 1_000) {
-			return number / 1_000 + "k";
+	@Override
+	public Double execute(Double firstArgument, Double secondArgument) {
+		if (firstArgument == null || secondArgument == null) {
+			return 0d;
+		} else {
+			return action.execute(firstArgument, secondArgument);
 		}
-		return Integer.toString(number);
+	}
+
+	@Override
+	public Double execute(Double... args) {
+		if (args == null || args.length < 2) {
+			return 0d;
+		} else {
+			return execute(args[0], args[1]);
+		}
 	}
 }

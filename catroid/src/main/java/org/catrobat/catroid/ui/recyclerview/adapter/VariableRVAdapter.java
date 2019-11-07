@@ -33,7 +33,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
 
 import java.util.List;
 
-import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class VariableRVAdapter extends RVAdapter<UserVariable> {
 
@@ -54,6 +54,6 @@ public class VariableRVAdapter extends RVAdapter<UserVariable> {
 		UserVariable item = items.get(position);
 		VariableVH variableVH = (VariableVH) holder;
 		variableVH.title.setText(item.getName());
-		variableVH.value.setText(stringWithoutTrailingZero(item.getValue().toString()));
+		variableVH.value.setText(trimTrailingCharacters(item.getValue().toString()));
 	}
 }

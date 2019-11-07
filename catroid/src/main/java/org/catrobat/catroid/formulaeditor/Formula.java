@@ -26,7 +26,6 @@ import android.content.Context;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -34,7 +33,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import java.io.Serializable;
 import java.util.Set;
 
-import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class Formula implements Serializable {
 
@@ -42,17 +41,6 @@ public class Formula implements Serializable {
 	private FormulaElement formulaTree;
 
 	private transient InternFormula internFormula = null;
-
-	public Object readResolve() {
-
-		if (formulaTree == null) {
-			formulaTree = new FormulaElement(ElementType.NUMBER, "0 ", null);
-		}
-
-		internFormula = new InternFormula(formulaTree.getInternTokenList());
-
-		return this;
-	}
 
 	public Formula(FormulaElement formulaElement) {
 		formulaTree = formulaElement;
@@ -169,7 +157,7 @@ public class Formula implements Serializable {
 		}
 
 		String value = String.valueOf(interpretation);
-		return stringWithoutTrailingZero(value);
+		return trimTrailingCharacters(value);
 	}
 
 	public Object interpretObject(Sprite sprite) {
@@ -214,19 +202,19 @@ public class Formula implements Serializable {
 		formulaTree.addRequiredResources(requiredResourcesSet);
 	}
 
-	public String getResultForComputeDialog(Context context) {
-		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+	public String getResultForComputeDialog(StringProvider stringProvider, Sprite sprite) {
 		ElementType type = formulaTree.getElementType();
 
 		if (formulaTree.isLogicalOperator()) {
-			boolean result;
 			try {
-				result = this.interpretBoolean(sprite);
+				if (interpretBoolean(sprite)) {
+					return stringProvider.getTrue();
+				} else {
+					return stringProvider.getFalse();
+				}
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
-			int logicalFormulaResultIdentifier = result ? R.string.formula_editor_true : R.string.formula_editor_false;
-			return context.getString(logicalFormulaResultIdentifier);
 		} else if (type == ElementType.STRING
 				|| type == ElementType.SENSOR
 				|| (type == ElementType.FUNCTION
@@ -247,7 +235,7 @@ public class Formula implements Serializable {
 		} else {
 			Double interpretationResult;
 			try {
-				interpretationResult = this.interpretDouble(sprite);
+				interpretationResult = interpretDouble(sprite);
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
@@ -255,7 +243,8 @@ public class Formula implements Serializable {
 		}
 	}
 
-	public FormulaElement getFormulaTree() {
-		return formulaTree;
+	public interface StringProvider {
+		String getTrue();
+		String getFalse();
 	}
 }

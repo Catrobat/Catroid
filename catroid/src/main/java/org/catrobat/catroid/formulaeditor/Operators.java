@@ -45,16 +45,7 @@ public enum Operators {
 	}
 
 	public int compareOperatorTo(Operators operator) {
-		int returnValue = 0;
-		if (priority > operator.priority) {
-			returnValue = 1;
-		} else if (priority == operator.priority) {
-			returnValue = 0;
-		} else if (priority < operator.priority) {
-			returnValue = -1;
-		}
-
-		return returnValue;
+		return Integer.compare(priority, operator.priority);
 	}
 
 	public static Operators getOperatorByValue(String value) {

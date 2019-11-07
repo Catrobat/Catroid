@@ -39,6 +39,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -46,7 +47,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 
-import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
@@ -134,8 +135,10 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			return;
 		}
 
-		String result = formulaToCompute.getResultForComputeDialog(context);
-		setDialogTextView(stringWithoutTrailingZero(result));
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Formula.StringProvider stringProvider = new AndroidStringProvider(context);
+		String result = formulaToCompute.getResultForComputeDialog(stringProvider, currentSprite);
+		setDialogTextView(trimTrailingCharacters(result));
 	}
 
 	@Override
@@ -148,18 +151,33 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	}
 
 	private void setDialogTextView(final String newString) {
-		computeTextView.post(new Runnable() {
-			@Override
-			public void run() {
-				computeTextView.setText(newString);
+		computeTextView.post(() -> {
+			computeTextView.setText(newString);
 
-				ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
-				int height = computeTextView.getLineCount() * computeTextView.getLineHeight();
-				int heightMargin = (int) (height * 0.5);
-				params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-				params.height = height + heightMargin;
-				computeTextView.setLayoutParams(params);
-			}
+			ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
+			int height = computeTextView.getLineCount() * computeTextView.getLineHeight();
+			int heightMargin = (int) (height * 0.5);
+			params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+			params.height = height + heightMargin;
+			computeTextView.setLayoutParams(params);
 		});
+	}
+
+	private static class AndroidStringProvider implements Formula.StringProvider {
+		private final Context context;
+
+		AndroidStringProvider(Context context) {
+			this.context = context;
+		}
+
+		@Override
+		public String getTrue() {
+			return context.getString(R.string.formula_editor_true);
+		}
+
+		@Override
+		public String getFalse() {
+			return context.getString(R.string.formula_editor_false);
+		}
 	}
 }

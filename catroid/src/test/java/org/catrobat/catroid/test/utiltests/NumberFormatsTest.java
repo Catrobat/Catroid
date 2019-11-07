@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.utiltests;
 
 import android.support.annotation.IdRes;
 
+import org.catrobat.catroid.utils.NumberFormats;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -33,35 +34,35 @@ import java.util.Arrays;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
-
 @RunWith(Parameterized.class)
 public class NumberFormatsTest {
-
 	@Parameterized.Parameter
-	public @IdRes String name;
+	public @IdRes String input;
 	@Parameterized.Parameter(1)
-	public @IdRes String stringWithoutTrailingZero;
+	public @IdRes String expected;
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][]{
-				{"0", stringWithoutTrailingZero(String.valueOf(0))},
-				{"8", stringWithoutTrailingZero(String.valueOf(8))},
-				{"-120", stringWithoutTrailingZero(String.valueOf(-120))},
-				{"0", stringWithoutTrailingZero(String.valueOf(0.0))},
-				{"0.5", stringWithoutTrailingZero(String.valueOf(0.5))},
-				{"0.7", stringWithoutTrailingZero(String.valueOf(0.70))},
-				{"0.103", stringWithoutTrailingZero(String.valueOf(0.1030))},
-				{"15.05", stringWithoutTrailingZero(String.valueOf(15.050))},
-				{"string.1900", stringWithoutTrailingZero("string.1900")},
-				{"Pocket", stringWithoutTrailingZero("Pocket")}
+				{"0", "0"},
+				{"8", "8"},
+				{"-120", "-120"},
+				{"0.0", "0"},
+				{"0.5", "0.5"},
+				{"0.70", "0.7"},
+				{"0.1030", "0.103"},
+				{"15.050", "15.05"},
+				{"string.1900", "string.1900"},
+				{"string0.10", "string0.10"},
+				{"Pocket", "Pocket"},
+				{"Pocket.", "Pocket."}
 		});
 	}
 
 	@Test
-	public void testStringWithoutTrailingZero() {
-		assertEquals(stringWithoutTrailingZero, name);
+	public void testTrimTrailingCharacters() {
+		String actual = NumberFormats.trimTrailingCharacters(input);
+		assertEquals(expected, actual);
 	}
 }
 

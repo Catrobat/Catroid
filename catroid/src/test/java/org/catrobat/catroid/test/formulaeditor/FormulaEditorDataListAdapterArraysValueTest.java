@@ -58,11 +58,11 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 		createProject();
 
 		UserVariable userVariable = new UserVariable(userVarName);
-		userVariable.setValue(NumberFormats.stringWithoutTrailingZero("1.0"));
+		userVariable.setValue(NumberFormats.trimTrailingCharacters("1.0"));
 		UserList userList = new UserList(userListName);
-		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.0"));
-		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.0"));
-		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.05"));
+		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));
+		userList.addListItem(NumberFormats.trimTrailingCharacters("1.0"));
+		userList.addListItem(NumberFormats.trimTrailingCharacters("1.05"));
 		project.addUserList(userList);
 		project.addUserVariable(userVariable);
 	}

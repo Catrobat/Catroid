@@ -23,55 +23,69 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.devices.arduino.Arduino;
-import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
-import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
+import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
+import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
+import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.utils.TouchUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+import static org.catrobat.catroid.formulaeditor.common.Conversion.FALSE;
+import static org.catrobat.catroid.formulaeditor.common.Conversion.convertArgumentToDouble;
+import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA;
 	}
-
-	public static final Double NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE = 0d;
-	public static final Double NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE = 0d;
-	private static final String EMPTY_USER_LIST_INTERPRETATION_VALUE = "";
 
 	private ElementType type;
 	private String value;
 	private FormulaElement leftChild = null;
 	private FormulaElement rightChild = null;
-	private transient FormulaElement parent = null;
+	private transient FormulaElement parent;
+	private transient List<FunctionProvider> functionProviders;
+	private transient Map<Functions, FormulaFunction> formulaFunctions;
+
+	protected FormulaElement() {
+		functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
+				new MathFunctionProvider(), new TouchFunctionProvider());
+
+		formulaFunctions = new HashMap<>();
+		initFunctionMap(formulaFunctions);
+	}
 
 	public FormulaElement(ElementType type, String value, FormulaElement parent) {
+		this();
 		this.type = type;
 		this.value = value;
 		this.parent = parent;
@@ -79,9 +93,7 @@ public class FormulaElement implements Serializable {
 
 	public FormulaElement(ElementType type, String value, FormulaElement parent, FormulaElement leftChild,
 			FormulaElement rightChild) {
-		this.type = type;
-		this.value = value;
-		this.parent = parent;
+		this(type, value, parent);
 		this.leftChild = leftChild;
 		this.rightChild = rightChild;
 
@@ -93,12 +105,20 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	private void initFunctionMap(Map<Functions, FormulaFunction> formulaFunctions) {
+		for (FunctionProvider functionProvider : functionProviders) {
+			functionProvider.addFunctionsToMap(formulaFunctions);
+		}
+
+		formulaFunctions.put(Functions.RAND, new BinaryFunction(this::interpretFunctionRand));
+	}
+
 	public ElementType getElementType() {
 		return type;
 	}
 
 	public String getValue() {
-		return stringWithoutTrailingZero(value);
+		return trimTrailingCharacters(value);
 	}
 
 	public List<InternToken> getInternTokenList() {
@@ -116,7 +136,7 @@ public class FormulaElement implements Serializable {
 				if (leftChild != null) {
 					internTokenList.addAll(leftChild.getInternTokenList());
 				}
-				internTokenList.add(new InternToken(InternTokenType.OPERATOR, this.value));
+				internTokenList.add(new InternToken(InternTokenType.OPERATOR, value));
 				if (rightChild != null) {
 					internTokenList.addAll(rightChild.getInternTokenList());
 				}
@@ -138,22 +158,22 @@ public class FormulaElement implements Serializable {
 				}
 				break;
 			case USER_VARIABLE:
-				internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, this.value));
+				internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, value));
 				break;
 			case USER_LIST:
-				internTokenList.add(new InternToken(InternTokenType.USER_LIST, this.value));
+				internTokenList.add(new InternToken(InternTokenType.USER_LIST, value));
 				break;
 			case NUMBER:
-				internTokenList.add(new InternToken(InternTokenType.NUMBER, stringWithoutTrailingZero(this.value)));
+				internTokenList.add(new InternToken(InternTokenType.NUMBER, trimTrailingCharacters(value)));
 				break;
 			case SENSOR:
-				internTokenList.add(new InternToken(InternTokenType.SENSOR, this.value));
+				internTokenList.add(new InternToken(InternTokenType.SENSOR, value));
 				break;
 			case STRING:
 				internTokenList.add(new InternToken(InternTokenType.STRING, value));
 				break;
 			case COLLISION_FORMULA:
-				internTokenList.add(new InternToken(InternTokenType.COLLISION_FORMULA, this.value));
+				internTokenList.add(new InternToken(InternTokenType.COLLISION_FORMULA, value));
 				break;
 		}
 		return internTokenList;
@@ -335,13 +355,13 @@ public class FormulaElement implements Serializable {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
 		if (userList == null) {
-			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
+			return FALSE;
 		}
 
 		List<Object> userListValues = userList.getValue();
 
 		if (userListValues.size() == 0) {
-			return EMPTY_USER_LIST_INTERPRETATION_VALUE;
+			return "";
 		} else if (userListValues.size() == 1) {
 			return userListValues.get(0);
 		} else {
@@ -349,30 +369,30 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private Object interpretMultipleItemsUserList(List<Object> userListValues) {
+	private static Object interpretMultipleItemsUserList(List<Object> userListValues) {
 		List<String> userListStringValues = new ArrayList<>();
 
 		for (Object listValue : userListValues) {
 			if (listValue instanceof Double) {
 				Double doubleValueOfListItem = (Double) listValue;
-				userListStringValues.add(stringWithoutTrailingZero(String.valueOf(doubleValueOfListItem.intValue())));
+				userListStringValues.add(trimTrailingCharacters(String.valueOf(doubleValueOfListItem.intValue())));
 			} else if (listValue instanceof String) {
 				String stringValueOfListItem = (String) listValue;
-				userListStringValues.add(stringWithoutTrailingZero(stringValueOfListItem));
+				userListStringValues.add(trimTrailingCharacters(stringValueOfListItem));
 			}
 		}
 
 		StringBuilder stringBuilder = new StringBuilder(userListStringValues.size());
 		String separator = listConsistsOfSingleCharacters(userListStringValues) ? "" : " ";
 		for (String userListStringValue : userListStringValues) {
-			stringBuilder.append(stringWithoutTrailingZero(userListStringValue));
+			stringBuilder.append(trimTrailingCharacters(userListStringValue));
 			stringBuilder.append(separator);
 		}
 
 		return stringBuilder.toString().trim();
 	}
 
-	private Boolean listConsistsOfSingleCharacters(List<String> userListStringValues) {
+	private static Boolean listConsistsOfSingleCharacters(List<String> userListStringValues) {
 		for (String userListStringValue : userListStringValues) {
 			if (userListStringValue.length() > 1) {
 				return false;
@@ -385,7 +405,7 @@ public class FormulaElement implements Serializable {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
 		if (userVariable == null) {
-			return NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE;
+			return FALSE;
 		}
 		return userVariable.getValue();
 	}
@@ -400,152 +420,47 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite) {
-		final double defaultReturnValue = 0d;
-
-		Object left = null;
-		Object right = null;
-		Double doubleValueOfLeftChild = null;
-		Double doubleValueOfRightChild = null;
-
-		if (leftChild != null) {
-			left = leftChild.interpretRecursive(sprite);
-			if (left instanceof String) {
-				try {
-					doubleValueOfLeftChild = Double.valueOf((String) left);
-				} catch (NumberFormatException numberFormatException) {
-					//This is expected
-				}
-			} else {
-				doubleValueOfLeftChild = (Double) left;
-			}
-		}
-
-		if (rightChild != null) {
-			right = rightChild.interpretRecursive(sprite);
-			if (right instanceof String) {
-				try {
-					doubleValueOfRightChild = Double.valueOf((String) right);
-				} catch (NumberFormatException numberFormatException) {
-					//This is expected
-				}
-			} else {
-				doubleValueOfRightChild = (Double) right;
-			}
-		}
+		Object firstArgument = interpretChild(leftChild, sprite);
+		Object secondArgument = interpretChild(rightChild, sprite);
 
 		switch (function) {
-			case SIN:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sin(Math.toRadians(doubleValueOfLeftChild));
-			case COS:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.cos(Math.toRadians(doubleValueOfLeftChild));
-			case TAN:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.tan(Math.toRadians(doubleValueOfLeftChild));
-			case LN:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.log(doubleValueOfLeftChild);
-			case LOG:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.log10(doubleValueOfLeftChild);
-			case SQRT:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.sqrt(doubleValueOfLeftChild);
-			case RAND:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
-						: interpretFunctionRand(doubleValueOfLeftChild, doubleValueOfRightChild);
-			case ABS:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.abs(doubleValueOfLeftChild);
-			case ROUND:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : (double) java.lang.Math.round(doubleValueOfLeftChild);
-			case PI:
-				return java.lang.Math.PI;
-			case MOD:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
-						: interpretFunctionMod(doubleValueOfLeftChild, doubleValueOfRightChild);
-			case ARCSIN:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.asin(doubleValueOfLeftChild));
-			case ARCCOS:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.acos(doubleValueOfLeftChild));
-			case ARCTAN:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.toDegrees(Math.atan(doubleValueOfLeftChild));
-			case ARCTAN2:
-				if (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) {
-					return defaultReturnValue;
-				}
-				if ((doubleValueOfLeftChild == 0) && (doubleValueOfRightChild == 0)) {
-					return -180 + java.lang.Math.random() * 360;
-				} else {
-					return java.lang.Math.toDegrees(java.lang.Math.atan2(doubleValueOfLeftChild, doubleValueOfRightChild));
-				}
-			case EXP:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.exp(doubleValueOfLeftChild);
-			case POWER:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue
-						: java.lang.Math.pow(doubleValueOfLeftChild, doubleValueOfRightChild);
-			case FLOOR:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.floor(doubleValueOfLeftChild);
-			case CEIL:
-				return doubleValueOfLeftChild == null ? defaultReturnValue : java.lang.Math.ceil(doubleValueOfLeftChild);
-			case MAX:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue : java.lang.Math.max(doubleValueOfLeftChild,
-						doubleValueOfRightChild);
-			case MIN:
-				return (doubleValueOfLeftChild == null || doubleValueOfRightChild == null) ? defaultReturnValue : java.lang.Math.min(doubleValueOfLeftChild,
-						doubleValueOfRightChild);
-			case TRUE:
-				return 1d;
-			case FALSE:
-				return 0d;
 			case LETTER:
-				return interpretFunctionLetter(right, left);
+				return interpretFunctionLetter(firstArgument, secondArgument);
 			case LENGTH:
-				return interpretFunctionLength(left, sprite);
+				return interpretFunctionLength(firstArgument, sprite);
 			case JOIN:
 				return interpretFunctionJoin(sprite);
 			case REGEX:
 				return interpretFunctionRegex(sprite);
-			case ARDUINODIGITAL:
-				Arduino arduinoDigital = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoDigital != null && doubleValueOfLeftChild != null) {
-					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 13) {
-						return defaultReturnValue;
-					}
-					return arduinoDigital.getDigitalArduinoPin(doubleValueOfLeftChild.intValue());
-				}
-				break;
-			case ARDUINOANALOG:
-				Arduino arduinoAnalog = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).getDevice(BluetoothDevice.ARDUINO);
-				if (arduinoAnalog != null && doubleValueOfLeftChild != null) {
-					if (doubleValueOfLeftChild < 0 || doubleValueOfLeftChild > 5) {
-						return defaultReturnValue;
-					}
-					return arduinoAnalog.getAnalogArduinoPin(doubleValueOfLeftChild.intValue());
-				}
-				break;
-			case RASPIDIGITAL:
-				RPiSocketConnection connection = RaspberryPiService.getInstance().connection;
-				if (doubleValueOfLeftChild != null) {
-					int pin = doubleValueOfLeftChild.intValue();
-					try {
-						return connection.getPin(pin) ? 1d : 0d;
-					} catch (Exception e) {
-						//This is expected
-					}
-				}
-				break;
-			case MULTI_FINGER_TOUCHED:
-				return (doubleValueOfLeftChild != null && TouchUtil.isFingerTouching(doubleValueOfLeftChild.intValue()))
-						? 1d : defaultReturnValue;
-			case MULTI_FINGER_X:
-				return doubleValueOfLeftChild != null ? (double) TouchUtil.getX(doubleValueOfLeftChild
-						.intValue()) : defaultReturnValue;
-			case MULTI_FINGER_Y:
-				return doubleValueOfLeftChild != null ? (double) TouchUtil.getY(doubleValueOfLeftChild.intValue())
-						: defaultReturnValue;
 			case LIST_ITEM:
-				return interpretFunctionListItem(left, sprite);
+				return interpretFunctionListItem(firstArgument, sprite);
 			case CONTAINS:
-				return interpretFunctionContains(right, sprite);
+				return interpretFunctionContains(secondArgument, sprite);
 			case NUMBER_OF_ITEMS:
-				return interpretFunctionNumberOfItems(left, sprite);
+				return interpretFunctionNumberOfItems(firstArgument, sprite);
+			default:
+				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
+				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
+				return interpretFormulaFunction(function, firstArgumentDouble, secondArgumentDouble);
 		}
-		return 0d;
+	}
+
+	@Nullable
+	private Object interpretChild(FormulaElement child, Sprite sprite) {
+		if (child != null) {
+			return child.interpretRecursive(sprite);
+		} else {
+			return null;
+		}
+	}
+
+	private Object interpretFormulaFunction(Functions function, Double firstArgumentDouble, Double secondArgumentDouble) {
+		FormulaFunction formulaFunction = formulaFunctions.get(function);
+		if (formulaFunction == null) {
+			return 0d;
+		} else {
+			return formulaFunction.execute(firstArgumentDouble, secondArgumentDouble);
+		}
 	}
 
 	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite) {
@@ -611,18 +526,18 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionJoin(Sprite sprite) {
-		return stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(leftChild, sprite))
-				+ stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(rightChild, sprite));
+		return trimTrailingCharacters(interpretInterpretFunctionStringParameter(leftChild, sprite))
+				+ trimTrailingCharacters(interpretInterpretFunctionStringParameter(rightChild, sprite));
 	}
 
 	private Object interpretFunctionRegex(Sprite sprite) {
 		try {
 			Pattern pattern = Pattern.compile(
-					stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(leftChild, sprite)),
+					trimTrailingCharacters(interpretInterpretFunctionStringParameter(leftChild, sprite)),
 					Pattern.DOTALL | Pattern.MULTILINE);
 
 			Matcher matcher = pattern.matcher(
-					stringWithoutTrailingZero(interpretInterpretFunctionStringParameter(rightChild, sprite)));
+					trimTrailingCharacters(interpretInterpretFunctionStringParameter(rightChild, sprite)));
 
 			if (matcher.find()) {
 				if (matcher.groupCount() == 0) {
@@ -703,7 +618,7 @@ public class FormulaElement implements Serializable {
 		return (double) (String.valueOf(left)).length();
 	}
 
-	private Object interpretFunctionLetter(Object right, Object left) {
+	private Object interpretFunctionLetter(Object left, Object right) {
 		int index = 0;
 		if (left instanceof String) {
 			try {
@@ -728,33 +643,9 @@ public class FormulaElement implements Serializable {
 		return String.valueOf(String.valueOf(right).charAt(index));
 	}
 
-	private Object interpretFunctionMod(Object left, Object right) {
-
-		double dividend = (Double) left;
-		double divisor = (Double) right;
-
-		if (dividend == 0 || divisor == 0) {
-			return dividend;
-		}
-
-		if (divisor > 0) {
-			while (dividend < 0) {
-				dividend += java.lang.Math.abs(divisor);
-			}
-		} else {
-			if (dividend > 0) {
-				return (dividend % divisor) + divisor;
-			}
-		}
-
-		return dividend % divisor;
-	}
-
-	private Object interpretFunctionRand(Object left, Object right) {
-		double from = (double) left;
-		double to = (double) right;
-		double low = (from <= to) ? from : to;
-		double high = (from <= to) ? to : from;
+	private double interpretFunctionRand(double from, double to) {
+		double low = Math.min(from, to);
+		double high = Math.max(from, to);
 
 		if (low == high) {
 			return low;
@@ -762,7 +653,7 @@ public class FormulaElement implements Serializable {
 
 		if (isInteger(low) && isInteger(high)
 				&& !isNumberWithDecimalPoint(leftChild) && !isNumberWithDecimalPoint(rightChild)) {
-			return low + Math.floor(Math.random() * ((high + 1) - low));
+			return Math.floor(Math.random() * ((high + 1) - low)) + low;
 		} else {
 			return (Math.random() * (high - low)) + low;
 		}
@@ -1037,14 +928,16 @@ public class FormulaElement implements Serializable {
 
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
 
-		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
-				rightChild);
+		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent());
 
+		cloneThis.leftChild = this;
+		cloneThis.rightChild = rightChild;
+		cloneThis.leftChild.parent = cloneThis;
 		cloneThis.parent.rightChild = cloneThis;
 	}
 
 	private boolean isInteger(double value) {
-		return ((Math.abs(value) - (int) Math.abs(value)) < Double.MIN_VALUE);
+		return !Double.isInfinite(value) && !Double.isNaN(value) && value == Math.rint(value);
 	}
 
 	public boolean isLogicalOperator() {

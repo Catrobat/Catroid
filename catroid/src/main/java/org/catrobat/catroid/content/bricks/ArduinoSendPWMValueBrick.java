@@ -73,7 +73,7 @@ public class ArduinoSendPWMValueBrick extends FormulaBrick {
 
 	public void updateArduinoValues994to995() {
 		Formula formula = getFormulaWithBrickField(BrickField.ARDUINO_ANALOG_PIN_VALUE);
-		FormulaElement oldFormulaElement = formula.getFormulaTree();
+		FormulaElement oldFormulaElement = formula.getRoot();
 
 		FormulaElement multiplication =
 				new FormulaElement(FormulaElement.ElementType.OPERATOR, Operators.MULT.toString(), null);

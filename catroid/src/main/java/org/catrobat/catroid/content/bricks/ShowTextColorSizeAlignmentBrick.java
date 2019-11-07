@@ -37,8 +37,10 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.strategy.ShowColorPickerFormulaEditorStrategy;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.common.Conversion;
 import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
@@ -202,20 +204,20 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 			if (!isColorBrickFieldAString()) {
 				return Color.BLACK;
 			}
-			String formulaString = getColorBrickFieldStringValue();
-			if (formulaString.length() == 7 && formulaString.matches("^#[0-9a-fA-F]+$")) {
-				return Color.parseColor(formulaString);
-			} else {
-				return Color.BLACK;
-			}
+			String stringValue = getColorBrickFieldStringValue();
+			return Conversion.tryParseColor(stringValue);
 		}
 
 		private boolean isColorBrickFieldAString() {
-			return getFormulaWithBrickField(BrickField.COLOR).getRoot().getElementType() == ElementType.STRING;
+			return getColorFormulaElement().getElementType() == ElementType.STRING;
 		}
 
 		private String getColorBrickFieldStringValue() {
-			return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
+			return getColorFormulaElement().getValue();
+		}
+
+		private FormulaElement getColorFormulaElement() {
+			return getFormulaWithBrickField(BrickField.COLOR).getRoot();
 		}
 	}
 }
