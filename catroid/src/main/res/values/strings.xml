@@ -1800,6 +1800,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_collides_with_color_parameter">(\'#00ff00\')</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration z</string>

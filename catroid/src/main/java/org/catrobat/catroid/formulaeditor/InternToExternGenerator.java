@@ -181,6 +181,8 @@ public class InternToExternGenerator {
 				.formula_editor_function_collides_with_edge);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.COLLIDES_WITH_FINGER.name(), R.string
 				.formula_editor_function_touched);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.COLLIDES_WITH_COLOR.name(), R.string
+				.formula_editor_function_collides_with_color);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_X_VELOCITY.name(),
 				R.string.formula_editor_object_x_velocity);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_Y_VELOCITY.name(),

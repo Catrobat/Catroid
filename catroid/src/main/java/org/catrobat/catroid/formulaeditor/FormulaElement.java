@@ -57,7 +57,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.catrobat.catroid.formulaeditor.common.Conversion.FALSE;
+import static org.catrobat.catroid.formulaeditor.common.Conversion.booleanToDouble;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.convertArgumentToDouble;
+import static org.catrobat.catroid.formulaeditor.common.TouchesColorFunctions.interpretFunctionTouchesColor;
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaElement implements Serializable {
@@ -438,6 +440,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionContains(secondArgument, sprite);
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(firstArgument, sprite);
+			case COLLIDES_WITH_COLOR:
+				return booleanToDouble(interpretFunctionTouchesColor(firstArgument, sprite));
 			default:
 				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
 				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
