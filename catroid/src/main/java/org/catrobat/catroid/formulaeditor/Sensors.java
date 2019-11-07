@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.util.Log;
+import org.catrobat.catroid.utils.EnumUtils;
 
 public enum Sensors {
 	X_ACCELERATION, Y_ACCELERATION, Z_ACCELERATION, COMPASS_DIRECTION, X_INCLINATION, Y_INCLINATION, LOUDNESS,
@@ -55,15 +55,10 @@ public enum Sensors {
 	}
 
 	public static boolean isSensor(String value) {
-		return getSensorByValue(value) != null;
+		return EnumUtils.isValidEnum(Sensors.class, value);
 	}
 
 	public static Sensors getSensorByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		}
-		return null;
+		return EnumUtils.getEnum(Sensors.class, value);
 	}
 }

@@ -483,7 +483,7 @@ public final class ProjectManager implements EagerSingleton {
 	}
 
 	public Scene getCurrentlyEditedScene() {
-		if (currentlyEditedScene == null) {
+		if (currentlyEditedScene == null && project != null) {
 			currentlyEditedScene = project.getDefaultScene();
 		}
 		return currentlyEditedScene;

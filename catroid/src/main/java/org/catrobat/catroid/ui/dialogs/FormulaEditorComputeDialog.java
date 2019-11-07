@@ -38,6 +38,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -47,7 +48,7 @@ import org.catrobat.catroid.formulaeditor.SensorLoudness;
 
 import androidx.appcompat.app.AlertDialog;
 
-import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
+import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaEditorComputeDialog extends AlertDialog implements SensorEventListener {
 
@@ -63,14 +64,17 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
-			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);
+			computeTextView = findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);
 		} else {
 			setContentView(R.layout.dialog_formulaeditor_compute);
-			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
+			computeTextView = findViewById(R.id.formula_editor_compute_dialog_textview);
 		}
-		showFormulaResult();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		AndroidStringProvider stringProvider = new AndroidStringProvider(context);
+		showFormulaResult(currentSprite, stringProvider);
 	}
 
 	public void setFormula(Formula formula) {
@@ -130,13 +134,13 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		return true;
 	}
 
-	private void showFormulaResult() {
+	private void showFormulaResult(Sprite currentSprite, Formula.StringProvider stringProvider) {
 		if (computeTextView == null) {
 			return;
 		}
 
-		String result = formulaToCompute.getResultForComputeDialog(context);
-		setDialogTextView(stringWithoutTrailingZero(result));
+		String result = formulaToCompute.getResultForComputeDialog(stringProvider, currentSprite);
+		setDialogTextView(trimTrailingCharacters(result));
 	}
 
 	@Override
@@ -145,22 +149,40 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		showFormulaResult();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		AndroidStringProvider stringProvider = new AndroidStringProvider(context);
+		showFormulaResult(currentSprite, stringProvider);
 	}
 
 	private void setDialogTextView(final String newString) {
-		computeTextView.post(new Runnable() {
-			@Override
-			public void run() {
-				computeTextView.setText(newString);
+		computeTextView.post(() -> {
+			computeTextView.setText(newString);
 
-				ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
-				int height = computeTextView.getLineCount() * computeTextView.getLineHeight();
-				int heightMargin = (int) (height * 0.5);
-				params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-				params.height = height + heightMargin;
-				computeTextView.setLayoutParams(params);
-			}
+			ViewGroup.LayoutParams params = computeTextView.getLayoutParams();
+			int height = computeTextView.getLineCount() * computeTextView.getLineHeight();
+			int heightMargin = (int) (height * 0.5);
+			params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+			params.height = height + heightMargin;
+			computeTextView.setLayoutParams(params);
 		});
+	}
+
+	private static class AndroidStringProvider implements Formula.StringProvider {
+		private final Context context;
+
+		AndroidStringProvider(Context context) {
+			this.context = context;
+		}
+
+		@Override
+		public String getTrue() {
+			return context.getString(R.string.formula_editor_true);
+		}
+
+		@Override
+		public String getFalse() {
+			return context.getString(R.string.formula_editor_false);
+		}
 	}
 }

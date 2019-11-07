@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.common;
 
+import org.catrobat.catroid.utils.EnumUtils;
+
 public abstract class DroneConfigPreference {
 
 	public enum Preferences {
@@ -49,15 +51,8 @@ public abstract class DroneConfigPreference {
 		}
 
 		public static DroneConfigPreference.Preferences getPreferenceFromPreferenceCode(String preferenceCode) {
-			if (preferenceCode == null) {
-				return Preferences.FIRST;
-			}
-
-			try {
-				return valueOf(preferenceCode);
-			} catch (IllegalArgumentException e) {
-				return Preferences.FIRST;
-			}
+			Preferences preferences = EnumUtils.getEnum(Preferences.class, preferenceCode);
+			return preferences != null ? preferences : Preferences.FIRST;
 		}
 	}
 

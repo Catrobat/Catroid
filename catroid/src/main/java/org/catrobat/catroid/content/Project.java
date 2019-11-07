@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 import android.content.Context;
 import android.os.Build;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
@@ -274,6 +275,12 @@ public class Project implements Serializable {
 
 	public XmlHeader getXmlHeader() {
 		return this.xmlHeader;
+	}
+
+	public Rectangle getScreenRectangle() {
+		int virtualScreenWidth = xmlHeader.virtualScreenWidth;
+		int virtualScreenHeight = xmlHeader.virtualScreenHeight;
+		return new Rectangle(-virtualScreenWidth / 2, -virtualScreenHeight / 2, virtualScreenWidth, virtualScreenHeight);
 	}
 
 	public Brick.ResourcesSet getRequiredResources() {
