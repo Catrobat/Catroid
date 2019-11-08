@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.io;
 
 import org.catrobat.catroid.content.Project;
@@ -29,13 +30,13 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import java.io.File;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME;
+import static org.catrobat.catroid.common.Constants.DEVICE_LIST_JSON_FILENAME;
 
-public final class DeviceVariableAccessor extends DeviceUserDataAccessor {
+public class DeviceListAccessor extends DeviceUserDataAccessor {
 
 	private static final Object LOCK = new Object();
 
-	public DeviceVariableAccessor(File projectDirectory) {
+	public DeviceListAccessor(File projectDirectory) {
 		super(projectDirectory);
 	}
 
@@ -46,16 +47,16 @@ public final class DeviceVariableAccessor extends DeviceUserDataAccessor {
 
 	@Override
 	protected String getDeviceFileName() {
-		return DEVICE_VARIABLE_JSON_FILENAME;
+		return DEVICE_LIST_JSON_FILENAME;
 	}
 
 	@Override
 	public List<? extends UserData> getUserData(Sprite sprite) {
-		return sprite.getUserVariables();
+		return sprite.getUserLists();
 	}
 
 	@Override
 	public List<? extends UserData> getUserData(Project project) {
-		return project.getUserVariables();
+		return project.getUserLists();
 	}
 }

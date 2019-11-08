@@ -117,6 +117,7 @@ import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
+import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
@@ -161,6 +162,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -1240,6 +1242,13 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createWriteListOnDeviceAction(UserList userList) {
+		WriteListOnDeviceAction action = Actions.action(WriteListOnDeviceAction.class);
+		action.setUserList(userList);
+
+		return action;
+	}
+
 	public Action createWaitTillIdleAction() {
 		return action(WaitTillIdleAction.class);
 	}
@@ -1247,6 +1256,13 @@ public class ActionFactory extends Actions {
 	public Action createReadVariableFromDeviceAction(UserVariable userVariable) {
 		ReadVariableFromDeviceAction action = Actions.action(ReadVariableFromDeviceAction.class);
 		action.setUserVariable(userVariable);
+
+		return action;
+	}
+
+	public Action createReadListFromDeviceAction(UserList userList) {
+		ReadListFromDeviceAction action = Actions.action(ReadListFromDeviceAction.class);
+		action.setUserList(userList);
 
 		return action;
 	}

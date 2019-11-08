@@ -158,6 +158,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
@@ -215,6 +216,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -442,7 +444,9 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenStartedBrick.class);
 		xstream.alias("brick", WhenClonedBrick.class);
 		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
+		xstream.alias("brick", WriteListOnDeviceBrick.class);
 		xstream.alias("brick", ReadVariableFromDeviceBrick.class);
+		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
 

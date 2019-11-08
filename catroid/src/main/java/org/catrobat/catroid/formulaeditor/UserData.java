@@ -25,7 +25,15 @@ package org.catrobat.catroid.formulaeditor;
 
 import org.catrobat.catroid.common.Nameable;
 
-public interface UserData extends Nameable {
+import java.util.UUID;
+
+public interface UserData<T> extends Nameable {
+
+	T getValue();
+
+	void setValue(T value);
 
 	void reset();
+
+	UUID getDeviceKey();
 }

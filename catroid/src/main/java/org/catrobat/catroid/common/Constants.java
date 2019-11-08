@@ -51,6 +51,7 @@ public final class Constants {
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 
 	public static final String DEVICE_VARIABLE_JSON_FILENAME = "DeviceVariables.json";
+	public static final String DEVICE_LIST_JSON_FILENAME = "DeviceLists.json";
 
 	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
 	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(

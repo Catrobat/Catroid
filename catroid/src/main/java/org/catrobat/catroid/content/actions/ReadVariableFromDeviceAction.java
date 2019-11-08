@@ -62,7 +62,7 @@ public class ReadVariableFromDeviceAction extends EventAction {
 			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
 
 			for (UserVariable variable: userVariables) {
-				accessor.readUserVariableValue(variable);
+				accessor.readUserData(variable);
 			}
 			return null;
 		}

@@ -56,11 +56,11 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 
 		indexToReplace--;
 
-		if (indexToReplace >= userList.getList().size() || indexToReplace < 0) {
+		if (indexToReplace >= userList.getValue().size() || indexToReplace < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getList()).set(indexToReplace, value);
+		((ArrayList<Object>) userList.getValue()).set(indexToReplace, value);
 	}
 
 	public void setUserList(UserList userVariable) {

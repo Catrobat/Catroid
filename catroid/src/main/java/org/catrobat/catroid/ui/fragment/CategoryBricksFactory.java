@@ -131,6 +131,7 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
@@ -185,6 +186,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -507,6 +509,8 @@ public class CategoryBricksFactory {
 				BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE,
 				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
+		dataBrickList.add(new WriteListOnDeviceBrick());
+		dataBrickList.add(new ReadListFromDeviceBrick());
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 

@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.io.devicevariableaccessor;
+package org.catrobat.catroid.test.io.devicelistaccessor;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -28,8 +28,9 @@ import android.support.test.runner.AndroidJUnit4;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceVariableAccessor;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.DeviceListAccessor;
+import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.junit.After;
 import org.junit.Before;
@@ -40,6 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -47,38 +49,38 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
-public class DeviceVariableAccessorCleanRoutineTest {
+public class DeviceUserListAccessorCleanRoutineTest {
 	private Project project;
 	private File directory;
 	private Scene scene1;
 	private Scene scene2;
 	private Sprite sprite1;
 	private Sprite sprite2;
-	private UserVariable sprite1UserVariable = new UserVariable("Sprite1_Variable", 0);
-	private UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
-	private UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
-	private DeviceVariableAccessor accessor;
+	private UserList sprite1UserList = new UserList("Sprite1_List");
+	private UserList sprite2UserList = new UserList("Sprite2_List");
+	private UserList globalUserList = new UserList("Global_List");
+	private DeviceUserDataAccessor accessor;
 
 	@Before
 	public void setUp() throws IOException {
 		project = createProject();
 
-		ArrayList<UserVariable> allVariables = new ArrayList<>();
+		ArrayList<UserList> allLists = new ArrayList<>();
 
-		sprite1.getUserVariables().add(sprite1UserVariable);
-		allVariables.addAll(sprite1.getUserVariables());
+		sprite1.getUserLists().add(sprite1UserList);
+		allLists.addAll(sprite1.getUserLists());
 
-		sprite2.getUserVariables().add(sprite2UserVariable);
-		allVariables.addAll(sprite2.getUserVariables());
+		sprite2.getUserLists().add(sprite2UserList);
+		allLists.addAll(sprite2.getUserLists());
 
-		project.getUserVariables().add(globalUserVariable);
-		allVariables.addAll(project.getUserVariables());
+		project.getUserLists().add(globalUserList);
+		allLists.addAll(project.getUserLists());
 
-		accessor = new DeviceVariableAccessor(directory);
-		Map<UUID, Object> map = new HashMap<>();
+		accessor = new DeviceListAccessor(directory);
+		Map<UUID, List<Object>> map = new HashMap<>();
 
-		for (UserVariable userVariable : allVariables) {
-			map.put(userVariable.getDeviceKey(), userVariable.getValue());
+		for (UserList userList : allLists) {
+			map.put(userList.getDeviceKey(), userList.getValue());
 		}
 		accessor.writeMapToJson(map);
 	}
@@ -105,33 +107,33 @@ public class DeviceVariableAccessorCleanRoutineTest {
 	}
 
 	@Test
-	public void deleteGlobalVariablesTest() {
-		project.getUserVariables().clear();
+	public void deleteGlobalListsTest() {
+		project.getUserLists().clear();
 		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertFalse(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
+		Map map = accessor.readMapFromJson();
+		assertFalse(map.containsKey(globalUserList.getDeviceKey()));
+		assertTrue(map.containsKey(sprite1UserList.getDeviceKey()));
+		assertTrue(map.containsKey(sprite2UserList.getDeviceKey()));
 	}
 
 	@Test
-	public void deleteSceneVariablesTest() {
+	public void deleteSceneListsTest() {
 		project.removeScene(scene1);
 		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertFalse(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
+		Map map = accessor.readMapFromJson();
+		assertTrue(map.containsKey(globalUserList.getDeviceKey()));
+		assertFalse(map.containsKey(sprite1UserList.getDeviceKey()));
+		assertTrue(map.containsKey(sprite2UserList.getDeviceKey()));
 	}
 
 	@Test
-	public void deleteSpriteVariablesTest() {
-		sprite2.getUserVariables().clear();
+	public void deleteSpriteListsTest() {
+		sprite2.getUserLists().clear();
 		accessor.cleanUpDeletedUserData(project);
-		Map<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
-		assertFalse(map.containsKey(sprite2UserVariable.getDeviceKey()));
+		Map map = accessor.readMapFromJson();
+		assertTrue(map.containsKey(globalUserList.getDeviceKey()));
+		assertTrue(map.containsKey(sprite1UserList.getDeviceKey()));
+		assertFalse(map.containsKey(sprite2UserList.getDeviceKey()));
 	}
 
 	@After
