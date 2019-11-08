@@ -65,7 +65,7 @@ public class WriteVariableOnDeviceAction extends EventAction {
 
 			for (UserVariable variable: userVariables) {
 				try {
-					accessor.writeUserData(variable);
+					accessor.writeVariable(variable);
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
 				}

@@ -65,9 +65,9 @@ public class InsertItemToUserListStageTest {
 		onView(isRoot())
 				.perform(CustomActions.wait(500));
 
-		float value = Float.valueOf(userList.getValue().get(0).toString());
+		float value = Float.valueOf(userList.getList().get(0).toString());
 
 		assertEquals(valueToInsert, value, Float.MIN_VALUE);
-		assertEquals(1, userList.getValue().size());
+		assertEquals(1, userList.getList().size());
 	}
 }

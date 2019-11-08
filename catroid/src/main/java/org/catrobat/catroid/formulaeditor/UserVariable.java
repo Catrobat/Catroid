@@ -25,7 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class UserVariable implements Serializable, UserData<Object> {
+public class UserVariable implements Serializable, UserData {
 
 	private static final long serialVersionUID = 1L;
 
@@ -67,12 +67,10 @@ public class UserVariable implements Serializable, UserData<Object> {
 		this.name = name;
 	}
 
-	@Override
 	public Object getValue() {
 		return value;
 	}
 
-	@Override
 	public void setValue(Object value) {
 		this.value = value;
 	}
@@ -117,7 +115,7 @@ public class UserVariable implements Serializable, UserData<Object> {
 		return name.hashCode();
 	}
 
-	public UUID getDeviceKey() {
+	public UUID getDeviceValueKey() {
 		return deviceValueKey;
 	}
 

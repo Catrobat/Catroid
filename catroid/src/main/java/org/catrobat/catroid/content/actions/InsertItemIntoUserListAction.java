@@ -56,11 +56,11 @@ public class InsertItemIntoUserListAction extends TemporalAction {
 
 		indexToInsert--;
 
-		if (indexToInsert > userList.getValue().size() || indexToInsert < 0) {
+		if (indexToInsert > userList.getList().size() || indexToInsert < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getValue()).add(indexToInsert, value);
+		((ArrayList<Object>) userList.getList()).add(indexToInsert, value);
 	}
 
 	public void setUserList(UserList userVariable) {

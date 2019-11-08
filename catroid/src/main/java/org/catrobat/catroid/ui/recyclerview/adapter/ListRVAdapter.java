@@ -58,7 +58,7 @@ public class ListRVAdapter extends RVAdapter<UserList> {
 		listVH.title.setText(item.getName());
 
 		List<String> userList = new ArrayList<>();
-		for (Object userListItem : item.getValue()) {
+		for (Object userListItem : item.getList()) {
 			userList.add(stringWithoutTrailingZero(userListItem.toString()));
 		}
 

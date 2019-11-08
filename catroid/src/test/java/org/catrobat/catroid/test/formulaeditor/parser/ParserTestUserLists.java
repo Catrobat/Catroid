@@ -238,13 +238,13 @@ public class ParserTestUserLists {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH,
 				InternTokenType.USER_LIST, PROJECT_USER_LIST_NAME, (double) 0, sprite);
 
-		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setValue(userListValuesStrings);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userListValuesStrings);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 15, sprite);
 
 		ArrayList<Object> userList = new ArrayList<>();
 		userList.add("0");
-		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setValue(userList);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userList);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 1, sprite);
 
@@ -272,7 +272,7 @@ public class ParserTestUserLists {
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.NUMBER_OF_ITEMS, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 0, sprite);
 
-		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setValue(userListValuesStrings);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userListValuesStrings);
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, (double) 15, sprite);
 	}
@@ -304,7 +304,7 @@ public class ParserTestUserLists {
 		userListValuesStringsAndNumbers.add(42.0);
 		userListValuesStringsAndNumbers.add("WORLDS");
 
-		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setValue(userListValuesStringsAndNumbers);
+		UserDataWrapper.getUserList(PROJECT_USER_LIST_NAME, sprite, project).setList(userListValuesStringsAndNumbers);
 
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.CONTAINS, InternTokenType.USER_LIST,
 				PROJECT_USER_LIST_NAME, InternTokenType.STRING, "Hello", 1d, sprite);

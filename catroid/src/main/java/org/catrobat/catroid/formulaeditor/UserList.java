@@ -25,14 +25,12 @@ package org.catrobat.catroid.formulaeditor;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
-public class UserList implements Serializable, UserData<List<Object>> {
+public class UserList implements Serializable, UserData {
 
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	private UUID deviceListKey;
 	private transient List<Object> list;
 
 	public UserList() {
@@ -42,19 +40,16 @@ public class UserList implements Serializable, UserData<List<Object>> {
 	public UserList(final String name) {
 		this.name = name;
 		this.list = new ArrayList<>();
-		this.deviceListKey = UUID.randomUUID();
 	}
 
 	public UserList(final String name, final List<Object> value) {
 		this.name = name;
 		this.list = value;
-		this.deviceListKey = UUID.randomUUID();
 	}
 
 	public UserList(UserList userList) {
 		this.name = userList.name;
 		this.list = new ArrayList<>(userList.list);
-		this.deviceListKey = UUID.randomUUID();
 	}
 
 	@Override
@@ -67,8 +62,7 @@ public class UserList implements Serializable, UserData<List<Object>> {
 		this.name = name;
 	}
 
-	@Override
-	public List<Object> getValue() {
+	public List<Object> getList() {
 		return list;
 	}
 
@@ -76,8 +70,7 @@ public class UserList implements Serializable, UserData<List<Object>> {
 		this.list.add(listItem);
 	}
 
-	@Override
-	public void setValue(List<Object> list) {
+	public void setList(List<Object> list) {
 		this.list = list;
 	}
 
@@ -103,13 +96,5 @@ public class UserList implements Serializable, UserData<List<Object>> {
 	@Override
 	public int hashCode() {
 		return name.hashCode();
-	}
-
-	public UUID getDeviceKey() {
-		return deviceListKey;
-	}
-
-	public void setDeviceListKey(UUID deviceListFileName) {
-		this.deviceListKey = deviceListFileName;
 	}
 }

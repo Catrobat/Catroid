@@ -70,40 +70,40 @@ public class InsertItemintoUserListActionTest {
 	@Test
 	public void testInsertNumericalValueToUserList() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
-		Object firstItemOfUserList = userList.getValue().get(0);
+		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getList().size());
 		assertEquals(String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), firstItemOfUserList);
 	}
 
 	@Test
 	public void testInsertNumericalValueToUserListAtLastPosition() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(3), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getList().size());
 		assertEquals(String.valueOf(DOUBLE_VALUE_ITEM_TO_ADD), lastItemOfUserList);
 	}
 
 	@Test
 	public void testInsertItemWithInvalidUserList() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals(2, userList.getValue().size());
+		assertEquals(2, userList.getList().size());
 	}
 
 	@Test
 	public void testInsertNullFormula() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), null, userList).act(1f);
-		Object firstItemOfUserList = userList.getValue().get(0);
+		Object firstItemOfUserList = userList.getList().get(0);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getList().size());
 		assertEquals(0d, firstItemOfUserList);
 	}
 
 	@Test
 	public void testNotANumberFormula() {
 		actionFactory.createInsertItemIntoUserListAction(testSprite, new Formula(1), new Formula(Double.NaN), userList).act(1f);
-		Object firstItemOfUserList = userList.getValue().get(0);
+		Object firstItemOfUserList = userList.getList().get(0);
 		assertEquals(String.valueOf(Double.NaN), firstItemOfUserList);
 	}
 }

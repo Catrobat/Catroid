@@ -338,7 +338,7 @@ public class FormulaElement implements Serializable {
 			return NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE;
 		}
 
-		List<Object> userListValues = userList.getValue();
+		List<Object> userListValues = userList.getList();
 
 		if (userListValues.size() == 0) {
 			return EMPTY_USER_LIST_INTERPRETATION_VALUE;
@@ -564,7 +564,7 @@ public class FormulaElement implements Serializable {
 				return 0d;
 			}
 
-			for (Object userListElement : userList.getValue()) {
+			for (Object userListElement : userList.getList()) {
 				if (interpretOperatorEqual(userListElement, right) == 1d) {
 					return 1d;
 				}
@@ -603,11 +603,11 @@ public class FormulaElement implements Serializable {
 
 		if (index < 0) {
 			return "";
-		} else if (index >= userList.getValue().size()) {
+		} else if (index >= userList.getList().size()) {
 			return "";
 		}
 
-		return userList.getValue().get(index);
+		return userList.getList().get(index);
 	}
 
 	private Object interpretFunctionJoin(Sprite sprite) {
@@ -680,7 +680,7 @@ public class FormulaElement implements Serializable {
 			if (userList == null) {
 				return 0d;
 			}
-			if (userList.getValue().size() == 0) {
+			if (userList.getList().size() == 0) {
 				return 0d;
 			}
 
@@ -1089,7 +1089,7 @@ public class FormulaElement implements Serializable {
 			return 0;
 		}
 
-		return userList.getValue().size();
+		return userList.getList().size();
 	}
 
 	boolean isNumber() {

@@ -36,7 +36,6 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import static junit.framework.Assert.assertFalse;
@@ -63,27 +62,27 @@ public class DeviceVariableAccessorNullValueTest {
 
 	@Test
 	public void saveNullUserVariableTest() throws IOException {
-		accessor.writeUserData(userVariable);
+		accessor.writeVariable(userVariable);
 		userVariable.setValue(throwAwayValue);
-		Map map = accessor.readMapFromJson();
-		Object variableValueFromFile = map.get(userVariable.getDeviceKey());
+		HashMap map = accessor.readMapFromJson();
+		Object variableValueFromFile = map.get(userVariable.getDeviceValueKey());
 		assertEquals(initialNullValue, variableValueFromFile);
 	}
 
 	@Test
 	public void loadNullUserVariableTest() throws IOException {
 		HashMap<UUID, Object> map = new HashMap<>();
-		map.put(userVariable.getDeviceKey(), initialNullValue);
+		map.put(userVariable.getDeviceValueKey(), initialNullValue);
 		accessor.writeMapToJson(map);
 		userVariable.setValue(throwAwayValue);
-		assertFalse(accessor.readUserData(userVariable));
+		assertFalse(accessor.readUserVariableValue(userVariable));
 		assertEquals(expectedValue, userVariable.getValue());
 	}
 
 	@Test
 	public void loadUserVariableNoJsonFileTest() {
 		userVariable.setValue(throwAwayValue);
-		assertFalse(accessor.readUserData(userVariable));
+		assertFalse(accessor.readUserVariableValue(userVariable));
 		assertEquals(expectedValue, userVariable.getValue());
 	}
 
@@ -93,7 +92,7 @@ public class DeviceVariableAccessorNullValueTest {
 		map.put(UUID.randomUUID(), "value");
 		accessor.writeMapToJson(map);
 		userVariable.setValue(throwAwayValue);
-		assertFalse(accessor.readUserData(userVariable));
+		assertFalse(accessor.readUserVariableValue(userVariable));
 		assertEquals(expectedValue, userVariable.getValue());
 	}
 

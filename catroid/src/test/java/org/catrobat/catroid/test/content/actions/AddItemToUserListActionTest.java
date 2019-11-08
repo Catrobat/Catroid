@@ -70,29 +70,29 @@ public class AddItemToUserListActionTest {
 	@Test
 	public void testAddNumericalValueToUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 
-		assertEquals(3, userList.getValue().size());
+		assertEquals(3, userList.getList().size());
 		assertEquals("3.0", lastItemOfUserList);
 	}
 
 	@Test
 	public void testAddItemWithInvalidUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
-		assertEquals(2, userList.getValue().size());
+		assertEquals(2, userList.getList().size());
 	}
 
 	@Test
 	public void testAddNullFormula() {
 		actionFactory.createAddItemToUserListAction(testSprite, null, userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		assertEquals(0d, lastItemOfUserList);
 	}
 
 	@Test
 	public void testNotANumberFormula() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
-		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
 		assertEquals(String.valueOf(Double.NaN), lastItemOfUserList);
 	}
 }
