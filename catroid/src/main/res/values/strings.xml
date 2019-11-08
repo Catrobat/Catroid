@@ -814,8 +814,9 @@
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         &#8226; To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
