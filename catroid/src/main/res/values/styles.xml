@@ -298,6 +298,13 @@
         <item name="android:background">@drawable/brick_red_3h</item>
     </style>
 
+    <style name="BrickContainer.UserList"></style>
+
+    <style name="BrickContainer.UserList.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_red_2h</item>
+    </style>
+
     <style name="BrickContainer.Drone" tools:ignore="UnusedResources"></style>
 
     <style name="BrickContainer.Drone.Small" tools:ignore="UnusedResources">

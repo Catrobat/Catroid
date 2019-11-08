@@ -35,6 +35,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 
@@ -275,6 +276,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			if (!globalListAdapter.remove((UserList) item)) {
 				localListAdapter.remove((UserList) item);
 			}
+			File projectDir = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			new DeviceListAccessor(projectDir).removeDeviceValue(item);
 		}
 		notifyDataSetChanged();
 	}

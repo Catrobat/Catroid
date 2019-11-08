@@ -20,58 +20,56 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import android.os.AsyncTask;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.DeviceListAccessor;
+import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
-import java.util.ArrayList;
+import java.io.File;
 
-public class DeleteItemOfUserListAction extends TemporalAction {
-
-	private Sprite sprite;
-	private Formula formulaIndexToDelete;
+public class ReadListFromDeviceAction extends EventAction {
 	private UserList userList;
+	private boolean readActionFinished;
 
 	@Override
-	protected void update(float percent) {
+	public boolean act(float delta) {
 		if (userList == null) {
-			return;
-		}
-		if (userList.getValue().size() == 0) {
-			return;
+			return true;
 		}
 
-		int indexToDelete;
-
-		try {
-			indexToDelete = formulaIndexToDelete == null ? 1 : formulaIndexToDelete.interpretInteger(sprite);
-		} catch (InterpretationException interpretationException) {
-			indexToDelete = 1;
+		if (firstStart) {
+			firstStart = false;
+			readActionFinished = false;
+			new ReadListFromDeviceAction.ReadTask().execute(userList);
 		}
 
-		indexToDelete--;
-
-		if (indexToDelete >= userList.getValue().size() || indexToDelete < 0) {
-			return;
-		}
-
-		((ArrayList<Object>) userList.getValue()).remove(indexToDelete);
+		return readActionFinished;
 	}
 
-	public void setUserList(UserList userVariable) {
-		this.userList = userVariable;
+	public void setUserList(UserList userList) {
+		this.userList = userList;
 	}
 
-	public void setFormulaIndexToDelete(Formula formulaIndexToDelete) {
-		this.formulaIndexToDelete = formulaIndexToDelete;
-	}
+	private class ReadTask extends AsyncTask<UserList, Void, Void> {
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+		@Override
+		protected Void doInBackground(UserList[] userList) {
+			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
+			DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
+
+			for (UserList list: userList) {
+				accessor.readUserData(list);
+			}
+			return null;
+		}
+		@Override
+		protected void onPostExecute(Void o) {
+			readActionFinished = true;
+		}
 	}
 }

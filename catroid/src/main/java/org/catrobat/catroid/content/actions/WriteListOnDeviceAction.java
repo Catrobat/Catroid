@@ -20,52 +20,54 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.content.actions;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.io.DeviceVariableAccessor;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.DeviceListAccessor;
+import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
 import java.io.File;
 import java.io.IOException;
 
-public class WriteVariableOnDeviceAction extends EventAction {
+public class WriteListOnDeviceAction extends EventAction {
 	private static final String TAG = WriteVariableOnDeviceAction.class.getSimpleName();
-	private UserVariable userVariable;
+	private UserList userList;
 	private boolean writeActionFinished;
 
 	@Override
 	public boolean act(float delta) {
-		if (userVariable == null) {
+		if (userList == null) {
 			return true;
 		}
 
 		if (firstStart) {
 			firstStart = false;
 			writeActionFinished = false;
-			new WriteTask().execute(userVariable);
+			new WriteTask().execute(userList);
 		}
 
 		return writeActionFinished;
 	}
 
-	public void setUserVariable(UserVariable userVariable) {
-		this.userVariable = userVariable;
+	public void setUserList(UserList userList) {
+		this.userList = userList;
 	}
 
-	private class WriteTask extends AsyncTask<UserVariable, Void, Void> {
+	private class WriteTask extends AsyncTask<UserList, Void, Void> {
 
 		@Override
-		protected Void doInBackground(UserVariable[] userVariables) {
+		protected Void doInBackground(UserList[] userList) {
 			File projectDirectory = ProjectManager.getInstance().getCurrentProject().getDirectory();
-			DeviceVariableAccessor accessor = new DeviceVariableAccessor(projectDirectory);
+			DeviceUserDataAccessor accessor = new DeviceListAccessor(projectDirectory);
 
-			for (UserVariable variable: userVariables) {
+			for (UserList list : userList) {
 				try {
-					accessor.writeUserData(variable);
+					accessor.writeUserData(list);
 				} catch (IOException e) {
 					Log.e(TAG, e.getMessage());
 				}

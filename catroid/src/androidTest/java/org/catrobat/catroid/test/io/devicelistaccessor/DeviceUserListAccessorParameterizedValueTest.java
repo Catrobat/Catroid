@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.io.devicevariableaccessor;
+package org.catrobat.catroid.test.io.devicelistaccessor;
 
 import android.support.test.InstrumentationRegistry;
 
@@ -28,9 +28,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceUserDataAccessor;
-import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.junit.After;
@@ -41,28 +41,32 @@ import org.junit.runners.Parameterized;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
-public class DeviceVariableAccessorParameterizedValueTest<T> {
+public class DeviceUserListAccessorParameterizedValueTest<T> {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"Double", Double.class, 12.123},
-				{"Negative Double", Double.class, -2312.123},
-				{"String", String.class, "initial String Value"},
-				{"Empty String", String.class, ""},
-				{"String special char", String.class, "{}\\%&($%(/(/§"},
-				{"Boolean", Boolean.class, true},
+				{"Double", Arrays.asList(12.123)},
+				{"Negative Double", Arrays.asList(-2312.123)},
+				{"String", Arrays.asList("initial String Value")},
+				{"Empty String", Arrays.asList("")},
+				{"String special char", Arrays.asList("{}\\%&($%(/(/§")},
+				{"Boolean", Arrays.asList(true)},
+				{"Empty", new ArrayList<>()}
 		});
 	}
 
@@ -70,52 +74,48 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	public String name;
 
 	@Parameterized.Parameter(1)
-	public Class<T> clazz;
+	public List<Object> initialValue;
 
-	@Parameterized.Parameter(2)
-	public T initialValue;
-
-	private Object throwAwayValue = new Object();
+	private List<Object> throwAwayValue = Arrays.asList("Throw Away Value");
 	private File directory;
-	private UserVariable userVariable;
+	private UserList userList;
 	private DeviceUserDataAccessor accessor;
 
 	@Before
 	public void setUp() {
-		directory = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "DeviceValues");
+		directory = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "DeviceLists");
 		directory.mkdir();
 
-		userVariable = new UserVariable("globalVarX", initialValue);
-		accessor = new DeviceVariableAccessor(directory);
+		userList = new UserList("globalListX", initialValue);
+		accessor = new DeviceListAccessor(directory);
 	}
 
 	@Test
-	public void saveUserVariable() throws IOException {
-		accessor.writeUserData(userVariable);
-		userVariable.setValue(throwAwayValue);
+	public void saveUserList() throws IOException {
+		accessor.writeUserData(userList);
+		userList.setValue(throwAwayValue);
 		Map map = accessor.readMapFromJson();
-		Object variableValueFromFile = map.get(userVariable.getDeviceKey());
-		assertEquals(initialValue, variableValueFromFile);
+		assertEquals(initialValue, map.get(userList.getDeviceKey()));
 	}
 
 	@Test
-	public void loadUserVariableTest() {
+	public void loadUserListTest() {
 		Map map = new HashMap<>();
-		map.put(userVariable.getDeviceKey(), initialValue);
+		map.put(userList.getDeviceKey(), userList.getValue());
 		accessor.writeMapToJson(map);
-		userVariable.setValue(throwAwayValue);
-		assertTrue(accessor.readUserData(userVariable));
-		assertEquals(initialValue, userVariable.getValue());
+		userList.setValue(throwAwayValue);
+		assertNotEquals(initialValue, userList.getValue());
+		assertTrue(accessor.readUserData(userList));
 	}
 
 	@Test
-	public void deleteUserVariableTest() {
+	public void deleteUserListTest() {
 		Map<UUID, Object> map = new HashMap<>();
-		map.put(userVariable.getDeviceKey(), initialValue);
+		map.put(userList.getDeviceKey(), initialValue);
 		accessor.writeMapToJson(map);
-		accessor.removeDeviceValue(userVariable);
+		accessor.removeDeviceValue(userList);
 		map = accessor.readMapFromJson();
-		assertFalse(map.containsKey(userVariable.getDeviceKey()));
+		assertFalse(map.containsKey(userList.getDeviceKey()));
 	}
 
 	@Test
@@ -126,15 +126,13 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 		ProjectManager.getInstance().setCurrentProject(dummyProject);
 
 		Sprite sprite = new Sprite("sprite");
-		sprite.addUserVariable(userVariable);
+		sprite.addUserList(userList);
 
 		Sprite clone = new SpriteController().copyForCloneBrick(sprite);
-		accessor.writeUserData(userVariable);
-		UserVariable clonedVar = clone.getUserVariable(userVariable.getName());
-		assertNotSame(userVariable, clonedVar);
-		clonedVar.setValue(throwAwayValue);
-		assertTrue(accessor.readUserData(clonedVar));
-		assertEquals(userVariable.getValue(), clonedVar.getValue());
+		accessor.writeUserData(userList);
+		UserList clonedList = clone.getUserList(userList.getName());
+		assertNotSame(userList, clonedList);
+		assertEquals(userList.getValue(), clonedList.getValue());
 	}
 
 	@After

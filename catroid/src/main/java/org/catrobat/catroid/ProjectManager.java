@@ -273,8 +273,8 @@ public final class ProjectManager {
 		List<UserList> conflicts = new ArrayList<>();
 		for (UserList project1GlobalList : project1GlobalLists) {
 			for (UserList project2GlobalList : project2GlobalLists) {
-				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getList()
-						.equals(project2GlobalList.getList())) {
+				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue()
+						.equals(project2GlobalList.getValue())) {
 					conflicts.add(project1GlobalList);
 				}
 			}

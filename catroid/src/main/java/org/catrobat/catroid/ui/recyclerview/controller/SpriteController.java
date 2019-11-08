@@ -109,12 +109,14 @@ public class SpriteController {
 
 		for (UserVariable originalVariable : spriteToCopy.getUserVariables()) {
 			UserVariable copyVariable = new UserVariable(originalVariable);
-			copyVariable.setDeviceValueKey(originalVariable.getDeviceValueKey());
+			copyVariable.setDeviceValueKey(originalVariable.getDeviceKey());
 			sprite.getUserVariables().add(copyVariable);
 		}
 
-		for (UserList userList : spriteToCopy.getUserLists()) {
-			sprite.getUserLists().add(new UserList(userList));
+		for (UserList originalList : spriteToCopy.getUserLists()) {
+			UserList copyList = new UserList(originalList);
+			copyList.setDeviceListKey(originalList.getDeviceKey());
+			sprite.getUserLists().add(new UserList(originalList));
 		}
 
 		for (Script script : spriteToCopy.getScriptList()) {
