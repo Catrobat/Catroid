@@ -733,12 +733,15 @@
         per noi è necessario raccogliere e conservare alcuni tuoi.\n\n
 
         • per continiare a fornirti i nostri servizi e migliorarli (app e siti web) e per svolgere ricerca scientifica su ITC
-            e formazione STEM/STEAM, utilizziamo Google Analytics, Crashlytics e Firebase, tutti prodotti di Google LLC (USA), al fine di trattare
+            e formazione STEM/STEAM, utilizziamo Google Analytics, Crashlytics e Firebase, tutti prodotti di Google LLC (USA) 
+            e Dynatrace (Dynatrace LLC, USA), al fine di trattare
             metadati sull\'uso dei nostri servizi (come informazioni su crash, marche temporali, pagine o schermate visitate e così via),
             l\'uso delle app e dei servizi, i sistemi operativi usati e informazioni sui fornitori di rete. Queste
             analisi e collezioni di dati non sono direttamente collegate al tuo profilo né contengono alcuna informazione personale
-            (gli ultimi bit degli indirizzi IP vengono mascherati). Questi dati vengono comunque traferiti al gestore dei sercizi (Google LLC, USA). L\'elaborazione dei dati si basa su un accordo con
-            Google LLC. Questi accordi sono conformi alla European Union\'s General Data
+            (gli ultimi bit degli indirizzi IP vengono mascherati). Questi dati vengono comunque traferiti al gestore dei sercizi 
+            (Google LLC, USA) e Dynatrace (Dynatrace LLC, USA). L\'elaborazione dei dati si basa
+        sui accorddi con
+            Google LLC e Dynatrace LLC. Questi accordi sono conformi alla European Union\'s General Data
             Protection Regulation (EU GDPR) e EU-USA \"Privacy Shield\".\n\n
         • per creare e utilizzare un account sui nostri sistemi e per informarti via e-mail di eventuali modifiche necessarie (come aggiornamenti o violazioni dei Termini d\'uso e servizio, le regole della community o
             delle nostre politiche di sicurezza, memorizzeremo un nome utente e, se fornito da te, un indirizzo e-mail. Se ti sei connesso
@@ -781,7 +784,7 @@
         Il testo ufficiale per la privacy è disponibile in inglese a questo indirizzo
         https://catrob.at/privacypolicy.\n\n
 
-        Versione 2.1 del  25 giugno 2018\n\n
+        Versione 2.2 del 17 ottobre 2019\n\n
 
         Per leggere la versione, oramai obsoleta, delle regole sulla privacy  (2.0) puoi fare riferimento a:
         http://developer.catrobat.org/privacy_policy_2-0
