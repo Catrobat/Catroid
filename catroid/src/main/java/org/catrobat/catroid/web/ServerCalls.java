@@ -299,7 +299,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
 			UploadErrorCallback errorCallback) {
 
-		excecuteUploadCall(
+		executeUploadCall(
 				HttpRequestsKt.createUploadRequest(uploadData),
 				(uploadResponse) -> {
 					String newToken = uploadResponse.token;
@@ -317,7 +317,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 		);
 	}
 
-	private void excecuteUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
+	private void executeUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
 		Response response;
 		UploadResponse uploadResponse;
 		try {
@@ -338,41 +338,6 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public void downloadProject(final String url, final File destination, final String programName,
-			final DownloadSuccessCallback successCallback, final DownloadErrorCallback errorCallback,
-			final DownloadProgressCallback progressCallback) {
-
-		Request request = new Request.Builder()
-				.url(url)
-				.build();
-
-		OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
-		httpClientBuilder.networkInterceptors().add(chain -> {
-			Response originalResponse = chain.proceed(chain.request());
-			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(), progressCallback);
-			return originalResponse.newBuilder()
-					.body(body)
-					.build();
-		});
-		OkHttpClient httpClient = httpClientBuilder.build();
-
-		try {
-			Response response = httpClient.newCall(request).execute();
-			if (response.isSuccessful()) {
-				BufferedSink bufferedSink = Okio.buffer(Okio.sink(destination));
-				bufferedSink.writeAll(response.body().source());
-				bufferedSink.close();
-				successCallback.onSuccess();
-			} else {
-				Log.v(TAG, "Download not successful");
-				errorCallback.onError(response.code(), "Download failed! HTTP Status code was " + response.code());
-			}
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
-			errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception");
-		}
-	}
-
 	public void downloadMedia(final String url, final String filePath, final ResultReceiver receiver)
 			throws IOException, WebconnectionException {
 
@@ -390,10 +355,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 			Response originalResponse = chain.proceed(chain.request());
 			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(),
 					progress -> {
-						Bundle bundle = new Bundle();
-						bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
-						receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
-					});
+				Bundle bundle = new Bundle();
+				bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
+				receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
+			});
 			return originalResponse.newBuilder()
 					.body(body)
 					.build();
@@ -517,17 +482,5 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	private interface UploadCallSuccessCallback {
 		void onSuccess(UploadResponse response);
-	}
-
-	public interface DownloadSuccessCallback {
-		void onSuccess();
-	}
-
-	public interface DownloadErrorCallback {
-		void onError(int code, String message);
-	}
-
-	public interface DownloadProgressCallback {
-		void onProgress(long progress);
 	}
 }

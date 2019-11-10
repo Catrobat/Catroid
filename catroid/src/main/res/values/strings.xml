@@ -1384,6 +1384,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">Something went wrong while uploading the project.</string>
     <string name="error_project_download">Something went wrong while downloading the project.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">Something went wrong while creating a new project.</string>
     <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
     <string name="error_load_project">Something went wrong while loading the project.</string>

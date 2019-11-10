@@ -37,7 +37,7 @@ import com.koushikdutta.async.http.WebSocket;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.scratchconverter.Client;
 import org.catrobat.catroid.scratchconverter.Client.ConvertCallback;
-import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
+import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback;
 import org.catrobat.catroid.scratchconverter.ClientException;
 import org.catrobat.catroid.scratchconverter.WebSocketClient;
 import org.catrobat.catroid.scratchconverter.protocol.Job;
@@ -556,14 +556,14 @@ public class WebSocketClientTest {
 		final Job[] expectedJobs = new Job[] {expectedUnscheduledJob, expectedFinishedJob};
 		final InfoMessage infoMessage = new InfoMessage(expectedCatrobatLanguageVersion, expectedJobs);
 
-		final DownloadCallback downloadCallbackMock = Mockito.mock(DownloadCallback.class);
+		final Client.ProjectDownloadCallback downloadCallbackMock = Mockito.mock(Client.ProjectDownloadCallback.class);
 		final ConvertCallback convertCallbackMock = Mockito.mock(ConvertCallback.class);
 
-		doAnswer(new Answer<DownloadCallback>() {
+		doAnswer(new Answer<Client.ProjectDownloadCallback>() {
 			int counter = 0;
 
 			@Override
-			public DownloadCallback answer(InvocationOnMock invocation) throws Throwable {
+			public Client.ProjectDownloadCallback answer(InvocationOnMock invocation) throws Throwable {
 				assertNotNull(invocation.getArguments()[0]);
 				assertNotNull(invocation.getArguments()[1]);
 
@@ -610,7 +610,7 @@ public class WebSocketClientTest {
 				assertNotNull(invocation.getArguments()[1]);
 
 				final Job finishedJob = (Job) invocation.getArguments()[0];
-				final DownloadCallback downloadCallback = (DownloadCallback)
+				final Client.ProjectDownloadCallback downloadCallback = (ProjectDownloadCallback)
 						invocation.getArguments()[1];
 				final String downloadURL = (String) invocation.getArguments()[2];
 
@@ -619,7 +619,7 @@ public class WebSocketClientTest {
 				assertEquals(expectedFinishedJob, finishedJob);
 				return null;
 			}
-		}).when(convertCallbackMock).onConversionAlreadyFinished(any(Job.class), any(DownloadCallback.class),
+		}).when(convertCallbackMock).onConversionAlreadyFinished(any(Job.class), any(ProjectDownloadCallback.class),
 				any(String.class));
 
 		Reflection.setPrivateField(WebSocketClient.class, webSocketClient, "state", Client.State.CONNECTED_AUTHENTICATED);
@@ -629,7 +629,7 @@ public class WebSocketClientTest {
 
 		verify(convertCallbackMock, times(1)).onInfo(anyFloat(), any(Job[].class));
 		verify(convertCallbackMock, times(1)).onConversionAlreadyFinished(any(Job.class),
-				any(DownloadCallback.class), anyString());
+				any(Client.ProjectDownloadCallback.class), anyString());
 		verifyNoMoreInteractions(convertCallbackMock);
 		verify(messageListenerMock, times(1)).setBaseMessageHandler(eq(webSocketClient));
 		verify(messageListenerMock, times(2)).restoreJobIfRunning(any(Job.class), any(ConvertCallback.class));

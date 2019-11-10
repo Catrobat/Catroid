@@ -69,7 +69,7 @@ import static org.catrobat.catroid.utils.NumberFormats.humanFriendlyFormattedSho
 
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
-		JobViewListener, Client.DownloadCallback,
+		JobViewListener, Client.ProjectDownloadCallback,
 		RVAdapter.OnItemClickListener<ScratchProgramData> {
 
 	public static final String TAG = ScratchProgramDetailsActivity.class.getSimpleName();
@@ -371,7 +371,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onDownloadProgress(short progress, String url) {
+	public void onDownloadProgress(int progress, String url) {
 	}
 
 	@Override

@@ -443,7 +443,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				int notificationId = StatusBarNotificationManager.getInstance()
 						.createSaveProjectToExternalMemoryNotification(getContext(), item.getName());
 
-				new ProjectExportTask(item.getDirectory(), notificationId)
+				new ProjectExportTask(item.getDirectory(), notificationId, getContext())
 						.execute();
 			}
 		}.execute(getActivity());

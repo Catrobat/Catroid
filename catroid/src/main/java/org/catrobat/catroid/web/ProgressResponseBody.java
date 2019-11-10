@@ -38,16 +38,15 @@ public class ProgressResponseBody extends ResponseBody {
 
 	public static final String TAG_PROGRESS = "currentDownloadProgress";
 	public static final String TAG_ENDOFFILE = "endOfFileReached";
-	public static final String TAG_NOTIFICATION_ID = "notificationId";
-	public static final String TAG_REQUEST_URL = "requestUrl";
 
 	private final ResponseBody responseBody;
 	private BufferedSource bufferedSource;
-	private ServerCalls.DownloadProgressCallback progressCallback;
+	private CatrobatServerCalls.DownloadProgressCallback progressCallback;
 
 	ProgressResponseBody(ResponseBody responseBody,
-			ServerCalls.DownloadProgressCallback progressCallback) {
+			CatrobatServerCalls.DownloadProgressCallback progressCallback) {
 		this.responseBody = responseBody;
+		this.progressCallback = progressCallback;
 	}
 
 	@Override
@@ -80,7 +79,7 @@ public class ProgressResponseBody extends ResponseBody {
 				long progress = (100 * totalBytesRead) / contentLength();
 				boolean endOfFile = bytesRead == -1;
 				if (progress > lastProgress || endOfFile) {
-					sendUpdateIntent(progress, endOfFile);
+					sendUpdateIntent(progress);
 					lastProgress = progress;
 				}
 				return bytesRead;
@@ -88,7 +87,7 @@ public class ProgressResponseBody extends ResponseBody {
 		};
 	}
 
-	private void sendUpdateIntent(long progress, boolean endOfFileReached) {
+	private void sendUpdateIntent(long progress) {
 		progressCallback.onProgress(progress);
 	}
 }

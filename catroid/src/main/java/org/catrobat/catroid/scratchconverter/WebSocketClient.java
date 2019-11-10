@@ -237,7 +237,7 @@ public final class WebSocketClient<T extends MessageListener & StringCallback>
 
 			final Job[] jobs = infoMessage.getJobList();
 			for (Job job : jobs) {
-				DownloadCallback downloadCallback = messageListener.restoreJobIfRunning(job, convertCallback);
+				ProjectDownloadCallback downloadCallback = messageListener.restoreJobIfRunning(job, convertCallback);
 				if (downloadCallback != null) {
 					convertCallback.onConversionAlreadyFinished(job, downloadCallback, job.getDownloadURL());
 				}

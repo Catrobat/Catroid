@@ -33,10 +33,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
-import android.webkit.DownloadListener;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -45,9 +45,11 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
-import org.catrobat.catroid.utils.DownloadUtil;
+import org.catrobat.catroid.utils.MediaDownloader;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
+import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
 
@@ -57,7 +59,7 @@ import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
 
 @SuppressLint("SetJavaScriptEnabled")
-public class WebViewActivity extends BaseActivity {
+public class WebViewActivity extends AppCompatActivity {
 
 	private static final String TAG = WebViewActivity.class.getSimpleName();
 
@@ -95,40 +97,35 @@ public class WebViewActivity extends BaseActivity {
 
 		webView.loadUrl(url);
 
-		webView.setDownloadListener(new DownloadListener() {
+		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 
-			@Override
-			public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype,
-					long contentLength) {
+			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
+				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl, null).download(this);
+			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
+				String fileName = URLUtil.guessFileName(downloadUrl, contentDisposition, mimetype);
 
-				if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
-					DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(WebViewActivity.this, url);
-				} else if (url.contains(LIBRARY_BASE_URL)) {
-					String fileName = URLUtil.guessFileName(url, contentDisposition, mimetype);
-
-					MEDIA_LIBRARY_CACHE_DIR.mkdirs();
-					if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
-						Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIR);
-						return;
-					}
-
-					File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
-					resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
-					DownloadUtil.getInstance()
-							.startMediaDownload(WebViewActivity.this, url, fileName, file.getAbsolutePath());
-				} else {
-					DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-
-					request.setTitle(getString(R.string.notification_download_title_pending) + " " + DownloadUtil.getInstance().getProjectNameFromUrl(url));
-					request.setDescription(getString(R.string.notification_download_pending));
-					request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-					request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
-							DownloadUtil.getInstance().getProjectNameFromUrl(url) + ANDROID_APPLICATION_EXTENSION);
-					request.setMimeType(mimetype);
-
-					DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-					downloadManager.enqueue(request);
+				MEDIA_LIBRARY_CACHE_DIR.mkdirs();
+				if (!MEDIA_LIBRARY_CACHE_DIR.isDirectory()) {
+					Log.e(TAG, "Cannot create " + MEDIA_LIBRARY_CACHE_DIR);
+					return;
 				}
+
+				File file = new File(MEDIA_LIBRARY_CACHE_DIR, fileName);
+				resultIntent.putExtra(MEDIA_FILE_PATH, file.getAbsolutePath());
+				new MediaDownloader(this)
+						.startDownload(this, downloadUrl, fileName, file.getAbsolutePath());
+			} else {
+				DownloadManager.Request request = new DownloadManager.Request(Uri.parse(downloadUrl));
+				String projectName = ProjectDownloader.Companion.getProjectNameFromUrl(downloadUrl);
+				request.setTitle(getString(R.string.notification_download_title_pending) + " " + projectName);
+				request.setDescription(getString(R.string.notification_download_pending));
+				request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+				request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,
+						projectName + ANDROID_APPLICATION_EXTENSION);
+				request.setMimeType(mimetype);
+
+				DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
+				downloadManager.enqueue(request);
 			}
 		});
 	}
@@ -197,7 +194,6 @@ public class WebViewActivity extends BaseActivity {
 				errorMessage = R.string.error_unknown_error;
 			}
 			ToastUtil.showError(getBaseContext(), errorMessage);
-			finish();
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {

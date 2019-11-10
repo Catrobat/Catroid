@@ -24,22 +24,46 @@
 package org.catrobat.catroid.transfers.project
 
 import android.app.IntentService
+import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.os.ResultReceiver
 import android.util.Log
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.CACHE_DIR
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
-import org.catrobat.catroid.common.Constants.TMP_PATH
+import org.catrobat.catroid.common.Constants.MAX_PERCENT
+import org.catrobat.catroid.common.Constants.TMP_DIR_NAME
+import org.catrobat.catroid.common.FlavoredConstants
+import org.catrobat.catroid.io.XstreamSerializer
+import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.utils.ToastUtil
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.catrobat.catroid.web.CatrobatServerCalls
+import org.catrobat.catroid.web.CatrobatServerCalls.DownloadErrorCallback
+import org.catrobat.catroid.web.CatrobatServerCalls.DownloadProgressCallback
+import org.catrobat.catroid.web.CatrobatServerCalls.DownloadSuccessCallback
+import org.catrobat.catroid.web.CatrobatWebClient
 import java.io.File
+import java.io.IOException
 
-class ProjectDownloadService: IntentService("ProjectDownloadService") {
+class ProjectDownloadService : IntentService("ProjectDownloadService") {
 
+    companion object {
+        val TAG: String = ProjectDownloadService::class.java.simpleName
+        const val EXTRA_DOWNLOAD_NAME = "downloadName"
+        const val EXTRA_URL = "url"
+        const val EXTRA_RESULT_RECEIVER = "receiver"
+        const val EXTRA_NOTIFICATION_ID = "id"
+        private const val DOWNLOAD_FILE_NAME = "down$CATROBAT_EXTENSION"
 
+        const val UPDATE_PROGRESS_EXTRA = "progress"
 
-    // TODO: CATROID-167
-    // TODO: create notification for startforeground
-    // TODO: update notification with downloadprogress
+        const val UPDATE_PROGRESS_CODE = 1
+        const val ERROR_CODE = 2
+        const val SUCCESS_CODE = 3
+    }
 
     override fun onHandleIntent(intent: Intent?) {
         val downloadIntent = intent
@@ -48,29 +72,103 @@ class ProjectDownloadService: IntentService("ProjectDownloadService") {
             ?: return logWarning("Called ProjectDownloadService with null projectName -  aborting")
         val url = downloadIntent.getStringExtra(EXTRA_URL)
             ?: return logWarning("Called ProjectDownloadService without url - aborting")
-        val resultReceiver = downloadIntent.getParcelableExtra(EXTRA_RESULT_RECEIVER) as? ResultReceiver
-            ?: return logWarning("Called ProjectDownloadService without resultReceiver - aborting")
-        val renameAfterDownload = downloadIntent.getBooleanExtra(EXTRA_RENAME_AFTER_DOWNLOAD, false)
+        val resultReceiver = downloadIntent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
+                ?: return logWarning("Called ProjectDownloadService without url - aborting")
 
-        val destinationFile = File(TMP_PATH, DOWNLOAD_FILE_NAME)
+        val zipFileString = File(File(CACHE_DIR, TMP_DIR_NAME), DOWNLOAD_FILE_NAME).absolutePath
+        val destinationFile = File(zipFileString)
+
         if ((destinationFile.parentFile.isDirectory or destinationFile.parentFile.mkdirs()).not()) {
             ToastUtil.showError(this, R.string.error_project_download)
             return
         }
 
+        val id = downloadIntent.getIntExtra(EXTRA_NOTIFICATION_ID, 0)
+        val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
+        val notification = statusBarNotificationManager.getNotification(this, id)
 
+        startForeground(id, notification)
+
+        CatrobatServerCalls(CatrobatWebClient.client)
+            .downloadProject(
+                url,
+                destinationFile,
+                object : DownloadSuccessCallback {
+                    override fun onSuccess() {
+                        downloadSuccessCallback(
+                            this@ProjectDownloadService,
+                            projectName,
+                            destinationFile,
+                            resultReceiver
+                        )
+                    }
+                },
+                object : DownloadErrorCallback {
+                    override fun onError(code: Int, message: String) {
+                        downloadErrorCallback(this@ProjectDownloadService, resultReceiver, projectName)
+                    }
+                },
+                object : DownloadProgressCallback {
+                    override fun onProgress(progress: Long) {
+                        downloadProgressCallback(this@ProjectDownloadService, resultReceiver, id, progress)
+                    }
+                }
+            )
+
+        stopForeground(true)
+    }
+
+    private fun downloadSuccessCallback(
+        context: Context,
+        projectName: String,
+        destinationFile: File,
+        resultReceiver: ResultReceiver
+    ) {
+        val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
+        val notificationId = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
+
+        try {
+                val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+                ZipArchiver().unzip(destinationFile, projectDir)
+
+                XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
+
+                statusBarNotificationManager.showOrUpdateNotification(context, notificationId, MAX_PERCENT)
+                resultReceiver.send(SUCCESS_CODE, Bundle())
+            } catch (exception: IOException) {
+                Log.i(TAG, exception.message)
+                statusBarNotificationManager
+                    .abortProgressNotificationWithMessage(context, notificationId, R.string.error_project_download)
+
+                resultReceiver.send(ERROR_CODE, Bundle())
+            }
+    }
+
+    private fun downloadErrorCallback(
+        context: Context,
+        resultReceiver: ResultReceiver,
+        projectName: String
+    ) {
+            val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
+            val notificationId = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
+            statusBarNotificationManager.abortProgressNotificationWithMessage(context, notificationId, R.string.error_project_download)
+
+            resultReceiver.send(ERROR_CODE, Bundle())
+    }
+
+    private fun downloadProgressCallback(
+        context: Context,
+        resultReceiver: ResultReceiver,
+        notificationId: Int,
+        progress: Long
+    ) {
+            StatusBarNotificationManager.getInstance().showOrUpdateNotification(context, notificationId, progress.toInt())
+            val bundle = Bundle()
+            bundle.putInt(UPDATE_PROGRESS_EXTRA, progress.toInt())
+            resultReceiver.send(UPDATE_PROGRESS_CODE, bundle)
     }
 
     private fun logWarning(warningMessage: String) {
         Log.w(TAG, warningMessage)
-    }
-
-    companion object {
-        val TAG: String = ProjectDownloadService::class.java.simpleName
-        const val EXTRA_DOWNLOAD_NAME = "downloadName"
-        const val EXTRA_URL = "url"
-        const val EXTRA_RESULT_RECEIVER = "resultReceiver"
-        const val EXTRA_RENAME_AFTER_DOWNLOAD = "renameAfterDownload"
-        private const val DOWNLOAD_FILE_NAME = "down$CATROBAT_EXTENSION"
     }
 }

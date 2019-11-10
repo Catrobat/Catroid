@@ -29,11 +29,11 @@ import com.google.android.gms.common.images.WebImage;
 
 import org.catrobat.catroid.scratchconverter.Client.ConnectAuthCallback;
 import org.catrobat.catroid.scratchconverter.Client.ConvertCallback;
-import org.catrobat.catroid.scratchconverter.Client.DownloadCallback;
+import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 
-public interface ConversionManager extends ConnectAuthCallback, ConvertCallback, DownloadCallback {
+public interface ConversionManager extends ConnectAuthCallback, ConvertCallback, ProjectDownloadCallback {
 
 	void setCurrentActivity(AppCompatActivity activity);
 	void connectAndAuthenticate();
@@ -45,8 +45,8 @@ public interface ConversionManager extends ConnectAuthCallback, ConvertCallback,
 	boolean removeGlobalJobViewListener(JobViewListener jobViewListener);
 	void addJobViewListener(long jobID, JobViewListener jobViewListener);
 	boolean removeJobViewListener(long jobID, JobViewListener jobViewListener);
-	void addGlobalDownloadCallback(DownloadCallback callback);
-	boolean removeGlobalDownloadCallback(Client.DownloadCallback callback);
+	void addGlobalDownloadCallback(Client.ProjectDownloadCallback callback);
+	boolean removeGlobalDownloadCallback(Client.ProjectDownloadCallback callback);
 	boolean isJobInProgress(long jobID);
 	boolean isJobDownloading(long jobID);
 	int getNumberOfJobsInProgress();

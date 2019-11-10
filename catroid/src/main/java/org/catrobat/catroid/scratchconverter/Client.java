@@ -65,15 +65,15 @@ public interface Client {
 		void onConversionStart(Job job);
 		void onJobProgress(Job job, short progress);
 		void onJobOutput(Job job, String[] lines);
-		void onConversionFinished(Job job, DownloadCallback downloadCallback, String downloadURL, Date cachedDate);
-		void onConversionAlreadyFinished(Job job, DownloadCallback downloadCallback, String downloadURL);
+		void onConversionFinished(Job job, ProjectDownloadCallback downloadCallback, String downloadURL, Date cachedDate);
+		void onConversionAlreadyFinished(Job job, ProjectDownloadCallback downloadCallback, String downloadURL);
 		void onConversionFailure(@Nullable Job job, ClientException ex);
 		void onError(String errorMessage);
 	}
 
-	interface DownloadCallback {
+	interface ProjectDownloadCallback {
 		void onDownloadStarted(String url);
-		void onDownloadProgress(short progress, String url);
+		void onDownloadProgress(int progress, String url);
 		void onDownloadFinished(String catrobatProgramName, String url);
 		void onUserCanceledDownload(String url);
 	}
