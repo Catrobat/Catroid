@@ -49,7 +49,7 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
-public class FormulaEditorDeleteVariableTest {
+public class FormulaEditorDeleteVariableUITest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -58,7 +58,7 @@ public class FormulaEditorDeleteVariableTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorDeleteVariableTest");
+		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorDeleteVariableUITest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		baseActivityTestRule.launchActivity();
@@ -72,7 +72,7 @@ public class FormulaEditorDeleteVariableTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteVariableTest() {
+	public void deleteFreeGlobalVariableTest() {
 		final String itemName = "item";
 		onDataList()
 				.performAdd(itemName);
@@ -86,7 +86,30 @@ public class FormulaEditorDeleteVariableTest {
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void deleteVariableFromMenuTest() throws InterruptedException {
+	public void deleteUsedGlobalVariableTest() {
+		final String itemName = "item";
+		onDataList()
+				.performAdd(itemName);
+
+		onDataList().onVariableAtPosition(0).
+				performSelect();
+
+		onFormulaEditor()
+				.performOpenDataFragment();
+
+		onDataList().onVariableAtPosition(0)
+				.performDelete();
+
+		onView(withId(android.R.id.button1))
+				.perform(click());
+
+		onRecyclerView()
+				.checkHasNumberOfItems(1);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void deleteFreeGlobalVariableFromMenuTest() {
 		final String itemName = "item";
 		onDataList()
 				.performAdd(itemName);
@@ -97,9 +120,33 @@ public class FormulaEditorDeleteVariableTest {
 				.performCheckItem();
 		onActionMode()
 				.performConfirm();
+
+		onRecyclerView().checkHasNumberOfItems(0);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void deleteUsedGlobalVariableFromMenuTest() {
+		final String itemName = "item";
+		onDataList()
+				.performAdd(itemName);
+
+		onDataList().onVariableAtPosition(0).
+				performSelect();
+
+		onFormulaEditor()
+				.performOpenDataFragment();
+
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withId(R.id.title)).inRoot(isPlatformPopup())
+				.perform(click());
+		onDataList().onVariableAtPosition(0)
+				.performCheckItem();
+		onActionMode()
+				.performConfirm();
 		onView(withId(android.R.id.button1))
 				.perform(click());
 
-		onRecyclerView().checkHasNumberOfItems(0);
+		onRecyclerView().checkHasNumberOfItems(1);
 	}
 }

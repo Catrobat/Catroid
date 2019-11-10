@@ -53,8 +53,6 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(longClick());
 		onView(withText(R.string.delete))
 				.perform(click());
-		onView(withText(R.string.deletion_alert_yes))
-				.perform(click());
 	}
 
 	public void performRename(String newName) {

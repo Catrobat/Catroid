@@ -2022,8 +2022,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- -->
 
     <string name="deletion_alert_title">Warning!</string>
-    <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous. Are you sure?</string>
-    <string name="deletion_alert_yes">Yes, delete anyway!</string>
+    <string name="deletion_alert_text">This variable is still in use and therefore cannot be deleted.
+        Please replace the variable at all places in this project where it is used before deleting it.</string>
+    <string name="deletion_alert_yes">OK</string>
 
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
