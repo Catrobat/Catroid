@@ -34,6 +34,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -49,7 +50,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
-import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
@@ -60,7 +61,7 @@ public class LanguagePickerTest {
 	public DontGenerateDefaultProjectActivityTestRule<SettingsActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityTestRule<>(SettingsActivity.class, false, false);
 
-	private boolean bufferedPrivacyPolicyPreferenceSetting;
+	private int bufferedPrivacyPolicyPreferenceSetting;
 
 	private static final Locale ARABICLOCALE = new Locale("ar");
 	private static final Locale DEUTSCHLOCALE = Locale.GERMAN;
@@ -71,11 +72,13 @@ public class LanguagePickerTest {
 				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
+						.hashCode())
 				.commit();
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -84,7 +87,8 @@ public class LanguagePickerTest {
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
 
 		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());

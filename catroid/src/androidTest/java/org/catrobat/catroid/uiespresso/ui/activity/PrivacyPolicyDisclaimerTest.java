@@ -30,6 +30,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -43,7 +44,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 
 @RunWith(AndroidJUnit4.class)
 public class PrivacyPolicyDisclaimerTest {
@@ -52,7 +53,7 @@ public class PrivacyPolicyDisclaimerTest {
 	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
-	private boolean bufferedPrivacyPolicyPreferenceSetting;
+	private int bufferedPrivacyPolicyPreferenceSetting;
 
 	@Before
 	public void setUp() throws Exception {
@@ -60,14 +61,15 @@ public class PrivacyPolicyDisclaimerTest {
 				.getTargetContext());
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 	}
 
 	@After
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
 	}
 
@@ -75,7 +77,8 @@ public class PrivacyPolicyDisclaimerTest {
 	public void testShowPrivacyPolicyDisclaimer() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						0)
 				.commit();
 
 		baseActivityTestRule.launchActivity(null);
@@ -87,7 +90,9 @@ public class PrivacyPolicyDisclaimerTest {
 	public void testHidePrivacyPolicyDisclaimer() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
+						.hashCode())
 				.commit();
 
 		baseActivityTestRule.launchActivity(null);

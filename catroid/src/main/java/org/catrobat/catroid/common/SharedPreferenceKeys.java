@@ -29,7 +29,8 @@ public final class SharedPreferenceKeys {
 	}
 
 	public static final String ACCESSIBILITY_PROFILE_PREFERENCE_KEY = "AccessibilityProfile";
-	public static final String AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY = "AgreedToPrivacyPolicy";
+	public static final String AGREED_TO_PRIVACY_POLICY_VERSION =
+			"AgreedToCurrentPrivacyPolicy";
 
 	public static final String DEVICE_LANGUAGE = "deviceLanguage";
 	public static final String LANGUAGE_TAG_KEY = "applicationLanguage";

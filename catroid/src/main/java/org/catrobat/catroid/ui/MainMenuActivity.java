@@ -63,7 +63,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
@@ -79,10 +79,11 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		boolean hasUserAgreedToPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
-
-		if (hasUserAgreedToPrivacyPolicy) {
+		int oldPrivacyPolicyHash = PreferenceManager.getDefaultSharedPreferences(this)
+						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		int currentPrivacyPolicyHash = getResources().getString(R.string.dialog_privacy_policy_text)
+						.hashCode();
+		if (oldPrivacyPolicyHash == currentPrivacyPolicyHash) {
 			loadContent();
 		} else {
 			setContentView(R.layout.privacy_policy_view);
@@ -92,7 +93,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public void handleAgreedToPrivacyPolicyButton(View view) {
 		PreferenceManager.getDefaultSharedPreferences(this)
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, getResources()
+						.getString(R.string.dialog_privacy_policy_text)
+						.hashCode())
 				.commit();
 		loadContent();
 	}
