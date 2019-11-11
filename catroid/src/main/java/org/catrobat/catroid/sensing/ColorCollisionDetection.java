@@ -21,7 +21,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.formulaeditor.common;
+package org.catrobat.catroid.sensing;
+
+import android.graphics.Bitmap;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -48,10 +50,12 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.catrobat.catroid.formulaeditor.common.Conversion.convertToBitmap;
+import static org.catrobat.catroid.formulaeditor.common.Conversion.flipBitmap;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.matchesColor;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.tryParseColor;
 
-public class TouchesColorFunctions {
+public class ColorCollisionDetection {
 	public static boolean interpretFunctionTouchesColor(Object parameter, Sprite sprite) {
 		if (!(parameter instanceof String)) {
 			return false;
@@ -70,7 +74,7 @@ public class TouchesColorFunctions {
 		Camera camera = createCamera(currentProject, sprite.look);
 
 		Pixmap pixmap = drawSprites(spriteList, camera.combined, sprite.look);
-//		Bitmap bitmap = flipBitmap(convertToBitmap(pixmap));
+		Bitmap bitmap = flipBitmap(convertToBitmap(pixmap));
 
 		ByteBuffer pixels = pixmap.getPixels();
 		pixmap.dispose();
@@ -106,11 +110,11 @@ public class TouchesColorFunctions {
 	}
 
 	private static Camera createCamera(Project project, Actor actor) {
-		int virtualWidth = project.getXmlHeader().virtualScreenWidth;
-		int virtualHeight = project.getXmlHeader().virtualScreenHeight;
-		Camera camera = new OrthographicCamera(virtualWidth, virtualHeight);
-		Viewport viewPort = createViewPort(project, actor.getWidth() * actor.getScaleX(),
-				actor.getHeight() * actor.getScaleY(), camera);
+		float virtualWidth1 = actor.getWidth() * actor.getScaleX();
+		float virtualHeight1 = actor.getHeight() * actor.getScaleY();
+		Camera camera = new OrthographicCamera(virtualWidth1, virtualHeight1);
+		Viewport viewPort = createViewPort(project, virtualWidth1,
+				virtualHeight1, camera);
 		viewPort.apply();
 		camera.position.set(0, 0, 0);
 		camera.translate(actor.getX() + actor.getWidth() / 2, actor.getY() + actor.getHeight() / 2, 0);

@@ -59,7 +59,7 @@ import java.util.regex.Pattern;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.FALSE;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.booleanToDouble;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.convertArgumentToDouble;
-import static org.catrobat.catroid.formulaeditor.common.TouchesColorFunctions.interpretFunctionTouchesColor;
+import static org.catrobat.catroid.sensing.ColorCollisionDetection.interpretFunctionTouchesColor;
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaElement implements Serializable {
