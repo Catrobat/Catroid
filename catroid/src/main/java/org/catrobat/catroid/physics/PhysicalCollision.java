@@ -61,6 +61,12 @@ public class PhysicalCollision {
 	}
 
 	private void sendBounceOffEvent(Sprite spriteBouncingOff, Sprite otherSprite) {
+		if (spriteBouncingOff.isClone) {
+			fireBounceOffEvent(spriteBouncingOff.myOriginal, otherSprite);
+		}
+		if (otherSprite.isClone) {
+			fireBounceOffEvent(spriteBouncingOff, otherSprite.myOriginal);
+		}
 		fireBounceOffEvent(spriteBouncingOff, otherSprite);
 		fireBounceOffEvent(spriteBouncingOff, null);
 	}

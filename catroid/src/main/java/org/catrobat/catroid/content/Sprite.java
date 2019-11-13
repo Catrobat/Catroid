@@ -91,6 +91,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public transient boolean isClone = false;
+	public transient Sprite myOriginal = null;
 
 	public Sprite() {
 	}
