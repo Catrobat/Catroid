@@ -40,7 +40,7 @@ pipeline {
                         if (env.flavor == 'All') {
                             sh '''
                                 set +x
-                                ./gradlew assembleSignedRelease \
+                                ./gradlew copyAndroidNatives assembleSignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
@@ -52,7 +52,7 @@ pipeline {
                         } else if (env.flavor == 'Playground') {
                             sh '''
                                 set +x
-                                ./gradlew assembleCatroidSignedRelease \
+                                ./gradlew copyAndroidNatives assembleCatroidSignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
@@ -65,7 +65,7 @@ pipeline {
                         } else {
                             sh '''
                                 set +x
-                                ./gradlew assemble${flavor}SignedRelease \
+                                ./gradlew copyAndroidNatives assemble${flavor}SignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
@@ -105,6 +105,7 @@ pipeline {
                             fastlane android upload_APK_Catroid 
                             fastlane android upload_APK_CreateAtSchool
                             fastlane android upload_APK_LunaAndCat 
+                            fastlane android upload_APK_Arduino 
                             fastlane android upload_APK_Phiro 
                         '''
                     } else {

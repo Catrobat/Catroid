@@ -69,7 +69,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testScratchSearchWithEmptyQueryParam() throws WebconnectionException, InterruptedIOException {
-		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("", 20, 0);
+		ScratchSearchResult searchResult = new ServerCalls().scratchSearch("", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(programDataList);
@@ -103,7 +103,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testScratchSearchWithQueryParam() throws WebconnectionException, InterruptedIOException {
-		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, 0);
+		ScratchSearchResult searchResult = new ServerCalls().scratchSearch("test", 20, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(searchResult);
@@ -122,7 +122,7 @@ public class ScratchServerCallsTest {
 	public void testScratchSearchMaxNumberOfItemsParam() throws WebconnectionException, InterruptedIOException {
 		final int maxNumberOfItems = 10;
 
-		ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", maxNumberOfItems, 0);
+		ScratchSearchResult searchResult = new ServerCalls().scratchSearch("test", maxNumberOfItems, 0);
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(searchResult);
@@ -141,7 +141,7 @@ public class ScratchServerCallsTest {
 	@Test
 	public void testScratchSearchPagination() throws WebconnectionException, InterruptedIOException {
 		for (int pageIndex = 1; pageIndex < 3; pageIndex++) {
-			ScratchSearchResult searchResult = ServerCalls.getInstance().scratchSearch("test", 20, pageIndex);
+			ScratchSearchResult searchResult = new ServerCalls().scratchSearch("test", 20, pageIndex);
 			List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 			assertNotNull(searchResult);
@@ -159,7 +159,7 @@ public class ScratchServerCallsTest {
 
 	@Test
 	public void testFetchDefaultScratchPrograms() throws InterruptedIOException, WebconnectionException {
-		ScratchSearchResult searchResult = ServerCalls.getInstance().fetchDefaultScratchPrograms();
+		ScratchSearchResult searchResult = new ServerCalls().fetchDefaultScratchPrograms();
 		List<ScratchProgramData> programDataList = searchResult.getProgramDataList();
 
 		assertNotNull(searchResult);
@@ -183,7 +183,7 @@ public class ScratchServerCallsTest {
 		String expectedProgramTitle = "Dancin' in the Castle";
 		String expectedProgramOwner = "jschombs";
 		try {
-			ScratchProgramData programData = ServerCalls.getInstance().fetchScratchProgramDetails(expectedProgramID);
+			ScratchProgramData programData = new ServerCalls().fetchScratchProgramDetails(expectedProgramID);
 			checkScratchProgramData(programData);
 			assertEquals(programData.getId(), expectedProgramID);
 			assertEquals(programData.getTitle(), expectedProgramTitle);

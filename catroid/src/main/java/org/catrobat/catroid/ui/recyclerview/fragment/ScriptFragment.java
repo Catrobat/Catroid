@@ -56,6 +56,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
+import org.catrobat.catroid.ui.fragment.AddUserBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
@@ -329,10 +330,19 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public void onCategorySelected(String category) {
-		AddBrickFragment addBrickFragment = AddBrickFragment.newInstance(category, this);
+		ListFragment addListFragment = null;
+		String tag = "";
+
+		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
+			addListFragment = AddUserBrickFragment.newInstance();
+			tag = AddUserBrickFragment.ADD_USER_BRICK_FRAGMENT_TAG;
+		} else {
+			addListFragment = AddBrickFragment.newInstance(category, this);
+			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
+		}
 
 		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, addBrickFragment, AddBrickFragment.ADD_BRICK_FRAGMENT_TAG)
+				.add(R.id.fragment_container, addListFragment, tag)
 				.addToBackStack(null)
 				.commit();
 	}

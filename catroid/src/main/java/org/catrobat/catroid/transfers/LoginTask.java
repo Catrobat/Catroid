@@ -31,28 +31,30 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.CatrobatWebClient;
+import org.catrobat.catroid.web.ServerAuthenticator;
 
-public class LoginTask extends AsyncTask<Void, Void, Boolean> {
+import java.lang.ref.WeakReference;
+
+public class LoginTask extends AsyncTask<Void, Void, Void> {
 
 	private static final String TAG = LoginTask.class.getSimpleName();
 
-	private Context context;
+	private WeakReference<Context> contextWeakReference;
 	private ProgressDialog progressDialog;
 	private String username;
 	private String password;
 
 	private String message;
-	private boolean userLoggedIn;
+	private boolean userLoggedIn = false;
 
 	private OnLoginListener onLoginListener;
-	private WebconnectionException exception;
 
 	public LoginTask(Context activity, String username, String password) {
-		this.context = activity;
+		this.contextWeakReference = new WeakReference<>(activity);
 		this.username = username;
 		this.password = password;
 	}
@@ -63,7 +65,7 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPreExecute() {
-		super.onPreExecute();
+		Context context = contextWeakReference.get();
 		if (context == null) {
 			return;
 		}
@@ -73,52 +75,67 @@ public class LoginTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(Void... arg0) {
-		try {
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-			Log.d(TAG, token);
+	protected Void doInBackground(Void... arg0) {
+		Context context = contextWeakReference.get();
 
-			userLoggedIn = ServerCalls.getInstance().login(username, password, token, context);
-
-			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			exception = webconnectionException;
-			message = webconnectionException.getMessage();
+		if (context == null) {
+			return null;
 		}
-		return false;
+
+		if (!Utils.isNetworkAvailable(context)) {
+			ToastUtil.showError(context, R.string.error_internet_connection);
+			userLoggedIn = false;
+			return null;
+		}
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+		Log.d(TAG, token);
+
+		ServerAuthenticator authenticator = new ServerAuthenticator(username, password, token,
+				CatrobatWebClient.INSTANCE.getClient(),
+				FlavoredConstants.BASE_URL_HTTPS,
+				sharedPreferences.edit(),
+				new ServerAuthenticator.TaskListener() {
+					@Override
+					public void onError(int statusCode, String errorMessage) {
+						Log.e(TAG, "StatusCode: " + statusCode + errorMessage);
+						message = errorMessage;
+						userLoggedIn = false;
+					}
+
+					@Override
+					public void onSuccess() {
+						userLoggedIn = true;
+					}
+				});
+		authenticator.performCatrobatLogin();
+		return null;
 	}
 
 	@Override
-	protected void onPostExecute(Boolean success) {
-		super.onPostExecute(success);
+	protected void onPostExecute(Void arg) {
+		Context context = contextWeakReference.get();
+		if (context == null) {
+			return;
+		}
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
-			ToastUtil.showError(context, R.string.error_internet_connection);
-			return;
-		}
-
-		if (Utils.checkForSignInError(success, exception, context, userLoggedIn)) {
-			if (message == null) {
-				message = context.getString(R.string.sign_in_error);
-			}
-			onLoginListener.onLoginFailed(message);
-			Log.e(TAG, message);
-			return;
-		}
-
 		if (userLoggedIn) {
 			ToastUtil.showSuccess(context, R.string.user_logged_in);
+			if (onLoginListener != null) {
+				onLoginListener.onLoginComplete();
+			}
+			return;
 		}
 
-		if (onLoginListener != null) {
-			onLoginListener.onLoginComplete();
+		if (message == null) {
+			message = context.getString(R.string.sign_in_error);
 		}
+		onLoginListener.onLoginFailed(message);
+		Log.e(TAG, message);
 	}
 
 	public interface OnLoginListener {

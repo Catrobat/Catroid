@@ -14,7 +14,7 @@ class DockerParameters {
     // Also hand in the group id of kvm to allow using /dev/kvm.
     def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
 
-    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=6.5G'
+    def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=14G'
     def label = 'LimitedEmulator'
 }
 
@@ -44,7 +44,8 @@ def useWebTestParameter() {
 }
 
 def allFlavoursParameters() {
-    return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug assembleLunaAndCatDebug assemblePhiroDebug' : ''
+    return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug ' +
+            'assembleLunaAndCatDebug assemblePhiroDebug assembleArduinoDebug' : ''
 }
 
 def useDebugLabelParameter(defaultLabel){
@@ -88,29 +89,35 @@ pipeline {
                     stages {
                         stage('APKs') {
                             steps {
-                                script {
-                                    def additionalParameters = [useWebTestParameter(), allFlavoursParameters()].findAll{ it }.collect()
-                                    if (additionalParameters) {
-                                        currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    script {
+                                        def additionalParameters = [useWebTestParameter(), allFlavoursParameters()].findAll {
+                                            it
+                                        }.collect()
+                                        if (additionalParameters) {
+                                            currentBuild.description = "<p>Additional APK build parameters: <b>${additionalParameters.join(' ')}</b></p>"
+                                        }
                                     }
+
+                                    // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
+                                    // The resulting APK is not verified itself.
+                                    sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                                                -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
+
+                                    // Build the flavors so that they can be installed next independently of older versions.
+                                    sh "./gradlew ${useWebTestParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+
+                                    renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
+                                    archiveArtifacts '**/*.apk'
                                 }
-
-                                // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
-                                // The resulting APK is not verified itself.
-                                sh """./gradlew assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
-                                            -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
-
-                                // Build the flavors so that they can be installed next independently of older versions.
-                                sh "./gradlew ${useWebTestParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
-
-                                renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
-                                archiveArtifacts '**/*.apk'
                             }
                         }
 
                         stage('Static Analysis') {
                             steps {
-                                sh './gradlew pmd checkstyle lint detekt'
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh './gradlew pmd checkstyle lint detekt'
+                                }
                             }
 
                             post {
@@ -126,7 +133,9 @@ pipeline {
 
                         stage('Unit Tests') {
                             steps {
-                                sh './gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport'
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh './gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport'
+                                }
                             }
 
                             post {
@@ -138,9 +147,11 @@ pipeline {
 
                         stage('Instrumented Unit Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android28 \
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.test'''
+                                }
                             }
 
                             post {
@@ -152,11 +163,11 @@ pipeline {
 
                         stage('Testrunner Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android28 \
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android28 \
                                                 startEmulator createCatroidDebugAndroidTestCoverageReport \
                                                 -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
-
-
+                                }
                             }
 
                             post {
@@ -172,9 +183,11 @@ pipeline {
                             }
 
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
+                                }
                             }
 
                             post {
@@ -186,9 +199,11 @@ pipeline {
 
                         stage('RTL Tests') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
+                                }
                             }
 
                             post {
@@ -220,9 +235,11 @@ pipeline {
                     stages {
                         stage('Pull Request Suite') {
                             steps {
-                                sh '''./gradlew -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                    sh '''./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
+                                }
                             }
 
                             post {

@@ -71,6 +71,8 @@ import static org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener, CoordinateInterface {
@@ -94,6 +96,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float scaleY;
 	private float rotation;
 	private int rotationMode;
+	private float translateX;
+	private float translateY;
 
 	private float reversedRatioHeight;
 	private float reversedRatioWidth;
@@ -124,6 +128,9 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.visual_placement_layout);
+		Bundle extras = getIntent().getExtras();
+		translateX = extras.getInt(EXTRA_X_TRANSFORM);
+		translateY = extras.getInt(EXTRA_Y_TRANSFORM);
 		Toolbar toolbar = findViewById(R.id.transparent_toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -245,12 +252,17 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				}
 				break;
 		}
+
 		Bitmap bitmap = Bitmap.createBitmap(spriteBitmap, 0, 0,
 				spriteBitmap.getWidth(),
 				spriteBitmap.getHeight(), matrix, true);
 		Bitmap scaledSpriteBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * layoutWidthRatio),
 				(int) (bitmap.getHeight() * layoutHeightRatio), true);
 		imageView.setImageBitmap(scaledSpriteBitmap);
+		imageView.setTranslationX(translateX);
+		imageView.setTranslationY(-translateY);
+		xCoord = translateX / reversedRatioWidth;
+		yCoord = translateY / reversedRatioHeight;
 
 		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);

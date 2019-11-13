@@ -60,7 +60,7 @@ public final class DownloadUtil {
 	private WebViewActivity webViewActivity = null;
 
 	private DownloadUtil() {
-		programDownloadQueue = Collections.synchronizedSet(new HashSet<String>());
+		programDownloadQueue = Collections.synchronizedSet(new HashSet<>());
 		programDownloadCallback = null;
 	}
 

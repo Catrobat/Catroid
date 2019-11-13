@@ -25,7 +25,7 @@ package org.catrobat.catroid.transfers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
@@ -50,7 +50,7 @@ public class CheckEmailAvailableTask extends AsyncTask<String, Void, Boolean> {
 	@Override
 	protected Boolean doInBackground(String... params) {
 		try {
-			emailAvailable = ServerCalls.getInstance().checkEMailAvailable(email);
+			emailAvailable = new CatrobatServerCalls().isEMailAvailable(email);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));

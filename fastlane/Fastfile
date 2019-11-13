@@ -210,6 +210,51 @@ platform :android do
     )
   end
 
+    desc "upload Arduino metadata only"
+    lane :upload_Metadata_Arduino do
+      upload_to_play_store(
+        package_name:               'org.catrobat.catroid.arduino',
+        track:                      'alpha',
+        json_key_data:              ENV['googlePlayJsonKey'],
+        metadata_path:              './fastlane/metadata/android',
+        skip_upload_apk:            'true',
+        skip_upload_metadata:       'false',
+        skip_upload_images:         'false',
+        skip_upload_screenshots:    'false',
+        validate_only:              'false',
+        check_superseded_tracks:    'false',
+      )
+    end
+
+    desc "upload Arduino APK to alpha track"
+    lane :upload_APK_Arduino do
+      upload_to_play_store(
+        package_name:               'org.catrobat.catroid.arduino',
+        track:                      'alpha',
+        json_key_data:              ENV['googlePlayJsonKey'],
+        apk_paths:                  './catroid/build/outputs/apk/arduino/signedRelease/catroid-arduino-signedRelease.apk',
+        skip_upload_apk:            'false',
+        skip_upload_metadata:       'true',
+        skip_upload_images:         'true',
+        skip_upload_screenshots:    'true',
+      )
+    end
+
+    desc "promote Arduino APK on alpha track to production"
+    lane :promote_Arduino do
+      upload_to_play_store(
+        package_name:               'org.catrobat.catroid.arduino',
+        track:                      'alpha',
+        track_promote_to:           'production',
+        json_key_data:              ENV['googlePlayJsonKey'],
+        metadata_path:              './fastlane/metadata/android',
+        skip_upload_apk:            'true',
+        skip_upload_metadata:       'true',
+        skip_upload_images:         'true',
+        skip_upload_screenshots:    'true',
+      )
+    end
+
   desc "upload Playground metadata only"
   lane :upload_Metadata_Playground do
     upload_to_play_store(

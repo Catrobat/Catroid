@@ -70,10 +70,10 @@ public class DeleteItemOfUserListActionTest {
 	@Test
 	public void testDeleteItemOfUserList() {
 		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(1d), userList).act(1f);
-		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		Object firstItemOfUserList = userList.getList().get(0);
+		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object firstItemOfUserList = userList.getValue().get(0);
 
-		assertEquals(2, userList.getList().size());
+		assertEquals(2, userList.getValue().size());
 		assertEquals(2.0, firstItemOfUserList);
 		assertEquals(3.0, lastItemOfUserList);
 	}
@@ -81,17 +81,17 @@ public class DeleteItemOfUserListActionTest {
 	@Test
 	public void testDeleteItemWithInvalidUserList() {
 		actionFactory.createAddItemToUserListAction(testSprite, new Formula(1d), null).act(1f);
-		assertEquals(3, userList.getList().size());
+		assertEquals(3, userList.getValue().size());
 	}
 
 	@Test
 	public void testDeleteNullFormula() {
 		actionFactory.createDeleteItemOfUserListAction(testSprite, null, userList).act(1f);
 
-		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		Object firstItemOfUserList = userList.getList().get(0);
+		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object firstItemOfUserList = userList.getValue().get(0);
 
-		assertEquals(2, userList.getList().size());
+		assertEquals(2, userList.getValue().size());
 		assertEquals(2.0, firstItemOfUserList);
 		assertEquals(3.0, lastItemOfUserList);
 	}
@@ -100,10 +100,10 @@ public class DeleteItemOfUserListActionTest {
 	public void testNotANumberFormula() {
 		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
 
-		Object lastItemOfUserList = userList.getList().get(userList.getList().size() - 1);
-		Object firstItemOfUserList = userList.getList().get(0);
+		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
+		Object firstItemOfUserList = userList.getValue().get(0);
 
-		assertEquals(2, userList.getList().size());
+		assertEquals(2, userList.getValue().size());
 		assertEquals(2.0, firstItemOfUserList);
 		assertEquals(3.0, lastItemOfUserList);
 	}

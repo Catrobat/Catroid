@@ -24,7 +24,7 @@
   -->
 <resources>
     <!-- General terms -->
-    <string name="stage">Stage</string>
+    <string name="stage">เวที</string>
     <string name="play">เล่น</string>
     <string name="settings">การตั้งค่า</string>
     <string name="redo">ทำซ้ำ</string>
@@ -32,30 +32,27 @@
     <string name="new_option">สร้างใหม่&#8230;</string>
     <string name="confirm">ยืนยัน</string>
     <string name="cancel">ยกเลิก</string>
-    <string name="next">Next</string>
+    <string name="next">ถัดไป</string>
     <string name="back">ย้อนกลับ</string>
     <string name="ok">ตกลง</string>
     <string name="done">เสร็จสิ้น</string>
     <string name="close">ปิด</string>
     <string name="yes">ใช่</string>
     <string name="no">ไม่ใช่</string>
-    <string name="agree">Agree</string>
-    <string name="disagree">Disagree</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="agree">ตกลง</string>
+    <string name="disagree">ไม่เห็นด้วย</string>
+    <string name="select_all">เลือก​ทั้ง​หมด</string>
+    <string name="deselect_all">ไม่​เลือก​ทั้ง​หมด</string>
+    <string name="skip">ข้าม</string>
+    <string name="warning">คำเตือน</string>
     <string name="error">ผิดพลาด</string>
     <string name="loading">กำลังโหลด&#8230;</string>
-    <string name="please_wait">Please wait</string>
+    <string name="please_wait">โปรดรอสักครู่</string>
     <string name="search_hint">Search&#8230;</string>
     <string name="backpack_add">Add to backpack</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="delete_account">Delete my account</string>
@@ -63,9 +60,9 @@
     <string name="degrees">degrees</string>
     <string name="background">พื้นหลัง</string>
     <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="portrait">แนวตั้ง</string>
+    <string name="unknown">ไม่รู้จัก</string>
+    <string name="disconnect">ตัดการเชื่อมต่อ</string>
     <!--  -->
     <!-- Main Menu -->
     <string name="main_menu_continue">Continue project</string>
@@ -77,7 +74,7 @@
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
     <string name="main_menu_privacy_policy">นโยบายความเป็นส่วนตัว</string>
-    <string name="main_menu_about">About this app</string>
+    <string name="main_menu_about">เกี่ยวกับ App นี้</string>
     <string name="main_menu_login">เข้าสู่ระบบ</string>
     <string name="main_menu_logout">ออกจากระบบ</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
@@ -89,13 +86,13 @@
     <string name="marketing_more_on_google_play">More apps on App store</string>
     <!-- Settings activity -->
     <string name="preference_title">การตั้งค่า</string>
-    <string name="preference_title_language">Language</string>
+    <string name="preference_title_language">ภาษา</string>
     <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_accessibility">Accessibility</string>
+    <string name="preference_title_accessibility">การ​เข้า​ใช้​งาน</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
     <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
+    <string name="preference_title_accessibility_profile_headline">โปรไฟล์</string>
     <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
     <string name="preference_title_accessibility_text_appearance">Text appearance</string>
@@ -610,6 +607,10 @@
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">วัตถุใหม่</string>
     <!--  -->
@@ -795,7 +796,6 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -1029,6 +1029,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="other">ครั้ง</item>
     </plurals>
@@ -1039,6 +1040,8 @@
     <string name="brick_if_end">สิ้นสุดถ้า</string>
     <string name="brick_set_variable">ตั้งค่าตัวแปร</string>
     <string name="brick_change_variable">เปลี่ยนค่าตัวแปร</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">เพิ่มความคิดเห็นที่นี่&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">สวัสดี!</string>
@@ -1460,7 +1463,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">Color preview</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">ข้อมูล</string>
@@ -1505,6 +1507,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctan</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">power</string>
@@ -1762,6 +1766,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1786,13 +1792,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

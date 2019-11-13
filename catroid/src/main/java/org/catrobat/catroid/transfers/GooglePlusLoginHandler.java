@@ -52,7 +52,7 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
 		GoogleLogInTask.OnGoogleServerLogInCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
-		GoogleExchangeCodeTask.OnFacebookExchangeCodeCompleteListener {
+		GoogleExchangeCodeTask.OnGoogleExchangeCodeCompleteListener {
 
 	private AppCompatActivity activity;
 	public static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
@@ -94,15 +94,9 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		if (result.isSuccess()) {
 			GoogleSignInAccount account = result.getSignInAccount();
 			onGoogleLogInComplete(account);
-		} else {
-			switch (result.getStatus().getStatusCode()) {
-				case STATUS_CODE_SIGN_IN_CURRENTLY_IN_PROGRESS:
-					break;
-
-				default:
-					ToastUtil.showError(activity, activity.getString(R.string.error_google_plus_sign_in,
-							Integer.toString(result.getStatus().getStatusCode())));
-			}
+		} else if (result.getStatus().getStatusCode() != STATUS_CODE_SIGN_IN_CURRENTLY_IN_PROGRESS) {
+			ToastUtil.showError(activity, activity.getString(R.string.error_google_plus_sign_in,
+						Integer.toString(result.getStatus().getStatusCode())));
 		}
 	}
 

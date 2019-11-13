@@ -86,7 +86,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 
 	private ConversionManager conversionManager;
 	private SearchScratchProgramsTask searchTask;
-	private ScratchDataFetcher dataFetcher = ServerCalls.getInstance();
+	private ScratchDataFetcher dataFetcher = new ServerCalls();
 
 	class OnQueryListener implements SearchView.OnQueryTextListener {
 

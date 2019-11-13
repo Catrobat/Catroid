@@ -56,9 +56,8 @@
 
         <ImageButton
             android:id="@+id/formula_editor_keyboard_delete"
-            style="@style/FormulaEditorImageButton"
+            style="@style/FormulaEditorButton"
             android:layout_marginTop="@dimen/key_margin"
-            android:layout_height="match_parent"
             android:contentDescription="@string/formula_editor_image_button_description_delete"
             android:src="@android:drawable/ic_input_delete"
             android:layout_span="2" />

@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static junit.framework.Assert.assertFalse;
@@ -74,10 +75,10 @@ public class DeviceVariableAccessorCleanRoutineTest {
 		allVariables.addAll(project.getUserVariables());
 
 		accessor = new DeviceVariableAccessor(directory);
-		HashMap<UUID, Object> map = new HashMap<>();
+		Map<UUID, Object> map = new HashMap<>();
 
-		for (UserVariable userVariable: allVariables) {
-			map.put(userVariable.getDeviceValueKey(), userVariable.getValue());
+		for (UserVariable userVariable : allVariables) {
+			map.put(userVariable.getDeviceKey(), userVariable.getValue());
 		}
 		accessor.writeMapToJson(map);
 	}
@@ -106,31 +107,31 @@ public class DeviceVariableAccessorCleanRoutineTest {
 	@Test
 	public void deleteGlobalVariablesTest() {
 		project.getUserVariables().clear();
-		accessor.cleanUpDeletedVariables(project);
-		HashMap<UUID, Object> map = accessor.readMapFromJson();
-		assertFalse(map.containsKey(globalUserVariable.getDeviceValueKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceValueKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceValueKey()));
+		accessor.cleanUpDeletedUserData(project);
+		Map<UUID, Object> map = accessor.readMapFromJson();
+		assertFalse(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
 	}
 
 	@Test
 	public void deleteSceneVariablesTest() {
 		project.removeScene(scene1);
-		accessor.cleanUpDeletedVariables(project);
-		HashMap<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceValueKey()));
-		assertFalse(map.containsKey(sprite1UserVariable.getDeviceValueKey()));
-		assertTrue(map.containsKey(sprite2UserVariable.getDeviceValueKey()));
+		accessor.cleanUpDeletedUserData(project);
+		Map<UUID, Object> map = accessor.readMapFromJson();
+		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertFalse(map.containsKey(sprite1UserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
 	}
 
 	@Test
 	public void deleteSpriteVariablesTest() {
 		sprite2.getUserVariables().clear();
-		accessor.cleanUpDeletedVariables(project);
-		HashMap<UUID, Object> map = accessor.readMapFromJson();
-		assertTrue(map.containsKey(globalUserVariable.getDeviceValueKey()));
-		assertTrue(map.containsKey(sprite1UserVariable.getDeviceValueKey()));
-		assertFalse(map.containsKey(sprite2UserVariable.getDeviceValueKey()));
+		accessor.cleanUpDeletedUserData(project);
+		Map<UUID, Object> map = accessor.readMapFromJson();
+		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
+		assertFalse(map.containsKey(sprite2UserVariable.getDeviceKey()));
 	}
 
 	@After

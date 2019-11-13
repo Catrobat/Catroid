@@ -28,8 +28,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.21.5'
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'io.fabric.tools:gradle:1.26.0'
+        classpath 'com.google.gms:google-services:4.3.2'
     }
 }
 
@@ -131,11 +131,13 @@ if (!project.hasProperty("signingKeystore")) {
 ant.copy(file: 'google-services-template.json', tofile: 'src/catroid/google-services.json', overwrite: true)
 ant.copy(file: 'google-services-template.json', tofile: 'src/createAtSchool/google-services.json', overwrite: true)
 ant.copy(file: 'google-services-template.json', tofile: 'src/lunaAndCat/google-services.json', overwrite: true)
+ant.copy(file: 'google-services-template.json', tofile: 'src/arduino/google-services.json', overwrite: true)
 ant.copy(file: 'google-services-template.json', tofile: 'src/phiro/google-services.json', overwrite: true)
 ant.copy(file: 'google-services-template.json', tofile: 'src/standalone/google-services.json', overwrite: true)
 
 ant.replace(file: 'src/catroid/google-services.json', token: '@appId@', value: appId)
 ant.replace(file: 'src/createAtSchool/google-services.json', token: '@appId@', value: appId + ".createatschool")
+ant.replace(file: 'src/arduino/google-services.json', token: '@appId@', value: appId + ".arduino")
 ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@appId@', value: appId + ".lunaandcat")
 ant.replace(file: 'src/phiro/google-services.json', token: '@appId@', value: appId + ".phiro")
 ant.replace(file: 'src/standalone/google-services.json', token: '@appId@', value: appId + ".standalone")
@@ -144,6 +146,7 @@ if (project.hasProperty('firebaseApiKey')) {
     ant.replace(file: 'src/catroid/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
     ant.replace(file: 'src/createAtSchool/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
     ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+    ant.replace(file: 'src/arduino/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
     ant.replace(file: 'src/phiro/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
     ant.replace(file: 'src/standalone/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
 }
@@ -179,12 +182,12 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 66
+        versionCode 69
         println "VersionCode is $versionCode"
-        versionName "0.9.64"
+        versionName "0.9.65"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-        buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
+        buildConfigField "boolean", "USE_WEB_TEST", (project.hasProperty('useWebTest') ? 'true' : 'false')
         multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
@@ -215,6 +218,9 @@ android {
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
+        unitTests.all {
+            jvmArgs '-Xmx2g'
+        }
     }
 
     dexOptions.javaMaxHeapSize "4g"
@@ -313,6 +319,9 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         standalone {
@@ -328,6 +337,9 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         createAtSchool {
@@ -339,6 +351,9 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         lunaAndCat {
@@ -350,6 +365,9 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         phiro {
@@ -361,6 +379,23 @@ android {
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+        }
+
+        arduino {
+            dimension "default"
+            applicationId appId + '.arduino'
+
+            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
     }
 }
@@ -425,6 +460,7 @@ dependencies {
     createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    arduinoImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // libGDX
@@ -440,7 +476,6 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation 'com.facebook.android:facebook-android-sdk:5.1.1'
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
 
     androidTestImplementation ('tools.fastlane:screengrab:1.1.0'){
@@ -498,21 +533,23 @@ project.gradle.taskGraph.whenReady {
 }
 
 task copyAndroidNatives() {
-    file("src/main/jniLibs/armeabi-v7a/").mkdirs()
-    file("src/main/jniLibs/arm64-v8a/").mkdirs()
-    file("src/main/jniLibs/x86/").mkdirs()
-    file("src/main/jniLibs/x86_64/").mkdirs()
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
-        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("src/main/jniLibs/arm64-v8a")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
-        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("src/main/jniLibs/x86_64")
-        if (outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
+    doFirst {
+        file("src/main/jniLibs/armeabi-v7a/").mkdirs()
+        file("src/main/jniLibs/arm64-v8a/").mkdirs()
+        file("src/main/jniLibs/x86/").mkdirs()
+        file("src/main/jniLibs/x86_64/").mkdirs()
+        configurations.natives.files.each { jar ->
+            def outputDir = null
+            if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
+            if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("src/main/jniLibs/arm64-v8a")
+            if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
+            if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("src/main/jniLibs/x86_64")
+            if (outputDir != null) {
+                copy {
+                    from zipTree(jar)
+                    into outputDir
+                    include "*.so"
+                }
             }
         }
     }

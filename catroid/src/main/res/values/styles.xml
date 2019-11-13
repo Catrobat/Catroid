@@ -84,6 +84,7 @@
         <item name="icon_look">@drawable/look_pos</item>
         <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
         <item name="icon_embroidery">@drawable/embroidery_pos</item>
+        <item name="icon_userbrick">@drawable/yourbrick_pos</item>
     </style>
 
     <!-- Toolbar -->
@@ -296,7 +297,14 @@
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_red_3h</item>
     </style>
-    
+
+    <style name="BrickContainer.UserList"></style>
+
+    <style name="BrickContainer.UserList.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_red_2h</item>
+    </style>
+
     <style name="BrickContainer.Drone" tools:ignore="UnusedResources"></style>
 
     <style name="BrickContainer.Drone.Small" tools:ignore="UnusedResources">
@@ -446,12 +454,6 @@
         <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
     </style>
 
-    <style name="FormulaEditorImageButton">
-        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:layout_marginBottom">@dimen/key_margin</item>
-        <item name="android:layout_marginEnd">@dimen/key_margin</item>
-    </style>
-
     <style name="BrickCategory">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/brick_category_height</item>
@@ -515,6 +517,10 @@
 
     <style name="BrickCategory.Cast">
         <item name="android:background">@drawable/brick_selection_background_chromecast</item>
+    </style>
+
+    <style name="BrickCategory.Userbrick">
+        <item name="android:background">@drawable/brick_selection_background_userbrick</item>
     </style>
 
      <style name="WebViewLoadingCircle" parent="android:Theme.Holo.Dialog">

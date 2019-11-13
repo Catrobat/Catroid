@@ -37,7 +37,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99992f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99994f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -51,6 +51,7 @@ public final class Constants {
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
 
 	public static final String DEVICE_VARIABLE_JSON_FILENAME = "DeviceVariables.json";
+	public static final String DEVICE_LIST_JSON_FILENAME = "DeviceLists.json";
 
 	public static final String POCKET_CODE_EXTERNAL_EXPORT_STORAGE_FOLDER_NAME = "Catrobat";
 	public static final File EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY = new File(
@@ -69,9 +70,6 @@ public final class Constants {
 
 	// Files and Directories:
 	public static final String NO_MEDIA_FILE = ".nomedia";
-
-	public static final String AUTOMATIC_SCREENSHOT_FILE_NAME = "automatic_screenshot.png";
-	public static final String MANUAL_SCREENSHOT_FILE_NAME = "manual_screenshot.png";
 
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
@@ -100,10 +98,11 @@ public final class Constants {
 	public static final String TEXT_TO_SPEECH_TMP_PATH = TMP_PATH + "/textToSpeech";
 
 	// Web:
-	public static final String MAIN_URL_HTTPS = BuildConfig.MAIN_URL_HTTPS;
+	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
+	private static final String MAIN_URL_WEBTEST = "https://web-test.catrob.at";
+	public static final String MAIN_URL_HTTPS = BuildConfig.USE_WEB_TEST ? MAIN_URL_WEBTEST : MAIN_URL_PRODUCTION;
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
-	public static final String STANDALONE_URL = "https://catrob.at/csadttwt";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
@@ -116,47 +115,24 @@ public final class Constants {
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 
 	// XStream:
-	public static final String TEXT_TO_SPEECH = "TEXT_TO_SPEECH";
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
-	public static final String BLUETOOTH_PHIRO_PRO = "BLUETOOTH_PHIRO_PRO";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
-	public static final String JUMPING_SUMO_SUPPORT = "JUMPING_SUMO_SUPPORT";
-	public static final String CAMERA_FLASH = "CAMERA_FLASH";
-	public static final String VIBRATOR = "VIBRATOR";
-	public static final String FACE_DETECTION = "FACE_DETECTION";
 	public static final String NFC = "NFC";
 
 	//Broadcast system:
-	public static final String ACTION_SPRITE_SEPARATOR = "#";
-	public static final String BROADCAST_NOTIFY_ACTION = "broadcast_notify";
-	public static final String START_SCRIPT = "start_script";
-	public static final String BROADCAST_SCRIPT = "broadcast_script";
-	public static final String RASPI_SCRIPT = "raspi_pinchange_script";
 	public static final String RASPI_BROADCAST_PREFIX = "#RASPI#";
-	public static final String RASPI_BROADCAST_INTERRUPT_PREFIX = RASPI_BROADCAST_PREFIX + "interrupt ";
-	public static final String OPENING_BRACE = "(";
 
 	// Login:
 	public static final String CATROBAT_TOKEN_LOGIN_AMP_TOKEN = "&token=";
 	public static final String TOKEN = "token";
 	public static final String NO_TOKEN = "no_token";
-	public static final String FACEBOOK_TOKEN_REFRESH_NEEDED = "FACEBOOK_TOKEN_REFRESH_NEEDED";
 	public static final String USERNAME = "username";
 	public static final String NO_USERNAME = "no_username";
 	public static final String EMAIL = "email";
 	public static final String NO_EMAIL = "no_email";
 	public static final String LOCALE = "locale";
 	public static final String RESTRICTED_USER = "restricted_user";
-	public static final String FACEBOOK_ID = "FACEBOOK_ID";
-	public static final String NO_FACEBOOK_ID = "NO_FACEBOOK_ID";
-	public static final String FACEBOOK_USERNAME = "FACEBOOK_USERNAME";
-	public static final String NO_FACEBOOK_USERNAME = "NO_FACEBOOK_USERNAME";
-	public static final String FACEBOOK_LOCALE = "FACEBOOK_LOCALE";
-	public static final String NO_FACEBOOK_LOCALE = "NO_FACEBOOK_LOCALE";
-	public static final String FACEBOOK_EMAIL = "FACEBOOK_EMAIL";
-	public static final String NO_FACEBOOK_EMAIL = "NO_FACEBOOK_EMAIL";
 	public static final String JSON_ERROR_CODE = "errorCode";
-	public static final int ERROR_CODE_FACEBOOK_SESSION_EXPIRED = 190;
 
 	public static final String GOOGLE_ID = "GOOGLE_ID";
 	public static final String NO_GOOGLE_ID = "NO_GOOGLE_ID";
@@ -171,7 +147,6 @@ public final class Constants {
 	public static final String GOOGLE_EXCHANGE_CODE = "GOOGLE_EXCHANGE_CODE";
 	public static final String NO_GOOGLE_EXCHANGE_CODE = "NO_GOOGLE_EXCHANGE_CODE";
 	public static final String CURRENT_OAUTH_PROVIDER = "PROVIDER";
-	public static final String FACEBOOK = "FACEBOOK";
 	public static final String GOOGLE_PLUS = "GPLUS";
 	public static final String NO_OAUTH_PROVIDER = "NATIVE";
 
@@ -183,7 +158,6 @@ public final class Constants {
 	public static final String WHATSAPP_URI = "whatsapp://";
 
 	// Scratch Converter
-	public static final int DOWNLOAD_FILE_HTTP_TIMEOUT = 30_000;
 	public static final long INVALID_SCRATCH_PROGRAM_ID = 0;
 
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
@@ -204,7 +178,6 @@ public final class Constants {
 	public static final String DATE_FORMAT_ISO_8601 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
 	public static final String INTENT_SCRATCH_PROGRAM_DATA = "scratchProgramData";
-	public static final int INTENT_REQUEST_CODE_SPEECH = 0;
 	public static final int INTENT_REQUEST_CODE_CONVERT = 1;
 
 	// Lego
@@ -238,7 +211,6 @@ public final class Constants {
 	public static final String EXTRA_SCENE_NAMES = "sceneNames";
 	public static final String EXTRA_USER_EMAIL = "userEmail";
 	public static final String EXTRA_LANGUAGE = "language";
-	public static final String EXTRA_NOTIFICATION_ID = "notificationId";
 	public static final String EXTRA_RESULT_RECEIVER = "resultReceiver";
 	public static final String EXTRA_PROVIDER = "provider";
 	public static final String EXTRA_UPLOAD_NAME = "uploadName";
@@ -272,9 +244,7 @@ public final class Constants {
 	public static final int TEXT_SIZE_BUBBLE = 30;
 	public static final int LINE_SPACING_BUBBLES = 3;
 	public static final int PADDING_TOP = 40;
-	public static final int PADDING_LEFT = 30;
 	public static final int OFFSET_FOR_THINK_BUBBLES_AND_ARROW = 40;
-	public static final int JUMPING_SUMO_BATTERY_STATUS = 100;
 
 	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;

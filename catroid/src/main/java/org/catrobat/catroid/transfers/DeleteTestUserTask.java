@@ -29,7 +29,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
@@ -50,14 +50,6 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-		if (context == null) {
-			return;
-		}
-	}
-
-	@Override
 	protected Boolean doInBackground(Void... params) {
 		try {
 			if (!Utils.isNetworkAvailable(context)) {
@@ -65,7 +57,7 @@ public class DeleteTestUserTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			return ServerCalls.getInstance().deleteTestUserAccountsOnServer();
+			return new CatrobatServerCalls().deleteTestUserAccountsOnServer();
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
 			exception = webconnectionException;

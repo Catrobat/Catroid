@@ -118,6 +118,9 @@ public class SpriteActivity extends BaseActivity {
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
 
+	public static final String EXTRA_X_TRANSFORM = "X";
+	public static final String EXTRA_Y_TRANSFORM = "Y";
+
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
 	private NewItemInterface<SoundInfo> onNewSoundListener;

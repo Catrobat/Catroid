@@ -25,7 +25,8 @@ package org.catrobat.catroid.transfers;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.common.FlavoredConstants;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
@@ -40,7 +41,7 @@ public class CheckTokenTask extends AsyncTask<String, Void, Boolean[]> {
 	@Override
 	protected Boolean[] doInBackground(String... arg0) {
 		try {
-			return new Boolean[]{ServerCalls.getInstance().checkToken(arg0[0], arg0[1]), false};
+			return new Boolean[]{new CatrobatServerCalls().checkToken(arg0[0], arg0[1], FlavoredConstants.BASE_URL_HTTPS), false};
 		} catch (WebconnectionException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			return new Boolean[]{false, true};

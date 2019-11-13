@@ -219,14 +219,18 @@ public class WebViewActivity extends BaseActivity {
 		progressDialog.setProgress(0);
 		progressDialog.setMax(100);
 		progressDialog.setProgressNumberFormat(null);
-		progressDialog.show();
+		if (!isFinishing()) {
+			progressDialog.show();
+		}
 	}
 
 	public void updateProgressDialog(long progress) {
 		if (progress == 100) {
-			progressDialog.setProgress(progressDialog.getMax());
-			setResult(RESULT_OK, resultIntent);
-			progressDialog.dismiss();
+			if (progressDialog.isShowing() && !isFinishing()) {
+				progressDialog.setProgress(progressDialog.getMax());
+				setResult(RESULT_OK, resultIntent);
+				progressDialog.dismiss();
+			}
 			finish();
 		} else {
 			progressDialog.setProgress((int) progress);

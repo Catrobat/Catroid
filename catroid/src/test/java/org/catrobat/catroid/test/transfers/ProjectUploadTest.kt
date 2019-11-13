@@ -128,7 +128,7 @@ class ProjectUploadTest {
 
     @Test
     fun testProjectUploadSuccess() {
-        val projectId = 1234
+        val projectId = "1234"
         `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
         `when`(sharedPrefsEditor.putString(ArgumentMatchers.eq(Constants.TOKEN), any()))
             .thenReturn(sharedPrefsEditor)
@@ -146,7 +146,7 @@ class ProjectUploadTest {
             successCallback?.onSuccess(projectId, "username", "token")
         }
 
-        var returnedProjectId = -1
+        var returnedProjectId = "-1"
         createProjectUpload().start(
             successCallback = { returnedProjectId = it },
             errorCallback = { _, _ -> fail("Error callback must not be invoked in this test") }
@@ -183,7 +183,7 @@ class ProjectUploadTest {
             )
         ).then {
             val successCallback = it.arguments[1] as? ServerCalls.UploadSuccessCallback
-            successCallback?.onSuccess(123, callbackUsername, callbackToken)
+            successCallback?.onSuccess("123", callbackUsername, callbackToken)
         }
 
         createProjectUpload().start(

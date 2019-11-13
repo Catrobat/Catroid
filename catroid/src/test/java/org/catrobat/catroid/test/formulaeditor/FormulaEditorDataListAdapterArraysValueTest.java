@@ -69,7 +69,7 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 
 	@Test
 	public void testValuesOfUserList() {
-		List<Object> userList = project.getUserList(userListName).getList();
+		List<Object> userList = project.getUserList(userListName).getValue();
 
 		assertEquals(3, userList.size());
 		assertEquals(String.valueOf(1), userList.get(0));

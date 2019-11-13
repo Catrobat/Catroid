@@ -52,10 +52,7 @@
     <string name="backpack_add">Add to backpack</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="delete_account">Delete my account</string>
@@ -610,6 +607,10 @@
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">New actor or object</string>
     <!--  -->
@@ -795,7 +796,6 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -1029,6 +1029,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="other">times</item>
     </plurals>
@@ -1039,6 +1040,8 @@
     <string name="brick_if_end">End if</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">add comment here&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hello!</string>
@@ -1460,7 +1463,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">Color preview</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
@@ -1476,11 +1478,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sinus</string>
+    <string name="formula_editor_function_sin">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos">cosinus</string>
+    <string name="formula_editor_function_cos">cosine</string>
     <string name="formula_editor_function_cos_parameter">(360)</string>
-    <string name="formula_editor_function_tan">tangens</string>
+    <string name="formula_editor_function_tan">tangent</string>
     <string name="formula_editor_function_tan_parameter">(45)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
@@ -1499,12 +1501,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin">arcsinus</string>
+    <string name="formula_editor_function_arcsin">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
-    <string name="formula_editor_function_arccos">arccosinus</string>
+    <string name="formula_editor_function_arccos">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangens</string>
+    <string name="formula_editor_function_arctan">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exponent</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">power</string>
@@ -1762,6 +1766,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1786,13 +1792,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

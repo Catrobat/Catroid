@@ -92,7 +92,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	@Override
 	public void show() {
 		super.show();
-		if (stageListener.embroideryList.size() > 1) {
+		if (stageListener.embroideryPatternManager.validPatternExists()) {
 			(findViewById(R.id.stage_layout_linear_share)).setVisibility(View.VISIBLE);
 			(findViewById(R.id.stage_dialog_button_share)).setOnClickListener(this);
 		} else {
@@ -139,10 +139,10 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	private void shareEmbroideryFile() {
-		if (stageListener.embroideryList.size() > 1) {
+		if (stageListener.embroideryPatternManager.validPatternExists()) {
 			String filename =
 					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(ProjectManager.getInstance().getCurrentProject().getName());
-			DSTFileGenerator dstFileGenerator = new DSTFileGenerator(stageListener.embroideryList);
+			DSTFileGenerator dstFileGenerator = new DSTFileGenerator(stageListener.embroideryPatternManager.getEmbroideryStream());
 			File dstFile = new File(Constants.CACHE_DIR, filename + Constants.EMBROIDERY_FILE_EXTENSION);
 			if (dstFile.exists()) {
 				dstFile.delete();

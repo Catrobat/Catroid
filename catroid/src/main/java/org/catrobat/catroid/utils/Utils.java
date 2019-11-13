@@ -32,7 +32,6 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.facebook.AccessToken;
 import com.google.common.base.Splitter;
 
 import org.catrobat.catroid.ProjectManager;
@@ -47,7 +46,6 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
@@ -63,6 +61,8 @@ import java.util.Locale;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public final class Utils {
 
@@ -86,11 +86,6 @@ public final class Utils {
 			activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
 		}
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-
-	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
-			boolean userSignedIn) {
-		return (!success && exception != null) || context == null || !userSignedIn;
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
@@ -421,13 +416,6 @@ public final class Utils {
 		sharedPreferenceEditor.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME);
 
-		sharedPreferenceEditor.putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false)
-				.putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL)
-				.putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME)
-				.putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID)
-				.putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE);
-		AccessToken.setCurrentAccessToken(null);
-
 		sharedPreferenceEditor.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
 				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
 				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
@@ -443,8 +431,8 @@ public final class Utils {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != TOKEN_LENGTH
+				|| token.equals(TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
 

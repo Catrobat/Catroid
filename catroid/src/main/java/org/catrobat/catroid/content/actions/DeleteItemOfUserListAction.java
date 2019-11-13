@@ -42,7 +42,7 @@ public class DeleteItemOfUserListAction extends TemporalAction {
 		if (userList == null) {
 			return;
 		}
-		if (userList.getList().size() == 0) {
+		if (userList.getValue().size() == 0) {
 			return;
 		}
 
@@ -56,11 +56,11 @@ public class DeleteItemOfUserListAction extends TemporalAction {
 
 		indexToDelete--;
 
-		if (indexToDelete >= userList.getList().size() || indexToDelete < 0) {
+		if (indexToDelete >= userList.getValue().size() || indexToDelete < 0) {
 			return;
 		}
 
-		((ArrayList<Object>) userList.getList()).remove(indexToDelete);
+		((ArrayList<Object>) userList.getValue()).remove(indexToDelete);
 	}
 
 	public void setUserList(UserList userVariable) {

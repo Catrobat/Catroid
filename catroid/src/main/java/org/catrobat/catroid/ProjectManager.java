@@ -64,6 +64,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
 public final class ProjectManager {
 
@@ -99,108 +100,36 @@ public final class ProjectManager {
 			restorePreviousProject(previousProject);
 			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 		}
-
-		if (project.getCatrobatLanguageVersion() == 0.8f) {
-			project.setCatrobatLanguageVersion(0.9f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9f) {
-			project.setCatrobatLanguageVersion(0.91f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.91f) {
-			project.setCatrobatLanguageVersion(0.92f);
-			project.setScreenMode(ScreenModes.STRETCH);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.92f) {
-			project.setCatrobatLanguageVersion(0.93f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.93f) {
-			project.setCatrobatLanguageVersion(0.94f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.94f) {
-			project.setCatrobatLanguageVersion(0.95f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.95f) {
-			project.setCatrobatLanguageVersion(0.96f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.96f) {
-			project.setCatrobatLanguageVersion(0.97f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.97f) {
-			project.setCatrobatLanguageVersion(0.98f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.98f) {
-			project.setCatrobatLanguageVersion(0.99f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.99f) {
-			project.setCatrobatLanguageVersion(0.991f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.991f) {
-			project.setCatrobatLanguageVersion(0.992f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.992f) {
-			updateCollisionFormulasTo993(project);
-			project.setCatrobatLanguageVersion(0.993f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.993f) {
-			updateSetPenColorFormulasTo994(project);
-			project.setCatrobatLanguageVersion(0.994f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.994f) {
-			updateArduinoValuesTo995(project);
-			project.setCatrobatLanguageVersion(0.995f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.995f) {
-			updateCollisionScriptsTo996(project);
-			project.setCatrobatLanguageVersion(0.996f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.996f) {
-			project.setCatrobatLanguageVersion(0.997f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.997f) {
-			project.setCatrobatLanguageVersion(0.998f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.998f) {
-			project.setCatrobatLanguageVersion(0.999f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.999f) {
-			makeShallowCopiesDeepAgain(project);
-			project.setCatrobatLanguageVersion(0.9991f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9991f) {
-			project.setCatrobatLanguageVersion(0.9992f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9992f) {
-			project.setCatrobatLanguageVersion(0.9993f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9993f) {
-			updateScriptsToTreeStructure(project);
-			project.setCatrobatLanguageVersion(0.9994f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9994f) {
-			project.setCatrobatLanguageVersion(0.9995f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9995f) {
-			project.setCatrobatLanguageVersion(0.9996f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9996f) {
-			project.setCatrobatLanguageVersion(0.9997f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9997f) {
-			project.setCatrobatLanguageVersion(0.9998f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9998f) {
-			project.setCatrobatLanguageVersion(0.9999f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9999f) {
-			project.setCatrobatLanguageVersion(0.99991f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.99991f) {
-			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
-		}
-		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {
+		if (project.getCatrobatLanguageVersion() < 0.9f && project.getCatrobatLanguageVersion() != 0.8f) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
+
+		if (project.getCatrobatLanguageVersion() <= 0.91f) {
+			project.setScreenMode(ScreenModes.STRETCH);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.992f) {
+			ProjectManager.updateCollisionFormulasTo993(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.993f) {
+			ProjectManager.updateSetPenColorFormulasTo994(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.994f) {
+			ProjectManager.updateArduinoValuesTo995(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.995f) {
+			ProjectManager.updateCollisionScriptsTo996(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.999f) {
+			ProjectManager.makeShallowCopiesDeepAgain(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.9993f) {
+			ProjectManager.updateScriptsToTreeStructure(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.99992f) {
+			removePermissionsFile(project);
+		}
+		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
 		initializeScripts(project);
@@ -233,7 +162,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void makeShallowCopiesDeepAgain(Project project) {
+	@VisibleForTesting
+	public static void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
 			List<String> fileNames = new ArrayList<>();
@@ -343,8 +273,8 @@ public final class ProjectManager {
 		List<UserList> conflicts = new ArrayList<>();
 		for (UserList project1GlobalList : project1GlobalLists) {
 			for (UserList project2GlobalList : project2GlobalLists) {
-				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getList()
-						.equals(project2GlobalList.getList())) {
+				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue()
+						.equals(project2GlobalList.getValue())) {
 					conflicts.add(project1GlobalList);
 				}
 			}
@@ -357,14 +287,9 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					Brick scriptBrick = script.getScriptBrick();
-					if (scriptBrick instanceof FormulaBrick) {
-						FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-						for (Formula formula : formulaBrick.getFormulas()) {
-							formula.updateCollisionFormulasToVersion();
-						}
-					}
-					for (Brick brick : script.getBrickList()) {
+					List<Brick> flatList = new ArrayList();
+					script.addToFlatList(flatList);
+					for (Brick brick : flatList) {
 						if (brick instanceof FormulaBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
 							for (Formula formula : formulaBrick.getFormulas()) {
@@ -377,7 +302,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateSetPenColorFormulasTo994(Project project) {
+	@VisibleForTesting
+	public static void updateSetPenColorFormulasTo994(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -394,7 +320,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateArduinoValuesTo995(Project project) {
+	@VisibleForTesting
+	public static void updateArduinoValuesTo995(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -409,7 +336,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateCollisionScriptsTo996(Project project) {
+	@VisibleForTesting
+	public static void updateCollisionScriptsTo996(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -428,7 +356,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateScriptsToTreeStructure(Project project) {
+	@VisibleForTesting
+	public static void updateScriptsToTreeStructure(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -438,6 +367,14 @@ public final class ProjectManager {
 					script.getBrickList().addAll(brickTreeBuilder.toList());
 				}
 			}
+		}
+	}
+
+	@VisibleForTesting
+	public static void removePermissionsFile(Project project) {
+		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
+		if (permissionsFile.exists()) {
+			permissionsFile.delete();
 		}
 	}
 

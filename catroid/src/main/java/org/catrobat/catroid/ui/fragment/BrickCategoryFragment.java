@@ -41,6 +41,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ViewSwitchLock;
 import org.catrobat.catroid.ui.adapter.BrickCategoryAdapter;
+import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
@@ -179,7 +180,7 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_arduino, null));
 		}
 
-		if (SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity())) {
+		if (RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_raspi, null));
 		}
 
@@ -201,6 +202,9 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
 		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
+		if (!onlyBeginnerBricks() && BuildConfig.FEATURE_USERBRICKS_ENABLED) {
+			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
+		}
 		if (BuildConfig.DEBUG) {
 			categories.add(inflater.inflate(R.layout.brick_category_assert, null));
 		}

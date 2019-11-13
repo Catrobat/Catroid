@@ -27,89 +27,86 @@
     <string name="stage">Stage</string>
     <string name="play">Play</string>
     <string name="settings">Podešavanja</string>
-    <string name="redo">Redo</string>
-    <string name="undo">Undo</string>
+    <string name="redo">Ponovi</string>
+    <string name="undo">Opozovi</string>
     <string name="new_option">new&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Potvrdi</string>
     <string name="cancel">Otkaži</string>
-    <string name="next">Next</string>
-    <string name="back">Back</string>
+    <string name="next">Slеdеćе</string>
+    <string name="back">Nazad</string>
     <string name="ok">U redu</string>
     <string name="done">Gotovo</string>
     <string name="close">Zatvori</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
-    <string name="agree">Agree</string>
-    <string name="disagree">Disagree</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="agree">Prihvati</string>
+    <string name="disagree">Ne slažem se</string>
+    <string name="select_all">Izaberi sve</string>
+    <string name="deselect_all">Izuzmi sve</string>
+    <string name="skip">preskoči</string>
+    <string name="warning">Upozorеnjе</string>
     <string name="error">Greška</string>
     <string name="loading">Učitavam&#8230;</string>
-    <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search&#8230;</string>
+    <string name="please_wait">Molim sačekajte</string>
+    <string name="search_hint">Traži&#8230;</string>
     <string name="backpack_add">Add to backpack</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="delete_account">Delete my account</string>
-    <string name="logout_successful">Logout successful</string>
+    <string name="delete_account">Obriši moj nalog</string>
+    <string name="logout_successful">Logout je uspešan</string>
     <string name="degrees">degrees</string>
     <string name="background">Pozadina</string>
     <string name="landscape">landscape</string>
     <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="unknown">nеpoznato</string>
+    <string name="disconnect">Prekini</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">Nastavi projekat</string>
+    <string name="main_menu_new">Novi projekat</string>
     <string name="main_menu_programs">Programi</string>
     <string name="main_menu_help">Pomoć</string>
-    <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+    <string name="main_menu_web">Catrobat zajednica</string>
+    <string name="main_menu_upload">Pošalji projekat</string>
+    <string name="main_menu_rate_app">Oceni nas!</string>
+    <string name="main_menu_terms_of_use">Uslovi korišćenja i usluge</string>
     <string name="main_menu_privacy_policy">Pravila privatnosti</string>
-    <string name="main_menu_about">About this app</string>
+    <string name="main_menu_about">O aplikaciji</string>
     <string name="main_menu_login">Prijava</string>
     <string name="main_menu_logout">Odjava</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_scratch_converter">Scratch konverter</string>
+    <string name="main_menu_play_store_not_installed">App radnja nije nađena</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Napravljeno sa</string>
+    <string name="marketing_app_details">Detalji o ovoj app</string>
+    <string name="marketing_more_on_google_play">Više aplikacija na App store</string>
     <!-- Settings activity -->
     <string name="preference_title">Podešavanja</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
+    <string name="preference_title_language">Jezik</string>
+    <string name="preference_description_language">Podesi jezik app-a</string>
     <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
+    <string name="preference_description_accessibility">Promeni izgleda aplikacije</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
+    <string name="preference_title_accessibility_profile">Predefinisani profili</string>
+    <string name="preference_title_accessibility_profile_headline">Profili</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Predefinisani profili</string>
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
     <string name="preference_title_accessibility_text_appearance">Text appearance</string>
     <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
+    <string name="preference_title_accessibility_category_icons_big">Velike ikone</string>
+    <string name="preference_description_accessibility_category_icons_big">Povećajte ikonu.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Ikone visokog kontrasta</string>
+    <string name="preference_title_accessibility_Brick_icons">Ikone</string>
+    <string name="preference_title_accessibility_category_icons">Prikaži ikone</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
+    <string name="preference_title_accessibility_high_contrast">Veliki kontrast</string>
     <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
     <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
+    <string name="preference_title_accessibility_large_text">Veliki tekst</string>
     <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
     <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
@@ -121,9 +118,9 @@
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
+    <string name="preference_access_title_profile_default">Podrazumevano</string>
+    <string name="preference_access_summary_profile_default">Podrazumevana podešavanja</string>
+    <string name="preference_access_title_profile_custom">Moj prilagođeni profil</string>
     <string name="preference_access_summary_profile_custom">My personal settings</string>
     <string name="preference_access_title_profile_argus">Argus</string>
     <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
@@ -201,8 +198,8 @@
     <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
         converted correctly. Please try to convert it again.</string>
     <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
+    <string name="connection_lost_or_closed_by_server">Veza sa serverom izgubljena.</string>
+    <string name="connection_failed">Ne možemo Vas povezati sa serverom, molimo pokušajte kasnije.</string>
     <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
         contact the Catrobat team.</string>
     <plurals name="scratch_conversion_scheduled_x">
@@ -210,62 +207,62 @@
         <item quantity="few">Added %d Scratch projects to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
+    <string name="scratch_conversion_started">Počeo da pretvaram Scratch projekat&#8230;</string>
+    <string name="convert">Pretvori</string>
+    <string name="converting">Pretvaram&#8230;</string>
     <string name="status_scheduled">Scheduled</string>
     <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="status_started">Počeo&#8230;</string>
+    <string name="status_conversion_finished">Konverzija gotova</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
+        <item quantity="one">U toku: %d posao</item>
         <item quantity="few">In progress: %d jobs</item>
         <item quantity="other">In progress: %d jobs</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
+        <item quantity="one">Završio: %d posao</item>
         <item quantity="few">Completed: %d jobs</item>
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
+    <string name="status_conversion_failed">Neuspela konverzija!</string>
+    <string name="status_downloading">Preuzimam&#8230;</string>
+    <string name="status_download_finished">Preuzimanje gotovo.</string>
+    <string name="status_download_canceled">Preuzimanje otkazano!</string>
+    <string name="scratch_programs_in_progress_title">U toku</string>
+    <string name="scratch_programs_finished_title">Konvertovani projekti</string>
+    <string name="by_x">od %1$s</string>
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
         convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
+    <string name="instructions">Instrunkcije</string>
     <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
+    <string name="shared_at_x">Podeljen: %1$s</string>
+    <string name="modified_at_x">Modifikovan: %1$s</string>
     <string name="remixes">Remixes</string>
     <!--  -->
-    <string name="author">Author:</string>
+    <string name="author">Autor:</string>
     <string name="screen_size">Stage size:</string>
-    <string name="mode">Mode:</string>
+    <string name="mode">Režim:</string>
     <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
+    <string name="description_hint">Pritisni da dodaš opis</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">Konvertovali ste projekat pre %1$s.</string>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
+        <item quantity="one">%d minuta</item>
         <item quantity="few">%d minutes</item>
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
+        <item quantity="one">%d sat</item>
         <item quantity="few">%d hours</item>
         <item quantity="other">%d hours</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
+        <item quantity="one">%d dan</item>
         <item quantity="few">%d days</item>
         <item quantity="other">%d days</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">Preuzmi projekat opet</string>
+    <string name="reconvert_dialog_reconvert">Konvertuj projekat opet</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Privacy Policy Error -->
@@ -275,10 +272,10 @@
     <!-- Project Handling Errors -->
     <string name="error_copy_project">An error occurred while copying project</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+    <string name="name_already_exists">Ime je zauzeto, molimo odaberite drugo.</string>
     <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_empty">Unesite tekst</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
@@ -287,7 +284,7 @@
     <string name="am_copy">kopiraj</string>
     <string name="am_delete">Obriši</string>
     <string name="am_rename">Preimenuj</string>
-    <string name="am_convert">Convert</string>
+    <string name="am_convert">Pretvori</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
@@ -421,12 +418,12 @@
         <item quantity="other">Unpack %d sounds</item>
     </plurals>
     <plurals name="am_copy_sounds_title">
-        <item quantity="one">Copy %d sound</item>
+        <item quantity="one">Kopiraj %d zvuk</item>
         <item quantity="few">Copy %d sounds</item>
         <item quantity="other">Copy %d sounds</item>
     </plurals>
     <plurals name="am_delete_sounds_title">
-        <item quantity="one">Delete %d sound</item>
+        <item quantity="one">Izbriši %d zvuk</item>
         <item quantity="few">Delete %d sounds</item>
         <item quantity="other">Delete %d sounds</item>
     </plurals>
@@ -507,7 +504,7 @@
         <item quantity="other">Delete these looks?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
+        <item quantity="one">Izbriši ovaj zvuk?</item>
         <item quantity="few">Delete these sounds?</item>
         <item quantity="other">Delete these sounds?</item>
     </plurals>
@@ -535,19 +532,19 @@
     <string name="look_name_label">Look name</string>
     <string name="sound_name_label">Sound name</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
+    <string name="string_label">Tekst</string>
+    <string name="data_label">Imе</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
+    <string name="last_access_today">danas, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="sound_duration">Trajanje: %s</string>
+    <string name="sound_details">Trajanje: %s, veličina: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
+    <string name="rename_project">Preimenuj projekat</string>
     <string name="rename_scene_dialog">Rename scene</string>
     <string name="rename_sprite_dialog">Rename actor or object</string>
     <string name="rename_look_dialog">Rename look</string>
@@ -555,7 +552,7 @@
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
     <string name="rename_data_dialog">Preimenuj</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
+    <string name="new_group">Nova grupa</string>
     <!-- New Scene Menu -->
     <string name="new_scene">New scene</string>
     <!-- Action Toasts -->
@@ -677,12 +674,12 @@
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Programi</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="details_date_today">Today</string>
-    <string name="import_project">Import project</string>
+    <string name="last_used">Zadnji pristup:</string>
+    <string name="size">Veličina:</string>
+    <string name="description">Opis:</string>
+    <string name="set_description">Postavi opis</string>
+    <string name="details_date_today">Danas</string>
+    <string name="import_project">Uvezi projekat</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <!-- Migrate from external to internal storage -->
     <string name="import_dialog_title">Updated project storage</string>
@@ -692,13 +689,13 @@
         If you are unsure, select \'Move\'.</string>
     <string name="import_dialog_copy_btn">kopiraj</string>
     <string name="import_dialog_move_btn">Pomakni</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
+    <string name="projects_successful_moved_toast">Projekti uspešno premešteni.</string>
+    <string name="projects_successful_copied_toast">Projekti uspešno kopirani.</string>
     <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
     <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">Pritisni \"+\" da dodate skripte</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
@@ -711,7 +708,7 @@
     <!--  -->
     <!-- SoundListFragment -->
     <string name="fragment_sound_text_description">Pritisni \"+\" da bi dodali zvuk</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="sound_select_source">Izaberi zvuk</string>
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
@@ -719,14 +716,14 @@
     <string name="brick_set_nfc_tag">Wait for next NFC tag to write</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC tag</string>
-    <string name="tnf_empty">Empty</string>
+    <string name="tnf_empty">Prazno</string>
     <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="tnf_mime_media">Tekst</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">Broj telefona</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="tnf_well_known_mailto">E-mail</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="global_vars_headline">Variables for all actors and objects</string>
@@ -748,13 +745,17 @@
     <string name="sounds">Sounds</string>
     <string name="nfctags">NFC Tags</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">New project</string>
+    <string name="new_project_dialog_title">Novi projekat</string>
     <string name="new_project_empty">Create an empty project</string>
     <string name="new_project_default">Create an example project</string>
     <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
     <string name="new_project_default_jumping_sumo">Create an example Jumping Sumo project</string>
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen:</string>
+    <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">New actor or object</string>
@@ -768,27 +769,27 @@
     <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Add sound</string>
+    <string name="new_sound_dialog_title">Dodaj zvuk</string>
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
+    <string name="rating_dialog_title">Ocenite App</string>
     <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
-    <string name="rating_dialog_rate_now">Now</string>
-    <string name="rating_dialog_rate_later">Later</string>
-    <string name="rating_dialog_rate_never">Never</string>
+    <string name="rating_dialog_rate_now">Sada</string>
+    <string name="rating_dialog_rate_later">Kasnije</string>
+    <string name="rating_dialog_rate_never">Nikad</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Uslovi korišćenja i usluge</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Uslovi korišćenja i usluge</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Uslovi korišćenja i usluge</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
@@ -868,20 +869,20 @@
     </string>
     <!-- -->
     <!-- About Dialog -->
-    <string name="dialog_about_title">About this App</string>
+    <string name="dialog_about_title">O aplikaciji</string>
     <string name="dialog_about_license_info">This app offers a coding
         environment and interpreter for the visual programming language Catrobat.\n
         The source code of this app is mainly licensed under the GNU AGPL v3 license.
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_catrobat_link_text">O Catrobat</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">No network</string>
+    <string name="error_no_network_title">Nema mreže</string>
     <!-- UploadProjectDialog -->
     <string name="upload_button">Uploaduj</string>
     <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
+    <string name="upload_description">Opis:</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Save project to external storage</string>
@@ -929,37 +930,36 @@
     <string name="register_terms">By registering you agree to our</string>
     <string name="register_code_terms_of_use_text">Terms of use and service</string>
     <string name="login">Prijava</string>
-    <string name="register">Register</string>
-    <string name="password_confirm">Confirm password</string>
-    <string name="accountName">E-Mail</string>
+    <string name="register">Registracija</string>
+    <string name="password_confirm">Potvrdi lozinku</string>
+    <string name="accountName">E-mail</string>
     <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
+    <string name="signin_choose_username">Odaberi korisničko ime:</string>
+    <string name="signin_choose_username_empty">Unesite korisničko ime.</string>
     <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
-    <string name="show_password">Show password</string>
+    <string name="show_password">Pokaži lozinku</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="error_register_empty_username">Empty username</string>
+    <string name="sign_in_with_google">Uloguj se preko Google</string>
+    <string name="error_register_empty_username">Prazno korisničko ime</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
     <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
     <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
         periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
+    <string name="error_register_invalid_email_format">Pogrešan format e-maila</string>
+    <string name="error_register_empty_password">Polje za lozinku je prazno</string>
+    <string name="error_register_password_at_least_6_characters">Lozinka treba da ima najmanje 6 karaktera</string>
+    <string name="error_register_passwords_mismatch">Lozinke se ne podudaraju</string>
     <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
     <string name="error_register_username_already_exists">Username already exists</string>
     <string name="error_register_email_exists">Email address already exists</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
+    <string name="overwrite_title">Projekat postoji.</string>
+    <string name="overwrite_text">Projekat s tim imenom već postoji.</string>
     <string name="overwrite_replace">Overwrite project</string>
     <string name="overwrite_rename">Choose a new name</string>
     <!--  -->
@@ -992,7 +992,7 @@
         issues.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
+    <string name="stage_dialog_back">Nazad</string>
     <string name="stage_dialog_resume">Resume</string>
     <string name="stage_dialog_restart">Restart</string>
     <string name="stage_dialog_axes_on">Axes on</string>
@@ -1036,35 +1036,35 @@
     <string name="y_label">"y:"</string>
     <string name="brick_set_x">"Set x to"</string>
     <string name="brick_set_y">"Set y to"</string>
-    <string name="brick_change_x_by">"Change x by"</string>
-    <string name="brick_change_y_by">"Change y by"</string>
-    <string name="brick_go_back">Go back</string>
+    <string name="brick_change_x_by">"Promena po x"</string>
+    <string name="brick_change_y_by">"Promena po y"</string>
+    <string name="brick_go_back">Nazad</string>
     <string name="brick_set_rotation_style">"Set rotation style"</string>
     <string name="brick_set_rotation_style_lr">left-right only</string>
     <string name="brick_set_rotation_style_normal">all-around</string>
     <string name="brick_set_rotation_style_no">don\'t rotate</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">layer</item>
+        <item quantity="one">sloj</item>
         <item quantity="few">layers</item>
         <item quantity="other">layers</item>
     </plurals>
-    <string name="brick_come_to_front">Go to front</string>
+    <string name="brick_come_to_front">Idi napred</string>
     <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
     <string name="brick_move">Pomakni</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">step</item>
+        <item quantity="one">korak</item>
         <item quantity="few">steps</item>
         <item quantity="other">steps</item>
     </plurals>
-    <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_right">Turn right</string>
+    <string name="brick_turn_left">Okreni levo</string>
+    <string name="brick_turn_right">Okreni desno</string>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
     <string name="brick_glide">Glide</string>
-    <string name="brick_glide_to_x">to x:</string>
-    <string name="brick_go_to">Go to</string>
+    <string name="brick_glide_to_x">do x:</string>
+    <string name="brick_go_to">Idi do</string>
     <string name="brick_go_to_touch_position">touch position</string>
-    <string name="brick_go_to_random_position">random position</string>
+    <string name="brick_go_to_random_position">nasumična pozicija</string>
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Set your motion type to</string>
@@ -1099,7 +1099,7 @@
     <string name="brick_set_brightness">"Set brightness"</string>
     <string name="brick_change_brightness">"Change brightness"</string>
     <string name="brick_set_color">"Set color"</string>
-    <string name="brick_change_color">"Change color"</string>
+    <string name="brick_change_color">"Promeni boju"</string>
     <string name="by_label">by</string>
     <string name="to_label">to</string>
     <string name="brick_clear_graphic_effect">Clear graphic effects</string>
@@ -1111,14 +1111,14 @@
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>
     <string name="brick_vibration">Vibrate for</string>
-    <string name="brick_ask_label">Ask</string>
+    <string name="brick_ask_label">Pitaj</string>
     <string name="brick_ask_store">and store written answer in</string>
-    <string name="brick_ask_default_question">What\'s your name?</string>
-    <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
-    <string name="brick_ask_dialog_submit">Submit answer</string>
-    <string name="brick_ask_speech_label">Ask</string>
+    <string name="brick_ask_default_question">Kako se zovete?</string>
+    <string name="brick_ask_dialog_hint">"Napišite odgovor:"</string>
+    <string name="brick_ask_dialog_submit">Pošalji odgovor</string>
+    <string name="brick_ask_speech_label">Pitaj</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
-    <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_ask_speech_default_question">Kako se zovete?</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">Pen down</string>
@@ -1135,7 +1135,7 @@
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
     <string name="brick_speak">Speak</string>
-    <string name="brick_speak_default_value">Hello!</string>
+    <string name="brick_speak_default_value">Zdravo!</string>
     <string name="brick_speak_and_wait">and wait</string>
     <!--  -->
     <!-- Embroidery bricks -->
@@ -1181,6 +1181,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">time</item>
         <item quantity="few">times</item>
@@ -1193,15 +1194,17 @@
     <string name="brick_if_end">End if</string>
     <string name="brick_set_variable">Set variable</string>
     <string name="brick_change_variable">Change variable</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">add comment here&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
-    <string name="brick_say_bubble_default_value">Hello!</string>
+    <string name="brick_say_bubble_default_value">Zdravo!</string>
     <string name="brick_broadcast_default_value">"new message"</string>
-    <string name="brick_add_item_to_userlist_add">Add</string>
+    <string name="brick_add_item_to_userlist_add">Dodaj</string>
     <string name="brick_add_item_to_userlist">to list</string>
     <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
     <string name="brick_delete_item_from_userlist">at position</string>
-    <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
+    <string name="brick_insert_item_into_userlist_insert_into">Ubaci</string>
     <string name="brick_insert_item_into_userlist_into_list">into list</string>
     <string name="brick_insert_item_into_userlist_at_position">at position</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
@@ -1241,16 +1244,16 @@
     <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
     <string name="default_drone_project_sprites_takeoff">Take off</string>
     <string name="default_drone_project_sprites_flip">Flip</string>
-    <string name="default_drone_project_sprites_up">Up</string>
-    <string name="default_drone_project_sprites_down">Down</string>
-    <string name="default_drone_project_sprites_left">Left</string>
-    <string name="default_drone_project_sprites_right">Right</string>
-    <string name="default_drone_project_sprites_forward">Forward</string>
-    <string name="default_drone_project_sprites_back">Back</string>
-    <string name="default_drone_project_sprites_turn_left">Turn left</string>
-    <string name="default_drone_project_sprites_turn_right">Turn right</string>
+    <string name="default_drone_project_sprites_up">Gore</string>
+    <string name="default_drone_project_sprites_down">Dole</string>
+    <string name="default_drone_project_sprites_left">Levo</string>
+    <string name="default_drone_project_sprites_right">Desno</string>
+    <string name="default_drone_project_sprites_forward">Napred</string>
+    <string name="default_drone_project_sprites_back">Nazad</string>
+    <string name="default_drone_project_sprites_turn_left">Okreni levo</string>
+    <string name="default_drone_project_sprites_turn_right">Okreni desno</string>
     <string name="default_drone_project_sprites_emergency">Emergency</string>
-    <string name="drone_brick_set_text">Text</string>
+    <string name="drone_brick_set_text">Tekst</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
@@ -1259,25 +1262,25 @@
     <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
     <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
     <!-- Drone altitude limit values  -->
-    <string name="drone_set_altitude_max_3m">3 meters</string>
-    <string name="drone_set_altitude_max_5m">5 meters</string>
-    <string name="drone_set_altitude_max_10m">10 meters</string>
-    <string name="drone_set_altitude_max_100m">100 meters</string>
+    <string name="drone_set_altitude_max_3m">3 metra</string>
+    <string name="drone_set_altitude_max_5m">5 metara</string>
+    <string name="drone_set_altitude_max_10m">10 metara</string>
+    <string name="drone_set_altitude_max_100m">100 metara</string>
     <!-- Drone max vertical speed limit values  -->
     <string name="drone_set_vertical_min">200 mm/s</string>
     <string name="drone_set_vertical_indoor">700 mm/s</string>
     <string name="drone_set_vertical_outdoor">1000 mm/s</string>
     <string name="drone_set_vertical_max">2000 mm/s</string>
     <!-- Drone max rotation speed limit values  -->
-    <string name="drone_set_rotation_min">40 degrees/s</string>
-    <string name="drone_set_rotation_indoor">100 degrees/s</string>
-    <string name="drone_set_rotation_outdoor">200 degrees/s</string>
-    <string name="drone_set_rotation_max">350 degrees/s</string>
+    <string name="drone_set_rotation_min">40 stepena</string>
+    <string name="drone_set_rotation_indoor">100 stepena</string>
+    <string name="drone_set_rotation_outdoor">200 stepena</string>
+    <string name="drone_set_rotation_max">350 stepena</string>
     <!-- Drone max tilt limit values  -->
-    <string name="drone_set_tilt_min">5 degrees</string>
-    <string name="drone_set_tilt_indoor">12 degrees</string>
-    <string name="drone_set_tilt_outdoor">20 degrees </string>
-    <string name="drone_set_tilt_max">30 degrees</string>
+    <string name="drone_set_tilt_min">5 stepena</string>
+    <string name="drone_set_tilt_indoor">12 stepena</string>
+    <string name="drone_set_tilt_outdoor">20 stepena </string>
+    <string name="drone_set_tilt_max">30 stepena</string>
     <!-- Notification Channel -->
     <string name="channel_description">%1$s notification channel</string>
     <!--  -->
@@ -1297,7 +1300,7 @@
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
-    <string name="size_of_project">Size:</string>
+    <string name="size_of_project">Veličina:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -1388,7 +1391,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">Set NXT motor</string>
     <string name="nxt_motor_speed_to">to</string>
-    <string name="nxt_motor_speed">speed</string>
+    <string name="nxt_motor_speed">brzina</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
     <string name="nxt_motor_move_by">by</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
@@ -1400,7 +1403,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
     <string name="nxt_motor_b_and_c">B+C</string>
-    <string name="nxt_motor_all">All</string>
+    <string name="nxt_motor_all">Sve</string>
     <string name="nxt_choose_sensor_1">Sensor connected on port 1</string>
     <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
     <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
@@ -1424,8 +1427,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="lego_port_2">Port 2</string>
     <string name="lego_port_3">Port 3</string>
     <string name="lego_port_4">Port 4</string>
-    <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
-    <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
+    <string name="lego_sensor_config_dont_show_again">Nemojte prikazivati ovu poruku opet.</string>
+    <string name="lego_sensor_port_config_dialog_title">Odaberi port za povezivanje %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">EV3 sensor configuration</string>
     <string name="preference_disable_ev3_info_dialog_description">Project specific EV3 settings are not shown when
         opening a project.</string>
@@ -1433,12 +1436,12 @@ needs read and write access to it. You can always change permissions through you
         specific and can only be configured for opened projects.</string>
     <string name="lego_ev3_sensor_config_info_text">The current project uses Lego Mindstorms EV3 bricks or sensors. For
         proper functionality please connect the sensors to the robot as follows</string>
-    <string name="ev3_choose_sensor_1">Sensor connected on port 1</string>
-    <string name="ev3_choose_sensor_2">Sensor connected on port 2</string>
-    <string name="ev3_choose_sensor_3">Sensor connected on port 3</string>
-    <string name="ev3_choose_sensor_4">Sensor connected on port 4</string>
-    <string name="ev3_no_sensor">none</string>
-    <string name="ev3_sensor_touch">EV3 touch sensor</string>
+    <string name="ev3_choose_sensor_1">Senzor povezan na port 1</string>
+    <string name="ev3_choose_sensor_2">Senzor povezan na port 2</string>
+    <string name="ev3_choose_sensor_3">Senzor povezan na port 3</string>
+    <string name="ev3_choose_sensor_4">Senzor povezan na port 4</string>
+    <string name="ev3_no_sensor">nijedan</string>
+    <string name="ev3_sensor_touch">EV3 senzor dodira</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
     <string name="ev3_sensor_color">EV3 color sensor</string>
     <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
@@ -1455,26 +1458,26 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_c">C</string>
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
-    <string name="ev3_motor_all">All</string>
+    <string name="ev3_motor_all">Sve</string>
     <string name="ev3_play_tone">Play EV3 tone</string>
     <string name="ev3_tone_duration_for">for</string>
     <string name="ev3_tone_volume">Volume</string>
     <string name="ev3_tone_percent">%</string>
     <string name="ev3_motor_stop">Stop EV3 motor</string>
     <string name="ev3_motor_move">Set EV3 motor</string>
-    <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
-    <string name="ev3_motor_move_by">by</string>
+    <string name="ev3_brick_motor_turn_angle">Okreni EV3 motor</string>
+    <string name="ev3_motor_move_by">po</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
-    <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Green</string>
-    <string name="ev3_led_status_red">Red</string>
-    <string name="ev3_led_status_orange">Orange</string>
+    <string name="ev3_led_status_off">Ugasio</string>
+    <string name="ev3_led_status_green">Zelena</string>
+    <string name="ev3_led_status_red">Crvena</string>
+    <string name="ev3_led_status_orange">Narandžasta</string>
     <string name="ev3_led_status_green_flashing">Green flashing</string>
     <string name="ev3_led_status_red_flashing">Red flashing</string>
     <string name="ev3_led_status_orange_flashing">Orange flashing</string>
-    <string name="ev3_led_status_green_pulse">Green pulse</string>
-    <string name="ev3_led_status_red_pulse">Red pulse</string>
-    <string name="ev3_led_status_orange_pulse">Orange pulse</string>
+    <string name="ev3_led_status_green_pulse">Zeleni puls</string>
+    <string name="ev3_led_status_red_pulse">Crveni puls</string>
+    <string name="ev3_led_status_orange_pulse">Narandžasti puls</string>
     <!--  -->
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land">Take off / land AR.Drone 2.0</string>
@@ -1495,30 +1498,30 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with.">with</string>
+    <string name="brick_drone_with.">sa</string>
     <string name="brick_drone_power">power</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Blink green red</string>
-    <string name="drone_animation_blinkgreen">Blink green</string>
-    <string name="drone_animation_blinkred">Blink red</string>
-    <string name="drone_animation_blinkorange">Blink orange</string>
+    <string name="drone_animation_blinkgreenred">Trepće zeleno crveno</string>
+    <string name="drone_animation_blinkgreen">Trepće zeleno</string>
+    <string name="drone_animation_blinkred">Trepće crveno</string>
+    <string name="drone_animation_blinkorange">Trepće narandžasto</string>
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Red</string>
-    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_red">Crvena</string>
+    <string name="drone_animation_green">Zelena</string>
     <string name="drone_animation_redsnake">Red snake</string>
-    <string name="drone_animation_blank">Blank</string>
-    <string name="drone_animation_rightmissile">Right missile</string>
-    <string name="drone_animation_leftmissile">Left missile</string>
-    <string name="drone_animation_doublemissile">Double missile</string>
+    <string name="drone_animation_blank">Prazno</string>
+    <string name="drone_animation_rightmissile">Desna raketa</string>
+    <string name="drone_animation_leftmissile">Leva raketa</string>
+    <string name="drone_animation_doublemissile">Dupla raketa</string>
     <string name="drone_animation_frontleftgreenothersred">Front left green others red</string>
     <string name="drone_animation_frontrightgreenothersred">Front right green others red</string>
     <string name="drone_animation_rearrightgreenothersred">Rear right green others red</string>
     <string name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
-    <string name="drone_animation_leftgreenrightred">Left green right red</string>
-    <string name="drone_animation_leftredrightgreen">Left red right green</string>
+    <string name="drone_animation_leftgreenrightred">Levo zeleno desno crveno</string>
+    <string name="drone_animation_leftredrightgreen">Levo crveno desno zeleno</string>
     <string name="drone_animation_blinkstandard">Blink standard</string>
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
@@ -1536,20 +1539,20 @@ needs read and write access to it. You can always change permissions through you
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
     <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
+    <string name="default_jumping_sumo_project_sprites_forward">Napred</string>
     <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animacije</string>
     <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
+    <string name="default_jumping_sumo_project_sprites_no_sound">Nema zvuka</string>
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+    <string name="default_jumping_sumo_project_sprites_turn_left">Okreni levo</string>
+    <string name="default_jumping_sumo_project_sprites_turn_right">Okreni desno</string>
     <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
     <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">Spin</string>
+    <string name="animation_spin">Okreni</string>
     <string name="animation_tab">Tab</string>
     <string name="animation_slowshake">Slowshake</string>
     <string name="animation_metronome">Metronome</string>
@@ -1580,9 +1583,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-    <string name="phiro_rgb_led_red">Red</string>
-    <string name="phiro_rgb_led_green">Green</string>
-    <string name="phiro_rgb_led_blue">Blue</string>
+    <string name="phiro_rgb_led_red">Crvena</string>
+    <string name="phiro_rgb_led_green">Zelena</string>
+    <string name="phiro_rgb_led_blue">Plava</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1591,30 +1594,29 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_tone_fa">Fa</string>
     <string name="phiro_tone_so">So</string>
     <string name="phiro_tone_la">La</string>
-    <string name="phiro_tone_ti">Ti</string>
+    <string name="phiro_tone_ti">Si</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Left</string>
-    <string name="phiro_motor_right">Right</string>
-    <string name="phiro_motor_both">Both</string>
+    <string name="phiro_motor_left">Levo</string>
+    <string name="phiro_motor_right">Desno</string>
+    <string name="phiro_motor_both">Oba</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string name="phiro_light_left">Left</string>
-    <string name="phiro_light_right">Right</string>
-    <string name="phiro_light_both">Both</string>
+    <string name="phiro_light_left">Levo</string>
+    <string name="phiro_light_right">Desno</string>
+    <string name="phiro_light_both">Oba</string>
     <!--  -->
     <!-- Phiro sensor strings -->
-    <string name="phiro_sensor_front_left">Front Left Sensor</string>
-    <string name="phiro_sensor_front_right">Front Right Sensor</string>
+    <string name="phiro_sensor_front_left">Prednji levi senzor</string>
+    <string name="phiro_sensor_front_right">Prednji desni senzor</string>
     <string name="phiro_sensor_side_left">Side Left Sensor</string>
     <string name="phiro_sensor_side_right">Side Right Sensor</string>
     <string name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
     <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
-    <string name="color_preview">Color preview</string>
+    <string name="color_red">crvena</string>
+    <string name="color_green">zelena</string>
+    <string name="color_blue">plava</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
@@ -1630,11 +1632,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sinus</string>
+    <string name="formula_editor_function_sin">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos">cosinus</string>
+    <string name="formula_editor_function_cos">cosine</string>
     <string name="formula_editor_function_cos_parameter">(360)</string>
-    <string name="formula_editor_function_tan">tangens</string>
+    <string name="formula_editor_function_tan">tangent</string>
     <string name="formula_editor_function_tan_parameter">(45)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
@@ -1653,12 +1655,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin">arcsinus</string>
+    <string name="formula_editor_function_arcsin">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
-    <string name="formula_editor_function_arccos">arccosinus</string>
+    <string name="formula_editor_function_arccos">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangens</string>
+    <string name="formula_editor_function_arctan">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exponent</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">power</string>
@@ -1673,7 +1677,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_true">true</string>
     <string name="formula_editor_function_false">false</string>
-    <string name="formula_editor_function_length">length</string>
+    <string name="formula_editor_function_length">dužina</string>
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
     <string name="formula_editor_function_letter">letter</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
@@ -1695,11 +1699,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">item</string>
-    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
-    <string name="formula_editor_function_contains">contains</string>
+    <string name="formula_editor_function_list_item_parameter">(1,*ime liste*)</string>
+    <string name="formula_editor_function_contains">sadrži</string>
     <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
-    <string name="formula_editor_function_number_of_items">number of items</string>
-    <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string name="formula_editor_function_number_of_items">broj stavki</string>
+    <string name="formula_editor_function_number_of_items_parameter">(*ime liste*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
@@ -1723,22 +1727,22 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_time_second">second</string>
     <string name="formula_editor_sensor_drone_battery_status">drone battery status</string>
     <string name="formula_editor_sensor_drone_emergency_state">drone emergency state</string>
-    <string name="formula_editor_sensor_drone_flying">drone flying</string>
-    <string name="formula_editor_sensor_drone_initialized">drone initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone usb active</string>
+    <string name="formula_editor_sensor_drone_flying">dron leti</string>
+    <string name="formula_editor_sensor_drone_initialized">dron inicijalizovan</string>
+    <string name="formula_editor_sensor_drone_usb_active">dron usb aktivan</string>
     <string name="formula_editor_sensor_drone_usb_remaining_time">drone usb remaining time</string>
-    <string name="formula_editor_sensor_drone_camera_ready">drone camera ready</string>
+    <string name="formula_editor_sensor_drone_camera_ready">dron kamera spremna</string>
     <string name="formula_editor_sensor_drone_record_ready">drone record ready</string>
-    <string name="formula_editor_sensor_drone_recording">drone camera recording</string>
+    <string name="formula_editor_sensor_drone_recording">dron kamera snima</string>
     <string name="formula_editor_sensor_drone_num_frames">drone camera number of frames</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT sensor 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT sensor 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT sensor 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT sensor 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3 sensor 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3 sensor 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3 sensor 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3 sensor 4</string>
+    <string name="formula_editor_sensor_lego_nxt_1">NXT senzor 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2">NXT senzor 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3">NXT senzor 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4">NXT senzor 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1">EV3 senzor 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2">EV3 senzor 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3">EV3 senzor 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4">EV3 senzor 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT touch</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT sound</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT light</string>
@@ -1746,15 +1750,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 boja</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperatura u °C</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperatura u °F</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT svetlo</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT zvuk</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
     <string name="formula_editor_sensor_gamepad_a_pressed">gamepad A pressed</string>
     <string name="formula_editor_sensor_gamepad_b_pressed">gamepad B pressed</string>
@@ -1762,16 +1766,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
     <string name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
     <string name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro front left sensor</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro front right sensor</string>
+    <string name="formula_editor_phiro_sensor_front_left">phiro prednji levi senzor</string>
+    <string name="formula_editor_phiro_sensor_front_right">phiro prednji desni senzor</string>
     <string name="formula_editor_phiro_sensor_side_left">phiro side left sensor</string>
     <string name="formula_editor_phiro_sensor_side_right">phiro side right sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_left">phiro bottom left sensor</string>
     <string name="formula_editor_phiro_sensor_bottom_right">phiro bottom right sensor</string>
     <string name="formula_editor_nfc_tag_id">nfc tag id</string>
     <string name="formula_editor_nfc_tag_message">nfc tag message</string>
-    <string name="formula_editor_object_x">position x</string>
-    <string name="formula_editor_object_y">position y</string>
+    <string name="formula_editor_object_x">pozicija x</string>
+    <string name="formula_editor_object_y">pozicija y</string>
     <string name="formula_editor_object_transparency">transparency</string>
     <string name="formula_editor_object_brightness">brightness</string>
     <string name="formula_editor_object_size">size</string>
@@ -1789,24 +1793,24 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object">Properties</string>
     <string name="formula_editor_functions">Functions</string>
     <string name="formula_editor_logic">Logic</string>
-    <string name="formula_editor_device">Sensors</string>
+    <string name="formula_editor_device">Senzori</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Text</string>
+    <string name="formula_editor_functions_strings">Tekst</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_general">General properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
-    <string name="formula_editor_device_face_detection">Face detection</string>
-    <string name="formula_editor_device_date_and_time">Date and time</string>
-    <string name="formula_editor_device_touch_detection">Touch detection</string>
+    <string name="formula_editor_device_face_detection">Prepoznavanje lica</string>
+    <string name="formula_editor_device_date_and_time">Datum i vreme</string>
+    <string name="formula_editor_device_touch_detection">Prepoznavanje dodira</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
-    <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
+    <string name="formula_editor_device_lego_ev3">Lego Mindstorms NXT</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
-    <string name="formula_editor_device_drone">Drone</string>
+    <string name="formula_editor_device_drone">Dron</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
@@ -1826,11 +1830,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_power">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
-    <string name="formula_editor_list_dialog_title">New list</string>
+    <string name="formula_editor_list_dialog_title">Nova lista</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    <string name="formula_editor_new_string_name">New text</string>
-    <string name="formula_editor_dialog_change_text">Change text</string>
+    <string name="formula_editor_discard_changes_dialog_title">Spasi izmene?</string>
+    <string name="formula_editor_new_string_name">Novi tekst</string>
+    <string name="formula_editor_dialog_change_text">Izmeni tekst</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string name="formula_editor_sensor_face_detected">face is visible</string>
@@ -1844,13 +1848,13 @@ needs read and write access to it. You can always change permissions through you
         bottom left corner.</string>
     <string name="formula_editor_intro_title_input_field">Input field</string>
     <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
-    <string name="formula_editor_intro_title_keyboard">Keyboard</string>
+    <string name="formula_editor_intro_title_keyboard">Tastatura</string>
     <string name="formula_editor_intro_summary_keyboard">This is where you can create
         your formula, just like on a calculator.</string>
     <string name="formula_editor_intro_title_compute">Compute</string>
     <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
         use \"Compute\".</string>
-    <string name="formula_editor_intro_title_object">Properties</string>
+    <string name="formula_editor_intro_title_object">Svojstva</string>
     <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
         current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
     <string name="formula_editor_intro_title_functions">Functions</string>
@@ -1861,7 +1865,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
         compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
         logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string name="formula_editor_intro_title_device">Sensors</string>
+    <string name="formula_editor_intro_title_device">Senzori</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
     <string name="formula_editor_intro_title_data">Data</string>
@@ -1869,8 +1873,8 @@ needs read and write access to it. You can always change permissions through you
         \nYou can simply insert these in your formula, or add new ones.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">Show variable</string>
-    <string name="brick_hide_variable">Hide variable</string>
+    <string name="brick_show_variable">Pokaži varijablu</string>
+    <string name="brick_hide_variable">Sakrij varijablu</string>
     <string name="brick_show_variable_position">at</string>
     <string name="brick_show_variable_size">size:</string>
     <string name="brick_show_variable_color">color:</string>
@@ -1910,18 +1914,20 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
     <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
-    <string name="deletion_alert_title">Warning!</string>
+    <string name="deletion_alert_title">Upozorеnjе!</string>
     <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous. Are you sure?</string>
     <string name="deletion_alert_yes">Yes, delete anyway!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
     <!-- Snackbar hints -->
-    <string name="got_it">Got it</string>
+    <string name="got_it">Razumem</string>
     <string name="preference_description_hints">Enable to show hints</string>
-    <string name="preference_title_enable_hints">Show hints </string>
+    <string name="preference_title_enable_hints">Vidi savete </string>
     <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
     <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
     <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
@@ -1939,14 +1945,5 @@ needs read and write access to it. You can always change permissions through you
     <string name="device_language">Your device\'s language</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
+    <string name="hertz_symbol">Hz</string>
 </resources>
