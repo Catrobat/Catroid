@@ -31,10 +31,12 @@ import android.preference.PreferenceManager;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -51,6 +53,7 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
 
 @Category({Cat.AppUi.class, Level.Functional.class})
@@ -61,8 +64,7 @@ public class OpenFromShareLinkTest {
 	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
 
-	private static final String AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY = "AgreedToPrivacyPolicy";
-	private boolean bufferedPreferenceSetting;
+	private int bufferedPreferenceSetting;
 
 	private Matcher expectedWebIntent;
 	private Uri shareUri;
@@ -86,11 +88,13 @@ public class OpenFromShareLinkTest {
 	public void setUp() throws Exception {
 		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
 				.getTargetContext())
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
+						.hashCode())
 				.commit();
 
 		shareUri = new Uri.Builder()
@@ -112,7 +116,7 @@ public class OpenFromShareLinkTest {
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPreferenceSetting)
 				.commit();
 		Intents.release();
 	}

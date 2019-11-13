@@ -195,6 +195,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (LookData lookData : lookList) {
 			lookData.dispose();
 		}
+
+		if (!getLookList().isEmpty()) {
+			look.setLookData(getLookList().get(0));
+		}
+
 		penConfiguration = new PenConfiguration();
 	}
 

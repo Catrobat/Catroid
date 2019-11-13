@@ -264,7 +264,7 @@ public class CategoryBricksFactory {
 			return setupRaspiCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_embroidery))) {
-			return setupEmbroideryCategoryList(isBackgroundSprite);
+			return setupEmbroideryCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_assertions))) {
 			return setupAssertionsCategoryList();
@@ -642,13 +642,9 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
-	private List<Brick> setupEmbroideryCategoryList(boolean isBackgroundSprite) {
+	private List<Brick> setupEmbroideryCategoryList() {
 		List<Brick> embroideryBrickList = new ArrayList<>();
-
-		if (isBackgroundSprite) {
-			embroideryBrickList.add(new StitchBrick());
-		}
-
+		embroideryBrickList.add(new StitchBrick());
 		return embroideryBrickList;
 	}
 
@@ -784,7 +780,7 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_cast);
 			}
 		}
-		categoryBricks = setupEmbroideryCategoryList(isBackgroundSprite);
+		categoryBricks = setupEmbroideryCategoryList();
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_embroidery);

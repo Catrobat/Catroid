@@ -52,10 +52,7 @@
     <string name="backpack_add">バックパックに追加</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-
-
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="delete_account">アカウントを削除</string>
@@ -606,6 +603,10 @@
     <string name="project_orientation_title">向き:</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
     <!--  -->
@@ -791,7 +792,6 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -1024,6 +1024,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="other">回</item>
     </plurals>
@@ -1034,6 +1035,8 @@
     <string name="brick_if_end">「もし」の終わり</string>
     <string name="brick_set_variable">変数を設定：</string>
     <string name="brick_change_variable">変数の変更：</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">ここにコメントを追加。</string>
     <string name="brick_think_bubble_default_value">うーむ!</string>
     <string name="brick_say_bubble_default_value">こんにちは！</string>
@@ -1449,7 +1452,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">色プレビュー</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">データ</string>
@@ -1494,6 +1496,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">逆正接関数</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">指数関数</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">power</string>
@@ -1740,6 +1744,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">あなたのプログラムは、私たちのコミュニ ティー ページにアップロードされます。他の人がそれを使用したりダウンロードすることができます。
 スタンドアロン アプリケーションとしてあなたのプログラムをダウンロードすることもできます。</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">プログラムの表示</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1764,13 +1770,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

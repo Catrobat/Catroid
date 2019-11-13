@@ -52,12 +52,9 @@
     <string name="backpack_add">Agregar a la Mochila</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-
-
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
+    <string name="loading_check_oauth_token">Comprobando los datos de inicio de sesión&#8230;</string>
+    <string name="loading_google_exchange_code">Intercambiando datos de inicio de sesión de Google&#8230;</string>
+    <string name="loading_google_login">El inicio de sesión de Google en nuestro servidor está completo&#8230;</string>
     <string name="delete_account">Eliminar mi cuenta</string>
     <string name="logout_successful">La sesión se ha cerrado correctamente</string>
     <string name="degrees">grados</string>
@@ -91,77 +88,76 @@
     <string name="preference_title">Configuración</string>
     <string name="preference_title_language">Idioma</string>
     <string name="preference_description_language">Establecer idioma de la aplicación</string>
-    <string name="preference_title_accessibility">Accessibility</string>
+    <string name="preference_title_accessibility">Accesibilidad</string>
     <string name="preference_description_accessibility">Cambiar la apariencia de la aplicación</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
+    <string name="preference_title_accessibility_profiles">Perfiles de accesibilidad</string>
+    <string name="preference_title_accessibility_profile">Perfiles predefinidos</string>
     <string name="preference_title_accessibility_profile_headline">Perfiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Perfiles predefinidos</string>
+    <string name="preference_description_accessibility_profiles">Elige un perfil de accesibilidad predefinido</string>
+    <string name="preference_title_accessibility_text_appearance">Aspecto del texto</string>
+    <string name="preference_title_accessibility_handling">Manejo</string>
     <string name="preference_title_accessibility_category_icons_big">Iconos grandes</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
+    <string name="preference_description_accessibility_category_icons_big">Aumentar el tamaño del icono.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Iconos de alto contraste</string>
     <string name="preference_title_accessibility_Brick_icons">Iconos</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
+    <string name="preference_title_accessibility_category_icons">Mostrar iconos</string>
+    <string name="preference_description_accessibility_category_icons">Añadir iconos a las categorías y los bloques.</string>
+    <string name="preference_title_accessibility_high_contrast">Alto contraste</string>
+    <string name="preference_description_accessibility_high_contrast">Aumentar el contraste del texto.</string>
+    <string name="preference_description_accessibility_large_text">Aumentar el tamaño del texto.</string>
+    <string name="preference_title_accessibility_large_text">Texto grande</string>
+    <string name="preference_title_accessibility_element_spacing">Espaciado de elementos grande</string>
+    <string name="preference_description_accessibility_element_spacing">Aumentar el espaciado de los elementos en las listas.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Retraso de arrastrar y soltar</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Retraso de arrastrar y soltar para los bloques.</string>
     <string name="preference_title_accessibility_beginner_bricks">Modo Principiante</string>
     <string name="preference_description_accessibility_beginner_bricks">Solo mostrar bloques básicos.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
+    <string name="preference_title_accessibility_font_style">Elige un tipo de texto</string>
     <string name="accessibility_font_regular">Regular</string>
     <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
+    <string name="accessibility_font_dyslexic">Disléxico</string>
+    <string name="accessibility_settings_applied">Cambios aplicados</string>
+    <string name="preference_access_title_profile_default">Por defecto</string>
+    <string name="preference_access_summary_profile_default">Ajustes por defecto</string>
     <string name="preference_access_title_profile_custom">Mi perfil personalizado</string>
     <string name="preference_access_summary_profile_custom">Mi configuración personal</string>
-    <string name="preference_access_title_profile_argus">Argus</string>
+    <string name="preference_access_title_profile_argus">Argo</string>
     <string name="preference_access_summary_profile_argus">Alto contraste, iconos adicionales</string>
     <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+    <string name="preference_access_summary_profile_odin">Textos grandes, iconos grandes, elementos grandes
+        Espaciado, alto contraste</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
+    <string name="preference_access_summary_profile_fenrir">Espaciado de elementos grande, retraso de arrastrar y soltar</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Bloques de principiante</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_description_quadcopter_bricks">Permitir a la aplicación controlar los cuadricópteros Parrot Ar.Drone 2.0</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
+    <string name="preference_description_jumpingsumo_bricks">Permitir a la aplicación controlar los robots Jumping Sumo de Parrot</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Bloque de LEGO Mindstorms NXT</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">Bloques de LEGO Mindstorms EV3</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+    <string name="preference_description_mindstorms_nxt_bricks">Permitir que la aplicación controle los robots Lego Mindstorms NXT</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Permitir que la aplicación controle los robots Lego Mindstorms EV3</string>
     <string name="preference_title_mindstorms_nxt_sensors">Sensores LEGO NXT</string>
     <string name="preference_title_mindstorms_ev3_sensors">Sensores LEGO EV3</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
+    <string name="preference_title_drone_config_properties">Configuración del Parrot AR.Drone 2.0</string>
     <string name="preference_title_enable_phiro_bricks">Bloques Phiro</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string name="preference_description_phiro_bricks">Permitir que la aplicación controle los robots RobotixEdu de Phiro</string>
     <string name="preference_title_enable_arduino_bricks">Bloques Arduino</string>
     <string name="preference_description_arduino_bricks">Permitir a la aplicación controlar placas Arduino</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+    <string name="preference_title_enable_embroidery_bricks">Extensión de bordado</string>
+    <string name="preference_description_embroidery_bricks">Crear patrones para maquinas de puntadas</string>
     <string name="preference_title_cast_feature_globally_enabled">Habilitar funciones de cast</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+    <string name="preference_description_cast_feature_globally_enabled">Mostrar el botón de cast y habilitar los proyectos de cast</string>
     <string name="preference_title_enable_nfc_bricks">Near Field Communication</string>
     <string name="preference_description_nfc_bricks">Permite utilizar etiquetas NFC en los programas</string>
     <string name="preference_title_enable_crash_reports">Enviar los informes de errores de manera anónima</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_description_crash_reports">Permitir que la aplicación envíe informes de fallos automáticamente</string>
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">Bloques Raspberry Pi</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+    <string name="preference_description_raspi_bricks">Permitir que la aplicacion controle computadoras Raspberry Pi</string>
     <string name="preference_raspi_enable_bricks">Habilitar bloques Raspberry Pi</string>
     <string name="preference_raspi_help">Ayuda / Cómo empezar</string>
     <string name="preference_raspi_help_summary">Obtener ayuda sobre cómo configurar los ajustes de conexión</string>
@@ -170,11 +166,11 @@
     <!--  -->
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+    <string name="error_scratch_program_not_accessible_any_more">¡Ups! Parece que el proyecto ha desaparecido
+       O podrias haber perdido el acceso a él.</string>
+    <string name="error_scratch_project_data_not_available">¡Ups! Algunas partes del proyecto parecen estar
+        ausentes, por favor inténtalo de nuevo más tarde.</string>
+    <string name="error_request_timeout">¡Ups! Nuestro servidor no respondió a tiempo, por favor inténtalo de nuevo más tarde.</string>
     <string name="error_scratch_program_conversion_failed">Ups! No se ha podido convertir el programa de Scratch. Por favor inténtelo más tarde!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Ups! No se pudo convertir %1$s. Por favor inténtelo de nuevo más tarde!</string>
     <string name="error_scratch_converter_outdated_app_version">Tu versión de esta aplicación está obsoleta. Nuestro convertidor Scratch
@@ -184,21 +180,20 @@
         por el momento. Por favor espere hasta que éste descargado.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">Aun no puedes abrir el programa.
         Por favor descarga el programa primero y después ábralo.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">No pude convertir %1$s. Parece ser
+        un antiguo proyecto de Scratch de antes de %2$s. Por favor, intenta otro.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="one">No puedes convertir más de %d proyectos al mismo tiempo. Por favor, espera que
+            las conversiones que se estan ejecutando terminen primero.</item>
+        <item quantity="other">No puedes convertir más de %d proyectos al mismo tiempo. Por favor, espera que las conversiones que se estan ejecutando terminen primero.</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">No se puede abrir el programa porque no está
         convertido correctamente. Por favor trate de convertir otra vez.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="search_failed">Nada encontrado, por favor reinténtelo mas tarde.</string>
+    <string name="connection_lost_or_closed_by_server">Conexion al servidor perdida.</string>
+    <string name="connection_failed">No podemos conectarte al servidor ahora mismo, por favor inténtalo de nuevo más tarde.</string>
+    <string name="authentication_failed">Parece que hay un problema con su conexión al servicio. Por favor,
+        contacte con el equipo Catrobat.</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
@@ -679,6 +674,10 @@
     <string name="project_orientation_title">Orientación:</string>
     <string name="project_select_screen_title">Pantalla:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Objeto nuevo</string>
     <!--  -->
@@ -864,7 +863,6 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -1099,6 +1097,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">vez</item>
         <item quantity="other">veces</item>
@@ -1110,6 +1109,8 @@
     <string name="brick_if_end">Fin del \"Si\"</string>
     <string name="brick_set_variable">Establezca una variable</string>
     <string name="brick_change_variable">Cambie la variable</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">añada comentario aquí&#8230;</string>
     <string name="brick_think_bubble_default_value">¡Hmmmm!</string>
     <string name="brick_say_bubble_default_value">¡Hola!</string>
@@ -1525,7 +1526,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">rojo</string>
     <string name="color_green">verde</string>
     <string name="color_blue">azul</string>
-    <string name="color_preview">Vista previa de color</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Datos</string>
@@ -1570,6 +1570,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctan</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">potencia</string>
@@ -1813,6 +1815,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="deletion_alert_yes">Sí, borrar de todos modos!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">El programa obtiene subido a nuestra página de comunidad donde otros puedan usar y descargar.         También puede descargar el programa como aplicación independiente.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Ver programa</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1837,13 +1841,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

@@ -44,9 +44,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
-import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
@@ -54,7 +52,6 @@ import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
-import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
@@ -64,51 +61,14 @@ import org.catrobat.catroid.utils.Utils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-
-import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.FlavoredConstants.EXTERNAL_STORAGE_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
-	public static final int REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE = 501;
-
-	private ProjectImportTask.ProjectImportListener projectCopyListener = success -> {
-		loadFragment();
-		setShowProgressBar(false);
-		if (success) {
-			ToastUtil.showSuccess(this, R.string.projects_successful_copied_toast);
-		} else {
-			ToastUtil.showError(this, R.string.error_during_copying_projects_toast);
-		}
-	};
-
-	private ProjectImportTask.ProjectImportListener projectMoveListener = success -> {
-		loadFragment();
-		setShowProgressBar(false);
-		if (success) {
-			ToastUtil.showSuccess(this, R.string.projects_successful_moved_toast);
-			try {
-				StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_DIRECTORY);
-			} catch (IOException e) {
-				Log.e(TAG, "Cannot delete dir in external storage after import", e);
-			}
-		} else {
-			ToastUtil.showError(this, R.string.error_during_copying_projects_toast);
-		}
-	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,10 +79,11 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		boolean hasUserAgreedToPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
-
-		if (hasUserAgreedToPrivacyPolicy) {
+		int oldPrivacyPolicyHash = PreferenceManager.getDefaultSharedPreferences(this)
+						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		int currentPrivacyPolicyHash = getResources().getString(R.string.dialog_privacy_policy_text)
+						.hashCode();
+		if (oldPrivacyPolicyHash == currentPrivacyPolicyHash) {
 			loadContent();
 		} else {
 			setContentView(R.layout.privacy_policy_view);
@@ -132,7 +93,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public void handleAgreedToPrivacyPolicyButton(View view) {
 		PreferenceManager.getDefaultSharedPreferences(this)
 				.edit()
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, getResources()
+						.getString(R.string.dialog_privacy_policy_text)
+						.hashCode())
 				.commit();
 		loadContent();
 	}
@@ -170,38 +133,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 			CastManager.getInstance().initializeCast(this);
 		}
 
-		boolean checkForProjectsInExternalStorage = PreferenceManager.getDefaultSharedPreferences(this)
-				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, true);
-
-		if (checkForProjectsInExternalStorage) {
-			new RequiresPermissionTask(REQUEST_PERMISSIONS_MOVE_TO_INTERNAL_STORAGE,
-					Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
-					R.string.runtime_permission_general) {
-				public void task() {
-					if (sdCardContainsProjects()) {
-						importProjectsFromExternalStorage();
-					} else {
-						loadFragment();
-					}
-				}
-			}.execute(this);
-		} else {
-			loadFragment();
-		}
-	}
-
-	private boolean sdCardContainsProjects() {
-		if (EXTERNAL_STORAGE_ROOT_DIRECTORY.isDirectory()) {
-			for (File project : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
-				if (project.isDirectory()
-						&& !project.getName().equals(Constants.BACKPACK_DIRECTORY.getName())
-						&& !project.getName().equals("tmp")
-						&& new File(project, CODE_XML_FILE_NAME).exists()) {
-					return true;
-				}
-			}
-		}
-		return false;
+		loadFragment();
 	}
 
 	private void loadFragment() {
@@ -221,49 +153,6 @@ public class MainMenuActivity extends BaseCastActivity implements
 			webIntent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, shareUri.toString());
 			startActivity(webIntent);
 		}
-	}
-
-	private void importProjectsFromExternalStorage() {
-		ProjectManager.getInstance().setCurrentProject(null);
-
-		PreferenceManager.getDefaultSharedPreferences(this)
-				.edit().putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
-				.apply();
-
-		List<File> dirs = new ArrayList<>();
-
-		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
-			if (dir.getName().equals(BACKPACK_DIRECTORY.getName())) {
-				try {
-					if (BACKPACK_DIRECTORY.exists()) {
-						StorageOperations.deleteDir(BACKPACK_DIRECTORY);
-					}
-					StorageOperations.copyDir(dir, BACKPACK_DIRECTORY);
-				} catch (IOException e) {
-					Log.e(TAG, "Cannot import backpack from external storage", e);
-				}
-			} else if (dir.getName().equals(TMP_DIR_NAME)) {
-				try {
-					StorageOperations.deleteDir(dir);
-				} catch (IOException e) {
-					Log.e(TAG, "Cannot delete legacy cache dir at: " + dir.getAbsolutePath(), e);
-				}
-			} else {
-				dirs.add(dir);
-			}
-		}
-
-		new AlertDialog.Builder(this)
-				.setTitle(R.string.import_dialog_title)
-				.setCancelable(false)
-				.setMessage(R.string.import_dialog_message)
-				.setPositiveButton(R.string.import_dialog_move_btn, (dialog, which) -> new ProjectImportTask()
-						.setListener(projectMoveListener)
-						.execute(dirs.toArray(new File[0])))
-				.setNeutralButton(R.string.import_dialog_copy_btn, (dialog, which) -> new ProjectImportTask()
-						.setListener(projectCopyListener)
-						.execute(dirs.toArray(new File[0])))
-				.show();
 	}
 
 	private void setShowProgressBar(boolean show) {
