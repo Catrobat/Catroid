@@ -101,10 +101,14 @@ public final class StorageOperations {
 		String result = null;
 
 		if (uri.getScheme().equals("content")) {
-			try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {
-				if (cursor != null && cursor.moveToFirst()) {
-					result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+			try {
+				try (Cursor cursor = contentResolver.query(uri, null, null, null, null)) {
+					if (cursor != null && cursor.moveToFirst()) {
+						result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+					}
 				}
+			} catch (Exception e) {
+				Log.e(TAG, "Cannot query content resolver for filename.");
 			}
 		}
 
