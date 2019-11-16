@@ -52,6 +52,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -81,13 +82,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	public static final String X_COORDINATE_BUNDLE_ARGUMENT = "xCoordinate";
 	public static final String Y_COORDINATE_BUNDLE_ARGUMENT = "yCoordinate";
-
-	private File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
-			ProjectManager.getInstance().getCurrentProject().getName());
-	private File sceneDir = new File(projectDir,
-			ProjectManager.getInstance().getCurrentlyPlayingScene().getName());
-	private File automaticScreenshot = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
-	private File manualScreenshot = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
 
 	private ImageView imageView;
 	private float xCoord;
@@ -127,6 +121,17 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (isFinishing()) {
+			return;
+		}
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
+		Scene currentlyPlayingScene = projectManager.getCurrentlyPlayingScene();
+
 		setContentView(R.layout.visual_placement_layout);
 		Bundle extras = getIntent().getExtras();
 		translateX = extras.getInt(EXTRA_X_TRANSFORM);
@@ -136,7 +141,12 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.brick_place_at_option_place_visually);
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, currentProject.getName());
+		File sceneDir = new File(projectDir, currentlyPlayingScene.getName());
+		File automaticScreenshot = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshot = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
+
+		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
@@ -144,8 +154,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		visualPlacementTouchListener = new VisualPlacementTouchListener();
 
 		FrameLayout frameLayout = findViewById(R.id.frame_container);
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int screenWidth = ScreenValues.SCREEN_WIDTH;
 		int screenHeight = ScreenValues.SCREEN_HEIGHT;
@@ -202,7 +210,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			} else if (manualScreenshot.exists()) {
 				backgroundBitmapPath = manualScreenshot.getPath();
 			} else {
-				backgroundBitmapPath = ProjectManager.getInstance().getCurrentlyEditedScene()
+				backgroundBitmapPath = currentlyEditedScene
 						.getBackgroundSprite().getLookList().get(0).getFile().getAbsolutePath();
 			}
 
