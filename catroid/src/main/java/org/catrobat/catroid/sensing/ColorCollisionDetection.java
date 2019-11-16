@@ -71,10 +71,10 @@ public class ColorCollisionDetection {
 		spriteList.remove(sprite);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Camera camera = createCamera(currentProject, sprite.look);
+		Camera camera = createCamera(currentProject, sprite.look, sprite.look.getWidth() * sprite.look.getScaleX(), sprite.look.getHeight() * sprite.look.getScaleY());
 
 		Pixmap pixmap = drawSprites(spriteList, camera.combined, sprite.look);
-		Bitmap bitmap = flipBitmap(convertToBitmap(pixmap));
+		//Bitmap bitmap = flipBitmap(convertToBitmap(pixmap));
 
 		ByteBuffer pixels = pixmap.getPixels();
 		pixmap.dispose();
@@ -82,11 +82,12 @@ public class ColorCollisionDetection {
 		return matchesColor(pixels, color);
 	}
 
+	private static SpriteBatch batch = new SpriteBatch();
+
 	private static Pixmap drawSprites(List<Sprite> spriteList, Matrix4 projectionMatrix, Actor actor) {
 		FrameBuffer buffer = new FrameBuffer(Pixmap.Format.RGBA8888, (int) actor.getWidth(),
 				(int) actor.getHeight(), false);
 
-		SpriteBatch batch = new SpriteBatch();
 		batch.setProjectionMatrix(projectionMatrix);
 
 		buffer.begin();
@@ -103,21 +104,17 @@ public class ColorCollisionDetection {
 		Pixmap pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, buffer.getWidth(), buffer.getHeight());
 		buffer.end();
 
-		batch.dispose();
+		//batch.dispose();
 		buffer.dispose();
 
 		return pixmap;
 	}
 
-	private static Camera createCamera(Project project, Actor actor) {
-		float virtualWidth1 = actor.getWidth() * actor.getScaleX();
-		float virtualHeight1 = actor.getHeight() * actor.getScaleY();
-		Camera camera = new OrthographicCamera(virtualWidth1, virtualHeight1);
-		Viewport viewPort = createViewPort(project, virtualWidth1,
-				virtualHeight1, camera);
+	private static Camera createCamera(Project project, Actor actor, float width, float height) {
+		Camera camera = new OrthographicCamera(width, height);
+		Viewport viewPort = createViewPort(project, width, height, camera);
 		viewPort.apply();
-		camera.position.set(0, 0, 0);
-		camera.translate(actor.getX() + actor.getWidth() / 2, actor.getY() + actor.getHeight() / 2, 0);
+		camera.position.set(actor.getX() + width / 2, actor.getY() + height / 2, 0);
 		camera.update();
 		return camera;
 	}
