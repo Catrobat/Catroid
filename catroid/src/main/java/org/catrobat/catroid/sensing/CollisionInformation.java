@@ -25,8 +25,10 @@ package org.catrobat.catroid.sensing;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.PointF;
+import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Polygon;
@@ -51,8 +53,19 @@ public class CollisionInformation {
 	private boolean isCalculationThreadCancelled = true;
 	private LookData lookData;
 
+	private Pair<Integer, Integer> leftBubblePos;
+	private Pair<Integer, Integer> rightBubblePos;
+
 	public CollisionInformation(LookData lookData) {
 		this.lookData = lookData;
+	}
+
+	public Pair<Integer, Integer> getLeftBubblePos() {
+		return leftBubblePos;
+	}
+
+	public Pair<Integer, Integer> getRightBubblePos() {
+		return rightBubblePos;
 	}
 
 	public void calculate() {
@@ -79,65 +92,94 @@ public class CollisionInformation {
 		return size;
 	}
 
+	private void calculateBubblePositions(Bitmap source) {
+		int[] pixels = new int[source.getWidth() * source.getHeight()];
+		source.getPixels(pixels, 0, source.getWidth(), 0, 0, source.getWidth(), source.getHeight());
+
+		Integer centerX = source.getWidth() / 2;
+		Integer centerY = source.getHeight() / 2;
+
+		for (int y = 0; y < source.getHeight(); y++) {
+			if (rightBubblePos != null) {
+				return;
+			}
+			for (int x = source.getWidth() - 1; x > 0; x--) {
+				if (!ImageEditing.isPixelTransparent(source, pixels, x, y)) {
+					Integer xDiff = x - centerX;
+					Integer yDiff = centerY - y;
+
+					if (rightBubblePos == null) {
+						rightBubblePos = new Pair<>(xDiff, yDiff);
+					}
+
+					leftBubblePos = new Pair<>(xDiff, yDiff);
+				}
+			}
+		}
+	}
+
 	public void loadOrCreateCollisionPolygon() {
 		isCalculationThreadCancelled = false;
 		String path = lookData.getFile().getAbsolutePath();
-		if (collisionPolygons == null) {
-			if (!lookData.getImageMimeType().equals("image/png")) {
-				Bitmap bitmap = BitmapFactory.decodeFile(path);
-				collisionPolygons = createCollisionPolygonByHitbox(bitmap);
+
+		calculateBubblePositions(BitmapFactory.decodeFile(path));
+
+		if (!lookData.getImageMimeType().equals("image/png")) {
+			Bitmap bitmap = BitmapFactory.decodeFile(path);
+			collisionPolygons = createCollisionPolygonByHitbox(bitmap);
+			return;
+		}
+
+		collisionPolygons = getCollisionPolygonFromPNGMeta(path);
+		if (collisionPolygons.length == 0) {
+			Log.i(TAG, "No Collision information from PNG file, creating new one.");
+			if (isCalculationThreadCancelled) {
 				return;
 			}
-			collisionPolygons = getCollisionPolygonFromPNGMeta(path);
-			if (collisionPolygons.length == 0) {
-				Log.i(TAG, "No Collision information from PNG file, creating new one.");
+
+			ArrayList<ArrayList<CollisionPolygonVertex>> boundingPolygon = createBoundingPolygonVertices(path, lookData);
+			if (boundingPolygon.size() == 0) {
+				return;
+			}
+			float epsilon = Constants.COLLISION_POLYGON_CREATION_EPSILON;
+			do {
+
 				if (isCalculationThreadCancelled) {
 					return;
 				}
-				ArrayList<ArrayList<CollisionPolygonVertex>> boundingPolygon = createBoundingPolygonVertices(path, lookData);
-				if (boundingPolygon.size() == 0) {
-					return;
-				}
-				float epsilon = Constants.COLLISION_POLYGON_CREATION_EPSILON;
-				do {
-
+				ArrayList<Polygon> temporaryCollisionPolygons = new ArrayList<>();
+				for (int i = 0; i < boundingPolygon.size(); i++) {
 					if (isCalculationThreadCancelled) {
 						return;
 					}
-					ArrayList<Polygon> temporaryCollisionPolygons = new ArrayList<Polygon>();
-					for (int i = 0; i < boundingPolygon.size(); i++) {
-						if (isCalculationThreadCancelled) {
-							return;
-						}
-						ArrayList<PointF> points = getPointsFromPolygonVertices(boundingPolygon.get(i));
-						ArrayList<PointF> simplified = simplifyPolygon(points, 0, points.size() - 1,
-								epsilon);
-						if (pointToPointDistance(simplified.get(0), simplified.get(simplified.size() - 1)) < epsilon) {
-							simplified.remove(simplified.size() - 1);
-						}
-						if (simplified.size() < 3) {
-							continue;
-						}
-
-						temporaryCollisionPolygons.add(createPolygonFromPoints(simplified));
+					ArrayList<PointF> points = getPointsFromPolygonVertices(boundingPolygon.get(i));
+					ArrayList<PointF> simplified = simplifyPolygon(points, 0, points.size() - 1,
+							epsilon);
+					if (pointToPointDistance(simplified.get(0), simplified.get(simplified.size() - 1)) < epsilon) {
+						simplified.remove(simplified.size() - 1);
+					}
+					if (simplified.size() < 3) {
+						continue;
 					}
 
-					collisionPolygons = temporaryCollisionPolygons.toArray(new Polygon[temporaryCollisionPolygons
-							.size()]);
-					epsilon *= 1.2f;
-				} while (getNumberOfVertices() > Constants.COLLISION_VERTEX_LIMIT);
-
-				if (collisionPolygons.length == 0) {
-					Bitmap bitmap = BitmapFactory.decodeFile(path);
-					collisionPolygons = createCollisionPolygonByHitbox(bitmap);
+					temporaryCollisionPolygons.add(createPolygonFromPoints(simplified));
 				}
 
-				if (isCalculationThreadCancelled) {
-					return;
-				}
-				writeCollisionVerticesToPNGMeta(collisionPolygons, path);
-				Log.i("CollsionPolygon", "Polygon size of look " + lookData.getName() + ": " + getNumberOfVertices());
+				collisionPolygons = temporaryCollisionPolygons.toArray(new Polygon[temporaryCollisionPolygons
+						.size()]);
+				epsilon *= 1.2f;
+			} while (getNumberOfVertices() > Constants.COLLISION_VERTEX_LIMIT);
+
+			if (collisionPolygons.length == 0) {
+				Bitmap bitmap = BitmapFactory.decodeFile(path);
+				collisionPolygons = createCollisionPolygonByHitbox(bitmap);
 			}
+
+			if (isCalculationThreadCancelled) {
+				return;
+			}
+			writeCollisionVerticesToPNGMeta(collisionPolygons, path);
+			Log.i("CollsionPolygon", "Polygon size of look " + lookData.getName() + ": " + getNumberOfVertices());
 		}
 	}
 
@@ -216,7 +258,7 @@ public class CollisionInformation {
 
 	public static ArrayList<CollisionPolygonVertex> createHorizontalVertices(boolean[][] grid, int gridWidth, int
 			gridHeight) {
-		ArrayList<CollisionPolygonVertex> horizontal = new ArrayList<CollisionPolygonVertex>();
+		ArrayList<CollisionPolygonVertex> horizontal = new ArrayList<>();
 		for (int y = 0; y < gridHeight; y++) {
 			for (int x = 0; x < gridWidth; x++) {
 				if (grid[x][y]) {
@@ -266,7 +308,7 @@ public class CollisionInformation {
 
 	public static ArrayList<CollisionPolygonVertex> createVerticalVertices(boolean[][] grid, int gridWidth, int
 			gridHeight) {
-		ArrayList<CollisionPolygonVertex> vertical = new ArrayList<CollisionPolygonVertex>();
+		ArrayList<CollisionPolygonVertex> vertical = new ArrayList<>();
 		for (int x = 0; x < gridWidth; x++) {
 			for (int y = 0; y < gridHeight; y++) {
 				if (grid[x][y]) {
@@ -378,7 +420,7 @@ public class CollisionInformation {
 		boolean[][] grid = new boolean[width][height];
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if (pixels[y * width + x] != 0) {
+				if (pixels[y * width + x] != Color.TRANSPARENT) {
 					grid[x][y] = true;
 				}
 			}
