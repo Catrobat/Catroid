@@ -49,7 +49,7 @@ task useAndroidLocales() {
     group releasePreparationSubGroup
 
     doLast{
-        project.ext."useAndroidLocales" = true
+        rootProject.ext.useAndroidLocales = true
     }
 }
 

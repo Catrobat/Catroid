@@ -28,13 +28,13 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.26.0'
+        classpath 'io.fabric.tools:gradle:1.31.0'
         classpath 'com.google.gms:google-services:4.3.2'
     }
 }
 
 plugins {
-    id "io.gitlab.arturbosch.detekt" version "1.0.0-RC14"
+    id "io.gitlab.arturbosch.detekt" version "1.1.1"
 }
 
 repositories {
@@ -47,123 +47,77 @@ ext {
     appName = '@string/app_name'
     manifestAppName = '@string/app_name'
     manifestAppIcon = '@drawable/ic_launcher'
-}
 
-apply plugin: 'org.catrobat.gradle.androidemulators'
-
-// The emulators to use on Jenkins.
-// Note: When you specify new system images ensure that they are installed on the Docker image.
-emulators {
-    emulatorTemplate 'template1', {
-        avd {
-            systemImage = 'system-images;android-24;default;x86_64'
-            sdcardSizeMb = 200
-            hardwareProperties += ['hw.camera': 'yes', 'hw.ramSize': 800, 'hw.gpu.enabled': 'yes',
-                                   'hw.camera.front': 'emulated', 'hw.camera.back': 'emulated', 'hw.gps': 'yes',
-                                   'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'vm.heapSize': 128]
-            screenDensity = 'xhdpi'
-        }
-
-        parameters {
-            resolution = '768x1280'
-            language = 'en'
-            country = 'US'
-        }
-    }
-
-    emulator 'android24', 'template1', {
-        avd {
-            systemImage = 'system-images;android-24;default;x86_64'
-        }
-    }
-
-    emulator 'android28', 'template1', {
-        avd {
-            systemImage = 'system-images;android-28;default;x86_64'
-        }
-    }
+    projectVersion = "0.9"
+    gdxVersion = "1.9.10"
+    mockitoVersion = "2.8.47"
+    espressoVersion = "3.0.1"
+    supportLibraryVersion = "28.0.0"
+    paintroidVersion = "2.4.1"
 }
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
-apply plugin: 'checkstyle'
 apply plugin: 'jacoco-android'
-apply plugin: 'pmd'
-
-detekt {
-    toolVersion = "1.0.0-RC14"
-    config = files("config/detekt.yml")
-    input = files("src")
-    filters = ".*/resources/.*,.*/build/.*"
-}
 
 apply from: 'gradle/code_quality_tasks.gradle'
-apply from: 'gradle/standalone_apk_tasks.gradle'
+apply from: 'gradle/emulator_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
+apply from: 'gradle/standalone_apk_tasks.gradle'
 
-check.dependsOn 'checkstyle'
-check.dependsOn 'pmd'
-check.dependsOn 'detekt'
-
-// When -Pindependent was provided on the gradle command the APP name is changed.
-// This allows to have multiple Catroid versions installed in parallel for testing purposes.
-// Furthermore these installations do not interfere with the actual Catroid app.
-if (project.hasProperty('independent')) {
+if (rootProject.hasProperty('independent')) {
+    println "Independent build"
     def today = new Date()
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
-    appName = property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
+    appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
 }
 
-if (project.hasProperty('playground') && project.getProperties().get('playground') == 'true') {
-    logger.lifecycle('playground true: ' + project.getProperties().get('playground'))
+if (rootProject.hasProperty('playground') && rootProject.property('playground').toBoolean()) {
+    println "Playground build"
     appId = 'org.catrobat.catroid.test'
     appName = 'Catrobat Playground'
     manifestAppName = appName
 }
 
-if (!project.hasProperty("signingKeystore")) {
+if (!rootProject.hasProperty("signingKeystore")) {
     ext.signingKeystore = "dummyKeystore"
 }
 
-ant.copy(file: 'google-services-template.json', tofile: 'src/catroid/google-services.json', overwrite: true)
-ant.copy(file: 'google-services-template.json', tofile: 'src/createAtSchool/google-services.json', overwrite: true)
-ant.copy(file: 'google-services-template.json', tofile: 'src/lunaAndCat/google-services.json', overwrite: true)
-ant.copy(file: 'google-services-template.json', tofile: 'src/arduino/google-services.json', overwrite: true)
-ant.copy(file: 'google-services-template.json', tofile: 'src/phiro/google-services.json', overwrite: true)
-ant.copy(file: 'google-services-template.json', tofile: 'src/standalone/google-services.json', overwrite: true)
-
-ant.replace(file: 'src/catroid/google-services.json', token: '@appId@', value: appId)
-ant.replace(file: 'src/createAtSchool/google-services.json', token: '@appId@', value: appId + ".createatschool")
-ant.replace(file: 'src/arduino/google-services.json', token: '@appId@', value: appId + ".arduino")
-ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@appId@', value: appId + ".lunaandcat")
-ant.replace(file: 'src/phiro/google-services.json', token: '@appId@', value: appId + ".phiro")
-ant.replace(file: 'src/standalone/google-services.json', token: '@appId@', value: appId + ".standalone")
-
-if (project.hasProperty('firebaseApiKey')) {
-    ant.replace(file: 'src/catroid/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
-    ant.replace(file: 'src/createAtSchool/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
-    ant.replace(file: 'src/lunaAndCat/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
-    ant.replace(file: 'src/arduino/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
-    ant.replace(file: 'src/phiro/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
-    ant.replace(file: 'src/standalone/google-services.json', token: '@apiKey@', value: project.getProperties().get('firebaseApiKey'))
+ext.getProperty = { property, defaultValue ->
+    rootProject.hasProperty(property) ? rootProject.property(property) : defaultValue
 }
 
-if (project.hasProperty('fabricApiKey')) {
-    ant.replace(file: 'fabric.properties', token: '0123456789012345678901234567890123456789',
-            value: project.getProperties().get('fabricApiKey'))
-}
-if (project.hasProperty('fabricApiSecret')) {
-    ant.replace(file: 'fabric.properties',
-            token: '0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef',
-            value: project.getProperties().get('fabricApiSecret'))
+ext.useAndroidLocales = { ->
+    rootProject.hasProperty('useAndroidLocales') ? 'true' : 'false'
 }
 
-def useAndroidLocales() {
-    def value = project.getProperties().get("useAndroidLocales")
-    return value != null ? "true" : "false"
+ext.useWebTest = { ->
+    rootProject.hasProperty('useWebTest') ? 'true' : 'false'
+}
+
+ext.copyGoogleServicesFile = { flavorName, flavorId ->
+    copy {
+        from "google-services-template.json"
+        rename { "google-services.json" }
+        into "src/$flavorName"
+        filter { line ->
+            line.replaceAll('@appId@', flavorId)
+                .replaceAll('@apiKey@', getProperty('firebaseApiKey', '@apiKey@'))
+        }
+    }
+}
+
+copy {
+    from "fabric-template.properties"
+    rename { "fabric.properties" }
+    into "."
+    filter { line ->
+        line.replaceAll('@fabricApiKey@', getProperty('fabricApiKey', "0123456789012345678901234567890123456789"))
+            .replaceAll('@fabricApiSecret@', getProperty('fabricApiSecret', "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"))
+    }
 }
 
 jacoco.toolVersion = "0.8.1"
@@ -183,17 +137,45 @@ android {
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
         versionCode 69
-        println "VersionCode is $versionCode"
         versionName "0.9.65"
+        println "VersionCode is $versionCode"
         println "VersionName is $versionName"
-        buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-        buildConfigField "boolean", "USE_WEB_TEST", (project.hasProperty('useWebTest') ? 'true' : 'false')
         multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
                                  intentFilterHost: "share.catrob.at",
                                  intentFilterPathPattern: "/.*/program/.*"]
+
+        buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
+        buildConfigField "boolean", "USE_WEB_TEST", useWebTest()
+
+        buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
+        buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
+
+        buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
+        buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
+
+        buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
+        buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
+        resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
+        resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+        resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
     }
 
     lintOptions {
@@ -237,69 +219,39 @@ android {
     signingConfigs {
         signedRelease {
             // credentials loaded in release_task.gradle
-            storeFile file(project["signingKeystore"])
+            storeFile file(project.getProperty("signingKeystore"))
             storePassword ""
             keyAlias ""
             keyPassword ""
         }
     }
 
-    if (project.hasProperty("signingKeystore") && project.hasProperty("signingKeystorePassword") &&
-            project.hasProperty("signingKeyAlias") && project.hasProperty("signingKeyPassword")) {
-        android.signingConfigs.signedRelease.storePassword = project.getProperties().get("signingKeystorePassword")
-        android.signingConfigs.signedRelease.keyAlias = project.getProperties().get("signingKeyAlias")
-        android.signingConfigs.signedRelease.keyPassword = project.getProperties().get("signingKeyPassword")
+    if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
+            rootProject.hasProperty("signingKeyAlias") && rootProject.hasProperty("signingKeyPassword")) {
+        android.signingConfigs.signedRelease {
+            storePassword = rootProject.property("signingKeystorePassword")
+            keyAlias = rootProject.property("signingKeyAlias")
+            keyPassword = rootProject.property("signingKeyPassword")
+        }
     }
 
     buildTypes {
         debug {
-            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "true"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
-            buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
-            resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
             ext.enableCrashlytics = false
-            testCoverageEnabled = project.hasProperty('enableCoverage')
+            testCoverageEnabled = rootProject.hasProperty('enableCoverage')
         }
 
         release {
-            buildConfigField "boolean", "FEATURE_EMBROIDERY_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LEGO_NXT_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_LEGO_EV3_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PHIRO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PARROT_AR_DRONE_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_PARROT_JUMPING_SUMO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_ARDUINO_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_NFC_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CAST_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }
 
-        signedRelease.initWith(buildTypes.release)
         signedRelease {
+            initWith buildTypes.release
             signingConfig signingConfigs.signedRelease
         }
     }
@@ -311,102 +263,33 @@ android {
     }
 
     productFlavors {
-        catroid {
-            dimension "default"
-            applicationId appId
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
+        catroid
+        createAtSchool { applicationIdSuffix '.createatschool' }
+        lunaAndCat { applicationIdSuffix '.lunaandcat' }
+        phiro {
+            applicationIdSuffix '.phiro'
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
         }
-
+        arduino {
+            applicationIdSuffix '.arduino'
+            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
+        }
         standalone {
-            dimension "default"
-            applicationId appId + '.standalone'
-
+            applicationIdSuffix '.standalone'
             versionCode 1
             versionName '1.0'
 
             buildConfigField "String", "START_PROJECT", "\"$projectId\""
             buildConfigField "String", "PROJECT_NAME", "\"$appName\""
-            // here!
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
-            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
-        }
-
-        createAtSchool {
-            dimension "default"
-            applicationId appId + '.createatschool'
-
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
-        }
-
-        lunaAndCat {
-            dimension "default"
-            applicationId appId + '.lunaandcat'
-
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
-            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
-        }
-
-        phiro {
-            dimension "default"
-            applicationId appId + '.phiro'
-
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
-            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
-            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
-        }
-
-        arduino {
-            dimension "default"
-            applicationId appId + '.arduino'
-
-            buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
-            buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
-            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_CLOUD_MESSAGING_ENABLED", "false"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
-            resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "true"
-            resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
-            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
     }
-}
 
-ext {
-    projectVersion = "0.9"
-    gdxVersion = "1.9.9"
-    mockitoVersion = "2.8.47"
-    espressoVersion = "3.0.1"
-    supportLibraryVersion = "27.1.0"
-    paintroidVersion = "2.4.1"
+    productFlavors.all { flavor ->
+        copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
+    }
 }
 
 configurations {
@@ -481,7 +364,7 @@ dependencies {
     androidTestImplementation ('tools.fastlane:screengrab:1.1.0'){
         exclude group: 'com.android.support'
     }
-    androidTestImplementation ('com.android.support.test.espresso:espresso-web:3.0.1') {
+    androidTestImplementation ("com.android.support.test.espresso:espresso-web:$espressoVersion") {
         exclude group: 'com.android.support'
     }
 
@@ -498,9 +381,9 @@ dependencies {
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.0'
 
     testImplementation 'org.robolectric:robolectric:4.2.1'
-    testImplementation "org.robolectric:shadows-multidex:4.2.1"
+    testImplementation 'org.robolectric:shadows-multidex:4.2.1'
 
-    testImplementation "org.reflections:reflections:0.9.11"
+    testImplementation 'org.reflections:reflections:0.9.11'
 
     androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
@@ -512,13 +395,6 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
-
-    pmd 'net.sourceforge.pmd:pmd-core:5.8.1'
-    pmd 'net.sourceforge.pmd:pmd-java:5.8.1'
-
-    checkstyle 'com.puppycrawl.tools:checkstyle:7.6'
-
-    detektPlugins "io.gitlab.arturbosch.detekt:detekt-formatting:1.0.0-RC14"
 }
 
 static def getGitCommitInfo() {
@@ -532,18 +408,19 @@ project.gradle.taskGraph.whenReady {
     connectedCatroidDebugAndroidTest.ignoreFailures = true
 }
 
-task copyAndroidNatives() {
+task copyAndroidNatives {
     doFirst {
         file("src/main/jniLibs/armeabi-v7a/").mkdirs()
         file("src/main/jniLibs/arm64-v8a/").mkdirs()
-        file("src/main/jniLibs/x86/").mkdirs()
         file("src/main/jniLibs/x86_64/").mkdirs()
+        file("src/main/jniLibs/x86/").mkdirs()
+
         configurations.natives.files.each { jar ->
             def outputDir = null
-            if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
             if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("src/main/jniLibs/arm64-v8a")
-            if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
+            if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("src/main/jniLibs/armeabi-v7a")
             if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("src/main/jniLibs/x86_64")
+            if (jar.name.endsWith("natives-x86.jar")) outputDir = file("src/main/jniLibs/x86")
             if (outputDir != null) {
                 copy {
                     from zipTree(jar)
@@ -554,4 +431,11 @@ task copyAndroidNatives() {
         }
     }
 }
+
+tasks.whenTaskAdded { packageTask ->
+    if (packageTask.name.contains("package")) {
+        packageTask.dependsOn 'copyAndroidNatives'
+    }
+}
+
 apply plugin: 'com.google.gms.google-services'

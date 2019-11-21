@@ -65,7 +65,7 @@ import org.catrobat.catroid.web.ServerCalls
 import java.io.File
 import java.util.Locale
 
-val UPLOAD_FILE_NAME = "upload$CATROBAT_EXTENSION"
+const val UPLOAD_FILE_NAME = "upload$CATROBAT_EXTENSION"
 
 class ProjectUploadService : IntentService("ProjectUploadService") {
 
@@ -193,7 +193,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             else -> sharedPreferences.getString(EMAIL, NO_EMAIL)
         }
 
-        val result = if (email.equals(NO_EMAIL)) {
+        val result = if (email == NO_EMAIL) {
             DeviceSettingsProvider.getUserEmail(this)
         } else {
             email
