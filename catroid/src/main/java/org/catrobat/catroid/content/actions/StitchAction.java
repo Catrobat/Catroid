@@ -22,11 +22,10 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.graphics.PointF;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.embroidery.DSTStitchCommand;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class StitchAction extends TemporalAction {
@@ -37,7 +36,8 @@ public class StitchAction extends TemporalAction {
 	protected void update(float delta) {
 		float x = sprite.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryList.add(new PointF(x, y));
+		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
+				sprite.look.getZIndex(), sprite));
 	}
 
 	public void setSprite(Sprite sprite) {

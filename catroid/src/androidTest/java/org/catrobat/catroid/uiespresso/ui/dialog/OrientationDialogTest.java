@@ -33,6 +33,7 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -51,8 +52,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
 import static org.hamcrest.Matchers.allOf;
@@ -66,8 +66,7 @@ public class OrientationDialogTest {
 			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, true, false);
 
 	private boolean bufferedChromeCastSetting;
-	private boolean bufferedPrivacyPolicyPreferenceSetting;
-	private boolean bufferedImportFromExternalStoragePreferenceSetting;
+	private int bufferedPrivacyPolicyPreferenceSetting;
 
 	@Before
 	public void setUp() throws Exception {
@@ -78,16 +77,14 @@ public class OrientationDialogTest {
 				.getBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, false);
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
-				.getBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, false);
-
-		bufferedImportFromExternalStoragePreferenceSetting = sharedPreferences
-				.getBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
 				.putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, true)
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, true)
-				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, false)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
+						.hashCode())
 				.commit();
 
 		baseActivityTestRule.launchActivity(null);
@@ -98,8 +95,8 @@ public class OrientationDialogTest {
 		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
 				.edit()
 				.putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, bufferedChromeCastSetting)
-				.putBoolean(AGREED_TO_PRIVACY_POLICY_PREFERENCE_KEY, bufferedPrivacyPolicyPreferenceSetting)
-				.putBoolean(SHOW_COPY_PROJECTS_FROM_EXTERNAL_STORAGE_DIALOG, bufferedImportFromExternalStoragePreferenceSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
 	}
 

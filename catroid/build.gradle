@@ -182,12 +182,12 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 66
+        versionCode 69
         println "VersionCode is $versionCode"
-        versionName "0.9.64"
+        versionName "0.9.65"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-        buildConfigField "String", "MAIN_URL_HTTPS", (project.hasProperty('useWebTest') ? '"https://web-test.catrob.at"' : '"https://share.catrob.at"')
+        buildConfigField "boolean", "USE_WEB_TEST", (project.hasProperty('useWebTest') ? 'true' : 'false')
         multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,
@@ -321,6 +321,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         standalone {
@@ -338,6 +339,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         createAtSchool {
@@ -351,6 +353,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         lunaAndCat {
@@ -364,6 +367,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
 
         phiro {
@@ -377,6 +381,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
         }
 
         arduino {
@@ -390,6 +395,7 @@ android {
             buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "true"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
+            resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         }
     }
 }

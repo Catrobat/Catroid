@@ -202,7 +202,7 @@ public class BrickCategoryFragment extends ListFragment {
 			categories.add(inflater.inflate(R.layout.brick_category_pen, null));
 		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
-		if (!onlyBeginnerBricks()) {
+		if (!onlyBeginnerBricks() && BuildConfig.FEATURE_USERBRICKS_ENABLED) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
 		}
 		if (BuildConfig.DEBUG) {

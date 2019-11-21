@@ -23,16 +23,15 @@
 
 package org.catrobat.catroid.stage;
 
-import android.graphics.PointF;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.embroidery.StitchPoint;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 
 public class EmbroideryActor extends Actor {
@@ -44,8 +43,9 @@ public class EmbroideryActor extends Actor {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		ArrayList<PointF> stitchPoints = StageActivity.stageListener.embroideryList;
-		ListIterator<PointF> iterator = stitchPoints.listIterator();
+		List<StitchPoint> stitchPoints =
+				StageActivity.stageListener.embroideryPatternManager.getEmbroideryPatternList();
+		ListIterator<StitchPoint> iterator = stitchPoints.listIterator();
 
 		if (stitchPoints.size() >= 2) {
 			batch.end();
@@ -54,14 +54,19 @@ public class EmbroideryActor extends Actor {
 			renderer.setColor(Color.BLACK);
 			renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-			PointF previousPoint = iterator.next();
+			StitchPoint previousStitchPoint = iterator.next();
 			while (iterator.hasNext()) {
-				PointF point = iterator.next();
-				renderer.circle(previousPoint.x, previousPoint.y, stitchSize);
-				renderer.rectLine(previousPoint.x, previousPoint.y, point.x, point.y, stitchSize);
-				previousPoint = point;
+				StitchPoint stitchPoint = iterator.next();
+				if (!(stitchPoint.isConnectingPoint()) || !(previousStitchPoint.isConnectingPoint())) {
+					previousStitchPoint = stitchPoint;
+					continue;
+				}
+				renderer.circle(previousStitchPoint.getX(), previousStitchPoint.getY(), stitchSize);
+				renderer.rectLine(previousStitchPoint.getX(), previousStitchPoint.getY(),
+						stitchPoint.getX(), stitchPoint.getY(), stitchSize);
+				previousStitchPoint = stitchPoint;
 			}
-			renderer.circle(previousPoint.x, previousPoint.y, stitchSize);
+			renderer.circle(previousStitchPoint.getX(), previousStitchPoint.getY(), stitchSize);
 			renderer.end();
 
 			batch.begin();

@@ -24,120 +24,115 @@
   -->
 <resources>
     <!-- General terms -->
-    <string name="stage">Stage</string>
+    <string name="stage">Faza</string>
     <string name="play">Pokreni</string>
     <string name="settings">Podešavanja</string>
-    <string name="redo">Redo</string>
+    <string name="redo">Ponovi</string>
     <string name="undo">Poništi</string>
     <string name="new_option">Novi&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Potvrdi</string>
     <string name="cancel">Odustani</string>
-    <string name="next">Next</string>
+    <string name="next">Iduće</string>
     <string name="back">Nazad</string>
     <string name="ok">OK</string>
-    <string name="done">Done</string>
+    <string name="done">Gotovo</string>
     <string name="close">Zatvoriti</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
-    <string name="agree">Agree</string>
-    <string name="disagree">Disagree</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="agree">Slažem se</string>
+    <string name="disagree">Ne slažem se</string>
+    <string name="select_all">Izaberi sve</string>
+    <string name="deselect_all">Poništi odabir</string>
+    <string name="skip">skipaj</string>
+    <string name="warning">Upozorenje</string>
     <string name="error">Greška</string>
     <string name="loading">Učitavanje&#8230;</string>
-    <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search&#8230;</string>
-    <string name="backpack_add">Add to backpack</string>
+    <string name="please_wait">De čekaj ba</string>
+    <string name="search_hint">Srčaj&#8230;</string>
+    <string name="backpack_add">Mazni vino</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-
-
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="delete_account">Delete my account</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees">degrees</string>
+    <string name="loading_check_oauth_token">Provjera login podataka&#8230;</string>
+    <string name="loading_google_exchange_code">Svičaj Gugl login podatke&#8230;</string>
+    <string name="loading_google_login">Gugl login na serveru je gotov&#8230;</string>
+    <string name="delete_account">Briši mi akaunt</string>
+    <string name="logout_successful">Odjava uspješna</string>
+    <string name="degrees">stepeni</string>
     <string name="background">Pozadina</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="landscape">pejzaž</string>
+    <string name="portrait">portret</string>
+    <string name="unknown">Ućoravo naslijepo</string>
+    <string name="disconnect">Prekini vezu</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">Nastavi projekt</string>
+    <string name="main_menu_new">Novi projekt</string>
     <string name="main_menu_programs">Programi</string>
     <string name="main_menu_help">Pomoć</string>
-    <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+    <string name="main_menu_web">Catrobat koalicija</string>
+    <string name="main_menu_upload">Aploudaj projekt</string>
+    <string name="main_menu_rate_app">Ocijeni nas!</string>
+    <string name="main_menu_terms_of_use">Uslovi korištenja </string>
     <string name="main_menu_privacy_policy">Pravila o privatnosti</string>
-    <string name="main_menu_about">About this app</string>
+    <string name="main_menu_about">O aplikaciji</string>
     <string name="main_menu_login">Prijava</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_logout">Odjava</string>
+    <string name="main_menu_scratch_converter">Skreč konvertor</string>
+    <string name="main_menu_play_store_not_installed">App prodavnice nema nigdje</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Kreirano sa</string>
+    <string name="marketing_app_details">Podalic o aplikaciji</string>
+    <string name="marketing_more_on_google_play">Više aplikacija u App prodavnici</string>
     <!-- Settings activity -->
     <string name="preference_title">Podešavanja</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="preference_title_language">Jezik</string>
+    <string name="preference_description_language">Postavi jezik aplikacije</string>
+    <string name="preference_title_accessibility">Pristupačnost</string>
+    <string name="preference_description_accessibility">Promjeni luk aplikacije</string>
+    <string name="preference_title_accessibility_profiles">Profili pristupačnosti</string>
+    <string name="preference_title_accessibility_profile">Preddefinisani profili</string>
+    <string name="preference_title_accessibility_profile_headline">Profili</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Preddefinisani profili</string>
+    <string name="preference_description_accessibility_profiles">Biraj preddefinisani profil pristupačnosti</string>
+    <string name="preference_title_accessibility_text_appearance">Izgled teksta</string>
+    <string name="preference_title_accessibility_handling">Rukovanje</string>
+    <string name="preference_title_accessibility_category_icons_big">Velike ikone</string>
+    <string name="preference_description_accessibility_category_icons_big">Uvećaj veličinu ikona.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Visoki kontrast ikona</string>
+    <string name="preference_title_accessibility_Brick_icons">Ikone</string>
+    <string name="preference_title_accessibility_category_icons">Prikaži ikone</string>
+    <string name="preference_description_accessibility_category_icons">Dodaj ikone u kategorije i cigle.</string>
+    <string name="preference_title_accessibility_high_contrast">Visoki kontrast</string>
+    <string name="preference_description_accessibility_high_contrast">Uvećaj kontrast teksta.</string>
+    <string name="preference_description_accessibility_large_text">Uvećaj veličinu teksta.</string>
+    <string name="preference_title_accessibility_large_text">Veliki tekst</string>
+    <string name="preference_title_accessibility_element_spacing">Veliki razmak elemenata</string>
+    <string name="preference_description_accessibility_element_spacing">Povećajte razmak elemenata u listama.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop kašnjenje</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop kašnjenje za cigle.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Početnički mod</string>
+    <string name="preference_description_accessibility_beginner_bricks">Prikaži samo jednostavne stavke.</string>
+    <string name="preference_title_accessibility_font_style">Izaberi tip teksta</string>
+    <string name="accessibility_font_regular">Regularno</string>
     <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
+    <string name="accessibility_font_dyslexic">Disleksičan</string>
+    <string name="accessibility_settings_applied">Promjene primjenjene</string>
+    <string name="preference_access_title_profile_default">Zadano</string>
+    <string name="preference_access_summary_profile_default">Zadane postavke</string>
+    <string name="preference_access_title_profile_custom">Moj prilagođeni profil</string>
+    <string name="preference_access_summary_profile_custom">Moje osobne postavke</string>
     <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
+    <string name="preference_access_summary_profile_argus">Visoki kontrast, dodatne ikone</string>
     <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+    <string name="preference_access_summary_profile_odin">Veliki tekst, velike ikone, veliki razmak elemenata, visoki kontrast</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
+    <string name="preference_access_summary_profile_fenrir">Veliki razmak elemenata, drag\'n\'drop usporavanje</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_access_summary_profile_tiro">Početnički mod</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 ekstenzija</string>
+    <string name="preference_description_quadcopter_bricks">Omogućiti aplikaciji kontrolu Parrot ARDrone 2.0 quadcopter-a</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
     <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
@@ -756,6 +751,10 @@
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Novi objekat</string>
     <!--  -->
@@ -780,15 +779,15 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Uslovi korištenja </string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Uslovi korištenja </string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Uslovi korištenja </string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
@@ -941,7 +940,6 @@
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -1181,6 +1179,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">time</item>
         <item quantity="few">times</item>
@@ -1193,6 +1192,8 @@
     <string name="brick_if_end">End if</string>
     <string name="brick_set_variable">Postavi varijablu</string>
     <string name="brick_change_variable">Promjeni varijablu</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">dodaj komentar ovdje&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Zdravo!</string>
@@ -1529,7 +1530,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text">stepeni</string>
     <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
@@ -1614,7 +1615,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">Color preview</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
@@ -1630,11 +1630,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_choose_object_variable">Svojstva ovog objekta</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sinus</string>
+    <string name="formula_editor_function_sin">sine</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">cosinus</string>
+    <string name="formula_editor_function_cos">cosine</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tangens</string>
+    <string name="formula_editor_function_tan">tangent</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
@@ -1653,12 +1653,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_round_parameter">(0)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
-    <string name="formula_editor_function_arcsin">arcsinus</string>
+    <string name="formula_editor_function_arcsin">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccosinus</string>
+    <string name="formula_editor_function_arccos">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangens</string>
+    <string name="formula_editor_function_arctan">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exponent</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">power</string>
@@ -1916,6 +1918,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1940,13 +1944,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

@@ -52,10 +52,7 @@
     <string name="backpack_add">إضافة الى حزمة الظهر</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-
     <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
-
-
     <string name="loading_google_exchange_code">تبادل بيانات جوجل بلس&#8230;</string>
     <string name="loading_google_login">اكتمال تسجيل الدخول عبر جوجل بلس على سيرفرنا&#8230;</string>
     <string name="delete_account">حذف حسابي</string>
@@ -953,6 +950,10 @@
     <string name="project_orientation_title">الإتجاه:</string>
     <string name="project_select_screen_title">الشاشة:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">كائن جديد</string>
     <!--  -->
@@ -1138,7 +1139,6 @@
     <string name="sign_in_error">حدث خطأ أثناء تسجيل الدخول.</string>
     <string name="error_google_plus_sign_in">خطأ خلال تسجيل الدخول باستخدام جوجل. الحالة: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-
     <string name="sign_in_with_google">‏تسجيل الدخول عبر Google</string>
     <string name="error_register_empty_username">اسم مستخدم فارغ</string>
     <string name="error_register_username_as_email">لا يمكن استخدام الايميل الالكتروني كـ اسم مستخدم</string>
@@ -1385,6 +1385,7 @@
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="zero">مرة</item>
         <item quantity="one">مرة</item>
@@ -1400,6 +1401,8 @@
     <string name="brick_if_end">نهاية إذا</string>
     <string name="brick_set_variable">تعيين قيمة المتغير</string>
     <string name="brick_change_variable">تغيير قيمة المتغير</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_note_default_value">أضف تعليق هنا&#8230;</string>
     <string name="brick_think_bubble_default_value">همممم!</string>
     <string name="brick_say_bubble_default_value">مرحباً!</string>
@@ -1814,7 +1817,6 @@
     <string name="color_red">احمر</string>
     <string name="color_green">أخضر</string>
     <string name="color_blue">ازرق</string>
-    <string name="color_preview">معاينة اللون</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">البيانات</string>
@@ -1859,6 +1861,8 @@
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">ظل الزاوية القوسي</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">الأس الطبيعي</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">القوة</string>
@@ -2102,6 +2106,8 @@
     <string name="deletion_alert_yes">نعم، قم بحذفه على أية حال!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">البرنامج الخاص بك الذي قد تم تحميله إلى صفحة المجتمع  يمكن للأخرين استخدامه وتنزيله. يمكنك أيضا تحميل البرنامج الخاص بك كتطبيق مستقل.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">عرض البرنامج</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -2125,13 +2131,4 @@
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">هرتز</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">بايت</string>
-    <string name="KiloByte_short">كيلوبايت</string>
-    <string name="MegaByte_short">ميغابايت</string>
-    <string name="GigaByte_short">غيغابايت</string>
-    <string name="TeraByte_short">تيرابايت</string>
-    <string name="PetaByte_short">بيتابايت</string>
-    <string name="ExaByte_short">إكسابايت</string>
-    <!--  -->
 </resources>

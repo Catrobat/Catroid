@@ -205,7 +205,7 @@ public class BrickCategoryTest {
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"Motion", false, Arrays.asList(PlaceAtBrick.class,
+				{"Motion", Arrays.asList(PlaceAtBrick.class,
 						SetXBrick.class,
 						SetYBrick.class,
 						ChangeXByNBrick.class,
@@ -231,9 +231,8 @@ public class BrickCategoryTest {
 						SetMassBrick.class,
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
-				{"Embroidery", false, Arrays.asList()},
-				{"Embroidery", true, Arrays.asList(StitchBrick.class)},
-				{"Event", false, Arrays.asList(WhenStartedBrick.class,
+				{"Embroidery", Arrays.asList(StitchBrick.class)},
+				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
 						BroadcastReceiverBrick.class,
@@ -243,7 +242,7 @@ public class BrickCategoryTest {
 						WhenBounceOffBrick.class,
 						WhenBackgroundChangesBrick.class,
 						WhenClonedBrick.class)},
-				{"Looks", false, Arrays.asList(SetLookBrick.class,
+				{"Looks", Arrays.asList(SetLookBrick.class,
 						SetLookByIndexBrick.class,
 						NextLookBrick.class,
 						PreviousLookBrick.class,
@@ -273,13 +272,13 @@ public class BrickCategoryTest {
 						CameraBrick.class,
 						ChooseCameraBrick.class,
 						FlashBrick.class)},
-				{"Pen", false, Arrays.asList(PenDownBrick.class,
+				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,
 						SetPenColorBrick.class,
 						StampBrick.class,
 						ClearBackgroundBrick.class)},
-				{"Sound", false, Arrays.asList(PlaySoundBrick.class,
+				{"Sound", Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
@@ -287,7 +286,7 @@ public class BrickCategoryTest {
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
 						AskSpeechBrick.class)},
-				{"Control", false, Arrays.asList(WaitBrick.class,
+				{"Control", Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
 						ForeverBrick.class,
 						IfLogicBeginBrick.class,
@@ -302,7 +301,7 @@ public class BrickCategoryTest {
 						DeleteThisCloneBrick.class,
 						WhenClonedBrick.class,
 						WebRequestBrick.class)},
-				{"Data", false, Arrays.asList(SetVariableBrick.class,
+				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
 						ShowTextColorSizeAlignmentBrick.class,
@@ -318,16 +317,16 @@ public class BrickCategoryTest {
 						AskBrick.class,
 						AskSpeechBrick.class,
 						WebRequestBrick.class)},
-				{"Lego NXT", false, Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
+				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
 						LegoNxtPlayToneBrick.class)},
-				{"Lego EV3", false, Arrays.asList(LegoEv3MotorTurnAngleBrick.class,
+				{"Lego EV3", Arrays.asList(LegoEv3MotorTurnAngleBrick.class,
 						LegoEv3MotorMoveBrick.class,
 						LegoEv3MotorStopBrick.class,
 						LegoEv3PlayToneBrick.class,
 						LegoEv3SetLedBrick.class)},
-				{"AR.Drone 2.0", false, Arrays.asList(DroneTakeOffLandBrick.class,
+				{"AR.Drone 2.0", Arrays.asList(DroneTakeOffLandBrick.class,
 						DroneEmergencyBrick.class,
 						DroneMoveUpBrick.class,
 						DroneMoveDownBrick.class,
@@ -340,7 +339,7 @@ public class BrickCategoryTest {
 						DroneFlipBrick.class,
 						DronePlayLedAnimationBrick.class,
 						DroneSwitchCameraBrick.class)},
-				{"Jumping Sumo", false, Arrays.asList(JumpingSumoMoveForwardBrick.class,
+				{"Jumping Sumo", Arrays.asList(JumpingSumoMoveForwardBrick.class,
 						JumpingSumoMoveBackwardBrick.class,
 						JumpingSumoAnimationsBrick.class,
 						JumpingSumoSoundBrick.class,
@@ -351,7 +350,7 @@ public class BrickCategoryTest {
 						JumpingSumoRotateRightBrick.class,
 						JumpingSumoTurnBrick.class,
 						JumpingSumoTakingPictureBrick.class)},
-				{"Phiro", false, Arrays.asList(PhiroMotorMoveForwardBrick.class,
+				{"Phiro", Arrays.asList(PhiroMotorMoveForwardBrick.class,
 						PhiroMotorMoveBackwardBrick.class,
 						PhiroMotorStopBrick.class,
 						PhiroPlayToneBrick.class,
@@ -363,14 +362,14 @@ public class BrickCategoryTest {
 						SetVariableBrick.class,
 						SetVariableBrick.class,
 						SetVariableBrick.class)},
-				{"Arduino", false, Arrays.asList(ArduinoSendDigitalValueBrick.class,
+				{"Arduino", Arrays.asList(ArduinoSendDigitalValueBrick.class,
 						ArduinoSendPWMValueBrick.class)},
-				{"Chromecast", false, Arrays.asList(WhenGamepadButtonBrick.class)},
-				{"Raspberry Pi", false, Arrays.asList(WhenRaspiPinChangedBrick.class,
+				{"Chromecast", Arrays.asList(WhenGamepadButtonBrick.class)},
+				{"Raspberry Pi", Arrays.asList(WhenRaspiPinChangedBrick.class,
 						RaspiIfLogicBeginBrick.class,
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
-				{"Testing", false, Arrays.asList(AssertEqualsBrick.class,
+				{"Testing", Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class)},
 		});
@@ -380,9 +379,6 @@ public class BrickCategoryTest {
 	public String category;
 
 	@Parameterized.Parameter(1)
-	public boolean isBackgroundSprite;
-
-	@Parameterized.Parameter(2)
 	public List<Class> expectedClasses;
 
 	private CategoryBricksFactory categoryBricksFactory;
@@ -410,7 +406,7 @@ public class BrickCategoryTest {
 
 	@Test
 	public void testBrickCategory() {
-		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, isBackgroundSprite,
+		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
 				InstrumentationRegistry.getTargetContext());
 
 		List<Class> brickClasses = new ArrayList<>();
