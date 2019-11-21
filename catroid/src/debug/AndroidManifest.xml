@@ -32,6 +32,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application>
+        <meta-data android:name="com.crashlytics.ApiKey" android:value="YOUR_API_KEY"/>
         <activity
             android:name=".uiespresso.ui.activity.ProjectUploadRatingDialogTest$ProjectUploadTestActivity"
             android:screenOrientation="portrait"
