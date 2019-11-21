@@ -32,6 +32,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
@@ -44,6 +45,8 @@ import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.StageListener;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -57,6 +60,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.catrobat.catroid.formulaeditor.common.Conversion.FALSE;
+import static org.catrobat.catroid.formulaeditor.common.Conversion.TRUE;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.booleanToDouble;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.convertArgumentToDouble;
 import static org.catrobat.catroid.sensing.ColorCollisionDetection.interpretFunctionTouchesColor;
@@ -296,66 +300,74 @@ public class FormulaElement implements Serializable {
 				returnValue = interpretUserVariable(sprite);
 				break;
 			case USER_LIST:
-				returnValue = interpretUserList(sprite);
+				returnValue = interpretUserList(UserDataWrapper.getUserList(value, sprite, ProjectManager.getInstance().getCurrentProject()));
 				break;
 			case STRING:
 				returnValue = value;
 				break;
 			case COLLISION_FORMULA:
 				try {
-					returnValue = interpretCollision(sprite, value);
+					returnValue = interpretCollision(sprite.look, value, ProjectManager.getInstance().getCurrentlyPlayingScene(), StageActivity.stageListener);
 				} catch (Exception exception) {
-					returnValue = 0d;
+					returnValue = FALSE;
 				}
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
 	}
 
-	private Object interpretCollision(Sprite firstSprite, String formula) {
-
-		String secondSpriteName = formula;
-		Sprite secondSprite;
+	private Sprite tryFindSprite(Scene scene, String spriteName) {
 		try {
-			secondSprite = ProjectManager.getInstance().getCurrentlyPlayingScene().getSprite(secondSpriteName);
+			return scene.getSprite(spriteName);
 		} catch (Resources.NotFoundException exception) {
-			return 0d;
+			return null;
 		}
-		Look firstLook = firstSprite.look;
-		Look secondLook;
-		if (secondSprite instanceof GroupSprite) {
-			List<Sprite> groupSprites = GroupSprite.getSpritesFromGroupWithGroupName(secondSpriteName);
-			for (Sprite sprite : groupSprites) {
-				secondLook = sprite.look;
-				if (CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook) == 1d) {
-					return 1d;
-				}
-			}
-			return 0d;
-		}
+	}
 
-		List<Sprite> spriteAndClones = new ArrayList<>();
-		spriteAndClones.add(secondSprite);
-		if (StageActivity.stageListener != null) {
-			spriteAndClones.addAll(StageActivity.stageListener.getAllClonesOfSprite(secondSprite));
+	private double interpretCollision(Look firstLook, String secondSpriteName, Scene currentlyPlayingScene, StageListener stageListener) {
+		Sprite secondSprite = tryFindSprite(currentlyPlayingScene, secondSpriteName);
+		if (secondSprite == null) {
+			return FALSE;
+		} else if (secondSprite instanceof GroupSprite) {
+			List<Sprite> spritesFromGroupWithGroupName = GroupSprite.getSpritesFromGroupWithGroupName(secondSpriteName, currentlyPlayingScene);
+			return interpretLookCollision(firstLook, toLooks(spritesFromGroupWithGroupName));
+		} else {
+			return interpretLookCollision(firstLook, toLooks(getAllClones(secondSprite, stageListener)));
 		}
+	}
 
-		for (Sprite sprite : spriteAndClones) {
-			secondLook = sprite.look;
-			if (firstLook.equals(secondLook)) {
+	private List<Look> toLooks(List<Sprite> sprites) {
+		List<Look> looks = new ArrayList<>(sprites.size());
+		for (Sprite sprite : sprites) {
+			looks.add(sprite.look);
+		}
+		return looks;
+	}
+
+	private double interpretLookCollision(Look look, List<Look> looks) {
+		for (Look secondLook : looks) {
+			if (look.equals(secondLook)) {
 				continue;
 			}
 
-			if (CollisionDetection.checkCollisionBetweenLooks(firstLook, secondLook) == 1d) {
-				return 1d;
+			if (CollisionDetection.checkCollisionBetweenLooks(look, secondLook) == TRUE) {
+				return TRUE;
 			}
 		}
 
 		return 0d;
 	}
 
-	private Object interpretUserList(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
+	@NotNull
+	private List<Sprite> getAllClones(Sprite sprite, StageListener stageListener) {
+		List<Sprite> spriteAndClones = new ArrayList<>();
+		spriteAndClones.add(sprite);
+		if (stageListener != null) {
+			spriteAndClones.addAll(stageListener.getAllClonesOfSprite(sprite));
+		}
+		return spriteAndClones;
+	}
+
+	private Object interpretUserList(UserList userList) {
 		if (userList == null) {
 			return FALSE;
 		}
