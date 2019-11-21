@@ -187,7 +187,10 @@ android {
         versionName "0.9.65"
         println "VersionName is $versionName"
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-        buildConfigField "boolean", "USE_WEB_TEST", (project.hasProperty('useWebTest') ? 'true' : 'false')
+        buildConfigField "String", "MAIN_URL", (project.hasProperty('web_test_url') ?
+                "\"" + project.getProperties().get('web_test_url') + "\"" :
+                '"https://share.catrob.at"')
+
         multiDexEnabled true
         manifestPlaceholders += [appName: manifestAppName,
                                  appIcon: manifestAppIcon,

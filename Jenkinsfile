@@ -39,8 +39,8 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
     archiveArtifacts "${coverageNameAndLogcatPrefix}_logcat.txt"
 }
 
-def useWebTestParameter() {
-    return env.USE_WEB_TEST?.toBoolean() ? '-PuseWebTest' : ''
+def webTestUrlParameter() {
+    return env.WEB_TEST_URL?.isEmpty() ? '' : "-Pweb_test_url='${params.WEB_TEST_URL}'"
 }
 
 def allFlavoursParameters() {
@@ -56,7 +56,8 @@ pipeline {
     agent none
 
     parameters {
-        booleanParam name: 'USE_WEB_TEST', defaultValue: false, description: 'When selected all the archived APKs will point to the test Catrobat web server, useful for testing web changes.'
+        string name: 'WEB_TEST_URL', defaultValue: '', description: 'When set, all the archived ' +
+                'APKs will point to this Catrobat web server, useful for testing web changes.'
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
     }
@@ -91,7 +92,7 @@ pipeline {
                             steps {
                                 catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
                                     script {
-                                        def additionalParameters = [useWebTestParameter(), allFlavoursParameters()].findAll {
+                                        def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
                                             it
                                         }.collect()
                                         if (additionalParameters) {
@@ -101,11 +102,11 @@ pipeline {
 
                                     // Checks that the creation of standalone APKs (APK for a Pocketcode app) works, reducing the risk of breaking gradle changes.
                                     // The resulting APK is not verified itself.
-                                    sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${useWebTestParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
+                                    sh """./gradlew copyAndroidNatives assembleStandaloneDebug ${webTestUrlParameter()} -Papk_generator_enabled=true -Psuffix=generated817.catrobat \
                                                 -Pdownload='https://share.catrob.at/pocketcode/download/817.catrobat'"""
 
                                     // Build the flavors so that they can be installed next independently of older versions.
-                                    sh "./gradlew ${useWebTestParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+                                    sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
 
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                     archiveArtifacts '**/*.apk'
