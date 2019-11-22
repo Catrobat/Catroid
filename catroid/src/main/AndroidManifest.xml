@@ -215,7 +215,7 @@
             android:name=".ui.filepicker.FilePickerActivity" />
 
         <service android:name=".transfers.project.ProjectUploadService" />
-        <service android:name=".transfers.ProjectDownloadService" />
+        <service android:name=".transfers.project.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />
         <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />

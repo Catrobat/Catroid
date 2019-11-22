@@ -61,6 +61,7 @@ import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager.UPLOAD_NOTIFICATION_ID
+import org.catrobat.catroid.web.CatrobatWebClient
 import org.catrobat.catroid.web.ServerCalls
 import java.io.File
 import java.util.Locale
@@ -110,7 +111,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_height)
             ),
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this),
-            serverCalls = ServerCalls()
+            serverCalls = ServerCalls(CatrobatWebClient.client)
         ).start(
             successCallback = { projectId ->
                 Log.v(TAG, "Upload successful")

@@ -158,7 +158,7 @@ public class WebSocketMessageListener implements MessageListener, WebSocket.Stri
 	}
 
 	@Override
-	public Client.DownloadCallback restoreJobIfRunning(Job job, ConvertCallback convertCallback) {
+	public Client.ProjectDownloadCallback restoreJobIfRunning(Job job, ConvertCallback convertCallback) {
 		final JobHandler jobHandler = createOrUseExistingJobHandlerForJobIfPossible(job, true, convertCallback);
 		Preconditions.checkState(jobHandler != null);
 
