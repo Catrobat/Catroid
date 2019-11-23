@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.sensing.CollisionDetection;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class InternToken {
 
 	public void updateCollisionFormulaToVersion() {
 		if (internTokenType == InternTokenType.COLLISION_FORMULA) {
-			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(tokenStringValue);
+			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(tokenStringValue, ProjectManager.getInstance().getCurrentProject());
 			if (secondSpriteName != null) {
 				tokenStringValue = secondSpriteName;
 			}

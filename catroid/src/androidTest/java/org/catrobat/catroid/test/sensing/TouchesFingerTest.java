@@ -69,10 +69,10 @@ public class TouchesFingerTest {
 	public void testBasicOneTouchingPoint() {
 		TouchUtil.reset();
 		TouchUtil.touchDown(150, 150, 1);
-		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
 		TouchUtil.touchUp(1);
 		TouchUtil.touchDown(0, 0, 1);
-		assertThat(CollisionDetection.collidesWithFinger(sprite1.look), is(not(equalTo(1d))));
+		assertThat(CollisionDetection.collidesWithFinger(sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()), is(not(equalTo(1d))));
 	}
 
 	@Test
@@ -81,7 +81,7 @@ public class TouchesFingerTest {
 		TouchUtil.touchDown(150, 150, 1);
 		TouchUtil.touchDown(0, 0, 2);
 		TouchUtil.touchDown(151, 151, 3);
-		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
 	}
 
 	@Test
@@ -89,7 +89,7 @@ public class TouchesFingerTest {
 		TouchUtil.reset();
 		TouchUtil.touchDown(0, 0, 1);
 
-		assertThat(CollisionDetection.collidesWithFinger(sprite1.look), is(not(equalTo(1d))));
+		assertThat(CollisionDetection.collidesWithFinger(sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()), is(not(equalTo(1d))));
 
 		float x = sprite1.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite1.look.getYInUserInterfaceDimensionUnit();
@@ -97,6 +97,6 @@ public class TouchesFingerTest {
 		sprite1.look.setXInUserInterfaceDimensionUnit(x - 150);
 		sprite1.look.setYInUserInterfaceDimensionUnit(y - 150);
 
-		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithFinger(sprite1.look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints()));
 	}
 }

@@ -76,11 +76,7 @@ public class Conversion {
 
 	@NotNull
 	public static Double booleanToDouble(boolean value) {
-		if (value) {
-			return TRUE;
-		} else {
-			return FALSE;
-		}
+		return value ? TRUE : FALSE;
 	}
 
 	public static boolean matchesColor(@NonNull ByteBuffer pixels, int color) {

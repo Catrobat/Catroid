@@ -30,12 +30,11 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Look;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.ArrayList;
 
@@ -128,10 +127,10 @@ public final class CollisionDetection {
 		return false;
 	}
 
-	public static String getSecondSpriteNameFromCollisionFormulaString(String formula) {
+	public static String getSecondSpriteNameFromCollisionFormulaString(String formula, Project currentProject) {
 
 		int indexOfSpriteInFormula = formula.length();
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : currentProject.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				int index = formula.lastIndexOf(sprite.getName());
 				if (index > 0 && index + sprite.getName().length() == formula.length() && index
@@ -143,15 +142,12 @@ public final class CollisionDetection {
 		if (indexOfSpriteInFormula >= formula.length()) {
 			return null;
 		}
-		String secondSpriteName = formula.substring(indexOfSpriteInFormula, formula.length());
+		String secondSpriteName = formula.substring(indexOfSpriteInFormula);
 		return secondSpriteName;
 	}
 
-	public static double collidesWithEdge(Look look) {
-		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
-		Rectangle screen = new Rectangle(-virtualScreenWidth / 2, -virtualScreenHeight / 2, virtualScreenWidth,
-				virtualScreenHeight);
+	public static double collidesWithEdge(Look look, int virtualScreenWidth, int virtualScreenHeight) {
+		Rectangle screen = new Rectangle(-virtualScreenWidth / 2, -virtualScreenHeight / 2, virtualScreenWidth, virtualScreenHeight);
 		//check if any line of the collision polygons intersects with the screen boundary
 		for (Polygon polygon : look.getCurrentCollisionPolygon()) {
 			for (int i = 0; i < polygon.getTransformedVertices().length - 4; i += 2) {
@@ -169,7 +165,7 @@ public final class CollisionDetection {
 		return 0d;
 	}
 
-	public static double collidesWithFinger(Look look) {
+	public static double collidesWithFinger(Polygon[] currentCollisionPolygon, ArrayList<PointF> touchingPoints) {
 		/*The touching points are expanded to circles with Constants.COLLISION_WITH_FINGER_TOUCH_RADIUS
 		to simulate the real touching area of the finger (which is not only a point, but a small area)
 		To improve performance first check if the circle is contained in the bounding box of that polygon
@@ -183,7 +179,6 @@ public final class CollisionDetection {
 		  | |___| |
 		  |_______|
 		*/
-		ArrayList<PointF> touchingPoints = TouchUtil.getCurrentTouchingPoints();
 		Vector2 start = new Vector2();
 		Vector2 end = new Vector2();
 		Vector2 center = new Vector2();
@@ -192,7 +187,7 @@ public final class CollisionDetection {
 		for (PointF point : touchingPoints) {
 			center.set(point.x, point.y);
 			int containedIn = 0;
-			for (Polygon polygon : look.getCurrentCollisionPolygon()) {
+			for (Polygon polygon : currentCollisionPolygon) {
 				Rectangle boundingRectangle = polygon.getBoundingRectangle();
 				boundingRectangle.x -= touchRadius;
 				boundingRectangle.y -= touchRadius;

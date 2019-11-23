@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.sensing;
 
-import android.graphics.Bitmap;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
@@ -40,7 +38,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -51,12 +48,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.formulaeditor.common.Conversion.convertToBitmap;
-import static org.catrobat.catroid.formulaeditor.common.Conversion.flipBitmap;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.matchesColor;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.tryParseColor;
 
 public class ColorCollisionDetection {
-	public static boolean interpretFunctionTouchesColor(Object parameter, Sprite sprite) {
+	public static boolean interpretFunctionTouchesColor(Object parameter, Sprite sprite, Project currentProject, Scene currentlyPlayingScene) {
 		if (!(parameter instanceof String)) {
 			return false;
 		} else if (sprite.look.getWidth() <= Float.MIN_VALUE || sprite.look.getHeight() <= Float.MIN_VALUE) {
@@ -66,11 +62,9 @@ public class ColorCollisionDetection {
 		String stringParameter = (String) parameter;
 		int color = tryParseColor(stringParameter) & 0xFFFFFF;
 
-		Scene scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
-		List<Sprite> spriteList = new ArrayList<>(scene.getSpriteList());
+		List<Sprite> spriteList = new ArrayList<>(currentlyPlayingScene.getSpriteList());
 		spriteList.remove(sprite);
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Camera camera = createCamera(currentProject, sprite.look, sprite.look.getWidth() * sprite.look.getScaleX(), sprite.look.getHeight() * sprite.look.getScaleY());
 
 		Pixmap pixmap = drawSprites(spriteList, camera.combined, sprite.look);

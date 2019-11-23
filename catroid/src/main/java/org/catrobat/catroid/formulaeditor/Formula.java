@@ -82,7 +82,7 @@ public class Formula implements Serializable {
 
 	public void updateCollisionFormulasToVersion() {
 		internFormula.updateCollisionFormulaToVersion(CatroidApplication.getAppContext());
-		formulaTree.updateCollisionFormulaToVersion();
+		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
 	}
 
 	public void updateVariableName(String oldName, String newName) {
@@ -226,7 +226,7 @@ public class Formula implements Serializable {
 			} catch (InterpretationException interpretationException) {
 				return "ERROR";
 			}
-		} else if (formulaTree.isUserVariableWithTypeString(sprite)) {
+		} else if (formulaTree.isUserVariableWithTypeString(UserDataWrapper.getUserVariable(formulaTree.getValue(), sprite, ProjectManager.getInstance().getCurrentProject()))) {
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 			UserVariable userVariable = UserDataWrapper

@@ -68,43 +68,43 @@ public class TouchesEdgeTest {
 	public void testCollisionWithRightEdge() {
 		sprite1.look.setXInUserInterfaceDimensionUnit(0);
 		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look), is(not(equalTo(1d))));
+		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight), is(not(equalTo(1d))));
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		sprite1.look.setXInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				+ virtualScreenWidth / 2);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight));
 	}
 
 	@Test
 	public void testCollisionWithLeftEdge() {
 		sprite1.look.setXInUserInterfaceDimensionUnit(0);
 		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look), is(not(equalTo(1d))));
+		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight), is(not(equalTo(1d))));
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		sprite1.look.setXInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				- virtualScreenWidth / 2);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight));
 	}
 
 	@Test
 	public void testCollisionWithUpperEdge() {
 		sprite1.look.setXInUserInterfaceDimensionUnit(0);
 		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look), is(not(equalTo(1d))));
+		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight), is(not(equalTo(1d))));
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		sprite1.look.setYInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				+ virtualScreenHeight / 2);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight));
 	}
 
 	@Test
 	public void testCollisionWithBottomEdge() {
 		sprite1.look.setXInUserInterfaceDimensionUnit(0);
 		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look), is(not(equalTo(1d))));
+		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight), is(not(equalTo(1d))));
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 		sprite1.look.setYInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				- virtualScreenHeight / 2);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look));
+		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth, ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight));
 	}
 }

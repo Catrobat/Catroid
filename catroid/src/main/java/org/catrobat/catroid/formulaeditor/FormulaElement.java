@@ -34,6 +34,7 @@ import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
@@ -46,6 +47,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.utils.TouchUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -69,6 +71,7 @@ import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = FormulaElement.class.getSimpleName();
 
 	public enum ElementType {
 		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA;
@@ -232,7 +235,7 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public boolean containsSpriteInCollision(String name) {
+	public final boolean containsSpriteInCollision(String name) {
 		boolean contained = false;
 		if (leftChild != null) {
 			contained |= leftChild.containsSpriteInCollision(name);
@@ -246,7 +249,7 @@ public class FormulaElement implements Serializable {
 		return contained;
 	}
 
-	public void updateCollisionFormula(String oldName, String newName) {
+	public final void updateCollisionFormula(String oldName, String newName) {
 
 		if (leftChild != null) {
 			leftChild.updateCollisionFormula(oldName, newName);
@@ -259,15 +262,15 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public void updateCollisionFormulaToVersion() {
+	public void updateCollisionFormulaToVersion(Project currentProject) {
 		if (leftChild != null) {
-			leftChild.updateCollisionFormulaToVersion();
+			leftChild.updateCollisionFormulaToVersion(currentProject);
 		}
 		if (rightChild != null) {
-			rightChild.updateCollisionFormulaToVersion();
+			rightChild.updateCollisionFormulaToVersion(currentProject);
 		}
 		if (type == ElementType.COLLISION_FORMULA) {
-			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value);
+			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value, currentProject);
 			if (secondSpriteName != null) {
 				value = secondSpriteName;
 			}
@@ -278,11 +281,18 @@ public class FormulaElement implements Serializable {
 
 		Object returnValue = 0d;
 
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
+		Scene currentlyPlayingScene = projectManager.getCurrentlyPlayingScene();
+		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
+		StageListener stageListener = StageActivity.stageListener;
+
 		switch (type) {
 			case BRACKET:
 				returnValue = rightChild.interpretRecursive(sprite);
 				break;
 			case NUMBER:
+			case STRING:
 				returnValue = value;
 				break;
 			case OPERATOR:
@@ -291,30 +301,30 @@ public class FormulaElement implements Serializable {
 				break;
 			case FUNCTION:
 				Functions function = Functions.getFunctionByValue(value);
-				returnValue = interpretFunction(function, sprite);
+				returnValue = interpretFunction(function, sprite, currentProject, currentlyPlayingScene);
 				break;
 			case SENSOR:
-				returnValue = interpretSensor(sprite);
+				returnValue = interpretSensor(sprite, currentlyEditedScene, currentProject);
 				break;
 			case USER_VARIABLE:
-				returnValue = interpretUserVariable(sprite);
+				UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
+				returnValue = interpretUserVariable(userVariable);
 				break;
 			case USER_LIST:
-				returnValue = interpretUserList(UserDataWrapper.getUserList(value, sprite, ProjectManager.getInstance().getCurrentProject()));
-				break;
-			case STRING:
-				returnValue = value;
+				UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
+				returnValue = interpretUserList(userList);
 				break;
 			case COLLISION_FORMULA:
 				try {
-					returnValue = interpretCollision(sprite.look, value, ProjectManager.getInstance().getCurrentlyPlayingScene(), StageActivity.stageListener);
-				} catch (Exception exception) {
+					returnValue = interpretCollision(sprite.look, value, currentlyPlayingScene, stageListener);
+				} catch (Exception e) {
 					returnValue = FALSE;
 				}
 		}
 		return normalizeDegeneratedDoubleValues(returnValue);
 	}
 
+	@Nullable
 	private Sprite tryFindSprite(Scene scene, String spriteName) {
 		try {
 			return scene.getSprite(spriteName);
@@ -328,7 +338,7 @@ public class FormulaElement implements Serializable {
 		if (secondSprite == null) {
 			return FALSE;
 		} else if (secondSprite instanceof GroupSprite) {
-			List<Sprite> spritesFromGroupWithGroupName = GroupSprite.getSpritesFromGroupWithGroupName(secondSpriteName, currentlyPlayingScene);
+			List<Sprite> spritesFromGroupWithGroupName = GroupSprite.getSpritesFromGroupWithGroupName(secondSpriteName, currentlyPlayingScene.getSpriteList());
 			return interpretLookCollision(firstLook, toLooks(spritesFromGroupWithGroupName));
 		} else {
 			return interpretLookCollision(firstLook, toLooks(getAllClones(secondSprite, stageListener)));
@@ -354,7 +364,7 @@ public class FormulaElement implements Serializable {
 			}
 		}
 
-		return 0d;
+		return FALSE;
 	}
 
 	@NotNull
@@ -372,9 +382,11 @@ public class FormulaElement implements Serializable {
 			return FALSE;
 		}
 
-		List<Object> userListValues = userList.getValue();
+		return interpretUserListValues(userList.getValue());
+	}
 
-		if (userListValues.size() == 0) {
+	private Object interpretUserListValues(List<Object> userListValues) {
+		if (userListValues.isEmpty()) {
 			return "";
 		} else if (userListValues.size() == 1) {
 			return userListValues.get(0);
@@ -415,25 +427,23 @@ public class FormulaElement implements Serializable {
 		return true;
 	}
 
-	private Object interpretUserVariable(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
+	private Object interpretUserVariable(UserVariable userVariable) {
 		if (userVariable == null) {
 			return FALSE;
 		}
 		return userVariable.getValue();
 	}
 
-	private Object interpretSensor(Sprite sprite) {
+	private Object interpretSensor(Sprite sprite, Scene currentlyEditedScene, Project currentProject) {
 		Sensors sensor = Sensors.getSensorByValue(value);
 		if (sensor.isObjectSensor) {
-			return interpretObjectSensor(sensor, sprite);
+			return interpretObjectSensor(sensor, sprite, currentlyEditedScene, currentProject);
 		} else {
 			return SensorHandler.getSensorValue(sensor);
 		}
 	}
 
-	private Object interpretFunction(Functions function, Sprite sprite) {
+	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject, Scene currentlyPlayingScene) {
 		Object firstArgument = interpretChild(leftChild, sprite);
 		Object secondArgument = interpretChild(rightChild, sprite);
 
@@ -441,19 +451,19 @@ public class FormulaElement implements Serializable {
 			case LETTER:
 				return interpretFunctionLetter(firstArgument, secondArgument);
 			case LENGTH:
-				return interpretFunctionLength(firstArgument, sprite);
+				return interpretFunctionLength(firstArgument, sprite, currentProject);
 			case JOIN:
 				return interpretFunctionJoin(sprite);
 			case REGEX:
 				return interpretFunctionRegex(sprite);
 			case LIST_ITEM:
-				return interpretFunctionListItem(firstArgument, sprite);
+				return interpretFunctionListItem(firstArgument, sprite, currentProject);
 			case CONTAINS:
-				return interpretFunctionContains(secondArgument, sprite);
+				return interpretFunctionContains(secondArgument, sprite, currentProject);
 			case NUMBER_OF_ITEMS:
-				return interpretFunctionNumberOfItems(firstArgument, sprite);
+				return interpretFunctionNumberOfItems(firstArgument, sprite, currentProject);
 			case COLLIDES_WITH_COLOR:
-				return booleanToDouble(interpretFunctionTouchesColor(firstArgument, sprite));
+				return booleanToDouble(interpretFunctionTouchesColor(firstArgument, sprite, currentProject, currentlyPlayingScene));
 			default:
 				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
 				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
@@ -473,42 +483,41 @@ public class FormulaElement implements Serializable {
 	private Object interpretFormulaFunction(Functions function, Double firstArgumentDouble, Double secondArgumentDouble) {
 		FormulaFunction formulaFunction = formulaFunctions.get(function);
 		if (formulaFunction == null) {
-			return 0d;
+			return FALSE;
 		} else {
 			return formulaFunction.execute(firstArgumentDouble, secondArgumentDouble);
 		}
 	}
 
-	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite) {
+	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite, Project currentProject) {
 		if (leftChild.type == ElementType.USER_LIST) {
-			return (double) handleNumberOfItemsOfUserListParameter(sprite);
+			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
+			return (double) handleNumberOfItemsOfUserListParameter(userList);
 		}
-		return interpretFunctionLength(left, sprite);
+		return interpretFunctionLength(left, sprite, currentProject);
 	}
 
-	private Object interpretFunctionContains(Object right, Sprite sprite) {
+	private Object interpretFunctionContains(Object right, Sprite sprite, Project currentProject) {
 		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 
 			if (userList == null) {
-				return 0d;
+				return FALSE;
 			}
 
 			for (Object userListElement : userList.getValue()) {
-				if (interpretOperatorEqual(userListElement, right) == 1d) {
-					return 1d;
+				if (interpretOperatorEqual(userListElement, right) == TRUE) {
+					return TRUE;
 				}
 			}
 		}
 
-		return 0d;
+		return FALSE;
 	}
 
-	private Object interpretFunctionListItem(Object left, Sprite sprite) {
+	private Object interpretFunctionListItem(Object left, Sprite sprite, Project currentProject) {
 		UserList userList = null;
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
 		}
 
@@ -592,27 +601,24 @@ public class FormulaElement implements Serializable {
 		return parameterInterpretation;
 	}
 
-	private Object interpretFunctionLength(Object left, Sprite sprite) {
+	private Object interpretFunctionLength(Object left, Sprite sprite, Project currentProject) {
 		if (leftChild == null) {
-			return 0d;
+			return FALSE;
 		}
-		if (leftChild.type == ElementType.NUMBER) {
-			return (double) leftChild.value.length();
-		}
-		if (leftChild.type == ElementType.STRING) {
+		if (leftChild.type == ElementType.NUMBER || leftChild.type == ElementType.STRING) {
 			return (double) leftChild.value.length();
 		}
 		if (leftChild.type == ElementType.USER_VARIABLE) {
-			return (double) handleLengthUserVariableParameter(sprite);
+			UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
+			return (double) handleLengthUserVariableParameter(userVariable);
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
 			if (userList == null) {
-				return 0d;
+				return FALSE;
 			}
 			if (userList.getValue().size() == 0) {
-				return 0d;
+				return FALSE;
 			}
 
 			Object interpretedList = leftChild.interpretRecursive(sprite);
@@ -696,8 +702,8 @@ public class FormulaElement implements Serializable {
 				rightObject = Double.NaN;
 			}
 
-			Double left;
-			Double right;
+			Double left = interpretOperator(leftObject);
+			Double right = interpretOperator(rightObject);
 
 			switch (operator) {
 				case PLUS:
@@ -727,27 +733,27 @@ public class FormulaElement implements Serializable {
 				case GREATER_THAN:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) > 0 ? 1d : 0d;
+					return booleanToDouble(left.compareTo(right) > 0);
 				case GREATER_OR_EQUAL:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) >= 0 ? 1d : 0d;
+					return booleanToDouble(left.compareTo(right) >= 0);
 				case SMALLER_THAN:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) < 0 ? 1d : 0d;
+					return booleanToDouble(left.compareTo(right) < 0);
 				case SMALLER_OR_EQUAL:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left.compareTo(right) <= 0 ? 1d : 0d;
+					return booleanToDouble(left.compareTo(right) <= 0);
 				case LOGICAL_AND:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return (left * right) != 0d ? 1d : 0d;
+					return booleanToDouble(left * right != 0d);
 				case LOGICAL_OR:
 					left = interpretOperator(leftObject);
 					right = interpretOperator(rightObject);
-					return left != 0d || right != 0d ? 1d : 0d;
+					return booleanToDouble(left != FALSE || right != FALSE);
 			}
 		} else { //unary operators
 			Object rightObject;
@@ -757,64 +763,64 @@ public class FormulaElement implements Serializable {
 				rightObject = Double.NaN;
 			}
 
+			Double value = interpretOperator(rightObject);
 			switch (operator) {
 				case MINUS:
-					Double result = interpretOperator(rightObject);
-					return -result;
+					return -value;
 				case LOGICAL_NOT:
-					return interpretOperator(rightObject) == 0d ? 1d : 0d;
+					return booleanToDouble(value == FALSE);
 			}
 		}
-		return 0d;
+		return FALSE;
 	}
 
-	private Object interpretObjectSensor(Sensors sensor, Sprite sprite) {
+	private Object interpretObjectSensor(Sensors sensor, Sprite sprite, Scene currentlyEditedScene, Project currentProject) {
 		Object returnValue = 0d;
-		LookData lookData = sprite.look.getLookData();
+		Look look = sprite.look;
+		LookData lookData = look.getLookData();
 		List<LookData> lookDataList = sprite.getLookList();
 		if (lookData == null && lookDataList.size() > 0) {
 			lookData = lookDataList.get(0);
 		}
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
-				returnValue = (double) sprite.look.getBrightnessInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getBrightnessInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_COLOR:
-				returnValue = (double) sprite.look.getColorInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getColorInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_TRANSPARENCY:
-				returnValue = (double) sprite.look.getTransparencyInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getTransparencyInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LAYER:
-				if (sprite.look.getZIndex() < 0) {
-					returnValue = (double) ProjectManager.getInstance().getCurrentlyEditedScene()
-							.getSpriteList().indexOf(sprite);
-				} else if (sprite.look.getZIndex() == 0) {
+				if (look.getZIndex() < 0) {
+					returnValue = (double) currentlyEditedScene.getSpriteList().indexOf(sprite);
+				} else if (look.getZIndex() == 0) {
 					returnValue = 0d;
 				} else {
-					returnValue = (double) sprite.look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
+					returnValue = (double) look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
 				}
 				break;
 			case OBJECT_ROTATION:
-				returnValue = (double) sprite.look.getDirectionInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getDirectionInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_SIZE:
-				returnValue = (double) sprite.look.getSizeInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getSizeInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_X:
-				returnValue = (double) sprite.look.getXInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getXInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_Y:
-				returnValue = (double) sprite.look.getYInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getYInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_ANGULAR_VELOCITY:
-				returnValue = (double) sprite.look.getAngularVelocityInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getAngularVelocityInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_X_VELOCITY:
-				returnValue = (double) sprite.look.getXVelocityInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getXVelocityInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_Y_VELOCITY:
-				returnValue = (double) sprite.look.getYVelocityInUserInterfaceDimensionUnit();
+				returnValue = (double) look.getYVelocityInUserInterfaceDimensionUnit();
 				break;
 			case OBJECT_LOOK_NUMBER:
 			case OBJECT_BACKGROUND_NUMBER:
@@ -825,7 +831,7 @@ public class FormulaElement implements Serializable {
 				returnValue = (lookData != null) ? lookData.getName() : "";
 				break;
 			case OBJECT_DISTANCE_TO:
-				returnValue = (double) sprite.look.getDistanceToTouchPositionInUserInterfaceDimensions();
+				returnValue = (double) look.getDistanceToTouchPositionInUserInterfaceDimensions();
 				break;
 			case NFC_TAG_MESSAGE:
 				returnValue = NfcHandler.getLastNfcTagMessage();
@@ -835,34 +841,28 @@ public class FormulaElement implements Serializable {
 				break;
 			case COLLIDES_WITH_EDGE:
 				if (StageActivity.stageListener != null) {
-					returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(sprite
-							.look) : 0d;
+					XmlHeader xmlHeader = currentProject.getXmlHeader();
+					returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(look, xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight) : 0d;
 				} else {
-					returnValue = 0d;
+					returnValue = FALSE;
 				}
 				break;
 			case COLLIDES_WITH_FINGER:
-				returnValue = CollisionDetection.collidesWithFinger(sprite.look);
+				returnValue = CollisionDetection.collidesWithFinger(look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints());
 				break;
 		}
 		return returnValue;
 	}
 
-	private Double interpretOperatorEqual(Object left, Object right) {
+	private boolean interpretOperatorEqual(Object left, Object right) {
+		String leftString = String.valueOf(left);
+		String rightString = String.valueOf(right);
 		try {
-			Double tempLeft = Double.valueOf(String.valueOf(left));
-			Double tempRight = Double.valueOf(String.valueOf(right));
-			int compareResult = getCompareResult(tempLeft, tempRight);
-			if (compareResult == 0) {
-				return 1d;
-			}
-			return 0d;
+			double tempLeft = Double.valueOf(leftString);
+			double tempRight = Double.valueOf(rightString);
+			return getCompareResult(tempLeft, tempRight) == 0;
 		} catch (NumberFormatException numberFormatException) {
-			int compareResult = String.valueOf(left).compareTo(String.valueOf(right));
-			if (compareResult == 0) {
-				return 1d;
-			}
-			return 0d;
+			return leftString.equals(rightString);
 		}
 	}
 
@@ -966,19 +966,15 @@ public class FormulaElement implements Serializable {
 				|| (rightChild != null && rightChild.containsElement(elementType)));
 	}
 
-	public boolean isUserVariableWithTypeString(Sprite sprite) {
+	public boolean isUserVariableWithTypeString(UserVariable userVariable) {
 		if (type == ElementType.USER_VARIABLE) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
-			UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
 			Object userVariableValue = userVariable.getValue();
 			return userVariableValue instanceof String;
 		}
 		return false;
 	}
 
-	private int handleLengthUserVariableParameter(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
+	private int handleLengthUserVariableParameter(UserVariable userVariable) {
 		Object userVariableValue = userVariable.getValue();
 		if (userVariableValue instanceof String) {
 			return String.valueOf(userVariableValue).length();
@@ -991,9 +987,7 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private int handleNumberOfItemsOfUserListParameter(Sprite sprite) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
+	private int handleNumberOfItemsOfUserListParameter(UserList userList) {
 		if (userList == null) {
 			return 0;
 		}
