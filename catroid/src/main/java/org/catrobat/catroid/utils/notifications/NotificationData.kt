@@ -27,9 +27,9 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.support.v4.app.NotificationCompat
+import java.io.Serializable
 
 data class NotificationData(
-    var contentIntent: PendingIntent,
     var notificationIconResId: Int,
     var programName: String,
     var titleWorking: String,
@@ -39,9 +39,14 @@ data class NotificationData(
     var progressInPercent: Int = 0,
     var maxProgress: Int = 0,
     var ongoing: Boolean = false,
-    var autoCancel: Boolean = false
-) {
-    fun toNotification(context: Context, channelId: String): Notification {
+    var autoCancel: Boolean = false,
+    val notificationID: Int
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 42
+    }
+
+    fun toNotification(context: Context, channelId: String, contentIntent: PendingIntent?): Notification {
         val title = (if (progressInPercent < maxProgress) titleWorking else titleDone) + " " + programName
         val text = if (progressInPercent < maxProgress) textWorking else textDone
 

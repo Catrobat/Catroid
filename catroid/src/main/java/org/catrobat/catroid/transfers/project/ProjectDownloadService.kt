@@ -24,6 +24,7 @@
 package org.catrobat.catroid.transfers.project
 
 import android.app.IntentService
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -33,13 +34,17 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CACHE_DIR
 import org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION
+import org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
 import org.catrobat.catroid.common.Constants.TMP_DIR_NAME
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
+import org.catrobat.catroid.ui.MainMenuActivity
 import org.catrobat.catroid.utils.ToastUtil
+import org.catrobat.catroid.utils.notifications.NotificationData
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
+import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager.CHANNEL_ID
 import org.catrobat.catroid.web.CatrobatServerCalls
 import org.catrobat.catroid.web.CatrobatServerCalls.DownloadErrorCallback
 import org.catrobat.catroid.web.CatrobatServerCalls.DownloadProgressCallback
@@ -55,7 +60,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         const val EXTRA_DOWNLOAD_NAME = "downloadName"
         const val EXTRA_URL = "url"
         const val EXTRA_RESULT_RECEIVER = "receiver"
-        const val EXTRA_NOTIFICATION_ID = "id"
+        const val EXTRA_NOTIFICATION_DATA = "notificationData"
         private const val DOWNLOAD_FILE_NAME = "down$CATROBAT_EXTENSION"
 
         const val UPDATE_PROGRESS_EXTRA = "progress"
@@ -83,9 +88,9 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             return
         }
 
-        val id = downloadIntent.getIntExtra(EXTRA_NOTIFICATION_ID, 0)
-        val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
-        val notification = statusBarNotificationManager.getNotification(this, id)
+        val notificationData = downloadIntent.getSerializableExtra(EXTRA_NOTIFICATION_DATA) as NotificationData
+        val notification = notificationData.toNotification(this, CHANNEL_ID, null)
+        val id = notificationData.notificationID
 
         startForeground(id, notification)
 
@@ -110,7 +115,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
                 },
                 object : DownloadProgressCallback {
                     override fun onProgress(progress: Long) {
-                        downloadProgressCallback(this@ProjectDownloadService, resultReceiver, id, progress)
+                        downloadProgressCallback(this@ProjectDownloadService, resultReceiver, notificationData, progress)
                     }
                 }
             )
@@ -124,24 +129,38 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         destinationFile: File,
         resultReceiver: ResultReceiver
     ) {
-        val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
-        val notificationId = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
+        val statusBarNotificationManager = StatusBarNotificationManager(context)
+        val notificationData = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
 
         try {
-                val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
-                ZipArchiver().unzip(destinationFile, projectDir)
+            val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+            ZipArchiver().unzip(destinationFile, projectDir)
 
-                XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
+            XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
 
-                statusBarNotificationManager.showOrUpdateNotification(context, notificationId, MAX_PERCENT)
-                resultReceiver.send(SUCCESS_CODE, Bundle())
-            } catch (exception: IOException) {
-                Log.i(TAG, exception.message)
-                statusBarNotificationManager
-                    .abortProgressNotificationWithMessage(context, notificationId, R.string.error_project_download)
+            val downloadIntent = Intent(context, MainMenuActivity::class.java)
+            downloadIntent.setAction(Intent.ACTION_MAIN)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .putExtra(EXTRA_PROJECT_NAME, projectName)
 
-                resultReceiver.send(ERROR_CODE, Bundle())
-            }
+            val pendingIntent = PendingIntent.getActivity(
+                context, notificationData.notificationID, downloadIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT
+            )
+            statusBarNotificationManager.showOrUpdateNotification(
+                context,
+                notificationData,
+                MAX_PERCENT,
+                pendingIntent
+            )
+            resultReceiver.send(SUCCESS_CODE, Bundle())
+        } catch (exception: IOException) {
+            Log.i(TAG, exception.message)
+            statusBarNotificationManager
+                .abortProgressNotificationWithMessage(context, notificationData, R.string.error_project_download)
+
+            resultReceiver.send(ERROR_CODE, Bundle())
+        }
     }
 
     private fun downloadErrorCallback(
@@ -149,23 +168,24 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         resultReceiver: ResultReceiver,
         projectName: String
     ) {
-            val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
-            val notificationId = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
-            statusBarNotificationManager.abortProgressNotificationWithMessage(context, notificationId, R.string.error_project_download)
+        val statusBarNotificationManager = StatusBarNotificationManager(context)
+        val notificationData = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
+        statusBarNotificationManager.abortProgressNotificationWithMessage(context, notificationData, R.string.error_project_download)
 
-            resultReceiver.send(ERROR_CODE, Bundle())
+        resultReceiver.send(ERROR_CODE, Bundle())
     }
 
     private fun downloadProgressCallback(
         context: Context,
         resultReceiver: ResultReceiver,
-        notificationId: Int,
+        notificationData: NotificationData,
         progress: Long
     ) {
-            StatusBarNotificationManager.getInstance().showOrUpdateNotification(context, notificationId, progress.toInt())
-            val bundle = Bundle()
-            bundle.putInt(UPDATE_PROGRESS_EXTRA, progress.toInt())
-            resultReceiver.send(UPDATE_PROGRESS_CODE, bundle)
+        StatusBarNotificationManager(context)
+            .showOrUpdateNotification(context, notificationData, progress.toInt(), null)
+        val bundle = Bundle()
+        bundle.putInt(UPDATE_PROGRESS_EXTRA, progress.toInt())
+        resultReceiver.send(UPDATE_PROGRESS_CODE, bundle)
     }
 
     private fun logWarning(warningMessage: String) {
