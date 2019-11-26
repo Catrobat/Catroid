@@ -668,18 +668,6 @@
     <string name="details_date_today">آج</string>
     <string name="import_project">پروجیکٹ درآمد کریں</string>
     <string name="error_import_project">پروجیکٹ کو درآمد کرتے وقت کچھ غلط ہو گیا.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">تازہ ترین پروجیکٹ ذخیرہ</string>
-    <string name="import_dialog_message">اب سے آپ کے آلے پر پوشیدہ علاقے میں منصوبوں کو ذخیرہ کیا جائے گا.
-         موجودہ منصوبوں کو اس چھپی ہوئی علاقہ میں \'منتقل یا\' کاپی کیا جا سکتا ہے. ان کو منتقل کرنے سے انہیں نکال دیا جائے گا
-         غیر محفوظ علاقے آپ اب بھی تمام منصوبوں تک رسائی حاصل کرنے کے قابل ہو جائیں گے، اور ان کو غیر محفوظ شدہ علاقے میں بعد میں برآمد کریں گے.
-         اگر آپ کو یقین نہیں ہے تو، \'منتقل\' کو منتخب کریں</string>
-    <string name="import_dialog_copy_btn">نقل بنائین</string>
-    <string name="import_dialog_move_btn">حر کت</string>
-    <string name="projects_successful_moved_toast">پروجیکٹ  کی کامیابی کے ساتھ منتقل ہو گیا ۔</string>
-    <string name="projects_successful_copied_toast">منصوبوں کی کامیابی سے نقل کیا ہے ۔</string>
-    <string name="error_during_copying_projects_toast">پراجیکٹ منتقلی کے دوران ایک خرابی واقع ہوئی.</string>
-    <!--  -->
     <string name="error_no_files_found">کوئی پروجیکٹ فائل نہیں ملی.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">نئے نوشتہ جات اضافہ کرنے کے لیے \"+\" پر کلک کریں</string>
@@ -791,55 +779,67 @@
     <string name="disclaimer_privacy_police_header_headline">خوش آمدید</string>
     <string name="disclaimer_privacy_policy_header">کوڈنگ شروع کرنے سے پہلے، براہ کرم ہماری رازداری کو پڑھ اور قبول کریں
          اے پی پی استعمال کرنے کی پالیسی:</string>
-    <string name="dialog_privacy_policy_text">آپ کو ہماری خدمات اور متعلقہ اکاؤنٹ کے تمام فوائد پیش کرنے کے لئے ضروری ہے کہ آپ سے مخصوص معلومات جمع ہوجائیں. \ n \ n
+    <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
+        it is necessary to collect certain data from you.\n\n
 
-        • ہماری خدمات (ایپپس اور ویب سائٹس) کو برقرار رکھنے اور بہتر بنانے اور آئی سی ٹی پر سائنسی تحقیقات کرنے کے لئے اور
-            STEM / STEAM تعلیم، ہم Google Analytics کا استعمال کرتے ہیں، Crashlytics، اور Firebase، تمام Google LLC (USA) کی طرف سے، حاصل کرنے کے لئے.
-            ہماری خدمات کے استعمال کے بارے میں میٹا ڈیٹا، مثال کے طور پر، حادثے کی معلومات، ٹائمیسٹیمپ، صفحات / اسکرینز کا دورہ کیا، ہمارے اطلاقات اور خدمات کا استعمال، استعمال کیا آپریٹنگ سسٹم، اور نیٹ ورک کے فراہم کنندہ کے بارے میں معلومات. یہ تجزیہ اور جمع کردہ ڈیٹا آپ کی پروفائل سے منسلک نہیں ہے اور اس میں کوئی ذاتی معلومات نہیں ہے (آئی پی ایڈریس کے آخری بٹس کو نامزد نہیں کیا جاتا ہے). تاہم، جمع کردہ ڈیٹا سروس فراہم کرنے والے (Google LLC، USA) میں منتقل ہو جائے گا. ڈیٹا پروسیسنگ گوگل LLC کے ساتھ ایک معاہدے پر مبنی ہے. سروس فراہم کرنے والے کے اس رشتے کو یورپی یونین کے جنرل ڈیٹا پروسیسنگ ریگولیٹری (یورپی یونین جی ڈی پی آر) اور یورپی یونین-امریکہ \"پرائیویسی شیلڈ\" کے معاہدے سے مطابقت رکھتا ہے. \ n \ n
-        • ہمارے نظام میں ایک اکاؤنٹ بنانے اور استعمال کرنے کے لئے، اور آپ کے ای میل کے بارے میں ضروری تبدیلیوں کے بارے میں آپ کو مطلع کرنے کے لئے، مثال کے طور پر، ہماری استعمال کی شرائط اور سروس کی شرائط، ہماری کمیونٹی کے قوانین، یا ہماری پالیسیوں کی خلاف ورزی، ہم اسٹور کریں گے. آپ کا اسم رکنیت اور، اگر آپ کی طرف سے فراہم کردہ، آپ کا ای میل ایڈریس. اگر آپ نے اپنے Google یا فیس بک اکاؤنٹ کے ذریعہ آپ کے اکاؤنٹ سے منسلک کیا ہے تو، ہم اس کے ساتھ ساتھ ایک شناخت کلید سے منسلک ہیں
-            ان خدمات پر آپ کے اکاؤنٹ میں. ہم اس ڈیٹا کو کسی دوسرے کے لئے استعمال نہیں کریں گے (مثال کے طور پر، مارکیٹنگ) کے مقاصد،
-            جب تک آپ نے واضح طور پر ہمیں ایسا کرنے کی اجازت نہیں دی. \ n \ n
+        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
+            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
+            usage of our apps and services, used operating system, and information about the network provider. This
+            analysis and the collected data is not linked to your profile and does not contain any personal
+            information (last bits of the IP address get anonymized). However, the collected data will get
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
+            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
+        • To create and use an account in our systems, and to inform you about necessary changes about your
+            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
+            our policies, we will store your username and, if provided by you, your e-mail address. If you have
+            connected your account via your Google or Facebook account, we additionally store an identification key connected
+            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
+            unless you explicitly allowed us to do so.\n\n
+        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+            site. This will get displayed on your public profile and only be used for statistical and research
+            purposes by us. It can be removed at any time in your profile settings.\n\n
+        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
+            account through your profile page on https://share.catrob.at. After deleting your account you will still
+            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
+            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
+            comments, etc., will be deleted.\n\n
+        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
+            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
+            together with a timestamp and the used internet address. This data will not be used by or forwarded to
+            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
+            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
+            individual basis by us first.\n\n
+        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
+            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
+            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
+            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
+            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
+            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
+            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
+        • All Services are provided by the free open source Catrobat project under the umbrella of the
+            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
+            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
+            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
+                c/o\n
+                Institute of Software Technology,\n
+                Graz University of Technology,\n
+                Inffeldgasse 16b,\n
+                A-8010 Graz, Austria\n
+                (European Union).\n\n
+        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
 
-        • رضاکارانہ بنیاد پر، آپ کو اپنے اکاؤنٹ کے ذریعہ اپنے اکاؤنٹ کے صفحے پر اشتراک کر سکتے ہیں
-            سائٹ. یہ آپ کی عوامی پروفائل پر دکھایا جائے گا اور صرف اعداد و شمار اور تحقیق کے لئے استعمال کیا جائے گا
-            ہمارے مقاصد. کسی بھی وقت آپ کی پروفائل کی ترتیبات میں اسے ہٹایا جا سکتا ہے. \ n \ n
-        • آپ کو کسی بھی وقت اپنے اکاؤنٹ سے متعلق ذاتی ڈیٹا کے استعمال سے آپ کو حذف کر کے لے جا سکتے ہیں
-            https://share.catrob.at پر اپنے پروفائل کے ذریعے اکاؤنٹ. اپنے اکاؤنٹ کو حذف کرنے کے بعد آپ اب بھی کریں گے
-            فراہم شدہ خدمات استعمال کرنے کے قابل ہو، لیکن تعاون کرنے کے لئے نہیں، مثال کے طور پر، پروگرام اپ لوڈ کرنے کے ذریعے،
-            تبصرہ، یا پسند. اس کے علاوہ، سبھی مواد کو آپ کے اکاؤنٹ سے منسلک کیا جاتا ہے، مثال کے طور پر، اپ لوڈ کردہ پروگرام،
-            تبصرے، وغیرہ کو حذف کردیا جائے گا. \ n \ n
+        Catrobat\'s official English language privacy policy is available on the web under
+        https://catrob.at/privacypolicy.\n\n
 
-        • ہماری خدمات کے غلط استعمال سے بچنے کے لئے، مثال کے طور پر، صارف کے ذریعہ غیر قانونی طور پر اپ لوڈ یا تبصرے میں حصہ لیا
-            مقاصد، تمام صارف پیدا کردہ عوامی ڈیٹا (اپ لوڈز، تبصرے) کو ایک ڈیٹا بیس میں اندرونی طور پر محفوظ کیا جائے گا،
-            ٹائمسٹیمپ اور استعمال کردہ انٹرنیٹ ایڈریس کے ساتھ مل کر. یہ ڈیٹا استعمال کرکے یا آگے نہیں کیا جائے گا
-            کسی بھی ادارے، جب تک کہ کافی غیر قانونی عمل معقول طور پر شبہ اور سرکاری طور پر مستحق ہیں
-            قانونی اداروں کو یہ قابل اطلاق قانون پر مبنی درخواست ہے. ہر معاملے کو ایک اچھی طرح سے جانچ پڑتال کی جائے گی
-            سب سے پہلے ہمارے ذریعہ انفرادی بنیاد. \ n \ n
-        • آپ کو رضاکارانہ طور پر فراہم کردہ https://catrob.at/newsletter پر Catrobat نیوز لیٹر کی سبسکرائب کر سکتے ہیں
-            MailChimp سروس کے ذریعہ ہم (راکٹ سائنس گروپ ایل ایل ڈی / بی میل میل، ایمپلیکس). تم اس کے بعد ہو
-            Catrobat منصوبے اور اس کی خدمات پر آپ کے فراہم کردہ ای میل ایڈریس پر تازہ ترین معلومات حاصل کریں. آپ واپس لے سکتے ہیں
-            ہر نیوز لیٹر کے فوٹر میں \"سبسکرائب کریں\" کا لنک استعمال کرتے ہوئے کسی بھی وقت نیوز لیٹر. یہ
-            نیوز لیٹر MailChimp کے ذریعہ فراہم کیا جاتا ہے جن کے ساتھ ہمارے ساتھ ڈیٹا پروسیسنگ کا معاہدہ ہے اور جس نے کیا کیا ہے
-            یورپی یونین کے جنرل ڈیٹا تحفظ ریگولیشن اور یورپی یونین-امریکہ \"پرائیویسی شیلڈ\". MailChimp پر مزید تفصیلات کے لئے
-            براہ کرم MailChimp کی رازداری کی پالیسی اور استعمال کی شرائط بھی دیکھیں. \ n \ n
+        Version 2.2, 17 October 2019\n\n
 
-        • تمام خدمات مفت چھتری کے تحت مفت کھلی منبع کیتروبیٹ منصوبے کی طرف سے فراہم کی جاتی ہیں
-            بین الاقوامی کیٹروبیٹ ایسوسی ایشن - ویرین ظفر فریئر سافٹ ویئر، غیر منافع بخش غیر سرکاری تنظیم کو شامل کیا گیا
-            گرز، آسٹریا (یورپی یونین) میں. ہماری پالیسیوں نے یورپی یونین اور آسٹریا کے اعداد و شمار کے تحفظ کے قانون کا احترام کیا ہے
-            (جی ڈی پی آر). ہمارے ساتھ رابطے میں حاصل کرنے کے لئے، براہ کرم contact@catrobat.org کو ای میل بھیجیں یا کاتروبیٹ کو بھیجیں، \ n
-                c / o \ n
-                سافٹ ویئر ٹیکنالوجی کے انسٹی ٹیوٹ، \ n
-                گرز یونیورسٹی آف ٹیکنالوجی، \ n
-                انفیلڈگاس 16 ب، \ n
-                A-8010 گرز، آسٹریا \ n
-                (یورپی یونین). \ n \ n
-        اگر آپ 14 سال کی عمر کے ذیل میں ہیں تو، یہ پالیسی قانونی سرپرست (عام طور پر والدین) کی طرف سے قبول کی جائے گی. \ n \ n
-        کیتروبٹ کی سرکاری انگریزی زبان کی رازداری کی پالیسی کے تحت ویب پر دستیاب ہے
-        https://catrob.at/privacypolicy.\n\n
-
-        ورژن 2.1، 25 جون 2018 \ n \ n
-
-        یہاں ہماری رازداری کی پالیسی (2.0) کا پچھلا، پرانا، ورژن تلاش کریں:</string>
+        Find the previous, outdated, version of our privacy policy (2.0) here:
+        http://developer.catrobat.org/privacy_policy_2-0
+    </string>
     <string name="dialog_privacy_policy_declined_text">رجسٹریشن کرنے کے لئے یا آپ کے اکاؤنٹ کو استعمال کرنے کے لئے پرائیویسی پالیسی سے اتفاق کرنے کے لئے ضروری ہے. اگر آپ اس ڈیٹا کو جمع کرنے کے لئے نہیں چاہتے ہیں، تو آپ اپنا حذف کرسکتے ہیں
          اپنے https://share.catrob.at/ ویب سائٹ پر اپنے پروفائل کے ذریعے اکاؤنٹ.</string>
     <!-- -->
@@ -990,7 +990,7 @@
     <string name="category_sound">آواز</string>
     <string name="category_control">کنٹرول</string>
     <string name="category_event">واقعہ</string>
-    <string name="category_user_bricks">میری اینٹوں</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">ڈیٹا</string>
     <string name="category_lego_nxt">لیگوNXT</string>
     <string name="category_lego_ev3">لیگوEV3</string>
@@ -1165,6 +1165,8 @@
     <string name="brick_change_variable">متغیر تبدیل کریں</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">تبصرہ شامل کریں یہاں&#8230;</string>
     <string name="brick_think_bubble_default_value">ہمی!</string>
     <string name="brick_say_bubble_default_value">ہیلو!</string>
@@ -1288,6 +1290,9 @@
     <!-- Error messages -->
     <string name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
     <string name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">نئی منصوبہ بنانے کے دوران کچھ غلط ہو گیا.</string>
     <string name="error_rename_scene">منظر تبدیل کرنے کے دوران کچھ غلط ہوا.</string>
     <string name="error_load_project">اس منصوبے کو لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
@@ -1326,7 +1331,7 @@
     <string name="notification_blueth_err">بلوٹوت کو فعال نہیں کر سکتے ہیں، براہ مہربانی دوبارہ کوشش کریں اور پھر دوبارہ کوشش کریں.</string>
     <string name="title_paired_devices">جوڑی آلات</string>
     <string name="title_other_devices">جوڑی آلات</string>
-    <string name="searching_devices">آلات تلاش کر رہے ہیں …</string>
+    <string name="searching_devices">آلات تلاش کر رہے ہیں &#8230;</string>
     <string name="button_scan">بلوٹوت آلات تلاش کریں</string>
     <string name="select_device">آلہ منتخب کریں:</string>
     <string name="connecting_please_wait">آپ کے آلہ سے جڑ رہا ہے ۔\n&#8230; براۓ مہربانی انتظار کريں</string>

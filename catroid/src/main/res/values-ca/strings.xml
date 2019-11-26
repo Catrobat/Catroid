@@ -24,12 +24,12 @@
   -->
 <resources>
     <!-- General terms -->
-    <string name="stage">Stage</string>
-    <string name="play">Play</string>
-    <string name="settings">Settings</string>
+    <string name="stage">Escenari</string>
+    <string name="play">Reproduir</string>
+    <string name="settings">Configuració</string>
     <string name="redo">Refés</string>
     <string name="undo">Desfés</string>
-    <string name="new_option">new&#8230;</string>
+    <string name="new_option">nova&#8230;</string>
     <string name="confirm">Confirma</string>
     <string name="cancel">Cancel·la</string>
     <string name="next">Següent</string>
@@ -41,67 +41,67 @@
     <string name="no">No</string>
     <string name="agree">Estic d\'acord</string>
     <string name="disagree">Cancel·la</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
+    <string name="select_all">Selecciona-ho tot</string>
+    <string name="deselect_all">Desselecciona-ho tot</string>
+    <string name="skip">omet</string>
+    <string name="warning">Advertència</string>
     <string name="error">Error</string>
     <string name="loading">Carregant&#8230;</string>
     <string name="please_wait">Si us plau, espera</string>
-    <string name="search_hint">Search&#8230;</string>
+    <string name="search_hint">Cerca&#8230;</string>
     <string name="backpack_add">Afegir a la motxilla</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="delete_account">Delete my account</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees">degrees</string>
+    <string name="delete_account">Elimina el meu compte</string>
+    <string name="logout_successful">S\'ha tancat la sessió</string>
+    <string name="degrees">graus</string>
     <string name="background">Fons</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="landscape">apaïsat</string>
+    <string name="portrait">vertical</string>
+    <string name="unknown">desconegut</string>
+    <string name="disconnect">Desconnecta\'t</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help">Help</string>
-    <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+    <string name="main_menu_continue">Continuar projecte</string>
+    <string name="main_menu_new">Nou projecte</string>
+    <string name="main_menu_programs">Projectes</string>
+    <string name="main_menu_help">Ajuda</string>
+    <string name="main_menu_web">Comunitat Catrobat</string>
+    <string name="main_menu_upload">Carregar projecte</string>
+    <string name="main_menu_rate_app">Valora\'ns!</string>
+    <string name="main_menu_terms_of_use">Condicions d\'ús i servei</string>
     <string name="main_menu_privacy_policy">Política de privacitat</string>
-    <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_about">Informació d\'aquesta aplicació</string>
+    <string name="main_menu_login">Iniciar sessió</string>
+    <string name="main_menu_logout">Tancar sessió</string>
+    <string name="main_menu_scratch_converter">Convertidor Scratch</string>
+    <string name="main_menu_play_store_not_installed">No s\'ha trobat l\'App store</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Creat amb</string>
+    <string name="marketing_app_details">Detalls d\'aquesta aplicació</string>
+    <string name="marketing_more_on_google_play">Més aplicacions a l\'App store</string>
     <!-- Settings activity -->
-    <string name="preference_title">Settings</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
+    <string name="preference_title">Configuració</string>
+    <string name="preference_title_language">Idioma</string>
+    <string name="preference_description_language">Estableix l\'idioma de l\'aplicació</string>
+    <string name="preference_title_accessibility">Accessibilitat</string>
+    <string name="preference_description_accessibility">Canvia l\'aspecte de l\'aplicació</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
+    <string name="preference_title_accessibility_profile">Perfils predeterminats</string>
+    <string name="preference_title_accessibility_profile_headline">Perfils</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Perfils predeterminats</string>
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
+    <string name="preference_title_accessibility_text_appearance">Estil del text</string>
     <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
+    <string name="preference_title_accessibility_category_icons_big">Icones grans</string>
+    <string name="preference_description_accessibility_category_icons_big">Augmentar el tamany de les icones.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
+    <string name="preference_title_accessibility_Brick_icons">Icones</string>
+    <string name="preference_title_accessibility_category_icons">Mostra icones</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
     <string name="preference_title_accessibility_high_contrast">High contrast</string>
     <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
@@ -113,13 +113,13 @@
     <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
     <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
     <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
+    <string name="preference_title_accessibility_font_style">Escull un tipus de font</string>
     <string name="accessibility_font_regular">Regular</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
+    <string name="accessibility_settings_applied">Canvis aplicats</string>
+    <string name="preference_access_title_profile_default">Per defecte</string>
+    <string name="preference_access_summary_profile_default">Configuració per defecte</string>
     <string name="preference_access_title_profile_custom">My custom profile</string>
     <string name="preference_access_summary_profile_custom">My personal settings</string>
     <string name="preference_access_title_profile_argus">Argus</string>
@@ -221,9 +221,9 @@
     </plurals>
     <string name="status_conversion_failed">Conversion failed!</string>
     <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
+    <string name="status_download_finished">Descarga finalitzada.</string>
+    <string name="status_download_canceled">Descàrrega cancel·lada!</string>
+    <string name="scratch_programs_in_progress_title">En curs</string>
     <string name="scratch_programs_finished_title">Converted projects</string>
     <string name="by_x">by %1$s</string>
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
@@ -608,18 +608,6 @@
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">Copia</string>
-    <string name="import_dialog_move_btn">Desplaça</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
-    <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
@@ -672,7 +660,7 @@
     <string name="sounds">Sounds</string>
     <string name="nfctags">NFC Tags</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">New project</string>
+    <string name="new_project_dialog_title">Nou projecte</string>
     <string name="new_project_empty">Create an empty project</string>
     <string name="new_project_default">Create an example project</string>
     <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
@@ -708,15 +696,15 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Condicions d\'ús i servei</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Condicions d\'ús i servei</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Condicions d\'ús i servei</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
@@ -735,13 +723,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -785,7 +775,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -944,7 +934,7 @@
     <string name="category_sound">Sound</string>
     <string name="category_control">Control</string>
     <string name="category_event">Esdeveniment</string>
-    <string name="category_user_bricks">My bricks</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
@@ -1119,6 +1109,8 @@
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">add comment here&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hello!</string>
@@ -1243,6 +1235,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">Something went wrong while uploading the project.</string>
     <string name="error_project_download">Something went wrong while downloading the project.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">Something went wrong while creating a new project.</string>
     <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
     <string name="error_load_project">Something went wrong while loading the project.</string>
@@ -1455,7 +1450,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text">graus</string>
     <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->

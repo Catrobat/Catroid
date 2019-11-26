@@ -48,93 +48,91 @@
     <string name="error">ผิดพลาด</string>
     <string name="loading">กำลังโหลด&#8230;</string>
     <string name="please_wait">โปรดรอสักครู่</string>
-    <string name="search_hint">Search&#8230;</string>
-    <string name="backpack_add">Add to backpack</string>
-    <string name="share_website_text">share.catrob.at</string>
+    <string name="search_hint">ค้นหา&#8230;</string>
+    <string name="backpack_add">เพิ่มไปยังชุดข้อมูล</string>
+    <string name="share_website_text">แชร์เว็บไซต์</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="delete_account">Delete my account</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees">degrees</string>
+    <string name="loading_check_oauth_token">กำลังตรวจสอบข้อมูลการเข้าสู่ระบบ…</string>
+    <string name="loading_google_exchange_code">กำลังแลกเปลี่ยนข้อมูลการลงชื่อเข้าใช้ Google…</string>
+    <string name="loading_google_login">การเข้าสู่ระบบ Google บนเซิร์ฟเวอร์ของเราเสร็จสมบูรณ์…</string>
+    <string name="delete_account">ลบบัญชีของฉัน</string>
+    <string name="logout_successful">ออกจากระบบสำเร็จ</string>
+    <string name="degrees">องศา</string>
     <string name="background">พื้นหลัง</string>
-    <string name="landscape">landscape</string>
+    <string name="landscape">ภูมิประเทศ</string>
     <string name="portrait">แนวตั้ง</string>
     <string name="unknown">ไม่รู้จัก</string>
     <string name="disconnect">ตัดการเชื่อมต่อ</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">ดำเนินการโครงการ</string>
+    <string name="main_menu_new">โครงการใหม่</string>
     <string name="main_menu_programs">โปรแกรม</string>
     <string name="main_menu_help">ช่วยเหลือ</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">ชุมชน Catrobat</string>
     <string name="main_menu_upload">อัพโหลดโปรแกรม</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+    <string name="main_menu_rate_app">ให้คะแนนเรา</string>
+    <string name="main_menu_terms_of_use">ข้อกำหนดการใช้งานและบริการ</string>
     <string name="main_menu_privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <string name="main_menu_about">เกี่ยวกับ App นี้</string>
     <string name="main_menu_login">เข้าสู่ระบบ</string>
     <string name="main_menu_logout">ออกจากระบบ</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_scratch_converter">ตัวแปลงรอยขีดข่วน</string>
+    <string name="main_menu_play_store_not_installed">ไม่พบ App store</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">สร้างด้วย</string>
+    <string name="marketing_app_details">รายละเอียดเกี่ยวกับแอพนี้</string>
+    <string name="marketing_more_on_google_play">แอพเพิ่มเติมใน App Store</string>
     <!-- Settings activity -->
     <string name="preference_title">การตั้งค่า</string>
     <string name="preference_title_language">ภาษา</string>
-    <string name="preference_description_language">Set the app\'s language</string>
+    <string name="preference_description_language">ตั้งค่าภาษาของแอพ</string>
     <string name="preference_title_accessibility">การ​เข้า​ใช้​งาน</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
+    <string name="preference_description_accessibility">เปลี่ยนรูปลักษณ์ของแอพ</string>
+    <string name="preference_title_accessibility_profiles">โปรไฟล์การเข้าถึง</string>
+    <string name="preference_title_accessibility_profile">โปรไฟล์ที่กำหนดไว้ล่วงหน้า</string>
     <string name="preference_title_accessibility_profile_headline">โปรไฟล์</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">โปรไฟล์ที่กำหนดไว้ล่วงหน้า</string>
+    <string name="preference_description_accessibility_profiles">เลือกโปรไฟล์การเข้าถึงที่กำหนดไว้ล่วงหน้า</string>
+    <string name="preference_title_accessibility_text_appearance">ลักษณะข้อความ</string>
+    <string name="preference_title_accessibility_handling">การจัดการ</string>
+    <string name="preference_title_accessibility_category_icons_big">ไอคอนขนาดใหญ่</string>
+    <string name="preference_description_accessibility_category_icons_big">เพิ่มขนาดไอคอน</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">ไอคอนความคมชัดสูง</string>
+    <string name="preference_title_accessibility_Brick_icons">ไอคอน</string>
+    <string name="preference_title_accessibility_category_icons">แสดงไอคอน</string>
+    <string name="preference_description_accessibility_category_icons">เพิ่มไอคอนให้กับหมวดหมู่และอิฐ</string>
+    <string name="preference_title_accessibility_high_contrast">ความคมชัดสูง</string>
+    <string name="preference_description_accessibility_high_contrast">เพิ่มความคมชัดข้อความ</string>
+    <string name="preference_description_accessibility_large_text">เพิ่มขนาดตัวอักษร</string>
+    <string name="preference_title_accessibility_large_text">ข้อความขนาดใหญ่</string>
+    <string name="preference_title_accessibility_element_spacing">ระยะห่างองค์ประกอบขนาดใหญ่</string>
+    <string name="preference_description_accessibility_element_spacing">เพิ่มระยะห่างองค์ประกอบในรายการ</string>
+    <string name="preference_title_accessibility_dragndrop_delay">ลากเลื่อนการหน่วงเวลา</string>
+    <string name="preference_description_accessibility_dragndrop_delay">ลากเลื่อนการหน่วงเวลาสำหรับอิฐ</string>
+    <string name="preference_title_accessibility_beginner_bricks">โหมดเริ่มต้น</string>
+    <string name="preference_description_accessibility_beginner_bricks">แสดงคุณสมบัติที่เรียบง่ายเท่านั้น</string>
+    <string name="preference_title_accessibility_font_style">เลือกประเภทข้อความ</string>
+    <string name="accessibility_font_regular">ประจำ</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
+    <string name="accessibility_settings_applied">นำการเปลี่ยนแปลงมาใช้</string>
+    <string name="preference_access_title_profile_default">ค่าเริ่มต้น</string>
     <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
-    <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-    <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
-    <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
+    <string name="preference_access_title_profile_custom">โปรไฟล์ที่กำหนดเองของฉัน</string>
+    <string name="preference_access_summary_profile_custom">การตั้งค่าส่วนตัวของฉัน</string>
+    <string name="preference_access_title_profile_argus">อาร์กัส</string>
+    <string name="preference_access_summary_profile_argus">ความคมชัดสูง, ไอคอนเพิ่มเติม</string>
+    <string name="preference_access_title_profile_odin">โอดิน</string>
+    <string name="preference_access_summary_profile_odin">ข้อความขนาดใหญ่, ไอคอนขนาดใหญ่, ระยะห่างองค์ประกอบขนาดใหญ่, ความคมชัดสูง</string>
+    <string name="preference_access_title_profile_fenrir">เฟนเรีย</string>
+    <string name="preference_access_summary_profile_fenrir">ระยะห่างองค์ประกอบขนาดใหญ่, ลาก\'n\'เลื่อนการหน่วงเวลา</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_access_summary_profile_tiro">โหมดเริ่มต้น</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_description_quadcopter_bricks">อนุญาตให้แอปควบคุม Parrot AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
     <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
@@ -185,90 +183,94 @@
         Please wait until it is downloaded.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
         Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">ฉันไม่สามารถแปลง %1$s ได้  ดูเหมือนว่าจะเป็นโครงการเก่าก่อนหน้า %2$s  โปรดลองอันอื่น</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="other">คุณไม่สามารถแปลงมากกว่า %d โครงการได้ในเวลาเดียวกัน  โปรดรอให้การแปลงที่ดำเนินการเสร็จสิ้นก่อน
+
+ คุณไม่สามารถแปลงมากกว่า %d โครงการได้ในเวลาเดียวกัน  โปรดรอให้การแปลงที่ดำเนินการเสร็จสิ้นก่อน</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">คุณไม่สามารถเปิดโครงการเพราะมันไม่ได้แปลงอย่างถูกต้อง  โปรดลองแปลงอีกครั้ง</string>
+    <string name="search_failed">ไม่พบสิ่งใดโปรดลองอีกครั้งในภายหลัง</string>
+    <string name="connection_lost_or_closed_by_server">การเชื่อมต่อเซิร์ฟเวอร์ขาดหาย</string>
+    <string name="connection_failed">เราไม่สามารถเชื่อมต่อคุณกับเซิร์ฟเวอร์ได้ในขณะนี้โปรดลองอีกครั้งในภายหลัง</string>
+    <string name="authentication_failed">ดูเหมือนว่าจะมีปัญหากับการเชื่อมต่อกับบริการของคุณ  กรุณาติดต่อทีม Catrobat</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="other">เพิ่ม %d โครงการไปยังคิว…
+
+เพิ่ม %d โครงการไปยังคิว…</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
-    <string name="status_scheduled">Scheduled</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="scratch_conversion_started">เริ่มแปลงโครงการแล้ว…</string>
+    <string name="convert">แปลง</string>
+    <string name="converting">แปลง…</string>
+    <string name="status_scheduled">ตามเวลาที่กำหนด</string>
+    <string name="status_waiting_for_worker">กำลังมองหาคนทำงานฟรี… โปรดรอสักครู่…</string>
+    <string name="status_started">เริ่มต้น…</string>
+    <string name="status_conversion_finished">การแปลงเสร็จสิ้น</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="other">กำลังดำเนินการ %d งาน
+
+กำลังดำเนินการ %d งาน</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="other">เสร็จงาน %d
+
+เสร็จงาน %d</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
-    <string name="remixes">Remixes</string>
+    <string name="status_conversion_failed">การแปลงล้มเหลว!</string>
+    <string name="status_downloading">ดาวน์โหลด…</string>
+    <string name="status_download_finished">การดาวน์โหลดเสร็จสิ้น</string>
+    <string name="status_download_canceled">ยกเลิกการดาวน์โหลด!</string>
+    <string name="scratch_programs_in_progress_title">กำลังดำเนินการ</string>
+    <string name="scratch_programs_finished_title">โครงการที่แปลงแล้ว</string>
+    <string name="by_x">โดย %1$s</string>
+    <string name="warning_program_visibility">คำเตือน: \n นี่เป็นโครงการส่วนตัว  คุณสามารถลองแปลงได้ แต่มันอาจไม่ทำงาน</string>
+    <string name="instructions">คำแนะนำ</string>
+    <string name="notes_and_credits">หมายเหตุและเครดิต</string>
+    <string name="shared_at_x">แบ่งปัน: %1$s</string>
+    <string name="modified_at_x">แก้ไขแล้ว: %1$s</string>
+    <string name="remixes">ผสม</string>
     <!--  -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Stage size:</string>
-    <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
+    <string name="author">ผู้แต่ง:</string>
+    <string name="screen_size">ขนาดเวที:</string>
+    <string name="mode">โหมด:</string>
+    <string name="remix_of">เรียบเรียงจาก:</string>
+    <string name="description_hint">กดเพื่อเพิ่มคำอธิบาย</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">คุณแปลงโครงการนี้ %1$s ที่ผ่านมา</string>
     <plurals name="minutes">
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d นาที
+%d นาที</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d ชั่วโมง
+%d ชั่วโมง</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d วัน
+%d วัน</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">ดาวน์โหลดโครงการอีกครั้ง</string>
+    <string name="reconvert_dialog_reconvert">แปลงโครงการนี้อีกครั้ง</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_privacy_agreement_alert">ในการใช้แอพของเราจำเป็นต้องยอมรับนโยบายความเป็นส่วนตัวของเรา  อย่างไรก็ตามหากคุณไม่สะดวกที่จะทำคุณสามารถใช้บริการเว็บฟรีของเราได้</string>
+    <string name="wtf_error">มีข้อผิดพลาดที่ไม่คาดคิดเกิดขึ้น: ฉันไม่สามารถกู้คืนโปรเจ็กต์ตัวอย่างได้</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">เกิดข้อผิดพลาดขณะคัดลอกโครงการ</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">ชื่อนี้มีการใช้งานแล้วโปรดเลือกชื่ออื่น</string>
+    <string name="name_consists_of_spaces_only">คุณใส่ช่องว่างลงในช่องข้อความเท่านั้นโปรดป้อนข้อความโดยใช้ตัวอักษรตัวเลขหรืออักขระพิเศษอื่น ๆ</string>
+    <string name="name_empty">กรุณากรอกข้อความ</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
-    <string name="am_backpack">Pack</string>
+    <string name="am_empty_list">ยังไม่มีรายการในรายการนี้ กรุณาเพิ่มก่อน</string>
+    <string name="am_merge_error">ไม่ทำการผสาน ต้องเลือกโครงการ 2 รายการเพื่อรวมเข้าด้วยกัน</string>
+    <string name="am_backpack">เก็บ</string>
     <string name="am_unpack">Unpack</string>
     <string name="am_copy">คัด​ลอก</string>
     <string name="am_delete">ลบ</string>
     <string name="am_rename">เปลี่ยนชื่อ</string>
-    <string name="am_convert">Convert</string>
+    <string name="am_convert">แปลง</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
@@ -416,70 +418,80 @@
         <item quantity="other">Delete these tags?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="other">ลบสคริปต์นี้หรือไม่
+ลบสคริปต์เหล่านี้หรือไม่</item>
     </plurals>
     <plurals name="delete_bricks">
-        <item quantity="other">Delete these bricks?</item>
+        <item quantity="other">ลบอิฐนี้หรือไม่
+ลบอิฐเหล่านี้หรือไม่</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
-    <string name="scene_name_label">Scene name</string>
-    <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
+    <string name="project_name_label">ชื่อโครงการ</string>
+    <string name="scene_name_label">ชื่อฉาก</string>
+    <string name="sprite_name_label">นักแสดงหรือชื่อวัตถุ</string>
+    <string name="sprite_group_name_label">ชื่อกลุ่ม</string>
+    <string name="script_group_label">ชื่อกลุ่มสคริปต์</string>
+    <string name="look_name_label">ดูชื่อ</string>
     <string name="sound_name_label">ชื่อของเสียง</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
+    <string name="nfc_tag_name_label">ชื่อแท็ก NFC</string>
+    <string name="string_label">ข้อความ</string>
+    <string name="data_label">ชื่อ</string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">การเข้าถึงล่าสุด: %s ขนาด: %s</string>
+    <string name="last_access_today">วันนี้ %s</string>
+    <string name="scene_details">นักแสดงและวัตถุ: %d ดู: %d เสียง: %d</string>
+    <string name="sprite_details">อิฐ: %d ดู: %d เสียง: %d</string>
+    <string name="look_details">ความละเอียด: %s ขนาด: %s</string>
+    <string name="sound_duration">ระยะเวลา: %s</string>
+    <string name="sound_details">ระยะเวลา: %s ขนาด: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">เปลี่ยนชื่อโปรแกรม</string>
-    <string name="rename_scene_dialog">Rename scene</string>
+    <string name="rename_scene_dialog">เปลี่ยนชื่อฉาก</string>
     <string name="rename_sprite_dialog">เปลี่ยนชื่อวัตถุ</string>
     <string name="rename_look_dialog">เปลี่ยนชื่อรูปลักษณ์</string>
     <string name="rename_sound_dialog">เปลี่ยนชื่อเสียง</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
+    <string name="rename_nfctag_dialog">เปลี่ยนชื่อแท็ก NFC</string>
     <string name="rename_data_dialog">เปลี่ยนชื่อ</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
+    <string name="new_group">กลุ่มใหม่</string>
     <!-- New Scene Menu -->
-    <string name="new_scene">New scene</string>
+    <string name="new_scene">ฉากใหม่</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="other">แบ็คแพ็ค %d ฉาก
+แบ็คแพ็ค %d ฉาก</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="other">ชุดข้อมูล %d นักแสดงหรือวัตถุ
+ชุดข้อมูล %d นักแสดงหรือวัตถุ</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="other">ชุดข้อมูล %d ดู
+ชุดข้อมูล %d ดู</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="other">ชุดข้อมูล %d เสียง
+ชุดข้อมูล %d เสียง</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">ชุดข้อมูลสคริปต์หนึ่งกลุ่ม</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="other">แยก %d ออก
+แยก %d ออก</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="other">แยก %d นักแสดงหรือวัตถุ
+แยก %d นักแสดงหรือวัตถุ</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="other">แยก %d ดู
+แยก %d ดู</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="other">แยก %d เสียง
+แยก %d เสียง</item>
     </plurals>
     <plurals name="unpacked_scripts">
         <item quantity="other">Unpacked %d scripts.</item>
@@ -535,18 +547,6 @@
     <string name="details_date_today">วันนี้</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">คัด​ลอก</string>
-    <string name="import_dialog_move_btn">เคลื่อน</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
-    <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">เคาะ \"+\" เพื่อเพิ่มสคริปต์</string>
@@ -635,15 +635,15 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">ข้อกำหนดการใช้งานและบริการ</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">ข้อกำหนดการใช้งานและบริการ</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">ข้อกำหนดการใช้งานและบริการ</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
@@ -662,13 +662,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -712,7 +714,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -871,7 +873,7 @@
     <string name="category_sound">เสียง</string>
     <string name="category_control">ควบคุม</string>
     <string name="category_event">Event</string>
-    <string name="category_user_bricks">ก้อนคำสั่งของฉัน</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">ข้อมูล</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
@@ -1042,6 +1044,8 @@
     <string name="brick_change_variable">เปลี่ยนค่าตัวแปร</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">เพิ่มความคิดเห็นที่นี่&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">สวัสดี!</string>
@@ -1166,6 +1170,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
     <string name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">เกิดข้อผิดพลาดขณะสร้างโปรแกรมใหม่</string>
     <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
     <string name="error_load_project">เกิดข้อผิดพลาดขณะโหลดโปรแกรม</string>
@@ -1378,7 +1385,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text">องศา</string>
     <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
