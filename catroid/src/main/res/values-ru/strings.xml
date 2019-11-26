@@ -52,7 +52,7 @@
     <string name="backpack_add">Положить в рюкзак</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Проверка входа…</string>
+    <string name="loading_check_oauth_token">Проверка входа&#8230;</string>
     <string name="loading_google_exchange_code">Обмен данными Google&#8230;</string>
     <string name="loading_google_login">Логин в Google+ на нашем сервере был произведен&#8230;</string>
     <string name="delete_account">Удалить мой аккаунт</string>
@@ -751,18 +751,6 @@
     <string name="details_date_today">Сегодня</string>
     <string name="import_project">Импортировать проект</string>
     <string name="error_import_project">Что-то пошло не так при импорте проектов.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Хранилище проектов обновлено</string>
-    <string name="import_dialog_message">С этого момента проекты будут храниться в скрытой области на вашем устройстве.
-        Существующие проекты могут быть либо \'перемещены\' или \'скопированы\' в эту скрытую область. \'Перемещение\' их удалит из
-        незащищенной области. Вы все еще сможете получить доступ ко всем проектам и экспортировать их позже в незащищённую область.
-        Если вы не уверены, выберите \'Переместить\'.</string>
-    <string name="import_dialog_copy_btn">Копировать</string>
-    <string name="import_dialog_move_btn">Идти</string>
-    <string name="projects_successful_moved_toast">Проекты успешно перемещены.</string>
-    <string name="projects_successful_copied_toast">Проекты успешно скопированы.</string>
-    <string name="error_during_copying_projects_toast">Произошла ошибка при переносе проекта.</string>
-    <!--  -->
     <string name="error_no_files_found">Файлы проекта не найдены.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Нажмите «+» чтобы добавить скрипт</string>
@@ -874,63 +862,65 @@
     <string name="disclaimer_privacy_police_header_headline">Добро пожаловать!</string>
     <string name="disclaimer_privacy_policy_header">Перед тем как вы начнете программировать, пожалуйста прочтите и примите
         нашу Политику конфиденциальности для использования приложения:</string>
-    <string name="dialog_privacy_policy_text">Чтобы предоставить Вам все преимущества наших сервисов и ассоциированный  аккаунт,
-        нам необходимо собрать от вас некоторые данные.\n\n
+    <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
+        it is necessary to collect certain data from you.\n\n
 
-        • Для поддержания и улучшения наших сервисов (приложений и сайтов) и для научных исследований на ICT и
-            образовании STEM/STEAM, мы используем Google Analytics, Crashlytics, и Firebase, все предоставлено Google LLC (USA), чтобы получить
-            метаданные об использовании наших сервисов, например, информации об ошибках, временных меток, посещенных страниц,
-            использовании наших приложений, использованных операционных систем и информации о поставщике услуг связи. Этот
-            анализ и собранные данные не связаны с вашим профилем и не содержат никакую персональную
-            информацию (последние биты IP будут анонимны). Тем не менее, собранная информация будет
-            передана к поставщику услуг (Google LLC, USA). Обработка информации основана на соглашении с
-            Google LLC. Эта связь с поставщиком услуг соответствует общему регламенту по защите данных
-            Европейского союза (EU GDPR) и соглашению EU-USA \"Privacy Shield\".\n\n
-        • Для создания и использования учетной записи в наших системах и для информирования Вас о необходимых изменениях в вашей
-            учетной записи по e-mail, например, об обновлении или нарушении наших Условий использования и обслуживания, наших правил сообщества или
-            наших политик, мы будем хранить ваше имя пользователя и, если это предусмотрено Вами, ваш адрес электронной почты. Если вы
-            подключили свой аккаунт через Google Plus или Facebook, мы дополнительно храним идентификационный ключ, подключенный
-            к вашей учетной записи на данных сервисах. Мы не будем использовать эти данные для любых других (например, маркетинговых) целей,
-            если вы явно не разрешите нам это сделать.\n\n
-        • На добровольной основе вы можете предоставить нам страну проживания через страницу вашего аккаунта на сайте.
-            Это будет отображаться в вашем публичном профиле и использоваться только для статистических и исследовательских
-            целей. Это может быть убрано в любое время в настройках вашего профиля.\n\n
-        • Ты можешь убрать использование персональных данных, принадлежащих твоему аккаунту в любое время удалением твоего
-            аккаунта через страницу профиля https://share.catrob.at/. После удаления твоего аккаунта, ты все еще
-            сможешь использовать предоставленные сервисы, но не взаимодействовать, например, через загрузку программ,
-            комментирование, либо лайки. Также, все предоставленные материалы, связанные с вашим аккаунтом, например, загруженные программы,
-            комментарии, и т.д., будут удалены.\n\n
-        • Во избежание неправильного использования наших услуг, например, посредством загрузки или комментариев пользователей в незаконных
-            целях, все данные, созданные пользователем (загрузки, комментарии) будут храниться внутри базы данных
-            вместе с отметкой времени и интернет адресом. Эти данные не будут использоваться, либо направлены в
-            какие-либо учреждения, пока не будут действительно заподозрены в нелегальных действиях, и пока официально уполномоченные
-            правовые институты не запросят их на основании применимого законодательства. Каждый случай сначала будет тщательно
-            рассмотрен нами на индивидуальной основе.\n\n
-        • Вы можете добровольно подписаться на рассылку новостей от Catrobat, на https://catrob.at/newsletter предоставляемых
-            нами через службу MailChimp (The Rocket Science Group LLC d/b/a MailChimp, USA). Затем вы
-            будете получать информацию об обновлениях проекта Catrobat и его сервисов на указанный e-mail адрес. Вы можете отписаться
-            от рассылки в любое время, используя ссылку «отписаться» в нижней части каждого письма. Эта
-            рассылка обеспечивается MailChimp, с которыми у нас есть соглашения об обработке данных, и которые следуют
-            общему регламенту по защите данных ЕС и «Privacy Shield» EU-USA. Для получения более подробной информации о MailChimp,
-            пожалуйста, посмотрите политику конфиденциальности и условия использования MailChimp.\n\n
-        • Все сервисы предоставлены некоммерческим проектом Catrobat с открытым исходным кодом под эгидой
-            Международной Ассоциации Catrobat – Verein zur Förderung freier Software, некоммерческой общественной организацией, расположенной
-            в Грац, Австрия (Европейский Союз). Наша политика учитывает законы ЕС и Австрии о защите данных
-            (GDPR). Чтобы связаться с нами, пишите на наш электронный адрес contact@catrobat.org или присылайте письма по адресу Catrobat,\n
-c/o\n
-Institute of Software Technology,\n
-Graz University of Technology,\n
-Inffeldgasse 16b,\n
-A-8010 Graz, Austria\n
-(European Union).\n\n
-        Если вы младше 14 лет, соглашение с политикой конфиденциальности должен дать законный представитель (обычно родитель).\n\n
+        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
+            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
+            usage of our apps and services, used operating system, and information about the network provider. This
+            analysis and the collected data is not linked to your profile and does not contain any personal
+            information (last bits of the IP address get anonymized). However, the collected data will get
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
+            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
+        • To create and use an account in our systems, and to inform you about necessary changes about your
+            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
+            our policies, we will store your username and, if provided by you, your e-mail address. If you have
+            connected your account via your Google or Facebook account, we additionally store an identification key connected
+            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
+            unless you explicitly allowed us to do so.\n\n
+        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
+            site. This will get displayed on your public profile and only be used for statistical and research
+            purposes by us. It can be removed at any time in your profile settings.\n\n
+        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
+            account through your profile page on https://share.catrob.at. After deleting your account you will still
+            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
+            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
+            comments, etc., will be deleted.\n\n
+        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
+            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
+            together with a timestamp and the used internet address. This data will not be used by or forwarded to
+            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
+            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
+            individual basis by us first.\n\n
+        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
+            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
+            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
+            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
+            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
+            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
+            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
+        • All Services are provided by the free open source Catrobat project under the umbrella of the
+            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
+            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
+            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
+                c/o\n
+                Institute of Software Technology,\n
+                Graz University of Technology,\n
+                Inffeldgasse 16b,\n
+                A-8010 Graz, Austria\n
+                (European Union).\n\n
+        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
 
-        Официальная политика Catrbat на английском языке доступна на
+        Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Версия 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
-        Найти предыдущую, устаревшую версию нашей политики конфиденциальности (2.0) можно здесь:
+        Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
     <string name="dialog_privacy_policy_declined_text">Необходимо согласиться с политикой конфиденциальности, чтобы зарегестрироваться
@@ -1087,7 +1077,7 @@ A-8010 Graz, Austria\n
     <string name="category_sound">Звук</string>
     <string name="category_control">Управление</string>
     <string name="category_event">Событие</string>
-    <string name="category_user_bricks">Мои блоки</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Данные</string>
     <string name="category_lego_nxt">Лего NXT</string>
     <string name="category_lego_ev3">EV3 Лего</string>
@@ -1270,6 +1260,8 @@ A-8010 Graz, Austria\n
     <string name="brick_change_variable">Изменить значение</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">новое примечание&#8230;</string>
     <string name="brick_think_bubble_default_value">Хмммм!</string>
     <string name="brick_say_bubble_default_value">Привет!</string>
@@ -1391,6 +1383,9 @@ A-8010 Graz, Austria\n
     <!-- Error messages -->
     <string name="error_project_upload">Произошла ошибка во время закачивания проекта.</string>
     <string name="error_project_download">Произошла ошибка во время скачивания проекта.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">Произошла ошибка при создании нового проекта.</string>
     <string name="error_rename_scene">Что-то пошло не так при переименовании сцены.</string>
     <string name="error_load_project">Произошла ошибка во время загрузки проекта.</string>
