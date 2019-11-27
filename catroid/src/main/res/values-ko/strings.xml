@@ -52,9 +52,9 @@
     <string name="backpack_add">스크립트 모음에 추가</string>
     <string name="share_website_text">공유</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">로그인 데이터 확인…</string>
-    <string name="loading_google_exchange_code">Google + 데이터 교환중…</string>
-    <string name="loading_google_login">Google+ 로그인 완료…</string>
+    <string name="loading_check_oauth_token">로그인 데이터 확인&#8230;</string>
+    <string name="loading_google_exchange_code">Google + 데이터 교환중&#8230;</string>
+    <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
     <string name="delete_account">내 계정 삭제</string>
     <string name="logout_successful">로그아웃 성공</string>
     <string name="degrees">도</string>
@@ -517,17 +517,6 @@
     <string name="details_date_today">오늘</string>
     <string name="import_project">프로젝트 가져오기</string>
     <string name="error_import_project">프로젝트를 가져오는 동안 문제가 발생했습니다.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">최근 파일 보관</string>
-    <string name="import_dialog_message">이 프로젝트부터 이 디바이스에 저장됩니다.
-현재 프로젝트는 \'이동\'하거나 \'복사\'할 수 있습니다. \'이동\'하면 자유롭게 제거할 수 있습니다. 모든 프로젝트을 사용할 수 있으며, 자유롭게 이동할 수 있다.
-궁금하면, \'이동\'해 보세요.</string>
-    <string name="import_dialog_copy_btn">복사하기</string>
-    <string name="import_dialog_move_btn">움직이기</string>
-    <string name="projects_successful_moved_toast">프로젝트 이동됨.</string>
-    <string name="projects_successful_copied_toast">프로젝트 복사됨.</string>
-    <string name="error_during_copying_projects_toast">프로젝트 이동 중에 오류가 발생했습니다.</string>
-    <!--  -->
     <string name="error_no_files_found">프로젝트를 찾을 수 없습니다</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">스크립트를 추가하려면 \"+\"를 터치</string>
@@ -589,8 +578,8 @@
     <string name="project_select_screen_title">화면</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">병합된 프로젝트</string>
+    <string name="merging_project_text">이 두 프로젝트는 병합될 수 없습니다</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">새 오브젝트</string>
@@ -636,13 +625,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -686,7 +677,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -837,7 +828,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="category_sound">소리</string>
     <string name="category_control">제어</string>
     <string name="category_event">이벤트</string>
-    <string name="category_user_bricks">내 블록</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">변수</string>
     <string name="category_lego_nxt">레고 NXT</string>
     <string name="category_lego_ev3">레고 EV3</string>
@@ -995,7 +986,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_assert_that">실행:</string>
     <string name="brick_is_equal_to">예상:</string>
     <string name="brick_wait_till_idle">다른 스크립트가 정지할 때까지 기다리기</string>
-    <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_tap_at">"한 번 누르기"</string>
     <plurals name="time_plural">
         <item quantity="other">번</item>
     </plurals>
@@ -1008,6 +999,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_change_variable">변수 바꾸기</string>
     <string name="brick_write_variable_on_device">변수 저장하기</string>
     <string name="brick_read_variable_from_device">변수 불러오기</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">여기에 코멘트를 추가&#8230;</string>
     <string name="brick_think_bubble_default_value">흠!</string>
     <string name="brick_say_bubble_default_value">안녕하세요!</string>
@@ -1128,6 +1121,9 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!-- Error messages -->
     <string name="error_project_upload">프로그램을 업로드하는 중에 오류가 발생했습니다.</string>
     <string name="error_project_download">프로그램을 다운로드하는 동안 오류가 발생했습니다.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">새로운 프로그램을 생성하는 동안 오류가 발생했습니다.</string>
     <string name="error_rename_scene">장면 이름 변경하는 동안 오류가 발생했습니다.</string>
     <string name="error_load_project">프로그램을 로드하는 동안 오류가 발생했습니다.</string>
@@ -1230,7 +1226,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="lego_port_3">포트 3</string>
     <string name="lego_port_4">포트 4</string>
     <string name="lego_sensor_config_dont_show_again">이 메시지를 다시 표시하지 않음</string>
-    <string name="lego_sensor_port_config_dialog_title">%1$s에 연결하는 포트를 선택하세요.</string>
+    <string name="lego_sensor_port_config_dialog_title">%1$s 연결하는 포트를 선택하세요.</string>
     <string name="lego_ev3_sensor_config_info_title">EV3 센서 구성</string>
     <string name="preference_disable_ev3_info_dialog_description">프로그램 특정 EV3 설정 프로그램을 열 때 표시되지 않습니다.</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">EV3 센서 포트의 연결은 특수하여 열린 프로그램에 대해서만 구성할 수 있습니다!</string>
@@ -1704,8 +1700,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="deletion_alert_yes">예, 삭제합니다!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
+    <string name="progress_upload_dialog_failed">업로드 실패. 인터넷 연결상태를 확인하시고 다시 해 주세요!</string>
     <string name="progress_upload_dialog_show_program">프로그램 보이기</string>
     <!--  -->
     <!-- Snackbar hints -->
