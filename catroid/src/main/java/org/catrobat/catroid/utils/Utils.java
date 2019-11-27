@@ -88,6 +88,14 @@ public final class Utils {
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
+	public static boolean checkIsNetworkAvailableAndShowErrorMessage(Context context) {
+		boolean networkAvailable = isNetworkAvailable(context);
+		if (!networkAvailable) {
+			ToastUtil.showError(context, R.string.error_internet_connection);
+		}
+		return networkAvailable;
+	}
+
 	public static boolean checkForNetworkError(WebconnectionException exception) {
 		return exception != null && exception.getStatusCode() == WebconnectionException.ERROR_NETWORK;
 	}
