@@ -59,12 +59,11 @@ public final class StatusBarNotificationManager {
 
 	private static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
 	public static final int UPLOAD_NOTIFICATION_ID = 0x10;
-	public static final int UPLOAD_NOTIFICATION_SERVICE_ID = 0x11;
+	public static final int UPLOAD_NOTIFICATION_SERVICE_ID = 0xFFFF;
 	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0x10;
 
 	private int notificationId = 1;
 	private SparseArray<NotificationData> notificationDataMap = new SparseArray<>();
-	private Context context;
 	private NotificationManager notificationManager;
 
 	private StatusBarNotificationManager() {
@@ -79,7 +78,6 @@ public final class StatusBarNotificationManager {
 			notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 			createNotificationChannel(context);
 		}
-		this.context = context;
 	}
 
 	private int createAndShowUploadNotification(Context context, String programName) {
@@ -99,7 +97,7 @@ public final class StatusBarNotificationManager {
 				0, MAX_PERCENT, false, false);
 
 		int id = createNotification(context, data);
-		showOrUpdateNotification(id, 0);
+		showOrUpdateNotification(context, id, 0);
 		return id;
 	}
 
@@ -118,18 +116,19 @@ public final class StatusBarNotificationManager {
 				0, MAX_PERCENT, false, false);
 
 		int id = createNotification(context, data);
-		showOrUpdateNotification(id, 0);
+		showOrUpdateNotification(context, id, 0);
 		return id;
 	}
 
-	public int createDownloadNotification(Context context, String programName) {
+	public int createProjectDownloadNotification(Context context, String programName) {
 		if (context == null || programName == null) {
 			return -1;
 		}
 		initNotificationManager(context);
 
 		Intent downloadIntent = new Intent(context, MainMenuActivity.class);
-		downloadIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+		downloadIntent.setAction(Intent.ACTION_MAIN)
+				.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 				.putExtra(EXTRA_PROJECT_NAME, programName);
 
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, downloadIntent,
@@ -152,7 +151,7 @@ public final class StatusBarNotificationManager {
 		return notificationId++;
 	}
 
-	public void showOrUpdateNotification(int id, int progressInPercent) {
+	public void showOrUpdateNotification(Context context, int id, int progressInPercent) {
 		NotificationData notificationData = notificationDataMap.get(id);
 		if (notificationData == null) {
 			Log.w(TAG, "Notification with id " + id + "not present in notificationDataMap");
@@ -171,7 +170,7 @@ public final class StatusBarNotificationManager {
 		}
 	}
 
-	public void abortProgressNotificationWithMessage(int id, @StringRes int changeDoneText) {
+	public void abortProgressNotificationWithMessage(Context context, int id, @StringRes int changeDoneText) {
 
 		NotificationData notificationData = notificationDataMap.get(id);
 		if (notificationData == null) {
@@ -180,7 +179,7 @@ public final class StatusBarNotificationManager {
 		notificationData.setTextDone(context.getString(changeDoneText));
 		notificationDataMap.put(id, notificationData);
 
-		showOrUpdateNotification(id, MAX_PERCENT);
+		showOrUpdateNotification(context, id, MAX_PERCENT);
 	}
 
 	public Notification createUploadRejectedNotification(Context context, int statusCode, String serverAnswer, Bundle bundle) {
@@ -329,5 +328,13 @@ public final class StatusBarNotificationManager {
 			channel.setSound(null, null);
 			notificationManager.createNotificationChannel(channel);
 		}
+	}
+	public Notification getNotification(Context context, int id) {
+		NotificationData data = notificationDataMap.get(id);
+		if (data == null) {
+			return null;
+		}
+
+		return data.toNotification(context, StatusBarNotificationManager.CHANNEL_ID);
 	}
 }

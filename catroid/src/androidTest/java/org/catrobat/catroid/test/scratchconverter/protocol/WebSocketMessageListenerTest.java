@@ -534,7 +534,7 @@ public class WebSocketMessageListenerTest {
 			}
 		}).when(jobHandlerMock).setCallback(any(Client.ConvertCallback.class));
 
-		Client.DownloadCallback callback = webSocketMessageListener.restoreJobIfRunning(expectedJob,
+		Client.ProjectDownloadCallback callback = webSocketMessageListener.restoreJobIfRunning(expectedJob,
 				convertCallbackMock);
 		assertNull(callback);
 		verify(jobHandlerMock, times(1)).setCallback(any(Client.ConvertCallback.class));

@@ -25,6 +25,7 @@ package org.catrobat.catroid.web;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -54,7 +55,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -89,12 +89,11 @@ public final class ServerCalls implements ScratchDataFetcher {
 	public static final String TAG = ServerCalls.class.getSimpleName();
 	public static boolean useTestUrl = false;
 	private final OkHttpClient okHttpClient;
-	private int oldNotificationId = 0;
 	private String resultString;
 	private String projectId;
 
-	public ServerCalls() {
-		okHttpClient = CatrobatWebClient.INSTANCE.getClient();
+	public ServerCalls(OkHttpClient httpClient) {
+		okHttpClient = httpClient;
 	}
 
 	public ScratchProgramData fetchScratchProgramDetails(final long programID) throws WebconnectionException,
@@ -300,7 +299,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
 			UploadErrorCallback errorCallback) {
 
-		excecuteUploadCall(
+		executeUploadCall(
 				HttpRequestsKt.createUploadRequest(uploadData),
 				(uploadResponse) -> {
 					String newToken = uploadResponse.token;
@@ -318,74 +317,24 @@ public final class ServerCalls implements ScratchDataFetcher {
 		);
 	}
 
-	private void excecuteUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
+	private void executeUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
 		Response response;
 		UploadResponse uploadResponse;
 		try {
 			response = okHttpClient.newCall(request).execute();
-			if (!response.isSuccessful()) {
+			if (response.isSuccessful()) {
+				uploadResponse = new Gson().fromJson(response.body().string(), UploadResponse.class);
+				successCallback.onSuccess(uploadResponse);
+			} else {
 				Log.v(TAG, "Upload not successful");
 				errorCallback.onError(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
-
-			uploadResponse = new Gson().fromJson(response.body().string(), UploadResponse.class);
-			successCallback.onSuccess(uploadResponse);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception");
 		} catch (JsonSyntaxException jsonSyntaxException) {
 			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
 			errorCallback.onError(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
-		}
-	}
-
-	public void downloadProject(final String url, final String filePath, final String programName,
-			final ResultReceiver receiver, final int notificationId) throws IOException, WebconnectionException {
-
-		File file = new File(filePath);
-		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
-			throw new IOException("Directory not created");
-		}
-
-		Request request = new Request.Builder()
-				.url(url)
-				.build();
-
-		OkHttpClient.Builder httpClientBuilder;
-
-		if (url.startsWith("http://")) {
-			httpClientBuilder = new OkHttpClient.Builder()
-					.connectionSpecs(Collections.singletonList(ConnectionSpec.CLEARTEXT));
-		} else {
-			httpClientBuilder = okHttpClient.newBuilder();
-		}
-
-		httpClientBuilder.networkInterceptors().add(chain -> {
-			Response originalResponse = chain.proceed(chain.request());
-
-			if (notificationId >= oldNotificationId) {
-				oldNotificationId = notificationId;
-				return originalResponse.newBuilder()
-						.body(new ProgressResponseBody(
-								originalResponse.body(),
-								receiver,
-								notificationId,
-								programName,
-								url))
-						.build();
-			} else {
-				return originalResponse;
-			}
-		});
-		OkHttpClient httpClient = httpClientBuilder.build();
-
-		try {
-			Response response = httpClient.newCall(request).execute();
-			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-			bufferedSink.writeAll(response.body().source());
-			bufferedSink.close();
-		} catch (IOException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -404,13 +353,14 @@ public final class ServerCalls implements ScratchDataFetcher {
 		OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
 		httpClientBuilder.networkInterceptors().add(chain -> {
 			Response originalResponse = chain.proceed(chain.request());
+			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(),
+					progress -> {
+				Bundle bundle = new Bundle();
+				bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
+				receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
+			});
 			return originalResponse.newBuilder()
-					.body(new ProgressResponseBody(
-							originalResponse.body(),
-							receiver,
-							0,
-							null,
-							url))
+					.body(body)
 					.build();
 		});
 		OkHttpClient httpClient = httpClientBuilder.build();

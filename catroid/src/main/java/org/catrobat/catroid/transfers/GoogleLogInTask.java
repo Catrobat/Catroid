@@ -32,6 +32,7 @@ import android.util.Log;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -81,7 +82,7 @@ public class GoogleLogInTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			userSignedIn = new ServerCalls().googleLogin(mail, username, id, locale, context);
+			userSignedIn = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).googleLogin(mail, username, id, locale, context);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));

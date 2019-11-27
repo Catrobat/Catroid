@@ -878,18 +878,6 @@
     <string name="details_date_today">اليوم</string>
     <string name="import_project">استيراد مشروع</string>
     <string name="error_import_project">حدث خطأ أثناء استيراد المشاريع.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">تم تحديث تخزين المشروع</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">نسخ</string>
-    <string name="import_dialog_move_btn">تحرك</string>
-    <string name="projects_successful_moved_toast">تم نقل المشاريع بنجاح.</string>
-    <string name="projects_successful_copied_toast">تم نسخ المشاريع بنجاح.</string>
-    <string name="error_during_copying_projects_toast">حدث خطأ أثناء نسخ / نقل المشروع.</string>
-    <!--  -->
     <string name="error_no_files_found">لم يتم العثور على مشاريع.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
@@ -1005,13 +993,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -1055,7 +1045,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -1212,7 +1202,7 @@
     <string name="category_sound">الصوت</string>
     <string name="category_control">التحكم</string>
     <string name="category_event">الحدث</string>
-    <string name="category_user_bricks">اللبّنات البرمجية الخاصة بالمستخدم</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">البيانات</string>
     <string name="category_lego_nxt">ليغو NXT</string>
     <string name="category_lego_ev3">ليغو EV3</string>
@@ -1403,6 +1393,8 @@
     <string name="brick_change_variable">تغيير قيمة المتغير</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">أضف تعليق هنا&#8230;</string>
     <string name="brick_think_bubble_default_value">همممم!</string>
     <string name="brick_say_bubble_default_value">مرحباً!</string>
@@ -1527,6 +1519,9 @@
     <!-- Error messages -->
     <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
     <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">حدث خطأ أثناء إنشاء برنامج جديد.</string>
     <string name="error_rename_scene">حدث خطأ أثناء إعادة تسمية المشهد.</string>
     <string name="error_load_project">حدث خطأ أثناء تحميل البرنامج.</string>

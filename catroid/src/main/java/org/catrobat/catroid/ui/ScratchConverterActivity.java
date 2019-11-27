@@ -59,7 +59,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER
 public class ScratchConverterActivity extends BaseActivity implements
 		BaseInfoViewListener,
 		JobViewListener,
-		Client.DownloadCallback {
+		Client.ProjectDownloadCallback {
 
 	public static final String TAG = ScratchConverterActivity.class.getSimpleName();
 
@@ -307,7 +307,7 @@ public class ScratchConverterActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onDownloadProgress(short progress, String url) {
+	public void onDownloadProgress(int progress, String url) {
 	}
 
 	@Override

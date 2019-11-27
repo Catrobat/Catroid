@@ -26,8 +26,11 @@ package org.catrobat.catroid.web
 import android.content.Context
 import android.preference.PreferenceManager
 import android.util.Log
+import okhttp3.ConnectionSpec
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okio.Okio
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN
 import org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_URL
@@ -48,6 +51,8 @@ import org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_USERNAME_KE
 import org.catrobat.catroid.web.ServerAuthenticationConstants.USERNAME_AVAILABLE
 import org.json.JSONException
 import org.json.JSONObject
+import java.io.File
+import java.io.IOException
 import java.util.HashMap
 
 class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebClient.client) {
@@ -208,5 +213,61 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
         } catch (e: JSONException) {
             throw WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e))
         }
+    }
+
+    fun downloadProject(
+        url: String,
+        destination: File,
+        successCallback: DownloadSuccessCallback,
+        errorCallback: DownloadErrorCallback,
+        progressCallback: DownloadProgressCallback
+    ) {
+        val request = Request.Builder().url(url).build()
+        val httpClientBuilder = okHttpClient.newBuilder()
+        httpClientBuilder.networkInterceptors()
+            .add(Interceptor { chain ->
+                val originalResponse =
+                    chain.proceed(chain.request())
+                val body = ProgressResponseBody(
+                    originalResponse.body(),
+                    progressCallback
+                )
+                originalResponse.newBuilder().body(body).build()
+            })
+        val httpClient = if (url.startsWith("http://")) {
+            httpClientBuilder
+                .connectionSpecs(listOf(ConnectionSpec.CLEARTEXT))
+                .build()
+        } else {
+            httpClientBuilder.build()
+        }
+
+        try {
+            val response = httpClient.newCall(request).execute()
+            if (response.isSuccessful) {
+                val bufferedSink = Okio.buffer(Okio.sink(destination))
+                response.body()?.let { bufferedSink.writeAll(it.source()) }
+                bufferedSink.close()
+                successCallback.onSuccess()
+            } else {
+                Log.v(tag, "Download not successful")
+                errorCallback.onError(response.code(), "Download failed! HTTP Status code was " + response.code())
+            }
+        } catch (ioException: IOException) {
+            Log.e(tag, Log.getStackTraceString(ioException))
+            errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception")
+        }
+    }
+
+    interface DownloadSuccessCallback {
+        fun onSuccess()
+    }
+
+    interface DownloadErrorCallback {
+        fun onError(code: Int, message: String)
+    }
+
+    interface DownloadProgressCallback {
+        fun onProgress(progress: Long)
     }
 }

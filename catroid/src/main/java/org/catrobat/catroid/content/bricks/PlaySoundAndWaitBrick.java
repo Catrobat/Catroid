@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.media.MediaMetadataRetriever;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 
 	private static final long serialVersionUID = 1L;
+	private static final String TAG = PlaySoundAndWaitBrick.class.getSimpleName();
 
 	public PlaySoundAndWaitBrick() {
 	}
@@ -51,11 +53,17 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 		float duration = 0;
 
 		if (sound != null) {
-			MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
-			metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
+			if (!sprite.getSoundList().contains(sound) || sound.getFile() == null) {
+				Log.e(TAG, "SoundInfo "
+						+ sound.getName() + " was deleted from sprite: "
+						+ sprite.getName());
+			} else {
+				MediaMetadataRetriever metadataRetriever = new MediaMetadataRetriever();
+				metadataRetriever.setDataSource(sound.getFile().getAbsolutePath());
 
-			duration = Integer.parseInt(metadataRetriever
-					.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
+				duration = Integer.parseInt(metadataRetriever
+						.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)) / 1000.0f;
+			}
 		}
 
 		sequence.addAction(sprite.getActionFactory().createWaitAction(sprite, new Formula(duration)));

@@ -43,7 +43,7 @@ import org.catrobat.catroid.scratchconverter.protocol.message.job.JobProgressMes
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobReadyMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobRunningMessage;
 
-public class JobHandler implements Client.DownloadCallback {
+public class JobHandler implements Client.ProjectDownloadCallback {
 
 	private static final String TAG = JobHandler.class.getSimpleName();
 
@@ -74,7 +74,7 @@ public class JobHandler implements Client.DownloadCallback {
 	}
 
 	@Override
-	public void onDownloadProgress(short progress, String url) {
+	public void onDownloadProgress(int progress, String url) {
 	}
 
 	@Override

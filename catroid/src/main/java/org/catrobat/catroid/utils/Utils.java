@@ -389,14 +389,6 @@ public final class Utils {
 		}
 	}
 
-	public static boolean checkIfProjectExistsOrIsDownloadingIgnoreCase(String programName) {
-		if (DownloadUtil.getInstance().isProgramNameInDownloadQueueIgnoreCase(programName)) {
-			return true;
-		}
-
-		return new File(DEFAULT_ROOT_DIRECTORY, programName).isDirectory();
-	}
-
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {

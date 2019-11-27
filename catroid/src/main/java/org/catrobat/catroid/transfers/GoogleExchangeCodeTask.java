@@ -31,6 +31,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -85,7 +86,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			tokenExchanged = new ServerCalls().googleExchangeCode(code, id, username, mail, locale, idToken);
+			tokenExchanged = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).googleExchangeCode(code, id, username, mail, locale, idToken);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));

@@ -98,8 +98,8 @@ class ProjectUpload(
             projectArchive = projectArchive,
             userEmail = userEmail,
             language = Locale.getDefault().language,
-            token = token,
-            username = username
+            token = token ?: Constants.NO_TOKEN,
+            username = username ?: Constants.NO_USERNAME
         )
     }
 

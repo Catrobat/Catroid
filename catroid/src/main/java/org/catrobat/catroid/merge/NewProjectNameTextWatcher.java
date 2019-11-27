@@ -27,8 +27,8 @@ import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.utils.Utils;
 
 public class NewProjectNameTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
 
@@ -45,7 +45,7 @@ public class NewProjectNameTextWatcher<T extends Nameable> extends TextInputDial
 
 		if (input.isEmpty()) {
 			error = context.getString(R.string.name_consists_of_spaces_only);
-		} else if (Utils.checkIfProjectExistsOrIsDownloadingIgnoreCase(input)) {
+		} else if (ReplaceExistingProjectDialogFragment.projectExistsInDirectory(input)) {
 			error = context.getString(R.string.name_already_exists);
 		}
 

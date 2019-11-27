@@ -125,6 +125,11 @@ public class SpriteActivity extends BaseActivity {
 	private NewItemInterface<LookData> onNewLookListener;
 	private NewItemInterface<SoundInfo> onNewSoundListener;
 
+	private ProjectManager projectManager;
+	private Project currentProject;
+	private Sprite currentSprite;
+	private Scene currentScene;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -133,10 +138,15 @@ public class SpriteActivity extends BaseActivity {
 			return;
 		}
 
+		projectManager = ProjectManager.getInstance();
+		currentProject = projectManager.getCurrentProject();
+		currentSprite = projectManager.getCurrentSprite();
+		currentScene = projectManager.getCurrentlyEditedScene();
+
 		setContentView(R.layout.activity_recycler);
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		updateActionBarTitle();
+		getSupportActionBar().setTitle(createActionBarTitle());
 
 		int fragmentPosition = FRAGMENT_SCRIPTS;
 
@@ -147,15 +157,11 @@ public class SpriteActivity extends BaseActivity {
 		loadFragment(fragmentPosition);
 	}
 
-	private void updateActionBarTitle() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
+	private String createActionBarTitle() {
 		if (currentProject.getSceneList().size() == 1) {
-			getSupportActionBar().setTitle(currentSprite.getName());
+			return currentSprite.getName();
 		} else {
-			getSupportActionBar().setTitle(currentScene.getName() + ": " + currentSprite.getName());
+			return currentScene.getName() + ": " + currentSprite.getName();
 		}
 	}
 
@@ -224,16 +230,12 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		saveProject();
 	}
 
 	@Override
 	public void onBackPressed() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		saveProject();
 
 		Fragment currentFragment = getCurrentFragment();
 
@@ -246,9 +248,8 @@ public class SpriteActivity extends BaseActivity {
 				((ScriptFragment) currentFragment).cancelHighlighting();
 				return;
 			}
-		}
-		if (getCurrentFragment() instanceof FormulaEditorFragment) {
-			((FormulaEditorFragment) getCurrentFragment()).promptSave();
+		} else if (currentFragment instanceof FormulaEditorFragment) {
+			((FormulaEditorFragment) currentFragment).promptSave();
 			return;
 		}
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
@@ -258,13 +259,18 @@ public class SpriteActivity extends BaseActivity {
 		super.onBackPressed();
 	}
 
+	private void saveProject() {
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
 		if (resultCode != RESULT_OK) {
 			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
-					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+					&& projectManager.getCurrentProject().isCastProject()
 					&& !CastManager.getInstance().isConnected()) {
 
 				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
@@ -366,8 +372,6 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addSpriteFromUri(final Uri uri) {
-		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-
 		String resolvedName;
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 
@@ -428,9 +432,6 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addBackgroundFromUri(Uri uri) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = currentScene.getBackgroundSprite();
-
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
 		String lookFileName;
@@ -463,9 +464,6 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addLookFromUri(Uri uri) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
 		String lookFileName;
@@ -498,9 +496,6 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addSoundFromUri(Uri uri) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String soundInfoName;
 		String soundFileName;
@@ -591,7 +586,7 @@ public class SpriteActivity extends BaseActivity {
 
 		String mediaLibraryUrl;
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		if (projectManager.isCurrentProjectLandscapeMode()) {
 			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 		} else {
 			mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
@@ -631,11 +626,8 @@ public class SpriteActivity extends BaseActivity {
 
 		String mediaLibraryUrl;
 
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
 		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+			if (projectManager.isCurrentProjectLandscapeMode()) {
 				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_LANDSCAPE;
 			} else {
 				mediaLibraryUrl = LIBRARY_BACKGROUNDS_URL_PORTRAIT;
@@ -703,9 +695,6 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	public void handleAddUserDataButton() {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
 		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
 		CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
 		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
@@ -780,6 +769,6 @@ public class SpriteActivity extends BaseActivity {
 		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 		}
-		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+		StageActivity.handlePlayButton(projectManager, this);
 	}
 }

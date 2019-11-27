@@ -76,8 +76,9 @@ public class ProjectExportTaskTest {
 		StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
 		int notificationId = notificationManager
 				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), project.getName());
-		ProjectExportTask
-				.task(project.getDirectory(), notificationId);
+
+		new ProjectExportTask(project.getDirectory(), notificationId,
+				InstrumentationRegistry.getTargetContext()).exportProjectToExternalStorage();
 
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
