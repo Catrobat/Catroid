@@ -27,8 +27,6 @@ import android.support.annotation.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-import org.catrobat.catroid.common.bluetooth.models.DeviceModel;
 
 import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
@@ -51,10 +49,6 @@ public final class ConnectionDataLogger {
 		return getNextSentMessage(0, 0);
 	}
 
-	public byte[] getNextSentMessage(int messageOffset) {
-		return getNextSentMessage(messageOffset, 0);
-	}
-
 	public byte[] getNextSentMessage(int messageOffset, int messageByteOffset) {
 		return getNextMessage(sentMessages, messageOffset, messageByteOffset);
 	}
@@ -65,26 +59,6 @@ public final class ConnectionDataLogger {
 
 	public ArrayList<byte[]> getSentMessages(int messageByteOffset, int messageCountToWaitFor) {
 		return getMessages(sentMessages, messageByteOffset, messageCountToWaitFor);
-	}
-
-	public byte[] getNextReceivedMessage() {
-		return getNextReceivedMessage(0, 0);
-	}
-
-	public byte[] getNextReceivedMessage(int messageOffset) {
-		return getNextReceivedMessage(messageOffset, 0);
-	}
-
-	public byte[] getNextReceivedMessage(int messageOffset, int messageByteOffset) {
-		return getNextMessage(receivedMessages, messageOffset, messageByteOffset);
-	}
-
-	public ArrayList<byte[]> getReceivedMessages(int messageCountToWaitFor) {
-		return getReceivedMessages(0, messageCountToWaitFor);
-	}
-
-	public ArrayList<byte[]> getReceivedMessages(int messageByteOffset, int messageCountToWaitFor) {
-		return getMessages(receivedMessages, messageByteOffset, messageCountToWaitFor);
 	}
 
 	private byte[] getNextMessage(BlockingQueue<byte[]> messages, int messageOffset, int messageByteOffset) {
@@ -181,36 +155,8 @@ public final class ConnectionDataLogger {
 		}
 	}
 
-	private ConnectionDataLogger(DeviceModel deviceModel) {
-		connectionProxy = new LocalConnectionProxy(logger, deviceModel);
-		BluetoothTestUtils.hookInConnection(connectionProxy);
-	}
-
 	public static ConnectionDataLogger createLocalConnectionLogger() {
 		return new ConnectionDataLogger(true);
-	}
-
-	public static ConnectionDataLogger createLocalConnectionLoggerWithTestDevice(BluetoothDevice testDevice) {
-		BluetoothTestUtils.hookInTestDevice(testDevice);
-		return new ConnectionDataLogger(true);
-	}
-
-	public static ConnectionDataLogger createLocalConnectionLoggerWithDeviceModel(DeviceModel deviceModel) {
-		return new ConnectionDataLogger(deviceModel);
-	}
-
-	public static ConnectionDataLogger createLocalConnectionLoggerWithDeviceModelAndTestDevice(DeviceModel deviceModel, BluetoothDevice testDevice) {
-		BluetoothTestUtils.hookInTestDevice(testDevice);
-		return new ConnectionDataLogger(deviceModel);
-	}
-
-	public static ConnectionDataLogger createBluetoothConnectionLogger() {
-		return new ConnectionDataLogger(false);
-	}
-
-	public static ConnectionDataLogger createBluetoothConnectionLoggerWithTestDevice(BluetoothDevice testDevice) {
-		BluetoothTestUtils.hookInTestDevice(testDevice);
-		return new ConnectionDataLogger(false);
 	}
 
 	public void disconnectAndDestroy() {
