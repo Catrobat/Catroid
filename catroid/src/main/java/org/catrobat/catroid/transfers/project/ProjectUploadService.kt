@@ -60,7 +60,6 @@ import org.catrobat.catroid.utils.DeviceSettingsProvider
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager.UPLOAD_NOTIFICATION_ID
 import org.catrobat.catroid.web.CatrobatWebClient
 import org.catrobat.catroid.web.ServerCalls
 import java.io.File
@@ -84,8 +83,9 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             ?: return logWarning("Called ProjectUploadService without resultReceiver!")
         val projectName = intent.getStringExtra(EXTRA_UPLOAD_NAME)
 
+        val notificationID = StatusBarNotificationManager.getNextNotificationID()
         startForeground(
-            StatusBarNotificationManager.UPLOAD_NOTIFICATION_SERVICE_ID,
+            notificationID,
             createUploadNotification(projectName)
         )
 
@@ -117,7 +117,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 Log.v(TAG, "Upload successful")
                 stopForeground(true)
                 val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-                notificationManager?.notify(UPLOAD_NOTIFICATION_ID, createUploadFinishedNotification(projectName))
+                notificationManager?.notify(notificationID, createUploadFinishedNotification(projectName))
 
                 ToastUtil.showSuccess(this, R.string.notification_upload_finished)
                 val result = Bundle().apply { putString(Constants.EXTRA_PROJECT_ID, projectId) }
@@ -127,7 +127,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 Log.e(TAG, errorMessage)
                 stopForeground(true)
                 ToastUtil.showError(this, resources.getString(R.string.error_project_upload) + " " + errorMessage)
-                StatusBarNotificationManager.getInstance()
+                StatusBarNotificationManager(applicationContext)
                     .createUploadRejectedNotification(applicationContext, errorCode, errorMessage, reUploadBundle)
                 resultReceiver.send(0, null)
             }
@@ -140,7 +140,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
     }
 
     private fun createUploadNotification(programName: String): Notification {
-        StatusBarNotificationManager.getInstance().createNotificationChannel(applicationContext)
+        StatusBarNotificationManager(applicationContext).createNotificationChannel(applicationContext)
 
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN

@@ -114,10 +114,10 @@ class ProjectDownloader(
         downloadIntent.putExtra(ProjectDownloadService.EXTRA_URL, url)
         downloadIntent.putExtra(ProjectDownloadService.EXTRA_RESULT_RECEIVER, Receiver(projectName, Handler()))
 
-        val statusBarNotificationManager = StatusBarNotificationManager.getInstance()
-        val id = statusBarNotificationManager.createProjectDownloadNotification(context, projectName)
-        downloadIntent.putExtra(ProjectDownloadService.EXTRA_NOTIFICATION_ID, id)
-        statusBarNotificationManager.showOrUpdateNotification(context, id, 0)
+        val statusBarNotificationManager = StatusBarNotificationManager(context)
+        val notificationData = statusBarNotificationManager.createProjectDownloadNotification(context, projectName)
+        downloadIntent.putExtra(ProjectDownloadService.EXTRA_NOTIFICATION_DATA, notificationData)
+        statusBarNotificationManager.showOrUpdateNotification(context, notificationData, 0, null)
 
         callbackWeakReference.get()?.onDownloadStarted(url)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
