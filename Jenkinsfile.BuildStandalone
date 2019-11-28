@@ -59,6 +59,9 @@ pipeline {
             }
 
             steps {
+                script {
+                    env.SUFFIX = env.SUFFIX.replaceAll("-", "_")
+                }
                 sh "./gradlew clean assembleStandaloneDebug -Papk_generator_enabled=true -Psuffix='$SUFFIX' -Pdownload='$DOWNLOAD'"
                 archiveArtifacts standaloneApk
             }
