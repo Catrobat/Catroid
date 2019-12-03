@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.util.Log;
+import org.catrobat.catroid.utils.EnumUtils;
 
 public enum Operators {
 	LOGICAL_AND(2, true), LOGICAL_OR(1, true), EQUAL(3, true), NOT_EQUAL(4, true), SMALLER_OR_EQUAL(4, true),
@@ -49,15 +49,10 @@ public enum Operators {
 	}
 
 	public static Operators getOperatorByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		}
-		return null;
+		return EnumUtils.getEnum(Operators.class, value);
 	}
 
 	public static boolean isOperator(String value) {
-		return getOperatorByValue(value) != null;
+		return EnumUtils.isValidEnum(Operators.class, value);
 	}
 }

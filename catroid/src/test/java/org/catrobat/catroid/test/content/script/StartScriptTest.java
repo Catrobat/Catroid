@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.content.script;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
@@ -31,6 +33,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,6 +44,8 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 
+import static org.mockito.Mockito.mock;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class StartScriptTest {
@@ -48,6 +53,12 @@ public class StartScriptTest {
 	@Before
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
+		ProjectManager.getInstance().setCurrentProject(mock(Project.class));
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Test

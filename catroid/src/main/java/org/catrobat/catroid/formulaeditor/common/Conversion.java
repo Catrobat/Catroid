@@ -74,8 +74,7 @@ public class Conversion {
 		}
 	}
 
-	@NotNull
-	public static Double booleanToDouble(boolean value) {
+	public static double booleanToDouble(boolean value) {
 		return value ? TRUE : FALSE;
 	}
 

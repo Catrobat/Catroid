@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,23 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
 
-import org.catrobat.catroid.utils.EnumUtils;
+package org.catrobat.catroid.utils;
 
-public enum Functions {
-
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, ARCTAN2, EXP, POWER, FLOOR, CEIL,
-	MAX,
-	MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, REGEX, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS, ARDUINOANALOG, ARDUINODIGITAL, RASPIDIGITAL,
-	MULTI_FINGER_X, MULTI_FINGER_Y, MULTI_FINGER_TOUCHED, COLLIDES_WITH_COLOR;
-
-	public static boolean isFunction(String value) {
-		return EnumUtils.isValidEnum(Functions.class, value);
+public class EnumUtils {
+	private EnumUtils() {
 	}
 
-	public static Functions getFunctionByValue(String value) {
-		return EnumUtils.getEnum(Functions.class, value);
+	public static <E extends Enum<E>> boolean isValidEnum(Class<E> clazz, String name) {
+		if (name == null) {
+			return false;
+		}
+		try {
+			Enum.valueOf(clazz, name);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public static <E extends Enum<E>> E getEnum(Class<E> clazz, String name) {
+		if (name == null) {
+			return null;
+		}
+		try {
+			return Enum.valueOf(clazz, name);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
 	}
 }

@@ -23,8 +23,11 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.Formula.StringProvider;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -33,10 +36,11 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,15 +53,22 @@ import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.mock;
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class FormulaTest {
 
 	private List<InternToken> internTokenList;
 
 	@Before
 	public void setUp() {
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
+		ProjectManager.getInstance().setCurrentProject(mock(Project.class));
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Test
@@ -208,7 +219,8 @@ public class FormulaTest {
 		FormulaElement joinFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.JOIN.name(), null, helloStringFormulaElement, worldStringFormulaElement);
 		Formula joinFormula = new Formula(joinFunctionFormulaElement);
-		String computeDialogResult = joinFormula.getResultForComputeDialog(null);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = joinFormula.getResultForComputeDialog(stringProvider, null);
 		assertEquals("helloworld", computeDialogResult);
 	}
 
@@ -219,7 +231,8 @@ public class FormulaTest {
 		FormulaElement letterFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.LETTER.name(), null, indexFormulaElement, helloStringFormulaElement);
 		Formula letterFormula = new Formula(letterFunctionFormulaElement);
-		String computeDialogResult = letterFormula.getResultForComputeDialog(null);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = letterFormula.getResultForComputeDialog(stringProvider, null);
 		assertEquals("h", computeDialogResult);
 	}
 
@@ -231,7 +244,8 @@ public class FormulaTest {
 		FormulaElement regexFunctionFormulaElement = new FormulaElement(ElementType.FUNCTION,
 				Functions.REGEX.name(), null, regexStringFormulaElement, iamanelephantStringFormulaElement);
 		Formula regexFormula = new Formula(regexFunctionFormulaElement);
-		String computeDialogResult = regexFormula.getResultForComputeDialog(null);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = regexFormula.getResultForComputeDialog(stringProvider, null);
 		assertEquals("elephant", computeDialogResult);
 	}
 
@@ -242,7 +256,8 @@ public class FormulaTest {
 		bracketOpenFormulaElement.replaceElement(
 				new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null, numberFormulaElement));
 		Formula bracketWrappedFormula = new Formula(bracketOpenFormulaElement);
-		String computeDialogResult = bracketWrappedFormula.getResultForComputeDialog(null);
+		StringProvider stringProvider = mock(StringProvider.class);
+		String computeDialogResult = bracketWrappedFormula.getResultForComputeDialog(stringProvider, null);
 		assertEquals("1.0", computeDialogResult);
 	}
 }

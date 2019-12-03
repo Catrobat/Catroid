@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WebRequestAction;
@@ -78,12 +80,15 @@ public class WebRequestActionTest {
 		StageActivity.stageListener.webConnectionHolder = mock(WebConnectionHolder.class);
 		webConnectionFactory = mock(WebConnectionFactory.class);
 		webConnection = mock(WebConnection.class);
+
+		ProjectManager.getInstance().setCurrentProject(mock(Project.class));
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		StageActivity.stageListener.webConnectionHolder = null;
 		StageActivity.stageListener = null;
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Test

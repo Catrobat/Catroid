@@ -63,14 +63,17 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setContentView(R.layout.dialog_formulaeditor_compute_landscape);
 			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview_landscape_mode);
 		} else {
 			setContentView(R.layout.dialog_formulaeditor_compute);
 			computeTextView = (TextView) findViewById(R.id.formula_editor_compute_dialog_textview);
 		}
-		showFormulaResult();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		AndroidStringProvider stringProvider = new AndroidStringProvider(context);
+		showFormulaResult(currentSprite, stringProvider);
 	}
 
 	public void setFormula(Formula formula) {
@@ -130,13 +133,11 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		return true;
 	}
 
-	private void showFormulaResult() {
+	private void showFormulaResult(Sprite currentSprite, Formula.StringProvider stringProvider) {
 		if (computeTextView == null) {
 			return;
 		}
 
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		Formula.StringProvider stringProvider = new AndroidStringProvider(context);
 		String result = formulaToCompute.getResultForComputeDialog(stringProvider, currentSprite);
 		setDialogTextView(trimTrailingCharacters(result));
 	}
@@ -147,7 +148,10 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		showFormulaResult();
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		AndroidStringProvider stringProvider = new AndroidStringProvider(context);
+		showFormulaResult(currentSprite, stringProvider);
 	}
 
 	private void setDialogTextView(final String newString) {

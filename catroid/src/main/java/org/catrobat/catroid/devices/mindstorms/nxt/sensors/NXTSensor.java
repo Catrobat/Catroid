@@ -33,6 +33,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandType;
 import org.catrobat.catroid.devices.mindstorms.nxt.NXTError;
 import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply;
+import org.catrobat.catroid.utils.EnumUtils;
 
 import java.util.Locale;
 
@@ -61,15 +62,8 @@ public abstract class NXTSensor implements LegoSensor {
 		}
 
 		public static NXTSensor.Sensor getSensorFromSensorCode(String sensorCode) {
-			if (sensorCode == null) {
-				return Sensor.NO_SENSOR;
-			}
-
-			try {
-				return valueOf(sensorCode);
-			} catch (IllegalArgumentException e) {
-				return Sensor.NO_SENSOR;
-			}
+			Sensor sensor = EnumUtils.getEnum(Sensor.class, sensorCode);
+			return sensor != null ? sensor : Sensor.NO_SENSOR;
 		}
 	}
 

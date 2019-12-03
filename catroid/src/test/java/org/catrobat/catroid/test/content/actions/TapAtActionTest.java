@@ -27,12 +27,15 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -75,6 +78,13 @@ public class TapAtActionTest {
 
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		Mockito.when(StageActivity.stageListener.getStage()).thenReturn(stageMock);
+		ProjectManager.getInstance().setCurrentProject(Mockito.mock(Project.class));
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		StageActivity.stageListener = null;
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Test

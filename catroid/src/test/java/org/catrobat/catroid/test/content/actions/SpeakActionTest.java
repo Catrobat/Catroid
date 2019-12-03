@@ -27,9 +27,11 @@ import android.content.Context;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.SpeakAction;
@@ -37,6 +39,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.Reflection;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +54,8 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
+import static org.mockito.Mockito.mock;
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({File.class, SpeakAction.class, Constants.class, FlavoredConstants.class, CatroidApplication.class})
 public class SpeakActionTest {
@@ -64,18 +69,24 @@ public class SpeakActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(Mockito.mock(File.class));
-		Context contextMock = Mockito.mock(Context.class);
-		Mockito.when(contextMock.getCacheDir()).thenReturn(Mockito.mock(File.class));
+		PowerMockito.whenNew(File.class).withAnyArguments().thenReturn(mock(File.class));
+		Context contextMock = mock(Context.class);
+		Mockito.when(contextMock.getCacheDir()).thenReturn(mock(File.class));
 		PowerMockito.mockStatic(CatroidApplication.class);
 		PowerMockito.when(CatroidApplication.getAppContext()).thenReturn(contextMock);
 		PowerMockito.mockStatic(FlavoredConstants.class);
 		PowerMockito.mockStatic(Constants.class);
+		ProjectManager.getInstance().setCurrentProject(mock(Project.class));
 
 		sprite = new SingleSprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Test

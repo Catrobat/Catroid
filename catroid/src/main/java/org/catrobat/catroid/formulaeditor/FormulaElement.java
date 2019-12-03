@@ -24,7 +24,6 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.content.res.Resources;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -53,7 +52,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -71,10 +70,9 @@ import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 public class FormulaElement implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String TAG = FormulaElement.class.getSimpleName();
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA;
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	private ElementType type;
@@ -89,7 +87,7 @@ public class FormulaElement implements Serializable {
 		functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
 				new MathFunctionProvider(), new TouchFunctionProvider());
 
-		formulaFunctions = new HashMap<>();
+		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(formulaFunctions);
 	}
 
@@ -135,36 +133,13 @@ public class FormulaElement implements Serializable {
 
 		switch (type) {
 			case BRACKET:
-				internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
-				if (rightChild != null) {
-					internTokenList.addAll(rightChild.getInternTokenList());
-				}
-				internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
+				addBracketTokens(internTokenList);
 				break;
 			case OPERATOR:
-				if (leftChild != null) {
-					internTokenList.addAll(leftChild.getInternTokenList());
-				}
-				internTokenList.add(new InternToken(InternTokenType.OPERATOR, value));
-				if (rightChild != null) {
-					internTokenList.addAll(rightChild.getInternTokenList());
-				}
+				addOperatorTokens(internTokenList);
 				break;
 			case FUNCTION:
-				internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, value));
-				boolean functionHasParameters = false;
-				if (leftChild != null) {
-					internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-					functionHasParameters = true;
-					internTokenList.addAll(leftChild.getInternTokenList());
-				}
-				if (rightChild != null) {
-					internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
-					internTokenList.addAll(rightChild.getInternTokenList());
-				}
-				if (functionHasParameters) {
-					internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
-				}
+				addFunctionTokens(internTokenList);
 				break;
 			case USER_VARIABLE:
 				internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, value));
@@ -188,6 +163,41 @@ public class FormulaElement implements Serializable {
 		return internTokenList;
 	}
 
+	private void addBracketTokens(List<InternToken> internTokenList) {
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
+		tryAddInternTokenList(internTokenList, rightChild);
+		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
+	}
+
+	private void addOperatorTokens(List<InternToken> internTokenList) {
+		tryAddInternTokenList(internTokenList, leftChild);
+		internTokenList.add(new InternToken(InternTokenType.OPERATOR, value));
+		tryAddInternTokenList(internTokenList, rightChild);
+	}
+
+	private void addFunctionTokens(List<InternToken> internTokenList) {
+		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, value));
+		boolean functionHasParameters = false;
+		if (leftChild != null) {
+			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+			functionHasParameters = true;
+			internTokenList.addAll(leftChild.getInternTokenList());
+		}
+		if (rightChild != null) {
+			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+			internTokenList.addAll(rightChild.getInternTokenList());
+		}
+		if (functionHasParameters) {
+			internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		}
+	}
+
+	private void tryAddInternTokenList(List<InternToken> internTokenList, FormulaElement child) {
+		if (child != null) {
+			internTokenList.addAll(child.getInternTokenList());
+		}
+	}
+
 	public FormulaElement getRoot() {
 		FormulaElement root = this;
 		while (root.getParent() != null) {
@@ -197,78 +207,58 @@ public class FormulaElement implements Serializable {
 	}
 
 	public void updateVariableReferences(String oldName, String newName) {
-		if (leftChild != null) {
-			leftChild.updateVariableReferences(oldName, newName);
-		}
-		if (rightChild != null) {
-			rightChild.updateVariableReferences(oldName, newName);
-		}
-		if (type == ElementType.USER_VARIABLE && value.equals(oldName)) {
+		tryUpdateVariableReference(leftChild, oldName, newName);
+		tryUpdateVariableReference(rightChild, oldName, newName);
+		if (matchesTypeAndName(ElementType.USER_VARIABLE, oldName)) {
 			value = newName;
 		}
 	}
 
 	public void updateListName(String oldName, String newName) {
-		if (leftChild != null) {
-			leftChild.updateVariableReferences(oldName, newName);
-		}
-		if (rightChild != null) {
-			rightChild.updateVariableReferences(oldName, newName);
-		}
-		if (type == ElementType.USER_LIST && value.equals(oldName)) {
+		tryUpdateVariableReference(leftChild, oldName, newName);
+		tryUpdateVariableReference(rightChild, oldName, newName);
+		if (matchesTypeAndName(ElementType.USER_LIST, oldName)) {
 			value = newName;
 		}
 	}
 
-	public void getVariableAndListNames(List<String> variables, List<String> lists) {
-		if (leftChild != null) {
-			leftChild.getVariableAndListNames(variables, lists);
-		}
-		if (rightChild != null) {
-			rightChild.getVariableAndListNames(variables, lists);
-		}
-		if (type == ElementType.USER_VARIABLE && !variables.contains(value)) {
-			variables.add(value);
-		}
-		if (type == ElementType.USER_LIST && !lists.contains(value)) {
-			lists.add(value);
+	private void tryUpdateVariableReference(FormulaElement element, String oldName, String newName) {
+		if (element != null) {
+			element.updateVariableReferences(oldName, newName);
 		}
 	}
 
 	public final boolean containsSpriteInCollision(String name) {
-		boolean contained = false;
-		if (leftChild != null) {
-			contained |= leftChild.containsSpriteInCollision(name);
-		}
-		if (rightChild != null) {
-			contained |= rightChild.containsSpriteInCollision(name);
-		}
-		if (type == ElementType.COLLISION_FORMULA && value.equals(name)) {
-			contained = true;
-		}
-		return contained;
+		return containsSpriteInCollision(leftChild, name)
+		|| containsSpriteInCollision(rightChild, name)
+		|| matchesTypeAndName(ElementType.COLLISION_FORMULA, name);
+	}
+
+	private boolean containsSpriteInCollision(FormulaElement element, String name) {
+		return element != null && element.containsSpriteInCollision(name);
 	}
 
 	public final void updateCollisionFormula(String oldName, String newName) {
-
-		if (leftChild != null) {
-			leftChild.updateCollisionFormula(oldName, newName);
-		}
-		if (rightChild != null) {
-			rightChild.updateCollisionFormula(oldName, newName);
-		}
-		if (type == ElementType.COLLISION_FORMULA && value.equals(oldName)) {
+		tryUpdateCollisionFormula(leftChild, oldName, newName);
+		tryUpdateCollisionFormula(rightChild, oldName, newName);
+		if (matchesTypeAndName(ElementType.COLLISION_FORMULA, oldName)) {
 			value = newName;
 		}
 	}
 
+	private boolean matchesTypeAndName(ElementType collisionFormula, String name) {
+		return type == collisionFormula && value.equals(name);
+	}
+
+	private void tryUpdateCollisionFormula(FormulaElement element, String oldName, String newName) {
+		if (element != null) {
+			element.updateCollisionFormula(oldName, newName);
+		}
+	}
+
 	public void updateCollisionFormulaToVersion(Project currentProject) {
-		if (leftChild != null) {
-			leftChild.updateCollisionFormulaToVersion(currentProject);
-		}
-		if (rightChild != null) {
-			rightChild.updateCollisionFormulaToVersion(currentProject);
-		}
+		tryUpdateCollisionFormulaToVersion(leftChild, currentProject);
+		tryUpdateCollisionFormulaToVersion(rightChild, currentProject);
 		if (type == ElementType.COLLISION_FORMULA) {
 			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value, currentProject);
 			if (secondSpriteName != null) {
@@ -277,59 +267,53 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
+	private void tryUpdateCollisionFormulaToVersion(FormulaElement element, Project currentProject) {
+		if (element != null) {
+			element.updateCollisionFormulaToVersion(currentProject);
+		}
+	}
+
 	public Object interpretRecursive(Sprite sprite) {
-
-		Object returnValue = 0d;
-
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager.getCurrentProject();
 		Scene currentlyPlayingScene = projectManager.getCurrentlyPlayingScene();
 		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
-		StageListener stageListener = StageActivity.stageListener;
-
-		switch (type) {
-			case BRACKET:
-				returnValue = rightChild.interpretRecursive(sprite);
-				break;
-			case NUMBER:
-			case STRING:
-				returnValue = value;
-				break;
-			case OPERATOR:
-				Operators operator = Operators.getOperatorByValue(value);
-				returnValue = interpretOperator(operator, sprite);
-				break;
-			case FUNCTION:
-				Functions function = Functions.getFunctionByValue(value);
-				returnValue = interpretFunction(function, sprite, currentProject, currentlyPlayingScene);
-				break;
-			case SENSOR:
-				returnValue = interpretSensor(sprite, currentlyEditedScene, currentProject);
-				break;
-			case USER_VARIABLE:
-				UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
-				returnValue = interpretUserVariable(userVariable);
-				break;
-			case USER_LIST:
-				UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
-				returnValue = interpretUserList(userList);
-				break;
-			case COLLISION_FORMULA:
-				try {
-					returnValue = interpretCollision(sprite.look, value, currentlyPlayingScene, stageListener);
-				} catch (Exception e) {
-					returnValue = FALSE;
-				}
-		}
-		return normalizeDegeneratedDoubleValues(returnValue);
+		Object rawReturnValue = rawInterpretRecursive(sprite, currentProject, currentlyPlayingScene, currentlyEditedScene);
+		return normalizeDegeneratedDoubleValues(rawReturnValue);
 	}
 
-	@Nullable
-	private Sprite tryFindSprite(Scene scene, String spriteName) {
+	private Object rawInterpretRecursive(Sprite sprite, Project currentProject, Scene currentlyPlayingScene, Scene currentlyEditedScene) {
+		switch (type) {
+			case BRACKET:
+				return rightChild.interpretRecursive(sprite);
+			case NUMBER:
+			case STRING:
+				return value;
+			case OPERATOR:
+				Operators operator = Operators.getOperatorByValue(value);
+				return interpretOperator(operator, sprite);
+			case FUNCTION:
+				Functions function = Functions.getFunctionByValue(value);
+				return interpretFunction(function, sprite, currentProject, currentlyPlayingScene);
+			case SENSOR:
+				return interpretSensor(sprite, currentlyEditedScene, currentProject);
+			case USER_VARIABLE:
+				UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
+				return interpretUserVariable(userVariable);
+			case USER_LIST:
+				UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
+				return interpretUserList(userList);
+			case COLLISION_FORMULA:
+				return tryInterpretCollision(sprite.look, value, currentlyPlayingScene, StageActivity.stageListener);
+		}
+		return FALSE;
+	}
+
+	private double tryInterpretCollision(Look firstLook, String secondSpriteName, Scene currentlyPlayingScene, StageListener stageListener) {
 		try {
-			return scene.getSprite(spriteName);
-		} catch (Resources.NotFoundException exception) {
-			return null;
+			return interpretCollision(firstLook, secondSpriteName, currentlyPlayingScene, stageListener);
+		} catch (Exception e) {
+			return FALSE;
 		}
 	}
 
@@ -342,6 +326,15 @@ public class FormulaElement implements Serializable {
 			return interpretLookCollision(firstLook, toLooks(spritesFromGroupWithGroupName));
 		} else {
 			return interpretLookCollision(firstLook, toLooks(getAllClones(secondSprite, stageListener)));
+		}
+	}
+
+	@Nullable
+	private Sprite tryFindSprite(Scene scene, String spriteName) {
+		try {
+			return scene.getSprite(spriteName);
+		} catch (Resources.NotFoundException exception) {
+			return null;
 		}
 	}
 
@@ -418,7 +411,7 @@ public class FormulaElement implements Serializable {
 		return stringBuilder.toString().trim();
 	}
 
-	private static Boolean listConsistsOfSingleCharacters(List<String> userListStringValues) {
+	private static boolean listConsistsOfSingleCharacters(List<String> userListStringValues) {
 		for (String userListStringValue : userListStringValues) {
 			if (userListStringValue.length() > 1) {
 				return false;
@@ -444,8 +437,8 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject, Scene currentlyPlayingScene) {
-		Object firstArgument = interpretChild(leftChild, sprite);
-		Object secondArgument = interpretChild(rightChild, sprite);
+		Object firstArgument = tryInterpretRecursive(leftChild, sprite);
+		Object secondArgument = tryInterpretRecursive(rightChild, sprite);
 
 		switch (function) {
 			case LETTER:
@@ -472,21 +465,19 @@ public class FormulaElement implements Serializable {
 	}
 
 	@Nullable
-	private Object interpretChild(FormulaElement child, Sprite sprite) {
-		if (child != null) {
-			return child.interpretRecursive(sprite);
-		} else {
+	private Object tryInterpretRecursive(FormulaElement element, Sprite sprite) {
+		if (element == null) {
 			return null;
 		}
+		return element.interpretRecursive(sprite);
 	}
 
 	private Object interpretFormulaFunction(Functions function, Double firstArgumentDouble, Double secondArgumentDouble) {
 		FormulaFunction formulaFunction = formulaFunctions.get(function);
 		if (formulaFunction == null) {
 			return FALSE;
-		} else {
-			return formulaFunction.execute(firstArgumentDouble, secondArgumentDouble);
 		}
+		return formulaFunction.execute(firstArgumentDouble, secondArgumentDouble);
 	}
 
 	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite, Project currentProject) {
@@ -498,17 +489,14 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionContains(Object right, Sprite sprite, Project currentProject) {
-		if (leftChild.getElementType() == ElementType.USER_LIST) {
-			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
+		UserList userList = getUserListOfChild(leftChild, sprite, currentProject);
+		if (userList == null) {
+			return FALSE;
+		}
 
-			if (userList == null) {
-				return FALSE;
-			}
-
-			for (Object userListElement : userList.getValue()) {
-				if (interpretOperatorEqual(userListElement, right) == TRUE) {
-					return TRUE;
-				}
+		for (Object userListElement : userList.getValue()) {
+			if (interpretOperatorEqual(userListElement, right)) {
+				return TRUE;
 			}
 		}
 
@@ -516,38 +504,45 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunctionListItem(Object left, Sprite sprite, Project currentProject) {
-		UserList userList = null;
-		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
+		if (left == null) {
+			return "";
 		}
 
+		UserList userList = getUserListOfChild(rightChild, sprite, currentProject);
 		if (userList == null) {
 			return "";
 		}
 
-		int index = 0;
-		if (left instanceof String) {
-			try {
-				Double doubleValueOfLeftChild = Double.valueOf((String) left);
-				index = doubleValueOfLeftChild.intValue();
-			} catch (NumberFormatException numberFormatexception) {
-				//This is expected
-			}
-		} else if (left != null) {
-			index = ((Double) left).intValue();
-		} else {
+		int index = tryParseInt(left) - 1;
+
+		if (index < 0 || index >= userList.getValue().size()) {
 			return "";
 		}
-
-		index--;
-
-		if (index < 0) {
-			return "";
-		} else if (index >= userList.getValue().size()) {
-			return "";
-		}
-
 		return userList.getValue().get(index);
+	}
+
+	@Nullable
+	private UserList getUserListOfChild(FormulaElement child, Sprite sprite, Project currentProject) {
+		if (child.getElementType() != ElementType.USER_LIST) {
+			return null;
+		}
+		return UserDataWrapper.getUserList(child.value, sprite, currentProject);
+	}
+
+	private int tryParseInt(String left) {
+		try {
+			return Double.valueOf(left).intValue();
+		} catch (NumberFormatException numberFormatexception) {
+			return 0;
+		}
+	}
+
+	private int tryParseInt(Object left) {
+		if (left instanceof String) {
+			return tryParseInt((String) left);
+		} else {
+			return ((Double) left).intValue();
+		}
 	}
 
 	private Object interpretFunctionJoin(Sprite sprite) {
@@ -614,10 +609,7 @@ public class FormulaElement implements Serializable {
 		}
 		if (leftChild.type == ElementType.USER_LIST) {
 			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
-			if (userList == null) {
-				return FALSE;
-			}
-			if (userList.getValue().size() == 0) {
+			if (userList == null || userList.getValue().isEmpty()) {
 				return FALSE;
 			}
 
@@ -625,7 +617,7 @@ public class FormulaElement implements Serializable {
 			if (interpretedList instanceof Double) {
 				Double interpretedListDoubleValue = (Double) interpretedList;
 				if (interpretedListDoubleValue.isNaN() || interpretedListDoubleValue.isInfinite()) {
-					return 0d;
+					return FALSE;
 				}
 				return (double) (String.valueOf(interpretedListDoubleValue.intValue())).length();
 			}
@@ -635,34 +627,23 @@ public class FormulaElement implements Serializable {
 			}
 		}
 		if (left instanceof Double && ((Double) left).isNaN()) {
-			return 0d;
+			return FALSE;
 		}
 		return (double) (String.valueOf(left)).length();
 	}
 
 	private Object interpretFunctionLetter(Object left, Object right) {
-		int index = 0;
-		if (left instanceof String) {
-			try {
-				Double doubleValueOfLeftChild = Double.valueOf((String) left);
-				index = doubleValueOfLeftChild.intValue();
-			} catch (NumberFormatException numberFormatexception) {
-				//This is expected
-			}
-		} else if (left != null) {
-			index = ((Double) left).intValue();
-		} else {
+		if (left == null || right == null) {
 			return "";
 		}
 
-		index--;
+		int index = tryParseInt(left) - 1;
+		String stringValueOfRight = String.valueOf(right);
 
-		if (index < 0) {
-			return "";
-		} else if (right == null || index >= String.valueOf(right).length()) {
+		if (index < 0 || index >= stringValueOfRight.length()) {
 			return "";
 		}
-		return String.valueOf(String.valueOf(right).charAt(index));
+		return String.valueOf(stringValueOfRight.charAt(index));
 	}
 
 	private double interpretFunctionRand(double from, double to) {
@@ -685,198 +666,172 @@ public class FormulaElement implements Serializable {
 		return element.type == ElementType.NUMBER && element.value.contains(".");
 	}
 
-	private Object interpretOperator(Operators operator, Sprite sprite) {
+	private double interpretOperator(Operators operator, Sprite sprite) {
+		Object rightObject = interpretChildRecursive(sprite, rightChild);
+		Double right = interpretOperator(rightObject);
 
-		if (leftChild != null) { // binary operator
-			Object leftObject;
-			Object rightObject;
-			try {
-				leftObject = leftChild.interpretRecursive(sprite);
-			} catch (NumberFormatException numberFormatException) {
-				leftObject = Double.NaN;
-			}
-
-			try {
-				rightObject = rightChild.interpretRecursive(sprite);
-			} catch (NumberFormatException numberFormatException) {
-				rightObject = Double.NaN;
-			}
-
+		if (leftChild != null) {
+			Object leftObject = interpretChildRecursive(sprite, leftChild);
 			Double left = interpretOperator(leftObject);
-			Double right = interpretOperator(rightObject);
 
 			switch (operator) {
 				case PLUS:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return left + right;
 				case MINUS:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return left - right;
 				case MULT:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return left * right;
 				case DIVIDE:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return left / right;
 				case POW:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
-					return java.lang.Math.pow(left, right);
+					return Math.pow(left, right);
 				case EQUAL:
-					return interpretOperatorEqual(leftObject, rightObject);
+					return booleanToDouble(interpretOperatorEqual(leftObject, rightObject));
 				case NOT_EQUAL:
-					return interpretOperatorEqual(leftObject, rightObject) == 1d ? 0d : 1d;
+					return booleanToDouble(!(interpretOperatorEqual(leftObject, rightObject)));
 				case GREATER_THAN:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return booleanToDouble(left.compareTo(right) > 0);
 				case GREATER_OR_EQUAL:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return booleanToDouble(left.compareTo(right) >= 0);
 				case SMALLER_THAN:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return booleanToDouble(left.compareTo(right) < 0);
 				case SMALLER_OR_EQUAL:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return booleanToDouble(left.compareTo(right) <= 0);
 				case LOGICAL_AND:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
-					return booleanToDouble(left * right != 0d);
+					return booleanToDouble(left != FALSE && right != FALSE);
 				case LOGICAL_OR:
-					left = interpretOperator(leftObject);
-					right = interpretOperator(rightObject);
 					return booleanToDouble(left != FALSE || right != FALSE);
+				default:
+					return FALSE;
 			}
-		} else { //unary operators
-			Object rightObject;
-			try {
-				rightObject = rightChild.interpretRecursive(sprite);
-			} catch (NumberFormatException numberFormatException) {
-				rightObject = Double.NaN;
-			}
-
-			Double value = interpretOperator(rightObject);
+		} else {
 			switch (operator) {
 				case MINUS:
-					return -value;
+					return -right;
 				case LOGICAL_NOT:
-					return booleanToDouble(value == FALSE);
+					return booleanToDouble(right == FALSE);
+				default:
+					return FALSE;
 			}
 		}
-		return FALSE;
+	}
+
+	private Object interpretChildRecursive(Sprite sprite, FormulaElement child) {
+		try {
+			return child.interpretRecursive(sprite);
+		} catch (NumberFormatException numberFormatException) {
+			return Double.NaN;
+		}
 	}
 
 	private Object interpretObjectSensor(Sensors sensor, Sprite sprite, Scene currentlyEditedScene, Project currentProject) {
-		Object returnValue = 0d;
 		Look look = sprite.look;
 		LookData lookData = look.getLookData();
 		List<LookData> lookDataList = sprite.getLookList();
-		if (lookData == null && lookDataList.size() > 0) {
+		if (lookData == null && !lookDataList.isEmpty()) {
 			lookData = lookDataList.get(0);
 		}
 		switch (sensor) {
 			case OBJECT_BRIGHTNESS:
-				returnValue = (double) look.getBrightnessInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getBrightnessInUserInterfaceDimensionUnit();
 			case OBJECT_COLOR:
-				returnValue = (double) look.getColorInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getColorInUserInterfaceDimensionUnit();
 			case OBJECT_TRANSPARENCY:
-				returnValue = (double) look.getTransparencyInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getTransparencyInUserInterfaceDimensionUnit();
 			case OBJECT_LAYER:
-				if (look.getZIndex() < 0) {
-					returnValue = (double) currentlyEditedScene.getSpriteList().indexOf(sprite);
-				} else if (look.getZIndex() == 0) {
-					returnValue = 0d;
-				} else {
-					returnValue = (double) look.getZIndex() - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
-				}
-				break;
+				return getLookLayerIndex(sprite, look, currentlyEditedScene.getSpriteList());
 			case OBJECT_ROTATION:
-				returnValue = (double) look.getDirectionInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getDirectionInUserInterfaceDimensionUnit();
 			case OBJECT_SIZE:
-				returnValue = (double) look.getSizeInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getSizeInUserInterfaceDimensionUnit();
 			case OBJECT_X:
-				returnValue = (double) look.getXInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getXInUserInterfaceDimensionUnit();
 			case OBJECT_Y:
-				returnValue = (double) look.getYInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getYInUserInterfaceDimensionUnit();
 			case OBJECT_ANGULAR_VELOCITY:
-				returnValue = (double) look.getAngularVelocityInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getAngularVelocityInUserInterfaceDimensionUnit();
 			case OBJECT_X_VELOCITY:
-				returnValue = (double) look.getXVelocityInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getXVelocityInUserInterfaceDimensionUnit();
 			case OBJECT_Y_VELOCITY:
-				returnValue = (double) look.getYVelocityInUserInterfaceDimensionUnit();
-				break;
+				return (double) look.getYVelocityInUserInterfaceDimensionUnit();
+			case OBJECT_DISTANCE_TO:
+				return (double) look.getDistanceToTouchPositionInUserInterfaceDimensions();
 			case OBJECT_LOOK_NUMBER:
 			case OBJECT_BACKGROUND_NUMBER:
-				returnValue = 1.0d + ((lookData != null) ? lookDataList.indexOf(lookData) : 0);
-				break;
+				return getLookBackgroundNumber(lookData, lookDataList);
 			case OBJECT_LOOK_NAME:
 			case OBJECT_BACKGROUND_NAME:
-				returnValue = (lookData != null) ? lookData.getName() : "";
-				break;
-			case OBJECT_DISTANCE_TO:
-				returnValue = (double) look.getDistanceToTouchPositionInUserInterfaceDimensions();
-				break;
+				return getLookBackgroundName(lookData);
 			case NFC_TAG_MESSAGE:
-				returnValue = NfcHandler.getLastNfcTagMessage();
-				break;
+				return NfcHandler.getLastNfcTagMessage();
 			case NFC_TAG_ID:
-				returnValue = NfcHandler.getLastNfcTagId();
-				break;
+				return NfcHandler.getLastNfcTagId();
 			case COLLIDES_WITH_EDGE:
-				if (StageActivity.stageListener != null) {
-					XmlHeader xmlHeader = currentProject.getXmlHeader();
-					returnValue = StageActivity.stageListener.firstFrameDrawn ? CollisionDetection.collidesWithEdge(look, xmlHeader.virtualScreenWidth, xmlHeader.virtualScreenHeight) : 0d;
-				} else {
-					returnValue = FALSE;
-				}
-				break;
+				return tryCalculateCollidesWithEdge(look, StageActivity.stageListener, currentProject.getXmlHeader());
 			case COLLIDES_WITH_FINGER:
-				returnValue = CollisionDetection.collidesWithFinger(look.getCurrentCollisionPolygon(), TouchUtil.getCurrentTouchingPoints());
-				break;
+				return calculateCollidesWithFinger(look);
+			default:
+				return FALSE;
 		}
-		return returnValue;
+	}
+
+	private double calculateCollidesWithFinger(Look look) {
+		return CollisionDetection.collidesWithFinger(look.getCurrentCollisionPolygon(),
+				TouchUtil.getCurrentTouchingPoints());
+	}
+
+	private double tryCalculateCollidesWithEdge(Look look, StageListener stageListener, XmlHeader xmlHeader) {
+		if (stageListener == null || !stageListener.firstFrameDrawn) {
+			return FALSE;
+		}
+		int virtualScreenWidth = xmlHeader.virtualScreenWidth;
+		int virtualScreenHeight = xmlHeader.virtualScreenHeight;
+		return CollisionDetection.collidesWithEdge(look, virtualScreenWidth, virtualScreenHeight);
+	}
+
+	private String getLookBackgroundName(LookData lookData) {
+		if (lookData == null) {
+			return "";
+		}
+		return lookData.getName();
+	}
+
+	private double getLookBackgroundNumber(LookData lookData, List<LookData> lookDataList) {
+		if (lookData == null) {
+			return 1;
+		}
+		return lookDataList.indexOf(lookData) + 1d;
+	}
+
+	private double getLookLayerIndex(Sprite sprite, Look look, List<Sprite> spriteList) {
+		int lookZIndex = look.getZIndex();
+		if (lookZIndex == 0) {
+			return 0;
+		} else if (lookZIndex < 0) {
+			return spriteList.indexOf(sprite);
+		} else {
+			return (double) lookZIndex - Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS;
+		}
 	}
 
 	private boolean interpretOperatorEqual(Object left, Object right) {
 		String leftString = String.valueOf(left);
 		String rightString = String.valueOf(right);
 		try {
-			double tempLeft = Double.valueOf(leftString);
-			double tempRight = Double.valueOf(rightString);
-			return getCompareResult(tempLeft, tempRight) == 0;
+			double tempLeft = Double.parseDouble(leftString);
+			double tempRight = Double.parseDouble(rightString);
+			return equalsDoubleIEEE754(tempLeft, tempRight);
 		} catch (NumberFormatException numberFormatException) {
 			return leftString.equals(rightString);
 		}
 	}
 
-	private int getCompareResult(Double left, Double right) {
-		int compareResult;
-		if (left == 0 || right == 0) {
-			compareResult = ((Double) Math.abs(left)).compareTo(Math.abs(right));
-		} else {
-			compareResult = left.compareTo(right);
-		}
-		return compareResult;
+	private boolean equalsDoubleIEEE754(double left, double right) {
+		return Double.isNaN(left) && Double.isNaN(right)
+				|| !Double.isNaN(left) && !Double.isNaN(right) && left >= right && left <= right;
 	}
 
-	private Double interpretOperator(Object object) {
+	private double interpretOperator(Object object) {
 		if (object instanceof String) {
 			try {
 				return Double.valueOf((String) object);
@@ -884,7 +839,7 @@ public class FormulaElement implements Serializable {
 				return Double.NaN;
 			}
 		} else {
-			return (Double) object;
+			return (double) object;
 		}
 	}
 
@@ -1018,114 +973,109 @@ public class FormulaElement implements Serializable {
 			rightChild.addRequiredResources(requiredResourcesSet);
 		}
 		if (type == ElementType.FUNCTION) {
-			Functions functions = Functions.getFunctionByValue(value);
-			switch (functions) {
-				case ARDUINOANALOG:
-				case ARDUINODIGITAL:
-					requiredResourcesSet.add(Brick.BLUETOOTH_SENSORS_ARDUINO);
-					break;
-				case RASPIDIGITAL:
-					requiredResourcesSet.add(Brick.SOCKET_RASPI);
-					break;
-			}
+			addFunctionResources(requiredResourcesSet);
 		}
 		if (type == ElementType.SENSOR) {
-			Sensors sensor = Sensors.getSensorByValue(value);
-			switch (sensor) {
-				case X_ACCELERATION:
-				case Y_ACCELERATION:
-				case Z_ACCELERATION:
-					requiredResourcesSet.add(Brick.SENSOR_ACCELERATION);
-					break;
-
-				case X_INCLINATION:
-				case Y_INCLINATION:
-					requiredResourcesSet.add(Brick.SENSOR_INCLINATION);
-					break;
-
-				case COMPASS_DIRECTION:
-					requiredResourcesSet.add(Brick.SENSOR_COMPASS);
-					break;
-
-				case LATITUDE:
-				case LONGITUDE:
-				case LOCATION_ACCURACY:
-				case ALTITUDE:
-					requiredResourcesSet.add(Brick.SENSOR_GPS);
-					break;
-
-				case FACE_DETECTED:
-				case FACE_SIZE:
-				case FACE_X_POSITION:
-				case FACE_Y_POSITION:
-					requiredResourcesSet.add(Brick.FACE_DETECTION);
-					break;
-
-				case NXT_SENSOR_1:
-				case NXT_SENSOR_2:
-				case NXT_SENSOR_3:
-				case NXT_SENSOR_4:
-					requiredResourcesSet.add(Brick.BLUETOOTH_LEGO_NXT);
-					break;
-
-				case EV3_SENSOR_1:
-				case EV3_SENSOR_2:
-				case EV3_SENSOR_3:
-				case EV3_SENSOR_4:
-					requiredResourcesSet.add(Brick.BLUETOOTH_LEGO_EV3);
-					break;
-
-				case PHIRO_FRONT_LEFT:
-				case PHIRO_FRONT_RIGHT:
-				case PHIRO_SIDE_LEFT:
-				case PHIRO_SIDE_RIGHT:
-				case PHIRO_BOTTOM_LEFT:
-				case PHIRO_BOTTOM_RIGHT:
-					requiredResourcesSet.add(Brick.BLUETOOTH_PHIRO);
-					break;
-
-				case DRONE_BATTERY_STATUS:
-				case DRONE_CAMERA_READY:
-				case DRONE_EMERGENCY_STATE:
-				case DRONE_FLYING:
-				case DRONE_INITIALIZED:
-				case DRONE_NUM_FRAMES:
-				case DRONE_RECORD_READY:
-				case DRONE_RECORDING:
-				case DRONE_USB_ACTIVE:
-				case DRONE_USB_REMAINING_TIME:
-					requiredResourcesSet.add(Brick.ARDRONE_SUPPORT);
-					break;
-
-				case NFC_TAG_MESSAGE:
-				case NFC_TAG_ID:
-					requiredResourcesSet.add(Brick.NFC_ADAPTER);
-					break;
-
-				case COLLIDES_WITH_EDGE:
-					requiredResourcesSet.add(Brick.COLLISION);
-					break;
-				case COLLIDES_WITH_FINGER:
-					requiredResourcesSet.add(Brick.COLLISION);
-					break;
-
-				case GAMEPAD_A_PRESSED:
-				case GAMEPAD_B_PRESSED:
-				case GAMEPAD_DOWN_PRESSED:
-				case GAMEPAD_UP_PRESSED:
-				case GAMEPAD_LEFT_PRESSED:
-				case GAMEPAD_RIGHT_PRESSED:
-					requiredResourcesSet.add(Brick.CAST_REQUIRED);
-					break;
-
-				case LOUDNESS:
-					requiredResourcesSet.add(Brick.MICROPHONE);
-					break;
-				default:
-			}
+			addSensorsResources(requiredResourcesSet);
 		}
 		if (type == ElementType.COLLISION_FORMULA) {
 			requiredResourcesSet.add(Brick.COLLISION);
+		}
+	}
+
+	private void addSensorsResources(Set<Integer> requiredResourcesSet) {
+		Sensors sensor = Sensors.getSensorByValue(value);
+		switch (sensor) {
+			case X_ACCELERATION:
+			case Y_ACCELERATION:
+			case Z_ACCELERATION:
+				requiredResourcesSet.add(Brick.SENSOR_ACCELERATION);
+				break;
+			case X_INCLINATION:
+			case Y_INCLINATION:
+				requiredResourcesSet.add(Brick.SENSOR_INCLINATION);
+				break;
+			case COMPASS_DIRECTION:
+				requiredResourcesSet.add(Brick.SENSOR_COMPASS);
+				break;
+			case LATITUDE:
+			case LONGITUDE:
+			case LOCATION_ACCURACY:
+			case ALTITUDE:
+				requiredResourcesSet.add(Brick.SENSOR_GPS);
+				break;
+			case FACE_DETECTED:
+			case FACE_SIZE:
+			case FACE_X_POSITION:
+			case FACE_Y_POSITION:
+				requiredResourcesSet.add(Brick.FACE_DETECTION);
+				break;
+			case NXT_SENSOR_1:
+			case NXT_SENSOR_2:
+			case NXT_SENSOR_3:
+			case NXT_SENSOR_4:
+				requiredResourcesSet.add(Brick.BLUETOOTH_LEGO_NXT);
+				break;
+			case EV3_SENSOR_1:
+			case EV3_SENSOR_2:
+			case EV3_SENSOR_3:
+			case EV3_SENSOR_4:
+				requiredResourcesSet.add(Brick.BLUETOOTH_LEGO_EV3);
+				break;
+			case PHIRO_FRONT_LEFT:
+			case PHIRO_FRONT_RIGHT:
+			case PHIRO_SIDE_LEFT:
+			case PHIRO_SIDE_RIGHT:
+			case PHIRO_BOTTOM_LEFT:
+			case PHIRO_BOTTOM_RIGHT:
+				requiredResourcesSet.add(Brick.BLUETOOTH_PHIRO);
+				break;
+			case DRONE_BATTERY_STATUS:
+			case DRONE_CAMERA_READY:
+			case DRONE_EMERGENCY_STATE:
+			case DRONE_FLYING:
+			case DRONE_INITIALIZED:
+			case DRONE_NUM_FRAMES:
+			case DRONE_RECORD_READY:
+			case DRONE_RECORDING:
+			case DRONE_USB_ACTIVE:
+			case DRONE_USB_REMAINING_TIME:
+				requiredResourcesSet.add(Brick.ARDRONE_SUPPORT);
+				break;
+			case NFC_TAG_MESSAGE:
+			case NFC_TAG_ID:
+				requiredResourcesSet.add(Brick.NFC_ADAPTER);
+				break;
+			case COLLIDES_WITH_EDGE:
+			case COLLIDES_WITH_FINGER:
+				requiredResourcesSet.add(Brick.COLLISION);
+				break;
+			case GAMEPAD_A_PRESSED:
+			case GAMEPAD_B_PRESSED:
+			case GAMEPAD_DOWN_PRESSED:
+			case GAMEPAD_UP_PRESSED:
+			case GAMEPAD_LEFT_PRESSED:
+			case GAMEPAD_RIGHT_PRESSED:
+				requiredResourcesSet.add(Brick.CAST_REQUIRED);
+				break;
+			case LOUDNESS:
+				requiredResourcesSet.add(Brick.MICROPHONE);
+				break;
+			default:
+		}
+	}
+
+	private void addFunctionResources(Set<Integer> requiredResourcesSet) {
+		Functions functions = Functions.getFunctionByValue(value);
+		switch (functions) {
+			case ARDUINOANALOG:
+			case ARDUINODIGITAL:
+				requiredResourcesSet.add(Brick.BLUETOOTH_SENSORS_ARDUINO);
+				break;
+			case RASPIDIGITAL:
+				requiredResourcesSet.add(Brick.SOCKET_RASPI);
+				break;
+			default:
 		}
 	}
 }
