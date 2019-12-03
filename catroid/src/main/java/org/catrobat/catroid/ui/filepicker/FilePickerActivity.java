@@ -23,17 +23,19 @@
 
 package org.catrobat.catroid.ui.filepicker;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.ActionMode;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BaseActivity;
+import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
+import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,13 +44,22 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 
-public class FilePickerActivity extends BaseActivity implements ListProjectFilesTask.OnListProjectFilesListener {
+public class FilePickerActivity extends BaseActivity
+		implements ListProjectFilesTask.OnListProjectFilesListener,
+		SelectActionModeCallback.ActionModeClickListener, ProjectImportController.ProjectImportFinishedListener {
 
 	public static final String TAG = FilePickerActivity.class.getSimpleName();
 
 	private static final int PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801;
 
+	private enum ActionModeType {NONE, SELECT};
+
 	private RecyclerView recyclerView;
+	private ProjectImportController projectImportController;
+
+	private FilePickerAdapter filePickerAdapter;
+	private ActionMode actionMode;
+	private ActionModeType actionModeType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,11 +68,13 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_file_picker);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.import_project);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		recyclerView = findViewById(R.id.recycler_view);
+
+		actionModeType = ActionModeType.NONE;
 
 		setShowProgressBar(true);
 		getFiles();
@@ -109,17 +122,104 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 	}
 
 	private void initializeAdapter(List<File> files) {
-		FilePickerAdapter adapter = new FilePickerAdapter(files);
-		adapter.setOnItemClickListener(new FilePickerAdapter.OnItemClickListener() {
+		filePickerAdapter = new FilePickerAdapter(files);
+		filePickerAdapter.setOnItemClickListener(new RVAdapter.OnItemClickListener<File>() {
 			@Override
 			public void onItemClick(File item) {
-				Intent data = new Intent();
-				data.setData(Uri.fromFile(item));
-				setResult(RESULT_OK, data);
-				finish();
+				FilePickerActivity.this.onItemClick(item);
+			}
+
+			@Override
+			public void onItemLongClick(File item, CheckableVH holder) {
+				startMultiSelectionMode(item);
 			}
 		});
 
-		recyclerView.setAdapter(adapter);
+		filePickerAdapter.setSelectionListener(selectedItemCnt -> onSelectionChangedAction());
+		recyclerView.setAdapter(filePickerAdapter);
+	}
+
+	private void onItemClick(File item) {
+		switch (actionModeType) {
+			case NONE:
+				importItem(item);
+				break;
+			case SELECT:
+				toggleItemSelection(item);
+				break;
+		}
+	}
+
+	private void importItem(File item) {
+		projectImportController = new ProjectImportController(getContentResolver(), this);
+		projectImportController.startImportOfProject(Uri.fromFile(item));
+	}
+
+	private void toggleItemSelection(File item) {
+		filePickerAdapter.toggleSelection(item);
+		actionMode.invalidate();
+	}
+
+	@Override
+	public void onToggleSelection() {
+		filePickerAdapter.toggleSelection();
+	}
+
+	private void startMultiSelectionMode(File item) {
+		actionModeType = ActionModeType.SELECT;
+		filePickerAdapter.showCheckBoxes = true;
+		actionMode = startActionMode(new SelectActionModeCallback(this));
+		toggleItemSelection(item);
+		filePickerAdapter.notifyDataSetChanged();
+	}
+
+	private void onSelectionChangedAction() {
+		actionMode.invalidate();
+	}
+
+	@Override
+	public void endMultiSelectionMode() {
+		actionModeType = ActionModeType.NONE;
+		filePickerAdapter.clearSelection();
+		filePickerAdapter.showCheckBoxes = false;
+		filePickerAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onConfirm() {
+		List<File> selectedFiles = filePickerAdapter.getSelectedItems();
+		if (selectedFiles.isEmpty()) {
+			ToastUtil.showError(this, R.string.no_projects_selected);
+			return;
+		}
+		setShowProgressBar(true);
+		projectImportController = new ProjectImportController(getContentResolver(), this);
+		projectImportController.startImportOfProjects(getUriOfFiles(selectedFiles));
+	}
+
+	private ArrayList<Uri> getUriOfFiles(List<File> files) {
+		ArrayList<Uri> uriOfFiles = new ArrayList<>();
+
+		for (File file : files) {
+			uriOfFiles.add(Uri.fromFile(file));
+		}
+		return uriOfFiles;
+	}
+
+	@Override
+	public boolean hasUnselectedItems() {
+		return filePickerAdapter.getSelectedItems().size() != filePickerAdapter.getSelectableItemCount();
+	}
+
+	@Override
+	public void notifyActivityFinished(boolean success) {
+		setShowProgressBar(false);
+		ToastUtil.showSuccess(this, R.string.import_project_successful);
+		if (success) {
+			setResult(RESULT_OK);
+		} else {
+			setResult(RESULT_CANCELED);
+		}
+		finish();
 	}
 }

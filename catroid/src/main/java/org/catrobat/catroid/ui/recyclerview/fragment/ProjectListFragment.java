@@ -39,10 +39,8 @@ import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
-import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
-import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
@@ -65,10 +63,7 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
-import static android.app.Activity.RESULT_OK;
 
-import static org.catrobat.catroid.common.Constants.CACHED_PROJECT_ZIP_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
@@ -84,30 +79,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802;
 
 	private static final int REQUEST_IMPORT_PROJECT = 7;
-
-	private ProjectUnzipAndImportTask.ProjectUnzipAndImportListener projectUnzipAndImportListener =
-			new ProjectUnzipAndImportTask.ProjectUnzipAndImportListener() {
-				@Override
-				public void onImportFinished(boolean success) {
-					adapter.setItems(getItemList());
-					if (!success) {
-						ToastUtil.showError(getContext(), R.string.error_import_project);
-					}
-					setShowProgressBar(false);
-				}
-			};
-
-	private ProjectImportTask.ProjectImportListener projectImportListener =
-			new ProjectImportTask.ProjectImportListener() {
-				@Override
-				public void onImportFinished(boolean success) {
-					adapter.setItems(getItemList());
-					if (!success) {
-						ToastUtil.showError(getContext(), R.string.error_import_project);
-					}
-					setShowProgressBar(false);
-				}
-			};
 
 	@Override
 	public void onResume() {
@@ -182,43 +153,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == RESULT_OK) {
-			importProject(data);
-		}
-	}
-
-	private void importProject(Intent data) {
-		if (data == null) {
-			setShowProgressBar(false);
-			return;
-		}
-
-		if (!data.getData().getScheme().equals("file")) {
-			throw new IllegalArgumentException("importProject has to be called with a file uri. (not a content uri");
-		}
-
-		try {
-			File cacheFile = new File(CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-			if (cacheFile.exists()) {
-				cacheFile.delete();
-			}
-			File src = new File(data.getData().getPath());
-			if (src.isDirectory()) {
-				new ProjectImportTask()
-						.setListener(projectImportListener)
-						.execute(src);
-			} else {
-				File projectFile = StorageOperations
-						.copyUriToDir(getContext().getContentResolver(), data.getData(), CACHE_DIR, CACHED_PROJECT_ZIP_FILE_NAME);
-				new ProjectUnzipAndImportTask()
-						.setListener(projectUnzipAndImportListener)
-						.execute(projectFile);
-			}
-			setShowProgressBar(true);
-		} catch (IOException e) {
-			Log.e(TAG, "Cannot resolve project to import.", e);
-		}
+		adapter.setItems(getItemList());
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override

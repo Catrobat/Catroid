@@ -670,6 +670,8 @@
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
+    <string name="no_projects_selected">No projects selected for import</string>
+    <string name="import_project_successful">Import successful</string>
 
     <string name="error_no_files_found">No project files found.</string>
 
