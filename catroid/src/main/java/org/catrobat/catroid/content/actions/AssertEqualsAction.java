@@ -23,8 +23,10 @@
 
 package org.catrobat.catroid.content.actions;
 
+import android.content.Intent;
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -32,6 +34,7 @@ import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.stage.StageActivity;
 
 public class AssertEqualsAction extends TemporalAction {
 
@@ -44,11 +47,44 @@ public class AssertEqualsAction extends TemporalAction {
 	private UserVariable expectedVariable;
 	private UserVariable setupVariable;
 
+	public static final String MESSAGE = "ASSERTION_MESSAGE";
+
 	@Override
 	protected void update(float percent) {
 		updateVariable(actualFormula, actualVariable);
 		updateVariable(expectedFormula, expectedVariable);
 		updateVariable(new Formula(AssertEqualsBrick.READY_VALUE), setupVariable);
+
+		boolean success = false;
+		String message = "";
+		if (expectedVariable.getValue() instanceof Double
+				&& actualVariable.getValue() instanceof Double) {
+			success = ((Double) expectedVariable.getValue()).equals((Double) actualVariable.getValue());
+			message = "AssertionFailedError:\n"
+					+ "expected:<" + (Double) expectedVariable.getValue() + "> but was:<" + (Double) actualVariable.getValue() + ">";
+		} else if (expectedVariable.getValue() instanceof String
+				&& actualVariable.getValue() instanceof String) {
+			success =  ((String) expectedVariable.getValue()).equals((String) actualVariable.getValue());
+			message = "AssertionFailedError:\n"
+					+ "expected:<[" + (String) expectedVariable.getValue() + "]> but was:<[" + (String) actualVariable.getValue() + "]>";
+		} else {
+			message = "Type error - expected and actual are mismatching types\n"
+					+ "Got:"
+					+ "\nactual = " + actualVariable.getValue().toString()
+					+ "\nexpected = " + expectedVariable.getValue().toString() + "\n";
+		}
+
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null) {
+			Intent resultIntent = new Intent();
+			resultIntent.putExtra(MESSAGE, message);
+			if (success) {
+				stageActivity.setResult(StageActivity.STAGE_ACTIVITY_TEST_SUCCESS, resultIntent);
+			} else {
+				stageActivity.setResult(StageActivity.STAGE_ACTIVITY_TEST_FAIL, resultIntent);
+			}
+			stageActivity.finish();
+		}
 	}
 
 	protected void updateVariable(Formula formula, UserVariable variable) {

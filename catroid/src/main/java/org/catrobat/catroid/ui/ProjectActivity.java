@@ -43,6 +43,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -57,6 +58,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
@@ -213,9 +215,11 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
-			SensorHandler.stopSensorListeners();
-			FaceDetectionHandler.stopFaceDetection();
+		if (resultCode == StageActivity.STAGE_ACTIVITY_TEST_SUCCESS) {
+			ToastUtil.showSuccess(this, "Whoop Whoop!");
+		}
+		if (resultCode == StageActivity.STAGE_ACTIVITY_TEST_FAIL) {
+			ToastUtil.showError(this, data.getStringExtra(AssertEqualsAction.MESSAGE));
 		}
 
 		if (resultCode != RESULT_OK) {
