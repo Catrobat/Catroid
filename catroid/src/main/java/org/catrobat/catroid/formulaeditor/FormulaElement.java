@@ -635,36 +635,51 @@ public class FormulaElement implements Serializable {
 		if (leftChild == null) {
 			return FALSE;
 		}
-		if (leftChild.type == ElementType.NUMBER || leftChild.type == ElementType.STRING) {
-			return (double) leftChild.value.length();
-		}
-		if (leftChild.type == ElementType.USER_VARIABLE) {
-			UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
-			return (double) handleLengthUserVariableParameter(userVariable);
-		}
-		if (leftChild.type == ElementType.USER_LIST) {
-			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
-			if (userList == null || userList.getValue().isEmpty()) {
-				return FALSE;
-			}
 
-			Object interpretedList = leftChild.interpretRecursive(sprite);
-			if (interpretedList instanceof Double) {
-				Double interpretedListDoubleValue = (Double) interpretedList;
-				if (interpretedListDoubleValue.isNaN() || interpretedListDoubleValue.isInfinite()) {
-					return FALSE;
-				}
-				return (double) (String.valueOf(interpretedListDoubleValue.intValue())).length();
-			}
-			if (interpretedList instanceof String) {
-				String interpretedListStringValue = (String) interpretedList;
-				return (double) interpretedListStringValue.length();
-			}
+		switch (leftChild.type) {
+			case NUMBER:
+			case STRING:
+				return (double) leftChild.value.length();
+			case USER_VARIABLE:
+				UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
+				return (double) handleLengthUserVariableParameter(userVariable);
+			case USER_LIST:
+				return lengthOfDoubleString(interpretUserListLength(left, sprite, currentProject));
+			default:
+				return lengthOfDoubleString(left);
 		}
-		if (left instanceof Double && ((Double) left).isNaN()) {
+	}
+
+	private double interpretUserListLength(Object left, Sprite sprite, Project currentProject) {
+		UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
+		if (userList == null || userList.getValue().isEmpty()) {
 			return FALSE;
 		}
-		return (double) (String.valueOf(left)).length();
+
+		Object interpretedList = leftChild.interpretRecursive(sprite);
+		if (interpretedList instanceof Double) {
+			Double interpretedListDoubleValue = (Double) interpretedList;
+			if (interpretedListDoubleValue.isNaN() || interpretedListDoubleValue.isInfinite()) {
+				return FALSE;
+			}
+			return (double) (String.valueOf(interpretedListDoubleValue.intValue())).length();
+		}
+		if (interpretedList instanceof String) {
+			String interpretedListStringValue = (String) interpretedList;
+			return (double) interpretedListStringValue.length();
+		}
+
+		return lengthOfDoubleString(left);
+	}
+
+	private double lengthOfDoubleString(Object value) {
+		if (value instanceof Double) {
+			Double doubleValue = (Double) value;
+			if (doubleValue.isNaN() || doubleValue.isInfinite()) {
+				return FALSE;
+			}
+		}
+		return String.valueOf(value).length();
 	}
 
 	private Object interpretFunctionLetter(Object left, Object right) {

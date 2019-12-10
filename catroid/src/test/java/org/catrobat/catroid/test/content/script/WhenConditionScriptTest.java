@@ -71,7 +71,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptOnce() throws InterpretationException {
-		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true);
+		when(formula.interpretBoolean(any(Sprite.class), stringProvider)).thenReturn(true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -86,7 +86,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptMultipleTimes() throws InterpretationException {
-		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
+		when(formula.interpretBoolean(any(Sprite.class), stringProvider)).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -100,7 +100,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptBeforeAndAfterBeingStopped() throws InterpretationException {
-		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
+		when(formula.interpretBoolean(any(Sprite.class), stringProvider)).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		conditionScript.addBrick(new StopScriptBrick(0));
 		sprite.initializeEventThreads(EventId.START);

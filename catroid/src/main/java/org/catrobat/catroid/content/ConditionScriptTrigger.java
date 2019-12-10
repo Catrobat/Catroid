@@ -53,7 +53,7 @@ public class ConditionScriptTrigger {
 
 	void evaluateAndTriggerActions(Sprite sprite) {
 		try {
-			boolean conditionValue = formula.interpretBoolean(sprite);
+			boolean conditionValue = formula.interpretBoolean(sprite, stringProvider);
 			if (conditionValue) {
 				triggerScript(sprite);
 			} else {
