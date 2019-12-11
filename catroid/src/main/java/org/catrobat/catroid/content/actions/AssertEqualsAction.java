@@ -38,74 +38,44 @@ import org.catrobat.catroid.stage.StageActivity;
 
 public class AssertEqualsAction extends TemporalAction {
 
-	private Formula actualFormula;
-	private Formula expectedFormula;
+	private Formula actualFormula = null;
+	private Formula expectedFormula = null;
 
 	private Sprite sprite;
-
-	private UserVariable actualVariable;
-	private UserVariable expectedVariable;
-	private UserVariable setupVariable;
 
 	public static final String MESSAGE = "ASSERTION_MESSAGE";
 
 	@Override
 	protected void update(float percent) {
-		updateVariable(actualFormula, actualVariable);
-		updateVariable(expectedFormula, expectedVariable);
-		updateVariable(new Formula(AssertEqualsBrick.READY_VALUE), setupVariable);
-
-		boolean success = false;
-		String message = "";
-		if (expectedVariable.getValue() instanceof Double
-				&& actualVariable.getValue() instanceof Double) {
-			success = ((Double) expectedVariable.getValue()).equals((Double) actualVariable.getValue());
-			message = "AssertionFailedError:\n"
-					+ "expected:<" + (Double) expectedVariable.getValue() + "> but was:<" + (Double) actualVariable.getValue() + ">";
-		} else if (expectedVariable.getValue() instanceof String
-				&& actualVariable.getValue() instanceof String) {
-			success =  ((String) expectedVariable.getValue()).equals((String) actualVariable.getValue());
-			message = "AssertionFailedError:\n"
-					+ "expected:<[" + (String) expectedVariable.getValue() + "]> but was:<[" + (String) actualVariable.getValue() + "]>";
-		} else {
-			message = "Type error - expected and actual are mismatching types\n"
-					+ "Got:"
-					+ "\nactual = " + actualVariable.getValue().toString()
-					+ "\nexpected = " + expectedVariable.getValue().toString() + "\n";
+		if (actualFormula == null || expectedFormula == null) {
+			String message = "AssertionFailedError:\n"
+					+ "Some Formula is null";
+			finishWithResult(message, StageActivity.STAGE_ACTIVITY_TEST_FAIL);
 		}
+		Object actualValue = actualFormula.interpretObject(sprite);
+		Object expectedValue = expectedFormula.interpretObject(sprite);
 
+		if (expectedValue.equals(actualValue)) {
+			finishWithResult("", StageActivity.STAGE_ACTIVITY_TEST_SUCCESS);
+		} else {
+			String message = formatMessage(actualValue, expectedValue);
+			finishWithResult(message, StageActivity.STAGE_ACTIVITY_TEST_FAIL);
+		}
+	}
+
+	private void finishWithResult(String message, int status) {
 		StageActivity stageActivity = StageActivity.activeStageActivity.get();
 		if (stageActivity != null) {
 			Intent resultIntent = new Intent();
 			resultIntent.putExtra(MESSAGE, message);
-			if (success) {
-				stageActivity.setResult(StageActivity.STAGE_ACTIVITY_TEST_SUCCESS, resultIntent);
-			} else {
-				stageActivity.setResult(StageActivity.STAGE_ACTIVITY_TEST_FAIL, resultIntent);
-			}
+			stageActivity.setResult(status, resultIntent);
 			stageActivity.finish();
 		}
 	}
 
-	protected void updateVariable(Formula formula, UserVariable variable) {
-		if (variable == null) {
-			return;
-		}
-		Object value = formula == null ? Double.valueOf(0d) : formula.interpretObject(sprite);
-
-		boolean isFirstLevelStringTree = false;
-		if (formula != null && formula.getRoot().getElementType() == FormulaElement.ElementType.STRING) {
-			isFirstLevelStringTree = true;
-		}
-
-		try {
-			if (!isFirstLevelStringTree && value instanceof String) {
-				value = Double.valueOf((String) value);
-			}
-		} catch (NumberFormatException numberFormatException) {
-			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
-		}
-		variable.setValue(value);
+	private String formatMessage(Object actual, Object expected) {
+		return "AssertionFailedError:\n"
+				+ "expected:<" + expected + "> but was:<" + actual + ">";
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -118,17 +88,5 @@ public class AssertEqualsAction extends TemporalAction {
 
 	public void setExpected(Formula expected) {
 		this.expectedFormula = expected;
-	}
-
-	public void setActualVariable(UserVariable actualVariable) {
-		this.actualVariable = actualVariable;
-	}
-
-	public void setExpectedVariable(UserVariable expectedVariable) {
-		this.expectedVariable = expectedVariable;
-	}
-
-	public void setSetupVariable(UserVariable setupVariable) {
-		this.setupVariable = setupVariable;
 	}
 }

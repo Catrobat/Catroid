@@ -1221,10 +1221,6 @@ public class ActionFactory extends Actions {
 
 		action.setSprite(sprite);
 
-		action.setActualVariable(actualVariable);
-		action.setExpectedVariable(expectedVariable);
-		action.setSetupVariable(setupVariable);
-
 		return action;
 	}
 
