@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.catrobattestrunner;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -33,6 +35,7 @@ import com.google.common.math.DoubleMath;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
@@ -55,6 +58,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.contrib.ActivityResultMatchers.hasResultCode;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
 
@@ -75,12 +79,6 @@ public class CatrobatTestRunner {
 	private static final String TEST_ASSETS_ROOT = "catrobatTests";
 
 	private static final int TIMEOUT = 10000;
-
-	private static final double EPSILON = 0.000000000001;
-
-	private UserVariable actualVariable;
-	private UserVariable expectedVariable;
-	private UserVariable readyVariable;
 
 	@Parameterized.Parameters(name = "{0} - {1}")
 	public static Iterable<Object[]> data() throws IOException {
@@ -129,10 +127,6 @@ public class CatrobatTestRunner {
 				.task(projectDir, InstrumentationRegistry.getTargetContext()));
 
 		Project project = ProjectManager.getInstance().getCurrentProject();
-
-		actualVariable = project.getUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME);
-		expectedVariable = project.getUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME);
-		readyVariable = project.getUserVariable(AssertEqualsBrick.READY_VARIABLE_NAME);
 	}
 
 	@After
@@ -144,42 +138,17 @@ public class CatrobatTestRunner {
 	@Test
 	public void run() {
 		baseActivityTestRule.launchActivity(null);
-
-		if (actualVariable == null) {
-			fail("no variable with name " + AssertEqualsBrick.ACTUAL_VARIABLE_NAME + " in this project!\n"
-					+ "please add an AssertEqualsBrick\n");
-		}
-
-		if (expectedVariable == null) {
-			fail("no variable with name " + AssertEqualsBrick.EXPECTED_VARIABLE_NAME + " in this project!\n"
-					+ "please add an AssertEqualsBrick\n");
-		}
-
-		if (readyVariable == null) {
-			fail("no variable with name " + AssertEqualsBrick.READY_VARIABLE_NAME + " in this project!\n"
-					+ "please add an AssertEqualsBrick\n");
-		}
-
 		waitForReady();
-
-		if (expectedVariable.getValue() instanceof Double
-				&& actualVariable.getValue() instanceof Double) {
-			assertEquals((Double) expectedVariable.getValue(), (Double) actualVariable.getValue(), EPSILON);
-		} else if (expectedVariable.getValue() instanceof String
-				&& actualVariable.getValue() instanceof String) {
-			assertEquals((String) expectedVariable.getValue(), (String) actualVariable.getValue());
-		} else {
-			fail("Type error - expected and actual are mismatching types\n"
-					+ "Got:"
-					+ "\nactual = " + actualVariable.getValue().toString()
-					+ "\nexpected = " + expectedVariable.getValue().toString() + "\n");
+		Instrumentation.ActivityResult result = baseActivityTestRule.getActivityResult();
+		if (result.getResultCode() != StageActivity.STAGE_ACTIVITY_TEST_SUCCESS) {
+			fail(result.getResultData().getStringExtra(AssertEqualsAction.MESSAGE));
 		}
 	}
 
 	private void waitForReady() {
 		int intervalMillis = 10;
 		for (int waitedFor = 0; waitedFor < TIMEOUT; waitedFor += intervalMillis) {
-			if (DoubleMath.fuzzyEquals(AssertEqualsBrick.READY_VALUE, (Double) readyVariable.getValue(), EPSILON)) {
+			if (baseActivityTestRule.getActivity().isFinishing()) {
 				return;
 			}
 			espressoWait(intervalMillis);
