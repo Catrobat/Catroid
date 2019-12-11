@@ -38,12 +38,12 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
@@ -85,8 +85,8 @@ public class SceneController {
 
 	public boolean rename(Scene sceneToRename, String name) {
 		String previousName = sceneToRename.getName();
-
-		File newDir = new File(sceneToRename.getProject().getDirectory(), name);
+		String encodedName = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name);
+		File newDir = new File(sceneToRename.getProject().getDirectory(), encodedName);
 		boolean renamed = sceneToRename.getDirectory().renameTo(newDir);
 
 		if (renamed) {
@@ -113,16 +113,13 @@ public class SceneController {
 	public Scene copy(Scene sceneToCopy, Project dstProject) throws IOException {
 		String name = uniqueNameProvider.getUniqueNameInNameables(sceneToCopy.getName(), dstProject.getSceneList());
 
-		File dir = new File(dstProject.getDirectory(), name);
-
-		if (!createDirectory(dir)) {
-			throw new IOException("Directory for Scene " + name + " could not be created.");
-		}
-
 		Scene scene = new Scene();
 		scene.setName(name);
-
 		scene.setProject(dstProject);
+
+		if (!createDirectory(scene.getDirectory())) {
+			throw new IOException("Directory for Scene " + name + " could not be created.");
+		}
 
 		scene.setPhysicsWorld(new PhysicsWorld());
 
@@ -141,15 +138,13 @@ public class SceneController {
 		String name = uniqueNameProvider
 				.getUniqueNameInNameables(sceneToPack.getName(), BackpackListManager.getInstance().getScenes());
 
-		File dir = new File(BACKPACK_SCENE_DIRECTORY, name);
-
-		if (!createDirectory(dir)) {
-			throw new IOException("Directory for Scene " + name + " could not be created.");
-		}
-
 		Scene scene = new Scene();
 		scene.setName(name);
 		scene.setProject(null);
+
+		if (!createDirectory(scene.getDirectory())) {
+			throw new IOException("Directory for Scene " + name + " could not be created.");
+		}
 
 		for (Sprite sprite : sceneToPack.getSpriteList()) {
 			scene.getSpriteList().add(spriteController.copy(sprite, null, scene));
