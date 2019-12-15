@@ -24,21 +24,15 @@
 package org.catrobat.catroid.transfers;
 
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.Task;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -47,56 +41,42 @@ import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 
-public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbacks,
-		GoogleApiClient.OnConnectionFailedListener,
-		CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
+import static com.google.android.gms.auth.api.signin.GoogleSignIn.*;
+
+public class GooglePlusLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthTokenCompleteListener,
 		GoogleLogInTask.OnGoogleServerLogInCompleteListener,
 		CheckEmailAvailableTask.OnCheckEmailAvailableCompleteListener,
 		GoogleExchangeCodeTask.OnGoogleExchangeCodeCompleteListener {
 
 	private AppCompatActivity activity;
-	public static final int GPLUS_REQUEST_CODE_SIGN_IN = 0;
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
-	public static final int STATUS_CODE_SIGN_IN_CURRENTLY_IN_PROGRESS = 12502;
-	private GoogleApiClient googleApiClient;
-	private static final String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "427226922034-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
+	private GoogleSignInClient googleSignInClient;
+	private static final String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "986952380381"
+			+ "-ulll9gq1kadauvu5dk6inq6h8pmd1ld8.apps.googleusercontent.com";
 
 	public GooglePlusLoginHandler(AppCompatActivity activity) {
 		this.activity = activity;
 
 		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestEmail()
-				.requestServerAuthCode(GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID, false)
 				.requestIdToken(GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID)
+				.requestEmail()
 				.build();
-
-		googleApiClient = new GoogleApiClient.Builder(activity)
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this)
-				.addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
-				.build();
+		googleSignInClient = getClient(this.activity,googleSignInOptions);
 	}
 
-	public GoogleApiClient getGoogleApiClient() {
-		return googleApiClient;
+	public GoogleSignInClient getGoogleSignInClient() {
+		return googleSignInClient;
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == GPLUS_REQUEST_CODE_SIGN_IN) {
-			googleApiClient.connect();
-		} else if (requestCode == REQUEST_CODE_GOOGLE_PLUS_SIGNIN) {
-			GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-			triggerGPlusLogin(result);
-		}
-	}
-
-	private void triggerGPlusLogin(GoogleSignInResult result) {
-		if (result.isSuccess()) {
-			GoogleSignInAccount account = result.getSignInAccount();
-			onGoogleLogInComplete(account);
-		} else if (result.getStatus().getStatusCode() != STATUS_CODE_SIGN_IN_CURRENTLY_IN_PROGRESS) {
-			ToastUtil.showError(activity, activity.getString(R.string.error_google_plus_sign_in,
-						Integer.toString(result.getStatus().getStatusCode())));
+		if (requestCode == REQUEST_CODE_GOOGLE_PLUS_SIGNIN) {
+			Task<GoogleSignInAccount> task = getSignedInAccountFromIntent(data);
+			if (task.isSuccessful()) {
+				onGoogleLogInComplete(task.getResult());
+			} else {
+				ToastUtil.showError(activity,
+						activity.getString(R.string.error_google_plus_sign_in) + task.getException().getLocalizedMessage());
+			}
 		}
 	}
 
@@ -119,34 +99,6 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(activity, id, Constants.GOOGLE_PLUS);
 		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);
 		checkOAuthTokenTask.execute();
-	}
-
-	@Override
-	public void onConnected(@Nullable Bundle bundle) {
-		Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
-		activity.startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
-	}
-
-	@Override
-	public void onConnectionSuspended(int i) {
-		googleApiClient.connect();
-	}
-
-	@Override
-	public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-		if (connectionResult.hasResolution()) {
-			try {
-				connectionResult.startResolutionForResult(activity, GPLUS_REQUEST_CODE_SIGN_IN);
-			} catch (IntentSender.SendIntentException e) {
-				googleApiClient.connect();
-			}
-		} else {
-			new AlertDialog.Builder(activity)
-					.setTitle(R.string.error)
-					.setMessage(R.string.sign_in_error)
-					.setPositiveButton(R.string.ok, null)
-					.show();
-		}
 	}
 
 	@Override

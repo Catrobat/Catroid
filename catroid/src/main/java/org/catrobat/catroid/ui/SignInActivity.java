@@ -31,6 +31,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -67,7 +68,6 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 
 	@Override
 	public void onStop() {
-		googlePlusLoginHandler.getGoogleApiClient().disconnect();
 		super.onStop();
 	}
 
@@ -90,9 +90,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
 			case R.id.sign_in_gplus_login_button:
-				googlePlusLoginHandler.getGoogleApiClient().connect();
-				Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googlePlusLoginHandler.getGoogleApiClient());
-				startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+				startActivityForResult(googlePlusLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
 				break;
 			default:
 				break;
