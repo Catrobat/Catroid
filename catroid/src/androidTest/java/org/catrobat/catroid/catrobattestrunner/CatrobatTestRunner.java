@@ -22,28 +22,16 @@
  */
 package org.catrobat.catroid.catrobattestrunner;
 
-import android.app.Activity;
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
 
-import com.google.common.math.DoubleMath;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.actions.AssertEqualsAction;
-import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -57,12 +45,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.contrib.ActivityResultMatchers.hasResultCode;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
-
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.assertTrue;
 
@@ -136,7 +118,7 @@ public class CatrobatTestRunner {
 	}
 
 	@Test
-	public void run() {
+	public void run() throws InterruptedException {
 		baseActivityTestRule.launchActivity(null);
 		waitForReady();
 		Instrumentation.ActivityResult result = baseActivityTestRule.getActivityResult();
@@ -145,35 +127,15 @@ public class CatrobatTestRunner {
 		}
 	}
 
-	private void waitForReady() {
+	private void waitForReady() throws InterruptedException {
 		int intervalMillis = 10;
 		for (int waitedFor = 0; waitedFor < TIMEOUT; waitedFor += intervalMillis) {
 			if (baseActivityTestRule.getActivity().isFinishing()) {
 				return;
 			}
-			espressoWait(intervalMillis);
+			Thread.sleep(intervalMillis);
 		}
 		fail("Timeout after " + TIMEOUT + "ms\n"
 				+ "Test never got into ready state - is the AssertEqualsBrick reached?\n");
-	}
-
-	private void espressoWait(final int milliSeconds) {
-		onView(isRoot()).perform(new ViewAction() {
-			@Override
-			public String getDescription() {
-				return "Wait for X milliseconds";
-			}
-
-			@Override
-			public Matcher<View> getConstraints() {
-				return isDisplayed();
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				uiController.loopMainThreadUntilIdle();
-				uiController.loopMainThreadForAtLeast(milliSeconds);
-			}
-		});
 	}
 }
