@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -371,7 +372,8 @@ public class BrickCategoryTest {
 						RaspiPwmBrick.class)},
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class,
-						TapAtBrick.class)},
+						TapAtBrick.class,
+						FinishStageBrick.class)},
 		});
 	}
 

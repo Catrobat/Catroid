@@ -68,6 +68,8 @@ import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.stage.TestResult.STAGE_ACTIVITY_TEST_SUCCESS;
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 
 @RunWith(Parameterized.class)
 public class CatrobatTestRunner {
@@ -125,8 +127,6 @@ public class CatrobatTestRunner {
 
 		assertTrue(ProjectLoadTask
 				.task(projectDir, InstrumentationRegistry.getTargetContext()));
-
-		Project project = ProjectManager.getInstance().getCurrentProject();
 	}
 
 	@After
@@ -140,8 +140,8 @@ public class CatrobatTestRunner {
 		baseActivityTestRule.launchActivity(null);
 		waitForReady();
 		Instrumentation.ActivityResult result = baseActivityTestRule.getActivityResult();
-		if (result.getResultCode() != StageActivity.STAGE_ACTIVITY_TEST_SUCCESS) {
-			fail(result.getResultData().getStringExtra(AssertEqualsAction.MESSAGE));
+		if (result.getResultCode() != STAGE_ACTIVITY_TEST_SUCCESS) {
+			fail(result.getResultData().getStringExtra(TEST_RESULT_MESSAGE));
 		}
 	}
 

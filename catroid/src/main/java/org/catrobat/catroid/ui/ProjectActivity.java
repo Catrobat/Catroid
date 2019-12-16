@@ -43,13 +43,11 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -71,6 +69,7 @@ import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
@@ -215,11 +214,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (resultCode == StageActivity.STAGE_ACTIVITY_TEST_SUCCESS) {
-			ToastUtil.showSuccess(this, "Whoop Whoop!");
-		}
-		if (resultCode == StageActivity.STAGE_ACTIVITY_TEST_FAIL) {
-			ToastUtil.showError(this, data.getStringExtra(AssertEqualsAction.MESSAGE));
+		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS ||
+				resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
+			ToastUtil.showError(this, data.getStringExtra(TEST_RESULT_MESSAGE));
 		}
 
 		if (resultCode != RESULT_OK) {

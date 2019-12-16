@@ -34,7 +34,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.Settings;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -79,13 +78,13 @@ import java.util.List;
 import java.util.Random;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity {
 
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
-	public static final int STAGE_ACTIVITY_TEST_SUCCESS = 7777;
-	public static final int STAGE_ACTIVITY_TEST_FAIL = 8888;
+
 	public static final int REQUEST_START_STAGE = 101;
 
 	public static final int ASK_MESSAGE = 0;
@@ -452,5 +451,15 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private static void startStageActivity(Activity activity) {
 		Intent intent = new Intent(activity, StageActivity.class);
 		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+	}
+
+	public static void finishTestWithResult(TestResult testResult) {
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null && !stageActivity.isFinishing()) {
+			Intent resultIntent = new Intent();
+			resultIntent.putExtra(TEST_RESULT_MESSAGE, testResult.getMessage());
+			stageActivity.setResult(testResult.getResultCode(), resultIntent);
+			stageActivity.finish();
+		}
 	}
 }
