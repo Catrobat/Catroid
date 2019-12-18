@@ -51,15 +51,14 @@ public class GooglePlusLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthT
 	private AppCompatActivity activity;
 	public static final int REQUEST_CODE_GOOGLE_PLUS_SIGNIN = 100;
 	private GoogleSignInClient googleSignInClient;
-	private static final String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "986952380381"
-			+ "-ulll9gq1kadauvu5dk6inq6h8pmd1ld8.apps.googleusercontent.com";
+	private static final String GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID = "814960480302-98070kln9hkqei32okeib7678vslamlf.apps.googleusercontent.com";
 
 	public GooglePlusLoginHandler(AppCompatActivity activity) {
 		this.activity = activity;
 
 		GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-				.requestIdToken(GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID)
 				.requestEmail()
+				.requestServerAuthCode(GOOGLE_PLUS_CATROWEB_SERVER_CLIENT_ID)
 				.build();
 		googleSignInClient = getClient(this.activity,googleSignInOptions);
 	}
@@ -75,7 +74,7 @@ public class GooglePlusLoginHandler implements CheckOAuthTokenTask.OnCheckOAuthT
 				onGoogleLogInComplete(task.getResult());
 			} else {
 				ToastUtil.showError(activity,
-						activity.getString(R.string.error_google_plus_sign_in) + task.getException().getLocalizedMessage());
+						String.format(activity.getString(R.string.error_google_plus_sign_in)  ,task.getException().getLocalizedMessage().replace(":","")));
 			}
 		}
 	}
