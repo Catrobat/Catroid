@@ -77,7 +77,7 @@ public class LookDataTest {
 
 		assertEquals("", metadata);
 
-		lookData.getCollisionInformation().loadOrCreateCollisionPolygon();
+		lookData.getCollisionInformation().loadCollisionPolygon();
 
 		metadata = ImageEditing.readMetaDataStringFromPNG(imageFolder.getAbsolutePath() + "/" + fileName,
 				Constants.COLLISION_PNG_META_TAG_KEY);

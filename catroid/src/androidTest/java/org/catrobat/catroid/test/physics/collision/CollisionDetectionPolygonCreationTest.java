@@ -81,7 +81,7 @@ public class CollisionDetectionPolygonCreationTest {
 		sprite.getLookList().add(lookData);
 
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();
-		collisionInformation.loadOrCreateCollisionPolygon();
+		collisionInformation.loadCollisionPolygon();
 		return collisionInformation;
 	}
 
