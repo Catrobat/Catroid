@@ -62,7 +62,7 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 				try {
 					lookData.getCollisionInformation().collisionPolygonCalculationThread.join();
 				} catch (InterruptedException e) {
-					Log.i(TAG, "Thread got interupted");
+					Log.i(TAG, "Thread got interrupted");
 				}
 			}
 		}
@@ -70,7 +70,7 @@ public class GatherCollisionInformationTask extends AsyncTask<Void, Void, Boolea
 		for (Sprite s : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
 			if (s.hasCollision()) {
 				for (LookData l : s.getLookList()) {
-					l.getCollisionInformation().loadOrCreateCollisionPolygon();
+					l.getCollisionInformation().loadCollisionPolygon();
 				}
 			}
 		}

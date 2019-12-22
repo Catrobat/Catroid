@@ -66,7 +66,7 @@ public final class CollisionTestUtils {
 		LookData lookData = generateLookData(file);
 		Assert.assertNotNull(lookData);
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();
-		collisionInformation.loadOrCreateCollisionPolygon();
+		collisionInformation.loadCollisionPolygon();
 
 		sprite.look.setLookData(lookData);
 		sprite.getLookList().add(lookData);
