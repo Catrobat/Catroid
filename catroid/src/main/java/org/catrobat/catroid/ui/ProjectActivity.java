@@ -181,6 +181,11 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	@Override
 	public void onBackPressed() {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		if (currentProject == null) {
+			finish();
+			return;
+		}
+
 		saveProject(currentProject);
 
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
