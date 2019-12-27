@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -216,7 +218,12 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS ||
 				resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
-			ToastUtil.showError(this, data.getStringExtra(TEST_RESULT_MESSAGE));
+			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
+			ToastUtil.showError(this, message);
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData testResult = ClipData.newPlainText("TestResult",
+					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+			clipboard.setPrimaryClip(testResult);
 		}
 
 		if (resultCode != RESULT_OK) {
