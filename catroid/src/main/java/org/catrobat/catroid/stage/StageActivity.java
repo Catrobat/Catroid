@@ -130,7 +130,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	protected void onDestroy() {
-		StageLifeCycleController.stageDestroy(this);
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			StageLifeCycleController.stageDestroy(this);
+		}
 		super.onDestroy();
 	}
 
