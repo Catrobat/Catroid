@@ -26,40 +26,20 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-public class AssertEqualsBrick extends FormulaBrick {
+public class FinishStageBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	public AssertEqualsBrick() {
-		addAllowedBrickField(BrickField.ASSERT_EQUALS_ACTUAL, R.id.brick_assert_actual);
-		addAllowedBrickField(BrickField.ASSERT_EQUALS_EXPECTED, R.id.brick_assert_expected);
+	public FinishStageBrick() {
 	}
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_assert_equals;
-	}
-
-	@Override
-	public BrickField getDefaultBrickField() {
-		return BrickField.ASSERT_EQUALS_ACTUAL;
+		return R.layout.brick_finish_stage;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createAssertEqualsAction(sprite,
-				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_ACTUAL),
-				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_EXPECTED),
-				getPositionInformation()));
-	}
-
-	private String getPositionInformation() {
-		int position = 999;
-		String scriptName = "unknown";
-		if (getParent() != null) {
-			position = getPositionInScript();
-			scriptName = getScript().getClass().getSimpleName();
-		}
-		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
+		sequence.addAction(sprite.getActionFactory().createFinishStageAction());
 	}
 }

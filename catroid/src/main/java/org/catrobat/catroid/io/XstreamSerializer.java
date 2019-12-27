@@ -102,6 +102,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -489,6 +490,8 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
 		xstream.alias("brick", AssertEqualsBrick.class);
+		xstream.alias("brick", FinishStageBrick.class);
+
 		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);

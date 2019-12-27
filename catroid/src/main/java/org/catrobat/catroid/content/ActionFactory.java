@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
@@ -1213,18 +1214,19 @@ public class ActionFactory extends Actions {
 		return setNfcTagAction;
 	}
 
-	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected,
-			UserVariable actualVariable, UserVariable expectedVariable, UserVariable setupVariable) {
+	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected, String position) {
 		AssertEqualsAction action = action(AssertEqualsAction.class);
 		action.setActual(actual);
 		action.setExpected(expected);
 
 		action.setSprite(sprite);
+		action.setPosition(position);
 
-		action.setActualVariable(actualVariable);
-		action.setExpectedVariable(expectedVariable);
-		action.setSetupVariable(setupVariable);
+		return action;
+	}
 
+	public Action createFinishStageAction() {
+		FinishStageAction action = action(FinishStageAction.class);
 		return action;
 	}
 

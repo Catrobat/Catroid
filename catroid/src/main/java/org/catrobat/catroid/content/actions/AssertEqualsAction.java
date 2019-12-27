@@ -23,53 +23,64 @@
 
 package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TestResult;
 
-public class AssertEqualsAction extends TemporalAction {
+import static org.catrobat.catroid.stage.TestResult.STAGE_ACTIVITY_TEST_FAIL;
 
-	private Formula actualFormula;
-	private Formula expectedFormula;
+public class AssertEqualsAction extends Action {
 
+	private Formula actualFormula = null;
+	private Formula expectedFormula = null;
+	private String position;
 	private Sprite sprite;
-
-	private UserVariable actualVariable;
-	private UserVariable expectedVariable;
-	private UserVariable setupVariable;
+	private static final String ASSERT_EQUALS_ERROR = "\nAssertEqualsError\n";
 
 	@Override
-	protected void update(float percent) {
-		updateVariable(actualFormula, actualVariable);
-		updateVariable(expectedFormula, expectedVariable);
-		updateVariable(new Formula(AssertEqualsBrick.READY_VALUE), setupVariable);
+	public boolean act(float delta) {
+		if (actualFormula == null) {
+			failWith("Actual is null");
+			return false;
+		}
+		if (expectedFormula == null) {
+			failWith("Expected is null");
+			return false;
+		}
+
+		String actualValue = actualFormula.interpretObject(sprite).toString();
+		String expectedValue = expectedFormula.interpretObject(sprite).toString();
+
+		if (!equalValues(actualValue, expectedValue)) {
+			failWith(formattedAssertEqualsError(actualValue, expectedValue));
+			return false;
+		}
+		return true;
 	}
 
-	protected void updateVariable(Formula formula, UserVariable variable) {
-		if (variable == null) {
-			return;
-		}
-		Object value = formula == null ? Double.valueOf(0d) : formula.interpretObject(sprite);
-
-		boolean isFirstLevelStringTree = false;
-		if (formula != null && formula.getRoot().getElementType() == FormulaElement.ElementType.STRING) {
-			isFirstLevelStringTree = true;
-		}
-
+	private boolean equalValues(String actual, String expected) {
 		try {
-			if (!isFirstLevelStringTree && value instanceof String) {
-				value = Double.valueOf((String) value);
-			}
+			return Double.valueOf(actual).equals(Double.valueOf(expected));
 		} catch (NumberFormatException numberFormatException) {
-			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);
+			return actual.equals(expected);
 		}
-		variable.setValue(value);
+	}
+
+	private void failWith(String message) {
+		StageActivity.finishTestWithResult(
+				new TestResult(formattedPosition()
+						+ ASSERT_EQUALS_ERROR + message, STAGE_ACTIVITY_TEST_FAIL));
+	}
+
+	private String formattedAssertEqualsError(Object actual, Object expected) {
+		return "expected:<" + expected + "> but was:<" + actual + ">";
+	}
+
+	private String formattedPosition() {
+		return "on sprite \"" + sprite.getName() + "\"\n" + position;
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -84,15 +95,7 @@ public class AssertEqualsAction extends TemporalAction {
 		this.expectedFormula = expected;
 	}
 
-	public void setActualVariable(UserVariable actualVariable) {
-		this.actualVariable = actualVariable;
-	}
-
-	public void setExpectedVariable(UserVariable expectedVariable) {
-		this.expectedVariable = expectedVariable;
-	}
-
-	public void setSetupVariable(UserVariable setupVariable) {
-		this.setupVariable = setupVariable;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 }
