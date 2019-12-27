@@ -224,6 +224,10 @@ android {
             keyAlias ""
             keyPassword ""
         }
+
+        debug {
+            storeFile file("src/main/assets/Keystore/debug.keystore")
+        }
     }
 
     if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
@@ -240,6 +244,7 @@ android {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
+            signingConfig signingConfigs.debug
         }
 
         release {
@@ -263,14 +268,25 @@ android {
     }
 
     productFlavors {
-        catroid
-        createAtSchool { applicationIdSuffix '.createatschool' }
-        lunaAndCat { applicationIdSuffix '.lunaandcat' }
+        catroid {
+            applicationIdSuffix '.pocketcode'
+            signingConfig signingConfigs.debug
+        }
+        createAtSchool {
+            applicationIdSuffix '.createatschool'
+            signingConfig signingConfigs.debug
+        }
+        lunaAndCat {
+            applicationIdSuffix '.lunaandcat'
+            signingConfig signingConfigs.debug
+        }
         phiro {
             applicationIdSuffix '.phiro'
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+            signingConfig signingConfigs.debug
         }
         arduino {
+            signingConfig signingConfigs.debug
             applicationIdSuffix '.arduino'
             resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "true"
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
