@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.formulaeditor.parser;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -37,7 +36,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 

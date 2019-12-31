@@ -57,7 +57,7 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 		}
 
 		try {
-			pinValueInterpretation = pinValue != null && pinValue.interpretBoolean(sprite, stringProvider);
+			pinValueInterpretation = pinValue != null && pinValue.interpretBoolean(sprite);
 		} catch (InterpretationException interpretationException) {
 			pinValueInterpretation = false;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed.",

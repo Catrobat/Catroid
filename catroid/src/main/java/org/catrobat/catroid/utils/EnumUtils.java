@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.utils;
 
-public class EnumUtils {
+public final class EnumUtils {
 	private EnumUtils() {
 	}
 

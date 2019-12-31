@@ -251,8 +251,8 @@ public class FormulaElement implements Serializable {
 
 	public final boolean containsSpriteInCollision(String name) {
 		return containsSpriteInCollision(leftChild, name)
-		|| containsSpriteInCollision(rightChild, name)
-		|| matchesTypeAndName(ElementType.COLLISION_FORMULA, name);
+				|| containsSpriteInCollision(rightChild, name)
+				|| matchesTypeAndName(ElementType.COLLISION_FORMULA, name);
 	}
 
 	private boolean containsSpriteInCollision(FormulaElement element, String name) {

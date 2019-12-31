@@ -218,7 +218,7 @@ public class Formula implements Serializable {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaTree.isLogicalOperator()) {
-			return tryInterpretBoolean(stringProvider, sprite);
+			return tryInterpretBooleanToString(stringProvider, sprite);
 		} else if (isStringInterpretableType(type, formulaTree.getValue())) {
 			return tryInterpretString(sprite);
 		} else if (isVariableWithTypeString(sprite, currentProject)) {
@@ -257,17 +257,21 @@ public class Formula implements Serializable {
 		}
 	}
 
-	private String tryInterpretBoolean(StringProvider stringProvider, Sprite sprite) {
+	private String tryInterpretBooleanToString(StringProvider stringProvider, Sprite sprite) {
 		try {
-			return interpretBoolean(sprite, stringProvider);
+			return interpretBooleanToString(sprite, stringProvider);
 		} catch (InterpretationException interpretationException) {
 			return ERROR_STRING;
 		}
 	}
 
-	public String interpretBoolean(Sprite sprite, StringProvider stringProvider) throws InterpretationException {
-		boolean booleanValue = interpretDouble(sprite).intValue() != 0;
+	public String interpretBooleanToString(Sprite sprite, StringProvider stringProvider) throws InterpretationException {
+		boolean booleanValue = interpretBoolean(sprite);
 		return toLocalizedString(booleanValue, stringProvider);
+	}
+
+	public boolean interpretBoolean(Sprite sprite) throws InterpretationException {
+		return interpretDouble(sprite).intValue() != 0;
 	}
 
 	private String toLocalizedString(boolean value, StringProvider stringProvider) {

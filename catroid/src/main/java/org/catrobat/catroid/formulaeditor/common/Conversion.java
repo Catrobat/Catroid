@@ -32,13 +32,14 @@ import android.support.annotation.Nullable;
 
 import com.badlogic.gdx.graphics.Pixmap;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.ByteBuffer;
 
-public class Conversion {
+public final class Conversion {
 	public static final double TRUE = 1d;
 	public static final double FALSE = 0d;
+
+	private Conversion() {
+	}
 
 	@Nullable
 	public static Double tryParseDouble(String argument) {
@@ -82,7 +83,7 @@ public class Conversion {
 		byte[] bytes = new byte[pixels.remaining()];
 		pixels.get(bytes);
 
-		for (int i = 0; i < bytes.length; i+=4) {
+		for (int i = 0; i < bytes.length; i += 4) {
 			int pixelColor = ((bytes[i] & 0xFF) << 16) | ((bytes[i + 1] & 0xFF) << 8) | bytes[i + 2] & 0xFF;
 			if (compareColors(color, pixelColor)) {
 				return true;
@@ -92,9 +93,9 @@ public class Conversion {
 	}
 
 	public static boolean compareColors(int colorA, int colorB) {
-		return (Color.red(colorA) & 0b11111000) == (Color.red(colorB) & 0b11111000) &&
-		(Color.green(colorA) & 0b11111000) == (Color.green(colorB) & 0b11111000) &&
-		(Color.blue(colorA) & 0b11110000) == (Color.blue(colorB) & 0b11110000);
+		return (Color.red(colorA) & 0b11111000) == (Color.red(colorB) & 0b11111000)
+				&& (Color.green(colorA) & 0b11111000) == (Color.green(colorB) & 0b11111000)
+				&& (Color.blue(colorA) & 0b11110000) == (Color.blue(colorB) & 0b11110000);
 	}
 
 	public static Bitmap convertToBitmap(@NonNull Pixmap pixmap) {

@@ -63,7 +63,7 @@ public class WaitUntilAction extends Action {
 		}
 
 		try {
-			completed = condition.interpretBoolean(sprite, stringProvider);
+			completed = condition.interpretBoolean(sprite);
 		} catch (InterpretationException e) {
 			completed = false;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", e);

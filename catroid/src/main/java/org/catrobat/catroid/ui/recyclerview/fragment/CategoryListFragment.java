@@ -287,15 +287,16 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 					int sensorPortsId = type == Constants.NXT
 							? R.array.formula_editor_nxt_ports
 							: R.array.formula_editor_ev3_ports;
-						TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
-						try {
-					int resourceId = sensorPorts.getResourceId(selectedPort, 0);
-					if (resourceId != 0) {
-						formulaEditor.addResourceToActiveFormula(resourceId);
-						formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-					}} finally {
-							sensorPorts.recycle();
+					TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
+					try {
+						int resourceId = sensorPorts.getResourceId(selectedPort, 0);
+						if (resourceId != 0) {
+							formulaEditor.addResourceToActiveFormula(resourceId);
+							formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 						}
+					} finally {
+						sensorPorts.recycle();
+					}
 					getActivity().onBackPressed();
 				})
 				.show();

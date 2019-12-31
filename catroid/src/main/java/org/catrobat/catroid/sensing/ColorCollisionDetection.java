@@ -47,11 +47,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.catrobat.catroid.formulaeditor.common.Conversion.convertToBitmap;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.matchesColor;
 import static org.catrobat.catroid.formulaeditor.common.Conversion.tryParseColor;
 
-public class ColorCollisionDetection {
+public final class ColorCollisionDetection {
+	private ColorCollisionDetection() {
+	}
+
 	public static boolean interpretFunctionTouchesColor(Object parameter, Sprite sprite, Project currentProject, Scene currentlyPlayingScene) {
 		if (!(parameter instanceof String)) {
 			return false;

@@ -32,7 +32,6 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
