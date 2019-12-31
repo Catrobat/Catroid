@@ -37,17 +37,19 @@ import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
-import org.mockito.Mockito;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class WhenConditionScriptTest {
 	private static final int POSITION_DELTA = 15;
+
+	@Mock
 	private Formula formula;
 	private Sprite sprite;
 	private WhenConditionScript conditionScript;
@@ -58,7 +60,6 @@ public class WhenConditionScriptTest {
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 		createProjectWithSprite(sprite);
 
-		formula = Mockito.mock(Formula.class);
 		conditionScript = new WhenConditionScript(formula);
 		sprite.addScript(conditionScript);
 	}
@@ -71,7 +72,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptOnce() throws InterpretationException {
-		when(formula.interpretBooleanToString(any(Sprite.class), stringProvider)).thenReturn(true);
+		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -86,7 +87,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptMultipleTimes() throws InterpretationException {
-		when(formula.interpretBooleanToString(any(Sprite.class), stringProvider)).thenReturn(true, true, false, true);
+		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -100,7 +101,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptBeforeAndAfterBeingStopped() throws InterpretationException {
-		when(formula.interpretBooleanToString(any(Sprite.class), stringProvider)).thenReturn(true, true, false, true);
+		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		conditionScript.addBrick(new StopScriptBrick(0));
 		sprite.initializeEventThreads(EventId.START);

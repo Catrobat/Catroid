@@ -304,7 +304,6 @@ public class FormulaElement implements Serializable {
 		Project currentProject = projectManager.getCurrentProject();
 		Scene currentlyPlayingScene = projectManager.getCurrentlyPlayingScene();
 		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
-		StageListener stageListener = StageActivity.stageListener;
 
 		switch (type) {
 			case BRACKET:
@@ -325,6 +324,7 @@ public class FormulaElement implements Serializable {
 				UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
 				return interpretUserList(userList);
 			case COLLISION_FORMULA:
+				StageListener stageListener = StageActivity.stageListener;
 				return tryInterpretCollision(sprite.look, value, currentlyPlayingScene, stageListener);
 		}
 		return FALSE;
