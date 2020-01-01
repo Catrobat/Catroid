@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.io.filepicker;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.filepicker.ListProjectFilesTask;
 import org.junit.After;
@@ -36,6 +33,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -53,7 +53,7 @@ public class ListProjectFilesTest {
 
 	@Before
 	public void setUp() throws IOException {
-		tmpFolder = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "ListProjectFilesTestTmp");
+		tmpFolder = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "ListProjectFilesTestTmp");
 		if (tmpFolder.isDirectory()) {
 			StorageOperations.deleteDir(tmpFolder);
 		}

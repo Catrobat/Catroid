@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,6 @@ package org.catrobat.catroid.uiespresso.ui.activity;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.espresso.matcher.PreferenceMatchers;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -48,14 +45,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.PreferenceMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -80,6 +72,15 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.Is.is;
 
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 @RunWith(AndroidJUnit4.class)
 public class SettingsFragmentTest {
 
@@ -99,7 +100,7 @@ public class SettingsFragmentTest {
 	@Before
 	public void setUp() throws Exception {
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		for (String setting : allSettings) {
 			initialSettings.put(setting, sharedPreferences.getBoolean(setting, false));
@@ -110,7 +111,7 @@ public class SettingsFragmentTest {
 
 	private void setAllSettingsTo(boolean value) {
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit();
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
 
 		for (String setting : allSettings) {
 			sharedPreferencesEditor.putBoolean(setting, value);
@@ -122,7 +123,7 @@ public class SettingsFragmentTest {
 	@After
 	public void tearDown() {
 		SharedPreferences.Editor sharedPreferencesEditor = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit();
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit();
 		for (String setting : initialSettings.keySet()) {
 			sharedPreferencesEditor.putBoolean(setting, initialSettings.get(setting));
 		}
@@ -233,7 +234,7 @@ public class SettingsFragmentTest {
 
 	private void checkPreference(int displayedTitleResourceString, String sharedPreferenceTag) {
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		onData(PreferenceMatchers.withTitle(displayedTitleResourceString))
 				.perform(click());

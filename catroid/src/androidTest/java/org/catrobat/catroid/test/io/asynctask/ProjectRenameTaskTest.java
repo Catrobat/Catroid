@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -38,6 +35,9 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -54,7 +54,7 @@ public class ProjectRenameTaskTest {
 	public void setUp() throws IOException {
 		TestUtils.deleteProjects(projectName, renamedProjectName);
 		defaultProject = DefaultProjectHandler.createAndSaveDefaultProject(projectName,
-				InstrumentationRegistry.getTargetContext(), false);
+				ApplicationProvider.getApplicationContext(), false);
 	}
 
 	@After
@@ -66,7 +66,7 @@ public class ProjectRenameTaskTest {
 	public void projectRenameTaskTest() throws IOException {
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 	}
 
 	@Test
@@ -74,6 +74,6 @@ public class ProjectRenameTaskTest {
 		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 	}
 }

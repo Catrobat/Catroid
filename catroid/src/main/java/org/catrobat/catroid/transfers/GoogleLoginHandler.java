@@ -27,10 +27,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -43,6 +39,8 @@ import org.catrobat.catroid.ui.recyclerview.dialog.login.OAuthUsernameDialogFrag
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getClient;
 import static com.google.android.gms.auth.api.signin.GoogleSignIn.getSignedInAccountFromIntent;

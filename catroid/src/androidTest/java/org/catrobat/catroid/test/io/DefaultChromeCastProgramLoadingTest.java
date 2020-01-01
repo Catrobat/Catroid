@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.io;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
@@ -43,6 +40,9 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -55,9 +55,9 @@ public class DefaultChromeCastProgramLoadingTest {
 	@Before
 	public void setUp() throws Exception {
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
-		projectName = InstrumentationRegistry.getTargetContext().getString(R.string.default_cast_project_name);
+		projectName = ApplicationProvider.getApplicationContext().getString(R.string.default_cast_project_name);
 		project = new ChromeCastProjectCreator()
-				.createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), true);
+				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), true);
 	}
 
 	@After
@@ -69,7 +69,7 @@ public class DefaultChromeCastProgramLoadingTest {
 	@Test
 	public void testLoadingChromeCastProgram() throws IOException, LoadingProjectException {
 		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();

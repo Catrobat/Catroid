@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test;
 
-import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -43,6 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import dalvik.system.DexFile;
 
 import static org.junit.Assert.assertEquals;
@@ -405,7 +405,8 @@ public class BricksHelpUrlTest {
 	private static Set<Class> getAllBrickClasses() {
 		ArrayList<Class> classes = new ArrayList<>();
 		try {
-			String packageCodePath = InstrumentationRegistry.getTargetContext().getPackageCodePath();
+			String packageCodePath =
+					InstrumentationRegistry.getInstrumentation().getTargetContext().getPackageCodePath();
 			DexFile dexFile = new DexFile(packageCodePath);
 			for (Enumeration<String> iter = dexFile.entries(); iter.hasMoreElements(); ) {
 				String className = iter.nextElement();
@@ -423,7 +424,8 @@ public class BricksHelpUrlTest {
 
 	@Before
 	public void setUp() {
-		ProjectManager.getInstance().setCurrentProject(new Project(InstrumentationRegistry.getTargetContext(), "empty"));
+		ProjectManager.getInstance().setCurrentProject(
+				new Project(InstrumentationRegistry.getInstrumentation().getTargetContext(), "empty"));
 	}
 
 	@Test
@@ -431,7 +433,7 @@ public class BricksHelpUrlTest {
 			InstantiationException {
 		Brick brick = (Brick) brickClass.newInstance();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
-				InstrumentationRegistry.getTargetContext());
+				InstrumentationRegistry.getInstrumentation().getTargetContext());
 		String brickHelpUrl = brick.getHelpUrl(category);
 		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
 	}

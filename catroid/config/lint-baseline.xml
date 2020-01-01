@@ -25,12 +25,12 @@
 
     <issue
         id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields (static reference to `CastManager` which has field `initializingActivity` pointing to `AppCompatActivity`); this is a memory leak"
+        message="Do not place Android context classes in static fields (static reference to `CastManager` which has field `remoteLayout` pointing to `RelativeLayout`); this is a memory leak"
         errorLine1=" private static final CastManager INSTANCE = new CastManager();"
         errorLine2="         ~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
-            line="71"
+            line="72"
             column="10"/>
     </issue>
 
@@ -41,7 +41,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/CatroidApplication.java"
-            line="44"
+            line="54"
             column="10"/>
     </issue>
 
@@ -52,7 +52,7 @@
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/transfers/CheckOAuthTokenTask.java"
-            line="39"
+            line="40"
             column="2"/>
     </issue>
 
@@ -63,7 +63,7 @@
         errorLine2="               ~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/bluetooth/ConnectBluetoothDeviceActivity.java"
-            line="154"
+            line="182"
             column="16"/>
     </issue>
 
@@ -74,7 +74,7 @@
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/transfers/DeleteTestUserTask.java"
-            line="38"
+            line="39"
             column="2"/>
     </issue>
 
@@ -85,7 +85,7 @@
         errorLine2="                             ^">
         <location
             file="src/main/java/org/catrobat/catroid/drone/ardrone/DroneInitializer.java"
-            line="100"
+            line="101"
             column="30"/>
     </issue>
 
@@ -107,7 +107,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="99"
+            line="100"
             column="10"/>
     </issue>
 
@@ -118,7 +118,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="101"
+            line="102"
             column="10"/>
     </issue>
 
@@ -129,7 +129,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="103"
+            line="104"
             column="10"/>
     </issue>
 
@@ -140,7 +140,7 @@
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/transfers/GoogleExchangeCodeTask.java"
-            line="42"
+            line="43"
             column="2"/>
     </issue>
 
@@ -151,7 +151,7 @@
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/transfers/GoogleLogInTask.java"
-            line="43"
+            line="44"
             column="2"/>
     </issue>
 
@@ -351,7 +351,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/ui/dragndrop/BrickListView.java"
-            line="167"
+            line="168"
             column="17"/>
     </issue>
 
@@ -362,7 +362,7 @@
         errorLine2="                   ~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/content/bricks/brickspinner/BrickSpinner.java"
-            line="166"
+            line="167"
             column="20"/>
     </issue>
 
@@ -373,7 +373,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
-            line="206"
+            line="207"
             column="19"/>
     </issue>
 
@@ -384,7 +384,7 @@
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
-            line="223"
+            line="224"
             column="4"/>
     </issue>
 
@@ -395,7 +395,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/pocketmusic/fastscroller/FastScroller.java"
-            line="151"
+            line="152"
             column="19"/>
     </issue>
 
@@ -417,7 +417,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
-            line="282"
+            line="283"
             column="19"/>
     </issue>
 
@@ -428,7 +428,7 @@
         errorLine2="                ~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/pocketmusic/ui/TactScrollRecyclerView.java"
-            line="96"
+            line="97"
             column="17"/>
     </issue>
 
@@ -439,7 +439,7 @@
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/visualplacement/VisualPlacementActivity.java"
-            line="285"
+            line="286"
             column="3"/>
     </issue>
 
@@ -450,7 +450,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src/main/java/org/catrobat/catroid/visualplacement/VisualPlacementActivity.java"
-            line="289"
+            line="290"
             column="17"/>
     </issue>
 
