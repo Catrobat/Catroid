@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -48,12 +47,7 @@ import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
@@ -62,6 +56,13 @@ import static org.catrobat.catroid.uiespresso.ui.dialog.utils.LegoSensorPortConf
 import static org.catrobat.catroid.uiespresso.ui.dialog.utils.LegoSensorPortConfigDialogWrapper.PORT_1;
 import static org.catrobat.catroid.uiespresso.ui.dialog.utils.LegoSensorPortConfigDialogWrapper.onLegoSensorPortConfigDialog;
 import static org.hamcrest.core.IsNot.not;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
 public class LegoSensorPortConfigDialogTest {
@@ -79,7 +80,7 @@ public class LegoSensorPortConfigDialogTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		nxtSettingBuffer = sharedPreferences
 				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
@@ -88,9 +89,9 @@ public class LegoSensorPortConfigDialogTest {
 				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
 				.commit();
 
-		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
+		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(),
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(),
 				new NXTSensor.Sensor[] {
 						NXTSensor.Sensor.NO_SENSOR,
 						NXTSensor.Sensor.NO_SENSOR,
@@ -128,12 +129,12 @@ public class LegoSensorPortConfigDialogTest {
 
 	@After
 	public void tearDown() throws IOException {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit()
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
 				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
 				.commit();
 
 		SettingsFragment
-				.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMappingBuffer);
+				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMappingBuffer);
 
 		TestUtils.deleteProjects(getClass().getSimpleName());
 	}

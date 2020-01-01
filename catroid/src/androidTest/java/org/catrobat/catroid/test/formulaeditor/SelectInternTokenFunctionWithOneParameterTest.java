@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
@@ -37,6 +35,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -82,9 +82,9 @@ public class SelectInternTokenFunctionWithOneParameterTest {
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 
-		functionName = InstrumentationRegistry.getTargetContext().getResources()
+		functionName = ApplicationProvider.getApplicationContext().getResources()
 				.getString(InternToExternGenerator.getMappedString(functionToken.getTokenStringValue()));
 	}
 

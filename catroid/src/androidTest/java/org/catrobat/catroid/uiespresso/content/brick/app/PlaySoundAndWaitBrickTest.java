@@ -24,9 +24,6 @@
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.Manifest;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.rule.GrantPermissionRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
@@ -58,7 +55,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.GrantPermissionRule;
+
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+
+import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -72,12 +80,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundAndWaitBrickTest {
@@ -255,7 +257,7 @@ public class PlaySoundAndWaitBrickTest {
 	private void createProject() throws IOException {
 		String projectName = "playSoundAndWaitBrickTest";
 		SoundManager.getInstance();
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script startScript = new StartScript();
 
@@ -272,7 +274,7 @@ public class PlaySoundAndWaitBrickTest {
 		startScript.addBrick(new PlaySoundBrick());
 
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");
@@ -282,7 +284,7 @@ public class PlaySoundAndWaitBrickTest {
 		soundInfo.setName(soundName);
 
 		soundFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.testsoundui,
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"testsoundui.mp3");

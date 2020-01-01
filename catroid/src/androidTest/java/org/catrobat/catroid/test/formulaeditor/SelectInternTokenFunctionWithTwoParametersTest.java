@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
@@ -37,6 +35,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -81,9 +81,9 @@ public class SelectInternTokenFunctionWithTwoParametersTest {
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 
-		functionName = InstrumentationRegistry.getTargetContext().getResources()
+		functionName = ApplicationProvider.getApplicationContext().getResources()
 				.getString(InternToExternGenerator.getMappedString(functionToken.getTokenStringValue()));
 	}
 

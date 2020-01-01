@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.physics.actions;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.LookData;
@@ -42,6 +39,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.io.File;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -73,7 +73,7 @@ public class SetLookActionTest {
 		multipleConvexPolygonsFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("multible_convex_polygons.png");
 
 		multipleConvexPolygonsFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.multible_convex_polygons,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				multipleConvexPolygonsFileName,

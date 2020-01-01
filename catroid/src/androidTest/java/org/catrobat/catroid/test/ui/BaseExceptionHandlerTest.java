@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@ package org.catrobat.catroid.test.ui;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.ui.BaseExceptionHandler;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -36,6 +34,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -52,7 +53,7 @@ public class BaseExceptionHandlerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		context = InstrumentationRegistry.getTargetContext();
+		context = ApplicationProvider.getApplicationContext();
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		editor = sharedPreferences.edit();
 		editor.clear();

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,9 +25,6 @@ package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.espresso.matcher.PreferenceMatchers;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -45,14 +42,18 @@ import org.junit.runner.RunWith;
 
 import java.util.Locale;
 
-import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.matcher.PreferenceMatchers;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.core.StringStartsWith.startsWith;
+
+import static androidx.test.espresso.Espresso.onData;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 @RunWith(AndroidJUnit4.class)
 public class LanguagePickerTest {
@@ -69,12 +70,12 @@ public class LanguagePickerTest {
 	@Before
 	public void setUp() {
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
@@ -85,13 +86,13 @@ public class LanguagePickerTest {
 
 	@After
 	public void tearDown() {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
 
-		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
+		SettingsFragment.removeLanguageSharedPreference(ApplicationProvider.getApplicationContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

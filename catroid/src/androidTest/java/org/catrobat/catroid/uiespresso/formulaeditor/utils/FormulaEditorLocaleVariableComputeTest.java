@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -46,14 +43,17 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorLocaleVariableComputeTest {
@@ -87,7 +87,7 @@ public class FormulaEditorLocaleVariableComputeTest {
 	}
 
 	public Project createProject(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		firstScene = project.getDefaultScene();
 		secondScene = new Scene("secondScene", project);

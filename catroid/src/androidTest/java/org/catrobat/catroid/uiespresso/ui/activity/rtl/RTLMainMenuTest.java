@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.ui.activity.rtl;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -45,6 +43,9 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.Locale;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -70,12 +71,12 @@ public class RTLMainMenuTest {
 	@Before
 	public void setUp() {
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
@@ -85,18 +86,18 @@ public class RTLMainMenuTest {
 
 	@After
 	public void tearDown() {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
-		SettingsFragment.removeLanguageSharedPreference(InstrumentationRegistry.getTargetContext());
+		SettingsFragment.removeLanguageSharedPreference(ApplicationProvider.getApplicationContext());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToArabic() {
-		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "ar");
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "ar");
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
@@ -107,7 +108,7 @@ public class RTLMainMenuTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToGerman() {
-		SettingsFragment.setLanguageSharedPreference(InstrumentationRegistry.getTargetContext(), "de");
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de");
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());

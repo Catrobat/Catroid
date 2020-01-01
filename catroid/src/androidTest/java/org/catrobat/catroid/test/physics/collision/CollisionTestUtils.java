@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.physics.collision;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 
 import junit.framework.Assert;
 
@@ -39,6 +38,8 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
@@ -57,7 +58,7 @@ public final class CollisionTestUtils {
 		String hashedFileName = Utils.md5Checksum(filename) + "_" + filename;
 
 		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				resourceId,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				hashedFileName,

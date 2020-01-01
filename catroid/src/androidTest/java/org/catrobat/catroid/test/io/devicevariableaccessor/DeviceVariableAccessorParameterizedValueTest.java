@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.test.io.devicevariableaccessor;
-
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -45,6 +43,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -82,7 +82,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 
 	@Before
 	public void setUp() {
-		directory = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "DeviceValues");
+		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
 		directory.mkdir();
 
 		userVariable = new UserVariable("globalVarX", initialValue);

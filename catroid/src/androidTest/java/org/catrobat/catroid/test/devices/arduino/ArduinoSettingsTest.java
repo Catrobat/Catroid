@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.devices.arduino;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -47,6 +45,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -59,7 +60,7 @@ public class ArduinoSettingsTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Context context = InstrumentationRegistry.getTargetContext();
+		Context context = ApplicationProvider.getApplicationContext();
 		sharedPreferenceBuffer = SettingsFragment.isArduinoSharedPreferenceEnabled(context);
 		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
 		createProjectArduino();
@@ -69,12 +70,12 @@ public class ArduinoSettingsTest {
 	public void tearDown() throws Exception {
 		TestUtils.deleteProjects(projectName);
 		SettingsFragment
-				.setArduinoSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext(), sharedPreferenceBuffer);
+				.setArduinoSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), sharedPreferenceBuffer);
 	}
 
 	@Test
 	public void testIfArduinoBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
-		Context context = InstrumentationRegistry.getTargetContext();
+		Context context = ApplicationProvider.getApplicationContext();
 
 		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
@@ -86,7 +87,7 @@ public class ArduinoSettingsTest {
 	}
 
 	private void createProjectArduino() {
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new SingleSprite("Arduino");
 
 		StartScript startScript = new StartScript();
@@ -98,6 +99,6 @@ public class ArduinoSettingsTest {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 	}
 }

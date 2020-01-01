@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.content.controller;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
@@ -43,6 +40,10 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -156,7 +157,7 @@ public class SoundControllerTest {
 	}
 
 	private void createProject() throws IOException {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "SoundControllerTest");
+		project = new Project(ApplicationProvider.getApplicationContext(), "SoundControllerTest");
 		scene = project.getDefaultScene();
 		ProjectManager.getInstance().setCurrentProject(project);
 
@@ -166,7 +167,7 @@ public class SoundControllerTest {
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");

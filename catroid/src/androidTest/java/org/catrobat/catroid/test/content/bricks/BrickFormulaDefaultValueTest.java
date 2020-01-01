@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -108,6 +107,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -230,7 +231,7 @@ public class BrickFormulaDefaultValueTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(InstrumentationRegistry.getTargetContext());
+		createProject(ApplicationProvider.getApplicationContext());
 
 		categoryBricksFactory = new CategoryBricksFactory();
 	}
@@ -250,7 +251,7 @@ public class BrickFormulaDefaultValueTest {
 	@Test
 	public void testBrickCategory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
-				InstrumentationRegistry.getTargetContext());
+				ApplicationProvider.getApplicationContext());
 
 		Brick brickInAdapter = null;
 		for (Brick brick : categoryBricks) {
@@ -262,7 +263,7 @@ public class BrickFormulaDefaultValueTest {
 		assertNotNull(brickInAdapter);
 
 		Brick.BrickField brickField = ((FormulaBrick) brickInAdapter).brickFieldToTextViewIdMap.inverse().get(formulaTextFieldId);
-		String actual = ((FormulaBrick) brickInAdapter).getFormulaWithBrickField(brickField).getTrimmedFormulaString(InstrumentationRegistry.getTargetContext());
+		String actual = ((FormulaBrick) brickInAdapter).getFormulaWithBrickField(brickField).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
 		assertEquals(expected, actual);
 	}
 }

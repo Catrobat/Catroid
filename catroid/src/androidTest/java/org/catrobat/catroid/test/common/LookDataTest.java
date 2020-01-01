@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.common;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.io.ResourceImporter;
@@ -39,6 +36,10 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
@@ -51,14 +52,14 @@ public class LookDataTest {
 
 	@Before
 	public void setUp() throws Exception {
-		StorageOperations.deleteDir(InstrumentationRegistry.getTargetContext().getCacheDir());
-		imageFolder = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), IMAGE_DIRECTORY_NAME);
+		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
+		imageFolder = new File(ApplicationProvider.getApplicationContext().getCacheDir(), IMAGE_DIRECTORY_NAME);
 		if (!imageFolder.exists()) {
 			imageFolder.mkdirs();
 		}
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.collision_donut,
 				imageFolder, fileName, 1.0);
 
@@ -67,7 +68,7 @@ public class LookDataTest {
 
 	@After
 	public void tearDown() throws IOException {
-		StorageOperations.deleteDir(InstrumentationRegistry.getTargetContext().getCacheDir());
+		StorageOperations.deleteDir(ApplicationProvider.getApplicationContext().getCacheDir());
 	}
 
 	@Test
