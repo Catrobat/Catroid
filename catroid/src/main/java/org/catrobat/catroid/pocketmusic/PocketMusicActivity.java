@@ -24,7 +24,6 @@
 package org.catrobat.catroid.pocketmusic;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -48,6 +47,8 @@ import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
+
+import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.MIDI_FOLDER;
 

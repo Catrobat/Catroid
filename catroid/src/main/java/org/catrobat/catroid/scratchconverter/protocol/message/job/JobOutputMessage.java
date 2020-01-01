@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.scratchconverter.protocol.message.job;
 
-import androidx.annotation.NonNull;
-
 import java.util.Arrays;
+
+import androidx.annotation.NonNull;
 
 public class JobOutputMessage extends JobMessage {
 

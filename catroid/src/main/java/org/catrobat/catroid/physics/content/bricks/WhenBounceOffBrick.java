@@ -23,7 +23,6 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -40,6 +39,8 @@ import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<Sprite> {
 

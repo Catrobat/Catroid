@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -42,6 +41,8 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 

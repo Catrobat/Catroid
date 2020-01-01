@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import androidx.test.espresso.DataInteraction;
-
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickSpinnerMatchers;
@@ -34,15 +32,17 @@ import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.test.espresso.DataInteraction;
+
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.core.Is.is;
+
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.core.Is.is;
 
 public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 

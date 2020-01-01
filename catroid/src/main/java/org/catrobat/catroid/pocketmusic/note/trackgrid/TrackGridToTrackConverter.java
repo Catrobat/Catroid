@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
-import androidx.collection.SparseArrayCompat;
-
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.Track;
 
 import java.util.List;
+
+import androidx.collection.SparseArrayCompat;
 
 public final class TrackGridToTrackConverter {
 

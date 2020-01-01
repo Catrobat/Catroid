@@ -23,15 +23,16 @@
 
 package org.catrobat.catroid.uiespresso.util.wrappers;
 
+import android.view.View;
+
+import org.hamcrest.Matcher;
+
 import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.Root;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.AdapterViewProtocol;
-import android.view.View;
-
-import org.hamcrest.Matcher;
 
 public abstract class DataInteractionWrapper {
 

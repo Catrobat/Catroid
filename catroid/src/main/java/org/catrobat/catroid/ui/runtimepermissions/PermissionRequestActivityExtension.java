@@ -28,12 +28,13 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import androidx.annotation.NonNull;
 
 import org.catrobat.catroid.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class PermissionRequestActivityExtension {
 	private final List<RequiresPermissionTask> waitingForResponsePermissionTaskList;

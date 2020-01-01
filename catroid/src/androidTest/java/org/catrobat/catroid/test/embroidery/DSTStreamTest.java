@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.embroidery.DSTHeader;
 import org.catrobat.catroid.embroidery.DSTStitchPoint;
 import org.catrobat.catroid.embroidery.DSTStream;
@@ -37,6 +35,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

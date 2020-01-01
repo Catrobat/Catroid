@@ -23,7 +23,6 @@
 package org.catrobat.catroid.io;
 
 import android.content.Context;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -238,6 +237,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;

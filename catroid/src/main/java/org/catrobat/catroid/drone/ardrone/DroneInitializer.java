@@ -31,8 +31,6 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask.Status;
 import android.os.IBinder;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.appcompat.app.AlertDialog;
 
 import com.parrot.freeflight.receivers.DroneAvailabilityDelegate;
 import com.parrot.freeflight.receivers.DroneAvailabilityReceiver;
@@ -47,6 +45,9 @@ import com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageResourceHolder;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import static org.catrobat.catroid.CatroidApplication.getAppContext;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.getDronePreferenceMapping;

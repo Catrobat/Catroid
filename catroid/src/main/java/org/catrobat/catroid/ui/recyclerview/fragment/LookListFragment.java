@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.PluralsRes;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -43,6 +42,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.util.List;
+
+import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;

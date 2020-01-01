@@ -25,7 +25,6 @@ package org.catrobat.catroid.io.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -36,6 +35,8 @@ import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+
+import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;

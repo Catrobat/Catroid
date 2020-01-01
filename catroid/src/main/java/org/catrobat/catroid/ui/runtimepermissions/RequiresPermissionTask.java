@@ -25,12 +25,13 @@ package org.catrobat.catroid.ui.runtimepermissions;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import androidx.annotation.StringRes;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import android.util.Log;
 
 import java.util.List;
+
+import androidx.annotation.StringRes;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public abstract class RequiresPermissionTask {
 

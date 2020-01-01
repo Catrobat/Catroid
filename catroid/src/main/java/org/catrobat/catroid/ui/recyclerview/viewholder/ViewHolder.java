@@ -23,11 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.viewholder;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ViewHolder extends RecyclerView.ViewHolder {
 

@@ -26,9 +26,6 @@ package org.catrobat.catroid.uiespresso.util;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
-
 import static junit.framework.Assert.assertEquals;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,6 +34,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
 public final class UserVariableAssertions {
 

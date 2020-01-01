@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.text.format.DateFormat;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -50,6 +49,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
+
+import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 

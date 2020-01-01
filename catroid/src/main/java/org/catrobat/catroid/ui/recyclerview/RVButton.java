@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview;
 
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.Nullable;
 
 public class RVButton {

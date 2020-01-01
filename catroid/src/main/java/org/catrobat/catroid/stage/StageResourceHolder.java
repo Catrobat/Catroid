@@ -33,7 +33,6 @@ import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import androidx.annotation.VisibleForTesting;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -75,6 +74,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.VisibleForTesting;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;

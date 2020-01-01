@@ -23,19 +23,20 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import androidx.test.espresso.ViewInteraction;
 import android.widget.TableRow;
 
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 import org.catrobat.paintroid.colorpicker.PresetSelectorView;
+
+import androidx.test.espresso.ViewInteraction;
+
+import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withParentIndex;
-
-import static org.hamcrest.Matchers.allOf;
 
 public final class ColorPickerInteractionWrapper extends ViewInteractionWrapper {
 	private ColorPickerInteractionWrapper(ViewInteraction viewInteraction) {

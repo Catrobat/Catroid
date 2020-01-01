@@ -23,8 +23,6 @@
 package org.catrobat.catroid.test.facedetection;
 
 import android.graphics.PointF;
-import androidx.test.rule.GrantPermissionRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
@@ -45,6 +43,9 @@ import org.mockito.junit.MockitoRule;
 
 import java.util.List;
 import java.util.Random;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 

@@ -23,13 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.stage.utils;
 
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.action.MotionEvents;
 import android.view.MotionEvent;
 import android.view.View;
 
 import org.hamcrest.Matcher;
+
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.MotionEvents;
 
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 

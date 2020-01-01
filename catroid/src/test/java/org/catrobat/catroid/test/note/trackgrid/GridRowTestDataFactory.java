@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.note.trackgrid;
 
-import androidx.collection.SparseArrayCompat;
-
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRow;
@@ -31,6 +29,8 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.collection.SparseArrayCompat;
 
 public final class GridRowTestDataFactory {
 

@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.ui.filepicker;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +31,9 @@ import org.catrobat.catroid.R;
 
 import java.io.File;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class FilePickerAdapter extends RecyclerView.Adapter<FileVH> {
 

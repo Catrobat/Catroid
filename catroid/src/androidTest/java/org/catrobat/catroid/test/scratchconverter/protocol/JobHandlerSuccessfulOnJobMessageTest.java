@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.scratchconverter.protocol;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.google.android.gms.common.images.WebImage;
 
 import org.catrobat.catroid.common.Constants;
@@ -46,6 +44,8 @@ import org.mockito.AdditionalMatchers;
 import org.mockito.stubbing.Answer;
 
 import java.util.Date;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

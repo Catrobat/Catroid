@@ -25,11 +25,11 @@ package org.catrobat.catroid.uiespresso.formulaeditor.utils;
 
 import org.catrobat.catroid.R;
 
+import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
 public final class UserVariableDataItemRVInteractionWrapper extends
 		UserDataItemRVInteractionWrapper<UserVariableDataItemRVInteractionWrapper> {

@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
-import androidx.annotation.IdRes;
-import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -89,6 +87,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
