@@ -22,10 +22,10 @@
  */
 package org.catrobat.catroid.utils.idlingresources;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import androidx.annotation.Nullable;
 import androidx.test.espresso.IdlingResource;
-
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class BooleanInitiallyBusyIdlingResource implements IdlingResource {
 	@Nullable

@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
-import androidx.test.espresso.ViewInteraction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
+
+import androidx.test.espresso.ViewInteraction;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;

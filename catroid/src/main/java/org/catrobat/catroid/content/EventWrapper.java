@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.content;
 
-import androidx.annotation.IntDef;
-
 import com.badlogic.gdx.scenes.scene2d.Event;
 
 import org.catrobat.catroid.content.eventids.EventId;
@@ -32,6 +30,8 @@ import org.catrobat.catroid.content.eventids.EventId;
 import java.lang.annotation.Retention;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 

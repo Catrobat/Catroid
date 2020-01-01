@@ -26,13 +26,14 @@ package org.catrobat.catroid.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+
+import androidx.annotation.VisibleForTesting;
 
 public final class CrashReporter {
 

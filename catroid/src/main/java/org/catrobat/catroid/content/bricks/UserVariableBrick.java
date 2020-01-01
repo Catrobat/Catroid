@@ -24,9 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,6 +39,10 @@ import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class UserVariableBrick extends BrickBaseType implements UserVariableBrickInterface {
 

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
@@ -34,6 +33,8 @@ import org.catrobat.catroid.devices.mindstorms.nxt.NXTError;
 import org.catrobat.catroid.devices.mindstorms.nxt.NXTException;
 import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply;
 import org.catrobat.catroid.utils.Stopwatch;
+
+import androidx.annotation.VisibleForTesting;
 
 public abstract class NXTI2CSensor extends NXTSensor {
 

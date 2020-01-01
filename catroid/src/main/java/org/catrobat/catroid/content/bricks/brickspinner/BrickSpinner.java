@@ -24,9 +24,6 @@
 package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +36,10 @@ import android.widget.TextView;
 import org.catrobat.catroid.common.Nameable;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelectedListener {
 

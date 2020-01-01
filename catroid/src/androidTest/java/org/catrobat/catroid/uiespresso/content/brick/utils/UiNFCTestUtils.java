@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
-import androidx.test.espresso.DataInteraction;
 import android.util.Log;
 import android.widget.Spinner;
 
@@ -38,6 +37,10 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 
 import java.util.List;
+
+import androidx.test.espresso.DataInteraction;
+
+import static org.hamcrest.Matchers.instanceOf;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -48,8 +51,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.instanceOf;
 
 public final class UiNFCTestUtils {
 	private UiNFCTestUtils() {

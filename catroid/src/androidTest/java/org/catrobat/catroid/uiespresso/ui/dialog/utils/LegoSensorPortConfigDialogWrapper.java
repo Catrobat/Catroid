@@ -23,14 +23,16 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog.utils;
 
-import androidx.annotation.IntDef;
-import androidx.test.espresso.ViewInteraction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 
 import java.lang.annotation.Retention;
+
+import androidx.annotation.IntDef;
+import androidx.test.espresso.ViewInteraction;
+
+import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -38,8 +40,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 public final class LegoSensorPortConfigDialogWrapper extends ViewInteractionWrapper {
 

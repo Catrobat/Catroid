@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import androidx.annotation.StringRes;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -44,13 +42,15 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import androidx.annotation.StringRes;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;
+
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
 @RunWith(Parameterized.class)

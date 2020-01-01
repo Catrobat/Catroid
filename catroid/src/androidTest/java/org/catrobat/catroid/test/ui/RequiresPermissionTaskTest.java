@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.ui;
 
 import android.app.Activity;
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.junit.Before;
@@ -34,6 +33,8 @@ import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 

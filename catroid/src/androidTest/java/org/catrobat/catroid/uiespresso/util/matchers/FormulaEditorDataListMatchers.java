@@ -23,13 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public final class FormulaEditorDataListMatchers {
 	private FormulaEditorDataListMatchers() {

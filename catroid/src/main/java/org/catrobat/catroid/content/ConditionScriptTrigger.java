@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.content;
 
-import androidx.annotation.IntDef;
 import android.util.Log;
 
 import org.catrobat.catroid.content.eventids.WhenConditionEventId;
@@ -32,6 +31,8 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
 
 public class ConditionScriptTrigger {
 	@Retention(RetentionPolicy.SOURCE)

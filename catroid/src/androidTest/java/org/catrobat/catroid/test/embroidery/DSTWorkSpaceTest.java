@@ -23,14 +23,14 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTWorkSpace;
 import org.catrobat.catroid.embroidery.EmbroideryWorkSpace;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.assertEquals;
 

@@ -23,10 +23,11 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
-import com.google.android.material.textfield.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 public class DialogInputWatcher implements TextWatcher {
 

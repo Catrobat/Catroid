@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
-import androidx.annotation.IdRes;
-import androidx.fragment.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
@@ -133,6 +131,9 @@ import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

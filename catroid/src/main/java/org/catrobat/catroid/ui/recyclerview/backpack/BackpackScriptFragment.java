@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import androidx.annotation.PluralsRes;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,6 +34,8 @@ import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
+
+import androidx.annotation.PluralsRes;
 
 public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String> {
 

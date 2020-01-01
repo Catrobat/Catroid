@@ -23,13 +23,14 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
-import androidx.test.rule.ActivityTestRule;
 import android.util.Log;
 
 import org.catrobat.catroid.common.FlavoredConstants;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.rule.ActivityTestRule;
 
 import static org.catrobat.catroid.io.StorageOperations.deleteDir;
 

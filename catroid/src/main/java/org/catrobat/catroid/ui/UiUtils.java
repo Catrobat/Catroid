@@ -25,9 +25,10 @@ package org.catrobat.catroid.ui;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
 
 public final class UiUtils {
 

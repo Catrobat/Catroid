@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import androidx.annotation.IntDef;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -38,6 +36,9 @@ import org.catrobat.catroid.web.WebConnectionFactory;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.VisibleForTesting;
 
 public class WebRequestAction extends Action implements WebConnection.WebRequestListener {
 

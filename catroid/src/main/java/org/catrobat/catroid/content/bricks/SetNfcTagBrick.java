@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -36,6 +35,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class SetNfcTagBrick extends FormulaBrick implements
 		BrickSpinner.OnItemSelectedListener<SetNfcTagBrick.NfcTypeOption> {

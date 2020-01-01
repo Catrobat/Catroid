@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.note.trackgrid;
 
-import androidx.collection.SparseArrayCompat;
-
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.MusicalKey;
@@ -36,6 +34,8 @@ import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.collection.SparseArrayCompat;
 
 public final class TrackGridTestDataFactory {
 

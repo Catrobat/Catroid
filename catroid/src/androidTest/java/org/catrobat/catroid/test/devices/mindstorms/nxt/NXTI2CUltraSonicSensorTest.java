@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
@@ -39,6 +37,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.devices.mindstorms.nxt.CommandByte.LS_READ;
 import static org.catrobat.catroid.devices.mindstorms.nxt.CommandType.REPLY_COMMAND;
