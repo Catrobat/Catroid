@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.stage;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.support.test.InstrumentationRegistry;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

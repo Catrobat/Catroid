@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;

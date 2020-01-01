@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.content;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.badlogic.gdx.scenes.scene2d.Event;
 

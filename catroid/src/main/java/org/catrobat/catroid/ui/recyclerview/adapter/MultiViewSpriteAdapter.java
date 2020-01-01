@@ -26,7 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

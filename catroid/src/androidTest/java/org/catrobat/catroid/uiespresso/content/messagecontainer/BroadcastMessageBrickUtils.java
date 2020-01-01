@@ -25,7 +25,7 @@ package org.catrobat.catroid.uiespresso.content.messagecontainer;
 
 import android.content.DialogInterface;
 import android.support.test.InstrumentationRegistry;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.ui.SpriteActivity;

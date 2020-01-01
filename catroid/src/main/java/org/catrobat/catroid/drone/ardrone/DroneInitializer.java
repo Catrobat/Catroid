@@ -31,8 +31,8 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.AsyncTask.Status;
 import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.appcompat.app.AlertDialog;
 
 import com.parrot.freeflight.receivers.DroneAvailabilityDelegate;
 import com.parrot.freeflight.receivers.DroneAvailabilityReceiver;

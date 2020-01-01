@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import android.support.test.espresso.action.CoordinatesProvider;
+import androidx.test.espresso.action.CoordinatesProvider;
 import android.util.Log;
 import android.view.View;
 

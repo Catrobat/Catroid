@@ -23,9 +23,9 @@
 package org.catrobat.catroid.catrobattestrunner;
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.rule.ActivityTestRule;
 import android.view.View;
 
 import com.google.common.math.DoubleMath;
@@ -54,9 +54,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;

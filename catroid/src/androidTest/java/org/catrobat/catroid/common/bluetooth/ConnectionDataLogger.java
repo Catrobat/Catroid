@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.common.bluetooth;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.google.common.base.Stopwatch;
 

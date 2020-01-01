@@ -23,7 +23,7 @@
 package org.catrobat.catroid.physics.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;

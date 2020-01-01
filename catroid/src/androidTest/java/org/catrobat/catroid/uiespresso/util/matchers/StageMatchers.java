@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.support.test.espresso.matcher.BoundedMatcher;
+import androidx.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;

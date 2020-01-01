@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.content.actions;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 

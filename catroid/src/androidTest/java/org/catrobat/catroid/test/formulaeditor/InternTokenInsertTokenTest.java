@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.R;

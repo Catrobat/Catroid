@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -44,8 +44,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;

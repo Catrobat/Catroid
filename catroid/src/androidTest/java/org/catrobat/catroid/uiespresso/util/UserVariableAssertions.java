@@ -26,8 +26,8 @@ package org.catrobat.catroid.uiespresso.util;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
 import static junit.framework.Assert.assertEquals;
 

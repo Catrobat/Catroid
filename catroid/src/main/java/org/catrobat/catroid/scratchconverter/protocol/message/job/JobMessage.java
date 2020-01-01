@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.scratchconverter.protocol.message.job;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseArray;
 

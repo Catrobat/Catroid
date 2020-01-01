@@ -24,7 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
-import android.support.annotation.PluralsRes;
+import androidx.annotation.PluralsRes;
 import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;

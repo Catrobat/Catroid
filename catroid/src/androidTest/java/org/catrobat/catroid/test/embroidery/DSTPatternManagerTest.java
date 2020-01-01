@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTPatternManager;

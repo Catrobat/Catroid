@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
