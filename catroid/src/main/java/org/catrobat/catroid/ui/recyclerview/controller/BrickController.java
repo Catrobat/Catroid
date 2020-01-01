@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.catrobat.catroid.content.Script;

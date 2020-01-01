@@ -24,8 +24,8 @@
 package org.catrobat.catroid.test.transfers;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;

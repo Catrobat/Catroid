@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.content.eventids;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.google.common.base.Objects;
 

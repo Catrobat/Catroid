@@ -50,7 +50,7 @@
                     android:padding="@dimen/material_design_spacing_large"
                     android:text="@string/scratch_programs_in_progress_title" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_in_progress"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -70,7 +70,7 @@
                     android:padding="@dimen/material_design_spacing_large"
                     android:text="@string/scratch_programs_finished_title" />
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler_view_finished"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

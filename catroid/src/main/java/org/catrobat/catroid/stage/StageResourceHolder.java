@@ -33,7 +33,7 @@ import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;

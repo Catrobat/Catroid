@@ -34,8 +34,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import android.support.annotation.StringRes;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.StringRes;
+import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import org.catrobat.catroid.R;

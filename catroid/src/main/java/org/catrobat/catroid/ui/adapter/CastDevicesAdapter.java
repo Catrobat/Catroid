@@ -23,7 +23,7 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.media.MediaRouter;
+import androidx.mediarouter.media.MediaRouter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

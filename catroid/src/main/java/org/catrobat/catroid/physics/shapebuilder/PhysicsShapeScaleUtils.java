@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.physics.shapebuilder;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;

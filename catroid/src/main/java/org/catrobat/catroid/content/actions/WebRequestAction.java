@@ -22,8 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.IntDef;
+import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;

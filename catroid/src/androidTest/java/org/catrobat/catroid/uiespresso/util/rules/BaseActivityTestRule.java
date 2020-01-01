@@ -23,7 +23,7 @@
 package org.catrobat.catroid.uiespresso.util.rules;
 
 import android.app.Activity;
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.rule.ActivityTestRule;
 import android.util.Log;
 
 import org.catrobat.catroid.common.FlavoredConstants;

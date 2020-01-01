@@ -23,7 +23,7 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.os.Handler;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.soundrecorder.SoundRecorder;

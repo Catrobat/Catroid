@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.content.sprite;
 
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.SingleSprite;

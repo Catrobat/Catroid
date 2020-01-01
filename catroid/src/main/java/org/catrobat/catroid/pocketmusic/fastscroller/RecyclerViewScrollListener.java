@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.pocketmusic.fastscroller;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 

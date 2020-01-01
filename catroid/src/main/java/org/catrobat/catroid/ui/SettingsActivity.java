@@ -24,7 +24,7 @@
 package org.catrobat.catroid.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;

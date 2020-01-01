@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.io.ziparchiver;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.StorageOperations;

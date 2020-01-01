@@ -23,7 +23,7 @@
 package org.catrobat.catroid.common;
 
 import android.os.Environment;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;

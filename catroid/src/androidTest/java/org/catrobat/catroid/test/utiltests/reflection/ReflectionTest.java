@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.utiltests.reflection;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.Reflection.Parameter;

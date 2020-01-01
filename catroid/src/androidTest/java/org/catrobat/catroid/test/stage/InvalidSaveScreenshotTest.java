@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.stage;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.stage.StageListener;
 import org.junit.Before;

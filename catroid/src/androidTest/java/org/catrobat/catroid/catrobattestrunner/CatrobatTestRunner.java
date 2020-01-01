@@ -24,7 +24,10 @@ package org.catrobat.catroid.catrobattestrunner;
 
 import android.app.Instrumentation;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.ActivityTestRule;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.rule.ActivityTestRule;
+import android.view.View;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageOperations;
@@ -45,6 +48,11 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.assertTrue;
 
