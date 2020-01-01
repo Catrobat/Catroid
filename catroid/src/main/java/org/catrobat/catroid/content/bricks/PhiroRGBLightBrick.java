@@ -24,7 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.Color;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -39,6 +38,8 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.UiUtils;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class PhiroRGBLightBrick extends FormulaBrick {
 

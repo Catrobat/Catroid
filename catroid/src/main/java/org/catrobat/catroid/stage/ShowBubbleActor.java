@@ -30,8 +30,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import androidx.annotation.VisibleForTesting;
-import androidx.core.util.Pair;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -49,6 +47,9 @@ import org.catrobat.catroid.sensing.CollisionInformation;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 
 public class ShowBubbleActor extends Actor {
 	ArrayList<String> bubbleValue;

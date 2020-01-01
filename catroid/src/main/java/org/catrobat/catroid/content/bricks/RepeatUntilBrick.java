@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import androidx.annotation.VisibleForTesting;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
@@ -35,6 +33,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 

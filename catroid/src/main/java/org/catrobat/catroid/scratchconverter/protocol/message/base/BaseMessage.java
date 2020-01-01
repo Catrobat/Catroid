@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.scratchconverter.protocol.message.base;
 
-import androidx.annotation.Nullable;
 import android.util.SparseArray;
 
 import org.catrobat.catroid.scratchconverter.protocol.Job;
@@ -36,6 +35,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public abstract class BaseMessage extends Message {
 

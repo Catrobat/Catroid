@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.physics.look;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.badlogic.gdx.math.Vector2;
 
 import org.catrobat.catroid.content.Sprite;
@@ -35,6 +33,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

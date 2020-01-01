@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.physics;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -41,6 +39,8 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;

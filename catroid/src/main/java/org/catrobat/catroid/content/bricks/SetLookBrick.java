@@ -23,8 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -42,6 +40,9 @@ import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterf
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<LookData>,
 		NewItemInterface<LookData> {

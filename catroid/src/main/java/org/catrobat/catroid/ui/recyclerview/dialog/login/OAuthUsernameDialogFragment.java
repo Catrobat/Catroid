@@ -27,11 +27,10 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import com.google.android.material.textfield.TextInputLayout;
-import androidx.fragment.app.DialogFragment;
-import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -39,6 +38,9 @@ import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
 import org.catrobat.catroid.transfers.GoogleExchangeCodeTask;
 import org.catrobat.catroid.transfers.GoogleLogInTask;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DialogInputWatcher;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 public class OAuthUsernameDialogFragment extends DialogFragment implements
 		CheckUserNameAvailableTask.OnCheckUserNameAvailableCompleteListener,

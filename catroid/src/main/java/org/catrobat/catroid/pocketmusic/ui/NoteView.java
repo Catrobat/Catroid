@@ -26,12 +26,13 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
+
+import androidx.core.content.ContextCompat;
 
 @SuppressLint("AppCompatCustomView")
 public class NoteView extends ImageView implements View.OnClickListener {

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.facedetection;
 
 import android.graphics.Point;
-import androidx.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;
@@ -33,6 +32,8 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public abstract class FaceDetector {
 

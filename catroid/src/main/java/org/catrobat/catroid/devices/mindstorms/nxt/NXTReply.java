@@ -22,9 +22,9 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt;
 
-import androidx.annotation.VisibleForTesting;
-
 import org.catrobat.catroid.devices.mindstorms.MindstormsReply;
+
+import androidx.annotation.VisibleForTesting;
 
 public class NXTReply extends MindstormsReply {
 

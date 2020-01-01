@@ -28,7 +28,6 @@ import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.Settings;
-import androidx.annotation.PluralsRes;
 import android.util.Log;
 import android.view.Menu;
 
@@ -40,6 +39,8 @@ import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
+
+import androidx.annotation.PluralsRes;
 
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 

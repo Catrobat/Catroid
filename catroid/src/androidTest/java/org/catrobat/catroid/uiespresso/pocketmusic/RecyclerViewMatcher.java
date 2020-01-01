@@ -24,12 +24,13 @@
 package org.catrobat.catroid.uiespresso.pocketmusic;
 
 import android.content.res.Resources;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewMatcher {
 	private final int recyclerViewId;

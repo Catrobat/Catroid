@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.controller;
 
-import androidx.annotation.NonNull;
 import android.util.Log;
 
 import org.catrobat.catroid.content.Script;
@@ -32,6 +31,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public final class BrickController {
 

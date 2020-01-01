@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -36,6 +35,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 public interface Brick extends Serializable, Cloneable {
 

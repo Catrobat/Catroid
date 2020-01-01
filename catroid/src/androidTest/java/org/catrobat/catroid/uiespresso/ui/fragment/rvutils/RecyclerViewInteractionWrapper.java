@@ -23,13 +23,14 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
-import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewInteraction;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 import org.hamcrest.Matcher;
+
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewInteraction;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;

@@ -26,17 +26,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import androidx.annotation.StringRes;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 public final class SnackbarUtil {
 

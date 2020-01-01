@@ -23,8 +23,6 @@
 package org.catrobat.catroid.drone.jumpingsumo;
 
 import android.os.Environment;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 
 import com.parrot.arsdk.ardatatransfer.ARDATATRANSFER_ERROR_ENUM;
@@ -39,6 +37,9 @@ import com.parrot.arsdk.arutils.ARUtilsManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SDCardModule extends AppCompatActivity{
 

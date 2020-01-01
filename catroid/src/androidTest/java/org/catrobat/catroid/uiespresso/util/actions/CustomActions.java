@@ -22,11 +22,12 @@
  */
 package org.catrobat.catroid.uiespresso.util.actions;
 
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
 import android.view.View;
 
 import org.hamcrest.Matcher;
+
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 

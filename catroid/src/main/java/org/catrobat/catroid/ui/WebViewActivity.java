@@ -32,8 +32,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
@@ -52,6 +50,9 @@ import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
 import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;

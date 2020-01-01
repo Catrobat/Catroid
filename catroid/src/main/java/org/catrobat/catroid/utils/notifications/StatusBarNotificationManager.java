@@ -34,8 +34,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.ResultReceiver;
-import androidx.annotation.StringRes;
-import androidx.core.app.NotificationCompat;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -43,6 +41,8 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
 
+import androidx.annotation.StringRes;
+import androidx.core.app.NotificationCompat;
 import kotlin.jvm.Synchronized;
 
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;

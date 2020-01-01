@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import androidx.annotation.Nullable;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -35,6 +34,8 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
 

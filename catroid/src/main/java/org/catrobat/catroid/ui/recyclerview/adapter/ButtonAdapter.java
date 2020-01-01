@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +32,9 @@ import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ButtonAdapter extends RecyclerView.Adapter<ButtonVH> {
 

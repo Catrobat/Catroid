@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.util.wrappers;
 
+import org.hamcrest.Matcher;
+
 import androidx.test.espresso.FailureHandler;
 import androidx.test.espresso.Root;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.ViewInteraction;
-
-import org.hamcrest.Matcher;
 
 public abstract class ViewInteractionWrapper {
 

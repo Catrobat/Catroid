@@ -24,7 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
-import androidx.annotation.PluralsRes;
 import android.util.Log;
 
 import org.catrobat.catroid.BuildConfig;
@@ -43,6 +42,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.util.List;
+
+import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SOUNDS_PREFERENCE_KEY;
 

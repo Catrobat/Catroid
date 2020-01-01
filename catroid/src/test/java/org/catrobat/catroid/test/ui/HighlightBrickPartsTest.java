@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import androidx.annotation.IdRes;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -50,6 +49,8 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.IdRes;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;

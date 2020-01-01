@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.common;
 
-import androidx.annotation.IntDef;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
@@ -35,6 +33,8 @@ import org.catrobat.catroid.content.actions.EventThread;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Iterator;
+
+import androidx.annotation.IntDef;
 
 public class ThreadScheduler {
 	@Retention(RetentionPolicy.SOURCE)

@@ -26,12 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.backpack;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import androidx.annotation.IntDef;
-import androidx.annotation.PluralsRes;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -51,6 +45,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.PluralsRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class BackpackRecyclerViewFragment<T> extends Fragment implements
 		ActionMode.Callback,

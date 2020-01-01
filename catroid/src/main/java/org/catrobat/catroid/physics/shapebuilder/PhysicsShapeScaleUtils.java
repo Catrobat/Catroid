@@ -23,14 +23,14 @@
 
 package org.catrobat.catroid.physics.shapebuilder;
 
-import androidx.annotation.VisibleForTesting;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public final class PhysicsShapeScaleUtils {
 

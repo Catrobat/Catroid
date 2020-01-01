@@ -28,9 +28,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AlertDialog.Builder;
 import android.util.Log;
 
 import com.parrot.arsdk.arcontroller.ARCONTROLLER_DEVICE_STATE_ENUM;
@@ -60,6 +57,10 @@ import org.catrobat.catroid.stage.StageResourceHolder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 
 import static org.catrobat.catroid.CatroidApplication.getAppContext;
 

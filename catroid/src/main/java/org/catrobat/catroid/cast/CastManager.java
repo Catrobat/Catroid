@@ -29,10 +29,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.mediarouter.media.MediaRouteSelector;
-import androidx.mediarouter.media.MediaRouter;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -64,6 +60,11 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.mediarouter.media.MediaRouteSelector;
+import androidx.mediarouter.media.MediaRouter;
 
 import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 

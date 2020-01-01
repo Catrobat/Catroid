@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.scratchconverter;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.common.images.WebImage;
 
 import org.catrobat.catroid.scratchconverter.Client.ConnectAuthCallback;
@@ -32,6 +30,8 @@ import org.catrobat.catroid.scratchconverter.Client.ConvertCallback;
 import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public interface ConversionManager extends ConnectAuthCallback, ConvertCallback, ProjectDownloadCallback {
 
