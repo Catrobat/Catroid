@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.test.io;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
@@ -65,6 +62,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -112,7 +112,7 @@ public class XstreamSerializerTest {
 		final int yPosition = 598;
 		final float size = 0.8f;
 
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite firstSprite = new SingleSprite("first");
 		Sprite secondSprite = new SingleSprite("second");
 		Sprite thirdSprite = new SingleSprite("third");
@@ -141,10 +141,10 @@ public class XstreamSerializerTest {
 		project.getDefaultScene().addSprite(fourthSprite);
 
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 
 		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), InstrumentationRegistry.getContext());
+				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
@@ -182,7 +182,7 @@ public class XstreamSerializerTest {
 		final int yPosition = 598;
 		final float size = 0.8f;
 
-		final Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		final Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite firstSprite = new SingleSprite("first");
 		Sprite secondSprite = new SingleSprite("second");
 		Sprite thirdSprite = new SingleSprite("third");
@@ -276,9 +276,9 @@ public class XstreamSerializerTest {
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMapping);
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMapping);
 
-		ProjectSaveTask.task(project, InstrumentationRegistry.getTargetContext());
+		ProjectSaveTask.task(project, ApplicationProvider.getApplicationContext());
 
 		Setting setting = project.getSettings().get(0);
 
@@ -298,12 +298,12 @@ public class XstreamSerializerTest {
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
 
 		SettingsFragment
-				.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), changedSensorMapping);
+				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), changedSensorMapping);
 
 		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), InstrumentationRegistry.getTargetContext()));
+				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
-		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
+		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
 		assertEquals(4, actualSensorMapping.length);
 
@@ -330,7 +330,7 @@ public class XstreamSerializerTest {
 	}
 
 	private Project generateMultiplePermissionsProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		LegoNxtMotorMoveBrick motorBrick = new LegoNxtMotorMoveBrick(
 				LegoNxtMotorMoveBrick.Motor.MOTOR_A, SET_SPEED_INITIALLY);
@@ -367,12 +367,12 @@ public class XstreamSerializerTest {
 	public void testExtractDefaultSceneNameFromXml() {
 		String firstSceneName = "First Scene";
 
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		project.getSceneList().get(0).setName(firstSceneName);
 
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 
 		assertEquals(firstSceneName, XstreamSerializer.extractDefaultSceneNameFromXml(project.getDirectory()));
 	}

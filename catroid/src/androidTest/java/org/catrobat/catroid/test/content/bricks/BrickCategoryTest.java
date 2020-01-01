@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -199,6 +198,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -391,9 +392,9 @@ public class BrickCategoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit().clear().commit();
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit().clear().commit();
 
-		createProject(InstrumentationRegistry.getTargetContext());
+		createProject(ApplicationProvider.getApplicationContext());
 
 		categoryBricksFactory = new CategoryBricksFactory();
 	}
@@ -413,7 +414,7 @@ public class BrickCategoryTest {
 	@Test
 	public void testBrickCategory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
-				InstrumentationRegistry.getTargetContext());
+				ApplicationProvider.getApplicationContext());
 
 		List<Class> brickClasses = new ArrayList<>();
 		for (Brick brick : categoryBricks) {

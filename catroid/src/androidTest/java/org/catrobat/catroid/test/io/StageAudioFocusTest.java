@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,14 +23,15 @@
 package org.catrobat.catroid.test.io;
 
 import android.media.AudioManager;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -42,7 +43,7 @@ public class StageAudioFocusTest {
 
 	@Before
 	public void setUp() throws Exception {
-		audioFocus = new StageAudioFocus(InstrumentationRegistry.getTargetContext());
+		audioFocus = new StageAudioFocus(ApplicationProvider.getApplicationContext());
 	}
 
 	@After

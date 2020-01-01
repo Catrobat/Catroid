@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -46,11 +43,14 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-
-import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
 @RunWith(AndroidJUnit4.class)
 public class SceneBricksTest {
@@ -78,12 +78,12 @@ public class SceneBricksTest {
 				.checkShowsText(newSceneName);
 
 		List<String> sceneStartBrickSpinnerValues = new ArrayList<>();
-		sceneStartBrickSpinnerValues.add(InstrumentationRegistry.getTargetContext().getString(R.string.new_option));
-		sceneStartBrickSpinnerValues.add(InstrumentationRegistry.getTargetContext().getString(R.string.default_scene_name, 1));
+		sceneStartBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.new_option));
+		sceneStartBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1));
 		sceneStartBrickSpinnerValues.add(newSceneName);
 
 		List<String> sceneTransitionBrickSpinnerValues = new ArrayList<>();
-		sceneTransitionBrickSpinnerValues.add(InstrumentationRegistry.getTargetContext().getString(R.string.new_option));
+		sceneTransitionBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.new_option));
 		sceneTransitionBrickSpinnerValues.add(newSceneName);
 
 		onBrickAtPosition(2)
@@ -105,7 +105,7 @@ public class SceneBricksTest {
 
 	private void createProject(String projectName) {
 		String sceneName = "New Scene";
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 

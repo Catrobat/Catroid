@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,6 @@
 package org.catrobat.catroid.catrobattestrunner;
 
 import android.app.Instrumentation;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
-import androidx.test.rule.ActivityTestRule;
-import android.view.View;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.StorageOperations;
@@ -48,11 +43,10 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.ActivityTestRule;
 
-import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.assertTrue;
 
@@ -86,7 +80,12 @@ public class CatrobatTestRunner {
 	private static List<Object[]> getCatrobatAssetsFromPath(String path) throws IOException {
 		List<Object[]> parameters = new ArrayList<>();
 
-		for (String asset : InstrumentationRegistry.getContext().getAssets().list(path)) {
+		String[] assets = InstrumentationRegistry.getInstrumentation().getContext().getAssets().list(path);
+		if (null == assets) {
+			fail("Could not load assets");
+			return parameters;
+		}
+		for (String asset : assets) {
 			if (asset.endsWith(Constants.CATROBAT_EXTENSION)) {
 				parameters.add(new Object[] {path, asset});
 			} else {
@@ -104,7 +103,8 @@ public class CatrobatTestRunner {
 		DEFAULT_ROOT_DIRECTORY.mkdir();
 		CACHE_DIR.mkdir();
 
-		InputStream inputStream = InstrumentationRegistry.getContext().getAssets()
+		InputStream inputStream =
+				InstrumentationRegistry.getInstrumentation().getContext().getAssets()
 				.open(assetPath + "/" + assetName);
 
 		File projectArchive = StorageOperations
@@ -116,7 +116,7 @@ public class CatrobatTestRunner {
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		assertTrue(ProjectLoadTask
-				.task(projectDir, InstrumentationRegistry.getTargetContext()));
+				.task(projectDir, ApplicationProvider.getApplicationContext()));
 	}
 
 	@After

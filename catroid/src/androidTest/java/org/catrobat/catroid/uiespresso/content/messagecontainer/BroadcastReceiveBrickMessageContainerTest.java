@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,6 @@
  */
 
 package org.catrobat.catroid.uiespresso.content.messagecontainer;
-
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -51,15 +48,18 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickUtils.createNewBroadCastMessageOnBrick;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastReceiveBrickMessageContainerTest {
@@ -110,12 +110,12 @@ public class BroadcastReceiveBrickMessageContainerTest {
 				.checkShowsText(defaultMessage);
 
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 
 		baseActivityTestRule.finishActivity();
 
 		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), InstrumentationRegistry.getTargetContext()));
+				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 
@@ -134,7 +134,7 @@ public class BroadcastReceiveBrickMessageContainerTest {
 	}
 
 	private void createProject(String projectName) {
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 
