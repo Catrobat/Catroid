@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
-import android.support.v4.util.SparseArrayCompat;
+import androidx.collection.SparseArrayCompat;
 
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;

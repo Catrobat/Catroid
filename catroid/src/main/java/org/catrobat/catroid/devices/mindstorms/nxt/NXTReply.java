@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.devices.mindstorms.MindstormsReply;
 

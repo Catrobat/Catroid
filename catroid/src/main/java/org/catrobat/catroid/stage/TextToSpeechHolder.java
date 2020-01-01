@@ -26,7 +26,7 @@ package org.catrobat.catroid.stage;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;

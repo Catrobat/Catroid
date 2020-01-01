@@ -25,7 +25,7 @@ package org.catrobat.catroid.io.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.R;

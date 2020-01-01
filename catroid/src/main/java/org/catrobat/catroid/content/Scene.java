@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.content;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 

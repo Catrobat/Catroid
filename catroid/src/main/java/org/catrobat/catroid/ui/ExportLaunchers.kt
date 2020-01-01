@@ -24,7 +24,7 @@
 package org.catrobat.catroid.ui
 
 import android.content.Intent
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import org.catrobat.catroid.stage.StageActivity
 import java.io.File
 

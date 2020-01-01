@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;

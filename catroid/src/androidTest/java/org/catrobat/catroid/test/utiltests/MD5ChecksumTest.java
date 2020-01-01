@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.utiltests;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.utils.Utils;

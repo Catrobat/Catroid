@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.parrot.freeflight.drone.DroneProxy;
 

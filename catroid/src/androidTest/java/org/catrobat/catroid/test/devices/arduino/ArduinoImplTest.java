@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.test.devices.arduino;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.firmata.FirmataMessage;

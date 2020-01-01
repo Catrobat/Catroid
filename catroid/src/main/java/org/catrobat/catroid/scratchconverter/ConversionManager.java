@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.scratchconverter;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.common.images.WebImage;
 

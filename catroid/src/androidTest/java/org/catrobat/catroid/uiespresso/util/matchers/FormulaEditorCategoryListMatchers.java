@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;

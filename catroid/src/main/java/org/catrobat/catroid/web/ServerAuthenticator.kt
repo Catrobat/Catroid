@@ -24,7 +24,7 @@
 package org.catrobat.catroid.web
 
 import android.content.SharedPreferences
-import android.support.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting
 import android.util.Log
 import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.Constants

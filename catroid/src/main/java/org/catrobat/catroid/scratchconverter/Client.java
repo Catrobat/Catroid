@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.scratchconverter;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.google.android.gms.common.images.WebImage;
 

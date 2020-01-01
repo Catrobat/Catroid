@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import android.support.test.espresso.DataInteraction;
+import androidx.test.espresso.DataInteraction;
 
 import org.catrobat.catroid.uiespresso.util.wrappers.DataInteractionWrapper;
 
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 

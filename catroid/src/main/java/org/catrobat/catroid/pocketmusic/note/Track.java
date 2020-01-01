@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note;
 
-import android.support.v4.util.LongSparseArray;
+import androidx.collection.LongSparseArray;
 
 import java.io.Serializable;
 import java.util.Collections;

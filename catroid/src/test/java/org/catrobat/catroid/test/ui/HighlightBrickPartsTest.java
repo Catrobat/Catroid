@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.ui;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;

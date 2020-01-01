@@ -23,7 +23,7 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.widget.TableRow;
 
 import org.catrobat.catroid.R;

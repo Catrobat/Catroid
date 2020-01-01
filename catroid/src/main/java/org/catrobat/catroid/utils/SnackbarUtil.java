@@ -26,9 +26,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.StringRes;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
@@ -66,7 +66,7 @@ public final class SnackbarUtil {
 			});
 			snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
 			View snackbarView = snackbar.getView();
-			TextView textView = snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+			TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
 			textView.setMaxLines(MAX_LINES);
 			textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
 			snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));

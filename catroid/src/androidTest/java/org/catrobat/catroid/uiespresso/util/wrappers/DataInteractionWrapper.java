@@ -23,12 +23,12 @@
 
 package org.catrobat.catroid.uiespresso.util.wrappers;
 
-import android.support.test.espresso.DataInteraction;
-import android.support.test.espresso.Root;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.ViewAssertion;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.espresso.action.AdapterViewProtocol;
+import androidx.test.espresso.DataInteraction;
+import androidx.test.espresso.Root;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.ViewAssertion;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.AdapterViewProtocol;
 import android.view.View;
 
 import org.hamcrest.Matcher;

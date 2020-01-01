@@ -24,7 +24,7 @@
 package org.catrobat.catroid.scratchconverter.protocol;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
