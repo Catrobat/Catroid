@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.content.Project;
@@ -40,6 +38,8 @@ import org.junit.runners.Parameterized;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -90,13 +90,13 @@ public class ProjectRenameSpecialCharactersTaskTest {
 	@Test
 	public void testRenameFromSpecialCharacter() throws IOException {
 		Project project = DefaultProjectHandler.createAndSaveDefaultProject(specialCharacterProjectName,
-				InstrumentationRegistry.getTargetContext(), false);
+				ApplicationProvider.getApplicationContext(), false);
 
 		File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), projectNameWithoutSpecialCharacter);
 
 		assertEquals(projectNameWithoutSpecialCharacter, renamedDirectory.getName());
 
-		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(projectNameWithoutSpecialCharacter, project.getName());
@@ -105,14 +105,14 @@ public class ProjectRenameSpecialCharactersTaskTest {
 	@Test
 	public void testRenameToSpecialCharacter() throws IOException {
 		Project project = DefaultProjectHandler.createAndSaveDefaultProject(projectNameWithoutSpecialCharacter,
-				InstrumentationRegistry.getTargetContext(), false);
+				ApplicationProvider.getApplicationContext(), false);
 
 		File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), specialCharacterProjectName);
 		File expectedDirectory = new File(project.getDirectory().getParent(), specialCharacterEncodedProjectName);
 
 		assertEquals(expectedDirectory, renamedDirectory);
 
-		assertTrue(ProjectLoadTask.task(renamedDirectory, InstrumentationRegistry.getTargetContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(specialCharacterProjectName, project.getName());

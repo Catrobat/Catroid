@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,10 +24,6 @@ package org.catrobat.catroid.test.formulaeditor;
 
 import android.Manifest;
 import android.graphics.Point;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.annotation.UiThreadTest;
-import androidx.test.rule.GrantPermissionRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
@@ -60,6 +56,11 @@ import org.mockito.Mockito;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.test.annotation.UiThreadTest;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -97,7 +98,7 @@ public class ParserTestSensors {
 	public void testSensorManagerNotInitialized() {
 		SensorHandler.registerListener(null);
 		SensorHandler.unregisterListener(null);
-		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
+		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
 
 		assertEquals(0d, Math.abs((Double) SensorHandler.getSensorValue(Sensors.X_ACCELERATION)));
 	}
@@ -105,7 +106,7 @@ public class ParserTestSensors {
 	@Test
 	@UiThreadTest
 	public void testSensorHandlerWithLookSensorValue() {
-		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
+		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
 		assertEquals(0d, SensorHandler.getSensorValue(Sensors.OBJECT_BRIGHTNESS));
 		SensorHandler.stopSensorListeners();
 	}
@@ -114,7 +115,7 @@ public class ParserTestSensors {
 	@UiThreadTest
 	public void testFaceDetection() throws Exception {
 		CameraManager.makeInstance();
-		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
+		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
 		FaceDetector faceDetector = FaceDetectionHandler.getFaceDetector();
 
 		assertNotNull(faceDetector);
@@ -168,8 +169,8 @@ public class ParserTestSensors {
 		InOrder inOrder = inOrder(soundRecorder);
 
 		when(soundRecorder.isRecording()).thenReturn(false);
-		SensorHandler.getInstance(InstrumentationRegistry.getTargetContext()).setSensorLoudness(loudnessSensor);
-		SensorHandler.startSensorListener(InstrumentationRegistry.getTargetContext());
+		SensorHandler.getInstance(ApplicationProvider.getApplicationContext()).setSensorLoudness(loudnessSensor);
+		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
 		inOrder.verify(soundRecorder).start();
 
 		when(soundRecorder.isRecording()).thenReturn(true);
@@ -186,7 +187,7 @@ public class ParserTestSensors {
 	}
 
 	private void createProject() {
-		this.project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		this.project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
 		firstSprite = new SingleSprite("zwoosh");
 		startScript1 = new StartScript();
 		firstSprite.addScript(startScript1);

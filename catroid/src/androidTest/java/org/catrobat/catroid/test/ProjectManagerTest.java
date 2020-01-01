@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 package org.catrobat.catroid.test;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.UiTestCatroidApplication;
@@ -47,6 +45,10 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -76,7 +78,7 @@ public class ProjectManagerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Context targetContext = InstrumentationRegistry.getTargetContext();
+		Context targetContext = ApplicationProvider.getApplicationContext();
 		ScreenValueHandler.updateScreenWidthAndHeight(targetContext);
 		projectManager = UiTestCatroidApplication.projectManager;
 	}
@@ -85,7 +87,7 @@ public class ProjectManagerTest {
 	public void tearDown() throws Exception {
 		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
-		TestUtils.removeFromPreferences(InstrumentationRegistry.getTargetContext(), Constants.PREF_PROJECTNAME_KEY);
+		TestUtils.removeFromPreferences(ApplicationProvider.getApplicationContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
 	@Test
@@ -94,7 +96,7 @@ public class ProjectManagerTest {
 				.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+			projectManager.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 			fail("Project shouldn't be compatible");
 		} catch (CompatibilityProjectException expected) {
 		}
@@ -106,12 +108,12 @@ public class ProjectManagerTest {
 	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException, ProjectException {
 		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
 
-		projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectManager.loadProject(new File(NEW_PROJECT), InstrumentationRegistry.getTargetContext());
+			projectManager.loadProject(new File(NEW_PROJECT), ApplicationProvider.getApplicationContext());
 			fail("Expected ProjectException while loading  project " + NEW_PROJECT);
 		} catch (ProjectException expected) {
 		}
@@ -129,14 +131,14 @@ public class ProjectManagerTest {
 		assertNull(projectManager.getCurrentProject());
 
 		exception.expect(ProjectException.class);
-		projectManager.loadProject(new File(NEW_PROJECT), InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(new File(NEW_PROJECT), ApplicationProvider.getApplicationContext());
 	}
 
 	@Test
 	public void testSavingAProjectDuringDelete() throws IOException, ProjectException {
 		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, PROJECT_NAME);
 
-		projectManager.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		Project currentProject = projectManager.getCurrentProject();
 		assertNotNull(String.format("Could not load %s project.", PROJECT_NAME), currentProject);
@@ -147,7 +149,7 @@ public class ProjectManagerTest {
 		// simulate multiple saving trigger asynchronous (occurs in black box testing)
 		for (int i = 0; i < 3; i++) {
 			currentProject.setDescription(currentProject.getDescription() + i);
-			new ProjectSaveTask(currentProject, InstrumentationRegistry.getTargetContext())
+			new ProjectSaveTask(currentProject, ApplicationProvider.getApplicationContext())
 					.execute();
 		}
 
@@ -163,11 +165,12 @@ public class ProjectManagerTest {
 	public void testLoadProjectWithInvalidNestingBrickReferences() throws IOException, ProjectException {
 		DEFAULT_ROOT_DIRECTORY.mkdir();
 
-		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
+		InputStream inputStream =
+				InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS);
 		new ZipArchiver().unzip(inputStream, projectDir);
 
-		projectManager.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
+		projectManager.loadProject(projectDir, ApplicationProvider.getApplicationContext());
 		Project project = projectManager.getCurrentProject();
 
 		assertNotNull(project);

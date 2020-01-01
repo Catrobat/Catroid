@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import android.annotation.TargetApi;
 import android.app.UiAutomation;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
 import org.junit.rules.TestWatcher;
@@ -40,6 +39,9 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 public class ScreenshotOnFailRule extends TestWatcher {
 	private static final String TAG = ScreenshotOnFailRule.class.getSimpleName();
@@ -69,7 +71,7 @@ public class ScreenshotOnFailRule extends TestWatcher {
 
 	private File makeFileDescriptor(Description description) {
 		File path = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-				+ "/PocketCodeEspressoScreenshots/" + InstrumentationRegistry.getTargetContext().getPackageName());
+				+ "/PocketCodeEspressoScreenshots/" + ApplicationProvider.getApplicationContext().getPackageName());
 		if (!path.exists()) {
 			path.mkdirs();
 		}

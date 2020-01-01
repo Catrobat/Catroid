@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
@@ -35,6 +34,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertSame;
@@ -74,7 +75,7 @@ public class PreferencesSensorMappingTest {
 
 	@Before
 	public void setUp() {
-		Context context = InstrumentationRegistry.getTargetContext();
+		Context context = ApplicationProvider.getApplicationContext();
 		sensorNames.addAll(Arrays.asList(context.getResources().getStringArray(R.array.nxt_sensor_chooser)));
 		sensorCodes.addAll(Arrays.asList(NXTSensor.Sensor.getSensorCodes()));
 		sensorName = context.getString(sensorNameStringId);

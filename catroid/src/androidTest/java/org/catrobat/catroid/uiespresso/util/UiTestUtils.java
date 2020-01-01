@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,9 +24,6 @@ package org.catrobat.catroid.uiespresso.util;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.espresso.ViewInteraction;
-import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -38,13 +35,17 @@ import org.hamcrest.Matcher;
 
 import java.util.Collection;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
-import static androidx.test.runner.lifecycle.Stage.RESUMED;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry;
 
 import static org.catrobat.catroid.uiespresso.util.matchers.SuperToastMatchers.isToast;
 import static org.hamcrest.CoreMatchers.instanceOf;
+
+import static androidx.test.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
+import static androidx.test.runner.lifecycle.Stage.RESUMED;
 
 public final class UiTestUtils {
 
@@ -53,19 +54,19 @@ public final class UiTestUtils {
 	}
 
 	public static Resources getResources() {
-		return InstrumentationRegistry.getTargetContext().getResources();
+		return ApplicationProvider.getApplicationContext().getResources();
 	}
 
 	public static String getResourcesString(int stringId) {
-		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId);
+		return ApplicationProvider.getApplicationContext().getResources().getString(stringId);
 	}
 
 	public static String getResourcesString(int stringId, Object... formatArgs) {
-		return InstrumentationRegistry.getTargetContext().getResources().getString(stringId, formatArgs);
+		return ApplicationProvider.getApplicationContext().getResources().getString(stringId, formatArgs);
 	}
 
 	public static String getQuantitiyString(int stringId, int quantity) {
-		return InstrumentationRegistry.getTargetContext().getResources().getQuantityString(stringId, quantity);
+		return ApplicationProvider.getApplicationContext().getResources().getQuantityString(stringId, quantity);
 	}
 
 	public static void assertCurrentActivityIsInstanceOf(Class activityClass) {
@@ -82,7 +83,7 @@ public final class UiTestUtils {
 	}
 
 	public static Project createEmptyProject(String projectName) {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
 		sprite.addScript(script);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -47,6 +44,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -80,7 +80,7 @@ public class SceneTransitionTouchEventRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), getClass().getSimpleName());
+		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		Scene firstScene = project.getDefaultScene();
@@ -106,6 +106,6 @@ public class SceneTransitionTouchEventRegressionTest {
 
 		project.addScene(secondScene);
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.io;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -36,6 +33,9 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -57,13 +57,13 @@ public class ResourceImporterTest {
 	@Test
 	public void testImportImageFile() throws IOException {
 		File fileFromDrawables = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.drawable.catroid_banzai, testDir, "drawable.png", 1);
 
 		assertTrue(fileFromDrawables.getAbsolutePath() + " does not exist", fileFromDrawables.exists());
 
 		File fileFromRaw = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(), org.catrobat.catroid.test.R.raw.alpha_test_image,
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(), org.catrobat.catroid.test.R.raw.alpha_test_image,
 				testDir, "raw.png", 1);
 
 		assertTrue(fileFromRaw.getAbsolutePath() + " does not exist", fileFromRaw.exists());
@@ -72,7 +72,7 @@ public class ResourceImporterTest {
 	@Test
 	public void testImportSoundFile() throws IOException {
 		File fileFromRaw = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(), org.catrobat.catroid.test.R.raw.longtestsound,
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(), org.catrobat.catroid.test.R.raw.longtestsound,
 				testDir, "sound.m4a"
 		);
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
@@ -35,6 +33,9 @@ import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3Impl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -55,7 +56,7 @@ public class LegoEV3MotorTest {
 	@Before
 	public void setUp() throws Exception {
 
-		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
+		applicationContext = ApplicationProvider.getApplicationContext().getApplicationContext();
 
 		ev3 = new LegoEV3Impl(this.applicationContext);
 		logger = ConnectionDataLogger.createLocalConnectionLogger();

@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.test.io.devicevariableaccessor;
 
-import android.support.test.InstrumentationRegistry;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
@@ -38,6 +35,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 
@@ -55,7 +55,7 @@ public class DeviceVariableAccessorNullValueTest {
 
 	@Before
 	public void setUp() {
-		directory = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "DeviceValues");
+		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
 		directory.mkdir();
 		userVariable = new UserVariable("UserVariable", initialNullValue);
 		accessor = new DeviceVariableAccessor(directory);
