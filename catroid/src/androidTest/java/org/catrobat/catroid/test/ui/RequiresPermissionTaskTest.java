@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.ui;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.junit.Before;

@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.robolectric.formulaeditor;
 
 import android.app.Activity;
 import android.os.SystemClock;
-import android.support.annotation.IdRes;
+import androidx.annotation.IdRes;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;

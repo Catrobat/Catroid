@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 

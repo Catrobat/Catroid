@@ -25,8 +25,8 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

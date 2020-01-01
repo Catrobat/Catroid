@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;

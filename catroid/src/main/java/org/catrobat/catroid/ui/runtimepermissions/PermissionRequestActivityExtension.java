@@ -28,7 +28,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.catrobat.catroid.R;
 

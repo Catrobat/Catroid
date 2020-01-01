@@ -26,7 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;

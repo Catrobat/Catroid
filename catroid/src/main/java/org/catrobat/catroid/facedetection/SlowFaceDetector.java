@@ -32,7 +32,7 @@ import android.graphics.Point;
 import android.graphics.PointF;
 import android.media.FaceDetector;
 import android.media.FaceDetector.Face;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.camera.JpgPreviewCallback;

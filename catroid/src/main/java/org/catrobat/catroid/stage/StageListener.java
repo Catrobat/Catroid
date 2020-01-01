@@ -26,7 +26,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.ApplicationListener;

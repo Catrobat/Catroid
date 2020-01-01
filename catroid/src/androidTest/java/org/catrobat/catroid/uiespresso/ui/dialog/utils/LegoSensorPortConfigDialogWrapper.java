@@ -23,8 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.dialog.utils;
 
-import android.support.annotation.IntDef;
-import android.support.test.espresso.ViewInteraction;
+import androidx.annotation.IntDef;
+import androidx.test.espresso.ViewInteraction;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
@@ -32,12 +32,12 @@ import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 
 import java.lang.annotation.Retention;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.isDialog;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 

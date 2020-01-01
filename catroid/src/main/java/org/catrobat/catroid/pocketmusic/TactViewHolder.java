@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.pocketmusic;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 public class TactViewHolder extends RecyclerView.ViewHolder {

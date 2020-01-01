@@ -27,7 +27,7 @@ import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
-import android.support.annotation.AnimatorRes;
+import androidx.annotation.AnimatorRes;
 import android.view.View;
 
 import org.catrobat.catroid.R;

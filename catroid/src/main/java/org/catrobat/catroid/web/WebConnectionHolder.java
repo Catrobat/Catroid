@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.web;
 
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import com.google.common.collect.ImmutableList;
 

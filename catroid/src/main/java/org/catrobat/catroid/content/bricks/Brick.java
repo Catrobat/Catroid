@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 

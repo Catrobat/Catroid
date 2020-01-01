@@ -24,8 +24,8 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
-import android.support.annotation.PluralsRes;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.PluralsRes;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 

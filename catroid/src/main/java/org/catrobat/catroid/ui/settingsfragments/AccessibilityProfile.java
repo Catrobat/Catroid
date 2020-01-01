@@ -25,7 +25,7 @@ package org.catrobat.catroid.ui.settingsfragments;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import org.catrobat.catroid.R;
 

@@ -23,7 +23,7 @@
 package org.catrobat.catroid.facedetection;
 
 import android.graphics.Point;
-import android.support.annotation.VisibleForTesting;
+import androidx.annotation.VisibleForTesting;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.ScreenValues;

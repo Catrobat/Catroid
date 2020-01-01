@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.io;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;

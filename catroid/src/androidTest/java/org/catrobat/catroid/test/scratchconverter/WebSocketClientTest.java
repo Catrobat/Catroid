@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.scratchconverter;
 
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.google.android.gms.common.images.WebImage;
 import com.koushikdutta.async.callback.CompletedCallback;

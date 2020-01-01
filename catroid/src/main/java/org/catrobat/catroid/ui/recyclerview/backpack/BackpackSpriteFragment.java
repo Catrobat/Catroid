@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.backpack;
 
-import android.support.annotation.PluralsRes;
+import androidx.annotation.PluralsRes;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;

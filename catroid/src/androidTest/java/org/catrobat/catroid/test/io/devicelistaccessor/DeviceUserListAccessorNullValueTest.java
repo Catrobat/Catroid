@@ -23,7 +23,7 @@
 package org.catrobat.catroid.test.io.devicelistaccessor;
 
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.io.DeviceListAccessor;
