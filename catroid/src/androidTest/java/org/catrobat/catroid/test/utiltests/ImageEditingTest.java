@@ -26,7 +26,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -41,6 +40,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

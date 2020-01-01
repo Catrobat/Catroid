@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
@@ -45,6 +43,8 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 

@@ -33,7 +33,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.SystemClock;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
@@ -57,6 +56,8 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.Calendar;
+
+import androidx.annotation.VisibleForTesting;
 
 public final class SensorHandler implements SensorEventListener, SensorCustomEventListener, LocationListener,
 		GpsStatus.Listener {

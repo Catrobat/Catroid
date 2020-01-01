@@ -23,11 +23,12 @@
 package org.catrobat.catroid.io;
 
 import android.media.MediaPlayer;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 /**
  * As long as both OpenGL render() and StageDialog access the SoundManager, the public methods have to stay

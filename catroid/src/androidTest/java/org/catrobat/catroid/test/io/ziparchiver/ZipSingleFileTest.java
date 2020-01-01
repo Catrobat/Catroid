@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.io.ziparchiver;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.ZipArchiver;
@@ -35,6 +33,8 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertTrue;
 

@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.facedetection.FaceDetector;
@@ -32,6 +30,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.verifyNoMoreInteractions;

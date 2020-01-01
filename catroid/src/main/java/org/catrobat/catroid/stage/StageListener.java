@@ -26,7 +26,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
-import androidx.annotation.VisibleForTesting;
 import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.ApplicationListener;
@@ -93,6 +92,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;

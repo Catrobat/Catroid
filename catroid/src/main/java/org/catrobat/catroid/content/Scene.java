@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content;
 
-import androidx.annotation.NonNull;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.common.Nameable;
@@ -41,6 +39,8 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.NonNull;
 
 @XStreamAlias("scene")
 @XStreamFieldKeyOrder({

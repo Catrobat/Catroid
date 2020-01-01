@@ -23,11 +23,12 @@
 package org.catrobat.catroid.facedetection;
 
 import android.hardware.Camera;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
+
+import androidx.annotation.VisibleForTesting;
 
 public final class FaceDetectionHandler {
 

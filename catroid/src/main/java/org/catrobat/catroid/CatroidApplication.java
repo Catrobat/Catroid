@@ -28,7 +28,6 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
-import androidx.multidex.MultiDex;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -43,6 +42,7 @@ import java.util.Locale;
 
 import javax.inject.Inject;
 
+import androidx.multidex.MultiDex;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;

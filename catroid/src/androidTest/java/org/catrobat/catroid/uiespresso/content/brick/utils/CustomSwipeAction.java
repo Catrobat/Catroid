@@ -23,16 +23,17 @@
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.graphics.Point;
+import android.view.View;
+import android.view.ViewConfiguration;
+
+import org.hamcrest.Matcher;
+
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.PrecisionDescriber;
 import androidx.test.espresso.action.Swiper;
 import androidx.test.espresso.util.HumanReadables;
-import android.view.View;
-import android.view.ViewConfiguration;
-
-import org.hamcrest.Matcher;
 
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 

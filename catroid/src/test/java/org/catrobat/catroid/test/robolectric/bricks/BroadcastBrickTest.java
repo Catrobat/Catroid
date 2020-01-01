@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.content.DialogInterface;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -50,6 +49,8 @@ import org.robolectric.android.controller.ActivityController;
 
 import java.util.Arrays;
 import java.util.Collection;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

@@ -23,10 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter.draganddrop;
 
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-
 import org.catrobat.catroid.R;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class TouchHelperCallback extends ItemTouchHelper.Callback {
 

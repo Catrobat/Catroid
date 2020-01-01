@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import androidx.test.espresso.matcher.BoundedMatcher;
 import android.view.View;
 
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
@@ -31,6 +30,8 @@ import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import org.catrobat.catroid.stage.StageActivity;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+
+import androidx.test.espresso.matcher.BoundedMatcher;
 
 public final class StageMatchers {
 	// Suppress default constructor for noninstantiability

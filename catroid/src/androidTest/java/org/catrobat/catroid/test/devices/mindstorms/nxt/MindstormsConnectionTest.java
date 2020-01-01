@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.devices.mindstorms.nxt;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnectionImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.Command;
 import org.catrobat.catroid.devices.mindstorms.nxt.CommandByte;
@@ -36,6 +34,8 @@ import org.junit.runner.RunWith;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

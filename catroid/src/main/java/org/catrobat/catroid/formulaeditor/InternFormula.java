@@ -23,13 +23,14 @@
 package org.catrobat.catroid.formulaeditor;
 
 import android.content.Context;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public class InternFormula {
 	private static final String TAG = InternFormula.class.getSimpleName();

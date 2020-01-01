@@ -23,12 +23,12 @@
 
 package org.catrobat.catroid.test.stage;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import org.catrobat.catroid.stage.StageListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.junit.Assert.assertFalse;

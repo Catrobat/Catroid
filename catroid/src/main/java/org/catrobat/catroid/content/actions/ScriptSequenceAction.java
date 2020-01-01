@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.content.actions;
 
-import androidx.annotation.NonNull;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Script;
+
+import androidx.annotation.NonNull;
 
 public class ScriptSequenceAction extends SequenceAction {
 	protected final Script script;

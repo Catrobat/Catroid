@@ -27,7 +27,6 @@ import android.graphics.SurfaceTexture;
 import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.hardware.Camera.Parameters;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -44,6 +43,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public final class CameraManager implements DeviceCameraControl, Camera.PreviewCallback {
 

@@ -24,8 +24,6 @@ package org.catrobat.catroid.common;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.badlogic.gdx.Gdx;
@@ -45,6 +43,9 @@ import org.catrobat.catroid.utils.ImageEditing;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 public class LookData implements Cloneable, Nameable, Serializable {
 

@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.scratchconverter;
 
-import androidx.annotation.Nullable;
-
 import com.google.android.gms.common.images.WebImage;
 
 import org.catrobat.catroid.scratchconverter.protocol.Job;
 
 import java.util.Date;
+
+import androidx.annotation.Nullable;
 
 public interface Client {
 

@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.transfers;
 
 import android.content.Context;
-import androidx.fragment.app.FragmentManager;
-import androidx.appcompat.app.AppCompatActivity;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
@@ -41,6 +39,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;

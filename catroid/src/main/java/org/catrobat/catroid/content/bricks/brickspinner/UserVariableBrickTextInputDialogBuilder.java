@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.app.Dialog;
-import androidx.appcompat.app.AppCompatActivity;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.R;
@@ -34,6 +33,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Builder {
 

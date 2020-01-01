@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.devices.phiro;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.google.common.base.Stopwatch;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
@@ -38,6 +36,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.concurrent.TimeUnit;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

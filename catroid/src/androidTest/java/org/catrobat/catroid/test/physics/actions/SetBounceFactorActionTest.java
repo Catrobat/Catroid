@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.physics.actions;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -38,6 +36,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

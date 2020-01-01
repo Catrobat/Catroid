@@ -26,9 +26,6 @@ package org.catrobat.catroid.content.bricks;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -47,6 +44,10 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class UserListBrick extends FormulaBrick implements BrickSpinner.OnItemSelectedListener<UserList> {
 

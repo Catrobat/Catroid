@@ -23,10 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
-import androidx.annotation.IntDef;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -44,6 +40,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implements RVAdapter.SelectionListener {
 

@@ -31,6 +31,9 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.hamcrest.Matcher;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.instanceOf;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -39,9 +42,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.instanceOf;
 
 public final class ActionBarWrapper {
 	public static final Matcher<View> TOOLBAR_MATCHER = withId(R.id.toolbar);
