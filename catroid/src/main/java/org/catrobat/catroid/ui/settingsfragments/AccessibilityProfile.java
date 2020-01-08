@@ -92,9 +92,9 @@ public class AccessibilityProfile {
 	}
 
 	void saveAsCustomProfile(SharedPreferences sharedPreferences) {
-		SharedPreferences.Editor editor = sharedPreferences.edit();
-		editor.putStringSet(CUSTOM_ACCESSIBILITY_PROFILE, setPreferences);
-		editor.commit();
+		sharedPreferences.edit()
+				.putStringSet(CUSTOM_ACCESSIBILITY_PROFILE, setPreferences)
+				.apply();
 	}
 
 	private void clearCurrent(SharedPreferences sharedPreferences) {
@@ -103,7 +103,7 @@ public class AccessibilityProfile {
 			editor.putBoolean(preference, false);
 		}
 		editor.putString(FONT_STYLE, SANS_SERIF);
-		editor.commit();
+		editor.apply();
 	}
 
 	public void setAsCurrent(SharedPreferences sharedPreferences) {
@@ -118,7 +118,7 @@ public class AccessibilityProfile {
 				editor.putBoolean(preference, true);
 			}
 		}
-		editor.commit();
+		editor.apply();
 	}
 
 	public void applyAccessibilityStyles(Resources.Theme theme) {

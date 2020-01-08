@@ -86,7 +86,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 		listenerMock = Mockito.mock(TaskListener.class);
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
 		authenticator = new ServerAuthenticator(testUser, testPassword, token, CatrobatWebClient.INSTANCE.getClient(),
-				BASE_URL_TEST_HTTPS, sharedPreferences.edit(), listenerMock);
+				BASE_URL_TEST_HTTPS, sharedPreferences, listenerMock);
 	}
 
 	@After

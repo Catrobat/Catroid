@@ -50,7 +50,7 @@ class ServerAuthenticator(
     private val token: String,
     private val okHttpClient: OkHttpClient,
     private val baseUrl: String,
-    val sharedPreferencesEditor: SharedPreferences.Editor,
+    val sharedPreferences: SharedPreferences,
     private val taskListener: TaskListener
 ) {
 
@@ -109,13 +109,15 @@ class ServerAuthenticator(
         }
 
         val tokenReceived = resultJsonObject.optString(JSON_TOKEN)
-        sharedPreferencesEditor.putString(Constants.TOKEN, tokenReceived).commit()
-        sharedPreferencesEditor.putString(Constants.USERNAME, username).commit()
+        val sharedPreferencesEditor = sharedPreferences.edit()
+        sharedPreferencesEditor.putString(Constants.TOKEN, tokenReceived)
+        sharedPreferencesEditor.putString(Constants.USERNAME, username)
 
         val eMail = resultJsonObject.optString(Constants.EMAIL)
         if (eMail.isNotEmpty()) {
-            sharedPreferencesEditor.putString(Constants.EMAIL, eMail).commit()
+            sharedPreferencesEditor.putString(Constants.EMAIL, eMail)
         }
+        sharedPreferencesEditor.apply()
         taskListener.onSuccess()
     }
 

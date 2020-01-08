@@ -277,7 +277,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
 						.putBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, adapter.showDetails)
-						.commit();
+						.apply();
 				adapter.notifyDataSetChanged();
 				break;
 			default:

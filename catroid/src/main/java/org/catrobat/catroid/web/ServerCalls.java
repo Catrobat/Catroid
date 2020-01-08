@@ -468,8 +468,10 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	private void refreshUploadTokenAndUsername(String newToken, String username, Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		sharedPreferences.edit().putString(Constants.TOKEN, newToken).commit();
-		sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
+		sharedPreferences.edit()
+				.putString(Constants.TOKEN, newToken)
+				.putString(Constants.USERNAME, username)
+				.apply();
 	}
 
 	public interface UploadSuccessCallback {

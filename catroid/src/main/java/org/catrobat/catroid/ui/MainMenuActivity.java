@@ -96,7 +96,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, getResources()
 						.getString(R.string.dialog_privacy_policy_text)
 						.hashCode())
-				.commit();
+				.apply();
 		loadContent();
 	}
 

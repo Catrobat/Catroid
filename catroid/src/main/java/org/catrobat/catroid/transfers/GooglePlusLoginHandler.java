@@ -108,13 +108,14 @@ public class GooglePlusLoginHandler implements GoogleApiClient.ConnectionCallbac
 		String idToken = account.getIdToken();
 		String code = account.getServerAuthCode();
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		sharedPreferences.edit().putString(Constants.GOOGLE_ID, id).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, personName).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, email).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_LOCALE, locale).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_ID_TOKEN, idToken).commit();
-		sharedPreferences.edit().putString(Constants.GOOGLE_EXCHANGE_CODE, code).commit();
+		PreferenceManager.getDefaultSharedPreferences(activity).edit()
+				.putString(Constants.GOOGLE_ID, id)
+				.putString(Constants.GOOGLE_USERNAME, personName)
+				.putString(Constants.GOOGLE_EMAIL, email)
+				.putString(Constants.GOOGLE_LOCALE, locale)
+				.putString(Constants.GOOGLE_ID_TOKEN, idToken)
+				.putString(Constants.GOOGLE_EXCHANGE_CODE, code)
+				.apply();
 
 		CheckOAuthTokenTask checkOAuthTokenTask = new CheckOAuthTokenTask(activity, id, Constants.GOOGLE_PLUS);
 		checkOAuthTokenTask.setOnCheckOAuthTokenCompleteListener(this);

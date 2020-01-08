@@ -47,7 +47,9 @@ public class BaseExceptionHandler implements
 	public void uncaughtException(Thread thread, Throwable exception) {
 		Log.e(TAG, "uncaughtException: ", exception);
 		CrashReporter.storeUnhandledException(exception);
-		preferences.edit().putBoolean(RECOVERED_FROM_CRASH, true).commit();
+		preferences.edit()
+				.putBoolean(RECOVERED_FROM_CRASH, true)
+				.apply();
 		exit();
 	}
 
