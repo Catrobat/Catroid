@@ -190,7 +190,6 @@ public class WebViewActivity extends AppCompatActivity {
 			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
 				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
 			}
-			finish();
 		}
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {

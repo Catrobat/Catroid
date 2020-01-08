@@ -184,7 +184,7 @@
     <string name="connection_failed">처리할 수 없습니다. 나중에 다시 시도하세요.</string>
     <string name="authentication_failed">연결에 문제가 있습니다. Catrobat의 도움을 받으세요.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">스크래치 프로젝트 %d 추가…</item>
+        <item quantity="other">스크래치 프로젝트 %d 추가&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">스크래치 프로그램을 변환하기 시작&#8230;</string>
     <string name="convert">변환</string>
@@ -828,7 +828,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="category_sound">소리</string>
     <string name="category_control">제어</string>
     <string name="category_event">이벤트</string>
-    <string name="category_user_bricks">Your bricks</string>
+    <string name="category_user_bricks">여러분의 블록</string>
     <string name="category_data">변수</string>
     <string name="category_lego_nxt">레고 NXT</string>
     <string name="category_lego_ev3">레고 EV3</string>
@@ -999,8 +999,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_change_variable">변수 바꾸기</string>
     <string name="brick_write_variable_on_device">변수 저장하기</string>
     <string name="brick_read_variable_from_device">변수 불러오기</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
+    <string name="brick_write_list_on_device">리스트 저장하기</string>
+    <string name="brick_read_list_from_device">리스트 불러오기</string>
     <string name="brick_note_default_value">여기에 코멘트를 추가&#8230;</string>
     <string name="brick_think_bubble_default_value">흠!</string>
     <string name="brick_say_bubble_default_value">안녕하세요!</string>
@@ -1122,8 +1122,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="error_project_upload">프로그램을 업로드하는 중에 오류가 발생했습니다.</string>
     <string name="error_project_download">프로그램을 다운로드하는 동안 오류가 발생했습니다.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
+    <string name="error_could_not_decode_project_name_from_url">"다운로드 되지 않습니다, 우리 서버에 문제가 있습니다."</string>
     <string name="error_new_project">새로운 프로그램을 생성하는 동안 오류가 발생했습니다.</string>
     <string name="error_rename_scene">장면 이름 변경하는 동안 오류가 발생했습니다.</string>
     <string name="error_load_project">프로그램을 로드하는 동안 오류가 발생했습니다.</string>

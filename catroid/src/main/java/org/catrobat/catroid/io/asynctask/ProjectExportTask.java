@@ -30,6 +30,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
@@ -44,12 +45,12 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 	private static final String TAG = ProjectExportTask.class.getSimpleName();
 
 	private File projectDir;
-	private int notificationId;
+	private NotificationData notificationData;
 	private WeakReference<Context> contextWeakReference;
 
-	public ProjectExportTask(File projectDir, int notificationId, Context context) {
+	public ProjectExportTask(File projectDir, NotificationData notificationData, Context context) {
 		this.projectDir = projectDir;
-		this.notificationId = notificationId;
+		this.notificationData = notificationData;
 		this.contextWeakReference = new WeakReference<>(context);
 	}
 
@@ -71,12 +72,12 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 
 		try {
 			new ZipArchiver().zip(projectZip, projectDir.listFiles());
-			StatusBarNotificationManager.getInstance()
-					.showOrUpdateNotification(context, notificationId, 100);
+			new StatusBarNotificationManager(context)
+					.showOrUpdateNotification(context, notificationData, 100, null);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot create archive.", e);
-			StatusBarNotificationManager.getInstance()
-					.abortProgressNotificationWithMessage(context, notificationId,
+			new StatusBarNotificationManager(context)
+					.abortProgressNotificationWithMessage(context, notificationData,
 					R.string.save_project_to_external_storage_io_exception_message);
 		}
 	}

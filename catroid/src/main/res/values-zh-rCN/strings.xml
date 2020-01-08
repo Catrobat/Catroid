@@ -69,7 +69,7 @@
     <string name="main_menu_new">新建</string>
     <string name="main_menu_programs">程序</string>
     <string name="main_menu_help">帮助</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Catrobat社区</string>
     <string name="main_menu_upload">上传</string>
     <string name="main_menu_rate_app">给我们评分！</string>
     <string name="main_menu_terms_of_use">使用与服务条例</string>
@@ -128,35 +128,35 @@
     <string name="preference_access_summary_profile_odin">大文本、大图标、大元素 &lt; div class="notranslate"&gt;0 &lt;/div&gt; 间距高对比度</string>
     <string name="preference_access_title_profile_fenrir">芬里尔</string>
     <string name="preference_access_summary_profile_fenrir">大单元间距, 拖放 &lt; div class="notranslate"&gt;0 &lt;/div&gt; 延迟</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
+    <string name="preference_access_title_profile_tiro">蒂罗</string>
     <string name="preference_access_summary_profile_tiro">初砖</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR无人机2.0积木</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_description_quadcopter_bricks">允许控制AR2.0版四轴无人机</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo积木</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
+    <string name="preference_description_jumpingsumo_bricks">允许控制 Parrot Jumping Sumo 机器人</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">乐高头脑风暴NXT积木</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">乐高头脑风暴EV3积木</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+    <string name="preference_description_mindstorms_nxt_bricks">允许控制乐高 Mindstorms NXT 机器人</string>
+    <string name="preference_description_mindstorms_ev3_bricks">允许控制乐高 Mindstorms NXT机器人</string>
     <string name="preference_title_mindstorms_nxt_sensors">乐高NXT传感器</string>
     <string name="preference_title_mindstorms_ev3_sensors">乐高EV3传感器</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
+    <string name="preference_title_drone_config_properties">Parrot AR.无人机 2.0 配置</string>
     <string name="preference_title_enable_phiro_bricks">Phiro积木</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string name="preference_description_phiro_bricks">允许控制 Robotix Edu´s Phiro 机器人</string>
     <string name="preference_title_enable_arduino_bricks">Arduino积木</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+    <string name="preference_description_arduino_bricks">允许控制Arduino控制板</string>
+    <string name="preference_title_enable_embroidery_bricks">刺绣扩展</string>
+    <string name="preference_description_embroidery_bricks">创建缝纫机創建圖案</string>
     <string name="preference_title_cast_feature_globally_enabled">启用强制转换功能</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+    <string name="preference_description_cast_feature_globally_enabled">显示投射按钮并启用投射项目</string>
     <string name="preference_title_enable_nfc_bricks">近距离无线通信</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
+    <string name="preference_description_nfc_bricks">允许应用程序在项目中使用 NFC 标签</string>
     <string name="preference_title_enable_crash_reports">发送匿名故障报告</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_description_crash_reports">允许自动发送故障报告</string>
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">树莓派积木</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+    <string name="preference_description_raspi_bricks">允许控制树莓派电脑</string>
     <string name="preference_raspi_enable_bricks">启用树莓派积木</string>
     <string name="preference_raspi_help">帮助/入门</string>
     <string name="preference_raspi_help_summary">获取有关如何配置连接设置的帮助</string>
@@ -165,35 +165,32 @@
     <!--  -->
     <!-- Scratch Converter activity -->
     <string name="beta">公测版</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+    <string name="error_scratch_program_not_accessible_any_more">哎呀！项目似乎已经消失了
+        或您可能已经失去了访问权限。</string>
+    <string name="error_scratch_project_data_not_available">哎呀！项目的某些部分似乎丢失了
+        ，请稍后再试。</string>
+    <string name="error_request_timeout">糟了 ！我们的服务器目前不可访问，请稍后再试 ！</string>
     <string name="error_scratch_program_conversion_failed">糟了！转换Scratch程序失败，请稍后再试 ！</string>
     <string name="error_specific_scratch_program_conversion_failed_x">糟了 ！转换 %1$s 失败，请稍后再试 ！</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string name="error_scratch_converter_outdated_app_version">您的应用版本已过时。我们的 Scratch
+        转换器只能在最新版本上运行。请更新应用程序。</string>
     <string name="error_cannot_open_not_existing_scratch_program">无法打开该Scratch程序。看来您已经取消了转换/下载这个Scratch程序，或者您已经重命名/删除了程序 ！</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">您还不能打开工程。
+        请等待下载。</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">您还不能打开项目。
+        请先下载，然后打开。</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">我无法转换 %1$s。这似乎是一个旧的 Scratch 项目来自之前的 %2$s
+        。请尝试另一个。</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="other">您不能同时转换超过 %d 个项目。请等待正在运行的转换完成先。</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">您不能打开项目，因为它没有正确转换。请尝试重新转换。</string>
+    <string name="search_failed">未找到任何内容，请稍后再试。</string>
+    <string name="connection_lost_or_closed_by_server">服务器连接已丢失。</string>
+    <string name="connection_failed">我们现在无法连接到服务器，请稍后再试。</string>
+    <string name="authentication_failed">您与服务器的连接似乎有问题。请联系 Catrobat 团队。</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="other">添加 %d Scratch 项目到队列&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">开始转换Scratch程序&#8230;</string>
     <string name="convert">转换</string>
@@ -203,20 +200,19 @@
     <string name="status_started">开始了&#8230;</string>
     <string name="status_conversion_finished">转换结束！</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="other">正在运行：%d个任务</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="other">已经完成：%d个任务</item>
     </plurals>
     <string name="status_conversion_failed">转换失败！</string>
     <string name="status_downloading">正在下载&#8230;</string>
     <string name="status_download_finished">下载完成！</string>
     <string name="status_download_canceled">下载已取消 ！</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
+    <string name="scratch_programs_in_progress_title">正在进行</string>
+    <string name="scratch_programs_finished_title">已转换的项目</string>
     <string name="by_x">作者 %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string name="warning_program_visibility">警告：\n这似乎是一个私有项目。您可以尝试转换它，但它可能无法运作。</string>
     <string name="instructions">说明</string>
     <string name="notes_and_credits">评论与得分</string>
     <string name="shared_at_x">分享时间：%1$s</string>
@@ -229,28 +225,27 @@
     <string name="remix_of">调制来源：</string>
     <string name="description_hint">按下并添加说明</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">你在 %1$s 之前转换了这个项目。</string>
     <plurals name="minutes">
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d 分钟</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d 小时</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d 天</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">再次下载项目</string>
+    <string name="reconvert_dialog_reconvert">再次转换此项目</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_privacy_agreement_alert">要使用我们的应用软件，必须接受我们的隐私政策。但是，如果您感到不合适，您可以在这里使用我们的免费网络服务。</string>
+    <string name="wtf_error">发生一个意外错误：我无法恢复项目样品。</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">在复制项目的时候发生了一个错误。</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+    <string name="name_already_exists">此名称已被使用，请另选一个。</string>
     <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
     <string name="name_empty">Please enter a text</string>

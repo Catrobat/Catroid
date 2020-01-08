@@ -136,8 +136,8 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 70
-        versionName "0.9.66"
+        versionCode 71
+        versionName "0.9.67"
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true

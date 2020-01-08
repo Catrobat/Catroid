@@ -1041,7 +1041,7 @@
     <string name="category_sound">Dźwięk</string>
     <string name="category_control">Kontrola</string>
     <string name="category_event">Wydarzenie</string>
-    <string name="category_user_bricks">Your bricks</string>
+    <string name="category_user_bricks">Twoje bloki</string>
     <string name="category_data">Dane</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">LEGO EV3</string>
@@ -1224,8 +1224,8 @@
     <string name="brick_change_variable">Zmień zmienną</string>
     <string name="brick_write_variable_on_device">Zapisz zmienną na urządzeniu</string>
     <string name="brick_read_variable_from_device">Wczytaj zmienną z urządzenia</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
+    <string name="brick_write_list_on_device">Zapisz listę na urządzeniu</string>
+    <string name="brick_read_list_from_device">Wczytaj listę z urządzenia</string>
     <string name="brick_note_default_value">tutaj dodaj komentarz&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Cześć!</string>

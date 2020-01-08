@@ -24,6 +24,7 @@ package org.catrobat.catroid.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.util.Log;
 
@@ -244,5 +245,9 @@ public final class ImageEditing {
 		if (!newFile.renameTo(new File(absolutePath))) {
 			Log.e(TAG, "writeMetaDataStringToPNG: Failed to rename new file");
 		}
+	}
+
+	public static boolean isPixelTransparent(int[] pixels, int width, int x, int y) {
+		return pixels[x + (y * width)] == Color.TRANSPARENT;
 	}
 }

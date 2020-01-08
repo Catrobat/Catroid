@@ -259,6 +259,8 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	public void onLoadFinished(boolean success) {
 		if (!success) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
+			return;
 		}
+		adapter.setItems(ProjectManager.getInstance().getCurrentProject().getSceneList());
 	}
 }

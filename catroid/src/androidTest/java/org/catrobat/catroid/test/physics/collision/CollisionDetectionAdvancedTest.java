@@ -80,7 +80,7 @@ public class CollisionDetectionAdvancedTest {
 
 		LookData lookData = generateLookData(file);
 		CollisionInformation collisionInformation = lookData.getCollisionInformation();
-		collisionInformation.loadOrCreateCollisionPolygon();
+		collisionInformation.loadCollisionPolygon();
 
 		sprite.look.setLookData(lookData);
 		sprite.getLookList().add(lookData);

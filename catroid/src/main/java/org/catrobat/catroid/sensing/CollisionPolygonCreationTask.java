@@ -38,6 +38,6 @@ public class CollisionPolygonCreationTask implements Runnable {
 	@Override
 	public void run() {
 		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-		lookdata.getCollisionInformation().loadOrCreateCollisionPolygon();
+		lookdata.getCollisionInformation().loadCollisionPolygon();
 	}
 }

@@ -627,7 +627,7 @@ public class Look extends Image {
 			originalPolygons = new Polygon[0];
 		} else {
 			if (getLookData().getCollisionInformation().collisionPolygons == null) {
-				getLookData().getCollisionInformation().loadOrCreateCollisionPolygon();
+				getLookData().getCollisionInformation().loadCollisionPolygon();
 			}
 			originalPolygons = getLookData().getCollisionInformation().collisionPolygons;
 		}
