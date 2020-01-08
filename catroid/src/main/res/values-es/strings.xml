@@ -147,7 +147,7 @@
     <string name="preference_description_phiro_bricks">Permitir que la aplicación controle los robots RobotixEdu de Phiro</string>
     <string name="preference_title_enable_arduino_bricks">Bloques Arduino</string>
     <string name="preference_description_arduino_bricks">Permitir a la aplicación controlar placas Arduino</string>
-    <string name="preference_title_enable_embroidery_bricks">Extensión de bordado</string>
+    <string name="preference_title_enable_embroidery_bricks">Extensión Embroidery</string>
     <string name="preference_description_embroidery_bricks">Crear patrones para maquinas de puntadas</string>
     <string name="preference_title_cast_feature_globally_enabled">Habilitar funciones de cast</string>
     <string name="preference_description_cast_feature_globally_enabled">Mostrar el botón de cast y habilitar los proyectos de cast</string>
@@ -195,8 +195,8 @@
     <string name="authentication_failed">Parece que hay un problema con su conexión al servicio. Por favor,
         contacte con el equipo Catrobat.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="one">Se añadió %d proyecto de Scratch a la cola&#8230;</item>
+        <item quantity="other">Se añadieron %d proyectos de Scratch a la cola&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">Se comenzó la conversión del programa Scratch&#8230;</string>
     <string name="convert">Convertir</string>
@@ -220,8 +220,8 @@
     <string name="scratch_programs_in_progress_title">En progreso</string>
     <string name="scratch_programs_finished_title">Programas convertidos</string>
     <string name="by_x">por %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string name="warning_program_visibility">ADVERTENCIA:\nEste parece ser un proyecto privado. Puedes intentar
+        convertirlo pero puede que no funcione.</string>
     <string name="instructions">Instrucciones</string>
     <string name="notes_and_credits">Notas y créditos</string>
     <string name="shared_at_x">Compartido: %1$s</string>
@@ -240,8 +240,8 @@
         <item quantity="other">%d minutos</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%d hora</item>
+        <item quantity="other">%d horas</item>
     </plurals>
     <plurals name="days">
         <item quantity="one">%d día</item>
@@ -261,7 +261,7 @@
     <string name="name_already_exists">This name is already in use, please choose another one.</string>
     <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_empty">Por favor introduce el texto</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
@@ -273,7 +273,7 @@
     <string name="am_convert">Convertir</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">¡No puedes deshacer esto!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="list_headline_sprites">Actores y objetos</string>
     <!-- Options Menu Options -->
     <string name="backpack">Mochila</string>
     <string name="copy">Copiar</string>
@@ -318,8 +318,8 @@
         <item quantity="other">Unpack %d scenes</item>
     </plurals>
     <plurals name="am_copy_scenes_title">
-        <item quantity="one">Copiar escena %d</item>
-        <item quantity="other">Copy %d scenes</item>
+        <item quantity="one">Copiar %d escena</item>
+        <item quantity="other">Copiar %d escenas</item>
     </plurals>
     <plurals name="am_delete_scenes_title">
         <item quantity="one">Delete %d scene</item>
@@ -331,8 +331,8 @@
     </plurals>
     <!-- Sprite Action Mode Titles -->
     <plurals name="am_pack_sprites_title">
-        <item quantity="one">Pack %d actor or object</item>
-        <item quantity="other">Pack %d actors or objects</item>
+        <item quantity="one">Empacar %d actor o objecto</item>
+        <item quantity="other">Empacar %d actores o objectos</item>
     </plurals>
     <plurals name="am_unpack_sprites_title">
         <item quantity="one">Unpack %d actor or object</item>
@@ -364,8 +364,8 @@
         <item quantity="other">Copy %d looks</item>
     </plurals>
     <plurals name="am_delete_looks_title">
-        <item quantity="one">Delete %d look</item>
-        <item quantity="other">Delete %d looks</item>
+        <item quantity="one">Eliminar %d apariencia</item>
+        <item quantity="other">Eliminar %d apariencias</item>
     </plurals>
     <plurals name="am_rename_looks_title">
         <item quantity="one">Rename %d look</item>
@@ -385,8 +385,8 @@
         <item quantity="other">Copy %d sounds</item>
     </plurals>
     <plurals name="am_delete_sounds_title">
-        <item quantity="one">Delete %d sound</item>
-        <item quantity="other">Delete %d sounds</item>
+        <item quantity="one">Eliminar %d sonido</item>
+        <item quantity="other">Eliminar %d sonidos</item>
     </plurals>
     <plurals name="am_rename_sounds_title">
         <item quantity="one">Rename %d sound</item>
@@ -394,16 +394,16 @@
     </plurals>
     <!-- NFC Tag Action Mode Titles -->
     <plurals name="am_copy_nfc_tags_title">
-        <item quantity="one">Copy %d NFC tag</item>
-        <item quantity="other">Copy %d NFC tags</item>
+        <item quantity="one">Copiar %d etiqueta NFC</item>
+        <item quantity="other">Copiar %d etiquetas NFC</item>
     </plurals>
     <plurals name="am_delete_nfc_tags_title">
-        <item quantity="one">Delete %d NFC tag</item>
-        <item quantity="other">Delete %d NFC tags</item>
+        <item quantity="one">Eliminar %d etiqueta NFC</item>
+        <item quantity="other">Eliminar %d etiquetas NFC</item>
     </plurals>
     <plurals name="am_rename_nfc_tags_title">
-        <item quantity="one">Rename %d NFC tag</item>
-        <item quantity="other">Rename %d NFC tags</item>
+        <item quantity="one">Renombrar %d etiqueta NFC</item>
+        <item quantity="other">Renombrar %d etiquetas NFC</item>
     </plurals>
     <!-- Script Action Mode Titles -->
     <plurals name="am_pack_scripts_title">
@@ -419,8 +419,8 @@
         <item quantity="other">Copy %d bricks</item>
     </plurals>
     <plurals name="am_delete_bricks_title">
-        <item quantity="one">Delete %d brick</item>
-        <item quantity="other">Delete %d bricks</item>
+        <item quantity="one">Eliminar %d bloque</item>
+        <item quantity="other">Eliminar %d bloques</item>
     </plurals>
     <plurals name="am_delete_scripts_title">
         <item quantity="one">Delete %d script</item>
@@ -432,7 +432,7 @@
         <item quantity="other">Delete %d data items</item>
     </plurals>
     <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">New scene</string>
+    <string name="new_scene_dialog">Nueva escena</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
         <item quantity="one">¿Eliminar este Proyecto?</item>
@@ -451,8 +451,8 @@
         <item quantity="other">¿Eliminar estas apariencias?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="one">¿Eliminar este sonido?</item>
+        <item quantity="other">¿Eliminar estos sonidos?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
         <item quantity="one">Delete this tag?</item>
@@ -463,11 +463,11 @@
         <item quantity="other">Delete these scripts?</item>
     </plurals>
     <plurals name="delete_bricks">
-        <item quantity="one">Delete this brick?</item>
-        <item quantity="other">Delete these bricks?</item>
+        <item quantity="one">¿Eliminar este bloque?</item>
+        <item quantity="other">¿Eliminar estos bloques?</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
+    <string name="project_name_label">Nombre del proyecto</string>
     <string name="scene_name_label">Scene name</string>
     <string name="sprite_name_label">Actor or object name</string>
     <string name="sprite_group_name_label">Group name</string>
@@ -482,8 +482,8 @@
     <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
+    <string name="look_details">Resolución: %s, tamaño: %s</string>
+    <string name="sound_duration">Duración: %s</string>
     <string name="sound_details">Duration: %s, size: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
@@ -607,8 +607,8 @@
     <string name="fragment_script_text_description">Pulse \"+\" para añadir lineas de comandos</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">Pulsa \"+\" para añadir actores u objetos</string>
+    <string name="default_sprite_name">Mi actor u objeto</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">Pulse \"+\" para añadir diferentes apariencias</string>
@@ -635,10 +635,10 @@
     <string name="tnf_well_known_mailto">Email</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
+    <string name="global_vars_headline">Variables para todos los actores y objetos</string>
+    <string name="local_vars_headline">Variables sólo para este actor u objeto</string>
+    <string name="global_lists_headline">Listas para todos los actores y objetos</string>
+    <string name="local_lists_headline">Listas sólo para este actor u objeto</string>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
     <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
@@ -710,7 +710,7 @@
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Política de privacidad</string>
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
+    <string name="disclaimer_privacy_police_header_headline">¡Bienvenido!</string>
     <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
         Policy to use the app:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -798,7 +798,7 @@
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Save project to external storage</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">Guardando proyecto en almacenamiento externo.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
     <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
     <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
@@ -806,22 +806,22 @@
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">Grabadora de Pocket Code</string>
     <string name="soundrecorder_error">Error de grabación de sonido</string>
-    <string name="soundrecorder_recorded_filename">registro</string>
+    <string name="soundrecorder_recorded_filename">grabación</string>
     <string name="soundrecorder_text_view">Pulse el icono de arriba para iniciar y detener la grabación.</string>
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Mover el Bloque</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
+    <string name="brick_context_dialog_move_script">Mover secuencia de comandos</string>
     <string name="brick_context_dialog_delete_brick">Eliminar el bloque</string>
     <string name="brick_context_dialog_copy_brick">Copiar el ladrillo</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
+    <string name="brick_context_dialog_copy_script">Copiar secuencia de comandos</string>
     <string name="brick_context_dialog_formula_edit_brick">Editar la fórmula</string>
     <string name="brick_context_dialog_delete_script">Eliminar secuencia de comandos</string>
     <string name="brick_context_dialog_comment_in">Activar bloque</string>
     <string name="brick_context_dialog_comment_out">Desactivar bloque</string>
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_comment_in_script">Activar secuencia de comandos</string>
+    <string name="brick_context_dialog_comment_out_script">Desactivar secuencia de comandos</string>
     <string name="brick_context_dialog_help">Ayuda</string>
     <string name="comment_in_out">Activar/Desactivar</string>
     <!--  -->
@@ -834,7 +834,7 @@
     <string name="sign_in_dialog_title">Iniciar sesion</string>
     <string name="username">Usuario</string>
     <string name="password">Contraseña</string>
-    <string name="password_forgotten">Forgot your password?</string>
+    <string name="password_forgotten">¿Olvidaste tu contraseña?</string>
     <string name="new_user_registered">Nueva cuenta creada</string>
     <string name="user_logged_in">Login successful</string>
     <string name="register_error">Login invalid</string>
@@ -847,14 +847,14 @@
     <string name="signin_thanks">¡Gracias por registrarte!</string>
     <string name="signin_choose_username">Por favor, elija un nombre de usuario:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
+    <string name="signin_choose_username_hint">El nombre de usuario no debe ser tu nombre real ni debe ser una dirección de correo electrónico.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Mostrar Contraseña</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="error_register_empty_username">Empty username</string>
+    <string name="sign_in_with_google">Acceder con Google</string>
+    <string name="error_register_empty_username">Nombre de usuario vacío</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
     <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
         dashes (-), underscores (_), and periods (.).</string>
@@ -869,20 +869,20 @@
     <string name="error_register_email_exists">La dirección de correo ya existe</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
+    <string name="overwrite_title">El proyecto ya existe.</string>
     <string name="overwrite_text">A project with this name already exists.</string>
     <string name="overwrite_replace">Overwrite project</string>
     <string name="overwrite_rename">Renombrar el programa descargado</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_project_name">Canción sin título</string>
+    <string name="pocket_music_default_track_name">Pista 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
     <string name="prestage_text_to_speech_engine_not_installed">¡El motor Texto-A-Voz no está instalado!\n¿Quiere instalarlo?</string>
     <string name="prestage_resource_not_available_title">Componente no disponible</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
+    <string name="prestage_resource_not_available_text">Desafortunadamente este proyecto no funciona en tu dispositivo.
+        Los siguientes componentes no están disponibles:\n\n</string>
     <string name="prestage_resource_in_use_text">Otro dispositivo está conectado al Jumping Sumo. Asegúrese de ser el único controlador del Drone.</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibración\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensor aceleración\n</string>
@@ -926,7 +926,7 @@
     <string name="category_sound">Sonido</string>
     <string name="category_control">Control</string>
     <string name="category_event">Eventos</string>
-    <string name="category_user_bricks">Your bricks</string>
+    <string name="category_user_bricks">Tus bloques</string>
     <string name="category_data">Datos</string>
     <string name="category_lego_nxt">LEGO NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
@@ -936,7 +936,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
+    <string name="category_assertions">Pruebas</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Coloque en "</string>
@@ -1040,7 +1040,7 @@
     <string name="brick_play_sound_and_wait">Reproducir sonido y esperar</string>
     <string name="brick_stop_all_sounds">Parar todos los sonidos</string>
     <string name="brick_set_volume_to">Ajustar el volumen a</string>
-    <string name="brick_change_volume_by">Cambiar el volumen en</string>
+    <string name="brick_change_volume_by">Cambiar el volumen a</string>
     <string name="brick_speak">Decir</string>
     <string name="brick_speak_default_value">¡Hola!</string>
     <string name="brick_speak_and_wait">y esperar</string>
@@ -1075,7 +1075,7 @@
     <string name="brick_note">Nota</string>
     <string name="brick_think_bubble">Pensar</string>
     <string name="brick_say_bubble">Decir</string>
-    <string name="brick_think_say_for_text">para</string>
+    <string name="brick_think_say_for_text">por</string>
     <string name="brick_forever">Por siempre</string>
     <string name="brick_repeat">Repetir</string>
     <string name="brick_repeat_until">Repetir hasta que</string>
@@ -1086,8 +1086,8 @@
     <string name="brick_delete_this_clone">Eliminar este clon</string>
     <string name="brick_assert_that">Assert:</string>
     <string name="brick_is_equal_to">equal to expected:</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_wait_till_idle">Espere hasta que todos los otros scripts se hayan detenido</string>
+    <string name="brick_tap_at">"Un toque a"</string>
     <plurals name="time_plural">
         <item quantity="one">vez</item>
         <item quantity="other">veces</item>
@@ -1099,14 +1099,14 @@
     <string name="brick_if_end">Fin del \"Si\"</string>
     <string name="brick_set_variable">Establezca una variable</string>
     <string name="brick_change_variable">Cambie la variable</string>
-    <string name="brick_write_variable_on_device">Write variable on device</string>
-    <string name="brick_read_variable_from_device">Read variable from device</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
+    <string name="brick_write_variable_on_device">Escribir variable al dispositivo</string>
+    <string name="brick_read_variable_from_device">Leer variable al dispositivo</string>
+    <string name="brick_write_list_on_device">Escribir lista al dispositivo</string>
+    <string name="brick_read_list_from_device">Leer lista al dispositivo</string>
     <string name="brick_note_default_value">añada comentario aquí&#8230;</string>
     <string name="brick_think_bubble_default_value">¡Hmmmm!</string>
     <string name="brick_say_bubble_default_value">¡Hola!</string>
-    <string name="brick_broadcast_default_value">"mensaje 1"</string>
+    <string name="brick_broadcast_default_value">"nuevo mensaje"</string>
     <string name="brick_add_item_to_userlist_add">Añada</string>
     <string name="brick_add_item_to_userlist">a la lista</string>
     <string name="brick_delete_item_from_userlist_delete">Elimine el elemento de la lista</string>
@@ -1117,8 +1117,8 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Reemplace el elemento de lista</string>
     <string name="brick_replace_item_in_userlist_item_at_index">en la posición</string>
     <string name="brick_replace_item_in_userlist_with_value">con</string>
-    <string name="brick_web_request">Send web request to</string>
-    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request">Enviar peticion web a</string>
+    <string name="brick_web_request_result">y guardar respuesta en</string>
     <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
@@ -1129,8 +1129,8 @@
     <string name="default_project_cloud_sprite_name_1">Nubes1</string>
     <string name="default_project_cloud_sprite_name_2">Nubes2</string>
     <string name="default_project_sprites_animal_name">Animal</string>
-    <string name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string name="default_project_sprites_animal_wings_down">Wings down</string>
+    <string name="default_project_sprites_animal_wings_up">Alas arriba</string>
+    <string name="default_project_sprites_animal_wings_down">Alas abajo</string>
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
     <!-- Default ChromeCast Values -->
@@ -1220,10 +1220,9 @@
     <string name="drone_emergency_title">Emergencia</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
-device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
-needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+    <string name="runtime_permission_general">Esta aplicación necesita los permisos solicitados para funcionar correctamente. Por ejemplo, el bloque de cámara
+necesita acceso a la cámara del dispositivo, el elemento de fórmula \"ubicación\" necesita acceso al sensor de geolocalización del dispositivo, y con el fin de importar y exportar proyectos desde y hacia la memoria local, la aplicación
+necesita acceso de lectura y escritura a ella. Siempre puedes cambiar los permisos a través de la configuración de tu dispositivo.</string>
     <!-- Error messages -->
     <string name="error_project_upload">Un error ha ocurrido durante el proceso de carga</string>
     <string name="error_project_download">Un error ha ocurrido durante el proceso de descarga.</string>
@@ -1235,7 +1234,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_load_project">Un error ha ocurrido durante el proceso de carga.</string>
     <string name="error_screenshot_failed">Se ha producido un error al guardar la imagen.</string>
     <string name="error_internet_connection">Se produjo un error desconocido. Compruebe su conexión a Internet.</string>
-    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
+    <string name="error_project_compatibility">Este proyecto no es compatible con esta versión de la aplicación.</string>
     <string name="error_outdated_version">Esta versión está obsoleta. ¿Actualiza ahora?</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
         Please rename the project.</string>
@@ -1364,7 +1363,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_b_and_c">B + C</string>
     <string name="ev3_motor_all">Todos</string>
     <string name="ev3_play_tone">Reproducir tono de EV3</string>
-    <string name="ev3_tone_duration_for">para</string>
+    <string name="ev3_tone_duration_for">por</string>
     <string name="ev3_tone_volume">Volumen</string>
     <string name="ev3_tone_percent">%</string>
     <string name="ev3_motor_stop">Parar motor EV3</string>
@@ -1411,7 +1410,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_blinkred">Blink red</string>
     <string name="drone_animation_blinkorange">Blink orange</string>
     <string name="drone_animation_snakegreenred">Snake green red</string>
-    <string name="drone_animation_fire">Fire</string>
+    <string name="drone_animation_fire">Fuego</string>
     <string name="drone_animation_standard">Estándar</string>
     <string name="drone_animation_red">Rojo</string>
     <string name="drone_animation_green">Verde</string>
@@ -1551,7 +1550,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_color">color</string>
     <string name="formula_editor_function_sqrt">RCUAD</string>
     <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand">RANDOM</string>
+    <string name="formula_editor_function_rand">valor aleatorio desde hasta</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
     <string name="formula_editor_function_abs">ABS</string>
     <string name="formula_editor_function_abs_parameter">(0)</string>
@@ -1587,8 +1586,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1, \'Hola mundo\')</string>
     <string name="formula_editor_function_join">unir</string>
     <string name="formula_editor_function_join_parameter">(\'hola\',\' mundo\')</string>
-    <string name="formula_editor_function_regex">regular expression</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex">expresión regular</string>
+    <string name="formula_editor_function_regex_parameter">(\' un? ([^ .]+)\',\'Soy un panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digital</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1685,9 +1684,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_size">tamaño</string>
     <string name="formula_editor_object_rotation">dirección</string>
     <string name="formula_editor_object_layer">capa</string>
-    <string name="formula_editor_object_x_velocity">velocidad_x</string>
-    <string name="formula_editor_object_y_velocity">velocidad_y</string>
-    <string name="formula_editor_object_angular_velocity">velocidad_angular</string>
+    <string name="formula_editor_object_x_velocity">velocidad x</string>
+    <string name="formula_editor_object_y_velocity">velocidad y</string>
+    <string name="formula_editor_object_angular_velocity">velocidad angular</string>
     <string name="formula_editor_object_look_number">numero_apariencia</string>
     <string name="formula_editor_object_look_name">nombre_apariencia</string>
     <string name="formula_editor_object_background_number">numero_fondo</string>
@@ -1716,14 +1715,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
     <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
-    <string name="formula_editor_device_cast">Cast</string>
+    <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal">≠</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">Y</string>
-    <string name="formula_editor_logic_or">O</string>
-    <string name="formula_editor_logic_not">NO</string>
+    <string name="formula_editor_logic_and">y</string>
+    <string name="formula_editor_logic_or">o</string>
+    <string name="formula_editor_logic_not">no</string>
     <string name="formula_editor_logic_greaterequal">≥</string>
     <string name="formula_editor_logic_leserequal">≤</string>
     <string name="formula_editor_logic_equal">=</string>
@@ -1826,8 +1825,8 @@ needs read and write access to it. You can always change permissions through you
         tap the \"+\" symbol.</string>
     <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
         sound category.</string>
-    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string name="hint_objects">Su programa consta de diferentes actores y objetos que pueden interactuar entre ellos.
+        Para agregar un nuevo actor o objeto pulse en el símbolo \"+\".</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
