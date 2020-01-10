@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.content.bricks;
 
-import android.content.Context;
-
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -36,12 +34,11 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.test.PowerMockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.Mockito;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.modules.junit4.PowerMockRunnerDelegate;
@@ -89,9 +86,7 @@ public class UpdateCollisionActorTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		Context contextMock = Mockito.mock(Context.class);
-		PowerMockito.mockStatic(CatroidApplication.class);
-		PowerMockito.when(CatroidApplication.getAppContext()).thenReturn(contextMock);
+		PowerMockUtil.mockStaticAppContextAndInitializeStaticSingletons();
 
 		Project project = new Project();
 		Scene scene = new Scene();
