@@ -40,7 +40,7 @@ def postEmulator(String coverageNameAndLogcatPrefix) {
 }
 
 def webTestUrlParameter() {
-    return env.WEB_TEST_URL?.isEmpty() ? '' : "-Pweb_test_url='${params.WEB_TEST_URL}'"
+    return env.WEB_TEST_URL?.isEmpty() ? '' : "-PwebTestUrl='${params.WEB_TEST_URL}'"
 }
 
 def allFlavoursParameters() {
