@@ -146,7 +146,7 @@ android {
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
                                  intentFilterHost: "share.catrob.at",
-                                 intentFilterPathPattern: "/.*/program/.*"]
+                                 intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "boolean", "USE_WEB_TEST", useWebTest()
