@@ -32,6 +32,12 @@ import org.catrobat.catroid.pocketmusic.note.Track;
 
 public final class TrackTestDataFactory {
 
+	private static final NoteName NOTE_NAME_C4 = new NoteName(60);
+	private static final NoteName NOTE_NAME_D4 = new NoteName(62);
+	private static final NoteName NOTE_NAME_E4 = new NoteName(64);
+	private static final NoteName NOTE_NAME_F4 = new NoteName(65);
+	private static final NoteName NOTE_NAME_C5 = new NoteName(70);
+
 	private TrackTestDataFactory() {
 	}
 
@@ -40,31 +46,31 @@ public final class TrackTestDataFactory {
 
 		long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_E4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_E4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_F4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_F4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C5, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C5, false));
 
 		return track;
 	}
@@ -76,11 +82,11 @@ public final class TrackTestDataFactory {
 		tick += NoteLength.HALF.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
 
 		return track;
 	}
@@ -90,32 +96,32 @@ public final class TrackTestDataFactory {
 
 		long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C5, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C5, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C5, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_D4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_D4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_D4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.D4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, true));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_D4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_E4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_F4, true));
 
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.E4, false));
-		track.addNoteEvent(tick, new NoteEvent(NoteName.F4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_E4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_F4, false));
 
 		return track;
 	}

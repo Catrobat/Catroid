@@ -34,6 +34,8 @@ import java.util.List;
 
 public final class GridRowTestDataFactory {
 
+	private static final NoteName NOTE_NAME_C4 = new NoteName(60);
+
 	private GridRowTestDataFactory() {
 	}
 
@@ -44,7 +46,7 @@ public final class GridRowTestDataFactory {
 		gridRowPositionList.add(new GridRowPosition(0, NoteLength.QUARTER));
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
-		return new GridRow(NoteName.C4, gridRowPositionSparseArray);
+		return new GridRow(NOTE_NAME_C4, gridRowPositionSparseArray);
 	}
 
 	public static GridRow createGridRowWithDuplicatePositions() {
@@ -56,7 +58,7 @@ public final class GridRowTestDataFactory {
 		gridRowPositionList.add(new GridRowPosition(0, NoteLength.QUARTER));
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
-		return new GridRow(NoteName.C4, gridRowPositionSparseArray);
+		return new GridRow(NOTE_NAME_C4, gridRowPositionSparseArray);
 	}
 
 	public static GridRow createGridRowWithDifferentPositions() {
@@ -68,6 +70,6 @@ public final class GridRowTestDataFactory {
 		gridRowPositionList.add(new GridRowPosition(4, NoteLength.QUARTER));
 		gridRowPositionSparseArray.put(0, gridRowPositionList);
 
-		return new GridRow(NoteName.C4, gridRowPositionSparseArray);
+		return new GridRow(NOTE_NAME_C4, gridRowPositionSparseArray);
 	}
 }

@@ -46,6 +46,10 @@ import static org.junit.Assert.assertThat;
 @RunWith(JUnit4.class)
 public class TrackTest {
 
+	private static final NoteName NOTE_NAME_C1 = new NoteName(24);
+	private static final NoteName NOTE_NAME_C2 = new NoteName(36);
+	private static final NoteName NOTE_NAME_C4 = new NoteName(60);
+
 	@Test
 	public void testGetInstrument() {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
@@ -56,7 +60,7 @@ public class TrackTest {
 	@Test
 	public void testAddNoteEvent1() {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(0, new NoteEvent(NOTE_NAME_C4, true));
 
 		assertEquals(1, track.size());
 	}
@@ -64,8 +68,8 @@ public class TrackTest {
 	@Test
 	public void testAddNoteEvent2() {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
-		track.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(0, new NoteEvent(NOTE_NAME_C4, true));
+		track.addNoteEvent(0, new NoteEvent(NOTE_NAME_C4, true));
 
 		assertEquals(1, track.size());
 	}
@@ -74,7 +78,7 @@ public class TrackTest {
 	public void testGetNoteEventsForTick() {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
-		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent = new NoteEvent(NOTE_NAME_C4, true);
 		track.addNoteEvent(tick, noteEvent);
 
 		assertEquals(noteEvent, track.getNoteEventsForTick(tick).get(0));
@@ -84,9 +88,9 @@ public class TrackTest {
 	public void testEquals1() {
 		long tick = 0;
 		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track1.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track1.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track2.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track2.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 
 		assertEquals(track1, track2);
 	}
@@ -95,9 +99,9 @@ public class TrackTest {
 	public void testEquals2() {
 		long tick = 0;
 		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track1.addNoteEvent(tick, new NoteEvent(NoteName.C1, true));
+		track1.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C1, true));
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track2.addNoteEvent(tick, new NoteEvent(NoteName.C2, true));
+		track2.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C2, true));
 
 		assertThat(track1, is(not(equalTo(track2))));
 	}
@@ -105,7 +109,7 @@ public class TrackTest {
 	@Test
 	public void testEquals3() {
 		Track track1 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
-		track1.addNoteEvent(0, new NoteEvent(NoteName.C4, true));
+		track1.addNoteEvent(0, new NoteEvent(NOTE_NAME_C4, true));
 		Track track2 = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 
 		assertThat(track1, is(not(equalTo(track2))));
@@ -163,9 +167,9 @@ public class TrackTest {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 		tick += NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
 
 		assertEquals(tick, track.getLastTick());
 	}
@@ -191,7 +195,7 @@ public class TrackTest {
 		Track track = new Track(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO);
 		long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 
 		assertFalse(track.empty());
 	}
@@ -203,9 +207,9 @@ public class TrackTest {
 		long expecteTotalTime = noteLength.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
 		long tick = 0;
 
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, true));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, true));
 		tick += noteLength.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		track.addNoteEvent(tick, new NoteEvent(NoteName.C4, false));
+		track.addNoteEvent(tick, new NoteEvent(NOTE_NAME_C4, false));
 
 		assertEquals(expecteTotalTime, track.getTotalTimeInMilliseconds());
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,35 +23,43 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiRunnable;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSignals;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
+import org.catrobat.catroid.ui.fragment.PianoFragment;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PianoView extends ViewGroup {
 
-	private List<View> whitePianoKeys = new ArrayList<>();
-	private List<View> blackPianoKeys = new ArrayList<>();
-	private static final int WHITE_KEY_COUNT = 8;
-	private static final int BLACK_KEY_COUNT = 5;
-	private static final ButtonHeight[] HEIGHT_DISTRIBUTION = new ButtonHeight[] {
-			ButtonHeight.oneAndAHalfButtonHeight,
-			ButtonHeight.doubleButtonHeight,
-			ButtonHeight.oneAndAHalfButtonHeight,
-			ButtonHeight.oneAndAHalfButtonHeight,
-			ButtonHeight.doubleButtonHeight,
-			ButtonHeight.doubleButtonHeight,
-			ButtonHeight.oneAndAHalfButtonHeight,
-			ButtonHeight.singleButtonHeight
+	private Map<PianoKeyType, List<TextView>> pianoKeyTypeMap =
+			new EnumMap<>(PianoKeyType.class);
+	private static final PianoKeyHeight[] HEIGHT_DISTRIBUTION = new PianoKeyHeight[] {
+			PianoKeyHeight.ONE_AND_A_HALF_KEY_HEIGHT,
+			PianoKeyHeight.DOUBLE_KEY_HEIGHT,
+			PianoKeyHeight.ONE_AND_A_HALF_KEY_HEIGHT,
+			PianoKeyHeight.ONE_AND_A_HALF_KEY_HEIGHT,
+			PianoKeyHeight.DOUBLE_KEY_HEIGHT,
+			PianoKeyHeight.DOUBLE_KEY_HEIGHT,
+			PianoKeyHeight.ONE_AND_A_HALF_KEY_HEIGHT,
+			PianoKeyHeight.SINGLE_KEY_HEIGHT
 	};
 	private int margin;
-	private int currentHeight;
 
 	public PianoView(Context context) {
 		this(context, null);
@@ -60,115 +68,164 @@ public class PianoView extends ViewGroup {
 	public PianoView(Context context, AttributeSet attributeSet) {
 		super(context, attributeSet);
 		margin = getResources().getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
-		for (int i = 0; i < WHITE_KEY_COUNT; i++) {
-			View whiteButton = new View(context);
-			whiteButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_white));
-			whitePianoKeys.add(whiteButton);
-			addView(whiteButton);
+		initializePianoKeys(context);
+	}
+
+	private void initializePianoKeys(Context context) {
+		for (PianoKeyType type : PianoKeyType.values()) {
+			pianoKeyTypeMap.put(type, new ArrayList<>());
+			fillKeyList(context, type);
 		}
-		for (int i = 0; i < BLACK_KEY_COUNT; i++) {
-			View blackButton = new View(context);
-			blackButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_black));
-			blackPianoKeys.add(blackButton);
-			addView(blackButton);
+	}
+
+	private void fillKeyList(Context context, PianoKeyType type) {
+		int correspondingMidiValue = NoteName.DEFAULT_NOTE_MIDI;
+		int numbersOfKeysInList = type.getNumberOfKeys();
+
+		for (int i = 0; i < numbersOfKeysInList; i++) {
+			while (PianoKeyType.UNSIGNED.equals(type)
+					!= new NoteName(correspondingMidiValue).isSigned()) {
+				correspondingMidiValue++;
+			}
+			createAndAddPianoKeyFromMidiValue(context, type, correspondingMidiValue);
+			correspondingMidiValue++;
 		}
-		currentHeight = 0;
+	}
+
+	private void createAndAddPianoKeyFromMidiValue(Context context, PianoKeyType type,
+			int correspondingMidiValue) {
+		List<TextView> pianoKeys = getPianoKeysOfType(type);
+
+		TextView pianoKey = new TextView(context);
+		pianoKey.setBackgroundColor(ContextCompat.getColor(context, type.getBackgroundColor()));
+		pianoKey.setTag(correspondingMidiValue);
+		pianoKey.setText(new NoteName(correspondingMidiValue).getName());
+		pianoKey.setTextColor(ContextCompat.getColor(context, type.getTextColor()));
+
+		pianoKeys.add(pianoKey);
+		addView(pianoKey);
 	}
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		if (changed) {
+			int verticalEndPointOfKey = getMeasuredWidth() - 4 * margin;
 
-			int collectiveButtonHeight = getMeasuredHeight() - TrackView.ROW_COUNT * 2 * margin;
-			float currentButtonCount = 0f;
+			int currentAvailableSpaceToKeys = getMeasuredHeight() - TrackView.ROW_COUNT * 2 * margin;
+			float referenceHeightSingleKey = (float) currentAvailableSpaceToKeys / TrackView.ROW_COUNT;
 
-			currentHeight = margin;
+			scaleAllPianoKeysOfTypeToLayout(PianoKeyType.UNSIGNED, referenceHeightSingleKey,
+					currentAvailableSpaceToKeys, margin, margin, verticalEndPointOfKey);
 
-			int rightside = getMeasuredWidth() - 4 * margin;
+			scaleAllPianoKeysOfTypeToLayout(PianoKeyType.SIGNED, referenceHeightSingleKey,
+					currentAvailableSpaceToKeys, Math.round(referenceHeightSingleKey + margin),
+					(int) (getMeasuredWidth() * 0.42f), verticalEndPointOfKey);
+		}
+	}
 
-			for (int i = 0; i < WHITE_KEY_COUNT; i++) {
+	private void scaleAllPianoKeysOfTypeToLayout(PianoKeyType type,
+			float referenceHeightSingleKey, int currentAvailableSpaceToKeys,
+			int verticalStartingPoint, int horizontalStartPoint, int verticalEndPoint) {
 
-				int singleButtonHeight = round((float) collectiveButtonHeight / (TrackView.ROW_COUNT
-						- currentButtonCount));
+		float currentNumberOfSingleKeyHeights = 0f;
 
-				float oneAndAHalfButtonHeight = 1.5f * singleButtonHeight + margin;
-				int doubleButtonHeight = 2 * singleButtonHeight + 2 * margin;
+		List<TextView> pianoKeys = getPianoKeysOfType(type);
 
-				switch (HEIGHT_DISTRIBUTION[i]) {
-					case singleButtonHeight:
-						whitePianoKeys.get(i).layout(
-								margin,
-								currentHeight,
-								rightside,
-								currentHeight + singleButtonHeight
-						);
-						currentHeight += singleButtonHeight;
-						collectiveButtonHeight -= round(singleButtonHeight);
-						currentButtonCount += 1f;
-						break;
-					case oneAndAHalfButtonHeight:
-						whitePianoKeys.get(i).layout(
-								margin,
-								currentHeight,
-								rightside,
-								currentHeight + round(oneAndAHalfButtonHeight)
-						);
-						currentHeight += round(oneAndAHalfButtonHeight);
-						collectiveButtonHeight -= round(singleButtonHeight * 1.5f);
-						currentButtonCount += 1.5f;
-						break;
-					case doubleButtonHeight:
-						whitePianoKeys.get(i).layout(
-								margin,
-								currentHeight,
-								rightside,
-								currentHeight + doubleButtonHeight
-						);
-						currentHeight += doubleButtonHeight;
-						collectiveButtonHeight -= singleButtonHeight * 2;
-						currentButtonCount += 2f;
-						break;
-				}
-				currentHeight += 2 * margin;
-			}
+		for (int i = 0; i < pianoKeys.size(); i++) {
 
-			collectiveButtonHeight = getMeasuredHeight() - TrackView.ROW_COUNT * 2 * margin;
-			int singleButtonHeight = roundUp((float) collectiveButtonHeight / TrackView.ROW_COUNT);
+			PianoKeyHeight currentKeyHeight = PianoKeyType.SIGNED.equals(type)
+					? PianoKeyHeight.SINGLE_KEY_HEIGHT : HEIGHT_DISTRIBUTION[i];
 
-			collectiveButtonHeight -= singleButtonHeight;
-			currentButtonCount = 1f;
+			horizontalStartPoint = scalePianoKeysToLayout(pianoKeys.get(i),
+					verticalStartingPoint,
+					horizontalStartPoint, verticalEndPoint, referenceHeightSingleKey,
+					currentKeyHeight);
 
-			currentHeight = singleButtonHeight + margin;
-
-			for (int i = 0; i < BLACK_KEY_COUNT; i++) {
-
-				singleButtonHeight = roundUp((float) collectiveButtonHeight / (TrackView.ROW_COUNT - currentButtonCount));
-
-				blackPianoKeys.get(i).layout(
-						(int) (getMeasuredWidth() * 0.42f),
-						currentHeight,
-						rightside,
-						currentHeight + singleButtonHeight + 4 * margin
-				);
-
-				currentHeight += 2 * singleButtonHeight + 4 * margin;
-				collectiveButtonHeight -= 2 * singleButtonHeight;
-				currentButtonCount += 2f;
+			if (PianoKeyType.SIGNED.equals(type)) {
+				horizontalStartPoint += Math.round(referenceHeightSingleKey + 4 * margin);
 
 				if (i == 1) {
-					currentHeight += singleButtonHeight + 2 * margin;
-					collectiveButtonHeight -= singleButtonHeight;
-					currentButtonCount += 1f;
+					horizontalStartPoint += Math.round(referenceHeightSingleKey);
 				}
+			} else {
+				currentNumberOfSingleKeyHeights += HEIGHT_DISTRIBUTION[i].getMultipleOfReferenceHeight();
+				currentAvailableSpaceToKeys -= Math.round(referenceHeightSingleKey
+						* HEIGHT_DISTRIBUTION[i].getMultipleOfReferenceHeight());
+				horizontalStartPoint += 2 * margin;
+				referenceHeightSingleKey = (float) currentAvailableSpaceToKeys
+						/ (TrackView.ROW_COUNT - currentNumberOfSingleKeyHeights);
 			}
 		}
 	}
 
-	public void setButtonColor(NoteName note, boolean active) {
+	private int scalePianoKeysToLayout(TextView pianoKey, int horizontalStartingPoint,
+			int verticalStartingPoint, int horizontalEndPoint,
+			float currentReferenceHeightKey, PianoKeyHeight pianoKeyHeight) {
+
+		int currentKeyHeight = Math.round((currentReferenceHeightKey + margin)
+				* pianoKeyHeight.getMultipleOfReferenceHeight());
+		int verticalEndPoint = verticalStartingPoint + currentKeyHeight;
+		pianoKey.layout(horizontalStartingPoint, verticalStartingPoint,
+				horizontalEndPoint, verticalEndPoint);
+		setTextLayoutToPianoKey(pianoKey);
+
+		return verticalEndPoint;
+	}
+
+	private void setTextLayoutToPianoKey(TextView pianoKey) {
+		pianoKey.setGravity(Gravity.CENTER_VERTICAL);
+		pianoKey.setPadding(15, 0, 0, 0);
+	}
+
+	public void makePianoKeysClickable(final MidiNotePlayer midiNotePlayer,
+			final PianoFragment pianoFragment) {
+		for (List<TextView> keysPerType : pianoKeyTypeMap.values()) {
+			for (View view : keysPerType) {
+				view.setOnClickListener(pianoKey -> onPianoKeyClick(midiNotePlayer,
+						pianoFragment, pianoKey));
+			}
+		}
+	}
+
+	private void onPianoKeyClick(final MidiNotePlayer midiNotePlayer,
+			final PianoFragment pianoFragment, View pianoKey) {
+		int midiValueOfView = (Integer) pianoKey.getTag();
+		NoteName clickedNote = new NoteName(midiValueOfView);
+		Handler h = new Handler(Looper.getMainLooper());
+		MidiRunnable midiRunnable = new MidiRunnable(MidiSignals.NOTE_ON,
+				clickedNote, 250, h,
+				midiNotePlayer, null);
+		h.post(midiRunnable);
+		updatePianoKeyColors(clickedNote);
+
+		if (pianoFragment != null) {
+			pianoFragment.updateFieldValue(midiValueOfView);
+		}
+	}
+
+	private void updatePianoKeyColors(NoteName activeNote) {
+		for (Map.Entry<TextView, PianoKeyType> entry : getAllPianoKeysWithType().entrySet()) {
+			entry.getKey().setBackgroundColor(
+					ContextCompat.getColor(getContext(), entry.getValue().getBackgroundColor()));
+		}
+		setPianoKeyColor(activeNote, true);
+	}
+
+	public void setPianoKeyColor(NoteName note, boolean active) {
 		int i = 0;
-		for (int counter = NoteName.DEFAULT_NOTE_NAME.getMidi(); counter < NoteName.C2.getMidi(); counter++) {
-			NoteName tempNote = NoteName.getNoteNameFromMidiValue(counter);
+		boolean foundNote = false;
+
+		int totalNumberOfKeys = 0;
+
+		for (PianoKeyType type : PianoKeyType.values()) {
+			totalNumberOfKeys += type.getNumberOfKeys();
+		}
+
+		for (int counter = getCurrentStartingNote().getMidi();
+				counter < getCurrentStartingNote().getMidi() + totalNumberOfKeys; counter++) {
+			NoteName tempNote = new NoteName(counter);
 			if (note.equals(tempNote)) {
+				foundNote = true;
 				break;
 			}
 			if (note.isSigned() == tempNote.isSigned()) {
@@ -176,31 +233,97 @@ public class PianoView extends ViewGroup {
 			}
 		}
 
-		View noteView;
-		if (note.isSigned()) {
-			noteView = blackPianoKeys.get(i);
-		} else {
-			noteView = whitePianoKeys.get(i);
+		if (!foundNote) {
+			return;
 		}
+		PianoKeyType pianoKeyType = note.isSigned() ? PianoKeyType.SIGNED : PianoKeyType.UNSIGNED;
+
+		View noteView = getPianoKeysOfType(pianoKeyType).get(i);
 		if (active) {
 			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange));
 		} else {
-			noteView.setBackgroundColor(ContextCompat.getColor(getContext(), note.isSigned() ? R.color.solid_black : R
-					.color.solid_white));
+			noteView.setBackgroundColor(ContextCompat.getColor(getContext(),
+					pianoKeyType.getBackgroundColor()));
 		}
 	}
 
-	private int roundUp(float floatValue) {
-		return (int) Math.ceil(floatValue);
+	public void nextOctave(NoteName currentActiveNote) {
+		updateMidiValuesStartingAtNote(getNextStartingNote(), currentActiveNote);
 	}
 
-	private int round(float floatValue) {
-		return (int) (floatValue + 0.5f);
+	public void previousOctave(NoteName currentActiveNote) {
+		updateMidiValuesStartingAtNote(getPreviousStartingNote(), currentActiveNote);
 	}
 
-	enum ButtonHeight {
-		singleButtonHeight,
-		oneAndAHalfButtonHeight,
-		doubleButtonHeight
+	public void updateMidiValuesContainingNote(NoteName currentActiveNote) {
+		List<NoteName> octaveStarts = NoteName.getAllPossibleOctaveStarts();
+		for (int i = octaveStarts.size() - 1; i >= 0; i--) {
+			if (octaveStarts.get(i).getMidi() <= currentActiveNote.getMidi()) {
+				updateMidiValuesStartingAtNote(octaveStarts.get(i), currentActiveNote);
+				break;
+			}
+		}
+	}
+
+	private void updateMidiValuesStartingAtNote(NoteName startingNote, NoteName currentActiveNote) {
+		int correspondingMidiValue = startingNote.getMidi();
+		for (PianoKeyType type : PianoKeyType.values()) {
+			updateMidiValueOfType(type, correspondingMidiValue);
+		}
+		updatePianoKeyColors(currentActiveNote);
+	}
+
+	private void updateMidiValueOfType(PianoKeyType type,
+			int midiValueOfStart) {
+		for (TextView pianoKey : getPianoKeysOfType(type)) {
+			while (PianoKeyType.SIGNED.equals(type)
+					!= new NoteName(midiValueOfStart).isSigned()) {
+				midiValueOfStart++;
+			}
+			pianoKey.setTag(midiValueOfStart);
+			pianoKey.setText(new NoteName(midiValueOfStart).getName());
+			midiValueOfStart++;
+		}
+	}
+
+	private NoteName getCurrentStartingNote() {
+		return new NoteName(
+				(int) getPianoKeysOfType(PianoKeyType.UNSIGNED).get(0).getTag());
+	}
+
+	private NoteName getNextStartingNote() {
+		List<NoteName> octaveStarts = NoteName.getAllPossibleOctaveStarts();
+		int currentIndex = octaveStarts.indexOf(getCurrentStartingNote());
+		if (currentIndex >= 0 && currentIndex < octaveStarts.size() - 1) {
+			return octaveStarts.get(currentIndex + 1);
+		}
+		return getCurrentStartingNote();
+	}
+
+	private NoteName getPreviousStartingNote() {
+		List<NoteName> octaveStarts = NoteName.getAllPossibleOctaveStarts();
+		int currentIndex = octaveStarts.indexOf(getCurrentStartingNote());
+		if (currentIndex > 0 && currentIndex < octaveStarts.size()) {
+			return octaveStarts.get(currentIndex - 1);
+		}
+		return getCurrentStartingNote();
+	}
+
+	private Map<TextView, PianoKeyType> getAllPianoKeysWithType() {
+		Map<TextView, PianoKeyType> pianoKeys = new HashMap<>();
+		for (PianoKeyType type : PianoKeyType.values()) {
+			for (TextView pianoKey : getPianoKeysOfType(type)) {
+				pianoKeys.put(pianoKey, type);
+			}
+		}
+		return pianoKeys;
+	}
+
+	private List<TextView> getPianoKeysOfType(PianoKeyType type) {
+		List<TextView> pianoKeys = pianoKeyTypeMap.get(type);
+		if (pianoKeys == null) {
+			return new ArrayList<>();
+		}
+		return pianoKeys;
 	}
 }

@@ -79,6 +79,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 
+	public transient MidiSoundConfiguration midiSoundConfiguration = new MidiSoundConfiguration();
+
 	@XStreamAsAttribute
 	private String name;
 	private List<Script> scriptList = new ArrayList<>();
@@ -202,12 +204,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 
 		penConfiguration = new PenConfiguration();
+		midiSoundConfiguration = new MidiSoundConfiguration();
 	}
 
 	public void invalidate() {
 		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
+		midiSoundConfiguration = null;
 	}
 
 	public void initConditionScriptTriggers() {
@@ -439,6 +443,10 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		public PenColor penColor = new PenColor(0, 0, 1, 1);
 		public PointF previousPoint = null;
 		public boolean stamp = false;
+	}
+
+	public class MidiSoundConfiguration {
+		public int tempo = 60;
 	}
 
 	public boolean toBeConverted() {

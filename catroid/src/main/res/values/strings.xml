@@ -1168,6 +1168,17 @@
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">Hello!</string>
     <string name="brick_speak_and_wait">and wait</string>
+
+    <string name="preference_description_midi_bricks">Allow the app to show MIDI Sound boards</string>
+    <string name="preference_title_enable_midi_bricks">MIDI Sound Bricks</string>
+
+    <string name="brick_play_note_label_text">Play note</string>
+    <string name="brick_play_note_for_text">for</string>
+    <string name="brick_play_note_beats_text">beats</string>
+    <string name="note_preview">Note Preview</string>
+    <string name="brick_play_note_previous_octave">Previous Octave</string>
+    <string name="brick_play_note_next_octave">Next Octave</string>
+
     <!--  -->
 
     <!-- Embroidery bricks -->

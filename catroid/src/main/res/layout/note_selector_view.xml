@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2019 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout
+    android:id="@+id/rgb_base_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingEnd="@dimen/material_design_spacing_small"
+    android:paddingStart="@dimen/material_design_spacing_small">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageButton
+            android:id="@+id/piano_note_selector_previous_octave_button"
+            android:src="@drawable/ic_group_collapse_00"
+            android:contentDescription="@string/brick_play_note_previous_octave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="0"
+            android:background="@color/button_background" />
+
+        <org.catrobat.catroid.pocketmusic.ui.PianoView
+            android:id="@+id/piano_note_selector_view"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/piano_note_selector_next_octave_button"
+            android:src="@drawable/ic_group_expand_00"
+            android:contentDescription="@string/brick_play_note_next_octave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_weight="0"
+            android:background="@color/button_background" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+       <TextView
+           android:id="@+id/piano_note_selector_view_note_preview"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           android:layout_marginLeft="8dp"
+           android:layout_marginRight="8dp"
+           android:text="@string/note_preview"
+           android:textColor="@color/solid_white" />
+
+        <TextView
+            android:id="@+id/note_value"
+            style="@style/BrickEditText" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -128,14 +128,14 @@ public class MidiToProjectConverter {
 			if (midiEvent instanceof NoteOn) {
 				NoteOn noteOn = (NoteOn) midiEvent;
 				long tick = noteOn.getTick();
-				NoteName noteName = NoteName.getNoteNameFromMidiValue(noteOn.getNoteValue());
+				NoteName noteName = new NoteName(noteOn.getNoteValue());
 				NoteEvent noteEvent = new NoteEvent(noteName, true);
 
 				track.addNoteEvent(tick, noteEvent);
 			} else if (midiEvent instanceof NoteOff) {
 				NoteOff noteOff = (NoteOff) midiEvent;
 				long tick = noteOff.getTick();
-				NoteName noteName = NoteName.getNoteNameFromMidiValue(noteOff.getNoteValue());
+				NoteName noteName = new NoteName(noteOff.getNoteValue());
 				NoteEvent noteEvent = new NoteEvent(noteName, false);
 
 				track.addNoteEvent(tick, noteEvent);

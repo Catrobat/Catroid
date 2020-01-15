@@ -39,6 +39,13 @@ import java.util.List;
 
 public final class TrackGridTestDataFactory {
 
+	private static final NoteName NOTE_NAME_C1 = new NoteName(24);
+	private static final NoteName NOTE_NAME_C4 = new NoteName(60);
+	private static final NoteName NOTE_NAME_D4 = new NoteName(62);
+	private static final NoteName NOTE_NAME_E4 = new NoteName(64);
+	private static final NoteName NOTE_NAME_F4 = new NoteName(65);
+	private static final NoteName NOTE_NAME_C5 = new NoteName(70);
+
 	private TrackGridTestDataFactory() {
 	}
 
@@ -77,7 +84,7 @@ public final class TrackGridTestDataFactory {
 
 		gridRowPositionC1.put(0, gridRowPositionListC1);
 
-		gridRows.add(new GridRow(NoteName.C1, gridRowPositionC1));
+		gridRows.add(new GridRow(NOTE_NAME_C1, gridRowPositionC1));
 
 		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
 				.BEAT_4_4, gridRows);
@@ -87,10 +94,10 @@ public final class TrackGridTestDataFactory {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
 
-		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] {0, 3})));
-		gridRows.add(new GridRow(NoteName.E4, createGridRowPositionsGridRow(new int[] {1})));
-		gridRows.add(new GridRow(NoteName.F4, createGridRowPositionsGridRow(new int[] {2})));
-		gridRows.add(new GridRow(NoteName.C5, createGridRowPositionsGridRow(new int[] {4})));
+		gridRows.add(new GridRow(NOTE_NAME_C4, createGridRowPositionsGridRow(new int[] {0, 3})));
+		gridRows.add(new GridRow(NOTE_NAME_E4, createGridRowPositionsGridRow(new int[] {1})));
+		gridRows.add(new GridRow(NOTE_NAME_F4, createGridRowPositionsGridRow(new int[] {2})));
+		gridRows.add(new GridRow(NOTE_NAME_C5, createGridRowPositionsGridRow(new int[] {4})));
 
 		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
 				.BEAT_4_4, gridRows);
@@ -100,7 +107,7 @@ public final class TrackGridTestDataFactory {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
 
-		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] {3})));
+		gridRows.add(new GridRow(NOTE_NAME_C4, createGridRowPositionsGridRow(new int[] {3})));
 
 		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
 				.BEAT_4_4, gridRows);
@@ -110,11 +117,11 @@ public final class TrackGridTestDataFactory {
 
 		List<GridRow> gridRows = new ArrayList<GridRow>();
 
-		gridRows.add(new GridRow(NoteName.C5, createGridRowPositionsGridRow(new int[] {0})));
-		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] {1, 2})));
-		gridRows.add(new GridRow(NoteName.D4, createGridRowPositionsGridRow(new int[] {1, 2})));
-		gridRows.add(new GridRow(NoteName.E4, createGridRowPositionsGridRow(new int[] {3})));
-		gridRows.add(new GridRow(NoteName.F4, createGridRowPositionsGridRow(new int[] {3})));
+		gridRows.add(new GridRow(NOTE_NAME_C5, createGridRowPositionsGridRow(new int[] {0})));
+		gridRows.add(new GridRow(NOTE_NAME_C4, createGridRowPositionsGridRow(new int[] {1, 2})));
+		gridRows.add(new GridRow(NOTE_NAME_D4, createGridRowPositionsGridRow(new int[] {1, 2})));
+		gridRows.add(new GridRow(NOTE_NAME_E4, createGridRowPositionsGridRow(new int[] {3})));
+		gridRows.add(new GridRow(NOTE_NAME_F4, createGridRowPositionsGridRow(new int[] {3})));
 
 		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
 				.BEAT_4_4, gridRows);

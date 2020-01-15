@@ -50,7 +50,8 @@ public class TrackRowView extends TableRow {
 	private NoteName noteName;
 
 	public TrackRowView(Context context) {
-		this(context, MusicalBeat.BEAT_4_4, false, NoteName.DEFAULT_NOTE_NAME, null);
+		this(context, MusicalBeat.BEAT_4_4, false,
+				new NoteName(NoteName.DEFAULT_NOTE_MIDI), null);
 	}
 
 	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow, NoteName noteName, TrackView trackView) {

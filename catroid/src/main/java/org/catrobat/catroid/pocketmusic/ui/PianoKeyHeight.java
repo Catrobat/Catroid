@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,9 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.pocketmusic.note;
 
-public enum MusicalKey {
-	BASS, VIOLIN
+package org.catrobat.catroid.pocketmusic.ui;
+
+enum PianoKeyHeight {
+	SINGLE_KEY_HEIGHT(1f),
+	ONE_AND_A_HALF_KEY_HEIGHT(1.5f),
+	DOUBLE_KEY_HEIGHT(2f);
+
+	private float multipleOfReferenceHeight;
+
+	PianoKeyHeight(float multipleOfReferenceHeight) {
+		this.multipleOfReferenceHeight = multipleOfReferenceHeight;
+	}
+
+	public float getMultipleOfReferenceHeight() {
+		return multipleOfReferenceHeight;
+	}
 }
-

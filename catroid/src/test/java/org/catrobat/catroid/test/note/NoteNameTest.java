@@ -22,11 +22,12 @@
  */
 package org.catrobat.catroid.test.note;
 
-import org.catrobat.catroid.pocketmusic.note.MusicalKey;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -36,153 +37,88 @@ import static junit.framework.Assert.assertTrue;
 public class NoteNameTest {
 
 	@Test
-	public void testMidi() {
-		NoteName[] noteNames = new NoteName[] {NoteName.C1, NoteName.C2, NoteName.C3, NoteName.C4,
-				NoteName.C5, NoteName.C6, NoteName.C7, NoteName.C8};
-
-		int startMidi = 24;
-		int increment = 12;
-
-		for (int i = 0; i < noteNames.length; i++) {
-			int midi = startMidi + i * increment;
-			assertEquals(midi, noteNames[i].getMidi());
-		}
-	}
-
-	@Test
 	public void testNext1() {
-		NoteName noteName = NoteName.B0;
-		NoteName nextNoteName = NoteName.C1;
+		NoteName noteName = new NoteName(23);
+		NoteName nextNoteName = new NoteName(24);
 
 		assertEquals(nextNoteName, noteName.next());
 	}
 
 	@Test
 	public void testNext2() {
-		NoteName lastNoteName = NoteName.C8;
+		NoteName lastNoteName = new NoteName(108);
 
 		assertEquals(lastNoteName, lastNoteName.next());
 	}
 
 	@Test
 	public void testPrevious1() {
-		NoteName noteName = NoteName.C1;
-		NoteName previousNoteName = NoteName.B0;
+		NoteName noteName = new NoteName(24);
+		NoteName previousNoteName = new NoteName(23);
 
 		assertEquals(previousNoteName, noteName.previous());
 	}
 
 	@Test
 	public void testPrevious2() {
-		NoteName firstNoteName = NoteName.A0;
+		NoteName firstNoteName = new NoteName(21);
 
 		assertEquals(firstNoteName, firstNoteName.previous());
 	}
 
 	@Test
 	public void testIsSigned1() {
-		NoteName noteName = NoteName.C1;
+		NoteName noteName = new NoteName(24);
 
 		assertFalse(noteName.isSigned());
 	}
 
 	@Test
 	public void testIsSigned2() {
-		NoteName noteName = NoteName.C1S;
+		NoteName noteName = new NoteName(25);
 
 		assertTrue(noteName.isSigned());
 	}
 
 	@Test
 	public void testGetNoteNameFromMidiValue1() {
-		NoteName expectedNoteName = NoteName.A0;
+		NoteName expectedNoteName = new NoteName(21);
 		int midiValue = expectedNoteName.getMidi();
 
-		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(midiValue);
+		NoteName actualNoteName = new NoteName(midiValue);
 
 		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	@Test
 	public void testGetNoteNameFromMidiValue2() {
-		NoteName expectedNoteName = NoteName.C8;
+		NoteName expectedNoteName = new NoteName(108);
 		int midiValue = expectedNoteName.getMidi();
 
-		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(midiValue);
-
-		assertEquals(actualNoteName, expectedNoteName);
-	}
-
-	@Test
-	public void testGetNoteNameFromMidiValue3() {
-		NoteName expectedNoteName = NoteName.C4;
-		int midiValue = expectedNoteName.getMidi();
-
-		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(midiValue);
+		NoteName actualNoteName = new NoteName(midiValue);
 
 		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	@Test
 	public void testGetNoteNameFromMidiValue4() {
-		NoteName expectedNoteName = NoteName.DEFAULT_NOTE_NAME;
+		NoteName expectedNoteName = new NoteName(NoteName.MAX_NOTE_MIDI);
 
-		NoteName actualNoteName = NoteName.getNoteNameFromMidiValue(1337);
+		NoteName actualNoteName = new NoteName(1337);
 
 		assertEquals(actualNoteName, expectedNoteName);
 	}
 
 	@Test
-	public void testCalculateDistanceCountingNoneSignedNotesOnly1() {
-		NoteName noteName1 = NoteName.D1;
-		NoteName noteName2 = NoteName.C1S;
-		int expectedDistance = 1;
+	public void testGetAllPossibleOctaveStarts() {
+		int numberOfStartingNotes = 7;
+		NoteName firstNoteName = new NoteName(NoteName.DEFAULT_NOTE_MIDI);
+		NoteName lastNoteName = new NoteName(96);
 
-		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
-	}
+		List<NoteName> octaveStarts = NoteName.getAllPossibleOctaveStarts();
 
-	@Test
-	public void testCalculateDistanceCountingNoneSignedNotesOnly2() {
-		NoteName noteName1 = NoteName.C1;
-		NoteName noteName2 = NoteName.C1S;
-		int expectedDistance = 0;
-
-		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
-	}
-
-	@Test
-	public void testCalculateDistanceCountingNoneSignedNotesOnly3() {
-		NoteName noteName1 = NoteName.D3;
-		NoteName noteName2 = NoteName.B3;
-		int expectedDistance = -5;
-
-		assertEquals(expectedDistance, NoteName.calculateDistanceCountingNoneSignedNotesOnly(noteName1, noteName2));
-	}
-
-	@Test
-	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly1() {
-		NoteName noteName = NoteName.B4;
-		MusicalKey key = MusicalKey.VIOLIN;
-		int expectedDistance = 0;
-
-		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
-	}
-
-	@Test
-	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly2() {
-		NoteName noteName = NoteName.C5;
-		MusicalKey key = MusicalKey.VIOLIN;
-		int expectedDistance = -1;
-
-		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
-	}
-
-	@Test
-	public void testCalculateDistanceToMiddleLineCountingSignedNotesOnly3() {
-		NoteName noteName = NoteName.A4;
-		MusicalKey key = MusicalKey.VIOLIN;
-		int expectedDistance = 1;
-
-		assertEquals(expectedDistance, NoteName.calculateDistanceToMiddleLineCountingSignedNotesOnly(key, noteName));
+		assertEquals(numberOfStartingNotes, octaveStarts.size());
+		assertEquals(firstNoteName, octaveStarts.get(0));
+		assertEquals(lastNoteName, octaveStarts.get(octaveStarts.size() - 1));
 	}
 }

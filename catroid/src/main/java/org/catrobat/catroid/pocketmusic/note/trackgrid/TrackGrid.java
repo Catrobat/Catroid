@@ -124,7 +124,8 @@ public class TrackGrid {
 		if (toggled) {
 			if (indexInList == -1) {
 				Log.d("TrackGrid", String.format("Added GridRowPosition with name %s on Tact %d with columnIndex %d "
-						+ "and noteLength %s. ", noteName.name(), tactIndex, columnIndex, noteLength.toString()));
+						+ "and noteLength %s. ", noteName.getName(), tactIndex, columnIndex,
+						noteLength.toString()));
 				currentGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
 				long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
 				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler, midiDriver, null));
@@ -133,7 +134,7 @@ public class TrackGrid {
 			if (indexInList >= 0) {
 				currentGridRowPositions.remove(indexInList);
 				Log.d("TrackGrid", String.format("Removed GridRowPosition with name %s on Tact %d with columnIndex %d "
-								+ "and noteLength %s.", noteName.name(), tactIndex, columnIndex,
+								+ "and noteLength %s.", noteName.getName(), tactIndex, columnIndex,
 						noteLength.toString()));
 				if (currentGridRowPositions.isEmpty()) {
 					gridRow.getGridRowPositions().remove(tactIndex);

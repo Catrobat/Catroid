@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,26 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.test.note;
 
-import org.catrobat.catroid.pocketmusic.note.MusicalKey;
-import org.catrobat.catroid.pocketmusic.note.NoteName;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+package org.catrobat.catroid.pocketmusic.ui;
 
-import static junit.framework.Assert.assertEquals;
+import org.catrobat.catroid.R;
 
-@RunWith(JUnit4.class)
-public class MusicalKeyTest {
+enum PianoKeyType {
+	UNSIGNED(8, R.color.solid_white, R.color.solid_black),
+	SIGNED(5, R.color.solid_black, R.color.solid_white);
 
-	@Test
-	public void testGetNoteNameOnMiddleLine1() {
-		assertEquals(NoteName.B4, MusicalKey.VIOLIN.getNoteNameOnMiddleLine());
+	private int numberOfKeys;
+	private int backgroundColor;
+	private int textColor;
+
+	PianoKeyType(int numberOfKeys, int backgroundColor, int textColor) {
+		this.numberOfKeys = numberOfKeys;
+		this.backgroundColor = backgroundColor;
+		this.textColor = textColor;
 	}
 
-	@Test
-	public void testGetNoteNameOnMiddleLine2() {
-		assertEquals(NoteName.D3, MusicalKey.BASS.getNoteNameOnMiddleLine());
+	public int getNumberOfKeys() {
+		return numberOfKeys;
+	}
+
+	public int getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public int getTextColor() {
+		return textColor;
 	}
 }

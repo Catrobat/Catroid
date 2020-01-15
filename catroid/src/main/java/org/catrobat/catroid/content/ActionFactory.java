@@ -111,6 +111,7 @@ import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
 import org.catrobat.catroid.content.actions.PhiroPlayToneAction;
 import org.catrobat.catroid.content.actions.PhiroRGBLightAction;
 import org.catrobat.catroid.content.actions.PhiroSensorAction;
+import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
@@ -1212,6 +1213,14 @@ public class ActionFactory extends Actions {
 		setNfcTagAction.setNfcTagNdefSpinnerSelection(nfcNdefSpinnerSelection);
 		setNfcTagAction.setNfcNdefMessage(nfcNdefMessage);
 		return setNfcTagAction;
+	}
+
+	public Action createPlayNoteForBeatsAction(Sprite sprite, Formula note, Formula durationInBeats) {
+		PlayNoteForBeatsAction playNoteForBeatsAction = Actions.action(PlayNoteForBeatsAction.class);
+		playNoteForBeatsAction.setSprite(sprite);
+		playNoteForBeatsAction.setNote(note);
+		playNoteForBeatsAction.setDurationInBeats(durationInBeats);
+		return playNoteForBeatsAction;
 	}
 
 	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected, String position) {

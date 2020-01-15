@@ -91,6 +91,12 @@
         android:summary="@string/preference_description_phiro_bricks"
         android:title="@string/preference_title_enable_phiro_bricks" />
 
+     <CheckBoxPreference
+         android:defaultValue="false"
+         android:key="setting_midi_bricks"
+         android:summary="@string/preference_description_midi_bricks"
+         android:title="@string/preference_title_enable_midi_bricks" />
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_cast_globally_enabled"

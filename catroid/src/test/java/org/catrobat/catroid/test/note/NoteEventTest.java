@@ -40,25 +40,29 @@ import static org.junit.Assert.assertThat;
 @RunWith(JUnit4.class)
 public class NoteEventTest {
 
+	private static final NoteName NOTE_NAME_C1 = new NoteName(24);
+	private static final NoteName NOTE_NAME_C2 = new NoteName(36);
+	private static final NoteName NOTE_NAME_C4 = new NoteName(60);
+
 	@Test
 	public void testEquals1() {
-		NoteEvent noteEvent1 = new NoteEvent(NoteName.C4, true);
-		NoteEvent noteEvent2 = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent1 = new NoteEvent(NOTE_NAME_C4, true);
+		NoteEvent noteEvent2 = new NoteEvent(NOTE_NAME_C4, true);
 
 		assertEquals(noteEvent1, noteEvent2);
 	}
 
 	@Test
 	public void testEquals2() {
-		NoteEvent noteEvent1 = new NoteEvent(NoteName.C1, true);
-		NoteEvent noteEvent2 = new NoteEvent(NoteName.C2, true);
+		NoteEvent noteEvent1 = new NoteEvent(NOTE_NAME_C1, true);
+		NoteEvent noteEvent2 = new NoteEvent(NOTE_NAME_C2, true);
 
 		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
 	@Test
 	public void testEquals3() {
-		NoteName noteName = NoteName.C1;
+		NoteName noteName = NOTE_NAME_C1;
 		NoteEvent noteEvent1 = new NoteEvent(noteName, true);
 		NoteEvent noteEvent2 = new NoteEvent(noteName, false);
 
@@ -67,29 +71,29 @@ public class NoteEventTest {
 
 	@Test
 	public void testEquals4() {
-		NoteEvent noteEvent1 = new NoteEvent(NoteName.C1, true);
-		NoteEvent noteEvent2 = new NoteEvent(NoteName.C2, false);
+		NoteEvent noteEvent1 = new NoteEvent(NOTE_NAME_C1, true);
+		NoteEvent noteEvent2 = new NoteEvent(NOTE_NAME_C2, false);
 
 		assertThat(noteEvent1, is(not(equalTo(noteEvent2))));
 	}
 
 	@Test
 	public void testEquals5() {
-		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent = new NoteEvent(NOTE_NAME_C4, true);
 
 		assertThat(noteEvent, is(not(equalTo(null))));
 	}
 
 	@Test
 	public void testEquals6() {
-		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent = new NoteEvent(NOTE_NAME_C4, true);
 
 		assertFalse(noteEvent.equals(""));
 	}
 
 	@Test
 	public void testToString() {
-		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent = new NoteEvent(NOTE_NAME_C4, true);
 		String expectedString = "[NoteEvent] noteName= " + noteEvent.getNoteName()
 				+ " noteOn=" + noteEvent.isNoteOn();
 
@@ -98,7 +102,7 @@ public class NoteEventTest {
 
 	@Test
 	public void testCopyNoteEvent() {
-		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
+		NoteEvent noteEvent = new NoteEvent(NOTE_NAME_C4, true);
 		NoteEvent copyNoteEvent = new NoteEvent(noteEvent);
 
 		assertNotSame(noteEvent, copyNoteEvent);

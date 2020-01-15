@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,98 +20,94 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.pocketmusic.note;
 
-public enum NoteName {
-	A0(21, false), A0S(22, true), B0(23, false), C1(24, false), C1S(25, true), D1(26, false), D1S(27, true), E1(28,
-			false), F1(29, false), F1S(30, true), G1(31, false), G1S(32, true), A1(33, false), A1S(34, true), B1(35,
-			false), C2(36, false), C2S(37, true), D2(38, false), D2S(39, true), E2(40, false), F2(41, false), F2S(42,
-			true), G2(43, false), G2S(44, true), A2(45, false), A2S(46, true), B2(47, false), C3(48, false), C3S(49,
-			true), D3(50, false), D3S(51, true), E3(52, false), F3(53, false), F3S(54, true), G3(55, false), G3S(56,
-			true), A3(57, false), A3S(58, true), B3(59, false), C4(60, false), C4S(61, true), D4(62, false), D4S(63,
-			true), E4(64, false), F4(65, false), F4S(66, true), G4(67, false), G4S(68, true), A4(69, false), A4S(70,
-			true), B4(71, false), C5(72, false), C5S(73, true), D5(74, false), D5S(75, true), E5(76, false), F5(77,
-			false), F5S(78, true), G5(79, false), G5S(80, true), A5(81, false), A5S(82, true), B5(83, false), C6(84,
-			false), C6S(85, true), D6(86, false), D6S(87, true), E6(88, false), F6(89, false), F6S(90, true), G6(91,
-			false), G6S(92, true), A6(93, false), A6S(94, true), B6(95, false), C7(96, false), C7S(97, true), D7(98,
-			false), D7S(99, true), E7(100, false), F7(101, false), F7S(102, true), G7(103, false), G7S(104, true), A7(
-			105, false), A7S(106, true), B7(107, false), C8(108, false);
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
-	public static final NoteName DEFAULT_NOTE_NAME = NoteName.C1;
+public class NoteName {
 
-	private int midi;
-	private boolean signed;
+	public static final int DEFAULT_NOTE_MIDI = 24;
+	public static final int MAX_NOTE_MIDI = 108;
 
-	NoteName(int midi, boolean signed) {
-		this.midi = midi;
-		this.signed = signed;
+	private static final int MIN_NOTE_MIDI = 21;
+	private static final List<Integer> SIGNED_NOTES = Arrays.asList(1, 3, 6, 8, 10);
+	private static final List<String> NOTE_NAMES_STARTS = Arrays.asList("C", "C", "D", "D", "E",
+			"F", "F", "G", "G", "A", "A", "B");
+
+	private final String name;
+	private final int midi;
+	private final boolean signed;
+
+	public NoteName(int midi) {
+		int midiToUse = midi;
+		if (midi < MIN_NOTE_MIDI) {
+			midiToUse = MIN_NOTE_MIDI;
+		} else if (midi > MAX_NOTE_MIDI) {
+			midiToUse = MAX_NOTE_MIDI;
+		}
+		this.midi = midiToUse;
+
+		int octave = (getMidi() / 12) - 1;
+		int noteInOctave = getMidi() % 12;
+		signed = SIGNED_NOTES.contains(noteInOctave);
+		name = NOTE_NAMES_STARTS.get(noteInOctave) + octave + (signed ? "S" : "");
 	}
 
-	public static NoteName getNoteNameFromMidiValue(int midiValue) {
-		NoteName[] noteNames = NoteName.values();
+	public static List<NoteName> getAllPossibleOctaveStarts() {
+		List<NoteName> octaveStaringNotes = new ArrayList<>();
 
-		for (int i = 0; i < noteNames.length; i++) {
-			if (noteNames[i].getMidi() == midiValue) {
-				return noteNames[i];
+		for (int i = MIN_NOTE_MIDI; i < MAX_NOTE_MIDI; i++) {
+			if (i % 12 == 0) {
+				octaveStaringNotes.add(new NoteName(i));
 			}
 		}
 
-		return DEFAULT_NOTE_NAME;
+		return octaveStaringNotes;
 	}
 
-	public static int calculateDistanceCountingNoneSignedNotesOnly(NoteName referenceNoteName, NoteName noteName) {
-		int distance = 0;
-		boolean isDownGoing = (noteName.midi - referenceNoteName.midi) > 0;
-
-		NoteName smallNoteName = isDownGoing ? referenceNoteName : noteName;
-		NoteName largeNoteName = isDownGoing ? noteName : referenceNoteName;
-
-		if (smallNoteName.isSigned()) {
-			distance = 1;
-		} else if (largeNoteName.isSigned()) {
-			distance = -1;
-		}
-
-		while (smallNoteName.getMidi() != largeNoteName.getMidi()) {
-			if (!smallNoteName.isSigned()) {
-				distance++;
-			}
-
-			smallNoteName = smallNoteName.next();
-		}
-
-		return (isDownGoing ? distance * (-1) : distance);
+	public NoteName next() {
+		return new NoteName(this.midi + 1);
 	}
 
-	public static int calculateDistanceToMiddleLineCountingSignedNotesOnly(MusicalKey key, NoteName noteName) {
-		return calculateDistanceCountingNoneSignedNotesOnly(key.getNoteNameOnMiddleLine(), noteName);
+	public NoteName previous() {
+		return new NoteName(this.midi - 1);
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public int getMidi() {
 		return midi;
 	}
 
-	public NoteName next() {
-		int index = this.ordinal() + 1;
-
-		if (index >= values().length) {
-			index--;
-		}
-
-		return values()[index];
-	}
-
-	public NoteName previous() {
-		int index = this.ordinal() - 1;
-
-		if (index < 0) {
-			index++;
-		}
-
-		return values()[index];
-	}
-
 	public boolean isSigned() {
 		return signed;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		NoteName noteName = (NoteName) o;
+		return midi == noteName.midi;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(midi);
+	}
+
+	@Override
+	public String toString() {
+		return name;
 	}
 }

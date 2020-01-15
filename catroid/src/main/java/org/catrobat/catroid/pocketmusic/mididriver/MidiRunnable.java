@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -50,7 +50,7 @@ public class MidiRunnable implements Runnable {
 	public void run() {
 		midiNotePlayer.sendMidi(signal.getSignalByte(), noteName.getMidi(), 127);
 		if (pianoView != null) {
-			pianoView.setButtonColor(noteName, MidiSignals.NOTE_ON.equals(signal));
+			pianoView.setPianoKeyColor(noteName, MidiSignals.NOTE_ON.equals(signal));
 		}
 		if (signal.equals(MidiSignals.NOTE_ON)) {
 			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer,
