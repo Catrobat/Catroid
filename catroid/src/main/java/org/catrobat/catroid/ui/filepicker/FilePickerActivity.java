@@ -23,33 +23,28 @@
 
 package org.catrobat.catroid.ui.filepicker;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BaseActivity;
-import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-
-public class FilePickerActivity extends BaseActivity implements ListProjectFilesTask.OnListProjectFilesListener {
+public class FilePickerActivity extends BaseActivity  {
 
 	public static final String TAG = FilePickerActivity.class.getSimpleName();
 
 	private static final int PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801;
 
 	private RecyclerView recyclerView;
+	private FilePickerViewModel viewModel;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,14 +53,45 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 		SettingsFragment.setToChosenLanguage(this);
 
 		setContentView(R.layout.activity_file_picker);
-		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.import_project);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		recyclerView = findViewById(R.id.recycler_view);
 
-		setShowProgressBar(true);
-		getFiles();
+		viewModel = new ViewModelProvider(this, new FilePickerViewModelFactory())
+				.get(FilePickerViewModel.class);
+
+		viewModel.getExternalFiles().observe(this, files -> {
+			if (files == null || files.isEmpty()) {
+				findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
+				recyclerView.setVisibility(View.GONE);
+			} else {
+				initializeAdapter(files);
+			}
+		});
+
+		viewModel.getIsBusy().observe(this, this::setShowProgressBar);
+
+		viewModel.getIsImportFinished().observe(this, success -> {
+			if (success == null) {
+				return;
+			}
+
+			if (success) {
+				setResult(RESULT_OK);
+			} else {
+				setResult(RESULT_CANCELED);
+			}
+			finish();
+		});
+
+		viewModel.getIsInitialised().observe(this, isInitialised -> {
+			if (!isInitialised) {
+				viewModel.getFiles(PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE, FilePickerActivity.this, this::getStorageRoots);
+			}
+		});
+
 	}
 
 	private void setShowProgressBar(boolean show) {
@@ -73,17 +99,12 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 		findViewById(R.id.recycler_view).setVisibility(show ? View.GONE : View.VISIBLE);
 	}
 
-	private void getFiles() {
-		new RequiresPermissionTask(PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE,
-				Arrays.asList(READ_EXTERNAL_STORAGE),
-				R.string.runtime_permission_general) {
 
-			@Override
-			public void task() {
-				new ListProjectFilesTask(FilePickerActivity.this)
-						.execute(getStorageRoots().toArray(new File[0]));
-			}
-		}.execute(this);
+	private void initializeAdapter(List<File> files) {
+		FilePickerAdapter filePickerAdapter = new FilePickerAdapter(files);
+		filePickerAdapter.setOnItemClickListener(item -> viewModel.importProjectFromFile(item, getContentResolver()));
+
+		recyclerView.setAdapter(filePickerAdapter);
 	}
 
 	private List<File> getStorageRoots() {
@@ -97,30 +118,5 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 		return rootDirs;
 	}
 
-	@Override
-	public void onListProjectFilesComplete(List<File> files) {
-		setShowProgressBar(false);
 
-		if (files.isEmpty()) {
-			findViewById(R.id.empty_view).setVisibility(View.VISIBLE);
-			recyclerView.setVisibility(View.GONE);
-		} else {
-			initializeAdapter(files);
-		}
-	}
-
-	private void initializeAdapter(List<File> files) {
-		FilePickerAdapter adapter = new FilePickerAdapter(files);
-		adapter.setOnItemClickListener(new FilePickerAdapter.OnItemClickListener() {
-			@Override
-			public void onItemClick(File item) {
-				Intent data = new Intent();
-				data.setData(Uri.fromFile(item));
-				setResult(RESULT_OK, data);
-				finish();
-			}
-		});
-
-		recyclerView.setAdapter(adapter);
-	}
 }

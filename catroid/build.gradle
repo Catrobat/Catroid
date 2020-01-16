@@ -322,6 +322,7 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     implementation 'androidx.multidex:multidex:2.0.0'
