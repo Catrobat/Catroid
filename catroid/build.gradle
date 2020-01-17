@@ -95,10 +95,6 @@ ext.useAndroidLocales = { ->
     rootProject.hasProperty('useAndroidLocales') ? 'true' : 'false'
 }
 
-ext.useWebTest = { ->
-    rootProject.hasProperty('useWebTest') ? 'true' : 'false'
-}
-
 ext.copyGoogleServicesFile = { flavorName, flavorId ->
     copy {
         from "google-services-template.json"
@@ -149,7 +145,9 @@ android {
                                  intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-        buildConfigField "boolean", "USE_WEB_TEST", useWebTest()
+        buildConfigField "String", "WEB_TEST_URL", "\"" + project.getProperties().get('webTestUrl') + "\""
+        buildConfigField "boolean", "WEB_TEST_FLAG", (project.hasProperty('webTestUrl') ? 'true' :
+                'false')
 
         buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
         buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
