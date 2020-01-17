@@ -54,19 +54,19 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Fastlane
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        rubygems \
-        ruby-dev \
-        g++ \
-        make \
-        less \
-    && rm -rf /var/lib/apt/lists/* \
-    && gem update --system \
-    && gem install fastlane -NV \
-    && apt-get purge -y --auto-remove \
-        ruby-dev \
-        g++ \
-        make
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#        rubygems \
+#        ruby-dev \
+#        g++ \
+#        make \
+#        less \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && gem update --system \
+#    && gem install fastlane -NV \
+#    && apt-get purge -y --auto-remove \
+#        ruby-dev \
+#        g++ \
+#        make
 
 # User Management
 # ---------------
