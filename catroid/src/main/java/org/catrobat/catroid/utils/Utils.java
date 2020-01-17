@@ -34,6 +34,7 @@ import android.util.Log;
 
 import com.google.common.base.Splitter;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -449,5 +450,9 @@ public final class Utils {
 			return (number >> index) & 0x1;
 		}
 		return 0;
+	}
+
+	public static String getStringfromResource(int resourceId) {
+		return CatroidApplication.getAppContext().getString(resourceId);
 	}
 }
