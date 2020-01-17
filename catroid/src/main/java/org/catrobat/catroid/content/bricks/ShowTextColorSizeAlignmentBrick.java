@@ -29,7 +29,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -40,6 +39,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,7 +141,8 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable = new UserVariable("NoVariableSelected",
+					Utils.getStringfromResource(R.string.no_variable_selected));
 			userVariable.setDummy(true);
 		}
 

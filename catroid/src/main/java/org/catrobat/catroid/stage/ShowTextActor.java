@@ -37,10 +37,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
 import java.util.Locale;
@@ -119,7 +120,7 @@ public class ShowTextActor extends Actor {
 		}
 
 		if (variableToShow.isDummy()) {
-			drawText(batch, Constants.NO_VARIABLE_SELECTED, xPosition, yPosition, color);
+			drawText(batch, Utils.getStringfromResource(R.string.no_variable_selected), xPosition, yPosition, color);
 		} else {
 			for (UserVariable variable : variableList) {
 				if (variable.getName().equals(variableToShow.getName())) {
@@ -128,7 +129,7 @@ public class ShowTextActor extends Actor {
 						if (isNumberAndInteger(variableValue)) {
 							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition, color);
 						} else if (variableValue.isEmpty()) {
-							drawText(batch, Constants.NO_VALUE_SET, xPosition, yPosition, color);
+							return;
 						} else {
 							drawText(batch, variableValue, xPosition, yPosition, color);
 						}

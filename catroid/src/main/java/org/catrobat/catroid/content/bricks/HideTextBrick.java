@@ -24,10 +24,10 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.Utils;
 
 public class HideTextBrick extends UserVariableBrick {
 
@@ -49,7 +49,8 @@ public class HideTextBrick extends UserVariableBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable = new UserVariable("NoVariableSelected",
+					Utils.getStringfromResource(R.string.no_variable_selected));
 			userVariable.setDummy(true);
 		}
 
