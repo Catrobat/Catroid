@@ -169,15 +169,15 @@ import org.catrobat.catroid.physics.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
 import org.catrobat.catroid.uiespresso.ui.activity.rtl.RtlUiTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -195,7 +195,9 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -217,9 +219,10 @@ import static org.hamcrest.core.Is.is;
 public class RtlBrickTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<SpriteActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
+	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
+
 	private Locale arLocale = new Locale("ar");
 	private List<String> allPeripheralCategories = new ArrayList<>(Arrays.asList(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_PHIRO_BRICKS,
@@ -255,7 +258,7 @@ public class RtlBrickTest {
 		SettingsFragment.removeLanguageSharedPreference(getTargetContext());
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void eventBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -285,7 +288,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(WhenNfcBrick.class, R.id.brick_when_nfc_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void controlBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -323,7 +326,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(SetNfcTagBrick.class, R.id.brick_set_nfc_tag_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void motionBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -375,7 +378,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(SetFrictionBrick.class, R.id.brick_set_friction_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void soundBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -401,7 +404,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(AskSpeechBrick.class, R.id.brick_set_variable_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void looksBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -455,7 +458,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(PhiroRGBLightBrick.class, R.id.brick_phiro_rgb_led_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void penBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -475,7 +478,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(ClearBackgroundBrick.class, R.id.brick_clear_background_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void dataBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -503,7 +506,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(AskSpeechBrick.class, R.id.brick_set_variable_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void legoNxtBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -519,7 +522,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(LegoNxtPlayToneBrick.class, R.id.brick_nxt_play_tone_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void legoEv3Bricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -537,7 +540,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(LegoEv3SetLedBrick.class, R.id.brick_ev3_set_led_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void arDroneBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -571,7 +574,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(DroneSwitchCameraBrick.class, R.id.brick_drone_switch_camera_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void jumpingSumoBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -601,7 +604,7 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(JumpingSumoTakingPictureBrick.class, R.id.brick_jumping_sumo_taking_picture_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void phiroBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -628,7 +631,7 @@ public class RtlBrickTest {
 		checkIfBrickAtPositionIsRtl(SetVariableBrick.class, 5, R.id.brick_set_variable_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void arduinoBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
@@ -640,7 +643,16 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(ArduinoSendPWMValueBrick.class, R.id.brick_arduino_send_analog_layout);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
+	@Test
+	public void userBricks() {
+		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
+		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
+		openCategory(R.string.category_user_bricks);
+		onView(allOf(withId(android.R.id.list), withParent(withId(R.id.add_brick_fragment_list)))).check(matches(hasChildCount(0)));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void raspPiBricks() {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());

@@ -22,19 +22,11 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.UserVariable;
 
 public class AssertEqualsBrick extends FormulaBrick {
-
-	public static final String ACTUAL_VARIABLE_NAME = "_ACTUAL";
-	public static final String EXPECTED_VARIABLE_NAME = "_EXPECTED";
-	public static final String READY_VARIABLE_NAME = "_READY";
-	public static final Double READY_VALUE = 1d;
 
 	private static final long serialVersionUID = 1L;
 
@@ -54,32 +46,20 @@ public class AssertEqualsBrick extends FormulaBrick {
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		AssertEqualsBrick clone = (AssertEqualsBrick) super.clone();
-		Project project = ProjectManager.getInstance().getCurrentProject();
-		if (project != null) {
-			if (project.getUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME) == null) {
-				project.addUserVariable(new UserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME));
-			}
-			if (project.getUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME) == null) {
-				project.addUserVariable(new UserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME));
-			}
-			if (project.getUserVariable(AssertEqualsBrick.READY_VARIABLE_NAME) == null) {
-				project.addUserVariable(new UserVariable(AssertEqualsBrick.READY_VARIABLE_NAME));
-			}
-		}
-		return clone;
-	}
-
-	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		Project project = ProjectManager.getInstance().getCurrentProject();
-
 		sequence.addAction(sprite.getActionFactory().createAssertEqualsAction(sprite,
 				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_ACTUAL),
 				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_EXPECTED),
-				project.getUserVariable(AssertEqualsBrick.ACTUAL_VARIABLE_NAME),
-				project.getUserVariable(AssertEqualsBrick.EXPECTED_VARIABLE_NAME),
-				project.getUserVariable(AssertEqualsBrick.READY_VARIABLE_NAME)));
+				getPositionInformation()));
+	}
+
+	private String getPositionInformation() {
+		int position = 999;
+		String scriptName = "unknown";
+		if (getParent() != null) {
+			position = getPositionInScript();
+			scriptName = getScript().getClass().getSimpleName();
+		}
+		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
 	}
 }

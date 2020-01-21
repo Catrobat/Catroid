@@ -26,6 +26,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.FieldKey;
 import com.thoughtworks.xstream.converters.reflection.FieldKeySorter;
@@ -33,7 +34,6 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 
 import org.catrobat.catroid.io.CatroidFieldKeySorter;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
-import org.catrobat.catroid.io.XStreamMissingSerializableFieldException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -201,7 +201,7 @@ public class CatroidFieldKeySorterTest {
 
 	@Test
 	public void testMissingFieldInAnnotationThrowsException() {
-		exception.expect(XStreamMissingSerializableFieldException.class);
+		exception.expect(ConversionException.class);
 		xstream.toXML(new MissingFieldInAnnotation());
 	}
 
@@ -226,7 +226,7 @@ public class CatroidFieldKeySorterTest {
 
 	@Test
 	public void testMissingFieldInSubClassWithoutAnnotationThrowsException() {
-		exception.expect(XStreamMissingSerializableFieldException.class);
+		exception.expect(ConversionException.class);
 		xstream.toXML(new SubClassWithNewMemberButWithoutAnnotation());
 	}
 

@@ -57,6 +57,7 @@ import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ScratchDataFetcher;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -68,12 +69,12 @@ import static org.catrobat.catroid.utils.NumberFormats.humanFriendlyFormattedSho
 
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
-		JobViewListener, Client.DownloadCallback,
+		JobViewListener, Client.ProjectDownloadCallback,
 		RVAdapter.OnItemClickListener<ScratchProgramData> {
 
 	public static final String TAG = ScratchProgramDetailsActivity.class.getSimpleName();
 
-	private static ScratchDataFetcher dataFetcher = ServerCalls.getInstance();
+	private static ScratchDataFetcher dataFetcher = new ServerCalls(CatrobatWebClient.INSTANCE.getClient());
 	private static ConversionManager conversionManager;
 
 	private ScratchProgramData programData;
@@ -148,7 +149,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 			final String originalImageURL = programData.getImage().getUrl().toString();
 			final String thumbnailImageURL = Utils.changeSizeOfScratchImageURL(originalImageURL, height);
 			ImageView image = findViewById(R.id.project_image_view);
-			Picasso.with(this).load(thumbnailImageURL).into(image);
+			Picasso.get().load(thumbnailImageURL).into(image);
 		}
 
 		fetchRemixesTask
@@ -370,7 +371,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void onDownloadProgress(short progress, String url) {
+	public void onDownloadProgress(int progress, String url) {
 	}
 
 	@Override

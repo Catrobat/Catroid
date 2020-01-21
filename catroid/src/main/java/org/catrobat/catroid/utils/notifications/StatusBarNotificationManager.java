@@ -37,12 +37,13 @@ import android.os.ResultReceiver;
 import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.util.SparseArray;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.project.ProjectUploadService;
 import org.catrobat.catroid.ui.MainMenuActivity;
+
+import kotlin.jvm.Synchronized;
 
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
@@ -53,38 +54,22 @@ public final class StatusBarNotificationManager {
 	private static final String ACTION_UPDATE_POCKET_CODE_VERSION = "update_pocket_code_version";
 	private static final String ACTION_RETRY_UPLOAD = "retry_upload";
 	private static final String ACTION_CANCEL_UPLOAD = "cancel_upload";
-
-	private static final StatusBarNotificationManager INSTANCE = new StatusBarNotificationManager();
 	public static final String CHANNEL_ID = "pocket_code_notification_channel_id";
 
 	private static final int NOTIFICATION_PENDING_INTENT_REQUEST_CODE = 1;
-	public static final int UPLOAD_NOTIFICATION_ID = 0x10;
-	public static final int UPLOAD_NOTIFICATION_SERVICE_ID = 0x11;
-	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0x10;
+	public static final int UPLOAD_PENDING_INTENT_REQUEST_CODE = 0xFFFF;
 
-	private int notificationId = 1;
-	private SparseArray<NotificationData> notificationDataMap = new SparseArray<>();
-	private Context context;
+	private static int notificationId = 1;
 	private NotificationManager notificationManager;
 
-	private StatusBarNotificationManager() {
+	public StatusBarNotificationManager(Context context) {
+		notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		createNotificationChannel(context);
 	}
 
-	public static StatusBarNotificationManager getInstance() {
-		return INSTANCE;
-	}
-
-	private void initNotificationManager(Context context) {
-		if (notificationManager == null) {
-			notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-			createNotificationChannel(context);
-		}
-		this.context = context;
-	}
-
-	private int createAndShowUploadNotification(Context context, String programName) {
+	private NotificationData createAndShowUploadNotification(Context context, String programName) {
 		if (context == null || programName == null) {
-			return -1;
+			return null;
 		}
 
 		Intent uploadIntent = new Intent(context, MainMenuActivity.class);
@@ -93,94 +78,63 @@ public final class StatusBarNotificationManager {
 		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, uploadIntent,
 				PendingIntent.FLAG_CANCEL_CURRENT);
 
-		NotificationData data = new NotificationData(pendingIntent, R.drawable.ic_stat, programName,
+		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_upload_title_pending), context.getString(R.string.notification_upload_title_finished),
 				context.getString(R.string.notification_upload_pending), context.getString(R.string.notification_upload_finished),
-				0, MAX_PERCENT, false, false);
+				0, MAX_PERCENT, true, false, getNextNotificationID());
 
-		int id = createNotification(context, data);
-		showOrUpdateNotification(id, 0);
-		return id;
+		showOrUpdateNotification(context, data, 0, pendingIntent);
+		return data;
 	}
 
-	public int createSaveProjectToExternalMemoryNotification(Context context, String programName) {
+	public NotificationData createSaveProjectToExternalMemoryNotification(Context context, String programName) {
 		if (context == null || programName == null) {
-			return -1;
+			return null;
 		}
-		PendingIntent doesNothingPendingIntent = PendingIntent.getActivity(context, -1, new Intent(),
-				PendingIntent.FLAG_ONE_SHOT);
 
-		NotificationData data = new NotificationData(doesNothingPendingIntent, R.drawable.ic_stat, programName,
+		NotificationData data = new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_save_project_to_external_storage_title_pending),
 				context.getString(R.string.notification_save_project_to_external_storage_title_open),
 				context.getString(R.string.notification_save_project_to_external_storage_pending),
 				context.getString(R.string.notification_save_project_to_external_storage_open, EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY),
-				0, MAX_PERCENT, false, false);
+				0, MAX_PERCENT, false, false, getNextNotificationID());
 
-		int id = createNotification(context, data);
-		showOrUpdateNotification(id, 0);
-		return id;
+		showOrUpdateNotification(context, data, 0, null);
+		return data;
 	}
 
-	public int createDownloadNotification(Context context, String programName) {
-		if (context == null || programName == null) {
-			return -1;
-		}
-		initNotificationManager(context);
-
-		Intent downloadIntent = new Intent(context, MainMenuActivity.class);
-		downloadIntent.setAction(Intent.ACTION_MAIN).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-				.putExtra(EXTRA_PROJECT_NAME, programName);
-
-		PendingIntent pendingIntent = PendingIntent.getActivity(context, notificationId, downloadIntent,
-				PendingIntent.FLAG_CANCEL_CURRENT);
-
-		NotificationData data = new NotificationData(pendingIntent, R.drawable.ic_stat, programName,
+	public NotificationData createProjectDownloadNotification(Context context, String programName) {
+		return new NotificationData(R.drawable.ic_stat, programName,
 				context.getString(R.string.notification_download_title_pending), context.getString(R.string.notification_title_open),
 				context.getString(R.string.notification_download_pending), context.getString(R.string.notification_download_finished),
-				0, MAX_PERCENT, false, false);
-
-		return createNotification(context, data);
+				0, MAX_PERCENT, true, false, getNextNotificationID());
 	}
 
-	private int createNotification(Context context, NotificationData data) {
-		initNotificationManager(context);
-
-		data.setOngoing(true);
-		notificationDataMap.put(notificationId, data);
-
+	@Synchronized
+	public static int getNextNotificationID() {
 		return notificationId++;
 	}
 
-	public void showOrUpdateNotification(int id, int progressInPercent) {
-		NotificationData notificationData = notificationDataMap.get(id);
-		if (notificationData == null) {
-			Log.w(TAG, "Notification with id " + id + "not present in notificationDataMap");
-			return;
-		}
-
+	public void showOrUpdateNotification(Context context, NotificationData notificationData, int progressInPercent, PendingIntent contentIntent) {
+		int notificationID = notificationData.getNotificationID();
 		notificationData.setProgressInPercent(progressInPercent);
 		if (progressInPercent < MAX_PERCENT) {
-			notificationManager.notify(id, notificationData.toNotification(context, CHANNEL_ID));
+			notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
 		} else {
 			notificationData.setProgressInPercent(0);
 			notificationData.setMaxProgress(0);
 			notificationData.setAutoCancel(true);
 			notificationData.setOngoing(false);
-			notificationManager.notify(id, notificationData.toNotification(context, CHANNEL_ID));
+			notificationManager.notify(notificationID, notificationData.toNotification(context, CHANNEL_ID, contentIntent));
 		}
 	}
 
-	public void abortProgressNotificationWithMessage(int id, @StringRes int changeDoneText) {
-
-		NotificationData notificationData = notificationDataMap.get(id);
+	public void abortProgressNotificationWithMessage(Context context, NotificationData notificationData, @StringRes int changeDoneText) {
 		if (notificationData == null) {
 			return;
 		}
 		notificationData.setTextDone(context.getString(changeDoneText));
-		notificationDataMap.put(id, notificationData);
-
-		showOrUpdateNotification(id, MAX_PERCENT);
+		showOrUpdateNotification(context, notificationData, MAX_PERCENT, null);
 	}
 
 	public Notification createUploadRejectedNotification(Context context, int statusCode, String serverAnswer, Bundle bundle) {
@@ -273,8 +227,10 @@ public final class StatusBarNotificationManager {
 			if (ACTION_RETRY_UPLOAD.equals(action)) {
 				Intent reuploadIntent = prepareReuploadIntent(intent);
 				String projectName = intent.getBundleExtra("bundle").getString("projectName");
-				int notificationId = StatusBarNotificationManager.getInstance().createAndShowUploadNotification(getApplicationContext(),
-						projectName);
+
+				NotificationData notificationData = new StatusBarNotificationManager(getApplicationContext())
+						.createAndShowUploadNotification(getApplicationContext(), projectName);
+				int notificationId = notificationData == null ? -1 : notificationData.getNotificationID();
 				reuploadIntent.putExtra("notificationId", notificationId);
 				getApplicationContext().startService(reuploadIntent);
 			}

@@ -37,7 +37,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.times;
 
 @RunWith(PowerMockRunner.class)
@@ -52,7 +52,7 @@ public class DeviceVariableAccessorExceptionTest {
 		deviceVariableAccessor = new DeviceVariableAccessor(new File("a"));
 		variableFile = Mockito.mock(File.class);
 		Mockito.when(variableFile.exists()).thenReturn(true);
-		deviceVariableAccessor.setDeviceVariablesFile(variableFile);
+		deviceVariableAccessor.setDeviceFile(variableFile);
 		PowerMockito.whenNew(Gson.class).withAnyArguments().thenThrow(new FileNotFoundException());
 	}
 
@@ -63,9 +63,9 @@ public class DeviceVariableAccessorExceptionTest {
 	}
 
 	@Test
-	public void setVariableValueNullOnFailedReadTest() {
+	public void setVariableValue0OnFailedReadTest() {
 		UserVariable userVariable = new UserVariable("Variable", new Object());
-		deviceVariableAccessor.readUserVariableValue(userVariable);
-		assertNull(userVariable.getValue());
+		deviceVariableAccessor.readUserData(userVariable);
+		assertEquals(0.0, userVariable.getValue());
 	}
 }

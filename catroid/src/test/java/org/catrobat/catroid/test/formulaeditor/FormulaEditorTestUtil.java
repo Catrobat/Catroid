@@ -38,6 +38,9 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.number.IsCloseTo.closeTo;
+
 public final class FormulaEditorTestUtil {
 
 	private FormulaEditorTestUtil() {
@@ -45,7 +48,7 @@ public final class FormulaEditorTestUtil {
 	}
 
 	public static List<InternToken> buildSingleParameterFunction(Functions function, List<InternToken> internTokenList) {
-		List<InternToken> tokenList = new LinkedList<InternToken>();
+		List<InternToken> tokenList = new LinkedList<>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		tokenList.addAll(internTokenList);
@@ -65,7 +68,7 @@ public final class FormulaEditorTestUtil {
 
 	public static List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
 			String parameterNumberValue) throws NumberFormatException {
-		List<InternToken> tokenList = new LinkedList<InternToken>();
+		List<InternToken> tokenList = new LinkedList<>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		if (isParsableDouble(parameterNumberValue) && Double.valueOf(parameterNumberValue) < 0) {
@@ -79,7 +82,7 @@ public final class FormulaEditorTestUtil {
 
 	public static List<InternToken> buildDoubleParameterFunction(Functions function,
 			List<InternToken> firstInternTokenList, List<InternToken> secondInternTokenList) {
-		List<InternToken> tokenList = new LinkedList<InternToken>();
+		List<InternToken> tokenList = new LinkedList<>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		tokenList.addAll(firstInternTokenList);
@@ -103,7 +106,7 @@ public final class FormulaEditorTestUtil {
 	public static List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
 			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue)
 			throws NumberFormatException {
-		List<InternToken> tokenList = new LinkedList<InternToken>();
+		List<InternToken> tokenList = new LinkedList<>();
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		if (isParsableDouble(firstParameterNumberValue) && Double.valueOf(firstParameterNumberValue) < 0) {
@@ -133,6 +136,19 @@ public final class FormulaEditorTestUtil {
 
 		assertNotNull(parseTree);
 		assertEquals(expected, parseTree.interpretRecursive(testSprite));
+	}
+
+	public static void testDoubleParameterFunction(Functions function, InternTokenType firstInternTokenType,
+			String firstParameter, InternTokenType secondInternTokenType, String secondParameter, Double median,
+			Double error, Sprite testSprite) {
+
+		List<InternToken> internTokenList = buildDoubleParameterFunction(function, firstInternTokenType,
+				firstParameter, secondInternTokenType, secondParameter);
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+
+		assertNotNull(parseTree);
+		Double result = (double) parseTree.interpretRecursive(testSprite);
+		assertThat(result, closeTo(median, error));
 	}
 
 	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
@@ -187,7 +203,7 @@ public final class FormulaEditorTestUtil {
 	}
 
 	public static void testSingleTokenError(InternTokenType firstInternTokenType, String firstParameter, int expectedErrorTokenIndex) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(firstInternTokenType, firstParameter));
 		InternFormulaParser internFormulaParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internFormulaParser.parseFormula();
@@ -198,7 +214,7 @@ public final class FormulaEditorTestUtil {
 
 	public static void testUnaryOperator(Operators operatorType, InternTokenType firstInternTokenType,
 			String firstParameter, Object expected, Sprite testSprite) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, operatorType.name()));
 		internTokenList.add(new InternToken(firstInternTokenType, firstParameter));
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
@@ -210,32 +226,25 @@ public final class FormulaEditorTestUtil {
 
 	public static List<InternToken> buildBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
 			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand) {
-		List<InternToken> firstOperandList = new LinkedList<InternToken>();
+		List<InternToken> firstOperandList = new LinkedList<>();
 		firstOperandList.add(new InternToken(firstInternTokenType, firstOperand));
-		List<InternToken> secondOperandList = new LinkedList<InternToken>();
+		List<InternToken> secondOperandList = new LinkedList<>();
 		secondOperandList.add(new InternToken(secondInternTokenType, secondOperand));
 		return buildBinaryOperator(firstOperandList, operatorType, secondOperandList);
 	}
 
 	public static List<InternToken> buildBinaryOperator(List<InternToken> firstOperand, Operators operatorType,
 			List<InternToken> secondOperand) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.addAll(firstOperand);
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, operatorType.name()));
 		internTokenList.addAll(secondOperand);
 		return internTokenList;
 	}
 
-	public static List<InternToken> buildBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
-			Operators operatorType, List<InternToken> secondOperandList) {
-		List<InternToken> firstOperandList = new LinkedList<InternToken>();
-		firstOperandList.add(new InternToken(firstInternTokenType, firstOperand));
-		return buildBinaryOperator(firstOperandList, operatorType, secondOperandList);
-	}
-
 	public static List<InternToken> buildBinaryOperator(List<InternToken> firstOperandList,
 			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand) {
-		List<InternToken> secondOperandList = new LinkedList<InternToken>();
+		List<InternToken> secondOperandList = new LinkedList<>();
 		secondOperandList.add(new InternToken(secondInternTokenType, secondOperand));
 		return buildBinaryOperator(firstOperandList, operatorType, secondOperandList);
 	}

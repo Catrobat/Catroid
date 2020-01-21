@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
+import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -66,6 +67,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	public static final String ACTION_BAR_TITLE_BUNDLE_ARGUMENT = "actionBarTitle";
 	public static final String FRAGMENT_TAG_BUNDLE_ARGUMENT = "fragmentTag";
 	public static final String TAG = CategoryListFragment.class.getSimpleName();
+	private static final int BACKGROUND_SPRITE_INDEX = 0;
 
 	private static final List<Integer> OBJECT_GENERAL_PROPERTIES = Arrays.asList(
 			R.string.formula_editor_object_transparency,
@@ -89,10 +91,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_rand, R.string.formula_editor_function_abs,
 			R.string.formula_editor_function_round, R.string.formula_editor_function_mod,
 			R.string.formula_editor_function_arcsin, R.string.formula_editor_function_arccos,
-			R.string.formula_editor_function_arctan, R.string.formula_editor_function_exp,
-			R.string.formula_editor_function_power, R.string.formula_editor_function_floor,
-			R.string.formula_editor_function_ceil, R.string.formula_editor_function_max,
-			R.string.formula_editor_function_min);
+			R.string.formula_editor_function_arctan, R.string.formula_editor_function_arctan2,
+			R.string.formula_editor_function_exp, R.string.formula_editor_function_power,
+			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
+			R.string.formula_editor_function_max, R.string.formula_editor_function_min);
 	private static final List<Integer> MATH_PARAMS = Arrays.asList(R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
@@ -100,10 +102,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_rand_parameter, R.string.formula_editor_function_abs_parameter,
 			R.string.formula_editor_function_round_parameter, R.string.formula_editor_function_mod_parameter,
 			R.string.formula_editor_function_arcsin_parameter, R.string.formula_editor_function_arccos_parameter,
-			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_exp_parameter,
-			R.string.formula_editor_function_power_parameter, R.string.formula_editor_function_floor_parameter,
-			R.string.formula_editor_function_ceil_parameter, R.string.formula_editor_function_max_parameter,
-			R.string.formula_editor_function_min_parameter);
+			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_arctan2_parameter,
+			R.string.formula_editor_function_exp_parameter, R.string.formula_editor_function_power_parameter,
+			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
+			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter);
 	private static final List<Integer> STRING_FUNCTIONS = Arrays.asList(R.string.formula_editor_function_length,
 			R.string.formula_editor_function_letter, R.string.formula_editor_function_join,
 			R.string.formula_editor_function_regex);
@@ -261,15 +263,19 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 						FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
 								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
 
-						TypedArray sensorPorts = type == Constants.NXT
-								? getResources().obtainTypedArray(R.array.formula_editor_nxt_ports)
-								: getResources().obtainTypedArray(R.array.formula_editor_ev3_ports);
-						int resourceId = sensorPorts.getResourceId(selectedPort, 0);
-						if (resourceId != 0) {
-							formulaEditor.addResourceToActiveFormula(resourceId);
-							formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+						int sensorPortsId = type == Constants.NXT
+								? R.array.formula_editor_nxt_ports
+								: R.array.formula_editor_ev3_ports;
+						TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
+						try {
+							int resourceId = sensorPorts.getResourceId(selectedPort, 0);
+							if (resourceId != 0) {
+								formulaEditor.addResourceToActiveFormula(resourceId);
+								formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+							}
+						} finally {
+							sensorPorts.recycle();
 						}
-
 						getActivity().onBackPressed();
 					}
 				})
@@ -282,7 +288,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		final List<Sprite> selectableSprites = new ArrayList<>();
 
 		for (Sprite sprite : sprites) {
-			if (sprites.indexOf(sprite) != 0 && sprite != currentSprite) {
+			if (sprites.indexOf(sprite) != BACKGROUND_SPRITE_INDEX) {
 				selectableSprites.add(sprite);
 			}
 		}
@@ -494,7 +500,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private List<CategoryListItem> getRaspberrySensorItems() {
-		return SettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
+		return RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_RASPBERRY, SENSORS_RASPBERRY_PARAMS), getString(R.string.formula_editor_device_raspberry))
 				: Collections.<CategoryListItem>emptyList();
 	}

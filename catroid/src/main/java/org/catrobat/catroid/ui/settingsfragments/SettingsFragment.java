@@ -129,7 +129,7 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 
 		if (!BuildConfig.FEATURE_PHIRO_ENABLED) {
-			PreferenceScreen phiroPreference = (PreferenceScreen) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
+			CheckBoxPreference phiroPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
 		}
@@ -140,7 +140,6 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(arduinoPreference);
 		}
 
-		//disable Cast features before API 19 - KitKat
 		if ((!BuildConfig.FEATURE_CAST_ENABLED)) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
@@ -265,21 +264,21 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value)
+				.apply();
 	}
 
 	public static void setJumpingSumoSharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(PARROT_JUMPING_SUMO_SCREEN_KEY, value);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putBoolean(PARROT_JUMPING_SUMO_SCREEN_KEY, value)
+				.apply();
 	}
 
 	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value)
+				.apply();
 	}
 
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
@@ -290,14 +289,10 @@ public class SettingsFragment extends PreferenceFragment {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_NFC_BRICKS, context);
 	}
 
-	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
-	}
-
 	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled)
+				.apply();
 		if (isEnabled) {
 			CrashReporter.initialize(context);
 		}
@@ -349,7 +344,7 @@ public class SettingsFragment extends PreferenceFragment {
 			editor.putString(NXT_SENSORS[i], sensorMapping[i].getSensorCode());
 		}
 
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void setLegoMindstormsEV3SensorMapping(Context context, EV3Sensor.Sensor[] sensorMapping) {
@@ -358,19 +353,19 @@ public class SettingsFragment extends PreferenceFragment {
 			editor.putString(EV3_SENSORS[i], sensorMapping[i].getSensorCode());
 		}
 
-		editor.commit();
+		editor.apply();
 	}
 
 	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor sensor, String sensorSetting) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putString(sensorSetting, sensor.getSensorCode());
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putString(sensorSetting, sensor.getSensorCode())
+				.apply();
 	}
 
 	public static void setLegoMindstormsEV3SensorMapping(Context context, EV3Sensor.Sensor sensor, String sensorSetting) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putString(sensorSetting, sensor.getSensorCode());
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putString(sensorSetting, sensor.getSensorCode())
+				.apply();
 	}
 
 	public static DroneConfigPreference.Preferences[] getDronePreferenceMapping(Context context) {
@@ -394,15 +389,15 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static void enableLegoMindstormsNXTBricks(Context context) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
+				.apply();
 	}
 
 	public static void enableLegoMindstormsEV3Bricks(Context context) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
-		editor.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true)
+				.apply();
 	}
 
 	private void setLanguage() {
@@ -445,7 +440,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static void setToChosenLanguage(Activity activity) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
+		SharedPreferences sharedPreferences = getSharedPreferences(activity.getApplicationContext());
 		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
 		Locale mLocale = Arrays.asList(LANGUAGE_CODE).contains(languageTag)
 				? getLocaleFromLanguageTag(languageTag)
@@ -476,13 +471,14 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static void setLanguageSharedPreference(Context context, String value) {
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
-		editor.putString(LANGUAGE_TAG_KEY, value);
-		editor.commit();
+		getSharedPreferences(context).edit()
+				.putString(LANGUAGE_TAG_KEY, value)
+				.apply();
 	}
 
-	public static void removeLanguageSharedPreference(Context mContext) {
-		SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(mContext).edit();
-		editor.remove(LANGUAGE_TAG_KEY).commit();
+	public static void removeLanguageSharedPreference(Context context) {
+		getSharedPreferences(context).edit()
+				.remove(LANGUAGE_TAG_KEY)
+				.apply();
 	}
 }

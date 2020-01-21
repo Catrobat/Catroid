@@ -29,8 +29,7 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-// Ignored, so JUnit won't try to SRC_TEST this class.
-@Ignore
+@Ignore("Ignored, so JUnit won't try to SRC_TEST this class.")
 public final class Utils {
 
 	public static final String SRC = "src/main/java";

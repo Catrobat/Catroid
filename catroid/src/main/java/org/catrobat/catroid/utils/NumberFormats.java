@@ -31,6 +31,9 @@ public final class NumberFormats {
 	public static final String TAG = NumberFormats.class.getSimpleName();
 
 	public static String stringWithoutTrailingZero(String value) {
+		if (value == null) {
+			value = "";
+		}
 		if (value.contains(".") && value.matches("[0-9.-]+")) {
 			value = !value.contains(".") ? value : value.replaceAll("0*$", "").replaceAll("\\.$", "");
 		}

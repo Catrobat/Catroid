@@ -45,11 +45,14 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsCollisionListener;
@@ -62,10 +65,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
-public final class ProjectManager {
+public final class ProjectManager implements EagerSingleton {
 
-	private static final ProjectManager INSTANCE = new ProjectManager();
+	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
 
 	private Project project;
@@ -74,13 +78,34 @@ public final class ProjectManager {
 	private Scene startScene;
 	private Sprite currentSprite;
 
-	private ProjectManager() {
+	private Context applicationContext;
+
+	public ProjectManager(Context applicationContext) {
+		if (instance != null) {
+			throw new RuntimeException("ProjectManager should be instantiated only once");
+		}
+		this.applicationContext = applicationContext;
+		instance = this;
 	}
 
+	/**
+	 * Replaced with dependency injection
+	 *
+	 * @deprecated use dependency injection with Dagger instead.
+	 */
+	@Deprecated
 	public static ProjectManager getInstance() {
-		return INSTANCE;
+		return instance;
 	}
 
+	public void loadProject(File projectDir) throws ProjectException {
+		loadProject(projectDir, applicationContext);
+	}
+
+	/**
+	 * @deprecated use {@link #loadProject(File projectDir)} without Context instead.
+	 */
+	@Deprecated
 	public void loadProject(File projectDir, Context context) throws ProjectException {
 
 		Project previousProject = project;
@@ -97,97 +122,36 @@ public final class ProjectManager {
 			restorePreviousProject(previousProject);
 			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 		}
-
-		if (project.getCatrobatLanguageVersion() == 0.8f) {
-			project.setCatrobatLanguageVersion(0.9f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9f) {
-			project.setCatrobatLanguageVersion(0.91f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.91f) {
-			project.setCatrobatLanguageVersion(0.92f);
-			project.setScreenMode(ScreenModes.STRETCH);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.92f) {
-			project.setCatrobatLanguageVersion(0.93f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.93f) {
-			project.setCatrobatLanguageVersion(0.94f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.94f) {
-			project.setCatrobatLanguageVersion(0.95f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.95f) {
-			project.setCatrobatLanguageVersion(0.96f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.96f) {
-			project.setCatrobatLanguageVersion(0.97f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.97f) {
-			project.setCatrobatLanguageVersion(0.98f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.98f) {
-			project.setCatrobatLanguageVersion(0.99f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.99f) {
-			project.setCatrobatLanguageVersion(0.991f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.991f) {
-			project.setCatrobatLanguageVersion(0.992f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.992f) {
-			updateCollisionFormulasTo993(project);
-			project.setCatrobatLanguageVersion(0.993f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.993f) {
-			updateSetPenColorFormulasTo994(project);
-			project.setCatrobatLanguageVersion(0.994f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.994f) {
-			updateArduinoValuesTo995(project);
-			project.setCatrobatLanguageVersion(0.995f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.995f) {
-			updateCollisionScriptsTo996(project);
-			project.setCatrobatLanguageVersion(0.996f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.996f) {
-			project.setCatrobatLanguageVersion(0.997f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.997f) {
-			project.setCatrobatLanguageVersion(0.998f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.998f) {
-			project.setCatrobatLanguageVersion(0.999f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.999f) {
-			makeShallowCopiesDeepAgain(project);
-			project.setCatrobatLanguageVersion(0.9991f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9991f) {
-			project.setCatrobatLanguageVersion(0.9992f);
-			project.setCatrobatLanguageVersion(0.9992f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9992f) {
-			project.setCatrobatLanguageVersion(0.9993f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9993f) {
-			updateScriptsToTreeStructure(project);
-			project.setCatrobatLanguageVersion(0.9994f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9994f) {
-			project.setCatrobatLanguageVersion(0.9995f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9995f) {
-			project.setCatrobatLanguageVersion(0.9996f);
-		}
-		if (project.getCatrobatLanguageVersion() == 0.9996f) {
-			project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
-		}
-		if (project.getCatrobatLanguageVersion() != CURRENT_CATROBAT_LANGUAGE_VERSION) {
+		if (project.getCatrobatLanguageVersion() < 0.9f && project.getCatrobatLanguageVersion() != 0.8f) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
+
+		if (project.getCatrobatLanguageVersion() <= 0.91f) {
+			project.setScreenMode(ScreenModes.STRETCH);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.992f) {
+			ProjectManager.updateCollisionFormulasTo993(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.993f) {
+			ProjectManager.updateSetPenColorFormulasTo994(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.994f) {
+			ProjectManager.updateArduinoValuesTo995(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.995f) {
+			ProjectManager.updateCollisionScriptsTo996(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.999f) {
+			ProjectManager.makeShallowCopiesDeepAgain(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.9993f) {
+			ProjectManager.updateScriptsToTreeStructure(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.99992f) {
+			removePermissionsFile(project);
+		}
+		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
 		initializeScripts(project);
@@ -220,7 +184,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void makeShallowCopiesDeepAgain(Project project) {
+	@VisibleForTesting
+	public static void makeShallowCopiesDeepAgain(Project project) {
 		for (Scene scene : project.getSceneList()) {
 
 			List<String> fileNames = new ArrayList<>();
@@ -309,19 +274,44 @@ public final class ProjectManager {
 		}
 	}
 
+	public List<UserVariable> getGlobalVariableConflicts(Project project1, Project project2) {
+		List<UserVariable> project1GlobalVars = project1.getUserVariables();
+		List<UserVariable> project2GlobalVars = project2.getUserVariables();
+		List<UserVariable> conflicts = new ArrayList<>();
+		for (UserVariable project1GlobalVar : project1GlobalVars) {
+			for (UserVariable project2GlobalVar : project2GlobalVars) {
+				if (project1GlobalVar.getName().equals(project2GlobalVar.getName()) && !project1GlobalVar.getValue()
+						.equals(project2GlobalVar.getValue())) {
+					conflicts.add(project1GlobalVar);
+				}
+			}
+		}
+		return conflicts;
+	}
+
+	public List<UserList> getGlobalListConflicts(Project project1, Project project2) {
+		List<UserList> project1GlobalLists = project1.getUserLists();
+		List<UserList> project2GlobalLists = project2.getUserLists();
+		List<UserList> conflicts = new ArrayList<>();
+		for (UserList project1GlobalList : project1GlobalLists) {
+			for (UserList project2GlobalList : project2GlobalLists) {
+				if (project1GlobalList.getName().equals(project2GlobalList.getName()) && !project1GlobalList.getValue()
+						.equals(project2GlobalList.getValue())) {
+					conflicts.add(project1GlobalList);
+				}
+			}
+		}
+		return conflicts;
+	}
+
 	@VisibleForTesting
 	public static void updateCollisionFormulasTo993(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					Brick scriptBrick = script.getScriptBrick();
-					if (scriptBrick instanceof FormulaBrick) {
-						FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-						for (Formula formula : formulaBrick.getFormulas()) {
-							formula.updateCollisionFormulasToVersion();
-						}
-					}
-					for (Brick brick : script.getBrickList()) {
+					List<Brick> flatList = new ArrayList();
+					script.addToFlatList(flatList);
+					for (Brick brick : flatList) {
 						if (brick instanceof FormulaBrick) {
 							FormulaBrick formulaBrick = (FormulaBrick) brick;
 							for (Formula formula : formulaBrick.getFormulas()) {
@@ -334,7 +324,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateSetPenColorFormulasTo994(Project project) {
+	@VisibleForTesting
+	public static void updateSetPenColorFormulasTo994(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -351,7 +342,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateArduinoValuesTo995(Project project) {
+	@VisibleForTesting
+	public static void updateArduinoValuesTo995(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -366,7 +358,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateCollisionScriptsTo996(Project project) {
+	@VisibleForTesting
+	public static void updateCollisionScriptsTo996(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -385,7 +378,8 @@ public final class ProjectManager {
 		}
 	}
 
-	private static void updateScriptsToTreeStructure(Project project) {
+	@VisibleForTesting
+	public static void updateScriptsToTreeStructure(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
@@ -398,6 +392,23 @@ public final class ProjectManager {
 		}
 	}
 
+	@VisibleForTesting
+	public static void removePermissionsFile(Project project) {
+		File permissionsFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
+		if (permissionsFile.exists()) {
+			permissionsFile.delete();
+		}
+	}
+
+	@SuppressWarnings({"unused", "WeakerAccess"})
+	public boolean initializeDefaultProject() {
+		return initializeDefaultProject(applicationContext);
+	}
+
+	/**
+	 * @deprecated use {@link #initializeDefaultProject()} without Context instead.
+	 */
+	@Deprecated
 	public boolean initializeDefaultProject(Context context) {
 		try {
 			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
@@ -411,6 +422,15 @@ public final class ProjectManager {
 		}
 	}
 
+	@SuppressWarnings({"unused"})
+	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
+		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
+	}
+
+	/**
+	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean)} ()} without Context instead.
+	 */
+	@Deprecated
 	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
 		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
 		currentSprite = null;
@@ -418,6 +438,15 @@ public final class ProjectManager {
 		currentlyPlayingScene = currentlyEditedScene;
 	}
 
+	@SuppressWarnings({"unused"})
+	public void createNewExampleProject(String name, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
+	}
+
+	/**
+	 * @deprecated use {@link #createNewExampleProject(String, ProjectCreatorType, boolean)} ()} without Context instead.
+	 */
+	@Deprecated
 	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
 		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
 		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);

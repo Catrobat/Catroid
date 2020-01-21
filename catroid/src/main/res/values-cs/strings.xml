@@ -52,10 +52,7 @@
     <string name="backpack_add">Přidat do batohu</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="delete_account">Delete my account</string>
@@ -285,12 +282,14 @@
     <string name="name_empty">Zadej prosím text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Zabalit</string>
     <string name="am_unpack">Vybalit</string>
     <string name="am_copy">Kopírovat</string>
     <string name="am_delete">Smazat</string>
     <string name="am_rename">Přejmenovat</string>
     <string name="am_convert">Konvertovat</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">Toto nelze vrátit!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -298,6 +297,7 @@
     <string name="copy">Kopírovat</string>
     <string name="delete">Smazat</string>
     <string name="rename">Přejmenovat</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Zobrazit detaily</string>
     <string name="hide_details">Skrýt detaily</string>
     <!-- Action Mode Titles -->
@@ -331,6 +331,12 @@
         <item quantity="few">Convert %d projects</item>
         <item quantity="many">Convert %d projects</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="few">Merge %d projects</item>
+        <item quantity="many">Merge %d projects</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -577,6 +583,7 @@
     <string name="data_label">Jméno</string>
     <!-- Details -->
     <string name="project_details">Poslední úprava: %s, velikost: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Objekty: %d, vzhledy: %d, zvuky: %d</string>
     <string name="sprite_details">Bloky: %d, vzhledy: %d, zvuky: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -743,18 +750,6 @@
     <string name="details_date_today">Dnes</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">Kopírovat</string>
-    <string name="import_dialog_move_btn">Přesunout</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
-    <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Klepni na \"+\" pro přidání skriptů</string>
@@ -815,6 +810,10 @@
     <string name="project_orientation_title">Orientace:</string>
     <string name="project_select_screen_title">Obrazovka:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Nový Objekt</string>
     <!--  -->
@@ -866,13 +865,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -916,7 +917,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -999,8 +1000,7 @@
     <string name="show_password">Zobrazit heslo</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Přihlásit se přes Facebook</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_google">Přihlásit se přes Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -1033,7 +1033,6 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
         are the one connected to the drone.</string>
-    <string name="prestage_no_flash_available">\u2022 Blesk\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibrace\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Senzor zrychlení\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Senzor sklonu\n</string>
@@ -1058,6 +1057,7 @@
     <string name="stage_dialog_axes_off">Vypnout osy</string>
     <string name="stage_dialog_maximize">Maximalizovat/\nRoztáhnout</string>
     <string name="stage_dialog_screenshot">Náhled</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nová zpráva</string>
@@ -1075,7 +1075,7 @@
     <string name="category_sound">Zvuk</string>
     <string name="category_control">Ovládání</string>
     <string name="category_event">Událost</string>
-    <string name="category_user_bricks">Moje bloky</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Data</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">LEGO EV3</string>
@@ -1085,6 +1085,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Umístěte na "</string>
@@ -1238,6 +1239,10 @@
     <string name="brick_clone_this">sebe</string>
     <string name="brick_when_cloned">Pokud jsem začal jako klon</string>
     <string name="brick_delete_this_clone">Smazat tento klon</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">krát</item>
         <item quantity="few">krát</item>
@@ -1251,6 +1256,10 @@
     <string name="brick_if_end">Konec pokud</string>
     <string name="brick_set_variable">Nastavit proměnnou</string>
     <string name="brick_change_variable">Změnit proměnnou</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">přidat sem komentář&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Ahoj!</string>
@@ -1265,6 +1274,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Nahradit položku na seznamu</string>
     <string name="brick_replace_item_in_userlist_item_at_index">na pozici</string>
     <string name="brick_replace_item_in_userlist_with_value">s</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Můj první program</string>
@@ -1340,9 +1352,6 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_copy_title_pending">"Kopírování "</string>
-    <string name="notification_copy_pending">Probíhá kopírování</string>
-    <string name="notification_copy_finished">Kopírování dokončeno</string>
     <string name="notification_upload_title_pending">"Nahrávání "</string>
     <string name="notification_upload_title_finished">"Podívej se na "</string>
     <string name="notification_upload_pending">Probíhá nahrávání</string>
@@ -1375,6 +1384,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">Došlo k chybě při nahrávání programu.</string>
     <string name="error_project_download">Došlo k chybě při stahování programu.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">Došlo k chybě při vytváření nového programu.</string>
     <string name="error_rename_scene">Došlo k chybě během přejmenování scény.</string>
     <string name="error_load_project">Došlo k chybě při nahrávání programu.</string>
@@ -1401,6 +1413,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Přejmenování nekompatibilní projektu není možné.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Došlo k neznámé chybě.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Nastala chyba při ukládání akce.</string>
@@ -1579,7 +1592,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_sound">Zvuk</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
@@ -1669,7 +1681,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">Color preview</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
@@ -1683,14 +1694,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Define input value</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
     <string name="formula_editor_choose_object_variable">Vlastnosti tohoto objektu</string>
-    <string name="formula_editor_existing_variable">Name already in use!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sinus</string>
+    <string name="formula_editor_function_sin">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos">cosinus</string>
+    <string name="formula_editor_function_cos">cosine</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tangens</string>
+    <string name="formula_editor_function_tan">tangent</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
@@ -1709,12 +1719,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_round_parameter">(0)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin">arcsinus</string>
+    <string name="formula_editor_function_arcsin">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccosinus</string>
+    <string name="formula_editor_function_arccos">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangens</string>
+    <string name="formula_editor_function_arctan">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exponent</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">síla</string>
@@ -1736,6 +1748,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1, \'ahoj světe\')</string>
     <string name="formula_editor_function_join">připojit se</string>
     <string name="formula_editor_function_join_parameter">(\'ahoj\',\'světe\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1921,11 +1935,6 @@ needs read and write access to it. You can always change permissions through you
         \nYou can simply insert these in your formula, or add new ones.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Přidat text</string>
-    <string name="text_hint">Text bloku</string>
-    <string name="add_variable">Přidat proměnnou</string>
-    <string name="add_line_break">Přidat konec řádku</string>
-    <string name="variable_hint">Název proměnné</string>
     <string name="brick_show_variable">Zobrazit proměnné</string>
     <string name="brick_hide_variable">Skrýt proměnnou</string>
     <string name="brick_show_variable_position">na </string>
@@ -1935,10 +1944,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Proměnná</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Otočit kameru</string>
     <string name="video_brick_camera_on">zapnout</string>
@@ -1974,6 +1981,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="deletion_alert_yes">Ano, přesto smazat!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Tvůj program bude nahrán na sdílecí stránku, kde si ho budou moci ostatní stáhnout. Můžes ti tam také svůj program stáhnout jako samostatnou aplikaci.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Zobrazit program</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1998,13 +2007,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">Hz</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

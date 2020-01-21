@@ -52,10 +52,7 @@
     <string name="backpack_add">Ajouter au sac à dos</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Retrieving Facebook login data&#8230;</string>
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_facebook_exchange_token">Exchanging Facebook login data&#8230;</string>
-    <string name="loading_facebook_login">Facebook login on our server is complete&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
     <string name="delete_account">Supprimer mon compte</string>
@@ -269,12 +266,14 @@
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Dégrouper</string>
     <string name="am_copy">Copier</string>
     <string name="am_delete">supprimer</string>
     <string name="am_rename">Renommer</string>
     <string name="am_convert">Convertir</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -282,6 +281,7 @@
     <string name="copy">Copier</string>
     <string name="delete">supprimer</string>
     <string name="rename">Renommer</string>
+    <string name="merge">Merge</string>
     <string name="show_details">Affiche les détails</string>
     <string name="hide_details">Masquer les détails</string>
     <!-- Action Mode Titles -->
@@ -305,6 +305,10 @@
     <plurals name="am_convert_projects_title">
         <item quantity="one">Convert %d project</item>
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Merge %d project</item>
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -477,6 +481,7 @@
     <string name="data_label">Name</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -599,18 +604,6 @@
     <string name="details_date_today">Aujourd\'hui</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">Copier</string>
-    <string name="import_dialog_move_btn">Déplacer</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
-    <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Appuyer sur « + » pour ajouter des Scripts</string>
@@ -671,6 +664,10 @@
     <string name="project_orientation_title">Orientation :</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Nouvel objet</string>
     <!--  -->
@@ -722,13 +719,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -772,7 +771,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -855,8 +854,7 @@
     <string name="show_password">Afficher le mot de passe</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -890,7 +888,6 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
         are the one connected to the drone.</string>
-    <string name="prestage_no_flash_available">\u2022 Flash\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Vibreur\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Accéléromètre\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Gyroscope\n</string>
@@ -915,6 +912,7 @@
     <string name="stage_dialog_axes_off">Axes off</string>
     <string name="stage_dialog_maximize">Agrandir le style</string>
     <string name="stage_dialog_screenshot">Capture d\'écran</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nouveau message</string>
@@ -932,7 +930,7 @@
     <string name="category_sound">Sons</string>
     <string name="category_control">Contrôle</string>
     <string name="category_event">Évènement</string>
-    <string name="category_user_bricks">Mes éléments</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Données</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
@@ -942,6 +940,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Positionner à "</string>
@@ -1089,6 +1088,10 @@
     <string name="brick_clone_this">moi-même</string>
     <string name="brick_when_cloned">Quand j’ai commencé comme un clone</string>
     <string name="brick_delete_this_clone">Supprimer ce clone</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">temps</item>
         <item quantity="other">temps</item>
@@ -1100,6 +1103,10 @@
     <string name="brick_if_end">Fin de si</string>
     <string name="brick_set_variable">Définir la variable</string>
     <string name="brick_change_variable">Modifier la variable</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">ajoutez un commentaire ici&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm !</string>
     <string name="brick_say_bubble_default_value">Salut !</string>
@@ -1114,6 +1121,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Remplacer l\'élément dans la liste</string>
     <string name="brick_replace_item_in_userlist_item_at_index">à la position</string>
     <string name="brick_replace_item_in_userlist_with_value">avec</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mon premier programme</string>
@@ -1189,9 +1199,6 @@
     <string name="notification_screenshot_ok">Aperçu de l’image enregistrée</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Téléchargement/reconversion du programme annulé</string>
-    <string name="notification_copy_title_pending">"Copie "</string>
-    <string name="notification_copy_pending">Copie en cours</string>
-    <string name="notification_copy_finished">Copie terminée</string>
     <string name="notification_upload_title_pending">"Envoi "</string>
     <string name="notification_upload_title_finished">"Regarder vers "</string>
     <string name="notification_upload_pending">Envoi en cours</string>
@@ -1224,6 +1231,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>
     <string name="error_project_download">Une erreur s\'est produite lors du téléchargement de l\'appli.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">Une erreur s\'est produite lors de la création de l\'appli.</string>
     <string name="error_rename_scene">Une erreur s’est produite lors du renommage de la scène.</string>
     <string name="error_load_project">Une erreur est apparue pendant le chargement du programme.</string>
@@ -1250,6 +1260,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renommer un projet incompatible n\'est pas possible.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Une erreur inconnue est survenue.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Une erreur s\'est produite lors de l\'enregistrement de la nouvelle description.</string>
@@ -1431,7 +1442,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
     <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
     <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_sound">Sons</string>
     <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
     <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
@@ -1521,7 +1531,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">red</string>
     <string name="color_green">green</string>
     <string name="color_blue">blue</string>
-    <string name="color_preview">Aperçu de la couleur</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Données</string>
@@ -1535,7 +1544,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">Définir la valeur d\'entrée</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formule trop longue !</string>
     <string name="formula_editor_choose_object_variable">Propriétés de cet objet</string>
-    <string name="formula_editor_existing_variable">Nom déjà utilisé !</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
@@ -1567,6 +1575,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctan</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">batterie</string>
@@ -1587,6 +1597,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1, \'hello world\')</string>
     <string name="formula_editor_function_join">joindre</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1773,11 +1785,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">Les variables et listes utilisées dans votre programme se trouvent ici. \nVous pouvez simplement les insérer dans votre formule, ou en ajouter de nouvelles.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Ajouter du texte</string>
-    <string name="text_hint">Texte de la brique</string>
-    <string name="add_variable">Ajouter une variable</string>
-    <string name="add_line_break">Ajouter un saut de ligne</string>
-    <string name="variable_hint">Nom de la variable</string>
     <string name="brick_show_variable">Montrer la variable</string>
     <string name="brick_hide_variable">Masquer la variable</string>
     <string name="brick_show_variable_position">à </string>
@@ -1787,10 +1794,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Variable</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Tourner la caméra</string>
     <string name="video_brick_camera_on">activé</string>
@@ -1827,6 +1832,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Afficher le programme</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1851,13 +1858,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

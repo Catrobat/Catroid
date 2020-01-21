@@ -111,4 +111,12 @@ public class InternFormulaState {
 		return new InternFormula(deepCopyOfInternTokenFormula, deepCopyOfInternFormulaTokenSelection,
 				externCursorPosition);
 	}
+
+	public void updateUserDataTokens(InternTokenType type, String oldName, String newName) {
+		for (InternToken token : internTokenFormulaList) {
+			if (token.getInternTokenType().equals(type) && token.getTokenStringValue().equals(oldName)) {
+				token.setTokenStringValue(newName);
+			}
+		}
+	}
 }

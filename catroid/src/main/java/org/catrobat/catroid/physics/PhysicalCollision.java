@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
 import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
-import static org.catrobat.catroid.physics.PhysicsObject.Type.DYNAMIC;
 
 public class PhysicalCollision {
 
@@ -56,16 +55,20 @@ public class PhysicalCollision {
 		return contactCounter;
 	}
 
-	void sendBounceOffEventsIfNecessary(PhysicsWorld physicsWorld) {
-		sendBounceOffEventIfNecessary(physicsWorld, objects.sprite1, objects.sprite2);
-		sendBounceOffEventIfNecessary(physicsWorld, objects.sprite2, objects.sprite1);
+	void sendBounceOffEvents() {
+		sendBounceOffEvent(objects.sprite1, objects.sprite2);
+		sendBounceOffEvent(objects.sprite2, objects.sprite1);
 	}
 
-	private void sendBounceOffEventIfNecessary(PhysicsWorld physicsWorld, Sprite spriteBouncingOff, Sprite otherSprite) {
-		if (physicsWorld.getPhysicsObject(spriteBouncingOff).getType() == DYNAMIC) {
-			fireBounceOffEvent(spriteBouncingOff, otherSprite);
-			fireBounceOffEvent(spriteBouncingOff, null);
+	private void sendBounceOffEvent(Sprite spriteBouncingOff, Sprite otherSprite) {
+		if (spriteBouncingOff.isClone) {
+			fireBounceOffEvent(spriteBouncingOff.myOriginal, otherSprite);
 		}
+		if (otherSprite.isClone) {
+			fireBounceOffEvent(spriteBouncingOff, otherSprite.myOriginal);
+		}
+		fireBounceOffEvent(spriteBouncingOff, otherSprite);
+		fireBounceOffEvent(spriteBouncingOff, null);
 	}
 
 	static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {

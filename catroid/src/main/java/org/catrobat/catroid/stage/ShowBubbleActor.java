@@ -30,6 +30,8 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.support.annotation.VisibleForTesting;
+import android.support.v4.util.Pair;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,7 +41,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.sensing.CollisionInformation;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -74,16 +79,51 @@ public class ShowBubbleActor extends Actor {
 	}
 
 	private Image getImageForDraw() {
-		if (drawRight) {
-			image.setX(sprite.look.getXInUserInterfaceDimensionUnit() + (sprite.look
-					.getWidthInUserInterfaceDimensionUnit() / 2));
+		LookData lookData = sprite.look.getLookData();
+
+		if (lookData != null) {
+			CollisionInformation collisionInformation = lookData.getCollisionInformation();
+
+			if (collisionInformation.getLeftBubblePos() == null || collisionInformation.getRightBubblePos() == null) {
+				collisionInformation.calculateBubblePositions();
+			}
+
+			Pair<Integer, Integer> bubblePosRight = collisionInformation.getRightBubblePos();
+			Pair<Integer, Integer> bubblePosLeft = collisionInformation.getLeftBubblePos();
+
+			imageLeft.setX(calculateLeftImageX(bubblePosLeft.first));
+			imageLeft.setY(calculateImageY(bubblePosLeft.second));
+			imageRight.setX(calculateRightImageX(bubblePosRight.first));
+			imageRight.setY(calculateImageY(bubblePosRight.second));
 		} else {
-			image.setX(sprite.look.getXInUserInterfaceDimensionUnit() - sprite.look
-					.getWidthInUserInterfaceDimensionUnit() / 2 - image.getWidth());
+			Look look = sprite.look;
+			if (drawRight) {
+				image.setX(look.getXInUserInterfaceDimensionUnit()
+						+ (look.getWidthInUserInterfaceDimensionUnit() / 2));
+			} else {
+				image.setX(look.getXInUserInterfaceDimensionUnit()
+						- look.getWidthInUserInterfaceDimensionUnit() / 2 - image.getWidth());
+			}
+			image.setY(look.getYInUserInterfaceDimensionUnit()
+					+ (look.getHeightInUserInterfaceDimensionUnit() / 2));
 		}
-		image.setY(sprite.look.getYInUserInterfaceDimensionUnit() + (sprite.look
-				.getHeightInUserInterfaceDimensionUnit() / 2));
+
 		return image;
+	}
+
+	@VisibleForTesting
+	public float calculateRightImageX(Integer bubblePosX) {
+		return sprite.look.getXInUserInterfaceDimensionUnit() + (bubblePosX * sprite.look.getScaleX());
+	}
+
+	@VisibleForTesting
+	public float calculateLeftImageX(Integer bubblePosX) {
+		return sprite.look.getXInUserInterfaceDimensionUnit() - (image.getWidth() - (bubblePosX * sprite.look.getScaleX()));
+	}
+
+	@VisibleForTesting
+	public float calculateImageY(Integer bubblePosY) {
+		return sprite.look.getYInUserInterfaceDimensionUnit() + (bubblePosY * sprite.look.getScaleY());
 	}
 
 	private void switchLogic() {
@@ -98,12 +138,12 @@ public class ShowBubbleActor extends Actor {
 	}
 
 	private boolean drawRight() {
-		return sprite.look.getX() + sprite.look.getWidthInUserInterfaceDimensionUnit() + image.getWidth()
+		return imageRight.getX() + imageRight.getWidth()
 				< (ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 
 	private boolean drawLeft() {
-		return sprite.look.getX() - image.getWidth()
+		return imageLeft.getX()
 				> -(ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth / 2);
 	}
 

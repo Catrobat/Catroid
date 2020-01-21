@@ -149,8 +149,8 @@ public final class PhysicsShapeBuilder {
 				scaledHeight = 1;
 			}
 
-			Pixmap.setFilter(Pixmap.Filter.NearestNeighbour);
 			Pixmap scaledPixmap = new Pixmap(scaledWidth, scaledHeight, pixmap.getFormat());
+			scaledPixmap.setFilter(Pixmap.Filter.NearestNeighbour);
 			scaledPixmap.drawPixmap(pixmap, 0, 0, width, height, 0, 0, scaledWidth, scaledHeight);
 			Shape[] scaledShapes = strategy.build(scaledPixmap, 1.0f);
 

@@ -72,17 +72,19 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.VibratorUtil;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity {
 
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
-	public static final int STAGE_ACTIVITY_FINISH = 7777;
+
 	public static final int REQUEST_START_STAGE = 101;
 
 	public static final int ASK_MESSAGE = 0;
@@ -109,11 +111,13 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	public StageResourceHolder stageResourceHolder;
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
+	public static WeakReference<StageActivity> activeStageActivity;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		StageLifeCycleController.stageCreate(this);
+		activeStageActivity = new WeakReference<>(this);
 	}
 
 	@Override
@@ -126,11 +130,14 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public void onResume() {
 		StageLifeCycleController.stageResume(this);
 		super.onResume();
+		activeStageActivity = new WeakReference<>(this);
 	}
 
 	@Override
 	protected void onDestroy() {
-		StageLifeCycleController.stageDestroy(this);
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			StageLifeCycleController.stageDestroy(this);
+		}
 		super.onDestroy();
 	}
 
@@ -446,5 +453,15 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private static void startStageActivity(Activity activity) {
 		Intent intent = new Intent(activity, StageActivity.class);
 		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+	}
+
+	public static void finishTestWithResult(TestResult testResult) {
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null && !stageActivity.isFinishing()) {
+			Intent resultIntent = new Intent();
+			resultIntent.putExtra(TEST_RESULT_MESSAGE, testResult.getMessage());
+			stageActivity.setResult(testResult.getResultCode(), resultIntent);
+			stageActivity.finish();
+		}
 	}
 }

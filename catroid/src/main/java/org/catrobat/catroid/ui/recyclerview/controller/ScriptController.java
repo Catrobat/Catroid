@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickInterface;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -59,8 +59,10 @@ public class ScriptController {
 			throws IOException, CloneNotSupportedException {
 
 		Script script = scriptToCopy.clone();
+		List<Brick> scriptFlatBrickList = new ArrayList<>();
+		script.addToFlatList(scriptFlatBrickList);
 
-		for (Brick brick : script.getBrickList()) {
+		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.findOrCopy(((SetLookBrick) brick).getLook(), dstScene, dstSprite));
@@ -81,11 +83,11 @@ public class ScriptController {
 						.findOrCopy(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
+			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
 				UserVariable updatedUserVar = UserDataWrapper
 						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((UserVariableBrick) brick).setUserVariable(updatedUserVar);
+				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
@@ -115,8 +117,10 @@ public class ScriptController {
 
 	void packForSprite(Script scriptToPack, Sprite dstSprite) throws IOException, CloneNotSupportedException {
 		Script script = scriptToPack.clone();
+		List<Brick> scriptFlatBrickList = new ArrayList<>();
+		script.addToFlatList(scriptFlatBrickList);
 
-		for (Brick brick : script.getBrickList()) {
+		for (Brick brick : scriptFlatBrickList) {
 			if (brick instanceof SetLookBrick && ((SetLookBrick) brick).getLook() != null) {
 				((SetLookBrick) brick).setLook(lookController
 						.packForSprite(((SetLookBrick) brick).getLook(), dstSprite));
@@ -190,11 +194,11 @@ public class ScriptController {
 								.unpackForSprite(((PlaySoundAndWaitBrick) brick).getSound(), dstScene, dstSprite));
 			}
 
-			if (brick instanceof UserVariableBrick && ((UserVariableBrick) brick).getUserVariable() != null) {
-				UserVariable previousUserVar = ((UserVariableBrick) brick).getUserVariable();
+			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
+				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
 				UserVariable updatedUserVar = UserDataWrapper
 						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
-				((UserVariableBrick) brick).setUserVariable(updatedUserVar);
+				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {

@@ -30,10 +30,10 @@ import android.support.test.espresso.matcher.PreferenceMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.testsuites.annotations.Cat;
+import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
-import org.catrobat.catroid.uiespresso.testsuites.Cat;
-import org.catrobat.catroid.uiespresso.testsuites.Level;
-import org.catrobat.catroid.uiespresso.util.rules.BaseActivityInstrumentationRule;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -84,8 +84,8 @@ import static org.hamcrest.core.Is.is;
 public class SettingsFragmentTest {
 
 	@Rule
-	public BaseActivityInstrumentationRule<SettingsActivity> baseActivityTestRule = new
-			BaseActivityInstrumentationRule<>(SettingsActivity.class, true, false);
+	public BaseActivityTestRule<SettingsActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(SettingsActivity.class, true, false);
 
 	private List<String> allSettings = new ArrayList<>(Arrays.asList(SETTINGS_SHOW_ARDUINO_BRICKS,
 			SETTINGS_SHOW_PHIRO_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS, SETTINGS_CRASH_REPORTS,

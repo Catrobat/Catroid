@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
@@ -42,10 +43,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
@@ -75,7 +78,7 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 	private Object throwAwayValue = new Object();
 	private File directory;
 	private UserVariable userVariable;
-	private DeviceVariableAccessor accessor;
+	private DeviceUserDataAccessor accessor;
 
 	@Before
 	public void setUp() {
@@ -88,31 +91,31 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 
 	@Test
 	public void saveUserVariable() throws IOException {
-		accessor.writeVariable(userVariable);
+		accessor.writeUserData(userVariable);
 		userVariable.setValue(throwAwayValue);
-		HashMap map = accessor.readMapFromJson();
-		Object variableValueFromFile = map.get(userVariable.getDeviceValueKey());
+		Map map = accessor.readMapFromJson();
+		Object variableValueFromFile = map.get(userVariable.getDeviceKey());
 		assertEquals(initialValue, variableValueFromFile);
 	}
 
 	@Test
-	public void loadUserVariableTest() throws IOException {
-		HashMap map = new HashMap<>();
-		map.put(userVariable.getDeviceValueKey(), initialValue);
+	public void loadUserVariableTest() {
+		Map map = new HashMap<>();
+		map.put(userVariable.getDeviceKey(), initialValue);
 		accessor.writeMapToJson(map);
 		userVariable.setValue(throwAwayValue);
-		assertTrue(accessor.readUserVariableValue(userVariable));
+		assertTrue(accessor.readUserData(userVariable));
 		assertEquals(initialValue, userVariable.getValue());
 	}
 
 	@Test
-	public void deleteUserVariableTest() throws IOException {
-		HashMap<UUID, Object> map = new HashMap<>();
-		map.put(userVariable.getDeviceValueKey(), initialValue);
+	public void deleteUserVariableTest() {
+		Map<UUID, Object> map = new HashMap<>();
+		map.put(userVariable.getDeviceKey(), initialValue);
 		accessor.writeMapToJson(map);
 		accessor.removeDeviceValue(userVariable);
 		map = accessor.readMapFromJson();
-		assertFalse(map.containsKey(userVariable.getDeviceValueKey()));
+		assertFalse(map.containsKey(userVariable.getDeviceKey()));
 	}
 
 	@Test
@@ -126,10 +129,11 @@ public class DeviceVariableAccessorParameterizedValueTest<T> {
 		sprite.addUserVariable(userVariable);
 
 		Sprite clone = new SpriteController().copyForCloneBrick(sprite);
-		accessor.writeVariable(userVariable);
+		accessor.writeUserData(userVariable);
 		UserVariable clonedVar = clone.getUserVariable(userVariable.getName());
+		assertNotSame(userVariable, clonedVar);
 		clonedVar.setValue(throwAwayValue);
-		assertTrue(accessor.readUserVariableValue(clonedVar));
+		assertTrue(accessor.readUserData(clonedVar));
 		assertEquals(userVariable.getValue(), clonedVar.getValue());
 	}
 

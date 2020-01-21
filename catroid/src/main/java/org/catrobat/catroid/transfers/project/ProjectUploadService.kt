@@ -47,13 +47,10 @@ import org.catrobat.catroid.common.Constants.EXTRA_RESULT_RECEIVER
 import org.catrobat.catroid.common.Constants.EXTRA_SCENE_NAMES
 import org.catrobat.catroid.common.Constants.EXTRA_UPLOAD_NAME
 import org.catrobat.catroid.common.Constants.EXTRA_USER_EMAIL
-import org.catrobat.catroid.common.Constants.FACEBOOK
-import org.catrobat.catroid.common.Constants.FACEBOOK_EMAIL
 import org.catrobat.catroid.common.Constants.GOOGLE_EMAIL
 import org.catrobat.catroid.common.Constants.GOOGLE_PLUS
 import org.catrobat.catroid.common.Constants.MAX_PERCENT
 import org.catrobat.catroid.common.Constants.NO_EMAIL
-import org.catrobat.catroid.common.Constants.NO_FACEBOOK_EMAIL
 import org.catrobat.catroid.common.Constants.NO_GOOGLE_EMAIL
 import org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
@@ -63,12 +60,12 @@ import org.catrobat.catroid.utils.DeviceSettingsProvider
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.Utils
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager.UPLOAD_NOTIFICATION_ID
+import org.catrobat.catroid.web.CatrobatWebClient
 import org.catrobat.catroid.web.ServerCalls
 import java.io.File
 import java.util.Locale
 
-val UPLOAD_FILE_NAME = "upload$CATROBAT_EXTENSION"
+const val UPLOAD_FILE_NAME = "upload$CATROBAT_EXTENSION"
 
 class ProjectUploadService : IntentService("ProjectUploadService") {
 
@@ -86,8 +83,9 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
             ?: return logWarning("Called ProjectUploadService without resultReceiver!")
         val projectName = intent.getStringExtra(EXTRA_UPLOAD_NAME)
 
+        val notificationID = StatusBarNotificationManager.getNextNotificationID()
         startForeground(
-            StatusBarNotificationManager.UPLOAD_NOTIFICATION_SERVICE_ID,
+            notificationID,
             createUploadNotification(projectName)
         )
 
@@ -113,24 +111,25 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
                 applicationContext.resources.getDimensionPixelSize(R.dimen.project_thumbnail_height)
             ),
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this),
-            serverCalls = ServerCalls.getInstance()
+            serverCalls = ServerCalls(CatrobatWebClient.client)
         ).start(
             successCallback = { projectId ->
                 Log.v(TAG, "Upload successful")
                 stopForeground(true)
                 val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-                notificationManager?.notify(UPLOAD_NOTIFICATION_ID, createUploadFinishedNotification(projectName))
+                notificationManager?.notify(notificationID, createUploadFinishedNotification(projectName))
 
                 ToastUtil.showSuccess(this, R.string.notification_upload_finished)
-                val result = Bundle().apply { putInt(Constants.EXTRA_PROJECT_ID, projectId) }
+                val result = Bundle().apply { putString(Constants.EXTRA_PROJECT_ID, projectId) }
                 resultReceiver.send(UPLOAD_RESULT_RECEIVER_RESULT_CODE, result)
             },
             errorCallback = { errorCode, errorMessage ->
                 Log.e(TAG, errorMessage)
                 stopForeground(true)
                 ToastUtil.showError(this, resources.getString(R.string.error_project_upload) + " " + errorMessage)
-                StatusBarNotificationManager.getInstance()
+                StatusBarNotificationManager(applicationContext)
                     .createUploadRejectedNotification(applicationContext, errorCode, errorMessage, reUploadBundle)
+                resultReceiver.send(0, null)
             }
         )
     }
@@ -141,7 +140,7 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
     }
 
     private fun createUploadNotification(programName: String): Notification {
-        StatusBarNotificationManager.getInstance().createNotificationChannel(applicationContext)
+        StatusBarNotificationManager(applicationContext).createNotificationChannel(applicationContext)
 
         var uploadIntent = Intent(applicationContext, MainMenuActivity::class.java)
         uploadIntent.action = Intent.ACTION_MAIN
@@ -191,12 +190,11 @@ class ProjectUploadService : IntentService("ProjectUploadService") {
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
 
         val email = when (provider) {
-            FACEBOOK -> sharedPreferences.getString(FACEBOOK_EMAIL, NO_FACEBOOK_EMAIL)
             GOOGLE_PLUS -> sharedPreferences.getString(GOOGLE_EMAIL, NO_GOOGLE_EMAIL)
             else -> sharedPreferences.getString(EMAIL, NO_EMAIL)
         }
 
-        val result = if (email.equals(NO_EMAIL)) {
+        val result = if (email == NO_EMAIL) {
             DeviceSettingsProvider.getUserEmail(this)
         } else {
             email

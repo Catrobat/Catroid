@@ -89,7 +89,6 @@ task standalonePreparation() {
 
         ZipFile app = new ZipFile(project.ext.appZipFileInAssets)
 
-        removeUnecessaryPermissions(app)
         copyScreenshotAsIcon(app)
     }
 }
@@ -121,12 +120,14 @@ task buildStandalone() {
     }
 }
 
-task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') << {}
-task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') << {}
-task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') << {}
+task assembleDebugTest(dependsOn: ':assembleCatroidDebugTest') {doLast {}}
+task commandlineAdbInstallDebug(dependsOn: ':commandlineAdbInstallCatroidDebug') {doLast {}}
+task commandlineAdbInstallDebugTest(dependsOn: 'commandlineAdbInstallCatroidDebugTest') {doLast {}}
 
-task testremoveIntentFilters() << {
-    messUpIntentFilters()
+task testremoveIntentFilters() {
+    doLast {
+        messUpIntentFilters()
+    }
 }
 
 def makeAppsCache() {
@@ -177,62 +178,6 @@ def restoreFile(File fileToBackup) {
         Files.copy(backup.toPath(), fileToBackup.toPath(), COPY_ATTRIBUTES, REPLACE_EXISTING)
         delete backup
     }
-}
-
-def removeUnecessaryPermissions(ZipFile appZipFile) {
-    println 'Managing Permissions.'
-
-    def permissionsEntry = appZipFile.getEntry('permissions.txt')
-    if (!permissionsEntry || permissionsEntry.isDirectory()) {
-        println 'No permissions.txt file found in the app.'
-        return
-    }
-    def permissionsText = appZipFile.getInputStream(permissionsEntry).text
-
-    File manifestFile = file(project.ext.manifestPath);
-    def manifestText = manifestFile.text;
-    def manifestXml = new XmlSlurper().parseText(manifestText)
-
-    def permissionsToRemove = []
-    def featuresToRemove = []
-
-    if((!permissionsText.contains("BLUETOOTH_LEGO_NXT")) && (!permissionsText.contains("BLUETOOTH_PHIRO_PRO"))){
-        permissionsToRemove.add('android.permission.BLUETOOTH_ADMIN')
-        permissionsToRemove.add('android.permission.BLUETOOTH')
-        permissionsToRemove.add('android.permission.USE_CREDENTIALS')
-
-        featuresToRemove.add('android.hardware.bluetooth')
-    }
-
-    if(!permissionsText.contains("ARDRONE_SUPPORT")){
-        permissionsToRemove.add('android.permission.CHANGE_WIFI_MULTICAST_STATE')
-        permissionsToRemove.add('android.permission.CHANGE_WIFI_STATE')
-        permissionsToRemove.add('android.permission.ACCESS_WIFI_STATE')
-
-        featuresToRemove.add('android.hardware.wifi')
-    }
-
-    if((!permissionsText.contains("CAMERA_FLASH")) && (!permissionsText.contains("FACE_DETECTION"))){
-        permissionsToRemove.add('android.permission.CAMERA')
-
-        featuresToRemove.add('android.hardware.camera')
-    }
-
-    if(!permissionsText.contains("VIBRATOR")){
-        permissionsToRemove.add('android.permission.VIBRATE')
-    }
-
-    manifestXml."uses-permission".findAll {
-        permissionsToRemove.indexOf(it."@android:name") != -1
-    }*.replaceNode{}
-
-    manifestXml."uses-feature".findAll {
-        featuresToRemove.indexOf(it."@android:name") != -1
-    }*.replaceNode{}
-
-    manifestText = XmlUtil.serialize(new StreamingMarkupBuilder().bind{ mkp.yield manifestXml})
-
-    manifestFile.write(manifestText)
 }
 
 def copyScreenshotAsIcon(ZipFile appZipFile) {

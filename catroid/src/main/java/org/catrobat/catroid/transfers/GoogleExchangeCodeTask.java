@@ -31,6 +31,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
@@ -47,7 +48,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 	private String locale;
 	private final String idToken;
 	private String message;
-	private OnFacebookExchangeCodeCompleteListener onGoogleExchangeCodeCompleteListener;
+	private OnGoogleExchangeCodeCompleteListener onGoogleExchangeCodeCompleteListener;
 	private WebconnectionException exception;
 	private boolean tokenExchanged;
 
@@ -62,7 +63,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 		this.idToken = idToken;
 	}
 
-	public void setOnGoogleExchangeCodeCompleteListener(OnFacebookExchangeCodeCompleteListener listener) {
+	public void setOnGoogleExchangeCodeCompleteListener(OnGoogleExchangeCodeCompleteListener listener) {
 		onGoogleExchangeCodeCompleteListener = listener;
 	}
 
@@ -85,7 +86,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 				return false;
 			}
 
-			tokenExchanged = ServerCalls.getInstance().googleExchangeCode(code, id, username, mail, locale, idToken);
+			tokenExchanged = new ServerCalls(CatrobatWebClient.INSTANCE.getClient()).googleExchangeCode(code, id, username, mail, locale, idToken);
 			return true;
 		} catch (WebconnectionException webconnectionException) {
 			Log.e(TAG, Log.getStackTraceString(webconnectionException));
@@ -130,7 +131,7 @@ public class GoogleExchangeCodeTask extends AsyncTask<Void, Void, Boolean> {
 		}
 	}
 
-	public interface OnFacebookExchangeCodeCompleteListener {
+	public interface OnGoogleExchangeCodeCompleteListener {
 		void onGoogleExchangeCodeComplete();
 	}
 }

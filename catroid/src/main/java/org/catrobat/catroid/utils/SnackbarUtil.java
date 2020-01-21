@@ -75,10 +75,11 @@ public final class SnackbarUtil {
 	}
 
 	public static void setHintShown(Activity activity, String messageId) {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
 		Set<String> hintList = getStringSetFromSharedPreferences(activity);
 		hintList.add(messageId);
-		prefs.edit().putStringSet(SnackbarUtil.SHOWN_HINT_LIST, hintList).commit();
+		PreferenceManager.getDefaultSharedPreferences(activity).edit()
+				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, hintList)
+				.apply();
 	}
 
 	public static boolean wasHintAlreadyShown(Activity activity, String messageId) {

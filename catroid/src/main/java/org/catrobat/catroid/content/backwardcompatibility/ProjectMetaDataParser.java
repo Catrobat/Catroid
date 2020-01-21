@@ -46,9 +46,15 @@ public class ProjectMetaDataParser {
 			throw new FileNotFoundException(xmlFile.getAbsolutePath() + " does not exist.");
 		}
 		XStream xstream = new XStream();
+		xstream.allowTypesByWildcard(new String[] {"org.catrobat.catroid.**"});
 		xstream.processAnnotations(ProjectMetaData.class);
 		xstream.ignoreUnknownElements();
-		ProjectMetaData metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
+		ProjectMetaData metaData;
+		try {
+			metaData = (ProjectMetaData) xstream.fromXML(xmlFile);
+		} catch (Exception e) {
+			throw new IOException("Project metadata invalid", e);
+		}
 		metaData.setFile(xmlFile);
 		return new ProjectData(metaData.getName(),
 				metaData.getDirectory(),

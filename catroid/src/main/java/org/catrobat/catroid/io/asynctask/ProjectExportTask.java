@@ -23,15 +23,19 @@
 
 package org.catrobat.catroid.io.asynctask;
 
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.io.ZipArchiver;
+import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
@@ -41,20 +45,22 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 	private static final String TAG = ProjectExportTask.class.getSimpleName();
 
 	private File projectDir;
-	private int notificationId;
+	private NotificationData notificationData;
+	private WeakReference<Context> contextWeakReference;
 
-	public ProjectExportTask(File projectDir, int notificationId) {
+	public ProjectExportTask(File projectDir, NotificationData notificationData, Context context) {
 		this.projectDir = projectDir;
-		this.notificationId = notificationId;
+		this.notificationData = notificationData;
+		this.contextWeakReference = new WeakReference<>(context);
 	}
 
-	public static void task(File projectDir, int notificationId) {
-		exportProjectToExternalStorage(projectDir, notificationId);
-	}
-
-	private static void exportProjectToExternalStorage(File projectDir, int notificationId) {
+	@VisibleForTesting
+	public void exportProjectToExternalStorage() {
 		File projectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY, projectDir.getName() + CATROBAT_EXTENSION);
-
+		Context context = contextWeakReference.get();
+		if (context == null) {
+			return;
+		}
 		EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.mkdirs();
 		if (!EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.isDirectory()) {
 			return;
@@ -65,19 +71,20 @@ public class ProjectExportTask extends AsyncTask<Void, Void, Void> {
 		}
 
 		try {
-			new ZipArchiver()
-					.zip(projectZip, projectDir.listFiles());
-			StatusBarNotificationManager.getInstance().showOrUpdateNotification(notificationId, 100);
+			new ZipArchiver().zip(projectZip, projectDir.listFiles());
+			new StatusBarNotificationManager(context)
+					.showOrUpdateNotification(context, notificationData, 100, null);
 		} catch (IOException e) {
 			Log.e(TAG, "Cannot create archive.", e);
-			StatusBarNotificationManager.getInstance().abortProgressNotificationWithMessage(notificationId,
+			new StatusBarNotificationManager(context)
+					.abortProgressNotificationWithMessage(context, notificationData,
 					R.string.save_project_to_external_storage_io_exception_message);
 		}
 	}
 
 	@Override
 	protected final Void doInBackground(Void... voids) {
-		task(projectDir, notificationId);
+		exportProjectToExternalStorage();
 		return null;
 	}
 }

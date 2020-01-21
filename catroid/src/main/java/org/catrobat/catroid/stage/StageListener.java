@@ -67,7 +67,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
-import org.catrobat.catroid.embroidery.EmbroideryList;
+import org.catrobat.catroid.embroidery.DSTPatternManager;
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
@@ -90,6 +91,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
@@ -133,7 +136,7 @@ public class StageListener implements ApplicationListener {
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
 	private EmbroideryActor embroideryActor;
-	public EmbroideryList embroideryList;
+	public EmbroideryPatternManager embroideryPatternManager;
 	private float screenRatio;
 	public WebConnectionHolder webConnectionHolder;
 
@@ -207,7 +210,7 @@ public class StageListener implements ApplicationListener {
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		FaceDetectionHandler.resumeFaceDetection();
 
-		embroideryList = new EmbroideryList();
+		embroideryPatternManager = new DSTPatternManager();
 	}
 
 	public void setPaused(boolean paused) {
@@ -277,6 +280,11 @@ public class StageListener implements ApplicationListener {
 
 	public void cloneSpriteAndAddToStage(Sprite cloneMe) {
 		Sprite copy = new SpriteController().copyForCloneBrick(cloneMe);
+		if (cloneMe.isClone) {
+			copy.myOriginal = cloneMe.myOriginal;
+		} else {
+			copy.myOriginal = cloneMe;
+		}
 		copy.look.createBrightnessContrastHueShader();
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
@@ -308,6 +316,29 @@ public class StageListener implements ApplicationListener {
 			}
 		}
 		StageActivity.resetNumberOfClonedSprites();
+	}
+
+	public List<Sprite> getAllClonesOfSprite(Sprite sprite) {
+		List<Sprite> clonesOfSprite = new ArrayList<>();
+		Pattern pattern = createCloneRegexPattern(sprite.getName());
+
+		for (Sprite spriteOfStage : sprites) {
+			if (!spriteOfStage.isClone) {
+				continue;
+			}
+
+			Matcher matcher = pattern.matcher(spriteOfStage.getName());
+			if (matcher.matches()) {
+				clonesOfSprite.add(spriteOfStage);
+			}
+		}
+
+		return clonesOfSprite;
+	}
+
+	private Pattern createCloneRegexPattern(String spriteName) {
+		String cloneRegexMask = "^" + spriteName + "\\-c\\d+$";
+		return Pattern.compile(cloneRegexMask);
 	}
 
 	private void disposeClonedSprites() {
@@ -411,12 +442,12 @@ public class StageListener implements ApplicationListener {
 			transitionToScene(ProjectManager.getInstance().getStartScene().getName());
 		}
 		stageBackupMap.clear();
+		embroideryPatternManager.clear();
 
 		FlashUtil.reset();
 		VibratorUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
-		embroideryList.clear();
 
 		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
 
@@ -466,7 +497,7 @@ public class StageListener implements ApplicationListener {
 				penActor.dispose();
 			}
 
-			embroideryList.clear();
+			embroideryPatternManager.clear();
 
 			SoundManager.getInstance().clear();
 
@@ -618,7 +649,7 @@ public class StageListener implements ApplicationListener {
 
 		SoundManager.getInstance().clear();
 		PhysicsShapeBuilder.getInstance().reset();
-		embroideryList = null;
+		embroideryPatternManager = null;
 		if (penActor != null) {
 			penActor.dispose();
 		}
@@ -640,7 +671,11 @@ public class StageListener implements ApplicationListener {
 		return saveScreenshot(screenshot, screenshotName);
 	}
 
-	private boolean saveScreenshot(byte[] screenshot, String fileName) {
+	@VisibleForTesting
+	public boolean saveScreenshot(byte[] screenshot, String fileName) {
+		if (screenshot == null) {
+			return false;
+		}
 		int length = screenshot.length;
 		Bitmap fullScreenBitmap;
 		int[] colors = new int[length / 4];
@@ -784,7 +819,7 @@ public class StageListener implements ApplicationListener {
 		List<Sprite> sprites;
 		Array<Actor> actors;
 		PenActor penActor;
-		EmbroideryList embroideryList;
+		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
 
 		boolean paused;
@@ -812,7 +847,7 @@ public class StageListener implements ApplicationListener {
 		backup.actors = new Array<>(stage.getActors());
 		backup.penActor = penActor;
 		backup.bubbleActorMap = new HashMap<>(bubbleActorMap);
-		backup.embroideryList = embroideryList;
+		backup.embroideryPatternManager = embroideryPatternManager;
 
 		backup.paused = paused;
 		backup.finished = finished;
@@ -857,7 +892,7 @@ public class StageListener implements ApplicationListener {
 		bubbleActorMap.clear();
 		bubbleActorMap.putAll(backup.bubbleActorMap);
 
-		embroideryList = backup.embroideryList;
+		embroideryPatternManager = backup.embroideryPatternManager;
 
 		paused = backup.paused;
 		finished = backup.finished;
@@ -882,6 +917,7 @@ public class StageListener implements ApplicationListener {
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		initStageInputListener();
 	}
 
 	private float calculateScreenRatio() {

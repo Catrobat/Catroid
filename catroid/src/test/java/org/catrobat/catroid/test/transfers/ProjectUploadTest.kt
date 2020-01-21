@@ -24,9 +24,9 @@
 package org.catrobat.catroid.test.transfers
 
 import android.content.SharedPreferences
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertTrue
-import junit.framework.Assert.fail
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
@@ -44,6 +44,7 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.mockito.verification.VerificationMode
 import org.powermock.api.mockito.PowerMockito.mock
+import org.powermock.core.classloader.annotations.PowerMockIgnore
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
@@ -56,6 +57,7 @@ private const val userEmail = "user@catrobat.com"
 private const val projectName = "testproject"
 private const val projectDescription = "testproject description"
 
+@PowerMockIgnore("javax.net.ssl.*")
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(ServerCalls::class)
 class ProjectUploadTest {
@@ -126,7 +128,7 @@ class ProjectUploadTest {
 
     @Test
     fun testProjectUploadSuccess() {
-        val projectId = 1234
+        val projectId = "1234"
         `when`(zipArchiver.zip(archiveDirectory, projectDirectoryFiles)).then {}
         `when`(sharedPrefsEditor.putString(ArgumentMatchers.eq(Constants.TOKEN), any()))
             .thenReturn(sharedPrefsEditor)
@@ -144,7 +146,7 @@ class ProjectUploadTest {
             successCallback?.onSuccess(projectId, "username", "token")
         }
 
-        var returnedProjectId = -1
+        var returnedProjectId = "-1"
         createProjectUpload().start(
             successCallback = { returnedProjectId = it },
             errorCallback = { _, _ -> fail("Error callback must not be invoked in this test") }
@@ -181,7 +183,7 @@ class ProjectUploadTest {
             )
         ).then {
             val successCallback = it.arguments[1] as? ServerCalls.UploadSuccessCallback
-            successCallback?.onSuccess(123, callbackUsername, callbackToken)
+            successCallback?.onSuccess("123", callbackUsername, callbackToken)
         }
 
         createProjectUpload().start(

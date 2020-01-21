@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
@@ -440,10 +442,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 			@Override
 			public void task() {
-				int notificationId = StatusBarNotificationManager.getInstance()
-						.createSaveProjectToExternalMemoryNotification(getContext(), item.getName());
+				Context context = getContext();
+				if (context == null) {
+					return;
+				}
+				NotificationData notificationData = new StatusBarNotificationManager(context)
+						.createSaveProjectToExternalMemoryNotification(context, item.getName());
 
-				new ProjectExportTask(item.getDirectory(), notificationId)
+				new ProjectExportTask(item.getDirectory(), notificationData, context)
 						.execute();
 			}
 		}.execute(getActivity());

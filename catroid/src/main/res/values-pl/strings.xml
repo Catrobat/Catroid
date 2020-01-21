@@ -52,10 +52,7 @@
     <string name="backpack_add">Dodaj do plecaka</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">Pobieranie danych Facebooka&#8230;</string>
     <string name="loading_check_oauth_token">Sprawdzanie danych logowania&#8230;</string>
-    <string name="loading_facebook_exchange_token">Wymiana danych z Facebooka&#8230;</string>
-    <string name="loading_facebook_login">Logowanie do Facebooka na naszym serwerze zostało zakończone&#8230;</string>
     <string name="loading_google_exchange_code">Wymiana danych z Google+&#8230;</string>
     <string name="loading_google_login">Logowanie do Google+ na naszym serwerze zostało zakończone&#8230;</string>
     <string name="delete_account">Usuń moje konto</string>
@@ -268,12 +265,14 @@
     <string name="name_empty">Proszę wprowadzić tekst</string>
     <!-- Recycler View -->
     <string name="am_empty_list">Nie ma jeszcze żadnych pozycji na tej liście. Najpierw dodaj coś.</string>
+    <string name="am_merge_error">Łączenie nie jest wykonywane. Należy wybrać dokładnie 2 projekty do połączenia.</string>
     <string name="am_backpack">Zapakuj</string>
     <string name="am_unpack">Rozpakuj</string>
     <string name="am_copy">Kopiuj</string>
     <string name="am_delete">Usuń</string>
     <string name="am_rename">Zmień nazwę</string>
     <string name="am_convert">Konwertuj</string>
+    <string name="am_merge">Scal</string>
     <string name="dialog_confirm_delete">Nie możesz tego cofnąć!</string>
     <string name="list_headline_sprites">Aktorzy i obiekty</string>
     <!-- Options Menu Options -->
@@ -281,6 +280,7 @@
     <string name="copy">Kopiuj</string>
     <string name="delete">Usuń</string>
     <string name="rename">Zmień nazwę</string>
+    <string name="merge">Scal</string>
     <string name="show_details">Pokaż szczegóły</string>
     <string name="hide_details">Ukryj szczegóły</string>
     <!-- Action Mode Titles -->
@@ -314,6 +314,12 @@
         <item quantity="few">Konwertuj %d projekty</item>
         <item quantity="many">Konwertuj %d projektów</item>
         <item quantity="other">Konwertuj %d projektów</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="one">Scal %d projekt</item>
+        <item quantity="few">Scal %d projekty</item>
+        <item quantity="many">Scal %d projektów</item>
+        <item quantity="other">Scal %d projektów</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -560,6 +566,7 @@
     <string name="data_label">Nazwa</string>
     <!-- Details -->
     <string name="project_details">Ostatni dostęp: %s, Rozmiar: %s</string>
+    <string name="last_access_today">dziś, %s</string>
     <string name="scene_details">Obiekty: %d, Wyglądy: %d, Dźwięki: %d</string>
     <string name="sprite_details">Bloki: %d, Wyglądy: %d, Dźwięki: %d</string>
     <string name="look_details">Wymiary: %s, Rozmiar: %s</string>
@@ -726,17 +733,6 @@
     <string name="details_date_today">Dzisiaj</string>
     <string name="import_project">Importuj projekt</string>
     <string name="error_import_project">Coś poszło nie tak podczas pobierania projektów.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">Od teraz projekty będą przechowywane w ukrytym miejscu na urządzeniu.
-Istniejące projekty można „przenieść” lub „skopiować” do tego ukrytego obszaru. Przeniesienie ich spowoduje usunięcie ich z obszaru niezabezpieczonego. Nadal będzie można uzyskać dostęp do wszystkich projektów i wyeksportować je później do obszaru niezabezpieczonego.
-Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
-    <string name="import_dialog_copy_btn">Kopiuj</string>
-    <string name="import_dialog_move_btn">Przenieś</string>
-    <string name="projects_successful_moved_toast">Projekty przeniesiono z powodzeniem.</string>
-    <string name="projects_successful_copied_toast">Projekty skopiowano z powodzeniem.</string>
-    <string name="error_during_copying_projects_toast">Wystąpił błąd podczas migracji projektu.</string>
-    <!--  -->
     <string name="error_no_files_found">Nie znaleziono plików projektu.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Naciśnij \"+\", aby dodać skrypty</string>
@@ -797,6 +793,10 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="project_orientation_title">Orientacja ekranu:</string>
     <string name="project_select_screen_title">Ekran:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Nowy obiekt</string>
     <!--  -->
@@ -841,13 +841,15 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -891,7 +893,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -968,8 +970,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="show_password">Pokaż hasło</string>
     <string name="sign_in_error">Coś poszło nie tak podczas logowania.</string>
     <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
-    <string name="error_facebook_session_expired">Twoja sesja wygasła, zaloguj się ponownie.</string>
-    <string name="sign_in_with_facebook">Zaloguj się przez Facebooka</string>
+    <string name="error_session_expired">Sesja wygasła, zaloguj się ponownie.</string>
     <string name="sign_in_with_google">Zaloguj się za pomocą Google</string>
     <string name="error_register_empty_username">Puste pole nazwy użytkownika</string>
     <string name="error_register_username_as_email">Adres e-mail nie może służyć jako nazwa użytkownika</string>
@@ -999,7 +1000,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="prestage_resource_not_available_title">Składnik niedostępny</string>
     <string name="prestage_resource_not_available_text">Niestety ten program nie działa na Twoim urządzeniu.         Następujące składniki są niedostępne: \n\n</string>
     <string name="prestage_resource_in_use_text">Inne urządzenie jest połączone z Jumping Sumo. Bądź pewien, że jesteś jedynym kontrolerem drona.</string>
-    <string name="prestage_no_flash_available">\u2022 Błysk\n</string>
     <string name="prestage_no_vibrator_available">\u2022 Wibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Czujnik przyspieszenia\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Czujnik nachylenia\n</string>
@@ -1023,6 +1023,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="stage_dialog_axes_off">Ukryj osie</string>
     <string name="stage_dialog_maximize">Maksymalizuj/\nRozciągnij</string>
     <string name="stage_dialog_screenshot">Podgląd</string>
+    <string name="stage_dialog_embroidery">Haft</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nowy komunikat</string>
@@ -1040,7 +1041,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="category_sound">Dźwięk</string>
     <string name="category_control">Kontrola</string>
     <string name="category_event">Wydarzenie</string>
-    <string name="category_user_bricks">Moje bloki</string>
+    <string name="category_user_bricks">Twoje bloki</string>
     <string name="category_data">Dane</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">LEGO EV3</string>
@@ -1050,6 +1051,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
+    <string name="category_assertions">Testowanie</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Idź do "</string>
@@ -1203,6 +1205,10 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_clone_this">mnie</string>
     <string name="brick_when_cloned">Kiedy zaczynam jako klon</string>
     <string name="brick_delete_this_clone">Usuń tego klona</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="one">raz</item>
         <item quantity="few">razy</item>
@@ -1216,6 +1222,10 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_if_end">Koniec Jeżeli</string>
     <string name="brick_set_variable">Ustaw zmienną</string>
     <string name="brick_change_variable">Zmień zmienną</string>
+    <string name="brick_write_variable_on_device">Zapisz zmienną na urządzeniu</string>
+    <string name="brick_read_variable_from_device">Wczytaj zmienną z urządzenia</string>
+    <string name="brick_write_list_on_device">Zapisz listę na urządzeniu</string>
+    <string name="brick_read_list_from_device">Wczytaj listę z urządzenia</string>
     <string name="brick_note_default_value">tutaj dodaj komentarz&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Cześć!</string>
@@ -1230,6 +1240,9 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">Zastąp element listy</string>
     <string name="brick_replace_item_in_userlist_item_at_index">na pozycji</string>
     <string name="brick_replace_item_in_userlist_with_value">na</string>
+    <string name="brick_web_request">Wyślij żądanie do</string>
+    <string name="brick_web_request_result">i przechowaj odpowiedź w</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mój pierwszy program</string>
@@ -1305,9 +1318,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="notification_screenshot_ok">Podgląd zapisanego obrazu</string>
     <string name="notification_download_project_cancel">Anulowane pobieranie programu</string>
     <string name="notification_reconvert_download_program_cancel">Anulowano pobieranie/ponowną konwersję programu</string>
-    <string name="notification_copy_title_pending">"Kopiowanie "</string>
-    <string name="notification_copy_pending">Trwa kopiowanie</string>
-    <string name="notification_copy_finished">Kopiowanie zakończone</string>
     <string name="notification_upload_title_pending">"Wysyłanie "</string>
     <string name="notification_upload_title_finished">"Zerknij na "</string>
     <string name="notification_upload_pending">Trwa wysyłanie</string>
@@ -1336,6 +1346,9 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <!-- Error messages -->
     <string name="error_project_upload">Podczas wysyłania programu wystąpił błąd.</string>
     <string name="error_project_download">Podczas pobierania programu wystąpił błąd.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">Podczas tworzenia nowego programu wystąpił błąd.</string>
     <string name="error_rename_scene">Wystąpił błąd podczas zmiany nazwy sceny.</string>
     <string name="error_load_project">Podczas ładowania programu wystąpił błąd.</string>
@@ -1360,6 +1373,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="error_drone_wrong_platform_title">Brak wsparcia AR.Drone 2.0.</string>
     <string name="error_drone_wrong_platform">Nie można uruchomić projektu AR.Drone 2.0 na tym urządzeniu.</string>
     <string name="error_rename_incompatible_project">Zmiana nazwy projektu niezgodnego z tą wersją nie jest możliwa.</string>
+    <string name="error_embroidery_file_export">Coś poszło nie tak podczas udostępniania pliku.</string>
     <string name="error_unknown_error">Wystąpił nieznany błąd.</string>
     <string name="error_gps_not_available">Błąd, GPS jest niedostępny.</string>
     <string name="error_set_description">Podczas zapisywania nowego opisu wystąpił błąd.</string>
@@ -1534,7 +1548,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_jumping_sumo_move_backward">Skaczący Sumo do tyłu</string>
     <string name="brick_jumping_sumo_animation">Animacje Skaczącego Sumo</string>
     <string name="brick_jumping_sumo_no_sound">Brak dźwięku Skaczącego Sumo</string>
-    <string name="brick_jumping_sumo_sound">Dźwięk</string>
     <string name="brick_jumping_sumo_jump_long">Długi skok Skaczącego Sumo</string>
     <string name="brick_jumping_sumo_jump_high">Wysoki skok Skaczącego Sumo</string>
     <string name="brick_jumping_sumo_rotate_left">Obróć Jumping Sumo w lewo</string>
@@ -1592,7 +1605,7 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_phiro_rgb_led_action">Ustaw światło Phiro</string>
     <string name="phiro_rgb_led_red">Czerwony (Red)</string>
     <string name="phiro_rgb_led_green">Zielony (Green)</string>
-    <string name="phiro_rgb_led_blue">Niebieski (Blue)</string>
+    <string name="phiro_rgb_led_blue">Niebieski</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">do</string>
@@ -1624,7 +1637,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="color_red">czerwony</string>
     <string name="color_green">zielony</string>
     <string name="color_blue">niebieski</string>
-    <string name="color_preview">Podgląd kolorów</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Dane</string>
@@ -1638,7 +1650,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_nothing_selected">Określ wartości wejściowe</string>
     <string name="formula_editor_parse_fail_formula_too_long">Formuła zbyt długa!</string>
     <string name="formula_editor_choose_object_variable">Właściwości tego obiektu</string>
-    <string name="formula_editor_existing_variable">Nazwa już w użyciu!</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sin</string>
@@ -1670,6 +1681,8 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctg</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exp</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">potęga</string>
@@ -1690,6 +1703,8 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">połącz</string>
     <string name="formula_editor_function_join_parameter">(\'witaj\',\'świecie\')</string>
+    <string name="formula_editor_function_regex">wyrażenie regularne</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_cyfrowe_wyjście</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analogowe_wyjście</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1866,11 +1881,6 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="formula_editor_intro_summary_data">Zmienne i listy, które są używane w programie można znaleźć tutaj.\nMożna po prostu wstawić je do formuły lub dodać nowe.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">Dodaj tekst</string>
-    <string name="text_hint">Tekst bloku</string>
-    <string name="add_variable">Dodaj zmienną</string>
-    <string name="add_line_break">Dodaj podział wiersza</string>
-    <string name="variable_hint">Nazwa zmiennej</string>
     <string name="brick_show_variable">Pokaż zmienną</string>
     <string name="brick_hide_variable">Ukryj zmienną</string>
     <string name="brick_show_variable_position">w </string>
@@ -1880,10 +1890,8 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="brick_show_variable_aligned_centered">wyśrodkowany</string>
     <string name="brick_show_variable_aligned_left">w lewo</string>
     <string name="brick_show_variable_aligned_right">w prawo</string>
+    <string name="brick_context_dialog_pick_color">Wybierz kolor</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">Zmienna</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">Aparat</string>
     <string name="video_brick_camera_on">włącz</string>
@@ -1917,6 +1925,8 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <string name="deletion_alert_yes">Tak, usuń!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Program zostanie przesłany do strony naszej społeczności, gdzie inni mogą z niego korzystać i go pobrać. Można również pobrać program jako samodzielną aplikację.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">Pokaż program</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1937,13 +1947,4 @@ Jeśli nie jesteś pewien, wybierz „Przenieś”.</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">Hz</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">KB</string>
-    <string name="MegaByte_short">MB</string>
-    <string name="GigaByte_short">GB</string>
-    <string name="TeraByte_short">TB</string>
-    <string name="PetaByte_short">PB</string>
-    <string name="ExaByte_short">EB</string>
-    <!--  -->
 </resources>

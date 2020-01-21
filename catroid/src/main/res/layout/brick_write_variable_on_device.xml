@@ -36,7 +36,7 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_change_variable_layout"
+        android:id="@+id/brick_write_variable_layout"
         style="@style/BrickContainer.UserVariables.Medium">
 
         <include layout="@layout/icon_brick_category_data" />

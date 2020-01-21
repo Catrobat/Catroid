@@ -30,31 +30,20 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.facebook.CallbackManager;
-import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.FacebookLoginHandler;
 import org.catrobat.catroid.transfers.GooglePlusLoginHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
-import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import static org.catrobat.catroid.transfers.FacebookLoginHandler.FACEBOOK_EMAIL_PERMISSION;
-import static org.catrobat.catroid.transfers.FacebookLoginHandler.FACEBOOK_PROFILE_PERMISSION;
 import static org.catrobat.catroid.transfers.GooglePlusLoginHandler.REQUEST_CODE_GOOGLE_PLUS_SIGNIN;
 
 public class SignInActivity extends BaseActivity implements SignInCompleteListener {
 	public static final String LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
-
-	private CallbackManager facebookCallbackManager;
 
 	private GooglePlusLoginHandler googlePlusLoginHandler;
 
@@ -62,7 +51,6 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_sign_in);
-		setUpFacebookCallbackManager();
 		setUpGooglePlus();
 
 		TextView termsOfUseLinkTextView = findViewById(R.id.register_terms_link);
@@ -71,11 +59,6 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				getString(R.string.register_code_terms_of_use_text));
 		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
-	}
-
-	public void setUpFacebookCallbackManager() {
-		facebookCallbackManager = CallbackManager.Factory.create();
-		LoginManager.getInstance().registerCallback(facebookCallbackManager, new FacebookLoginHandler(this));
 	}
 
 	public void setUpGooglePlus() {
@@ -89,9 +72,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 	}
 
 	public void onButtonClick(final View view) {
-		if (!Utils.isNetworkAvailable(this)) {
-			ToastUtil.showError(this, R.string.error_internet_connection);
-		} else {
+		if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
 			onButtonClickForRealThisTime(view);
 		}
 	}
@@ -108,10 +89,6 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				registrationDialog.setSignInCompleteListener(this);
 				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
-			case R.id.sign_in_facebook_login_button:
-				Collection<String> permissions = Arrays.asList(FACEBOOK_PROFILE_PERMISSION, FACEBOOK_EMAIL_PERMISSION);
-				LoginManager.getInstance().logInWithReadPermissions(this, permissions);
-				break;
 			case R.id.sign_in_gplus_login_button:
 				googlePlusLoginHandler.getGoogleApiClient().connect();
 				Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googlePlusLoginHandler.getGoogleApiClient());
@@ -124,7 +101,6 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		facebookCallbackManager.onActivityResult(requestCode, resultCode, data);
 		googlePlusLoginHandler.onActivityResult(requestCode, resultCode, data);
 
 		super.onActivityResult(requestCode, resultCode, data);

@@ -25,6 +25,7 @@ package org.catrobat.catroid.web;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -32,12 +33,6 @@ import android.util.Log;
 import com.google.android.gms.common.images.WebImage;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-import com.squareup.okhttp.ConnectionSpec;
-import com.squareup.okhttp.FormEncodingBuilder;
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
@@ -66,113 +61,43 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okio.BufferedSink;
 import okio.Okio;
 
-import static org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_AMP_TOKEN;
-import static org.catrobat.catroid.common.Constants.CATROBAT_TOKEN_LOGIN_URL;
-import static org.catrobat.catroid.common.Constants.NO_TOKEN;
+import static org.catrobat.catroid.web.CatrobatWebClientKt.createFormEncodedRequest;
+import static org.catrobat.catroid.web.CatrobatWebClientKt.performCallWith;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.EXCHANGE_GOOGLE_CODE_URL;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.GOOGLE_LOGIN_URL_APPENDING;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.JSON_STATUS_CODE;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_REGISTER_OK;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SERVER_RESPONSE_TOKEN_OK;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_EMAIL_KEY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_GOOGLE_CODE_KEY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_ID_TOKEN;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_LOCALE_KEY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_OAUTH_ID_KEY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.SIGNIN_USERNAME_KEY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public final class ServerCalls implements ScratchDataFetcher {
-
 	public static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
-	public static final String FILE_TAG_URL_HTTP = FlavoredConstants.BASE_URL_HTTPS + "api/tags/getTags.json";
-	public static final int TOKEN_LENGTH = 32;
-	public static final String TOKEN_CODE_INVALID = "-1";
 	public static final String TAG = ServerCalls.class.getSimpleName();
-	private static final String REGISTRATION_USERNAME_KEY = "registrationUsername";
-	private static final String REGISTRATION_PASSWORD_KEY = "registrationPassword";
-	private static final String REGISTRATION_COUNTRY_KEY = "registrationCountry";
-	private static final String REGISTRATION_EMAIL_KEY = "registrationEmail";
-	private static final String SIGNIN_USERNAME_KEY = "username";
-	private static final String SIGNIN_OAUTH_ID_KEY = "id";
-	private static final String SIGNIN_EMAIL_KEY = "email";
-	private static final String SIGNIN_LOCALE_KEY = "locale";
-	private static final String SIGNIN_FACEBOOK_CLIENT_TOKEN_KEY = "client_token";
-	private static final String SIGNIN_GOOGLE_CODE_KEY = "code";
-	private static final String SIGNIN_STATE = "state"; //not supported yet, but necessary argument for server call
-	private static final String SIGNIN_ID_TOKEN = "id_token";
-	private static final String SIGNIN_TOKEN = "token";
-	private static final String OAUTH_TOKEN_AVAILABLE = "token_available";
-	private static final String EMAIL_AVAILABLE = "email_available";
-	private static final String USERNAME_AVAILABLE = "username_available";
-	private static final String DEVICE_LANGUAGE = "deviceLanguage";
-	private static final int SERVER_RESPONSE_TOKEN_OK = 200;
-	private static final int SERVER_RESPONSE_REGISTER_OK = 201;
-	private static final String CHECK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS + "api/checkToken/check.json";
-	private static final String LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS + "api/login/Login.json";
-	private static final String REGISTRATION_URL = FlavoredConstants.BASE_URL_HTTPS + "api/register/Register.json";
-	private static final String CHECK_GOOGLE_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
-	private static final String CHECK_FACEBOOK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
-	private static final String GET_FACEBOOK_USER_INFO_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/getFacebookUserInfo/getFacebookUserInfo.json";
-	private static final String CHECK_EMAIL_AVAILABLE_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/EMailAvailable/EMailAvailable.json";
-	private static final String CHECK_USERNAME_AVAILABLE_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/UsernameAvailable/UsernameAvailable.json";
-	private static final String EXCHANGE_GOOGLE_CODE_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/exchangeGoogleCode/exchangeGoogleCode.json";
-	private static final String EXCHANGE_FACEBOOK_TOKEN_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/exchangeFacebookToken/exchangeFacebookToken.json";
-	private static final String GOOGLE_LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/loginWithGoogle/loginWithGoogle.json";
-	private static final String FACEBOOK_LOGIN_URL = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/loginWithFacebook/loginWithFacebook.json";
-	private static final String FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = FlavoredConstants.BASE_URL_HTTPS
-			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
-	private static final String TEST_CHECK_TOKEN_URL = BASE_URL_TEST_HTTPS + "api/checkToken/check.json";
-	private static final String TEST_LOGIN_URL = BASE_URL_TEST_HTTPS + "api/login/Login.json";
-	private static final String TEST_REGISTRATION_URL = BASE_URL_TEST_HTTPS + "api/register/Register.json";
-	private static final String TEST_CHECK_GOOGLE_TOKEN_URL = BASE_URL_TEST_HTTPS
-			+ "api/GoogleServerTokenAvailable/GoogleServerTokenAvailable.json";
-	private static final String TEST_CHECK_FACEBOOK_TOKEN_URL = BASE_URL_TEST_HTTPS
-			+ "api/FacebookServerTokenAvailable/FacebookServerTokenAvailable.json";
-	private static final String TEST_GET_FACEBOOK_USER_INFO_URL = BASE_URL_TEST_HTTPS
-			+ "api/getFacebookUserInfo/getFacebookUserInfo.json";
-	private static final String TEST_CHECK_EMAIL_AVAILABLE_URL = BASE_URL_TEST_HTTPS
-			+ "api/EMailAvailable/EMailAvailable.json";
-	private static final String TEST_CHECK_USERNAME_AVAILABLE_URL = BASE_URL_TEST_HTTPS
-			+ "api/UsernameAvailable/UsernameAvailable.json";
-	private static final String TEST_EXCHANGE_GOOGLE_CODE_URL = BASE_URL_TEST_HTTPS
-			+ "api/exchangeGoogleCode/exchangeGoogleCode.json";
-	private static final String TEST_EXCHANGE_FACEBOOK_TOKEN_URL = BASE_URL_TEST_HTTPS
-			+ "api/exchangeFacebookToken/exchangeFacebookToken.json";
-	private static final String TEST_GOOGLE_LOGIN_URL = BASE_URL_TEST_HTTPS
-			+ "api/loginWithGoogle/loginWithGoogle.json";
-	private static final String TEST_FACEBOOK_LOGIN_URL = BASE_URL_TEST_HTTPS
-			+ "api/loginWithFacebook/loginWithFacebook.json";
-	private static final String TEST_DELETE_TEST_USERS = BASE_URL_TEST_HTTPS
-			+ "api/deleteOAuthUserAccounts/deleteOAuthUserAccounts.json";
-	private static final String TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY = BASE_URL_TEST_HTTPS
-			+ "api/checkFacebookServerTokenValidity/checkFacebookServerTokenValidity.json";
-	private static final String JSON_STATUS_CODE = "statusCode";
-	private static final String JSON_ANSWER = "answer";
-	private static final String JSON_TOKEN = "token";
-	private static final String FACEBOOK_SERVER_TOKEN_INVALID = "token_invalid";
-
-	private static final ServerCalls INSTANCE = new ServerCalls();
-
 	public static boolean useTestUrl = false;
 	private final OkHttpClient okHttpClient;
-	private final Gson gson;
-	public int oldNotificationId = 0;
 	private String resultString;
-	private int projectId;
+	private String projectId;
 
-	private ServerCalls() {
-		okHttpClient = new OkHttpClient();
-		okHttpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.MODERN_TLS));
-		gson = new Gson();
-	}
-
-	public static ServerCalls getInstance() {
-		return INSTANCE;
+	public ServerCalls(OkHttpClient httpClient) {
+		okHttpClient = httpClient;
 	}
 
 	public ScratchProgramData fetchScratchProgramDetails(final long programID) throws WebconnectionException,
-			WebScratchProgramException, InterruptedIOException {
+			WebScratchProgramException {
 
 		final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
@@ -276,7 +201,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	}
 
 	public ScratchSearchResult scratchSearch(final String query, final int numberOfItems, final int pageNumber)
-			throws WebconnectionException, InterruptedIOException {
+			throws WebconnectionException {
 
 		if (query == null) {
 			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Query is null.");
@@ -374,7 +299,7 @@ public final class ServerCalls implements ScratchDataFetcher {
 	public void uploadProject(ProjectUploadData uploadData, UploadSuccessCallback successCallback,
 			UploadErrorCallback errorCallback) {
 
-		excecuteUploadCall(
+		executeUploadCall(
 				HttpRequestsKt.createUploadRequest(uploadData),
 				(uploadResponse) -> {
 					String newToken = uploadResponse.token;
@@ -392,73 +317,24 @@ public final class ServerCalls implements ScratchDataFetcher {
 		);
 	}
 
-	private void excecuteUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
+	private void executeUploadCall(Request request, UploadCallSuccessCallback successCallback, UploadErrorCallback errorCallback) {
 		Response response;
 		UploadResponse uploadResponse;
 		try {
 			response = okHttpClient.newCall(request).execute();
-			if (!response.isSuccessful()) {
+			if (response.isSuccessful()) {
+				uploadResponse = new Gson().fromJson(response.body().string(), UploadResponse.class);
+				successCallback.onSuccess(uploadResponse);
+			} else {
 				Log.v(TAG, "Upload not successful");
 				errorCallback.onError(response.code(), "Upload failed! HTTP Status code was " + response.code());
 			}
-
-			uploadResponse = gson.fromJson(response.body().string(), UploadResponse.class);
-			successCallback.onSuccess(uploadResponse);
 		} catch (IOException ioException) {
 			Log.e(TAG, Log.getStackTraceString(ioException));
 			errorCallback.onError(WebconnectionException.ERROR_NETWORK, "I/O Exception");
 		} catch (JsonSyntaxException jsonSyntaxException) {
 			Log.e(TAG, Log.getStackTraceString(jsonSyntaxException));
 			errorCallback.onError(WebconnectionException.ERROR_JSON, "JsonSyntaxException");
-		}
-	}
-
-	public void downloadProject(final String url, final String filePath, final String programName,
-			final ResultReceiver receiver, final int notificationId) throws IOException, WebconnectionException {
-
-		File file = new File(filePath);
-		if (!(file.getParentFile().mkdirs() || file.getParentFile().isDirectory())) {
-			throw new IOException("Directory not created");
-		}
-
-		Request request = new Request.Builder()
-				.url(url)
-				.build();
-
-		OkHttpClient httpClient = okHttpClient;
-		if (url.startsWith("http://")) {
-			httpClient = new OkHttpClient();
-			httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
-		}
-
-		httpClient.networkInterceptors().add(new Interceptor() {
-			@Override
-			public Response intercept(Chain chain) throws IOException {
-				Response originalResponse = chain.proceed(chain.request());
-
-				if (notificationId >= oldNotificationId) {
-					oldNotificationId = notificationId;
-					return originalResponse.newBuilder()
-							.body(new ProgressResponseBody(
-									originalResponse.body(),
-									receiver,
-									notificationId,
-									programName,
-									url))
-							.build();
-				} else {
-					return originalResponse;
-				}
-			}
-		});
-
-		try {
-			Response response = httpClient.newCall(request).execute();
-			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-			bufferedSink.writeAll(response.body().source());
-			bufferedSink.close();
-		} catch (IOException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
 
@@ -474,91 +350,33 @@ public final class ServerCalls implements ScratchDataFetcher {
 				.url(url)
 				.build();
 
-		okHttpClient.networkInterceptors().add(new Interceptor() {
-			@Override
-			public Response intercept(Chain chain) throws IOException {
-				Response originalResponse = chain.proceed(chain.request());
-				return originalResponse.newBuilder()
-						.body(new ProgressResponseBody(
-								originalResponse.body(),
-								receiver,
-								0,
-								null,
-								url))
-						.build();
-			}
+		OkHttpClient.Builder httpClientBuilder = okHttpClient.newBuilder();
+		httpClientBuilder.networkInterceptors().add(chain -> {
+			Response originalResponse = chain.proceed(chain.request());
+			ProgressResponseBody body = new ProgressResponseBody(originalResponse.body(),
+					progress -> {
+				Bundle bundle = new Bundle();
+				bundle.putLong(ProgressResponseBody.TAG_PROGRESS, progress);
+				receiver.send(Constants.UPDATE_DOWNLOAD_PROGRESS, bundle);
+			});
+			return originalResponse.newBuilder()
+					.body(body)
+					.build();
 		});
+		OkHttpClient httpClient = httpClientBuilder.build();
+		Response response = httpClient.newCall(request).execute();
 
-		try {
-			Response response = okHttpClient.newCall(request).execute();
-			BufferedSink bufferedSink = Okio.buffer(Okio.sink(file));
-			bufferedSink.writeAll(response.body().source());
-			bufferedSink.close();
-		} catch (IOException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
-		}
-	}
-
-	public boolean checkToken(String token, String username) throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(Constants.TOKEN, token);
-			postValues.put(SIGNIN_USERNAME_KEY, username);
-
-			String serverUrl = useTestUrl ? TEST_CHECK_TOKEN_URL : CHECK_TOKEN_URL;
-
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-
-			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-				return true;
+		try (BufferedSink bufferedSink = Okio.buffer(Okio.sink(file))) {
+			if (response.body() != null) {
+				bufferedSink.writeAll(response.body().source());
 			} else {
-				throw new WebconnectionException(statusCode, "server response token ok, but error: " + serverAnswer);
+				throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, "FAIL");
 			}
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public String httpFormUpload(String url, Map<String, String> postValues) throws WebconnectionException {
-		FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
-
-		if (postValues != null) {
-			for (Map.Entry<String, String> entry : postValues.entrySet()) {
-				formEncodingBuilder.add(entry.getKey(), entry.getValue());
-			}
-		}
-
-		Request request = new Request.Builder()
-				.url(url)
-				.post(formEncodingBuilder.build())
-				.build();
-
-		try {
-			Response response = okHttpClient.newCall(request).execute();
-			return response.body().string();
 		} catch (IOException e) {
 			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
 		}
 	}
-
-	public String getRequest(String url) throws WebconnectionException {
-		Request request = new Request.Builder()
-				.url(url)
-				.build();
-
-		try {
-			Response response = okHttpClient.newCall(request).execute();
-			return response.body().string();
-		} catch (IOException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_NETWORK, Log.getStackTraceString(e));
-		}
-	}
-
-	public String getRequestInterruptable(String url) throws InterruptedIOException, WebconnectionException {
+	private String getRequestInterruptable(String url) throws WebconnectionException {
 		Request request = new Request.Builder()
 				.url(url)
 				.build();
@@ -567,8 +385,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			OkHttpClient httpClient = okHttpClient;
 
 			if (url.startsWith("http://")) {
-				httpClient = new OkHttpClient();
-				httpClient.setConnectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT));
+				httpClient = new OkHttpClient.Builder()
+						.connectionSpecs(Arrays.asList(ConnectionSpec.CLEARTEXT))
+						.build();
 			}
 
 			Response response = httpClient.newCall(request).execute();
@@ -578,298 +397,11 @@ public final class ServerCalls implements ScratchDataFetcher {
 		}
 	}
 
-	public String getTags(String language) {
-		try {
-			String serverUrl = FILE_TAG_URL_HTTP;
-			if (language != null) {
-				serverUrl = serverUrl.concat("?language=" + language);
-			}
-			return getRequest(serverUrl);
-		} catch (WebconnectionException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-			return "";
-		}
-	}
-
-	public boolean register(String username, String password, String userEmail, String language,
-			String country, String token, Context context) throws WebconnectionException {
-
-		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
-		}
-
-		if (userEmail == null) {
-			userEmail = Constants.RESTRICTED_USER;
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			sharedPreferences.edit().putBoolean(Constants.RESTRICTED_USER, true).commit();
-		}
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(REGISTRATION_USERNAME_KEY, username);
-			postValues.put(REGISTRATION_PASSWORD_KEY, password);
-			postValues.put(REGISTRATION_EMAIL_KEY, userEmail);
-			if (!token.equals(NO_TOKEN)) {
-				postValues.put(Constants.TOKEN, token);
-			}
-
-			if (country != null) {
-				postValues.put(REGISTRATION_COUNTRY_KEY, country);
-			}
-			if (language != null) {
-				postValues.put(DEVICE_LANGUAGE, language);
-			}
-			String serverUrl = useTestUrl ? TEST_REGISTRATION_URL : REGISTRATION_URL;
-
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-
-			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				String tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (isInvalidToken(tokenReceived)) {
-					throw new WebconnectionException(statusCode, serverAnswer);
-				}
-				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-				sharedPreferences.edit().putString(Constants.EMAIL, userEmail).commit();
-			}
-
-			boolean registered;
-			if (statusCode == SERVER_RESPONSE_TOKEN_OK) {
-				registered = false;
-			} else if (statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				registered = true;
-			} else {
-				throw new WebconnectionException(statusCode, serverAnswer);
-			}
-			return registered;
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
-		}
-	}
-
-	public boolean login(String username, String password, String token, Context context) throws WebconnectionException {
-		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
-		}
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(REGISTRATION_USERNAME_KEY, username);
-			postValues.put(REGISTRATION_PASSWORD_KEY, password);
-			if (!token.equals(NO_TOKEN)) {
-				postValues.put(Constants.TOKEN, token);
-			}
-
-			String serverUrl = useTestUrl ? TEST_LOGIN_URL : LOGIN_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				String tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (isInvalidToken(tokenReceived)) {
-					throw new WebconnectionException(statusCode, serverAnswer);
-				}
-				sharedPreferences.edit().putString(Constants.TOKEN, tokenReceived).commit();
-				sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-			}
-
-			String eMail = jsonObject.optString(Constants.EMAIL);
-			if (!eMail.isEmpty()) {
-				sharedPreferences.edit().putString(Constants.EMAIL, eMail).commit();
-			}
-
-			if (statusCode != SERVER_RESPONSE_TOKEN_OK) {
-				throw new WebconnectionException(statusCode, serverAnswer);
-			}
-			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	private boolean isInvalidToken(String token) {
-		return token.length() != TOKEN_LENGTH
-				|| token.equals("")
-				|| token.equals(TOKEN_CODE_INVALID);
-	}
-
-	public Boolean checkOAuthToken(String id, String oauthProvider, Context context) throws WebconnectionException {
-		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
-		}
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-
-			String serverUrl;
-			switch (oauthProvider) {
-				case Constants.FACEBOOK:
-					serverUrl = useTestUrl ? TEST_CHECK_FACEBOOK_TOKEN_URL : CHECK_FACEBOOK_TOKEN_URL;
-					break;
-				case Constants.GOOGLE_PLUS:
-					serverUrl = useTestUrl ? TEST_CHECK_GOOGLE_TOKEN_URL : CHECK_GOOGLE_TOKEN_URL;
-					break;
-				default:
-					throw new WebconnectionException(-1, "OAuth provider not supported!");
-			}
-
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
-			String serverEmail = jsonObject.optString(SIGNIN_EMAIL_KEY);
-			String serverUsername = jsonObject.optString(SIGNIN_USERNAME_KEY);
-			boolean tokenAvailable = jsonObject.getBoolean(OAUTH_TOKEN_AVAILABLE);
-
-			if (tokenAvailable) {
-				SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-				if (oauthProvider.equals(Constants.FACEBOOK)) {
-					sharedPreferences.edit().putString(Constants.FACEBOOK_USERNAME, serverUsername).commit();
-					sharedPreferences.edit().putString(Constants.FACEBOOK_EMAIL, serverEmail).commit();
-				} else if (oauthProvider.equals(Constants.GOOGLE_PLUS)) {
-					sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, serverUsername).commit();
-					sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, serverEmail).commit();
-				}
-			}
-
-			return tokenAvailable;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public Boolean checkEMailAvailable(String email) throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_EMAIL_KEY, email);
-
-			String serverUrl = useTestUrl ? TEST_CHECK_EMAIL_AVAILABLE_URL : CHECK_EMAIL_AVAILABLE_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
-			return jsonObject.getBoolean(EMAIL_AVAILABLE);
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public Boolean checkUserNameAvailable(String username) throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_USERNAME_KEY, username);
-
-			String serverUrl = useTestUrl ? TEST_CHECK_USERNAME_AVAILABLE_URL : CHECK_USERNAME_AVAILABLE_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
-			return jsonObject.getBoolean(USERNAME_AVAILABLE);
-		} catch (JSONException jsonException) {
-			Log.e(TAG, Log.getStackTraceString(jsonException));
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, resultString);
-		}
-	}
-
-	public JSONObject getFacebookUserInfo(String facebookId, String token) throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_OAUTH_ID_KEY, facebookId);
-			if (token != null) {
-				postValues.put(SIGNIN_TOKEN, token);
-			}
-
-			String serverUrl = useTestUrl ? TEST_GET_FACEBOOK_USER_INFO_URL : GET_FACEBOOK_USER_INFO_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			if (jsonObject.has(Constants.JSON_ERROR_CODE)) {
-				return jsonObject;
-			}
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
-			return jsonObject;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public boolean facebookLogin(String mail, String username, String id, String locale, Context context) throws
-			WebconnectionException {
-
-		if (context == null) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, "Context is null.");
-		}
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_USERNAME_KEY, username);
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-			postValues.put(SIGNIN_EMAIL_KEY, mail);
-			postValues.put(SIGNIN_LOCALE_KEY, locale);
-
-			String serverUrl = useTestUrl ? TEST_FACEBOOK_LOGIN_URL : FACEBOOK_LOGIN_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			String serverAnswer = jsonObject.optString(JSON_ANSWER);
-
-			if (statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK) {
-				String tokenReceived = jsonObject.getString(JSON_TOKEN);
-				if (tokenReceived.length() != TOKEN_LENGTH
-						|| tokenReceived.equals("")
-						|| tokenReceived.equals(TOKEN_CODE_INVALID)) {
-					throw new WebconnectionException(statusCode, serverAnswer);
-				}
-				refreshUploadTokenAndUsername(tokenReceived, username, context);
-			}
-			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public boolean facebookExchangeToken(String accessToken, String id, String username,
-			String mail, String locale) throws WebconnectionException {
-
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_FACEBOOK_CLIENT_TOKEN_KEY, accessToken);
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-			postValues.put(SIGNIN_USERNAME_KEY, username);
-			postValues.put(SIGNIN_EMAIL_KEY, mail);
-			postValues.put(SIGNIN_LOCALE_KEY, locale);
-			postValues.put(SIGNIN_STATE, "");
-			postValues.put(Constants.REQUEST_MOBILE, "Android");
-
-			String serverUrl = useTestUrl ? TEST_EXCHANGE_FACEBOOK_TOKEN_URL : EXCHANGE_FACEBOOK_TOKEN_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
-			if (!(statusCode == SERVER_RESPONSE_TOKEN_OK || statusCode == SERVER_RESPONSE_REGISTER_OK)) {
-				throw new WebconnectionException(statusCode, resultString);
-			}
-
-			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
+	static class UploadResponse {
+		String projectId;
+		int statusCode;
+		String answer;
+		String token;
 	}
 
 	public boolean googleLogin(String mail, String username, String id, String locale, Context context) throws
@@ -886,8 +418,9 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
 			postValues.put(SIGNIN_LOCALE_KEY, locale);
 
-			String serverUrl = useTestUrl ? TEST_GOOGLE_LOGIN_URL : GOOGLE_LOGIN_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
+			String serverUrl = FlavoredConstants.BASE_URL_HTTPS + GOOGLE_LOGIN_URL_APPENDING;
+			Request request = createFormEncodedRequest(postValues, serverUrl);
+			resultString = performCallWith(okHttpClient, request);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
@@ -912,8 +445,8 @@ public final class ServerCalls implements ScratchDataFetcher {
 			postValues.put(SIGNIN_ID_TOKEN, idToken);
 			postValues.put(Constants.REQUEST_MOBILE, "Android");
 
-			String serverUrl = useTestUrl ? TEST_EXCHANGE_GOOGLE_CODE_URL : EXCHANGE_GOOGLE_CODE_URL;
-			resultString = httpFormUpload(serverUrl, postValues);
+			Request request = createFormEncodedRequest(postValues, EXCHANGE_GOOGLE_CODE_URL);
+			resultString = performCallWith(okHttpClient, request);
 
 			JSONObject jsonObject = new JSONObject(resultString);
 			int statusCode = jsonObject.getInt(JSON_STATUS_CODE);
@@ -935,60 +468,14 @@ public final class ServerCalls implements ScratchDataFetcher {
 
 	private void refreshUploadTokenAndUsername(String newToken, String username, Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		sharedPreferences.edit().putString(Constants.TOKEN, newToken).commit();
-		sharedPreferences.edit().putString(Constants.USERNAME, username).commit();
-	}
-
-	public boolean deleteTestUserAccountsOnServer() throws WebconnectionException {
-		try {
-			resultString = getRequest(TEST_DELETE_TEST_USERS);
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-			return true;
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public Boolean checkFacebookServerTokenValidity(String id) throws WebconnectionException {
-		try {
-			HashMap<String, String> postValues = new HashMap<>();
-			postValues.put(SIGNIN_OAUTH_ID_KEY, id);
-
-			String serverUrl = useTestUrl ? TEST_FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY : FACEBOOK_CHECK_SERVER_TOKEN_VALIDITY;
-			resultString = httpFormUpload(serverUrl, postValues);
-
-			JSONObject jsonObject = new JSONObject(resultString);
-			checkStatusCode200(jsonObject.getInt(JSON_STATUS_CODE));
-
-			return jsonObject.getBoolean(FACEBOOK_SERVER_TOKEN_INVALID);
-		} catch (JSONException e) {
-			throw new WebconnectionException(WebconnectionException.ERROR_JSON, Log.getStackTraceString(e));
-		}
-	}
-
-	public void logout(String userName) {
-		try {
-			String serverUrl = CATROBAT_TOKEN_LOGIN_URL
-					+ userName
-					+ CATROBAT_TOKEN_LOGIN_AMP_TOKEN
-					+ NO_TOKEN;
-
-			getRequest(serverUrl);
-		} catch (WebconnectionException e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-		}
-	}
-
-	static class UploadResponse {
-		int projectId;
-		int statusCode;
-		String answer;
-		String token;
+		sharedPreferences.edit()
+				.putString(Constants.TOKEN, newToken)
+				.putString(Constants.USERNAME, username)
+				.apply();
 	}
 
 	public interface UploadSuccessCallback {
-		void onSuccess(int projectId, String username, String token);
+		void onSuccess(String projectId, String username, String token);
 	}
 
 	public interface UploadErrorCallback {

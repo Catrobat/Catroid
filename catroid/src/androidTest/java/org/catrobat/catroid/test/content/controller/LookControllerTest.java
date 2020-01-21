@@ -46,7 +46,6 @@ import java.io.IOException;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
@@ -60,9 +59,11 @@ public class LookControllerTest {
 	private Scene scene;
 	private Sprite sprite;
 	private LookData lookData;
+	private BackpackListManager backpackListManager;
 
 	@Before
 	public void setUp() throws IOException {
+		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack();
 		createProject();
 	}
@@ -97,8 +98,8 @@ public class LookControllerTest {
 		LookController controller = new LookController();
 		LookData packedLook = controller.pack(lookData);
 
-		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
-		assertFileExistsInDirectory(packedLook.getFile(), BACKPACK_IMAGE_DIRECTORY);
+		assertEquals(0, backpackListManager.getBackpackedLooks().size());
+		assertFileExistsInDirectory(packedLook.getFile(), backpackListManager.backpackImageDirectory);
 	}
 
 	@Test
@@ -108,7 +109,7 @@ public class LookControllerTest {
 		controller.delete(packedLook);
 
 		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
-		assertFileDoesNotExistInDirectory(packedLook.getFile(), BACKPACK_IMAGE_DIRECTORY);
+		assertFileDoesNotExistInDirectory(packedLook.getFile(), backpackListManager.backpackImageDirectory);
 
 		assertEquals(1, sprite.getLookList().size());
 		assertFileExists(lookData.getFile());
@@ -121,7 +122,7 @@ public class LookControllerTest {
 		LookData unpackedLook = controller.unpack(packedLook, scene, sprite);
 
 		assertEquals(0, BackpackListManager.getInstance().getBackpackedLooks().size());
-		assertFileExistsInDirectory(packedLook.getFile(), BACKPACK_IMAGE_DIRECTORY);
+		assertFileExistsInDirectory(packedLook.getFile(), backpackListManager.backpackImageDirectory);
 
 		assertEquals(1, sprite.getLookList().size());
 		assertFileExists(unpackedLook.getFile());
@@ -141,10 +142,10 @@ public class LookControllerTest {
 	}
 
 	private void clearBackPack() throws IOException {
-		if (BACKPACK_IMAGE_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(BACKPACK_IMAGE_DIRECTORY);
+		if (backpackListManager.backpackImageDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackImageDirectory);
 		}
-		BACKPACK_IMAGE_DIRECTORY.mkdirs();
+		backpackListManager.backpackImageDirectory.mkdirs();
 	}
 
 	private void createProject() throws IOException {

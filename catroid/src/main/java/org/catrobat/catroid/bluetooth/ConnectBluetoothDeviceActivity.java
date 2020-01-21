@@ -32,8 +32,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -49,9 +51,15 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceFactory;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.Set;
+
+import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_CLASSIC;
+import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_DUAL;
+import static android.bluetooth.BluetoothDevice.DEVICE_TYPE_LE;
 
 public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
@@ -69,7 +77,7 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 	private BluetoothManager btManager;
 
 	private ArrayAdapter<String> pairedDevicesArrayAdapter;
-	private ArrayAdapter<String> newDevicesArrayAdapter;
+	private ArrayAdapter<Pair> newDevicesArrayAdapter;
 
 	private static BluetoothDeviceFactory getDeviceFactory() {
 		if (btDeviceFactory == null) {
@@ -116,12 +124,17 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> av, View view, int position, long id) {
-
 			String address = getSelectedBluetoothAddress(view);
+			Pair pair = null;
+			if (!newDevicesArrayAdapter.isEmpty()) {
+				pair = newDevicesArrayAdapter.getItem(position);
+			}
 			if (address == null) {
 				return;
 			}
-			connectDevice(address);
+			if (pair == null || pair.second.equals(DEVICE_TYPE_CLASSIC)) {
+				connectDevice(address);
+			}
 		}
 	};
 
@@ -134,7 +147,21 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			if (android.bluetooth.BluetoothDevice.ACTION_FOUND.equals(action)) {
 				android.bluetooth.BluetoothDevice device = intent.getParcelableExtra(android.bluetooth.BluetoothDevice.EXTRA_DEVICE);
 				if ((device.getBondState() != android.bluetooth.BluetoothDevice.BOND_BONDED)) {
-					newDevicesArrayAdapter.add(device.getName() + "-" + device.getAddress());
+					String deviceInfo = device.getName() + "-" + device.getAddress();
+					if (device.getType() == DEVICE_TYPE_CLASSIC || device.getType() == DEVICE_TYPE_DUAL) {
+						Pair<String, Integer> listElement = new Pair<>(deviceInfo,
+								DEVICE_TYPE_CLASSIC);
+						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
+							newDevicesArrayAdapter.add(listElement);
+						}
+					}
+					if (device.getType() == DEVICE_TYPE_LE || device.getType() == DEVICE_TYPE_DUAL) {
+						String deviceInfoBLE = "BLE - " + deviceInfo;
+						Pair<String, Integer> listElement = new Pair<>(deviceInfoBLE, DEVICE_TYPE_LE);
+						if (newDevicesArrayAdapter.getPosition(listElement) < 0) {
+							newDevicesArrayAdapter.add(listElement);
+						}
+					}
 				}
 			} else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
 				setProgressBarIndeterminateVisibility(false);
@@ -144,7 +171,8 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 				setTitle(getString(R.string.select_device) + " " + btDevice.getName());
 				if (newDevicesArrayAdapter.isEmpty()) {
 					String noDevices = getResources().getString(R.string.none_found);
-					newDevicesArrayAdapter.add(noDevices);
+					Pair<String, Integer> listElement = new Pair<>(noDevices, 0);
+					newDevicesArrayAdapter.add(listElement);
 				}
 			}
 		}
@@ -185,7 +213,11 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 				btDevice.setConnection(btConnection);
 				result = RESULT_OK;
 				BluetoothDeviceService btDeviceService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
-				btDeviceService.deviceConnected(btDevice);
+				try {
+					btDeviceService.deviceConnected(btDevice);
+				} catch (MindstormsException e) {
+					ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
+				}
 			} else {
 				ToastUtil.showError(ConnectBluetoothDeviceActivity.this, R.string.bt_connection_failed);
 			}
@@ -216,7 +248,15 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 		});
 
 		pairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
-		newDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
+		newDevicesArrayAdapter = new ArrayAdapter<Pair>(this, R.layout.device_name,
+				new ArrayList<Pair>()) {
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				TextView view = (TextView) super.getView(position, convertView, parent);
+				view.setText((String) getItem(position).first);
+				return view;
+			}
+		};
 
 		ListView pairedListView = (ListView) findViewById(R.id.paired_devices);
 		pairedListView.setAdapter(pairedDevicesArrayAdapter);

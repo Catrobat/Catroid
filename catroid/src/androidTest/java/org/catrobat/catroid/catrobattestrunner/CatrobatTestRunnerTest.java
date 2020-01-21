@@ -50,23 +50,13 @@ public class CatrobatTestRunnerTest {
 
 	@Test
 	public void testFailMismatchingTypes() throws Exception {
-		exception.expectMessage("Type error - expected and actual are mismatching types\n"
-				+ "Got:\n"
-				+ "actual = some text\n"
-				+ "expected = 5.0");
+		exception.expectMessage("expected:<5.0> but was:<some text>");
 		testAsset("testFailMismatchingTypes.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
 	@Test
-	public void testFailMissingTestVariables() throws Exception {
-		exception.expectMessage("no variable with name _EXPECTED in this project!\n"
-				+ "please add an AssertEqualsBrick");
-		testAsset("testFailMissingTestVariables.catrobat", "catrobatTestRunnerTests/fail");
-	}
-
-	@Test
 	public void testFailStringNotEqual() throws Exception {
-		exception.expectMessage("expected:<[diff]> but was:<[text]>");
+		exception.expectMessage("expected:<diff> but was:<text>");
 		testAsset("testFailStringNotEqual.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
@@ -81,6 +71,11 @@ public class CatrobatTestRunnerTest {
 		exception.expectMessage("Timeout after 10000ms\n"
 				+ "Test never got into ready state - is the AssertEqualsBrick reached?");
 		testAsset("testFailTimeout.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testTapBrick() throws Exception {
+		testAsset("testTapBrick.catrobat", "catrobatTestRunnerTests/success");
 	}
 
 	private void testAsset(String assetName, String assetPath) throws Exception {

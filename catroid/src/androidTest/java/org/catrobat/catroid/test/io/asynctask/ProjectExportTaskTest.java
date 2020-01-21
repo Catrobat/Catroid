@@ -29,14 +29,12 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.GrantPermissionRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.SparseArray;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
-import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import org.junit.After;
@@ -45,16 +43,19 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectExportTaskTest {
 
 	private Project project;
+	private Context contextMock;
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(
@@ -69,15 +70,21 @@ public class ProjectExportTaskTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectSaveTask
 				.task(project, InstrumentationRegistry.getTargetContext());
+
+		NotificationManager notificationManagerMock = Mockito.mock(NotificationManager.class);
+		contextMock = Mockito.mock(Context.class);
+		Mockito.when(contextMock.getResources()).thenReturn(InstrumentationRegistry.getTargetContext().getResources());
+		Mockito.when(contextMock.getSystemService(anyString())).thenReturn(notificationManagerMock);
 	}
 
 	@Test
 	public void exportProjectTest() {
-		StatusBarNotificationManager notificationManager = StatusBarNotificationManager.getInstance();
-		int notificationId = notificationManager
+		StatusBarNotificationManager notificationManager = new StatusBarNotificationManager(contextMock);
+		NotificationData notificationData = notificationManager
 				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), project.getName());
-		ProjectExportTask
-				.task(project.getDirectory(), notificationId);
+
+		new ProjectExportTask(project.getDirectory(), notificationData,
+				InstrumentationRegistry.getTargetContext()).exportProjectToExternalStorage();
 
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
@@ -92,22 +99,5 @@ public class ProjectExportTaskTest {
 		if (EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY.exists()) {
 			StorageOperations.deleteDir(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY);
 		}
-		cancelAllNotifications(InstrumentationRegistry.getTargetContext());
-	}
-
-	private void cancelAllNotifications(Context context) throws Exception {
-		NotificationManager notificationManager = (NotificationManager) context
-				.getSystemService(Context.NOTIFICATION_SERVICE);
-		@SuppressWarnings("unchecked")
-		SparseArray<NotificationData> notificationMap = (SparseArray<NotificationData>) Reflection.getPrivateField(
-				StatusBarNotificationManager.class, StatusBarNotificationManager.getInstance(), "notificationDataMap");
-		if (notificationMap == null) {
-			return;
-		}
-
-		for (int i = 0; i < notificationMap.size(); i++) {
-			notificationManager.cancel(notificationMap.keyAt(i));
-		}
-		notificationMap.clear();
 	}
 }

@@ -91,6 +91,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient ActionFactory actionFactory = new ActionFactory();
 
 	public transient boolean isClone = false;
+	public transient Sprite myOriginal = null;
 
 	public Sprite() {
 	}
@@ -195,6 +196,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (LookData lookData : lookList) {
 			lookData.dispose();
 		}
+
+		if (!getLookList().isEmpty()) {
+			look.setLookData(getLookList().get(0));
+		}
+
 		penConfiguration = new PenConfiguration();
 	}
 
@@ -311,11 +317,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	public int getNumberOfBricks() {
-		int brickCount = 0;
-		for (Script s : scriptList) {
-			brickCount += s.getBrickList().size();
+		List<Brick> flatList = new ArrayList<>();
+		for (Script script : scriptList) {
+			script.addToFlatList(flatList);
 		}
-		return brickCount;
+		return flatList.size() - scriptList.size();
 	}
 
 	public int getScriptIndex(Script script) {
@@ -383,16 +389,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private boolean hasToCollideWith(Sprite other) {
 		for (Script script : getScriptList()) {
-			Brick scriptBrick = script.getScriptBrick();
-			if (scriptBrick instanceof FormulaBrick) {
-				FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-				for (Formula formula : formulaBrick.getFormulas()) {
-					if (formula.containsSpriteInCollision(other.getName())) {
-						return true;
-					}
-				}
-			}
-			for (Brick brick : script.getBrickList()) {
+			List<Brick> flatList = new ArrayList();
+			script.addToFlatList(flatList);
+			for (Brick brick : flatList) {
 				if (brick instanceof FormulaBrick) {
 					FormulaBrick formulaBrick = (FormulaBrick) brick;
 					for (Formula formula : formulaBrick.getFormulas()) {
@@ -414,15 +413,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 				if (currentScript == null) {
 					return;
 				}
-				Brick scriptBrick = currentScript.getScriptBrick();
-				if (scriptBrick instanceof FormulaBrick) {
-					FormulaBrick formulaBrick = (FormulaBrick) scriptBrick;
-					for (Formula formula : formulaBrick.getFormulas()) {
-						formula.updateCollisionFormulas(oldName, newName, context);
-					}
-				}
-				List<Brick> brickList = currentScript.getBrickList();
-				for (Brick brick : brickList) {
+				List<Brick> flatList = new ArrayList();
+				currentScript.addToFlatList(flatList);
+				for (Brick brick : flatList) {
 					if (brick instanceof FormulaBrick) {
 						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
 						for (Formula formula : formulaList) {

@@ -27,36 +27,33 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
-import org.catrobat.catroid.web.WebconnectionException;
+import org.catrobat.catroid.web.CatrobatWebClient;
+import org.catrobat.catroid.web.ServerAuthenticator;
 
+import java.lang.ref.WeakReference;
 import java.util.Locale;
 
-public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
-
-	private static final String TAG = RegistrationTask.class.getSimpleName();
-
-	private Context context;
+public class RegistrationTask extends AsyncTask<Void, Void, Void> {
+	private final WeakReference<Context> contextWeakReference;
 	private ProgressDialog progressDialog;
 	private String username;
 	private String password;
 	private String email;
 
 	private String message;
-	private boolean userRegistered;
+	private boolean userRegistered = false;
 
 	private OnRegistrationListener onRegistrationListener;
-	private WebconnectionException exception;
 
-	public RegistrationTask(Context activity, String username, String password, String email) {
-		this.context = activity;
+	public RegistrationTask(Context context, String username, String password, String email) {
+		this.contextWeakReference = new WeakReference<>(context);
 		this.username = username;
 		this.password = password;
 		this.email = email;
@@ -68,7 +65,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPreExecute() {
-		super.onPreExecute();
+		Context context = contextWeakReference.get();
 		if (context == null) {
 			return;
 		}
@@ -78,57 +75,73 @@ public class RegistrationTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	@Override
-	protected Boolean doInBackground(Void... arg0) {
-		try {
-			if (!Utils.isNetworkAvailable(context)) {
-				exception = new WebconnectionException(WebconnectionException.ERROR_NETWORK, "Network not available!");
-				return false;
-			}
+	protected Void doInBackground(Void... arg0) {
+		Context context = contextWeakReference.get();
 
-			String language = Locale.getDefault().getLanguage();
-			String country = DeviceSettingsProvider.getUserCountryCode();
-			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-			String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
-
-			userRegistered = ServerCalls.getInstance().register(username, password, email, language,
-					country, token, context);
-
-			return true;
-		} catch (WebconnectionException webconnectionException) {
-			Log.e(TAG, Log.getStackTraceString(webconnectionException));
-			message = webconnectionException.getMessage();
+		if (context == null) {
+			return null;
 		}
-		return false;
+
+		if (!Utils.isNetworkAvailable(context)) {
+			message = context.getString(R.string.error_internet_connection);
+			userRegistered = false;
+			return null;
+		}
+
+		String language = Locale.getDefault().getLanguage();
+		String country = DeviceSettingsProvider.getUserCountryCode();
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+		ServerAuthenticator authenticator =
+				new ServerAuthenticator(username, password, token,
+						CatrobatWebClient.INSTANCE.getClient(),
+						FlavoredConstants.BASE_URL_HTTPS,
+						sharedPreferences,
+						new ServerAuthenticator.TaskListener() {
+							@Override
+							public void onError(int statusCode, String errorMessage) {
+								message = context.getString(R.string.error_internet_connection);
+								userRegistered = false;
+							}
+
+							@Override
+							public void onSuccess() {
+								userRegistered = true;
+							}
+						});
+
+		authenticator.performCatrobatRegister(email, language, country);
+		return null;
 	}
 
 	@Override
-	protected void onPostExecute(Boolean success) {
-		super.onPostExecute(success);
+	protected void onPostExecute(Void any) {
+		Context context = contextWeakReference.get();
+
+		if (context == null) {
+			return;
+		}
 
 		if (progressDialog != null && progressDialog.isShowing()) {
 			progressDialog.dismiss();
 		}
 
-		if (Utils.checkForNetworkError(exception)) {
-			ToastUtil.showError(context, R.string.error_internet_connection);
-			return;
-		}
-
-		if (Utils.checkForSignInError(success, exception, context, userRegistered)) {
-			if (message == null) {
-				message = context.getString(R.string.register_error);
-			}
-			onRegistrationListener.onRegistrationFailed(message);
-			Log.e(TAG, message);
-			return;
-		}
-
 		if (userRegistered) {
 			ToastUtil.showSuccess(context, R.string.new_user_registered);
+			if (onRegistrationListener != null) {
+				onRegistrationListener.onRegistrationComplete();
+			}
+			return;
 		}
 
+		if (message == null) {
+			message = context.getString(R.string.register_error);
+		}
+
+		ToastUtil.showError(context, message);
 		if (onRegistrationListener != null) {
-			onRegistrationListener.onRegistrationComplete();
+			onRegistrationListener.onRegistrationFailed(message);
 		}
 	}
 

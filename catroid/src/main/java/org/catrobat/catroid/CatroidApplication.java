@@ -22,19 +22,32 @@
  */
 package org.catrobat.catroid;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 import android.support.multidex.MultiDex;
-import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
+import org.catrobat.catroid.dagger.AppComponent;
+import org.catrobat.catroid.dagger.CatroidModule;
+import org.catrobat.catroid.dagger.DaggerAppComponent;
 import org.catrobat.catroid.utils.CrashReporter;
 
 import java.util.Locale;
 
-public class CatroidApplication extends MultiDexApplication {
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.HasActivityInjector;
+
+public class CatroidApplication extends Application implements HasActivityInjector {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
@@ -48,19 +61,47 @@ public class CatroidApplication extends MultiDexApplication {
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
 
+	@Inject
+	DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
+	protected AppComponent appComponents;
+
+	@TargetApi(28)
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		Log.d(TAG, "CatroidApplication onCreate");
 		Log.d(TAG, "git commit info: " + BuildConfig.GIT_COMMIT_INFO);
 
+		if (BuildConfig.DEBUG && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+			StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+					.detectNonSdkApiUsage()
+					.penaltyLog()
+					.build());
+		}
+
 		CrashReporter.initialize(this);
 
 		context = getApplicationContext();
+
+		createApplicationComponents();
+		appComponents.initializeEagerSingletons();
+		appComponents.inject(this);
+
 		defaultSystemLanguage = Locale.getDefault().getLanguage();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
+	}
+
+	protected void createApplicationComponents() {
+		appComponents = DaggerAppComponent.builder()
+				.catroidModule(new CatroidModule(this))
+				.build();
+	}
+
+	@Override
+	public AndroidInjector<Activity> activityInjector() {
+		return dispatchingActivityInjector;
 	}
 
 	@Override

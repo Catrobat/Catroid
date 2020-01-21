@@ -52,6 +52,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -71,6 +72,8 @@ import static org.catrobat.catroid.content.Look.ROTATION_STYLE_NONE;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 
 public class VisualPlacementActivity extends BaseCastActivity implements View.OnTouchListener,
 		DialogInterface.OnClickListener, CoordinateInterface {
@@ -80,13 +83,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	public static final String X_COORDINATE_BUNDLE_ARGUMENT = "xCoordinate";
 	public static final String Y_COORDINATE_BUNDLE_ARGUMENT = "yCoordinate";
 
-	private File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
-			ProjectManager.getInstance().getCurrentProject().getName());
-	private File sceneDir = new File(projectDir,
-			ProjectManager.getInstance().getCurrentlyPlayingScene().getName());
-	private File automaticScreenshot = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
-	private File manualScreenshot = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
-
 	private ImageView imageView;
 	private float xCoord;
 	private float yCoord;
@@ -94,6 +90,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	private float scaleY;
 	private float rotation;
 	private int rotationMode;
+	private float translateX;
+	private float translateY;
 
 	private float reversedRatioHeight;
 	private float reversedRatioWidth;
@@ -123,13 +121,32 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		if (isFinishing()) {
+			return;
+		}
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
+		Scene currentlyPlayingScene = projectManager.getCurrentlyPlayingScene();
+
 		setContentView(R.layout.visual_placement_layout);
+		Bundle extras = getIntent().getExtras();
+		translateX = extras.getInt(EXTRA_X_TRANSFORM);
+		translateY = extras.getInt(EXTRA_Y_TRANSFORM);
 		Toolbar toolbar = findViewById(R.id.transparent_toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.brick_place_at_option_place_visually);
 
-		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, currentProject.getName());
+		File sceneDir = new File(projectDir, currentlyPlayingScene.getName());
+		File automaticScreenshot = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshot = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
+
+		if (projectManager.isCurrentProjectLandscapeMode()) {
 			setRequestedOrientation(SCREEN_ORIENTATION_LANDSCAPE);
 		} else {
 			setRequestedOrientation(SCREEN_ORIENTATION_PORTRAIT);
@@ -137,8 +154,6 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		visualPlacementTouchListener = new VisualPlacementTouchListener();
 
 		FrameLayout frameLayout = findViewById(R.id.frame_container);
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		int screenWidth = ScreenValues.SCREEN_WIDTH;
 		int screenHeight = ScreenValues.SCREEN_HEIGHT;
@@ -195,7 +210,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			} else if (manualScreenshot.exists()) {
 				backgroundBitmapPath = manualScreenshot.getPath();
 			} else {
-				backgroundBitmapPath = ProjectManager.getInstance().getCurrentlyEditedScene()
+				backgroundBitmapPath = currentlyEditedScene
 						.getBackgroundSprite().getLookList().get(0).getFile().getAbsolutePath();
 			}
 
@@ -245,12 +260,17 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				}
 				break;
 		}
+
 		Bitmap bitmap = Bitmap.createBitmap(spriteBitmap, 0, 0,
 				spriteBitmap.getWidth(),
 				spriteBitmap.getHeight(), matrix, true);
 		Bitmap scaledSpriteBitmap = Bitmap.createScaledBitmap(bitmap, (int) (bitmap.getWidth() * layoutWidthRatio),
 				(int) (bitmap.getHeight() * layoutHeightRatio), true);
 		imageView.setImageBitmap(scaledSpriteBitmap);
+		imageView.setTranslationX(translateX);
+		imageView.setTranslationY(-translateY);
+		xCoord = translateX / reversedRatioWidth;
+		yCoord = translateY / reversedRatioHeight;
 
 		if (scaleX > 0.01) {
 			imageView.setScaleX(scaleX);

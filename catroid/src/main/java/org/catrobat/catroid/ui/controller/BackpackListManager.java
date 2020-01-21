@@ -23,6 +23,7 @@
 package org.catrobat.catroid.ui.controller;
 
 import org.catrobat.catroid.common.Backpack;
+import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
@@ -36,28 +37,46 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKBACK_SCENES_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.BACKPACK_JSON_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class BackpackListManager {
 
 	private static final BackpackListManager INSTANCE = new BackpackListManager();
 
-	private static Backpack backpack;
+	public final File backpackDirectory = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, BACKPACK_DIRECTORY_NAME);
+	public final File backpackFile = new File(backpackDirectory, BACKPACK_JSON_FILE_NAME);
+	public final File backpackSceneDirectory = new File(backpackDirectory, BACKBACK_SCENES_DIRECTORY_NAME);
+	public final File backpackSoundDirectory = new File(backpackDirectory, BACKPACK_SOUND_DIRECTORY_NAME);
+	public final File backpackImageDirectory = new File(backpackDirectory, BACKPACK_IMAGE_DIRECTORY_NAME);
+
+	private Backpack backpack = new Backpack();
+
+	private BackpackSerializer backpackSerializer = new BackpackSerializer(backpackFile);
 
 	public static BackpackListManager getInstance() {
-		if (backpack == null) {
-			backpack = new Backpack();
-		}
 		return INSTANCE;
 	}
 
+	private BackpackListManager() {
+		createBackpackDirectories();
+	}
+
+	private void createBackpackDirectories() {
+		DEFAULT_ROOT_DIRECTORY.mkdir();
+		backpackDirectory.mkdir();
+		backpackSceneDirectory.mkdir();
+		backpackImageDirectory.mkdir();
+		backpackSoundDirectory.mkdir();
+	}
+
 	public Backpack getBackpack() {
-		if (backpack == null) {
-			backpack = new Backpack();
-		}
 		return backpack;
 	}
 
@@ -99,23 +118,25 @@ public final class BackpackListManager {
 	}
 
 	public void saveBackpack() {
-		BackpackSerializer.getInstance().saveBackpack(getBackpack());
+		backpackSerializer.saveBackpack(getBackpack());
 	}
 
 	public void loadBackpack() {
-		backpack = BackpackSerializer.getInstance().loadBackpack();
+		backpack = backpackSerializer.loadBackpack();
 
 		for (Scene scene : getScenes()) {
 			setSpriteFileReferences(scene.getSpriteList(), scene.getDirectory());
 		}
 
 		for (Sprite sprite : getSprites()) {
-			setLookFileReferences(sprite.getLookList(), BACKPACK_IMAGE_DIRECTORY);
-			setSoundFileReferences(sprite.getSoundList(), BACKPACK_SOUND_DIRECTORY);
+			setLookFileReferences(sprite.getLookList(),
+					backpackImageDirectory);
+			setSoundFileReferences(sprite.getSoundList(),
+					backpackSoundDirectory);
 		}
 
-		setLookFileReferences(getBackpackedLooks(), BACKPACK_IMAGE_DIRECTORY);
-		setSoundFileReferences(getBackpackedSounds(), BACKPACK_SOUND_DIRECTORY);
+		setLookFileReferences(getBackpackedLooks(), backpackImageDirectory);
+		setSoundFileReferences(getBackpackedSounds(), backpackSoundDirectory);
 
 		for (Iterable<Script> scripts : getBackpackedScripts().values()) {
 			for (Script script : scripts) {

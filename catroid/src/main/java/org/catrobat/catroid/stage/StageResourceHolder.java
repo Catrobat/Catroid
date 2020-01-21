@@ -33,6 +33,7 @@ import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.VisibleForTesting;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +52,7 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.ardrone.DroneController;
 import org.catrobat.catroid.drone.ardrone.DroneInitializer;
@@ -104,7 +106,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		TouchUtil.reset();
 	}
 
-	static List<String> getProjectsRuntimePermissionList() {
+	@VisibleForTesting(otherwise = VisibleForTesting.PACKAGE_PRIVATE)
+	public static List<String> getProjectsRuntimePermissionList() {
 		return BrickResourcesToRuntimePermissions.translate(
 				ProjectManager.getInstance().getCurrentProject().getRequiredResources());
 	}
@@ -193,7 +196,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 										.findViewById(R.id.dialog_terms_of_use_check_box_agree_permanently);
 								PreferenceManager.getDefaultSharedPreferences(stageActivity)
 										.edit()
-										.putBoolean(SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, checkBox.isChecked());
+										.putBoolean(SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY, checkBox.isChecked())
+										.apply();
 								onDroneTermsOfUseAgreed();
 							}
 						})
@@ -241,7 +245,8 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 								PreferenceManager.getDefaultSharedPreferences(stageActivity)
 										.edit()
 										.putBoolean(SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY,
-												checkBox.isChecked());
+												checkBox.isChecked())
+										.apply();
 								onJSDroneTermsOfUseAgreed();
 							}
 						})
@@ -414,7 +419,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	}
 
 	public void initFinishedRunStage() {
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
+		try {
+			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).initialise();
+		} catch (MindstormsException e) {
+			Log.e(TAG, e.getMessage());
+		}
 		stageActivity.setupAskHandler();
 		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
 				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);

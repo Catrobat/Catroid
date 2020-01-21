@@ -44,6 +44,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
@@ -67,6 +68,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, RENAME, MERGE})
 	@interface ActionModeType {}
+
 	protected static final int NONE = 0;
 	protected static final int BACKPACK = 1;
 	protected static final int COPY = 2;
@@ -182,7 +184,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				showRenameDialog(adapter.getSelectedItems());
 				break;
 			case MERGE:
-				showMergeAlert();
+				showMergeDialog(adapter.getSelectedItems());
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
@@ -292,7 +294,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
 						.putBoolean(sharedPreferenceDetailsKey, adapter.showDetails)
-						.commit();
+						.apply();
 				adapter.notifyDataSetChanged();
 				break;
 			default:
@@ -429,12 +431,24 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				.show();
 	}
 
-	protected void showMergeAlert() {
+	protected void showMergeDialog(List<T> selectedItems) {
 		if (adapter.getSelectedItems().size() <= 1) {
 			ToastUtil.showError(getContext(), R.string.am_merge_error);
 		} else {
-			ToastUtil.showError(getContext(), "These two projects cannot yet be merged");
+			TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+			builder.setHint(getString(R.string.project_name_label))
+					.setTextWatcher(new NewProjectNameTextWatcher<>())
+					.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput)
+							-> {
+						mergeProjects(selectedItems, textInput);
+					});
+
+			builder.setTitle(R.string.new_merge_project_dialog_title)
+					.setNegativeButton(R.string.cancel, null)
+					.show();
 		}
+
 		setShowProgressBar(true);
 		finishActionMode();
 	}
@@ -446,6 +460,11 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	protected void renameItem(T item, String newName) {
 		item.setName(newName);
+		finishActionMode();
+	}
+
+	protected void mergeProjects(List<T> selectedProjects, String mergeProjectName) {
+		ToastUtil.showSuccess(getContext(), R.string.merging_project_text);
 		finishActionMode();
 	}
 }

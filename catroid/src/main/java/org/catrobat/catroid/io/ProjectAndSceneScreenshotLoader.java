@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
@@ -37,7 +38,6 @@ import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
@@ -177,7 +177,9 @@ public class ProjectAndSceneScreenshotLoader {
 			File automaticScreenShotFile;
 			if (projectAndSceneScreenshotData.sceneName != null) {
 				if (projectAndSceneScreenshotData.isBackpackScene) {
-					File sceneDir = new File(BACKPACK_SCENE_DIRECTORY, projectAndSceneScreenshotData.sceneName);
+					File sceneDir =
+							new File(BackpackListManager.getInstance().backpackSceneDirectory,
+							projectAndSceneScreenshotData.sceneName);
 					manualScreenshotFile = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
 					automaticScreenShotFile = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
 				} else {

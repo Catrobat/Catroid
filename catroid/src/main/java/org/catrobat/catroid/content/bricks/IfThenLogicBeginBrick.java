@@ -175,6 +175,14 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 		sequence.addAction(action);
 	}
 
+	@Override
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		super.addRequiredResources(requiredResourcesSet);
+		for (Brick brick : ifBranchBricks) {
+			brick.addRequiredResources(requiredResourcesSet);
+		}
+	}
+
 	private static class EndBrick extends BrickBaseType {
 
 		EndBrick(IfThenLogicBeginBrick parent) {

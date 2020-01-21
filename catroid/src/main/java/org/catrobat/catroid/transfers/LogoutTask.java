@@ -26,7 +26,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.web.ServerCalls;
+import org.catrobat.catroid.web.CatrobatServerCalls;
 
 public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -51,7 +51,7 @@ public class LogoutTask extends AsyncTask<Void, Void, Boolean> {
 		if (!Utils.isNetworkAvailable(context)) {
 			return false;
 		}
-		ServerCalls.getInstance().logout(username);
+		new CatrobatServerCalls().logout(username);
 		return true;
 	}
 }

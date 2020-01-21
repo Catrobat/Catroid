@@ -60,6 +60,7 @@ __pycache__
 
 #api-keys
 catroid/google-services.json
+catroid/fabric.properties
 
 #Crowdin folder
 crowdin/

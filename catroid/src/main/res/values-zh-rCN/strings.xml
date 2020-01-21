@@ -52,10 +52,7 @@
     <string name="backpack_add">添加到背包</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_facebook_data">正在检索 facebook 数据..。</string>
     <string name="loading_check_oauth_token">正在检查登录数据..。</string>
-    <string name="loading_facebook_exchange_token">交换脸谱数据.....。</string>
-    <string name="loading_facebook_login">我们服务器上的 facebook 登录是完整的..。</string>
     <string name="loading_google_exchange_code">交换 google + 数据..。</string>
     <string name="loading_google_login">谷歌 + 登录我们的服务器是完整的..。</string>
     <string name="delete_account">删除帐户</string>
@@ -72,7 +69,7 @@
     <string name="main_menu_new">新建</string>
     <string name="main_menu_programs">程序</string>
     <string name="main_menu_help">帮助</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Catrobat社区</string>
     <string name="main_menu_upload">上传</string>
     <string name="main_menu_rate_app">给我们评分！</string>
     <string name="main_menu_terms_of_use">使用与服务条例</string>
@@ -131,35 +128,35 @@
     <string name="preference_access_summary_profile_odin">大文本、大图标、大元素 &lt; div class="notranslate"&gt;0 &lt;/div&gt; 间距高对比度</string>
     <string name="preference_access_title_profile_fenrir">芬里尔</string>
     <string name="preference_access_summary_profile_fenrir">大单元间距, 拖放 &lt; div class="notranslate"&gt;0 &lt;/div&gt; 延迟</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
+    <string name="preference_access_title_profile_tiro">蒂罗</string>
     <string name="preference_access_summary_profile_tiro">初砖</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR无人机2.0积木</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
+    <string name="preference_description_quadcopter_bricks">允许控制AR2.0版四轴无人机</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo积木</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
+    <string name="preference_description_jumpingsumo_bricks">允许控制 Parrot Jumping Sumo 机器人</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">乐高头脑风暴NXT积木</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">乐高头脑风暴EV3积木</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+    <string name="preference_description_mindstorms_nxt_bricks">允许控制乐高 Mindstorms NXT 机器人</string>
+    <string name="preference_description_mindstorms_ev3_bricks">允许控制乐高 Mindstorms NXT机器人</string>
     <string name="preference_title_mindstorms_nxt_sensors">乐高NXT传感器</string>
     <string name="preference_title_mindstorms_ev3_sensors">乐高EV3传感器</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
+    <string name="preference_title_drone_config_properties">Parrot AR.无人机 2.0 配置</string>
     <string name="preference_title_enable_phiro_bricks">Phiro积木</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string name="preference_description_phiro_bricks">允许控制 Robotix Edu´s Phiro 机器人</string>
     <string name="preference_title_enable_arduino_bricks">Arduino积木</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+    <string name="preference_description_arduino_bricks">允许控制Arduino控制板</string>
+    <string name="preference_title_enable_embroidery_bricks">刺绣扩展</string>
+    <string name="preference_description_embroidery_bricks">创建缝纫机創建圖案</string>
     <string name="preference_title_cast_feature_globally_enabled">启用强制转换功能</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+    <string name="preference_description_cast_feature_globally_enabled">显示投射按钮并启用投射项目</string>
     <string name="preference_title_enable_nfc_bricks">近距离无线通信</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
+    <string name="preference_description_nfc_bricks">允许应用程序在项目中使用 NFC 标签</string>
     <string name="preference_title_enable_crash_reports">发送匿名故障报告</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_description_crash_reports">允许自动发送故障报告</string>
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">树莓派积木</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+    <string name="preference_description_raspi_bricks">允许控制树莓派电脑</string>
     <string name="preference_raspi_enable_bricks">启用树莓派积木</string>
     <string name="preference_raspi_help">帮助/入门</string>
     <string name="preference_raspi_help_summary">获取有关如何配置连接设置的帮助</string>
@@ -167,36 +164,33 @@
     <string name="preference_raspi_port">树莓派端口</string>
     <!--  -->
     <!-- Scratch Converter activity -->
-    <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+    <string name="beta">公测版</string>
+    <string name="error_scratch_program_not_accessible_any_more">哎呀！项目似乎已经消失了
+        或您可能已经失去了访问权限。</string>
+    <string name="error_scratch_project_data_not_available">哎呀！项目的某些部分似乎丢失了
+        ，请稍后再试。</string>
+    <string name="error_request_timeout">糟了 ！我们的服务器目前不可访问，请稍后再试 ！</string>
     <string name="error_scratch_program_conversion_failed">糟了！转换Scratch程序失败，请稍后再试 ！</string>
     <string name="error_specific_scratch_program_conversion_failed_x">糟了 ！转换 %1$s 失败，请稍后再试 ！</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string name="error_scratch_converter_outdated_app_version">您的应用版本已过时。我们的 Scratch
+        转换器只能在最新版本上运行。请更新应用程序。</string>
     <string name="error_cannot_open_not_existing_scratch_program">无法打开该Scratch程序。看来您已经取消了转换/下载这个Scratch程序，或者您已经重命名/删除了程序 ！</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">您还不能打开工程。
+        请等待下载。</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">您还不能打开项目。
+        请先下载，然后打开。</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">我无法转换 %1$s。这似乎是一个旧的 Scratch 项目来自之前的 %2$s
+        。请尝试另一个。</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="other">您不能同时转换超过 %d 个项目。请等待正在运行的转换完成先。</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">您不能打开项目，因为它没有正确转换。请尝试重新转换。</string>
+    <string name="search_failed">未找到任何内容，请稍后再试。</string>
+    <string name="connection_lost_or_closed_by_server">服务器连接已丢失。</string>
+    <string name="connection_failed">我们现在无法连接到服务器，请稍后再试。</string>
+    <string name="authentication_failed">您与服务器的连接似乎有问题。请联系 Catrobat 团队。</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="other">添加 %d Scratch 项目到队列&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">开始转换Scratch程序&#8230;</string>
     <string name="convert">转换</string>
@@ -206,20 +200,19 @@
     <string name="status_started">开始了&#8230;</string>
     <string name="status_conversion_finished">转换结束！</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="other">正在运行：%d个任务</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="other">已经完成：%d个任务</item>
     </plurals>
     <string name="status_conversion_failed">转换失败！</string>
     <string name="status_downloading">正在下载&#8230;</string>
     <string name="status_download_finished">下载完成！</string>
     <string name="status_download_canceled">下载已取消 ！</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
+    <string name="scratch_programs_in_progress_title">正在进行</string>
+    <string name="scratch_programs_finished_title">已转换的项目</string>
     <string name="by_x">作者 %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string name="warning_program_visibility">警告：\n这似乎是一个私有项目。您可以尝试转换它，但它可能无法运作。</string>
     <string name="instructions">说明</string>
     <string name="notes_and_credits">评论与得分</string>
     <string name="shared_at_x">分享时间：%1$s</string>
@@ -232,39 +225,40 @@
     <string name="remix_of">调制来源：</string>
     <string name="description_hint">按下并添加说明</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">你在 %1$s 之前转换了这个项目。</string>
     <plurals name="minutes">
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d 分钟</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d 小时</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d 天</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">再次下载项目</string>
+    <string name="reconvert_dialog_reconvert">再次转换此项目</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_privacy_agreement_alert">要使用我们的应用软件，必须接受我们的隐私政策。但是，如果您感到不合适，您可以在这里使用我们的免费网络服务。</string>
+    <string name="wtf_error">发生一个意外错误：我无法恢复项目样品。</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">在复制项目的时候发生了一个错误。</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+    <string name="name_already_exists">此名称已被使用，请另选一个。</string>
     <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
     <string name="name_empty">Please enter a text</string>
     <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">取出</string>
     <string name="am_copy">复制</string>
     <string name="am_delete">删除</string>
     <string name="am_rename">重命名</string>
     <string name="am_convert">转换</string>
+    <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
@@ -272,6 +266,7 @@
     <string name="copy">复制</string>
     <string name="delete">删除</string>
     <string name="rename">重命名</string>
+    <string name="merge">Merge</string>
     <string name="show_details">显示详情</string>
     <string name="hide_details">隐藏详情</string>
     <!-- Action Mode Titles -->
@@ -290,6 +285,9 @@
     </plurals>
     <plurals name="am_convert_projects_title">
         <item quantity="other">Convert %d projects</item>
+    </plurals>
+    <plurals name="am_merge_projects_title">
+        <item quantity="other">Merge %d projects</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -425,6 +423,7 @@
     <string name="data_label">名称</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
@@ -525,18 +524,6 @@
     <string name="details_date_today">今天</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
-    <!-- Migrate from external to internal storage -->
-    <string name="import_dialog_title">Updated project storage</string>
-    <string name="import_dialog_message">From now on projects will be stored in a hidden area on your device.
-        Existing projects can either be \'moved\' or \'copied\' to this hidden area. \'Moving\' them will remove them from
-        the unprotected area. You will still be able to access all projects, and to export them later to the unprotected area.
-        If you are unsure, select \'Move\'.</string>
-    <string name="import_dialog_copy_btn">复制</string>
-    <string name="import_dialog_move_btn">移动</string>
-    <string name="projects_successful_moved_toast">Projects successfully moved.</string>
-    <string name="projects_successful_copied_toast">Projects successfully copied.</string>
-    <string name="error_during_copying_projects_toast">An error occurred during project migration.</string>
-    <!--  -->
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
@@ -597,6 +584,10 @@
     <string name="project_orientation_title">方向：</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">新建对象</string>
     <!--  -->
@@ -648,13 +639,15 @@
         it is necessary to collect certain data from you.\n\n
 
         • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), to get
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA). Data processing is based on an agreement with
-            Google LLC. This relationship to the service provider conforms to the European Union\'s General Data
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
+            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         • To create and use an account in our systems, and to inform you about necessary changes about your
             account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
@@ -698,7 +691,7 @@
         Catrobat\'s official English language privacy policy is available on the web under
         https://catrob.at/privacypolicy.\n\n
 
-        Version 2.1, 25 June 2018\n\n
+        Version 2.2, 17 October 2019\n\n
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
@@ -781,8 +774,7 @@
     <string name="show_password">显示密码</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_facebook_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_facebook">Sign in with Facebook</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
     <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
     <string name="error_register_username_as_email">Email address cannot be used as user names</string>
@@ -814,7 +806,6 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
-    <string name="prestage_no_flash_available">\u2022 闪光灯\n</string>
     <string name="prestage_no_vibrator_available">\u2022 震动器\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 倾角传感器\n</string>
@@ -839,6 +830,7 @@
     <string name="stage_dialog_axes_off">隐藏坐标轴</string>
     <string name="stage_dialog_maximize">最大化/\n拉伸</string>
     <string name="stage_dialog_screenshot">预览</string>
+    <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">新消息</string>
@@ -856,7 +848,7 @@
     <string name="category_sound">声音</string>
     <string name="category_control">控制</string>
     <string name="category_event">事件</string>
-    <string name="category_user_bricks">我的积木</string>
+    <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">数据</string>
     <string name="category_lego_nxt">乐高NXT</string>
     <string name="category_lego_ev3">乐高EV3</string>
@@ -866,6 +858,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Cast</string>
     <string name="category_raspi">树莓派</string>
+    <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"放在 "</string>
@@ -1010,6 +1003,10 @@
     <string name="brick_clone_this">自己</string>
     <string name="brick_when_cloned">当作为克隆启动</string>
     <string name="brick_delete_this_clone">删除这个克隆</string>
+    <string name="brick_assert_that">Assert:</string>
+    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at">"Single tap at"</string>
     <plurals name="time_plural">
         <item quantity="other">次</item>
     </plurals>
@@ -1020,6 +1017,10 @@
     <string name="brick_if_end">如果结束</string>
     <string name="brick_set_variable">设置变量</string>
     <string name="brick_change_variable">增加变量</string>
+    <string name="brick_write_variable_on_device">Write variable on device</string>
+    <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_list_on_device">Write list on device</string>
+    <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">在这里添加注释&#8230;</string>
     <string name="brick_think_bubble_default_value">嗯……！</string>
     <string name="brick_say_bubble_default_value">您好！</string>
@@ -1034,6 +1035,9 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">替换项目在列表</string>
     <string name="brick_replace_item_in_userlist_item_at_index">的位置</string>
     <string name="brick_replace_item_in_userlist_with_value">以</string>
+    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">我的第一个程序</string>
@@ -1109,9 +1113,6 @@
     <string name="notification_screenshot_ok">预览图像已保存</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">已取消下载/重新转换程序</string>
-    <string name="notification_copy_title_pending">"正在复制 "</string>
-    <string name="notification_copy_pending">正在复制</string>
-    <string name="notification_copy_finished">复制完成</string>
     <string name="notification_upload_title_pending">"上传中 "</string>
     <string name="notification_upload_title_finished">"查看 "</string>
     <string name="notification_upload_pending">正在上传</string>
@@ -1144,6 +1145,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">在上传程序的时候发生了一个错误。</string>
     <string name="error_project_download">下载程序时发生了一个错误。</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
     <string name="error_new_project">创建新程序时发生了一个错误。</string>
     <string name="error_rename_scene">在重命名场景时发生了一个错误。</string>
     <string name="error_load_project">在加载程序的时候发生了一个错误。</string>
@@ -1170,6 +1174,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform_title">暂不支持AR无人机2.0</string>
     <string name="error_drone_wrong_platform">我们无法在您的设备上运行AR2.0无人机项目。</string>
     <string name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">发生未知错误。</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">在保存说明时发生了一个错误。</string>
@@ -1345,7 +1350,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_move_backward">向后移动Jumping Sumo</string>
     <string name="brick_jumping_sumo_animation">Jumping Sumo表演</string>
     <string name="brick_jumping_sumo_no_sound">Jumping Sumo没有声音</string>
-    <string name="brick_jumping_sumo_sound">声音</string>
     <string name="brick_jumping_sumo_jump_long">Jumping Sumo长距离跳跃</string>
     <string name="brick_jumping_sumo_jump_high">Jumping Sumo跳高</string>
     <string name="brick_jumping_sumo_rotate_left">左转Jumping Sumo</string>
@@ -1435,7 +1439,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_red">红色</string>
     <string name="color_green">绿色</string>
     <string name="color_blue">蓝色</string>
-    <string name="color_preview">颜色预览</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">数据</string>
@@ -1449,14 +1452,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_nothing_selected">定义输入值</string>
     <string name="formula_editor_parse_fail_formula_too_long">公式太长！</string>
     <string name="formula_editor_choose_object_variable">此对象的属性</string>
-    <string name="formula_editor_existing_variable">名称已被占用！</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sinus</string>
+    <string name="formula_editor_function_sin">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos">cosinus</string>
+    <string name="formula_editor_function_cos">cosine</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tangens</string>
+    <string name="formula_editor_function_tan">tangent</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
@@ -1475,12 +1477,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_round_parameter">(0)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin">arcsinus</string>
+    <string name="formula_editor_function_arcsin">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccosinus</string>
+    <string name="formula_editor_function_arccos">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangens</string>
+    <string name="formula_editor_function_arctan">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exponent</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
     <string name="formula_editor_function_power">求幂</string>
@@ -1501,6 +1505,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1，\'你好，世界\')</string>
     <string name="formula_editor_function_join">连接</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_regex">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino数字端口</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino模拟端口</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">树莓派端口</string>
@@ -1677,11 +1683,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_data">在这里可以找到程序中使用的变量和列表。\n它们可以被方便地插入公式，或随时创建新的变量或列表。</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="add_text">添加文本</string>
-    <string name="text_hint">积木文本</string>
-    <string name="add_variable">添加变量</string>
-    <string name="add_line_break">添加换行符</string>
-    <string name="variable_hint">变量名</string>
     <string name="brick_show_variable">显示变量</string>
     <string name="brick_hide_variable">隐藏变量</string>
     <string name="brick_show_variable_position">在 </string>
@@ -1691,10 +1692,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_centered">centered</string>
     <string name="brick_show_variable_aligned_left">左</string>
     <string name="brick_show_variable_aligned_right">右</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <!-- -->
-    <!-- User bricks strings -->
-    <string name="new_user_brick_variable">变量</string>
-    <!--  -->
     <!-- Camera related strings -->
     <string name="brick_video">设置相机状态</string>
     <string name="video_brick_camera_on">开</string>
@@ -1729,6 +1728,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="deletion_alert_yes">是，确定删除 ！</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">您的程序被上传到了这个应用程序的共享网站，其他人可以使用并下载它。 您也可以将你的程序作为一个独立的应用程序下载。</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
     <string name="progress_upload_dialog_show_program">显示程序</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1753,13 +1754,4 @@ needs read and write access to it. You can always change permissions through you
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
-    <!-- UtilFile SizeUnits String -->
-    <string name="Byte_short">B</string>
-    <string name="KiloByte_short">K字节</string>
-    <string name="MegaByte_short">M字节</string>
-    <string name="GigaByte_short">G字节</string>
-    <string name="TeraByte_short">T字节</string>
-    <string name="PetaByte_short">P字节</string>
-    <string name="ExaByte_short">E字节</string>
-    <!--  -->
 </resources>

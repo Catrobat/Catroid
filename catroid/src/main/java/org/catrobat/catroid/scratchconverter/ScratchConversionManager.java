@@ -45,9 +45,10 @@ import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.dialogs.ScratchReconvertDialog;
 import org.catrobat.catroid.ui.scratchconverter.BaseInfoViewListener;
 import org.catrobat.catroid.ui.scratchconverter.JobViewListener;
-import org.catrobat.catroid.utils.DownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
+import org.catrobat.catroid.web.ProjectDownloader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,8 +70,8 @@ public class ScratchConversionManager implements ConversionManager {
 	private AppCompatActivity currentActivity;
 	private final Client client;
 	private final boolean verbose;
-	private Map<String, Client.DownloadCallback> downloadCallbacks;
-	private Set<Client.DownloadCallback> globalDownloadCallbacks;
+	private Map<String, Client.ProjectDownloadCallback> downloadCallbacks;
+	private Set<Client.ProjectDownloadCallback> globalDownloadCallbacks;
 	private Map<Long, Set<JobViewListener>> jobViewListeners;
 	private Set<JobViewListener> globalJobViewListeners;
 	private Set<BaseInfoViewListener> baseInfoViewListeners;
@@ -82,13 +83,12 @@ public class ScratchConversionManager implements ConversionManager {
 		this.client = client;
 		this.verbose = verbose;
 		this.downloadCallbacks = new HashMap<>();
-		this.globalDownloadCallbacks = Collections.synchronizedSet(new HashSet<Client.DownloadCallback>());
+		this.globalDownloadCallbacks = Collections.synchronizedSet(new HashSet<Client.ProjectDownloadCallback>());
 		client.setConvertCallback(this);
 		this.jobViewListeners = Collections.synchronizedMap(new HashMap<Long, Set<JobViewListener>>());
 		this.globalJobViewListeners = Collections.synchronizedSet(new HashSet<JobViewListener>());
 		this.baseInfoViewListeners = Collections.synchronizedSet(new HashSet<BaseInfoViewListener>());
 		this.shutdown = false;
-		DownloadUtil.getInstance().setDownloadCallback(this);
 	}
 
 	@Override
@@ -97,12 +97,12 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void addGlobalDownloadCallback(final Client.DownloadCallback callback) {
+	public void addGlobalDownloadCallback(final Client.ProjectDownloadCallback callback) {
 		globalDownloadCallbacks.add(callback);
 	}
 
 	@Override
-	public boolean removeGlobalDownloadCallback(final Client.DownloadCallback callback) {
+	public boolean removeGlobalDownloadCallback(final Client.ProjectDownloadCallback callback) {
 		return globalDownloadCallbacks.remove(callback);
 	}
 
@@ -129,7 +129,6 @@ public class ScratchConversionManager implements ConversionManager {
 	@Override
 	public void shutdown() {
 		shutdown = true;
-		DownloadUtil.getInstance().setDownloadCallback(null);
 		if (!client.isClosed()) {
 			client.close();
 		}
@@ -157,7 +156,7 @@ public class ScratchConversionManager implements ConversionManager {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(currentActivity.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putLong(SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY, clientID);
-		editor.commit();
+		editor.apply();
 		Log.i(TAG, "Connection established (clientID: " + clientID + ")");
 		Preconditions.checkState(client.isAuthenticated());
 		client.retrieveInfo();
@@ -328,7 +327,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onConversionFinished(Job job, Client.DownloadCallback downloadCallback,
+	public void onConversionFinished(Job job, Client.ProjectDownloadCallback downloadCallback,
 			final String downloadURL, final Date cachedUTCDate) {
 		Log.i(TAG, "Conversion finished!");
 		updateDownloadStateOnDisk(job.getJobID(), Job.DownloadState.READY);
@@ -336,14 +335,14 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onConversionAlreadyFinished(Job job, Client.DownloadCallback downloadCallback, String downloadURL) {
+	public void onConversionAlreadyFinished(Job job, Client.ProjectDownloadCallback downloadCallback, String downloadURL) {
 		if (readDownloadStateFromDisk(job.getJobID()) == Job.DownloadState.NOT_READY) {
 			updateDownloadStateOnDisk(job.getJobID(), Job.DownloadState.READY);
 		}
 		conversionFinished(job, downloadCallback, downloadURL, null);
 	}
 
-	private void conversionFinished(final Job job, final Client.DownloadCallback downloadCallback, final String downloadURL, final Date cachedUTCDate) {
+	private void conversionFinished(final Job job, final Client.ProjectDownloadCallback downloadCallback, final String downloadURL, final Date cachedUTCDate) {
 		final String baseUrl = Constants.SCRATCH_CONVERTER_BASE_URL;
 		final String fullDownloadURL = baseUrl.substring(0, baseUrl.length() - 1) + downloadURL;
 		Job.DownloadState localDownloadState = readDownloadStateFromDisk(job.getJobID());
@@ -404,7 +403,7 @@ public class ScratchConversionManager implements ConversionManager {
 
 	private void downloadProgram(final String fullDownloadURL) {
 		Log.d(TAG, "Start download: " + fullDownloadURL);
-		DownloadUtil.getInstance().prepareDownloadAndStartIfPossible(currentActivity, fullDownloadURL);
+		new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), fullDownloadURL, this).download(currentActivity);
 	}
 
 	@Override
@@ -486,7 +485,7 @@ public class ScratchConversionManager implements ConversionManager {
 			Log.d(TAG, downloadStates.toString());
 			editor.putString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY,
 					new JSONObject(downloadStates).toString());
-			editor.commit();
+			editor.apply();
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage());
 		}
@@ -523,7 +522,7 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	// -----------------------------------------------------------------------------------------------------------------
-	// DownloadCallback
+	// ProjectDownloadCallback
 	// -----------------------------------------------------------------------------------------------------------------
 	@Override
 	public void onDownloadStarted(final String url) {
@@ -534,12 +533,12 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				final Client.DownloadCallback callback = downloadCallbacks.get(url);
+				final Client.ProjectDownloadCallback callback = downloadCallbacks.get(url);
 				if (callback != null) {
 					callback.onDownloadStarted(url);
 				}
 
-				for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+				for (final Client.ProjectDownloadCallback cb : globalDownloadCallbacks) {
 					cb.onDownloadStarted(url);
 				}
 			}
@@ -547,17 +546,17 @@ public class ScratchConversionManager implements ConversionManager {
 	}
 
 	@Override
-	public void onDownloadProgress(final short progress, final String url) {
+	public void onDownloadProgress(final int progress, final String url) {
 		// Note: this callback-method is not called on UI-thread
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				final Client.DownloadCallback callback = downloadCallbacks.get(url);
+				final Client.ProjectDownloadCallback callback = downloadCallbacks.get(url);
 				if (callback != null) {
 					callback.onDownloadProgress(progress, url);
 				}
 
-				for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+				for (final Client.ProjectDownloadCallback cb : globalDownloadCallbacks) {
 					cb.onDownloadProgress(progress, url);
 				}
 			}
@@ -573,12 +572,12 @@ public class ScratchConversionManager implements ConversionManager {
 		currentActivity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				final Client.DownloadCallback callback = downloadCallbacks.get(url);
+				final Client.ProjectDownloadCallback callback = downloadCallbacks.get(url);
 				if (callback != null) {
 					callback.onDownloadFinished(catrobatProgramName, url);
 				}
 
-				for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+				for (final Client.ProjectDownloadCallback cb : globalDownloadCallbacks) {
 					cb.onDownloadFinished(catrobatProgramName, url);
 				}
 			}
@@ -590,12 +589,12 @@ public class ScratchConversionManager implements ConversionManager {
 		final long jobID = Utils.extractScratchJobIDFromURL(url);
 		updateDownloadStateOnDisk(jobID, Job.DownloadState.CANCELED);
 
-		final Client.DownloadCallback callback = downloadCallbacks.get(url);
+		final Client.ProjectDownloadCallback callback = downloadCallbacks.get(url);
 		if (callback != null) {
 			callback.onUserCanceledDownload(url);
 		}
 
-		for (final Client.DownloadCallback cb : globalDownloadCallbacks) {
+		for (final Client.ProjectDownloadCallback cb : globalDownloadCallbacks) {
 			cb.onUserCanceledDownload(url);
 		}
 	}

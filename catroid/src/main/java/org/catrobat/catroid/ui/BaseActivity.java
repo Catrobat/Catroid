@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -43,6 +44,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.CrashReporter;
 
 public abstract class BaseActivity extends AppCompatActivity implements PermissionHandlingActivity {
+	private static boolean savedInstanceStateExpected;
 
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
@@ -55,9 +57,21 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 
 		Thread.setDefaultUncaughtExceptionHandler(new BaseExceptionHandler(this));
 		checkIfCrashRecoveryAndFinishActivity(this);
+		checkIfProcessRecreatedAndFinishActivity(savedInstanceState);
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(this)) {
 			CastManager.getInstance().initializeCast(this);
+		}
+	}
+
+	private void checkIfProcessRecreatedAndFinishActivity(Bundle savedInstanceState) {
+		if (savedInstanceStateExpected || savedInstanceState == null || this instanceof MainMenuActivity) {
+			savedInstanceStateExpected = true;
+		} else {
+			String activityName = getClass().getSimpleName();
+			Log.e(activityName, activityName + " does not support recovery from process "
+					+ "recreation, finishing activity.");
+			finish();
 		}
 	}
 
@@ -104,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 			if (activity instanceof MainMenuActivity) {
 				PreferenceManager.getDefaultSharedPreferences(this).edit()
 						.putBoolean(RECOVERED_FROM_CRASH, false)
-						.commit();
+						.apply();
 			} else {
 				activity.finish();
 			}

@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -44,11 +46,10 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
@@ -57,6 +58,8 @@ import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -68,6 +71,7 @@ import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
@@ -149,9 +153,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 			case R.id.upload:
 				setShowProgressBar(true);
-				new ProjectSaveTask(ProjectManager.getInstance().getCurrentProject(), getApplicationContext())
-						.setListener(this)
-						.execute();
+				Project currentProject = ProjectManager.getInstance().getCurrentProject();
+				new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
+				Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -162,8 +166,8 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	@Override
 	public void onSaveProjectComplete(boolean success) {
 		setShowProgressBar(false);
-		// deliberately ignoring success value, because XstreamSerializer returns false: when saving was
-		// unnecessary but was successful or when it did not succeed.
+		// deliberately ignoring success value, because XstreamSerializer returns false: when
+		// saving was unnecessary but was successful or when it did not succeed.
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Intent intent = new Intent(this, ProjectUploadActivity.class);
 		intent.putExtra(ProjectUploadActivity.PROJECT_DIR, currentProject.getDirectory());
@@ -174,15 +178,18 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	protected void onPause() {
 		super.onPause();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		saveProject(currentProject);
 	}
 
 	@Override
 	public void onBackPressed() {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getApplicationContext())
-				.execute();
+		if (currentProject == null) {
+			finish();
+			return;
+		}
+
+		saveProject(currentProject);
 
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
@@ -200,13 +207,28 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		}
 	}
 
+	private void saveProject(Project currentProject) {
+		if (currentProject == null) {
+			Utils.setLastUsedProjectName(getApplicationContext(), null);
+			return;
+		}
+		new ProjectSaveTask(currentProject, getApplicationContext())
+				.execute();
+		Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+	}
+
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (requestCode == StageActivity.STAGE_ACTIVITY_FINISH) {
-			SensorHandler.stopSensorListeners();
-			FaceDetectionHandler.stopFaceDetection();
+		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
+				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
+			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
+			ToastUtil.showError(this, message);
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData testResult = ClipData.newPlainText("TestResult",
+					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+			clipboard.setPrimaryClip(testResult);
 		}
 
 		if (resultCode != RESULT_OK) {

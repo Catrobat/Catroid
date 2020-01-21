@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import android.graphics.PointF;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -33,7 +32,9 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.embroidery.DSTFileGenerator;
-import org.catrobat.catroid.embroidery.EmbroideryList;
+import org.catrobat.catroid.embroidery.DSTHeader;
+import org.catrobat.catroid.embroidery.DSTStream;
+import org.catrobat.catroid.embroidery.EmbroideryStream;
 import org.catrobat.catroid.io.StorageOperations;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,68 +43,44 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class DSTFileGeneratorTest {
-	final String projectName = DSTFileGeneratorTest.class.getSimpleName();
-	final int[] conversion = {-81, 81, -27, 27, -9, 9, -3, 3, -1, 1};
+
+	private final String projectName = DSTFileGeneratorTest.class.getSimpleName();
+	private File dstFile;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws IOException {
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 		ProjectManager.getInstance().setCurrentProject(project);
-	}
 
-	private int getByteForValue(int value) {
-		int mask = 0x200;
-		int byteValue = 0x0;
-		for (int i = 0; i < conversion.length; i++) {
-			if (((i % 2 == 0) && value <= (conversion[i] - 1) / 2)
-					|| ((i % 2 == 1) && value >= (conversion[i] + 1) / 2)) {
-				byteValue |= (mask >>> i);
-				value -= conversion[i];
-			}
+		dstFile = new File(Constants.CACHE_DIR, projectName + ".dst");
+		if (dstFile.exists()) {
+			dstFile.delete();
 		}
-		return byteValue;
-	}
-
-	@Test
-	public void testConversionTable() {
-		int[] valueArray = new int[DSTFileGenerator.CONVERSION_TABLE.length];
-		for (int element = 0; element < DSTFileGenerator.CONVERSION_TABLE.length; element++) {
-			if (element <= 121) {
-				valueArray[element] = getByteForValue(element);
-			} else {
-				valueArray[element] = getByteForValue((element - 121) * (-1));
-			}
+		if (!Constants.CACHE_DIR.exists()) {
+			Constants.CACHE_DIR.mkdirs();
 		}
-		assertArrayEquals(DSTFileGenerator.CONVERSION_TABLE, valueArray);
+		dstFile.createNewFile();
 	}
 
 	@Test
 	public void testWriteToSampleDSTFile() throws IOException {
-		EmbroideryList stitchpoints = new EmbroideryList();
-		stitchpoints.add(new PointF(-10, 0));
-		stitchpoints.add(new PointF(10, 0));
-		stitchpoints.add(new PointF(10, 10));
-		stitchpoints.add(new PointF(0, 15));
-		stitchpoints.add(new PointF(-10, 10));
-		stitchpoints.add(new PointF(-10, 0));
-		stitchpoints.add(new PointF(10, 10));
-		stitchpoints.add(new PointF(-10, 10));
-		stitchpoints.add(new PointF(10, 0));
-
-		File dstFile = new File(Constants.CACHE_DIR, projectName + ".dst");
-		if (dstFile.exists()) {
-			dstFile.delete();
-		}
-		dstFile.createNewFile();
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(stitchpoints);
+		EmbroideryStream stream = new DSTStream(new DSTHeader());
+		stream.addStitchPoint(-10, 0);
+		stream.addStitchPoint(10, 0);
+		stream.addStitchPoint(10, 10);
+		stream.addStitchPoint(0, 15);
+		stream.addStitchPoint(-10, 10);
+		stream.addStitchPoint(-10, 0);
+		stream.addStitchPoint(10, 10);
+		stream.addStitchPoint(-10, 10);
+		stream.addStitchPoint(10, 0);
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
 		fileGenerator.writeToDSTFile(dstFile);
 
 		InputStream inputStream = InstrumentationRegistry.getContext().getResources().openRawResource(org.catrobat
@@ -118,90 +95,42 @@ public class DSTFileGeneratorTest {
 		assertArrayEquals(compareFileBytes, dstFileBytes);
 	}
 
-	@Test
-	public void testPrepareStitchPoints() {
-		final DSTFileGenerator.StitchPoint[] expectedStitchpoints = new DSTFileGenerator.StitchPoint[]{
-				new DSTFileGenerator.StitchPoint(new PointF(0, 0)),
-				new DSTFileGenerator.StitchPoint(new PointF(0, 0), true),
-				new DSTFileGenerator.StitchPoint(new PointF(100, 100), true),
-				new DSTFileGenerator.StitchPoint(new PointF(200, 200))};
+	private void addArrowToStream(EmbroideryStream stream, int shiftFactor) {
+		stream.addStitchPoint(0, shiftFactor);
+		stream.addStitchPoint(40, -40 + shiftFactor);
+		stream.addStitchPoint(-40, -40 + shiftFactor);
+		stream.addStitchPoint(0, shiftFactor);
+	}
 
-		EmbroideryList points = new EmbroideryList();
-		points.add(new PointF(0, 0));
-		points.add(new PointF(100, 100));
-
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
-		ArrayList<DSTFileGenerator.StitchPoint> stitchPoints = fileGenerator.prepareStitchPoints(points);
-
-		assertArrayEquals(expectedStitchpoints, stitchPoints.toArray());
+	private void addColorChangeAndJumpToStream(EmbroideryStream stream, int shiftFactor) {
+		stream.addColorChange();
+		stream.addStitchPoint(0, shiftFactor);
+		stream.addJump();
+		stream.addStitchPoint(0, shiftFactor);
 	}
 
 	@Test
-	public void testHeaderBytes() {
-		final String expectedHeaderString = "LA:DSTFileGenerato\n" + (char) 0x1A + ("ST:3     \n" + (char) 0x1A
-				+ "CO:1 \n" + (char) 0x1A + "+X:20  \n" + (char) 0x1A + "-X:0   \n" + (char) 0x1A + "+Y:20  \n"
-				+ (char) 0x1A + "-Y:0   \n" + (char) 0x1A + "AX:0    \n" + (char) 0x1A + "AY:0    \n" + (char) 0x1A
-				+ "MX:0    \n" + (char) 0x1A + "MY:0    \n" + (char) 0x1A + "PD:*****\n"
-				+ (char) 0x1A).replace(' ', '\0') + String.format("%388s", " ");
+	public void testWriteToComplexSampleDSTFile() throws IOException {
+		EmbroideryStream stream = new DSTStream(new DSTHeader());
+		addArrowToStream(stream, 0);
+		addColorChangeAndJumpToStream(stream, 0);
+		addArrowToStream(stream, 20);
+		addColorChangeAndJumpToStream(stream, 20);
+		addArrowToStream(stream, 40);
 
-		EmbroideryList points = new EmbroideryList();
-		points.add(new PointF(0, 0));
-		points.add(new PointF(10, 10));
-		points.add(new PointF(0, 0));
+		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
+		fileGenerator.writeToDSTFile(dstFile);
 
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
-		ArrayList<DSTFileGenerator.StitchPoint> stitchPoints = fileGenerator.prepareStitchPoints(points);
-		byte[] header = fileGenerator.getHeaderBytes(stitchPoints);
-		byte[] expectedHeader = expectedHeaderString.getBytes();
+		InputStream inputStream = InstrumentationRegistry.getContext().getResources().openRawResource(org.catrobat
+				.catroid.test.R.raw.complex_sample_dst_file);
+		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIR,
+				"complex_sample_dst_file.dst");
 
-		assertArrayEquals(expectedHeader, header);
-	}
+		assertEquals(compareFile.length(), dstFile.length());
 
-	@Test
-	public void testStitchBytes() {
-		final byte[] expectedStitchBytes = new byte[] {0, 0, (byte) 0x3,
-				(byte) 0xAA, (byte) 0x55, (byte) 0x03,
-				(byte) 0x55, (byte) 0xAA, (byte) 0x03};
+		byte[] compareFileBytes = FileUtils.readFile(compareFile);
+		byte[] dstFileBytes = FileUtils.readFile(dstFile);
 
-		ArrayList<DSTFileGenerator.StitchPoint> stitchpoints = new ArrayList<>();
-		stitchpoints.add(new DSTFileGenerator.StitchPoint(new PointF(0, 0)));
-		stitchpoints.add(new DSTFileGenerator.StitchPoint(new PointF(20, -20)));
-		stitchpoints.add(new DSTFileGenerator.StitchPoint(new PointF(0, 0)));
-
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
-		byte[] stitchBytes = fileGenerator.getStitchesBytes(stitchpoints);
-
-		assertArrayEquals(expectedStitchBytes, stitchBytes);
-	}
-
-	@Test
-	public void testEndBytes() {
-		final byte[] expectedEndBytes = new byte[] {0, 0, (byte) 0xF3};
-
-		DSTFileGenerator fileGenerator = new DSTFileGenerator(null);
-		byte[] endBytes = fileGenerator.getFileEndBytes();
-		assertArrayEquals(expectedEndBytes, endBytes);
-	}
-
-	@Test
-	public void testStitchPointsEquals() {
-		DSTFileGenerator.StitchPoint stitchPoint1 = new DSTFileGenerator.StitchPoint(new PointF(1, 2), true);
-		DSTFileGenerator.StitchPoint stitchPoint2 = new DSTFileGenerator.StitchPoint(new PointF(2, 1), true);
-		DSTFileGenerator.StitchPoint stitchPoint3 = new DSTFileGenerator.StitchPoint(new PointF(1, 2));
-		DSTFileGenerator.StitchPoint stitchPoint4 = stitchPoint1;
-
-		assertNotEquals(stitchPoint1, stitchPoint2);
-		assertNotEquals(stitchPoint1, stitchPoint3);
-		assertEquals(stitchPoint1, stitchPoint4);
-	}
-
-	@Test
-	public void testStitchPointsHashCode() {
-		DSTFileGenerator.StitchPoint stitchPoint1 = new DSTFileGenerator.StitchPoint(new PointF(1, 2), true);
-		DSTFileGenerator.StitchPoint stitchPoint2 = new DSTFileGenerator.StitchPoint(new PointF(2, 1));
-		DSTFileGenerator.StitchPoint stitchPoint3 = stitchPoint1;
-
-		assertNotEquals(stitchPoint1.hashCode(), stitchPoint2.hashCode());
-		assertEquals(stitchPoint1.hashCode(), stitchPoint3.hashCode());
+		assertArrayEquals(compareFileBytes, dstFileBytes);
 	}
 }

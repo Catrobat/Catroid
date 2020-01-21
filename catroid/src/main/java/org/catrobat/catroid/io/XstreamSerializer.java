@@ -23,10 +23,12 @@
 package org.catrobat.catroid.io;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.reflection.FieldDictionary;
 import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider;
 
@@ -68,7 +70,6 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
-import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
@@ -101,6 +102,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -157,6 +159,8 @@ import org.catrobat.catroid.content.bricks.PreviousLookBrick;
 import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
+import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -192,12 +196,13 @@ import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
-import org.catrobat.catroid.content.bricks.UserVariableBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
@@ -211,6 +216,8 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
+import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -229,26 +236,14 @@ import org.catrobat.catroid.utils.StringFinder;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.catrobat.catroid.common.Constants.ARDRONE_SUPPORT;
-import static org.catrobat.catroid.common.Constants.BLUETOOTH_LEGO_NXT;
-import static org.catrobat.catroid.common.Constants.BLUETOOTH_PHIRO_PRO;
-import static org.catrobat.catroid.common.Constants.CAMERA_FLASH;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.FACE_DETECTION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.JUMPING_SUMO_SUPPORT;
-import static org.catrobat.catroid.common.Constants.NFC;
-import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
-import static org.catrobat.catroid.common.Constants.TEXT_TO_SPEECH;
 import static org.catrobat.catroid.common.Constants.TMP_CODE_XML_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.VIBRATOR;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class XstreamSerializer {
@@ -277,13 +272,15 @@ public final class XstreamSerializer {
 		xstream = new BackwardCompatibleCatrobatLanguageXStream(
 				new PureJavaReflectionProvider(new FieldDictionary(new CatroidFieldKeySorter())));
 
+		xstream.allowTypesByWildcard(new String[] {"org.catrobat.catroid.**"});
+
 		xstream.processAnnotations(projectClass);
 		xstream.processAnnotations(sceneClass);
 
 		xstream.processAnnotations(Sprite.class);
 		xstream.processAnnotations(XmlHeader.class);
 		xstream.processAnnotations(Setting.class);
-		xstream.processAnnotations(UserVariableBrick.class);
+		xstream.processAnnotations(UserVariableBrickWithFormula.class);
 		xstream.processAnnotations(UserListBrick.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
@@ -314,6 +311,7 @@ public final class XstreamSerializer {
 
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
+		xstream.omitField(HideTextBrick.class, "formulaList");
 
 		xstream.omitField(SayBubbleBrick.class, "type");
 		xstream.omitField(SayBubbleBrick.class, "type");
@@ -447,6 +445,9 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenStartedBrick.class);
 		xstream.alias("brick", WhenClonedBrick.class);
 		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
+		xstream.alias("brick", WriteListOnDeviceBrick.class);
+		xstream.alias("brick", ReadVariableFromDeviceBrick.class);
+		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
 
@@ -489,6 +490,9 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenGamepadButtonBrick.class);
 
 		xstream.alias("brick", AssertEqualsBrick.class);
+		xstream.alias("brick", FinishStageBrick.class);
+
+		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);
 		xstream.alias("brick", JumpingSumoJumpHighBrick.class);
@@ -507,6 +511,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StitchBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
+		xstream.alias("brick", WhenTouchDownBrick.class);
 
 		xstream.alias("script", WhenBounceOffScript.class);
 		xstream.alias("brick", WhenBounceOffBrick.class);
@@ -581,7 +586,15 @@ public final class XstreamSerializer {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		String srcName = new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName();
+		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
+		StringFinder stringFinder = new StringFinder();
+
+		if (!stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG, PROGRAM_NAME_END_TAG)) {
+			return false;
+		}
+
+		String srcName = stringFinder.getResult();
+		dstName = getXMLEncodedString(dstName);
 
 		if (srcName.equals(dstName)) {
 			return true;
@@ -589,7 +602,6 @@ public final class XstreamSerializer {
 
 		String srcProjectNameTag = PROGRAM_NAME_START_TAG + srcName + PROGRAM_NAME_END_TAG;
 		String dstProjectNameTag = PROGRAM_NAME_START_TAG + dstName + PROGRAM_NAME_END_TAG;
-		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
 		String newXml = currentXml.replace(srcProjectNameTag, dstProjectNameTag);
 
 		if (currentXml.equals(newXml)) {
@@ -599,6 +611,13 @@ public final class XstreamSerializer {
 
 		StorageOperations.writeToFile(xmlFile, newXml);
 		return true;
+	}
+
+	private static String getXMLEncodedString(String srcName) {
+		srcName = new XStream().toXML(srcName);
+		srcName = srcName.replace("<string>", "");
+		srcName = srcName.replace("</string>", "");
+		return srcName;
 	}
 
 	private static void setFileReferences(Project project) {
@@ -670,17 +689,7 @@ public final class XstreamSerializer {
 			for (Scene scene : project.getSceneList()) {
 				StorageOperations.createSceneDirectory(scene.getDirectory());
 			}
-
-			StringBuilder stringBuilder = new StringBuilder();
-			for (String resource : generatePermissionsSetFromResource(project.getRequiredResources())) {
-				stringBuilder.append(resource);
-				stringBuilder.append('\n');
-			}
-
 			StorageOperations.writeToFile(tmpCodeFile, currentXml);
-
-			File permissionFile = new File(project.getDirectory(), PERMISSIONS_FILE_NAME);
-			StorageOperations.writeToFile(permissionFile, stringBuilder.toString());
 
 			if (currentCodeFile.exists() && !currentCodeFile.delete()) {
 				Log.e(TAG, "Cannot delete " + currentCodeFile.getName());
@@ -734,39 +743,6 @@ public final class XstreamSerializer {
 		return xmlString;
 	}
 
-	private Set<String> generatePermissionsSetFromResource(Brick.ResourcesSet resources) {
-		Set<String> permissionsSet = new HashSet<>();
-
-		if (resources.contains(Brick.TEXT_TO_SPEECH)) {
-			permissionsSet.add(TEXT_TO_SPEECH);
-		}
-		if (resources.contains(Brick.BLUETOOTH_LEGO_NXT)) {
-			permissionsSet.add(BLUETOOTH_LEGO_NXT);
-		}
-		if (resources.contains(Brick.ARDRONE_SUPPORT)) {
-			permissionsSet.add(ARDRONE_SUPPORT);
-		}
-		if (resources.contains(Brick.JUMPING_SUMO)) {
-			permissionsSet.add(JUMPING_SUMO_SUPPORT);
-		}
-		if (resources.contains(Brick.BLUETOOTH_PHIRO)) {
-			permissionsSet.add(BLUETOOTH_PHIRO_PRO);
-		}
-		if (resources.contains(Brick.CAMERA_FLASH)) {
-			permissionsSet.add(CAMERA_FLASH);
-		}
-		if (resources.contains(Brick.VIBRATOR)) {
-			permissionsSet.add(VIBRATOR);
-		}
-		if (resources.contains(Brick.FACE_DETECTION)) {
-			permissionsSet.add(FACE_DETECTION);
-		}
-		if (resources.contains(Brick.NFC_ADAPTER)) {
-			permissionsSet.add(NFC);
-		}
-		return permissionsSet;
-	}
-
 	public static String extractDefaultSceneNameFromXml(File projectDir) {
 		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
 
@@ -783,5 +759,10 @@ public final class XstreamSerializer {
 			Log.e(TAG, Log.getStackTraceString(e));
 		}
 		return null;
+	}
+
+	@VisibleForTesting
+	public BackwardCompatibleCatrobatLanguageXStream getXstream() {
+		return xstream;
 	}
 }

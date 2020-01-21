@@ -29,6 +29,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
+import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXTImpl;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTI2CUltraSonicSensor;
@@ -109,7 +110,7 @@ public class LegoNXTImplTest {
 	}
 
 	@Test
-	public void testSensorAssignment() {
+	public void testSensorAssignment() throws MindstormsException {
 		NXTSensor.Sensor[] sensorMapping = {
 				NXTSensor.Sensor.LIGHT_INACTIVE,
 				NXTSensor.Sensor.SOUND,
@@ -139,7 +140,7 @@ public class LegoNXTImplTest {
 	}
 
 	@Test
-	public void testSensorAssignmentChange() throws InterruptedException {
+	public void testSensorAssignmentChange() throws InterruptedException, MindstormsException {
 		setSensorMapping(defaultSensorMapping);
 		nxt.initialise();
 
@@ -161,7 +162,7 @@ public class LegoNXTImplTest {
 	}
 
 	@Test
-	public void testSimplePlayToneTest() {
+	public void testSimplePlayToneTest() throws MindstormsException {
 		int inputHz = 100;
 		int expectedHz = 10000;
 		int durationInMs = 3000;
@@ -176,7 +177,7 @@ public class LegoNXTImplTest {
 	}
 
 	@Test
-	public void testPlayToneHzOverMaxValue() {
+	public void testPlayToneHzOverMaxValue() throws MindstormsException {
 		int inputHz = 160;
 		int expectedHz = 14000;
 		int durationInMs = 5000;
@@ -191,7 +192,7 @@ public class LegoNXTImplTest {
 	}
 
 	@Test
-	public void testCheckDurationOfTone() {
+	public void testCheckDurationOfTone() throws MindstormsException {
 		int inputHz = 130;
 		float inputDurationInS = 5.5f;
 		int inputDurationInMs = (int) (inputDurationInS * 1000);
@@ -208,7 +209,7 @@ public class LegoNXTImplTest {
 	}
 
 	@Test
-	public void testWithZeroDuration() {
+	public void testWithZeroDuration() throws MindstormsException {
 		int inputHz = 13000;
 		int inputDurationInMs = 0;
 

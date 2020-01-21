@@ -33,6 +33,10 @@ public class BroadcastBrick extends BroadcastMessageBrick {
 
 	protected String broadcastMessage;
 
+	public BroadcastBrick() {
+		broadcastMessage = "";
+	}
+
 	public BroadcastBrick(String broadcastMessage) {
 		this.broadcastMessage = broadcastMessage;
 	}

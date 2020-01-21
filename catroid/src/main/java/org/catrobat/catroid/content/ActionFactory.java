@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
@@ -117,6 +118,8 @@ import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
+import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
+import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
@@ -150,6 +153,7 @@ import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
+import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
@@ -159,6 +163,7 @@ import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -1209,18 +1214,26 @@ public class ActionFactory extends Actions {
 		return setNfcTagAction;
 	}
 
-	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected,
-			UserVariable actualVariable, UserVariable expectedVariable, UserVariable setupVariable) {
+	public Action createAssertEqualsAction(Sprite sprite, Formula actual, Formula expected, String position) {
 		AssertEqualsAction action = action(AssertEqualsAction.class);
 		action.setActual(actual);
 		action.setExpected(expected);
 
 		action.setSprite(sprite);
+		action.setPosition(position);
 
-		action.setActualVariable(actualVariable);
-		action.setExpectedVariable(expectedVariable);
-		action.setSetupVariable(setupVariable);
+		return action;
+	}
 
+	public Action createFinishStageAction() {
+		FinishStageAction action = action(FinishStageAction.class);
+		return action;
+	}
+
+	public Action createTapAtAction(Sprite sprite, Formula x, Formula y) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setPosition(x, y);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -1231,8 +1244,29 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createWriteListOnDeviceAction(UserList userList) {
+		WriteListOnDeviceAction action = Actions.action(WriteListOnDeviceAction.class);
+		action.setUserList(userList);
+
+		return action;
+	}
+
 	public Action createWaitTillIdleAction() {
 		return action(WaitTillIdleAction.class);
+	}
+
+	public Action createReadVariableFromDeviceAction(UserVariable userVariable) {
+		ReadVariableFromDeviceAction action = Actions.action(ReadVariableFromDeviceAction.class);
+		action.setUserVariable(userVariable);
+
+		return action;
+	}
+
+	public Action createReadListFromDeviceAction(UserList userList) {
+		ReadListFromDeviceAction action = Actions.action(ReadListFromDeviceAction.class);
+		action.setUserList(userList);
+
+		return action;
 	}
 
 	public Action createWebRequestAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {

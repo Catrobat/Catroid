@@ -41,25 +41,32 @@ ARG _SDKMANAGER=$ANDROID_SDK_ROOT/tools/bin/sdkmanager
 #
 
 # curl/openssh-client: upload to web/share
+# x11-commons/x11-utils/libpulse0 needed to start emulator
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
         openssh-client \
+         x11-common \
+         x11-utils \
+         libpulse0 \
+         libxcursor-dev \
+         libnss3-dev \
+         libasound2 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Fastlane
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        rubygems \
-        ruby-dev \
-        g++ \
-        make \
-        less \
-    && rm -rf /var/lib/apt/lists/* \
-    && gem update --system \
-    && gem install fastlane -NV \
-    && apt-get purge -y --auto-remove \
-        ruby-dev \
-        g++ \
-        make
+#RUN apt-get update && apt-get install -y --no-install-recommends \
+#        rubygems \
+#        ruby-dev \
+#        g++ \
+#        make \
+#        less \
+#    && rm -rf /var/lib/apt/lists/* \
+#    && gem update --system \
+#    && gem install fastlane -NV \
+#    && apt-get purge -y --auto-remove \
+#        ruby-dev \
+#        g++ \
+#        make
 
 # User Management
 # ---------------

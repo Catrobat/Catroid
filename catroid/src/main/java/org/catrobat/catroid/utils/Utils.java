@@ -32,7 +32,6 @@ import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.facebook.AccessToken;
 import com.google.common.base.Splitter;
 
 import org.catrobat.catroid.ProjectManager;
@@ -47,7 +46,6 @@ import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
-import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
 
 import java.io.File;
@@ -61,7 +59,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
+import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
 public final class Utils {
 
@@ -87,9 +88,12 @@ public final class Utils {
 		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
-	public static boolean checkForSignInError(boolean success, WebconnectionException exception, Context context,
-			boolean userSignedIn) {
-		return (!success && exception != null) || context == null || !userSignedIn;
+	public static boolean checkIsNetworkAvailableAndShowErrorMessage(Context context) {
+		boolean networkAvailable = isNetworkAvailable(context);
+		if (!networkAvailable) {
+			ToastUtil.showError(context, R.string.error_internet_connection);
+		}
+		return networkAvailable;
 	}
 
 	public static boolean checkForNetworkError(WebconnectionException exception) {
@@ -332,6 +336,13 @@ public final class Utils {
 		return ProjectManager.getInstance().getCurrentProject().getName();
 	}
 
+	public static void setLastUsedProjectName(Context context, String projectName) {
+		PreferenceManager.getDefaultSharedPreferences(context)
+				.edit()
+				.putString(PREF_PROJECTNAME_KEY, projectName)
+				.apply();
+	}
+
 	public static boolean isDefaultProject(Project projectToCheck, Context context) {
 		try {
 			String uniqueProjectName = "project_" + System.currentTimeMillis();
@@ -386,14 +397,6 @@ public final class Utils {
 		}
 	}
 
-	public static boolean checkIfProjectExistsOrIsDownloadingIgnoreCase(String programName) {
-		if (DownloadUtil.getInstance().isProgramNameInDownloadQueueIgnoreCase(programName)) {
-			return true;
-		}
-
-		return new File(DEFAULT_ROOT_DIRECTORY, programName).isDirectory();
-	}
-
 	public static void invalidateLoginTokenIfUserRestricted(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		if (sharedPreferences.getBoolean(Constants.RESTRICTED_USER, false)) {
@@ -408,35 +411,25 @@ public final class Utils {
 		LogoutTask logoutTask = new LogoutTask(context, userName);
 		logoutTask.execute();
 
-		SharedPreferences.Editor sharedPreferenceEditor = sharedPreferences.edit();
-
-		sharedPreferenceEditor.putString(Constants.TOKEN, Constants.NO_TOKEN)
-				.putString(Constants.USERNAME, Constants.NO_USERNAME);
-
-		sharedPreferenceEditor.putBoolean(Constants.FACEBOOK_TOKEN_REFRESH_NEEDED, false)
-				.putString(Constants.FACEBOOK_EMAIL, Constants.NO_FACEBOOK_EMAIL)
-				.putString(Constants.FACEBOOK_USERNAME, Constants.NO_FACEBOOK_USERNAME)
-				.putString(Constants.FACEBOOK_ID, Constants.NO_FACEBOOK_ID)
-				.putString(Constants.FACEBOOK_LOCALE, Constants.NO_FACEBOOK_LOCALE);
-		AccessToken.setCurrentAccessToken(null);
-
-		sharedPreferenceEditor.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
+		sharedPreferences.edit()
+				.putString(Constants.TOKEN, Constants.NO_TOKEN)
+				.putString(Constants.USERNAME, Constants.NO_USERNAME)
+				.putString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE)
 				.putString(Constants.GOOGLE_EMAIL, Constants.NO_GOOGLE_EMAIL)
 				.putString(Constants.GOOGLE_USERNAME, Constants.NO_GOOGLE_USERNAME)
 				.putString(Constants.GOOGLE_ID, Constants.NO_GOOGLE_ID)
 				.putString(Constants.GOOGLE_LOCALE, Constants.NO_GOOGLE_LOCALE)
-				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN);
-
-		sharedPreferenceEditor.commit();
-		WebViewActivity.clearCookies(context);
+				.putString(Constants.GOOGLE_ID_TOKEN, Constants.NO_GOOGLE_ID_TOKEN)
+				.apply();
+		WebViewActivity.clearCookies();
 	}
 
 	public static boolean isUserLoggedIn(Context context) {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String token = preferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != ServerCalls.TOKEN_LENGTH
-				|| token.equals(ServerCalls.TOKEN_CODE_INVALID));
+		boolean tokenValid = !(token.equals(Constants.NO_TOKEN) || token.length() != TOKEN_LENGTH
+				|| token.equals(TOKEN_CODE_INVALID));
 		return tokenValid;
 	}
 

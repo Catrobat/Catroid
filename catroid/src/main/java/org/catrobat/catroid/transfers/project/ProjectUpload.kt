@@ -38,7 +38,7 @@ import java.io.FileNotFoundException
 import java.io.IOException
 import java.util.Locale
 
-typealias UploadProjectSuccessCallback = (projectId: Int) -> Unit
+typealias UploadProjectSuccessCallback = (projectId: String) -> Unit
 typealias UploadProjectErrorCallback = (errorCode: Int, errorMessage: String) -> Unit
 
 class ProjectUpload(
@@ -74,7 +74,7 @@ class ProjectUpload(
                 sharedPreferences.edit()
                     .putString(Constants.TOKEN, successToken)
                     .putString(Constants.USERNAME, successUsername)
-                    .commit()
+                    .apply()
 
                 successCallback(projectId)
                 projectArchive.delete()
@@ -98,8 +98,8 @@ class ProjectUpload(
             projectArchive = projectArchive,
             userEmail = userEmail,
             language = Locale.getDefault().language,
-            token = token,
-            username = username
+            token = token ?: Constants.NO_TOKEN,
+            username = username ?: Constants.NO_USERNAME
         )
     }
 
