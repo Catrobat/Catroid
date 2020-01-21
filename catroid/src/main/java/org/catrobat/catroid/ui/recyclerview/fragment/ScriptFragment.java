@@ -574,15 +574,11 @@ public class ScriptFragment extends ListFragment implements
 	private void openWebViewWithHelpPage(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
-		String language = Locale.getDefault().getLanguage();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
 		String brickType = brick.getClass().getSimpleName();
 
-		if (!language.equals("en") && !language.equals("de") && !language.equals("es")) {
-			language = "en";
-		}
 		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("https://wiki.catrob.at/index" + ".php?title=" + category + "_Bricks/" + language + "#" + brickType));
+				Uri.parse("https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/" + category + "%20Bricks/#" + brickType));
 		startActivity(intent);
 	}
 
