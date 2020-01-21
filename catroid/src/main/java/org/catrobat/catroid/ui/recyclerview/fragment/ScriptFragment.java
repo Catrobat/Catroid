@@ -73,7 +73,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
