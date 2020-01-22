@@ -20,29 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.bricks;
+package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class TurnLeftSpeedBrick extends FormulaBrick {
+public class SetMassBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public TurnLeftSpeedBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text);
+	public SetMassBrick() {
+		addAllowedBrickField(BrickField.PHYSICS_MASS, R.id.brick_set_mass_edit_text);
 	}
 
-	public TurnLeftSpeedBrick(double degreesPerSecond) {
-		this(new Formula(degreesPerSecond));
+	public SetMassBrick(double mass) {
+		this(new Formula(mass));
 	}
 
-	public TurnLeftSpeedBrick(Formula formula) {
+	public SetMassBrick(Formula formula) {
 		this();
-		setFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, formula);
+		setFormulaWithBrickField(BrickField.PHYSICS_MASS, formula);
 	}
 
 	@Override
@@ -53,12 +52,12 @@ public class TurnLeftSpeedBrick extends FormulaBrick {
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_physics_turn_left_speed;
+		return R.layout.brick_physics_set_mass;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createTurnLeftSpeedAction(sprite,
-				getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED)));
+		sequence.addAction(sprite.getActionFactory()
+				.createSetMassAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_MASS)));
 	}
 }

@@ -93,7 +93,9 @@ public interface Brick extends Serializable, Cloneable {
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATOR, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
 			SENSOR_ACCELERATION, SENSOR_INCLINATION, SENSOR_COMPASS, NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION,
 			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, JUMPING_SUMO, MICROPHONE})
-	@interface Resources {}
+	@interface Resources {
+	}
+
 	int TEXT_TO_SPEECH = 1;
 	int BLUETOOTH_LEGO_NXT = 2;
 	int PHYSICS = 3;
@@ -165,4 +167,6 @@ public interface Brick extends Serializable, Cloneable {
 	void setCommentedOut(boolean commentedOut);
 
 	boolean hasHelpPage();
+
+	String getHelpUrl(String category);
 }

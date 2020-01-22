@@ -181,4 +181,8 @@ public abstract class BrickBaseType implements Brick {
 			parentFragment.notifyDataSetChanged();
 		}
 	}
+
+	public String getHelpUrl(String category) {
+		return "https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/" + category + "%20Bricks/#" + this.getClass().getSimpleName();
+	}
 }
