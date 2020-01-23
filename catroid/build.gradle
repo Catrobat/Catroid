@@ -129,6 +129,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
+
         minSdkVersion 21
         targetSdkVersion 28
         applicationId appId
@@ -224,6 +225,13 @@ android {
             keyAlias ""
             keyPassword ""
         }
+
+        debug {
+            storeFile file("external/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
     }
 
     if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
@@ -240,6 +248,7 @@ android {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
+            signingConfig signingConfigs.debug
         }
 
         release {
@@ -264,8 +273,12 @@ android {
 
     productFlavors {
         catroid
-        createAtSchool { applicationIdSuffix '.createatschool' }
-        lunaAndCat { applicationIdSuffix '.lunaandcat' }
+        createAtSchool {
+            applicationIdSuffix '.createatschool'
+        }
+        lunaAndCat {
+            applicationIdSuffix '.lunaandcat'
+        }
         phiro {
             applicationIdSuffix '.phiro'
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"

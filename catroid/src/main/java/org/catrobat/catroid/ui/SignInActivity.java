@@ -30,28 +30,26 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.gms.auth.api.Auth;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.GooglePlusLoginHandler;
+import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
 import org.catrobat.catroid.utils.Utils;
 
-import static org.catrobat.catroid.transfers.GooglePlusLoginHandler.REQUEST_CODE_GOOGLE_PLUS_SIGNIN;
+import static org.catrobat.catroid.transfers.GoogleLoginHandler.REQUEST_CODE_GOOGLE_SIGNIN;
 
 public class SignInActivity extends BaseActivity implements SignInCompleteListener {
 	public static final String LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
 
-	private GooglePlusLoginHandler googlePlusLoginHandler;
+	private GoogleLoginHandler googleLoginHandler;
 
 	@Override
 	public void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_sign_in);
-		setUpGooglePlus();
+		setUpGoogleSignin();
 
 		TextView termsOfUseLinkTextView = findViewById(R.id.register_terms_link);
 
@@ -61,14 +59,8 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
 	}
 
-	public void setUpGooglePlus() {
-		googlePlusLoginHandler = new GooglePlusLoginHandler(this);
-	}
-
-	@Override
-	public void onStop() {
-		googlePlusLoginHandler.getGoogleApiClient().disconnect();
-		super.onStop();
+	public void setUpGoogleSignin() {
+		googleLoginHandler = new GoogleLoginHandler(this);
 	}
 
 	public void onButtonClick(final View view) {
@@ -90,9 +82,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
 			case R.id.sign_in_gplus_login_button:
-				googlePlusLoginHandler.getGoogleApiClient().connect();
-				Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(googlePlusLoginHandler.getGoogleApiClient());
-				startActivityForResult(signInIntent, REQUEST_CODE_GOOGLE_PLUS_SIGNIN);
+				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
 				break;
 			default:
 				break;
@@ -101,7 +91,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		googlePlusLoginHandler.onActivityResult(requestCode, resultCode, data);
+		googleLoginHandler.onActivityResult(requestCode, resultCode, data);
 
 		super.onActivityResult(requestCode, resultCode, data);
 	}
