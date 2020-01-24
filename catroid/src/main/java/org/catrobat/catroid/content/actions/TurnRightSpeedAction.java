@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
+package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
@@ -31,30 +31,22 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
 
-public class SetVelocityAction extends TemporalAction {
+public class TurnRightSpeedAction extends TemporalAction {
 
 	private Sprite sprite;
 	private PhysicsObject physicsObject;
-	private Formula velocityX;
-	private Formula velocityY;
+	private Formula speed;
 
 	@Override
 	protected void update(float percent) {
-		Float newVelocityX;
+		Float newSpeed;
 		try {
-			newVelocityX = velocityX == null ? Float.valueOf(0f) : velocityX.interpretFloat(sprite);
+			newSpeed = speed == null ? Float.valueOf(0f) : speed.interpretFloat(sprite);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
-		Float newVelocityY;
-		try {
-			newVelocityY = velocityY == null ? Float.valueOf(0f) : velocityY.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
-		}
-		physicsObject.setVelocity(newVelocityX, newVelocityY);
+		physicsObject.setRotationSpeed(-newSpeed);
 	}
 
 	public void setSprite(Sprite sprite) {
@@ -65,8 +57,7 @@ public class SetVelocityAction extends TemporalAction {
 		this.physicsObject = physicsObject;
 	}
 
-	public void setVelocity(Formula velocityX, Formula velocityY) {
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
+	public void setSpeed(Formula speed) {
+		this.speed = speed;
 	}
 }

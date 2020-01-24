@@ -20,44 +20,44 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
+package org.catrobat.catroid.content.bricks;
 
-import android.util.Log;
-
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
-
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.physics.PhysicsObject;
 
-public class SetBounceFactorAction extends TemporalAction {
+public class SetFrictionBrick extends FormulaBrick {
 
-	private Sprite sprite;
-	private PhysicsObject physicsObject;
-	private Formula bounceFactor;
+	private static final long serialVersionUID = 1L;
+
+	public SetFrictionBrick() {
+		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text);
+	}
+
+	public SetFrictionBrick(double friction) {
+		this(new Formula(friction));
+	}
+
+	public SetFrictionBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, formula);
+	}
 
 	@Override
-	protected void update(float percent) {
-		Float newBounceFactor;
-		try {
-			newBounceFactor = bounceFactor == null ? Float.valueOf(0f) : bounceFactor.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
-		}
-		physicsObject.setBounceFactor(newBounceFactor / 100.0f);
+	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
+		requiredResourcesSet.add(PHYSICS);
+		super.addRequiredResources(requiredResourcesSet);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_physics_set_friction;
 	}
 
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
-	}
-
-	public void setBounceFactor(Formula bounceFactor) {
-		this.bounceFactor = bounceFactor;
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createSetFrictionAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)));
 	}
 }

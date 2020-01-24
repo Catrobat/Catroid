@@ -20,29 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.bricks;
+package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class TurnRightSpeedBrick extends FormulaBrick {
+public class SetBounceBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public TurnRightSpeedBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text);
+	public SetBounceBrick() {
+		addAllowedBrickField(BrickField.PHYSICS_BOUNCE_FACTOR, R.id.brick_set_bounce_factor_edit_text);
 	}
 
-	public TurnRightSpeedBrick(double degreesPerSecond) {
-		this(new Formula(degreesPerSecond));
+	public SetBounceBrick(double bounceFactor) {
+		this(new Formula(bounceFactor));
 	}
 
-	public TurnRightSpeedBrick(Formula formula) {
+	public SetBounceBrick(Formula formula) {
 		this();
-		setFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, formula);
+		setFormulaWithBrickField(BrickField.PHYSICS_BOUNCE_FACTOR, formula);
 	}
 
 	@Override
@@ -53,12 +52,12 @@ public class TurnRightSpeedBrick extends FormulaBrick {
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_physics_turn_right_speed;
+		return R.layout.brick_physics_set_bounce_factor;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createTurnRightSpeedAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
+		sequence.addAction(sprite.getActionFactory().createSetBounceFactorAction(sprite,
+				getFormulaWithBrickField(BrickField.PHYSICS_BOUNCE_FACTOR)));
 	}
 }

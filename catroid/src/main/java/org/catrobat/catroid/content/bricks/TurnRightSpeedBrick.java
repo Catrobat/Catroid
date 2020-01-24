@@ -20,33 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.bricks;
-
-import com.badlogic.gdx.math.Vector2;
+package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class SetVelocityBrick extends FormulaBrick {
+public class TurnRightSpeedBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public SetVelocityBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_X, R.id.brick_set_velocity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_VELOCITY_Y, R.id.brick_set_velocity_edit_text_y);
+	public TurnRightSpeedBrick() {
+		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text);
 	}
 
-	public SetVelocityBrick(Vector2 velocity) {
-		this(new Formula(velocity.x), new Formula(velocity.y));
+	public TurnRightSpeedBrick(double degreesPerSecond) {
+		this(new Formula(degreesPerSecond));
 	}
 
-	public SetVelocityBrick(Formula velocityX, Formula velocityY) {
+	public TurnRightSpeedBrick(Formula formula) {
 		this();
-		setFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X, velocityX);
-		setFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y, velocityY);
+		setFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, formula);
 	}
 
 	@Override
@@ -56,19 +51,13 @@ public class SetVelocityBrick extends FormulaBrick {
 	}
 
 	@Override
-	public BrickField getDefaultBrickField() {
-		return BrickField.PHYSICS_VELOCITY_X;
-	}
-
-	@Override
 	public int getViewResource() {
-		return R.layout.brick_physics_set_velocity;
+		return R.layout.brick_physics_turn_right_speed;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetVelocityAction(sprite,
-				getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_X),
-				getFormulaWithBrickField(BrickField.PHYSICS_VELOCITY_Y)));
+		sequence.addAction(sprite.getActionFactory()
+				.createTurnRightSpeedAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
 	}
 }
