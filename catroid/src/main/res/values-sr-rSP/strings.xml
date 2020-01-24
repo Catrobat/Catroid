@@ -1161,6 +1161,7 @@
     <string name="brick_is_equal_to">једнак очекиваном:</string>
     <string name="brick_wait_till_idle">Чекај док се све остале скрипте зауставе</string>
     <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="one">време</item>
         <item quantity="few">times</item>

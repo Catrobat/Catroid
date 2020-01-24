@@ -248,46 +248,46 @@
     <string name="name_already_exists">此名称已被使用，请另选一个。</string>
     <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_empty">请输入文本</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
-    <string name="am_backpack">Pack</string>
+    <string name="am_empty_list">此列表中还没有项目。请先添加一些项目。</string>
+    <string name="am_merge_error">还没有完成合并。您先需要选择2个项目进行合并。</string>
+    <string name="am_backpack">组件</string>
     <string name="am_unpack">取出</string>
     <string name="am_copy">复制</string>
     <string name="am_delete">删除</string>
     <string name="am_rename">重命名</string>
     <string name="am_convert">转换</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_merge">合并</string>
+    <string name="dialog_confirm_delete">您无法撤消！</string>
+    <string name="list_headline_sprites">行为者和物体</string>
     <!-- Options Menu Options -->
     <string name="backpack">背包</string>
     <string name="copy">复制</string>
     <string name="delete">删除</string>
     <string name="rename">重命名</string>
-    <string name="merge">Merge</string>
+    <string name="merge">合并</string>
     <string name="show_details">显示详情</string>
     <string name="hide_details">隐藏详情</string>
     <!-- Action Mode Titles -->
     <!-- Project Action Mode Titles -->
     <plurals name="am_pack_projects_title">
-        <item quantity="other">Pack %d projects</item>
+        <item quantity="other">组件 %d 个项目</item>
     </plurals>
     <plurals name="am_copy_projects_title">
-        <item quantity="other">Copy %d projects</item>
+        <item quantity="other">复制 %d 个项目</item>
     </plurals>
     <plurals name="am_delete_projects_title">
-        <item quantity="other">Delete %d projects</item>
+        <item quantity="other">删除 %d 个项目</item>
     </plurals>
     <plurals name="am_rename_projects_title">
-        <item quantity="other">Rename %d projects</item>
+        <item quantity="other">重命名 %d 个项目</item>
     </plurals>
     <plurals name="am_convert_projects_title">
-        <item quantity="other">Convert %d projects</item>
+        <item quantity="other">已转换 %d 个项目</item>
     </plurals>
     <plurals name="am_merge_projects_title">
-        <item quantity="other">Merge %d projects</item>
+        <item quantity="other">合并 %d 个项目</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
@@ -297,7 +297,7 @@
         <item quantity="other">Unpack %d scenes</item>
     </plurals>
     <plurals name="am_copy_scenes_title">
-        <item quantity="other">Copy %d scenes</item>
+        <item quantity="other">复制 %d 个场景</item>
     </plurals>
     <plurals name="am_delete_scenes_title">
         <item quantity="other">Delete %d scenes</item>
@@ -396,10 +396,10 @@
         <item quantity="other">Delete these actors or objects?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="other">删除这些外观吗？</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="other">删除这些声音吗？</item>
     </plurals>
     <plurals name="delete_nfc_tags">
         <item quantity="other">Delete these tags?</item>
@@ -1007,6 +1007,7 @@
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="other">次</item>
     </plurals>
