@@ -41,6 +41,7 @@ import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.ui.MainMenuActivity
+import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.notifications.NotificationData
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager
@@ -133,7 +134,8 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
         val notificationData = statusBarNotificationManager.createProjectDownloadNotification(this, projectName)
 
         try {
-            val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName)
+            val projectNameForFileSystem = FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName)
+            val projectDir = File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectNameForFileSystem)
             ZipArchiver().unzip(destinationFile, projectDir)
 
             XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
