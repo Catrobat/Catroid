@@ -112,7 +112,9 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 		} else {
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 			if (openAuthProvider.equals(Constants.GOOGLE_PLUS)) {
-				sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, username).commit();
+				sharedPreferences.edit()
+						.putString(Constants.GOOGLE_USERNAME, username)
+						.apply();
 
 				GoogleExchangeCodeTask googleExchangeCodeTask = new GoogleExchangeCodeTask(getActivity(),
 						sharedPreferences.getString(Constants.GOOGLE_EXCHANGE_CODE, Constants.NO_GOOGLE_EXCHANGE_CODE),

@@ -87,7 +87,7 @@ public final class CrashReporter {
 	private static void storeException(Throwable exception) {
 		preferences.edit()
 				.putString(EXCEPTION_FOR_REPORT, serializeException(exception))
-				.commit();
+				.apply();
 	}
 
 	private static Throwable getStoredException() {
@@ -101,7 +101,7 @@ public final class CrashReporter {
 	private static void removeStoredException() {
 		preferences.edit()
 				.remove(EXCEPTION_FOR_REPORT)
-				.commit();
+				.apply();
 	}
 
 	private static String serializeException(Throwable exception) {

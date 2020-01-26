@@ -58,6 +58,7 @@ ext {
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'jacoco-android'
 
@@ -94,10 +95,6 @@ ext.useAndroidLocales = { ->
     rootProject.hasProperty('useAndroidLocales') ? 'true' : 'false'
 }
 
-ext.useWebTest = { ->
-    rootProject.hasProperty('useWebTest') ? 'true' : 'false'
-}
-
 ext.copyGoogleServicesFile = { flavorName, flavorId ->
     copy {
         from "google-services-template.json"
@@ -132,12 +129,13 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
+
         minSdkVersion 21
         targetSdkVersion 28
         applicationId appId
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        versionCode 71
-        versionName "0.9.67"
+        testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
+        versionCode 72
+        versionName "0.9.68"
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true
@@ -145,10 +143,12 @@ android {
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
                                  intentFilterHost: "share.catrob.at",
-                                 intentFilterPathPattern: "/.*/program/.*"]
+                                 intentFilterPathPattern: "/.*/project/.*"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
-        buildConfigField "boolean", "USE_WEB_TEST", useWebTest()
+        buildConfigField "String", "WEB_TEST_URL", "\"" + project.getProperties().get('webTestUrl') + "\""
+        buildConfigField "boolean", "WEB_TEST_FLAG", (project.hasProperty('webTestUrl') ? 'true' :
+                'false')
 
         buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
         buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
@@ -180,13 +180,7 @@ android {
 
     lintOptions {
         lintConfig file('config/lint.xml')
-        // IconMissingDensityFolder: we do not provide xxxhdpi icons (yet).
-        ignore 'ContentDescription', 'InvalidPackage', 'GradleDependency',
-                'ClickableViewAccessibility', 'UnusedAttribute', 'CommitPrefEdits', 'OldTargetApi',
-                'RtlSymmetry', 'RtlHardcoded', 'HandlerLeak', 'IconMissingDensityFolder',
-                'WrongRegion', 'RelativeOverlap', 'IconColors', 'MissingTranslation', 'ExtraTranslation',
-                'GradleCompatible', 'WifiManagerLeak', 'ApplySharedPref', 'ObsoleteSdkInt',
-                'StaticFieldLeak'
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline'
 
         abortOnError false
 
@@ -195,6 +189,7 @@ android {
         htmlReport true
         xmlOutput file("build/reports/lint-report.xml")
         htmlOutput file("build/reports/lint-report.html")
+        baseline file('config/lint-baseline.xml')
     }
 
     testOptions {
@@ -202,6 +197,12 @@ android {
         unitTests.includeAndroidResources = true
         unitTests.all {
             jvmArgs '-Xmx2g'
+        }
+    }
+
+    sourceSets {
+        androidTest {
+            resources.srcDirs += ['src/androidTest/res', 'src/androidTest/assets']
         }
     }
 
@@ -224,6 +225,13 @@ android {
             keyAlias ""
             keyPassword ""
         }
+
+        debug {
+            storeFile file("external/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
     }
 
     if (rootProject.hasProperty("signingKeystore") && rootProject.hasProperty("signingKeystorePassword") &&
@@ -240,6 +248,7 @@ android {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
+            signingConfig signingConfigs.debug
         }
 
         release {
@@ -264,8 +273,12 @@ android {
 
     productFlavors {
         catroid
-        createAtSchool { applicationIdSuffix '.createatschool' }
-        lunaAndCat { applicationIdSuffix '.lunaandcat' }
+        createAtSchool {
+            applicationIdSuffix '.createatschool'
+        }
+        lunaAndCat {
+            applicationIdSuffix '.lunaandcat'
+        }
         phiro {
             applicationIdSuffix '.phiro'
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
@@ -310,9 +323,18 @@ dependencies {
     implementation "com.android.support:cardview-v7:$supportLibraryVersion"
     implementation "com.android.support:design:$supportLibraryVersion"
     implementation "com.android.support:customtabs:$supportLibraryVersion"
+    implementation "com.android.support:exifinterface:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
 
     implementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
     implementation 'com.android.support:multidex:1.0.3'
+
+    // Dagger
+    implementation 'com.google.dagger:dagger:2.21'
+    implementation 'com.google.dagger:dagger-android:2.21'
+    implementation 'com.google.dagger:dagger-android-support:2.21'
+    kapt 'com.google.dagger:dagger-compiler:2.21'
+    kapt 'com.google.dagger:dagger-android-processor:2.21'
 
     // Drone
     implementation 'com.parrot:arsdk:3.12.6'

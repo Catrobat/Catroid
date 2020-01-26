@@ -44,6 +44,8 @@ public final class ServerAuthenticationConstants {
 	public static final String JSON_TOKEN = "token";
 	public static final int TOKEN_LENGTH = 32;
 	public static final String TOKEN_CODE_INVALID = "-1";
+	public static final String GOOGLE_LOGIN_CATROWEB_SERVER_CLIENT_ID = "427226922034"
+			+ "-r016ige5kb30q9vflqbt1h0i3arng8u1.apps.googleusercontent.com";
 
 	public static final String FILE_TAG_URL_HTTP = FlavoredConstants.BASE_URL_HTTPS + "api/tags/getTags.json";
 	public static final String SIGNIN_GOOGLE_CODE_KEY = "code";

@@ -36,22 +36,26 @@ public final class ToastUtil {
 	}
 
 	public static void showError(Context context, String message) {
-		createToast(context, message);
+		createToast(context, message, Toast.LENGTH_SHORT);
 	}
 
 	public static void showError(Context context, @StringRes int messageId) {
-		createToast(context, context.getResources().getString(messageId));
+		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_SHORT);
 	}
 
 	public static void showSuccess(Context context, String message) {
-		createToast(context, message);
+		createToast(context, message, Toast.LENGTH_SHORT);
 	}
 
 	public static void showSuccess(Context context, @StringRes int messageId) {
-		createToast(context, context.getResources().getString(messageId));
+		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_SHORT);
 	}
 
-	private static void createToast(Context context, String message) {
+	public static void showInfoLong(Context context, String message) {
+		createToast(context, message, Toast.LENGTH_LONG);
+	}
+
+	private static void createToast(Context context, String message, int duration) {
 		Activity activity = UiUtils.getActivityFromContextWrapper(context);
 		if (activity == null) {
 			return;
@@ -61,7 +65,7 @@ public final class ToastUtil {
 			return;
 		}
 
-		Toast toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(activity, message, duration);
 		toast.show();
 	}
 }

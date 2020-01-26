@@ -74,7 +74,7 @@ class ProjectUpload(
                 sharedPreferences.edit()
                     .putString(Constants.TOKEN, successToken)
                     .putString(Constants.USERNAME, successUsername)
-                    .commit()
+                    .apply()
 
                 successCallback(projectId)
                 projectArchive.delete()

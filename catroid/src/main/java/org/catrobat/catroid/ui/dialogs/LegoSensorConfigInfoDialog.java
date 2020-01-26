@@ -114,7 +114,7 @@ public class LegoSensorConfigInfoDialog extends DialogFragment {
 
 							PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
 									.putBoolean(preferenceKey, true)
-									.commit();
+									.apply();
 						}
 					}
 				})

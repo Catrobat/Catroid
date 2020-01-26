@@ -130,8 +130,10 @@ class CatrobatServerCalls(private val okHttpClient: OkHttpClient = CatrobatWebCl
 
                 if (tokenAvailable && oauthProvider == Constants.GOOGLE_PLUS) {
                     val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                    sharedPreferences.edit().putString(Constants.GOOGLE_USERNAME, serverUsername).commit()
-                    sharedPreferences.edit().putString(Constants.GOOGLE_EMAIL, serverEmail).commit()
+                    sharedPreferences.edit()
+                        .putString(Constants.GOOGLE_USERNAME, serverUsername)
+                        .putString(Constants.GOOGLE_EMAIL, serverEmail)
+                        .apply()
                 }
 
                 return tokenAvailable

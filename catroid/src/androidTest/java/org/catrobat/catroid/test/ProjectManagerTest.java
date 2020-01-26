@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.test;
 
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.UiTestCatroidApplication;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
@@ -74,8 +76,9 @@ public class ProjectManagerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getTargetContext());
-		projectManager = ProjectManager.getInstance();
+		Context targetContext = InstrumentationRegistry.getTargetContext();
+		ScreenValueHandler.updateScreenWidthAndHeight(targetContext);
+		projectManager = UiTestCatroidApplication.projectManager;
 	}
 
 	@After

@@ -350,7 +350,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		int numberOfUploadedProjects = sharedPreferences.getInt(NUMBER_OF_UPLOADED_PROJECTS, 0) + 1;
 		sharedPreferences.edit()
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, numberOfUploadedProjects)
-				.commit();
+				.apply();
 
 		if (numberOfUploadedProjects != 2) {
 			return;
@@ -371,7 +371,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 				.setNeutralButton(getString(R.string.rating_dialog_rate_later), (dialog, which) -> sharedPreferences
 						.edit()
 						.putInt(NUMBER_OF_UPLOADED_PROJECTS, 0)
-						.commit())
+						.apply())
 				.setNegativeButton(getString(R.string.rating_dialog_rate_never), null)
 				.setCancelable(false)
 				.show();

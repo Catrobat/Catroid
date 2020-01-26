@@ -156,7 +156,7 @@ public class ScratchConversionManager implements ConversionManager {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(currentActivity.getApplicationContext());
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putLong(SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY, clientID);
-		editor.commit();
+		editor.apply();
 		Log.i(TAG, "Connection established (clientID: " + clientID + ")");
 		Preconditions.checkState(client.isAuthenticated());
 		client.retrieveInfo();
@@ -485,7 +485,7 @@ public class ScratchConversionManager implements ConversionManager {
 			Log.d(TAG, downloadStates.toString());
 			editor.putString(SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY,
 					new JSONObject(downloadStates).toString());
-			editor.commit();
+			editor.apply();
 		} catch (JSONException e) {
 			Log.e(TAG, e.getMessage());
 		}

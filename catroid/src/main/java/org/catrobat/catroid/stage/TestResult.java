@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,28 +20,36 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
 
-import org.catrobat.catroid.content.actions.conditional.GlideToAction;
-import org.catrobat.catroid.physics.PhysicsLook;
+package org.catrobat.catroid.stage;
 
-public class GlideToPhysicsAction extends GlideToAction {
+public class TestResult {
 
-	private PhysicsLook physicsLook;
+	public static final int STAGE_ACTIVITY_TEST_SUCCESS = 7777;
+	public static final int STAGE_ACTIVITY_TEST_FAIL = 8888;
+	public static final String TEST_RESULT_MESSAGE = "ASSERTION_MESSAGE";
 
-	@Override
-	protected void begin() {
-		physicsLook.startGlide();
-		super.begin();
+	private String message;
+	private int resultCode;
+
+	public TestResult(String message, int resultCode) {
+		this.message = message;
+		this.resultCode = resultCode;
 	}
 
-	@Override
-	protected void end() {
-		super.end();
-		physicsLook.stopGlide();
+	public String getMessage() {
+		return message;
 	}
 
-	public void setPhysicsLook(PhysicsLook physicsLook) {
-		this.physicsLook = physicsLook;
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public int getResultCode() {
+		return resultCode;
+	}
+
+	public void setResultCode(int resultCode) {
+		this.resultCode = resultCode;
 	}
 }

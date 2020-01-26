@@ -20,34 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.bricks;
-
-import com.badlogic.gdx.math.Vector2;
+package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class SetGravityBrick extends FormulaBrick {
+public class TurnLeftSpeedBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public SetGravityBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
+	public TurnLeftSpeedBrick() {
+		addAllowedBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, R.id.brick_turn_left_speed_edit_text);
 	}
 
-	public SetGravityBrick(Vector2 gravity) {
-		this(new Formula(gravity.x), new Formula(gravity.y));
+	public TurnLeftSpeedBrick(double degreesPerSecond) {
+		this(new Formula(degreesPerSecond));
 	}
 
-	public SetGravityBrick(Formula gravityX, Formula gravityY) {
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_X, R.id.brick_set_gravity_edit_text_x);
-		addAllowedBrickField(BrickField.PHYSICS_GRAVITY_Y, R.id.brick_set_gravity_edit_text_y);
-		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X, gravityX);
-		setFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y, gravityY);
+	public TurnLeftSpeedBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED, formula);
 	}
 
 	@Override
@@ -58,18 +52,12 @@ public class SetGravityBrick extends FormulaBrick {
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_physics_set_gravity;
-	}
-
-	@Override
-	public BrickField getDefaultBrickField() {
-		return BrickField.PHYSICS_GRAVITY_X;
+		return R.layout.brick_physics_turn_left_speed;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetGravityAction(sprite,
-				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_X),
-				getFormulaWithBrickField(BrickField.PHYSICS_GRAVITY_Y)));
+		sequence.addAction(sprite.getActionFactory().createTurnLeftSpeedAction(sprite,
+				getFormulaWithBrickField(BrickField.PHYSICS_TURN_LEFT_SPEED)));
 	}
 }

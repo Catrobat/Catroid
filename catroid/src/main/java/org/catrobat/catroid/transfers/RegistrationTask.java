@@ -97,7 +97,7 @@ public class RegistrationTask extends AsyncTask<Void, Void, Void> {
 				new ServerAuthenticator(username, password, token,
 						CatrobatWebClient.INSTANCE.getClient(),
 						FlavoredConstants.BASE_URL_HTTPS,
-						sharedPreferences.edit(),
+						sharedPreferences,
 						new ServerAuthenticator.TaskListener() {
 							@Override
 							public void onError(int statusCode, String errorMessage) {

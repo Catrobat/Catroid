@@ -20,7 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
+package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
@@ -29,44 +29,44 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.physics.PhysicsObject;
 
-public class SetGravityAction extends TemporalAction {
+public class SetVelocityAction extends TemporalAction {
 
 	private Sprite sprite;
-	private PhysicsWorld physicsWorld;
-	private Formula gravityX;
-	private Formula gravityY;
+	private PhysicsObject physicsObject;
+	private Formula velocityX;
+	private Formula velocityY;
 
 	@Override
 	protected void update(float percent) {
-		Float newGravityX;
+		Float newVelocityX;
 		try {
-			newGravityX = gravityX == null ? Float.valueOf(0f) : gravityX.interpretFloat(sprite);
+			newVelocityX = velocityX == null ? Float.valueOf(0f) : velocityX.interpretFloat(sprite);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
-		Float newGravityY;
+		Float newVelocityY;
 		try {
-			newGravityY = gravityY == null ? Float.valueOf(0f) : gravityY.interpretFloat(sprite);
+			newVelocityY = velocityY == null ? Float.valueOf(0f) : velocityY.interpretFloat(sprite);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
-		physicsWorld.setGravity(newGravityX, newGravityY);
+		physicsObject.setVelocity(newVelocityX, newVelocityY);
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
 
-	public void setPhysicsWorld(PhysicsWorld physicsWorld) {
-		this.physicsWorld = physicsWorld;
+	public void setPhysicsObject(PhysicsObject physicsObject) {
+		this.physicsObject = physicsObject;
 	}
 
-	public void setGravity(Formula gravityX, Formula gravityY) {
-		this.gravityX = gravityX;
-		this.gravityY = gravityY;
+	public void setVelocity(Formula velocityX, Formula velocityY) {
+		this.velocityX = velocityX;
+		this.velocityY = velocityY;
 	}
 }

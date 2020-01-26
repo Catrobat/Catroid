@@ -37,7 +37,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99994f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99995f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -75,11 +75,11 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 
 	// Backpack Directories
-	public static final File BACKPACK_DIRECTORY = new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, "backpack");
-	public static final File BACKPACK_FILE = new File(BACKPACK_DIRECTORY, "backpack.json");
-	public static final File BACKPACK_SCENE_DIRECTORY = new File(BACKPACK_DIRECTORY, "scenes");
-	public static final File BACKPACK_SOUND_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_sound");
-	public static final File BACKPACK_IMAGE_DIRECTORY = new File(BACKPACK_DIRECTORY, "backpack_image");
+	public static final String BACKPACK_DIRECTORY_NAME = "backpack";
+	public static final String BACKPACK_JSON_FILE_NAME = "backpack.json";
+	public static final String BACKBACK_SCENES_DIRECTORY_NAME = "scenes";
+	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
+	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
@@ -99,8 +99,8 @@ public final class Constants {
 
 	// Web:
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
-	private static final String MAIN_URL_WEBTEST = "https://web-test.catrob.at";
-	public static final String MAIN_URL_HTTPS = BuildConfig.USE_WEB_TEST ? MAIN_URL_WEBTEST : MAIN_URL_PRODUCTION;
+	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
+	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
 

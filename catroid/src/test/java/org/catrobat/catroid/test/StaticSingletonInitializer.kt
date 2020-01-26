@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,28 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.test
 
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
+import android.content.Context
+import org.catrobat.catroid.ProjectManager
 
-public class SetPhysicsObjectTypeAction extends TemporalAction {
+/**
+ * Static singleton methods need to be initialized until they are removed entirely.
+ *
+ * Necessary steps
+ * 1. Migrate entirely to dependency injection
+ * 2. Remove {@link RuntimeException} from constructor
+ * 3. Create instances of e.g. {@link ProjectManager} in each test
+ *
+ */
+@Deprecated("should be removed with all static singleton e.g. {@link ProjectManager#getInstance()}")
+class StaticSingletonInitializer private constructor() {
+    companion object {
+        @JvmStatic
+        fun initializeStaticSingletonMethods() {
+            MockUtil.mockContextForProject()
+        }
 
-	private PhysicsObject physicsObject;
-	private Type type = PhysicsObject.Type.NONE;
-
-	@Override
-	protected void update(float percent) {
-		physicsObject.setType(type);
-	}
-
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
+        @JvmStatic
+        fun initializeStaticSingletonMethodsWith(contextMock: Context) {
+            if (ProjectManager.getInstance() == null) {
+                ProjectManager(contextMock)
+            }
+        }
+    }
 }

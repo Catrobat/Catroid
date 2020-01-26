@@ -118,7 +118,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 			if (activity instanceof MainMenuActivity) {
 				PreferenceManager.getDefaultSharedPreferences(this).edit()
 						.putBoolean(RECOVERED_FROM_CRASH, false)
-						.commit();
+						.apply();
 			} else {
 				activity.finish();
 			}

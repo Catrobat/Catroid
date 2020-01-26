@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
@@ -40,8 +41,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 
 @XStreamAlias("scene")
 @XStreamFieldKeyOrder({
@@ -136,7 +135,8 @@ public class Scene implements Nameable, Serializable {
 
 	public File getDirectory() {
 		if (project == null) {
-			return new File(BACKPACK_SCENE_DIRECTORY, FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
+			return new File(BackpackListManager.getInstance().backpackSceneDirectory,
+					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
 		} else {
 			return new File(project.getDirectory(), FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
 		}

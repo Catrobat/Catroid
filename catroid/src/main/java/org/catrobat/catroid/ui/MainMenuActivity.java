@@ -62,17 +62,25 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.inject.Inject;
+
+import dagger.android.AndroidInjection;
+
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
+	@Inject
+	ProjectManager projectManager;
+
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		AndroidInjection.inject(this);
 
 		SettingsFragment.setToChosenLanguage(this);
 
@@ -96,7 +104,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, getResources()
 						.getString(R.string.dialog_privacy_policy_text)
 						.hashCode())
-				.commit();
+				.apply();
 		loadContent();
 	}
 
@@ -164,7 +172,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public void onPause() {
 		super.onPause();
 
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Project currentProject = projectManager.getCurrentProject();
 
 		if (currentProject != null) {
 			new ProjectSaveTask(currentProject, getApplicationContext())

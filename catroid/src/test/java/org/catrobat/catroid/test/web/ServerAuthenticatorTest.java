@@ -97,10 +97,12 @@ public class ServerAuthenticatorTest {
 		PowerMockito.mockStatic(CatrobatWebClientKt.class);
 		taskListenerMock = mock(TaskListener.class);
 		okHttpClientMock = mock(OkHttpClient.class);
-		sharedPreferencesEditorMock = PowerMockito.mock(SharedPreferences.Editor.class);
+		SharedPreferences sharedPreferencesMock = mock(SharedPreferences.class);
+		sharedPreferencesEditorMock = mock(SharedPreferences.Editor.class);
+		when(sharedPreferencesMock.edit()).thenReturn(sharedPreferencesEditorMock);
 		when(sharedPreferencesEditorMock.putString(anyString(), anyString())).thenReturn(sharedPreferencesEditorMock);
 		authenticatorSpy = PowerMockito.spy(new ServerAuthenticator(USERNAME, PASSWORD, TOKEN, okHttpClientMock,
-				BASE_URL_TEST_HTTPS, sharedPreferencesEditorMock, taskListenerMock));
+				BASE_URL_TEST_HTTPS, sharedPreferencesMock, taskListenerMock));
 	}
 
 	@Test
@@ -193,7 +195,7 @@ public class ServerAuthenticatorTest {
 		verify(sharedPreferencesEditorMock, times(1)).putString(eq(Constants.TOKEN), eq(expectedToken));
 		verify(sharedPreferencesEditorMock, times(1)).putString(Constants.USERNAME, USERNAME);
 		verify(sharedPreferencesEditorMock, times(1)).putString(eq(Constants.EMAIL), eq(expectedEmail));
-		verify(sharedPreferencesEditorMock, atLeastOnce()).commit();
+		verify(sharedPreferencesEditorMock, times(1)).apply();
 		verifyNoMoreInteractions(sharedPreferencesEditorMock);
 	}
 

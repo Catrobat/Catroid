@@ -140,7 +140,9 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 		AccessibilityProfile currentProfile = AccessibilityProfile.fromCurrentPreferences(sharedPreferences);
 		if (sharedPreferences.getBoolean(CUSTOM_PROFILE, false)) {
 			currentProfile.saveAsCustomProfile(sharedPreferences);
-			sharedPreferences.edit().putBoolean(CUSTOM_PROFILE, false).commit();
+			sharedPreferences.edit()
+					.putBoolean(CUSTOM_PROFILE, false)
+					.apply();
 		}
 
 		AccessibilityProfile newProfile;
@@ -159,7 +161,9 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 				break;
 			case R.id.custom_profile:
 				newProfile = AccessibilityProfile.fromCustomProfile(sharedPreferences);
-				sharedPreferences.edit().putBoolean(CUSTOM_PROFILE, true).commit();
+				sharedPreferences.edit()
+						.putBoolean(CUSTOM_PROFILE, true)
+						.apply();
 				break;
 			case R.id.default_profile:
 			default:
@@ -168,7 +172,7 @@ public class AccessibilityProfilesFragment extends Fragment implements View.OnCl
 
 		sharedPreferences.edit()
 				.putInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, v.getId())
-				.commit();
+				.apply();
 
 		newProfile.setAsCurrent(sharedPreferences);
 		startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));

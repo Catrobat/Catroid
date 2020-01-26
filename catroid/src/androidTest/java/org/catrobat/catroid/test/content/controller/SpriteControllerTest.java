@@ -54,8 +54,6 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNotSame;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
@@ -69,9 +67,11 @@ public class SpriteControllerTest {
 	private Project project;
 	private Scene scene;
 	private Sprite sprite;
+	private BackpackListManager backpackListManager;
 
 	@Before
 	public void setUp() throws IOException {
+		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack();
 		createProject();
 	}
@@ -139,15 +139,17 @@ public class SpriteControllerTest {
 		SpriteController controller = new SpriteController();
 		Sprite packedSprite = controller.pack(sprite);
 
-		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
+		assertEquals(0, backpackListManager.getSprites().size());
 
 		assertEquals(sprite.getLookList().size(), packedSprite.getLookList().size());
 		assertEquals(sprite.getSoundList().size(), packedSprite.getSoundList().size());
 		assertEquals(sprite.getNumberOfScripts(), packedSprite.getNumberOfScripts());
 		assertEquals(sprite.getNumberOfBricks(), packedSprite.getNumberOfBricks());
 
-		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
-		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
+		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(),
+				backpackListManager.backpackImageDirectory);
+		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(),
+				backpackListManager.backpackSoundDirectory);
 	}
 
 	@Test
@@ -158,8 +160,10 @@ public class SpriteControllerTest {
 		controller.delete(packedSprite);
 
 		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
-		assertFileDoesNotExistInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
-		assertFileDoesNotExistInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
+		assertFileDoesNotExistInDirectory(packedSprite.getLookList().get(0).getFile(),
+				backpackListManager.backpackImageDirectory);
+		assertFileDoesNotExistInDirectory(packedSprite.getSoundList().get(0).getFile(),
+				backpackListManager.backpackSoundDirectory);
 	}
 
 	@Test
@@ -170,8 +174,10 @@ public class SpriteControllerTest {
 
 		assertEquals(0, BackpackListManager.getInstance().getSprites().size());
 
-		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(), BACKPACK_IMAGE_DIRECTORY);
-		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(), BACKPACK_SOUND_DIRECTORY);
+		assertFileExistsInDirectory(packedSprite.getLookList().get(0).getFile(),
+				backpackListManager.backpackImageDirectory);
+		assertFileExistsInDirectory(packedSprite.getSoundList().get(0).getFile(),
+				backpackListManager.backpackSoundDirectory);
 
 		assertEquals(2, scene.getSpriteList().size());
 
@@ -214,14 +220,14 @@ public class SpriteControllerTest {
 	}
 
 	private void clearBackPack() throws IOException {
-		if (BACKPACK_IMAGE_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(BACKPACK_IMAGE_DIRECTORY);
+		if (backpackListManager.backpackImageDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackImageDirectory);
 		}
-		if (BACKPACK_SOUND_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(BACKPACK_SOUND_DIRECTORY);
+		if (backpackListManager.backpackSoundDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackSoundDirectory);
 		}
-		BACKPACK_IMAGE_DIRECTORY.mkdirs();
-		BACKPACK_SOUND_DIRECTORY.mkdirs();
+		backpackListManager.backpackImageDirectory.mkdirs();
+		backpackListManager.backpackSoundDirectory.mkdirs();
 	}
 
 	private void createProject() throws IOException {

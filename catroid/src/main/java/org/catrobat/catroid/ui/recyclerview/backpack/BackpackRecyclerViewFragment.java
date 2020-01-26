@@ -213,7 +213,7 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 				PreferenceManager.getDefaultSharedPreferences(getActivity())
 						.edit()
 						.putBoolean(sharedPreferenceDetailsKey, adapter.showDetails)
-						.commit();
+						.apply();
 				adapter.notifyDataSetChanged();
 				break;
 			default:

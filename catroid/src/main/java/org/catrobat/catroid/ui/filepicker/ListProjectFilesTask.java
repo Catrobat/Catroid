@@ -30,7 +30,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_DIR_NAME;
@@ -70,7 +70,7 @@ public class ListProjectFilesTask extends AsyncTask<File, Void, List<File>> {
 			return;
 		}
 		for (File dir : EXTERNAL_STORAGE_ROOT_DIRECTORY.listFiles()) {
-			if (!dir.getName().equals(BACKPACK_DIRECTORY.getName())
+			if (!dir.getName().equals(BACKPACK_DIRECTORY_NAME)
 					&& !dir.getName().equals(TMP_DIR_NAME)
 					&& dir.isDirectory()
 					&& new File(dir, CODE_XML_FILE_NAME).exists()) {

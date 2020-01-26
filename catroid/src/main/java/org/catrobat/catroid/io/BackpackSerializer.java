@@ -35,40 +35,25 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.BACKPACK_FILE;
-import static org.catrobat.catroid.common.Constants.BACKPACK_IMAGE_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.BACKPACK_SOUND_DIRECTORY;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-
 public final class BackpackSerializer {
 
 	private static final String TAG = BackpackSerializer.class.getSimpleName();
-	private static final BackpackSerializer INSTANCE = new BackpackSerializer();
+	private final File backpackFile;
 
 	private Gson backpackGson;
 
-	public static BackpackSerializer getInstance() {
-		return INSTANCE;
-	}
-
-	private BackpackSerializer() {
+	public BackpackSerializer(File backpackFile) {
+		this.backpackFile = backpackFile;
 		GsonBuilder gsonBuilder = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting();
 		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
 		backpackGson = gsonBuilder.create();
-
-		DEFAULT_ROOT_DIRECTORY.mkdir();
-		BACKPACK_DIRECTORY.mkdir();
-		BACKPACK_SCENE_DIRECTORY.mkdir();
-		BACKPACK_IMAGE_DIRECTORY.mkdir();
-		BACKPACK_SOUND_DIRECTORY.mkdir();
 	}
 
 	public boolean saveBackpack(Backpack backpack) {
@@ -76,8 +61,8 @@ public final class BackpackSerializer {
 		String json = backpackGson.toJson(backpack);
 
 		try {
-			BACKPACK_FILE.createNewFile();
-			writer = new FileWriter(BACKPACK_FILE);
+			backpackFile.createNewFile();
+			writer = new FileWriter(backpackFile);
 			writer.write(json);
 			return true;
 		} catch (IOException e) {
@@ -95,20 +80,20 @@ public final class BackpackSerializer {
 	}
 
 	public Backpack loadBackpack() {
-		if (!BACKPACK_FILE.exists()) {
+		if (!backpackFile.exists()) {
 			return new Backpack();
 		}
 
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(BACKPACK_FILE));
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(backpackFile));
 			return backpackGson.fromJson(bufferedReader, Backpack.class);
 		} catch (FileNotFoundException e) {
 			Log.e(TAG, "FileNotFoundException: Could not create buffered Writer with file: "
-					+ BACKPACK_FILE.getAbsolutePath());
+					+ backpackFile.getAbsolutePath());
 			return new Backpack();
 		} catch (JsonSyntaxException | JsonIOException jsonException) {
 			Log.e(TAG, "Cannot load Backpack. Creating new Backpack File.", jsonException);
-			BACKPACK_FILE.delete();
+			backpackFile.delete();
 			return new Backpack();
 		}
 	}

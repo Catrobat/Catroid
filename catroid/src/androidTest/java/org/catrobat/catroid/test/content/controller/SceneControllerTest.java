@@ -53,7 +53,6 @@ import java.io.IOException;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.BACKPACK_SCENE_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
@@ -64,9 +63,11 @@ public class SceneControllerTest {
 
 	private Project project;
 	private Scene scene;
+	private BackpackListManager backpackListManager;
 
 	@Before
 	public void setUp() throws IOException {
+		backpackListManager = BackpackListManager.getInstance();
 		clearBackPack();
 		createProject();
 	}
@@ -140,7 +141,8 @@ public class SceneControllerTest {
 
 		assertEquals(0, BackpackListManager.getInstance().getScenes().size());
 
-		assertEquals(new File(BACKPACK_SCENE_DIRECTORY, packedScene.getName()), packedScene.getDirectory());
+		assertEquals(new File(backpackListManager.backpackSceneDirectory, packedScene.getName()),
+				packedScene.getDirectory());
 		assertFileExists(packedScene.getDirectory());
 
 		assertEquals(scene.getSpriteList().size(), packedScene.getSpriteList().size());
@@ -221,10 +223,10 @@ public class SceneControllerTest {
 	}
 
 	private void clearBackPack() throws IOException {
-		if (BACKPACK_SCENE_DIRECTORY.exists()) {
-			StorageOperations.deleteDir(BACKPACK_SCENE_DIRECTORY);
+		if (backpackListManager.backpackSceneDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackSceneDirectory);
 		}
-		BACKPACK_SCENE_DIRECTORY.mkdirs();
+		backpackListManager.backpackSceneDirectory.mkdirs();
 	}
 
 	private void createProject() throws IOException {
