@@ -55,7 +55,7 @@ import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class DroneBricksActionTests {
+public class DroneBricksActionTest {
 
 	private DroneControlService droneControlService;
 	private DroneConfig droneConfig;
@@ -66,7 +66,7 @@ public class DroneBricksActionTests {
 	private int powerInPercent;
 	private int durationInSeconds;
 
-	public DroneBricksActionTests() {
+	public DroneBricksActionTest() {
 		powerInPercent = 20;
 		durationInSeconds = 2;
 	}
