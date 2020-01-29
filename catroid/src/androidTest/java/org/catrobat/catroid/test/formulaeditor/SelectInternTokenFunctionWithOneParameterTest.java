@@ -43,7 +43,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME;
 
 @RunWith(Parameterized.class)
-public class SelectInternTokenTestFunctionWithOneParameter {
+public class SelectInternTokenFunctionWithOneParameterTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
