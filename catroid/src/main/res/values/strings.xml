@@ -557,6 +557,7 @@
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
     <string name="rename_data_dialog">Rename</string>
+    <string name="TestForPR">Test String</string>
 
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
