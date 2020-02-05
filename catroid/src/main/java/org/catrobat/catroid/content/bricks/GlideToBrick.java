@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class GlideToBrick extends FormulaBrick {
+public class GlideToBrick extends VisualPlacementBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -76,5 +76,25 @@ public class GlideToBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.X_DESTINATION),
 				getFormulaWithBrickField(BrickField.Y_DESTINATION),
 				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));
+	}
+
+	@Override
+	public BrickField getXBrickField() {
+		return BrickField.X_DESTINATION;
+	}
+
+	@Override
+	public BrickField getYBrickField() {
+		return BrickField.Y_DESTINATION;
+	}
+
+	@Override
+	public int getXEditTextId() {
+		return R.id.brick_glide_to_edit_text_x;
+	}
+
+	@Override
+	public int getYEditTextId() {
+		return R.id.brick_glide_to_edit_text_y;
 	}
 }
