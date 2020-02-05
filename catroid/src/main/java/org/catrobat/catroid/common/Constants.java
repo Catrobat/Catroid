@@ -236,7 +236,6 @@ public final class Constants {
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
 	public static final String NO_VARIABLE_SELECTED = "No variable set";
-	public static final String NO_VALUE_SET = "No value set";
 	public static final int SAY_BRICK = 0;
 	public static final int THINK_BRICK = 1;
 	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
