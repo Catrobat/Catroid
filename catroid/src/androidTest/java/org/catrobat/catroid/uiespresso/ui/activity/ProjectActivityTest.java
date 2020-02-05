@@ -40,7 +40,6 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
-import org.catrobat.catroid.uiespresso.content.brick.app.PlaceAtBrickTest;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -90,7 +89,7 @@ public class ProjectActivityTest {
 	@After
 	public void tearDown() throws Exception {
 		Intents.release();
-		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
+		TestUtils.deleteProjects(PROJECT_NAME);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

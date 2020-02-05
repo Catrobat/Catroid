@@ -42,7 +42,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -353,7 +353,7 @@ public class SpriteActivity extends BaseActivity {
 				if (fragment instanceof ScriptFragment) {
 					Brick brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
 					if (brick != null) {
-						((PlaceAtBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+						((VisualPlacementBrick) brick).setCoordinates(xCoordinate, yCoordinate);
 					}
 				}
 				break;
