@@ -186,6 +186,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		if (requestCode == REQUEST_IMPORT_PROJECT && resultCode == RESULT_OK) {
 			importProject(data);
 		}
+
+		
 	}
 
 	private void importProject(Intent data) {
