@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -74,6 +75,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
+	public transient RunningStitch runningStitch = new RunningStitch();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
@@ -202,12 +204,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 
 		penConfiguration = new PenConfiguration();
+		runningStitch = new RunningStitch();
 	}
 
 	public void invalidate() {
 		idToEventThreadMap = null;
 		conditionScriptTriggers = null;
 		penConfiguration = null;
+		runningStitch = null;
 	}
 
 	public void initConditionScriptTriggers() {
@@ -266,6 +270,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		convertedSprite.look.setLookData(look.getLookData());
 
 		convertedSprite.penConfiguration = penConfiguration;
+		convertedSprite.runningStitch = runningStitch;
 
 		convertedSprite.lookList = lookList;
 		convertedSprite.soundList = soundList;
