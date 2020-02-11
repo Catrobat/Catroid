@@ -153,6 +153,7 @@ import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
@@ -862,6 +863,12 @@ public class ActionFactory extends Actions {
 		RunningStitchAction action = Actions.action(RunningStitchAction.class);
 		action.setSprite(sprite);
 		action.setLength(length);
+		return action;
+	}
+
+	public static Action createStopRunningStitchAction(Sprite sprite) {
+		StopRunningStitchAction action = Actions.action(StopRunningStitchAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 
