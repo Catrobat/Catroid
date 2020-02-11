@@ -40,7 +40,7 @@ public final class BrickSpinnerMatchers {
 		throw new AssertionError();
 	}
 
-	public static Matcher<View> withNamableValues(final List<String> stringValues) {
+	public static Matcher<View> withNameableValues(final List<String> stringValues) {
 		return new TypeSafeMatcher<View>() {
 			@Override
 			protected boolean matchesSafely(View view) {
@@ -80,7 +80,7 @@ public final class BrickSpinnerMatchers {
 					return false;
 				}
 				for (int index = 0; index < spinnerAdapter.getCount(); index++) {
-					String item = (String) spinnerAdapter.getItem(index);
+					String item = ((Nameable) spinnerAdapter.getItem(index)).getName();
 					if (!item.equals(stringValues.get(index))) {
 						return false;
 					}
