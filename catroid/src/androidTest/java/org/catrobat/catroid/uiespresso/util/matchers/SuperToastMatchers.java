@@ -23,12 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.util.matchers;
 
-import android.support.test.espresso.Root;
 import android.view.WindowManager;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import androidx.test.espresso.Root;
 
 public final class SuperToastMatchers {
 	private SuperToastMatchers() {

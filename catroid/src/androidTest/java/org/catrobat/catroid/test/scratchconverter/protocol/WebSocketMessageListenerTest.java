@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.scratchconverter.protocol;
 
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.google.android.gms.common.images.WebImage;
 
@@ -67,6 +65,9 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
@@ -97,7 +98,7 @@ public class WebSocketMessageListenerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
+		System.setProperty("dexmaker.dexcache", ApplicationProvider.getApplicationContext().getCacheDir().getPath());
 		baseMessageHandlerMock = Mockito.mock(BaseMessageHandler.class);
 
 		webSocketMessageListener = new WebSocketMessageListener();

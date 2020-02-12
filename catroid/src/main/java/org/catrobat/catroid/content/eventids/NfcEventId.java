@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.content.eventids;
 
-import android.support.annotation.NonNull;
-
 import com.google.common.base.Objects;
+
+import androidx.annotation.NonNull;
 
 public class NfcEventId extends EventId {
 	final String tag;

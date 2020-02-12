@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,6 +38,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBrick {
 

@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.scratchconverter;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
@@ -40,6 +38,8 @@ import org.junit.runner.RunWith;
 
 import java.io.InterruptedIOException;
 import java.util.List;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

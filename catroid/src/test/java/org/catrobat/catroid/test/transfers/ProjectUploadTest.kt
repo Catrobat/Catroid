@@ -24,15 +24,15 @@
 package org.catrobat.catroid.test.transfers
 
 import android.content.SharedPreferences
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
-import org.junit.Assert.fail
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
 import org.catrobat.catroid.io.ZipArchiver
 import org.catrobat.catroid.transfers.project.ProjectUpload
 import org.catrobat.catroid.transfers.project.ProjectUploadData
 import org.catrobat.catroid.web.ServerCalls
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

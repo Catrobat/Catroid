@@ -25,13 +25,14 @@ package org.catrobat.catroid.transfers;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.CatrobatServerCalls;
 import org.catrobat.catroid.web.WebconnectionException;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class CheckOAuthTokenTask extends AsyncTask<String, Void, Boolean> {
 	private static final String TAG = CheckOAuthTokenTask.class.getSimpleName();

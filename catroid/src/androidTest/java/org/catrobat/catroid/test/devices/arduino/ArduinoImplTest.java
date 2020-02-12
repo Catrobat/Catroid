@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.devices.arduino;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.common.firmata.FirmataMessage;
 import org.catrobat.catroid.common.firmata.FirmataUtils;
@@ -36,6 +34,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import name.antonsmirnov.firmata.message.SetPinModeMessage;
 import name.antonsmirnov.firmata.writer.AnalogMessageWriter;
 import name.antonsmirnov.firmata.writer.DigitalMessageWriter;

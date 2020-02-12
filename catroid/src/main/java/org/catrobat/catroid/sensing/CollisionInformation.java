@@ -27,8 +27,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.Pair;
 import android.util.Log;
 
 import com.badlogic.gdx.math.Polygon;
@@ -43,6 +41,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
 import ar.com.hjg.pngj.PngjInputException;
 
 public class CollisionInformation {

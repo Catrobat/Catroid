@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.scratchconverter;
 
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.google.android.gms.common.images.WebImage;
 import com.koushikdutta.async.callback.CompletedCallback;
@@ -58,6 +56,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import java.lang.reflect.Field;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -92,7 +93,7 @@ public class WebSocketClientTest {
 
 	@Before
 	public void setUp() throws Exception {
-		System.setProperty("dexmaker.dexcache", InstrumentationRegistry.getTargetContext().getCacheDir().getPath());
+		System.setProperty("dexmaker.dexcache", ApplicationProvider.getApplicationContext().getCacheDir().getPath());
 		messageListenerMock = Mockito.mock(WebSocketMessageListener.class);
 		asyncHttpClientMock = Mockito.mock(AsyncHttpClient.class);
 		webSocketClient = new WebSocketClient(VALID_CLIENT_ID, messageListenerMock);

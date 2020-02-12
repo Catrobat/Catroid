@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 package org.catrobat.catroid.test.io;
 
 import android.media.MediaPlayer;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -45,6 +43,10 @@ import org.mockito.Mockito;
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -71,7 +73,7 @@ public class SoundManagerTest {
 		soundManager.clear();
 
 		soundFile = ResourceImporter
-				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getContext().getResources(),
+				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 						R.raw.testsound, new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 						"testsound.m4a");
 	}
@@ -189,7 +191,7 @@ public class SoundManagerTest {
 	}
 
 	private void createProject() {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
 
 		Sprite sprite = new Sprite("TestSprite");
 

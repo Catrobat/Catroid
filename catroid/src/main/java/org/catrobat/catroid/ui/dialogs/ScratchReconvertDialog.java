@@ -27,8 +27,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -40,6 +38,9 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 public class ScratchReconvertDialog extends DialogFragment {
 	public interface ReconvertDialogCallback {

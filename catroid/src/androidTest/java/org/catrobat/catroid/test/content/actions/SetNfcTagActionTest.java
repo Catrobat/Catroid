@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.nfc.FormatException;
 import android.nfc.NdefMessage;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.BrickValues;
@@ -37,6 +35,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.nio.charset.Charset;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -63,7 +64,7 @@ public class SetNfcTagActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "testProject");
+		project = new Project(ApplicationProvider.getApplicationContext(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.robolectric.formulaeditor;
 
 import android.app.Activity;
 import android.os.SystemClock;
-import android.support.annotation.IdRes;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -49,6 +48,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
 
 import java.util.Arrays;
+
+import androidx.annotation.IdRes;
 
 import static org.junit.Assert.assertEquals;
 

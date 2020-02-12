@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,6 @@ package org.catrobat.catroid.test.devices.mindstorms.nxt;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
@@ -44,6 +42,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -73,10 +74,10 @@ public class LegoNXTImplTest {
 
 	@Before
 	public void setUp() throws Exception {
-		applicationContext = InstrumentationRegistry.getTargetContext().getApplicationContext();
+		applicationContext = ApplicationProvider.getApplicationContext().getApplicationContext();
 
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		nxtSettingBuffer = sharedPreferences
 				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
@@ -85,7 +86,7 @@ public class LegoNXTImplTest {
 				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
 				.commit();
 
-		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
+		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
 		setSensorMapping(new NXTSensor.Sensor[] {
 				NXTSensor.Sensor.NO_SENSOR,
@@ -103,7 +104,7 @@ public class LegoNXTImplTest {
 		nxt.disconnect();
 		logger.disconnectAndDestroy();
 
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit()
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
 				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, nxtSettingBuffer)
 				.commit();
 		setSensorMapping(sensorMappingBuffer);

@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
-import android.support.v4.util.SparseArrayCompat;
-
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
@@ -34,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import androidx.collection.SparseArrayCompat;
 
 public final class TrackToTrackGridConverter {
 

@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.test.content.messagecontainer;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -45,6 +42,9 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -90,7 +90,7 @@ public class MessageContainerTest {
 		currentProject.getBroadcastMessageContainer().update();
 
 		ProjectManager.getInstance()
-				.loadProject(project2.getDirectory(), InstrumentationRegistry.getTargetContext());
+				.loadProject(project2.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		currentProject = ProjectManager.getInstance().getCurrentProject();
 		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
@@ -102,7 +102,7 @@ public class MessageContainerTest {
 	}
 
 	private void createTestProjects() throws ProjectException {
-		project1 = new Project(InstrumentationRegistry.getTargetContext(), projectName1);
+		project1 = new Project(ApplicationProvider.getApplicationContext(), projectName1);
 
 		Sprite sprite1 = new SingleSprite("cat");
 		Script script1 = new StartScript();
@@ -116,9 +116,9 @@ public class MessageContainerTest {
 		project1.getDefaultScene().addSprite(sprite1);
 
 		ProjectSaveTask
-				.task(project1, InstrumentationRegistry.getTargetContext());
+				.task(project1, ApplicationProvider.getApplicationContext());
 
-		project2 = new Project(InstrumentationRegistry.getTargetContext(), projectName2);
+		project2 = new Project(ApplicationProvider.getApplicationContext(), projectName2);
 
 		Sprite sprite2 = new SingleSprite("cat");
 		Script script2 = new StartScript();
@@ -134,6 +134,6 @@ public class MessageContainerTest {
 
 		ProjectManager.getInstance()
 				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
-						InstrumentationRegistry.getTargetContext());
+						ApplicationProvider.getApplicationContext());
 	}
 }

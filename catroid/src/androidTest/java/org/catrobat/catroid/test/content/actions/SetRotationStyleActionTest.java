@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
@@ -36,6 +34,8 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

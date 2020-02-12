@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
@@ -36,6 +34,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;

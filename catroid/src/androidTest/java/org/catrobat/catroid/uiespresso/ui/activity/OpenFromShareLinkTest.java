@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,8 +28,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.intent.Intents;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -49,12 +47,15 @@ import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
 
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtras;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
+
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtras;
 
 @Category({Cat.AppUi.class, Level.Functional.class})
 @RunWith(Parameterized.class)
@@ -86,11 +87,11 @@ public class OpenFromShareLinkTest {
 
 	@Before
 	public void setUp() throws Exception {
-		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
-				.getTargetContext())
+		bufferedPreferenceSetting =
+				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
@@ -114,7 +115,7 @@ public class OpenFromShareLinkTest {
 
 	@After
 	public void tearDown() {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPreferenceSetting)
 				.commit();

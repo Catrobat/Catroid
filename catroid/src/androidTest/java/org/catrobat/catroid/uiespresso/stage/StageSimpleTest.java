@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,9 +21,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package org.catrobat.catroid.uiespresso.stage;
-
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -50,11 +47,15 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
 
 @RunWith(AndroidJUnit4.class)
 public class StageSimpleTest {
@@ -87,7 +88,7 @@ public class StageSimpleTest {
 		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
 
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		// blue Sprite
 		Sprite blueSprite = new SingleSprite("blueSprite");
@@ -108,7 +109,7 @@ public class StageSimpleTest {
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File blueImageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.blue_image,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				blueImageName,
@@ -119,7 +120,7 @@ public class StageSimpleTest {
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(blueSprite);
-		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
 
 		return project;
 	}
