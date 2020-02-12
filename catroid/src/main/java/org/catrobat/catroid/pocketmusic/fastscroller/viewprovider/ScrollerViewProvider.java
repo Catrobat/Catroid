@@ -24,12 +24,13 @@
 package org.catrobat.catroid.pocketmusic.fastscroller.viewprovider;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.pocketmusic.fastscroller.FastScroller;
+
+import androidx.annotation.Nullable;
 
 public abstract class ScrollerViewProvider {
 

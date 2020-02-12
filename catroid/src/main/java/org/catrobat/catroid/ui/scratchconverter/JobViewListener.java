@@ -23,9 +23,9 @@
 
 package org.catrobat.catroid.ui.scratchconverter;
 
-import android.support.annotation.NonNull;
-
 import org.catrobat.catroid.scratchconverter.protocol.Job;
+
+import androidx.annotation.NonNull;
 
 public interface JobViewListener {
 	void onJobScheduled(Job job);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@ package org.catrobat.catroid.uiespresso.ui.activity;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -44,6 +42,10 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -101,10 +103,10 @@ public class ProjectListActivityTest {
 	}
 
 	private AssetManager getAssets() {
-		return InstrumentationRegistry.getContext().getAssets();
+		return InstrumentationRegistry.getInstrumentation().getContext().getAssets();
 	}
 
 	private SharedPreferences getDefaultSharedPreferences() {
-		return PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		return PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 	}
 }

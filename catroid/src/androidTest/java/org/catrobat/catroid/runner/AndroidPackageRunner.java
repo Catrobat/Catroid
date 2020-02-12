@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.runner;
 
-import android.support.test.InstrumentationRegistry;
 import android.util.Log;
 
 import org.junit.runner.Description;
@@ -43,6 +42,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+import androidx.test.platform.app.InstrumentationRegistry;
 import dalvik.system.DexFile;
 
 public class AndroidPackageRunner extends ParentRunner<Runner> {
@@ -62,7 +62,7 @@ public class AndroidPackageRunner extends ParentRunner<Runner> {
 		}
 		ArrayList<Class> classes = new ArrayList<>();
 		try {
-			String packageCodePath = InstrumentationRegistry.getContext().getPackageCodePath();
+			String packageCodePath = InstrumentationRegistry.getInstrumentation().getContext().getPackageCodePath();
 			DexFile dexFile = new DexFile(packageCodePath);
 			for (Enumeration<String> iter = dexFile.entries(); iter.hasMoreElements(); ) {
 				String className = iter.nextElement();

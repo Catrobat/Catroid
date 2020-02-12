@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.content.bricks;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.R;
@@ -34,6 +32,8 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 

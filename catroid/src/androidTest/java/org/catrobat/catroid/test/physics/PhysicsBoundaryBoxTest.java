@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Filter;
@@ -37,6 +35,8 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

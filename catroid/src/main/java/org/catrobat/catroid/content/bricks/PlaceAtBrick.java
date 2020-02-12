@@ -25,8 +25,6 @@ package org.catrobat.catroid.content.bricks;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -39,6 +37,9 @@ import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.Y_POSITION;

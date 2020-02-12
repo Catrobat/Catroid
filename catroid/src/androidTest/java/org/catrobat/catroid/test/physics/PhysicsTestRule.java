@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.physics;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
@@ -38,6 +36,9 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.rules.ExternalResource;
 
 import java.io.File;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertNotNull;
 
@@ -57,7 +58,7 @@ public class PhysicsTestRule extends ExternalResource {
 		TestUtils.deleteProjects();
 		rectangle125x125FileName = PhysicsTestUtils.getInternalImageFilenameFromFilename("rectangle_125x125.png");
 
-		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 
 		physicsWorld = project.getDefaultScene().getPhysicsWorld();
 		sprite = new Sprite("TestSprite");
@@ -69,7 +70,7 @@ public class PhysicsTestRule extends ExternalResource {
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		rectangle125x125File = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				R.raw.rectangle_125x125,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				rectangle125x125FileName,

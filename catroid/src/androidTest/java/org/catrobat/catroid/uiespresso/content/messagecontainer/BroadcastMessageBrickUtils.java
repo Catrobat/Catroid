@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,12 +24,13 @@
 package org.catrobat.catroid.uiespresso.content.messagecontainer;
 
 import android.content.DialogInterface;
-import android.support.test.InstrumentationRegistry;
-import android.support.v7.app.AppCompatActivity;
 
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.mockito.Mockito;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 public final class BroadcastMessageBrickUtils {
 	private BroadcastMessageBrickUtils() {

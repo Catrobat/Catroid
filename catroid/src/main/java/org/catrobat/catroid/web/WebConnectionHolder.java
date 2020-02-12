@@ -23,14 +23,13 @@
 
 package org.catrobat.catroid.web;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.VisibleForTesting;
 import okhttp3.ConnectionSpec;
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;

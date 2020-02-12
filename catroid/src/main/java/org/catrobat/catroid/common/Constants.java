@@ -23,7 +23,6 @@
 package org.catrobat.catroid.common;
 
 import android.os.Environment;
-import android.support.annotation.IntDef;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
@@ -32,6 +31,8 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Calendar;
+
+import androidx.annotation.IntDef;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 

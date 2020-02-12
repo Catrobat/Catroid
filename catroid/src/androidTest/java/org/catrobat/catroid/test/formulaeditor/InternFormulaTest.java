@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.ExternInternRepresentationMapping;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -39,6 +36,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNull;
@@ -60,11 +60,11 @@ public class InternFormulaTest {
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 
 		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_4, InstrumentationRegistry.getTargetContext(), null);
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_2, InstrumentationRegistry.getTargetContext(), null);
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_4, ApplicationProvider.getApplicationContext(), null);
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_2, ApplicationProvider.getApplicationContext(), null);
 		assertNull(internFormula.getSelection());
 
 		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
@@ -86,18 +86,18 @@ public class InternFormulaTest {
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 
 		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
 		assertInternFormulaSelectionIndices(0, 9, internFormula);
 
-		internFormula.handleKeyInput(R.string.formula_editor_function_rand, InstrumentationRegistry.getTargetContext(), null);
+		internFormula.handleKeyInput(R.string.formula_editor_function_rand, ApplicationProvider.getApplicationContext(), null);
 		assertInternFormulaSelectionIndices(2, 8, internFormula);
 
 		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
 		assertInternFormulaSelectionIndices(0, 11, internFormula);
 
-		internFormula.handleKeyInput(R.string.formula_editor_function_sqrt, InstrumentationRegistry.getTargetContext(), null);
+		internFormula.handleKeyInput(R.string.formula_editor_function_sqrt, ApplicationProvider.getApplicationContext(), null);
 		assertInternFormulaSelectionIndices(2, 8, internFormula);
 
 		internFormula.setCursorAndSelection(internFormula.getExternFormulaString().length(), true);
@@ -112,7 +112,7 @@ public class InternFormulaTest {
 		internTokens.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		String externFormulaString = internFormula.getExternFormulaString();
 
 		internFormula.setCursorAndSelection(externFormulaString.length(), true);
@@ -128,7 +128,7 @@ public class InternFormulaTest {
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 
 		internFormula.setCursorAndSelection(1, true);
 		String externFormulaString = internFormula.getExternFormulaString();
@@ -139,8 +139,8 @@ public class InternFormulaTest {
 		internFormula.internFormulaTokenSelection = new InternFormulaTokenSelection(
 				TokenSelectionType.USER_SELECTION, tokenSelectionStartIndex, tokenSelectionEndIndex);
 
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_0, InstrumentationRegistry.getTargetContext(), null);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_0, ApplicationProvider.getApplicationContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		assertEquals(externFormulaString, internFormula.getExternFormulaString());
 	}
 
@@ -151,7 +151,7 @@ public class InternFormulaTest {
 		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		internFormula.setCursorAndSelection(1, false);
 
 		ExternInternRepresentationMapping externInternRepresentationMapping = new ExternInternRepresentationMapping();
@@ -167,7 +167,7 @@ public class InternFormulaTest {
 	public void testSetExternCursorPositionRightToEmptyFormula() {
 		ArrayList<InternToken> internTokens = new ArrayList<>();
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		internFormula.setCursorAndSelection(1, false);
 
 		int externCursorPositionBeforeMethodCall = internFormula.getExternCursorPosition();
@@ -182,7 +182,7 @@ public class InternFormulaTest {
 		internTokens.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		InternFormula internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		internFormula.setCursorAndSelection(1, false);
 
 		internFormula.setExternCursorPositionRightTo(3);

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.adapter;
 
 import android.content.Context;
-import android.support.v7.media.MediaRouter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 
 import java.util.List;
+
+import androidx.mediarouter.media.MediaRouter;
 
 public class CastDevicesAdapter extends ArrayAdapter<MediaRouter.RouteInfo> {
 

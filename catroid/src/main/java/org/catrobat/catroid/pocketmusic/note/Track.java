@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.pocketmusic.note;
 
-import android.support.v4.util.LongSparseArray;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
@@ -31,6 +29,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+
+import androidx.collection.LongSparseArray;
 
 public class Track implements Serializable {
 
