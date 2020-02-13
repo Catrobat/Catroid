@@ -25,29 +25,35 @@
 
 <!-- Overdraw lint warning is ignored - fragments need refactoring -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/add_brick_fragment_list"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/app_background"
-              android:orientation="vertical"
-              tools:ignore="Overdraw" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
 
-    <ListView
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent" />
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_user_brick"
+        style="@style/BrickContainer.Look.Medium"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/brick_darkblue_1h">
 
-    <ImageButton
-        android:id="@+id/add_user_brick"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:layout_weight="0"
-        android:layout_gravity="center|bottom"
-        android:background="@drawable/button_background_selector"
-        android:src="@drawable/ic_plus"/>
+        <include layout="@layout/icon_brick_category_look" />
+
+        <TextView
+            style="@style/BrickText.SingleLine">
+        </TextView>
+
+    </org.catrobat.catroid.ui.BrickLayout>
+
+    <Button
+        android:id="@+id/add_label"
+        android:text="@string/brick_user_defined_add_label"
+        style="@style/Button"/>
+
+    <Button
+        android:id="@+id/add_input"
+        android:text="@string/brick_user_defined_add_input"
+        style="@style/Button" />
 
 </LinearLayout>
