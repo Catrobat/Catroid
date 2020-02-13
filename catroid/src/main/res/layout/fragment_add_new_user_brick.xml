@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+
+<!-- Overdraw lint warning is ignored - fragments need refactoring -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    android:orientation="vertical"
+    tools:ignore="Overdraw">
+
+    <org.catrobat.catroid.ui.BrickLayout
+        android:id="@+id/brick_user_brick"
+        style="@style/BrickContainer.Look.Medium"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/brick_darkblue_1h">
+        <include layout="@layout/icon_brick_category_look" />
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:labelFor="@+id/brick_user_brick_edit_text"
+            android:text="@string/brick_user_defined">
+        </TextView>
+        </org.catrobat.catroid.ui.BrickLayout>
+
+    <Button
+        android:id="@+id/add_label"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_background_selector"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/brick_user_defined_add_label"
+        android:textAlignment="center"
+        android:textColor="@color/vh_item_title" />
+
+    <Button
+        android:id="@+id/add_input"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_background_selector"
+        android:fontFamily="sans-serif"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="@string/brick_user_defined_add_input"
+        android:textAlignment="center"
+        android:textColor="@color/vh_item_title" />
+
+    </LinearLayout>

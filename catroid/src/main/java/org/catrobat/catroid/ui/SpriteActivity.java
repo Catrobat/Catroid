@@ -260,6 +260,8 @@ public class SpriteActivity extends BaseActivity {
 		super.onBackPressed();
 	}
 
+
+
 	private void saveProject() {
 		new ProjectSaveTask(currentProject, getApplicationContext())
 				.execute();

@@ -27,15 +27,19 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.catrobat.catroid.R;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.ListFragment;
+import androidx.fragment.app.Fragment;
 
-public class AddUserBrickFragment extends ListFragment {
+public class AddUserBrickFragment extends Fragment {
 
 	public static final String ADD_USER_BRICK_FRAGMENT_TAG = AddBrickFragment.class.getSimpleName();
+
+	private Button addLabel;
+	private Button addInput;
 
 	public static AddUserBrickFragment newInstance() {
 		AddUserBrickFragment fragment = new AddUserBrickFragment();
@@ -45,9 +49,23 @@ public class AddUserBrickFragment extends ListFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_brick_add_userbrick, container, false);
+		View view = inflater.inflate(R.layout.fragment_add_new_user_brick, container, false);
+		addLabel = view.findViewById(R.id.add_label);
+		addInput = view.findViewById(R.id.add_input);
+		addLabel.setOnClickListener(v -> handleAddLabel());
+		addInput.setOnClickListener(v -> handleAddInput());
+
 		((AppCompatActivity) getActivity())
-				.getSupportActionBar().setTitle(R.string.category_user_bricks);
+				.getSupportActionBar().setTitle("Add new User Brick");
+
 		return view;
+	}
+
+	private void handleAddLabel() {
+		int i = 1;
+	}
+
+	private void handleAddInput() {
+		int i = 1;
 	}
 }
