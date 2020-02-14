@@ -22,12 +22,12 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-import android.support.annotation.VisibleForTesting;
-
 import org.catrobat.catroid.devices.mindstorms.MindstormsConnection;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 
 import java.util.Locale;
+
+import androidx.annotation.VisibleForTesting;
 
 public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 

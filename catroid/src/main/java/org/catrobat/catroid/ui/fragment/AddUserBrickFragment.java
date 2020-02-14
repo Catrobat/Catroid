@@ -24,13 +24,14 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.catrobat.catroid.R;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.ListFragment;
 
 public class AddUserBrickFragment extends ListFragment {
 

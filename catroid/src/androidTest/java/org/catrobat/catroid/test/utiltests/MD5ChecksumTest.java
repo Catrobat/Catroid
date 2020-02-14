@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.utiltests;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.utils.Utils;
 import org.junit.Test;
@@ -34,6 +32,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

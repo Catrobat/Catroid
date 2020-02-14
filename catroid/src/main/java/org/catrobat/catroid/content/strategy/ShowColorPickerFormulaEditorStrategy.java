@@ -23,10 +23,6 @@
 
 package org.catrobat.catroid.content.strategy;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -34,7 +30,12 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
-import static android.support.v4.app.DialogFragment.STYLE_NORMAL;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
 
 public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorStrategy {
 	private static final int OPTION_PICK_COLOR = 0;

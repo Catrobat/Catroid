@@ -22,11 +22,10 @@
  */
 package org.catrobat.catroid.test.scratchconverter;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.common.ScratchSearchResult;
+import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.web.CatrobatWebClient;
 import org.catrobat.catroid.web.ServerCalls;
 import org.catrobat.catroid.web.WebScratchProgramException;
@@ -34,10 +33,13 @@ import org.catrobat.catroid.web.WebconnectionException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import java.io.InterruptedIOException;
 import java.util.List;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -51,6 +53,7 @@ import static org.hamcrest.Matchers.lessThanOrEqualTo;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
+@Category(Cat.OutgoingNetworkTests.class)
 @RunWith(AndroidJUnit4.class)
 public class ScratchServerCallsTest {
 

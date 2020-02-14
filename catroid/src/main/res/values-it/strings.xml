@@ -1095,6 +1095,7 @@
     <string name="brick_is_equal_to">uguale al previsto:</string>
     <string name="brick_wait_till_idle">Attendi che tutti gli altri script siano stati fermati</string>
     <string name="brick_tap_at">"Tocco singolo su"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="one">volta</item>
         <item quantity="other">volte</item>

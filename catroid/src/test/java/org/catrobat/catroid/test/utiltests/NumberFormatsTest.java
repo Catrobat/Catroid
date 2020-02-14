@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.test.utiltests;
 
-import android.support.annotation.IdRes;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
+
+import androidx.annotation.IdRes;
 
 import static junit.framework.Assert.assertEquals;
 

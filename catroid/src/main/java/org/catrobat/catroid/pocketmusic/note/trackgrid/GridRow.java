@@ -22,11 +22,11 @@
  */
 package org.catrobat.catroid.pocketmusic.note.trackgrid;
 
-import android.support.v4.util.SparseArrayCompat;
-
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.List;
+
+import androidx.collection.SparseArrayCompat;
 
 public class GridRow {
 

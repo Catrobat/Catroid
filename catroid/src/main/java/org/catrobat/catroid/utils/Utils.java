@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
+import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
@@ -58,6 +59,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -408,9 +411,10 @@ public final class Utils {
 	public static void logoutUser(Context context) {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String userName = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+		GoogleLoginHandler googleLoginHandler = new GoogleLoginHandler((AppCompatActivity) context);
+		googleLoginHandler.getGoogleSignInClient().signOut();
 		LogoutTask logoutTask = new LogoutTask(context, userName);
 		logoutTask.execute();
-
 		sharedPreferences.edit()
 				.putString(Constants.TOKEN, Constants.NO_TOKEN)
 				.putString(Constants.USERNAME, Constants.NO_USERNAME)

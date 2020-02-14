@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.content.actions;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.BrickValues;
@@ -36,6 +34,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

@@ -958,6 +958,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_is_equal_to">เท่ากับที่คาดไว้:</string>
     <string name="brick_wait_till_idle">รอจนกระทั่งสคริปต์อื่น ๆ หยุดทำงาน</string>
     <string name="brick_tap_at">"แตะครั้งเดียวที่"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="other">ครั้ง</item>
     </plurals>
@@ -1129,7 +1130,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="notification_blueth_err">ไม่สามารถเปิดใช้งานบลูทูธ ได้โปรดลองปิดและเปิดใหม่อีกครั้ง</string>
     <string name="title_paired_devices">อุปกรณ์ที่จับคู่ไว้</string>
     <string name="title_other_devices">อุปกรณ์ใหม่</string>
-    <string name="searching_devices">กำลังมองหาอุปกรณ์&#8230;</string>
+    <string name="searching_devices">กำลังมองหาอุปกรณ์…</string>
     <string name="button_scan">ค้นหาอุปกรณ์ Bluetooth</string>
     <string name="select_device">เลือกอุปกรณ์:</string>
     <string name="connecting_please_wait">กำลังเชื่อมต่อกับอุปกรณ์ \nกรุณารอ&#8230;</string>

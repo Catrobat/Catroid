@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.io;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -44,6 +42,9 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.List;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
@@ -55,11 +56,11 @@ public class DefaultDroneProgramLoadingTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Context targetContext = InstrumentationRegistry.getTargetContext();
+		Context targetContext = ApplicationProvider.getApplicationContext();
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 		projectName = targetContext.getString(R.string.default_drone_project_name);
 		project = new ArDroneProjectCreator()
-				.createDefaultProject(projectName, InstrumentationRegistry.getTargetContext(), false);
+				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), false);
 	}
 
 	@After
@@ -71,7 +72,7 @@ public class DefaultDroneProgramLoadingTest {
 	@Test
 	public void testDroneProgramLoadingSuccessfully() throws IOException, LoadingProjectException {
 		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();

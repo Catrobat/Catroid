@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -36,6 +35,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 public interface Brick extends Serializable, Cloneable {
 
@@ -72,6 +73,8 @@ public interface Brick extends Serializable, Cloneable {
 
 		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY,
 
+		EMBROIDERY_LENGTH,
+
 		ASSERT_EQUALS_EXPECTED, ASSERT_EQUALS_ACTUAL;
 
 		public static final BrickField[] EXPECTS_STRING_VALUE = {VARIABLE, NOTE, SPEAK, STRING, ASK_QUESTION,
@@ -93,7 +96,9 @@ public interface Brick extends Serializable, Cloneable {
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATOR, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
 			SENSOR_ACCELERATION, SENSOR_INCLINATION, SENSOR_COMPASS, NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION,
 			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, JUMPING_SUMO, MICROPHONE})
-	@interface Resources {}
+	@interface Resources {
+	}
+
 	int TEXT_TO_SPEECH = 1;
 	int BLUETOOTH_LEGO_NXT = 2;
 	int PHYSICS = 3;
@@ -165,4 +170,6 @@ public interface Brick extends Serializable, Cloneable {
 	void setCommentedOut(boolean commentedOut);
 
 	boolean hasHelpPage();
+
+	String getHelpUrl(String category);
 }

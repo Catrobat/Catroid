@@ -23,12 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewItemMatcher {
 	private final int recyclerViewId;

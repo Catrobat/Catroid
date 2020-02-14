@@ -23,17 +23,18 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.CoordinatesProvider;
-import android.support.test.espresso.action.PrecisionDescriber;
-import android.support.test.espresso.action.Swiper;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 import android.view.ViewConfiguration;
 
 import org.catrobat.catroid.uiespresso.util.matchers.ScriptListMatchers;
 import org.hamcrest.Matcher;
+
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.CoordinatesProvider;
+import androidx.test.espresso.action.PrecisionDescriber;
+import androidx.test.espresso.action.Swiper;
+import androidx.test.espresso.matcher.ViewMatchers;
 
 public class DragNDropBrickAction implements ViewAction {
 	private Swiper swiper;

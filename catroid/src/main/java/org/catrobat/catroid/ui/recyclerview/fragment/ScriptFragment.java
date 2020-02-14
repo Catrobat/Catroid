@@ -26,11 +26,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -73,7 +68,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
+
+import androidx.annotation.IntDef;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.ListFragment;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
@@ -574,15 +574,11 @@ public class ScriptFragment extends ListFragment implements
 	private void openWebViewWithHelpPage(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		Sprite backgroundSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite();
-		String language = Locale.getDefault().getLanguage();
 		String category = new CategoryBricksFactory().getBrickCategory(brick, sprite == backgroundSprite, getContext());
-		String brickType = brick.getClass().getSimpleName();
 
-		if (!language.equals("en") && !language.equals("de") && !language.equals("es")) {
-			language = "en";
-		}
+		String brickHelpUrl = brick.getHelpUrl(category);
 		Intent intent = new Intent(Intent.ACTION_VIEW,
-				Uri.parse("https://wiki.catrob.at/index" + ".php?title=" + category + "_Bricks/" + language + "#" + brickType));
+				Uri.parse(brickHelpUrl));
 		startActivity(intent);
 	}
 

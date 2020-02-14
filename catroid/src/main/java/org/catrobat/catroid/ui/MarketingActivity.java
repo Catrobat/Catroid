@@ -30,7 +30,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -46,6 +45,8 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 

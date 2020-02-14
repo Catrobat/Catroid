@@ -28,21 +28,21 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
+import org.catrobat.catroid.content.actions.IfOnEdgeBouncePhysicsAction;
+import org.catrobat.catroid.content.actions.SetBounceFactorAction;
+import org.catrobat.catroid.content.actions.SetFrictionAction;
+import org.catrobat.catroid.content.actions.SetGravityAction;
+import org.catrobat.catroid.content.actions.SetMassAction;
+import org.catrobat.catroid.content.actions.SetPhysicsObjectTypeAction;
+import org.catrobat.catroid.content.actions.SetVelocityAction;
+import org.catrobat.catroid.content.actions.TurnLeftSpeedAction;
+import org.catrobat.catroid.content.actions.TurnRightSpeedAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsObject.Type;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.content.actions.GlideToPhysicsAction;
-import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
-import org.catrobat.catroid.physics.content.actions.SetBounceFactorAction;
-import org.catrobat.catroid.physics.content.actions.SetFrictionAction;
-import org.catrobat.catroid.physics.content.actions.SetGravityAction;
-import org.catrobat.catroid.physics.content.actions.SetMassAction;
-import org.catrobat.catroid.physics.content.actions.SetPhysicsObjectTypeAction;
-import org.catrobat.catroid.physics.content.actions.SetVelocityAction;
-import org.catrobat.catroid.physics.content.actions.TurnLeftSpeedAction;
-import org.catrobat.catroid.physics.content.actions.TurnRightSpeedAction;
 
 public class ActionPhysicsFactory extends ActionFactory {
 
