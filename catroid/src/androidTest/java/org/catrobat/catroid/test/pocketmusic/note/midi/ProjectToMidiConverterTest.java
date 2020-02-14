@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 package org.catrobat.catroid.test.pocketmusic.note.midi;
 
 import android.Manifest;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.GrantPermissionRule;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
@@ -38,6 +35,10 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -53,7 +54,7 @@ public class ProjectToMidiConverterTest {
 
 	@Before
 	public void setUp() {
-		file = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), FILE_NAME);
+		file = new File(ApplicationProvider.getApplicationContext().getCacheDir(), FILE_NAME);
 	}
 
 	@After

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.widget.TableRow;
 
 import org.catrobat.catroid.R;
@@ -36,6 +35,8 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.GridRowPosition;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 public class TrackRowView extends TableRow {
 

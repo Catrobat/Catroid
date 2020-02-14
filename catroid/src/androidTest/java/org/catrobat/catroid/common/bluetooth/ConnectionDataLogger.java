@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.common.bluetooth;
 
-import android.support.annotation.VisibleForTesting;
-
 import com.google.common.base.Stopwatch;
 
 import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
@@ -32,6 +30,8 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
+
+import androidx.annotation.VisibleForTesting;
 
 public final class ConnectionDataLogger {
 

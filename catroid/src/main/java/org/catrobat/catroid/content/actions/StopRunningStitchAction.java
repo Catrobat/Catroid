@@ -20,28 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
+package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.content.actions.conditional.GlideToAction;
-import org.catrobat.catroid.physics.PhysicsLook;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-public class GlideToPhysicsAction extends GlideToAction {
+import org.catrobat.catroid.content.Sprite;
 
-	private PhysicsLook physicsLook;
+public class StopRunningStitchAction extends TemporalAction {
 
-	@Override
-	protected void begin() {
-		physicsLook.startGlide();
-		super.begin();
-	}
+	private Sprite sprite;
 
 	@Override
-	protected void end() {
-		super.end();
-		physicsLook.stopGlide();
+	protected void update(float delta) {
+		sprite.runningStitch.deactivate();
 	}
 
-	public void setPhysicsLook(PhysicsLook physicsLook) {
-		this.physicsLook = physicsLook;
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }

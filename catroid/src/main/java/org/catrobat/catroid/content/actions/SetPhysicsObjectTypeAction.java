@@ -20,53 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
-
-import android.util.Log;
+package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.physics.PhysicsObject.Type;
 
-public class SetVelocityAction extends TemporalAction {
+public class SetPhysicsObjectTypeAction extends TemporalAction {
 
-	private Sprite sprite;
 	private PhysicsObject physicsObject;
-	private Formula velocityX;
-	private Formula velocityY;
+	private Type type = PhysicsObject.Type.NONE;
 
 	@Override
 	protected void update(float percent) {
-		Float newVelocityX;
-		try {
-			newVelocityX = velocityX == null ? Float.valueOf(0f) : velocityX.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
-		}
-		Float newVelocityY;
-		try {
-			newVelocityY = velocityY == null ? Float.valueOf(0f) : velocityY.interpretFloat(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-			return;
-		}
-		physicsObject.setVelocity(newVelocityX, newVelocityY);
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+		physicsObject.setType(type);
 	}
 
 	public void setPhysicsObject(PhysicsObject physicsObject) {
 		this.physicsObject = physicsObject;
 	}
 
-	public void setVelocity(Formula velocityX, Formula velocityY) {
-		this.velocityX = velocityX;
-		this.velocityY = velocityY;
+	public void setType(Type type) {
+		this.type = type;
 	}
 }

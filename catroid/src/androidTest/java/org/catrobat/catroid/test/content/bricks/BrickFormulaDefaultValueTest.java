@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@
 package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -76,10 +75,15 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
+import org.catrobat.catroid.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
+import org.catrobat.catroid.content.bricks.SetFrictionBrick;
+import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -94,10 +98,6 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
-import org.catrobat.catroid.physics.content.bricks.SetBounceBrick;
-import org.catrobat.catroid.physics.content.bricks.SetFrictionBrick;
-import org.catrobat.catroid.physics.content.bricks.SetGravityBrick;
-import org.catrobat.catroid.physics.content.bricks.SetMassBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -107,6 +107,8 @@ import org.junit.runners.Parameterized;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
@@ -205,6 +207,7 @@ public class BrickFormulaDefaultValueTest {
 				{"WaitUntilBrick - R.id.brick_wait_until_edit_text", "Control", WaitUntilBrick.class, R.id.brick_wait_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_until_edit_text", "Control", RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_edit_text", "Control", RepeatBrick.class, R.id.brick_repeat_edit_text, "10 "},
+				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
 		});
 	}
 
@@ -228,7 +231,7 @@ public class BrickFormulaDefaultValueTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject(InstrumentationRegistry.getTargetContext());
+		createProject(ApplicationProvider.getApplicationContext());
 
 		categoryBricksFactory = new CategoryBricksFactory();
 	}
@@ -248,7 +251,7 @@ public class BrickFormulaDefaultValueTest {
 	@Test
 	public void testBrickCategory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
-				InstrumentationRegistry.getTargetContext());
+				ApplicationProvider.getApplicationContext());
 
 		Brick brickInAdapter = null;
 		for (Brick brick : categoryBricks) {
@@ -260,7 +263,7 @@ public class BrickFormulaDefaultValueTest {
 		assertNotNull(brickInAdapter);
 
 		Brick.BrickField brickField = ((FormulaBrick) brickInAdapter).brickFieldToTextViewIdMap.inverse().get(formulaTextFieldId);
-		String actual = ((FormulaBrick) brickInAdapter).getFormulaWithBrickField(brickField).getTrimmedFormulaString(InstrumentationRegistry.getTargetContext());
+		String actual = ((FormulaBrick) brickInAdapter).getFormulaWithBrickField(brickField).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
 		assertEquals(expected, actual);
 	}
 }

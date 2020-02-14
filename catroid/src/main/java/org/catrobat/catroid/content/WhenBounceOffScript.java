@@ -24,9 +24,9 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 
 public class WhenBounceOffScript extends Script {
 

@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.support.v4.util.SparseArrayCompat;
+import androidx.collection.SparseArrayCompat;
 
 public class ExternInternRepresentationMapping {
 

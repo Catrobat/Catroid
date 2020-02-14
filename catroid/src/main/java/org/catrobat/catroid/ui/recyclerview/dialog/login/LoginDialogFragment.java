@@ -26,9 +26,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -37,12 +34,17 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.transfers.LoginTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 public class LoginDialogFragment extends DialogFragment implements LoginTask.OnLoginListener {
 

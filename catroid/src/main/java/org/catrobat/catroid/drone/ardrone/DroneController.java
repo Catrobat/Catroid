@@ -29,9 +29,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import com.parrot.freeflight.drone.NavData;
@@ -49,6 +46,10 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
+import androidx.appcompat.app.AlertDialog;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class DroneController implements DroneConnectionChangeReceiverDelegate,
 		DroneBatteryChangedReceiverDelegate,

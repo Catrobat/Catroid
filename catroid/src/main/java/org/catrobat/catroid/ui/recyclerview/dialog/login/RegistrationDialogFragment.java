@@ -26,9 +26,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -37,6 +34,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -47,6 +46,9 @@ import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationListener;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 
 public class RegistrationDialogFragment extends DialogFragment implements OnRegistrationListener {
 

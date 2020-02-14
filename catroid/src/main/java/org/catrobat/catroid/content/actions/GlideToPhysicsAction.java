@@ -20,28 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.actions;
+package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import org.catrobat.catroid.content.actions.conditional.GlideToAction;
+import org.catrobat.catroid.physics.PhysicsLook;
 
-import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.PhysicsObject.Type;
+public class GlideToPhysicsAction extends GlideToAction {
 
-public class SetPhysicsObjectTypeAction extends TemporalAction {
-
-	private PhysicsObject physicsObject;
-	private Type type = PhysicsObject.Type.NONE;
+	private PhysicsLook physicsLook;
 
 	@Override
-	protected void update(float percent) {
-		physicsObject.setType(type);
+	protected void begin() {
+		physicsLook.startGlide();
+		super.begin();
 	}
 
-	public void setPhysicsObject(PhysicsObject physicsObject) {
-		this.physicsObject = physicsObject;
+	@Override
+	protected void end() {
+		super.end();
+		physicsLook.stopGlide();
 	}
 
-	public void setType(Type type) {
-		this.type = type;
+	public void setPhysicsLook(PhysicsLook physicsLook) {
+		this.physicsLook = physicsLook;
 	}
 }

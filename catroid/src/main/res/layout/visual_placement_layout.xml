@@ -35,7 +35,7 @@
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/transparent_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -123,6 +123,7 @@ import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -152,6 +153,7 @@ import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
@@ -853,6 +855,19 @@ public class ActionFactory extends Actions {
 
 	public static Action createStitchAction(Sprite sprite) {
 		StitchAction action = Actions.action(StitchAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createRunningStitchAction(Sprite sprite, Formula length) {
+		RunningStitchAction action = Actions.action(RunningStitchAction.class);
+		action.setSprite(sprite);
+		action.setLength(length);
+		return action;
+	}
+
+	public static Action createStopRunningStitchAction(Sprite sprite) {
+		StopRunningStitchAction action = Actions.action(StopRunningStitchAction.class);
 		action.setSprite(sprite);
 		return action;
 	}

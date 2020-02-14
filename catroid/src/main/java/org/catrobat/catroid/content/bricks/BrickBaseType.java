@@ -23,10 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.CallSuper;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +35,11 @@ import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class BrickBaseType implements Brick {
 
@@ -180,5 +181,9 @@ public abstract class BrickBaseType implements Brick {
 		if (parentFragment != null) {
 			parentFragment.notifyDataSetChanged();
 		}
+	}
+
+	public String getHelpUrl(String category) {
+		return "https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/" + category + "%20Bricks/#" + this.getClass().getSimpleName();
 	}
 }

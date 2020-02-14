@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.physics;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 
@@ -44,6 +42,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Map;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;

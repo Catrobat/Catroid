@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -69,11 +67,11 @@ import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.physics.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.junit.Before;
@@ -89,6 +87,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

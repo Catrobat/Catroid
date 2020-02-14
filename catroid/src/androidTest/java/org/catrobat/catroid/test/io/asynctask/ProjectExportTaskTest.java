@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,9 +26,6 @@ package org.catrobat.catroid.test.io.asynctask;
 import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.GrantPermissionRule;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -47,6 +44,10 @@ import org.mockito.Mockito;
 
 import java.io.File;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.GrantPermissionRule;
+
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -64,16 +65,16 @@ public class ProjectExportTaskTest {
 
 	@Before
 	public void setUp() {
-		project = new Project(InstrumentationRegistry.getTargetContext(),
+		project = new Project(ApplicationProvider.getApplicationContext(),
 				ProjectExportTaskTest.class.getSimpleName());
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 
 		NotificationManager notificationManagerMock = Mockito.mock(NotificationManager.class);
 		contextMock = Mockito.mock(Context.class);
-		Mockito.when(contextMock.getResources()).thenReturn(InstrumentationRegistry.getTargetContext().getResources());
+		Mockito.when(contextMock.getResources()).thenReturn(ApplicationProvider.getApplicationContext().getResources());
 		Mockito.when(contextMock.getSystemService(anyString())).thenReturn(notificationManagerMock);
 	}
 
@@ -81,10 +82,10 @@ public class ProjectExportTaskTest {
 	public void exportProjectTest() {
 		StatusBarNotificationManager notificationManager = new StatusBarNotificationManager(contextMock);
 		NotificationData notificationData = notificationManager
-				.createSaveProjectToExternalMemoryNotification(InstrumentationRegistry.getTargetContext(), project.getName());
+				.createSaveProjectToExternalMemoryNotification(ApplicationProvider.getApplicationContext(), project.getName());
 
 		new ProjectExportTask(project.getDirectory(), notificationData,
-				InstrumentationRegistry.getTargetContext()).exportProjectToExternalStorage();
+				ApplicationProvider.getApplicationContext()).exportProjectToExternalStorage();
 
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);

@@ -32,8 +32,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -43,6 +41,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -66,6 +66,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_ID;
 import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;

@@ -20,29 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.physics.content.bricks;
+package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class SetFrictionBrick extends FormulaBrick {
+public class TurnRightSpeedBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
 
-	public SetFrictionBrick() {
-		addAllowedBrickField(BrickField.PHYSICS_FRICTION, R.id.brick_set_friction_edit_text);
+	public TurnRightSpeedBrick() {
+		addAllowedBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, R.id.brick_turn_right_speed_edit_text);
 	}
 
-	public SetFrictionBrick(double friction) {
-		this(new Formula(friction));
+	public TurnRightSpeedBrick(double degreesPerSecond) {
+		this(new Formula(degreesPerSecond));
 	}
 
-	public SetFrictionBrick(Formula formula) {
+	public TurnRightSpeedBrick(Formula formula) {
 		this();
-		setFormulaWithBrickField(BrickField.PHYSICS_FRICTION, formula);
+		setFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED, formula);
 	}
 
 	@Override
@@ -53,12 +52,12 @@ public class SetFrictionBrick extends FormulaBrick {
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_physics_set_friction;
+		return R.layout.brick_physics_turn_right_speed;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetFrictionAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)));
+				.createTurnRightSpeedAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_TURN_RIGHT_SPEED)));
 	}
 }

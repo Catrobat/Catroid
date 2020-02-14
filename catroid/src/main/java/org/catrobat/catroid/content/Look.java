@@ -23,8 +23,6 @@
 package org.catrobat.catroid.content;
 
 import android.graphics.PointF;
-import android.support.annotation.IntDef;
-import android.support.annotation.VisibleForTesting;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -51,6 +49,9 @@ import org.catrobat.catroid.utils.TouchUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.VisibleForTesting;
 
 public class Look extends Image {
 
@@ -197,6 +198,7 @@ public class Look extends Image {
 	public void act(float delta) {
 		scheduler.tick(delta);
 		if (sprite != null) {
+			sprite.runningStitch.update();
 			sprite.evaluateConditionScriptTriggers();
 		}
 	}

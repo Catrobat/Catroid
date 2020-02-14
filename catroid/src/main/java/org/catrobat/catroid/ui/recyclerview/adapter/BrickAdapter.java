@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,6 +45,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 public class BrickAdapter extends BaseAdapter implements
 		BrickAdapterInterface,

@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -55,8 +53,8 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
-import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.junit.Before;
@@ -70,6 +68,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;

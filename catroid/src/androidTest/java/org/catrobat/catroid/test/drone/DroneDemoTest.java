@@ -22,13 +22,13 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.parrot.freeflight.drone.DroneProxy;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class DroneDemoTest {

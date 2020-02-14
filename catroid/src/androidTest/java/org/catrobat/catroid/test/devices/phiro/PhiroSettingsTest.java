@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.devices.phiro;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
@@ -48,6 +45,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -61,31 +61,31 @@ public class PhiroSettingsTest {
 	@Before
 	public void setUp() throws Exception {
 		sharedPreferenceBuffer =
-				SettingsFragment.isPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext());
-		SettingsFragment.setPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext(), false);
+				SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext());
+		SettingsFragment.setPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), false);
 		createProject();
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		SettingsFragment
-				.setPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext(), sharedPreferenceBuffer);
+				.setPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), sharedPreferenceBuffer);
 	}
 
 	@Test
 	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
-		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext()));
+		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
 		ProjectManager.getInstance()
-				.loadProject(project.getDirectory(), InstrumentationRegistry.getTargetContext());
+				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
 
-		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(InstrumentationRegistry.getTargetContext()));
+		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
 		StorageOperations.deleteDir(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
 	private void createProject() {
-		project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new SingleSprite("Phiro");
 		StartScript startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(
@@ -98,6 +98,6 @@ public class PhiroSettingsTest {
 
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectSaveTask
-				.task(project, InstrumentationRegistry.getTargetContext());
+				.task(project, ApplicationProvider.getApplicationContext());
 	}
 }

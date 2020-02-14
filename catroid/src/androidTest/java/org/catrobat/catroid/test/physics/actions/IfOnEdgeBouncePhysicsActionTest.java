@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.physics.actions;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.ScreenValues;
@@ -31,11 +29,11 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
+import org.catrobat.catroid.content.actions.IfOnEdgeBouncePhysicsAction;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
-import org.catrobat.catroid.physics.content.actions.IfOnEdgeBouncePhysicsAction;
 import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -45,6 +43,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.ArrayList;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;

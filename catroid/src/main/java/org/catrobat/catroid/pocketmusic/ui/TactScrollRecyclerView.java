@@ -24,9 +24,6 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -46,6 +43,10 @@ import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackGrid;
 import org.catrobat.catroid.pocketmusic.note.trackgrid.TrackToTrackGridConverter;
 
 import java.util.ArrayList;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class TactScrollRecyclerView extends RecyclerView {
 

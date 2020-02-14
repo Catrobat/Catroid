@@ -23,8 +23,8 @@
 
 package org.catrobat.catroid.test.physics.clone;
 
+import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.physics.content.bricks.SetPhysicsObjectTypeBrick;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

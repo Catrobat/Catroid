@@ -204,7 +204,7 @@
     <string name="convert">Konvertuj</string>
     <string name="converting">Konvertovanje&#8230;</string>
     <string name="status_scheduled">Zakazano</string>
-    <string name="status_waiting_for_worker">Tražimo slobodnog radnika&#8230; Molimo sačekajte&#8230;</string>
+    <string name="status_waiting_for_worker">Tražimo slobodnog radnika… Molimo sačekajte…</string>
     <string name="status_started">Započeto&#8230;</string>
     <string name="status_conversion_finished">Konvertovanje završeno</string>
     <plurals name="status_in_progress_x_jobs">
@@ -569,7 +569,7 @@
         <item quantity="few">Spakovano %d zvukova u ruksak.</item>
         <item quantity="other">Spakovano %d zvukova u ruksak.</item>
     </plurals>
-    <string name="packed_script_group">Spakovana grupa skripti u ruksak.</string>
+    <string name="packed_script_group">Spakovana 1 grupa skripti u ruksak.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
         <item quantity="one">Otpakovana %d scena.</item>
@@ -924,7 +924,7 @@
     <string name="sign_in_with_google">Prijavite se preko Google</string>
     <string name="error_register_empty_username">Prazno korisničko ime</string>
     <string name="error_register_username_as_email">Email adrese se ne mogu koristiti kao korisnička imena</string>
-    <string name="error_register_invalid_username">Korisničko ime treba da sadrži samo slova (a&#8211;z), brojeve (0&#8211;9),        crte (&#8211;), donje crte(_), i tačke (.).</string>
+    <string name="error_register_invalid_username">Korisničko ime treba da sadrži samo slova (a–z), brojeve (0–9),        crte (-), donje crte(_), i tačke (.).</string>
     <string name="error_register_username_start_with">Korisničko ime ne treba da počinje sa crtama (-), donjim crtama (_) ili        tačkama (.).</string>
     <string name="error_register_invalid_email_format">Pogrešan format emaila</string>
     <string name="error_register_empty_password">Polje za šifru je prazno</string>
@@ -1157,6 +1157,7 @@
     <string name="brick_is_equal_to">jednako očekivanom:</string>
     <string name="brick_wait_till_idle">Sačekajte dok sve ostale skripte prestanu raditi</string>
     <string name="brick_tap_at">"Jedan pritisak na"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="one">vrijeme</item>
         <item quantity="few">vremena</item>

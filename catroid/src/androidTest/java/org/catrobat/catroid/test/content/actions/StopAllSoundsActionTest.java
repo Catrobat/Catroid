@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 package org.catrobat.catroid.test.content.actions;
 
 import android.media.MediaPlayer;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
@@ -47,6 +45,10 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -122,13 +124,13 @@ public class StopAllSoundsActionTest {
 	private void createTestProject() throws IOException {
 		final String projectName = TestUtils.DEFAULT_TEST_PROJECT_NAME;
 
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		int soundFileId = R.raw.testsound;
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				soundFileId,
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"soundTest.mp3");

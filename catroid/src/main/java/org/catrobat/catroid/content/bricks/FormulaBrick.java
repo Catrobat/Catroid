@@ -24,8 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.support.annotation.CallSuper;
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -44,6 +42,9 @@ import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.VisibleForTesting;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 

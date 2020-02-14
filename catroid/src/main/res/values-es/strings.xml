@@ -1088,6 +1088,7 @@
     <string name="brick_is_equal_to">equal to expected:</string>
     <string name="brick_wait_till_idle">Espere hasta que todos los otros scripts se hayan detenido</string>
     <string name="brick_tap_at">"Un toque a"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="one">vez</item>
         <item quantity="other">veces</item>

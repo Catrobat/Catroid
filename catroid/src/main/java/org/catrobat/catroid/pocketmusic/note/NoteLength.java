@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.pocketmusic.note;
 
-import android.support.v4.util.SparseArrayCompat;
+import androidx.collection.SparseArrayCompat;
 
 public enum NoteLength {
 	WHOLE_DOT(4f + 2f), WHOLE(4f), HALF_DOT(2f + 1f), HALF(2f), QUARTER_DOT(1f + 1 / 2f),

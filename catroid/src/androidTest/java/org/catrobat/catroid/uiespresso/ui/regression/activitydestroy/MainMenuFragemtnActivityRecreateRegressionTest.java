@@ -24,8 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.rules.FlakyTestRule;
@@ -41,20 +39,24 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.RootMatchers.isDialog;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.hamcrest.Matchers.is;
+
+import static androidx.test.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class MainMenuFragemtnActivityRecreateRegressionTest {
@@ -71,11 +73,11 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry
-				.getTargetContext())
+		bufferedPreferenceSetting =
+				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.getBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, false);
 
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, true)
 				.commit();
@@ -84,7 +86,7 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 
 	@After
 	public void tearDown() {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putBoolean(AGREED_TO_PRIVACY_POLICY_SETTINGS_KEY, bufferedPreferenceSetting)
 				.commit();

@@ -24,7 +24,6 @@
 package org.catrobat.catroid.scratchconverter.protocol;
 
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.google.android.gms.common.images.WebImage;
@@ -42,6 +41,8 @@ import org.catrobat.catroid.scratchconverter.protocol.message.job.JobOutputMessa
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobProgressMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobReadyMessage;
 import org.catrobat.catroid.scratchconverter.protocol.message.job.JobRunningMessage;
+
+import androidx.annotation.NonNull;
 
 public class JobHandler implements Client.ProjectDownloadCallback {
 

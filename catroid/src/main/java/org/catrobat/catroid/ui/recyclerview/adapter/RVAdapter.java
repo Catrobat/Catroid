@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.adapter;
 
-import android.support.annotation.IntDef;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +38,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import androidx.annotation.IntDef;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> implements TouchHelperAdapterInterface {
 

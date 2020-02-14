@@ -24,13 +24,13 @@
   -->
 <resources>
     <!-- General terms -->
-    <string name="stage">Stage</string>
+    <string name="stage">மேடை</string>
     <string name="play">விளையாடு</string>
     <string name="settings">அமைவுகள்</string>
     <string name="redo">மறுபடியும் செய்</string>
-    <string name="undo">Undo</string>
-    <string name="new_option">new&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="undo">செயல்தவிர்</string>
+    <string name="new_option">புதியவை&#8230;</string>
+    <string name="confirm">உறுதிசெய்</string>
     <string name="cancel">தவிர்</string>
     <string name="next">அடுத்து</string>
     <string name="back">பின்செல்</string>
@@ -41,10 +41,10 @@
     <string name="no">இல்லை</string>
     <string name="agree">ஏற்கிறேன்</string>
     <string name="disagree">மறுக்கிறேன்</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
+    <string name="select_all">அனைத்தையும் தேர்ந்தெடு</string>
+    <string name="deselect_all">அனைத்தையும் தேர்வுநீக்கு</string>
     <string name="skip">தவிர்</string>
-    <string name="warning">Warning</string>
+    <string name="warning">எச்சரிக்கை</string>
     <string name="error">தவறு</string>
     <string name="loading">ஏற்றுதல்&#8230;</string>
     <string name="please_wait">தயவு செய்து காத்திருக்கவும்</string>
@@ -52,24 +52,24 @@
     <string name="backpack_add">பையில் வை</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
+    <string name="loading_check_oauth_token">உள்நுழைவு தரவைச் சரிபார்க்கிறது&#8230;</string>
+    <string name="loading_google_exchange_code">கூகிள் உள்நுழைவு தரவைப் பரிமாறிக்கொள்கிறது&#8230;</string>
+    <string name="loading_google_login">எங்கள் சேவையகத்தில் கூகிள் உள்நுழைவு முடிந்தது&#8230;</string>
     <string name="delete_account">என்னுடைய கணக்கை அழித்துவிடு</string>
     <string name="logout_successful">வெளியேறல் வெற்றி</string>
     <string name="degrees">டிகிரிக்கள்</string>
     <string name="background">பின்னணி</string>
     <string name="landscape">நிலப்பரப்பு</string>
-    <string name="portrait">portrait</string>
+    <string name="portrait">சித்திரப் படிவம்</string>
     <string name="unknown">தெரியாத</string>
     <string name="disconnect">துண்டி</string>
     <!--  -->
     <!-- Main Menu -->
     <string name="main_menu_continue">தொடர்ந்து</string>
     <string name="main_menu_new">புதிய</string>
-    <string name="main_menu_programs">Projects on device</string>
+    <string name="main_menu_programs">சாதனத்தில் உள்ள திட்டங்கள்</string>
     <string name="main_menu_help">உதவி</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">கேட்ரோபாட் சமூகம்</string>
     <string name="main_menu_upload">பதிவேற்றவும்</string>
     <string name="main_menu_rate_app">எங்களுக்கு மதிப்பிடுக!</string>
     <string name="main_menu_terms_of_use">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
@@ -77,292 +77,284 @@
     <string name="main_menu_about">இந்த பயன்பாட்டை பற்றி</string>
     <string name="main_menu_login">உள்நுழை</string>
     <string name="main_menu_logout">வெளியேறு</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_scratch_converter">கீறல் மாற்றி</string>
+    <string name="main_menu_play_store_not_installed">ஆப் ஸ்டோர் கிடைக்கவில்லை</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">உருவாக்கம்</string>
     <string name="marketing_app_details">இந்த பயன்பாட்டை பற்றி விவரம்</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_more_on_google_play">ஆப் ஸ்டோரில் கூடுதல் பயன்பாடுகள்</string>
     <!-- Settings activity -->
     <string name="preference_title">அமைப்புகள்</string>
     <string name="preference_title_language">மொழி</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
-    <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
-    <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-    <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
+    <string name="preference_description_language">பயன்பாட்டு மொழியை மாற்றி அமைக்கவும்</string>
+    <string name="preference_title_accessibility">அணுகல்தன்மை</string>
+    <string name="preference_description_accessibility">செயலியின் தோற்றத்தை மாற்றவும்</string>
+    <string name="preference_title_accessibility_profiles">அணுகல் சுயவிவரங்கள்</string>
+    <string name="preference_title_accessibility_profile">முன் வரையறுக்கப்பட்ட சுயவிவரங்கள்</string>
+    <string name="preference_title_accessibility_profile_headline">சுயவிவரம்</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">முன் வரையறுக்கப்பட்ட சுயவிவரங்கள்</string>
+    <string name="preference_description_accessibility_profiles">முன் வரையறுக்கப்பட்ட அணுகல் சுயவிவரத்தைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="preference_title_accessibility_text_appearance">உரை தோற்றம்</string>
+    <string name="preference_title_accessibility_handling">கையாளுதல்</string>
+    <string name="preference_title_accessibility_category_icons_big">பெரிய ஐகான்</string>
+    <string name="preference_description_accessibility_category_icons_big">ஐகான் அளவை அதிகரிக்கவும்.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">உயர் மாறுபட்ட சின்னங்கள்</string>
+    <string name="preference_title_accessibility_Brick_icons">ஐகான்கள்</string>
+    <string name="preference_title_accessibility_category_icons">ஐகான்களை காண்பி</string>
+    <string name="preference_description_accessibility_category_icons">பிரிவுகள் மற்றும் செங்கற்களுக்கு ஐகான்களைச் சேர்க்கவும்.</string>
+    <string name="preference_title_accessibility_high_contrast">அதிக வேறுபாடு</string>
+    <string name="preference_description_accessibility_high_contrast">உரை மாறுபாட்டை அதிகரிக்கவும்.</string>
+    <string name="preference_description_accessibility_large_text">உரை அளவை அதிகரிக்கவும்.</string>
+    <string name="preference_title_accessibility_large_text">பெரிய உரை</string>
+    <string name="preference_title_accessibility_element_spacing">பெரிய உறுப்பு இடைவெளி</string>
+    <string name="preference_description_accessibility_element_spacing">பட்டியல்களில் உறுப்பு இடைவெளியை அதிகரிக்கவும்.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">இழுக்க தாமதம்</string>
+    <string name="preference_description_accessibility_dragndrop_delay">செங்கற்களுக்கு தாமதம் இழுக்கவும்.</string>
+    <string name="preference_title_accessibility_beginner_bricks">தொடக்க முறை</string>
+    <string name="preference_description_accessibility_beginner_bricks">எளிய அம்சங்களை மட்டும் காட்டு.</string>
+    <string name="preference_title_accessibility_font_style">உரை வகையைத் தேர்வுசெய்க</string>
+    <string name="accessibility_font_regular">வழக்கமானது</string>
+    <string name="accessibility_font_serif">செரிப்</string>
+    <string name="accessibility_font_dyslexic">டிஸ்லெக்ஸிக்</string>
+    <string name="accessibility_settings_applied">மாற்றங்கள் பயன்படுத்தப்பட்டன</string>
+    <string name="preference_access_title_profile_default">இயல்புநிலை</string>
+    <string name="preference_access_summary_profile_default">இயல்புநிலை அமைப்புகள்</string>
+    <string name="preference_access_title_profile_custom">எனது தனிப்பயன் சுயவிவரம்</string>
+    <string name="preference_access_summary_profile_custom">தனிப்பட்ட அமைப்புகள்</string>
+    <string name="preference_access_title_profile_argus">ஆர்கஸ்</string>
+    <string name="preference_access_summary_profile_argus">அதிக மாறுபாடு, கூடுதல் சின்னங்கள்</string>
+    <string name="preference_access_title_profile_odin">ஒடின்</string>
+    <string name="preference_access_summary_profile_odin">பெரிய உரை, பெரிய சின்னங்கள், பெரிய உறுப்பு, இடைவெளி, உயர் மாறுபாடு</string>
     <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_access_summary_profile_fenrir">பெரிய உறுப்பு இடைவெளி, drag\'n\'drop, தாமதம்</string>
+    <string name="preference_access_title_profile_tiro">டிரோ</string>
+    <string name="preference_access_summary_profile_tiro">தொடக்க முறை</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 extension</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
-    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensors</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensors</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
-    <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
-    <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
-    <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 நீட்டிப்பு</string>
+    <string name="preference_description_quadcopter_bricks">Parrot AR.Drone 2.0 குவாட்காப்டர்களைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">கிளி ஜம்பிங் சுமோ நீட்டிப்பு</string>
+    <string name="preference_description_jumpingsumo_bricks">Parrot\'s ஜம்பிங் சுமோ ரோபோக்களைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">லெகோ மைண்ட்ஸ்டார்ம்ஸ் என்எக்ஸ்டி நீட்டிப்பு</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">லெகோ மைண்ட்ஸ்டார்ம்ஸ் EV3 நீட்டிப்பு</string>
+    <string name="preference_description_mindstorms_nxt_bricks">லெகோ மைண்ட்ஸ்டார்ம்ஸ் என்எக்ஸ்டி ரோபோக்களைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_description_mindstorms_ev3_bricks">லெகோ மைண்ட்ஸ்டார்ம்ஸ் ஈ. வி 3 ரோபோக்களைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_title_mindstorms_nxt_sensors">லெகோ NXT சென்சார்கள்</string>
+    <string name="preference_title_mindstorms_ev3_sensors">லெகோ ஈவி 3 சென்சார்கள்</string>
+    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 கட்டமைப்பு</string>
+    <string name="preference_title_enable_phiro_bricks">ரோபோடிக்ஸ் எட்யூவின் பைரோ நீட்டிப்பு</string>
+    <string name="preference_description_phiro_bricks">ரோபோடிக்ஸ் எட்யூவின் பைரோ ரோபோக்களைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_title_enable_arduino_bricks">அர்டினோ நீட்டிப்பு</string>
+    <string name="preference_description_arduino_bricks">Arduino பலகைகளைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_title_enable_embroidery_bricks">எம்பிராய்டரி நீட்டிப்பு</string>
+    <string name="preference_description_embroidery_bricks">தையல் இயந்திரங்களுக்கான வடிவங்களை உருவாக்கவும்</string>
+    <string name="preference_title_cast_feature_globally_enabled">Chromecast நீட்டிப்பு</string>
+    <string name="preference_description_cast_feature_globally_enabled">வார்ப்பு பொத்தானைக் காண்பி மற்றும் நடிகர் திட்டங்களை இயக்கவும்</string>
+    <string name="preference_title_enable_nfc_bricks">புல தொடர்பு நீட்டிப்புக்கு அருகில்</string>
+    <string name="preference_description_nfc_bricks">திட்டங்களில் NFC குறிச்சொற்களைப் பயன்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_title_enable_crash_reports">அநாமதேய செயலிழப்பு அறிக்கைகளை அனுப்புகிறது</string>
+    <string name="preference_description_crash_reports">செயலிழப்பு அறிக்கைகளை தானாக அனுப்ப பயன்பாட்டை அனுமதிக்கவும்</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
-    <string name="preference_raspi_help">Help / getting started</string>
-    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
+    <string name="preference_title_enable_raspi_bricks">ராஸ்பெர்ரி பை நீட்டிப்பு</string>
+    <string name="preference_description_raspi_bricks">ராஸ்பெர்ரி பை கணினிகளைக் கட்டுப்படுத்த பயன்பாட்டை அனுமதிக்கவும்</string>
+    <string name="preference_raspi_enable_bricks">செங்கற்கள் மற்றும் சென்சார்களை இயக்கவும்</string>
+    <string name="preference_raspi_help">உதவி / தொடங்க</string>
+    <string name="preference_raspi_help_summary">இணைப்பு அமைப்புகளை எவ்வாறு கட்டமைப்பது என்பதற்கான உதவியைப் பெறுங்கள்</string>
+    <string name="preference_raspi_host">ராஸ்பெர்ரி பை ஐபி- / ஹோஸ்ட்-முகவரி</string>
+    <string name="preference_raspi_port">ராஸ்பெர்ரி பை போர்ட்</string>
     <!--  -->
     <!-- Scratch Converter activity -->
-    <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert the project, please try again
-        later.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
-        again later.</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
-        have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
-        meanwhile.</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="beta">பீட்டா</string>
+    <string name="error_scratch_program_not_accessible_any_more">அச்சச்சோ! திட்டம் மறைந்துவிட்டதாக தெரிகிறது
+ அல்லது அதற்கான அணுகலை நீங்கள் இழந்திருக்கலாம்.</string>
+    <string name="error_scratch_project_data_not_available">அச்சச்சோ! திட்டத்தின் சில பகுதிகள் தெரிகிறது
+காணவில்லை, பின்னர் மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_request_timeout">அச்சச்சோ! எங்கள் சேவையகம் சரியான நேரத்தில் பதிலளிக்கவில்லை, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_scratch_program_conversion_failed">அச்சச்சோ! எங்கள் சேவையகம் சரியான நேரத்தில் பதிலளிக்கவில்லை, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">அச்சச்சோ! மாற்றுவதில்
+        தோல்வி %1$s தயவுசெய்து முயற்சிக்கவும்
+மீண்டும் பிறகு.</string>
+    <string name="error_scratch_converter_outdated_app_version">இந்த பயன்பாட்டின் உங்கள் பதிப்பு காலாவதியானது. எங்கள் கீறல் மாற்றி சமீபத்திய பதிப்பில் மட்டுமே இயங்குகிறது. பயன்பாட்டைப் புதுப்பிக்கவும்.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">இந்த கீறல் திட்டத்தை என்னால் திறக்க முடியவில்லை. கீறல் திட்டத்தின் மாற்றம் / பதிவிறக்கத்தை நீங்கள் ரத்து செய்துள்ளதாக தெரிகிறது, அல்லது நீங்கள் திட்டத்தின் மறுபெயரிட்டுள்ளீர்கள் / நீக்கியுள்ளீர்கள்
+இதற்கிடையில்.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">நீங்கள் இன்னும் திட்டத்தை திறக்க முடியாது.
+இது பதிவிறக்கம் செய்யப்படும் வரை காத்திருக்கவும்.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">நீங்கள் இன்னும் திட்டத்தை திறக்க முடியாது.
+முதலில் அதை பதிவிறக்கம் செய்து பின்னர் திறக்கவும்.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">என்னால் %1$s ஐ மாற்ற முடியவில்லை. இது %2$s க்கு முந்தைய பழைய கீறல் திட்டமாகத் தெரிகிறது. தயவுசெய்து இன்னொன்றை முயற்சிக்கவும்.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="one">நீங்கள் ஒரே நேரத்தில்% d திட்டத்தை விட அதிகமாக மாற்ற முடியாது. தயவுசெய்து காத்திருங்கள்
+            முதலில் முடித்த மாற்றங்களை இயக்குகிறது.</item>
+        <item quantity="other">நீங்கள் ஒரே நேரத்தில்% d திட்டத்தை விட அதிகமாக மாற்ற முடியாது. தயவுசெய்து காத்திருங்கள்
+            முதலில் முடித்த மாற்றங்களை இயக்குகிறது.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">திட்டத்தை நீங்கள் திறக்க முடியாது, ஏனெனில் அது         சரியாக மாற்றப்படவில்லை. அதை மீண்டும் மாற்ற முயற்சிக்கவும்.</string>
+    <string name="search_failed">எதுவும் கிடைக்கவில்லை, தயவு செய்து அதை பின்னர் முயற்சியுங்கள்.</string>
+    <string name="connection_lost_or_closed_by_server">சேவையக இணைப்பு துண்டிக்கப்பட்டது.</string>
+    <string name="connection_failed">உங்களை இப்போது சேவையகத்துடன் இணைக்க முடியாது, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="authentication_failed">சேவையுடனான உங்கள் இணைப்பில் சிக்கல் இருப்பதாகத் தெரிகிறது. தயவு செய்து
+        கேட்ரோபாட் குழுவைத் தொடர்பு கொள்ளுங்கள்.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="one">வரிசையில்% d கீறல் திட்டம் சேர்க்கப்பட்டது&#8230;</item>
+        <item quantity="other">வரிசையில்% d கீறல் திட்டம் சேர்க்கப்பட்டது&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
+    <string name="scratch_conversion_started">கீறல் திட்டத்தை மாற்றத் தொடங்கியது&#8230;</string>
     <string name="convert">மாற்று</string>
     <string name="converting">மாற்றம் நடந்தது கொண்டு இருக்கிறது&#8230;</string>
     <string name="status_scheduled">அட்டவணை</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
+    <string name="status_waiting_for_worker">இலவச தொழிலாளியைத் தேடுகிறீர்கள்&#8230; தயவுசெய்து காத்திருங்கள்&#8230;</string>
     <string name="status_started">தொடங்கியது&#8230;</string>
     <string name="status_conversion_finished">மாற்றம் பூர்த்தியானது</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="one">செயலில் உள்ளது:% d வேலை</item>
+        <item quantity="other">செயலில் உள்ளது:% d வேலை</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="one">முடிந்தது:% d வேலை</item>
+        <item quantity="other">முடிந்தது:% d வேலை</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
+    <string name="status_conversion_failed">மாற்றம் தோல்வியுற்றது!</string>
     <string name="status_downloading">பதிவிறக்கம் நடைபெறுகிறுது&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
+    <string name="status_download_finished">பதிவிறக்கம் நிறைவடைந்தது.</string>
     <string name="status_download_canceled">பதிவிறக்கம் ரத்து செய்யப்பட்டது!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string name="scratch_programs_in_progress_title">செயலில் உள்ளது</string>
+    <string name="scratch_programs_finished_title">மாற்றப்பட்ட திட்டங்கள்</string>
+    <string name="by_x">மூலம் %s</string>
+    <string name="warning_program_visibility">எச்சரிக்கை: \ n இது ஒரு தனியார் திட்டமாகத் தெரிகிறது. நீங்கள் அதை மாற்ற முயற்சி செய்யலாம், ஆனால் அது வேலை செய்யாமல் போகலாம்.</string>
     <string name="instructions">அறிவுறுத்தல்கள்</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
-    <string name="remixes">Remixes</string>
+    <string name="notes_and_credits">குறிப்புகள் மற்றும் வரவுகள்</string>
+    <string name="shared_at_x">பகிரப்பட்டது: %1$s</string>
+    <string name="modified_at_x">திருத்தப்பட்டது: %1$s</string>
+    <string name="remixes">ரீமிக்ஸ்கள்</string>
     <!--  -->
     <string name="author">நுாலாசிரியர்:</string>
     <string name="screen_size">திரை அளவு:</string>
     <string name="mode">வகை:</string>
-    <string name="remix_of">Remix of:</string>
+    <string name="remix_of">ரீமிக்ஸ்:</string>
     <string name="description_hint">செய்தி விளக்கம் சேர்க்க</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">இந்த திட்டத்தை %1$s க்கு முன்பு மாற்றியுள்ளீர்கள்.</string>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d நிமிடம்</item>
+        <item quantity="other">% d நிமிடங்கள்</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">% d மணி</item>
+        <item quantity="other">% d மணிநேரம்</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">% d நாள்</item>
+        <item quantity="other">% d நாட்கள்</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">திட்டத்தை மீண்டும் பதிவிறக்கவும்</string>
+    <string name="reconvert_dialog_reconvert">இந்த திட்டத்தை மீண்டும் மாற்றவும்</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_privacy_agreement_alert">எங்கள் பயன்பாட்டைப் பயன்படுத்த, எங்கள் தனியுரிமைக் கொள்கையை ஏற்றுக்கொள்வது அவசியம்.  
+இருப்பினும், நீங்கள் அவ்வாறு செய்ய வசதியாக இல்லை என்றால், எங்கள் இலவச வலை சேவைகளைப் பயன்படுத்தலாம்</string>
+    <string name="wtf_error">எதிர்பாராத பிழை ஏற்பட்டது: மாதிரி திட்டத்தை என்னால் மீட்டெடுக்க முடியவில்லை.</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">திட்டத்தை நகலெடுக்கும் போது பிழை ஏற்பட்டது</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">இந்த பெயர் ஏற்கனவே பயன்பாட்டில் உள்ளது, தயவுசெய்து இன்னொன்றைத் தேர்வுசெய்க.</string>
+    <string name="name_consists_of_spaces_only">நீங்கள் உரை புலத்தில் மட்டுமே இடங்களை வைக்கிறீர்கள், தயவுசெய்து கடிதங்கள், எண்கள் அல்லது பிற சிறப்பு எழுத்துக்களைப் பயன்படுத்தி உரையை உள்ளிடவும்.</string>
+    <string name="name_empty">ஒரு உரையை உள்ளிடவும்</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
-    <string name="am_backpack">Pack</string>
+    <string name="am_empty_list">இந்த பட்டியலில் இதுவரை எந்த உருப்படிகளும் இல்லை. முதலில் சிலவற்றைச் சேர்க்கவும்.</string>
+    <string name="am_merge_error">ஒன்றிணைத்தல் எதுவும் செய்யப்படவில்லை. ஒன்றிணைக்க சரியாக 2 திட்டங்கள் தேர்ந்தெடுக்கப்பட வேண்டும்.</string>
+    <string name="am_backpack">கட்டு</string>
     <string name="am_unpack">கட்டைப்பிரி</string>
     <string name="am_copy">நகல்</string>
     <string name="am_delete">அழித்துவிடு</string>
     <string name="am_rename">மறுபெயர்</string>
     <string name="am_convert">மாற்று</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_merge">ஒன்றுசேர்</string>
+    <string name="dialog_confirm_delete">இதை செயல்தவிர்க்க முடியாது!</string>
+    <string name="list_headline_sprites">நடிகர்களும் பொருட்களும்</string>
     <!-- Options Menu Options -->
     <string name="backpack">முதுகுப்பை</string>
     <string name="copy">நகல்</string>
     <string name="delete">அழித்துவிடு</string>
     <string name="rename">மறுபெயர்</string>
-    <string name="merge">Merge</string>
+    <string name="merge">ஒன்றுசேர்</string>
     <string name="show_details">விவரங்கள் காண்பி</string>
     <string name="hide_details">விவரங்களை மறை</string>
     <!-- Action Mode Titles -->
     <!-- Project Action Mode Titles -->
     <plurals name="am_pack_projects_title">
-        <item quantity="one">Pack %d project</item>
-        <item quantity="other">Pack %d projects</item>
+        <item quantity="one">பேக்% d திட்டங்கள்</item>
+        <item quantity="other">பேக்% d திட்டங்கள்</item>
     </plurals>
     <plurals name="am_copy_projects_title">
-        <item quantity="one">Copy %d project</item>
-        <item quantity="other">Copy %d projects</item>
+        <item quantity="one">% D திட்டங்களை நகலெடுக்கவும்</item>
+        <item quantity="other">% D திட்டங்களை நகலெடுக்கவும்</item>
     </plurals>
     <plurals name="am_delete_projects_title">
-        <item quantity="one">Delete %d project</item>
-        <item quantity="other">Delete %d projects</item>
+        <item quantity="one">%d செயல்திட்டத்தை நீக்கு</item>
+        <item quantity="other">%d செயல்திட்டத்தை நீக்கு</item>
     </plurals>
     <plurals name="am_rename_projects_title">
-        <item quantity="one">Rename %d project</item>
-        <item quantity="other">Rename %d projects</item>
+        <item quantity="one">% D திட்டங்களுக்கு மறுபெயரிடுங்கள்</item>
+        <item quantity="other">% D திட்டங்களுக்கு மறுபெயரிடுங்கள்</item>
     </plurals>
     <plurals name="am_convert_projects_title">
-        <item quantity="one">Convert %d project</item>
-        <item quantity="other">Convert %d projects</item>
+        <item quantity="one">% D திட்டங்களை மாற்றவும்</item>
+        <item quantity="other">% D திட்டங்களை மாற்றவும்</item>
     </plurals>
     <plurals name="am_merge_projects_title">
-        <item quantity="one">Merge %d project</item>
-        <item quantity="other">Merge %d projects</item>
+        <item quantity="one">%d திட்டங்களை இணைக்கவும்</item>
+        <item quantity="other">%d திட்டங்களை இணைக்கவும்</item>
     </plurals>
     <!-- Scene Action Mode Titles -->
     <plurals name="am_pack_scenes_title">
-        <item quantity="one">Pack %d scene</item>
-        <item quantity="other">Pack %d scenes</item>
+        <item quantity="one">பேக்% d காட்சிகள்</item>
+        <item quantity="other">பேக்% d காட்சிகள்</item>
     </plurals>
     <plurals name="am_unpack_scenes_title">
-        <item quantity="one">Unpack %d scene</item>
-        <item quantity="other">Unpack %d scenes</item>
+        <item quantity="one">%d காட்சியைத் திறக்கவும்</item>
+        <item quantity="other">%d காட்சிகளைத் திறக்கவும்</item>
     </plurals>
     <plurals name="am_copy_scenes_title">
-        <item quantity="one">Copy %d scene</item>
-        <item quantity="other">Copy %d scenes</item>
+        <item quantity="one">%d காட்சியை நகலெடுக்கவும்</item>
+        <item quantity="other">%d காட்சிகளை நகலெடுக்கவும்</item>
     </plurals>
     <plurals name="am_delete_scenes_title">
-        <item quantity="one">Delete %d scene</item>
-        <item quantity="other">Delete %d scenes</item>
+        <item quantity="one">%d காட்சியை நீக்கு</item>
+        <item quantity="other">%d காட்சிகளை நீக்கு</item>
     </plurals>
     <plurals name="am_rename_scenes_title">
-        <item quantity="one">Rename %d scene</item>
-        <item quantity="other">Rename %d scenes</item>
+        <item quantity="one">காட்சியை %d மறுபெயரிடுங்கள்</item>
+        <item quantity="other">%d காட்சிகளை மறுபெயரிடுங்கள்</item>
     </plurals>
     <!-- Sprite Action Mode Titles -->
     <plurals name="am_pack_sprites_title">
-        <item quantity="one">Pack %d actor or object</item>
-        <item quantity="other">Pack %d actors or objects</item>
+        <item quantity="one">பேக் %d நடிகர் அல்லது பொருள்</item>
+        <item quantity="other">%d நடிகர்கள் அல்லது பொருள்களைக் கட்டுங்கள்</item>
     </plurals>
     <plurals name="am_unpack_sprites_title">
-        <item quantity="one">Unpack %d actor or object</item>
-        <item quantity="other">Unpack %d actors or objects</item>
+        <item quantity="one">% D நடிகர் அல்லது பொருளைத் திறக்கவும்</item>
+        <item quantity="other">% D நடிகர்கள் அல்லது பொருள்களைத் திறக்கவும்</item>
     </plurals>
     <plurals name="am_copy_sprites_title">
-        <item quantity="one">Copy %d actor or object</item>
-        <item quantity="other">Copy %d actors or objects</item>
+        <item quantity="one">% D நடிகர் அல்லது பொருளை நகலெடுக்கவும்</item>
+        <item quantity="other">% D நடிகர் அல்லது பொருளை நகலெடுக்கவும்</item>
     </plurals>
     <plurals name="am_delete_sprites_title">
-        <item quantity="one">Delete %d actor or object</item>
-        <item quantity="other">Delete %d actors or objects</item>
+        <item quantity="one">% D நடிகர் அல்லது பொருளை நீக்கு</item>
+        <item quantity="other">% D நடிகர்கள் அல்லது பொருட்களை நீக்கு</item>
     </plurals>
     <plurals name="am_rename_sprites_title">
-        <item quantity="one">Rename %d actor or object</item>
-        <item quantity="other">Rename %d actors or objects</item>
+        <item quantity="one">% D நடிகர அல்லது பொருளின் மறுபெயரிடு</item>
+        <item quantity="other">% D நடிகர்கள் அல்லது பொருள்களின் மறுபெயரிடு</item>
     </plurals>
     <!-- Look Action Mode Titles -->
     <plurals name="am_pack_looks_title">
-        <item quantity="one">Pack %d look</item>
-        <item quantity="other">Pack %d looks</item>
+        <item quantity="one">பேக்% d தோற்றம்</item>
+        <item quantity="other">பேக்% d தோற்றம்</item>
     </plurals>
     <plurals name="am_unpack_looks_title">
-        <item quantity="one">Unpack %d look</item>
+        <item quantity="one">% D தோற்றத்தைத் திறக்கவும்</item>
         <item quantity="other">Unpack %d looks</item>
     </plurals>
     <plurals name="am_copy_looks_title">
@@ -476,249 +468,247 @@
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>
     <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
+    <string name="sprite_group_name_label">குழு பெயர்</string>
+    <string name="script_group_label">ஸ்கிரிப்ட் குழு பெயர்</string>
+    <string name="look_name_label"> Look பெயர்</string>
+    <string name="sound_name_label">ஒலி பெயர்</string>
+    <string name="nfc_tag_name_label">NFC குறிச்சொல் பெயர்</string>
+    <string name="string_label">உரை</string>
+    <string name="data_label">பெயர்</string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">கடைசி அணுகல்: %s, அளவு: %s</string>
+    <string name="last_access_today">இன்று %s</string>
+    <string name="scene_details">நடிகர்கள் %d மற்றும் %d பொருள்கள் %d</string>
+    <string name="sprite_details">செங்கல் %d தோற்றம் %d ஒலி %d</string>
+    <string name="look_details">தீர்மானம் %s
+அளவு %s</string>
+    <string name="sound_duration">கால அளவு:%1$s</string>
+    <string name="sound_details">கால அளவு:%s, அளவு:%s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
-    <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
+    <string name="rename_project">செயற்திட்டத்தை மறுபெயரிடுக</string>
+    <string name="rename_scene_dialog">காட்சியை மறுபெயரிடுங்கள்</string>
+    <string name="rename_sprite_dialog">நடிகர் அல்லது பொருளை மறுபெயரிடுங்கள்</string>
+    <string name="rename_look_dialog">தோற்றத்தை மறுபெயரிடுங்கள்</string>
+    <string name="rename_sound_dialog">ஒலியை மறுபெயரிடுங்கள்</string>
+    <string name="rename_nfctag_dialog">NFC குறிச்சொல்லை மறுபெயரிடுங்கள்</string>
     <string name="rename_data_dialog">மறுபெயர்</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">புதிய குழு</string>
     <!-- New Scene Menu -->
-    <string name="new_scene">New scene</string>
+    <string name="new_scene">புதிய காட்சி</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">Backpacked %d scene.</item>
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d காட்சி.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d காட்சிகள்.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Backpacked %d actor or object.</item>
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d நடிகர் அல்லது பொருள்.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d நடிகர்கள் அல்லது பொருள்கள்.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">Backpacked %d look.</item>
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d தோற்றம்.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d தோற்றங்கள்.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">Backpacked %d sound.</item>
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d ஒலி.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d ஒலிகள்.</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">ஒரு ஸ்கிரிப்ட் குழுவை பேக் பேக் செய்தது.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="one">தொகுக்கப்படாத% d காட்சி.</item>
+        <item quantity="other">தொகுக்கப்படாத% d காட்சிகள்.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Unpacked %d actor or object.</item>
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="one">தொகுக்கப்படாத% d நடிகர் அல்லது பொருள்.</item>
+        <item quantity="other">தொகுக்கப்படாத % d நடிகர்கள் அல்லது பொருள்கள்.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="one">தொகுக்கப்படாத% d தோற்றங்கள்.</item>
+        <item quantity="other">தொகுக்கப்படாத% d தோற்றம்.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="one">தொகுக்கப்படாத% d ஒலி.</item>
+        <item quantity="other">தொகுக்கப்படாத% d ஒலிகள்.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="one">தொகுக்கப்படாத% d ஸ்கிரிப்ட்.</item>
+        <item quantity="other">தொகுக்கப்படாத% d ஸ்கிரிப்ட்கள்.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="one">%d காட்சி நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">%d காட்சிகள் நகலெடுக்கப்பட்டன.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="one">%d நடிகர் அல்லது பொருள் நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">%d நடிகர்கள் அல்லது பொருள்கள் நகலெடுக்கப்பட்டன.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="one">% D தோற்றம் நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">நகலெடுக்கப்பட்ட% d தோற்றம்.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="one">% D ஒலி நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">% D ஒலிகளை நகலெடுத்தது.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="one">% D NFC குறிச்சொல் நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">% D NFC குறிச்சொற்கள் நகலெடுக்கப்பட்டன.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="one">% D திட்டம் நீக்கப்பட்டது.</item>
+        <item quantity="other">% D திட்டங்கள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="one">% D காட்சி நீக்கப்பட்டது.</item>
+        <item quantity="other">% D காட்சிகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="one">% D ஸ்பிரிட் நீக்கப்பட்டது.</item>
+        <item quantity="other">% D ஸ்பிரிட்டுகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="one">% D காட்சி நீக்கப்பட்டது.</item>
+        <item quantity="other">% D காட்சிகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="one">% D ஒலி நீக்கப்பட்டது.</item>
+        <item quantity="other">% D ஒலிகளை நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="one">% D NFC குறிச்சொல் நீக்கப்பட்டது.</item>
+        <item quantity="other">% D NFC குறிச்சொற்கள் நீக்கப்பட்டது.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="one">% D ஸ்பிரிட் நீக்கப்பட்டது.</item>
+        <item quantity="other">% D ஸ்பிரிட்டுகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="one">% D உருப்படி நீக்கப்பட்டது.</item>
+        <item quantity="other">% D உருப்படிகளை நீக்கியது.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="details_date_today">Today</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="project_list_title">திட்டங்கள்</string>
+    <string name="last_used">கடைசி அணுகல்:</string>
+    <string name="size">அளவு:</string>
+    <string name="description">விளக்கம்:</string>
+    <string name="set_description">விளக்கத்தை அமைக்கவும்</string>
+    <string name="details_date_today">இன்று</string>
+    <string name="import_project">செயற்திட்டத்தை இறக்குமதி செய்</string>
+    <string name="error_import_project">திட்டங்களை இறக்குமதி செய்யும் போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_no_files_found">திட்ட கோப்புகள் எதுவும் கிடைக்கவில்லை.</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">ஸ்கிரிப்ட்களைச் சேர்க்க \"+\" தட்டவும்</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">நடிகர்கள் அல்லது பொருள்களைச் சேர்க்க \"+\" தட்டவும்</string>
+    <string name="default_sprite_name">எனது நடிகர் அல்லது பொருள்</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_look_text_description">தோற்றத்தைச் சேர்க்க \"+\" தட்டவும்</string>
+    <string name="select_look_from_gallery">படம் தேர்ந்தெடு</string>
+    <string name="select_look_from_camera">படத்தைத் தேர்வுசெய்க</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="fragment_sound_text_description">ஒலிகளைச் சேர்க்க \"+\" தட்டவும்</string>
+    <string name="sound_select_source">ஒரு ஒலியைத் தேர்ந்தெடு</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-    <string name="ndef_record_label">as record type</string>
-    <string name="brick_set_nfc_tag">Wait for next NFC tag to write</string>
+    <string name="fragment_nfctag_text_description">அவற்றைச் சேர்க்க NFC குறிச்சொற்களை ஸ்கேன் செய்யுங்கள்</string>
+    <string name="ndef_record_label">பதிவு வகையாக</string>
+    <string name="brick_set_nfc_tag">அடுத்த NFC குறிச்சொல் எழுத காத்திருக்கவும்</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">NFC tag</string>
-    <string name="tnf_empty">Empty</string>
-    <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="default_tag_name">NFC குறிச்சொல்</string>
+    <string name="tnf_empty">காலி</string>
+    <string name="tnf_external_type">வெளிப்புற வகை</string>
+    <string name="tnf_mime_media">உரை</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">தொலைபேசி எண்</string>
     <string name="tnf_well_known_sms">SMS</string>
     <string name="tnf_well_known_mailto">மின்னஞ்சல்</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
+    <string name="global_vars_headline">அனைத்து நடிகர்கள் மற்றும் பொருள்களுக்கான மாறுபாடுகள்</string>
+    <string name="local_vars_headline">இந்த நடிகர் அல்லது பொருளுக்கு மட்டுமே மாறுபாடுகள்</string>
+    <string name="global_lists_headline">அனைத்து நடிகர்கள் மற்றும் பொருள்களுக்கான பட்டியல்கள்</string>
+    <string name="local_lists_headline">இந்த நடிகர் அல்லது பொருளுக்கு மட்டுமே பட்டியல்கள்</string>
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
-    <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
+    <string name="new_data_for_all_sprites">எல்லா காட்சிகளிலும் உள்ள அனைத்து நடிகர்கள், பொருள்கள் மற்றும் குளோன்களுக்கு</string>
+    <string name="new_data_for_this_sprite_only">இந்த நடிகருக்கு, பொருள் அல்லது அதன் குளோன்களில் ஒன்று மட்டுமே</string>
     <!-- Backpack -->
-    <string name="backpack_title">Your backpack</string>
-    <string name="pack">Pack</string>
+    <string name="backpack_title">உங்கள் பை</string>
+    <string name="pack">கட்டு</string>
     <string name="unpack">கட்டைப்பிரி</string>
     <!--  -->
     <!-- Sprite Attribute Activity -->
-    <string name="scripts">Scripts</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="looks">Looks</string>
-    <string name="sounds">Sounds</string>
-    <string name="nfctags">NFC Tags</string>
+    <string name="scripts">ஸ்கிரிப்ட்கள்</string>
+    <string name="backgrounds">பின்னணிகள்</string>
+    <string name="looks">தோற்றம்</string>
+    <string name="sounds">ஒலிகள்</string>
+    <string name="nfctags">NFC குறிச்சொல்</string>
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_title">புதிய</string>
-    <string name="new_project_empty">Create an empty project</string>
-    <string name="new_project_default">Create an example project</string>
-    <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
-    <string name="new_project_default_jumping_sumo">Create an example Jumping Sumo project</string>
-    <string name="project_orientation_title">Orientation:</string>
-    <string name="project_select_screen_title">Screen:</string>
+    <string name="new_project_empty">வெறுமையான திட்டத்தை உருவாக்கு</string>
+    <string name="new_project_default">ஒரு எடுத்துக்காட்டு திட்டத்தை உருவாக்கவும்</string>
+    <string name="new_project_default_drone">ஒரு உதாரணத்தை உருவாக்கவும் AR.Drone 2.0 திட்டம்</string>
+    <string name="new_project_default_jumping_sumo">ஒரு உதாரணத்தை உருவாக்கவும் ஜம்பிங் சுமோ திட்டம்</string>
+    <string name="project_orientation_title">சார்புநிலை:</string>
+    <string name="project_select_screen_title">திரை:</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">இணைக்கப்பட்ட திட்டம்</string>
+    <string name="merging_project_text">இந்த இரண்டு திட்டங்களையும் இன்னும் இணைக்க முடியாது</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">New actor or object</string>
+    <string name="new_sprite_dialog_title">புதிய நடிகர் அல்லது பொருள்</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Add look</string>
+    <string name="new_look_dialog_title">தோற்றத்தைச் சேர்</string>
     <string name="add_look_from_camera">படம் எடு</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media library</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+    <string name="add_look_draw_new_image">படத்தை வரையவும்</string>
+    <string name="add_look_choose_image">படம் தேர்ந்தெடு</string>
+    <string name="add_look_media_library">ஊடக நூலகம்</string>
+    <string name="add_look_drone_video">AR.Drone 2.0 வீடியோ</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Add sound</string>
-    <string name="add_sound_from_recorder">Record sound</string>
-    <string name="add_sound_choose_file">Select file</string>
-    <string name="add_sound_music">Music composer</string>
+    <string name="new_sound_dialog_title">ஒலி சேர்க்கவும்</string>
+    <string name="add_sound_from_recorder">ஒலி பதிவு</string>
+    <string name="add_sound_choose_file">கோப்பு தேர்ந்தெடு</string>
+    <string name="add_sound_music">இசை அமைப்பாளர்</string>
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
-    <string name="rating_dialog_rate_now">Now</string>
-    <string name="rating_dialog_rate_later">Later</string>
-    <string name="rating_dialog_rate_never">Never</string>
+    <string name="rating_dialog_title">செயலி மதிப்பீடு</string>
+    <string name="rating_google_play_dialog_text">இந்த பயன்பாட்டை நீங்கள் ரசிக்கிறீர்கள் என்றால், தயவுசெய்து எங்களை ஆப் ஸ்டோரில் மதிப்பிடுங்கள்.</string>
+    <string name="rating_dialog_rate_now">இப்போது</string>
+    <string name="rating_dialog_rate_later">பிறகு</string>
+    <string name="rating_dialog_rate_never">ஒருபோதுமில்லை</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_info">பொருட்டு
+        கேட்ரோபாட் திட்டத்தால் வழங்கப்படும் பயன்பாடுகள் மற்றும் பிற சேவைகளைப் பயன்படுத்த அனுமதிக்கப்படுவீர்கள்
+        எங்கள் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவை விதிமுறைகளுக்கு உடன்பட வேண்டும். எங்கள் பயன்பாடுகளைப் பயன்படுத்தும் போது நீங்கள் இந்த விதிமுறைகளை கண்டிப்பாக பின்பற்ற வேண்டும்
+        மற்றும் பிற சேவைகள். அவற்றின் துல்லியமான வடிவமைப்பிற்கு கீழே உள்ள இணைப்பைக் காண்க. \n</string>
     <string name="dialog_terms_of_use_link_text">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">Parrot\'s AR.Drone 2.0 உடன் சேர்ந்து இந்த பயன்பாட்டைப் பயன்படுத்த உள்ளீர்கள். கிளி மற்றும் கேட்ரோபாட்டின் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவைகள் இரண்டையும் பின்பற்றுமாறு நாங்கள் உங்களுக்கு கடுமையாக நினைவூட்டுகிறோம்.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">மீண்டும் நினைவுபடுத்தாதே.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">நீங்கள் இந்த பயன்பாட்டைப் பயன்படுத்தப் போகிறீர்கள்
+கிளியின் ஜம்பிங் சுமோ. கிளி மற்றும் கேட்ரோபாட்டின் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவைகள் இரண்டையும் பின்பற்றுமாறு நாங்கள் உங்களுக்கு கடுமையாக நினைவூட்டுகிறோம்.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">தனிமனித உரிமை கொள்கை</string>
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_police_header_headline">வருக!</string>
+    <string name="disclaimer_privacy_policy_header">நீங்கள் குறியீட்டைத் தொடங்குவதற்கு முன், தயவுசெய்து எங்கள் தனியுரிமையைப் படித்து ஏற்றுக்கொள்ளுங்கள்      பயன்பாட்டைப் பயன்படுத்துவதற்கான கொள்கை:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -780,175 +770,174 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
-    </string>
+    <string name="dialog_privacy_policy_declined_text">பதிவு செய்ய அல்லது தனியுரிமைக் கொள்கையை ஒப்புக்கொள்வது அவசியம்
+        உங்கள் கணக்கைப் பயன்படுத்துவதைத் தொடரவும். இந்தத் தரவை நாங்கள் சேகரிக்க விரும்பவில்லை என்றால், நீங்கள் நீக்கலாம்
+        எங்கள் https://share.catrob.at/ இணையதளத்தில் உங்கள் சுயவிவரப் பக்கத்தின் வழியாக கணக்கு.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">இந்த பயன்பாட்டை பற்றி</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
-    <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_license_info">இந்த பயன்பாடு குறியீட்டு முறையை வழங்குகிறது
+        காட்சி நிரலாக்க மொழிக்கான சூழல் மற்றும் மொழிபெயர்ப்பாளர் கேட்ரோபாட். \ n
+        இந்த பயன்பாட்டின் மூல குறியீடு முக்கியமாக குனு ஏஜிபிஎல் வி 3 உரிமத்தின் கீழ் உரிமம் பெற்றது.
+        உரிமம் குறித்த கூடுதல் விவரங்களுக்கு கீழே உள்ள இணைப்பைக் காண்க</string>
+    <string name="dialog_about_license_link_text">மூல குறியீடு உரிமம்</string>
+    <string name="dialog_about_catrobat_link_text">கேட்ரோபாட் பற்றி</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">No network</string>
+    <string name="error_no_network_title">நெட்வொர்க் இல்லை</string>
     <!-- UploadProjectDialog -->
     <string name="upload_button">பதிவேற்றவும்</string>
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
-    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+    <string name="upload_project_dialog_title">பதிவேற்றும் திட்டம்</string>
+    <string name="upload_description">விளக்கம்:</string>
+    <string name="upload_tag_dialog_title">மூன்று வகைகள் வரை தேர்வு செய்யவும்</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">திட்டத்தை வெளிப்புற சேமிப்பகத்தில் சேமிக்கவும்</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">திட்டத்தை வெளிப்புற சேமிப்பகத்தில் சேமிக்கிறது.</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">திட்டத்தை சேமித்தது
+        %1$s</string>
+    <string name="save_project_to_external_storage_io_exception_message">திட்டத்தைச் சேமிப்பதில் தோல்வி, போதுமான நினைவகம் கிடைக்கவில்லை!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Sound recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">recording</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name">ஒலி ரெக்கார்டர்</string>
+    <string name="soundrecorder_error">ஒலி பதிவு தோல்வியுற்றது</string>
+    <string name="soundrecorder_recorded_filename">பதிவு</string>
+    <string name="soundrecorder_text_view">பதிவுசெய்ய தொடங்க மற்றும் நிறுத்த மேலே உள்ள ஐகானைத் தட்டவும்.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Move Brick</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
-    <string name="brick_context_dialog_delete_brick">Delete Brick</string>
-    <string name="brick_context_dialog_copy_brick">Copy Brick</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit Formula</string>
-    <string name="brick_context_dialog_delete_script">Delete Script</string>
-    <string name="brick_context_dialog_comment_in">Enable Brick</string>
-    <string name="brick_context_dialog_comment_out">Disable Brick</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
-    <string name="comment_in_out">Disable/enable</string>
+    <string name="brick_context_dialog_move_brick">செங்கலை நகர்த்தவும்</string>
+    <string name="brick_context_dialog_move_script">ஸ்கிரிப்டை நகர்த்தவும்</string>
+    <string name="brick_context_dialog_delete_brick">செங்கலை நீக்கு</string>
+    <string name="brick_context_dialog_copy_brick">செங்கலை நகலெடுக்கவும்</string>
+    <string name="brick_context_dialog_copy_script">ஸ்கிரிப்டை நகலெடுக்கவும்</string>
+    <string name="brick_context_dialog_formula_edit_brick">சூத்திரத்தைத் திருத்து</string>
+    <string name="brick_context_dialog_delete_script">ஸ்கிரிப்டை நீக்கு</string>
+    <string name="brick_context_dialog_comment_in">செங்கலை இயக்கு</string>
+    <string name="brick_context_dialog_comment_out">செங்கலை முடக்கு</string>
+    <string name="brick_context_dialog_highlight_brick_parts">செங்கல் பாகங்களை முன்னிலைப்படுத்தவும்</string>
+    <string name="brick_context_dialog_comment_in_script">ஸ்கிரிப்டை இயக்கு</string>
+    <string name="brick_context_dialog_comment_out_script">ஸ்கிரிப்டை முடக்கு</string>
+    <string name="brick_context_dialog_help">உதவி</string>
+    <string name="comment_in_out">முடக்கு / செயல்படுத்த</string>
     <!--  -->
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Play scene:</string>
-    <string name="play_scene_dialog_default">First scene (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="play_scene_dialog_title">காட்சி காட்சி:</string>
+    <string name="play_scene_dialog_default">முதல் காட்சி (%1$s)</string>
+    <string name="play_scene_dialog_current">தற்போதைய காட்சி (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Sign in</string>
+    <string name="sign_in_dialog_title">உள்நுழைக</string>
     <string name="username">பயனர் பெயர்</string>
     <string name="password">கடவுச்சொல்</string>
-    <string name="password_forgotten">Forgot your password?</string>
-    <string name="new_user_registered">New account created</string>
-    <string name="user_logged_in">Login successful</string>
-    <string name="register_error">Login invalid</string>
-    <string name="register_terms">By registering you agree to our</string>
+    <string name="password_forgotten">உங்கள் கடவுச்சொல்லை மறந்துவிட்டீர்களா?</string>
+    <string name="new_user_registered">புதிய கணக்கு உருவாக்கப்பட்டது</string>
+    <string name="user_logged_in">உள்நுழைதல் வெற்றி</string>
+    <string name="register_error">உள்நுழைவு தவறானது</string>
+    <string name="register_terms">பதிவு செய்வதன் மூலம் நீங்கள் எங்கள் ஒப்புக்கொள்கிறீர்கள்</string>
     <string name="register_code_terms_of_use_text">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
     <string name="login">உள்நுழை</string>
-    <string name="register">Register</string>
-    <string name="password_confirm">Confirm password</string>
+    <string name="register">பதிவு</string>
+    <string name="password_confirm">கடவுச்சொல்லை உறுதிப்படுத்தவும்</string>
     <string name="accountName">மின்னஞ்சல்</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
-    <string name="show_password">Show password</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
-    <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as user names</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="signin_thanks">பதிவு செய்ததற்கு நன்றி!</string>
+    <string name="signin_choose_username">உங்கள் பயனர்பெயரைத் தேர்வுசெய்க:</string>
+    <string name="signin_choose_username_empty">பயனர்பெயரை உள்ளிடவும்.</string>
+    <string name="signin_choose_username_hint">பயனர்பெயர் உங்கள் உண்மையான பெயராக இருக்கக்கூடாது அல்லது அது ஒரு மின்னஞ்சல் முகவரியாக இருக்கக்கூடாது.</string>
+    <string name="oauth_username_taken">வேறொருவர் ஏற்கனவே இந்த பெயரைப் பயன்படுத்துகிறார். தயவுசெய்து வேறு ஒன்றைத் தேர்வுசெய்க!</string>
+    <string name="show_password">கடவுச்சொல்லை காட்டவும்</string>
+    <string name="sign_in_error">உள்நுழையும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_google_plus_sign_in">Google உள்நுழைவு பிழை. நிலை %s</string>
+    <string name="error_session_expired">அமர்வு காலாவதியானது, தயவுசெய்து உள்நுழைக.</string>
+    <string name="sign_in_with_google">Google உடன் உள்நுழைக</string>
+    <string name="error_register_empty_username">வெற்று பயனர்பெயர்</string>
+    <string name="error_register_username_as_email">மின்னஞ்சல் முகவரியை பயனர் பெயர்களாகப் பயன்படுத்த முடியாது</string>
+    <string name="error_register_invalid_username">பயனர்பெயரில் எழுத்துக்கள் (a-z), எண்கள் (0–9),
+        கோடுகள் (-), அடிக்கோடிட்டுக் காட்டுகின்றன (_) மற்றும் காலங்கள் (.).</string>
+    <string name="error_register_username_start_with">பயனர்பெயர் கோடுகள் (-), அடிக்கோடிட்டுக் காட்டுதல் (_) அல்லது தொடங்கக்கூடாது
+        காலங்கள் (.).</string>
+    <string name="error_register_invalid_email_format">தவறான மின்னஞ்சல் வடிவம்</string>
+    <string name="error_register_empty_password">கடவுச்சொல் புலம் காலியாக உள்ளது</string>
+    <string name="error_register_password_at_least_6_characters">கடவுச்சொல் குறைந்தது 6 எழுத்துகளாக இருக்க வேண்டும்</string>
+    <string name="error_register_passwords_mismatch">கடவுச்சொற்கள் பொருத்தமாக இல்லை</string>
+    <string name="error_register_empty_confirm_password">கடவுச்சொல் புலம் காலியாக இருப்பதை உறுதிப்படுத்தவும்</string>
+    <string name="error_register_username_already_exists">பெயர் ஏற்கனவே உள்ளது</string>
+    <string name="error_register_email_exists">மின்னஞ்சல் முகவரி ஏற்கனவே உள்ளது</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
-    <string name="overwrite_rename">Choose a new name</string>
+    <string name="overwrite_title">திட்டம் உள்ளது.</string>
+    <string name="overwrite_text">இந்த பெயருடன் ஒரு திட்டம் ஏற்கனவே உள்ளது.</string>
+    <string name="overwrite_replace">மேலெழுதும் திட்டம்</string>
+    <string name="overwrite_rename">புதிய பெயரைத் தேர்வுசெய்க</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_project_name">பெயரிடப்படாத பாடல்</string>
+    <string name="pocket_music_default_track_name">ட்ராக் 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
-    <string name="prestage_resource_not_available_title">Component not available</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
-        are the one connected to the drone.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibration\n</string>
-    <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-    <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
-    <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
-    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-    <string name="no_nfc_available">NFC not available</string>
-    <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="prestage_text_to_speech_engine_not_installed">உரை-க்கு-பேச்சு இயந்திரம் நிறுவப்படவில்லை!
+உனக்கு வேண்டுமா அதை நிறுவவா?</string>
+    <string name="prestage_resource_not_available_title">கூறு கிடைக்கவில்லை</string>
+    <string name="prestage_resource_not_available_text">துரதிர்ஷ்டவசமாக இந்த திட்டம் உங்கள் சாதனத்தில் இயங்காது.
+பின்வரும் கூறுகள் கிடைக்கவில்லை</string>
+    <string name="prestage_resource_in_use_text">மற்றொரு சாதனம் ஜம்பிங் சுமோவுடன் இணைக்கப்பட்டுள்ளது. ட்ரோனுடன் இணைக்கப்பட்டவர் நீங்கள்தான் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
+    <string name="prestage_no_vibrator_available">அதிர்வு</string>
+    <string name="prestage_no_acceleration_sensor_available">முடுக்கம் சென்சார்</string>
+    <string name="prestage_no_inclination_sensor_available">சாய்வு சென்சார்</string>
+    <string name="prestage_no_compass_sensor_available">திசைகாட்டி</string>
+    <string name="prestage_no_gps_sensor_available">புவியியல்</string>
+    <string name="prestage_text_to_speech_error">உரை-க்கு-பேச்சு இயந்திரம்</string>
+    <string name="prestage_no_back_camera_available">பின் கேமரா</string>
+    <string name="prestage_no_camera_available">முகம் கண்டறிதல்</string>
+    <string name="prestage_no_jumping_sumo_available">ஜம்பிங் சுமோ</string>
+    <string name="prestage_no_front_camera_available">முன் கேமரா</string>
+    <string name="prestage_default_resource_not_available">அறியப்படாத கூறு</string>
+    <string name="no_nfc_available">NFC கிடைக்கவில்லை</string>
+    <string name="nfc_not_activated">பயன்பாட்டிற்குத் திரும்ப NFC ஐச் செயல்படுத்தவும், மீண்டும் அழுத்தவும்.</string>
+    <string name="nfc_facedetection_support">ஒரே நேரத்தில் NFC மற்றும் முகம் கண்டறிதல் ஆகியவற்றைப் பயன்படுத்துவது செயல்திறனுக்கு வழிவகுக்கும்
+        பிரச்சினைகள்.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
-    <string name="stage_dialog_axes_on">Axes on</string>
-    <string name="stage_dialog_axes_off">Axes off</string>
-    <string name="stage_dialog_maximize">Maximize/\nstretch</string>
-    <string name="stage_dialog_screenshot">Preview</string>
-    <string name="stage_dialog_embroidery">Embroidery</string>
+    <string name="stage_dialog_back">பின்</string>
+    <string name="stage_dialog_resume">தற்குறிப்பு</string>
+    <string name="stage_dialog_restart">மறுதொடக்கம்</string>
+    <string name="stage_dialog_axes_on">அச்சுகள்</string>
+    <string name="stage_dialog_axes_off">அச்சுகள்</string>
+    <string name="stage_dialog_maximize">அதிகப்படுத்து / \ nstretch</string>
+    <string name="stage_dialog_screenshot">முன்னோட்டம்</string>
+    <string name="stage_dialog_embroidery">எம்பிராய்டரி</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_new_broadcast_message_name">message:</string>
+    <string name="dialog_new_broadcast_message_title">புதிய தகவல்</string>
+    <string name="dialog_new_broadcast_message_name">செய்தி:</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_default_all">all</string>
+    <string name="brick_when_nfc_default_all">அனைத்து</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">Categories</string>
-    <string name="category_embroidery">Embroidery</string>
-    <string name="category_motion">Motion</string>
-    <string name="category_looks">Looks</string>
-    <string name="category_pen">Pen</string>
-    <string name="category_sound">Sound</string>
-    <string name="category_control">Control</string>
-    <string name="category_event">Event</string>
-    <string name="category_user_bricks">Your bricks</string>
-    <string name="category_data">Data</string>
-    <string name="category_lego_nxt">Lego NXT</string>
-    <string name="category_lego_ev3">Lego EV3</string>
+    <string name="categories">வகைகள்</string>
+    <string name="category_embroidery">எம்பிராய்டரி</string>
+    <string name="category_motion">மோஷன்</string>
+    <string name="category_looks">தோற்றம்</string>
+    <string name="category_pen">பேனா</string>
+    <string name="category_sound">ஒலி</string>
+    <string name="category_control">கட்டுப்பாடு</string>
+    <string name="category_event">நிகழ்வு</string>
+    <string name="category_user_bricks">உங்கள் செங்கற்கள்</string>
+    <string name="category_data">தகவல்கள்</string>
+    <string name="category_lego_nxt">லெகோ NXT</string>
+    <string name="category_lego_ev3">லெகோ EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
+    <string name="category_jumping_sumo">ஜம்பிங் சுமோ</string>
     <string name="category_phiro">Phiro</string>
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
+    <string name="category_raspi">ராஸ்பெர்ரி பை</string>
+    <string name="category_assertions">சோதனை</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Place at"</string>
-    <string name="brick_place_at_option_place_visually">Place visually</string>
+    <string name="brick_place_at">"இடத்தில்"</string>
+    <string name="brick_place_at_option_place_visually">பார்வைக்கு வைக்கவும்</string>
     <string name="x_label">"x:"</string>
     <string name="y_label">"y:"</string>
     <string name="brick_set_x">"Set x to"</string>
@@ -972,59 +961,59 @@
         <item quantity="other">steps</item>
     </plurals>
     <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_right">Turn right</string>
+    <string name="brick_turn_right">வலதுபுறம் திரும்ப</string>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
-    <string name="brick_glide">Glide</string>
+    <string name="brick_glide">சறுக்கு</string>
     <string name="brick_glide_to_x">to x:</string>
-    <string name="brick_go_to">Go to</string>
-    <string name="brick_go_to_touch_position">touch position</string>
-    <string name="brick_go_to_random_position">random position</string>
+    <string name="brick_go_to">செல்லுங்கள்</string>
+    <string name="brick_go_to_touch_position">தொடு நிலை</string>
+    <string name="brick_go_to_random_position">சீரற்ற நிலை</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">Set your motion type to</string>
-    <string name="brick_set_physics_object_type_dynamic">moving and bouncing under gravity</string>
-    <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
+    <string name="brick_set_physics_object_type">உங்கள் இயக்க வகையை அமைக்கவும்</string>
+    <string name="brick_set_physics_object_type_dynamic">ஈர்ப்பு கீழ் நகரும் மற்றும் துள்ளல்</string>
+    <string name="brick_set_physics_object_type_fixed">ஈர்ப்பு விசையின் கீழ் நகரவில்லை, ஆனால் மற்றவர்கள் ஈர்ப்பு விசையின் கீழ் உங்களைத் துரத்துகிறார்கள்</string>
     <string name="brick_set_physics_object_type_no">not moving or bouncing under gravity (default)</string>
     <string name="brick_set_mass">"Set mass to"</string>
-    <string name="brick_set_mass_unit">kilogram</string>
-    <string name="brick_set_gravity_to">"Set gravity for all actors and objects to"</string>
+    <string name="brick_set_mass_unit">கிலோகிராம்</string>
+    <string name="brick_set_gravity_to">"அனைத்து நடிகர்களுக்கும் பொருள்களுக்கும் ஈர்ப்பு அமைக்கவும்"</string>
     <string name="brick_set_gravity_unit">steps/second²</string>
-    <string name="brick_set_velocity_to">"Set velocity to"</string>
-    <string name="brick_set_velocity_unit">steps/second</string>
-    <string name="brick_turn_speed_unit">degrees/second</string>
-    <string name="brick_set_friction">"Set friction to"</string>
-    <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
-    <string name="brick_rotate_left">"Spin left"</string>
-    <string name="brick_rotate_right">"Spin right"</string>
+    <string name="brick_set_velocity_to">"வேகத்தை அமைக்கவும்"</string>
+    <string name="brick_set_velocity_unit">படிகள் / இரண்டாவது</string>
+    <string name="brick_turn_speed_unit">டிகிரி / இரண்டாவது</string>
+    <string name="brick_set_friction">"உராய்வை அமைக்கவும்"</string>
+    <string name="brick_set_bounce_factor">"பவுன்ஸ் காரணி அமைக்கவும்"</string>
+    <string name="brick_rotate_left">"இடதுபுறம் சுழலும்"</string>
+    <string name="brick_rotate_right">"வலதுபுறம் சுழற்று"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Switch to look</string>
-    <string name="brick_set_look_by_index">Switch to look with number</string>
-    <string name="brick_and_wait">and wait</string>
-    <string name="brick_set_background">Set background</string>
-    <string name="brick_set_background_and_wait">Set background and wait</string>
-    <string name="brick_set_background_by_index">Set background to number</string>
-    <string name="brick_when_background">When background changes to</string>
-    <string name="brick_set_size_to">Set size to</string>
-    <string name="brick_change_size_by">Change size by</string>
-    <string name="brick_hide">Hide</string>
-    <string name="brick_show">Show</string>
-    <string name="brick_set_transparency">"Set transparency"</string>
-    <string name="brick_change_ghost_effect">"Change transparency"</string>
-    <string name="brick_set_brightness">"Set brightness"</string>
-    <string name="brick_change_brightness">"Change brightness"</string>
-    <string name="brick_set_color">"Set color"</string>
-    <string name="brick_change_color">"Change color"</string>
-    <string name="by_label">by</string>
+    <string name="brick_set_look">பார்க்க மாறவும்</string>
+    <string name="brick_set_look_by_index">எண்ணுடன் பார்க்க மாறவும்</string>
+    <string name="brick_and_wait">காத்திருங்கள்</string>
+    <string name="brick_set_background">பின்னணியை அமைக்கவும்</string>
+    <string name="brick_set_background_and_wait">பின்னணியை அமைத்து காத்திருங்கள்</string>
+    <string name="brick_set_background_by_index">பின்னணியை எண்ணாக அமைக்கவும்</string>
+    <string name="brick_when_background">பின்னணி மாறும்போது</string>
+    <string name="brick_set_size_to">அளவை அமைக்கவும்</string>
+    <string name="brick_change_size_by">அளவை மாற்றவும்</string>
+    <string name="brick_hide">மறை</string>
+    <string name="brick_show">காட்டு</string>
+    <string name="brick_set_transparency">"வெளிப்படைத்தன்மையை அமைக்கவும்"</string>
+    <string name="brick_change_ghost_effect">"வெளிப்படைத்தன்மையை மாற்றவும்"</string>
+    <string name="brick_set_brightness">"பிரகாசத்தை அமைக்கவும்"</string>
+    <string name="brick_change_brightness">"பிரகாசத்தை மாற்றவும்"</string>
+    <string name="brick_set_color">"வண்ணத்தை அமைக்கவும்"</string>
+    <string name="brick_change_color">"நிறத்தை மாற்றவும்"</string>
+    <string name="by_label">மூலம்</string>
     <string name="to_label">to</string>
-    <string name="brick_clear_graphic_effect">Clear graphic effects</string>
-    <string name="brick_next_look">Next look</string>
-    <string name="brick_next_background">Next background</string>
-    <string name="brick_previous_look">Previous look</string>
-    <string name="brick_previous_background">Previous background</string>
-    <string name="brick_flash">Turn flashlight</string>
-    <string name="brick_flash_on">on</string>
-    <string name="brick_flash_off">off</string>
+    <string name="brick_clear_graphic_effect">கிராஃபிக் விளைவுகளை அழிக்கவும்</string>
+    <string name="brick_next_look">அடுத்த பார்வை</string>
+    <string name="brick_next_background">அடுத்த பின்னணி</string>
+    <string name="brick_previous_look">முந்தைய தோற்றம்</string>
+    <string name="brick_previous_background">முந்தைய பின்னணி</string>
+    <string name="brick_flash">ஒளிரும் விளக்கை இயக்கவும்</string>
+    <string name="brick_flash_on">மீது</string>
+    <string name="brick_flash_off">ஆஃப்</string>
     <string name="brick_vibration">Vibrate for</string>
     <string name="brick_ask_label">Ask</string>
     <string name="brick_ask_store">and store written answer in</string>
@@ -1079,62 +1068,63 @@
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
     <string name="brick_scene_transition">Continue scene</string>
-    <string name="brick_scene_start">Start scene</string>
-    <string name="brick_note">Note</string>
-    <string name="brick_think_bubble">Think</string>
-    <string name="brick_say_bubble">Say</string>
+    <string name="brick_scene_start">காட்சியைத் தொடங்குங்கள்</string>
+    <string name="brick_note">குறிப்பு</string>
+    <string name="brick_think_bubble">சிந்தியுங்கள்</string>
+    <string name="brick_say_bubble">சொல்</string>
     <string name="brick_think_say_for_text">for</string>
-    <string name="brick_forever">Forever</string>
-    <string name="brick_repeat">Repeat</string>
-    <string name="brick_repeat_until">Repeat until</string>
-    <string name="brick_when_touched">When stage is tapped</string>
-    <string name="brick_clone">Create clone of</string>
-    <string name="brick_clone_this">yourself</string>
-    <string name="brick_when_cloned">When you start as a clone</string>
-    <string name="brick_delete_this_clone">Delete this clone</string>
-    <string name="brick_assert_that">Assert:</string>
-    <string name="brick_is_equal_to">equal to expected:</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_forever">என்றென்றும்</string>
+    <string name="brick_repeat">மீண்டும்</string>
+    <string name="brick_repeat_until">வரை மீண்டும் செய்யவும்</string>
+    <string name="brick_when_touched">மேடை தட்டும்போது</string>
+    <string name="brick_clone">இன் குளோனை உருவாக்கவும்</string>
+    <string name="brick_clone_this">உங்களை</string>
+    <string name="brick_when_cloned">நீங்கள் ஒரு குளோனாகத் தொடங்கும்போது</string>
+    <string name="brick_delete_this_clone">இந்த குளோனை நீக்கு</string>
+    <string name="brick_assert_that">வலியுறுத்தும்:</string>
+    <string name="brick_is_equal_to">எதிர்பார்த்ததற்கு சமம்:</string>
+    <string name="brick_wait_till_idle">மற்ற எல்லா ஸ்கிரிப்டுகளும் நிறுத்தப்படும் வரை காத்திருங்கள்</string>
+    <string name="brick_tap_at">"இல் ஒற்றை தட்டு"</string>
+    <string name="brick_finish_stage">Finish stage</string>
     <plurals name="time_plural">
         <item quantity="one">time</item>
         <item quantity="other">times</item>
     </plurals>
-    <string name="brick_loop_end">End of loop</string>
-    <string name="brick_if_begin">If</string>
-    <string name="brick_if_begin_second_part">is true then</string>
-    <string name="brick_if_else">Else</string>
-    <string name="brick_if_end">End if</string>
-    <string name="brick_set_variable">Set variable</string>
-    <string name="brick_change_variable">Change variable</string>
-    <string name="brick_write_variable_on_device">Write variable on device</string>
-    <string name="brick_read_variable_from_device">Read variable from device</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
-    <string name="brick_note_default_value">add comment here&#8230;</string>
+    <string name="brick_loop_end">வளையத்தின் முடிவு</string>
+    <string name="brick_if_begin">என்றால்</string>
+    <string name="brick_if_begin_second_part">உண்மை, பின்னர்</string>
+    <string name="brick_if_else">வேறு</string>
+    <string name="brick_if_end">என்றால் முடிவு</string>
+    <string name="brick_set_variable">மாறி அமை</string>
+    <string name="brick_change_variable">மாறி மாற்று</string>
+    <string name="brick_write_variable_on_device">சாதனத்தில் மாறி எழுதவும்</string>
+    <string name="brick_read_variable_from_device">சாதனத்திலிருந்து மாறியைப் படிக்கவும்</string>
+    <string name="brick_write_list_on_device">சாதனத்தில் பட்டியலை எழுதுங்கள்</string>
+    <string name="brick_read_list_from_device">சாதனத்திலிருந்து பட்டியலைப் படிக்கவும்</string>
+    <string name="brick_note_default_value">கருத்தை இங்கே சேர்க்கவும்&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
-    <string name="brick_say_bubble_default_value">Hello!</string>
-    <string name="brick_broadcast_default_value">"new message"</string>
-    <string name="brick_add_item_to_userlist_add">Add</string>
-    <string name="brick_add_item_to_userlist">to list</string>
-    <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
-    <string name="brick_delete_item_from_userlist">at position</string>
-    <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
-    <string name="brick_insert_item_into_userlist_into_list">into list</string>
-    <string name="brick_insert_item_into_userlist_at_position">at position</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
-    <string name="brick_replace_item_in_userlist_with_value">with</string>
-    <string name="brick_web_request">Send web request to</string>
-    <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_say_bubble_default_value">வணக்கம்!</string>
+    <string name="brick_broadcast_default_value">"புதிய தகவல்"</string>
+    <string name="brick_add_item_to_userlist_add">கூட்டு</string>
+    <string name="brick_add_item_to_userlist">பட்டியலிட</string>
+    <string name="brick_delete_item_from_userlist_delete">பட்டியலிலிருந்து உருப்படியை நீக்கு</string>
+    <string name="brick_delete_item_from_userlist">நிலையில்</string>
+    <string name="brick_insert_item_into_userlist_insert_into">நுழைக்கவும்</string>
+    <string name="brick_insert_item_into_userlist_into_list">பட்டியலில்</string>
+    <string name="brick_insert_item_into_userlist_at_position">நிலையில்</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list">பட்டியலில் உள்ள உருப்படியை மாற்றவும்</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">நிலையில்</string>
+    <string name="brick_replace_item_in_userlist_with_value">உடன்</string>
+    <string name="brick_web_request">வலை கோரிக்கையை அனுப்பவும்</string>
+    <string name="brick_web_request_result">மற்றும் பதிலை சேமிக்கவும்</string>
     <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My first project</string>
+    <string name="default_project_name">எனது முதல் திட்டம்</string>
     <string name="default_scene_name">Scene %1$d</string>
     <string name="default_project_background_name">பின்னணி</string>
-    <string name="default_project_cloud_name">Clouds</string>
-    <string name="default_project_cloud_sprite_name_1">Clouds1</string>
+    <string name="default_project_cloud_name">மேகங்கள்</string>
+    <string name="default_project_cloud_sprite_name_1">மேகங்கள்</string>
     <string name="default_project_cloud_sprite_name_2">Clouds2</string>
     <string name="default_project_sprites_animal_name">Animal</string>
     <string name="default_project_sprites_animal_wings_up">Wings up</string>
@@ -1143,8 +1133,8 @@
     <string name="default_project_sprites_tweet_2">Tweet2</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">பின்னணி</string>
-    <string name="default_cast_project_cloud_name">Clouds</string>
-    <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
+    <string name="default_cast_project_cloud_name">மேகங்கள்</string>
+    <string name="default_cast_project_cloud_sprite_name1">மேகங்கள்</string>
     <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
     <string name="default_cast_project_sprites_bird_name">Bird</string>
     <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
@@ -1164,9 +1154,9 @@
     <string name="default_drone_project_sprites_left">Left</string>
     <string name="default_drone_project_sprites_right">Right</string>
     <string name="default_drone_project_sprites_forward">Forward</string>
-    <string name="default_drone_project_sprites_back">Back</string>
+    <string name="default_drone_project_sprites_back">பின்</string>
     <string name="default_drone_project_sprites_turn_left">Turn left</string>
-    <string name="default_drone_project_sprites_turn_right">Turn right</string>
+    <string name="default_drone_project_sprites_turn_right">வலதுபுறம் திரும்ப</string>
     <string name="default_drone_project_sprites_emergency">Emergency</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
@@ -1197,35 +1187,36 @@
     <string name="drone_set_tilt_outdoor">20 degrees </string>
     <string name="drone_set_tilt_max">30 degrees</string>
     <!-- Notification Channel -->
-    <string name="channel_description">%1$s notification channel</string>
+    <string name="channel_description">%1$s அறிவிப்பு சேனல்</string>
     <!--  -->
     <!-- Notifications -->
-    <string name="notification_screenshot_ok">Preview image saved</string>
-    <string name="notification_download_project_cancel">Cancel project download</string>
-    <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Uploading"</string>
-    <string name="notification_upload_title_finished">"Look at"</string>
-    <string name="notification_upload_pending">Upload in progress</string>
-    <string name="notification_upload_finished">Upload successful</string>
-    <string name="notification_upload_rejected">Uploaded project rejected</string>
-    <string name="notification_upload_retry">Retry</string>
-    <string name="notification_open_play_store">Open App store</string>
-    <string name="notification_download_title_pending">"Downloading"</string>
-    <string name="notification_download_pending">Download in progress</string>
-    <string name="notification_download_finished">Download successful</string>
-    <string name="notification_title_open">"Open"</string>
-    <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
-    <string name="size_of_project">Size:</string>
-    <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
-    <string name="drone_emergency_camera">One or more cameras are not responding.</string>
-    <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
-    <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
-    <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
-    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
-    <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
-    <string name="drone_emergency_title">Emergency</string>
+    <string name="notification_screenshot_ok">மாதிரிக்காட்சி படம் சேமிக்கப்பட்டது</string>
+    <string name="notification_download_project_cancel">திட்ட பதிவிறக்கத்தை ரத்துசெய்</string>
+    <string name="notification_reconvert_download_program_cancel">பதிவிறக்குதல் / மாற்றியமைத்தல் திட்டம் ரத்து செய்யப்பட்டது</string>
+    <string name="notification_upload_title_pending">"பதிவேற்றுகிறது"</string>
+    <string name="notification_upload_title_finished">"அதை நோக்கு"</string>
+    <string name="notification_upload_pending">பதிவேற்றம் செயலில் உள்ளது</string>
+    <string name="notification_upload_finished">பதிவேற்றம் வெற்றிகரமாக</string>
+    <string name="notification_upload_rejected">பதிவேற்றிய திட்டம் நிராகரிக்கப்பட்டது</string>
+    <string name="notification_upload_retry">மீண்டும் முயற்சி செய்</string>
+    <string name="notification_open_play_store">ஆப் ஸ்டோரைத் திறக்கவும்</string>
+    <string name="notification_download_title_pending">"பதிவிறக்குகிறது"</string>
+    <string name="notification_download_pending">பதிவிறக்கம் செயலில் உள்ளது</string>
+    <string name="notification_download_finished">பதிவிறக்கம் வெற்றிகரமாக</string>
+    <string name="notification_title_open">"திறந்த"</string>
+    <string name="notification_low_battery_with_value">கவனம். பேட்டரி குறைவாக உள்ளது. தற்போதைய
+        நிலை %d</string>
+    <string name="size_of_project">அளவு:</string>
+    <string name="drone_emergency_battery_low">பேட்டரி குறைவாக உள்ளது (தானியங்கி தரையிறக்கம்).</string>
+    <string name="drone_emergency_camera">ஒன்று அல்லது அதற்கு மேற்பட்ட கேமராக்கள் பதிலளிக்கவில்லை.</string>
+    <string name="drone_emergency_ultrasound">அல்ட்ராசவுண்ட் சென்சார் பதிலளிக்கவில்லை.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 யூலர் கோணங்கள் மிக அதிகமாக சென்றன. ஆபத்துகளைத் தடுக்க மோட்டார் நிறுத்தப்பட்டது
+        நடத்தை.</string>
+    <string name="drone_emergency_cutout">ஒன்று அல்லது அதற்கு மேற்பட்ட மோட்டார்கள் சூழலால் நிறுத்தப்பட்டன.</string>
+    <string name="drone_alert_battery_low">பேட்டரி மீண்டும் எடுக்க மிகவும் குறைவு.</string>
+    <string name="drone_alert_ultrasound">அல்ட்ராசவுண்ட் சென்சார் AR.Drone 2.0 உயரத்தை தீர்மானிக்க முடியாது.</string>
+    <string name="drone_alert_vision">கீழே எதிர்கொள்ளும் கேமராவிலிருந்து வேக மதிப்பீடு இல்லை.</string>
+    <string name="drone_emergency_title">அவசரம்</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1233,33 +1224,30 @@ Camera brick needs access to the device\'s camera, the \"location\" formula elem
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Something went wrong while uploading the project.</string>
-    <string name="error_project_download">Something went wrong while downloading the project.</string>
-    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
-    <string name="error_new_project">Something went wrong while creating a new project.</string>
-    <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
-    <string name="error_load_project">Something went wrong while loading the project.</string>
-    <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
-    <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
-    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
-    <string name="error_outdated_version">This app version is outdated. Update now?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
-        Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
-    <string name="error_adding_brick">Something went wrong while adding this brick.</string>
-    <string name="error_copying_brick">Something went wrong while copying this brick.</string>
-    <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
-    <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
-    <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
-    <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
-    <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+    <string name="error_project_upload">திட்டத்தை பதிவேற்றும் போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_project_download">திட்டத்தைப் பதிவிறக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_project_already_in_queue">"திட்டம் %s ஏற்கனவே வரிசையில் உள்ளது."</string>
+    <string name="error_could_not_decode_project_name_from_url">"உங்கள் பதிவிறக்கத்தைத் தொடங்க முடியவில்லை, எங்கள் சேவையகத்தில் சிக்கல் இருப்பதாகத் தெரிகிறது."</string>
+    <string name="error_new_project">புதிய திட்டத்தை உருவாக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_rename_scene">காட்சியின் மறுபெயரிடும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_load_project">திட்டத்தை ஏற்றும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_screenshot_failed">மாதிரிக்காட்சி படத்தைச் சேமிக்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_internet_connection">அறியப்படாத பிழை ஏற்பட்டது. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும்.</string>
+    <string name="error_project_compatibility">பயன்பாட்டின் இந்த பதிப்போடு திட்டம் பொருந்தாது.</string>
+    <string name="error_outdated_version">இந்த பயன்பாட்டு பதிப்பு காலாவதியானது. இப்பொழுது மேம்படுத்து?</string>
+    <string name="error_upload_project_with_default_name">\"எனது முதல் திட்டம்\" என்ற பெயரில் ஒரு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. தயவுசெய்து திட்டத்தின் மறுபெயரிடுக.</string>
+    <string name="error_upload_default_project">மாற்றப்படாத எடுத்துக்காட்டு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. ஏதாவது ஒன்றை மாற்றி மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_adding_brick">இந்த செங்கலைச் சேர்க்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_copying_brick">இந்த செங்கலை நகலெடுக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_no_drone_connected_title">AR.Drone 2.0 ஐக் கண்டுபிடிக்க முடியவில்லை.</string>
+    <string name="error_no_drone_connected">உங்கள் வைஃபை AR.Drone 2.0 உடன் இணைத்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_drone_low_battery_title">AR.Drone 2.0 பேட்டரி குறைவாக %d%%</string>
+    <string name="error_drone_low_battery">சார்ஜ் செய்யப்பட்ட பேட்டரியைச் செருகவும், மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_jumpingsumo_wrong_platform">உங்கள் சாதனத்தில் ஜம்பிங் சுமோ திட்டத்தை எங்களால் இயக்க முடியாது.</string>
+    <string name="error_no_jumpingsumo_connected_title">ஜம்பிங் சுமோவைக் கண்டுபிடிக்க முடியவில்லை</string>
+    <string name="error_no_jumpingsumo_connected">உங்கள் வைஃபை ஜம்பிங் சுமோவுடன் இணைத்து மீண்டும் முயற்சிக்கவும்.</string>
+    <string name="error_jumpingsumo_battery_title">ஜம்பிங் சுமோ பேட்டரி குறைவாக</string>
+    <string name="error_jumpingsumo_battery">சார்ஜ் செய்யப்பட்ட பேட்டரியைச் செருகவும், மீண்டும் முயற்சிக்கவும்.</string>
     <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
@@ -1294,7 +1282,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
     <string name="brick_raspi_set_pin_value_to">to</string>
     <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-    <string name="brick_raspi_if_begin_second_part">is true then</string>
+    <string name="brick_raspi_if_begin_second_part">உண்மை, பின்னர்</string>
     <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
     <string name="brick_raspi_when_equals">changes to</string>
     <string name="brick_raspi_pressed_text">high</string>
@@ -1311,7 +1299,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="nxt_motor_speed_to">to</string>
     <string name="nxt_motor_speed">speed</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
-    <string name="nxt_motor_move_by">by</string>
+    <string name="nxt_motor_move_by">மூலம்</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
     <string name="nxt_play_tone">Play NXT tone</string>
     <string name="nxt_tone_duration">Duration</string>
@@ -1384,11 +1372,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_stop">Stop EV3 motor</string>
     <string name="ev3_motor_move">Set EV3 motor</string>
     <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
-    <string name="ev3_motor_move_by">by</string>
+    <string name="ev3_motor_move_by">மூலம்</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
     <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Green</string>
-    <string name="ev3_led_status_red">Red</string>
+    <string name="ev3_led_status_green">பச்சை</string>
+    <string name="ev3_led_status_red">சிவப்பு</string>
     <string name="ev3_led_status_orange">Orange</string>
     <string name="ev3_led_status_green_flashing">Green flashing</string>
     <string name="ev3_led_status_red_flashing">Red flashing</string>
@@ -1416,7 +1404,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with.">with</string>
+    <string name="brick_drone_with.">உடன்</string>
     <string name="brick_drone_power">power</string>
     <!--  -->
     <!-- Drone play led animation strings -->
@@ -1427,8 +1415,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Red</string>
-    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_red">சிவப்பு</string>
+    <string name="drone_animation_green">பச்சை</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
     <string name="drone_animation_rightmissile">Right missile</string>
@@ -1460,12 +1448,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
     <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
     <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
-    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_sound">ஒலி</string>
     <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
     <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
+    <string name="default_jumping_sumo_project_sprites_turn_right">வலதுபுறம் திரும்ப</string>
     <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
     <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
@@ -1501,9 +1489,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-    <string name="phiro_rgb_led_red">Red</string>
-    <string name="phiro_rgb_led_green">Green</string>
-    <string name="phiro_rgb_led_blue">Blue</string>
+    <string name="phiro_rgb_led_red">சிவப்பு</string>
+    <string name="phiro_rgb_led_green">பச்சை</string>
+    <string name="phiro_rgb_led_blue">நீலம்</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1537,7 +1525,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_blue">blue</string>
     <!-- -->
     <!-- Formula editor strings -->
-    <string name="formula_editor_data">Data</string>
+    <string name="formula_editor_data">தகவல்கள்</string>
     <string name="formula_editor_true">true</string>
     <string name="formula_editor_false">false</string>
     <string name="formula_editor_decimal_mark">.</string>
@@ -1711,7 +1699,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object">பொருள்</string>
     <string name="formula_editor_functions">Functions</string>
     <string name="formula_editor_logic">Logic</string>
-    <string name="formula_editor_device">Sensors</string>
+    <string name="formula_editor_device">சென்ஸார்ஸ்</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
     <string name="formula_editor_functions_strings">Text</string>
@@ -1727,7 +1715,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
-    <string name="formula_editor_device_raspberry">Raspberry Pi</string>
+    <string name="formula_editor_device_raspberry">ராஸ்பெர்ரி பை</string>
     <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
@@ -1783,10 +1771,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
         compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
         logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string name="formula_editor_intro_title_device">Sensors</string>
+    <string name="formula_editor_intro_title_device">சென்ஸார்ஸ்</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
-    <string name="formula_editor_intro_title_data">Data</string>
+    <string name="formula_editor_intro_title_data">தகவல்கள்</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
         \nYou can simply insert these in your formula, or add new ones.</string>
     <!--  -->
@@ -1804,8 +1792,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>
-    <string name="video_brick_camera_on">on</string>
-    <string name="video_brick_camera_off">off</string>
+    <string name="video_brick_camera_on">மீது</string>
+    <string name="video_brick_camera_off">ஆஃப்</string>
     <string name="brick_choose_camera">Use camera</string>
     <string name="choose_camera_front">front</string>
     <string name="choose_camera_back">rear</string>
