@@ -862,7 +862,7 @@
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"放在 "</string>
-    <string name="brick_place_at_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">Place visually</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"设置X坐标为 "</string>

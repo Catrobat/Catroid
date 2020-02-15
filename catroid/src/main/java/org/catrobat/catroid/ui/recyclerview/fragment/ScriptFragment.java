@@ -495,7 +495,7 @@ public class ScriptFragment extends ListFragment implements
 					? R.string.brick_context_dialog_comment_in
 					: R.string.brick_context_dialog_comment_out);
 			if (brick instanceof VisualPlacementBrick) {
-				items.add(R.string.brick_place_at_option_place_visually);
+				items.add(R.string.brick_option_place_visually);
 			}
 			if (brick instanceof FormulaBrick) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
@@ -547,7 +547,7 @@ public class ScriptFragment extends ListFragment implements
 				}
 				adapter.notifyDataSetChanged();
 				break;
-			case R.string.brick_place_at_option_place_visually:
+			case R.string.brick_option_place_visually:
 				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
 				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(),
 						visualPlacementBrick.getYBrickField());

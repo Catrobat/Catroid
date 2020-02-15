@@ -100,7 +100,7 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually)).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).perform(click());
 
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, XPOS)));
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, YPOS)));
@@ -119,7 +119,7 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually)).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).perform(click());
 
 		onView(withId(R.id.brick_place_at_edit_text_x)).check(matches(withText(XRETURN + " ")));
 		onView(withId(R.id.brick_place_at_edit_text_y)).check(matches(withText(YRETURN + " ")));
@@ -138,7 +138,7 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withText(R.string.brick_place_at)).perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually)).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).perform(click());
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, 0)));
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, 0)));
 	}

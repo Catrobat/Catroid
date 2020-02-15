@@ -140,7 +140,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		Toolbar toolbar = findViewById(R.id.transparent_toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(R.string.brick_place_at_option_place_visually);
+		getSupportActionBar().setTitle(R.string.brick_option_place_visually);
 
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, currentProject.getName());
 		File sceneDir = new File(projectDir, currentlyPlayingScene.getName());

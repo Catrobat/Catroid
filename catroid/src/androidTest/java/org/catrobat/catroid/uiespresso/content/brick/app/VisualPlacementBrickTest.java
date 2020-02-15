@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.util.Log;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -44,6 +46,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -64,6 +67,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @Category({Cat.AppUi.class, Level.Smoke.class})
 @RunWith(Parameterized.class)
 public class VisualPlacementBrickTest {
+	private static final String TAG = VisualPlacementBrickTest.class.getSimpleName();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -87,11 +91,15 @@ public class VisualPlacementBrickTest {
 	public VisualPlacementBrick brick;
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		Intents.release();
 		resetFormulaFields();
 		baseActivityTestRule.finishActivity();
-		TestUtils.deleteProjects(VisualPlacementBrickTest.class.getSimpleName());
+		try {
+			TestUtils.deleteProjects(VisualPlacementBrickTest.class.getSimpleName());
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
 	}
 
 	private void resetFormulaFields() {
@@ -113,7 +121,7 @@ public class VisualPlacementBrickTest {
 		onBrickAtPosition(1).checkShowsText(brickString);
 		onView(withId(brick.getXEditTextId()))
 				.perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually))
+		onView(withText(R.string.brick_option_place_visually))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.check(matches(isDisplayed()));
@@ -123,7 +131,7 @@ public class VisualPlacementBrickTest {
 	public void testIsVisualPlacementShownForEditTextY() {
 		onView(withId(brick.getYEditTextId()))
 				.perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually))
+		onView(withText(R.string.brick_option_place_visually))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.check(matches(isDisplayed()));
@@ -132,7 +140,7 @@ public class VisualPlacementBrickTest {
 	@Test
 	public void testIsVisualPlacementShownOnBrickClick() {
 		onBrickAtPosition(1).performClick();
-		onView(withText(R.string.brick_place_at_option_place_visually))
+		onView(withText(R.string.brick_option_place_visually))
 				.check(matches(isDisplayed()));
 	}
 
@@ -163,7 +171,7 @@ public class VisualPlacementBrickTest {
 		onView(withId(brick.getXEditTextId()))
 				.check(matches(withText("42 ")))
 				.perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually))
+		onView(withText(R.string.brick_option_place_visually))
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.check(matches(isDisplayed()));
@@ -173,7 +181,7 @@ public class VisualPlacementBrickTest {
 	public void testIsVisualPlacementActivityShown() {
 		onView(withId(brick.getXEditTextId()))
 				.perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually))
+		onView(withText(R.string.brick_option_place_visually))
 				.perform(click());
 		intended(hasComponent(VisualPlacementActivity.class.getName()));
 	}
