@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.app.PlaceAtBrickTest;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import org.junit.After;
@@ -87,7 +86,8 @@ public class SpriteActivityVisualPlacementTest {
 	@After
 	public void tearDown() throws Exception {
 		Intents.release();
-		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
+		baseActivityTestRule.finishActivity();
+		TestUtils.deleteProjects(SpriteActivityVisualPlacementTest.class.getSimpleName());
 	}
 
 	@Test

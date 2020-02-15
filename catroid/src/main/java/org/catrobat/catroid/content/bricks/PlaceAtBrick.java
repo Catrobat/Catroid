@@ -22,33 +22,15 @@
  */
 package org.catrobat.catroid.content.bricks;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.view.View;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.ui.UiUtils;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
-import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.Y_POSITION;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
-import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
 
-public class PlaceAtBrick extends FormulaBrick {
+public class PlaceAtBrick extends VisualPlacementBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,71 +50,6 @@ public class PlaceAtBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void showFormulaEditorToEditFormula(final View view) {
-		Context context = view.getContext();
-		Fragment currentFragment = UiUtils.getActivityFromView(view).getSupportFragmentManager()
-				.findFragmentById(R.id.fragment_container);
-
-		boolean showVisualPlacementDialog = currentFragment instanceof ScriptFragment
-				&& (view.getId() == R.id.brick_place_at_edit_text_x || view.getId() == R.id.brick_place_at_edit_text_y)
-				&& areAllBrickFieldsNumbers();
-
-		if (showVisualPlacementDialog) {
-			String[] optionStrings = {
-					context.getString(R.string.brick_place_at_option_place_visually),
-					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
-
-			new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
-				switch (which) {
-					case 0:
-						placeVisually();
-						break;
-					case 1:
-						super.showFormulaEditorToEditFormula(view);
-						break;
-				}
-			}).show();
-		} else {
-			super.showFormulaEditorToEditFormula(view);
-		}
-	}
-
-	private boolean areAllBrickFieldsNumbers() {
-		return isBrickFieldANumber(X_POSITION)
-				&& isBrickFieldANumber(Y_POSITION);
-	}
-
-	public void placeVisually() {
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (!(activity instanceof SpriteActivity)) {
-			return;
-		}
-
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		Formula formulax = getFormulaWithBrickField(BrickField.X_POSITION);
-		Formula formulay = getFormulaWithBrickField(BrickField.Y_POSITION);
-		Intent intent = new Intent(view.getContext(), VisualPlacementActivity.class);
-		intent.putExtra(EXTRA_BRICK_HASH, hashCode());
-		int xValue;
-		int yValue;
-		try {
-			xValue = formulax.interpretInteger(currentSprite);
-			yValue = formulay.interpretInteger(currentSprite);
-		} catch (InterpretationException interpretationException) {
-			xValue = 0;
-			yValue = 0;
-		}
-		intent.putExtra(EXTRA_X_TRANSFORM, xValue);
-		intent.putExtra(EXTRA_Y_TRANSFORM, yValue);
-		activity.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT);
-	}
-
-	public void setCoordinates(int x, int y) {
-		setFormulaWithBrickField(X_POSITION, new Formula(x));
-		setFormulaWithBrickField(Y_POSITION, new Formula(y));
-	}
-
-	@Override
 	public BrickField getDefaultBrickField() {
 		return X_POSITION;
 	}
@@ -147,5 +64,25 @@ public class PlaceAtBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
 				getFormulaWithBrickField(X_POSITION),
 				getFormulaWithBrickField(Y_POSITION)));
+	}
+
+	@Override
+	public BrickField getXBrickField() {
+		return BrickField.X_POSITION;
+	}
+
+	@Override
+	public BrickField getYBrickField() {
+		return BrickField.Y_POSITION;
+	}
+
+	@Override
+	public int getXEditTextId() {
+		return R.id.brick_place_at_edit_text_x;
+	}
+
+	@Override
+	public int getYEditTextId() {
+		return R.id.brick_place_at_edit_text_y;
 	}
 }
