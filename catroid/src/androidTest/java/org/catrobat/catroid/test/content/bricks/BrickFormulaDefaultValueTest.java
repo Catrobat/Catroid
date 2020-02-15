@@ -98,6 +98,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -207,6 +208,8 @@ public class BrickFormulaDefaultValueTest {
 				{"WaitUntilBrick - R.id.brick_wait_until_edit_text", "Control", WaitUntilBrick.class, R.id.brick_wait_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_until_edit_text", "Control", RepeatUntilBrick.class, R.id.brick_repeat_until_edit_text, "1 < 2 "},
 				{"RepeatUntilBrick - R.id.brick_repeat_edit_text", "Control", RepeatBrick.class, R.id.brick_repeat_edit_text, "10 "},
+				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_density", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_length, "2 "},
+				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_height", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_width, "10 "},
 				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
 		});
 	}
