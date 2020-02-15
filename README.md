@@ -9,7 +9,7 @@ For more information [oriented towards developers], check out our [developers pa
 
 # Issues #
 
-For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=10402&issuetype=1). Before, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CAT+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).
+For reporting issues, use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=10402&issuetype=1). Before, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CAT+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).
 
 
 # Contributing #
@@ -21,7 +21,7 @@ If you want to implement a new feature, please ask about the details on http://c
 
 Start setting up the working environment by following the instructions: https://github.com/Catrobat/Catroid/wiki/Setup-working-environment
 
-Also make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
+Also, make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
 
 
 # Resources and links #
