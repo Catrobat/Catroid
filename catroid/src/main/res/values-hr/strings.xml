@@ -1013,7 +1013,7 @@ Ako se ne osjecate ugodno kako bi to ucinili, mozete koristiti nase besplatne we
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Postavi na "</string>
-    <string name="brick_place_at_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">Place visually</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"Postavi X na "</string>

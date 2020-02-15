@@ -54,7 +54,7 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 
 		if (showVisualPlacementDialog(view)) {
 			String[] optionStrings = {
-					context.getString(R.string.brick_place_at_option_place_visually),
+					context.getString(R.string.brick_option_place_visually),
 					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
 
 			new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
