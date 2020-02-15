@@ -382,6 +382,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#RunningStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopRunningStitchBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#StopRunningStitchBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ZigZagStitchBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#ZigZagStitchBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
