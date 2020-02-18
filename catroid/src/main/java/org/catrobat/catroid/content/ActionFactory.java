@@ -157,6 +157,7 @@ import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
+import org.catrobat.catroid.content.actions.TripleStitchAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
@@ -864,6 +865,13 @@ public class ActionFactory extends Actions {
 		RunningStitchAction action = Actions.action(RunningStitchAction.class);
 		action.setSprite(sprite);
 		action.setLength(length);
+		return action;
+	}
+
+	public Action createTripleStitchAction(Sprite sprite, Formula steps) {
+		TripleStitchAction action = Actions.action(TripleStitchAction.class);
+		action.setSprite(sprite);
+		action.setSteps(steps);
 		return action;
 	}
 
