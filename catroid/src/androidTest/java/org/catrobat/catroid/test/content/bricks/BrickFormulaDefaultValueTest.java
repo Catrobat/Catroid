@@ -92,6 +92,7 @@ import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -211,6 +212,7 @@ public class BrickFormulaDefaultValueTest {
 				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_density", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_length, "2 "},
 				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_height", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_width, "10 "},
 				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
+				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", TripleStitchBrick.class, R.id.brick_triple_stitch_edit_text_steps, "10 "},
 		});
 	}
 
