@@ -842,7 +842,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"위치 설정"</string>
-    <string name="brick_place_at_option_place_visually">보이게 위치</string>
+    <string name="brick_option_place_visually">보이게 위치</string>
     <string name="x_label">"X:"</string>
     <string name="y_label">"Y:"</string>
     <string name="brick_set_x">"X좌표 정하기 :"</string>

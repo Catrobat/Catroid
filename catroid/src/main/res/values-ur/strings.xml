@@ -1004,7 +1004,7 @@
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"جگہ رکھیں"</string>
-    <string name="brick_place_at_option_place_visually">بظاہر جگہ رکھیں</string>
+    <string name="brick_option_place_visually">بظاہر جگہ رکھیں</string>
     <string name="x_label">"ایکس:"</string>
     <string name="y_label">"وائے: "</string>
     <string name="brick_set_x">"ایکس سیٹ کریں"</string>

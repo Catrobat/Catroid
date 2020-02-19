@@ -813,7 +813,7 @@ A-8010 กราซ, ออสเตรีย \n
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"วางที่"</string>
-    <string name="brick_place_at_option_place_visually">วางสายตา</string>
+    <string name="brick_option_place_visually">วางสายตา</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"ตั้งค่า X เป็น"</string>
