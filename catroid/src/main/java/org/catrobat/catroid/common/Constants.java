@@ -115,6 +115,9 @@ public final class Constants {
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 
+	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
+	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
+
 	// XStream:
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
