@@ -1216,7 +1216,7 @@
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"تحديد موقع الكائن في "</string>
-    <string name="brick_place_at_option_place_visually">تحديد الموقع بصرياً</string>
+    <string name="brick_option_place_visually">تحديد الموقع بصرياً</string>
     <string name="x_label">"س: "</string>
     <string name="y_label">"ص: "</string>
     <string name="brick_set_x">"تعيين قيمة س الى "</string>
