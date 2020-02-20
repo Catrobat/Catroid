@@ -299,6 +299,19 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+
+            if(variant.buildType.name == "signedRelease")
+            {
+                def versionName = variant.versionName
+                def flavorName = variant.flavorName
+                def buildType = variant.buildType.name
+                outputFileName = "catroid-${flavorName}-${versionName}-${buildType}.apk"
+            }
+        }
+    }
+
     productFlavors.all { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
