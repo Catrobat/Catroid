@@ -36,7 +36,7 @@ import okhttp3.Response;
 
 public class WebConnection {
 	private final OkHttpClient okHttpClient;
-	private static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
+	private static final String USER_AGENT = "Android 9; Mobile; rv:68.0) Gecko/68.0 Firefox/68.0";
 	private static final Double ERROR_BAD_REQUEST = 400d;
 	private static final Double ERROR_SERVER_ERROR = 500d;
 	private static final Double ERROR_TIMEOUT = 504d;
