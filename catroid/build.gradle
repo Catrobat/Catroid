@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -51,8 +51,7 @@ ext {
     projectVersion = "0.9"
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
-    espressoVersion = "3.0.1"
-    supportLibraryVersion = "28.0.0"
+    espressoVersion = "3.1.0"
     paintroidVersion = "2.4.1"
 }
 
@@ -134,8 +133,8 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
-        versionCode 72
-        versionName "0.9.68"
+        versionCode 73
+        versionName "0.9.69"
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true
@@ -318,21 +317,18 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     // Support libraries
-    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
-    implementation "com.android.support:mediarouter-v7:$supportLibraryVersion"
-    implementation "com.android.support:cardview-v7:$supportLibraryVersion"
-    implementation "com.android.support:design:$supportLibraryVersion"
-    implementation "com.android.support:customtabs:$supportLibraryVersion"
-    implementation "com.android.support:exifinterface:$supportLibraryVersion"
-    implementation "com.android.support:support-v4:$supportLibraryVersion"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.mediarouter:mediarouter:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.browser:browser:1.2.0'
 
-    implementation "com.android.support.test.espresso:espresso-idling-resource:$espressoVersion"
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     // Dagger
     implementation 'com.google.dagger:dagger:2.21'
     implementation 'com.google.dagger:dagger-android:2.21'
-    implementation 'com.google.dagger:dagger-android-support:2.21'
     kapt 'com.google.dagger:dagger-compiler:2.21'
     kapt 'com.google.dagger:dagger-android-processor:2.21'
 
@@ -345,7 +341,7 @@ dependencies {
     // Analytics
     implementation 'com.google.android.gms:play-services-analytics:12.0.0'
 
-    implementation 'com.google.guava:guava:19.0'
+    implementation 'com.google.guava:guava:28.2-android'
     implementation 'com.google.code.gson:gson:2.8.0'
 
     implementation 'com.koushikdutta.async:androidasync:2.2.1'
@@ -383,12 +379,11 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-auth:12.0.0'
 
-    androidTestImplementation ('tools.fastlane:screengrab:1.1.0'){
-        exclude group: 'com.android.support'
+    androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
+        // https://issuetracker.google.com/issues/123060356
+        exclude group: 'com.android.support.test.uiautomator', module: 'uiautomator-v18'
     }
-    androidTestImplementation ("com.android.support.test.espresso:espresso-web:$espressoVersion") {
-        exclude group: 'com.android.support'
-    }
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
     implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true
@@ -407,14 +402,13 @@ dependencies {
 
     testImplementation 'org.reflections:reflections:0.9.11'
 
-    androidTestImplementation fileTree(include: '*.jar', dir: 'src/androidTest/libs')
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "com.android.support.test.espresso:espresso-intents:$espressoVersion"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espressoVersion"
 
     androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
 }

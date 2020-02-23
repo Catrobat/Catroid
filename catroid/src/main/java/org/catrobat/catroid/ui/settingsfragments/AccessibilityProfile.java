@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.settingsfragments;
 
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-import android.support.annotation.StringDef;
 
 import org.catrobat.catroid.R;
 
@@ -35,6 +34,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
+
+import androidx.annotation.StringDef;
 
 public class AccessibilityProfile {
 	private static final String CUSTOM_ACCESSIBILITY_PROFILE = "custom_accessibility_profile";

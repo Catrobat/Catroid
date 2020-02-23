@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.content.backwardcompatibility;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -39,6 +37,9 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
@@ -59,7 +60,7 @@ public class XstreamParserTest {
 	}
 
 	private void copyProjectFromAssets(String assetName, String projectName) throws IOException {
-		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
+		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
 		new ZipArchiver().unzip(inputStream, new File(DEFAULT_ROOT_DIRECTORY, projectName));
 	}
 
@@ -68,7 +69,7 @@ public class XstreamParserTest {
 		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
+				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
 
 		assertNotNull(project);
 
@@ -76,7 +77,7 @@ public class XstreamParserTest {
 
 		assertEquals(1, project.getSceneList().size());
 
-		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.default_scene_name, 1),
+		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1),
 				project.getSceneList().get(0).getName());
 	}
 
@@ -121,7 +122,7 @@ public class XstreamParserTest {
 		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectDir, InstrumentationRegistry.getTargetContext());
+				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
 
 		assertNotNull(project);
 
@@ -132,10 +133,10 @@ public class XstreamParserTest {
 		Scene scene1 = project.getSceneList().get(0);
 		Scene scene2 = project.getSceneList().get(1);
 
-		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.default_scene_name, 1),
+		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1),
 				scene1.getName());
 
-		assertEquals(InstrumentationRegistry.getTargetContext().getString(R.string.default_scene_name, 2),
+		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 2),
 				scene2.getName());
 
 		assertNotNull(UserDataWrapper.getUserVariable("localVar",

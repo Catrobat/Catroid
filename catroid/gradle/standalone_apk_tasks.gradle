@@ -22,7 +22,6 @@
  */
 
 import groovy.json.StringEscapeUtils
-import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 
 import java.nio.file.Files

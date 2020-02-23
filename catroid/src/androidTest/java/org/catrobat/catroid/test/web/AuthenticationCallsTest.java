@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,8 +24,6 @@ package org.catrobat.catroid.test.web;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.runner.Flaky;
@@ -43,6 +41,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -84,7 +85,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 		testEmail = testUser + "@gmail.com";
 		String testPassword = "pwspws";
 		listenerMock = Mockito.mock(TaskListener.class);
-		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		authenticator = new ServerAuthenticator(testUser, testPassword, token, CatrobatWebClient.INSTANCE.getClient(),
 				BASE_URL_TEST_HTTPS, sharedPreferences, listenerMock);
 	}
@@ -200,7 +201,7 @@ public class AuthenticationCallsTest implements DeleteTestUserTask.OnDeleteTestU
 		verify(listenerMock, never()).onError(anyInt(), anyString());
 		verify(listenerMock, atLeastOnce()).onSuccess();
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 		assertTrue(new CatrobatServerCalls().checkToken(token, testUser, BASE_URL_TEST_HTTPS));
 	}

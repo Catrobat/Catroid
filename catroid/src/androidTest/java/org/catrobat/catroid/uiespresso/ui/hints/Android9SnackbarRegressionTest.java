@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,6 @@ package org.catrobat.catroid.uiespresso.ui.hints;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -48,14 +46,17 @@ import org.junit.runner.RunWith;
 import java.util.HashSet;
 import java.util.Set;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.hamcrest.core.AllOf.allOf;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class Android9SnackbarRegressionTest {
@@ -70,7 +71,7 @@ public class Android9SnackbarRegressionTest {
 
 	@Before
 	public void setUp() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		hintSetting = sharedPreferences
 				.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
 		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
@@ -86,7 +87,7 @@ public class Android9SnackbarRegressionTest {
 
 	@After
 	public void tearDown() {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		sharedPreferences.edit()
 				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, hintSetting)
@@ -98,14 +99,14 @@ public class Android9SnackbarRegressionTest {
 	@Test
 	public void snackbarTest() {
 		onView(isRoot()).perform(CustomActions.wait(200));
-		onView(allOf(withId(android.support.design.R.id.snackbar_text), withText(R.string.hint_objects)))
+		onView(allOf(withId(com.google.android.material.R.id.snackbar_text), withText(R.string.hint_objects)))
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(android.support.design.R.id.snackbar_action), withText(R.string.got_it)))
+		onView(allOf(withId(com.google.android.material.R.id.snackbar_action), withText(R.string.got_it)))
 				.check(matches(isDisplayed()));
 	}
 
 	public void createProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), getClass().getSimpleName());
+		Project project = new Project(ApplicationProvider.getApplicationContext(), getClass().getSimpleName());
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.test.content.messagecontainer;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.BroadcastScript;
@@ -44,6 +41,9 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -80,7 +80,7 @@ public class MessageContainerSaveStateTest {
 	}
 
 	private void createTestProjects() throws ProjectException {
-		Project project1 = new Project(InstrumentationRegistry.getTargetContext(), projectName1);
+		Project project1 = new Project(ApplicationProvider.getApplicationContext(), projectName1);
 
 		Sprite sprite1 = new SingleSprite("cat");
 		Script script1 = new StartScript();
@@ -97,7 +97,7 @@ public class MessageContainerSaveStateTest {
 		XstreamSerializer.getInstance().saveProject(project1);
 
 		ProjectManager.getInstance()
-				.loadProject(project1.getDirectory(), InstrumentationRegistry.getTargetContext());
+				.loadProject(project1.getDirectory(), ApplicationProvider.getApplicationContext());
 
 		ProjectManager.getInstance()
 				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());

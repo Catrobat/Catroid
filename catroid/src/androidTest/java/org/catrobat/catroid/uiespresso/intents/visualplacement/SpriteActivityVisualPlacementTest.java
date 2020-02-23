@@ -26,15 +26,12 @@ package org.catrobat.catroid.uiespresso.intents.visualplacement;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
-import android.support.test.espresso.intent.Intents;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.app.PlaceAtBrickTest;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import org.junit.After;
@@ -42,16 +39,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.content.bricks.Brick.BrickField.X_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
@@ -61,6 +50,17 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import static org.hamcrest.core.AllOf.allOf;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtra;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteActivityVisualPlacementTest {
@@ -86,7 +86,8 @@ public class SpriteActivityVisualPlacementTest {
 	@After
 	public void tearDown() throws Exception {
 		Intents.release();
-		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
+		baseActivityTestRule.finishActivity();
+		TestUtils.deleteProjects(SpriteActivityVisualPlacementTest.class.getSimpleName());
 	}
 
 	@Test
@@ -99,7 +100,7 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually)).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).perform(click());
 
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, XPOS)));
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, YPOS)));
@@ -118,7 +119,7 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withId(R.id.brick_place_at_edit_text_x)).perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually)).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).perform(click());
 
 		onView(withId(R.id.brick_place_at_edit_text_x)).check(matches(withText(XRETURN + " ")));
 		onView(withId(R.id.brick_place_at_edit_text_y)).check(matches(withText(YRETURN + " ")));
@@ -137,7 +138,7 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withText(R.string.brick_place_at)).perform(click());
-		onView(withText(R.string.brick_place_at_option_place_visually)).perform(click());
+		onView(withText(R.string.brick_option_place_visually)).perform(click());
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, 0)));
 		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, 0)));
 	}

@@ -23,12 +23,13 @@
 package org.catrobat.catroid.merge;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+
+import androidx.annotation.Nullable;
 
 public class NewProjectNameTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
 

@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment.rvutils;
 
-import android.support.test.espresso.ViewInteraction;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.uiespresso.util.wrappers.ViewInteractionWrapper;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
+import androidx.test.espresso.ViewInteraction;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 
 public class RecyclerViewItemInteractionWrapper extends ViewInteractionWrapper {
 	protected static int recyclerViewId = R.id.recycler_view;

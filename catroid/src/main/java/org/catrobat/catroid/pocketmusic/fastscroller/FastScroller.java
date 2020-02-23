@@ -26,9 +26,6 @@ package org.catrobat.catroid.pocketmusic.fastscroller;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +36,10 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.fastscroller.viewprovider.DefaultScrollerViewProvider;
 import org.catrobat.catroid.pocketmusic.fastscroller.viewprovider.ScrollerViewProvider;
 import org.catrobat.catroid.pocketmusic.ui.TactScrollRecyclerView;
+
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.widget.TextViewCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class FastScroller extends LinearLayout {
 

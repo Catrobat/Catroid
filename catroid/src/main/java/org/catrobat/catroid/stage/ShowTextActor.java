@@ -124,11 +124,12 @@ public class ShowTextActor extends Actor {
 			for (UserVariable variable : variableList) {
 				if (variable.getName().equals(variableToShow.getName())) {
 					String variableValue = variable.getValue().toString();
+					if (variableValue.isEmpty()) {
+						continue;
+					}
 					if (variable.getVisible()) {
 						if (isNumberAndInteger(variableValue)) {
 							drawText(batch, variableValueWithoutDecimal, xPosition, yPosition, color);
-						} else if (variableValue.isEmpty()) {
-							drawText(batch, Constants.NO_VALUE_SET, xPosition, yPosition, color);
 						} else {
 							drawText(batch, variableValue, xPosition, yPosition, color);
 						}

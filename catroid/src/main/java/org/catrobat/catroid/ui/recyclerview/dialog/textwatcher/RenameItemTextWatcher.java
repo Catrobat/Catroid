@@ -24,13 +24,14 @@
 package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 
 import java.util.List;
+
+import androidx.annotation.Nullable;
 
 public class RenameItemTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
 

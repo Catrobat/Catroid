@@ -24,8 +24,6 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.TextView;
 
@@ -134,6 +132,9 @@ import org.robolectric.annotation.Config;
 import java.util.Arrays;
 import java.util.Collection;
 
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
+
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
@@ -199,8 +200,6 @@ public class BrickSingleFormulaFieldTest {
 				{IfThenLogicBeginBrick.class.getSimpleName(), new IfThenLogicBeginBrick(), R.id.brick_if_begin_edit_text},
 
 				//Bricks with multiple formula fields:
-				{GlideToBrick.class.getSimpleName() + " x", new GlideToBrick(), R.id.brick_glide_to_edit_text_x},
-				{GlideToBrick.class.getSimpleName() + " y", new GlideToBrick(), R.id.brick_glide_to_edit_text_y},
 				{GlideToBrick.class.getSimpleName() + " duration", new GlideToBrick(), R.id.brick_glide_to_edit_text_duration},
 				{SetVelocityBrick.class.getSimpleName() + " x", new SetVelocityBrick(), R.id.brick_set_velocity_edit_text_x},
 				{SetVelocityBrick.class.getSimpleName() + " y", new SetVelocityBrick(), R.id.brick_set_velocity_edit_text_y},

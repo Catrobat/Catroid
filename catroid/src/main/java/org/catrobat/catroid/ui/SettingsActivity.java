@@ -24,11 +24,12 @@
 package org.catrobat.catroid.ui;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilitySettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+
+import androidx.appcompat.widget.Toolbar;
 
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfilesFragment.SETTINGS_FRAGMENT_INTENT_KEY;
 

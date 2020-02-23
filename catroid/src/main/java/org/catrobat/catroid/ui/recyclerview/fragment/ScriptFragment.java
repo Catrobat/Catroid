@@ -26,11 +26,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.IntDef;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -49,8 +44,8 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -73,6 +68,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.IntDef;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.ListFragment;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
@@ -493,8 +494,8 @@ public class ScriptFragment extends ListFragment implements
 			items.add(brick.isCommentedOut()
 					? R.string.brick_context_dialog_comment_in
 					: R.string.brick_context_dialog_comment_out);
-			if (brick instanceof PlaceAtBrick) {
-				items.add(R.string.brick_place_at_option_place_visually);
+			if (brick instanceof VisualPlacementBrick) {
+				items.add(R.string.brick_option_place_visually);
 			}
 			if (brick instanceof FormulaBrick) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
@@ -546,8 +547,10 @@ public class ScriptFragment extends ListFragment implements
 				}
 				adapter.notifyDataSetChanged();
 				break;
-			case R.string.brick_place_at_option_place_visually:
-				((PlaceAtBrick) brick).placeVisually();
+			case R.string.brick_option_place_visually:
+				VisualPlacementBrick visualPlacementBrick = (VisualPlacementBrick) brick;
+				visualPlacementBrick.placeVisually(visualPlacementBrick.getXBrickField(),
+						visualPlacementBrick.getYBrickField());
 				break;
 			case R.string.brick_context_dialog_formula_edit_brick:
 				((FormulaBrick) brick).onClick(listView);

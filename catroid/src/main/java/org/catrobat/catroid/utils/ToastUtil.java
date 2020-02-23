@@ -24,11 +24,12 @@ package org.catrobat.catroid.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.Toast;
 
 import org.catrobat.catroid.ui.UiUtils;
+
+import androidx.annotation.StringRes;
 
 public final class ToastUtil {
 

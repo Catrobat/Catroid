@@ -26,13 +26,15 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.catrobat.catroid.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 public final class TextInputDialog extends AlertDialog {
 

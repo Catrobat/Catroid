@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,14 +23,14 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.junit.Assert.assertFalse;
 
@@ -43,6 +43,6 @@ public class InvalidProjectSaveTaskTest {
 
 	@Test
 	public void invalidProjectSaveTaskTest() {
-		assertFalse(ProjectSaveTask.task(null, InstrumentationRegistry.getTargetContext()));
+		assertFalse(ProjectSaveTask.task(null, ApplicationProvider.getApplicationContext()));
 	}
 }

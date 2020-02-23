@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.embroidery;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import com.android.dex.util.FileUtils;
 
 import org.catrobat.catroid.ProjectManager;
@@ -44,6 +41,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -55,7 +56,7 @@ public class DSTFileGeneratorTest {
 
 	@Before
 	public void setUp() throws IOException {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		ProjectManager.getInstance().setCurrentProject(project);
 
 		dstFile = new File(Constants.CACHE_DIR, projectName + ".dst");
@@ -83,7 +84,7 @@ public class DSTFileGeneratorTest {
 		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
 		fileGenerator.writeToDSTFile(dstFile);
 
-		InputStream inputStream = InstrumentationRegistry.getContext().getResources().openRawResource(org.catrobat
+		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.sample_dst_file);
 		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIR, "sample_dst_file.dst");
 
@@ -121,7 +122,7 @@ public class DSTFileGeneratorTest {
 		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
 		fileGenerator.writeToDSTFile(dstFile);
 
-		InputStream inputStream = InstrumentationRegistry.getContext().getResources().openRawResource(org.catrobat
+		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getResources().openRawResource(org.catrobat
 				.catroid.test.R.raw.complex_sample_dst_file);
 		File compareFile = StorageOperations.copyStreamToDir(inputStream, Constants.CACHE_DIR,
 				"complex_sample_dst_file.dst");

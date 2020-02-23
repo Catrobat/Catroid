@@ -24,7 +24,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 import android.view.View;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
@@ -37,6 +36,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 

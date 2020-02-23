@@ -24,9 +24,6 @@ package org.catrobat.catroid.ui.dialogs;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AlertDialog;
 
 import com.google.common.collect.ImmutableMap;
 
@@ -37,6 +34,10 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.Map;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 
 public final class LegoSensorPortConfigDialog extends AlertDialog {
 

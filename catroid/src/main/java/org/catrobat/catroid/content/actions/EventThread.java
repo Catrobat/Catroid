@@ -23,14 +23,14 @@
 
 package org.catrobat.catroid.content.actions;
 
-import android.support.annotation.NonNull;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+
+import androidx.annotation.NonNull;
 
 public class EventThread extends ScriptSequenceAction {
 	private NotifyEventWaiterAction notifyAction;

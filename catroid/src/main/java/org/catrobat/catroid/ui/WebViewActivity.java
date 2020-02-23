@@ -27,13 +27,13 @@ import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.webkit.CookieManager;
@@ -48,10 +48,16 @@ import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.MediaDownloader;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.catroid.web.Cookie;
 import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
 import org.catrobat.catroid.web.ProjectDownloader;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
@@ -95,6 +101,7 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
 
+		setLoginCookies(url);
 		webView.loadUrl(url);
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
@@ -246,6 +253,29 @@ public class WebViewActivity extends AppCompatActivity {
 		String extension = contentDisposition.substring(extensionIndex);
 		extension = extension.substring(0, extension.length() - 1);
 		return extension;
+	}
+
+	public void setLoginCookies(String url) {
+		SharedPreferences sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
+		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
+
+		if (username.equals(Constants.NO_USERNAME) || token.equals(Constants.NO_TOKEN)) {
+			return;
+		}
+
+		String encodedUsername = null;
+		try {
+			encodedUsername = URLEncoder.encode(username, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
+
+		Cookie usernameCookie = new Cookie(Cookie.USERNAME_COOKIE, encodedUsername);
+		Cookie tokenCookie = new Cookie(Cookie.TOKEN_COOKIE, token);
+		CookieManager.getInstance().setCookie(url, usernameCookie.generateCookieString());
+		CookieManager.getInstance().setCookie(url, tokenCookie.generateCookieString());
 	}
 
 	public static void clearCookies() {
