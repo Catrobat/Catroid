@@ -23,18 +23,19 @@
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
 import android.graphics.Point;
-import android.support.test.espresso.PerformException;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.PrecisionDescriber;
-import android.support.test.espresso.action.Swiper;
-import android.support.test.espresso.util.HumanReadables;
 import android.view.View;
 import android.view.ViewConfiguration;
 
 import org.hamcrest.Matcher;
 
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
+import androidx.test.espresso.PerformException;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.PrecisionDescriber;
+import androidx.test.espresso.action.Swiper;
+import androidx.test.espresso.util.HumanReadables;
+
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 
 public final class CustomSwipeAction implements ViewAction {
 

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.io;
 
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -48,6 +47,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+
+import androidx.annotation.VisibleForTesting;
 
 public abstract class DeviceUserDataAccessor {
 

@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.content.sprite;
 
-import android.support.annotation.IdRes;
-
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.SingleSprite;
 import org.junit.Test;
@@ -32,6 +30,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
 import java.util.Arrays;
+
+import androidx.annotation.IdRes;
 
 import static junit.framework.Assert.assertEquals;
 

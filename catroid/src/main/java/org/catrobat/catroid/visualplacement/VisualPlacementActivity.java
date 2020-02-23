@@ -35,8 +35,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +56,9 @@ import org.catrobat.catroid.ui.BaseCastActivity;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 import static android.content.DialogInterface.BUTTON_NEGATIVE;
 import static android.content.DialogInterface.BUTTON_POSITIVE;
@@ -139,7 +140,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		Toolbar toolbar = findViewById(R.id.transparent_toolbar);
 		setSupportActionBar(toolbar);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setTitle(R.string.brick_place_at_option_place_visually);
+		getSupportActionBar().setTitle(R.string.brick_option_place_visually);
 
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, currentProject.getName());
 		File sceneDir = new File(projectDir, currentlyPlayingScene.getName());

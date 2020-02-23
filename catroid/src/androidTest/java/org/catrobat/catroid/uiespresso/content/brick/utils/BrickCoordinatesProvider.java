@@ -23,9 +23,10 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.utils;
 
-import android.support.test.espresso.action.CoordinatesProvider;
 import android.util.Log;
 import android.view.View;
+
+import androidx.test.espresso.action.CoordinatesProvider;
 
 public enum BrickCoordinatesProvider implements CoordinatesProvider{
 	UPPER_LEFT_CORNER {

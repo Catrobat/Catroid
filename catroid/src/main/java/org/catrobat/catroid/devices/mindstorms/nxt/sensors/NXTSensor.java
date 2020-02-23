@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.devices.mindstorms.nxt.sensors;
 
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.devices.mindstorms.LegoSensor;
@@ -35,6 +34,8 @@ import org.catrobat.catroid.devices.mindstorms.nxt.NXTError;
 import org.catrobat.catroid.devices.mindstorms.nxt.NXTReply;
 
 import java.util.Locale;
+
+import androidx.annotation.VisibleForTesting;
 
 public abstract class NXTSensor implements LegoSensor {
 

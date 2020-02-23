@@ -26,7 +26,6 @@ package org.catrobat.catroid.stage;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
@@ -35,6 +34,8 @@ import org.catrobat.catroid.content.bricks.Brick;
 
 import java.io.File;
 import java.util.HashMap;
+
+import androidx.appcompat.app.AlertDialog;
 
 public final class TextToSpeechHolder {
 

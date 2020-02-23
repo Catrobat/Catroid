@@ -25,7 +25,6 @@ package org.catrobat.catroid.pocketmusic.note.trackgrid;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.support.v4.util.SparseArrayCompat;
 import android.util.Log;
 
 import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
@@ -42,6 +41,8 @@ import org.catrobat.catroid.pocketmusic.ui.TrackRowView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.collection.SparseArrayCompat;
 
 public class TrackGrid {
 

@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
@@ -38,29 +36,28 @@ import org.junit.runners.Parameterized;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.formulaeditor.InternTokenType.FUNCTION_NAME;
 
 @RunWith(Parameterized.class)
-public class SelectInternTokenTestFunctionWithOneParameter {
+public class SelectInternTokenFunctionWithTwoParametersTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{Functions.SIN.name(), new InternToken(FUNCTION_NAME, Functions.SIN.name())},
-				{Functions.COS.name(), new InternToken(FUNCTION_NAME, Functions.COS.name())},
-				{Functions.TAN.name(), new InternToken(FUNCTION_NAME, Functions.TAN.name())},
-				{Functions.LOG.name(), new InternToken(FUNCTION_NAME, Functions.LOG.name())},
-				{Functions.SQRT.name(), new InternToken(FUNCTION_NAME, Functions.SQRT.name())},
-				{Functions.ABS.name(), new InternToken(FUNCTION_NAME, Functions.ABS.name())},
-				{Functions.ROUND.name(), new InternToken(FUNCTION_NAME, Functions.ROUND.name())},
-				{Functions.ARCSIN.name(), new InternToken(FUNCTION_NAME, Functions.ARCSIN.name())},
-				{Functions.ARCCOS.name(), new InternToken(FUNCTION_NAME, Functions.ARCCOS.name())},
-				{Functions.ARCTAN.name(), new InternToken(FUNCTION_NAME, Functions.ARCTAN.name())},
-				{Functions.LENGTH.name(), new InternToken(FUNCTION_NAME, Functions.LENGTH.name())},
+				{Functions.RAND.name(), new InternToken(FUNCTION_NAME, Functions.RAND.name())},
+				{Functions.MOD.name(), new InternToken(FUNCTION_NAME, Functions.MOD.name())},
+				{Functions.POWER.name(), new InternToken(FUNCTION_NAME, Functions.POWER.name())},
+				{Functions.MAX.name(), new InternToken(FUNCTION_NAME, Functions.MAX.name())},
+				{Functions.MIN.name(), new InternToken(FUNCTION_NAME, Functions.MIN.name())},
 				{Functions.LETTER.name(), new InternToken(FUNCTION_NAME, Functions.LETTER.name())},
-				{Functions.NUMBER_OF_ITEMS.name(), new InternToken(FUNCTION_NAME, Functions.NUMBER_OF_ITEMS.name())},
+				{Functions.JOIN.name(), new InternToken(FUNCTION_NAME, Functions.JOIN.name())},
+				{Functions.REGEX.name(), new InternToken(FUNCTION_NAME, Functions.REGEX.name())},
+				{Functions.LIST_ITEM.name(), new InternToken(FUNCTION_NAME, Functions.LIST_ITEM.name())},
+				{Functions.CONTAINS.name(), new InternToken(FUNCTION_NAME, Functions.CONTAINS.name())},
 		});
 	}
 
@@ -79,37 +76,39 @@ public class SelectInternTokenTestFunctionWithOneParameter {
 		internTokens.add(functionToken);
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "0"));
+		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		internTokens.add(new InternToken(InternTokenType.STRING, "A"));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 
-		functionName = InstrumentationRegistry.getTargetContext().getResources()
+		functionName = ApplicationProvider.getApplicationContext().getResources()
 				.getString(InternToExternGenerator.getMappedString(functionToken.getTokenStringValue()));
 	}
 
 	@Test
 	public void testSelectFunctionNameBegin() {
 		internFormula.setCursorAndSelection(0, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
 	}
 
 	@Test
 	public void testSelectFunctionNameMiddle() {
 		internFormula.setCursorAndSelection(functionName.length() / 2, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
 	}
 
 	@Test
 	public void testSelectFunctionNameEnd() {
 		internFormula.setCursorAndSelection(functionName.length(), true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
 	}
 
 	@Test
 	public void testSelectBracketOpen() {
 		internFormula.setCursorAndSelection(functionName.length() + 1, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
 	}
 
 	@Test
@@ -121,9 +120,36 @@ public class SelectInternTokenTestFunctionWithOneParameter {
 	}
 
 	@Test
-	public void testSelectStringParameterEnd() {
+	public void testSelectDelimiter() {
 		internFormula.setCursorAndSelection(functionName.length() + 4, true);
-		assertInternFormulaSelectionIndices(0, 3, internFormula);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
+		internFormula.setCursorAndSelection(functionName.length() + 5, true);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
+	}
+
+	@Test
+	public void testSelectStringParameterBegin() {
+		internFormula.setCursorAndSelection(functionName.length() + 6, true);
+		assertInternFormulaSelectionIndices(4, 4, internFormula);
+	}
+	@Test
+	public void testSelectStringParameterMiddle() {
+		internFormula.setCursorAndSelection(functionName.length() + 8, true);
+		assertInternFormulaSelectionIndices(4, 4, internFormula);
+	}
+
+	@Test
+	public void testSelectStringParameterEnd() {
+		internFormula.setCursorAndSelection(functionName.length() + 9, true);
+		assertInternFormulaSelectionIndices(4, 4, internFormula);
+	}
+
+	@Test
+	public void testSelectBracketClose() {
+		internFormula.setCursorAndSelection(functionName.length() + 10, true);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
+		internFormula.setCursorAndSelection(functionName.length() + 12, true);
+		assertInternFormulaSelectionIndices(0, 5, internFormula);
 	}
 
 	private void assertInternFormulaSelectionIndices(int expectedStartIndex, int expectedEndIndex, InternFormula internFormula) {

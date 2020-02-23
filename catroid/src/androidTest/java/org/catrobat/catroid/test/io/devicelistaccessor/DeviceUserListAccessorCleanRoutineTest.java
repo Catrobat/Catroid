@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.test.io.devicelistaccessor;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
@@ -44,6 +41,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -87,7 +87,7 @@ public class DeviceUserListAccessorCleanRoutineTest {
 
 	private Project createProject() {
 		Project project = new Project();
-		directory = new File(InstrumentationRegistry.getTargetContext().getCacheDir(), "DeviceValues");
+		directory = new File(ApplicationProvider.getApplicationContext().getCacheDir(), "DeviceValues");
 		directory.mkdir();
 		project.setDirectory(directory);
 		project.setName("__project__");

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,8 +22,6 @@
  */
 
 package org.catrobat.catroid.uiespresso.stage;
-
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -56,11 +54,13 @@ import org.junit.experimental.categories.Category;
 import java.util.LinkedList;
 import java.util.List;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.matcher.ViewMatchers.isFocusable;
-import static android.support.test.espresso.matcher.ViewMatchers.isRoot;
+import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
 public class StartStageTouchTest {
@@ -88,7 +88,7 @@ public class StartStageTouchTest {
 
 	private void createProject() {
 		String projectName = getClass().getSimpleName();
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		String scene2Name = "Scene2";
 		Scene scene2 = new Scene(scene2Name, project);

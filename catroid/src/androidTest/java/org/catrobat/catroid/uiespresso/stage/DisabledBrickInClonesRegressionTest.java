@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,6 @@
  */
 
 package org.catrobat.catroid.uiespresso.stage;
-
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -48,6 +45,9 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 
 @RunWith(AndroidJUnit4.class)
@@ -68,7 +68,7 @@ public class DisabledBrickInClonesRegressionTest {
 	}
 
 	private void createProject() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(),
+		Project project = new Project(ApplicationProvider.getApplicationContext(),
 				"DisabledBrickInClonesRegressionTest");
 		Sprite sprite = new Sprite("someSprite");
 

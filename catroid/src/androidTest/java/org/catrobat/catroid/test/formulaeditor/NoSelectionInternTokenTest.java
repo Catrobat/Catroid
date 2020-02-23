@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
@@ -38,6 +36,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static org.junit.Assert.assertNull;
 
@@ -60,20 +60,20 @@ public class NoSelectionInternTokenTest {
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE),
 						new InternToken(InternTokenType.NUMBER, "42.42")},
-						InstrumentationRegistry.getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
 								.length() + 4},
 				{"Select SIN Bracket OPEN", new InternToken[]{
 						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
 						new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER),
 						new InternToken(InternTokenType.NUMBER, "42.42")},
-						InstrumentationRegistry.getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
 								.length() + 2},
 				{"Select SIN name end", new InternToken[]{
 						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN),
 						new InternToken(InternTokenType.NUMBER, "42.42")},
-						InstrumentationRegistry.getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
 								.length()},
 				{"Select SIN name begin", new InternToken[]{
 						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
@@ -98,7 +98,7 @@ public class NoSelectionInternTokenTest {
 	public void setUp() {
 		ArrayList<InternToken> internTokens = new ArrayList<>(Arrays.asList(initialTokens));
 		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		internFormula.setCursorAndSelection(externCursorPosition, true);
 	}
 

@@ -23,15 +23,16 @@
 
 package org.catrobat.catroid.uiespresso.stage.utils;
 
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.MotionEvents;
 import android.view.MotionEvent;
 import android.view.View;
 
 import org.hamcrest.Matcher;
 
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.action.MotionEvents;
+
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 public final class StageTestTouchUtils {
 	private StageTestTouchUtils() {

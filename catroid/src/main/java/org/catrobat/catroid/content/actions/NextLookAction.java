@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.content.actions;
 
-import android.support.annotation.IntDef;
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
@@ -35,6 +33,8 @@ import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 public class NextLookAction extends TemporalAction {
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.io.asynctask;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
@@ -39,6 +36,9 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertTrue;
@@ -65,11 +65,11 @@ public class ProjectUnzipAndImportTaskTest {
 		CACHE_DIR.mkdir();
 
 		String assetName = "Air_fight_0.5.catrobat";
-		InputStream inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
+		InputStream inputStream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
 		projectAirFightFile = StorageOperations.copyStreamToDir(inputStream, CACHE_DIR, assetName);
 
 		assetName = "Falling_balls.catrobat";
-		inputStream = InstrumentationRegistry.getContext().getAssets().open(assetName);
+		inputStream = InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(assetName);
 		projectFallingBallsFile = StorageOperations.copyStreamToDir(inputStream, CACHE_DIR, assetName);
 	}
 

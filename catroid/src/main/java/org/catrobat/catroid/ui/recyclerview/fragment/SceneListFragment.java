@@ -24,8 +24,6 @@
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
-import android.support.annotation.PluralsRes;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 
@@ -44,6 +42,9 @@ import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.IOException;
 import java.util.List;
+
+import androidx.annotation.PluralsRes;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SCENES_PREFERENCE_KEY;

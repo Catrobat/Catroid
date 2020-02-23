@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.stage;
 
-import android.support.annotation.IdRes;
-import android.support.test.InstrumentationRegistry;
-
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 
@@ -39,6 +36,9 @@ import org.junit.runners.Parameterized;
 import org.mockito.Mockito;
 
 import java.util.Arrays;
+
+import androidx.annotation.IdRes;
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -81,7 +81,7 @@ public class DrawAxesTest {
 
 	@Before
 	public void setUp() throws Exception {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "Project");
+		project = new Project(ApplicationProvider.getApplicationContext(), "Project");
 		ProjectManager.getInstance().setCurrentProject(project);
 		project.getXmlHeader().setVirtualScreenHeight(projectLayoutHeight);
 		project.getXmlHeader().setVirtualScreenWidth(projectLayoutWidth);
