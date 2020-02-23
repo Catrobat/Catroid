@@ -34,10 +34,13 @@ public class StitchAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
+		sprite.runningStitch.pause();
 		float x = sprite.look.getXInUserInterfaceDimensionUnit();
 		float y = sprite.look.getYInUserInterfaceDimensionUnit();
 		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
 				sprite.look.getZIndex(), sprite));
+		sprite.runningStitch.setStartCoordinates(x, y);
+		sprite.runningStitch.resume();
 	}
 
 	public void setSprite(Sprite sprite) {

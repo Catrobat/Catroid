@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormula;
@@ -38,6 +36,8 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -80,7 +80,7 @@ public class DeleteInternTokenTest {
 						new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()),
 						new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN, Operators.PLUS.name()),
 						new InternToken(InternTokenType.NUMBER, "42.42")},
-						InstrumentationRegistry.getTargetContext().getResources().getString(R.string.formula_editor_function_sin)
+						ApplicationProvider.getApplicationContext().getResources().getString(R.string.formula_editor_function_sin)
 								.length(), "sine( 42.42 "},
 		});
 	}
@@ -103,15 +103,15 @@ public class DeleteInternTokenTest {
 	public void setUp() {
 		ArrayList<InternToken> internTokens = new ArrayList<>(Arrays.asList(initialTokens));
 		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		internFormula.setCursorAndSelection(0, false);
 	}
 
 	@Test
 	public void testExternFormulaString() {
 		internFormula.externCursorPosition = externCursorPosition;
-		internFormula.handleKeyInput(R.id.formula_editor_keyboard_delete, InstrumentationRegistry.getTargetContext(), null);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.handleKeyInput(R.id.formula_editor_keyboard_delete, ApplicationProvider.getApplicationContext(), null);
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		assertEquals(expectedFormulaString, internFormula.getExternFormulaString());
 	}
 }

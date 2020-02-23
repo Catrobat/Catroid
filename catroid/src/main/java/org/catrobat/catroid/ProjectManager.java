@@ -23,7 +23,6 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
-import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
@@ -63,6 +62,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import androidx.annotation.VisibleForTesting;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;

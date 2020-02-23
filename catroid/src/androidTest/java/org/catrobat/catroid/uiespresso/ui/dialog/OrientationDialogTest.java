@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,6 @@ package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -42,21 +40,24 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNot.not;
+
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class OrientationDialogTest {
@@ -71,7 +72,7 @@ public class OrientationDialogTest {
 	@Before
 	public void setUp() throws Exception {
 		SharedPreferences sharedPreferences = PreferenceManager
-				.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 
 		bufferedChromeCastSetting = sharedPreferences
 				.getBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, false);
@@ -79,7 +80,7 @@ public class OrientationDialogTest {
 		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, true)
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
@@ -92,7 +93,7 @@ public class OrientationDialogTest {
 
 	@After
 	public void tearDown() {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, bufferedChromeCastSetting)
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,

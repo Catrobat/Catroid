@@ -24,13 +24,14 @@
 package org.catrobat.catroid.pocketmusic.fastscroller.viewprovider;
 
 import android.graphics.drawable.InsetDrawable;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
+
+import androidx.core.content.ContextCompat;
 
 public class DefaultScrollerViewProvider extends ScrollerViewProvider {
 

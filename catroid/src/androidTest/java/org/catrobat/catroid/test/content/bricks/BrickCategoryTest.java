@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.bricks;
 
 import android.content.Context;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -128,6 +127,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -163,10 +163,12 @@ import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
+import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
@@ -187,6 +189,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -197,6 +200,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -232,7 +237,11 @@ public class BrickCategoryTest {
 						SetMassBrick.class,
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
-				{"Embroidery", Arrays.asList(StitchBrick.class)},
+				{"Embroidery", Arrays.asList(StitchBrick.class,
+						RunningStitchBrick.class,
+						ZigZagStitchBrick.class,
+						TripleStitchBrick.class,
+						StopRunningStitchBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
@@ -387,9 +396,9 @@ public class BrickCategoryTest {
 
 	@Before
 	public void setUp() throws Exception {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit().clear().commit();
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit().clear().commit();
 
-		createProject(InstrumentationRegistry.getTargetContext());
+		createProject(ApplicationProvider.getApplicationContext());
 
 		categoryBricksFactory = new CategoryBricksFactory();
 	}
@@ -409,7 +418,7 @@ public class BrickCategoryTest {
 	@Test
 	public void testBrickCategory() {
 		List<Brick> categoryBricks = categoryBricksFactory.getBricks(category, false,
-				InstrumentationRegistry.getTargetContext());
+				ApplicationProvider.getApplicationContext());
 
 		List<Class> brickClasses = new ArrayList<>();
 		for (Brick brick : categoryBricks) {

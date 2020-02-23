@@ -27,14 +27,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.support.test.runner.AndroidJUnit4;
-import android.support.v4.util.Pair;
 
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import androidx.core.util.Pair;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

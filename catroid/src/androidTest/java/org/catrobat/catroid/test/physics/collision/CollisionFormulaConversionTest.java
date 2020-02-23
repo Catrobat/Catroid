@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,8 +26,6 @@ package org.catrobat.catroid.test.physics.collision;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
@@ -52,6 +50,10 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 import java.util.Locale;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+
 import static junit.framework.Assert.assertEquals;
 
 import static org.hamcrest.Matchers.instanceOf;
@@ -66,7 +68,7 @@ public class CollisionFormulaConversionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
+		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
 		projectManager = ProjectManager.getInstance();
 	}
 
@@ -74,7 +76,7 @@ public class CollisionFormulaConversionTest {
 	public void tearDown() throws Exception {
 		projectManager.setCurrentProject(null);
 		TestUtils.deleteProjects(COLLISION_TEST_PROJECT);
-		TestUtils.removeFromPreferences(InstrumentationRegistry.getContext(), Constants.PREF_PROJECTNAME_KEY);
+		TestUtils.removeFromPreferences(InstrumentationRegistry.getInstrumentation().getContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
 	@Test
@@ -85,7 +87,7 @@ public class CollisionFormulaConversionTest {
 		String collisionTag = CatroidApplication.getAppContext().getString(R.string
 				.formula_editor_function_collision);
 		Project project = createProjectWithOldCollisionFormulas(COLLISION_TEST_PROJECT,
-				InstrumentationRegistry.getTargetContext(),
+				ApplicationProvider.getApplicationContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 
 		ProjectManager.updateCollisionFormulasTo993(project);
@@ -96,8 +98,8 @@ public class CollisionFormulaConversionTest {
 		assertThat(brick, is(instanceOf(FormulaBrick.class)));
 
 		FormulaBrick formulaBrick = (FormulaBrick) brick;
-		String newFormula = formulaBrick.getFormulas().get(0).getTrimmedFormulaString(InstrumentationRegistry
-				.getTargetContext());
+		String newFormula =
+				formulaBrick.getFormulas().get(0).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
 		String expected = collisionTag + "(" + thirdSpriteName + ") ";
 		assertEquals(expected, newFormula);
 
@@ -124,7 +126,7 @@ public class CollisionFormulaConversionTest {
 				.formula_editor_function_collision);
 
 		Project project = createProjectWithOldCollisionFormulas(COLLISION_TEST_PROJECT,
-				InstrumentationRegistry.getTargetContext(),
+				ApplicationProvider.getApplicationContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 
 		ProjectManager.updateCollisionFormulasTo993(project);
@@ -135,8 +137,8 @@ public class CollisionFormulaConversionTest {
 		assertThat(brick, is(instanceOf(FormulaBrick.class)));
 
 		FormulaBrick formulaBrick = (FormulaBrick) brick;
-		String newFormula = formulaBrick.getFormulas().get(0).getTrimmedFormulaString(InstrumentationRegistry
-				.getTargetContext());
+		String newFormula =
+				formulaBrick.getFormulas().get(0).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
 		String expected = collisionTag + "(" + thirdSpriteName + ") ";
 		assertEquals(expected, newFormula);
 

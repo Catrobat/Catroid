@@ -123,6 +123,7 @@ import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -152,9 +153,11 @@ import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
+import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
+import org.catrobat.catroid.content.actions.TripleStitchAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
@@ -165,6 +168,7 @@ import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
+import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
 import org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick;
@@ -853,6 +857,34 @@ public class ActionFactory extends Actions {
 
 	public static Action createStitchAction(Sprite sprite) {
 		StitchAction action = Actions.action(StitchAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createRunningStitchAction(Sprite sprite, Formula length) {
+		RunningStitchAction action = Actions.action(RunningStitchAction.class);
+		action.setSprite(sprite);
+		action.setLength(length);
+		return action;
+	}
+
+	public Action createTripleStitchAction(Sprite sprite, Formula steps) {
+		TripleStitchAction action = Actions.action(TripleStitchAction.class);
+		action.setSprite(sprite);
+		action.setSteps(steps);
+		return action;
+	}
+
+	public Action createZigZagStitchAction(Sprite sprite, Formula length, Formula width) {
+		ZigZagStitchAction action = Actions.action(ZigZagStitchAction.class);
+		action.setSprite(sprite);
+		action.setLength(length);
+		action.setWidth(width);
+		return action;
+	}
+
+	public static Action createStopRunningStitchAction(Sprite sprite) {
+		StopRunningStitchAction action = Actions.action(StopRunningStitchAction.class);
 		action.setSprite(sprite);
 		return action;
 	}

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,8 @@ import org.catrobat.catroid.pocketmusic.note.NoteName;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.core.content.ContextCompat;
 
 public class PianoView extends ViewGroup {
 

@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.facedetection;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.facedetection.FaceDetector;
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent;
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener;
@@ -35,6 +33,8 @@ import org.mockito.Captor;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
 

@@ -24,8 +24,6 @@ package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -43,6 +41,9 @@ import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormula {
 

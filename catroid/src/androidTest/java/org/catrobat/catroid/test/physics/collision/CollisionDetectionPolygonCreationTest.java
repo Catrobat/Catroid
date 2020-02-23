@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.physics.collision;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
@@ -41,6 +38,10 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -59,7 +60,7 @@ public class CollisionDetectionPolygonCreationTest {
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects();
 
-		project = new Project(InstrumentationRegistry.getTargetContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
+		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
@@ -71,7 +72,7 @@ public class CollisionDetectionPolygonCreationTest {
 		String hashedFileName = PhysicsTestUtils.getInternalImageFilenameFromFilename(filename);
 
 		File file = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				resourceId,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				hashedFileName,

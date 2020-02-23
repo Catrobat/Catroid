@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.test.drone;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
@@ -52,10 +50,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import static org.mockito.Mockito.when;
 
 @RunWith(AndroidJUnit4.class)
-public class DroneBricksActionTests {
+public class DroneBricksActionTest {
 
 	private DroneControlService droneControlService;
 	private DroneConfig droneConfig;
@@ -66,7 +66,7 @@ public class DroneBricksActionTests {
 	private int powerInPercent;
 	private int durationInSeconds;
 
-	public DroneBricksActionTests() {
+	public DroneBricksActionTest() {
 		powerInPercent = 20;
 		durationInSeconds = 2;
 	}

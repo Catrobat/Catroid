@@ -26,14 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.PluralsRes;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -59,6 +51,15 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.PluralsRes;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements
 		ActionMode.Callback,

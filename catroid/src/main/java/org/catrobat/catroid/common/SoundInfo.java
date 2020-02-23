@@ -22,8 +22,6 @@
  */
 package org.catrobat.catroid.common;
 
-import android.support.annotation.NonNull;
-
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.io.StorageOperations;
@@ -31,6 +29,8 @@ import org.catrobat.catroid.io.StorageOperations;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+
+import androidx.annotation.NonNull;
 
 public class SoundInfo implements Cloneable, Nameable, Serializable {
 

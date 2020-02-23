@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.support.annotation.IntDef;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -36,6 +35,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.List;
+
+import androidx.annotation.IntDef;
 
 public interface Brick extends Serializable, Cloneable {
 
@@ -71,6 +72,8 @@ public interface Brick extends Serializable, Cloneable {
 		ARDUINO_ANALOG_PIN_VALUE, ARDUINO_ANALOG_PIN_NUMBER, ARDUINO_DIGITAL_PIN_VALUE, ARDUINO_DIGITAL_PIN_NUMBER,
 
 		RASPI_DIGITAL_PIN_VALUE, RASPI_DIGITAL_PIN_NUMBER, RASPI_PWM_PERCENTAGE, RASPI_PWM_FREQUENCY,
+
+		EMBROIDERY_LENGTH, ZIGZAG_EMBROIDERY_LENGTH, ZIGZAG_EMBROIDERY_WIDTH,
 
 		ASSERT_EQUALS_EXPECTED, ASSERT_EQUALS_ACTUAL;
 

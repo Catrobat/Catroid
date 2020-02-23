@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +42,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.IntDef;
 
 public class MultiViewSpriteAdapter extends SpriteAdapter {
 

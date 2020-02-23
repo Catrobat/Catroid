@@ -26,9 +26,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +40,10 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 

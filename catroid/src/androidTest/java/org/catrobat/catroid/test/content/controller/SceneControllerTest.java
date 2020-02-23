@@ -23,9 +23,6 @@
 
 package org.catrobat.catroid.test.content.controller;
 
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
@@ -49,6 +46,10 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
@@ -230,7 +231,7 @@ public class SceneControllerTest {
 	}
 
 	private void createProject() throws IOException {
-		project = new Project(InstrumentationRegistry.getTargetContext(), "SpriteControllerTest");
+		project = new Project(ApplicationProvider.getApplicationContext(), "SpriteControllerTest");
 		scene = project.getDefaultScene();
 		ProjectManager.getInstance().setCurrentProject(project);
 
@@ -250,7 +251,7 @@ public class SceneControllerTest {
 		XstreamSerializer.getInstance().saveProject(project);
 
 		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.red_image,
 				new File(project.getDefaultScene().getDirectory(), IMAGE_DIRECTORY_NAME),
 				"red_image.png",
@@ -259,7 +260,7 @@ public class SceneControllerTest {
 		sprite.getLookList().add(new LookData("testLook", imageFile));
 
 		File soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getContext().getResources(),
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
 				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
 				"longsound.mp3");

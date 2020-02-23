@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,9 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
-import android.support.annotation.IdRes;
-import android.support.test.InstrumentationRegistry;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternToken;
@@ -37,6 +34,9 @@ import org.junit.runners.Parameterized;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.annotation.IdRes;
+import androidx.test.core.app.ApplicationProvider;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -98,9 +98,9 @@ public class InternTokenInsertTokenTest {
 	public void setUp() {
 		internTokens = new ArrayList<>(Arrays.asList(initialTokens));
 		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(InstrumentationRegistry.getTargetContext());
+		internFormula.generateExternFormulaStringAndInternExternMapping(ApplicationProvider.getApplicationContext());
 		internFormula.setCursorAndSelection(externCursorPosition, false);
-		internFormula.handleKeyInput(keyInputId, InstrumentationRegistry.getTargetContext(), null);
+		internFormula.handleKeyInput(keyInputId, ApplicationProvider.getApplicationContext(), null);
 	}
 
 	@Test

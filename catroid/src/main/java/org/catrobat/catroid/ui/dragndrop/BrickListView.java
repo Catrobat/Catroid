@@ -30,8 +30,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +40,9 @@ import org.catrobat.catroid.content.bricks.Brick;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 import static android.animation.ValueAnimator.REVERSE;
 import static android.view.MotionEvent.ACTION_CANCEL;

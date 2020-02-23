@@ -24,7 +24,6 @@
 package org.catrobat.catroid.uiespresso.ui.regression.activitydestroy;
 
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -48,11 +47,14 @@ import org.junit.experimental.categories.Category;
 
 import java.io.IOException;
 
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
 public class LegoConfigDialogActivityRecreationRegressionTest {
@@ -72,14 +74,14 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript(getClass().getSimpleName());
 		script.addBrick(new ChangeSizeByNBrick(0));
 
-		nxtSettingBuffer = PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext())
+		nxtSettingBuffer = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.getBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, false);
 
 		setNXTBrickSetting(true);
 
-		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(InstrumentationRegistry.getTargetContext());
+		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(),
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(),
 				new NXTSensor.Sensor[] {
 						NXTSensor.Sensor.NO_SENSOR,
 						NXTSensor.Sensor.NO_SENSOR,
@@ -109,13 +111,13 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		setNXTBrickSetting(nxtSettingBuffer);
 
 		SettingsFragment
-				.setLegoMindstormsNXTSensorMapping(InstrumentationRegistry.getTargetContext(), sensorMappingBuffer);
+				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMappingBuffer);
 
 		TestUtils.deleteProjects(getClass().getSimpleName());
 	}
 
 	private void setNXTBrickSetting(boolean bricksEnabled) {
-		PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext()).edit()
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
 				.putBoolean(SettingsFragment.SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, bricksEnabled)
 				.commit();
 	}

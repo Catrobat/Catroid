@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,6 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.intent.Intents;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -43,7 +40,6 @@ import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
-import org.catrobat.catroid.uiespresso.content.brick.app.PlaceAtBrickTest;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -52,18 +48,23 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.intent.Intents.intended;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
+
+import static androidx.test.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.anyIntent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectActivityTest {
@@ -77,7 +78,7 @@ public class ProjectActivityTest {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(InstrumentationRegistry.getTargetContext(), PROJECT_NAME);
+		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
 		Sprite firstSprite = new SingleSprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -88,7 +89,7 @@ public class ProjectActivityTest {
 	@After
 	public void tearDown() throws Exception {
 		Intents.release();
-		TestUtils.deleteProjects(PlaceAtBrickTest.class.getSimpleName());
+		TestUtils.deleteProjects(PROJECT_NAME);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -123,6 +124,6 @@ public class ProjectActivityTest {
 	}
 
 	private SharedPreferences getDefaultSharedPreferences() {
-		return PreferenceManager.getDefaultSharedPreferences(InstrumentationRegistry.getTargetContext());
+		return PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 	}
 }

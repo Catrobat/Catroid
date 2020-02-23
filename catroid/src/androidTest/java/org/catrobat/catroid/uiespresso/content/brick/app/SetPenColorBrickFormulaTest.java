@@ -39,16 +39,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(Parameterized.class)
 public class SetPenColorBrickFormulaTest {
