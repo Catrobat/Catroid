@@ -31,6 +31,10 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.assertTrue;
+
+import static org.junit.Assert.assertFalse;
 
 @RunWith(JUnit4.class)
 public class StringFinderTest {
@@ -48,12 +52,25 @@ public class StringFinderTest {
 			+ "Where the fear has gone there will be nothing. Only I will remain.\n";
 
 	@Test
+	public void testMatchBetweenWithNullParams() {
+		String start = null;
+		String end = null;
+		StringFinder stringFinder = new StringFinder();
+
+		exception.expect(IllegalArgumentException.class);
+		exception.expectMessage("Input parameters must not be null : string = null start = null end = null");
+		stringFinder.findBetween(null, start, end);
+		exception.expectMessage("You must call findBetween(String string, String start, String end) first.");
+		assertNull(stringFinder.getResult());
+	}
+
+	@Test
 	public void testMatchBetween() {
 		String start = "find";
 		String end = "of";
 
 		StringFinder stringFinder = new StringFinder();
-		stringFinder.findBetween(singleLine, start, end);
+		assertTrue(stringFinder.findBetween(singleLine, start, end));
 		assertEquals(" a more wretched hive ", stringFinder.getResult());
 	}
 
@@ -63,7 +80,7 @@ public class StringFinderTest {
 		String end = "\nFear is the little-death that brings total obliteration.";
 
 		StringFinder stringFinder = new StringFinder();
-		stringFinder.findBetween(multiLine, start, end);
+		assertTrue(stringFinder.findBetween(multiLine, start, end));
 		assertEquals("Fear is the mind-killer.", stringFinder.getResult());
 	}
 
@@ -73,7 +90,7 @@ public class StringFinderTest {
 		String end = "I will face my fear.";
 
 		StringFinder stringFinder = new StringFinder();
-		stringFinder.findBetween(multiLine, start, end);
+		assertTrue(stringFinder.findBetween(multiLine, start, end));
 		assertEquals(" is the mind-killer.\n"
 				+ "Fear is the little-death that brings total obliteration.\n", stringFinder.getResult());
 	}
@@ -84,7 +101,7 @@ public class StringFinderTest {
 		String end = StringFinder.encodeSpecialChars(".");
 
 		StringFinder stringFinder = new StringFinder();
-		stringFinder.findBetween(singleLine, start, end);
+		assertTrue(stringFinder.findBetween(singleLine, start, end));
 		assertEquals(" a more wretched hive of scum and villainy", stringFinder.getResult());
 	}
 
@@ -94,8 +111,8 @@ public class StringFinderTest {
 		String end = "I won't be found";
 
 		StringFinder stringFinder = new StringFinder();
-		stringFinder.findBetween(singleLine, start, end);
-		assertEquals(null, stringFinder.getResult());
+		assertFalse(stringFinder.findBetween(singleLine, start, end));
+		assertNull(stringFinder.getResult());
 	}
 
 	@Test

@@ -36,18 +36,23 @@ public class StringFinder {
 	}
 
 	public boolean findBetween(String string, String start, String end) {
-		Pattern pattern = Pattern.compile(start + "(.*?)" + end, Pattern.DOTALL);
-		Matcher matcher = pattern.matcher(string);
+		if (string != null) {
+			Pattern pattern = Pattern.compile(start + "(.*?)" + end, Pattern.DOTALL);
+			Matcher matcher = pattern.matcher(string);
 
-		matcherRun = true;
+			matcherRun = true;
 
-		if (matcher.find()) {
-			result = matcher.group(1);
-			return true;
+			if (matcher.find()) {
+				result = matcher.group(1);
+				return true;
+			}
+
+			result = null;
+			return false;
+		} else {
+			throw new IllegalArgumentException("Input parameters must not be null : "
+					+ "" + "string = " + string + " start = " + start + " end = " + end);
 		}
-
-		result = null;
-		return false;
 	}
 
 	public String getResult() {
