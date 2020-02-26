@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.nfc.NfcAdapter;
 
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
@@ -63,6 +64,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
@@ -510,6 +512,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new ReadVariableFromDeviceBrick());
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
+		dataBrickList.add(new ClearUserListBrick());
 		dataBrickList.add(new InsertItemIntoUserListBrick(BrickValues.INSERT_ITEM_INTO_USERLIST_VALUE,
 				BrickValues.INSERT_ITEM_INTO_USERLIST_INDEX));
 		dataBrickList.add(new ReplaceItemInUserListBrick(BrickValues.REPLACE_ITEM_IN_USERLIST_VALUE,
