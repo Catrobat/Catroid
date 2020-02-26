@@ -36,9 +36,6 @@ public class ClearUserListAction extends TemporalAction {
 		if (userList == null) {
 			return;
 		}
-		if (userList.getValue().size() == 0) {
-			return;
-		}
 
 		userList.reset();
 	}
