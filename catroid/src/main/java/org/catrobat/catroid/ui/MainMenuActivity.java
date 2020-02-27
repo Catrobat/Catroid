@@ -215,7 +215,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
 					try {
 						startActivity(new Intent(Intent.ACTION_VIEW,
-								Uri.parse("market://details?id=" + getPackageName())));
+								Uri.parse("market://details?id=org.catrobat.catroid" + getPackageName())));
 					} catch (ActivityNotFoundException e) {
 						ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
 					}
