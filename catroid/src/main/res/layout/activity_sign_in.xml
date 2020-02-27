@@ -56,7 +56,6 @@
             android:background="@color/google_red"
             android:textColor="@color/solid_white"
             android:paddingStart="@dimen/material_design_spacing_large"
-            android:drawableStart="@drawable/sign_in_with_google"
             android:layout_marginStart="@dimen/material_design_spacing_x_large"
             android:layout_marginEnd="@dimen/material_design_spacing_x_large"
             android:layout_marginTop="@dimen/material_design_spacing_large"
