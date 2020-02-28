@@ -76,7 +76,7 @@ public class BrickSpinnerDataInteractionWrapper extends DataInteractionWrapper {
 	}
 
 	public BrickSpinnerDataInteractionWrapper checkNameableValuesAvailable(List<String> stringValues) {
-		dataInteraction.check(matches(BrickSpinnerMatchers.withNamableValues(stringValues)));
+		dataInteraction.check(matches(BrickSpinnerMatchers.withNameableValues(stringValues)));
 		return new BrickSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
