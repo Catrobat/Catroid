@@ -53,7 +53,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.TestCase.assertTrue;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickUtils.createNewBroadCastMessageOnBrick;
+import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -93,7 +93,7 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 	public void testBroadcastAndWaitBrickOmitSaveUnusedMessages() {
 		String uselessMessage = "useless";
 
-		createNewBroadCastMessageOnBrick(uselessMessage, broadcastMessageBrick,
+		createNewBroadcastMessageOnBrick(uselessMessage, broadcastMessageBrick,
 				baseActivityTestRule.getActivity());
 
 		onBrickAtPosition(broadcastAndWaitPosition)

@@ -32,23 +32,18 @@ import org.mockito.Mockito;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-public final class BroadcastMessageBrickUtils {
-	private BroadcastMessageBrickUtils() {
+public final class BroadcastMessageBrickTestUtils {
+	private BroadcastMessageBrickTestUtils() {
 		throw new AssertionError();
 	}
 
-	public static void createNewBroadCastMessageOnBrick(final String message, final BroadcastMessageBrick brick,
+	public static void createNewBroadcastMessageOnBrick(final String message, final BroadcastMessageBrick brick,
 			final AppCompatActivity activity) {
 		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(
-				new Runnable() {
-					@Override
-					public void run() {
-						brick.getOkButtonListener(activity)
-								.onPositiveButtonClick(Mockito.mock(DialogInterface.class), message);
-					}
-				});
+				() -> brick.getOkButtonListener(activity)
+						.onPositiveButtonClick(Mockito.mock(DialogInterface.class), message));
 	}
 }
