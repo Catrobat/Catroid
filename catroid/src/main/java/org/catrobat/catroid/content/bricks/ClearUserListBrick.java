@@ -21,19 +21,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.web;
+package org.catrobat.catroid.content.bricks;
 
-public class Cookie {
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-	private String name;
-	private String value;
+public class ClearUserListBrick extends UserListBrick {
 
-	public Cookie(String name, String value) {
-		this.name = name;
-		this.value = value;
+	private static final long serialVersionUID = 1L;
+
+	public ClearUserListBrick() {
 	}
 
-	public String generateCookieString() {
-		return this.name + "=" + this.value;
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_clear_userlist;
+	}
+
+	@Override
+	protected int getSpinnerId() {
+		return R.id.clear_userlist_spinner;
+	}
+
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createClearUserListAction(userList));
 	}
 }

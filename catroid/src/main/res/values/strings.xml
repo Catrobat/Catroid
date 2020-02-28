@@ -1054,7 +1054,7 @@
 
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at"</string>
-    <string name="brick_place_at_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">Place visually</string>
     <string name="x_label">"x:"</string>
     <string name="y_label">"y:"</string>
     <string name="brick_set_x">"Set x to"</string>
@@ -1248,6 +1248,7 @@
     <string name="brick_broadcast_default_value">"new message"</string>
     <string name="brick_add_item_to_userlist_add">Add</string>
     <string name="brick_add_item_to_userlist">to list</string>
+    <string name="brick_clear_userlist">Delete all items from list</string>
     <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
     <string name="brick_delete_item_from_userlist">at position</string>
     <string name="brick_insert_item_into_userlist_insert_into">Insert</string>

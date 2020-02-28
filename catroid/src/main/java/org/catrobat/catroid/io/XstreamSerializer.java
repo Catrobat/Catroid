@@ -84,6 +84,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
@@ -371,6 +372,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", CloneBrick.class);
 		xstream.alias("brick", ComeToFrontBrick.class);
 		xstream.alias("brick", DeleteItemOfUserListBrick.class);
+		xstream.alias("brick", ClearUserListBrick.class);
 		xstream.alias("brick", DeleteThisCloneBrick.class);
 		xstream.alias("brick", ForeverBrick.class);
 		xstream.alias("brick", GlideToBrick.class);

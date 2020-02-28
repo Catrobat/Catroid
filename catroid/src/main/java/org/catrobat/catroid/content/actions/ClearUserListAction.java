@@ -21,19 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.web;
+package org.catrobat.catroid.content.actions;
 
-public class Cookie {
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-	private String name;
-	private String value;
+import org.catrobat.catroid.formulaeditor.UserList;
 
-	public Cookie(String name, String value) {
-		this.name = name;
-		this.value = value;
+public class ClearUserListAction extends TemporalAction {
+
+	private UserList userList;
+
+	@Override
+	protected void update(float percent) {
+		if (userList == null) {
+			return;
+		}
+
+		userList.reset();
 	}
 
-	public String generateCookieString() {
-		return this.name + "=" + this.value;
+	public void setUserList(UserList userVariable) {
+		this.userList = userVariable;
 	}
 }
