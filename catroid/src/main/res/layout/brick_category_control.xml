@@ -28,6 +28,7 @@
 
     <TextView
         style="@style/BrickCategoryText"
-        android:text="@string/category_control" />
+        android:text="@string/category_control">
+    </TextView>
 
 </LinearLayout>
