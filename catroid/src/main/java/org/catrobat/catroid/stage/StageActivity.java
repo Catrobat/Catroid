@@ -77,6 +77,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
@@ -111,6 +112,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	AndroidApplicationConfiguration configuration = null;
 
 	public StageResourceHolder stageResourceHolder;
+	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
 
@@ -243,8 +245,12 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			finish();
 		} else {
 			StageLifeCycleController.stagePause(this);
-			stageListener.takeScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME);
-			stageDialog.show();
+			idlingResource.increment();
+			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+					success -> runOnUiThread(() -> {
+						stageDialog.show();
+						idlingResource.decrement();
+					}));
 		}
 	}
 
