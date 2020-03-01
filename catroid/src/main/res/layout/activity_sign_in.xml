@@ -22,6 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/dialog_content_area_padding"
@@ -60,7 +61,8 @@
             android:layout_marginStart="@dimen/material_design_spacing_x_large"
             android:layout_marginEnd="@dimen/material_design_spacing_x_large"
             android:layout_marginTop="@dimen/material_design_spacing_large"
-            android:onClick="onButtonClick"/>
+            android:onClick="onButtonClick"
+            tools:ignore="RtlSymmetry" />
 
         <LinearLayout
             android:layout_width="match_parent"
