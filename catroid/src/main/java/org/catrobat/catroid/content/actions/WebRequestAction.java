@@ -46,7 +46,6 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 
 	private Sprite sprite;
 	private Formula formula;
-	private String url;
 	private UserVariable userVariable;
 	private WebConnectionFactory webConnectionFactory;
 
@@ -80,14 +79,6 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 		this.webConnectionFactory = webConnectionFactory;
 	}
 
-	public void interpretUrl() {
-		try {
-			url = formula.interpretString(sprite);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Couldn't interpret formula", interpretationException);
-		}
-	}
-
 	@Override
 	public boolean act(float delta) {
 		if (userVariable == null) {
@@ -96,6 +87,17 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 
 		if (requestStatus == NOT_SENT) {
 			requestStatus = WAITING;
+			String url = "";
+			try {
+				if (formula != null) {
+					url = formula.interpretString(sprite);
+				}
+			} catch (InterpretationException interpretationException) {
+				Log.e(getClass().getSimpleName(),
+						"formula interpretation in web request brick failed",
+						interpretationException);
+			}
+
 			webConnection = webConnectionFactory.createWebConnection(url, this);
 			if (!StageActivity.stageListener.webConnectionHolder.addConnection(webConnection)) {
 				userVariable.setValue(ERROR_TOO_MANY_REQUESTS);

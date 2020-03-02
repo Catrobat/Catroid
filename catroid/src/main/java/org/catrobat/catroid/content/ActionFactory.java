@@ -1312,7 +1312,6 @@ public class ActionFactory extends Actions {
 		WebRequestAction action = action(WebRequestAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
-		action.interpretUrl();
 		action.setUserVariable(userVariable);
 		action.setWebConnectionFactory(new WebConnectionFactory());
 		return action;
