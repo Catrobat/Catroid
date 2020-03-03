@@ -462,6 +462,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
+			VibratorUtil.resumeVibrator();
 		}
 
 		for (Sprite sprite : sprites) {
@@ -478,6 +479,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
+			VibratorUtil.pauseVibrator();
 		}
 	}
 
