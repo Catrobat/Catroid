@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -35,10 +37,11 @@ import androidx.fragment.app.Fragment;
 
 public class ProjectListActivity extends BaseCastActivity {
 
+	public static final String TAG = ProjectListActivity.class.getSimpleName();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_recycler);
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.project_list_title);
@@ -46,7 +49,20 @@ public class ProjectListActivity extends BaseCastActivity {
 
 		BottomBar.hidePlayButton(this);
 
-		loadFragment(new ProjectListFragment());
+		Fragment projectListFragment = new ProjectListFragment();
+
+		Intent importProjectFromImplicitIntent = getIntent();
+		if (importProjectFromImplicitIntent.getAction() != null) {
+			try {
+				Bundle data = new Bundle();
+				data.putParcelable("intent", importProjectFromImplicitIntent);
+				projectListFragment.setArguments(data);
+			} catch (NullPointerException e) {
+				Log.e(TAG, "Null Pointer Exception at Project import", e);
+			}
+		}
+
+		loadFragment(projectListFragment);
 	}
 
 	private void loadFragment(Fragment fragment) {

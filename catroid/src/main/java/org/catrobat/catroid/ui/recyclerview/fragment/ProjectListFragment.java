@@ -86,6 +86,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	private static final int REQUEST_IMPORT_PROJECT = 7;
 
+	public void onActivityCreated(Bundle savedInstance) {
+		super.onActivityCreated(savedInstance);
+
+		if (getArguments() != null) {
+			importProject(getArguments().getParcelable("intent"));
+		}
+	}
+
 	private ProjectUnzipAndImportTask.ProjectUnzipAndImportListener projectUnzipAndImportListener =
 			new ProjectUnzipAndImportTask.ProjectUnzipAndImportListener() {
 				@Override
@@ -190,13 +198,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	private void importProject(Intent data) {
-		if (data == null) {
+		if (data == null || data.getData() == null) {
 			setShowProgressBar(false);
+			ToastUtil.showError(getContext(), R.string.error_import_project);
 			return;
-		}
-
-		if (!data.getData().getScheme().equals("file")) {
-			throw new IllegalArgumentException("importProject has to be called with a file uri. (not a content uri");
 		}
 
 		try {
