@@ -349,11 +349,18 @@ public class SpriteActivity extends BaseActivity {
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
 
 				Fragment fragment = getCurrentFragment();
+				Brick brick = null;
 
 				if (fragment instanceof ScriptFragment) {
-					Brick brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
-					if (brick != null) {
-						((VisualPlacementBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+					brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
+				} else if (fragment instanceof FormulaEditorFragment) {
+					brick = ((FormulaEditorFragment) fragment).getFormulaBrick();
+				}
+
+				if (brick != null) {
+					((VisualPlacementBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+					if (fragment instanceof FormulaEditorFragment) {
+						((FormulaEditorFragment) fragment).updateFragmentAfterVisualPlacement();
 					}
 				}
 				break;
