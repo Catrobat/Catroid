@@ -118,14 +118,18 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		setShowProgressBar(true);
 
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			File projectDir = (File) bundle.getSerializable(PROJECT_DIR);
-			new ProjectLoadTask(projectDir, this)
-					.setListener(this)
-					.execute();
+		if (ProjectManager.getInstance().getCurrentProject() != null) {
+			proceedAfterProjectLoad();
 		} else {
-			finish();
+			Bundle bundle = getIntent().getExtras();
+			if (bundle != null) {
+				File projectDir = (File) bundle.getSerializable(PROJECT_DIR);
+				new ProjectLoadTask(projectDir, this)
+						.setListener(this)
+						.execute();
+			} else {
+				finish();
+			}
 		}
 	}
 
@@ -137,10 +141,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 	@Override
 	public void onLoadFinished(boolean success) {
 		if (success) {
-			getTags();
-			project = ProjectManager.getInstance().getCurrentProject();
-			projectUploadController = createProjectUploadController();
-			verifyUserIdentity();
+			proceedAfterProjectLoad();
 		} else {
 			ToastUtil.showError(this, R.string.error_load_project);
 			setShowProgressBar(false);
@@ -148,6 +149,12 @@ public class ProjectUploadActivity extends BaseActivity implements
 		}
 	}
 
+	public void proceedAfterProjectLoad() {
+		getTags();
+		project = ProjectManager.getInstance().getCurrentProject();
+		projectUploadController = createProjectUploadController();
+		verifyUserIdentity();
+	}
 	private void onCreateView() {
 		int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
