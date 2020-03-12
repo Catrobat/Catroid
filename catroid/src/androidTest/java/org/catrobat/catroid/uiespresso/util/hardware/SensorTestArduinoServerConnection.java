@@ -208,10 +208,10 @@ public final class SensorTestArduinoServerConnection {
 		String response = "";
 		if (expected == SET_VIBRATION_ON_VALUE) {
 			expectedChar = '1';
-			assertString = "Error: Vibrator is turned off!";
+			assertString = "Error: Vibration is turned off!";
 		} else {
 			expectedChar = '0';
-			assertString = "Error: Vibrator is turned on!";
+			assertString = "Error: Vibration is turned on!";
 		}
 		try {
 

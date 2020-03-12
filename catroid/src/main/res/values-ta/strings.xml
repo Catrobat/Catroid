@@ -875,7 +875,7 @@
     <string name="prestage_resource_not_available_text">துரதிர்ஷ்டவசமாக இந்த திட்டம் உங்கள் சாதனத்தில் இயங்காது.
 பின்வரும் கூறுகள் கிடைக்கவில்லை</string>
     <string name="prestage_resource_in_use_text">மற்றொரு சாதனம் ஜம்பிங் சுமோவுடன் இணைக்கப்பட்டுள்ளது. ட்ரோனுடன் இணைக்கப்பட்டவர் நீங்கள்தான் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
-    <string name="prestage_no_vibrator_available">அதிர்வு</string>
+    <string name="prestage_no_vibration_available">அதிர்வு</string>
     <string name="prestage_no_acceleration_sensor_available">முடுக்கம் சென்சார்</string>
     <string name="prestage_no_inclination_sensor_available">சாய்வு சென்சார்</string>
     <string name="prestage_no_compass_sensor_available">திசைகாட்டி</string>

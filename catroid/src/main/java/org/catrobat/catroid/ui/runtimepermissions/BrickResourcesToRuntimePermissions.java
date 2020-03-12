@@ -69,7 +69,7 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(Brick.CAMERA_FRONT, Arrays.asList(CAMERA));
 		brickResourcesToPermissions.put(Brick.VIDEO, Arrays.asList(CAMERA));
 		brickResourcesToPermissions.put(Brick.CAMERA_FLASH, Arrays.asList(CAMERA));
-		brickResourcesToPermissions.put(Brick.VIBRATOR, Arrays.asList(VIBRATE));
+		brickResourcesToPermissions.put(Brick.VIBRATION, Arrays.asList(VIBRATE));
 		brickResourcesToPermissions.put(Brick.NFC_ADAPTER, Arrays.asList(NFC));
 		brickResourcesToPermissions.put(Brick.FACE_DETECTION, Arrays.asList(CAMERA));
 		brickResourcesToPermissions.put(Brick.MICROPHONE, Arrays.asList(RECORD_AUDIO));

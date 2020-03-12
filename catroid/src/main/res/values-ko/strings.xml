@@ -786,7 +786,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="prestage_resource_not_available_text">이 프로젝트는 기기에서 작동하지 않습니다.
 다음 장치가 사용않됩니다:\n\n</string>
     <string name="prestage_resource_in_use_text">다른 장치가 점핑 스모와 연결되어 있습니다. 다른 기기가 드론과 연결되어 있는 것은 아닌지 확인하세요.</string>
-    <string name="prestage_no_vibrator_available">\u2022 진동\n</string>
+    <string name="prestage_no_vibration_available">\u2022 진동\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 컴퍼스\n</string>

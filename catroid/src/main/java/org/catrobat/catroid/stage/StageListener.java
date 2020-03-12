@@ -77,7 +77,7 @@ import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
 import java.util.ArrayList;
@@ -444,7 +444,7 @@ public class StageListener implements ApplicationListener {
 		embroideryPatternManager.clear();
 
 		FlashUtil.reset();
-		VibratorUtil.reset();
+		VibrationUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
 
@@ -462,7 +462,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
-			VibratorUtil.resumeVibrator();
+			VibrationUtil.resumeVibration();
 		}
 
 		for (Sprite sprite : sprites) {
@@ -479,7 +479,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
-			VibratorUtil.pauseVibrator();
+			VibrationUtil.pauseVibration();
 		}
 	}
 
@@ -840,7 +840,7 @@ public class StageListener implements ApplicationListener {
 				FlashUtil.flashOff();
 			}
 		}
-		backup.timeToVibrate = VibratorUtil.getTimeToVibrate();
+		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
 		backup.camera = camera;
 		backup.batch = batch;
@@ -883,10 +883,10 @@ public class StageListener implements ApplicationListener {
 			FlashUtil.flashOn();
 		}
 		if (backup.timeToVibrate > 0) {
-			VibratorUtil.resumeVibrator();
-			VibratorUtil.setTimeToVibrate(backup.timeToVibrate);
+			VibrationUtil.resumeVibration();
+			VibrationUtil.setTimeToVibrate(backup.timeToVibrate);
 		} else {
-			VibratorUtil.pauseVibrator();
+			VibrationUtil.pauseVibration();
 		}
 		physicsWorld = backup.physicsWorld;
 		camera = backup.camera;
