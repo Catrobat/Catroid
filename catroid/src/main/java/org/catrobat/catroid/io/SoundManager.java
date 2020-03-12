@@ -26,7 +26,9 @@ import android.media.MediaPlayer;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -42,7 +44,9 @@ public class SoundManager {
 
 	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
 	private float volume = 70.0f;
+	private List<String> soundFiles = new ArrayList<>(MAX_MEDIA_PLAYERS);
 
+	@VisibleForTesting
 	public SoundManager() {
 	}
 
@@ -51,11 +55,18 @@ public class SoundManager {
 	}
 
 	public synchronized void playSoundFile(String pathToSoundfile) {
+		playSoundFileWithStartTime(pathToSoundfile, 0);
+	}
+
+	public synchronized void playSoundFileWithStartTime(String pathToSoundfile,
+			int startTimeInMilSeconds) {
 		MediaPlayer mediaPlayer = getAvailableMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
+				soundFiles.add(pathToSoundfile);
 				mediaPlayer.setDataSource(pathToSoundfile);
 				mediaPlayer.prepare();
+				mediaPlayer.seekTo(startTimeInMilSeconds);
 				mediaPlayer.start();
 			} catch (Exception exception) {
 				Log.e(TAG, "Couldn't play sound file '" + pathToSoundfile + "'", exception);
@@ -120,6 +131,7 @@ public class SoundManager {
 			mediaPlayer.release();
 		}
 		mediaPlayers.clear();
+		soundFiles.clear();
 	}
 
 	public synchronized void pause() {
@@ -146,6 +158,27 @@ public class SoundManager {
 				mediaPlayer.stop();
 			}
 		}
+	}
+
+	public Map<String, Integer> getPlayingSoundDurationMap() {
+		List<Integer> positionList =
+				SoundManager.getInstance().getCurrentPositionOfSounds();
+		Map<String, Integer> soundsDurationMap = new HashMap<>();
+		for (String sound : soundFiles) {
+			int position = positionList.get(soundFiles.indexOf(sound));
+			if (position > 0 && position < getDurationOfSoundFile(sound)) {
+				soundsDurationMap.put(sound, position);
+			}
+		}
+		return soundsDurationMap;
+	}
+
+	private List<Integer> getCurrentPositionOfSounds() {
+		List<Integer> positionList = new ArrayList<>();
+		for (MediaPlayer mediaPlayer : mediaPlayers) {
+			positionList.add(mediaPlayer.getCurrentPosition());
+		}
+		return positionList;
 	}
 
 	@VisibleForTesting
