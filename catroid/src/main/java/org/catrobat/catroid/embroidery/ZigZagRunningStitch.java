@@ -32,7 +32,7 @@ public class ZigZagRunningStitch implements RunningStitchType {
 	private Sprite sprite;
 	private float firstX = 0;
 	private float firstY = 0;
-	private int direction = -1;
+	private int direction = 1;
 	private boolean first = true;
 
 	public ZigZagRunningStitch(Sprite sprite, float length, float width) {
@@ -72,7 +72,6 @@ public class ZigZagRunningStitch implements RunningStitchType {
 		if (first) {
 			first = false;
 			addPointInDirection(firstX, firstY, degrees);
-			addPointInDirection(firstX, firstY, degrees);
 		}
 
 		for (int count = 1; count < interpolationCount; count++) {
@@ -80,16 +79,14 @@ public class ZigZagRunningStitch implements RunningStitchType {
 			float x = interpolate(currentX, firstX, splitFactor);
 			float y = interpolate(currentY, firstY, splitFactor);
 			addPointInDirection(x, y, degrees);
-			addPointInDirection(x, y, degrees);
 		}
 
-		addPointInDirection(currentX, currentY, degrees);
 		addPointInDirection(currentX, currentY, degrees);
 	}
 
 	private void addPointInDirection(float x, float y, float degrees) {
-		float xCoord = (float) (x + (width / 2) * Math.sin(Math.toRadians(degrees + 90)) * direction);
-		float yCoord = (float) (y + (width / 2) * Math.cos(Math.toRadians(degrees + 90)) * direction);
+		float xCoord = (float) (x - (width / 2) * Math.sin(Math.toRadians(degrees + 90)) * direction);
+		float yCoord = (float) (y - (width / 2) * Math.cos(Math.toRadians(degrees + 90)) * direction);
 		direction *= (-1);
 		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(xCoord, yCoord,
 				sprite.look.getZIndex(), sprite));

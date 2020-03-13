@@ -76,7 +76,7 @@ public class ZigZagRunningStitchTest {
 	@Test
 	public void testSimpleMoveOfRunningStitch() {
 		zigZagRunningStitch.update(10, 10);
-		verify(embroideryPatternManager, times(6)).addStitchCommand(any());
+		verify(embroideryPatternManager, times(3)).addStitchCommand(any());
 	}
 
 	@Test
@@ -84,6 +84,6 @@ public class ZigZagRunningStitchTest {
 		zigZagRunningStitch.setStartCoordinates(10, 10);
 		zigZagRunningStitch.update(0, 0);
 
-		verify(embroideryPatternManager, times(6)).addStitchCommand(any());
+		verify(embroideryPatternManager, times(3)).addStitchCommand(any());
 	}
 }
