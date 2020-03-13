@@ -310,8 +310,7 @@ public class BrickCategoryTest {
 						StopScriptBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenClonedBrick.class,
-						WebRequestBrick.class)},
+						WhenClonedBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -326,9 +325,9 @@ public class BrickCategoryTest {
 						ReplaceItemInUserListBrick.class,
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
+						WebRequestBrick.class,
 						AskBrick.class,
-						AskSpeechBrick.class,
-						WebRequestBrick.class)},
+						AskSpeechBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -384,7 +383,8 @@ public class BrickCategoryTest {
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
-						FinishStageBrick.class)},
+						FinishStageBrick.class,
+						WebRequestBrick.class)},
 		});
 	}
 
