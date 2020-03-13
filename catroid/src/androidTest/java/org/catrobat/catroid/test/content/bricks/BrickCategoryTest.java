@@ -53,6 +53,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
@@ -320,6 +321,7 @@ public class BrickCategoryTest {
 						ReadVariableFromDeviceBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
+						ClearUserListBrick.class,
 						InsertItemIntoUserListBrick.class,
 						ReplaceItemInUserListBrick.class,
 						WriteListOnDeviceBrick.class,

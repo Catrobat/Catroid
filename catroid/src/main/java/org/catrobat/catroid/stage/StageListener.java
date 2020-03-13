@@ -803,6 +803,7 @@ public class StageListener implements ApplicationListener {
 		PenActor penActor;
 		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
+		Map<String, Integer> soundsDurationMap;
 
 		boolean paused;
 		boolean finished;
@@ -856,7 +857,7 @@ public class StageListener implements ApplicationListener {
 				CameraManager.getInstance().pauseForScene();
 			}
 		}
-
+		backup.soundsDurationMap = SoundManager.getInstance().getPlayingSoundDurationMap();
 		return backup;
 	}
 
@@ -898,6 +899,9 @@ public class StageListener implements ApplicationListener {
 		deltaActionTimeDivisor = backup.deltaActionTimeDivisor;
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
+		}
+		for (Map.Entry<String, Integer> entry : backup.soundsDurationMap.entrySet()) {
+			SoundManager.getInstance().playSoundFileWithStartTime(entry.getKey(), entry.getValue());
 		}
 		initStageInputListener();
 	}

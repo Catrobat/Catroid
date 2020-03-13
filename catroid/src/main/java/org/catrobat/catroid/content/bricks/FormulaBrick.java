@@ -144,7 +144,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public void showFormulaEditorToEditFormula(View view) {
 		if (brickFieldToTextViewIdMap.inverse().containsKey(view.getId())) {
-			FormulaEditorFragment.showFragment(view.getContext(), this, brickFieldToTextViewIdMap.inverse().get(view.getId()));
+			FormulaEditorFragment.showFragment(view.getContext(), this, getBrickFieldFromTextViewId(view.getId()));
 		} else {
 			FormulaEditorFragment.showFragment(view.getContext(), this, getDefaultBrickField());
 		}
@@ -160,6 +160,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	public View getCustomView(Context context) {
 		throw new IllegalStateException("There is no custom view for the " + getClass().getSimpleName() + ".");
+	}
+
+	public Brick.BrickField getBrickFieldFromTextViewId(int textViewId) {
+		return brickFieldToTextViewIdMap.inverse().get(textViewId);
 	}
 
 	protected void setSecondsLabel(View view, BrickField brickField) {
