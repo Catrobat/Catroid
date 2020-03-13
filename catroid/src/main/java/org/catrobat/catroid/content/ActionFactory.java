@@ -155,6 +155,7 @@ import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
+import org.catrobat.catroid.content.actions.StoreCSVIntoUserListAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TripleStitchAction;
@@ -766,6 +767,16 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setFormulaIndexToInsert(userListFormulaIndexToInsert);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createStoreCSVIntoUserListAction(Sprite sprite, Formula userListFormulaColumn,
+			Formula userListFormulaCSV, UserList userList) {
+		StoreCSVIntoUserListAction action = action(StoreCSVIntoUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaColumnToExtract(userListFormulaColumn);
+		action.setFormulaCSVData(userListFormulaCSV);
 		action.setUserList(userList);
 		return action;
 	}

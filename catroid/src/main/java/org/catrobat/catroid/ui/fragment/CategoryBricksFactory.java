@@ -176,6 +176,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
@@ -272,7 +273,7 @@ public class CategoryBricksFactory {
 			return setupEmbroideryCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_assertions))) {
-			return setupAssertionsCategoryList();
+			return setupAssertionsCategoryList(context);
 		}
 
 		return Collections.emptyList();
@@ -516,6 +517,8 @@ public class CategoryBricksFactory {
 				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new WriteListOnDeviceBrick());
 		dataBrickList.add(new ReadListFromDeviceBrick());
+		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+				context.getString(R.string.brick_store_csv_into_userlist_data)));
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
@@ -658,7 +661,7 @@ public class CategoryBricksFactory {
 		return embroideryBrickList;
 	}
 
-	private List<Brick> setupAssertionsCategoryList() {
+	private List<Brick> setupAssertionsCategoryList(Context context) {
 		List<Brick> assertionsBrickList = new ArrayList<>();
 
 		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
@@ -682,6 +685,8 @@ public class CategoryBricksFactory {
 				}
 			}
 		}
+		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
 		return assertionsBrickList;
 	}
@@ -799,7 +804,7 @@ public class CategoryBricksFactory {
 			}
 		}
 
-		categoryBricks = setupAssertionsCategoryList();
+		categoryBricks = setupAssertionsCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_assertions);
