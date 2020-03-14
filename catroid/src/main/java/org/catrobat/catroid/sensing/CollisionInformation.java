@@ -370,7 +370,7 @@ public class CollisionInformation {
 	}
 
 	private static float pointToPointDistance(PointF p1, PointF p2) {
-		return (float) Math.sqrt(((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
+		return (float) Math.hypot(p1.x - p2.x, p1.y - p2.y);
 	}
 
 	public static ArrayList<PointF> simplifyPolygon(ArrayList<PointF> points, int start, int end, float epsilon) {

@@ -206,12 +206,9 @@ public class LookTest {
 		float vectorX = pointBx - pointAx;
 		float vectorY = pointBy - pointAy;
 
-		double squareX = (float) Math.pow(vectorX, 2);
-		double squareY = (float) Math.pow(vectorY, 2);
+		float hypotOfScalar = (float) Math.hypot(vectorX, vectorY);
 
-		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
-
-		assertEquals(touchPosition, squareRootOfScalar);
+		assertEquals(touchPosition, hypotOfScalar);
 	}
 
 	@Test
