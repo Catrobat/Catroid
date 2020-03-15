@@ -368,10 +368,6 @@ public class CollisionInformation {
 				- (point.y - lineStart.y) * (lineEnd.x - lineStart.x)) / normalLength;
 	}
 
-	private static float pointToPointDistance(PointF p1, PointF p2) {
-		return (float) Math.hypot(p1.x - p2.x, p1.y - p2.y);
-	}
-
 	public static ArrayList<PointF> simplifyPolygon(ArrayList<PointF> points, int start, int end, float epsilon) {
 		//Ramer-Douglas-Peucker Algorithm
 		float dmax = 0f;
