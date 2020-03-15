@@ -55,13 +55,9 @@ import androidx.annotation.VisibleForTesting;
 
 public class Look extends Image {
 
-	public float getDistanceToTouchPositionInUserInterfaceDimensions() {
-		int touchIndex = TouchUtil.getLastTouchIndex();
-
-		return (float) Math.hypot((TouchUtil.getX(touchIndex) - getXInUserInterfaceDimensionUnit()),
-				(TouchUtil.getY(touchIndex) - getYInUserInterfaceDimensionUnit()));
-	}
-
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({ROTATION_STYLE_LEFT_RIGHT_ONLY, ROTATION_STYLE_ALL_AROUND, ROTATION_STYLE_NONE})
+	public @interface RotationStyle {}
 	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_NONE = 2;
@@ -308,9 +304,11 @@ public class Look extends Image {
 		setY(y - getHeight() / 2f);
 	}
 
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({ROTATION_STYLE_LEFT_RIGHT_ONLY, ROTATION_STYLE_ALL_AROUND, ROTATION_STYLE_NONE})
-	public @interface RotationStyle {
+	public float getDistanceToTouchPositionInUserInterfaceDimensions() {
+		int touchIndex = TouchUtil.getLastTouchIndex();
+
+		return (float) Math.hypot((TouchUtil.getX(touchIndex) - getXInUserInterfaceDimensionUnit()),
+				(TouchUtil.getY(touchIndex) - getYInUserInterfaceDimensionUnit()));
 	}
 
 	public float getAngularVelocityInUserInterfaceDimensionUnit() {
