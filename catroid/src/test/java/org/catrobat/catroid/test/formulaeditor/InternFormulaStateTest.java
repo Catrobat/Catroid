@@ -37,10 +37,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
@@ -58,7 +58,7 @@ public class InternFormulaStateTest {
 		internState = new InternFormulaState(internTokenList, null, 0);
 		internStateToCompare = new InternFormulaState(internTokenList, internTokenSelection, 0);
 
-		assertFalse(internState.equals(internStateToCompare));
+		assertNotEquals(internState, internStateToCompare);
 
 		internTokenList = new ArrayList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.NUMBER));
@@ -71,7 +71,7 @@ public class InternFormulaStateTest {
 	@Test
 	public void testEquals() {
 		assertThat(internState, not(equalTo(internStateToCompare)));
-		assertFalse(internState.equals(Integer.valueOf(1)));
+		assertNotEquals(internState, Integer.valueOf(1));
 	}
 
 	@Test

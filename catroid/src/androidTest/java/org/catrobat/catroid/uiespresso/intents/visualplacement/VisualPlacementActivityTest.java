@@ -118,6 +118,6 @@ public class VisualPlacementActivityTest {
 
 		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(null, resultIntent);
+		Assert.assertNull(resultIntent);
 	}
 }

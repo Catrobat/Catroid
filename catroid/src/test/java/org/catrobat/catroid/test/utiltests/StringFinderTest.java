@@ -31,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
 @RunWith(JUnit4.class)
 public class StringFinderTest {
@@ -95,7 +96,7 @@ public class StringFinderTest {
 
 		StringFinder stringFinder = new StringFinder();
 		stringFinder.findBetween(singleLine, start, end);
-		assertEquals(null, stringFinder.getResult());
+		assertNull(stringFinder.getResult());
 	}
 
 	@Test
