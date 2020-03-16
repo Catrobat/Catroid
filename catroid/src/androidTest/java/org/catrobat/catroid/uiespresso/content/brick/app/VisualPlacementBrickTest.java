@@ -56,6 +56,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
@@ -90,6 +91,8 @@ public class VisualPlacementBrickTest {
 	@Parameterized.Parameter(2)
 	public VisualPlacementBrick brick;
 
+	int brickPosition = 1;
+
 	@After
 	public void tearDown() {
 		Intents.release();
@@ -119,70 +122,133 @@ public class VisualPlacementBrickTest {
 	@Test
 	public void testIsVisualPlacementShownForEditTextX() {
 		onBrickAtPosition(1).checkShowsText(brickString);
-		onView(withId(brick.getXEditTextId()))
-				.perform(click());
-		onView(withText(R.string.brick_option_place_visually))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.check(matches(isDisplayed()));
+		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getXEditTextId());
 	}
 
 	@Test
 	public void testIsVisualPlacementShownForEditTextY() {
-		onView(withId(brick.getYEditTextId()))
-				.perform(click());
-		onView(withText(R.string.brick_option_place_visually))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.check(matches(isDisplayed()));
+		onBrickAtPosition(1).checkShowsText(brickString);
+		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getYEditTextId());
 	}
 
 	@Test
 	public void testIsVisualPlacementShownOnBrickClick() {
-		onBrickAtPosition(1).performClick();
+		onBrickAtPosition(brickPosition).performClick();
 		onView(withText(R.string.brick_option_place_visually))
 				.check(matches(isDisplayed()));
 	}
 
 	@Test
 	public void testVisualPlacementAfterFormulaNotANumber() {
-		onView(withId(brick.getXEditTextId()))
-				.perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.perform(click());
-		onFormulaEditor()
-				.performEnterFormula("1+2")
-				.performCloseAndSave();
-		onView(withId(brick.getXEditTextId()))
-				.perform(click());
-		onFormulaEditor()
-				.check(matches(isDisplayed()));
+		openFormulaEditorFragmentFromEditTextX();
+		enterFormulaInFormulaEditor("1+2");
+		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getXEditTextId());
 	}
 
 	@Test
 	public void testVisualPlacementAfterNumberEntered() {
-		onView(withId(brick.getXEditTextId()))
-				.perform(click());
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.perform(click());
+		openFormulaEditorFragmentFromEditTextX();
 		onFormulaEditor()
 				.performEnterNumber(42)
 				.performCloseAndSave();
-		onView(withId(brick.getXEditTextId()))
-				.check(matches(withText("42 ")))
-				.perform(click());
-		onView(withText(R.string.brick_option_place_visually))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
-				.check(matches(isDisplayed()));
+		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getXEditTextId());
 	}
 
 	@Test
 	public void testIsVisualPlacementActivityShown() {
+		openVisualPlacementActivityFromEditTextX();
+		intended(hasComponent(VisualPlacementActivity.class.getName()));
+	}
+
+	@Test
+	public void testIsVisualPlacementShownInFormulaFragmentForEditTextX() {
+		onBrickAtPosition(brickPosition).checkShowsText(brickString);
+		openFormulaEditorFragmentFromEditTextX();
+		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getXEditTextId());
+	}
+
+	@Test
+	public void testIsVisualPlacementShownInFormulaFragmentForEditTextY() {
+		onBrickAtPosition(1).checkShowsText(brickString);
+		openFormulaEditorFragmentFromEditTextX();
+		isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(brick.getYEditTextId());
+	}
+
+	@Test
+	public void testIsVisualPlacementActivityShownInFormulaFragment() {
+		openFormulaEditorFragmentFromEditTextX();
+		openVisualPlacementActivityFromEditTextX();
+		intended(hasComponent(VisualPlacementActivity.class.getName()));
+	}
+
+	@Test
+	public void testVisualPlacementInFormulaFragmentAfterFormulaNotANumber() {
+		openFormulaEditorFragmentFromEditTextX();
+		enterFormulaInFormulaEditor("1+2");
+		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getXEditTextId());
+		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getYEditTextId());
+	}
+
+	@Test
+	public void testDoesFormulaFragmentReturnCorrectlyAfterVisualPlacement() {
+		openFormulaEditorFragmentFromEditTextX();
+		openVisualPlacementActivityFromEditTextX();
+		intended(hasComponent(VisualPlacementActivity.class.getName()));
+		pressBack();
+		onView(withText(R.string.yes))
+				.perform(click());
+		onFormulaEditor()
+				.check(matches(isDisplayed()));
+		pressBack();
+		isBackInScriptFragment();
+	}
+
+	@Test
+	public void testNoRecursiveOpeningOfFormulaEditors() {
+		openFormulaEditorFragmentFromEditTextX();
+		openFormulaEditorFragmentFromEditTextX();
+		pressBack();
+		isBackInScriptFragment();
+	}
+
+	public static void isFormulaEditorShownImmediatelyWithTapOnEditText(int editTextId) {
+		onView(withId(editTextId))
+				.perform(click());
+		onFormulaEditor()
+				.check(matches(isDisplayed()));
+	}
+
+	private void isBackInScriptFragment() {
+		onBrickAtPosition(brickPosition)
+				.check(matches(isDisplayed()));
+	}
+
+	private void enterFormulaInFormulaEditor(String formula) {
+		onFormulaEditor()
+				.performEnterFormula(formula)
+				.performCloseAndSave();
+	}
+
+	private void openVisualPlacementActivityFromEditTextX() {
 		onView(withId(brick.getXEditTextId()))
 				.perform(click());
 		onView(withText(R.string.brick_option_place_visually))
 				.perform(click());
-		intended(hasComponent(VisualPlacementActivity.class.getName()));
+	}
+
+	private void openFormulaEditorFragmentFromEditTextX() {
+		onView(withId(brick.getXEditTextId()))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
+	}
+
+	private void isPlaceVisuallyEditFormulaChooserShownWithTapOnEditText(int editTextId) {
+		onView(withId(editTextId))
+				.perform(click());
+		onView(withText(R.string.brick_option_place_visually))
+				.check(matches(isDisplayed()));
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.check(matches(isDisplayed()));
 	}
 }

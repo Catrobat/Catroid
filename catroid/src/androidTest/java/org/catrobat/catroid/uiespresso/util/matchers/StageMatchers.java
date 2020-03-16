@@ -46,23 +46,23 @@ public final class StageMatchers {
 			@Override
 			protected boolean matchesSafely(GLSurfaceView20 view) {
 				byte[] testPixels = StageActivity.stageListener.getPixels(x, y, 1, 1);
-				return comparePixelRgbaArrays(testPixels, color);
+				return comparePixelRgbaArrays(testPixels, color, 10);
 			}
 
 			@Override
 			public void describeTo(Description description) {
 				description.appendText("Look if pixel at y=" + Integer.toString(x)
-						+ " y=" + Integer.toString(y) + " is white");
+						+ " y=" + Integer.toString(y) + " is correct color");
 			}
 		};
 	}
 
-	private static boolean comparePixelRgbaArrays(byte[] firstArray, byte[] secondArray) {
+	public static boolean comparePixelRgbaArrays(byte[] firstArray, byte[] secondArray, int delta) {
 		if (firstArray == null || secondArray == null || firstArray.length != 4 || secondArray.length != 4) {
 			return false;
 		}
 		for (int i = 0; i < 4; i++) {
-			if (Math.abs((firstArray[i] & 0xFF) - (secondArray[i] & 0xFF)) > 10) {
+			if (Math.abs((firstArray[i] & 0xFF) - (secondArray[i] & 0xFF)) > delta) {
 				return false;
 			}
 		}

@@ -46,6 +46,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
@@ -84,8 +85,10 @@ public class BroadcastForClonesRegressionTest {
 	@Test
 	public void testIfClonesBroadcastReceiversAreRemovedOnRestart() {
 		baseActivityTestRule.launchActivity(null);
+		IdlingRegistry.getInstance().register(baseActivityTestRule.getActivity().idlingResource);
 
 		pressBack();
+
 		onView(withId(R.id.stage_dialog_button_restart))
 				.perform(click());
 
