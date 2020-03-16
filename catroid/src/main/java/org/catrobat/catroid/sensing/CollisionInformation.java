@@ -164,9 +164,10 @@ public class CollisionInformation {
 				ArrayList<PointF> points = getPointsFromPolygonVertices(boundingPolygon.get(i));
 				ArrayList<PointF> simplified = simplifyPolygon(points, 0, points.size() - 1, epsilon);
 
-				if (Math.hypot(simplified.get(0).x - simplified.get(simplified.size() - 1).x, simplified.get(0).y - simplified.get(simplified.size() - 1).y) < epsilon) {
+				if (pointToPointDistance(simplified.get(0), simplified.get(simplified.size() - 1)) < epsilon) {
 					simplified.remove(simplified.size() - 1);
 				}
+				
 				if (simplified.size() < 3) {
 					continue;
 				}
@@ -368,6 +369,10 @@ public class CollisionInformation {
 				- (point.y - lineStart.y) * (lineEnd.x - lineStart.x)) / normalLength;
 	}
 
+	private static float pointToPointDistance(PointF p1, PointF p2) {
+		return (float) Math.hypot(p1.x - p2.x, p1.y - p2.y);
+	}	
+	
 	public static ArrayList<PointF> simplifyPolygon(ArrayList<PointF> points, int start, int end, float epsilon) {
 		//Ramer-Douglas-Peucker Algorithm
 		float dmax = 0f;
