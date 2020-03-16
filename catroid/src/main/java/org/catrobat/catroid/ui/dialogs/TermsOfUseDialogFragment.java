@@ -40,9 +40,10 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 
 	public static final String TAG = TermsOfUseDialogFragment.class.getSimpleName();
 
+
 	@Override
 	public Dialog onCreateDialog(Bundle bundle) {
-		View view = View.inflate(getActivity(), R.layout.dialog_terms_of_use, null);
+		View view = View.inflate(getContext(), R.layout.dialog_terms_of_use, null);
 
 		TextView termsOfUseTextView = view.findViewById(R.id.dialog_terms_of_use_text_view_info);
 		TextView termsOfUseUrlTextView = view.findViewById(R.id.dialog_terms_of_use_text_view_url);
@@ -51,7 +52,7 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 
 		String termsOfUseUrlStringText;
 
-		AlertDialog.Builder termsOfUseDialogBuilder = new AlertDialog.Builder(getActivity())
+		AlertDialog.Builder termsOfUseDialogBuilder = new AlertDialog.Builder(getContext())
 				.setView(view)
 				.setTitle(R.string.dialog_terms_of_use_title);
 
@@ -75,4 +76,11 @@ public class TermsOfUseDialogFragment extends DialogFragment {
 
 		return termsOfUseDialog;
 	}
+
+	public void findViewById(int menu_terms_of_use) {
+
+	}
 }
+
+
+

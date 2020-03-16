@@ -27,6 +27,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceFragment;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -38,16 +39,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
-public class PrivacyPolicyDialogFragment extends DialogFragment {
+public class PrivacyPolicyDialogFragment extends DialogFragment{
 
 	public static final String TAG = PrivacyPolicyDialogFragment.class.getSimpleName();
+
+	;
 	private static final String BUNDLE_FORCE_ACCEPT = "forceAccept";
 
 	private boolean forceAccept = false;
 	private boolean showDeleteAccountDialog = false;
 
-	public PrivacyPolicyDialogFragment() {
-	}
+	
 
 	public PrivacyPolicyDialogFragment newInstance(boolean forceAccept) {
 		PrivacyPolicyDialogFragment fragment = new PrivacyPolicyDialogFragment();
@@ -64,7 +66,7 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 			forceAccept = bundle.getBoolean(BUNDLE_FORCE_ACCEPT, false);
 		}
 
-		View view = View.inflate(getActivity(), R.layout.dialog_privacy_policy, null);
+		View view = View.inflate(getContext(), R.layout.dialog_privacy_policy, null);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.dialog_privacy_policy_title)
@@ -83,6 +85,7 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 		}
 
 		return builder.create();
+
 	}
 
 	private void showDeleteAccountDialog() {
@@ -98,11 +101,14 @@ public class PrivacyPolicyDialogFragment extends DialogFragment {
 				.setNegativeButton(R.string.delete_account, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(getActivity(), WebViewActivity.class)
+						Intent intent = new Intent(getContext(), WebViewActivity.class)
 								.putExtra(WebViewActivity.INTENT_PARAMETER_URL, Constants.CATROBAT_DELETE_ACCOUNT_URL);
 						getActivity().startActivity(intent);
 					}
 				})
 				.show();
+	}
+
+	public void findViewById(int menu_privacy_policy) {
 	}
 }

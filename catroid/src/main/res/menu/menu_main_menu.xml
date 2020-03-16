@@ -35,14 +35,7 @@
         android:id="@+id/menu_rate_app"
         android:title="@string/main_menu_rate_app"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_terms_of_use"
-        android:title="@string/main_menu_terms_of_use"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/menu_privacy_policy"
-        android:title="@string/main_menu_privacy_policy"
-        app:showAsAction="never" />
+
     <item
         android:id="@+id/menu_about"
         android:title="@string/main_menu_about"

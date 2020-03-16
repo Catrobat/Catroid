@@ -221,12 +221,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 					}
 				}
 				break;
-			case R.id.menu_terms_of_use:
-				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
-				break;
-			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment().show(getSupportFragmentManager(), PrivacyPolicyDialogFragment.TAG);
-				break;
+
 			case R.id.menu_about:
 				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
 				break;
