@@ -36,7 +36,6 @@ import org.catrobat.catroid.formulaeditor.UserList;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,7 +56,7 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 		}
 
 		String csvData;
-		try{
+		try {
 			csvData = formulaCSVData == null ? "" : formulaCSVData.interpretString(sprite);
 		} catch (InterpretationException exception) {
 			csvData = "";
@@ -65,8 +64,8 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 
 		int columnToExtract;
 		try {
-			columnToExtract = formulaColumnToExtract == null ? 0 :
-					formulaColumnToExtract.interpretInteger(sprite);
+			columnToExtract = formulaColumnToExtract == null ? 0
+					: formulaColumnToExtract.interpretInteger(sprite);
 		} catch (InterpretationException interpretationException) {
 			columnToExtract = 0;
 		}
@@ -78,7 +77,9 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 		if (matcher.find()) {
 			separator = matcher.group(1).charAt(0);
 		}
-		if(separator != ',' && separator != ';') {separator = ',';}
+		if (separator != ',' && separator != ';') {
+			separator = ',';
+		}
 
 		userList.reset();
 		boolean resetList = true;
@@ -89,7 +90,7 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 					.build();
 
 			List<String[]> allRows = reader.readAll();
-			if(allRows.size() > 0 && columnToExtract >= 0) {
+			if (allRows.size() > 0 && columnToExtract >= 0) {
 				for (String[] row : allRows) {
 					if (row.length <= columnToExtract) {
 						userList.addListItem("");
@@ -99,7 +100,7 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 					}
 				}
 
-				if(resetList) {
+				if (resetList) {
 					userList.reset();
 				}
 			}

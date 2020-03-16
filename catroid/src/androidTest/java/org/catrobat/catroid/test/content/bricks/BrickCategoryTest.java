@@ -166,6 +166,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
@@ -326,6 +327,7 @@ public class BrickCategoryTest {
 						ReplaceItemInUserListBrick.class,
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
+						StoreCSVIntoUserListBrick.class,
 						AskBrick.class,
 						AskSpeechBrick.class,
 						WebRequestBrick.class)},
@@ -384,7 +386,8 @@ public class BrickCategoryTest {
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
-						FinishStageBrick.class)},
+						FinishStageBrick.class,
+						StoreCSVIntoUserListBrick.class)},
 		});
 	}
 

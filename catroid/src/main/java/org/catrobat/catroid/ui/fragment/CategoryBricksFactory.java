@@ -825,6 +825,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_data);
 		} else if (brick instanceof WebRequestBrick) {
 			category = res.getString(R.string.category_control);
+		} else if (brick instanceof StoreCSVIntoUserListBrick) {
+			category = "Data";
 		}
 
 		config.locale = savedLocale;

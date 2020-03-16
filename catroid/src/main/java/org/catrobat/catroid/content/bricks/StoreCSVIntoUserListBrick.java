@@ -44,14 +44,17 @@ public class StoreCSVIntoUserListBrick extends UserListBrick {
 		this.userList = userList;
 	}
 
-	public StoreCSVIntoUserListBrick(Integer column, String CSV) {
-		this(new Formula(column), new Formula(CSV));
+	public StoreCSVIntoUserListBrick(Integer column, String csv) {
+		this(new Formula(column), new Formula(csv));
 	}
 
-	public StoreCSVIntoUserListBrick(Formula userListFormulaColumnToInsert,	Formula userListFormulaCSVToInsert) {
+	public StoreCSVIntoUserListBrick(Formula userListFormulaColumnToInsert,
+			Formula userListFormulaCSVToInsert) {
 		this();
-		setFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_COLUMN,	userListFormulaColumnToInsert);
-		setFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_CSV, userListFormulaCSVToInsert);
+		setFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_COLUMN,
+				userListFormulaColumnToInsert);
+		setFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_CSV,
+				userListFormulaCSVToInsert);
 	}
 
 	@Override

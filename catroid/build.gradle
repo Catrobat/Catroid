@@ -327,7 +327,10 @@ dependencies {
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation 'com.opencsv:opencsv:5.0'
+    implementation ('com.opencsv:opencsv:5.0') {
+        exclude group: 'org.apache.commons', module: 'commons-text'
+        exclude module: 'commons-logging'
+    }
 
     // Dagger
     implementation 'com.google.dagger:dagger:2.21'
