@@ -509,10 +509,7 @@ public final class CameraManager implements DeviceCameraControl, Camera.PreviewC
 
 	@Override
 	public boolean isReady() {
-		if (currentCamera != null) {
-			return true;
-		}
-		return false;
+		return currentCamera != null;
 	}
 
 	public void updatePreview(CameraState newState) {

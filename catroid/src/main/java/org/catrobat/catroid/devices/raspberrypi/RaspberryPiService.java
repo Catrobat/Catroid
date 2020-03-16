@@ -80,11 +80,7 @@ public final class RaspberryPiService {
 			return false;
 		}
 
-		if (rpi.getConnection().isConnected()) {
-			return true;
-		}
-
-		return false;
+		return rpi.getConnection().isConnected();
 	}
 
 	public void disconnect() {

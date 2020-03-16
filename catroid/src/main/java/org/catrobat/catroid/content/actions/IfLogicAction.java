@@ -48,7 +48,7 @@ public class IfLogicAction extends Action {
 				return;
 			}
 			Double interpretation = ifCondition.interpretDouble(sprite);
-			ifConditionValue = interpretation.intValue() != 0 ? true : false;
+			ifConditionValue = interpretation.intValue() != 0;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
 			isInterpretedCorrectly = false;
