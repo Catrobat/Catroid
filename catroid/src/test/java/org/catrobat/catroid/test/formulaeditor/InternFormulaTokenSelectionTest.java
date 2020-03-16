@@ -41,11 +41,11 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
@@ -90,7 +90,7 @@ public class InternFormulaTokenSelectionTest {
 		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
 		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
 
-		assertFalse(tokenSelectionDeepCopy.equals(1));
+		assertNotEquals(1, tokenSelectionDeepCopy);
 	}
 
 	@Test
