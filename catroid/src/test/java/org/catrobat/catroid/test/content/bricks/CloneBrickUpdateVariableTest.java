@@ -70,7 +70,6 @@ public class CloneBrickUpdateVariableTest {
 				{"ShowTextBrick", new ShowTextBrick()},
 				{"ShowTextColorSizeAlignmentBrick", new ShowTextColorSizeAlignmentBrick()},
 				{"ReadVariableFromDeviceBrick", new ReadVariableFromDeviceBrick()},
-				{"WebRequestBrick", new WebRequestBrick()},
 				{"WriteVariableOnDeviceBrick", new WriteVariableOnDeviceBrick()},
 		});
 	}
