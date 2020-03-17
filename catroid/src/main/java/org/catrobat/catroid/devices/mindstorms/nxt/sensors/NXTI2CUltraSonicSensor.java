@@ -38,6 +38,10 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 	private static final int DEFAULT_VALUE = 255;
 	private static final String TAG = NXTI2CUltraSonicSensor.class.getSimpleName();
 
+	private enum DistanceUnit {
+		DUMMY, CENTIMETER, INCH
+	}
+	
 	public boolean isSensorOff() throws MindstormsException {
 		return getMode() == UltrasonicCommand.Off;
 	}
@@ -112,10 +116,6 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 	public void setContinuousInterval(byte interval) throws MindstormsException {
 		writeRegister(SensorRegister.Interval.getByte(), interval, false);
 		super.wait(60);
-	}
-
-	private enum DistanceUnit {
-		DUMMY, CENTIMETER, INCH
 	}
 
 	private void setMode(UltrasonicCommand command, boolean reply) throws MindstormsException {
