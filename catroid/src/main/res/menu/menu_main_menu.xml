@@ -56,6 +56,10 @@
         android:title="@string/settings"
         app:showAsAction="never" />
     <item
+        android:id="@+id/share"
+        android:title="@string/share"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menu_login"
         android:title="@string/main_menu_login"
         app:showAsAction="never" />

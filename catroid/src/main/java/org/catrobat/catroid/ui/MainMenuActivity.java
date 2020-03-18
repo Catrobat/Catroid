@@ -235,6 +235,19 @@ public class MainMenuActivity extends BaseCastActivity implements
 					startActivity(new Intent(this, ScratchConverterActivity.class));
 				}
 				break;
+			case R.id.share:
+				try {
+					Intent shareIntent = new Intent(Intent.ACTION_SEND);
+					shareIntent.setType("text/plain");
+					shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Pocket Code");
+					String shareMessage= "\nLet me recommend you this application\n\n";
+					shareMessage = shareMessage + "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID +"\n\n";
+					shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+					startActivity(Intent.createChooser(shareIntent, "choose one"));
+				} catch(Exception e) {
+					//e.toString();
+				}
+				break;
 			case R.id.settings:
 				startActivity(new Intent(this, SettingsActivity.class));
 				break;

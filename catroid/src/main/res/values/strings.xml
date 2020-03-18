@@ -2060,6 +2060,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="hertz_symbol">㎐</string>
 
     <string name="sans_serif_font" translatable="false">sans_serif</string>
-    <string name="serif_font" translatable="false">serif</string>
+    <string name="serif_font" translatable="false">serif</string><string name="share">Share</string>
 
 </resources>
