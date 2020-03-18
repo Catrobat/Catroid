@@ -273,7 +273,7 @@ public class CategoryBricksFactory {
 			return setupEmbroideryCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_assertions))) {
-			return setupAssertionsCategoryList();
+			return setupAssertionsCategoryList(context);
 		}
 
 		return Collections.emptyList();
@@ -341,9 +341,6 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WhenClonedBrick());
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
-		}
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			controlBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
 
 		return controlBrickList;
@@ -518,12 +515,12 @@ public class CategoryBricksFactory {
 				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new WriteListOnDeviceBrick());
 		dataBrickList.add(new ReadListFromDeviceBrick());
-		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
-		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
-
 		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
 			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
+		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
 		return dataBrickList;
 	}
 
@@ -660,7 +657,7 @@ public class CategoryBricksFactory {
 		return embroideryBrickList;
 	}
 
-	private List<Brick> setupAssertionsCategoryList() {
+	private List<Brick> setupAssertionsCategoryList(Context context) {
 		List<Brick> assertionsBrickList = new ArrayList<>();
 
 		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
@@ -683,6 +680,9 @@ public class CategoryBricksFactory {
 					}
 				}
 			}
+		}
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
 
 		return assertionsBrickList;
@@ -801,7 +801,7 @@ public class CategoryBricksFactory {
 			}
 		}
 
-		categoryBricks = setupAssertionsCategoryList();
+		categoryBricks = setupAssertionsCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_assertions);
