@@ -264,6 +264,14 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		}
 	}
 
+	public void imgFormatNotSupportedDialog() {
+
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this).setMessage(getString(R.string.Image_format_not_supported)).setPositiveButton(getString(R.string.ok), (dialog1, which) -> dialog1.cancel());
+
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
+
 	public void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
@@ -295,12 +303,15 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 					currentScene.addSprite(sprite);
 					try {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-						File file = StorageOperations
-								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-
+						File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
-						sprite.getLookList().add(lookData);
-						lookData.getCollisionInformation().calculate();
+						if (lookData.getImageMimeType() == null) {
+							imgFormatNotSupportedDialog();
+							currentScene.removeSprite(sprite);
+						} else {
+							sprite.getLookList().add(lookData);
+							lookData.getCollisionInformation().calculate();
+						}
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
