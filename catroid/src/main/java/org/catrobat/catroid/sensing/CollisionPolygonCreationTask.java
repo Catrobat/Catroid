@@ -23,21 +23,29 @@
 
 package org.catrobat.catroid.sensing;
 
+
 import android.os.Process;
+import android.util.Log;
 
 import org.catrobat.catroid.common.LookData;
 
-public class CollisionPolygonCreationTask implements Runnable {
 
+public class CollisionPolygonCreationTask implements Runnable {
 	private LookData lookdata;
+	private static final String TAG  = CollisionPolygonCreationTask.class.getSimpleName();
 
 	public CollisionPolygonCreationTask(LookData lookdata) {
 		this.lookdata = lookdata;
 	}
-
 	@Override
 	public void run() {
 		android.os.Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
-		lookdata.getCollisionInformation().loadCollisionPolygon();
-	}
+try {
+	lookdata.getCollisionInformation().loadCollisionPolygon();
+}
+catch(NullPointerException exception){
+
+	Log.e(TAG,"Image formate not supported");
+}
+		}
 }
