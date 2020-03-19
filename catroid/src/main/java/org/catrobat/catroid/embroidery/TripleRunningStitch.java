@@ -92,9 +92,7 @@ public class TripleRunningStitch implements RunningStitchType {
 	}
 
 	private float getDistanceToPoint(float currentX, float currentY) {
-		double xDistance = Math.pow(currentX - firstX, 2);
-		double yDistance = Math.pow(currentY - firstY, 2);
-		double difference = Math.sqrt(xDistance + yDistance);
-		return (float) difference;
+		double distance = Math.hypot(currentX - firstX, currentY - firstY);
+		return (float) distance;
 	}
 }
