@@ -212,7 +212,7 @@
             android:name=".bluetooth.ConnectBluetoothDeviceActivity" />
 
         <activity
-            android:name=".ui.filepicker.FilePickerActivity" />
+            android:name=".ui.filepicker.FilePickerActivity" /><activity android:name=".ui.ProjectLoaderFromAPI" />
 
         <service android:name=".transfers.project.ProjectUploadService" />
         <service android:name=".transfers.project.ProjectDownloadService" />

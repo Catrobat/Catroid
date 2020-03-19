@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
+import org.catrobat.catroid.ui.ProjectLoaderFromAPI;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
@@ -68,7 +70,7 @@ public class MainMenuFragment extends Fragment implements
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({CONTINUE, NEW, PROGRAMS, HELP, EXPLORE, UPLOAD})
+	@IntDef({CONTINUE, NEW, PROGRAMS, HELP, EXPLORE, UPLOAD, MOST_DOWNLOADED})
 	@interface ButtonId {
 	}
 
@@ -78,6 +80,7 @@ public class MainMenuFragment extends Fragment implements
 	private static final int HELP = 3;
 	private static final int EXPLORE = 4;
 	private static final int UPLOAD = 5;
+	private static final int MOST_DOWNLOADED = 6;
 
 	private View parent;
 	private RecyclerView recyclerView;
@@ -126,6 +129,9 @@ public class MainMenuFragment extends Fragment implements
 				getString(R.string.main_menu_web)));
 		items.add(new RVButton(UPLOAD, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_upload),
 				getString(R.string.main_menu_upload)));
+		items.add(new RVButton(MOST_DOWNLOADED, ContextCompat.getDrawable(getActivity(),
+				R.drawable.ic_main_menu_upload),
+				getString(R.string.main_menu_most_download)));
 		return items;
 	}
 
@@ -189,6 +195,13 @@ public class MainMenuFragment extends Fragment implements
 								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
 										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
 				startActivity(intent);
+				break;
+			case MOST_DOWNLOADED:
+				setShowProgressBar(true);
+				String Path = "app/api/projects/mostDownloaded.json";
+				Intent intent1 = new Intent(getActivity(), ProjectLoaderFromAPI.class)
+						.putExtra("path" , Path);
+				startActivity(intent1);
 				break;
 		}
 	}
