@@ -886,7 +886,7 @@
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
         are the one connected to the drone.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 sensor for akselerasjon\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Vinkelsensor\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompass\n</string>

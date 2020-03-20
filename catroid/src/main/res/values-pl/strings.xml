@@ -999,7 +999,7 @@
     <string name="prestage_resource_not_available_title">Składnik niedostępny</string>
     <string name="prestage_resource_not_available_text">Niestety ten program nie działa na Twoim urządzeniu.         Następujące składniki są niedostępne: \n\n</string>
     <string name="prestage_resource_in_use_text">Inne urządzenie jest połączone z Jumping Sumo. Bądź pewien, że jesteś jedynym kontrolerem drona.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Wibrator\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Wibrator\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Czujnik przyspieszenia\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Czujnik nachylenia\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompas\n</string>

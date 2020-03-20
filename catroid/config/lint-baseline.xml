@@ -218,7 +218,7 @@
         errorLine1=" private static Context context = null;"
         errorLine2="         ~~~~~~">
         <location
-            file="src/main/java/org/catrobat/catroid/utils/VibratorUtil.java"
+            file="src/main/java/org/catrobat/catroid/utils/VibrationUtil.java"
             line="37"
             column="10"/>
     </issue>
