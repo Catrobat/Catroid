@@ -167,7 +167,7 @@ public class CollisionInformation {
 				if (pointToPointDistance(simplified.get(0), simplified.get(simplified.size() - 1)) < epsilon) {
 					simplified.remove(simplified.size() - 1);
 				}
-				
+
 				if (simplified.size() < 3) {
 					continue;
 				}
@@ -371,8 +371,8 @@ public class CollisionInformation {
 
 	private static float pointToPointDistance(PointF p1, PointF p2) {
 		return (float) Math.hypot(p1.x - p2.x, p1.y - p2.y);
-	}	
-	
+	}
+
 	public static ArrayList<PointF> simplifyPolygon(ArrayList<PointF> points, int start, int end, float epsilon) {
 		//Ramer-Douglas-Peucker Algorithm
 		float dmax = 0f;
