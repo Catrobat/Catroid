@@ -538,7 +538,7 @@
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
-
+    <string name="Image_formate_not_supported">Image formate not supported</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
     <string name="last_access_today">today, %s</string>

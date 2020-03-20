@@ -24,8 +24,10 @@ package org.catrobat.catroid.ui;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -56,6 +58,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
+import org.catrobat.paintroid.contract.MainActivityContracts;
 
 import java.io.File;
 import java.io.IOException;
@@ -292,15 +295,21 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Sprite sprite = new Sprite(textInput);
-					currentScene.addSprite(sprite);
 					try {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-						File file = StorageOperations
-								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
-
+						File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
-						sprite.getLookList().add(lookData);
-						lookData.getCollisionInformation().calculate();
+						if(lookData.getImageMimeType()==null)	{
+							AlertDialog.Builder alertDialogBuilder =  new AlertDialog.Builder(this);
+							alertDialogBuilder.setMessage(getString(R.string.Image_formate_not_supported)).setPositiveButton(getString(R.string.ok), (dialog1, which) -> dialog1.cancel());
+							AlertDialog alertDialog = alertDialogBuilder.create();
+							alertDialog.show();
+						}
+						else {
+							currentScene.addSprite(sprite);
+							sprite.getLookList().add(lookData);
+							lookData.getCollisionInformation().calculate();
+						}
 					} catch (IOException e) {
 						Log.e(TAG, Log.getStackTraceString(e));
 					}
