@@ -26,7 +26,7 @@ package org.catrobat.catroid.embroidery;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class ZigZagRunningStitch implements RunningStitchType {
+public class ZigZagRunningStitch extends RunningStitchType {
 	private float length;
 	private float width;
 	private Sprite sprite;
@@ -52,7 +52,7 @@ public class ZigZagRunningStitch implements RunningStitchType {
 	@Override
 	public void update(float currentX, float currentY) {
 		if (sprite != null) {
-			float distance = getDistanceToPoint(currentX, currentY);
+			float distance = getDistanceToPoint(currentX, firstX, currentY, firstY);
 			if (distance >= length) {
 				float surplusPercentage = ((distance - (distance % length)) / distance);
 				currentX = firstX + (surplusPercentage * (currentX - firstX));
@@ -90,15 +90,5 @@ public class ZigZagRunningStitch implements RunningStitchType {
 		direction *= (-1);
 		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(xCoord, yCoord,
 				sprite.look.getZIndex(), sprite));
-	}
-
-	private float interpolate(float endValue, float startValue, float percentage) {
-		float value = Math.round(startValue + percentage * (endValue - startValue));
-		return value;
-	}
-
-	private float getDistanceToPoint(float currentX, float currentY) {
-		double distance = Math.hypot(currentX - firstX, currentY - firstY);
-		return (float) distance;
 	}
 }

@@ -23,7 +23,18 @@
 
 package org.catrobat.catroid.embroidery;
 
-public interface RunningStitchType {
-	void setStartCoordinates(float x, float y);
-	void update(float currentX, float currentY);
+public abstract class RunningStitchType {
+	abstract void setStartCoordinates(float x, float y);
+	abstract void update(float currentX, float currentY);
+
+	public float interpolate(float endValue, float startValue, float percentage) {
+		float value = Math.round(startValue + percentage * (endValue - startValue));
+		return value;
+	}
+
+
+	public float getDistanceToPoint(float currentX, float firstX, float currentY, float firstY) {
+		double distance = Math.hypot(currentX - firstX, currentY - firstY);
+		return (float) distance;
+	}
 }
