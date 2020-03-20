@@ -69,7 +69,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -237,8 +237,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			if (FlashUtil.isAvailable()) {
 				FlashUtil.destroy();
 			}
-			if (VibratorUtil.isActive()) {
-				VibratorUtil.destroy();
+			if (VibrationUtil.isActive()) {
+				VibrationUtil.destroy();
 			}
 			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
@@ -266,8 +266,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (VibratorUtil.isActive()) {
-			VibratorUtil.pauseVibrator();
+		if (VibrationUtil.isActive()) {
+			VibrationUtil.pauseVibration();
 		}
 
 		RaspberryPiService.getInstance().disconnect();

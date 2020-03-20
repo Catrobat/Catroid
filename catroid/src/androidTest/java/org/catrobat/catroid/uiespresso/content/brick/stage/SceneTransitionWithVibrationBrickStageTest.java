@@ -34,7 +34,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -67,14 +67,14 @@ public class SceneTransitionWithVibrationBrickStageTest {
 	@Test
 	public void testVibrationStoppedOnSceneTransition() {
 		lastBrickSecondScript.waitUntilEvaluated(3000);
-		assertFalse(VibratorUtil.isActive());
+		assertFalse(VibrationUtil.isActive());
 	}
 
 	@Test
 	public void testVibrationContinueOnSceneTransition() {
 		secondScript.addBrick(new SceneTransitionBrick(firstSceneName));
 		lastBrickFirstScript.waitUntilEvaluated(3000);
-		assertTrue(VibratorUtil.isActive());
+		assertTrue(VibrationUtil.isActive());
 	}
 
 	private void createProject() {

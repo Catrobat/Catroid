@@ -888,7 +888,7 @@
         Non sono disponibili i seguenti componenti:\n\n</string>
     <string name="prestage_resource_in_use_text">Un altro dispositivo è connesso al Jumping Sumo. Assicurati
     di essere il solo a controllare il drone.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrazione\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibrazione\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore di Accelerazione\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensore di Inclinazione\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Bussola\n</string>

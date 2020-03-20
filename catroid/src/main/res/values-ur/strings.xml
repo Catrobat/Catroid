@@ -947,7 +947,7 @@
          مندرجہ ذیل اجزاء دستیاب نہیں ہیں: \ n \ n</string>
     <string name="prestage_resource_in_use_text">ایک اور آلہ جمپنگ سومو سے منسلک ہے. یقینی بنائیں کہ آپ
          ڈرون سے منسلک ہے.</string>
-    <string name="prestage_no_vibrator_available">\u2022 لرزنے کا عمل\n</string>
+    <string name="prestage_no_vibration_available">\u2022 لرزنے کا عمل\n</string>
     <string name="prestage_no_acceleration_sensor_available">\ u2022 تیز رفتار سینسر n\ </string>
     <string name="prestage_no_inclination_sensor_available">\ u2022 چڑھنے سینسر n\</string>
     <string name="prestage_no_compass_sensor_available">\ u2022 کمپاس \ n</string>

@@ -888,7 +888,7 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">एक अन्य उपकरण सूमो से जुड़ा है । ध्यान रखे, आप अकेले ही गबन के लिए ही नियंत्रक रहे।</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 त्वरण संवेदक\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 त्वरण संवेदक\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
