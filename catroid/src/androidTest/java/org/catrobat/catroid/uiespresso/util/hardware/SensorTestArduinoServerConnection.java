@@ -154,7 +154,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("LIGHT_END"));
-			assertEquals(assertString, response.charAt(0), expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -194,7 +194,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("AUDIO_END"));
-			assertEquals(assertString, response.charAt(0), expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
@@ -237,7 +237,7 @@ public final class SensorTestArduinoServerConnection {
 			}
 			assertFalse("Wrong Command!", response.contains("ERROR"));
 			assertTrue("Wrong data received!", response.contains("VIBRATION_END"));
-			assertEquals(assertString, response.charAt(0), expectedChar);
+			assertEquals(assertString, expectedChar, response.charAt(0));
 		} catch (IOException ioException) {
 			throw new AssertionFailedError("Data exchange failed! Check server connection!");
 		} catch (InterruptedException e) {
