@@ -26,7 +26,7 @@ package org.catrobat.catroid.embroidery;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class SimpleRunningStitch implements RunningStitchType {
+public class SimpleRunningStitch extends RunningStitchType {
 	private Sprite sprite;
 	private int length;
 	private boolean first;
@@ -49,7 +49,7 @@ public class SimpleRunningStitch implements RunningStitchType {
 
 	@Override
 	public void update(float currentX, float currentY) {
-		float distance = getDistanceToPoint(currentX, currentY);
+		float distance = getDistanceToPoint(currentX, firstX, currentY, firstY);
 		if (distance >= length) {
 			float surplusPercentage = ((distance - (distance % length)) / distance);
 			currentX = firstX + (surplusPercentage * (currentX - firstX));
@@ -76,17 +76,5 @@ public class SimpleRunningStitch implements RunningStitchType {
 			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
 					sprite.look.getZIndex(), sprite));
 		}
-	}
-
-	private float interpolate(float endValue, float startValue, float percentage) {
-		float value = Math.round(startValue + percentage * (endValue - startValue));
-		return value;
-	}
-
-	private float getDistanceToPoint(float currentX, float currentY) {
-		double xDistance = Math.pow(currentX - firstX, 2);
-		double yDistance = Math.pow(currentY - firstY, 2);
-		double difference = Math.sqrt(xDistance + yDistance);
-		return (float) difference;
 	}
 }
