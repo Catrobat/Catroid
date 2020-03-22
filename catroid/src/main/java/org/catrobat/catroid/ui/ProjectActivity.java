@@ -266,7 +266,12 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 		}
 	}
-
+	public void imgFormatNotSupportedDialog(){
+		AlertDialog.Builder alertDialogBuilder =  new AlertDialog.Builder(this);
+		alertDialogBuilder.setMessage(getString(R.string.Image_formate_not_supported)).setPositiveButton(getString(R.string.ok), (dialog1, which) -> dialog1.cancel());
+		AlertDialog alertDialog = alertDialogBuilder.create();
+		alertDialog.show();
+	}
 	public void addSpriteFromUri(final Uri uri) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
@@ -295,18 +300,16 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Sprite sprite = new Sprite(textInput);
+					currentScene.addSprite(sprite);
 					try {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
 						if(lookData.getImageMimeType()==null)	{
-							AlertDialog.Builder alertDialogBuilder =  new AlertDialog.Builder(this);
-							alertDialogBuilder.setMessage(getString(R.string.Image_formate_not_supported)).setPositiveButton(getString(R.string.ok), (dialog1, which) -> dialog1.cancel());
-							AlertDialog alertDialog = alertDialogBuilder.create();
-							alertDialog.show();
+							imgFormatNotSupportedDialog();
+							currentScene.removeSprite(sprite);
 						}
 						else {
-							currentScene.addSprite(sprite);
 							sprite.getLookList().add(lookData);
 							lookData.getCollisionInformation().calculate();
 						}
