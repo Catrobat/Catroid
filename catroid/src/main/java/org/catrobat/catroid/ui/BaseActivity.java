@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -74,6 +75,22 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 					+ "recreation, finishing activity.");
 			finish();
 		}
+	}
+
+	private static final int TIME_INTERVAL = 2000; // # milliseconds, desired time passed between two back presses.
+	private long mBackPressed;
+
+	@Override
+	public void onBackPressed()
+	{
+		if (mBackPressed + TIME_INTERVAL > System.currentTimeMillis())
+		{
+			super.onBackPressed();
+			return;
+		}
+		else { Toast.makeText(getBaseContext(), "Tap back button in order to exit", Toast.LENGTH_SHORT).show(); }
+
+		mBackPressed = System.currentTimeMillis();
 	}
 
 	private void applyAccessibilityStyles() {
