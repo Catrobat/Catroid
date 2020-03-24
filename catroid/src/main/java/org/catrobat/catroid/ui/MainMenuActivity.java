@@ -76,6 +76,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	ProjectManager projectManager;
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
+	private boolean doubleBackToExitPressedOnce = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -283,5 +284,20 @@ public class MainMenuActivity extends BaseCastActivity implements
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		this.doubleBackToExitPressedOnce = false;
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (doubleBackToExitPressedOnce) {
+			super.onBackPressed();
+			return;
+		}
+		this.doubleBackToExitPressedOnce = true;
 	}
 }
