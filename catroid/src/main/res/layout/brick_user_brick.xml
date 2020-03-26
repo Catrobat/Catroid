@@ -21,34 +21,34 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
-
-<!-- Overdraw lint warning is ignored - fragments need refactoring -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/add_brick_fragment_list"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/app_background"
-              android:orientation="vertical"
-              tools:ignore="Overdraw" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
 
-    <org.catrobat.catroid.ui.dragndrop.BrickListView
-        android:id="@android:id/list"
+    <CheckBox
+        android:id="@+id/brick_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:visibility="gone"/>
+
+    <ScrollView
+        android:id="@+id/user_brick_scrollbar"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:cacheColorHint="#00000000"
-        android:divider="@android:color/transparent" />
-
-    <ImageButton
-        android:id="@+id/button_add_user_brick"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/actionbar_height"
-        android:layout_weight="0"
-        android:layout_gravity="center|bottom"
-        android:background="@drawable/button_background_selector"
-        android:src="@drawable/ic_plus"
-        tools:ignore="ContentDescription"/>
-
+        android:layout_height="@dimen/brick_height_medium"
+        android:layout_marginBottom="10dp">
+        <org.catrobat.catroid.ui.BrickLayout
+            android:id="@+id/brick_user_brick"
+            style="@style/BrickContainer.Look.Medium"
+            android:layout_height="@dimen/brick_height_medium"
+            app:userDefinedBrick="true"
+            android:layout_width="match_parent"
+            android:background="@drawable/brick_darkblue_1h">
+            <include layout="@layout/icon_brick_category_look"/>
+        </org.catrobat.catroid.ui.BrickLayout>
+    </ScrollView>
 </LinearLayout>
