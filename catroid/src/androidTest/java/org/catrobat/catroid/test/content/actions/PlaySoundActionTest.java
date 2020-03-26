@@ -22,17 +22,15 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import android.media.MediaPlayer;
-
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.MediaPlayerWithSoundDetails;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
@@ -48,17 +46,15 @@ import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 @RunWith(AndroidJUnit4.class)
 public class PlaySoundActionTest {
 	private final SoundManager soundManager = SoundManager.getInstance();
 	private File soundFile;
+	private Project project;
 
 	@Before
 	public void setUp() throws Exception {
@@ -83,25 +79,28 @@ public class PlaySoundActionTest {
 		Action action = factory.createPlaySoundAction(testSprite, soundInfo);
 		action.act(1.0f);
 
-		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
+		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
 		assertEquals(1, mediaPlayers.size());
 		assertTrue(mediaPlayers.get(0).isPlaying());
 	}
 
 	@Test
-	public void testPlaySimultaneousSounds() {
+	public void testPlaySimultaneousSounds() throws IOException {
+		File soundFile2 = TestUtils.createSoundFile(project, R.raw.testsoundui, "soundTest.mp3");
 		Sprite testSprite = new SingleSprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
+		SoundInfo soundInfo2 = createSoundInfo(soundFile2);
 		testSprite.getSoundList().add(soundInfo);
+		testSprite.getSoundList().add(soundInfo2);
 
 		ActionFactory factory = testSprite.getActionFactory();
 		Action playSoundAction1 = factory.createPlaySoundAction(testSprite, soundInfo);
-		Action playSoundAction2 = factory.createPlaySoundAction(testSprite, soundInfo);
+		Action playSoundAction2 = factory.createPlaySoundAction(testSprite, soundInfo2);
 
 		playSoundAction1.act(1.0f);
 		playSoundAction2.act(1.0f);
 
-		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
+		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
 		assertEquals(2, mediaPlayers.size());
 		assertTrue(mediaPlayers.get(0).isPlaying());
 		assertTrue(mediaPlayers.get(1).isPlaying());
@@ -109,16 +108,11 @@ public class PlaySoundActionTest {
 
 	private void createTestProject() throws IOException {
 		String projectName = "testProject";
-		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		int soundFileId = R.raw.testsound;
-		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
-				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				soundFileId,
-				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
-				"soundTest.mp3");
+		soundFile = TestUtils.createSoundFile(project, R.raw.testsound, "soundTest.mp3");
 	}
 
 	private SoundInfo createSoundInfo(File soundFile) {

@@ -25,10 +25,15 @@ package org.catrobat.catroid.io;
 import android.media.MediaPlayer;
 import android.util.Log;
 
+import org.catrobat.catroid.content.MediaPlayerWithSoundDetails;
+import org.catrobat.catroid.content.SoundBackup;
+import org.catrobat.catroid.content.SoundFilePathWithSprite;
+import org.catrobat.catroid.content.Sprite;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -42,9 +47,10 @@ public class SoundManager {
 	private static final String TAG = SoundManager.class.getSimpleName();
 	private static final SoundManager INSTANCE = new SoundManager();
 
-	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
+	private final List<MediaPlayerWithSoundDetails> mediaPlayers = new ArrayList<>(MAX_MEDIA_PLAYERS);
 	private float volume = 70.0f;
-	private List<String> soundFiles = new ArrayList<>(MAX_MEDIA_PLAYERS);
+
+	private final Set<SoundFilePathWithSprite> recentlyStoppedSoundfilePaths = new HashSet<>();
 
 	@VisibleForTesting
 	public SoundManager() {
@@ -54,24 +60,41 @@ public class SoundManager {
 		return INSTANCE;
 	}
 
-	public synchronized void playSoundFile(String pathToSoundfile) {
-		playSoundFileWithStartTime(pathToSoundfile, 0);
+	public synchronized void playSoundFile(String soundFilePath, Sprite sprite) {
+		playSoundFileWithStartTime(soundFilePath, sprite, 0);
 	}
 
-	public synchronized void playSoundFileWithStartTime(String pathToSoundfile,
-			int startTimeInMilSeconds) {
-		MediaPlayer mediaPlayer = getAvailableMediaPlayer();
+	public synchronized void playSoundFileWithStartTime(String soundFilePath,
+			Sprite sprite, int startTimeInMilSeconds) {
+		stopSameSoundInSprite(soundFilePath, sprite);
+		MediaPlayerWithSoundDetails mediaPlayer = getAvailableMediaPlayer();
 		if (mediaPlayer != null) {
 			try {
-				soundFiles.add(pathToSoundfile);
-				mediaPlayer.setDataSource(pathToSoundfile);
+				mediaPlayer.setStartedBySprite(sprite);
+				mediaPlayer.setPathToSoundFile(soundFilePath);
+				mediaPlayer.setDataSource(soundFilePath);
 				mediaPlayer.prepare();
 				mediaPlayer.seekTo(startTimeInMilSeconds);
 				mediaPlayer.start();
 			} catch (Exception exception) {
-				Log.e(TAG, "Couldn't play sound file '" + pathToSoundfile + "'", exception);
+				Log.e(TAG, "Couldn't play sound file '" + soundFilePath + "'", exception);
 			}
 		}
+	}
+
+	private void stopSameSoundInSprite(String pathToSoundFile, Sprite sprite) {
+		for (MediaPlayerWithSoundDetails mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying() && mediaPlayer.getStartedBySprite() == sprite
+					&& mediaPlayer.getPathToSoundFile().equals(pathToSoundFile)) {
+				mediaPlayer.stop();
+				recentlyStoppedSoundfilePaths.add(new SoundFilePathWithSprite(
+						mediaPlayer.getPathToSoundFile(), sprite));
+			}
+		}
+	}
+
+	public synchronized Set<SoundFilePathWithSprite> getRecentlyStoppedSoundfilePaths() {
+		return recentlyStoppedSoundfilePaths;
 	}
 
 	public synchronized float getDurationOfSoundFile(String pathToSoundfile) {
@@ -90,8 +113,8 @@ public class SoundManager {
 		return duration;
 	}
 
-	private MediaPlayer getAvailableMediaPlayer() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
+	private MediaPlayerWithSoundDetails getAvailableMediaPlayer() {
+		for (MediaPlayerWithSoundDetails mediaPlayer : mediaPlayers) {
 			if (!mediaPlayer.isPlaying()) {
 				mediaPlayer.reset();
 				return mediaPlayer;
@@ -99,7 +122,7 @@ public class SoundManager {
 		}
 
 		if (mediaPlayers.size() < MAX_MEDIA_PLAYERS) {
-			MediaPlayer mediaPlayer = new MediaPlayer();
+			MediaPlayerWithSoundDetails mediaPlayer = new MediaPlayerWithSoundDetails();
 			mediaPlayers.add(mediaPlayer);
 			setVolume(volume);
 			return mediaPlayer;
@@ -127,11 +150,12 @@ public class SoundManager {
 	}
 
 	public synchronized void clear() {
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
+		for (MediaPlayerWithSoundDetails mediaPlayer : mediaPlayers) {
+			mediaPlayer.reset();
 			mediaPlayer.release();
 		}
 		mediaPlayers.clear();
-		soundFiles.clear();
+		recentlyStoppedSoundfilePaths.clear();
 	}
 
 	public synchronized void pause() {
@@ -160,29 +184,17 @@ public class SoundManager {
 		}
 	}
 
-	public Map<String, Integer> getPlayingSoundDurationMap() {
-		List<Integer> positionList =
-				SoundManager.getInstance().getCurrentPositionOfSounds();
-		Map<String, Integer> soundsDurationMap = new HashMap<>();
-		for (String sound : soundFiles) {
-			int position = positionList.get(soundFiles.indexOf(sound));
-			if (position > 0 && position < getDurationOfSoundFile(sound)) {
-				soundsDurationMap.put(sound, position);
+	public List<SoundBackup> getPlayingSoundBackups() {
+		List<SoundBackup> backupList = new ArrayList<>();
+		for (MediaPlayerWithSoundDetails mediaPlayer : mediaPlayers) {
+			if (mediaPlayer.isPlaying()) {
+				backupList.add(new SoundBackup(mediaPlayer.getPathToSoundFile(), mediaPlayer.getStartedBySprite(), mediaPlayer.getCurrentPosition()));
 			}
 		}
-		return soundsDurationMap;
+		return backupList;
 	}
 
-	private List<Integer> getCurrentPositionOfSounds() {
-		List<Integer> positionList = new ArrayList<>();
-		for (MediaPlayer mediaPlayer : mediaPlayers) {
-			positionList.add(mediaPlayer.getCurrentPosition());
-		}
-		return positionList;
-	}
-
-	@VisibleForTesting
-	public List<MediaPlayer> getMediaPlayers() {
+	public List<MediaPlayerWithSoundDetails> getMediaPlayers() {
 		return mediaPlayers;
 	}
 }

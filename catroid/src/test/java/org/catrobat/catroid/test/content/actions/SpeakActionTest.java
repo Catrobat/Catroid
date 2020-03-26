@@ -127,7 +127,7 @@ public class SpeakActionTest {
 
 	@Test
 	public void testNullFormula() throws Exception {
-		Action action = factory.createSpeakAction(sprite, (Formula) null);
+		Action action = factory.createSpeakAction(sprite, null);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));

@@ -92,7 +92,7 @@ public class SpeakAction extends TemporalAction {
 				if (determineLength) {
 					lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechFile.getAbsolutePath());
 				} else {
-					SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath());
+					SoundManager.getInstance().playSoundFile(speechFile.getAbsolutePath(), sprite);
 				}
 			}
 		};
@@ -116,6 +116,10 @@ public class SpeakAction extends TemporalAction {
 
 	public float getLengthOfText() {
 		return lengthOfText;
+	}
+
+	public File getSpeechFile() {
+		return speechFile;
 	}
 
 	public void setDetermineLength(boolean getDurationOfText) {
