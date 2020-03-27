@@ -30,8 +30,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,7 +41,6 @@ import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -324,4 +321,3 @@ public class WebViewActivity extends AppCompatActivity {
 	}
 
 }
-
