@@ -82,7 +82,7 @@ public class WebViewActivity extends AppCompatActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
-	private boolean previousstate=false;
+	private boolean previousstate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -170,12 +170,11 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
 			}
-			if(previousstate)
-			{
+			if (previousstate) {
 				findViewById(R.id.nointernet).setVisibility(View.GONE);
 				webView.setVisibility(View.VISIBLE);
 			}
-			previousstate=false;
+			previousstate = false;
 		}
 
 		@Override
@@ -205,10 +204,9 @@ public class WebViewActivity extends AppCompatActivity {
 				findViewById(R.id.nointernet).setVisibility(View.VISIBLE);
 				webView.setVisibility(View.GONE);
 				findViewById(R.id.retry).setOnClickListener(v -> {
-					if(Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this))
-					{
+					if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
 						webView.reload();
-						previousstate=true;
+						previousstate = true;
 						webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
 						webViewLoadingDialog.setCancelable(true);
 						webViewLoadingDialog.setCanceledOnTouchOutside(false);
@@ -319,5 +317,5 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.destroy();
 		super.onDestroy();
 	}
-
 }
+
