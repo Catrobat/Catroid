@@ -71,3 +71,4 @@ fastlane/*
 !fastlane/Fastfile
 !fastlane/staticContent/
 Gemfile
+catroid/src/main/java/org/catrobat/catroid/ui/WebViewActivity.java
