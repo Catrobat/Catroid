@@ -30,16 +30,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -85,6 +89,37 @@ public class WebViewActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		start();
+	}
+
+	public void start()
+	{
+		if(!isNetworkStatusAvialable(this))
+		{
+			setContentView(R.layout.nointernet);
+			findViewById(R.id.retry).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if(isNetworkStatusAvialable(WebViewActivity.this))
+					{
+						networkavailable();
+					}
+					else
+					{
+						Toast.makeText(WebViewActivity.this,"No Internet Connection",
+								Toast.LENGTH_LONG).show();
+					}
+				}
+			});
+		}
+		else
+		{
+			networkavailable();
+		}
+	}
+
+	public void networkavailable()
+	{
 		setContentView(R.layout.activity_webview);
 
 		String url = getIntent().getStringExtra(INTENT_PARAMETER_URL);
@@ -301,4 +336,17 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.destroy();
 		super.onDestroy();
 	}
+
+	public static boolean isNetworkStatusAvialable (Context context) {
+		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (connectivityManager != null)
+		{
+			NetworkInfo netInfos = connectivityManager.getActiveNetworkInfo();
+			if(netInfos != null)
+				if(netInfos.isConnected())
+					return true;
+		}
+		return false;
+	}
 }
+
