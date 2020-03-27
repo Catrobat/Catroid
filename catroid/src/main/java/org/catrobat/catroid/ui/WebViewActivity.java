@@ -85,40 +85,11 @@ public class WebViewActivity extends AppCompatActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private boolean previousstate=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		start();
-	}
-
-	public void start()
-	{
-		if(!isNetworkStatusAvialable(this))
-		{
-			setContentView(R.layout.nointernet);
-			findViewById(R.id.retry).setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if(isNetworkStatusAvialable(WebViewActivity.this))
-					{
-						networkavailable();
-					}
-					else
-					{
-						ToastUtil.showError(WebViewActivity.this,"No Internet Connection");
-					}
-				}
-			});
-		}
-		else
-		{
-			networkavailable();
-		}
-	}
-
-	public void networkavailable()
-	{
 		setContentView(R.layout.activity_webview);
 
 		String url = getIntent().getStringExtra(INTENT_PARAMETER_URL);
@@ -192,9 +163,6 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)) {
-				allowGoBack = false;
-				onBackPressed();
 			}
 		}
 
@@ -205,6 +173,12 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
 			}
+			if(previousstate)
+			{
+				findViewById(R.id.nointernet).setVisibility(View.GONE);
+				webView.setVisibility(View.VISIBLE);
+			}
+			previousstate=false;
 		}
 
 		@Override
@@ -230,8 +204,21 @@ public class WebViewActivity extends AppCompatActivity {
 
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
-				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
+			if (!Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
+				findViewById(R.id.nointernet).setVisibility(View.VISIBLE);
+				webView.setVisibility(View.GONE);
+				findViewById(R.id.retry).setOnClickListener(v -> {
+					if(Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this))
+					{
+						webView.reload();
+						previousstate=true;
+						webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
+						webViewLoadingDialog.setCancelable(true);
+						webViewLoadingDialog.setCanceledOnTouchOutside(false);
+						webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+						webViewLoadingDialog.show();
+					}
+				});
 			}
 		}
 
@@ -336,15 +323,5 @@ public class WebViewActivity extends AppCompatActivity {
 		super.onDestroy();
 	}
 
-	public static boolean isNetworkStatusAvialable (Context context) {
-		ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		if (connectivityManager != null)
-		{
-			NetworkInfo netInfos = connectivityManager.getActiveNetworkInfo();
-			if(netInfos != null)
-				if(netInfos.isConnected())
-					return true;
-		}
-		return false;
-	}
 }
+
