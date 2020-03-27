@@ -776,10 +776,10 @@
     <string name="register">Đăng Ký</string>
     <string name="password_confirm">Confirm password</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
+    <string name="sign_in_thanks">Thank you for signing up!</string>
+    <string name="sign_in_choose_username">Please choose your username:</string>
+    <string name="sign_in_choose_username_empty">Please enter a username.</string>
+    <string name="sign_in_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show password</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>

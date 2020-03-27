@@ -914,10 +914,10 @@ Ako se ne osjecate ugodno kako bi to ucinili, mozete koristiti nase besplatne we
     <string name="register">Registracija</string>
     <string name="password_confirm">Potvrdi lozinku</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Hvala Vam na prijavi!</string>
-    <string name="signin_choose_username">Molimo Vas odaberite korisnicko ime:</string>
-    <string name="signin_choose_username_empty">Molimo Vas unesite korisnicko ime.</string>
-    <string name="signin_choose_username_hint">Korisnicko ime ne bi smjelo biti vase pravo ime niti email adresa.</string>
+    <string name="sign_in_thanks">Hvala Vam na prijavi!</string>
+    <string name="sign_in_choose_username">Molimo Vas odaberite korisnicko ime:</string>
+    <string name="sign_in_choose_username_empty">Molimo Vas unesite korisnicko ime.</string>
+    <string name="sign_in_choose_username_hint">Korisnicko ime ne bi smjelo biti vase pravo ime niti email adresa.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Prikaži lozinku</string>
     <string name="sign_in_error">Doslo je do pogreske tijekom prijave.</string>

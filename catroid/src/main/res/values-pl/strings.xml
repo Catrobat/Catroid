@@ -961,10 +961,10 @@
     <string name="register">Zarejestruj się</string>
     <string name="password_confirm">Potwierdź hasło</string>
     <string name="accountName">E-mail</string>
-    <string name="signin_thanks">Dziękujemy za rejestrację!</string>
-    <string name="signin_choose_username">Proszę wybrać swoją nazwę użytkownika:</string>
-    <string name="signin_choose_username_empty">Wprowadź nazwę użytkownika!</string>
-    <string name="signin_choose_username_hint">Nazwa użytkownika nie powinna być Twoim prawdziwym imieniem ani adresem e-mail.</string>
+    <string name="sign_in_thanks">Dziękujemy za rejestrację!</string>
+    <string name="sign_in_choose_username">Proszę wybrać swoją nazwę użytkownika:</string>
+    <string name="sign_in_choose_username_empty">Wprowadź nazwę użytkownika!</string>
+    <string name="sign_in_choose_username_hint">Nazwa użytkownika nie powinna być Twoim prawdziwym imieniem ani adresem e-mail.</string>
     <string name="oauth_username_taken">Ktoś już używa tej nazwy. Proszę wybrać inną!</string>
     <string name="show_password">Pokaż hasło</string>
     <string name="sign_in_error">Coś poszło nie tak podczas logowania.</string>

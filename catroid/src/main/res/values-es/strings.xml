@@ -843,10 +843,10 @@
     <string name="register">Regístrate</string>
     <string name="password_confirm">Confirma tu contraseña</string>
     <string name="accountName">Email</string>
-    <string name="signin_thanks">¡Gracias por registrarte!</string>
-    <string name="signin_choose_username">Por favor, elija un nombre de usuario:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">El nombre de usuario no debe ser tu nombre real ni debe ser una dirección de correo electrónico.</string>
+    <string name="sign_in_thanks">¡Gracias por registrarte!</string>
+    <string name="sign_in_choose_username">Por favor, elija un nombre de usuario:</string>
+    <string name="sign_in_choose_username_empty">Please enter a username.</string>
+    <string name="sign_in_choose_username_hint">El nombre de usuario no debe ser tu nombre real ni debe ser una dirección de correo electrónico.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Mostrar Contraseña</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>

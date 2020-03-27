@@ -849,10 +849,10 @@
     <string name="register">Rexistrarse</string>
     <string name="password_confirm">Confirmar contrasinal</string>
     <string name="accountName">Correo electrónico</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Escolle o teu nome de usuario:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
+    <string name="sign_in_thanks">Thank you for signing up!</string>
+    <string name="sign_in_choose_username">Escolle o teu nome de usuario:</string>
+    <string name="sign_in_choose_username_empty">Please enter a username.</string>
+    <string name="sign_in_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Mostrar contrasinal</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>

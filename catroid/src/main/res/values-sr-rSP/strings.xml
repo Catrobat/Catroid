@@ -912,10 +912,10 @@
     <string name="register">Регистрација</string>
     <string name="password_confirm">Потврдите лозинку</string>
     <string name="accountName">E-Мail</string>
-    <string name="signin_thanks">Хвала што сте се пријавили!</string>
-    <string name="signin_choose_username">Молимо одаберите ваше корисничко име:</string>
-    <string name="signin_choose_username_empty">Молимо унесите корисничко име.</string>
-    <string name="signin_choose_username_hint">Корисничко име не треба да буде ваше право име, нити треба да буде адреса е-поште.</string>
+    <string name="sign_in_thanks">Хвала што сте се пријавили!</string>
+    <string name="sign_in_choose_username">Молимо одаберите ваше корисничко име:</string>
+    <string name="sign_in_choose_username_empty">Молимо унесите корисничко име.</string>
+    <string name="sign_in_choose_username_hint">Корисничко име не треба да буде ваше право име, нити треба да буде адреса е-поште.</string>
     <string name="oauth_username_taken">Неко други већ користи ово име. Изаберите друго!</string>
     <string name="show_password">Прикажи лозинку</string>
     <string name="sign_in_error">Дошло је до грешке приликом пријављивања.</string>

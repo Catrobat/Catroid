@@ -719,10 +719,10 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="register">Register</string>
     <string name="password_confirm">Confirm password</string>
     <string name="accountName">อีเมล</string>
-    <string name="signin_thanks">ขอบคุณที่ลงทะเบียน!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">ชื่อผู้ใช้ไม่ควรเป็นชื่อจริงของคุณและไม่ควรเป็นที่อยู่อีเมล</string>
+    <string name="sign_in_thanks">ขอบคุณที่ลงทะเบียน!</string>
+    <string name="sign_in_choose_username">Please choose your username:</string>
+    <string name="sign_in_choose_username_empty">Please enter a username.</string>
+    <string name="sign_in_choose_username_hint">ชื่อผู้ใช้ไม่ควรเป็นชื่อจริงของคุณและไม่ควรเป็นที่อยู่อีเมล</string>
     <string name="oauth_username_taken">มีคนอื่นใช้ชื่อนี้แล้ว โปรดเลือกอันอื่น!</string>
     <string name="show_password">Show password</string>
     <string name="sign_in_error">เกิดข้อผิดพลาดระหว่างลงชื่อเข้าใช้</string>

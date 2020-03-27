@@ -845,10 +845,10 @@
     <string name="register">S\'inscrire</string>
     <string name="password_confirm">Confirmer le mot de passe</string>
     <string name="accountName">E-mail</string>
-    <string name="signin_thanks">Merci pour ton inscription à Pocket Code !</string>
-    <string name="signin_choose_username">Merci de choisir un nom d\'utilisateur :</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">Le nom d\'utilisateur ne doit pas être ton vrai nom.</string>
+    <string name="sign_in_thanks">Merci pour ton inscription à Pocket Code !</string>
+    <string name="sign_in_choose_username">Merci de choisir un nom d\'utilisateur :</string>
+    <string name="sign_in_choose_username_empty">Please enter a username.</string>
+    <string name="sign_in_choose_username_hint">Le nom d\'utilisateur ne doit pas être ton vrai nom.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Afficher le mot de passe</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>

@@ -911,10 +911,10 @@
     <string name="register">Registruj se</string>
     <string name="password_confirm">Potvrdite šifru</string>
     <string name="accountName">E-mail</string>
-    <string name="signin_thanks">Hvala što ste se prijavili!</string>
-    <string name="signin_choose_username">Molimo Vas da izaberete korisničko ime:</string>
-    <string name="signin_choose_username_empty">Molimo Vas unesite korisničko ime.</string>
-    <string name="signin_choose_username_hint">Korisničko ime ne bi trebalo da bude Vaše pravo ime ni Vaša email adresa.</string>
+    <string name="sign_in_thanks">Hvala što ste se prijavili!</string>
+    <string name="sign_in_choose_username">Molimo Vas da izaberete korisničko ime:</string>
+    <string name="sign_in_choose_username_empty">Molimo Vas unesite korisničko ime.</string>
+    <string name="sign_in_choose_username_hint">Korisničko ime ne bi trebalo da bude Vaše pravo ime ni Vaša email adresa.</string>
     <string name="oauth_username_taken">Neko već koristi ovo korisničko ime. Molimo Vas da izaberete drugo!</string>
     <string name="show_password">Prikaži šifru</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>

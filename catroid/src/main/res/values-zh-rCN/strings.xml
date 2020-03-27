@@ -762,10 +762,10 @@
     <string name="register">注册</string>
     <string name="password_confirm">确认密码</string>
     <string name="accountName">邮箱</string>
-    <string name="signin_thanks">感谢您的注册 ！</string>
-    <string name="signin_choose_username">请选择一个用户名：</string>
-    <string name="signin_choose_username_empty">请输入用户名。</string>
-    <string name="signin_choose_username_hint">用户名不建议使用您的真实姓名。</string>
+    <string name="sign_in_thanks">感谢您的注册 ！</string>
+    <string name="sign_in_choose_username">请选择一个用户名：</string>
+    <string name="sign_in_choose_username_empty">请输入用户名。</string>
+    <string name="sign_in_choose_username_hint">用户名不建议使用您的真实姓名。</string>
     <string name="oauth_username_taken">其他人已经使用了这个名字。请选择一个不同的名字！</string>
     <string name="show_password">显示密码</string>
     <string name="sign_in_error">在登录时发生了错误。</string>

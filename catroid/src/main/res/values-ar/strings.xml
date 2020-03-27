@@ -1119,10 +1119,10 @@
     <string name="register">تسجيل</string>
     <string name="password_confirm">تأكيد كلمة السر</string>
     <string name="accountName">البريد الإلكتروني</string>
-    <string name="signin_thanks">شكراً لكم على التسجيل في \"بوكت كوود\"!</string>
-    <string name="signin_choose_username">الرجاء اختيار اسم المستخدم الخاص بك:</string>
-    <string name="signin_choose_username_empty">الرجاء إدخال اسم مستخدم.</string>
-    <string name="signin_choose_username_hint">يجب أن لا يكون اسم المستخدم هو اسمك الحقيقي.</string>
+    <string name="sign_in_thanks">شكراً لكم على التسجيل في \"بوكت كوود\"!</string>
+    <string name="sign_in_choose_username">الرجاء اختيار اسم المستخدم الخاص بك:</string>
+    <string name="sign_in_choose_username_empty">الرجاء إدخال اسم مستخدم.</string>
+    <string name="sign_in_choose_username_hint">يجب أن لا يكون اسم المستخدم هو اسمك الحقيقي.</string>
     <string name="oauth_username_taken">اسم المستخدم محجوز, من فضلك اختر اسماً اخر!</string>
     <string name="show_password">إظهار كلمة المرور</string>
     <string name="sign_in_error">حدث خطأ أثناء تسجيل الدخول.</string>

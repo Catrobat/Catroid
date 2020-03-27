@@ -992,10 +992,10 @@
     <string name="register">Зарегистрироваться</string>
     <string name="password_confirm">Подтвердите пароль</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Спасибо за регистрацию!</string>
-    <string name="signin_choose_username">Пожалуйста, выберите имя пользователя:</string>
-    <string name="signin_choose_username_empty">Пожалуйста, введите имя пользователя.</string>
-    <string name="signin_choose_username_hint">Имя пользователя не должно совпадать с вашим настоящим именем.</string>
+    <string name="sign_in_thanks">Спасибо за регистрацию!</string>
+    <string name="sign_in_choose_username">Пожалуйста, выберите имя пользователя:</string>
+    <string name="sign_in_choose_username_empty">Пожалуйста, введите имя пользователя.</string>
+    <string name="sign_in_choose_username_hint">Имя пользователя не должно совпадать с вашим настоящим именем.</string>
     <string name="oauth_username_taken">Кто-то уже использует это имя. Пожалуйста, выберите другое!</string>
     <string name="show_password">Показать пароль</string>
     <string name="sign_in_error">Что-то пошло не так во время входа.</string>

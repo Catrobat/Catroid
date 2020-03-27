@@ -847,10 +847,10 @@
     <string name="register">Registrati</string>
     <string name="password_confirm">Conferma password</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Grazie per la creazione dell\'account!</string>
-    <string name="signin_choose_username">Scegli il tuo nome utente:</string>
-    <string name="signin_choose_username_empty">Inserisci un nome utente!</string>
-    <string name="signin_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome né un indirizzo email.</string>
+    <string name="sign_in_thanks">Grazie per la creazione dell\'account!</string>
+    <string name="sign_in_choose_username">Scegli il tuo nome utente:</string>
+    <string name="sign_in_choose_username_empty">Inserisci un nome utente!</string>
+    <string name="sign_in_choose_username_hint">Il nome utente non dovrebbe essere il tuo vero nome né un indirizzo email.</string>
     <string name="oauth_username_taken">Nome già usato. Scegli uno diverso!</string>
     <string name="show_password">Mostra Password</string>
     <string name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>

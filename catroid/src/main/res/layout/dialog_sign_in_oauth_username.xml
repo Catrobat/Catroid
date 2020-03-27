@@ -39,13 +39,13 @@
             android:id="@+id/dialog_signin_oauth_username_thanks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/signin_thanks" />
+            android:text="@string/sign_in_thanks" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_signin_oauth_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/signin_choose_username"
+            android:hint="@string/sign_in_choose_username"
             app:errorEnabled="true"
             app:hintEnabled="true">
 
@@ -59,7 +59,7 @@
         <TextView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:text="@string/signin_choose_username_hint" />
+         android:text="@string/sign_in_choose_username_hint" />
 
     </LinearLayout >
 </ScrollView>

@@ -803,10 +803,10 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="register">Registrieren</string>
     <string name="password_confirm">Passwort bestätigen</string>
     <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Danke für deine Anmeldung!</string>
-    <string name="signin_choose_username">Bitte wähle deinen Benutzernamen:</string>
-    <string name="signin_choose_username_empty">Bitte einen Benutzernamen eingeben.</string>
-    <string name="signin_choose_username_hint">Der Benutzername sollte nicht dein richtiger Name und nicht deine Email-Adresse sein.</string>
+    <string name="sign_in_thanks">Danke für deine Anmeldung!</string>
+    <string name="sign_in_choose_username">Bitte wähle deinen Benutzernamen:</string>
+    <string name="sign_in_choose_username_empty">Bitte einen Benutzernamen eingeben.</string>
+    <string name="sign_in_choose_username_hint">Der Benutzername sollte nicht dein richtiger Name und nicht deine Email-Adresse sein.</string>
     <string name="oauth_username_taken">Jemand anderes verwendet bereits diesen Namen. Bitte wähle einen anderen Namen!</string>
     <string name="show_password">Passwort anzeigen</string>
     <string name="sign_in_error">Beim Anmelden ist etwas schief gelaufen.</string>

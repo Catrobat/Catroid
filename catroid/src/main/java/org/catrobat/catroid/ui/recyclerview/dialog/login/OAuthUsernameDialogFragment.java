@@ -90,7 +90,7 @@ public class OAuthUsernameDialogFragment extends DialogFragment implements
 		String username = inputLayout.getEditText().getText().toString().trim();
 
 		if (username.isEmpty()) {
-			inputLayout.setError(getString(R.string.signin_choose_username_empty));
+			inputLayout.setError(getString(R.string.sign_in_choose_username_empty));
 		} else {
 			CheckUserNameAvailableTask checkUserNameAvailableTask = new CheckUserNameAvailableTask(username);
 			checkUserNameAvailableTask.setOnCheckUserNameAvailableCompleteListener(this);

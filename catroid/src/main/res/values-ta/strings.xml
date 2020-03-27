@@ -834,10 +834,10 @@
     <string name="register">பதிவு</string>
     <string name="password_confirm">கடவுச்சொல்லை உறுதிப்படுத்தவும்</string>
     <string name="accountName">மின்னஞ்சல்</string>
-    <string name="signin_thanks">பதிவு செய்ததற்கு நன்றி!</string>
-    <string name="signin_choose_username">உங்கள் பயனர்பெயரைத் தேர்வுசெய்க:</string>
-    <string name="signin_choose_username_empty">பயனர்பெயரை உள்ளிடவும்.</string>
-    <string name="signin_choose_username_hint">பயனர்பெயர் உங்கள் உண்மையான பெயராக இருக்கக்கூடாது அல்லது அது ஒரு மின்னஞ்சல் முகவரியாக இருக்கக்கூடாது.</string>
+    <string name="sign_in_thanks">பதிவு செய்ததற்கு நன்றி!</string>
+    <string name="sign_in_choose_username">உங்கள் பயனர்பெயரைத் தேர்வுசெய்க:</string>
+    <string name="sign_in_choose_username_empty">பயனர்பெயரை உள்ளிடவும்.</string>
+    <string name="sign_in_choose_username_hint">பயனர்பெயர் உங்கள் உண்மையான பெயராக இருக்கக்கூடாது அல்லது அது ஒரு மின்னஞ்சல் முகவரியாக இருக்கக்கூடாது.</string>
     <string name="oauth_username_taken">வேறொருவர் ஏற்கனவே இந்த பெயரைப் பயன்படுத்துகிறார். தயவுசெய்து வேறு ஒன்றைத் தேர்வுசெய்க!</string>
     <string name="show_password">கடவுச்சொல்லை காட்டவும்</string>
     <string name="sign_in_error">உள்நுழையும்போது ஏதோ தவறு ஏற்பட்டது.</string>

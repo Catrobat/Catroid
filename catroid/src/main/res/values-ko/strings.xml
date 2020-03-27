@@ -748,10 +748,10 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="register">등록</string>
     <string name="password_confirm">비밀번호 확인</string>
     <string name="accountName">이메일</string>
-    <string name="signin_thanks">가입해 주셔서 감사합니다!</string>
-    <string name="signin_choose_username">사용자 이름을 선택하십시오.</string>
-    <string name="signin_choose_username_empty">사용자 이름을 입력해 주세요.</string>
-    <string name="signin_choose_username_hint">사용자명으로 진짜 이름이나 이메일 주소는 사용하지 마세요.</string>
+    <string name="sign_in_thanks">가입해 주셔서 감사합니다!</string>
+    <string name="sign_in_choose_username">사용자 이름을 선택하십시오.</string>
+    <string name="sign_in_choose_username_empty">사용자 이름을 입력해 주세요.</string>
+    <string name="sign_in_choose_username_hint">사용자명으로 진짜 이름이나 이메일 주소는 사용하지 마세요.</string>
     <string name="oauth_username_taken">이미 사용중입니다. 다른 이름을 사용하세요!</string>
     <string name="show_password">비밀 번호 표시</string>
     <string name="sign_in_error">로그인시 문제가 발생하였습니다.</string>

@@ -820,10 +820,10 @@
     <string name="register">নিবন্ধন</string>
     <string name="password_confirm">পাসওয়ার্ড নিশ্চিত করুন</string>
     <string name="accountName">ই-মেল</string>
-    <string name="signin_thanks">নিবন্ধন করার জন্য আপনাকে ধন্যবাদ!</string>
-    <string name="signin_choose_username">অনুগ্রহ করে একটি ব্যবহারকারীর নাম নির্বাচন করুন।</string>
-    <string name="signin_choose_username_empty">দয়া করে একটি ব্যবহারকারীর নাম লিখুন।</string>
-    <string name="signin_choose_username_hint">ব্যবহারকারীর নামটি আপনার আসল নাম বা ইমেলের ঠিকানা হওয়া উচিত নয়।</string>
+    <string name="sign_in_thanks">নিবন্ধন করার জন্য আপনাকে ধন্যবাদ!</string>
+    <string name="sign_in_choose_username">অনুগ্রহ করে একটি ব্যবহারকারীর নাম নির্বাচন করুন।</string>
+    <string name="sign_in_choose_username_empty">দয়া করে একটি ব্যবহারকারীর নাম লিখুন।</string>
+    <string name="sign_in_choose_username_hint">ব্যবহারকারীর নামটি আপনার আসল নাম বা ইমেলের ঠিকানা হওয়া উচিত নয়।</string>
     <string name="oauth_username_taken">ইতিমধ্যে অন্য কেউ এই নামটি ব্যবহার করেছেন। দয়া করে একটি আলাদা নাম নির্বাচন করুন!</string>
     <string name="show_password">পাসওয়ার্ড দেখান</string>
     <string name="sign_in_error">সাইন ইন করার সময় কিছু ভুল হয়েছে</string>
