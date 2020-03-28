@@ -2064,6 +2064,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="sans_serif_font" translatable="false">sans_serif</string>
     <string name="serif_font" translatable="false">serif</string>
     <string name="no_internet" translatable="false">No Internet</string>
-    <string name="retry" translatable="false">Retry</string>
+   <string name="retry" translatable="false">Retry</string>
 
 </resources>
