@@ -55,10 +55,12 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -70,6 +72,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 public class ProjectActivityTest {
 
 	private static final String PROJECT_NAME = "projectName";
+	Project project;
 
 	@Rule
 	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
@@ -78,7 +81,7 @@ public class ProjectActivityTest {
 
 	@Before
 	public void setUp() {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
+		project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
 		Sprite firstSprite = new SingleSprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -119,8 +122,19 @@ public class ProjectActivityTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withText(R.string.upload_button)).perform(click());
-
 		intended(allOf(hasComponent(ProjectUploadActivity.class.getName())));
+	}
+
+	@Test
+	public void ProjectNotSavedTest(){
+		baseActivityTestRule.launchActivity();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText(R.string.upload_button)).perform(click());
+		pressBack();
+
+		Sprite sprite = new SingleSprite("nextSprite");
+		baseActivityTestRule.getActivity().addSpriteForTesting(sprite);
+		assertTrue(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().contains(sprite));
 	}
 
 	private SharedPreferences getDefaultSharedPreferences() {

@@ -322,6 +322,13 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				.show();
 	}
 
+	public void addSpriteForTesting(Sprite sprite) {
+		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		currentScene.addSprite(sprite);
+		Boolean bool =
+				ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().contains(sprite);
+	}
+
 	public void handleAddButton(View view) {
 		if (getCurrentFragment() instanceof SceneListFragment) {
 			handleAddSceneButton();
