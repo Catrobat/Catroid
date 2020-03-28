@@ -669,7 +669,7 @@
     <string name="set_description">Set description</string>
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
+   <string name="error_import_project">Something went wrong while importing projects.</string>
 
     <string name="error_no_files_found">No project files found.</string>
 
