@@ -219,8 +219,11 @@ public class WebViewActivity extends AppCompatActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			return (!url.contains(MAIN_URL_HTTPS) || url.contains(CATROBAT_HELP_URL))
-					&& !url.contains(LIBRARY_BASE_URL);
+			if ((url.contains(MAIN_URL_HTTPS) && !url.contains(CATROBAT_HELP_URL))
+					|| url.contains(LIBRARY_BASE_URL)) {
+				return false;
+			}
+			return true;
 		}
 	}
 
