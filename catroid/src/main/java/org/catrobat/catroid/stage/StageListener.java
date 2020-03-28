@@ -77,7 +77,7 @@ import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
 import java.util.ArrayList;
@@ -116,7 +116,6 @@ public class StageListener implements ApplicationListener {
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
-	private byte[] screenshot = null;
 
 	private Project project;
 	private Scene scene;
@@ -130,9 +129,7 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
-	private EmbroideryActor embroideryActor;
 	public EmbroideryPatternManager embroideryPatternManager;
-	private float screenRatio;
 	public WebConnectionHolder webConnectionHolder;
 
 	private List<Sprite> sprites;
@@ -201,6 +198,8 @@ public class StageListener implements ApplicationListener {
 
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
+
+		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
 		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maximizeViewPortWidth, maximizeViewPortHeight, virtualWidth, virtualHeight);
@@ -208,8 +207,6 @@ public class StageListener implements ApplicationListener {
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		FaceDetectionHandler.resumeFaceDetection();
-
-		embroideryPatternManager = new DSTPatternManager();
 	}
 
 	public void setPaused(boolean paused) {
@@ -271,8 +268,8 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(penActor);
 		penActor.setZIndex(Z_LAYER_PEN_ACTOR);
 
-		screenRatio = calculateScreenRatio();
-		embroideryActor = new EmbroideryActor(screenRatio);
+		float screenRatio = calculateScreenRatio();
+		EmbroideryActor embroideryActor = new EmbroideryActor(screenRatio, embroideryPatternManager, shapeRenderer);
 		stage.addActor(embroideryActor);
 		embroideryActor.setZIndex(Z_LAYER_EMBROIDERY_ACTOR);
 	}
@@ -369,14 +366,14 @@ public class StageListener implements ApplicationListener {
 		stage.addListener(inputListener);
 	}
 
-	public void menuResume() {
+	void menuResume() {
 		if (reloadProject) {
 			return;
 		}
 		paused = false;
 	}
 
-	public void menuPause() {
+	void menuPause() {
 		if (finished || reloadProject) {
 			return;
 		}
@@ -444,7 +441,7 @@ public class StageListener implements ApplicationListener {
 		embroideryPatternManager.clear();
 
 		FlashUtil.reset();
-		VibratorUtil.reset();
+		VibrationUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
 
@@ -462,7 +459,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
-			VibratorUtil.resumeVibrator();
+			VibrationUtil.resumeVibration();
 		}
 
 		for (Sprite sprite : sprites) {
@@ -479,7 +476,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
-			VibratorUtil.pauseVibrator();
+			VibrationUtil.pauseVibration();
 		}
 	}
 
@@ -562,7 +559,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			screenshot = ScreenUtils
+			byte[] screenshot = ScreenUtils
 					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
 			makeScreenshot = false;
 			screenshotSaver.saveScreenshotAndNotify(
@@ -841,7 +838,7 @@ public class StageListener implements ApplicationListener {
 				FlashUtil.flashOff();
 			}
 		}
-		backup.timeToVibrate = VibratorUtil.getTimeToVibrate();
+		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
 		backup.camera = camera;
 		backup.batch = batch;
@@ -884,10 +881,10 @@ public class StageListener implements ApplicationListener {
 			FlashUtil.flashOn();
 		}
 		if (backup.timeToVibrate > 0) {
-			VibratorUtil.resumeVibrator();
-			VibratorUtil.setTimeToVibrate(backup.timeToVibrate);
+			VibrationUtil.resumeVibration();
+			VibrationUtil.setTimeToVibrate(backup.timeToVibrate);
 		} else {
-			VibratorUtil.pauseVibrator();
+			VibrationUtil.pauseVibration();
 		}
 		physicsWorld = backup.physicsWorld;
 		camera = backup.camera;

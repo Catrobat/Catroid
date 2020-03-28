@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 public class VibrateAction extends TemporalAction {
 
@@ -40,7 +40,7 @@ public class VibrateAction extends TemporalAction {
 	protected void update(float percent) {
 		try {
 			Double newDuration = duration == null ? Double.valueOf(0f) : duration.interpretFloat(sprite);
-			VibratorUtil.setTimeToVibrate(newDuration * 1000);
+			VibrationUtil.setTimeToVibrate(newDuration * 1000);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}

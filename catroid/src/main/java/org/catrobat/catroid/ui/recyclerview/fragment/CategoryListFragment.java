@@ -114,10 +114,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_letter_parameter, R.string.formula_editor_function_join_parameter,
 			R.string.formula_editor_function_regex_parameter);
 	private static final List<Integer> LIST_FUNCTIONS = Arrays.asList(R.string.formula_editor_function_number_of_items,
-			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains);
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains,
+			R.string.formula_editor_function_index_of_item);
 	private static final List<Integer> LIST_PARAMS = Arrays.asList(R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter,
-			R.string.formula_editor_function_contains_parameter);
+			R.string.formula_editor_function_contains_parameter,
+			R.string.formula_editor_function_index_of_item_parameter);
 	private static final List<Integer> LOGIC_BOOL = Arrays.asList(R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false);

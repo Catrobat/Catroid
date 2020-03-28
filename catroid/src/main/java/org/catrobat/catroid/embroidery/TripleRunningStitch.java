@@ -26,7 +26,7 @@ package org.catrobat.catroid.embroidery;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class TripleRunningStitch implements RunningStitchType {
+public class TripleRunningStitch extends RunningStitchType {
 	private Sprite sprite;
 	private int steps;
 	private boolean first;
@@ -49,7 +49,7 @@ public class TripleRunningStitch implements RunningStitchType {
 
 	@Override
 	public void update(float currentX, float currentY) {
-		float distance = getDistanceToPoint(currentX, currentY);
+		float distance = getDistanceToPoint(currentX, firstX, currentY, firstY);
 		if (distance >= steps) {
 			float surplusPercentage = ((distance - (distance % steps)) / distance);
 			currentX = firstX + (surplusPercentage * (currentX - firstX));
@@ -84,17 +84,5 @@ public class TripleRunningStitch implements RunningStitchType {
 			previousX = x;
 			previousY = y;
 		}
-	}
-
-	private float interpolate(float endValue, float startValue, float percentage) {
-		float value = Math.round(startValue + percentage * (endValue - startValue));
-		return value;
-	}
-
-	private float getDistanceToPoint(float currentX, float currentY) {
-		double xDistance = Math.pow(currentX - firstX, 2);
-		double yDistance = Math.pow(currentY - firstY, 2);
-		double difference = Math.sqrt(xDistance + yDistance);
-		return (float) difference;
 	}
 }

@@ -23,11 +23,11 @@
 
 package org.catrobat.catroid.embroidery;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface EmbroideryPatternManager {
 	void addStitchCommand(StitchCommand stitchCommand);
-	ArrayList<StitchPoint> getEmbroideryPatternList();
+	List<StitchPoint> getEmbroideryPatternList();
 	EmbroideryStream getEmbroideryStream();
 	boolean validPatternExists();
 	void clear();

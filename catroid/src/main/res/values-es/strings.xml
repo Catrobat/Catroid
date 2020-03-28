@@ -883,7 +883,7 @@
     <string name="prestage_resource_not_available_text">Desafortunadamente este proyecto no funciona en tu dispositivo.
         Los siguientes componentes no están disponibles:\n\n</string>
     <string name="prestage_resource_in_use_text">Otro dispositivo está conectado al Jumping Sumo. Asegúrese de ser el único controlador del Drone.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibración\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibración\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensor aceleración\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inclinación\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Brújula\n</string>

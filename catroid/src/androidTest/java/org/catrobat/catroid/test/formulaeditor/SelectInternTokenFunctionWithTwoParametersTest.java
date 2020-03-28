@@ -58,6 +58,7 @@ public class SelectInternTokenFunctionWithTwoParametersTest {
 				{Functions.REGEX.name(), new InternToken(FUNCTION_NAME, Functions.REGEX.name())},
 				{Functions.LIST_ITEM.name(), new InternToken(FUNCTION_NAME, Functions.LIST_ITEM.name())},
 				{Functions.CONTAINS.name(), new InternToken(FUNCTION_NAME, Functions.CONTAINS.name())},
+				{Functions.INDEX_OF_ITEM.name(), new InternToken(FUNCTION_NAME, Functions.CONTAINS.name())},
 		});
 	}
 
