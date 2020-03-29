@@ -126,7 +126,7 @@ public class ProjectActivityTest {
 	}
 
 	@Test
-	public void ProjectNotSavedTest(){
+	public void ProjectNotSavedOnReloadFromUploadActivityTest() {
 		baseActivityTestRule.launchActivity();
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 		onView(withText(R.string.upload_button)).perform(click());

@@ -117,16 +117,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		setShowProgressBar(true);
-
-		Bundle bundle = getIntent().getExtras();
-		if (bundle != null) {
-			File projectDir = (File) bundle.getSerializable(PROJECT_DIR);
-			new ProjectLoadTask(projectDir, this)
-					.setListener(this)
-					.execute();
-		} else {
-			finish();
-		}
+		loadProjectActivity();
 	}
 
 	@NotNull
@@ -137,15 +128,19 @@ public class ProjectUploadActivity extends BaseActivity implements
 	@Override
 	public void onLoadFinished(boolean success) {
 		if (success) {
-			getTags();
-			project = ProjectManager.getInstance().getCurrentProject();
-			projectUploadController = createProjectUploadController();
-			verifyUserIdentity();
+			loadProjectActivity();
 		} else {
 			ToastUtil.showError(this, R.string.error_load_project);
 			setShowProgressBar(false);
 			finish();
 		}
+	}
+
+	public void loadProjectActivity() {
+		getTags();
+		project = ProjectManager.getInstance().getCurrentProject();
+		projectUploadController = createProjectUploadController();
+		verifyUserIdentity();
 	}
 
 	private void onCreateView() {
