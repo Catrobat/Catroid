@@ -28,7 +28,11 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.common.SignInButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -36,6 +40,7 @@ import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import static org.catrobat.catroid.transfers.GoogleLoginHandler.REQUEST_CODE_GOOGLE_SIGNIN;
@@ -61,9 +66,12 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 
 	public void setUpGoogleSignin() {
 		googleLoginHandler = new GoogleLoginHandler(this);
+		SignInButton signInButton = findViewById(R.id.sign_in_gplus_login_button);
+		signInButton.setOnClickListener(this::onButtonClick);
 	}
 
 	public void onButtonClick(final View view) {
+		ToastUtil.showError(getBaseContext(), "Click toh hua");
 		if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
 			onButtonClickForRealThisTime(view);
 		}
