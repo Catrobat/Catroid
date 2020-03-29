@@ -30,6 +30,8 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.gms.common.SignInButton;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.transfers.GoogleLoginHandler;
@@ -61,6 +63,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 
 	public void setUpGoogleSignin() {
 		googleLoginHandler = new GoogleLoginHandler(this);
+		findViewById(R.id.sign_in_button).setOnClickListener(this::onButtonClick);
 	}
 
 	public void onButtonClick(final View view) {
@@ -81,7 +84,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				registrationDialog.setSignInCompleteListener(this);
 				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
-			case R.id.sign_in_gplus_login_button:
+			case R.id.sign_in_button:
 				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
 				break;
 			default:
