@@ -67,7 +67,7 @@ public class PhysicsBoundaryBoxTest {
 		new PhysicsBoundaryBox(world).create(40, 40);
 		assertEquals(4, world.getBodyCount());
 
-		Array<Body> bodies = new Array<Body>();
+		Array<Body> bodies = new Array<>();
 		world.getBodies(bodies);
 		assertEquals(4, bodies.size);
 		for (Body body : bodies) {

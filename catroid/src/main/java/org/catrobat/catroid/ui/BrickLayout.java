@@ -90,7 +90,7 @@ public class BrickLayout extends ViewGroup {
 	}
 
 	protected void allocateLineData() {
-		lines = new LinkedList<LineData>();
+		lines = new LinkedList<>();
 		for (int i = 0; i < linesToAllocate; i++) {
 			allocateNewLine();
 		}
@@ -549,7 +549,7 @@ public class BrickLayout extends ViewGroup {
 		public LinkedList<ElementData> elements;
 
 		public LineData() {
-			elements = new LinkedList<ElementData>();
+			elements = new LinkedList<>();
 		}
 	}
 

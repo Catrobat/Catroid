@@ -48,7 +48,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testGetFunctionByFunctionBracketCloseOnErrorInput() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
@@ -56,7 +56,7 @@ public class InternFormulaUtilsTest {
 		assertNull(InternFormulaUtils.getFunctionByFunctionBracketClose(internTokens, 2));
 		assertNull(InternFormulaUtils.getFunctionByFunctionBracketClose(internTokens, 1));
 
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -67,7 +67,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgetFunctionByParameterDelimiter() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.RAND.name()));
@@ -92,7 +92,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgetFunctionByParameterDelimiterOnErrorInput() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -101,7 +101,7 @@ public class InternFormulaUtilsTest {
 		assertNull(InternFormulaUtils.getFunctionByParameterDelimiter(internTokens, 2));
 		assertNull(InternFormulaUtils.getFunctionByParameterDelimiter(internTokens, 1));
 
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
@@ -113,7 +113,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgetFunctionByFunctionBracketOpenOnErrorInput() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
@@ -127,7 +127,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgenerateTokenListByBracketOpenOnErrorInput() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_CLOSE));
@@ -139,7 +139,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgenerateTokenListByBracketOpen() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -157,7 +157,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgenerateTokenListByBracketCloseOnErrorInput() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_CLOSE));
@@ -169,7 +169,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgenerateTokenListByBracketClose() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -187,7 +187,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testgetFunctionParameterInternTokensAsListsOnErrorInput() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
@@ -199,7 +199,7 @@ public class InternFormulaUtilsTest {
 
 		assertNull(InternFormulaUtils.getFunctionParameterInternTokensAsLists(internTokens));
 
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
@@ -208,7 +208,7 @@ public class InternFormulaUtilsTest {
 
 		assertNull(InternFormulaUtils.getFunctionParameterInternTokensAsLists(internTokens));
 
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
@@ -221,7 +221,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testIsFunction() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -234,7 +234,7 @@ public class InternFormulaUtilsTest {
 	public void testgetFirstInternTokenTypeOnErrorInput() throws NoSuchMethodException, IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 
 		Method method = InternFormulaUtils.class.getDeclaredMethod("getFirstInternTokenType", List.class);
 		method.setAccessible(true);
@@ -249,7 +249,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testisPeriodTokenOnError() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
@@ -262,7 +262,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testisFunctionTokenOnError() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 
 		assertFalse(InternFormulaUtils.isFunctionToken(null));
@@ -277,7 +277,7 @@ public class InternFormulaUtilsTest {
 	@Test
 	public void testreplaceFunctionButKeepParametersOnError() {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 
 		assertNull(InternFormulaUtils.replaceFunctionButKeepParameters(null, null));
@@ -292,7 +292,7 @@ public class InternFormulaUtilsTest {
 		Method method = InternFormulaUtils.class.getDeclaredMethod("getFunctionParameterCount", List.class);
 		method.setAccessible(true);
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 
 		Object[] params = new Object[1];
@@ -300,21 +300,21 @@ public class InternFormulaUtilsTest {
 		assertEquals(0, method.invoke(null, params));
 		params[0] = internTokens;
 		assertEquals(0, method.invoke(null, params));
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		params[0] = internTokens;
 		assertEquals(0, method.invoke(null, params));
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		internTokens.add(new InternToken(InternTokenType.NUMBER));
 		params[0] = internTokens;
 		assertEquals(0, method.invoke(null, params));
-		internTokens = new ArrayList<InternToken>();
+		internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));

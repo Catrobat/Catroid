@@ -74,11 +74,11 @@ public class Android9SnackbarRegressionTest {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
 		hintSetting = sharedPreferences
 				.getBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false);
-		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
+		hintList = new HashSet<>(sharedPreferences.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<>()));
 
 		sharedPreferences.edit()
 				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, true)
-				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>())
+				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<>())
 				.commit();
 
 		createProject();

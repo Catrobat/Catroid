@@ -48,15 +48,15 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class PhysicsObjectCollisionTest {
 
-	private List<HashSet<Fixture>> contactFixturePairs = new ArrayList<HashSet<Fixture>>();
-	private HashSet<Fixture> expectedcontactFixtures = new HashSet<Fixture>();
+	private List<HashSet<Fixture>> contactFixturePairs = new ArrayList<>();
+	private HashSet<Fixture> expectedcontactFixtures = new HashSet<>();
 
 	@Rule
 	public PhysicsCollisionTestRule rule = new PhysicsCollisionTestRule() {
 		@Override
 		public void beginContactCallback(Contact contact) {
 			super.beginContactCallback(contact);
-			HashSet<Fixture> contactFixtureSet = new HashSet<Fixture>();
+			HashSet<Fixture> contactFixtureSet = new HashSet<>();
 			contactFixtureSet.add(contact.getFixtureA());
 			contactFixtureSet.add(contact.getFixtureB());
 			contactFixturePairs.add(contactFixtureSet);

@@ -78,7 +78,7 @@ public class TactScrollRecyclerView extends RecyclerView {
 		setHorizontalScrollBarEnabled(true);
 		setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		trackGrid = new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
-				ArrayList<GridRow>());
+                ArrayList<>());
 
 		tactSnapper = new TactSnapper();
 		addOnScrollListener(tactSnapper);

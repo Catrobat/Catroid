@@ -45,7 +45,7 @@ public class ReplaceItemInUserListActionTest {
 
 	private static final String TEST_USERLIST_NAME = "testUserList";
 	private static final double DOUBLE_VALUE_ITEM_TO_REPLACE_WITH = 4.0;
-	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
+	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<>();
 
 	private Sprite testSprite;
 	private Project project;

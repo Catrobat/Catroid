@@ -100,7 +100,7 @@ public class ProjectToMidiConverter {
 			}
 		}
 
-		ArrayList<MidiTrack> tracks = new ArrayList<MidiTrack>();
+		ArrayList<MidiTrack> tracks = new ArrayList<>();
 
 		MidiTrack tempoTrack = createTempoTrackWithMetaInfo(project.getBeat(), project.getBeatsPerMinute());
 		tracks.add(tempoTrack);

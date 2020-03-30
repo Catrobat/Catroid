@@ -65,11 +65,11 @@ public final class TrackGridTestDataFactory {
 
 	public static TrackGrid createFirstOctaveOnlyTrackGrid() {
 
-		List<GridRow> gridRows = new ArrayList<GridRow>();
+		List<GridRow> gridRows = new ArrayList<>();
 
-		SparseArrayCompat<List<GridRowPosition>> gridRowPositionC1 = new SparseArrayCompat<List<GridRowPosition>>();
+		SparseArrayCompat<List<GridRowPosition>> gridRowPositionC1 = new SparseArrayCompat<>();
 
-		List<GridRowPosition> gridRowPositionListC1 = new ArrayList<GridRowPosition>();
+		List<GridRowPosition> gridRowPositionListC1 = new ArrayList<>();
 		gridRowPositionListC1.add(new GridRowPosition(0, NoteLength.QUARTER));
 		gridRowPositionListC1.add(new GridRowPosition(1, NoteLength.QUARTER));
 		gridRowPositionListC1.add(new GridRowPosition(2, NoteLength.QUARTER));
@@ -85,7 +85,7 @@ public final class TrackGridTestDataFactory {
 
 	public static TrackGrid createSimpleTrackGrid() {
 
-		List<GridRow> gridRows = new ArrayList<GridRow>();
+		List<GridRow> gridRows = new ArrayList<>();
 
 		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] {0, 3})));
 		gridRows.add(new GridRow(NoteName.E4, createGridRowPositionsGridRow(new int[] {1})));
@@ -98,7 +98,7 @@ public final class TrackGridTestDataFactory {
 
 	public static TrackGrid createTrackGridWithSeveralBreaks() {
 
-		List<GridRow> gridRows = new ArrayList<GridRow>();
+		List<GridRow> gridRows = new ArrayList<>();
 
 		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] {3})));
 
@@ -108,7 +108,7 @@ public final class TrackGridTestDataFactory {
 
 	public static TrackGrid createSemiComplexTrackGrid() {
 
-		List<GridRow> gridRows = new ArrayList<GridRow>();
+		List<GridRow> gridRows = new ArrayList<>();
 
 		gridRows.add(new GridRow(NoteName.C5, createGridRowPositionsGridRow(new int[] {0})));
 		gridRows.add(new GridRow(NoteName.C4, createGridRowPositionsGridRow(new int[] {1, 2})));
@@ -122,7 +122,7 @@ public final class TrackGridTestDataFactory {
 
 	public static TrackGrid createEmptyTrackGrid() {
 
-		List<GridRow> gridRows = new ArrayList<GridRow>();
+		List<GridRow> gridRows = new ArrayList<>();
 		return new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACOUSTIC_GRAND_PIANO, MusicalBeat
 				.BEAT_4_4, gridRows);
 	}

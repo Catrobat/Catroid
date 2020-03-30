@@ -70,7 +70,7 @@ import static org.catrobat.catroid.common.Constants.CAST_IDLE_BACKGROUND_COLOR;
 
 public final class CastManager {
 	private static final CastManager INSTANCE = new CastManager();
-	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<MediaRouter.RouteInfo>();
+	private final ArrayList<MediaRouter.RouteInfo> routeInfos = new ArrayList<>();
 	private StageActivity gamepadActivity;
 	private EnumMap<Sensors, Boolean> isGamepadButtonPressed = new EnumMap<>(Sensors.class);
 	private MediaRouter mediaRouter;

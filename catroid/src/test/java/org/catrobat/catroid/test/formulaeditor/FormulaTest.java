@@ -57,7 +57,7 @@ public class FormulaTest {
 
 	@Before
 	public void setUp() {
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
 	}
 
 	@Test

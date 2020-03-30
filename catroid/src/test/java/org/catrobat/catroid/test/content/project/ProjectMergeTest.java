@@ -51,8 +51,8 @@ public class ProjectMergeTest {
 		project1 = new Project(mockContext, "testProject");
 		project2 = new Project(mockContext, "testProject2");
 
-		List<Object> initializedList1 = new ArrayList<Object>();
-		List<Object> initializedList2 = new ArrayList<Object>();
+		List<Object> initializedList1 = new ArrayList<>();
+		List<Object> initializedList2 = new ArrayList<>();
 
 		initializedList1.clear();
 		initializedList1.add(1.0);

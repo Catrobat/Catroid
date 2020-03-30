@@ -141,7 +141,7 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		});
 
 		RecyclerView recyclerView = findViewById(R.id.recycler_view_remixes);
-		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
+		adapter = new ScratchProgramAdapter(new ArrayList<>());
 		adapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(adapter);
 

@@ -42,7 +42,7 @@ public class SoundManager {
 	private static final String TAG = SoundManager.class.getSimpleName();
 	private static final SoundManager INSTANCE = new SoundManager();
 
-	private final List<MediaPlayer> mediaPlayers = new ArrayList<MediaPlayer>(MAX_MEDIA_PLAYERS);
+	private final List<MediaPlayer> mediaPlayers = new ArrayList<>(MAX_MEDIA_PLAYERS);
 	private float volume = 70.0f;
 	private List<String> soundFiles = new ArrayList<>(MAX_MEDIA_PLAYERS);
 

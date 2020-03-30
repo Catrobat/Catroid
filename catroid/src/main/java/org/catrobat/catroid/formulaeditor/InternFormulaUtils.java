@@ -43,7 +43,7 @@ public final class InternFormulaUtils {
 			return null;
 		}
 
-		List<InternToken> functionInternTokenList = new LinkedList<InternToken>();
+		List<InternToken> functionInternTokenList = new LinkedList<>();
 		functionInternTokenList.add(internTokenList.get(functionBracketCloseInternTokenListIndex));
 
 		int functionIndex = functionBracketCloseInternTokenListIndex - 1;
@@ -95,7 +95,7 @@ public final class InternFormulaUtils {
 			return null;
 		}
 
-		List<InternToken> functionInternTokenList = new LinkedList<InternToken>();
+		List<InternToken> functionInternTokenList = new LinkedList<>();
 		functionInternTokenList.add(internTokenList.get(functionParameterDelimiterInternTokenListIndex));
 
 		int functionIndex = functionParameterDelimiterInternTokenListIndex - 1;
@@ -187,7 +187,7 @@ public final class InternFormulaUtils {
 
 		InternToken functionNameToken = internTokenList.get(functionStartListIndex);
 
-		List<InternToken> functionInternTokenList = new LinkedList<InternToken>();
+		List<InternToken> functionInternTokenList = new LinkedList<>();
 
 		if (functionNameToken.getInternTokenType() != InternTokenType.FUNCTION_NAME) {
 			return null;
@@ -245,7 +245,7 @@ public final class InternFormulaUtils {
 			return null;
 		}
 
-		List<InternToken> bracketInternTokenListToReturn = new LinkedList<InternToken>();
+		List<InternToken> bracketInternTokenListToReturn = new LinkedList<>();
 		bracketInternTokenListToReturn.add(internTokenList.get(internTokenListIndex));
 
 		int bracketsIndex = internTokenListIndex + 1;
@@ -283,7 +283,7 @@ public final class InternFormulaUtils {
 			return null;
 		}
 
-		List<InternToken> bracketInternTokenListToReturn = new LinkedList<InternToken>();
+		List<InternToken> bracketInternTokenListToReturn = new LinkedList<>();
 		bracketInternTokenListToReturn.add(internTokenList.get(internTokenListIndex));
 
 		int bracketSearchIndex = internTokenListIndex - 1;
@@ -317,7 +317,7 @@ public final class InternFormulaUtils {
 	public static List<List<InternToken>> getFunctionParameterInternTokensAsLists(
 			List<InternToken> functionInternTokenList) {
 
-		List<List<InternToken>> functionParameterInternTokenList = new LinkedList<List<InternToken>>();
+		List<List<InternToken>> functionParameterInternTokenList = new LinkedList<>();
 
 		if (functionInternTokenList == null
 				|| functionInternTokenList.size() < 4
@@ -327,7 +327,7 @@ public final class InternFormulaUtils {
 		}
 
 		int searchIndex = 2;
-		List<InternToken> currentParameterInternTokenList = new LinkedList<InternToken>();
+		List<InternToken> currentParameterInternTokenList = new LinkedList<>();
 
 		InternToken tempSearchToken;
 		int nestedFunctionsCounter = 1;
@@ -355,7 +355,7 @@ public final class InternFormulaUtils {
 				case FUNCTION_PARAMETER_DELIMITER:
 					if (nestedFunctionsCounter == 1) {
 						functionParameterInternTokenList.add(currentParameterInternTokenList);
-						currentParameterInternTokenList = new LinkedList<InternToken>();
+						currentParameterInternTokenList = new LinkedList<>();
 						break;
 					}
 					// fallthrough
@@ -434,7 +434,7 @@ public final class InternFormulaUtils {
 	}
 
 	public static List<InternToken> insertOperatorToNumberToken(InternToken numberTokenToBeModified, int externNumberOffset, InternToken operatorToInsert) {
-		List<InternToken> replaceTokenList = new LinkedList<InternToken>();
+		List<InternToken> replaceTokenList = new LinkedList<>();
 		String numberString = numberTokenToBeModified.getTokenStringValue();
 		String leftPart = numberString.substring(0, externNumberOffset);
 		String rightPart = numberString.substring(externNumberOffset);
@@ -465,7 +465,7 @@ public final class InternFormulaUtils {
 			List<InternToken> functionToReplaceWith) {
 
 		List<List<InternToken>> keepParameterInternTokenList = getFunctionParameterInternTokensAsLists(functionToReplace);
-		List<InternToken> replacedParametersFunction = new LinkedList<InternToken>();
+		List<InternToken> replacedParametersFunction = new LinkedList<>();
 		List<List<InternToken>> originalParameterInternTokenList = getFunctionParameterInternTokensAsLists(functionToReplaceWith);
 
 		if (functionToReplace == null || keepParameterInternTokenList == null
@@ -565,7 +565,7 @@ public final class InternFormulaUtils {
 
 	public static boolean applyBracketCorrection(List<InternToken> internFormula) throws EmptyStackException {
 
-		Stack<InternTokenType> stack = new Stack<InternTokenType>();
+		Stack<InternTokenType> stack = new Stack<>();
 
 		for (int index = 0; index < internFormula.size(); index++) {
 

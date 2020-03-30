@@ -94,7 +94,7 @@ public class ParserTest {
 
 	@Test
 	public void testBracket() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -114,7 +114,7 @@ public class ParserTest {
 		assertNotNull(parseTree);
 		assertEquals(9.0, parseTree.interpretRecursive(testSprite));
 
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -141,7 +141,7 @@ public class ParserTest {
 
 	@Test
 	public void testEmptyInput() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
@@ -152,7 +152,7 @@ public class ParserTest {
 
 	@Test
 	public void testFuctionalAndSimpleBracketsCorrection() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));

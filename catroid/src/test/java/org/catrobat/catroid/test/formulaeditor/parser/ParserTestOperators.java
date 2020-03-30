@@ -84,7 +84,7 @@ public class ParserTestOperators {
 
 	@Test
 	public void testUnaryMinus() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 
@@ -294,7 +294,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.PLUS, second, Double.NaN, testSprite);
 	}
@@ -323,7 +323,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.DIVIDE, second, Double.NaN, testSprite);
 	}
@@ -352,7 +352,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MULT, second, Double.NaN, testSprite);
 	}
@@ -381,7 +381,7 @@ public class ParserTestOperators {
 
 		List<InternToken> first = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.JOIN,
 				InternTokenType.STRING, "FreeYour", InternTokenType.STRING, "Mind");
-		List<InternToken> second = new LinkedList<InternToken>();
+		List<InternToken> second = new LinkedList<>();
 		second.add(new InternToken(InternTokenType.NUMBER, "1"));
 		FormulaEditorTestUtil.testBinaryOperator(first, Operators.MINUS, second, Double.NaN, testSprite);
 	}

@@ -41,8 +41,8 @@ public final class TrackToTrackGridConverter {
 	}
 
 	public static TrackGrid convertTrackToTrackGrid(Track track, MusicalBeat beat, int beatsPerMinute) {
-		Map<NoteName, Long> openNotes = new HashMap<NoteName, Long>();
-		Map<NoteName, GridRow> gridRows = new HashMap<NoteName, GridRow>();
+		Map<NoteName, Long> openNotes = new HashMap<>();
+		Map<NoteName, GridRow> gridRows = new HashMap<>();
 
 		NoteLength minNoteLength = beat.getNoteLength();
 
@@ -51,7 +51,7 @@ public final class TrackToTrackGridConverter {
 				NoteName noteName = noteEvent.getNoteName();
 
 				if (gridRows.get(noteName) == null) {
-					gridRows.put(noteName, new GridRow(noteName, new SparseArrayCompat<List<GridRowPosition>>()));
+					gridRows.put(noteName, new GridRow(noteName, new SparseArrayCompat<>()));
 				}
 
 				if (noteEvent.isNoteOn()) {
@@ -69,7 +69,7 @@ public final class TrackToTrackGridConverter {
 
 					for (int i = startBeatIndex; i <= endBeatIndex; i++) {
 						if (null == gridRows.get(noteName).getGridRowPositions().get(i)) {
-							gridRows.get(noteName).getGridRowPositions().put(i, new ArrayList<GridRowPosition>());
+							gridRows.get(noteName).getGridRowPositions().put(i, new ArrayList<>());
 						}
 
 						gridRows.get(noteName).getGridRowPositions().get(i).add(gridRowPosition);

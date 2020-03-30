@@ -84,7 +84,7 @@ public class CameraBrick extends BrickBaseType {
 		spinnerValues[OFF] = context.getString(R.string.video_brick_camera_off);
 		spinnerValues[ON] = context.getString(R.string.video_brick_camera_on);
 
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, spinnerValues);
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		return spinnerAdapter;

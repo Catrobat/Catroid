@@ -40,7 +40,7 @@ public class InternToExternGenerator {
 	private ExternInternRepresentationMapping generatedExternInternRepresentationMapping;
 	private Context context;
 
-	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<String, Integer>();
+	private static final HashMap<String, Integer> INTERN_EXTERN_LANGUAGE_CONVERTER_MAP = new HashMap<>();
 	static {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.DIVIDE.name(), R.string.formula_editor_operator_divide);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.MULT.name(), R.string.formula_editor_operator_mult);
@@ -230,7 +230,7 @@ public class InternToExternGenerator {
 	private void generateStringAndMappingInternal(List<InternToken> internTokenFormula, boolean trimNumbers) {
 		Log.i(TAG, "generateExternStringAndMapping:enter");
 
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		for (InternToken internToken : internTokenFormula) {
 			internTokenList.add(internToken);

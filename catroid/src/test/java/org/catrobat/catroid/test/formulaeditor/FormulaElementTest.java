@@ -53,7 +53,7 @@ public class FormulaElementTest {
 	@Test
 	public void testGetInternTokenList() {
 
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));

@@ -95,6 +95,6 @@ public final class SnackbarUtil {
 
 	private static Set<String> getStringSetFromSharedPreferences(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-		return new HashSet<>(prefs.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
+		return new HashSet<>(prefs.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<>()));
 	}
 }

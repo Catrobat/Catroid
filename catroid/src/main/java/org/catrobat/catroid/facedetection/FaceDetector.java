@@ -37,8 +37,8 @@ import androidx.annotation.VisibleForTesting;
 
 public abstract class FaceDetector {
 
-	private List<SensorCustomEventListener> faceDetectedListeners = new LinkedList<SensorCustomEventListener>();
-	private List<SensorCustomEventListener> faceDetectionStatusListeners = new LinkedList<SensorCustomEventListener>();
+	private List<SensorCustomEventListener> faceDetectedListeners = new LinkedList<>();
+	private List<SensorCustomEventListener> faceDetectionStatusListeners = new LinkedList<>();
 
 	private boolean faceDetected = false;
 

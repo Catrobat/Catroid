@@ -39,7 +39,7 @@ public class BluetoothDeviceServiceImpl implements BluetoothDeviceService {
 	private static final String TAG = BluetoothDeviceServiceImpl.class.getSimpleName();
 
 	private Map<Class<? extends BluetoothDevice>, BluetoothDevice> connectedDevices =
-			new HashMap<Class<? extends BluetoothDevice>, BluetoothDevice>();
+            new HashMap<>();
 
 	@Override
 	public ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,

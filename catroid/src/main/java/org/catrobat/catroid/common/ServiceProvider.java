@@ -35,7 +35,7 @@ public final class ServiceProvider {
 	private ServiceProvider() {
 	}
 
-	private static HashMap<Class<? extends CatroidService>, CatroidService> services = new HashMap<Class<? extends CatroidService>, CatroidService>();
+	private static HashMap<Class<? extends CatroidService>, CatroidService> services = new HashMap<>();
 
 	public static synchronized <T extends CatroidService, S extends CatroidService> void registerService(Class<T> serviceType, S serviceInstance) {
 		if (services.put(serviceType, serviceInstance) != null) {

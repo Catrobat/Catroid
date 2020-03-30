@@ -227,7 +227,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	public void onActivityCreated(Bundle savedInstance) {
 		super.onActivityCreated(savedInstance);
 
-		adapter = new ScratchProgramAdapter(new ArrayList<ScratchProgramData>());
+		adapter = new ScratchProgramAdapter(new ArrayList<>());
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 				getActivity()).getBoolean(SHOW_DETAILS_SCRATCH_PROJECTS_PREFERENCE_KEY, false);
 

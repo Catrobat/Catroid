@@ -92,7 +92,7 @@ public class IfOnEdgeBounceActionTest {
 	public void testTopBounce() {
 		// Bounce if -90 < direction < 90
 
-		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		Map<Float, Float> expectedDirections = new HashMap<>();
 		expectedDirections.put(90f, 90f);
 		expectedDirections.put(120f, 120f);
 		expectedDirections.put(150f, 150f);
@@ -121,7 +121,7 @@ public class IfOnEdgeBounceActionTest {
 	public void testBottomBounce() {
 		// Bounce if direction < -90 or direction > 90
 
-		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		Map<Float, Float> expectedDirections = new HashMap<>();
 		expectedDirections.put(90f, 90f);
 		expectedDirections.put(120f, 60f);
 		expectedDirections.put(150f, 30f);
@@ -150,7 +150,7 @@ public class IfOnEdgeBounceActionTest {
 	public void testLeftBounce() {
 		// Bounce if -180 < direction < 0
 
-		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		Map<Float, Float> expectedDirections = new HashMap<>();
 		expectedDirections.put(90f, 90f);
 		expectedDirections.put(120f, 120f);
 		expectedDirections.put(150f, 150f);
@@ -179,7 +179,7 @@ public class IfOnEdgeBounceActionTest {
 	public void testRightBounce() {
 		// Bounce if 0 < direction < 180
 
-		Map<Float, Float> expectedDirections = new HashMap<Float, Float>();
+		Map<Float, Float> expectedDirections = new HashMap<>();
 		expectedDirections.put(90f, -90f);
 		expectedDirections.put(120f, -120f);
 		expectedDirections.put(150f, -150f);

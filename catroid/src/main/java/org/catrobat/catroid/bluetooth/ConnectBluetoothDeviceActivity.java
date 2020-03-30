@@ -248,9 +248,9 @@ public class ConnectBluetoothDeviceActivity extends AppCompatActivity {
 			}
 		});
 
-		pairedDevicesArrayAdapter = new ArrayAdapter<String>(this, R.layout.device_name);
+		pairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
 		newDevicesArrayAdapter = new ArrayAdapter<Pair>(this, R.layout.device_name,
-				new ArrayList<Pair>()) {
+                new ArrayList<>()) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				TextView view = (TextView) super.getView(position, convertView, parent);

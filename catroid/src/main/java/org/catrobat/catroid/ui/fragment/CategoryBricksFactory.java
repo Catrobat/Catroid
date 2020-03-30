@@ -354,7 +354,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {
-		List<Brick> chromecastBrickList = new ArrayList<Brick>();
+		List<Brick> chromecastBrickList = new ArrayList<>();
 		chromecastBrickList.add(new WhenGamepadButtonBrick(new WhenGamepadButtonScript(
 				context.getString(R.string.cast_gamepad_A))));
 
@@ -540,7 +540,7 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupLegoEv3CategoryList() {
-		List<Brick> legoEV3BrickList = new ArrayList<Brick>();
+		List<Brick> legoEV3BrickList = new ArrayList<>();
 		legoEV3BrickList.add(new LegoEv3MotorTurnAngleBrick(LegoEv3MotorTurnAngleBrick.Motor.MOTOR_A,
 				BrickValues.LEGO_ANGLE));
 		legoEV3BrickList.add(new LegoEv3MotorMoveBrick(LegoEv3MotorMoveBrick.Motor.MOTOR_A,

@@ -39,7 +39,7 @@ import static junit.framework.Assert.assertEquals;
 public class ClearUserListActionTest {
 
 	private static final String TEST_USER_LIST_NAME = "testUserList";
-	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
+	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<>();
 
 	private ClearUserListAction action;
 	private UserList userList;

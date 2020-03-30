@@ -38,7 +38,7 @@ public class SensorLoudness {
 	private static final double SCALE_RANGE = 100d;
 	private static final double MAX_AMP_VALUE = 32767d;
 	private static final String TAG = SensorLoudness.class.getSimpleName();
-	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<SensorCustomEventListener>();
+	private ArrayList<SensorCustomEventListener> listenerList = new ArrayList<>();
 
 	private SoundRecorder recorder = null;
 	private Handler handler;

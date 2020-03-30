@@ -101,7 +101,7 @@ public class SpeakAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		HashMap<String, String> speakParameter = new HashMap<String, String>();
+		HashMap<String, String> speakParameter = new HashMap<>();
 		speakParameter.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, hashText);
 		TextToSpeechHolder.getInstance().textToSpeech(String.valueOf(interpretedText), speechFile, listener, speakParameter);
 	}

@@ -72,7 +72,7 @@ public class GroupSprite extends Sprite {
 	}
 
 	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName) {
-		List<Sprite> result = new ArrayList<Sprite>();
+		List<Sprite> result = new ArrayList<>();
 		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
 		int position = 0;
 		for (Sprite sprite : spriteList) {

@@ -372,68 +372,68 @@ public class InternFormulaKeyboardAdapter {
 	}
 
 	private List<InternToken> buildBracketOpen() {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		return returnList;
 	}
 
 	private List<InternToken> buildBracketClose() {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 		return returnList;
 	}
 
 	private List<InternToken> buildUserList(String userListName) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.USER_LIST, userListName));
 		return returnList;
 	}
 
 	private List<InternToken> buildUserVariable(String userVariableName) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
 		return returnList;
 	}
 
 	private List<InternToken> buildCollideWithFormula(String formula) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.COLLISION_FORMULA, formula));
 		return returnList;
 	}
 
 	private List<InternToken> buildPeriod() {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.PERIOD));
 		return returnList;
 	}
 
 	private List<InternToken> buildNumber(String numberValue) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.NUMBER, numberValue));
 		return returnList;
 	}
 
 	private List<InternToken> buildObject(Sensors sensors) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.SENSOR, sensors.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildOperator(Operators operator) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.OPERATOR, operator.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildSensor(Sensors sensor) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildDoubleParameterFunction(Functions function, InternTokenType firstParameter,
 			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
@@ -445,7 +445,7 @@ public class InternFormulaKeyboardAdapter {
 
 	private List<InternToken> buildSingleParameterFunction(Functions function, InternTokenType firstParameter,
 			String parameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		returnList.add(new InternToken(firstParameter, parameterNumberValue));
@@ -454,13 +454,13 @@ public class InternFormulaKeyboardAdapter {
 	}
 
 	private List<InternToken> buildFunctionWithoutParametersAndBrackets(Functions function) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		return returnList;
 	}
 
 	private List<InternToken> buildString(String myString) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.STRING, myString));
 		return returnList;
 	}
@@ -468,7 +468,7 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildDoubleParameterFunctionWithNegativeValues(Functions function,
 			boolean isFirstParameterNegative, InternTokenType firstParameter, String firstParameterNumberValue,
 			boolean isSecondParameterNegative, InternTokenType secondParameter, String secondParameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
+		List<InternToken> returnList = new LinkedList<>();
 		returnList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
 		returnList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		if (isFirstParameterNegative) {

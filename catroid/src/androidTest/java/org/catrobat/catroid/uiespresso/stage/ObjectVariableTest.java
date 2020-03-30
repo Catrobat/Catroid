@@ -101,7 +101,7 @@ public class ObjectVariableTest {
 	}
 
 	public Double getSensorValue(Sensors sensor) throws InterpretationException {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();

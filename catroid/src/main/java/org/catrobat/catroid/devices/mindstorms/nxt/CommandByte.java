@@ -37,7 +37,7 @@ public enum CommandByte {
 	KEEP_ALIVE(0x0D);
 
 	private int commandByteValue;
-	private static final SparseArray<CommandByte> LOOKUP = new SparseArray<CommandByte>();
+	private static final SparseArray<CommandByte> LOOKUP = new SparseArray<>();
 	static {
 		for (CommandByte c : CommandByte.values()) {
 			LOOKUP.put(c.commandByteValue, c);
