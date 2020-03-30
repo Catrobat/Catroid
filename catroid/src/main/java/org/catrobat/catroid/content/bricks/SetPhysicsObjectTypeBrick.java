@@ -85,7 +85,7 @@ public class SetPhysicsObjectTypeBrick extends BrickBaseType {
 	}
 
 	private ArrayAdapter<String> createAdapter(Context context) {
-		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item);
+		ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item);
 		arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		for (String type : context.getResources().getStringArray(R.array.physics_object_types)) {

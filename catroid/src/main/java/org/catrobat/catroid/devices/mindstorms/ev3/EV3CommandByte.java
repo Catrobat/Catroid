@@ -115,7 +115,7 @@ public class EV3CommandByte {
 		OP_OUTPUT_STOP(0xA3);
 
 		private int commandByteValue;
-		private static final SparseArray<EV3CommandOpCode> LOOKUP = new SparseArray<EV3CommandOpCode>();
+		private static final SparseArray<EV3CommandOpCode> LOOKUP = new SparseArray<>();
 		static {
 			for (EV3CommandOpCode c : EV3CommandOpCode.values()) {
 				LOOKUP.put(c.commandByteValue, c);

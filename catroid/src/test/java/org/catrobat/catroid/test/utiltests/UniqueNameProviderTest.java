@@ -51,7 +51,7 @@ public class UniqueNameProviderTest {
 	@Test
 	public void testNewNameWithEmptyScope() {
 		assertEquals("Object",
-				uniqueNameProvider.getUniqueName("Object", new ArrayList<String>()));
+				uniqueNameProvider.getUniqueName("Object", new ArrayList<>()));
 	}
 
 	@Test

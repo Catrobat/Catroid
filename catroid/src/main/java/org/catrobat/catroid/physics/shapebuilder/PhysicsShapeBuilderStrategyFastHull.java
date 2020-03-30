@@ -46,7 +46,7 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 		int width = pixmap.getWidth();
 		int height = pixmap.getHeight();
 		float coordinateAdjustmentValue = 1.0f;
-		Stack<Vector2> convexHull = new Stack<Vector2>();
+		Stack<Vector2> convexHull = new Stack<>();
 
 		Vector2 point = new Vector2(width, height);
 		for (int y = 0; y < height; y++) {
@@ -141,8 +141,8 @@ public final class PhysicsShapeBuilderStrategyFastHull implements PhysicsShapeBu
 			return new Shape[] {polygon};
 		}
 
-		List<Shape> shapes = new ArrayList<Shape>(convexpoints.length / 6 + 1);
-		List<Vector2> pointsPerShape = new ArrayList<Vector2>(8);
+		List<Shape> shapes = new ArrayList<>(convexpoints.length / 6 + 1);
+		List<Vector2> pointsPerShape = new ArrayList<>(8);
 
 		Vector2 rome = convexpoints[0];
 		int index = 1;

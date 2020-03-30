@@ -42,7 +42,7 @@ public class ParserTestErrorDedection {
 
 	@Test
 	public void testTooManyOperators() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
@@ -53,7 +53,7 @@ public class ParserTestErrorDedection {
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);
 
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internParser = new InternFormulaParser(internTokenList);
 		parseTree = internParser.parseFormula();
@@ -61,7 +61,7 @@ public class ParserTestErrorDedection {
 		errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(0, errorTokenIndex);
 
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internParser = new InternFormulaParser(internTokenList);
@@ -70,7 +70,7 @@ public class ParserTestErrorDedection {
 		errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);
 
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
@@ -85,7 +85,7 @@ public class ParserTestErrorDedection {
 
 	@Test
 	public void testOperatorMissing() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
@@ -98,7 +98,7 @@ public class ParserTestErrorDedection {
 
 	@Test
 	public void testNumberMissing() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
@@ -111,7 +111,7 @@ public class ParserTestErrorDedection {
 
 	@Test
 	public void testRightBracketMissing() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
@@ -125,7 +125,7 @@ public class ParserTestErrorDedection {
 
 	@Test
 	public void testLefttBracketMissing() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
@@ -139,7 +139,7 @@ public class ParserTestErrorDedection {
 
 	@Test
 	public void testOutOfBound() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));

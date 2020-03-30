@@ -63,7 +63,7 @@ public class ProjectAndSceneScreenshotLoader {
 	private static final float LOAD_FACTOR = .75f;
 	private static final int INITIAL_VALUE = 13; // (N / LOAD_FACTOR) + 1
 
-	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
+	private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<>());
 	private ExecutorService executorService;
 	private int thumbnailWidth;
 	private int thumbnailHeight;

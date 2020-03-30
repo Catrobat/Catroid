@@ -56,7 +56,7 @@ public class InternFormulaTokenSelectionTest {
 	@Before
 	public void setUp() throws Exception {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+		ArrayList<InternToken> internTokens = new ArrayList<>();
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
 		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
 		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));

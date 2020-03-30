@@ -246,7 +246,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, firstParameter, InternTokenType.STRING, secondParameter);
 		List<InternToken> lengthTokenList = FormulaEditorTestUtil.buildSingleParameterFunction(Functions.LENGTH,
 				joinTokenList);
-		List<InternToken> secondInternTokenList = new LinkedList<InternToken>();
+		List<InternToken> secondInternTokenList = new LinkedList<>();
 		secondInternTokenList.add(new InternToken(InternTokenType.STRING, firstParameter + secondParameter));
 		List<InternToken> letterTokenList = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.LETTER,
 				lengthTokenList, secondInternTokenList);

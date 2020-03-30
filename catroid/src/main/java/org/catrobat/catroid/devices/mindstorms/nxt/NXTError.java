@@ -56,7 +56,7 @@ public final class NXTError {
 		InvalidMailboxQueue(0xee), InvalidField(0xef), BadIO(0xf0), OutOfMemory(0xfb), BadArguments(0xff);
 
 		private final int errorCodeValue;
-		private static final SparseArray<ErrorCode> LOOKUP = new SparseArray<ErrorCode>();
+		private static final SparseArray<ErrorCode> LOOKUP = new SparseArray<>();
 		static {
 			for (ErrorCode c : ErrorCode.values()) {
 				LOOKUP.put(c.errorCodeValue, c);

@@ -97,7 +97,7 @@ public class InternFormulaState {
 	}
 
 	public InternFormula createInternFormulaFromState() {
-		List<InternToken> deepCopyOfInternTokenFormula = new LinkedList<InternToken>();
+		List<InternToken> deepCopyOfInternTokenFormula = new LinkedList<>();
 		InternFormulaTokenSelection deepCopyOfInternFormulaTokenSelection = null;
 
 		for (InternToken tokenToCopy : internTokenFormulaList) {

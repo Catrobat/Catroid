@@ -35,8 +35,8 @@ import androidx.annotation.VisibleForTesting;
 
 public final class ConnectionDataLogger {
 
-	private BlockingQueue<byte[]> sentMessages = new LinkedBlockingQueue<byte[]>();
-	private BlockingQueue<byte[]> receivedMessages = new LinkedBlockingQueue<byte[]>();
+	private BlockingQueue<byte[]> sentMessages = new LinkedBlockingQueue<>();
+	private BlockingQueue<byte[]> receivedMessages = new LinkedBlockingQueue<>();
 
 	private int timeoutMilliSeconds = 15000;
 
@@ -91,7 +91,7 @@ public final class ConnectionDataLogger {
 
 	private ArrayList<byte[]> waitForMessages(BlockingQueue<byte[]> messages, int messageByteOffset, int messageCountToWaitFor) {
 
-		ArrayList<byte[]> m = new ArrayList<byte[]>();
+		ArrayList<byte[]> m = new ArrayList<>();
 		Stopwatch stopWatch = Stopwatch.createStarted();
 
 		do {
@@ -107,7 +107,7 @@ public final class ConnectionDataLogger {
 
 	private static ArrayList<byte[]> getMessages(BlockingQueue<byte[]> messages, int messageByteOffset) {
 
-		ArrayList<byte[]> m = new ArrayList<byte[]>();
+		ArrayList<byte[]> m = new ArrayList<>();
 
 		byte[] message = null;
 		while ((message = messages.poll()) != null) {

@@ -52,7 +52,7 @@ public class InternFormulaStateTest {
 	@Before
 	public void setUp() throws Exception {
 
-		List<InternToken> internTokenList = new ArrayList<InternToken>();
+		List<InternToken> internTokenList = new ArrayList<>();
 		InternFormulaTokenSelection internTokenSelection = new InternFormulaTokenSelection(
 				TokenSelectionType.USER_SELECTION, 0, 1);
 		internState = new InternFormulaState(internTokenList, null, 0);
@@ -60,10 +60,10 @@ public class InternFormulaStateTest {
 
 		assertFalse(internState.equals(internStateToCompare));
 
-		internTokenList = new ArrayList<InternToken>();
+		internTokenList = new ArrayList<>();
 		internTokenList.add(new InternToken(InternTokenType.NUMBER));
 		internState = new InternFormulaState(internTokenList, null, 0);
-		internTokenList = new ArrayList<InternToken>();
+		internTokenList = new ArrayList<>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME));
 		internStateToCompare = new InternFormulaState(internTokenList, null, 0);
 	}

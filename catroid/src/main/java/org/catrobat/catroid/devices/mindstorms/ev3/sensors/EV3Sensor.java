@@ -102,7 +102,7 @@ public abstract class EV3Sensor implements LegoSensor {
 
 		private int sensorConnectionByteCode;
 
-		private static final SparseArray<SensorConnectionType> LOOKUP = new SparseArray<SensorConnectionType>();
+		private static final SparseArray<SensorConnectionType> LOOKUP = new SparseArray<>();
 		static {
 			for (SensorConnectionType c : SensorConnectionType.values()) {
 				LOOKUP.put(c.sensorConnectionByteCode, c);

@@ -75,7 +75,7 @@ public class LookSensorValuesInterpretationTest {
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();

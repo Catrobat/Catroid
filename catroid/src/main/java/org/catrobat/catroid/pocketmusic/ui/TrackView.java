@@ -50,7 +50,7 @@ public class TrackView extends TableLayout {
 
 	public TrackView(Context context, AttributeSet attrs) {
 		this(context, attrs, new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
-				ArrayList<GridRow>()));
+                ArrayList<>()));
 	}
 
 	public TrackView(Context context, TrackGrid trackGrid) {

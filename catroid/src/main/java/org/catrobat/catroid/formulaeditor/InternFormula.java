@@ -225,7 +225,7 @@ public class InternFormula {
 	private CursorTokenPropertiesAfterModification replaceSelection(List<InternToken> tokenListToInsert) {
 
 		if (InternFormulaUtils.isPeriodToken(tokenListToInsert)) {
-			tokenListToInsert = new LinkedList<InternToken>();
+			tokenListToInsert = new LinkedList<>();
 			tokenListToInsert.add(new InternToken(InternTokenType.NUMBER, "0."));
 		}
 
@@ -256,7 +256,7 @@ public class InternFormula {
 	}
 
 	private void deleteInternTokens(int deleteIndexStart, int deleteIndexEnd) {
-		List<InternToken> tokenListToInsert = new LinkedList<InternToken>();
+		List<InternToken> tokenListToInsert = new LinkedList<>();
 		replaceInternTokens(tokenListToInsert, deleteIndexStart, deleteIndexEnd);
 	}
 
@@ -675,7 +675,7 @@ public class InternFormula {
 		if (cursorPositionInternToken == null) {
 
 			if (InternFormulaUtils.isPeriodToken(internTokensToInsert)) {
-				internTokensToInsert = new LinkedList<InternToken>();
+				internTokensToInsert = new LinkedList<>();
 				internTokensToInsert.add(new InternToken(InternTokenType.NUMBER, "0."));
 			}
 			internTokenFormulaList.addAll(0, internTokensToInsert);
@@ -902,7 +902,7 @@ public class InternFormula {
 
 	public InternFormulaState getInternFormulaState() {
 
-		List<InternToken> deepCopyOfInternTokenFormula = new LinkedList<InternToken>();
+		List<InternToken> deepCopyOfInternTokenFormula = new LinkedList<>();
 		InternFormulaTokenSelection deepCopyOfInternFormulaTokenSelection = null;
 
 		for (InternToken tokenToCopy : internTokenFormulaList) {

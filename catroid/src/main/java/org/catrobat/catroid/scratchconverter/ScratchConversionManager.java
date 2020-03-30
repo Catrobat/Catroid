@@ -84,11 +84,11 @@ public class ScratchConversionManager implements ConversionManager {
 		this.client = client;
 		this.verbose = verbose;
 		this.downloadCallbacks = new HashMap<>();
-		this.globalDownloadCallbacks = Collections.synchronizedSet(new HashSet<Client.ProjectDownloadCallback>());
+		this.globalDownloadCallbacks = Collections.synchronizedSet(new HashSet<>());
 		client.setConvertCallback(this);
-		this.jobViewListeners = Collections.synchronizedMap(new HashMap<Long, Set<JobViewListener>>());
-		this.globalJobViewListeners = Collections.synchronizedSet(new HashSet<JobViewListener>());
-		this.baseInfoViewListeners = Collections.synchronizedSet(new HashSet<BaseInfoViewListener>());
+		this.jobViewListeners = Collections.synchronizedMap(new HashMap<>());
+		this.globalJobViewListeners = Collections.synchronizedSet(new HashSet<>());
+		this.baseInfoViewListeners = Collections.synchronizedSet(new HashSet<>());
 		this.shutdown = false;
 	}
 

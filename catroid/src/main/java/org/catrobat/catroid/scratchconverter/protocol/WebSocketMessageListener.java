@@ -50,7 +50,7 @@ public class WebSocketMessageListener implements MessageListener, WebSocket.Stri
 
 	public WebSocketMessageListener() {
 		this.baseMessageHandler = null;
-		this.jobHandlers = Collections.synchronizedMap(new LinkedHashMap<Long, JobHandler>());
+		this.jobHandlers = Collections.synchronizedMap(new LinkedHashMap<>());
 	}
 
 	public void setBaseMessageHandler(final BaseMessageHandler baseMessageHandler) {

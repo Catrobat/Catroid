@@ -179,7 +179,7 @@ public class ParserTestSensors {
 	}
 
 	private Formula createFormulaWithSensor(Sensors sensor) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internFormulaParser = new InternFormulaParser(internTokenList);
 		FormulaElement root = internFormulaParser.parseFormula();

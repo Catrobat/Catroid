@@ -34,8 +34,8 @@ public class ExternInternRepresentationMapping {
 	private int externStringLength = 0;
 
 	public ExternInternRepresentationMapping() {
-		externInternMapping = new SparseArrayCompat<Integer>();
-		internExternMapping = new SparseArrayCompat<ExternToken>();
+		externInternMapping = new SparseArrayCompat<>();
+		internExternMapping = new SparseArrayCompat<>();
 	}
 
 	public void putMapping(int externStringStartIndex, int externStringEndIndex, int internListIndex) {

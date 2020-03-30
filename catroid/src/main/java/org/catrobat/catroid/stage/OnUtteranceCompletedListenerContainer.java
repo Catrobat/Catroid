@@ -33,7 +33,7 @@ import java.util.Map;
 
 @SuppressWarnings("deprecation")
 public class OnUtteranceCompletedListenerContainer implements OnUtteranceCompletedListener {
-	private final Map<String, List<OnUtteranceCompletedListener>> listeners = new HashMap<String, List<OnUtteranceCompletedListener>>();
+	private final Map<String, List<OnUtteranceCompletedListener>> listeners = new HashMap<>();
 
 	public synchronized boolean addOnUtteranceCompletedListener(File speechFile,
 			OnUtteranceCompletedListener onUtteranceCompletedListener, String utteranceId) {
@@ -44,7 +44,7 @@ public class OnUtteranceCompletedListenerContainer implements OnUtteranceComplet
 				onUtteranceCompletedListener.onUtteranceCompleted(utteranceId);
 				return false;
 			} else {
-				utteranceIdListeners = new ArrayList<TextToSpeech.OnUtteranceCompletedListener>();
+				utteranceIdListeners = new ArrayList<>();
 				utteranceIdListeners.add(onUtteranceCompletedListener);
 				listeners.put(utteranceId, utteranceIdListeners);
 				return true;

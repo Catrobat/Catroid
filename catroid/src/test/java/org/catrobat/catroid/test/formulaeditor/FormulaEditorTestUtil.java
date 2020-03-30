@@ -193,7 +193,7 @@ public final class FormulaEditorTestUtil {
 
 	public static void testSingleToken(InternTokenType firstInternTokenType, String firstParameter, Object expected,
 			Sprite testSprite) {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(firstInternTokenType, firstParameter));
 		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
 		Formula formula = new Formula(parseTree);
