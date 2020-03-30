@@ -68,17 +68,17 @@ public class EV3Reply extends MindstormsReply {
 
 	public String toHexString(EV3Reply reply) {
 		byte[] rawBytes = reply.getData();
-		String commandHexString = "0x";
+		StringBuilder commandHexString = new StringBuilder("0x");
 
 		if (rawBytes.length == 0) {
 			return "null";
 		}
 
 		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString += Integer.toHexString(rawBytes[i] & 0xFF);
-			commandHexString += "_";
+			commandHexString.append(Integer.toHexString(rawBytes[i] & 0xFF));
+			commandHexString.append("_");
 		}
 
-		return commandHexString;
+		return commandHexString.toString();
 	}
 }

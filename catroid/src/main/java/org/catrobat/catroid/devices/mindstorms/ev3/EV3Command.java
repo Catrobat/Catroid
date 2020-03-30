@@ -146,17 +146,17 @@ public class EV3Command implements MindstormsCommand {
 
 	public String toHexString(EV3Command command) {
 		byte[] rawBytes = command.getRawCommand();
-		String commandHexString = "0x";
+		StringBuilder commandHexString = new StringBuilder("0x");
 
 		if (rawBytes.length == 0) {
 			return "0";
 		}
 
 		for (int i = 0; i < rawBytes.length; i++) {
-			commandHexString += Integer.toHexString(rawBytes[i] & 0xFF);
-			commandHexString += "_";
+			commandHexString.append(Integer.toHexString(rawBytes[i] & 0xFF));
+			commandHexString.append("_");
 		}
 
-		return commandHexString;
+		return commandHexString.toString();
 	}
 }

@@ -91,15 +91,15 @@ public final class NfcHandler {
 					messages[i] = (NdefMessage) rawMsgs[i];
 				}
 				if (messages[0] != null) {
-					String result = "";
+					StringBuilder result = new StringBuilder();
 					byte[] payload = messages[0].getRecords()[0].getPayload();
 					if (payload.length > 0) {
 						int i = payloadStartContainsText(payload[0]) ? 0 : 1;
 						for (; i < payload.length; i++) {
-							result += (char) payload[i];
+							result.append((char) payload[i]);
 						}
 					}
-					return result;
+					return result.toString();
 				}
 			}
 		}
