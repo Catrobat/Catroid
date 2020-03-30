@@ -41,78 +41,77 @@ import org.mockito.Mockito;
 import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
 public class InternFormulaTokenSelectionTest {
 
-	private InternFormula internFormula;
+    private InternFormula internFormula;
 
-	@Before
-	public void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 
-		ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
-		internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
-		internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+        ArrayList<InternToken> internTokens = new ArrayList<InternToken>();
+        internTokens.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.SIN.name()));
+        internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+        internTokens.add(new InternToken(InternTokenType.NUMBER, "42.42"));
+        internTokens.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
-		internFormula = new InternFormula(internTokens);
-		internFormula.generateExternFormulaStringAndInternExternMapping(Mockito.mock(Context.class));
-		int doubleClickIndex = internFormula.getExternFormulaString().length();
-		internFormula.setCursorAndSelection(doubleClickIndex, true);
-	}
+        internFormula = new InternFormula(internTokens);
+        internFormula.generateExternFormulaStringAndInternExternMapping(Mockito.mock(Context.class));
+        int doubleClickIndex = internFormula.getExternFormulaString().length();
+        internFormula.setCursorAndSelection(doubleClickIndex, true);
+    }
 
-	@Test
-	public void testReplaceFunctionByToken() throws Exception {
-		assertEquals(0, internFormula.getSelection().getStartIndex());
-		assertEquals(3, internFormula.getSelection().getEndIndex());
+    @Test
+    public void testReplaceFunctionByToken() throws Exception {
+        assertEquals(0, internFormula.getSelection().getStartIndex());
+        assertEquals(3, internFormula.getSelection().getEndIndex());
 
-		InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
-		InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
+        InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
+        InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
 
-		assertEquals(tokenSelection, tokenSelectionDeepCopy);
+        assertEquals(tokenSelection, tokenSelectionDeepCopy);
 
-		Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
-				TokenSelectionType.PARSER_ERROR_SELECTION);
-		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
+        Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
+                TokenSelectionType.PARSER_ERROR_SELECTION);
+        assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
 
-		tokenSelectionDeepCopy = tokenSelection.deepCopy();
-		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
-		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
+        tokenSelectionDeepCopy = tokenSelection.deepCopy();
+        Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
+        assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
 
-		tokenSelectionDeepCopy = tokenSelection.deepCopy();
-		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
-		assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
+        tokenSelectionDeepCopy = tokenSelection.deepCopy();
+        Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
+        assertThat(tokenSelectionDeepCopy, is(not(equalTo(tokenSelection))));
 
-		assertFalse(tokenSelectionDeepCopy.equals(1));
-	}
+        assertNotEquals(1, tokenSelectionDeepCopy);
+    }
 
-	@Test
-	public void testHashCodeFunction() throws Exception {
-		InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
-		InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
+    @Test
+    public void testHashCodeFunction() throws Exception {
+        InternFormulaTokenSelection tokenSelection = internFormula.getSelection();
+        InternFormulaTokenSelection tokenSelectionDeepCopy = tokenSelection.deepCopy();
 
-		assertEquals(tokenSelection.hashCode(), tokenSelectionDeepCopy.hashCode());
+        assertEquals(tokenSelection.hashCode(), tokenSelectionDeepCopy.hashCode());
 
-		Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
-				TokenSelectionType.PARSER_ERROR_SELECTION);
+        Reflection.setPrivateField(tokenSelectionDeepCopy, "tokenSelectionType",
+                TokenSelectionType.PARSER_ERROR_SELECTION);
 
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
+        assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
 
-		tokenSelectionDeepCopy = tokenSelection.deepCopy();
-		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
+        tokenSelectionDeepCopy = tokenSelection.deepCopy();
+        Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionStart", -1);
+        assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
 
-		tokenSelectionDeepCopy = tokenSelection.deepCopy();
-		Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
+        tokenSelectionDeepCopy = tokenSelection.deepCopy();
+        Reflection.setPrivateField(tokenSelectionDeepCopy, "internTokenSelectionEnd", -1);
+        assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(tokenSelection.hashCode())));
 
-		assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(1)));
-	}
+        assertThat(tokenSelectionDeepCopy.hashCode(), not(equalTo(1)));
+    }
 }

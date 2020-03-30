@@ -24,6 +24,9 @@ package org.catrobat.catroid.test.devices.mindstorms.ev3;
 
 import android.content.Context;
 
+import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import org.catrobat.catroid.common.bluetooth.ConnectionDataLogger;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
@@ -32,10 +35,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.core.app.ApplicationProvider;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
 
 @RunWith(AndroidJUnit4.class)
 public class LegoEV3ImplTest {
@@ -154,7 +155,7 @@ public class LegoEV3ImplTest {
 
 		byte[] command = logger.getNextSentMessage(0, 2);
 
-		assertEquals(null, command);
+		assertNull(command);
 	}
 
 	@Test
@@ -169,7 +170,7 @@ public class LegoEV3ImplTest {
 
 		byte[] command = logger.getNextSentMessage(0, 2);
 
-		assertEquals(null, command);
+		assertNull(command);
 	}
 
 	@Test

@@ -29,12 +29,11 @@ import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotSame;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 
 @RunWith(JUnit4.class)
@@ -84,7 +83,7 @@ public class NoteEventTest {
 	public void testEquals6() {
 		NoteEvent noteEvent = new NoteEvent(NoteName.C4, true);
 
-		assertFalse(noteEvent.equals(""));
+		assertNotEquals("", noteEvent);
 	}
 
 	@Test

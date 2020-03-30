@@ -93,6 +93,6 @@ public class CompositeBrickWithSecondaryListBroadcastMessageTest {
 		Set<String> usedMessages = scene.getBroadcastMessagesInUse();
 		Assert.assertTrue(usedMessages.contains(FIRST_MESSAGE));
 		Assert.assertTrue(usedMessages.contains(SECOND_MESSAGE));
-		Assert.assertTrue(usedMessages.size() == 2);
+		Assert.assertEquals(2, usedMessages.size());
 	}
 }

@@ -25,6 +25,10 @@ package org.catrobat.catroid.uiespresso.intents.visualplacement;
 
 import android.content.Intent;
 
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.intent.rule.IntentsTestRule;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
@@ -35,20 +39,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import androidx.test.espresso.Espresso;
-import androidx.test.espresso.intent.rule.IntentsTestRule;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
-
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
-
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class VisualPlacementActivityTest {
@@ -118,6 +117,6 @@ public class VisualPlacementActivityTest {
 
 		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(null, resultIntent);
+		Assert.assertNull(resultIntent);
 	}
 }

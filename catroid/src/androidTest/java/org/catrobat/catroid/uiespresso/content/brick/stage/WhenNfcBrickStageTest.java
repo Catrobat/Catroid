@@ -25,6 +25,8 @@ package org.catrobat.catroid.uiespresso.content.brick.stage;
 
 import android.nfc.NdefMessage;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import junit.framework.Assert;
 
 import org.catrobat.catroid.ProjectManager;
@@ -52,8 +54,6 @@ import org.junit.experimental.categories.Category;
 
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
-
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.NUM_DETECTED_TAGS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_ID;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.READ_TAG_MESSAGE;
@@ -61,6 +61,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils
 import static org.catrobat.catroid.uiespresso.content.brick.utils.UiNFCTestUtils.TAG_NAME_TEST2;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableNotEqualsForTimeMs;
+import static org.junit.Assert.assertEquals;
 
 public class WhenNfcBrickStageTest {
 	@Rule
@@ -175,8 +176,8 @@ public class WhenNfcBrickStageTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		Assert.assertTrue("Read tag id does not match default value.", readTagId.getValue().equals(0.0));
-		Assert.assertTrue("Read tag message does not match default value.", readTagMessage.getValue().equals(0.0));
+		assertEquals("Read tag id does not match default value.", 0.0, readTagId.getValue());
+		assertEquals("Read tag message does not match default value.", 0.0, readTagMessage.getValue());
 
 		UiNFCTestUtils.fakeNfcTag(UiNFCTestUtils.FIRST_TEST_TAG_ID, ndefMessage1, null, baseActivityTestRule.getActivity());
 		assertUserVariableNotEqualsForTimeMs(numDetectedTags, 1.0, 2000);
