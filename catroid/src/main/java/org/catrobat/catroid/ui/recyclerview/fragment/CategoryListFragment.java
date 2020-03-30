@@ -40,13 +40,16 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItemType;
+import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.AddUserListDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,9 +57,11 @@ import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryListFragment extends Fragment implements CategoryListRVAdapter.OnItemClickListener {
@@ -114,10 +119,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_letter_parameter, R.string.formula_editor_function_join_parameter,
 			R.string.formula_editor_function_regex_parameter);
 	private static final List<Integer> LIST_FUNCTIONS = Arrays.asList(R.string.formula_editor_function_number_of_items,
-			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains);
+			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains,
+			R.string.formula_editor_function_index_of_item);
 	private static final List<Integer> LIST_PARAMS = Arrays.asList(R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter,
-			R.string.formula_editor_function_contains_parameter);
+			R.string.formula_editor_function_contains_parameter,
+			R.string.formula_editor_function_index_of_item_parameter);
 	private static final List<Integer> LOGIC_BOOL = Arrays.asList(R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false);
@@ -238,47 +245,111 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				showSelectSpriteDialog();
 				break;
 			case CategoryListRVAdapter.DEFAULT:
-				((FormulaEditorFragment) getFragmentManager()
-						.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
-						.addResourceToActiveFormula(item.nameResId);
-				getActivity().onBackPressed();
+				if (LIST_FUNCTIONS.contains(item.nameResId)) {
+					onUserListFunctionSelected(item);
+				} else {
+					addResourceToActiveFormulaInFormulaEditor(item);
+					getActivity().onBackPressed();
+				}
 				break;
 		}
+	}
+
+	private FormulaEditorFragment addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem) {
+		FormulaEditorFragment formulaEditorFragment = null;
+		if (getFragmentManager() != null) {
+			formulaEditorFragment = ((FormulaEditorFragment) getFragmentManager()
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+			if (formulaEditorFragment != null) {
+				formulaEditorFragment.addResourceToActiveFormula(categoryListItem.nameResId);
+			}
+		}
+		return formulaEditorFragment;
+	}
+
+	private void addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem, UserList lastUserList) {
+		addResourceToActiveFormulaInFormulaEditor(categoryListItem).addUserListToActiveFormula(lastUserList.getName());
+		getActivity().onBackPressed();
+	}
+
+	private void onUserListFunctionSelected(CategoryListItem item) {
+		FragmentActivity activity = getActivity();
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
+		final List<UserList> projectUserList =
+				ProjectManager.getInstance().getCurrentProject().getUserLists();
+		final List<UserList> spriteUserList =
+				ProjectManager.getInstance().getCurrentSprite().getUserLists();
+		insertLastUserListToActiveFormula(item, projectUserList, spriteUserList,
+				activity, builder);
+	}
+
+	@VisibleForTesting
+	public void insertLastUserListToActiveFormula(CategoryListItem categoryListItem,
+			List<UserList> projectUserList, List<UserList> spriteUserList,
+			FragmentActivity activity,
+			TextInputDialog.Builder builder) {
+
+		if (spriteUserList.isEmpty() && projectUserList.isEmpty()) {
+			showNewUserListDialog(categoryListItem, projectUserList, spriteUserList,
+					activity, builder);
+			return;
+		}
+
+		if (!spriteUserList.isEmpty()) {
+			addResourceToActiveFormulaInFormulaEditor(categoryListItem, spriteUserList.get(spriteUserList.size() - 1));
+			return;
+		}
+		addResourceToActiveFormulaInFormulaEditor(categoryListItem, projectUserList.get(projectUserList.size() - 1));
+	}
+
+	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserList> projectUserList, List<UserList> spriteUserList,
+			FragmentActivity activity, TextInputDialog.Builder builder) {
+
+		AddUserListDialog userListDialog = new AddUserListDialog(builder);
+		userListDialog.show(activity.getString(R.string.data_label), activity.getString(R.string.ok), new AddUserListDialog.Callback(){
+			@Override
+			public void onPositiveButton(DialogInterface dialog, String textInput) {
+				UserList userList = new UserList(textInput);
+				userListDialog.addUserList(dialog, userList, projectUserList, spriteUserList);
+				addResourceToActiveFormulaInFormulaEditor(categoryListItem, userList);
+			}
+
+			@Override
+			public void onNegativeButton() {
+				activity.onBackPressed();
+			}
+		});
 	}
 
 	private void showLegoSensorPortConfigDialog(int itemNameResId, @LegoSensorType final int type) {
 
 		new LegoSensorPortConfigDialog.Builder(getContext(), type, itemNameResId)
-				.setPositiveButton(getString(R.string.ok), new LegoSensorPortConfigDialog.OnClickListener() {
-
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, int selectedPort, Enum selectedSensor) {
-						if (type == Constants.NXT) {
-							SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
-									(NXTSensor.Sensor) selectedSensor, SettingsFragment.NXT_SENSORS[selectedPort]);
-						} else if (type == Constants.EV3) {
-							SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
-									(EV3Sensor.Sensor) selectedSensor, SettingsFragment.EV3_SENSORS[selectedPort]);
-						}
-
-						FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
-								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
-
-						int sensorPortsId = type == Constants.NXT
-								? R.array.formula_editor_nxt_ports
-								: R.array.formula_editor_ev3_ports;
-						TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
-						try {
-							int resourceId = sensorPorts.getResourceId(selectedPort, 0);
-							if (resourceId != 0) {
-								formulaEditor.addResourceToActiveFormula(resourceId);
-								formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
-							}
-						} finally {
-							sensorPorts.recycle();
-						}
-						getActivity().onBackPressed();
+				.setPositiveButton(getString(R.string.ok), (dialog, selectedPort, selectedSensor) -> {
+					if (type == Constants.NXT) {
+						SettingsFragment.setLegoMindstormsNXTSensorMapping(getActivity(),
+								(NXTSensor.Sensor) selectedSensor, SettingsFragment.NXT_SENSORS[selectedPort]);
+					} else if (type == Constants.EV3) {
+						SettingsFragment.setLegoMindstormsEV3SensorMapping(getActivity(),
+								(EV3Sensor.Sensor) selectedSensor, SettingsFragment.EV3_SENSORS[selectedPort]);
 					}
+
+					FormulaEditorFragment formulaEditor = (FormulaEditorFragment) getFragmentManager()
+							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG);
+
+					int sensorPortsId = type == Constants.NXT
+							? R.array.formula_editor_nxt_ports
+							: R.array.formula_editor_ev3_ports;
+					TypedArray sensorPorts = getResources().obtainTypedArray(sensorPortsId);
+					try {
+						int resourceId = sensorPorts.getResourceId(selectedPort, 0);
+						if (resourceId != 0) {
+							formulaEditor.addResourceToActiveFormula(resourceId);
+							formulaEditor.updateButtonsOnKeyboardAndInvalidateOptionsMenu();
+						}
+					} finally {
+						sensorPorts.recycle();
+					}
+					getActivity().onBackPressed();
 				})
 				.show();
 	}
@@ -301,19 +372,16 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.formula_editor_function_collision)
-				.setItems(selectableSpriteNames, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Sprite selectedSprite = selectableSprites.get(which);
+				.setItems(selectableSpriteNames, (dialog, which) -> {
+					Sprite selectedSprite = selectableSprites.get(which);
 
-						currentSprite.createCollisionPolygons();
-						selectedSprite.createCollisionPolygons();
+					currentSprite.createCollisionPolygons();
+					selectedSprite.createCollisionPolygons();
 
-						((FormulaEditorFragment) getFragmentManager()
-								.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
-								.addCollideFormulaToActiveFormula(selectedSprite.getName());
-						getActivity().onBackPressed();
-					}
+					((FormulaEditorFragment) getFragmentManager()
+							.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG))
+							.addCollideFormulaToActiveFormula(selectedSprite.getName());
+					getActivity().onBackPressed();
 				})
 				.show();
 	}
@@ -447,11 +515,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
 		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
-				: Collections.<CategoryListItem>emptyList());
+				: Collections.emptyList());
 		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
-				: Collections.<CategoryListItem>emptyList());
+				: Collections.emptyList());
 		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
-				: Collections.<CategoryListItem>emptyList());
+				: Collections.emptyList());
 		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
 
 		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
@@ -473,48 +541,48 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private List<CategoryListItem> getNxtSensorItems() {
 		return SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_NXT, CategoryListRVAdapter.NXT), getString(R.string.formula_editor_device_lego_nxt))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getEv3SensorItems() {
 		return SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_EV3, CategoryListRVAdapter.EV3), getString(R.string.formula_editor_device_lego_ev3))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getPhiroSensorItems() {
 		return SettingsFragment.isPhiroSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_PHIRO), getString(R.string.formula_editor_device_phiro))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getArduinoSensorItems() {
 		return SettingsFragment.isArduinoSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_ARDUINO), getString(R.string.formula_editor_device_arduino))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getDroneSensorItems() {
 		return SettingsFragment.isDroneSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_DRONE), getString(R.string.formula_editor_device_drone))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getRaspberrySensorItems() {
 		return RaspberryPiSettingsFragment.isRaspiSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_RASPBERRY, SENSORS_RASPBERRY_PARAMS), getString(R.string.formula_editor_device_raspberry))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getNfcItems() {
 		return SettingsFragment.isNfcSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_NFC), getString(R.string.formula_editor_device_nfc))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 
 	private List<CategoryListItem> getCastGamepadSensorItems() {
 		return ProjectManager.getInstance().getCurrentProject().isCastProject()
 				? addHeader(toCategoryListItems(SENSORS_CAST_GAMEPAD), getString(R.string.formula_editor_device_cast))
-				: Collections.<CategoryListItem>emptyList();
+				: Collections.emptyList();
 	}
 }

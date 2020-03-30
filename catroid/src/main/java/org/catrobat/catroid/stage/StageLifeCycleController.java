@@ -50,7 +50,7 @@ import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.util.List;
 
@@ -145,7 +145,7 @@ public final class StageLifeCycleController {
 				CameraManager.getInstance().releaseCamera();
 			}
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
-			VibratorUtil.pauseVibrator();
+			VibrationUtil.pauseVibration();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
@@ -180,8 +180,8 @@ public final class StageLifeCycleController {
 				FlashUtil.resumeFlash();
 			}
 
-			if (resourcesSet.contains(Brick.VIBRATOR)) {
-				VibratorUtil.resumeVibrator();
+			if (resourcesSet.contains(Brick.VIBRATION)) {
+				VibrationUtil.resumeVibration();
 			}
 
 			if (resourcesSet.contains(Brick.FACE_DETECTION)) {
@@ -238,7 +238,7 @@ public final class StageLifeCycleController {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
 			stageActivity.jumpingSumoDisconnect();
 			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
-			VibratorUtil.destroy();
+			VibrationUtil.destroy();
 			SensorHandler.stopSensorListeners();
 			if (CameraManager.getInstance() != null) {
 				FlashUtil.destroy();

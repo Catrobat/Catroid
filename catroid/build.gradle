@@ -271,7 +271,9 @@ android {
     }
 
     productFlavors {
-        catroid
+        catroid {
+            isDefault.set(true)
+        }
         createAtSchool {
             applicationIdSuffix '.createatschool'
         }

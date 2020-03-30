@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ChooseCameraAction;
 import org.catrobat.catroid.content.actions.ClearBackgroundAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
+import org.catrobat.catroid.content.actions.ClearUserListAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
@@ -748,6 +749,12 @@ public class ActionFactory extends Actions {
 		DeleteItemOfUserListAction action = action(DeleteItemOfUserListAction.class);
 		action.setSprite(sprite);
 		action.setFormulaIndexToDelete(userListFormula);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createClearUserListAction(UserList userList) {
+		ClearUserListAction action = action(ClearUserListAction.class);
 		action.setUserList(userList);
 		return action;
 	}

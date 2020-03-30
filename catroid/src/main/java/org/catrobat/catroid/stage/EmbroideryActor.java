@@ -29,47 +29,80 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
 import org.catrobat.catroid.embroidery.StitchPoint;
 
 import java.util.List;
 import java.util.ListIterator;
 
-public class EmbroideryActor extends Actor {
-	private float stitchSize;
+import androidx.annotation.VisibleForTesting;
 
-	public EmbroideryActor(float screenRatio) {
-		stitchSize = BrickValues.STITCH_SIZE * screenRatio;
+public class EmbroideryActor extends Actor {
+	private final float stitchSize;
+	private final EmbroideryPatternManager embroideryPatternManager;
+	private final ShapeRenderer shapeRenderer;
+
+	public EmbroideryActor(float screenRatio, EmbroideryPatternManager embroideryPatternManager,
+			ShapeRenderer shapeRenderer) {
+		this.stitchSize = BrickValues.STITCH_SIZE * screenRatio;
+		this.embroideryPatternManager = embroideryPatternManager;
+		this.shapeRenderer = shapeRenderer;
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		List<StitchPoint> stitchPoints =
-				StageActivity.stageListener.embroideryPatternManager.getEmbroideryPatternList();
+		List<StitchPoint> stitchPoints = embroideryPatternManager.getEmbroideryPatternList();
+
 		ListIterator<StitchPoint> iterator = stitchPoints.listIterator();
+		boolean isLayerChange = false;
 
 		if (stitchPoints.size() >= 2) {
 			batch.end();
 
-			ShapeRenderer renderer = StageActivity.stageListener.shapeRenderer;
-			renderer.setColor(Color.BLACK);
-			renderer.begin(ShapeRenderer.ShapeType.Filled);
+			shapeRenderer.setColor(Color.BLACK);
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
 			StitchPoint previousStitchPoint = iterator.next();
 			while (iterator.hasNext()) {
 				StitchPoint stitchPoint = iterator.next();
-				if (!(stitchPoint.isConnectingPoint()) || !(previousStitchPoint.isConnectingPoint())) {
+
+				if ((stitchPoint.isColorChangePoint()) || (previousStitchPoint.isColorChangePoint())) {
 					previousStitchPoint = stitchPoint;
+					isLayerChange = true;
 					continue;
 				}
-				renderer.circle(previousStitchPoint.getX(), previousStitchPoint.getY(), stitchSize);
-				renderer.rectLine(previousStitchPoint.getX(), previousStitchPoint.getY(),
-						stitchPoint.getX(), stitchPoint.getY(), stitchSize);
+				if (isLayerChange && stitchPoint.isJumpPoint()) {
+					previousStitchPoint = stitchPoint;
+					continue;
+				} else {
+					isLayerChange = false;
+				}
+				if (stitchPoint.isConnectingPoint() || previousStitchPoint.isConnectingPoint()) {
+					drawCircle(previousStitchPoint);
+				}
+
+				drawLine(previousStitchPoint, stitchPoint);
 				previousStitchPoint = stitchPoint;
 			}
-			renderer.circle(previousStitchPoint.getX(), previousStitchPoint.getY(), stitchSize);
-			renderer.end();
-
+			drawCircle(previousStitchPoint);
+			shapeRenderer.end();
 			batch.begin();
 		}
+	}
+
+	@VisibleForTesting
+	void drawCircle(StitchPoint stitchPoint) {
+		shapeRenderer.circle(stitchPoint.getX(), stitchPoint.getY(), stitchSize);
+	}
+
+	@VisibleForTesting
+	void drawLine(StitchPoint stitchPoint1, StitchPoint stitchPoint2) {
+		shapeRenderer.rectLine(stitchPoint1.getX(), stitchPoint1.getY(),
+				stitchPoint2.getX(), stitchPoint2.getY(), stitchSize);
+	}
+
+	@VisibleForTesting
+	public float getStitchSize() {
+		return stitchSize;
 	}
 }

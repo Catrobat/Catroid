@@ -802,7 +802,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_resource_not_available_text">不幸此项目无法在您的设备上运行。
 以下组件不可用:\n\n</string>
     <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
-    <string name="prestage_no_vibrator_available">\u2022 震动器\n</string>
+    <string name="prestage_no_vibration_available">\u2022 震动器\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 倾角传感器\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 电子罗盘\n</string>

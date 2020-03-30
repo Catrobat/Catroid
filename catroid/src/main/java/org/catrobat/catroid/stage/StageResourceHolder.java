@@ -68,7 +68,7 @@ import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -314,14 +314,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			resourceInitialized();
 		}
 
-		if (requiredResourcesSet.contains(Brick.VIBRATOR)) {
-			Vibrator vibrator = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
-			if (vibrator != null) {
-				VibratorUtil.setContext(stageActivity);
-				VibratorUtil.activateVibratorThread();
+		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
+			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
+			if (vibration != null) {
+				VibrationUtil.setContext(stageActivity);
+				VibrationUtil.activateVibrationThread();
 				resourceInitialized();
 			} else {
-				resourceFailed(Brick.VIBRATOR);
+				resourceFailed(Brick.VIBRATION);
 			}
 		}
 
@@ -498,9 +498,9 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
 							.prestage_no_front_camera_available);
 					break;
-				case Brick.VIBRATOR:
+				case Brick.VIBRATION:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_vibrator_available);
+							.prestage_no_vibration_available);
 					break;
 				case Brick.FACE_DETECTION:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string

@@ -1034,7 +1034,7 @@
         Следующие компоненты недоступны:\n\n</string>
     <string name="prestage_resource_in_use_text">Другое устройство подключено к Jumping Sumo. Убедитесь, что
         только вы подключены к дрону.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Вибрация\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Вибрация\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Датчик ускорения\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Датчик угла наклона\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Компас\n</string>
