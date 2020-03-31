@@ -65,7 +65,7 @@
 
     <!-- Category icons visibility -->
     <declare-styleable name="CategoryIconsVisibility">
-        <attr name="category_icon_visiblity" format="integer"/>
+        <attr name="category_icon_visibility" format="integer"/>
     </declare-styleable>
 
     <!-- Category icons size -->
