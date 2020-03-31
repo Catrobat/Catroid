@@ -24,8 +24,6 @@
 package org.catrobat.catroid.web;
 
 public class Cookie {
-	public static final String USERNAME_COOKIE = "CATRO_LOGIN_USER";
-	public static final String TOKEN_COOKIE = "CATRO_LOGIN_TOKEN";
 
 	private String name;
 	private String value;

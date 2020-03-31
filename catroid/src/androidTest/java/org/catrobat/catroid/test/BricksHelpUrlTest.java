@@ -290,6 +290,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Event%20Bricks/#WhenStartedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#DeleteItemOfUserListBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ClearUserListBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#ClearUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.GoToBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Motion%20Bricks/#GoToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick",

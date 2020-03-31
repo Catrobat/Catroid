@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 
@@ -52,7 +53,10 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	public void showFormulaEditorToEditFormula(View view) {
 		Context context = view.getContext();
 
-		if (showVisualPlacementDialog(view)) {
+		Fragment currentFragment = UiUtils.getActivityFromView(view).getSupportFragmentManager()
+				.findFragmentById(R.id.fragment_container);
+
+		if (isCorrectFragment(currentFragment) && isCorrectTextField(view) && areAllBrickFieldsNumbers()) {
 			String[] optionStrings = {
 					context.getString(R.string.brick_option_place_visually),
 					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
@@ -60,6 +64,9 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 			new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
 				switch (which) {
 					case 0:
+						if (currentFragment instanceof FormulaEditorFragment) {
+							((FormulaEditorFragment) currentFragment).setCurrentBrickField(getBrickFieldFromTextViewId(view.getId()));
+						}
 						placeVisually(getXBrickField(), getYBrickField());
 						break;
 					case 1:
@@ -107,13 +114,12 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 				&& isBrickFieldANumber(getYBrickField());
 	}
 
-	public boolean showVisualPlacementDialog(View view) {
-		Fragment currentFragment = UiUtils.getActivityFromView(view).getSupportFragmentManager()
-				.findFragmentById(R.id.fragment_container);
+	private boolean isCorrectFragment(Fragment currentFragment) {
+		return currentFragment instanceof ScriptFragment || currentFragment instanceof FormulaEditorFragment;
+	}
 
-		return currentFragment instanceof ScriptFragment
-				&& (view.getId() == getXEditTextId() || view.getId() == getYEditTextId())
-				&& areAllBrickFieldsNumbers();
+	private boolean isCorrectTextField(View view) {
+		return (view.getId() == getXEditTextId() || view.getId() == getYEditTextId());
 	}
 
 	public abstract BrickField getXBrickField();

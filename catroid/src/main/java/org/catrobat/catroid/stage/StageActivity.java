@@ -69,7 +69,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -77,6 +77,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
@@ -111,6 +112,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	AndroidApplicationConfiguration configuration = null;
 
 	public StageResourceHolder stageResourceHolder;
+	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
 
@@ -235,16 +237,20 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			if (FlashUtil.isAvailable()) {
 				FlashUtil.destroy();
 			}
-			if (VibratorUtil.isActive()) {
-				VibratorUtil.destroy();
+			if (VibrationUtil.isActive()) {
+				VibrationUtil.destroy();
 			}
 			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
 		} else {
 			StageLifeCycleController.stagePause(this);
-			stageListener.takeScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME);
-			stageDialog.show();
+			idlingResource.increment();
+			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+					success -> runOnUiThread(() -> {
+						stageDialog.show();
+						idlingResource.decrement();
+					}));
 		}
 	}
 
@@ -260,8 +266,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (VibratorUtil.isActive()) {
-			VibratorUtil.pauseVibrator();
+		if (VibrationUtil.isActive()) {
+			VibrationUtil.pauseVibration();
 		}
 
 		RaspberryPiService.getInstance().disconnect();

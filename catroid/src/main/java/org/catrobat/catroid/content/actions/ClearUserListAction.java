@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.test.stage;
+package org.catrobat.catroid.content.actions;
 
-import org.catrobat.catroid.stage.StageListener;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import androidx.test.ext.junit.runners.AndroidJUnit4;
+import org.catrobat.catroid.formulaeditor.UserList;
 
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
-import static org.junit.Assert.assertFalse;
+public class ClearUserListAction extends TemporalAction {
 
-@RunWith(AndroidJUnit4.class)
-public class InvalidSaveScreenshotTest {
-	private StageListener stageListener;
+	private UserList userList;
 
-	@Before
-	public void setUp() throws Exception {
-		stageListener = new StageListener();
+	@Override
+	protected void update(float percent) {
+		if (userList == null) {
+			return;
+		}
+
+		userList.reset();
 	}
 
-	@Test
-	public void testInvalidScreenshotSave() {
-		stageListener = new StageListener();
-		assertFalse(stageListener.saveScreenshot(null, SCREENSHOT_AUTOMATIC_FILE_NAME));
+	public void setUserList(UserList userVariable) {
+		this.userList = userVariable;
 	}
 }

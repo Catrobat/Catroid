@@ -43,12 +43,14 @@ import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.uiespresso.stage.utils.StageTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.IdlingRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assertUserVariableEqualsWithTimeout;
@@ -57,6 +59,7 @@ import static org.catrobat.catroid.uiespresso.util.UserVariableAssertions.assert
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
@@ -78,6 +81,11 @@ public class BroadcastReceiverRegressionTest {
 	@Before
 	public void setUp() throws Exception {
 		createProject();
+	}
+
+	@After
+	public void tearDown() {
+		IdlingRegistry.getInstance().unregister(baseActivityTestRule.getActivity().idlingResource);
 	}
 
 	private void createProject() {
@@ -122,10 +130,11 @@ public class BroadcastReceiverRegressionTest {
 		StageTestUtils.addBroadcastScriptSettingUserVariableToSprite(sprite1, BROADCAST_MESSAGE_1, userVariable, 3.0);
 
 		baseActivityTestRule.launchActivity(null);
+		IdlingRegistry.getInstance().register(baseActivityTestRule.getActivity().idlingResource);
 		assertUserVariableEqualsWithTimeout(userVariable, 3, 2000);
 		pressBack();
 		userVariable.setValue(initialValue);
-		onView(withId(R.id.stage_dialog_button_restart)).perform(click());
+		onView(withId(R.id.stage_dialog_button_restart)).inRoot(isDialog()).perform(click());
 
 		assertUserVariableEqualsWithTimeout(userVariable, 3, 2000);
 	}

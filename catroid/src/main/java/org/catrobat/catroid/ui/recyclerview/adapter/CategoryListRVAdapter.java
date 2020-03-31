@@ -89,12 +89,7 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 		}
 
 		holder.title.setText(item.text);
-		holder.itemView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				onItemClickListener.onItemClick(item);
-			}
-		});
+		holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(item));
 	}
 
 	@Override

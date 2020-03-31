@@ -92,7 +92,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	@Override
 	public void show() {
 		super.show();
-		if (stageListener.embroideryPatternManager.validPatternExists()) {
+		if (stageListener.embroideryPatternManager != null && stageListener.embroideryPatternManager.validPatternExists()) {
 			(findViewById(R.id.stage_layout_linear_share)).setVisibility(View.VISIBLE);
 			(findViewById(R.id.stage_dialog_button_share)).setOnClickListener(this);
 		} else {
@@ -193,11 +193,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 			return;
 		}
 
-		if (stageListener.takeScreenshot(SCREENSHOT_MANUAL_FILE_NAME)) {
-			ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
-		} else {
-			ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
-		}
+		stageListener.requestTakingScreenshot(SCREENSHOT_MANUAL_FILE_NAME,
+				success -> {
+					if (success) {
+						ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
+					} else {
+						ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
+					}
+				});
 	}
 
 	private void restartProject() {

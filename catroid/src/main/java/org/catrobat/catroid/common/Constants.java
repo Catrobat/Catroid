@@ -38,7 +38,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99997f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99999f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -114,6 +114,9 @@ public final class Constants {
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
+
+	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
+	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
 
 	// XStream:
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";

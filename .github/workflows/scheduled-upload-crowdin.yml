@@ -1,0 +1,19 @@
+name: scheduled-upload-crowdin
+
+on:
+  schedule:
+    - cron:  '0 0 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+      - name: Upload Strings to Crowdin 
+        env:
+          CROWDIN_KEY: ${{ secrets.CROWDIN_API }}
+        run: 'curl -F "files[catroid/src/main/res/values/strings.xml]=@catroid/src/main/res/values/strings.xml"
+        -F "export_patterns[catroid/src/main/res/values/strings.xml]=catroid/src/main/res/values-%android_code%/%original_file_name%"
+        -F "titles[catroid/src/main/res/values/strings.xml]=Pocket Code for Android" "https://api.crowdin.com/api/project/catrobat/update-file?key="$CROWDIN_KEY'
