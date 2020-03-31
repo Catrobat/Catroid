@@ -841,7 +841,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="prestage_resource_not_available_text">Leider funktioniert dieses Projekt nicht auf deinem Gerät.
         die folgenden Komponenten sind nicht verfügbar: \n\n</string>
     <string name="prestage_resource_in_use_text">Ein anderes Gerät ist mit der Jumping Sumo verbunden. Versichere dich, dass du als einziger/e die Drohne steuerst.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Beschleunigungssensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Neigungssensor\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompass\n</string>

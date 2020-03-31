@@ -54,7 +54,7 @@ public class VibrationBrick extends FormulaBrick {
 
 	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(VIBRATOR);
+		requiredResourcesSet.add(VIBRATION);
 		super.addRequiredResources(requiredResourcesSet);
 	}
 

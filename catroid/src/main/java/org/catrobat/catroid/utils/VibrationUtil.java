@@ -31,16 +31,16 @@ import java.util.concurrent.Semaphore;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
-public final class VibratorUtil {
+public final class VibrationUtil {
 
-	private static final String TAG = VibratorUtil.class.getSimpleName();
+	private static final String TAG = VibrationUtil.class.getSimpleName();
 	private static Context context = null;
-	private static Vibrator vibrator = null;
+	private static Vibrator vibration = null;
 
 	private static boolean keepAlive = false;
 	private static boolean paused = false;
 
-	private static Semaphore vibratorThreadSemaphore = new Semaphore(1);
+	private static Semaphore vibrationThreadSemaphore = new Semaphore(1);
 
 	private static long startTime = 0L;
 	private static long timeToVibrate = 0L;
@@ -48,16 +48,16 @@ public final class VibratorUtil {
 
 	private static final int MAX_TIME_TO_VIBRATE = 60000;
 
-	private VibratorUtil() {
+	private VibrationUtil() {
 	}
 
-	private static Thread vibratorThread = null;
+	private static Thread vibrationThread = null;
 
 	public static void setTimeToVibrate(double timeInMillis) {
 		Log.d(TAG, "setTimeToVibrate()");
 		timeToVibrate = (long) timeInMillis;
-		if (vibratorThreadSemaphore.hasQueuedThreads()) {
-			vibratorThreadSemaphore.release();
+		if (vibrationThreadSemaphore.hasQueuedThreads()) {
+			vibrationThreadSemaphore.release();
 		} else {
 			startTime = SystemClock.uptimeMillis();
 		}
@@ -72,8 +72,8 @@ public final class VibratorUtil {
 		return timeToVibrate - timePassed;
 	}
 
-	public static void pauseVibrator() {
-		Log.d(TAG, "pauseVibrator()");
+	public static void pauseVibration() {
+		Log.d(TAG, "pauseVibration()");
 		if (paused) {
 			return;
 		}
@@ -84,20 +84,20 @@ public final class VibratorUtil {
 			savedTimeToVibrate = 0;
 		}
 		timeToVibrate = 0;
-		killVibratorThread();
+		killVibrationThread();
 		paused = true;
 	}
 
-	public static void resumeVibrator() {
-		Log.d(TAG, "resumeVibrator()");
+	public static void resumeVibration() {
+		Log.d(TAG, "resumeVibration()");
 		if (paused) {
 			timeToVibrate = savedTimeToVibrate;
 			Log.d(TAG, "savedTimeToVibrate = " + savedTimeToVibrate);
 			savedTimeToVibrate = 0;
 			keepAlive = true;
-			activateVibratorThread();
+			activateVibrationThread();
 			if (timeToVibrate > 0) {
-				vibratorThreadSemaphore.release();
+				vibrationThreadSemaphore.release();
 			} else {
 				Log.d(TAG, "nothing to do");
 			}
@@ -111,13 +111,13 @@ public final class VibratorUtil {
 		timeToVibrate = 0L;
 		savedTimeToVibrate = 0L;
 		keepAlive = false;
-		if (vibratorThreadSemaphore.hasQueuedThreads()) {
-			vibratorThreadSemaphore.release();
+		if (vibrationThreadSemaphore.hasQueuedThreads()) {
+			vibrationThreadSemaphore.release();
 		}
 		paused = false;
 		context = null;
-		vibrator = null;
-		vibratorThread = null;
+		vibration = null;
+		vibrationThread = null;
 	}
 
 	public static void reset() {
@@ -132,74 +132,74 @@ public final class VibratorUtil {
 		return keepAlive;
 	}
 
-	public static void activateVibratorThread() {
-		Log.d(TAG, "activateVibratorThread");
+	public static void activateVibrationThread() {
+		Log.d(TAG, "activateVibrationThread");
 		if (context == null) {
 			Log.e(TAG, "ERROR: set Context first!");
 			return;
 		}
-		if (vibratorThread == null) {
-			vibratorThread = new Thread(new Runnable() {
+		if (vibrationThread == null) {
+			vibrationThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
 					while (keepAlive) {
 						try {
-							vibratorThreadSemaphore.acquire();
+							vibrationThreadSemaphore.acquire();
 							startVibrate();
 							while ((startTime + timeToVibrate) > SystemClock.uptimeMillis()) {
 								Thread.yield();
 							}
 							stopVibrate();
 						} catch (InterruptedException e) {
-							Log.e(TAG, "vibratorThreadSemaphore! " + e.getMessage());
+							Log.e(TAG, "vibrationThreadSemaphore! " + e.getMessage());
 						}
 					}
-					vibratorThreadSemaphore.release();
+					vibrationThreadSemaphore.release();
 				}
 			});
 		}
 
-		if (vibrator == null) {
-			vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+		if (vibration == null) {
+			vibration = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 		}
 
-		if (!vibratorThread.isAlive()) {
+		if (!vibrationThread.isAlive()) {
 			try {
-				vibratorThreadSemaphore.acquire();
+				vibrationThreadSemaphore.acquire();
 			} catch (InterruptedException e) {
-				Log.e(TAG, "vibratorThreadSemaphore! " + e.getMessage());
+				Log.e(TAG, "vibrationThreadSemaphore! " + e.getMessage());
 			}
 			keepAlive = true;
-			vibratorThread.setName("vibratorThread");
+			vibrationThread.setName("vibrationThread");
 			Log.d(TAG, "starting thread...");
-			vibratorThread.start();
+			vibrationThread.start();
 		}
 	}
 
-	private static void killVibratorThread() {
+	private static void killVibrationThread() {
 		Log.d(TAG, "destroy()");
 		keepAlive = false;
-		if (vibratorThreadSemaphore.hasQueuedThreads()) {
-			vibratorThreadSemaphore.release();
+		if (vibrationThreadSemaphore.hasQueuedThreads()) {
+			vibrationThreadSemaphore.release();
 		}
 		startTime = 0;
 		timeToVibrate = 0;
-		vibratorThread = null;
+		vibrationThread = null;
 	}
 
 	private static synchronized void startVibrate() {
-		if (vibrator != null) {
+		if (vibration != null) {
 			Log.d(TAG, "startVibrate()");
 			startTime = SystemClock.uptimeMillis();
-			vibrator.vibrate(MAX_TIME_TO_VIBRATE);
+			vibration.vibrate(MAX_TIME_TO_VIBRATE);
 			Log.d(TAG, "start time was: " + Long.toString(startTime));
 		}
 	}
 
 	private static synchronized void stopVibrate() {
-		if (vibrator != null) {
+		if (vibration != null) {
 			Log.d(TAG, "stopVibrate()");
-			vibrator.cancel();
+			vibration.cancel();
 		}
 	}
 }

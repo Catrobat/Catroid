@@ -816,7 +816,7 @@
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Perangkat lain terhubung ke Jumping Sumo. Pastikan, Anda adalah satu-satunya Pengendali untuk Drone.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrator \n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration \n</string>
     <string name="prestage_no_acceleration_sensor_available">\\2022 Sensor akselerasi \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inklinasi \n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompas \n</string>

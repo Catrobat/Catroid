@@ -134,6 +134,8 @@ public class FormulaEditorDiscardChangesTest {
 				.performEnterFormula("1234");
 		onView(withId(R.id.brick_place_at_edit_text_y))
 				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
 		onFormulaEditor()
 				.performEnterFormula("5678");
 		pressBack();
@@ -162,6 +164,8 @@ public class FormulaEditorDiscardChangesTest {
 		onFormulaEditor()
 				.performEnterFormula("1234");
 		onView(withId(R.id.brick_place_at_edit_text_y))
+				.perform(click());
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
 				.performEnterFormula("5678");

@@ -72,13 +72,17 @@ public class UserList implements Serializable, UserData<List<Object>> {
 		return list;
 	}
 
+	@Override
+	public void setValue(List<Object> list) {
+		this.list = list;
+	}
+
 	public void addListItem(Object listItem) {
 		this.list.add(listItem);
 	}
 
-	@Override
-	public void setValue(List<Object> list) {
-		this.list = list;
+	public int getIndexOf(Object listItem) {
+		return this.list.indexOf(listItem);
 	}
 
 	@Override

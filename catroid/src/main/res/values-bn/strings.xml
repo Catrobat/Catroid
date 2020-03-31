@@ -858,7 +858,7 @@
     <string name="prestage_resource_not_available_title">উপাদানটি নেই</string>
     <string name="prestage_resource_not_available_text">দুর্ভাগ্যক্রমে এই প্রজেক্টটি আপনার ডিভাইসে কাজ করে না। নিম্নলিখিত উপাদানগুলি অনুপস্থিত:</string>
     <string name="prestage_resource_in_use_text">আরেকটি ডিভাইস জাম্পিং সুমোর সাথে সংযুক্ত। নিশ্চিত হন যে আপনিই ড্রোনটির সাথে সংযুক্ত আছেন।</string>
-    <string name="prestage_no_vibrator_available">\u2022 কম্পন \n</string>
+    <string name="prestage_no_vibration_available">\u2022 কম্পন \n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 ত্বরণ সেন্সর \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 প্রবণতা সেন্সর \n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 কম্পাস  \n</string>

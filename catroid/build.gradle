@@ -271,7 +271,9 @@ android {
     }
 
     productFlavors {
-        catroid
+        catroid {
+            isDefault.set(true)
+        }
         createAtSchool {
             applicationIdSuffix '.createatschool'
         }
@@ -310,10 +312,12 @@ android {
                     case "catroid":
                         flavorName = "pocketCode"
                         break
+                    case "phiro":
+                        flavorName = "phiroCode"
+                        break
                     default:
                         flavorName = variant.flavorName
                 }
-
                 def versionName = variant.versionName
                 def buildType = variant.buildType.name
                 outputFileName = "catroid-${flavorName}-${versionName}-${buildType}.apk"

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.location.LocationManager;
@@ -89,6 +88,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
+	private static final int SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT = 2;
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
 	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
@@ -102,6 +102,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static LinearLayout formulaEditorBrick;
 
 	private static FormulaBrick formulaBrick;
+
 	private static Brick.BrickField currentBrickField;
 	private static Formula currentFormula;
 	private Menu currentMenu;
@@ -208,6 +209,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 			formulaEditorBrick.addView(brickView);
 		}
+	}
+
+	public void updateFragmentAfterVisualPlacement() {
+		updateBrickView();
+		setInputFormula(currentBrickField, SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT);
 	}
 
 	private void onUserDismiss() {
@@ -365,12 +371,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		builder.setHint(getString(R.string.string_label))
 				.setText(selectedFormulaText)
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						addString(textInput);
-					}
-				});
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> addString(textInput));
 
 		int titleId = selectedFormulaText == null
 				? R.string.formula_editor_new_string_name : R.string.formula_editor_dialog_change_text;
@@ -484,7 +485,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void setInputFormula(Brick.BrickField brickField, int mode) {
+	public void setInputFormula(Brick.BrickField brickField, int mode) {
 
 		switch (mode) {
 			case SET_FORMULA_ON_CREATE_VIEW:
@@ -492,7 +493,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						brickField));
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
-
+			case SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT:
 			case SET_FORMULA_ON_SWITCH_EDIT_TEXT:
 				Formula newFormula = formulaBrick.getFormulaWithBrickField(brickField);
 				if (currentFormula == newFormula && formulaEditorEditText.hasChanges()) {
@@ -586,26 +587,18 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
-					.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							Map<Brick.BrickField, InternFormulaState> initialStates = formulaEditorEditText
-									.getHistory().getInitialStates();
-							restoreInitialStates(initialStates);
-							ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
-							onUserDismiss();
-						}
+					.setNegativeButton(R.string.no, (dialog, which) -> {
+						Map<Brick.BrickField, InternFormulaState> initialStates = formulaEditorEditText
+								.getHistory().getInitialStates();
+						restoreInitialStates(initialStates);
+						ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
+						onUserDismiss();
 					})
-					.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							if (saveFormulaIfPossible()) {
-								ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
-								hasFormulaBeenChanged = false;
-								onUserDismiss();
-							}
+					.setPositiveButton(R.string.yes, (dialog, which) -> {
+						if (saveFormulaIfPossible()) {
+							ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
+							hasFormulaBeenChanged = false;
+							onUserDismiss();
 						}
 					})
 					.create()
@@ -717,6 +710,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public String getSelectedFormulaText() {
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
+	}
+
+	public void setCurrentBrickField(Brick.BrickField currentBrickField) {
+		FormulaEditorFragment.currentBrickField = currentBrickField;
+	}
+
+	public FormulaBrick getFormulaBrick() {
+		return formulaBrick;
 	}
 
 	public Brick.BrickField getCurrentBrickField() {
