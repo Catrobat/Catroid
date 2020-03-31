@@ -87,7 +87,7 @@ public class IcsFaceDetector extends FaceDetector implements FaceDetectionListen
 			Point relativePoint = new Point(portraitCenterPoint.x * relationSize.x / 2000, portraitCenterPoint.y
 					* relationSize.y / 2000);
 			int faceSize = (faceBounds.right - faceBounds.left) / 10;
-			faceSize = faceSize > 100 ? 100 : faceSize;
+			faceSize = Math.min(faceSize, 100);
 			onFaceDetected(relativePoint, faceSize);
 		}
 	}

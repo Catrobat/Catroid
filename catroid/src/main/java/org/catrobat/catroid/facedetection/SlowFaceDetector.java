@@ -104,7 +104,7 @@ public class SlowFaceDetector extends org.catrobat.catroid.facedetection.FaceDet
 				(intPoint.y - detectionHeight / 2) * relationSize.y / detectionHeight);
 		int estimatedFaceWidth = (int) (eyeDistance * 2);
 		int relativeFaceSize = 200 * estimatedFaceWidth / detectionWidth;
-		relativeFaceSize = relativeFaceSize > 100 ? 100 : relativeFaceSize;
+		relativeFaceSize = Math.min(relativeFaceSize, 100);
 		onFaceDetected(relativePoint, relativeFaceSize);
 	}
 

@@ -114,7 +114,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 				if (!isDoNotMoveCursorOnTab()) {
 					absoluteCursorPosition = tempCursorPosition;
 				}
-				absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
+				absoluteCursorPosition = Math.min(absoluteCursorPosition, length());
 				setSelection(absoluteCursorPosition);
 				postInvalidate();
 
@@ -212,7 +212,7 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
-		absoluteCursorPosition = absoluteCursorPosition > length() ? length() : absoluteCursorPosition;
+		absoluteCursorPosition = Math.min(absoluteCursorPosition, length());
 		paint.setStrokeWidth(3);
 
 		Layout layout = getLayout();
