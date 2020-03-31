@@ -309,6 +309,9 @@ android {
                 def flavorName
                 switch(variant.flavorName)
                 {
+                    case "catroid":
+                        flavorName = "pocketCode"
+                        break
                     case "phiro":
                         flavorName = "phiroCode"
                         break
