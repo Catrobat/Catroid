@@ -176,7 +176,7 @@ public class Look extends Image {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		checkImageChanged();
+		checkImageChanged(batch);
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
 			super.setVisible(false);
@@ -225,7 +225,7 @@ public class Look extends Image {
 		scheduler.setState(state);
 	}
 
-	protected void checkImageChanged() {
+	protected void checkImageChanged(Batch batch) {
 		if (imageChanged) {
 			if (lookData == null) {
 				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
@@ -243,12 +243,16 @@ public class Look extends Image {
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
 
 			if (brightnessChanged) {
+				batch.end();
 				shader.setBrightness(brightness);
+				batch.begin();
 				brightnessChanged = false;
 			}
 
 			if (colorChanged) {
+				batch.end();
 				shader.setHue(hue);
+				batch.begin();
 				colorChanged = false;
 			}
 
