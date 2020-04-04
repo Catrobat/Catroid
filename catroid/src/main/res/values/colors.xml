@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -78,5 +77,7 @@
 
     <!-- Social Media Colors -->
     <color name="google_red">#Df4A32</color>
+
+    <color name="black_overlay">#66000000</color>
 
 </resources>

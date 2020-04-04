@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -26,73 +25,73 @@
     <!-- Accessibility -->
     <!-- Font Sizes -->
     <declare-styleable name="FontSize">
-        <attr name="x_small" format="dimension"/>
-        <attr name="small" format="dimension"/>
-        <attr name="medium" format="dimension"/>
-        <attr name="large" format="dimension"/>
-        <attr name="x_large" format="dimension"/>
-        <attr name="xx_large" format="dimension"/>
+        <attr name="x_small" format="dimension" />
+        <attr name="small" format="dimension" />
+        <attr name="medium" format="dimension" />
+        <attr name="large" format="dimension" />
+        <attr name="x_large" format="dimension" />
+        <attr name="xx_large" format="dimension" />
     </declare-styleable>
 
     <!-- Element Spacing -->
     <declare-styleable name="ElementSpacing">
-        <attr name="element_spacing" format="dimension"/>
+        <attr name="element_spacing" format="dimension" />
     </declare-styleable>
 
     <!-- Font -->
     <declare-styleable name="AppFont">
-        <attr name="app_font" format="string"/>
+        <attr name="app_font" format="string" />
     </declare-styleable>
 
     <!-- Category icons -->
     <declare-styleable name="CategoryIcons">
-        <attr name="icon_ardrone" format="reference"/>
-        <attr name="icon_data" format="reference"/>
-        <attr name="icon_motion" format="reference"/>
-        <attr name="icon_sound" format="reference"/>
-        <attr name="icon_arduino" format="reference"/>
-        <attr name="icon_event" format="reference"/>
-        <attr name="icon_pen" format="reference"/>
-        <attr name="icon_chromecast" format="reference"/>
-        <attr name="icon_legonxt" format="reference"/>
-        <attr name="icon_phiro" format="reference"/>
-        <attr name="icon_control" format="reference"/>
-        <attr name="icon_look" format="reference"/>
-        <attr name="icon_raspberrypi" format="reference"/>
+        <attr name="icon_ardrone" format="reference" />
+        <attr name="icon_data" format="reference" />
+        <attr name="icon_motion" format="reference" />
+        <attr name="icon_sound" format="reference" />
+        <attr name="icon_arduino" format="reference" />
+        <attr name="icon_event" format="reference" />
+        <attr name="icon_pen" format="reference" />
+        <attr name="icon_chromecast" format="reference" />
+        <attr name="icon_legonxt" format="reference" />
+        <attr name="icon_phiro" format="reference" />
+        <attr name="icon_control" format="reference" />
+        <attr name="icon_look" format="reference" />
+        <attr name="icon_raspberrypi" format="reference" />
         <attr name="icon_embroidery" format="reference" />
         <attr name="icon_userbrick" format="reference" />
     </declare-styleable>
 
     <!-- Category icons visibility -->
     <declare-styleable name="CategoryIconsVisibility">
-        <attr name="category_icon_visiblity" format="integer"/>
+        <attr name="category_icon_visiblity" format="integer" />
     </declare-styleable>
 
     <!-- Category icons size -->
     <declare-styleable name="CategoryIconSize">
-        <attr name="category_icon_size" format="dimension"/>
+        <attr name="category_icon_size" format="dimension" />
     </declare-styleable>
 
     <!-- /Accessibility -->
 
     <declare-styleable name="BrickLayout">
-        <attr name="customPadding" format="dimension"/>
-        <attr name="horizontalSpacing" format="dimension"/>
-        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="customPadding" format="dimension" />
+        <attr name="horizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
         <attr name="orientation" format="enum">
-            <enum name="horizontal" value="0"/>
-            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
         </attr>
         <attr name="debugDraw" format="boolean" />
     </declare-styleable>
     <declare-styleable name="BrickLayout_Layout">
-        <attr name="layout_textField" format="boolean"/>
-        <attr name="layout_inputType" format="string"/>
-        <attr name="layout_newLine" format="boolean"/>
-        <attr name="layout_customPadding" format="dimension"/>
-        <attr name="layout_horizontalSpacing" format="dimension"/>
-        <attr name="layout_verticalSpacing" format="dimension"/>
-        <attr name="layout_category_icon" format="reference"/>
+        <attr name="layout_textField" format="boolean" />
+        <attr name="layout_inputType" format="string" />
+        <attr name="layout_newLine" format="boolean" />
+        <attr name="layout_customPadding" format="dimension" />
+        <attr name="layout_horizontalSpacing" format="dimension" />
+        <attr name="layout_verticalSpacing" format="dimension" />
+        <attr name="layout_category_icon" format="reference" />
     </declare-styleable>
     <attr name="FastScroller_style" format="reference" />
     <declare-styleable name="FastScroller">
@@ -100,4 +99,13 @@
 	    <attr name="handleColor" format="color" />
 	    <attr name="bubbleTextAppearance" format="reference" />
 	</declare-styleable>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
 </resources>

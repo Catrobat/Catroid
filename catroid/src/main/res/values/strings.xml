@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!--
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -2063,5 +2062,9 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="sans_serif_font" translatable="false">sans_serif</string>
     <string name="serif_font" translatable="false">serif</string>
+
+        <string name="title_activity_splash_screen">splash_screen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
