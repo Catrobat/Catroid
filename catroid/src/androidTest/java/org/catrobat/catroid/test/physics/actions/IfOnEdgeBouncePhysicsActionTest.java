@@ -111,7 +111,8 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		float setVelocityYValue = IfOnEdgeBouncePhysicsAction.THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE + 0.5f;
 		physicsObject.setVelocity(physicsObject.getVelocity().x, setVelocityYValue);
 
-		assertEquals(setYValue, sprite.look.getY());
+		float yInUserInterfaceDimensionUnit = setYValue - sprite.look.getHeight() / 2;
+		assertEquals(yInUserInterfaceDimensionUnit, sprite.look.getY());
 		assertEquals(setVelocityYValue, physicsObject.getVelocity().y);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -142,8 +143,11 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		float setVelocityYValue = 400.0f;
 		physicsObject.setVelocity(setVelocityXValue, setVelocityYValue);
 
-		assertEquals(setXValue, sprite.look.getX());
-		assertEquals(setYValue, sprite.look.getY());
+		float yInUserInterfaceDimensionUnit = setYValue - sprite.look.getHeight() / 2;
+		float xInUserInterfaceDimensionUnit = setXValue - sprite.look.getWidth() / 2;
+		assertEquals(yInUserInterfaceDimensionUnit, sprite.look.getY());
+		assertEquals(xInUserInterfaceDimensionUnit, sprite.look.getX());
+
 		assertEquals(setVelocityXValue, physicsObject.getVelocity().x);
 		assertEquals(setVelocityYValue, physicsObject.getVelocity().y);
 

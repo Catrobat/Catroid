@@ -92,9 +92,7 @@ public class PhysicsLookDataTest {
 				1);
 
 		sprite = new SingleSprite("TestSprite");
-		lookData = new LookData();
-		lookData.setFile(testImage);
-		lookData.setName(testImageFilename);
+		lookData = PhysicsTestUtils.generateLookData(testImage);
 		sprite.getLookList().add(lookData);
 		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);
 		lookData.setPixmap(pixmap);

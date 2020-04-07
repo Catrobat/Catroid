@@ -463,7 +463,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		for (Sprite sprite : sprites) {
-			sprite.look.refreshTextures();
+			sprite.look.refreshTextures(true);
 		}
 	}
 
