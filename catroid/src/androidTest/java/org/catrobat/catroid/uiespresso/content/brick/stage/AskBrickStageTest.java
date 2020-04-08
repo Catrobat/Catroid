@@ -34,6 +34,8 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -72,6 +74,9 @@ public class AskBrickStageTest {
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
 
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
+
 	@Before
 	public void setUp() throws Exception {
 		createProject("AskBrickTest");
@@ -92,6 +97,7 @@ public class AskBrickStageTest {
 	}
 
 	@Category({Cat.CatrobatLanguage.class, Level.Functional.class})
+	@Flaky
 	@Test
 	public void testAskBrickNormalAnswer() {
 		String testAnswer = "TestA";

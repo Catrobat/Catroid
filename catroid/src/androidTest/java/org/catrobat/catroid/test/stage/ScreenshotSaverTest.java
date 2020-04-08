@@ -27,6 +27,9 @@ import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.android.AndroidFiles;
 
 import org.catrobat.catroid.common.ScreenValues;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.rules.FlakyTestRule;
+import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.stage.ScreenshotSaver;
 import org.catrobat.catroid.stage.StageActivity;
 import org.junit.After;
@@ -36,6 +39,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -71,10 +76,14 @@ public class ScreenshotSaverTest {
 	private ScreenshotSaver screenshotSaver;
 	private byte[] dummyScreenshotData;
 	private Boolean result;
+	private Files gdxFileHandler;
 
 	@Rule
 	public ActivityTestRule<StageActivity> activityTestRule =
 			new ActivityTestRule<>(StageActivity.class, false, true);
+
+	@Rule
+	public FlakyTestRule flakyTestRule = new FlakyTestRule();
 
 	@Before
 	public void setUp() throws Exception {
@@ -86,17 +95,20 @@ public class ScreenshotSaverTest {
 		StageActivity stageActivity = activityTestRule.getActivity();
 		String folder = stageActivity.getCacheDir().getAbsolutePath() + "/";
 
-		Files gdxFileHandler = new AndroidFiles(stageActivity.getAssets(),
+		gdxFileHandler = new AndroidFiles(stageActivity.getAssets(),
 				stageActivity.getFilesDir().getAbsolutePath());
 
 		screenshotSaver = new ScreenshotSaver(gdxFileHandler, folder, width, height);
 	}
 
 	@After
-	public void tearDown() {
+	public void tearDown() throws IOException {
 		result = null;
+		File dir = new File(gdxFileHandler.getLocalStoragePath());
+		StorageOperations.deleteDir(dir);
 	}
 
+	@Flaky
 	@Test
 	public void testRequestScreenshotWithValidNameShouldBeSuccessful() throws InterruptedException {
 		CountDownLatch expectation = new CountDownLatch(1);

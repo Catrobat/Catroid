@@ -40,7 +40,6 @@ import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -69,10 +68,6 @@ public class FaceDetectionResourceStartedTest {
 
 	@Rule
 	public FlakyTestRule flakyTestRule = new FlakyTestRule();
-
-	@Before
-	public void setUp() throws Exception {
-	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Quarantine.class})
 	@Flaky

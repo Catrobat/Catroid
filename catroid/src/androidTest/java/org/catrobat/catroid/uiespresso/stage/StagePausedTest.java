@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -63,6 +64,7 @@ public class StagePausedTest {
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Flaky
 	@Test
 	public void testIgnoreTouchEventsWhenStagePaused() {
 		baseActivityTestRule.launchActivity(null);
