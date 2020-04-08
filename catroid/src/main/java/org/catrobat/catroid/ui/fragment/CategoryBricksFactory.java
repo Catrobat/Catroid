@@ -684,7 +684,7 @@ public class CategoryBricksFactory {
 				}
 			}
 		}
-    
+
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 

@@ -386,7 +386,7 @@ public class BrickCategoryTest {
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						FinishStageBrick.class,
-						StoreCSVIntoUserListBrick.class)},
+						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},
 		});
 	}
