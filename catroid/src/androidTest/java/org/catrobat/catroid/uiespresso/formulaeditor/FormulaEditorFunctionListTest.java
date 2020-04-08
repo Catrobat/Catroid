@@ -92,12 +92,6 @@ public class FormulaEditorFunctionListTest {
 				{R.string.formula_editor_function_join, R.string.formula_editor_function_join_parameter, "join"},
 				{R.string.formula_editor_function_regex, R.string.formula_editor_function_regex_parameter,
 						"regular expression"},
-				{R.string.formula_editor_function_number_of_items, R.string
-						.formula_editor_function_number_of_items_parameter, "number of items"},
-				{R.string.formula_editor_function_list_item, R.string.formula_editor_function_list_item_parameter,
-						"list item"},
-				{R.string.formula_editor_function_contains, R.string.formula_editor_function_contains_parameter,
-						"contains"}
 		});
 	}
 

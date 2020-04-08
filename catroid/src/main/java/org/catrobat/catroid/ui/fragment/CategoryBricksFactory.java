@@ -343,9 +343,6 @@ public class CategoryBricksFactory {
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			controlBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-		}
 
 		return controlBrickList;
 	}
@@ -521,12 +518,12 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new ReadListFromDeviceBrick());
 		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
-		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
-		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
-
 		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
 			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
+		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
 		return dataBrickList;
 	}
 
@@ -687,8 +684,13 @@ public class CategoryBricksFactory {
 				}
 			}
 		}
+    
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
+
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		}
 
 		return assertionsBrickList;
 	}

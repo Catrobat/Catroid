@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -248,12 +247,7 @@ public class DataListFragment extends Fragment implements
 		new AlertDialog.Builder(getContext())
 				.setTitle(R.string.deletion_alert_title)
 				.setMessage(R.string.deletion_alert_text)
-				.setPositiveButton(R.string.deletion_alert_yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						deleteItems(selectedItems);
-					}
-				})
+				.setPositiveButton(R.string.deletion_alert_yes, (dialog, id) -> deleteItems(selectedItems))
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.show();
@@ -277,12 +271,7 @@ public class DataListFragment extends Fragment implements
 		builder.setHint(getString(R.string.data_label))
 				.setText(item.getName())
 				.setTextWatcher(new RenameItemTextWatcher<>(item, adapter.getItems()))
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						renameItem(item, textInput);
-					}
-				});
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> renameItem(item, textInput));
 
 		builder.setTitle(R.string.rename_data_dialog)
 				.setNegativeButton(R.string.cancel, null)
@@ -346,19 +335,16 @@ public class DataListFragment extends Fragment implements
 	public void onItemLongClick(final UserData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[] {getString(R.string.delete), getString(R.string.rename)};
 		new AlertDialog.Builder(getActivity())
-				.setItems(items, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-								break;
-							case 1:
-								showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
-								break;
-							default:
-								dialog.dismiss();
-						}
+				.setItems(items, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
+							break;
+						case 1:
+							showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
+							break;
+						default:
+							dialog.dismiss();
 					}
 				})
 				.show();

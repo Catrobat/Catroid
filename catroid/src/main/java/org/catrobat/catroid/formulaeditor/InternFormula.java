@@ -239,7 +239,7 @@ public class InternFormula {
 			return CursorTokenPropertiesAfterModification.DO_NOT_MODIFY;
 		}
 
-		List<InternToken> tokenListToRemove = new LinkedList<InternToken>();
+		List<InternToken> tokenListToRemove = new LinkedList<>();
 		for (int tokensToRemove = 0; tokensToRemove <= internTokenSelectionEnd - internTokenSelectionStart; tokensToRemove++) {
 			tokenListToRemove.add(internTokenFormulaList.get(internTokenSelectionStart + tokensToRemove));
 		}
@@ -725,6 +725,12 @@ public class InternFormula {
 				List<List<InternToken>> functionParameters = InternFormulaUtils
 						.getFunctionParameterInternTokensAsLists(functionInternTokenList);
 				List<InternToken> functionFirstParameter = functionParameters.get(0);
+				String functionName = functionInternTokenList.get(0).getTokenStringValue();
+
+				if (userListNotFirstParameter(functionName, functionFirstParameter.get(0))) {
+					functionFirstParameter = functionParameters.get(1);
+					insertedInternTokenIndex += 2;
+				}
 
 				internFormulaTokenSelection = new InternFormulaTokenSelection(TokenSelectionType.USER_SELECTION,
 						insertedInternTokenIndex + 2, insertedInternTokenIndex + functionFirstParameter.size() + 1);
@@ -739,6 +745,11 @@ public class InternFormula {
 		}
 		cursorPositionInternToken = null;
 		return CursorTokenPropertiesAfterModification.RIGHT;
+	}
+
+	private boolean userListNotFirstParameter(String functionName,
+			InternToken functionFirstParameter) {
+		return (functionName.equals(Functions.LIST_ITEM.name()) || functionName.equals(Functions.INDEX_OF_ITEM.name())) && !functionFirstParameter.isUserList();
 	}
 
 	@VisibleForTesting

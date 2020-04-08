@@ -26,14 +26,15 @@ package org.catrobat.catroid.embroidery;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
-public class ZigZagRunningStitch implements RunningStitchType {
+public class ZigZagRunningStitch extends RunningStitchType {
 	private float length;
 	private float width;
 	private Sprite sprite;
 	private float firstX = 0;
 	private float firstY = 0;
-	private int direction = -1;
+	private int direction = 1;
 	private boolean first = true;
+	private Listener listener;
 
 	public ZigZagRunningStitch(Sprite sprite, float length, float width) {
 		this.sprite = sprite;
@@ -49,10 +50,14 @@ public class ZigZagRunningStitch implements RunningStitchType {
 		this.firstY = y;
 	}
 
+	public void setListener(Listener listener) {
+		this.listener = listener;
+	}
+
 	@Override
 	public void update(float currentX, float currentY) {
 		if (sprite != null) {
-			float distance = getDistanceToPoint(currentX, currentY);
+			float distance = getDistanceToPoint(currentX, firstX, currentY, firstY);
 			if (distance >= length) {
 				float surplusPercentage = ((distance - (distance % length)) / distance);
 				currentX = firstX + (surplusPercentage * (currentX - firstX));
@@ -72,7 +77,6 @@ public class ZigZagRunningStitch implements RunningStitchType {
 		if (first) {
 			first = false;
 			addPointInDirection(firstX, firstY, degrees);
-			addPointInDirection(firstX, firstY, degrees);
 		}
 
 		for (int count = 1; count < interpolationCount; count++) {
@@ -80,30 +84,22 @@ public class ZigZagRunningStitch implements RunningStitchType {
 			float x = interpolate(currentX, firstX, splitFactor);
 			float y = interpolate(currentY, firstY, splitFactor);
 			addPointInDirection(x, y, degrees);
-			addPointInDirection(x, y, degrees);
 		}
-
-		addPointInDirection(currentX, currentY, degrees);
 		addPointInDirection(currentX, currentY, degrees);
 	}
 
 	private void addPointInDirection(float x, float y, float degrees) {
-		float xCoord = (float) (x + (width / 2) * Math.sin(Math.toRadians(degrees + 90)) * direction);
-		float yCoord = (float) (y + (width / 2) * Math.cos(Math.toRadians(degrees + 90)) * direction);
+		float xCoord = (float) (x - (width / 2) * Math.sin(Math.toRadians(degrees + 90)) * direction);
+		float yCoord = (float) (y - (width / 2) * Math.cos(Math.toRadians(degrees + 90)) * direction);
 		direction *= (-1);
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(xCoord, yCoord,
-				sprite.look.getZIndex(), sprite));
+		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(xCoord,
+				yCoord, sprite.look.getZIndex(), sprite));
+		if (listener != null) {
+			listener.onAdd(xCoord, yCoord);
+		}
 	}
 
-	private float interpolate(float endValue, float startValue, float percentage) {
-		float value = Math.round(startValue + percentage * (endValue - startValue));
-		return value;
-	}
-
-	private float getDistanceToPoint(float currentX, float currentY) {
-		double xDistance = Math.pow(currentX - firstX, 2);
-		double yDistance = Math.pow(currentY - firstY, 2);
-		double difference = Math.sqrt(xDistance + yDistance);
-		return (float) difference;
+	public interface Listener {
+		void onAdd(float x, float y);
 	}
 }

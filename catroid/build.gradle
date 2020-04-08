@@ -271,7 +271,9 @@ android {
     }
 
     productFlavors {
-        catroid
+        catroid {
+            isDefault.set(true)
+        }
         createAtSchool {
             applicationIdSuffix '.createatschool'
         }
@@ -299,6 +301,29 @@ android {
         }
     }
 
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+
+            if(variant.buildType.name == "signedRelease")
+            {
+                def flavorName
+                switch(variant.flavorName)
+                {
+                    case "catroid":
+                        flavorName = "pocketCode"
+                        break
+                    case "phiro":
+                        flavorName = "phiroCode"
+                        break
+                    default:
+                        flavorName = variant.flavorName
+                }
+                def versionName = variant.versionName
+                def buildType = variant.buildType.name
+                outputFileName = "catroid-${flavorName}-${versionName}-${buildType}.apk"
+            }
+        }
+    }
     productFlavors.all { flavor ->
         copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
