@@ -217,6 +217,7 @@ public class Formula implements Serializable {
 	public String getResultForComputeDialog(Context context) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		ElementType type = formulaTree.getElementType();
+		Functions function = Functions.getFunctionByValue(formulaTree.getValue());
 
 		if (formulaTree.isLogicalOperator()) {
 			boolean result;
@@ -229,10 +230,10 @@ public class Formula implements Serializable {
 			return context.getString(logicalFormulaResultIdentifier);
 		} else if (type == ElementType.STRING
 				|| type == ElementType.SENSOR
+				|| type == ElementType.USER_LIST
 				|| (type == ElementType.FUNCTION
-				&& (Functions.getFunctionByValue(formulaTree.getValue()) == Functions.LETTER
-				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN)
-				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.REGEX)) {
+				&& (Functions.TEXT.contains(function)
+				|| Functions.LIST.contains(function)))) {
 			try {
 				return interpretString(sprite);
 			} catch (InterpretationException interpretationException) {
