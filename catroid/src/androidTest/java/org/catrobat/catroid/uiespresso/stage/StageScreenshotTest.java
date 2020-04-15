@@ -36,12 +36,14 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.io.ResourceImporter;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.uiespresso.util.matchers.StageMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.catrobat.catroid.utils.ScreenValueHandler;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -64,7 +66,7 @@ public class StageScreenshotTest {
 
 	private static final int PROJECT_WIDTH = 480;
 	private static final int PROJECT_HEIGHT = 800;
-	public static final String TEST_SCREENSHOT_FILENAME = "testScreenshot.png";
+	private static final String TEST_SCREENSHOT_FILENAME = "testScreenshot.png";
 
 	@Rule
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
@@ -73,6 +75,11 @@ public class StageScreenshotTest {
 	@Before
 	public void setUp() throws Exception {
 		createProjectWithBlueSprite("takeScreenshotProject");
+	}
+
+	@After
+	public void tearDown() throws IOException {
+		StorageOperations.deleteDir(new File(StageActivity.stageListener.getScreenshotPath()));
 	}
 
 	@Category({Cat.Educational.class})
@@ -107,7 +114,7 @@ public class StageScreenshotTest {
 				StageMatchers.comparePixelRgbaArrays(blueRgba, testPixelBytes, 0));
 	}
 
-	private Project createProjectWithBlueSprite(String projectName) throws IOException {
+	private void createProjectWithBlueSprite(String projectName) throws IOException {
 		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
 		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
 
@@ -144,7 +151,5 @@ public class StageScreenshotTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(blueSprite);
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getContext());
-
-		return project;
 	}
 }
