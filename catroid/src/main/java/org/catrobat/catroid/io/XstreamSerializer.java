@@ -204,6 +204,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
@@ -459,6 +460,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
+		xstream.alias("brick", StoreCSVIntoUserListBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
 		xstream.alias("brick", SetNfcTagBrick.class);

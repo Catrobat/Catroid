@@ -177,6 +177,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
@@ -518,6 +519,8 @@ public class CategoryBricksFactory {
 				BrickValues.REPLACE_ITEM_IN_USERLIST_INDEX));
 		dataBrickList.add(new WriteListOnDeviceBrick());
 		dataBrickList.add(new ReadListFromDeviceBrick());
+		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+				context.getString(R.string.brick_store_csv_into_userlist_data)));
 		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
 			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
@@ -684,6 +687,10 @@ public class CategoryBricksFactory {
 				}
 			}
 		}
+
+		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
+				context.getString(R.string.brick_store_csv_into_userlist_data)));
+
 		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
 			assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 		}
@@ -822,7 +829,9 @@ public class CategoryBricksFactory {
 		} else if (brick instanceof SetVariableBrick) {
 			category = res.getString(R.string.category_data);
 		} else if (brick instanceof WebRequestBrick) {
-			category = res.getString(R.string.category_control);
+			category = res.getString(R.string.category_data);
+		} else if (brick instanceof StoreCSVIntoUserListBrick) {
+			category = res.getString(R.string.category_data);
 		}
 
 		config.locale = savedLocale;

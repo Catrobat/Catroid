@@ -136,6 +136,7 @@ public final class BrickValues {
 	public static final double INSERT_ITEM_INTO_USERLIST_VALUE = 1;
 	public static final int REPLACE_ITEM_IN_USERLIST_INDEX = 1;
 	public static final double REPLACE_ITEM_IN_USERLIST_VALUE = 1;
+	public static final int STORE_CSV_INTO_USERLIST_COLUMN = 1;
 
 	//Constants Phiro
 	public static final int PHIRO_SPEED = 100;

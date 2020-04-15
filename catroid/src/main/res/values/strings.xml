@@ -1270,6 +1270,12 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_result">and store answer in</string>
     <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
+    <string name="brick_store_csv_into_userlist_store">Store column</string>
+    <string name="brick_store_csv_into_userlist_of">of the</string>
+    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into">into list</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+
     <!--  -->
 
     <!-- Default Values -->
