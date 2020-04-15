@@ -135,7 +135,7 @@ public class BrickSpinnerTest {
 				{BroadcastBrick.class.getSimpleName(), new BroadcastBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
 				{BroadcastWaitBrick.class.getSimpleName(), new BroadcastWaitBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
 				{WhenBackgroundChangesBrick.class.getSimpleName(), new WhenBackgroundChangesBrick(), R.id.brick_when_background_spinner, "someBackground", Arrays.asList("new…", "someBackground")},
-				{WhenBounceOffBrick.class.getSimpleName(), new WhenBounceOffBrick(new WhenBounceOffScript(null)), R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0", Arrays.asList("\0any edge, actor, or object\0", "Background", "otherTestSprite")},
+				{WhenBounceOffBrick.class.getSimpleName(), new WhenBounceOffBrick(new WhenBounceOffScript(null)), R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0", Arrays.asList("\0any edge, actor, or object\0", "Background", "testSprite", "otherTestSprite")},
 				{WhenNfcBrick.class.getSimpleName(), new WhenNfcBrick(), R.id.brick_when_nfc_spinner, "all", Arrays.asList("new…", "all")},
 				{WhenGamepadButtonBrick.class.getSimpleName(), new WhenGamepadButtonBrick(new WhenGamepadButtonScript("")), R.id.brick_when_gamepad_button_spinner, "A", Arrays.asList("A", "B", "up", "down", "left", "right")},
 		});
