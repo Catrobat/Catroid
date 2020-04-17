@@ -1052,6 +1052,12 @@
     <string name="category_assertions">Testing</string>
     <!--  -->
 
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Add label</string>
+    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_add_new_user_brick">Add new brick</string>
+    <!--  -->
+
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at"</string>
     <string name="brick_option_place_visually">Place visually</string>

@@ -27,40 +27,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.ListFragment;
 
-public class AddUserBrickFragment extends Fragment {
+public class UserBrickListFragment extends ListFragment implements View.OnClickListener {
 
-	public static final String ADD_USER_BRICK_FRAGMENT_TAG = AddBrickFragment.class.getSimpleName();
+	public static final String USER_BRICK_LIST_FRAGMENT_TAG =
+			AddBrickFragment.class.getSimpleName();
 
-	private Button addLabel;
-	private Button addInput;
+	private ImageButton addUserBrickButton;
 
-	public static AddUserBrickFragment newInstance() {
-		AddUserBrickFragment fragment = new AddUserBrickFragment();
+	public static UserBrickListFragment newInstance() {
+		UserBrickListFragment fragment = new UserBrickListFragment();
 
 		return fragment;
-	}
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_add_new_user_brick, container, false);
-		addLabel = view.findViewById(R.id.add_label);
-		addInput = view.findViewById(R.id.add_input);
-		addLabel.setOnClickListener(v -> handleAddLabel());
-		addInput.setOnClickListener(v -> handleAddInput());
-
-		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-		if (appCompatActivity != null && appCompatActivity.getSupportActionBar() != null) {
-			appCompatActivity.getSupportActionBar().setTitle(R.string.brick_add_new_user_brick);
-		}
-
-		return view;
 	}
 
 	@Override
@@ -69,13 +54,36 @@ public class AddUserBrickFragment extends Fragment {
 
 		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
 		if (appCompatActivity != null && appCompatActivity.getSupportActionBar() != null) {
-			appCompatActivity.getSupportActionBar().setTitle(R.string.category_user_bricks);
+			appCompatActivity.getSupportActionBar().setTitle(R.string.categories);
 		}
 	}
 
-	private void handleAddLabel() {
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_user_brick_list, container, false);
+		setHasOptionsMenu(true);
+		addUserBrickButton = view.findViewById(R.id.add_user_brick);
+		addUserBrickButton.setOnClickListener(this);
+
+		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+		if (appCompatActivity != null && appCompatActivity.getSupportActionBar() != null) {
+			appCompatActivity.getSupportActionBar().setTitle(R.string.category_user_bricks);
+		}
+
+		return view;
 	}
 
-	private void handleAddInput() {
+	@Override
+	public void onClick(View v) {
+		AddUserBrickFragment addUserBrickFragment = AddUserBrickFragment.newInstance();
+		String tag = AddUserBrickFragment.ADD_USER_BRICK_FRAGMENT_TAG;
+
+		FragmentManager fragmentManager = getFragmentManager();
+		if (fragmentManager != null) {
+			getFragmentManager().beginTransaction()
+					.add(R.id.fragment_container, addUserBrickFragment, tag)
+					.addToBackStack(null)
+					.commit();
+		}
 	}
 }

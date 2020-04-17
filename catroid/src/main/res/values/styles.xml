@@ -142,6 +142,19 @@
         <item name="android:background">@drawable/bottom_bar_background_selector</item>
     </style>
 
+    <style name="Button">
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">60dp</item>
+            <item name="android:layout_marginLeft">10dp</item>
+            <item name="android:layout_marginTop">20dp</item>
+            <item name="android:layout_marginRight">10dp</item>
+            <item name="android:background">@drawable/button_background_selector</item>
+            <item name="android:fontFamily">sans-serif</item>
+            <item name="android:textColor">@color/vh_item_title</item>
+            <item name="android:textAlignment">center</item>
+            <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+
     <style name="BrickText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
