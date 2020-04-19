@@ -60,7 +60,11 @@ pipeline {
     options {
         timeout(time: 2, unit: 'HOURS')
         timestamps()
-        buildDiscarder(logRotator(numToKeepStr: '30'))
+        buildDiscarder(logRotator(numToKeepStr: env.BRANCH_NAME == 'master' ? '10' :
+                                                env.BRANCH_NAME == 'develop' ? '5' : '2',
+                                  artifactNumToKeepStr: env.BRANCH_NAME == 'master' ? '2' :
+                                                        env.BRANCH_NAME == 'develop' ? '2' : '1'
+        ))
     }
 
     triggers {
