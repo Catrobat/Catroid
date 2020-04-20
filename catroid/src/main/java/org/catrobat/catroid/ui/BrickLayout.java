@@ -65,6 +65,7 @@ public class BrickLayout extends ViewGroup {
 	private int verticalSpacing = 0;
 	private int orientation = 0;
 	protected boolean debugDraw = true;
+	protected boolean userBrick = false;
 
 	protected LinkedList<LineData> lines;
 
@@ -178,7 +179,12 @@ public class BrickLayout extends ViewGroup {
 			lineLength = lineLengthWithHorizontalSpacing + childWidth;
 			lineLengthWithHorizontalSpacing = lineLength + horizontalSpacing;
 
-			boolean newLine = (layoutParams.newLine && totalLengthOfContent - combinedLengthOfPreviousLines > sizeWidth);
+			boolean newLine;
+			if (userBrick) {
+				newLine = lineLengthWithHorizontalSpacing > sizeWidth;
+			} else {
+				newLine = (layoutParams.newLine && totalLengthOfContent - combinedLengthOfPreviousLines > sizeWidth);
+			}
 
 			boolean lastChildWasSpinner = false;
 			if (i > 0) {
@@ -471,6 +477,7 @@ public class BrickLayout extends ViewGroup {
 			verticalSpacing = styledAttributes.getDimensionPixelSize(R.styleable.BrickLayout_verticalSpacing, 0);
 			orientation = styledAttributes.getInteger(R.styleable.BrickLayout_orientation, HORIZONTAL);
 			debugDraw = styledAttributes.getBoolean(R.styleable.BrickLayout_debugDraw, false);
+			userBrick = styledAttributes.getBoolean(R.styleable.BrickLayout_userDefinedBrick, false);
 		} finally {
 			styledAttributes.recycle();
 		}

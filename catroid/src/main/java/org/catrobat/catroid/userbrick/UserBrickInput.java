@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,40 +21,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks.brickspinner;
+package org.catrobat.catroid.userbrick;
 
 import org.catrobat.catroid.common.Nameable;
 
-import androidx.annotation.Nullable;
+public class UserBrickInput implements UserBrickData {
 
-public final class StringOption implements Nameable {
+	Nameable input;
 
-	private String name;
-
-	public StringOption(String name) {
-		this.name = name;
+	public UserBrickInput(Nameable input) {
+		this.input = input;
 	}
 
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public boolean equals(@Nullable Object other) {
-		if (other instanceof StringOption) {
-			return this.getName().equals(((StringOption) other).getName());
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.getName().hashCode();
+	public Nameable getInput() {
+		return this.input;
 	}
 }

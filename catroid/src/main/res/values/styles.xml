@@ -143,16 +143,16 @@
     </style>
 
     <style name="Button">
-            <item name="android:layout_width">match_parent</item>
-            <item name="android:layout_height">60dp</item>
-            <item name="android:layout_marginLeft">10dp</item>
-            <item name="android:layout_marginTop">20dp</item>
-            <item name="android:layout_marginRight">10dp</item>
-            <item name="android:background">@drawable/button_background_selector</item>
-            <item name="android:fontFamily">sans-serif</item>
-            <item name="android:textColor">@color/vh_item_title</item>
-            <item name="android:textAlignment">center</item>
-            <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@drawable/button_background_selector</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/vh_item_title</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
 
     <style name="BrickText">
@@ -185,6 +185,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="MultilineBrickEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textSize">?attr/large</item>
+        <item name="backgroundTint">@color/solid_white</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:clickable">false</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:gravity">bottom</item>
     </style>
 
     <style name="BrickContainer">

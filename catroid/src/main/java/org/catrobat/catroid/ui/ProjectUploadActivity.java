@@ -183,7 +183,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_upload, menu);
+		getMenuInflater().inflate(R.menu.menu_next, menu);
 		return true;
 	}
 

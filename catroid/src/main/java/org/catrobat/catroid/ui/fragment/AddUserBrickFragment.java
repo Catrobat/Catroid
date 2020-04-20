@@ -28,36 +28,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 public class AddUserBrickFragment extends Fragment {
 
-	public static final String ADD_USER_BRICK_FRAGMENT_TAG = AddBrickFragment.class.getSimpleName();
+	public static final String TAG = AddUserBrickFragment.class.getSimpleName();
+
+	private UserDefinedBrick userDefinedBrick;
+	private View userBrickView;
+	private LinearLayout userBrickSpace;
 
 	private Button addLabel;
 	private Button addInput;
 
-	public static AddUserBrickFragment newInstance() {
-		AddUserBrickFragment fragment = new AddUserBrickFragment();
-
-		return fragment;
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_new_user_brick, container, false);
-		addLabel = view.findViewById(R.id.add_label);
-		addInput = view.findViewById(R.id.add_input);
+		userBrickSpace = view.findViewById(R.id.user_brick_space);
+
+		addLabel = view.findViewById(R.id.button_add_label);
+		addInput = view.findViewById(R.id.button_add_input);
+
 		addLabel.setOnClickListener(v -> handleAddLabel());
 		addInput.setOnClickListener(v -> handleAddInput());
 
-		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-		if (appCompatActivity != null && appCompatActivity.getSupportActionBar() != null) {
-			appCompatActivity.getSupportActionBar().setTitle(R.string.brick_add_new_user_brick);
+		Bundle arguments = getArguments();
+		if (arguments != null) {
+			userDefinedBrick =
+					(UserDefinedBrick) getArguments().getSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT);
+			if (userDefinedBrick != null) {
+				userBrickView = userDefinedBrick.getView(getActivity());
+				userBrickSpace.addView(userBrickView);
+			}
+		}
+
+		AppCompatActivity activity = (AppCompatActivity) getActivity();
+		if (activity != null) {
+			ActionBar actionBar = activity.getSupportActionBar();
+			if (actionBar != null) {
+				actionBar.setTitle(R.string.brick_add_new_user_brick);
+			}
 		}
 
 		return view;
@@ -67,15 +86,44 @@ public class AddUserBrickFragment extends Fragment {
 	public void onDestroyView() {
 		super.onDestroyView();
 
-		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
-		if (appCompatActivity != null && appCompatActivity.getSupportActionBar() != null) {
-			appCompatActivity.getSupportActionBar().setTitle(R.string.category_user_bricks);
+		AppCompatActivity activity = (AppCompatActivity) getActivity();
+		if (activity != null) {
+			ActionBar actionBar = activity.getSupportActionBar();
+			if (actionBar != null) {
+				actionBar.setTitle(R.string.category_user_bricks);
+			}
 		}
 	}
 
 	private void handleAddLabel() {
+		userDefinedBrick.addLabel(getResources().getString(R.string.brick_user_defined_default_label));
+		updateBrickView();
 	}
 
 	private void handleAddInput() {
+		AddInputToUserBrickFragment addInputToUserBrickFragment = new AddInputToUserBrickFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
+		addInputToUserBrickFragment.setArguments(bundle);
+
+		FragmentManager fragmentManager = getFragmentManager();
+		if (fragmentManager != null) {
+			fragmentManager.beginTransaction()
+					.add(R.id.fragment_container, addInputToUserBrickFragment, AddInputToUserBrickFragment.TAG)
+					.addToBackStack(AddInputToUserBrickFragment.TAG)
+					.commit();
+		}
+	}
+
+	void addInputToUserBrick(Nameable input) {
+		userDefinedBrick.addInput(input);
+		updateBrickView();
+	}
+
+	private void updateBrickView() {
+		userBrickSpace.removeView(userBrickView);
+		userBrickView = userDefinedBrick.getView(getActivity());
+		userBrickSpace.addView(userBrickView);
 	}
 }
