@@ -1061,7 +1061,6 @@
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Add label</string>
     <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_add_new_user_brick">Add new brick</string>
 
     <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
     <string name="brick_user_defined_add_label_description">Add label for this brick:</string>

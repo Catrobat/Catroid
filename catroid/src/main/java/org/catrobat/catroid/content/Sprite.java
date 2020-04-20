@@ -90,8 +90,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private List<UserVariable> userVariables = new ArrayList<>();
 	private List<UserList> userLists = new ArrayList<>();
-
-	private transient List<UserDefinedBrick> userDefinedBrickList = new ArrayList<>();
+	private transient List<Brick> userDefinedBrickList = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 
@@ -136,7 +135,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return allBricks;
 	}
 
-	public List<UserDefinedBrick> getUserDefinedBrickList() {
+	public List<Brick> getUserDefinedBrickList() {
 		return userDefinedBrickList;
 	}
 
@@ -450,7 +449,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	public static boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick, Sprite sprite) {
-		for (UserDefinedBrick alreadyDefinedBrick : sprite.getUserDefinedBrickList()) {
+		for (Brick alreadyDefinedBrick : sprite.getUserDefinedBrickList()) {
 			if (alreadyDefinedBrick.equals(userDefinedBrick)) {
 				return true;
 			}

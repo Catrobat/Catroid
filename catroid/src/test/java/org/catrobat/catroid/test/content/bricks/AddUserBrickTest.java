@@ -23,9 +23,8 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
-
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.catrobat.catroid.userbrick.UserBrickData;
@@ -39,6 +38,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertSame;
@@ -52,36 +52,36 @@ public class AddUserBrickTest {
 	public static Iterable<Object[]> data() {
 		return asList(new Object[][] {
 				{"SpriteBrickEmpty",
-						Arrays.asList(new UserBrickData[]{defaultInput}),
+						Collections.singletonList(defaultInput),
 						new ArrayList<>(),
 						false},
 				{"SameUserInputs",
-						Arrays.asList(new UserBrickData[]{defaultInput}),
-						Arrays.asList(new UserBrickData[]{defaultInput}),
+						Collections.singletonList(defaultInput),
+						Collections.singletonList(defaultInput),
 						true},
 				{"SameUserLabels",
-						Arrays.asList(new UserBrickData[]{defaultLabel}),
-						Arrays.asList(new UserBrickData[]{defaultLabel}),
+						Collections.singletonList(defaultLabel),
+						Collections.singletonList(defaultLabel),
 						true},
 				{"DifferentLabelsWhitespaces",
-						Arrays.asList(new UserBrickData[]{new UserBrickLabel(new StringOption(" "))}),
-						Arrays.asList(new UserBrickData[]{new UserBrickLabel(new StringOption(""))}),
+						Collections.singletonList(new UserBrickLabel(new StringOption(" "))),
+						Collections.singletonList(new UserBrickLabel(new StringOption(""))),
 						false},
 				{"DifferentAmountOfUserInput",
-						Arrays.asList(new UserBrickData[]{defaultInput, differentInput}),
-						Arrays.asList(new UserBrickData[]{defaultInput}),
+						asList(defaultInput, differentInput),
+						Collections.singletonList(defaultInput),
 						false},
 				{"DifferentAmountOfUserData",
-						Arrays.asList(new UserBrickData[]{defaultLabel, defaultInput}),
-						Arrays.asList(new UserBrickData[]{defaultInput}),
+						asList(defaultLabel, defaultInput),
+						Collections.singletonList(defaultInput),
 						false},
 				{"SameUserDataWithDifferentInput",
-						Arrays.asList(new UserBrickData[]{defaultLabel, defaultInput, defaultLabel}),
-						Arrays.asList(new UserBrickData[]{defaultLabel, differentInput, defaultLabel}),
+						asList(defaultLabel, defaultInput, defaultLabel),
+						asList(defaultLabel, differentInput, defaultLabel),
 						true},
 				{"DifferentUserLabelsWithDifferentInput",
-						Arrays.asList(new UserBrickData[]{defaultLabel, defaultInput, differentLabel}),
-						Arrays.asList(new UserBrickData[]{defaultLabel, differentInput, defaultLabel}),
+						asList(defaultLabel, defaultInput, differentLabel),
+						asList(defaultLabel, differentInput, defaultLabel),
 						false},
 		});
 	}
@@ -107,7 +107,7 @@ public class AddUserBrickTest {
 	private static UserBrickInput differentInput = new UserBrickInput(new StringOption("DifferentInput"));
 
 	private UserDefinedBrick brickToTest;
-	private List<UserDefinedBrick> userDefinedBrickListOfSprite;
+	private List<Brick> userDefinedBrickListOfSprite;
 
 	@Before
 	public void setUp() throws Exception {

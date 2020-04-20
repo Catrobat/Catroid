@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -64,6 +65,7 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 	private AppCompatActivity activity;
 	private TextInputEditText addUserDataUserBrickEditText;
 	private TextInputLayout addUserDataUserBrickTextLayout;
+	private ScrollView scrollView;
 
 	private MenuItem nextItem;
 
@@ -74,6 +76,7 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_user_data_to_user_brick, container, false);
 		LinearLayout userBrickSpace = view.findViewById(R.id.user_brick_space);
+		scrollView = view.findViewById(R.id.fragment_add_user_data_to_user_brick);
 
 		Bundle arguments = getArguments();
 		if (arguments != null) {
@@ -103,14 +106,14 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 
 		activity = (AppCompatActivity) getActivity();
 		if (activity != null) {
-			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			showStandardSystemKeyboard();
 			ActionBar actionBar = activity.getSupportActionBar();
 			if (actionBar != null) {
-				activity.getSupportActionBar().setTitle("Your Bricks");
+				activity.getSupportActionBar().setTitle(R.string.category_user_bricks);
 			}
 		}
 
-		userDefinedBrick.scrollToBottom();
+		view.findViewById(R.id.bottom_constraint).requestFocus();
 
 		setHasOptionsMenu(true);
 
@@ -173,7 +176,7 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 
 	private void showStandardSystemKeyboard() {
 		if (activity != null) {
-			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		}
 	}
 
@@ -222,7 +225,6 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 
 		@Override
 		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-			userDefinedBrick.scrollToBottom();
 		}
 
 		@Override
@@ -230,6 +232,9 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 			userBrickTextView.setText(editable.toString());
 			if (isAddInput()) {
 				String error = validateName(editable.toString());
+				if (error != null) {
+					scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+				}
 				addUserDataUserBrickTextLayout.setError(error);
 				setNextItemEnabled(error == null);
 			}
