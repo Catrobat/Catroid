@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.catrobat.catroid.ui.UiUtils;
@@ -33,30 +34,35 @@ import androidx.annotation.StringRes;
 
 public final class ToastUtil {
 
+	private static final int DEFAULT_COLOR = 0;
 	private ToastUtil() {
 	}
 
 	public static void showError(Context context, String message) {
-		createToast(context, message, Toast.LENGTH_SHORT);
+		createToast(context, message, Toast.LENGTH_SHORT, DEFAULT_COLOR);
 	}
 
 	public static void showError(Context context, @StringRes int messageId) {
-		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_SHORT);
+		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_SHORT, DEFAULT_COLOR);
+	}
+
+	public static void showErrorWithColor(Context context, @StringRes int messageId, int color) {
+		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_LONG, color);
 	}
 
 	public static void showSuccess(Context context, String message) {
-		createToast(context, message, Toast.LENGTH_SHORT);
+		createToast(context, message, Toast.LENGTH_SHORT, DEFAULT_COLOR);
 	}
 
 	public static void showSuccess(Context context, @StringRes int messageId) {
-		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_SHORT);
+		createToast(context, context.getResources().getString(messageId), Toast.LENGTH_SHORT, DEFAULT_COLOR);
 	}
 
 	public static void showInfoLong(Context context, String message) {
-		createToast(context, message, Toast.LENGTH_LONG);
+		createToast(context, message, Toast.LENGTH_LONG, DEFAULT_COLOR);
 	}
 
-	private static void createToast(Context context, String message, int duration) {
+	private static void createToast(Context context, String message, int duration, int color) {
 		Activity activity = UiUtils.getActivityFromContextWrapper(context);
 		if (activity == null) {
 			return;
@@ -67,6 +73,10 @@ public final class ToastUtil {
 		}
 
 		Toast toast = Toast.makeText(activity, message, duration);
+		if (color != DEFAULT_COLOR) {
+			TextView textViewOfToast = toast.getView().findViewById(android.R.id.message);
+			textViewOfToast.setTextColor(color);
+		}
 		toast.show();
 	}
 }

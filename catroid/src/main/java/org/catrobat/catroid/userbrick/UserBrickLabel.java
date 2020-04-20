@@ -25,6 +25,8 @@ package org.catrobat.catroid.userbrick;
 
 import org.catrobat.catroid.common.Nameable;
 
+import androidx.annotation.Nullable;
+
 public class UserBrickLabel implements UserBrickData {
 
 	private Nameable label;
@@ -35,5 +37,19 @@ public class UserBrickLabel implements UserBrickData {
 
 	public Nameable getLabel() {
 		return this.label;
+	}
+
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		if (obj instanceof UserBrickLabel) {
+			UserBrickLabel other = (UserBrickLabel) obj;
+			return this.label.getName().equals(other.label.getName());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.label.getName().hashCode();
 	}
 }

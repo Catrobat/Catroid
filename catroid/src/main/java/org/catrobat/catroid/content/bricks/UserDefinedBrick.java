@@ -45,6 +45,7 @@ import org.catrobat.catroid.userbrick.UserBrickLabel;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -63,15 +64,27 @@ public class UserDefinedBrick extends BrickBaseType {
 		userBrickDataList = new ArrayList<>();
 	}
 
+	public UserDefinedBrick(List<UserBrickData> userBrickDataList) {
+		this.userBrickDataList = userBrickDataList;
+	}
+
 	public void addLabel(Nameable label) {
+		removeLastLabel();
+		userBrickDataList.add(new UserBrickLabel(label));
+	}
+
+	public void removeLastLabel() {
 		if (lastContentIsLabel()) {
 			userBrickDataList.remove(userBrickDataList.size() - 1);
 		}
-		userBrickDataList.add(new UserBrickLabel(label));
 	}
 
 	public void addInput(Nameable input) {
 		userBrickDataList.add(new UserBrickInput(input));
+	}
+
+	public boolean isEmpty() {
+		return userBrickDataList.isEmpty();
 	}
 
 	public List<Nameable> getUserDataList(boolean inputOrLabel) {
@@ -104,39 +117,33 @@ public class UserDefinedBrick extends BrickBaseType {
 		super.getView(context);
 		userBrickContentLayout = view.findViewById(R.id.brick_user_brick);
 		scrollbar = view.findViewById(R.id.user_brick_scrollbar);
+		boolean isAddInputFragment = false;
+		boolean isAddLabelFragment = false;
 
-		boolean isAddInputFragment = currentFragmentIsAddInput(context);
+		Fragment currentFragment =
+				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof AddUserDataToUserBrickFragment) {
+			isAddInputFragment = ((AddUserDataToUserBrickFragment) currentFragment).isAddInput();
+			isAddLabelFragment = !isAddInputFragment;
+		}
 
-		boolean isAddLabelFragment = currentFragmentIsAddLabel(context);
-
-		if (userBrickDataList.isEmpty()) {
-			if (isAddInputFragment) {
-				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
-				addTextViewForUserData(context, new StringOption(defaultText), INPUT);
+		for (UserBrickData userBrickData : userBrickDataList) {
+			if (userBrickData instanceof UserBrickInput) {
+				addTextViewForUserData(context, ((UserBrickInput) userBrickData).getInput(),
+						INPUT);
 			}
-			if (isAddLabelFragment) {
-				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
-				addTextViewForUserData(context, new StringOption(defaultText), LABEL);
+			if (userBrickData instanceof UserBrickLabel) {
+				addTextViewForUserData(context, ((UserBrickLabel) userBrickData).getLabel(),
+						LABEL);
 			}
-		} else {
-			for (UserBrickData userBrickData : userBrickDataList) {
-				if (userBrickData instanceof UserBrickInput) {
-					addTextViewForUserData(context, ((UserBrickInput) userBrickData).getInput(),
-							INPUT);
-				}
-				if (userBrickData instanceof UserBrickLabel) {
-					addTextViewForUserData(context, ((UserBrickLabel) userBrickData).getLabel(),
-							LABEL);
-				}
-			}
-			if (isAddInputFragment) {
-				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
-				addTextViewForUserData(context, new StringOption(defaultText), INPUT);
-			}
-			if (isAddLabelFragment && !lastContentIsLabel()) {
-				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
-				addTextViewForUserData(context, new StringOption(defaultText), LABEL);
-			}
+		}
+		if (isAddInputFragment) {
+			String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
+			addTextViewForUserData(context, new StringOption(defaultText), INPUT);
+		}
+		if (isAddLabelFragment && !lastContentIsLabel()) {
+			String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
+			addTextViewForUserData(context, new StringOption(defaultText), LABEL);
 		}
 
 		scrollbar.post(this::scrollToBottom);
@@ -163,29 +170,37 @@ public class UserDefinedBrick extends BrickBaseType {
 				scrollbar.getChildAt(scrollbar.getChildCount() - 1).getBottom());
 	}
 
-	private boolean currentFragmentIsAddInput(Context context) {
-		Fragment currentFragment =
-				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		if (currentFragment instanceof AddUserDataToUserBrickFragment) {
-			AddUserDataToUserBrickFragment fragment = (AddUserDataToUserBrickFragment) currentFragment;
-			return fragment.getIsAddInputOrLabel() == INPUT;
-		}
-		return false;
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_user_brick;
 	}
 
-	private boolean currentFragmentIsAddLabel(Context context) {
-		Fragment currentFragment =
-				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		if (currentFragment instanceof AddUserDataToUserBrickFragment) {
-			AddUserDataToUserBrickFragment fragment = (AddUserDataToUserBrickFragment) currentFragment;
-			return fragment.getIsAddInputOrLabel() == LABEL;
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		if (obj instanceof UserDefinedBrick) {
+			UserDefinedBrick other = (UserDefinedBrick) obj;
+			if (userBrickDataList.size() == other.userBrickDataList.size()) {
+				int dataIndex;
+				for (dataIndex = 0; dataIndex < userBrickDataList.size(); dataIndex++) {
+					if (userBrickDataList.get(dataIndex) instanceof UserBrickLabel
+							&& other.userBrickDataList.get(dataIndex) instanceof UserBrickLabel) {
+						if (!userBrickDataList.get(dataIndex).equals(other.userBrickDataList.get(dataIndex))) {
+							return false;
+						}
+					} else if (!(userBrickDataList.get(dataIndex) instanceof UserBrickInput
+							&& other.userBrickDataList.get(dataIndex) instanceof UserBrickInput)) {
+						return false;
+					}
+				}
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_user_brick;
+	public int hashCode() {
+		return userBrickDataList.hashCode();
 	}
 
 	@Override

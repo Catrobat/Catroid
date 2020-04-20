@@ -54,6 +54,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import static org.catrobat.catroid.content.bricks.UserDefinedBrick.INPUT;
+
 public class AddUserDataToUserBrickFragment extends Fragment {
 
 	public static final String TAG = AddUserDataToUserBrickFragment.class.getSimpleName();
@@ -91,13 +93,11 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 
 		addUserDataUserBrickEditText.setText(userBrickTextView.getText());
 		if (getContext() != null) {
-			if (isAddInputOrLabel) {
+			addUserDataUserBrickEditText.addTextChangedListener(new UserDataTextWatcher());
+			if (isAddInput()) {
 				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_input_description));
-
-				addUserDataUserBrickEditText.addTextChangedListener(new InputTextWatcher());
 			} else {
 				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_label_description));
-				addUserDataUserBrickEditText.addTextChangedListener(new LabelTextWatcher());
 			}
 		}
 
@@ -117,8 +117,8 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 		return view;
 	}
 
-	public boolean getIsAddInputOrLabel() {
-		return isAddInputOrLabel;
+	public boolean isAddInput() {
+		return isAddInputOrLabel == INPUT;
 	}
 
 	@Override
@@ -187,10 +187,10 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 		}
 	}
 
-	private class InputTextWatcher implements TextWatcher {
+	private class UserDataTextWatcher implements TextWatcher {
 
 		private boolean isNameUnique(String name) {
-			for (Nameable item : userDefinedBrick.getUserDataList(UserDefinedBrick.INPUT)) {
+			for (Nameable item : userDefinedBrick.getUserDataList(INPUT)) {
 				if (item.getName().equals(name)) {
 					return false;
 				}
@@ -227,27 +227,12 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 
 		@Override
 		public void afterTextChanged(Editable editable) {
-			String error = validateName(editable.toString());
 			userBrickTextView.setText(editable.toString());
-			addUserDataUserBrickTextLayout.setError(error);
-			setNextItemEnabled(error == null);
-		}
-	}
-
-	private class LabelTextWatcher implements TextWatcher {
-
-		@Override
-		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		}
-
-		@Override
-		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-			userDefinedBrick.scrollToBottom();
-		}
-
-		@Override
-		public void afterTextChanged(Editable editable) {
-			userBrickTextView.setText(editable.toString());
+			if (isAddInput()) {
+				String error = validateName(editable.toString());
+				addUserDataUserBrickTextLayout.setError(error);
+				setNextItemEnabled(error == null);
+			}
 		}
 	}
 }
