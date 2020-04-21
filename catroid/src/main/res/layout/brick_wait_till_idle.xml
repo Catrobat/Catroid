@@ -37,8 +37,8 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_assert_equals_layout"
-        style="@style/BrickContainer.Arduino.Medium"
+        android:id="@+id/brick_wait_till_idl_layout"
+        style="@style/BrickContainer.Test.Medium"
         android:orientation="horizontal"
         android:paddingBottom="0dp"
         android:paddingTop="0dp"

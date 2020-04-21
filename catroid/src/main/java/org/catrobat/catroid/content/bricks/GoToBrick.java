@@ -85,11 +85,11 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 		Context context = view.getContext();
 
 		if (string.equals(context.getString(R.string.brick_go_to_touch_position))) {
@@ -102,7 +102,7 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	}
 
 	@Override
-	public void onItemSelected(@Nullable Sprite item) {
+	public void onItemSelected(Integer spinnerId, @Nullable Sprite item) {
 		spinnerSelection = BrickValues.GO_TO_OTHER_SPRITE_POSITION;
 		destinationSprite = item;
 	}

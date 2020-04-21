@@ -96,7 +96,7 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
@@ -129,11 +129,11 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable Scene item) {
+	public void onItemSelected(Integer spinnerId, @Nullable Scene item) {
 		sceneToStart = item != null ? item.getName() : null;
 	}
 

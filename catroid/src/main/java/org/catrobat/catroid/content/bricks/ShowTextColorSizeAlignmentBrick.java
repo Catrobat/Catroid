@@ -122,18 +122,18 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 		spinner.setOnItemSelectedListener(new BrickSpinner.OnItemSelectedListener<AlignmentStyle>() {
 
 			@Override
-			public void onStringOptionSelected(String string) {
+			public void onStringOptionSelected(Integer spinnerId, String string) {
 			}
 
 			@Override
-			public void onItemSelected(@Nullable AlignmentStyle item) {
+			public void onItemSelected(Integer spinnerId, @Nullable AlignmentStyle item) {
 				if (item != null) {
 					alignmentSelection = item.alignmentStyle;
 				}
 			}
 
 			@Override
-			public void onNewOptionSelected() {
+			public void onNewOptionSelected(Integer spinnerId) {
 			}
 		});
 		return view;

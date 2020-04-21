@@ -77,7 +77,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (!(activity instanceof SpriteActivity)) {
 			return;
@@ -101,12 +101,12 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 		setBroadcastMessage(string);
 	}
 
 	@Override
-	public void onItemSelected(@Nullable StringOption item) {
+	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
 	}
 
 	@VisibleForTesting

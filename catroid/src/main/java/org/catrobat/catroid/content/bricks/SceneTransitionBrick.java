@@ -97,7 +97,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
@@ -130,11 +130,11 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable Scene item) {
+	public void onItemSelected(Integer spinnerId, @Nullable Scene item) {
 		sceneForTransition = item != null ? item.getName() : null;
 	}
 

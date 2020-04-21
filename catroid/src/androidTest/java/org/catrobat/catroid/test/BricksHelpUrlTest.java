@@ -400,6 +400,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedReceiverBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#StoreCSVIntoUserListBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AssertUserListsBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#AssertUserListsBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

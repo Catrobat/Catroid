@@ -1248,6 +1248,10 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
+
 
     <plurals name="time_plural">
         <item quantity="one">time</item>

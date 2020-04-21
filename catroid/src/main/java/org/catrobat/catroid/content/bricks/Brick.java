@@ -93,6 +93,22 @@ public interface Brick extends Serializable, Cloneable {
 		}
 	}
 
+	enum BrickData {
+		ASSERT_LISTS_EXPECTED, ASSERT_LISTS_ACTUAL;
+
+		public static final BrickData[] EXPECTS_USERLIST = {ASSERT_LISTS_EXPECTED,
+				ASSERT_LISTS_ACTUAL};
+
+		public static boolean isUserList(BrickData field) {
+			for (BrickData bf : EXPECTS_USERLIST) {
+				if (bf.equals(field)) {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION, ARDRONE_SUPPORT,
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATION, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,

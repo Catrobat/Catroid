@@ -37,11 +37,13 @@ import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.UserDataBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -50,6 +52,7 @@ import org.catrobat.catroid.ui.controller.BackpackListManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ScriptController {
 
@@ -106,6 +109,22 @@ public class ScriptController {
 				UserList updatedUserList = UserDataWrapper
 						.getUserList(previousUserList.getName(), dstSprite, dstProject);
 				((UserListBrick) brick).setUserList(updatedUserList);
+			}
+
+			if (brick instanceof UserDataBrick) {
+				for (Map.Entry<Brick.BrickData, UserData> entry
+						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
+					UserData previousUserData = entry.getValue();
+					UserData updatedUserList;
+					if (Brick.BrickData.isUserList(entry.getKey())) {
+						updatedUserList = UserDataWrapper
+								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+					} else {
+						updatedUserList = UserDataWrapper
+								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+					}
+					entry.setValue(updatedUserList);
+				}
 			}
 		}
 
@@ -224,6 +243,22 @@ public class ScriptController {
 				UserList updatedUserList = UserDataWrapper
 						.getUserList(previousUserList.getName(), dstSprite, dstProject);
 				((UserListBrick) brick).setUserList(updatedUserList);
+			}
+
+			if (brick instanceof UserDataBrick) {
+				for (Map.Entry<Brick.BrickData, UserData> entry
+						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
+					UserData previousUserData = entry.getValue();
+					UserData updatedUserList;
+					if (Brick.BrickData.isUserList(entry.getKey())) {
+						updatedUserList = UserDataWrapper
+								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+					} else {
+						updatedUserList = UserDataWrapper
+								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+					}
+					entry.setValue(updatedUserList);
+				}
 			}
 		}
 

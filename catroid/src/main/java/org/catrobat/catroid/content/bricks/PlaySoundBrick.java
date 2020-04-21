@@ -94,7 +94,7 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (!(activity instanceof SpriteActivity)) {
 			return;
@@ -110,11 +110,11 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable SoundInfo item) {
+	public void onItemSelected(Integer spinnerId, @Nullable SoundInfo item) {
 		sound = item;
 	}
 

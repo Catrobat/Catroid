@@ -96,7 +96,7 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (!(activity instanceof SpriteActivity)) {
 			return;
@@ -112,11 +112,11 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable LookData item) {
+	public void onItemSelected(Integer spinnerId, @Nullable LookData item) {
 		look = item;
 	}
 }

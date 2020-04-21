@@ -23,25 +23,17 @@
 
 package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-
-import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.TestResult;
 
-import static org.catrobat.catroid.stage.TestResult.STAGE_ACTIVITY_TEST_FAIL;
-
-public class AssertEqualsAction extends Action {
+public class AssertEqualsAction extends AssertAction {
 
 	private Formula actualFormula = null;
 	private Formula expectedFormula = null;
-	private String position;
-	private Sprite sprite;
-	private static final String ASSERT_EQUALS_ERROR = "\nAssertEqualsError\n";
 
 	@Override
 	public boolean act(float delta) {
+		assertTitle = "\nAssertEqualsError\n";
+
 		if (actualFormula == null) {
 			failWith("Actual is null");
 			return false;
@@ -61,30 +53,9 @@ public class AssertEqualsAction extends Action {
 		return true;
 	}
 
-	private boolean equalValues(String actual, String expected) {
-		try {
-			return actual.equals(expected) || Double.parseDouble(actual) == Double.parseDouble(expected);
-		} catch (NumberFormatException numberFormatException) {
-			return false;
-		}
-	}
-
-	private void failWith(String message) {
-		StageActivity.finishTestWithResult(
-				new TestResult(formattedPosition()
-						+ ASSERT_EQUALS_ERROR + message, STAGE_ACTIVITY_TEST_FAIL));
-	}
-
 	private String formattedAssertEqualsError(Object actual, Object expected) {
-		return "expected:<" + expected + "> but was:<" + actual + ">";
-	}
-
-	private String formattedPosition() {
-		return "on sprite \"" + sprite.getName() + "\"\n" + position;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+		String indicator = generateIndicator(actual, expected);
+		return "expected: <" + expected + ">\nactual:   <" + actual + ">\ndeviation: " + indicator;
 	}
 
 	public void setActual(Formula actual) {
