@@ -361,7 +361,7 @@ public class FormulaElement implements Serializable {
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(firstArgument, sprite, currentProject);
 			case INDEX_OF_ITEM:
-				return interpretFunctionIndexOfItem(firstArgument, sprite);
+				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
 			default:
 				return interpretFormulaFunction(function, firstArgument, secondArgument);
 		}
@@ -371,7 +371,6 @@ public class FormulaElement implements Serializable {
 	private Object tryInterpretRecursive(FormulaElement element, Sprite sprite) {
 		if (element == null) {
 			return null;
-
 		}
 		return element.interpretRecursive(sprite);
 	}
@@ -417,15 +416,13 @@ public class FormulaElement implements Serializable {
 		return FALSE;
 	}
 
-	private Object interpretFunctionIndexOfItem(Object left, Sprite sprite) {
+	private Object interpretFunctionIndexOfItem(Object left, Sprite sprite, Project currentProject) {
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			UserList userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
-
 			return (double) (userList.getIndexOf(left) + 1);
 		}
 
-		return 0d;
+		return FALSE;
 	}
 
 	private Object interpretFunctionListItem(Object left, Sprite sprite, Project currentProject) {
@@ -454,13 +451,11 @@ public class FormulaElement implements Serializable {
 		return UserDataWrapper.getUserList(child.value, sprite, currentProject);
 	}
 
-	private static String interpretFunctionJoin(Sprite sprite, FormulaElement leftChild,
-			FormulaElement rightChild) {
+	private static String interpretFunctionJoin(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
 		return interpretFunctionString(leftChild, sprite) + interpretFunctionString(rightChild, sprite);
 	}
 
-	private static String tryInterpretFunctionRegex(Sprite sprite, FormulaElement leftChild,
-			FormulaElement rightChild) {
+	private static String tryInterpretFunctionRegex(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
 		try {
 			String left = interpretFunctionString(leftChild, sprite);
 			String right = interpretFunctionString(rightChild, sprite);
@@ -482,31 +477,28 @@ public class FormulaElement implements Serializable {
 	}
 
 	private static String interpretFunctionString(FormulaElement child, Sprite sprite) {
+		if (child == null) {
+			return "";
+		} else if (child.getElementType() == ElementType.STRING) {
+			return child.getValue();
+		}
+		Object objectInterpretation = child.interpretRecursive(sprite);
 		String parameterInterpretation = "";
-		if (child != null) {
-			if (child.getElementType() == ElementType.NUMBER) {
-				Double number = Double.valueOf((String) child.interpretRecursive(sprite));
-				if (number.isNaN()) {
-					parameterInterpretation = "";
-				} else {
-					if (isInteger(number)) {
-						parameterInterpretation += number.intValue();
-					} else {
-						parameterInterpretation += number;
-					}
-				}
-			} else if (child.getElementType() == ElementType.STRING) {
-				parameterInterpretation = child.value;
-			} else {
-				parameterInterpretation += child.interpretRecursive(sprite);
+
+		if (child.getElementType() == ElementType.NUMBER) {
+			double number = Double.parseDouble((String) objectInterpretation);
+			if (!Double.isNaN(number)) {
+				parameterInterpretation += isInteger(number) ? (int) number : number;
 			}
+		} else {
+			parameterInterpretation += objectInterpretation;
 		}
 		return trimTrailingCharacters(parameterInterpretation);
 	}
 
 	private Object interpretFunctionLength(Object left, Sprite sprite, Project currentProject) {
 		if (leftChild == null) {
-			return 0d;
+			return FALSE;
 		}
 		switch (leftChild.type) {
 			case NUMBER:
@@ -553,8 +545,7 @@ public class FormulaElement implements Serializable {
 			return String.valueOf(interpretedListDoubleValue.intValue()).length();
 		}
 		if (interpretedList instanceof String) {
-			String interpretedListStringValue = (String) interpretedList;
-			return interpretedListStringValue.length();
+			return ((String) interpretedList).length();
 		}
 		if (left instanceof Double && ((Double) left).isNaN()) {
 			return FALSE;
