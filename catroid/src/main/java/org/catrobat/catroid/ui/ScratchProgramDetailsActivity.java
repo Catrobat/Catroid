@@ -65,7 +65,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import static org.catrobat.catroid.utils.NumberFormats.toMetricPostfixNotation;
+import static org.catrobat.catroid.utils.NumberFormats.toMetricUnitRepresentation;
 
 public class ScratchProgramDetailsActivity extends BaseActivity implements
 		FetchScratchProgramDetailsTask.ScratchProgramListTaskDelegate,
@@ -269,11 +269,11 @@ public class ScratchProgramDetailsActivity extends BaseActivity implements
 		}
 
 		((TextView) findViewById(R.id.scratch_project_favorites_text))
-				.setText(toMetricPostfixNotation(programData.getFavorites()));
+				.setText(toMetricUnitRepresentation(programData.getFavorites()));
 		((TextView) findViewById(R.id.scratch_project_loves_text))
-				.setText(toMetricPostfixNotation(programData.getLoves()));
+				.setText(toMetricUnitRepresentation(programData.getLoves()));
 		((TextView) findViewById(R.id.scratch_project_views_text))
-				.setText(toMetricPostfixNotation(programData.getViews()));
+				.setText(toMetricUnitRepresentation(programData.getViews()));
 
 		TextView dateSharedView = findViewById(R.id.date_shared_view);
 		TextView dateModifiedView = findViewById(R.id.date_modified_view);

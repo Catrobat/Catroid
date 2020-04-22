@@ -20,34 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.utils
 
-package org.catrobat.catroid.utils;
+class NumberFormats private constructor() {
+    companion object {
+        @JvmStatic
+        fun trimTrailingCharacters(value: String?): String {
+            value ?: return ""
+            if (value.contains(".") && value.matches("[0-9.-]+".toRegex())) {
+                return when {
+                    !value.contains(".") -> value
+                    else -> value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
+                }
+            }
+            return ""
+        }
 
-public final class NumberFormats {
-
-	private NumberFormats() {
-		throw new AssertionError();
-	}
-	public static final String TAG = NumberFormats.class.getSimpleName();
-
-	public static String trimTrailingCharacters(String value) {
-		if (value == null) {
-			value = "";
-		}
-		if (value.contains(".") && value.matches("[0-9.-]+")) {
-			value = !value.contains(".") ? value : value.replaceAll("0*$", "").replaceAll("\\.$", "");
-		}
-		return value;
-	}
-
-	public static String toMetricPostfixNotation(int number) {
-		if (number >= 1_000_000) {
-			return number / 1_000_000 + "M";
-		} else if (number >= 10_000) {
-			return number / 1_000 + (number % 1_000 > 100 ? "." + (number % 1_000) / 100 : "") + "k";
-		} else if (number >= 1_000) {
-			return number / 1_000 + "k";
-		}
-		return Integer.toString(number);
-	}
+        @JvmStatic
+        fun toMetricUnitRepresentation(number: Int): String {
+            return when {
+                number < 1000 -> "" + number
+                number < 10000 -> "" + number / 1000 + ((number % 1000) / 100).let { if (it > 0) ".$it" else "" } + "k"
+                number < 1000000 -> "" + number / 1000 + "k"
+                else -> "" + number / 1000000 + "M"
+            }
+        }
+    }
 }
