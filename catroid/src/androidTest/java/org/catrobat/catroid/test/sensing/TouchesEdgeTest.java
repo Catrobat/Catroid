@@ -40,12 +40,8 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static junit.framework.Assert.assertEquals;
-
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class TouchesEdgeTest {
@@ -71,45 +67,41 @@ public class TouchesEdgeTest {
 		virtualScreenWidth = project.getXmlHeader().virtualScreenWidth;
 		virtualScreenHeight = project.getXmlHeader().virtualScreenHeight;
 		screen = project.getScreenRectangle();
+
+		sprite1.look.setXInUserInterfaceDimensionUnit(0);
+		sprite1.look.setYInUserInterfaceDimensionUnit(0);
+	}
+
+	@Test
+	public void testNoCollisionInCenter() {
+		assertFalse(CollisionDetection.collidesWithEdge(sprite1.look.getCurrentCollisionPolygon(), screen));
 	}
 
 	@Test
 	public void testCollisionWithRightEdge() {
-		sprite1.look.setXInUserInterfaceDimensionUnit(0);
-		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, screen), is(not(equalTo(1d))));
 		sprite1.look.setXInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				+ virtualScreenWidth / 2f);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, screen));
+		assertTrue(CollisionDetection.collidesWithEdge(sprite1.look.getCurrentCollisionPolygon(), screen));
 	}
 
 	@Test
 	public void testCollisionWithLeftEdge() {
-		sprite1.look.setXInUserInterfaceDimensionUnit(0);
-		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, screen), is(not(equalTo(1d))));
 		sprite1.look.setXInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				- virtualScreenWidth / 2f);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, screen));
+		assertTrue(CollisionDetection.collidesWithEdge(sprite1.look.getCurrentCollisionPolygon(), screen));
 	}
 
 	@Test
 	public void testCollisionWithUpperEdge() {
-		sprite1.look.setXInUserInterfaceDimensionUnit(0);
-		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, screen), is(not(equalTo(1d))));
 		sprite1.look.setYInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				+ virtualScreenHeight / 2f);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, screen));
+		assertTrue(CollisionDetection.collidesWithEdge(sprite1.look.getCurrentCollisionPolygon(), screen));
 	}
 
 	@Test
 	public void testCollisionWithBottomEdge() {
-		sprite1.look.setXInUserInterfaceDimensionUnit(0);
-		sprite1.look.setYInUserInterfaceDimensionUnit(0);
-		assertThat(CollisionDetection.collidesWithEdge(sprite1.look, screen), is(not(equalTo(1d))));
 		sprite1.look.setYInUserInterfaceDimensionUnit(sprite1.look.getXInUserInterfaceDimensionUnit()
 				- virtualScreenHeight / 2f);
-		assertEquals(1d, CollisionDetection.collidesWithEdge(sprite1.look, screen));
+		assertTrue(CollisionDetection.collidesWithEdge(sprite1.look.getCurrentCollisionPolygon(), screen));
 	}
 }

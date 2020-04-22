@@ -43,19 +43,17 @@ public final class CollisionDetection {
 	private CollisionDetection() {
 	}
 
-	public static double checkCollisionBetweenLooks(Look firstLook, Look secondLook) {
+	public static boolean checkCollisionBetweenLooks(Look firstLook, Look secondLook) {
 		if (!firstLook.isVisible() || !firstLook.isLookVisible() || !secondLook.isVisible() || !secondLook.isLookVisible()) {
-			return 0d;
+			return false;
 		}
 
 		if (!firstLook.getHitbox().overlaps(secondLook.getHitbox())) {
-			return 0d;
+			return false;
 		}
 
-		boolean colliding = checkCollisionBetweenPolygons(firstLook.getCurrentCollisionPolygon(),
+		return checkCollisionBetweenPolygons(firstLook.getCurrentCollisionPolygon(),
 				secondLook.getCurrentCollisionPolygon());
-
-		return colliding ? 1d : 0d;
 	}
 
 	public static boolean checkCollisionBetweenPolygons(Polygon[] first, Polygon[] second) {
@@ -146,11 +144,11 @@ public final class CollisionDetection {
 		return secondSpriteName;
 	}
 
-	public static double collidesWithEdge(Look look, Rectangle screen) {
+	public static boolean collidesWithEdge(Polygon[] currentCollisionPolygon, Rectangle screen) {
 		Vector2 firstPoint = new Vector2();
 		Vector2 secondPoint = new Vector2();
 		//check if any line of the collision polygons intersects with the screen boundary
-		for (Polygon polygon : look.getCurrentCollisionPolygon()) {
+		for (Polygon polygon : currentCollisionPolygon) {
 			float[] transformedVertices = polygon.getTransformedVertices();
 			for (int i = 0; i < transformedVertices.length - 4; i += 2) {
 				firstPoint.set(transformedVertices[i], transformedVertices[i + 1]);
@@ -158,11 +156,11 @@ public final class CollisionDetection {
 
 				//if the line crosses the screen boarder, a collision is detected
 				if (screen.contains(firstPoint) ^ screen.contains(secondPoint)) {
-					return 1.0d;
+					return true;
 				}
 			}
 		}
-		return 0d;
+		return false;
 	}
 
 	public static double collidesWithFinger(Polygon[] currentCollisionPolygon, ArrayList<PointF> touchingPoints) {
