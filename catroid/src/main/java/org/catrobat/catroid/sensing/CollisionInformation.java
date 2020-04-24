@@ -164,7 +164,10 @@ public class CollisionInformation {
 				ArrayList<PointF> points = getPointsFromPolygonVertices(boundingPolygon.get(i));
 				ArrayList<PointF> simplified = simplifyPolygon(points, 0, points.size() - 1, epsilon);
 
-				if (pointToPointDistance(simplified.get(0), simplified.get(simplified.size() - 1)) < epsilon) {
+				float dx = simplified.get(simplified.size() - 1).x - simplified.get(0).x;
+				float dy = simplified.get(simplified.size() - 1).y - simplified.get(0).y;
+
+				if (Math.hypot(dx, dy) < epsilon) {
 					simplified.remove(simplified.size() - 1);
 				}
 
@@ -367,10 +370,6 @@ public class CollisionInformation {
 				+ (lineEnd.y - lineStart.y) * (lineEnd.y - lineStart.y));
 		return Math.abs((point.x - lineStart.x) * (lineEnd.y - lineStart.y)
 				- (point.y - lineStart.y) * (lineEnd.x - lineStart.x)) / normalLength;
-	}
-
-	private static float pointToPointDistance(PointF p1, PointF p2) {
-		return (float) Math.sqrt(((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y)));
 	}
 
 	public static ArrayList<PointF> simplifyPolygon(ArrayList<PointF> points, int start, int end, float epsilon) {
