@@ -192,29 +192,6 @@ public class LookTest {
 	}
 
 	@Test
-	public void testDistanceTo() {
-		look.setXInUserInterfaceDimensionUnit(25);
-		look.setYInUserInterfaceDimensionUnit(55);
-		float touchPosition = look.getDistanceToTouchPositionInUserInterfaceDimensions();
-
-		float pointAx = look.getXInUserInterfaceDimensionUnit();
-		float pointAy = look.getYInUserInterfaceDimensionUnit();
-		int touchIndex = TouchUtil.getLastTouchIndex();
-		float pointBx = TouchUtil.getX(touchIndex);
-		float pointBy = TouchUtil.getY(touchIndex);
-
-		float vectorX = pointBx - pointAx;
-		float vectorY = pointBy - pointAy;
-
-		double squareX = (float) Math.pow(vectorX, 2);
-		double squareY = (float) Math.pow(vectorY, 2);
-
-		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
-
-		assertEquals(touchPosition, squareRootOfScalar);
-	}
-
-	@Test
 	public void testCloneValues() {
 		Look origin = new Look(null);
 		origin.setSizeInUserInterfaceDimensionUnit(12);
