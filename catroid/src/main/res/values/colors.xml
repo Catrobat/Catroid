@@ -25,7 +25,7 @@
 
     <!-- Toolbar and Bottombar Colors -->
     <color name="toolbar_background">#002B3B</color>
-    <color name="toolbar_border">#4D7F8F</color>
+    <color name="toolbar_icons">@color/solid_white</color>
 
     <!-- Text Colors -->
     <color name="toolbar_title">@color/solid_white</color>
@@ -40,7 +40,6 @@
     <color name="app_background">#04222C</color>
     <color name="button_background">#00475E</color>
     <color name="button_border_top">#4D7F8F</color>
-    <color name="button_border_bottom">#001724</color>
 
     <!-- Accent Colors -->
     <color name="accent">#A8DFF4</color>
