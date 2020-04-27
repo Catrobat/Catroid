@@ -258,17 +258,9 @@ public final class StageLifeCycleController {
 				stageActivity.stageResourceHolder.droneController.onResume();
 			}
 			if (stageActivity.nfcAdapter != null){
-			//if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
-			//	if (stageActivity.nfcAdapter != null && stageActivity.nfcAdapter.isEnabled()) {
 					stageActivity.nfcAdapter.enableForegroundDispatch(stageActivity,
 								stageActivity.pendingIntent, null, null);
-			//		Intent nfcIntent =
-			//				new Intent(stageActivity, stageActivity.getClass()).addFlags(Intent
-				//				.FLAG_ACTIVITY_SINGLE_TOP);
-			//		NfcHandler.processIntent(nfcIntent);
-			//		stageActivity.onNewIntent(nfcIntent);
 
-			//	}
 			}
 
 		}
