@@ -93,6 +93,9 @@
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
     </style>
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/toolbar_icons</item>
+    </style>
 
     <!-- ActionMode -->
     <style name="ActionMode" parent="Widget.AppCompat.ActionMode">
