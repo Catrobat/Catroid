@@ -23,8 +23,12 @@
 
 package org.catrobat.catroid.stage;
 
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.nfc.NfcAdapter;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -47,9 +51,11 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibratorUtil;
 
 import java.util.List;
@@ -74,6 +80,7 @@ public final class StageLifeCycleController {
 		}
 
 		stageActivity.numberOfSpritesCloned = 0;
+
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -123,7 +130,31 @@ public final class StageLifeCycleController {
 				}
 			}.execute(stageActivity);
 		}
-	}
+
+		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+			Brick.ResourcesSet resourcesSet = ProjectManager.getInstance().getCurrentProject().getRequiredResources();
+			if (resourcesSet.contains(Brick.NFC_ADAPTER)
+					&& stageActivity.nfcAdapter != null) {
+				stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
+				Intent nfcIntent =
+						new Intent(stageActivity, stageActivity.getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+				stageActivity.pendingIntent =
+						PendingIntent.getActivity(stageActivity, 0,
+								nfcIntent, 0);
+
+			}
+			if (resourcesSet.contains(Brick.NFC_ADAPTER) && !stageActivity.nfcAdapter.isEnabled
+			()){
+
+				ToastUtil.showError(stageActivity, "Please activate NFC and press Back to return "
+						+ "to the app");
+				new Intent(Settings.ACTION_NFC_SETTINGS);
+			} else if (!resourcesSet.contains(Brick.NFC_ADAPTER)){
+				ToastUtil.showError(stageActivity, R.string.no_nfc_available);
+			}
+		}
+
+		}
 
 	static void stagePause(final StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
@@ -208,11 +239,6 @@ public final class StageLifeCycleController {
 				stageActivity.stageAudioFocus.requestAudioFocus();
 			}
 
-			if (resourcesSet.contains(Brick.NFC_ADAPTER)
-					&& stageActivity.nfcAdapter != null) {
-				stageActivity.nfcAdapter.enableForegroundDispatch(stageActivity, stageActivity.pendingIntent, null, null);
-			}
-
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
 			}
@@ -231,8 +257,31 @@ public final class StageLifeCycleController {
 			if (stageActivity.stageResourceHolder.droneController != null) {
 				stageActivity.stageResourceHolder.droneController.onResume();
 			}
+			if (stageActivity.nfcAdapter != null){
+			//if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+			//	if (stageActivity.nfcAdapter != null && stageActivity.nfcAdapter.isEnabled()) {
+					stageActivity.nfcAdapter.enableForegroundDispatch(stageActivity,
+								stageActivity.pendingIntent, null, null);
+			//		Intent nfcIntent =
+			//				new Intent(stageActivity, stageActivity.getClass()).addFlags(Intent
+				//				.FLAG_ACTIVITY_SINGLE_TOP);
+			//		NfcHandler.processIntent(nfcIntent);
+			//		stageActivity.onNewIntent(nfcIntent);
+
+			//	}
+			}
+
 		}
 	}
+
+
+
+	public static void stageNewIntent(Intent nfcIntent) {
+		if (nfcIntent != null) {
+			NfcHandler.processIntent(nfcIntent);
+		}
+	}
+
 
 	static void stageDestroy(StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {

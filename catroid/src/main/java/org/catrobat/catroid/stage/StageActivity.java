@@ -29,7 +29,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -61,7 +60,6 @@ import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
-import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
@@ -133,6 +131,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		StageLifeCycleController.stageDestroy(this);
 		super.onDestroy();
 	}
+
 
 	AndroidGraphics getGdxGraphics() {
 		return graphics;
@@ -206,16 +205,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	protected void onNewIntent(Intent intent) {
+		StageLifeCycleController.stageNewIntent(intent);
 		super.onNewIntent(intent);
-		NfcHandler.processIntent(intent);
-
-		if (nfcTagMessage != null) {
-			Tag currentTag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
-			synchronized (StageActivity.class) {
-				NfcHandler.writeTag(currentTag, nfcTagMessage);
-				setNfcTagMessage(null);
-			}
-		}
 	}
 
 	@Override
