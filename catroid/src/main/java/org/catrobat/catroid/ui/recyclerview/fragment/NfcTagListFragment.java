@@ -38,7 +38,7 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
-
+import java.util.Iterator;
 import java.util.List;
 
 public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
@@ -81,7 +81,8 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 
 	@Override
 	protected void initializeAdapter() {
-		List<NfcTagData> items = ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
+		List<NfcTagData> items =
+				ProjectManager.getInstance().getCurrentSprite().getNfcTagList();
 		sharedPreferenceDetailsKey = "showDetailsNfcTags";
 		adapter = new NfcTagAdapter(items);
 		emptyView.setText(R.string.fragment_nfctag_text_description);
@@ -98,17 +99,32 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 		String uid = NfcHandler.getTagIdFromIntent(intent);
 		NfcHandler.setLastNfcTagId(uid);
 		NfcHandler.setLastNfcTagMessage(NfcHandler.getMessageFromIntent(intent));
+
 		if (uid != null) {
 			NfcTagData item = new NfcTagData();
-			String name = uniqueNameProvider
-					.getUniqueNameInNameables(getString(R.string.default_tag_name), adapter.getItems());
+			String name = uniqueNameProvider.getUniqueNameInNameables(getString(R.string.default_tag_name),
+							adapter.getItems());
 			item.setName(name);
 			item.setNfcTagUid(uid);
-			adapter.add(item);
-		} else {
-			Log.e(TAG, "NFC Tag does not have a UID.");
+			Iterator<NfcTagData> it = adapter.getItems().iterator();
+			boolean found =false;
+			while(it.hasNext()&&!found){
+				String nextuid = it.next().getNfcTagUid();
+				if (nextuid.equals(uid)){
+					found=true;
+				}
+			}
+			if (!found) {
+				adapter.add(item);
+			}
+			else {
+			}
 		}
-	}
+		else {
+				Log.e(TAG, "NFC Tag does not have a UID.");
+		}
+		}
+
 
 	@Override
 	protected void packItems(List<NfcTagData> selectedItems) {
