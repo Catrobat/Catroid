@@ -23,88 +23,100 @@
 
 package org.catrobat.catroid.ui;
 
-import android.content.Intent;
+import 	android.content.Intent;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
+
+import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.transfers.GoogleLoginHandler;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.LoginDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.RegistrationDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.login.SignInCompleteListener;
-import org.catrobat.catroid.utils.Utils;
 
-import static org.catrobat.catroid.transfers.GoogleLoginHandler.REQUEST_CODE_GOOGLE_SIGNIN;
 
-public class SignInActivity extends BaseActivity implements SignInCompleteListener {
-	public static final String LOGIN_SUCCESSFUL = "LOGIN_SUCCESSFUL";
+import androidx.appcompat.app.AppCompatActivity;
 
-	private GoogleLoginHandler googleLoginHandler;
+public class SignInActivity extends AppCompatActivity {
+
+	int RC_SIGN_IN = 0;
+	SignInButton signInButton;
+	GoogleSignInClient mGoogleSignInClient;
 
 	@Override
-	public void onCreate(Bundle bundle) {
-		super.onCreate(bundle);
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sign_in);
-		setUpGoogleSignin();
 
-		TextView termsOfUseLinkTextView = findViewById(R.id.register_terms_link);
+		//Initializing Views
+		signInButton = findViewById(R.id.sign_in_button);
 
-		String termsOfUseUrl = getString(R.string.about_link_template, Constants.CATROBAT_TERMS_OF_USE_URL,
-				getString(R.string.register_code_terms_of_use_text));
-		termsOfUseLinkTextView.setMovementMethod(LinkMovementMethod.getInstance());
-		termsOfUseLinkTextView.setText(Html.fromHtml(termsOfUseUrl));
+		// Configure sign-in to request the user's ID, email address, and basic
+		// profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+		GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+				.requestEmail()
+				.build();
+
+		// Build a GoogleSignInClient with the options specified by gso.
+		mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+		signInButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				switch (view.getId()){
+					case R.id.sign_in_button:
+						signIn();
+						break;
+				}
+			}
+		});
 	}
 
-	public void setUpGoogleSignin() {
-		googleLoginHandler = new GoogleLoginHandler(this);
-	}
-
-	public void onButtonClick(final View view) {
-		if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
-			onButtonClickForRealThisTime(view);
-		}
-	}
-
-	private void onButtonClickForRealThisTime(View view) {
-		switch (view.getId()) {
-			case R.id.sign_in_login:
-				LoginDialogFragment logInDialog = new LoginDialogFragment();
-				logInDialog.setSignInCompleteListener(this);
-				logInDialog.show(getSupportFragmentManager(), LoginDialogFragment.TAG);
-				break;
-			case R.id.sign_in_register:
-				RegistrationDialogFragment registrationDialog = new RegistrationDialogFragment();
-				registrationDialog.setSignInCompleteListener(this);
-				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
-				break;
-			case R.id.sign_in_gplus_login_button:
-				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
-				break;
-			default:
-				break;
-		}
+	private void signIn() {
+		Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+		startActivityForResult(signInIntent, RC_SIGN_IN);
 	}
 
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		googleLoginHandler.onActivityResult(requestCode, resultCode, data);
-
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		// Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
+		if (requestCode == RC_SIGN_IN) {
+			// The Task returned from this call is always completed, no need to attach
+			// a listener.
+			Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+			handleSignInResult(task);
+		}
+	}
+
+	private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
+		try {
+			GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+			// Signed in successfully, show authenticated UI.
+			startActivity(new Intent(SignInActivity.this, SignInActivitySecond.class));
+		} catch (ApiException e) {
+			// The ApiException status code indicates the detailed failure reason.
+			// Please refer to the GoogleSignInStatusCodes class reference for more information.
+			Log.w("Google Sign In Error", "signInResult:failed code=" + e.getStatusCode());
+			Toast.makeText(SignInActivity.this, "Failed", Toast.LENGTH_LONG).show();
+		}
 	}
 
 	@Override
-	public void onLoginSuccessful(Bundle bundle) {
-		Intent intent = new Intent();
-		intent.putExtra(LOGIN_SUCCESSFUL, bundle);
-		setResult(RESULT_OK, intent);
-		finish();
-	}
-
-	@Override
-	public void onLoginCancel() {
+	protected void onStart() {
+		// Check for existing Google Sign In account, if the user is already signed in
+		// the GoogleSignInAccount will be non-null.
+		GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+		if(account != null) {
+			startActivity(new Intent(SignInActivity.this, SignInActivitySecond.class));
+		}
+		super.onStart();
 	}
 }
