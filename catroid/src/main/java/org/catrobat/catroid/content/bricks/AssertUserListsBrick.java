@@ -47,14 +47,4 @@ public class AssertUserListsBrick extends UserDataBrick {
 				getUserListWithBrickData(BrickData.ASSERT_LISTS_EXPECTED),
 				getPositionInformation()));
 	}
-
-	private String getPositionInformation() {
-		int position = 999;
-		String scriptName = "unknown";
-		if (getParent() != null) {
-			position = getPositionInScript();
-			scriptName = getScript().getClass().getSimpleName();
-		}
-		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
-	}
 }

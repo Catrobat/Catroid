@@ -46,7 +46,9 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({SINGLE, PAIRS, MULTIPLE})
-	@interface SelectionType {}
+	@interface SelectionType {
+	}
+
 	public static final int SINGLE = 0;
 	public static final int PAIRS = 1;
 	public static final int MULTIPLE = 2;
@@ -175,6 +177,14 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 		return true;
 	}
 
+	public boolean toggleSelection(T item) {
+		if (items.indexOf(item) == -1) {
+			return false;
+		}
+		selectionManager.toggleSelection(items.indexOf(item));
+		return true;
+	}
+
 	public void toggleSelection() {
 		if (selectionManager.getSelectedPositions().size() == getSelectableItemCount()) {
 			clearSelection();
@@ -203,6 +213,10 @@ public abstract class RVAdapter<T> extends RecyclerView.Adapter<CheckableVH> imp
 
 	public int getSelectableItemCount() {
 		return getItemCount();
+	}
+
+	public int getSelectedItemCount() {
+		return selectionManager.getSelectedPositions().size();
 	}
 
 	public interface SelectionListener {

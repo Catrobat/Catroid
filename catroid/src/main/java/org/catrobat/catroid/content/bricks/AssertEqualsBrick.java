@@ -52,14 +52,4 @@ public class AssertEqualsBrick extends FormulaBrick {
 				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_EXPECTED),
 				getPositionInformation()));
 	}
-
-	private String getPositionInformation() {
-		int position = 999;
-		String scriptName = "unknown";
-		if (getParent() != null) {
-			position = getPositionInScript();
-			scriptName = getScript().getClass().getSimpleName();
-		}
-		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
-	}
 }

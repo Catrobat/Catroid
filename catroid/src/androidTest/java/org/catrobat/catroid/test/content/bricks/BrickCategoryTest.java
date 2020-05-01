@@ -110,6 +110,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -398,6 +399,7 @@ public class BrickCategoryTest {
 						RaspiPwmBrick.class)},
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
 						AssertUserListsBrick.class,
+						ParameterizedBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						FinishStageBrick.class,

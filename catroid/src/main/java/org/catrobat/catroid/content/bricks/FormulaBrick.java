@@ -37,6 +37,8 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.Utils;
 
@@ -185,5 +187,19 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 		textView.setText(context.getResources()
 				.getQuantityString(R.plurals.second_plural, Utils.TRANSLATION_PLURAL_OTHER_INTEGER));
+	}
+
+	public void updateUserDataReference(String oldName, String newName, UserData<?> item,
+			boolean renameAll) {
+		for (Formula formula : getFormulas()) {
+			if (renameAll) {
+				formula.updateVariableName(oldName, newName);
+				formula.updateUserlistName(oldName, newName);
+			} else if (item instanceof UserVariable) {
+				formula.updateVariableName(oldName, newName);
+			} else {
+				formula.updateUserlistName(oldName, newName);
+			}
+		}
 	}
 }
