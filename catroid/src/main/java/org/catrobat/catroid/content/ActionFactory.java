@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
+import org.catrobat.catroid.common.ParameterizedData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.actions.AddItemToUserListAction;
 import org.catrobat.catroid.content.actions.ArduinoSendDigitalValueAction;
@@ -107,6 +108,7 @@ import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
+import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
 import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
@@ -126,6 +128,7 @@ import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.actions.RepeatParameterizedAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
@@ -200,6 +203,10 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
+
+import java.util.List;
+
+import kotlin.Pair;
 
 public class ActionFactory extends Actions {
 
@@ -1311,6 +1318,33 @@ public class ActionFactory extends Actions {
 		AssertUserListAction action = action(AssertUserListAction.class);
 		action.setActual(actual);
 		action.setExpected(expected);
+
+		action.setSprite(sprite);
+		action.setPosition(position);
+
+		return action;
+	}
+
+	public Action createRepeatParameterizedAction(Sprite sprite, ParameterizedData data,
+			List<? extends Pair<UserList, UserVariable>> parameters,
+			String position, Action repeatedAction) {
+		RepeatParameterizedAction action = action(RepeatParameterizedAction.class);
+		action.setParameterizedData(data);
+		action.setParameters(parameters);
+		action.setAction(repeatedAction);
+
+		action.setSprite(sprite);
+		action.setPosition(position);
+
+		return action;
+	}
+
+	public Action createParameterizedAssertAction(Sprite sprite, Formula actual, UserList expected,
+			ParameterizedData data, String position) {
+		ParameterizedAssertAction action = action(ParameterizedAssertAction.class);
+		action.setActualFormula(actual);
+		action.setExpectedList(expected);
+		action.setParameterizedData(data);
 
 		action.setSprite(sprite);
 		action.setPosition(position);

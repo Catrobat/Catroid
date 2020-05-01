@@ -35,12 +35,7 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.FormulaBrick;
-import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -51,6 +46,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.UserDataUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -260,6 +256,7 @@ public class DataListFragment extends Fragment implements
 		for (UserData item : selectedItems) {
 			adapter.remove(item);
 		}
+		ProjectManager.getInstance().getCurrentProject().deselectElements(selectedItems);
 		ToastUtil.showSuccess(getActivity(), getResources().getQuantityString(R.plurals.deleted_Items,
 				selectedItems.size(),
 				selectedItems.size()));
@@ -283,7 +280,7 @@ public class DataListFragment extends Fragment implements
 	public void renameItem(UserData item, String name) {
 		String previousName = item.getName();
 		updateUserDataReferences(previousName, name, item);
-		item.setName(name);
+		UserDataUtil.renameUserData(item, name);
 		adapter.updateDataSet();
 		finishActionMode();
 
@@ -296,26 +293,8 @@ public class DataListFragment extends Fragment implements
 
 	public static void updateUserDataReferences(String oldName, String newName,
 			UserData item) {
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					List<Brick> flatList = new ArrayList();
-					script.addToFlatList(flatList);
-					for (Brick brick : flatList) {
-						if (brick instanceof FormulaBrick) {
-							FormulaBrick formulaBrick = (FormulaBrick) brick;
-							for (Formula formula : formulaBrick.getFormulas()) {
-								if (item instanceof UserVariable) {
-									formula.updateVariableName(oldName, newName);
-								} else {
-									formula.updateUserlistName(oldName, newName);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
+		ProjectManager.getInstance().getCurrentProject()
+				.updateUserDataReferences(oldName, newName, item);
 	}
 
 	@Override

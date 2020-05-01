@@ -35,7 +35,7 @@ public abstract class AssertAction extends Action {
 
 	protected String position;
 	protected Sprite sprite;
-	protected String assertTitle = "\nAssertEqualsError\n";
+	protected String assertTitle = "\nAssertError\n";
 
 	protected void failWith(String message) {
 		StageActivity.finishTestWithResult(
@@ -61,10 +61,8 @@ public abstract class AssertAction extends Action {
 				break;
 			}
 		}
-		if (position < expected.length() || position < actual.length()) {
-			return position;
-		}
-		return 0;
+
+		return position;
 	}
 
 	protected String generateIndicator(Object actual, Object expected) {

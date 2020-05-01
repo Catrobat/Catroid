@@ -186,4 +186,14 @@ public abstract class BrickBaseType implements Brick {
 	public String getHelpUrl(String category) {
 		return "https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/" + category + "%20Bricks/#" + this.getClass().getSimpleName();
 	}
+
+	protected String getPositionInformation() {
+		int position = -1;
+		String scriptName = "unknown";
+		if (getParent() != null) {
+			position = getPositionInScript();
+			scriptName = getScript().getClass().getSimpleName();
+		}
+		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
+	}
 }

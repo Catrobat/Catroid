@@ -147,6 +147,8 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.ParameterizedBrick;
+import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -529,6 +531,8 @@ public final class XstreamSerializer {
 		xstream.alias("brick", AssertEqualsBrick.class);
 		xstream.alias("brick", FinishStageBrick.class);
 		xstream.alias("brick", AssertUserListsBrick.class);
+		xstream.alias("brick", ParameterizedBrick.class);
+		xstream.alias("brick", ParameterizedEndBrick.class);
 
 		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
@@ -628,7 +632,7 @@ public final class XstreamSerializer {
 			throw new FileNotFoundException(xmlFile + " does not exist.");
 		}
 
-		String currentXml = Files.toString(xmlFile, Charsets.UTF_8);
+		String currentXml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
 		StringFinder stringFinder = new StringFinder();
 
 		if (!stringFinder.findBetween(currentXml, PROGRAM_NAME_START_TAG, PROGRAM_NAME_END_TAG)) {
@@ -713,7 +717,7 @@ public final class XstreamSerializer {
 
 			if (currentCodeFile.exists()) {
 				try {
-					String previousXml = Files.toString(currentCodeFile, Charsets.UTF_8);
+					String previousXml = Files.asCharSource(currentCodeFile, Charsets.UTF_8).read();
 
 					if (previousXml.equals(currentXml)) {
 						Log.d(TAG, "Project version is the same. Do not update " + currentCodeFile.getName());
@@ -791,7 +795,7 @@ public final class XstreamSerializer {
 		StringFinder stringFinder = new StringFinder();
 
 		try {
-			String xml = Files.toString(xmlFile, Charsets.UTF_8);
+			String xml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
 			if (!stringFinder.findBetween(xml, "<scenes>\\s*<scene>\\s*<name>", "</name>")) {
 				return null;
 			} else {

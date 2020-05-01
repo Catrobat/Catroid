@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -494,6 +495,18 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			}
 		}
 		return false;
+	}
+
+	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
+		for (Script script : scriptList) {
+			script.updateUserDataReferences(oldName, newName, item);
+		}
+	}
+
+	public void deselectElements(List<UserData<?>> elements) {
+		for (Script script : scriptList) {
+			script.deselectElements(elements);
+		}
 	}
 
 	public class PenConfiguration {
