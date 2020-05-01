@@ -27,8 +27,8 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
 import com.badlogic.gdx.Files
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.catrobat.catroid.common.Constants
 import java.io.File
@@ -56,7 +56,8 @@ class ScreenshotSaver(
     fun saveScreenshotAndNotify(
         data: ByteArray?,
         fileName: String?,
-        callback: ScreenshotSaverCallback
+        callback: ScreenshotSaverCallback,
+        coroutineScope: CoroutineScope
     ) {
         if (data == null) {
             Log.d(TAG, "Screenshot data is null")
@@ -68,7 +69,7 @@ class ScreenshotSaver(
             Log.d(TAG, "Screenshot filename invalid")
             callback.screenshotSaved(false)
         } else {
-            GlobalScope.launch(Dispatchers.IO) {
+            coroutineScope.launch(Dispatchers.IO) {
                 val success = saveScreenshot(
                     data,
                     fileName

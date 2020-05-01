@@ -89,6 +89,7 @@ import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import kotlinx.coroutines.GlobalScope;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
@@ -565,7 +566,8 @@ public class StageListener implements ApplicationListener {
 			screenshotSaver.saveScreenshotAndNotify(
 					screenshot,
 					screenshotName,
-					this::notifyScreenshotCallbackAndCleanup
+					this::notifyScreenshotCallbackAndCleanup,
+					GlobalScope.INSTANCE
 			);
 		}
 
