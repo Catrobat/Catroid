@@ -60,6 +60,7 @@ public class WebRequestActionTest {
 
 	private static final Double ERROR_TOO_MANY_REQUESTS = 429d;
 	private static final Double ERROR_BAD_REQUEST = 400d;
+	private static final Double ERROR_AUTHENTICATION_REQUIRED = 511d;
 	private static final String TEST_URL = "https://catroid-test.catrob.at/pocketcode/";
 	private static final String TEST_USERVARIABLE = "testUservariable";
 
@@ -108,6 +109,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.setPermission(true);
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(false);
 
@@ -123,6 +125,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.setPermission(true);
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
@@ -143,6 +146,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.setPermission(true);
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
@@ -158,6 +162,20 @@ public class WebRequestActionTest {
 	}
 
 	@Test
+	public void testPermissionDenied() {
+		WebRequestAction action = (WebRequestAction) testSprite.getActionFactory().createWebRequestAction(
+				testSprite,
+				new Formula(TEST_URL),
+				userVariable
+		);
+		action.setWebConnectionFactory(webConnectionFactory);
+		action.setPermission(false);
+
+		assertTrue(action.act(0f));
+		assertEquals(ERROR_AUTHENTICATION_REQUIRED, userVariable.getValue());
+	}
+
+	@Test
 	public void testCancelledCallAndResendRequest() {
 		WebRequestAction action = (WebRequestAction) testSprite.getActionFactory().createWebRequestAction(
 				testSprite,
@@ -165,6 +183,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.setPermission(true);
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 

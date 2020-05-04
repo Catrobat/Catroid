@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.os.Message;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -36,6 +38,7 @@ import org.catrobat.catroid.web.WebConnectionFactory;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
@@ -43,6 +46,7 @@ import androidx.annotation.VisibleForTesting;
 public class WebRequestAction extends Action implements WebConnection.WebRequestListener {
 
 	private static final Double ERROR_TOO_MANY_REQUESTS = 429d;
+	private static final Double ERROR_AUTHENTICATION_REQUIRED = 511d;
 
 	private Sprite sprite;
 	private Formula formula;
@@ -60,6 +64,10 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 	private @RequestStatus int requestStatus = NOT_SENT;
 	private WebConnection webConnection = null;
 	private String response = null;
+
+	private boolean permissionChecked = false;
+	private boolean permissionReceived = false;
+	private boolean permissionGranted = false;
 
 	public WebRequestAction() {
 	}
@@ -88,9 +96,44 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 		}
 	}
 
+	private void askForPermission() {
+		if (StageActivity.messageHandler == null) {
+			return;
+		}
+
+		ArrayList<Object> params = new ArrayList<>();
+		params.add(this);
+		params.add(url);
+		Message message = StageActivity.messageHandler.obtainMessage(StageActivity.REQUEST_PERMISSION, params);
+		message.sendToTarget();
+	}
+
+	public void setPermission(boolean answer) {
+		permissionChecked = true;
+		permissionGranted = answer;
+		permissionReceived = true;
+	}
+
 	@Override
 	public boolean act(float delta) {
 		if (userVariable == null) {
+			return true;
+		}
+		if (!permissionChecked) {
+			if (ProjectManager.checkIfURLIsInWhitelist(url)) {
+				setPermission(true);
+			} else {
+				askForPermission();
+			}
+			permissionChecked = true;
+		}
+
+		if (!permissionReceived) {
+			return false;
+		}
+
+		if (!permissionGranted) {
+			userVariable.setValue(ERROR_AUTHENTICATION_REQUIRED);
 			return true;
 		}
 
@@ -120,6 +163,8 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 		StageActivity.stageListener.webConnectionHolder.removeConnection(webConnection);
 		webConnection = null;
 		requestStatus = NOT_SENT;
+		permissionChecked = false;
+		permissionReceived = false;
 	}
 
 	@Override

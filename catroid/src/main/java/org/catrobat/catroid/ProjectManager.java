@@ -23,8 +23,10 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.util.Log;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
@@ -56,12 +58,19 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.physics.PhysicsCollisionListener;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -72,6 +81,7 @@ public final class ProjectManager implements EagerSingleton {
 
 	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
+	private static Pattern urlWhitelistPattern;
 
 	private Project project;
 	private Scene currentlyEditedScene;
@@ -303,6 +313,45 @@ public final class ProjectManager implements EagerSingleton {
 			}
 		}
 		return conflicts;
+	}
+
+	public static boolean checkIfURLIsInWhitelist(String url) {
+		if (urlWhitelistPattern == null) {
+			try {
+				// if whitelist gets too long, this should happen in a separate thread,
+				// started when ProjectManager is created
+				initializeURLWhitelistPattern();
+			} catch (IOException | JSONException | NullPointerException e) {
+				Log.e(TAG, "Cannot read URL whitelist.", e);
+				return false;
+			}
+		}
+		return urlWhitelistPattern.matcher(url).matches();
+	}
+
+	private static void initializeURLWhitelistPattern() throws IOException, JSONException, NullPointerException {
+		InputStream stream = getInputStreamFromAsset(Constants.URL_WHITELIST_JSON_FILE_NAME);
+		JSONObject whiteList = new JSONObject(new Scanner(stream).useDelimiter("\\A").next());
+		JSONArray domains = whiteList.getJSONArray(Constants.URL_WHITELIST_JSON_ARRAY_NAME);
+
+		StringBuilder trustedDomains = new StringBuilder("(");
+		for (int i = 0; i < domains.length(); i++) {
+			trustedDomains.append(domains.getString(i));
+
+			if (i < domains.length() - 1) {
+				trustedDomains.append('|');
+			}
+		}
+		trustedDomains.append(')');
+
+		urlWhitelistPattern = Pattern.compile("https?://([-0-9a-zA-Z]{1,64}\\.)?"
+				+ trustedDomains.toString() + "(/[-a-zA-Z0-9()@:%_\\+.~#?&/=]*)?");
+	}
+
+	@NotNull
+	private static InputStream getInputStreamFromAsset(String filename) throws IOException, NullPointerException {
+		AssetManager assetManager = instance.applicationContext.getAssets();
+		return assetManager.open(filename, AssetManager.ACCESS_BUFFER);
 	}
 
 	@VisibleForTesting

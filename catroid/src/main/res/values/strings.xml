@@ -1258,6 +1258,8 @@
     <string name="brick_replace_item_in_userlist_with_value">with</string>
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_result">and store answer in</string>
+    <string name="brick_web_request_ask_permission">Allow web access?</string>
+    <string name="brick_web_request_dialog_url">URL: %1$s</string>
     <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
     <!--  -->
 
