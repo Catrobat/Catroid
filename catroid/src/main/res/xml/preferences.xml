@@ -33,6 +33,12 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="setting_multiplayer_variables_enabled"
+        android:summary="@string/preference_description_multiplayer_variables_enabled"
+        android:title="@string/preference_title_multiplayer_variables_enabled" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="setting_embroidery_bricks"
         android:summary="@string/preference_description_embroidery_bricks"
         android:title="@string/preference_title_enable_embroidery_bricks" />

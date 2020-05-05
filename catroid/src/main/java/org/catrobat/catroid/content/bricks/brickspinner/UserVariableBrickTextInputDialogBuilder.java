@@ -24,6 +24,7 @@
 package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.app.Dialog;
+import android.view.View;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.R;
@@ -33,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -66,7 +68,14 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 				});
 
 		setTitle(R.string.formula_editor_variable_dialog_title);
-		setView(R.layout.dialog_new_user_data);
+
+		View dialogView = View.inflate(activity, R.layout.dialog_new_user_data, null);
+		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(activity.getApplicationContext())) {
+			RadioButton multiplayerRadioButton = dialogView.findViewById(R.id.multiplayer);
+			multiplayerRadioButton.setVisibility(View.VISIBLE);
+		}
+		setView(dialogView);
+
 		setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(currentUserVariable));
 		setOnCancelListener(dialog -> spinner.setSelection(currentUserVariable));
 	}
