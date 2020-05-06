@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -50,6 +49,7 @@ import com.badlogic.gdx.backends.android.AndroidGraphics;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -183,34 +183,28 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		alertBuilder.setTitle(question);
 		alertBuilder.setCancelable(false);
 
-		alertBuilder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					onBackPressed();
-					return true;
-				}
-				return false;
+		alertBuilder.setOnKeyListener((dialog, keyCode, event) -> {
+			if (keyCode == KeyEvent.KEYCODE_BACK) {
+				onBackPressed();
+				return true;
 			}
+			return false;
 		});
 
-		alertBuilder.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				String questionAnswer = edittext.getText().toString();
-				askAction.setAnswerText(questionAnswer);
-			}
+		alertBuilder.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), (dialog, whichButton) -> {
+			String questionAnswer = edittext.getText().toString();
+			askAction.setAnswerText(questionAnswer);
 		});
 
-		alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
-				askDialog = null;
-				StageLifeCycleController.stageResume(StageActivity.this);
-			}
+		alertBuilder.setOnDismissListener(dialog -> {
+			askDialog = null;
+			StageLifeCycleController.stageResume(this);
 		});
 
 		askDialog = alertBuilder.create();
-		askDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		if (askDialog.getWindow() != null) {
+			askDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		}
 		askDialog.show();
 	}
 
@@ -231,7 +225,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onBackPressed() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
+			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			if (service != null) {
+				service.disconnectDevices();
+			}
 
 			TextToSpeechHolder.getInstance().deleteSpeechFiles();
 			if (FlashUtil.isAvailable()) {
@@ -247,10 +244,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			StageLifeCycleController.stagePause(this);
 			idlingResource.increment();
 			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
-					success -> runOnUiThread(() -> {
-						stageDialog.show();
-						idlingResource.decrement();
-					}));
+					success -> runOnUiThread(() -> idlingResource.decrement()));
+			stageDialog.show();
 		}
 	}
 
@@ -260,7 +255,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
 
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+		if (service != null) {
+			service.pause();
+		}
 
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
@@ -290,11 +288,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
-		if (virtualScreenHeight > virtualScreenWidth) {
-			iflandscapeModeSwitchWidthAndHeight();
-		} else {
-			ifPortraitSwitchWidthAndHeight();
+
+		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode() || isInPortraitMode()) {
+			swapWidthAndHeigth();
 		}
+
 		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
 		float screenAspectRatio = ScreenValues.getAspectRatio();
 
@@ -302,44 +300,41 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				|| Float.compare(screenAspectRatio, aspectRatio) == 0
 				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			resizePossible = false;
-			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
-			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
+			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
 			return;
 		}
 
 		resizePossible = true;
 
-		float scale = 1f;
 		float ratioHeight = (float) ScreenValues.SCREEN_HEIGHT / (float) virtualScreenHeight;
 		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
 
 		if (aspectRatio < screenAspectRatio) {
-			scale = ratioHeight / ratioWidth;
-			stageListener.maximizeViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
-			stageListener.maximizeViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2f);
-			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+			float scale = ratioHeight / ratioWidth;
+			stageListener.maxViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
+			stageListener.maxViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maxViewPortWidth) / 2f);
+			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
 		} else if (aspectRatio > screenAspectRatio) {
-			scale = ratioWidth / ratioHeight;
-			stageListener.maximizeViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
-			stageListener.maximizeViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2f);
-			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
+			float scale = ratioWidth / ratioHeight;
+			stageListener.maxViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
+			stageListener.maxViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maxViewPortHeight) / 2f);
+			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
 		}
 	}
 
-	private void iflandscapeModeSwitchWidthAndHeight() {
-		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
+	private boolean isInPortraitMode() {
+		return ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT;
 	}
 
-	private void ifPortraitSwitchWidthAndHeight() {
-		if (ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
+	private boolean isInLandscapeMode() {
+		return !isInPortraitMode();
+	}
+
+	private void swapWidthAndHeigth() {
+		int tmp = ScreenValues.SCREEN_HEIGHT;
+		ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+		ScreenValues.SCREEN_WIDTH = tmp;
 	}
 
 	@Override
@@ -405,7 +400,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			return;
 		}
 		Intent i = intentListeners.get(intentKey).getTargetIntent();
-		i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.getClass().getPackage().getName());
+		Package pack = this.getClass().getPackage();
+		if (pack != null) {
+			i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, pack.getName());
+		}
 		this.startActivityForResult(i, intentKey);
 	}
 
@@ -446,12 +444,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			startStageActivity(activity);
 		} else {
 			new PlaySceneDialog.Builder(activity)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity(activity);
-						}
-					})
+					.setPositiveButton(R.string.play, (dialog, which) -> startStageActivity(activity))
 					.create()
 					.show();
 		}
