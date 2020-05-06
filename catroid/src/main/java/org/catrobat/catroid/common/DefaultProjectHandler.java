@@ -27,7 +27,7 @@ import android.content.Context;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.common.defaultprojectcreators.ArDroneProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
-import org.catrobat.catroid.common.defaultprojectcreators.DefaultProjectCreator;
+import org.catrobat.catroid.common.defaultprojectcreators.DefaultExampleProject;
 import org.catrobat.catroid.common.defaultprojectcreators.JumpingSumoProjectCreator;
 import org.catrobat.catroid.common.defaultprojectcreators.ProjectCreator;
 import org.catrobat.catroid.content.Project;
@@ -84,20 +84,20 @@ public final class DefaultProjectHandler {
 	public void setDefaultProjectCreator(ProjectCreatorType type) {
 		switch (type) {
 			case PROJECT_CREATOR_DEFAULT:
-				defaultProjectCreator = new DefaultProjectCreator();
+				defaultProjectCreator = new DefaultExampleProject();
 				break;
 			case PROJECT_CREATOR_DRONE:
 				if (BuildConfig.FEATURE_PARROT_AR_DRONE_ENABLED) {
 					defaultProjectCreator = new ArDroneProjectCreator();
 				} else {
-					defaultProjectCreator = new DefaultProjectCreator();
+					defaultProjectCreator = new DefaultExampleProject();
 				}
 				break;
 			case PROJECT_CREATOR_JUMPING_SUMO:
 				if (BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
 					defaultProjectCreator = new JumpingSumoProjectCreator();
 				} else {
-					defaultProjectCreator = new DefaultProjectCreator();
+					defaultProjectCreator = new DefaultExampleProject();
 				}
 				break;
 			case PROJECT_CREATOR_CAST:

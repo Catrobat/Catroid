@@ -77,7 +77,7 @@
             style="@style/BottomBarButton"
             android:id="@+id/decline"
             android:onClick="handleDeclinedPrivacyPolicyButton"
-            android:text="@string/disagree" />
+            android:text="@string/disagree"/>
 
         <Button
             style="@style/BottomBarButton"
