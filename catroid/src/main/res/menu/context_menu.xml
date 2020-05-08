@@ -27,14 +27,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/confirm"
+        android:title="@string/confirm"
+        android:icon="@drawable/done_white"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/toggle_selection"
         android:title="@string/select_all"
         android:visible="false"
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/confirm"
-        android:title="@string/confirm"
-        android:icon="@drawable/done_white"
-        app:showAsAction="always" />
 </menu>
