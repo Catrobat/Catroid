@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.utils.TouchUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -189,29 +188,6 @@ public class LookTest {
 
 		look.changeColorInUserInterfaceDimensionUnit(green);
 		assertEquals(40.0f, look.getColorInUserInterfaceDimensionUnit());
-	}
-
-	@Test
-	public void testDistanceTo() {
-		look.setXInUserInterfaceDimensionUnit(25);
-		look.setYInUserInterfaceDimensionUnit(55);
-		float touchPosition = look.getDistanceToTouchPositionInUserInterfaceDimensions();
-
-		float pointAx = look.getXInUserInterfaceDimensionUnit();
-		float pointAy = look.getYInUserInterfaceDimensionUnit();
-		int touchIndex = TouchUtil.getLastTouchIndex();
-		float pointBx = TouchUtil.getX(touchIndex);
-		float pointBy = TouchUtil.getY(touchIndex);
-
-		float vectorX = pointBx - pointAx;
-		float vectorY = pointBy - pointAy;
-
-		double squareX = (float) Math.pow(vectorX, 2);
-		double squareY = (float) Math.pow(vectorY, 2);
-
-		float squareRootOfScalar = (float) Math.sqrt(squareX + squareY);
-
-		assertEquals(touchPosition, squareRootOfScalar);
 	}
 
 	@Test
