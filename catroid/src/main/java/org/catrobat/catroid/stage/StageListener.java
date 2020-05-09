@@ -151,10 +151,10 @@ public class StageListener implements ApplicationListener {
 
 	private StageDialog stageDialog;
 
-	public int maximizeViewPortX = 0;
-	public int maximizeViewPortY = 0;
-	public int maximizeViewPortHeight = 0;
-	public int maximizeViewPortWidth = 0;
+	int maxViewPortX = 0;
+	int maxViewPortY = 0;
+	int maxViewPortHeight = 0;
+	int maxViewPortWidth = 0;
 
 	public boolean axesOn = false;
 	private static final Color AXIS_COLOR = new Color(0xff000cff);
@@ -203,7 +203,7 @@ public class StageListener implements ApplicationListener {
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
-		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maximizeViewPortWidth, maximizeViewPortHeight, virtualWidth, virtualHeight);
+		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maxViewPortWidth, maxViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
@@ -725,10 +725,10 @@ public class StageListener implements ApplicationListener {
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
 				break;
 			case MAXIMIZE:
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
+				screenshotWidth = maxViewPortWidth;
+				screenshotHeight = maxViewPortHeight;
+				screenshotX = maxViewPortX;
+				screenshotY = maxViewPortY;
 				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
 				break;
 			default:

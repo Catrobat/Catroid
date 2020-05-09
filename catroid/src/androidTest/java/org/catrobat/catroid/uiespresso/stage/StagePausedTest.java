@@ -25,12 +25,16 @@ package org.catrobat.catroid.uiespresso.stage;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
-import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
+import org.catrobat.catroid.uiespresso.stage.utils.ScriptEvaluationGateBrick;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,12 +42,11 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
-
-import static org.catrobat.catroid.uiespresso.util.UiTestUtils.createEmptyProject;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
@@ -58,18 +61,18 @@ public class StagePausedTest {
 	public BaseActivityTestRule<StageActivity> baseActivityTestRule = new
 			BaseActivityTestRule<>(StageActivity.class, true, false);
 
+	private ScriptEvaluationGateBrick evaluationGateBrick;
+
 	@Before
 	public void setUp() throws Exception {
-		createEmptyProject("StagePausedTest");
+		createProject();
+		baseActivityTestRule.launchActivity(null);
+		evaluationGateBrick.waitUntilEvaluated(1000);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
-	@Flaky
 	@Test
 	public void testIgnoreTouchEventsWhenStagePaused() {
-		baseActivityTestRule.launchActivity(null);
-
-		onView(isRoot()).perform(CustomActions.wait(5000));
 		InputListenerMock touchListener = new InputListenerMock();
 		StageActivity.stageListener.getStage().addListener(touchListener);
 
@@ -103,12 +106,25 @@ public class StagePausedTest {
 	}
 
 	private static class InputListenerMock extends InputListener {
-		public boolean called;
+		boolean called;
 
 		@Override
 		public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 			called = true;
 			return super.touchDown(event, x, y, pointer, button);
 		}
+	}
+
+	private void createProject() {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), "StagePausedTest");
+		Sprite sprite = new Sprite("testSprite");
+		Script startScript = new StartScript();
+		sprite.addScript(startScript);
+
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentSprite(sprite);
+
+		evaluationGateBrick = ScriptEvaluationGateBrick.appendToScript(startScript);
 	}
 }
