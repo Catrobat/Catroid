@@ -76,7 +76,7 @@
 
     <!-- Category Icon Visibility -->
     <style name="CategoryIconVisible" tools:ignore="UnusedResources">
-        <item name="category_icon_visiblity">0</item>
+        <item name="category_icon_visibility">0</item>
     </style>
 
     <!-- Category Icon Visibility -->
