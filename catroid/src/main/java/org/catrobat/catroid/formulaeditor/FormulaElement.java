@@ -766,8 +766,8 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionRand(Object left, Object right) {
 		double from = (double) left;
 		double to = (double) right;
-		double low = (from <= to) ? from : to;
-		double high = (from <= to) ? to : from;
+		double low = Math.min(from, to);
+		double high = Math.max(from, to);
 
 		if (low == high) {
 			return low;
