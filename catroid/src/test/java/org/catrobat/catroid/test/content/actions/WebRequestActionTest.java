@@ -111,6 +111,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.grantPermission();
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(false);
 
@@ -126,6 +127,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.grantPermission();
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
@@ -146,6 +148,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.grantPermission();
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
@@ -159,6 +162,20 @@ public class WebRequestActionTest {
 	}
 
 	@Test
+	public void testPermissionDenied() {
+		WebRequestAction action = (WebRequestAction) testSprite.getActionFactory().createWebRequestAction(
+				testSprite,
+				new Formula(TEST_URL),
+				userVariable
+		);
+		action.setWebConnectionFactory(webConnectionFactory);
+		action.denyPermission();
+
+		assertTrue(action.act(0f));
+		assertEquals(Integer.toString(Constants.ERROR_AUTHENTICATION_REQUIRED), userVariable.getValue());
+	}
+
+	@Test
 	public void testCancelledCallAndResendRequest() {
 		WebRequestAction action = (WebRequestAction) testSprite.getActionFactory().createWebRequestAction(
 				testSprite,
@@ -166,6 +183,7 @@ public class WebRequestActionTest {
 				userVariable
 		);
 		action.setWebConnectionFactory(webConnectionFactory);
+		action.grantPermission();
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
@@ -223,12 +241,14 @@ public class WebRequestActionTest {
 	@Test
 	public void testSuccessfulResponseWithInputVariable() throws InterpretationException {
 		WebRequestAction action = setupTestSuccessfulResponseWithInputVariable();
+		action.grantPermission();
 		assertTrue(action.act(0f));
 	}
 
 	@Test
 	public void testInputVariableIsSetCorrectly() throws InterpretationException {
 		WebRequestAction action = setupTestSuccessfulResponseWithInputVariable();
+		action.grantPermission();
 		action.act(0f);
 		assertEquals(RESPONSE_STRING, userVariable.getValue());
 	}

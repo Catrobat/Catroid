@@ -38,8 +38,11 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -55,6 +58,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
@@ -92,6 +96,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public static final int ASK_MESSAGE = 0;
 	public static final int REGISTER_INTENT = 1;
 	private static final int PERFORM_INTENT = 2;
+	public static final int REQUEST_PERMISSION = 3;
 
 	StageAudioFocus stageAudioFocus;
 	PendingIntent pendingIntent;
@@ -99,6 +104,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private static NdefMessage nfcTagMessage;
 	StageDialog stageDialog;
 	AlertDialog askDialog;
+	AlertDialog permissionDialog;
 	private boolean resizePossible;
 
 	static int numberOfSpritesCloned;
@@ -159,6 +165,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 					case ASK_MESSAGE:
 						showDialog((String) params.get(1), (AskAction) params.get(0));
 						break;
+					case REQUEST_PERMISSION:
+						askUserForPermission((String) params.get(1), (WebRequestAction) params.get(0));
+						break;
 					case REGISTER_INTENT:
 						currentStage.queueIntent((IntentListener) params.get(0));
 						break;
@@ -176,36 +185,67 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private void showDialog(String question, final AskAction askAction) {
 		StageLifeCycleController.stagePause(this);
 
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog));
 		final EditText edittext = new EditText(getContext());
-		alertBuilder.setView(edittext);
-		alertBuilder.setMessage(getContext().getString(R.string.brick_ask_dialog_hint));
-		alertBuilder.setTitle(question);
-		alertBuilder.setCancelable(false);
 
-		alertBuilder.setOnKeyListener((dialog, keyCode, event) -> {
-			if (keyCode == KeyEvent.KEYCODE_BACK) {
-				onBackPressed();
-				return true;
-			}
-			return false;
-		});
+		askDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
+			.setView(edittext)
+			.setMessage(getContext().getString(R.string.brick_ask_dialog_hint))
+			.setTitle(question)
+			.setCancelable(false)
+			.setOnKeyListener((dialog, keyCode, event) -> {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					onBackPressed();
+					return true;
+				}
+				return false;
+			})
+			.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), (dialog, whichButton) -> {
+				String questionAnswer = edittext.getText().toString();
+				askAction.setAnswerText(questionAnswer);
+			})
+			.setOnDismissListener(dialog -> {
+				askDialog = null;
+				StageLifeCycleController.stageResume(this);
+			})
+			.create();
 
-		alertBuilder.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), (dialog, whichButton) -> {
-			String questionAnswer = edittext.getText().toString();
-			askAction.setAnswerText(questionAnswer);
-		});
-
-		alertBuilder.setOnDismissListener(dialog -> {
-			askDialog = null;
-			StageLifeCycleController.stageResume(this);
-		});
-
-		askDialog = alertBuilder.create();
 		if (askDialog.getWindow() != null) {
 			askDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		}
 		askDialog.show();
+	}
+
+	private void askUserForPermission(String url, final WebRequestAction requestAction) {
+		StageLifeCycleController.stagePause(this);
+
+		final View view = LayoutInflater.from(this).inflate(R.layout.dialog_request_permission, null);
+		final TextView textView = view.findViewById(R.id.request_url);
+		textView.setText(getContext().getString(R.string.brick_web_request_dialog_url, url));
+
+		permissionDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
+			.setTitle(getContext().getString(R.string.brick_web_request_ask_permission))
+			.setCancelable(false)
+			.setView(view)
+			.setOnKeyListener((dialog, keyCode, event) -> {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					onBackPressed();
+					return true;
+				}
+				return false;
+			})
+			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> {
+				requestAction.grantPermission();
+			})
+			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> {
+				requestAction.denyPermission();
+			})
+			.setOnDismissListener(dialog -> {
+				permissionDialog = null;
+				StageLifeCycleController.stageResume(this);
+			})
+			.create();
+
+		permissionDialog.show();
 	}
 
 	@Override
