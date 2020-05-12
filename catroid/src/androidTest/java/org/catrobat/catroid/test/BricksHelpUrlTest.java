@@ -109,7 +109,7 @@ public class BricksHelpUrlTest {
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBrightnessBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#SetBrightnessBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WebRequestBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Control%20Bricks/#WebRequestBrick");
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WebRequestBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Lego EV3%20Bricks/#LegoEv3MotorMoveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.HideBrick",
@@ -390,6 +390,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#TripleStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#StoreCSVIntoUserListBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
