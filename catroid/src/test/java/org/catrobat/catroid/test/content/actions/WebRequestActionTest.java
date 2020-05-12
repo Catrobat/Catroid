@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WebRequestAction;
@@ -60,9 +61,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class WebRequestActionTest {
-
-	private static final Double ERROR_TOO_MANY_REQUESTS = 429d;
-	private static final Double ERROR_BAD_REQUEST = 400d;
 	private static final String TEST_URL = "https://catroid-test.catrob.at/pocketcode/";
 	private static final String TEST_USERVARIABLE = "testUservariable";
 	private static final String TEST_INPUTVARIABLE = "testInputvariable";
@@ -117,7 +115,7 @@ public class WebRequestActionTest {
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(false);
 
 		assertTrue(action.act(0f));
-		assertEquals(ERROR_TOO_MANY_REQUESTS, userVariable.getValue());
+		assertEquals(Integer.toString(Constants.ERROR_TOO_MANY_REQUESTS), userVariable.getValue());
 	}
 
 	@Test
@@ -132,12 +130,12 @@ public class WebRequestActionTest {
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
 		doAnswer(invocation -> {
-			action.onRequestFinished(ERROR_BAD_REQUEST.toString());
+			action.onRequestFinished(Integer.toString(Constants.ERROR_BAD_REQUEST));
 			return null;
 		}).when(webConnection).sendWebRequest();
 
 		assertTrue(action.act(0f));
-		assertEquals(ERROR_BAD_REQUEST.toString(), userVariable.getValue());
+		assertEquals(Integer.toString(Constants.ERROR_BAD_REQUEST), userVariable.getValue());
 	}
 
 	@Test

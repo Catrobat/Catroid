@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.web;
 
+import org.catrobat.catroid.common.Constants;
+
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
@@ -37,9 +39,6 @@ import okhttp3.Response;
 public class WebConnection {
 	private final OkHttpClient okHttpClient;
 	private static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
-	private static final Double ERROR_BAD_REQUEST = 400d;
-	private static final Double ERROR_SERVER_ERROR = 500d;
-	private static final Double ERROR_TIMEOUT = 504d;
 	private static final String EXCEPTION_MESSAGE_TIMEOUT = "timeout";
 	private static final String EXCEPTION_MESSAGE_CANCELED = "Canceled";
 
@@ -74,7 +73,7 @@ public class WebConnection {
 		} catch (MalformedURLException e) {
 			WebRequestListener listener = weakListenerReference.get();
 			if (listener != null) {
-				listener.onRequestFinished(ERROR_BAD_REQUEST.toString());
+				listener.onRequestFinished(Integer.toString(Constants.ERROR_BAD_REQUEST));
 			}
 			return;
 		}
@@ -95,11 +94,11 @@ public class WebConnection {
 				WebRequestListener listener = popListener();
 				if (listener != null) {
 					if (EXCEPTION_MESSAGE_TIMEOUT.equals(e.getMessage())) {
-						listener.onRequestFinished(ERROR_TIMEOUT.toString());
+						listener.onRequestFinished(Integer.toString(Constants.ERROR_TIMEOUT));
 					} else if (EXCEPTION_MESSAGE_CANCELED.equals(e.getMessage())) {
 						listener.onCancelledCall();
 					} else {
-						listener.onRequestFinished(ERROR_SERVER_ERROR.toString());
+						listener.onRequestFinished(Integer.toString(Constants.ERROR_SERVER_ERROR));
 					}
 				}
 			}

@@ -118,6 +118,13 @@ public final class Constants {
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
 
+	// HTTP status codes:
+	public static final int ERROR_BAD_REQUEST = 400;
+	public static final int ERROR_TOO_MANY_REQUESTS = 429;
+	public static final int ERROR_SERVER_ERROR = 500;
+	public static final int ERROR_TIMEOUT = 504;
+	public static final int ERROR_AUTHENTICATION_REQUIRED = 511;
+
 	// XStream:
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
 	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";

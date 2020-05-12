@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.web;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.web.WebConnection;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,6 @@ import static org.mockito.Mockito.when;
 public class WebConnectionTest {
 
 	private static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
-	private static final Double ERROR_BAD_REQUEST = 400d;
 
 	@Test
 	public void testSendRequestWithMalformedUrl() {
@@ -55,7 +55,7 @@ public class WebConnectionTest {
 		webConnection.setUrl("test");
 
 		doAnswer(invocation -> {
-			assertEquals(invocation.getArgument(0), ERROR_BAD_REQUEST.toString());
+			assertEquals(invocation.getArgument(0), Integer.toString(Constants.ERROR_BAD_REQUEST));
 			return null;
 		}).when(listener).onRequestFinished(anyString());
 

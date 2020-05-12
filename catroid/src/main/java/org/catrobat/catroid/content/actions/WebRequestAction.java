@@ -26,6 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -41,9 +42,6 @@ import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
 
 public class WebRequestAction extends Action implements WebConnection.WebRequestListener {
-
-	private static final Double ERROR_TOO_MANY_REQUESTS = 429d;
-
 	private Sprite sprite;
 	private Formula formula;
 	private UserVariable userVariable;
@@ -100,7 +98,7 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 
 			webConnection = webConnectionFactory.createWebConnection(url, this);
 			if (!StageActivity.stageListener.webConnectionHolder.addConnection(webConnection)) {
-				userVariable.setValue(ERROR_TOO_MANY_REQUESTS);
+				userVariable.setValue(Integer.toString(Constants.ERROR_TOO_MANY_REQUESTS));
 				return true;
 			}
 
