@@ -28,6 +28,8 @@ import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
@@ -38,6 +40,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
@@ -62,6 +65,8 @@ public class WebRequestActionTest {
 	private static final Double ERROR_BAD_REQUEST = 400d;
 	private static final String TEST_URL = "https://catroid-test.catrob.at/pocketcode/";
 	private static final String TEST_USERVARIABLE = "testUservariable";
+	private static final String TEST_INPUTVARIABLE = "testInputvariable";
+	private static final String RESPONSE_STRING = "Response";
 
 	private Sprite testSprite;
 	private UserVariable userVariable;
@@ -146,15 +151,13 @@ public class WebRequestActionTest {
 		when(webConnectionFactory.createWebConnection(anyString(), any())).thenReturn(webConnection);
 		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
 
-		final String responseString = "Response";
-
 		doAnswer(invocation -> {
-			action.onRequestFinished(responseString);
+			action.onRequestFinished(RESPONSE_STRING);
 			return null;
 		}).when(webConnection).sendWebRequest();
 
 		assertTrue(action.act(0f));
-		assertEquals(responseString, userVariable.getValue());
+		assertEquals(RESPONSE_STRING, userVariable.getValue());
 	}
 
 	@Test
@@ -173,16 +176,62 @@ public class WebRequestActionTest {
 		action.onCancelledCall();
 		assertEquals(WebRequestAction.NOT_SENT, action.getRequestStatus());
 
-		final String responseString = "Response";
 		doAnswer(invocation -> {
-			action.onRequestFinished(responseString);
+			action.onRequestFinished(RESPONSE_STRING);
 			return null;
 		}).when(webConnection).sendWebRequest();
 
 		assertTrue(action.act(0f));
-		assertEquals(responseString, userVariable.getValue());
+		assertEquals(RESPONSE_STRING, userVariable.getValue());
 		verify(webConnectionFactory, times(2)).createWebConnection(anyString(), any());
 		verify(StageActivity.stageListener.webConnectionHolder, times(2)).addConnection(any());
 		verify(webConnection, times(2)).sendWebRequest();
+	}
+
+	private WebRequestAction setupTestSuccessfulResponseWithInputVariable() throws InterpretationException {
+		UserVariable inputVariable = new UserVariable(TEST_INPUTVARIABLE, TEST_URL);
+		FormulaElement formulaElement = new FormulaElement(
+				FormulaElement.ElementType.USER_VARIABLE, inputVariable.getName(), null);
+
+		Formula formula = Mockito.spy(new Formula(formulaElement));
+
+		testSprite.addUserVariable(userVariable);
+		testSprite.addUserVariable(inputVariable);
+
+		WebRequestAction action = (WebRequestAction) testSprite.getActionFactory().createWebRequestAction(
+				testSprite,
+				formula,
+				userVariable
+		);
+		action.setWebConnectionFactory(webConnectionFactory);
+
+		when(StageActivity.stageListener.webConnectionHolder.addConnection(any())).thenReturn(true);
+
+		doAnswer(invocation -> {
+			Sprite sprite = invocation.getArgument(0);
+			return String.valueOf(sprite.getUserVariable(TEST_INPUTVARIABLE).getValue());
+		}).when(formula).interpretString(any(Sprite.class));
+
+		doAnswer(invocation -> webConnection).when(webConnectionFactory).createWebConnection(anyString(), any());
+
+		doAnswer(invocation -> {
+			action.onRequestFinished(RESPONSE_STRING);
+			return null;
+		}).when(webConnection).sendWebRequest();
+
+		return action;
+	}
+
+	@Test
+	public void testSuccessfulResponseWithInputVariable() throws InterpretationException {
+		WebRequestAction action = setupTestSuccessfulResponseWithInputVariable();
+		assertTrue(action.act(0f));
+	}
+
+	@Test
+	public void testInputVariableIsSetCorrectly() throws InterpretationException {
+		WebRequestAction action = setupTestSuccessfulResponseWithInputVariable();
+		action.act(0f);
+		assertEquals(RESPONSE_STRING, userVariable.getValue());
 	}
 }
