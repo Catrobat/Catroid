@@ -63,9 +63,9 @@ public class AssertEqualsAction extends Action {
 
 	private boolean equalValues(String actual, String expected) {
 		try {
-			return Double.valueOf(actual).equals(Double.valueOf(expected));
+			return actual.equals(expected) || Double.parseDouble(actual) == Double.parseDouble(expected);
 		} catch (NumberFormatException numberFormatException) {
-			return actual.equals(expected);
+			return false;
 		}
 	}
 
