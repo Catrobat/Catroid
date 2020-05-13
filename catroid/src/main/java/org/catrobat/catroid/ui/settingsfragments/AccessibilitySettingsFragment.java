@@ -49,7 +49,7 @@ public class AccessibilitySettingsFragment extends PreferenceFragment implements
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		addPreferencesFromResource(R.xml.accessiblity_preferences);
+		addPreferencesFromResource(R.xml.accessibility_preferences);
 	}
 
 	@Override

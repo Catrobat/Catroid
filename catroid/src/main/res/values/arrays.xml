@@ -266,13 +266,13 @@
     </string-array>
 
     <!-- Accessibility settings font style spinner -->
-    <string-array name="accessiblity_font_style">
+    <string-array name="accessibility_font_style">
         <item>@string/accessibility_font_regular</item>
         <item>@string/accessibility_font_serif</item>
         <item>@string/accessibility_font_dyslexic</item>
     </string-array>
 
-    <string-array name="accessiblity_font_style_values">
+    <string-array name="accessibility_font_style_values">
         <item>sans_serif</item>
         <item>serif</item>
         <item>dyslexic</item>
