@@ -36,7 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.fragment.AddInputToUserBrickFragment;
+import org.catrobat.catroid.ui.fragment.AddUserDataToUserBrickFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.userbrick.UserBrickData;
 import org.catrobat.catroid.userbrick.UserBrickInput;
@@ -50,42 +50,53 @@ import androidx.fragment.app.FragmentActivity;
 
 public class UserDefinedBrick extends BrickBaseType {
 	public static final String USER_BRICK_BUNDLE_ARGUMENT = "user_brick";
+	public static final String ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT = "addInputOrLabel";
+	public static final boolean INPUT = true;
+	public static final boolean LABEL = false;
 
 	private ScrollView scrollbar;
 	private List<UserBrickData> userBrickDataList;
 	private BrickLayout userBrickContentLayout;
-	public TextView currentInputEditText;
+	public TextView currentUserDataEditText;
 
 	public UserDefinedBrick() {
 		userBrickDataList = new ArrayList<>();
 	}
 
-	public void addLabel(String label) {
+	public void addLabel(Nameable label) {
+		if (lastContentIsLabel()) {
+			userBrickDataList.remove(userBrickDataList.size() - 1);
+		}
 		userBrickDataList.add(new UserBrickLabel(label));
 	}
 
 	public void addInput(Nameable input) {
-		if (lastContentIsInput()) {
-			userBrickDataList.remove(userBrickDataList.size() - 1);
-		}
 		userBrickDataList.add(new UserBrickInput(input));
 	}
 
-	public List<Nameable> getInputList() {
-		List<Nameable> inputList = new ArrayList<>();
-		for (UserBrickData userBrickData : userBrickDataList) {
-			if (userBrickData instanceof UserBrickInput) {
-				inputList.add(((UserBrickInput) userBrickData).getInput());
+	public List<Nameable> getUserDataList(boolean inputOrLabel) {
+		List<Nameable> userDataList = new ArrayList<>();
+		if (inputOrLabel) {
+			for (UserBrickData userBrickData : userBrickDataList) {
+				if (userBrickData instanceof UserBrickInput) {
+					userDataList.add(((UserBrickInput) userBrickData).getInput());
+				}
+			}
+		} else {
+			for (UserBrickData userBrickData : userBrickDataList) {
+				if (userBrickData instanceof UserBrickLabel) {
+					userDataList.add(((UserBrickLabel) userBrickData).getLabel());
+				}
 			}
 		}
-		return inputList;
+		return userDataList;
 	}
 
-	private boolean lastContentIsInput() {
+	private boolean lastContentIsLabel() {
 		if (userBrickDataList.isEmpty()) {
 			return false;
 		}
-		return userBrickDataList.get(userBrickDataList.size() - 1) instanceof UserBrickInput;
+		return userBrickDataList.get(userBrickDataList.size() - 1) instanceof UserBrickLabel;
 	}
 
 	@Override
@@ -96,26 +107,35 @@ public class UserDefinedBrick extends BrickBaseType {
 
 		boolean isAddInputFragment = currentFragmentIsAddInput(context);
 
+		boolean isAddLabelFragment = currentFragmentIsAddLabel(context);
+
 		if (userBrickDataList.isEmpty()) {
 			if (isAddInputFragment) {
-				String defaultText =
-						new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name),
-								getInputList());
-				addTextViewForInput(context, new StringOption(defaultText));
+				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
+				addTextViewForUserData(context, new StringOption(defaultText), INPUT);
+			}
+			if (isAddLabelFragment) {
+				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
+				addTextViewForUserData(context, new StringOption(defaultText), LABEL);
 			}
 		} else {
 			for (UserBrickData userBrickData : userBrickDataList) {
 				if (userBrickData instanceof UserBrickInput) {
-					addTextViewForInput(context, ((UserBrickInput) userBrickData).getInput());
-				} else {
-					addTextViewForLabel(context, ((UserBrickLabel) userBrickData).getLabel());
+					addTextViewForUserData(context, ((UserBrickInput) userBrickData).getInput(),
+							INPUT);
+				}
+				if (userBrickData instanceof UserBrickLabel) {
+					addTextViewForUserData(context, ((UserBrickLabel) userBrickData).getLabel(),
+							LABEL);
 				}
 			}
-			if (isAddInputFragment && !lastContentIsInput()) {
-				String defaultText =
-						new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name),
-								getInputList());
-				addTextViewForInput(context, new StringOption(defaultText));
+			if (isAddInputFragment) {
+				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
+				addTextViewForUserData(context, new StringOption(defaultText), INPUT);
+			}
+			if (isAddLabelFragment && !lastContentIsLabel()) {
+				String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
+				addTextViewForUserData(context, new StringOption(defaultText), LABEL);
 			}
 		}
 
@@ -124,20 +144,18 @@ public class UserDefinedBrick extends BrickBaseType {
 		return view;
 	}
 
-	private void addTextViewForInput(Context context, Nameable text) {
-		TextView inputTextView = new TextView(new ContextThemeWrapper(context,
-				R.style.MultilineBrickEditText));
-		inputTextView.setMovementMethod(new ScrollingMovementMethod());
-		inputTextView.setText(text.getName());
-		currentInputEditText = inputTextView;
-		userBrickContentLayout.addView(inputTextView);
-	}
+	private void addTextViewForUserData(Context context, Nameable text, boolean isInputOrLabel) {
 
-	private void addTextViewForLabel(Context context, String text) {
-		TextView labelTextView = new TextView(new ContextThemeWrapper(context,
-				R.style.BrickText));
-		labelTextView.setText(text);
-		userBrickContentLayout.addView(labelTextView);
+		TextView userDataTextView;
+		if (isInputOrLabel) {
+			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.MultilineBrickEditText));
+		} else {
+			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.MultilineBrickText));
+		}
+		userDataTextView.setMovementMethod(new ScrollingMovementMethod());
+		userDataTextView.setText(text.getName());
+		currentUserDataEditText = userDataTextView;
+		userBrickContentLayout.addView(userDataTextView);
 	}
 
 	public void scrollToBottom() {
@@ -148,7 +166,21 @@ public class UserDefinedBrick extends BrickBaseType {
 	private boolean currentFragmentIsAddInput(Context context) {
 		Fragment currentFragment =
 				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		return currentFragment instanceof AddInputToUserBrickFragment;
+		if (currentFragment instanceof AddUserDataToUserBrickFragment) {
+			AddUserDataToUserBrickFragment fragment = (AddUserDataToUserBrickFragment) currentFragment;
+			return fragment.getIsAddInputOrLabel() == INPUT;
+		}
+		return false;
+	}
+
+	private boolean currentFragmentIsAddLabel(Context context) {
+		Fragment currentFragment =
+				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof AddUserDataToUserBrickFragment) {
+			AddUserDataToUserBrickFragment fragment = (AddUserDataToUserBrickFragment) currentFragment;
+			return fragment.getIsAddInputOrLabel() == LABEL;
+		}
+		return false;
 	}
 
 	@Override

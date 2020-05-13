@@ -54,13 +54,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-public class AddInputToUserBrickFragment extends Fragment {
+public class AddUserDataToUserBrickFragment extends Fragment {
 
-	public static final String TAG = AddInputToUserBrickFragment.class.getSimpleName();
+	public static final String TAG = AddUserDataToUserBrickFragment.class.getSimpleName();
 
+	private boolean isAddInputOrLabel;
 	private AppCompatActivity activity;
-	private TextInputEditText addInputUserBrickEditText;
-	private TextInputLayout addInputUserBrickTextLayout;
+	private TextInputEditText addUserDataUserBrickEditText;
+	private TextInputLayout addUserDataUserBrickTextLayout;
 
 	private MenuItem nextItem;
 
@@ -68,20 +69,35 @@ public class AddInputToUserBrickFragment extends Fragment {
 	private TextView userBrickTextView;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_add_input_to_user_brick, container, false);
-
-		addInputUserBrickEditText = view.findViewById(R.id.input_user_brick_edit_field);
-		addInputUserBrickTextLayout = view.findViewById(R.id.input_user_brick_text_layout);
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_add_user_data_to_user_brick, container, false);
 		LinearLayout userBrickSpace = view.findViewById(R.id.user_brick_space);
 
 		Bundle arguments = getArguments();
 		if (arguments != null) {
 			userDefinedBrick = (UserDefinedBrick) getArguments().getSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT);
-			if (userDefinedBrick != null) {
-				View userBrickView = userDefinedBrick.getView(getActivity());
-				userBrickSpace.addView(userBrickView);
-				userBrickTextView = userDefinedBrick.currentInputEditText;
+			isAddInputOrLabel = getArguments().getBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT);
+		}
+
+		if (userDefinedBrick != null) {
+			View userBrickView = userDefinedBrick.getView(getActivity());
+			userBrickSpace.addView(userBrickView);
+			userBrickTextView = userDefinedBrick.currentUserDataEditText;
+		}
+		addUserDataUserBrickEditText = view.findViewById(R.id.user_data_user_brick_edit_field);
+		addUserDataUserBrickTextLayout = view.findViewById(R.id.user_data_user_brick_text_layout);
+
+		TextView addUserDataUserBrickTextView = view.findViewById(R.id.brick_user_defined_add_user_data_description);
+
+		addUserDataUserBrickEditText.setText(userBrickTextView.getText());
+		if (getContext() != null) {
+			if (isAddInputOrLabel) {
+				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_input_description));
+
+				addUserDataUserBrickEditText.addTextChangedListener(new InputTextWatcher());
+			} else {
+				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_label_description));
+				addUserDataUserBrickEditText.addTextChangedListener(new LabelTextWatcher());
 			}
 		}
 
@@ -94,14 +110,15 @@ public class AddInputToUserBrickFragment extends Fragment {
 			}
 		}
 
-		addInputUserBrickEditText.setText(userBrickTextView.getText());
-		addInputUserBrickEditText.addTextChangedListener(new InputTextWatcher());
-
 		userDefinedBrick.scrollToBottom();
 
 		setHasOptionsMenu(true);
 
 		return view;
+	}
+
+	public boolean getIsAddInputOrLabel() {
+		return isAddInputOrLabel;
 	}
 
 	@Override
@@ -142,8 +159,8 @@ public class AddInputToUserBrickFragment extends Fragment {
 				AddUserBrickFragment addUserBrickFragment = (AddUserBrickFragment)
 						getFragmentManager().findFragmentByTag(AddUserBrickFragment.TAG);
 				getFragmentManager().popBackStackImmediate();
-				if (addUserBrickFragment != null) {
-					addUserBrickFragment.addInputToUserBrick(new StringOption(addInputUserBrickEditText.getText().toString()));
+				if (addUserBrickFragment != null && addUserDataUserBrickEditText.getText() != null) {
+					addUserBrickFragment.addUserDataToUserBrick(new StringOption(addUserDataUserBrickEditText.getText().toString()), isAddInputOrLabel);
 				}
 			}
 		}
@@ -169,10 +186,11 @@ public class AddInputToUserBrickFragment extends Fragment {
 			}
 		}
 	}
+
 	private class InputTextWatcher implements TextWatcher {
 
 		private boolean isNameUnique(String name) {
-			for (Nameable item : userDefinedBrick.getInputList()) {
+			for (Nameable item : userDefinedBrick.getUserDataList(UserDefinedBrick.INPUT)) {
 				if (item.getName().equals(name)) {
 					return false;
 				}
@@ -197,6 +215,7 @@ public class AddInputToUserBrickFragment extends Fragment {
 
 			return null;
 		}
+
 		@Override
 		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 		}
@@ -210,8 +229,25 @@ public class AddInputToUserBrickFragment extends Fragment {
 		public void afterTextChanged(Editable editable) {
 			String error = validateName(editable.toString());
 			userBrickTextView.setText(editable.toString());
-			addInputUserBrickTextLayout.setError(error);
+			addUserDataUserBrickTextLayout.setError(error);
 			setNextItemEnabled(error == null);
+		}
+	}
+
+	private class LabelTextWatcher implements TextWatcher {
+
+		@Override
+		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+		}
+
+		@Override
+		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+			userDefinedBrick.scrollToBottom();
+		}
+
+		@Override
+		public void afterTextChanged(Editable editable) {
+			userBrickTextView.setText(editable.toString());
 		}
 	}
 }

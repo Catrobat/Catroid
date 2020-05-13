@@ -96,28 +96,47 @@ public class AddUserBrickFragment extends Fragment {
 	}
 
 	private void handleAddLabel() {
-		userDefinedBrick.addLabel(getResources().getString(R.string.brick_user_defined_default_label));
-		updateBrickView();
-	}
-
-	private void handleAddInput() {
-		AddInputToUserBrickFragment addInputToUserBrickFragment = new AddInputToUserBrickFragment();
+		AddUserDataToUserBrickFragment addUserDataToUserBrickFragment = new AddUserDataToUserBrickFragment();
 
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
-		addInputToUserBrickFragment.setArguments(bundle);
+		bundle.putBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT, UserDefinedBrick.LABEL);
+
+		addUserDataToUserBrickFragment.setArguments(bundle);
 
 		FragmentManager fragmentManager = getFragmentManager();
 		if (fragmentManager != null) {
 			fragmentManager.beginTransaction()
-					.add(R.id.fragment_container, addInputToUserBrickFragment, AddInputToUserBrickFragment.TAG)
-					.addToBackStack(AddInputToUserBrickFragment.TAG)
+					.add(R.id.fragment_container, addUserDataToUserBrickFragment, AddUserDataToUserBrickFragment.TAG)
+					.addToBackStack(AddUserDataToUserBrickFragment.TAG)
 					.commit();
 		}
 	}
 
-	void addInputToUserBrick(Nameable input) {
-		userDefinedBrick.addInput(input);
+	private void handleAddInput() {
+		AddUserDataToUserBrickFragment addUserDataToUserBrickFragment = new AddUserDataToUserBrickFragment();
+
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
+		bundle.putBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT, UserDefinedBrick.INPUT);
+
+		addUserDataToUserBrickFragment.setArguments(bundle);
+
+		FragmentManager fragmentManager = getFragmentManager();
+		if (fragmentManager != null) {
+			fragmentManager.beginTransaction()
+					.add(R.id.fragment_container, addUserDataToUserBrickFragment, AddUserDataToUserBrickFragment.TAG)
+					.addToBackStack(AddUserDataToUserBrickFragment.TAG)
+					.commit();
+		}
+	}
+
+	void addUserDataToUserBrick(Nameable input, boolean isInputOrLabel) {
+		if (isInputOrLabel) {
+			userDefinedBrick.addInput(input);
+		} else {
+			userDefinedBrick.addLabel(input);
+		}
 		updateBrickView();
 	}
 
