@@ -166,6 +166,18 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="MultilineBrickText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">?attr/large</item>
+        <item name="android:textColor">@color/solid_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:gravity">bottom</item>
+
+    </style>
+
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
         <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>

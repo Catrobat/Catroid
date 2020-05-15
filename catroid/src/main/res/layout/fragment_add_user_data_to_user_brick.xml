@@ -26,7 +26,7 @@
 <!-- Overdraw lint warning is ignored - fragments need refactoring -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_add_input_to_user_brick"
+    android:id="@+id/fragment_add_user_data_to_user_brick"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:text="@string/brick_user_defined_add_input_description"
+        android:id="@+id/brick_user_defined_add_user_data_description"
         android:textSize="?attr/x_large"
         android:color="@color/accent"/>
     <ScrollView
@@ -57,12 +57,12 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp">
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_user_brick_text_layout"
+            android:id="@+id/user_data_user_brick_text_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:errorEnabled="true">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_user_brick_edit_field"
+                android:id="@+id/user_data_user_brick_edit_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="?attr/x_large"

@@ -23,15 +23,17 @@
 
 package org.catrobat.catroid.userbrick;
 
+import org.catrobat.catroid.common.Nameable;
+
 public class UserBrickLabel implements UserBrickData {
 
-	private String label;
+	private Nameable label;
 
-	public UserBrickLabel(String label) {
+	public UserBrickLabel(Nameable label) {
 		this.label = label;
 	}
 
-	public String getLabel() {
+	public Nameable getLabel() {
 		return this.label;
 	}
 }
