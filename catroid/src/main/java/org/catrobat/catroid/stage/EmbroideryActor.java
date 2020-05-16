@@ -54,7 +54,6 @@ public class EmbroideryActor extends Actor {
 		List<StitchPoint> stitchPoints = embroideryPatternManager.getEmbroideryPatternList();
 
 		ListIterator<StitchPoint> iterator = stitchPoints.listIterator();
-		boolean isLayerChange = false;
 
 		if (stitchPoints.size() >= 2) {
 			batch.end();
@@ -62,29 +61,25 @@ public class EmbroideryActor extends Actor {
 			shapeRenderer.setColor(Color.BLACK);
 			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-			StitchPoint previousStitchPoint = iterator.next();
+			StitchPoint previousStitchPoint;
+			StitchPoint stitchPoint = iterator.next();
+			drawCircle(stitchPoint);
+			boolean colorChange = false;
+
 			while (iterator.hasNext()) {
-				StitchPoint stitchPoint = iterator.next();
-
-				if ((stitchPoint.isColorChangePoint()) || (previousStitchPoint.isColorChangePoint())) {
-					previousStitchPoint = stitchPoint;
-					isLayerChange = true;
-					continue;
-				}
-				if (isLayerChange && stitchPoint.isJumpPoint()) {
-					previousStitchPoint = stitchPoint;
-					continue;
-				} else {
-					isLayerChange = false;
-				}
-				if (stitchPoint.isConnectingPoint() || previousStitchPoint.isConnectingPoint()) {
-					drawCircle(previousStitchPoint);
-				}
-
-				drawLine(previousStitchPoint, stitchPoint);
 				previousStitchPoint = stitchPoint;
+				stitchPoint = iterator.next();
+
+				colorChange |= stitchPoint.isColorChangePoint();
+
+				if (!colorChange) {
+					drawLine(previousStitchPoint, stitchPoint);
+				}
+				if (stitchPoint.isConnectingPoint()) {
+					drawCircle(stitchPoint);
+					colorChange = false;
+				}
 			}
-			drawCircle(previousStitchPoint);
 			shapeRenderer.end();
 			batch.begin();
 		}
