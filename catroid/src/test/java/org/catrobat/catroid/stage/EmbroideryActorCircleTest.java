@@ -52,12 +52,20 @@ public class EmbroideryActorCircleTest {
 	@Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return asList(new Object[][] {
-				{"Test JumpPoint after ChangePoint", asList(getChangePointMock(), getJumpPointMock()), false, true},
-				{"Test Connecting Points", asList(getConnectingPointMock(), getConnectingPointMock()), true, true},
-				{"Test Changing Points", asList(getChangePointMock(), getChangePointMock()), false, true},
-				{"Test ChangePoint after JumpPoint", asList(getJumpPointMock(), getChangePointMock()), false, true},
-				{"Test JumpPoint after ConnectingPoint", asList(getConnectingPointMock(), getJumpPointMock()), true, true},
-				{"Test Jumping Points", asList(getJumpPointMock(), getJumpPointMock()), false, true},
+				{"Test ConnectingPoints", asList(getConnectingPointMock(),
+						getConnectingPointMock(), getConnectingPointMock()), true, true},
+				{"Test JumpPoints", asList(getConnectingPointMock(),
+						getJumpPointMock(), getJumpPointMock()), false, false},
+				{"Test ChangePoints", asList(getConnectingPointMock(),
+						getColorChangePointMock(), getColorChangePointMock()), false, false},
+				{"Test JumpPoint after ChangePoint", asList(getConnectingPointMock(),
+						getColorChangePointMock(), getJumpPointMock()), false, false},
+				{"Test ConnectingPoint after JumpPoint", asList(getConnectingPointMock(),
+						getJumpPointMock(), getConnectingPointMock()), false, true},
+				{"Test ChangePoint after JumpPoint", asList(getConnectingPointMock(),
+						getJumpPointMock(), getColorChangePointMock()), false, false},
+				{"Test JumpPoint after ConnectingPoint", asList(getConnectingPointMock(),
+						getConnectingPointMock(), getJumpPointMock()), true, false}
 		});
 	}
 
@@ -84,18 +92,29 @@ public class EmbroideryActorCircleTest {
 	}
 
 	@Test
-	public void testDraw() {
+	public void testFirstCircleDrawn() {
 		embroideryActorSpy.draw(mock(Batch.class), 1.0F);
-
-		VerificationMode mode = firstPointDrawn ? times(1) : never();
-		verify(embroideryActorSpy, mode).drawCircle(stitchPoints.get(0));
+		verify(embroideryActorSpy, times(1)).drawCircle(stitchPoints.get(0));
 	}
 
 	@Test
 	public void testSecondCircleDrawn() {
 		embroideryActorSpy.draw(mock(Batch.class), 1.0F);
+		VerificationMode mode = firstPointDrawn ? times(1) : never();
+		verify(embroideryActorSpy, mode).drawCircle(stitchPoints.get(1));
+	}
 
-		verify(embroideryActorSpy, times(1)).drawCircle(stitchPoints.get(1));
+	@Test
+	public void testThirdCircleDrawn() {
+		embroideryActorSpy.draw(mock(Batch.class), 1.0F);
+		VerificationMode mode = secondPointDrawn ? times(1) : never();
+		verify(embroideryActorSpy, mode).drawCircle(stitchPoints.get(2));
+	}
+
+	private static StitchPoint getConnectingPointMock() {
+		StitchPoint mock = mock(StitchPoint.class);
+		when(mock.isConnectingPoint()).thenReturn(true);
+		return mock;
 	}
 
 	private static StitchPoint getJumpPointMock() {
@@ -104,15 +123,9 @@ public class EmbroideryActorCircleTest {
 		return mock;
 	}
 
-	private static StitchPoint getChangePointMock() {
+	private static StitchPoint getColorChangePointMock() {
 		StitchPoint mock = mock(StitchPoint.class);
 		when(mock.isColorChangePoint()).thenReturn(true);
-		return mock;
-	}
-
-	private static StitchPoint getConnectingPointMock() {
-		StitchPoint mock = mock(StitchPoint.class);
-		when(mock.isConnectingPoint()).thenReturn(true);
 		return mock;
 	}
 }
