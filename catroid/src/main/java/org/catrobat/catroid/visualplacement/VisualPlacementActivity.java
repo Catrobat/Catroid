@@ -102,7 +102,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.menu_visual_placement, menu);
+		getMenuInflater().inflate(R.menu.menu_confirm, menu);
 		return true;
 	}
 

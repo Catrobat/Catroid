@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -44,11 +45,14 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 	public static final String USER_BRICK_LIST_FRAGMENT_TAG =
 			AddBrickFragment.class.getSimpleName();
 
+	private ScriptFragment scriptFragment;
+
 	private ImageButton addUserBrickButton;
 
-	public static UserBrickListFragment newInstance() {
+	public static UserBrickListFragment newInstance(ScriptFragment scriptFragment) {
 		UserBrickListFragment fragment = new UserBrickListFragment();
 
+		fragment.scriptFragment = scriptFragment;
 		return fragment;
 	}
 
@@ -85,7 +89,8 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 
 	@Override
 	public void onClick(View v) {
-		AddUserBrickFragment addUserBrickFragment = new AddUserBrickFragment();
+		AddUserBrickFragment addUserBrickFragment =
+				AddUserBrickFragment.newInstance(scriptFragment);
 
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		Bundle bundle = new Bundle();

@@ -334,7 +334,7 @@ public class ScriptFragment extends ListFragment implements
 		String tag = "";
 
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			addListFragment = UserBrickListFragment.newInstance();
+			addListFragment = UserBrickListFragment.newInstance(this);
 			tag = UserBrickListFragment.USER_BRICK_LIST_FRAGMENT_TAG;
 		} else {
 			addListFragment = AddBrickFragment.newInstance(category, this);

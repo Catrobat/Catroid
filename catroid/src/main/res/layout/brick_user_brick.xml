@@ -43,11 +43,10 @@
         android:layout_marginBottom="10dp">
         <org.catrobat.catroid.ui.BrickLayout
             android:id="@+id/brick_user_brick"
-            style="@style/BrickContainer.Look.Medium"
+            style="@style/BrickContainer.Userbrick.Medium"
             android:layout_height="@dimen/brick_height_medium"
             app:userDefinedBrick="true"
-            android:layout_width="match_parent"
-            android:background="@drawable/brick_darkblue_1h">
+            android:layout_width="match_parent">
             <include layout="@layout/icon_brick_category_look"/>
         </org.catrobat.catroid.ui.BrickLayout>
     </ScrollView>

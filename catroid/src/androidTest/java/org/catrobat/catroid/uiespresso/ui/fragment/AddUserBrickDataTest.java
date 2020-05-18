@@ -33,8 +33,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -52,7 +55,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-public class AddUserDefinedBrickTest {
+@RunWith(AndroidJUnit4.class)
+public class AddUserBrickDataTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -61,12 +65,12 @@ public class AddUserDefinedBrickTest {
 
 	@After
 	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(AddUserDefinedBrickTest.class.getSimpleName());
+		TestUtils.deleteProjects(AddUserBrickDataTest.class.getSimpleName());
 	}
 
 	@Before
 	public void setUp() throws IOException {
-		BrickTestUtils.createProjectAndGetStartScript(AddUserDefinedBrickTest.class.getSimpleName());
+		BrickTestUtils.createProjectAndGetStartScript(AddUserBrickDataTest.class.getSimpleName());
 		baseActivityTestRule.launchActivity();
 	}
 

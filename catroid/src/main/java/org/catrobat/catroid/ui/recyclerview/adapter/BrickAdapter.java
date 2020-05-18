@@ -31,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -112,7 +113,12 @@ public class BrickAdapter extends BaseAdapter implements
 		itemView.setVisibility(viewStateManager.isVisible(position) ? View.VISIBLE : View.INVISIBLE);
 		itemView.setAlpha(viewStateManager.isEnabled(position) ? 1 : DISABLED_BRICK_ALPHA);
 
-		Drawable background = ((ViewGroup) itemView).getChildAt(1).getBackground();
+		View brickViewContainer = ((ViewGroup) itemView).getChildAt(1);
+		if (brickViewContainer.getId() == R.id.user_brick_scrollbar) {
+			brickViewContainer = ((ViewGroup) brickViewContainer).getChildAt(0);
+		}
+		Drawable background = brickViewContainer.getBackground();
+
 		if (item.isCommentedOut()) {
 			ColorMatrix matrix = new ColorMatrix();
 			matrix.setSaturation(0);
