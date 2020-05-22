@@ -27,8 +27,6 @@ import org.catrobat.catroid.common.Constants;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -69,22 +67,18 @@ public class WebConnection {
 
 	public synchronized void sendWebRequest() {
 		try {
-			new URL(url);
-		} catch (MalformedURLException e) {
+			Request request = new Request.Builder()
+					.url(url)
+					.header("User-Agent", USER_AGENT)
+					.build();
+			call = okHttpClient.newCall(request);
+			call.enqueue(createCallback());
+		} catch (IllegalArgumentException e) {
 			WebRequestListener listener = weakListenerReference.get();
 			if (listener != null) {
 				listener.onRequestFinished(Integer.toString(Constants.ERROR_BAD_REQUEST));
 			}
-			return;
 		}
-
-		Request request = new Request.Builder()
-				.url(url)
-				.header("User-Agent", USER_AGENT)
-				.build();
-
-		call = okHttpClient.newCall(request);
-		call.enqueue(createCallback());
 	}
 
 	private Callback createCallback() {
