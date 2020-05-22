@@ -57,6 +57,7 @@ public class DeviceVariableAccessorCleanRoutineTest {
 	private UserVariable sprite1UserVariable = new UserVariable("Sprite1_Variable", 0);
 	private UserVariable sprite2UserVariable = new UserVariable("Sprite2_Variable", 0);
 	private UserVariable globalUserVariable = new UserVariable("Global_Variable", 0);
+	private UserVariable multiplayerUserVariable = new UserVariable("Multiplayer_Variable", 0);
 	private DeviceVariableAccessor accessor;
 
 	@Before
@@ -73,6 +74,9 @@ public class DeviceVariableAccessorCleanRoutineTest {
 
 		project.getUserVariables().add(globalUserVariable);
 		allVariables.addAll(project.getUserVariables());
+
+		project.getMultiplayerVariables().add(multiplayerUserVariable);
+		allVariables.addAll(project.getMultiplayerVariables());
 
 		accessor = new DeviceVariableAccessor(directory);
 		Map<UUID, Object> map = new HashMap<>();
@@ -110,6 +114,7 @@ public class DeviceVariableAccessorCleanRoutineTest {
 		accessor.cleanUpDeletedUserData(project);
 		Map<UUID, Object> map = accessor.readMapFromJson();
 		assertFalse(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(multiplayerUserVariable.getDeviceKey()));
 		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
 		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
 	}
@@ -120,6 +125,7 @@ public class DeviceVariableAccessorCleanRoutineTest {
 		accessor.cleanUpDeletedUserData(project);
 		Map<UUID, Object> map = accessor.readMapFromJson();
 		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(multiplayerUserVariable.getDeviceKey()));
 		assertFalse(map.containsKey(sprite1UserVariable.getDeviceKey()));
 		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
 	}
@@ -130,8 +136,20 @@ public class DeviceVariableAccessorCleanRoutineTest {
 		accessor.cleanUpDeletedUserData(project);
 		Map<UUID, Object> map = accessor.readMapFromJson();
 		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(multiplayerUserVariable.getDeviceKey()));
 		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
 		assertFalse(map.containsKey(sprite2UserVariable.getDeviceKey()));
+	}
+
+	@Test
+	public void deleteMultiplayerVariablesTest() {
+		project.getMultiplayerVariables().clear();
+		accessor.cleanUpDeletedUserData(project);
+		Map<UUID, Object> map = accessor.readMapFromJson();
+		assertTrue(map.containsKey(globalUserVariable.getDeviceKey()));
+		assertFalse(map.containsKey(multiplayerUserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(sprite1UserVariable.getDeviceKey()));
+		assertTrue(map.containsKey(sprite2UserVariable.getDeviceKey()));
 	}
 
 	@After

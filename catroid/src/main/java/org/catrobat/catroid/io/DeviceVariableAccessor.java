@@ -25,8 +25,10 @@ package org.catrobat.catroid.io;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserData;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.DEVICE_VARIABLE_JSON_FILENAME;
@@ -56,6 +58,9 @@ public final class DeviceVariableAccessor extends DeviceUserDataAccessor {
 
 	@Override
 	public List<? extends UserData> getUserData(Project project) {
-		return project.getUserVariables();
+		List<UserVariable> projectVariables = new ArrayList<>();
+		projectVariables.addAll(project.getUserVariables());
+		projectVariables.addAll(project.getMultiplayerVariables());
+		return projectVariables;
 	}
 }
