@@ -61,6 +61,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 
 	public void setUpGoogleSignin() {
 		googleLoginHandler = new GoogleLoginHandler(this);
+		findViewById(R.id.sign_in_button).setOnClickListener(this::onButtonClick);
 	}
 
 	public void onButtonClick(final View view) {
@@ -68,6 +69,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 			onButtonClickForRealThisTime(view);
 		}
 	}
+
 
 	private void onButtonClickForRealThisTime(View view) {
 		switch (view.getId()) {
@@ -81,7 +83,7 @@ public class SignInActivity extends BaseActivity implements SignInCompleteListen
 				registrationDialog.setSignInCompleteListener(this);
 				registrationDialog.show(getSupportFragmentManager(), RegistrationDialogFragment.TAG);
 				break;
-			case R.id.sign_in_gplus_login_button:
+			case R.id.sign_in_button:
 				startActivityForResult(googleLoginHandler.getGoogleSignInClient().getSignInIntent(), REQUEST_CODE_GOOGLE_SIGNIN);
 				break;
 			default:
