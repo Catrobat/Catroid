@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -63,6 +64,7 @@ public class AddUserBrickFragment extends Fragment {
 	private UserDefinedBrick userDefinedBrick;
 	private View userBrickView;
 	private LinearLayout userBrickSpace;
+	private ScrollView scrollView;
 
 	private MenuItem confirmItem;
 
@@ -80,6 +82,7 @@ public class AddUserBrickFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_add_new_user_brick, container, false);
 		userBrickSpace = view.findViewById(R.id.user_brick_space);
+		scrollView = view.findViewById(R.id.fragment_add_new_user_brick);
 
 		addLabel = view.findViewById(R.id.button_add_label);
 		addInput = view.findViewById(R.id.button_add_input);
@@ -96,12 +99,11 @@ public class AddUserBrickFragment extends Fragment {
 				userBrickSpace.addView(userBrickView);
 			}
 		}
-
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		if (activity != null) {
 			ActionBar actionBar = activity.getSupportActionBar();
 			if (actionBar != null) {
-				actionBar.setTitle(R.string.brick_add_new_user_brick);
+				actionBar.setTitle(R.string.category_user_bricks);
 			}
 		}
 
@@ -253,6 +255,7 @@ public class AddUserBrickFragment extends Fragment {
 			userDefinedBrick.addLabel(input);
 		}
 		updateBrickView();
+		scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
 	}
 
 	private void updateBrickView() {

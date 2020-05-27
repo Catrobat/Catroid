@@ -31,7 +31,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -114,9 +113,6 @@ public class BrickAdapter extends BaseAdapter implements
 		itemView.setAlpha(viewStateManager.isEnabled(position) ? 1 : DISABLED_BRICK_ALPHA);
 
 		View brickViewContainer = ((ViewGroup) itemView).getChildAt(1);
-		if (brickViewContainer.getId() == R.id.user_brick_scrollbar) {
-			brickViewContainer = ((ViewGroup) brickViewContainer).getChildAt(0);
-		}
 		Drawable background = brickViewContainer.getBackground();
 
 		if (item.isCommentedOut()) {

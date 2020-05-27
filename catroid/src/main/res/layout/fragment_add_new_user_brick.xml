@@ -24,29 +24,36 @@
 
 
 <!-- Overdraw lint warning is ignored - fragments need refactoring -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_add_new_user_brick"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:orientation="vertical"
     tools:ignore="Overdraw">
 
     <LinearLayout
-        android:id="@+id/user_brick_space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"/>
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button_add_label"
-        android:text="@string/brick_user_defined_add_label"
-        style="@style/Button"/>
+        <LinearLayout
+            android:id="@+id/user_brick_space"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"/>
 
-    <Button
-        android:id="@+id/button_add_input"
-        android:text="@string/brick_user_defined_add_input"
-        style="@style/Button" />
+        <Button
+            android:id="@+id/button_add_label"
+            android:text="@string/brick_user_defined_add_label"
+            style="@style/Button"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/button_add_input"
+            android:text="@string/brick_user_defined_add_input"
+            style="@style/Button" />
+
+    </LinearLayout>
+</ScrollView>

@@ -186,7 +186,6 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
@@ -349,9 +348,11 @@ public class CategoryBricksFactory {
 	}
 
 	private List<Brick> setupUserBricksCategoryList() {
-		List<Brick> userdDefinedBrickList = new ArrayList<>();
-		userdDefinedBrickList.add(new UserDefinedBrick());
-		return userdDefinedBrickList;
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		if (currentSprite != null) {
+			return currentSprite.getUserDefinedBrickList();
+		}
+		return new ArrayList<>();
 	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {

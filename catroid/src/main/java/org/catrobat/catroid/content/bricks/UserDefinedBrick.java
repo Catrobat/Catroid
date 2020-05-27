@@ -24,10 +24,8 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.text.method.ScrollingMovementMethod;
 import android.view.ContextThemeWrapper;
 import android.view.View;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -50,12 +48,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 public class UserDefinedBrick extends BrickBaseType {
+	private static final long serialVersionUID = 1L;
+
 	public static final String USER_BRICK_BUNDLE_ARGUMENT = "user_brick";
 	public static final String ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT = "addInputOrLabel";
 	public static final boolean INPUT = true;
 	public static final boolean LABEL = false;
 
-	private ScrollView scrollbar;
 	private List<UserBrickData> userBrickDataList;
 	private BrickLayout userBrickContentLayout;
 	public TextView currentUserDataEditText;
@@ -116,7 +115,6 @@ public class UserDefinedBrick extends BrickBaseType {
 	public View getView(Context context) {
 		super.getView(context);
 		userBrickContentLayout = view.findViewById(R.id.brick_user_brick);
-		scrollbar = view.findViewById(R.id.user_brick_scrollbar);
 		boolean isAddInputFragment = false;
 		boolean isAddLabelFragment = false;
 
@@ -146,8 +144,6 @@ public class UserDefinedBrick extends BrickBaseType {
 			addTextViewForUserData(context, new StringOption(defaultText), LABEL);
 		}
 
-		scrollbar.post(this::scrollToBottom);
-
 		return view;
 	}
 
@@ -155,19 +151,13 @@ public class UserDefinedBrick extends BrickBaseType {
 
 		TextView userDataTextView;
 		if (isInputOrLabel) {
-			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.MultilineBrickEditText));
+			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
 		} else {
-			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.MultilineBrickText));
+			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.BrickText));
 		}
-		userDataTextView.setMovementMethod(new ScrollingMovementMethod());
 		userDataTextView.setText(text.getName());
 		currentUserDataEditText = userDataTextView;
 		userBrickContentLayout.addView(userDataTextView);
-	}
-
-	public void scrollToBottom() {
-		scrollbar.scrollTo(0,
-				scrollbar.getChildAt(scrollbar.getChildCount() - 1).getBottom());
 	}
 
 	@Override
