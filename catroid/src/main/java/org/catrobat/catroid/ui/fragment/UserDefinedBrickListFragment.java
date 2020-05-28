@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,26 +36,29 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 
-public class UserBrickListFragment extends ListFragment implements View.OnClickListener {
+public class UserDefinedBrickListFragment extends ListFragment implements View.OnClickListener {
 
-	public static final String USER_BRICK_LIST_FRAGMENT_TAG =
+	public static final String USER_DEFINED_BRICK_LIST_FRAGMENT_TAG =
 			AddBrickFragment.class.getSimpleName();
 
 	private ScriptFragment scriptFragment;
 
-	private ImageButton addUserBrickButton;
+	private ImageButton addUserDefinedBrickButton;
 	private PrototypeBrickAdapter adapter;
 
-	public static UserBrickListFragment newInstance(ScriptFragment scriptFragment) {
-		UserBrickListFragment fragment = new UserBrickListFragment();
+	public static UserDefinedBrickListFragment newInstance(ScriptFragment scriptFragment) {
+		UserDefinedBrickListFragment fragment = new UserDefinedBrickListFragment();
 
 		fragment.scriptFragment = scriptFragment;
 		return fragment;
@@ -75,10 +79,10 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_user_brick_list, container, false);
+		View view = inflater.inflate(R.layout.fragment_user_defined_brick_list, container, false);
 
-		addUserBrickButton = view.findViewById(R.id.button_add_user_brick);
-		addUserBrickButton.setOnClickListener(this);
+		addUserDefinedBrickButton = view.findViewById(R.id.button_add_user_brick);
+		addUserDefinedBrickButton.setOnClickListener(this);
 
 		setupUserDefinedBrickListView();
 
@@ -96,7 +100,7 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 	@Override
 	public void onStart() {
 		super.onStart();
-		getListView().setOnItemClickListener((parent, view, position, id) -> { });
+		getListView().setOnItemClickListener((parent, view, position, id) -> addUserDefinedBrickToScript(adapter.getItem(position)));
 	}
 
 	private void setupUserDefinedBrickListView() {
@@ -113,20 +117,47 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 
 	@Override
 	public void onClick(View v) {
-		AddUserBrickFragment addUserBrickFragment =
-				AddUserBrickFragment.newInstance(scriptFragment);
+		AddUserDefinedBrickFragment addUserDefinedBrickFragment =
+				AddUserDefinedBrickFragment.newInstance(scriptFragment);
 
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
-		addUserBrickFragment.setArguments(bundle);
+		addUserDefinedBrickFragment.setArguments(bundle);
 
 		FragmentManager fragmentManager = getFragmentManager();
 		if (fragmentManager != null) {
 			fragmentManager.beginTransaction()
-					.add(R.id.fragment_container, addUserBrickFragment, AddUserBrickFragment.TAG)
-					.addToBackStack(AddUserBrickFragment.TAG)
+					.add(R.id.fragment_container, addUserDefinedBrickFragment, AddUserDefinedBrickFragment.TAG)
+					.addToBackStack(AddUserDefinedBrickFragment.TAG)
 					.commit();
+		}
+	}
+
+	private void addUserDefinedBrickToScript(Brick userDefinedBrickToAdd) {
+		try {
+			scriptFragment.addBrick(userDefinedBrickToAdd.clone());
+
+			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+			Fragment categoryFragment = getFragmentManager()
+					.findFragmentByTag(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG);
+
+			if (categoryFragment != null) {
+				fragmentTransaction.remove(categoryFragment);
+				getFragmentManager().popBackStack();
+			}
+
+			Fragment addBrickFragment = getFragmentManager().findFragmentByTag(USER_DEFINED_BRICK_LIST_FRAGMENT_TAG);
+
+			if (addBrickFragment != null) {
+				fragmentTransaction.remove(addBrickFragment);
+				getFragmentManager().popBackStack();
+			}
+
+			fragmentTransaction.commit();
+		} catch (CloneNotSupportedException e) {
+			Log.e(getTag(), e.getLocalizedMessage());
+			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
 		}
 	}
 }

@@ -33,6 +33,7 @@ import com.google.gson.JsonSyntaxException;
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,7 +53,8 @@ public final class BackpackSerializer {
 		this.backpackFile = backpackFile;
 		GsonBuilder gsonBuilder = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting();
 		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
-		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackBrickSerializerAndDeserializer());
+		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackInterfaceSerializerAndDeserializer());
+		gsonBuilder.registerTypeAdapter(UserDefinedBrickData.class, new BackpackInterfaceSerializerAndDeserializer());
 		backpackGson = gsonBuilder.create();
 	}
 

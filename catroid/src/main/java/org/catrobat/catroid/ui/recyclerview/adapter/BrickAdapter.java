@@ -36,6 +36,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.ViewStateManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.multiselection.MultiSelectionManager;
@@ -113,6 +114,10 @@ public class BrickAdapter extends BaseAdapter implements
 		itemView.setAlpha(viewStateManager.isEnabled(position) ? 1 : DISABLED_BRICK_ALPHA);
 
 		View brickViewContainer = ((ViewGroup) itemView).getChildAt(1);
+		if (item instanceof UserDefinedReceiverBrick) {
+			brickViewContainer = ((ViewGroup) ((ViewGroup) itemView).getChildAt(1)).getChildAt(0);
+		}
+
 		Drawable background = brickViewContainer.getBackground();
 
 		if (item.isCommentedOut()) {

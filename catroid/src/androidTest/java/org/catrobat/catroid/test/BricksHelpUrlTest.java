@@ -27,7 +27,6 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -395,6 +394,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#TripleStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedReceiverBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#StoreCSVIntoUserListBrick");
 	}
@@ -452,9 +453,6 @@ public class BricksHelpUrlTest {
 		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
 				InstrumentationRegistry.getInstrumentation().getTargetContext());
 		String brickHelpUrl = brick.getHelpUrl(category);
-		if (brick instanceof UserDefinedBrick) {
-			brickHelpUrl = brick.getHelpUrl("Your bricks");
-		}
 		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
 	}
 

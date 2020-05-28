@@ -54,7 +54,7 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
-import org.catrobat.catroid.ui.fragment.UserBrickListFragment;
+import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
@@ -334,8 +334,8 @@ public class ScriptFragment extends ListFragment implements
 		String tag = "";
 
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			addListFragment = UserBrickListFragment.newInstance(this);
-			tag = UserBrickListFragment.USER_BRICK_LIST_FRAGMENT_TAG;
+			addListFragment = UserDefinedBrickListFragment.newInstance(this);
+			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
 		} else {
 			addListFragment = AddBrickFragment.newInstance(category, this);
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;

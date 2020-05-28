@@ -26,10 +26,9 @@ package org.catrobat.catroid.test.content.bricks;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
-import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.userbrick.UserBrickData;
-import org.catrobat.catroid.userbrick.UserBrickInput;
-import org.catrobat.catroid.userbrick.UserBrickLabel;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +45,7 @@ import static org.junit.Assert.assertSame;
 import static java.util.Arrays.asList;
 
 @RunWith(Parameterized.class)
-public class AddUserBrickTest {
+public class UserDefinedBrickEqualityTest {
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
@@ -64,8 +63,8 @@ public class AddUserBrickTest {
 						Collections.singletonList(defaultLabel),
 						true},
 				{"DifferentLabelsWhitespaces",
-						Collections.singletonList(new UserBrickLabel(new StringOption(" "))),
-						Collections.singletonList(new UserBrickLabel(new StringOption(""))),
+						Collections.singletonList(new UserDefinedBrickLabel(" ")),
+						Collections.singletonList(new UserDefinedBrickLabel("")),
 						false},
 				{"DifferentAmountOfUserInput",
 						asList(defaultInput, differentInput),
@@ -90,10 +89,10 @@ public class AddUserBrickTest {
 	public String name;
 
 	@Parameterized.Parameter(1)
-	public List<UserBrickData> brickToTestBrickData;
+	public List<UserDefinedBrickData> brickToTestBrickData;
 
 	@Parameterized.Parameter(2)
-	public List<UserBrickData> alreadyDefinedUserBrickOfSpriteBrickData;
+	public List<UserDefinedBrickData> alreadyDefinedUserBrickOfSpriteBrickData;
 
 	@Parameterized.Parameter(3)
 	public boolean expectedOutput;
@@ -101,10 +100,10 @@ public class AddUserBrickTest {
 	@Mock
 	private Sprite spriteMock;
 
-	private static UserBrickLabel defaultLabel = new UserBrickLabel(new StringOption("Label"));
-	private static UserBrickLabel differentLabel = new UserBrickLabel(new StringOption("DifferentLabel"));
-	private static UserBrickInput defaultInput = new UserBrickInput(new StringOption("Input"));
-	private static UserBrickInput differentInput = new UserBrickInput(new StringOption("DifferentInput"));
+	private static UserDefinedBrickLabel defaultLabel = new UserDefinedBrickLabel("Label");
+	private static UserDefinedBrickLabel differentLabel = new UserDefinedBrickLabel("DifferentLabel");
+	private static UserDefinedBrickInput defaultInput = new UserDefinedBrickInput("Input");
+	private static UserDefinedBrickInput differentInput = new UserDefinedBrickInput("DifferentInput");
 
 	private UserDefinedBrick brickToTest;
 	private List<Brick> userDefinedBrickListOfSprite;

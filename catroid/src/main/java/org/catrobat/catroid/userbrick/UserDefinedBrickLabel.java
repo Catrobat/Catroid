@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,28 +20,44 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
 
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+package org.catrobat.catroid.userbrick;
+
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Backpack implements Serializable {
+import androidx.annotation.Nullable;
 
-	private static final long serialVersionUID = 1L;
+@XStreamAlias("userDefinedBrickLabel")
+public class UserDefinedBrickLabel extends UserDefinedBrickData implements Serializable {
 
-	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
-	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
+	@XStreamAlias("label")
+	private String label;
 
-	public List<SoundInfo> backpackedSounds = new CopyOnWriteArrayList<>();
-	public List<LookData> backpackedLooks = new CopyOnWriteArrayList<>();
+	public UserDefinedBrickLabel(String label) {
+		this.label = label;
+	}
 
-	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
-	public HashMap<String, List<UserDefinedBrick>> backpackedUserDefinedBricks = new HashMap<>();
+	public UserDefinedBrickLabel(UserDefinedBrickLabel userDefinedBrickLabel) {
+		this.label = userDefinedBrickLabel.label;
+	}
+
+	public String getLabel() {
+		return this.label;
+	}
+
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		if (obj instanceof UserDefinedBrickLabel) {
+			UserDefinedBrickLabel other = (UserDefinedBrickLabel) obj;
+			return this.label.equals(other.label);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.label.hashCode();
+	}
 }

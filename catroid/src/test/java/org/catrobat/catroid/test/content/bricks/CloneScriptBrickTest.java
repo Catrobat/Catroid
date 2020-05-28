@@ -27,6 +27,7 @@ import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
@@ -67,6 +68,7 @@ public class CloneScriptBrickTest {
 				{WhenNfcScript.class.getSimpleName(), new WhenNfcScript()},
 				{WhenScript.class.getSimpleName(), new WhenScript()},
 				{WhenTouchDownScript.class.getSimpleName(), new WhenTouchDownScript()},
+				{UserDefinedScript.class.getSimpleName(), new UserDefinedScript()},
 		});
 	}
 

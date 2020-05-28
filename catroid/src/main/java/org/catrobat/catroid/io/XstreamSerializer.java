@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
@@ -216,6 +217,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -239,6 +241,9 @@ import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 import org.catrobat.catroid.utils.StringFinder;
 
 import java.io.File;
@@ -292,10 +297,14 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(Setting.class);
 		xstream.processAnnotations(UserVariableBrickWithFormula.class);
 		xstream.processAnnotations(UserListBrick.class);
+		xstream.processAnnotations(UserDefinedBrickData.class);
+		xstream.processAnnotations(UserDefinedBrickInput.class);
+		xstream.processAnnotations(UserDefinedBrickLabel.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider(),
 				xstream.getClassLoaderReference()));
+
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -356,6 +365,7 @@ public final class XstreamSerializer {
 		xstream.alias("script", RaspiInterruptScript.class);
 		xstream.alias("script", WhenTouchDownScript.class);
 		xstream.alias("script", WhenBackgroundChangesScript.class);
+		xstream.alias("script", UserDefinedScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", AskBrick.class);
@@ -391,6 +401,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", IfThenLogicEndBrick.class);
 
 		xstream.alias("brick", UserDefinedBrick.class);
+		xstream.alias("brick", UserDefinedReceiverBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);

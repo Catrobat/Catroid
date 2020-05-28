@@ -23,11 +23,16 @@
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
+import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -38,6 +43,8 @@ import org.junit.runner.RunWith;
 import java.io.IOException;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import static junit.framework.TestCase.assertTrue;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -56,7 +63,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
-public class AddUserBrickDataTest {
+public class UserDefinedBrickTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -65,12 +72,14 @@ public class AddUserBrickDataTest {
 
 	@After
 	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(AddUserBrickDataTest.class.getSimpleName());
+		TestUtils.deleteProjects(UserDefinedBrickTest.class.getSimpleName());
 	}
 
 	@Before
 	public void setUp() throws IOException {
-		BrickTestUtils.createProjectAndGetStartScript(AddUserBrickDataTest.class.getSimpleName());
+		Script script =
+				BrickTestUtils.createProjectAndGetStartScript(UserDefinedBrickTest.class.getSimpleName());
+		script.addBrick(new GlideToBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -141,6 +150,28 @@ public class AddUserBrickDataTest {
 		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name)));
 		onView(withText(R.string.name_already_exists)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
+	}
+
+	@Test
+	public void testAddUserDefinedBrickToScriptFragment() {
+		clickOnAddInputToUserBrick();
+		onView(withId(R.id.next))
+				.perform(click());
+		onView(withId(R.id.confirm))
+				.perform(click());
+		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
+		ScriptFragment scriptFragment = ((ScriptFragment) baseActivityTestRule.getActivity()
+				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
+		assertTrue(scriptFragment.isCurrentlyMoving());
+		onView(withId(R.id.fragment_script)).perform(click());
+
+		selectYourBricks();
+		onData(allOf(is(instanceOf(UserDefinedBrick.class))))
+				.inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
+				.atPosition(0)
+				.perform(click());
+		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
+		assertTrue(scriptFragment.isCurrentlyMoving());
 	}
 
 	private void selectYourBricks() {

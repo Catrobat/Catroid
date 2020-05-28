@@ -53,6 +53,7 @@
     <color name="solid_white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="orange">#E68B00</color>
+    <color name="dark_blue">#32529D</color>
 
     <!-- Misc Text Colors -->
     <color name="formula_editor_intro_heading_color">#FF6600</color>

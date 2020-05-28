@@ -173,6 +173,10 @@
         <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
+    <style name="BrickText.SingleLine.UserDefinedScript">
+        <item name="android:textColor">@color/dark_blue</item>
+    </style>
+
     <style name="BrickText.Multiple">
         <item name="android:maxLines">1</item>
     </style>
@@ -430,9 +434,9 @@
         <item name="android:background">@drawable/brick_orange_3h</item>
     </style>
 
-    <style name ="BrickContainer.Userbrick"></style>
+    <style name ="BrickContainer.UserDefinedBrick"></style>
 
-    <style name="BrickContainer.Userbrick.Medium">
+    <style name="BrickContainer.UserDefinedBrick.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
         <item name="android:background">@drawable/brick_darkblue_1h</item>
     </style>
@@ -464,6 +468,18 @@
     <style name="BrickContainer.Script.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
         <item name="android:background">@drawable/brick_control_2h</item>
+    </style>
+
+    <style name ="BrickContainer.Script.Define">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_white_define_2h</item>
+        <item name="android:layout_marginTop">@dimen/material_design_spacing_large</item>
+        <item name="android:layout_marginBottom">@dimen/script_spacing</item>
+    </style>
+
+    <style name ="BrickContainer.Script.As">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_white_1h</item>
     </style>
 
     <style name="FormulaEditorButton">

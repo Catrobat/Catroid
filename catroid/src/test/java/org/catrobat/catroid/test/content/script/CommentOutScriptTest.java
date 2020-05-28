@@ -31,6 +31,7 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
@@ -71,6 +72,7 @@ public class CommentOutScriptTest {
 				{WhenNfcScript.class.getSimpleName(), WhenNfcScript.class},
 				{WhenScript.class.getSimpleName(), WhenScript.class},
 				{WhenTouchDownScript.class.getSimpleName(), WhenTouchDownScript.class},
+				{UserDefinedScript.class.getSimpleName(), UserDefinedScript.class},
 		});
 	}
 

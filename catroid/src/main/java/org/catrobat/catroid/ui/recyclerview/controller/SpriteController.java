@@ -33,6 +33,8 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.stage.StageActivity;
@@ -78,6 +80,10 @@ public class SpriteController {
 			sprite.getUserLists().add(new UserList(userList));
 		}
 
+		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {
+			sprite.getUserDefinedBrickList().add(new UserDefinedBrick((UserDefinedBrick) userDefinedBrick));
+		}
+
 		for (Script script : spriteToCopy.getScriptList()) {
 			try {
 				sprite.addScript(scriptController.copy(script, dstProject, dstScene, sprite));
@@ -117,6 +123,10 @@ public class SpriteController {
 			UserList copyList = new UserList(originalList);
 			copyList.setDeviceListKey(originalList.getDeviceKey());
 			sprite.getUserLists().add(new UserList(originalList));
+		}
+
+		for (Brick userDefinedBrick : spriteToCopy.getUserDefinedBrickList()) {
+			sprite.getUserDefinedBrickList().add(new UserDefinedBrick((UserDefinedBrick) userDefinedBrick));
 		}
 
 		for (Script script : spriteToCopy.getScriptList()) {
@@ -176,6 +186,14 @@ public class SpriteController {
 			sprite.getNfcTagList().add(nfcTag.clone());
 		}
 
+		for (Brick brick: spriteToPack.getUserDefinedBrickList()) {
+			try {
+				sprite.addUserDefinedBrick((UserDefinedBrick) brick.clone());
+			} catch (CloneNotSupportedException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+		}
+
 		for (Script script : spriteToPack.getScriptList()) {
 			try {
 				scriptController.packForSprite(script, sprite);
@@ -201,6 +219,14 @@ public class SpriteController {
 
 		for (NfcTagData nfcTag : spriteToUnpack.getNfcTagList()) {
 			sprite.getNfcTagList().add(nfcTag.clone());
+		}
+
+		for (Brick brick: spriteToUnpack.getUserDefinedBrickList()) {
+			try {
+				sprite.addUserDefinedBrick((UserDefinedBrick) brick.clone());
+			} catch (CloneNotSupportedException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
 		}
 
 		for (Script script : spriteToUnpack.getScriptList()) {

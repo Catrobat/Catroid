@@ -23,17 +23,25 @@
 
 package org.catrobat.catroid.userbrick;
 
-import org.catrobat.catroid.common.Nameable;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-public class UserBrickInput implements UserBrickData {
+import java.io.Serializable;
 
-	Nameable input;
+@XStreamAlias("userDefinedBrickInput")
+public class UserDefinedBrickInput extends UserDefinedBrickData implements Serializable {
 
-	public UserBrickInput(Nameable input) {
+	@XStreamAlias("input")
+	String input;
+
+	public UserDefinedBrickInput(String input) {
 		this.input = input;
 	}
 
-	public Nameable getInput() {
+	public UserDefinedBrickInput(UserDefinedBrickInput userDefinedBrickInput) {
+		this.input = userDefinedBrickInput.input;
+	}
+
+	public String getInput() {
 		return this.input;
 	}
 }

@@ -29,6 +29,7 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.io.BackpackSerializer;
 
 import java.io.File;
@@ -100,8 +101,16 @@ public final class BackpackListManager {
 		return getBackpack().backpackedScripts;
 	}
 
+	public HashMap<String, List<UserDefinedBrick>> getBackpackedUserDefinedBricks() {
+		return getBackpack().backpackedUserDefinedBricks;
+	}
+
 	public void addScriptToBackPack(String scriptGroup, List<Script> scripts) {
 		getBackpack().backpackedScripts.put(scriptGroup, scripts);
+	}
+
+	public void addUserDefinedBrickToBackPack(String scriptGroup, List<UserDefinedBrick> userDefinedBricks) {
+		getBackpack().backpackedUserDefinedBricks.put(scriptGroup, userDefinedBricks);
 	}
 
 	public List<LookData> getBackpackedLooks() {

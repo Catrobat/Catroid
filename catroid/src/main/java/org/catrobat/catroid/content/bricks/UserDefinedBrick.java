@@ -28,22 +28,22 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.catrobat.catroid.ui.BrickLayout;
-import org.catrobat.catroid.ui.fragment.AddUserDataToUserBrickFragment;
+import org.catrobat.catroid.ui.fragment.AddUserDataToUserDefinedBrickFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
-import org.catrobat.catroid.userbrick.UserBrickData;
-import org.catrobat.catroid.userbrick.UserBrickInput;
-import org.catrobat.catroid.userbrick.UserBrickLabel;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -55,49 +55,80 @@ public class UserDefinedBrick extends BrickBaseType {
 	public static final boolean INPUT = true;
 	public static final boolean LABEL = false;
 
-	private List<UserBrickData> userBrickDataList;
-	private BrickLayout userBrickContentLayout;
-	public TextView currentUserDataEditText;
+	@XStreamAlias("userDefinedBrickDataList")
+	private List<UserDefinedBrickData> userDefinedBrickDataList;
+
+	@XStreamAlias("userDefinedBrickID")
+	private UUID userDefinedBrickID;
+
+	private transient BrickLayout userDefinedBrickLayout;
+	public transient TextView currentUserDefinedDataTextView;
 
 	public UserDefinedBrick() {
-		userBrickDataList = new ArrayList<>();
+		userDefinedBrickDataList = new ArrayList<>();
+		userDefinedBrickID = UUID.randomUUID();
 	}
 
-	public UserDefinedBrick(List<UserBrickData> userBrickDataList) {
-		this.userBrickDataList = userBrickDataList;
+	public UserDefinedBrick(List<UserDefinedBrickData> userBrickDataList) {
+		this.userDefinedBrickDataList = userBrickDataList;
+		this.userDefinedBrickID = UUID.randomUUID();
 	}
 
-	public void addLabel(Nameable label) {
+	public UserDefinedBrick(UserDefinedBrick userDefinedBrick) {
+		copyUserDefinedDataList(userDefinedBrick);
+		this.userDefinedBrickID = UUID.randomUUID();
+	}
+
+	private void copyUserDefinedDataList(UserDefinedBrick userDefinedBrick) {
+		this.userDefinedBrickDataList = new ArrayList<>();
+		for (UserDefinedBrickData data : userDefinedBrick.getUserDefinedBrickDataList()) {
+			if (data instanceof UserDefinedBrickInput) {
+				userDefinedBrickDataList.add(new UserDefinedBrickInput((UserDefinedBrickInput) data));
+			} else {
+				userDefinedBrickDataList.add(new UserDefinedBrickLabel((UserDefinedBrickLabel) data));
+			}
+		}
+	}
+
+	public UUID getUserDefinedBrickID() {
+		return userDefinedBrickID;
+	}
+
+	public void addLabel(String label) {
 		removeLastLabel();
-		userBrickDataList.add(new UserBrickLabel(label));
+		userDefinedBrickDataList.add(new UserDefinedBrickLabel(label));
 	}
 
 	public void removeLastLabel() {
 		if (lastContentIsLabel()) {
-			userBrickDataList.remove(userBrickDataList.size() - 1);
+			userDefinedBrickDataList.remove(userDefinedBrickDataList.size() - 1);
 		}
 	}
 
-	public void addInput(Nameable input) {
-		userBrickDataList.add(new UserBrickInput(input));
+	public void addInput(String input) {
+		userDefinedBrickDataList.add(new UserDefinedBrickInput(input));
 	}
 
 	public boolean isEmpty() {
-		return userBrickDataList.isEmpty();
+		return userDefinedBrickDataList.isEmpty();
 	}
 
-	public List<Nameable> getUserDataList(boolean inputOrLabel) {
-		List<Nameable> userDataList = new ArrayList<>();
-		if (inputOrLabel) {
-			for (UserBrickData userBrickData : userBrickDataList) {
-				if (userBrickData instanceof UserBrickInput) {
-					userDataList.add(((UserBrickInput) userBrickData).getInput());
+	public List<UserDefinedBrickData> getUserDefinedBrickDataList() {
+		return this.userDefinedBrickDataList;
+	}
+
+	public List<String> getUserDataList(boolean isInput) {
+		List<String> userDataList = new ArrayList<>();
+		if (isInput) {
+			for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+				if (userDefinedBrickData instanceof UserDefinedBrickInput) {
+					userDataList.add(((UserDefinedBrickInput) userDefinedBrickData).getInput());
 				}
 			}
 		} else {
-			for (UserBrickData userBrickData : userBrickDataList) {
-				if (userBrickData instanceof UserBrickLabel) {
-					userDataList.add(((UserBrickLabel) userBrickData).getLabel());
+			for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+				if (userDefinedBrickData instanceof UserDefinedBrickLabel) {
+					userDataList.add(((UserDefinedBrickLabel) userDefinedBrickData).getLabel());
 				}
 			}
 		}
@@ -105,92 +136,92 @@ public class UserDefinedBrick extends BrickBaseType {
 	}
 
 	private boolean lastContentIsLabel() {
-		if (userBrickDataList.isEmpty()) {
+		if (userDefinedBrickDataList.isEmpty()) {
 			return false;
 		}
-		return userBrickDataList.get(userBrickDataList.size() - 1) instanceof UserBrickLabel;
+		return userDefinedBrickDataList.get(userDefinedBrickDataList.size() - 1) instanceof UserDefinedBrickLabel;
+	}
+
+	public boolean isUserDefinedBrickDataEqual(UserDefinedBrick other) {
+		if (userDefinedBrickDataList.size() != other.userDefinedBrickDataList.size()) {
+			return false;
+		}
+		for (int dataIndex = 0; dataIndex < userDefinedBrickDataList.size(); dataIndex++) {
+			UserDefinedBrickData thisData = userDefinedBrickDataList.get(dataIndex);
+			UserDefinedBrickData otherData = other.userDefinedBrickDataList.get(dataIndex);
+
+			if (!thisData.getClass().equals(otherData.getClass())) {
+				return false;
+			}
+			if (thisData instanceof UserDefinedBrickLabel && !thisData.equals(otherData)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
+		UserDefinedBrick clone = (UserDefinedBrick) super.clone();
+		clone.copyUserDefinedDataList(this);
+		clone.userDefinedBrickID = this.getUserDefinedBrickID();
+		return clone;
 	}
 
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		userBrickContentLayout = view.findViewById(R.id.brick_user_brick);
+		userDefinedBrickLayout = view.findViewById(R.id.brick_user_brick);
 		boolean isAddInputFragment = false;
 		boolean isAddLabelFragment = false;
 
 		Fragment currentFragment =
 				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-		if (currentFragment instanceof AddUserDataToUserBrickFragment) {
-			isAddInputFragment = ((AddUserDataToUserBrickFragment) currentFragment).isAddInput();
+		if (currentFragment instanceof AddUserDataToUserDefinedBrickFragment) {
+			isAddInputFragment = ((AddUserDataToUserDefinedBrickFragment) currentFragment).isAddInput();
 			isAddLabelFragment = !isAddInputFragment;
 		}
 
-		for (UserBrickData userBrickData : userBrickDataList) {
-			if (userBrickData instanceof UserBrickInput) {
-				addTextViewForUserData(context, ((UserBrickInput) userBrickData).getInput(),
+		for (UserDefinedBrickData userBrickData : userDefinedBrickDataList) {
+			if (userBrickData instanceof UserDefinedBrickInput) {
+				addTextViewForUserData(context, ((UserDefinedBrickInput) userBrickData).getInput(),
 						INPUT);
 			}
-			if (userBrickData instanceof UserBrickLabel) {
-				addTextViewForUserData(context, ((UserBrickLabel) userBrickData).getLabel(),
+			if (userBrickData instanceof UserDefinedBrickLabel) {
+				addTextViewForUserData(context, ((UserDefinedBrickLabel) userBrickData).getLabel(),
 						LABEL);
 			}
 		}
 		if (isAddInputFragment) {
-			String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
-			addTextViewForUserData(context, new StringOption(defaultText), INPUT);
+			String defaultText =
+					new UniqueNameProvider().getUniqueName(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
+			addTextViewForUserData(context, defaultText, INPUT);
 		}
 		if (isAddLabelFragment && !lastContentIsLabel()) {
-			String defaultText = new UniqueNameProvider().getUniqueNameInNameables(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
-			addTextViewForUserData(context, new StringOption(defaultText), LABEL);
+			String defaultText =
+					new UniqueNameProvider().getUniqueName(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
+			addTextViewForUserData(context, defaultText, LABEL);
 		}
 
 		return view;
 	}
 
-	private void addTextViewForUserData(Context context, Nameable text, boolean isInputOrLabel) {
+	private void addTextViewForUserData(Context context, String text, boolean isInput) {
 
 		TextView userDataTextView;
-		if (isInputOrLabel) {
+		if (isInput) {
 			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
 		} else {
 			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.BrickText));
 		}
-		userDataTextView.setText(text.getName());
-		currentUserDataEditText = userDataTextView;
-		userBrickContentLayout.addView(userDataTextView);
+		userDataTextView.setText(text);
+		currentUserDefinedDataTextView = userDataTextView;
+		userDefinedBrickLayout.addView(userDataTextView);
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_user_brick;
-	}
-
-	@Override
-	public boolean equals(@Nullable Object obj) {
-		if (obj instanceof UserDefinedBrick) {
-			UserDefinedBrick other = (UserDefinedBrick) obj;
-			if (userBrickDataList.size() == other.userBrickDataList.size()) {
-				int dataIndex;
-				for (dataIndex = 0; dataIndex < userBrickDataList.size(); dataIndex++) {
-					if (userBrickDataList.get(dataIndex) instanceof UserBrickLabel
-							&& other.userBrickDataList.get(dataIndex) instanceof UserBrickLabel) {
-						if (!userBrickDataList.get(dataIndex).equals(other.userBrickDataList.get(dataIndex))) {
-							return false;
-						}
-					} else if (!(userBrickDataList.get(dataIndex) instanceof UserBrickInput
-							&& other.userBrickDataList.get(dataIndex) instanceof UserBrickInput)) {
-						return false;
-					}
-				}
-				return true;
-			}
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return userBrickDataList.hashCode();
 	}
 
 	@Override
