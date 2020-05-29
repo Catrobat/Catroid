@@ -21,31 +21,18 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
 
-    <!-- Toolbar and Bottombar Colors -->
-    <color name="toolbar_background">#20103B</color>
-    <color name="toolbar_icons">@color/accent</color>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Text Colors -->
-    <color name="toolbar_title">#D19FC1</color>
-    <color name="vh_headline">@color/solid_white</color>
-    <color name="vh_item_title">@color/accent</color>
-    <color name="vh_item_details">@color/accent</color>
+    <item android:state_pressed="false">
+        <shape>
+            <solid android:color="@color/formula_editor_category_button" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/formula_editor_category_button_pressed" />
+        </shape>
+    </item>
 
-    <!-- Backgrounds -->
-    <color name="app_background">#2A1848</color>
-    <color name="button_background">#392757</color>
-    <color name="button_border_top">@color/accent</color>
-
-    <!-- Accent Colors -->
-    <color name="accent">#EAB7D5</color>
-    <color name="brick_field_highlight">#33B5E5</color>
-
-    <!-- Formula Editor Colors -->
-    <color name="formula_editor_category_text">#200E3D</color>
-    <color name="formula_editor_ok_button">#C8A2CA</color>
-    <color name="formula_editor_ok_button_pressed">#EAB7D5</color>
-    <color name="formula_editor_ok_text">#200E3D</color>
-
-</resources>
+</selector>

@@ -467,8 +467,6 @@
     </style>
 
     <style name="FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:textColor">@color/accent</item>
         <item name="android:lines">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
@@ -477,6 +475,26 @@
         <item name="android:layout_marginTop">@dimen/key_margin</item>
         <item name="android:layout_marginStart">@dimen/key_margin</item>
         <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
+    </style>
+
+    <style name="FormulaEditorComputeButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_compute_button</item>
+        <item name="android:textColor">@color/formula_editor_category_text</item>
+    </style>
+
+    <style name="FormulaEditorCategoryButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_category_button</item>
+        <item name="android:textColor">@color/formula_editor_category_text</item>
+    </style>
+
+    <style name="FormulaEditorKeyboardButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
+        <item name="android:textColor">@color/formula_editor_symbol_text</item>
+    </style>
+
+    <style name="FormulaEditorOkButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_ok_button</item>
+        <item name="android:textColor">@color/formula_editor_ok_text</item>
     </style>
 
     <style name="BrickCategory">
