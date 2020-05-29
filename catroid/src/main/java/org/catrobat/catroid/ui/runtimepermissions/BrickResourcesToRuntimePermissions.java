@@ -44,8 +44,10 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.CHANGE_WIFI_MULTICAST_STATE;
 import static android.Manifest.permission.CHANGE_WIFI_STATE;
 import static android.Manifest.permission.NFC;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.VIBRATE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public final class BrickResourcesToRuntimePermissions {
 	private BrickResourcesToRuntimePermissions() {
@@ -73,6 +75,8 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(Brick.NFC_ADAPTER, Arrays.asList(NFC));
 		brickResourcesToPermissions.put(Brick.FACE_DETECTION, Arrays.asList(CAMERA));
 		brickResourcesToPermissions.put(Brick.MICROPHONE, Arrays.asList(RECORD_AUDIO));
+		brickResourcesToPermissions.put(Brick.STORAGE_READ, Arrays.asList(READ_EXTERNAL_STORAGE));
+		brickResourcesToPermissions.put(Brick.STORAGE_WRITE, Arrays.asList(WRITE_EXTERNAL_STORAGE));
 
 		Set<String> requiredPermissions = new HashSet<>();
 		for (int brickResource : brickResources) {

@@ -38,7 +38,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999993f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999994f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -238,6 +238,7 @@ public final class Constants {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
+	public static final int MAX_FILE_NAME_LENGTH = 127;
 
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;

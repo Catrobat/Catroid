@@ -205,6 +205,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -523,6 +524,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new HideTextBrick());
 		dataBrickList.add(new WriteVariableOnDeviceBrick());
 		dataBrickList.add(new ReadVariableFromDeviceBrick());
+		dataBrickList.add(new WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)));
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new ClearUserListBrick());
