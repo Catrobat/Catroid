@@ -27,6 +27,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -131,7 +132,11 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 		}
 
 		if (permissionStatus == UNKNOWN) {
-			askForPermission();
+			if (ProjectManager.checkIfURLIsInWhitelist(url)) {
+				grantPermission();
+			} else {
+				askForPermission();
+			}
 		}
 
 		if (permissionStatus == PENDING) {

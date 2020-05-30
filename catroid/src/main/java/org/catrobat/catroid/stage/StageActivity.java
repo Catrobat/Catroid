@@ -34,6 +34,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
@@ -219,11 +221,14 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		StageLifeCycleController.stagePause(this);
 
 		final View view = LayoutInflater.from(this).inflate(R.layout.dialog_request_permission, null);
-		final TextView textView = view.findViewById(R.id.request_url);
-		textView.setText(getContext().getString(R.string.brick_web_request_dialog_url, url));
+		final TextView urlView = view.findViewById(R.id.request_url);
+		urlView.setText(url);
+		final TextView warningView = view.findViewById(R.id.request_warning);
+		warningView.setText(Html.fromHtml(getString(R.string.brick_web_request_warning_message)));
+		warningView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		permissionDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
-			.setTitle(getContext().getString(R.string.brick_web_request_ask_permission))
+			.setTitle(getContext().getString(R.string.brick_web_request_warning_title))
 			.setCancelable(false)
 			.setView(view)
 			.setOnKeyListener((dialog, keyCode, event) -> {
