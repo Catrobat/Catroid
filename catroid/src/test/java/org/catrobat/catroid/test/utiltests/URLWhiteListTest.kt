@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.utiltests
 
 import android.content.Context
 import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.ProjectManager.checkIfURLIsInWhitelist
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
@@ -73,48 +74,49 @@ class URLWhiteListTest {
     @Test
     fun testNoProtocol() {
         doReturn("tugraz.at").`when`(domains).getString(0)
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("https://www.tugraz.at"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("www.tugraz.at"))
+        assertTrue(checkIfURLIsInWhitelist("https://www.tugraz.at"))
+        assertFalse(checkIfURLIsInWhitelist("www.tugraz.at"))
     }
 
     @Test
     fun testEnding() {
         doReturn("net").`when`(domains).getString(0)
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("https://www.wikipedia.net/blabla"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("https://something.net.com/blabla"))
+        assertTrue(checkIfURLIsInWhitelist("https://www.wikipedia.net/blabla"))
+        assertFalse(checkIfURLIsInWhitelist("https://something.net.com/blabla"))
     }
 
     @Test
     fun testCommonInternetScheme() {
         doReturn("tugraz.at").`when`(domains).getString(0)
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("http://myaccount:@www.ist.tugraz.at/blablabla"))
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("http://myaccount:mypassword@www.ist.tugraz.at/blablabla"))
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("http://www.ist.tugraz.at:8080/blablabla"))
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("http://www.ist.tugraz.at:8080/"))
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("http://myaccount:mypassword@www.ist.tugraz.at:8080/blablabla"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("http://www.tugraz.at:/"))
+        assertTrue(checkIfURLIsInWhitelist("http://www.ist.tugraz.at:8080/blablabla"))
+        assertTrue(checkIfURLIsInWhitelist("http://www.ist.tugraz.at:8080/"))
+        assertTrue(checkIfURLIsInWhitelist("http://connect4.ist.tugraz.at"))
+        assertFalse(checkIfURLIsInWhitelist("http://myaccount:mypassword@www.ist.tugraz.at:8080/blablabla"))
+        assertFalse(checkIfURLIsInWhitelist("http://myaccount:@www.ist.tugraz.at/blablabla"))
+        assertFalse(checkIfURLIsInWhitelist("http://myaccount:mypassword@www.ist.tugraz.at/blablabla"))
+        assertFalse(checkIfURLIsInWhitelist("http://www.tugraz.at:/"))
     }
 
     @Test
     fun testDomainEndsWithEntry() {
         doReturn("wikipedia.org").`when`(domains).getString(0)
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("https://www.wikipedia.org/hallo"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("https://wikipedia.org.dark.net/trallala"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("https://wikipedia.orgxxx/trallala"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("https://www.dark.net/wikipedia.org/"))
+        assertTrue(checkIfURLIsInWhitelist("https://www.wikipedia.org/hallo"))
+        assertFalse(checkIfURLIsInWhitelist("https://wikipedia.org.dark.net/trallala"))
+        assertFalse(checkIfURLIsInWhitelist("https://wikipedia.orgxxx/trallala"))
+        assertFalse(checkIfURLIsInWhitelist("https://www.dark.net/wikipedia.org/"))
     }
 
     @Test
     fun testDomainExtension() {
         doReturn("wikipedia.org").`when`(domains).getString(0)
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("https://wwwwikipedia.org/hallo"))
+        assertFalse(checkIfURLIsInWhitelist("https://wwwwikipedia.org/hallo"))
     }
 
     @Test
     fun testEscapedDots() {
         doReturn("ac.at").`when`(domains).getString(0)
-        assertTrue(ProjectManager.checkIfURLIsInWhitelist("https://www.tugraz.ac.at/hallo"))
-        assertFalse(ProjectManager.checkIfURLIsInWhitelist("https://www.tugraz.acbat/hallo"))
+        assertTrue(checkIfURLIsInWhitelist("https://www.tugraz.ac.at/hallo"))
+        assertFalse(checkIfURLIsInWhitelist("https://www.tugraz.acbat/hallo"))
     }
 
     @After

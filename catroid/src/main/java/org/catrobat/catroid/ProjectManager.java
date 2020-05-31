@@ -340,9 +340,9 @@ public final class ProjectManager implements EagerSingleton {
 		}
 		trustedDomains.append(')');
 
-		urlWhitelistPattern = Pattern.compile("https?://([a-zA-Z-.:@]+\\.)?"
+		urlWhitelistPattern = Pattern.compile("https?://([a-zA-Z0-9-]+\\.)*"
 				+ trustedDomains.toString().replaceAll("\\.", "\\\\.")
-				+ "(:[0-9]{1,5})?(/[a-zA-Z0-9-()@:%_\\\\+~#.?&/=]*)?");
+				+ "(:[0-9]{1,5})?(/.*)?");
 	}
 
 	@VisibleForTesting
