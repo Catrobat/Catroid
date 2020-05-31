@@ -92,6 +92,9 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 	private boolean interpretUrl() {
 		try {
 			url = formula.interpretString(sprite);
+			if (!url.startsWith("http://") && !url.startsWith("https://")) {
+				url = "https://" + url;
+			}
 			return true;
 		} catch (InterpretationException exception) {
 			Log.d(getClass().getSimpleName(), "Couldn't interpret formula", exception);
