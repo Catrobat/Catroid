@@ -1274,7 +1274,7 @@
     <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
         you have entered to malicious other persons or to the public. See our
-        &lt;a href=https://catrob.at/webbricks>wiki&lt;/a&gt; for more information why this can
+        &lt;a href=%1s>wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
     </string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>

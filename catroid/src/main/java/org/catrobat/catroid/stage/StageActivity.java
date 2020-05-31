@@ -56,6 +56,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
@@ -224,7 +225,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		final TextView urlView = view.findViewById(R.id.request_url);
 		urlView.setText(url);
 		final TextView warningView = view.findViewById(R.id.request_warning);
-		warningView.setText(Html.fromHtml(getString(R.string.brick_web_request_warning_message)));
+		warningView.setText(Html.fromHtml(
+				getString(R.string.brick_web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL)));
 		warningView.setMovementMethod(LinkMovementMethod.getInstance());
 
 		permissionDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
