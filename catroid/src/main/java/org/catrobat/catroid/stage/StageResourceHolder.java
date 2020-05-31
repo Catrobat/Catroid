@@ -35,6 +35,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.text.Html;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -377,28 +378,19 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 
 		if (requiredResourcesSet.contains(Brick.NETWORK_CONNECTION)) {
 			if (!Utils.isNetworkAvailable(stageActivity)) {
-				new AlertDialog.Builder(stageActivity)
-						.setTitle(R.string.error_no_network_title)
-						.setPositiveButton(R.string.preference_title, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
-							}
-						})
-						.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								endStageActivity();
-							}
-						})
-						.setOnDismissListener(new DialogInterface.OnDismissListener() {
-							@Override
-							public void onDismiss(DialogInterface dialog) {
-								endStageActivity();
-							}
-						})
-						.create()
-						.show();
+				new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
+					.setTitle(R.string.error_no_network_title)
+					.setPositiveButton(R.string.preference_title, (dialog, whichButton) -> {
+						stageActivity.startActivity(new Intent(Settings.ACTION_SETTINGS));
+					})
+					.setNegativeButton(R.string.cancel, (dialog, whichButton) -> {
+						endStageActivity();
+					})
+					.setOnDismissListener(dialog -> {
+						endStageActivity();
+					})
+					.create()
+					.show();
 			} else {
 				resourceInitialized();
 			}
