@@ -336,7 +336,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 
-		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode() || isInPortraitMode()) {
+		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode()
+				|| virtualScreenHeight < virtualScreenWidth && isInPortraitMode()) {
 			swapWidthAndHeigth();
 		}
 

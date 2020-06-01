@@ -35,20 +35,12 @@
         android:gravity="center_vertical"
         android:visibility="gone"/>
 
-    <ScrollView
-        android:id="@+id/user_brick_scrollbar"
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/brick_height_medium"
-        android:layout_marginBottom="10dp">
         <org.catrobat.catroid.ui.BrickLayout
             android:id="@+id/brick_user_brick"
-            style="@style/BrickContainer.Look.Medium"
-            android:layout_height="@dimen/brick_height_medium"
+            style="@style/BrickContainer.Userbrick.Medium"
             app:userDefinedBrick="true"
-            android:layout_width="match_parent"
-            android:background="@drawable/brick_darkblue_1h">
+            android:layout_width="match_parent">
             <include layout="@layout/icon_brick_category_look"/>
         </org.catrobat.catroid.ui.BrickLayout>
-    </ScrollView>
+
 </LinearLayout>

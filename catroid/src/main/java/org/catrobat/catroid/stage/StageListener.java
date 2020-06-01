@@ -723,13 +723,25 @@ public class StageListener implements ApplicationListener {
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
+				shapeRenderer.identity();
 				break;
 			case MAXIMIZE:
+				float yScale = 1.0f;
+				float xScale = 1.0f;
+				if (screenshotWidth != maxViewPortWidth && maxViewPortWidth > 0) {
+					xScale = screenshotWidth / (float) maxViewPortWidth;
+				}
+				if (screenshotHeight != maxViewPortHeight && maxViewPortHeight > 0) {
+					yScale = screenshotHeight / (float) maxViewPortHeight;
+				}
+
 				screenshotWidth = maxViewPortWidth;
 				screenshotHeight = maxViewPortHeight;
 				screenshotX = maxViewPortX;
 				screenshotY = maxViewPortY;
+
 				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
+				shapeRenderer.scale(xScale, yScale, 1.0f);
 				break;
 			default:
 				break;
@@ -737,6 +749,7 @@ public class StageListener implements ApplicationListener {
 		viewPort.update(SCREEN_WIDTH, SCREEN_HEIGHT, false);
 		camera.position.set(0, 0, 0);
 		camera.update();
+		shapeRenderer.updateMatrices();
 	}
 
 	private void disposeTextures() {

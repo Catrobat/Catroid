@@ -33,8 +33,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.IOException;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -45,13 +48,15 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-public class AddUserDefinedBrickTest {
+@RunWith(AndroidJUnit4.class)
+public class AddUserBrickDataTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -60,12 +65,12 @@ public class AddUserDefinedBrickTest {
 
 	@After
 	public void tearDown() throws IOException {
-		TestUtils.deleteProjects(AddUserDefinedBrickTest.class.getSimpleName());
+		TestUtils.deleteProjects(AddUserBrickDataTest.class.getSimpleName());
 	}
 
 	@Before
 	public void setUp() throws IOException {
-		BrickTestUtils.createProjectAndGetStartScript(AddUserDefinedBrickTest.class.getSimpleName());
+		BrickTestUtils.createProjectAndGetStartScript(AddUserBrickDataTest.class.getSimpleName());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -77,21 +82,27 @@ public class AddUserDefinedBrickTest {
 	}
 
 	@Test
-	public void testAddInputToUserBrickFragmentShown() {
+	public void testAddUserDataToUserBrickFragmentShown() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.fragment_add_input_to_user_brick)).check(matches(isDisplayed()));
+		onView(withId(R.id.fragment_add_user_data_to_user_brick)).check(matches(isDisplayed()));
 	}
 
 	@Test
 	public void testAddInputToUserBrickDefaultText() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.input_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_input_name)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_input_name)));
+	}
+
+	@Test
+	public void testAddLabelToUserBrickDefaultText() {
+		clickOnAddLabelToUserBrick();
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_label)));
 	}
 
 	@Test
 	public void testAddInputToUserBrickEmptyInput() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.input_user_brick_edit_field)).perform(replaceText(""));
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(""));
 		onView(withText(R.string.name_empty)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
 	}
@@ -99,9 +110,25 @@ public class AddUserDefinedBrickTest {
 	@Test
 	public void testAddInputToUserBrickOnlyWhitespaceInput() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.input_user_brick_edit_field)).perform(replaceText(" \n"));
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(" \n"));
 		onView(withText(R.string.name_consists_of_spaces_only)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
+	}
+
+	@Test
+	public void testAddLabelToUserBrickConsecutiveLabels() {
+		clickOnAddLabelToUserBrick();
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText("Test1"));
+		onView(withId(R.id.next))
+				.perform(click());
+		onView(withId(R.id.button_add_label))
+				.perform(click());
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText("Test"));
+		onView(withId(R.id.next))
+				.perform(click());
+		onView(withId(R.id.button_add_label))
+				.perform(click());
+		onView(withText("Test1")).check(doesNotExist());
 	}
 
 	@Test
@@ -109,11 +136,9 @@ public class AddUserDefinedBrickTest {
 		clickOnAddInputToUserBrick();
 		onView(withId(R.id.next))
 				.perform(click());
-		onView(withId(R.id.button_add_label))
-				.perform(click());
 		onView(withId(R.id.button_add_input))
 				.perform(click());
-		onView(withId(R.id.input_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name)));
 		onView(withText(R.string.name_already_exists)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
 	}
@@ -132,6 +157,14 @@ public class AddUserDefinedBrickTest {
 		onView(withId(R.id.button_add_user_brick))
 				.perform(click());
 		onView(withId(R.id.button_add_input))
+				.perform(click());
+	}
+
+	private void clickOnAddLabelToUserBrick() {
+		selectYourBricks();
+		onView(withId(R.id.button_add_user_brick))
+				.perform(click());
+		onView(withId(R.id.button_add_label))
 				.perform(click());
 	}
 }

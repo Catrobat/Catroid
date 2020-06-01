@@ -52,8 +52,8 @@
 
            <ListPreference
                android:defaultValue="regular"
-               android:entries="@array/accessiblity_font_style"
-               android:entryValues="@array/accessiblity_font_style_values"
+               android:entries="@array/accessibility_font_style"
+               android:entryValues="@array/accessibility_font_style_values"
                android:key="accessibility_font_style"
                android:summary="%s"
                android:title="@string/preference_title_accessibility_font_style" />

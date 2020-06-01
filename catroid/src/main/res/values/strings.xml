@@ -190,6 +190,10 @@
     <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
 
+    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
+
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
@@ -719,6 +723,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
     <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
+    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
+        on connected multiplayer devices</string>
 
 
     <!-- Backpack -->
@@ -1055,11 +1061,14 @@
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Add label</string>
     <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_add_new_user_brick">Add new brick</string>
 
     <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
+
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <!--  -->
 
     <!-- Motion bricks -->

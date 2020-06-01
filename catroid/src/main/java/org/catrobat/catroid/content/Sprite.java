@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
@@ -89,6 +90,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private List<UserVariable> userVariables = new ArrayList<>();
 	private List<UserList> userLists = new ArrayList<>();
+	private transient List<Brick> userDefinedBrickList = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 
@@ -131,6 +133,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			allBricks.addAll(script.getBrickList());
 		}
 		return allBricks;
+	}
+
+	public List<Brick> getUserDefinedBrickList() {
+		return userDefinedBrickList;
+	}
+
+	public boolean addUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
+		return userDefinedBrickList.add(userDefinedBrick);
 	}
 
 	public List<UserVariable> getUserVariables() {
@@ -436,6 +446,15 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (LookData lookData : getLookList()) {
 			lookData.getCollisionInformation().calculate();
 		}
+	}
+
+	public static boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick, Sprite sprite) {
+		for (Brick alreadyDefinedBrick : sprite.getUserDefinedBrickList()) {
+			if (alreadyDefinedBrick.equals(userDefinedBrick)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public class PenConfiguration {

@@ -23,20 +23,24 @@
 
 package org.catrobat.catroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
-import androidx.annotation.NonNull;
+import java.util.List;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
 public class UserBrickListFragment extends ListFragment implements View.OnClickListener {
@@ -44,11 +48,15 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 	public static final String USER_BRICK_LIST_FRAGMENT_TAG =
 			AddBrickFragment.class.getSimpleName();
 
-	private ImageButton addUserBrickButton;
+	private ScriptFragment scriptFragment;
 
-	public static UserBrickListFragment newInstance() {
+	private ImageButton addUserBrickButton;
+	private PrototypeBrickAdapter adapter;
+
+	public static UserBrickListFragment newInstance(ScriptFragment scriptFragment) {
 		UserBrickListFragment fragment = new UserBrickListFragment();
 
+		fragment.scriptFragment = scriptFragment;
 		return fragment;
 	}
 
@@ -68,9 +76,11 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_user_brick_list, container, false);
-		setHasOptionsMenu(true);
+
 		addUserBrickButton = view.findViewById(R.id.button_add_user_brick);
 		addUserBrickButton.setOnClickListener(this);
+
+		setupUserDefinedBrickListView();
 
 		AppCompatActivity activity = (AppCompatActivity) getActivity();
 		if (activity != null) {
@@ -84,33 +94,39 @@ public class UserBrickListFragment extends ListFragment implements View.OnClickL
 	}
 
 	@Override
+	public void onStart() {
+		super.onStart();
+		getListView().setOnItemClickListener((parent, view, position, id) -> { });
+	}
+
+	private void setupUserDefinedBrickListView() {
+		Context context = getActivity();
+		CategoryBricksFactory categoryBricksFactory = new CategoryBricksFactory();
+
+		if (context != null) {
+			List<Brick> brickList =
+					categoryBricksFactory.getBricks(getString(R.string.category_user_bricks), false, context);
+			adapter = new PrototypeBrickAdapter(brickList);
+			setListAdapter(adapter);
+		}
+	}
+
+	@Override
 	public void onClick(View v) {
-		AddUserBrickFragment addUserBrickFragment = new AddUserBrickFragment();
+		AddUserBrickFragment addUserBrickFragment =
+				AddUserBrickFragment.newInstance(scriptFragment);
 
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
 		addUserBrickFragment.setArguments(bundle);
 
-		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, addUserBrickFragment, AddUserBrickFragment.TAG)
-				.addToBackStack(AddUserBrickFragment.TAG)
-				.commit();
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(@NonNull Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-
-		((AppCompatActivity) getActivity())
-				.getSupportActionBar().setTitle(R.string.category_user_bricks);
-	}
-
-	@Override
-	public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-		super.onCreateOptionsMenu(menu, inflater);
-
-		((AppCompatActivity) getActivity())
-				.getSupportActionBar().setTitle(R.string.category_user_bricks);
+		FragmentManager fragmentManager = getFragmentManager();
+		if (fragmentManager != null) {
+			fragmentManager.beginTransaction()
+					.add(R.id.fragment_container, addUserBrickFragment, AddUserBrickFragment.TAG)
+					.addToBackStack(AddUserBrickFragment.TAG)
+					.commit();
+		}
 	}
 }

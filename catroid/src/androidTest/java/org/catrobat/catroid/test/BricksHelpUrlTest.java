@@ -27,6 +27,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -447,6 +448,9 @@ public class BricksHelpUrlTest {
 		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
 				InstrumentationRegistry.getInstrumentation().getTargetContext());
 		String brickHelpUrl = brick.getHelpUrl(category);
+		if (brick instanceof UserDefinedBrick) {
+			brickHelpUrl = brick.getHelpUrl("Your bricks");
+		}
 		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
 	}
 

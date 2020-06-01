@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -54,13 +55,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-public class AddInputToUserBrickFragment extends Fragment {
+import static org.catrobat.catroid.content.bricks.UserDefinedBrick.INPUT;
 
-	public static final String TAG = AddInputToUserBrickFragment.class.getSimpleName();
+public class AddUserDataToUserBrickFragment extends Fragment {
 
+	public static final String TAG = AddUserDataToUserBrickFragment.class.getSimpleName();
+
+	private boolean isAddInputOrLabel;
 	private AppCompatActivity activity;
-	private TextInputEditText addInputUserBrickEditText;
-	private TextInputLayout addInputUserBrickTextLayout;
+	private TextInputEditText addUserDataUserBrickEditText;
+	private TextInputLayout addUserDataUserBrickTextLayout;
+	private ScrollView scrollView;
 
 	private MenuItem nextItem;
 
@@ -68,40 +73,55 @@ public class AddInputToUserBrickFragment extends Fragment {
 	private TextView userBrickTextView;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_add_input_to_user_brick, container, false);
-
-		addInputUserBrickEditText = view.findViewById(R.id.input_user_brick_edit_field);
-		addInputUserBrickTextLayout = view.findViewById(R.id.input_user_brick_text_layout);
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.fragment_add_user_data_to_user_brick, container, false);
 		LinearLayout userBrickSpace = view.findViewById(R.id.user_brick_space);
+		scrollView = view.findViewById(R.id.fragment_add_user_data_to_user_brick);
 
 		Bundle arguments = getArguments();
 		if (arguments != null) {
 			userDefinedBrick = (UserDefinedBrick) getArguments().getSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT);
-			if (userDefinedBrick != null) {
-				View userBrickView = userDefinedBrick.getView(getActivity());
-				userBrickSpace.addView(userBrickView);
-				userBrickTextView = userDefinedBrick.currentInputEditText;
+			isAddInputOrLabel = getArguments().getBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT);
+		}
+
+		if (userDefinedBrick != null) {
+			View userBrickView = userDefinedBrick.getView(getActivity());
+			userBrickSpace.addView(userBrickView);
+			userBrickTextView = userDefinedBrick.currentUserDataEditText;
+		}
+		addUserDataUserBrickEditText = view.findViewById(R.id.user_data_user_brick_edit_field);
+		addUserDataUserBrickTextLayout = view.findViewById(R.id.user_data_user_brick_text_layout);
+
+		TextView addUserDataUserBrickTextView = view.findViewById(R.id.brick_user_defined_add_user_data_description);
+
+		addUserDataUserBrickEditText.setText(userBrickTextView.getText());
+		if (getContext() != null) {
+			addUserDataUserBrickEditText.addTextChangedListener(new UserDataTextWatcher());
+			if (isAddInput()) {
+				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_input_description));
+			} else {
+				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_label_description));
 			}
 		}
 
 		activity = (AppCompatActivity) getActivity();
 		if (activity != null) {
-			getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			showStandardSystemKeyboard();
 			ActionBar actionBar = activity.getSupportActionBar();
 			if (actionBar != null) {
-				activity.getSupportActionBar().setTitle("Your Bricks");
+				activity.getSupportActionBar().setTitle(R.string.category_user_bricks);
 			}
 		}
 
-		addInputUserBrickEditText.setText(userBrickTextView.getText());
-		addInputUserBrickEditText.addTextChangedListener(new InputTextWatcher());
-
-		userDefinedBrick.scrollToBottom();
+		view.findViewById(R.id.bottom_constraint).requestFocus();
 
 		setHasOptionsMenu(true);
 
 		return view;
+	}
+
+	public boolean isAddInput() {
+		return isAddInputOrLabel == INPUT;
 	}
 
 	@Override
@@ -142,8 +162,8 @@ public class AddInputToUserBrickFragment extends Fragment {
 				AddUserBrickFragment addUserBrickFragment = (AddUserBrickFragment)
 						getFragmentManager().findFragmentByTag(AddUserBrickFragment.TAG);
 				getFragmentManager().popBackStackImmediate();
-				if (addUserBrickFragment != null) {
-					addUserBrickFragment.addInputToUserBrick(new StringOption(addInputUserBrickEditText.getText().toString()));
+				if (addUserBrickFragment != null && addUserDataUserBrickEditText.getText() != null) {
+					addUserBrickFragment.addUserDataToUserBrick(new StringOption(addUserDataUserBrickEditText.getText().toString()), isAddInputOrLabel);
 				}
 			}
 		}
@@ -156,7 +176,7 @@ public class AddInputToUserBrickFragment extends Fragment {
 
 	private void showStandardSystemKeyboard() {
 		if (activity != null) {
-			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+			activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 		}
 	}
 
@@ -169,10 +189,11 @@ public class AddInputToUserBrickFragment extends Fragment {
 			}
 		}
 	}
-	private class InputTextWatcher implements TextWatcher {
+
+	private class UserDataTextWatcher implements TextWatcher {
 
 		private boolean isNameUnique(String name) {
-			for (Nameable item : userDefinedBrick.getInputList()) {
+			for (Nameable item : userDefinedBrick.getUserDataList(INPUT)) {
 				if (item.getName().equals(name)) {
 					return false;
 				}
@@ -197,21 +218,26 @@ public class AddInputToUserBrickFragment extends Fragment {
 
 			return null;
 		}
+
 		@Override
 		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 		}
 
 		@Override
 		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-			userDefinedBrick.scrollToBottom();
 		}
 
 		@Override
 		public void afterTextChanged(Editable editable) {
-			String error = validateName(editable.toString());
 			userBrickTextView.setText(editable.toString());
-			addInputUserBrickTextLayout.setError(error);
-			setNextItemEnabled(error == null);
+			if (isAddInput()) {
+				String error = validateName(editable.toString());
+				if (error != null) {
+					scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+				}
+				addUserDataUserBrickTextLayout.setError(error);
+				setNextItemEnabled(error == null);
+			}
 		}
 	}
 }

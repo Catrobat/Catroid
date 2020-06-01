@@ -53,6 +53,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
@@ -74,6 +75,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_SHOW_NFC_BRICKS = "setting_nfc_bricks";
 	public static final String SETTINGS_PARROT_AR_DRONE_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY = "setting_parrot_ar_drone_catrobat_terms_of_service_accepted_permanently";
 	public static final String SETTINGS_CAST_GLOBALLY_ENABLED = "setting_cast_globally_enabled";
+	public static final String SETTINGS_MULTIPLAYER_VARIABLES_ENABLED = "setting_multiplayer_variables_enabled";
 	public static final String SETTINGS_SHOW_HINTS = "setting_enable_hints";
 	public static final String SETTINGS_MULTILINGUAL = "setting_multilingual";
 	public static final String SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY =
@@ -141,7 +143,7 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(arduinoPreference);
 		}
 
-		if ((!BuildConfig.FEATURE_CAST_ENABLED)) {
+		if (!BuildConfig.FEATURE_CAST_ENABLED) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
 			screen.removePreference(globalCastPreference);
@@ -157,6 +159,13 @@ public class SettingsFragment extends PreferenceFragment {
 			CheckBoxPreference crashlyticsPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
 			crashlyticsPreference.setEnabled(false);
 			screen.removePreference(crashlyticsPreference);
+		}
+
+		if (!BuildConfig.FEATURE_MULTIPLAYER_VARIABLES_ENABLED) {
+			CheckBoxPreference multiplayerPreference =
+					(CheckBoxPreference) findPreference(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
+			multiplayerPreference.setEnabled(false);
+			screen.removePreference(multiplayerPreference);
 		}
 	}
 
@@ -399,6 +408,17 @@ public class SettingsFragment extends PreferenceFragment {
 		getSharedPreferences(context).edit()
 				.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true)
 				.apply();
+	}
+
+	@VisibleForTesting
+	public static void setMultiplayerVariablesPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, value)
+				.apply();
+	}
+
+	public static boolean isMultiplayerVariablesPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED, context);
 	}
 
 	private void setLanguage() {

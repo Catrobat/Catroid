@@ -111,7 +111,7 @@ public class PenActor extends Actor {
 		renderer.setColor(new Color(pen.penColor.r, pen.penColor.g, pen.penColor.b, pen.penColor.a));
 		renderer.begin(ShapeRenderer.ShapeType.Filled);
 
-		if (pen.penDown && (pen.previousPoint.x != sprite.look.getX() || pen.previousPoint.y != sprite.look.getY())) {
+		if (pen.penDown && (pen.previousPoint.x != x || pen.previousPoint.y != y)) {
 			Float penSize = (float) pen.penSize * screenRatio;
 			renderer.circle(pen.previousPoint.x, pen.previousPoint.y, penSize / 2);
 			renderer.rectLine(pen.previousPoint.x, pen.previousPoint.y, x, y, penSize);
