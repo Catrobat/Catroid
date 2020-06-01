@@ -255,7 +255,6 @@ android {
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
         }

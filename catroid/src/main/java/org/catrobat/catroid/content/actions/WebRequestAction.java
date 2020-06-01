@@ -22,10 +22,13 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.os.Message;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -36,16 +39,15 @@ import org.catrobat.catroid.web.WebConnectionFactory;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
 
 public class WebRequestAction extends Action implements WebConnection.WebRequestListener {
-
-	private static final Double ERROR_TOO_MANY_REQUESTS = 429d;
-
 	private Sprite sprite;
 	private Formula formula;
+	private String url;
 	private UserVariable userVariable;
 	private WebConnectionFactory webConnectionFactory;
 
@@ -56,7 +58,15 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 	public static final int WAITING = 1;
 	public static final int FINISHED = 2;
 
+	@IntDef({UNKNOWN, PENDING, DENIED, GRANTED})
+	private @interface PermissionStatus {}
+	private static final int UNKNOWN = 0;
+	private static final int PENDING = 1;
+	private static final int DENIED = 2;
+	private static final int GRANTED = 3;
+
 	private @RequestStatus int requestStatus = NOT_SENT;
+	private @PermissionStatus int permissionStatus = UNKNOWN;
 	private WebConnection webConnection = null;
 	private String response = null;
 
@@ -79,28 +89,72 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 		this.webConnectionFactory = webConnectionFactory;
 	}
 
+	private boolean interpretUrl() {
+		try {
+			url = formula.interpretString(sprite);
+			if (!url.startsWith("http://") && !url.startsWith("https://")) {
+				url = "https://" + url;
+			}
+			return true;
+		} catch (InterpretationException exception) {
+			Log.d(getClass().getSimpleName(), "Couldn't interpret formula", exception);
+			return false;
+		}
+	}
+
+	private void askForPermission() {
+		if (StageActivity.messageHandler == null) {
+			denyPermission();
+			return;
+		}
+
+		permissionStatus = PENDING;
+		ArrayList<Object> params = new ArrayList<>();
+		params.add(this);
+		params.add(url);
+		Message message = StageActivity.messageHandler.obtainMessage(StageActivity.REQUEST_PERMISSION, params);
+		message.sendToTarget();
+	}
+
+	public void grantPermission() {
+		permissionStatus = GRANTED;
+	}
+
+	public void denyPermission() {
+		permissionStatus = DENIED;
+	}
+
 	@Override
 	public boolean act(float delta) {
 		if (userVariable == null) {
 			return true;
 		}
 
+		if (url == null && !interpretUrl()) {
+			return true;
+		}
+
+		if (permissionStatus == UNKNOWN) {
+			if (ProjectManager.checkIfURLIsInWhitelist(url)) {
+				grantPermission();
+			} else {
+				askForPermission();
+			}
+		}
+
+		if (permissionStatus == PENDING) {
+			return false;
+		} else if (permissionStatus == DENIED) {
+			userVariable.setValue(Integer.toString(Constants.ERROR_AUTHENTICATION_REQUIRED));
+			return true;
+		}
+
 		if (requestStatus == NOT_SENT) {
 			requestStatus = WAITING;
-			String url = "";
-			try {
-				if (formula != null) {
-					url = formula.interpretString(sprite);
-				}
-			} catch (InterpretationException interpretationException) {
-				Log.e(getClass().getSimpleName(),
-						"formula interpretation in web request brick failed",
-						interpretationException);
-			}
 
 			webConnection = webConnectionFactory.createWebConnection(url, this);
 			if (!StageActivity.stageListener.webConnectionHolder.addConnection(webConnection)) {
-				userVariable.setValue(ERROR_TOO_MANY_REQUESTS);
+				userVariable.setValue(Integer.toString(Constants.ERROR_TOO_MANY_REQUESTS));
 				return true;
 			}
 
@@ -122,6 +176,7 @@ public class WebRequestAction extends Action implements WebConnection.WebRequest
 		StageActivity.stageListener.webConnectionHolder.removeConnection(webConnection);
 		webConnection = null;
 		requestStatus = NOT_SENT;
+		permissionStatus = UNKNOWN;
 	}
 
 	@Override

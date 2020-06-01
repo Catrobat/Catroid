@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -48,10 +49,14 @@ import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -59,6 +64,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -307,6 +313,16 @@ public final class Utils {
 		}
 
 		return messageDigest;
+	}
+
+	@NotNull
+	public static InputStream getInputStreamFromAsset(Context context, String filename) throws IOException, NullPointerException {
+		return context.getAssets().open(filename, AssetManager.ACCESS_BUFFER);
+	}
+
+	@NotNull
+	public static JSONObject getJsonObjectFromInputStream(InputStream stream) throws JSONException {
+		return new JSONObject(new Scanner(stream).useDelimiter("\\A").next());
 	}
 
 	public static String getVersionName(Context context) {

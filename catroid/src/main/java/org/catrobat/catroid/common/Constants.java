@@ -82,6 +82,10 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
+	// Whitelist File
+	public static final String URL_WHITELIST_JSON_FILE_NAME = "URL_whitelist.json";
+	public static final String URL_WHITELIST_JSON_ARRAY_NAME = "domains";
+
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
@@ -107,6 +111,7 @@ public final class Constants {
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
+	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
@@ -117,6 +122,13 @@ public final class Constants {
 
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
+
+	// HTTP status codes:
+	public static final int ERROR_BAD_REQUEST = 400;
+	public static final int ERROR_TOO_MANY_REQUESTS = 429;
+	public static final int ERROR_SERVER_ERROR = 500;
+	public static final int ERROR_TIMEOUT = 504;
+	public static final int ERROR_AUTHENTICATION_REQUIRED = 511;
 
 	// XStream:
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
