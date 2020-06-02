@@ -138,7 +138,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Override
 	public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-		updateSelectionToggle(menu.findItem(R.id.toggle_selection));
+		updateSelectionToggle(menu);
 		return true;
 	}
 
@@ -150,7 +150,7 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 				break;
 			case R.id.toggle_selection:
 				adapter.toggleSelection();
-				updateSelectionToggle(item);
+				updateSelectionToggle(actionMode.getMenu());
 				break;
 			default:
 				return false;
@@ -331,15 +331,16 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		updateSelectionToggle(actionMode.getMenu().findItem(R.id.toggle_selection));
+		updateSelectionToggle(actionMode.getMenu());
 		actionMode.setTitle(getResources()
 				.getQuantityString(getActionModeTitleId(actionModeType), selectedItemCnt, selectedItemCnt));
 	}
 
-	protected void updateSelectionToggle(MenuItem selectionToggle) {
+	protected void updateSelectionToggle(Menu menu) {
 		if (adapter.selectionMode == adapter.MULTIPLE) {
-
+			MenuItem selectionToggle = menu.findItem(R.id.toggle_selection);
 			selectionToggle.setVisible(true);
+			menu.findItem(R.id.overflow).setVisible(true);
 
 			if (adapter.getSelectedItems().size() == adapter.getSelectableItemCount()) {
 				selectionToggle.setTitle(R.string.deselect_all);
