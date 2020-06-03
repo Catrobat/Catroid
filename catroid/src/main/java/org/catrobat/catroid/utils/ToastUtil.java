@@ -24,7 +24,6 @@ package org.catrobat.catroid.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,20 +62,20 @@ public final class ToastUtil {
 	}
 
 	private static void createToast(Context context, String message, int duration, int color) {
-		Activity activity = UiUtils.getActivityFromContextWrapper(context);
-		if (activity == null) {
-			return;
-		}
-		View contentView = activity.findViewById(android.R.id.content);
-		if (contentView == null) {
+		Activity activity;
+		if (context instanceof Activity) {
+			activity = (Activity) context;
+		} else if ((activity = UiUtils.getActivityFromContextWrapper(context)) == null) {
 			return;
 		}
 
-		Toast toast = Toast.makeText(activity, message, duration);
-		if (color != DEFAULT_COLOR) {
-			TextView textViewOfToast = toast.getView().findViewById(android.R.id.message);
-			textViewOfToast.setTextColor(color);
-		}
-		toast.show();
+		activity.runOnUiThread(() -> {
+			Toast toast = Toast.makeText(context, message, duration);
+			if (color != DEFAULT_COLOR) {
+				TextView textViewOfToast = toast.getView().findViewById(android.R.id.message);
+				textViewOfToast.setTextColor(color);
+			}
+			toast.show();
+		});
 	}
 }
