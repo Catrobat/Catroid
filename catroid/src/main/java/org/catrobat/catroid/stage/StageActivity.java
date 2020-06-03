@@ -61,7 +61,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.actions.AskAction;
-import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WebAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
@@ -169,7 +169,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 						showDialog((String) params.get(1), (AskAction) params.get(0));
 						break;
 					case REQUEST_PERMISSION:
-						askUserForPermission((String) params.get(1), (WebRequestAction) params.get(0));
+						askUserForPermission((String) params.get(1), (WebAction) params.get(0));
 						break;
 					case REGISTER_INTENT:
 						currentStage.queueIntent((IntentListener) params.get(0));
@@ -240,12 +240,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				}
 				return false;
 			})
-			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> {
-				requestAction.grantPermission();
-			})
-			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> {
-				requestAction.denyPermission();
-			})
+			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> webAction.grantPermission())
+			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> webAction.denyPermission())
 			.setOnDismissListener(dialog -> {
 				permissionDialog = null;
 				StageLifeCycleController.stageResume(this);

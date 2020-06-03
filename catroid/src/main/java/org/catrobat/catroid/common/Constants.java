@@ -123,6 +123,8 @@ public final class Constants {
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
 
+	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
+
 	// HTTP status codes:
 	public static final int ERROR_BAD_REQUEST = 400;
 	public static final int ERROR_TOO_MANY_REQUESTS = 429;

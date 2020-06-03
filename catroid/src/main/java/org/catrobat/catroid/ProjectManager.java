@@ -313,12 +313,12 @@ public final class ProjectManager implements EagerSingleton {
 		return conflicts;
 	}
 
-	public static synchronized boolean checkIfURLIsInWhitelist(String url) {
+	public static synchronized boolean checkIfURLIsWhitelisted(String url) {
 		if (urlWhitelistPattern == null) {
 			try {
 				initializeURLWhitelistPattern();
 			} catch (IOException | JSONException | NullPointerException e) {
-				Log.e(TAG, "Cannot read URL whitelist.", e);
+				Log.e(TAG, "Cannot read URL whitelist", e);
 				return false;
 			}
 		}
