@@ -48,6 +48,23 @@ public class WebConnectionTest {
 	private static final String BASE_URL_TEST_HTTPS = "https://catroid-test.catrob.at/pocketcode/";
 
 	@Test
+	public void testSendRequestWithIncompleteURL() {
+		WebConnection webConnection = new WebConnection(null);
+		WebConnection.WebRequestListener listener = Mockito.mock(WebConnection.WebRequestListener.class);
+		webConnection.setListener(listener);
+		webConnection.setUrl("https/");
+
+		doAnswer(invocation -> {
+			assertEquals(invocation.getArgument(0), Integer.toString(Constants.ERROR_BAD_REQUEST));
+			return null;
+		}).when(listener).onRequestFinished(anyString());
+
+		webConnection.sendWebRequest();
+
+		verify(listener, times(1)).onRequestFinished(anyString());
+	}
+
+	@Test
 	public void testSendRequestWithMalformedUrl() {
 		WebConnection webConnection = new WebConnection(null);
 		WebConnection.WebRequestListener listener = Mockito.mock(WebConnection.WebRequestListener.class);

@@ -38,6 +38,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -177,8 +178,9 @@ public class ShowTextActor extends Actor {
 		float baseline = -paint.ascent();
 		paint.setAntiAlias(true);
 
-		int canvasWidth = calculateAlignmentValuesForText(paint, text);
-		int bitmapWidth = (int) (paint.measureText(text));
+		int availableWidth = (int) Math.ceil(ScreenValues.SCREEN_WIDTH + Math.abs(posX));
+		int bitmapWidth = Math.min(availableWidth, (int) paint.measureText(text));
+		int canvasWidth = calculateAlignmentValuesForText(paint, bitmapWidth);
 		int height = (int) (baseline + paint.descent());
 
 		Bitmap bitmap = Bitmap.createBitmap(bitmapWidth, height, Bitmap.Config.ARGB_8888);
@@ -238,17 +240,17 @@ public class ShowTextActor extends Actor {
 		return textSize;
 	}
 
-	private int calculateAlignmentValuesForText(Paint paint, String text) {
+	private int calculateAlignmentValuesForText(Paint paint, int bitmapWidth) {
 		switch (alignment) {
 			case ShowTextColorSizeAlignmentBrick.ALIGNMENT_STYLE_LEFT:
 				paint.setTextAlign(Align.LEFT);
 				return 0;
 			case ShowTextColorSizeAlignmentBrick.ALIGNMENT_STYLE_RIGHT:
 				paint.setTextAlign(Align.RIGHT);
-				return (int) paint.measureText(text);
+				return bitmapWidth;
 			default:
 				paint.setTextAlign(Align.CENTER);
-				return (int) (paint.measureText(text) / 2);
+				return bitmapWidth / 2;
 		}
 	}
 }
