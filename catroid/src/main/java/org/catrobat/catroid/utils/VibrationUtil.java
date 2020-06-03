@@ -37,7 +37,7 @@ public final class VibrationUtil {
 	private static Context context = null;
 	private static Vibrator vibration = null;
 
-	private static boolean keepAlive = false;
+	private static boolean vibrationActive = false;
 	private static boolean paused = false;
 
 	private static Semaphore vibrationThreadSemaphore = new Semaphore(1);
@@ -56,10 +56,13 @@ public final class VibrationUtil {
 	public static void setTimeToVibrate(double timeInMillis) {
 		Log.d(TAG, "setTimeToVibrate()");
 		timeToVibrate = (long) timeInMillis;
+
+		if (timeToVibrate > 0) {
+			startVibrate();
+		}
+
 		if (vibrationThreadSemaphore.hasQueuedThreads()) {
 			vibrationThreadSemaphore.release();
-		} else {
-			startTime = SystemClock.uptimeMillis();
 		}
 	}
 
@@ -94,10 +97,10 @@ public final class VibrationUtil {
 			timeToVibrate = savedTimeToVibrate;
 			Log.d(TAG, "savedTimeToVibrate = " + savedTimeToVibrate);
 			savedTimeToVibrate = 0;
-			keepAlive = true;
 			activateVibrationThread();
 			if (timeToVibrate > 0) {
 				vibrationThreadSemaphore.release();
+				startVibrate();
 			} else {
 				Log.d(TAG, "nothing to do");
 			}
@@ -110,7 +113,6 @@ public final class VibrationUtil {
 		startTime = 0L;
 		timeToVibrate = 0L;
 		savedTimeToVibrate = 0L;
-		keepAlive = false;
 		if (vibrationThreadSemaphore.hasQueuedThreads()) {
 			vibrationThreadSemaphore.release();
 		}
@@ -129,7 +131,7 @@ public final class VibrationUtil {
 	}
 
 	public static boolean isActive() {
-		return keepAlive;
+		return vibrationActive;
 	}
 
 	public static void activateVibrationThread() {
@@ -142,19 +144,19 @@ public final class VibrationUtil {
 			vibrationThread = new Thread(new Runnable() {
 				@Override
 				public void run() {
-					while (keepAlive) {
-						try {
-							vibrationThreadSemaphore.acquire();
-							startVibrate();
-							while ((startTime + timeToVibrate) > SystemClock.uptimeMillis()) {
-								Thread.yield();
-							}
-							stopVibrate();
-						} catch (InterruptedException e) {
-							Log.e(TAG, "vibrationThreadSemaphore! " + e.getMessage());
+					try {
+						vibrationThreadSemaphore.acquire();
+						while ((startTime + timeToVibrate) > SystemClock.uptimeMillis()) {
+							Thread.yield();
 						}
+					} catch (Exception e) {
+						Log.e(TAG, "vibrationThreadSemaphore! " + e.getMessage());
+					} finally {
+						if (vibrationActive) {
+							stopVibrate();
+						}
+						vibrationThreadSemaphore.release();
 					}
-					vibrationThreadSemaphore.release();
 				}
 			});
 		}
@@ -169,7 +171,6 @@ public final class VibrationUtil {
 			} catch (InterruptedException e) {
 				Log.e(TAG, "vibrationThreadSemaphore! " + e.getMessage());
 			}
-			keepAlive = true;
 			vibrationThread.setName("vibrationThread");
 			Log.d(TAG, "starting thread...");
 			vibrationThread.start();
@@ -178,7 +179,6 @@ public final class VibrationUtil {
 
 	private static void killVibrationThread() {
 		Log.d(TAG, "destroy()");
-		keepAlive = false;
 		if (vibrationThreadSemaphore.hasQueuedThreads()) {
 			vibrationThreadSemaphore.release();
 		}
@@ -192,6 +192,7 @@ public final class VibrationUtil {
 			Log.d(TAG, "startVibrate()");
 			startTime = SystemClock.uptimeMillis();
 			vibration.vibrate(MAX_TIME_TO_VIBRATE);
+			vibrationActive = true;
 			Log.d(TAG, "start time was: " + Long.toString(startTime));
 		}
 	}
@@ -200,6 +201,7 @@ public final class VibrationUtil {
 		if (vibration != null) {
 			Log.d(TAG, "stopVibrate()");
 			vibration.cancel();
+			vibrationActive = false;
 		}
 	}
 }
