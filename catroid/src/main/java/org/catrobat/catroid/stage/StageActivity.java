@@ -76,6 +76,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.lang.ref.WeakReference;
@@ -100,6 +101,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public static final int REGISTER_INTENT = 1;
 	private static final int PERFORM_INTENT = 2;
 	public static final int REQUEST_PERMISSION = 3;
+	public static final int SHOW_TOAST = 4;
 
 	StageAudioFocus stageAudioFocus;
 	PendingIntent pendingIntent;
@@ -183,6 +185,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 					case PERFORM_INTENT:
 						currentStage.startQueuedIntent((Integer) params.get(0));
 						break;
+					case SHOW_TOAST:
+						showToastMessage((String) params.get(0));
+						break;
 					default:
 						Log.e(TAG, "Unhandled message in messagehandler, case " + message.what);
 						break;
@@ -224,7 +229,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		askDialog.show();
 	}
 
-	private void askUserForPermission(String url, final WebRequestAction requestAction) {
+	private void showToastMessage(String message) {
+		ToastUtil.showError(this, message);
+	}
+
+	private void askUserForPermission(String url, final WebAction webAction) {
 		StageLifeCycleController.stagePause(this);
 
 		final View view = LayoutInflater.from(this).inflate(R.layout.dialog_request_permission, null);

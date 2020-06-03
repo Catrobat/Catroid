@@ -103,6 +103,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
+import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
@@ -283,7 +284,8 @@ public class BrickCategoryTest {
 						SetBackgroundByIndexAndWaitBrick.class,
 						CameraBrick.class,
 						ChooseCameraBrick.class,
-						FlashBrick.class)},
+						FlashBrick.class,
+						LookRequestBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,
@@ -328,6 +330,7 @@ public class BrickCategoryTest {
 						ReadListFromDeviceBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class,
+						LookRequestBrick.class,
 						AskBrick.class,
 						AskSpeechBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,

@@ -25,7 +25,7 @@ package org.catrobat.catroid.test.web
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.common.Constants.ERROR_BAD_REQUEST
 import org.catrobat.catroid.web.WebConnection
 import org.catrobat.catroid.web.WebConnection.WebRequestListener
 import org.junit.Before
@@ -34,7 +34,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers.any
 import org.mockito.ArgumentMatchers.anyString
-import org.mockito.Mockito
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 import org.powermock.api.mockito.PowerMockito.doNothing
@@ -54,27 +53,24 @@ class WebConnectionTest {
     fun setUp() {
         listener = mock(WebRequestListener::class.java)
         okHttpClient = mock(OkHttpClient::class.java)
+        doNothing().`when`(listener).onRequestError(anyString())
     }
 
     @Test
     fun testSendRequestWithIncompleteURL() {
-        doNothing().`when`(listener).onRequestError(Constants.ERROR_BAD_REQUEST.toString())
-
         WebConnection(mock(OkHttpClient::class.java), listener, "https/").sendWebRequest()
-        verify(listener, times(1)).onRequestError(anyString())
+        verify(listener, times(1)).onRequestError(ERROR_BAD_REQUEST.toString())
     }
 
     @Test
     fun testSendRequestWithMalformedUrl() {
-        doNothing().`when`(listener).onRequestError(Constants.ERROR_BAD_REQUEST.toString())
-
         WebConnection(okHttpClient, listener, "test").sendWebRequest()
-        verify(listener, times(1)).onRequestError(anyString())
+        verify(listener, times(1)).onRequestError(ERROR_BAD_REQUEST.toString())
     }
 
     @Test
     fun testSendRequest() {
-        val call = Mockito.mock(Call::class.java)
+        val call = mock(Call::class.java)
         doReturn(call).`when`(okHttpClient).newCall(any(Request::class.java))
 
         WebConnection(okHttpClient, listener, BASE_URL_TEST_HTTPS).sendWebRequest()

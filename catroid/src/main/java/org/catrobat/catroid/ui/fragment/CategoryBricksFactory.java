@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -113,6 +114,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
+import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
@@ -244,7 +246,7 @@ public class CategoryBricksFactory {
 			return setupUserBricksCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_data))) {
-			return setupDataCategoryList(context);
+			return setupDataCategoryList(context, isBackgroundSprite);
 		}
 		if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			return setupLegoNxtCategoryList();
@@ -478,6 +480,16 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new FlashBrick());
 		}
 
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			if (!isBackgroundSprite) {
+				looksBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
+			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
+			} else {
+				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
+			}
+		}
+
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH,
 					BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
@@ -501,7 +513,7 @@ public class CategoryBricksFactory {
 		return penBrickList;
 	}
 
-	protected List<Brick> setupDataCategoryList(Context context) {
+	protected List<Brick> setupDataCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));
@@ -522,9 +534,18 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new ReadListFromDeviceBrick());
 		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
+
 		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
 			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+			if (!isBackgroundSprite) {
+				dataBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
+			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
+			} else {
+				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
+			}
 		}
+
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
@@ -751,7 +772,7 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_user_bricks);
 			}
 		}
-		categoryBricks = setupDataCategoryList(context);
+		categoryBricks = setupDataCategoryList(context, isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_data);
@@ -823,6 +844,10 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_looks);
 		} else if (brick instanceof AskSpeechBrick) {
 			category = res.getString(R.string.category_sound);
+		} else if (brick instanceof LookRequestBrick) {
+			category = res.getString(R.string.category_looks);
+		} else if (brick instanceof BackgroundRequestBrick) {
+			category = res.getString(R.string.category_looks);
 		} else if (brick instanceof WhenClonedBrick) {
 			category = res.getString(R.string.category_control);
 		} else if (brick instanceof WhenBackgroundChangesBrick) {

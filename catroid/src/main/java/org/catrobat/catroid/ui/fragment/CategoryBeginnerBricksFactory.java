@@ -153,7 +153,7 @@ public class CategoryBeginnerBricksFactory extends CategoryBricksFactory {
 	}
 
 	@Override
-	protected List<Brick> setupDataCategoryList(Context context) {
+	protected List<Brick> setupDataCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> dataBrickList = new ArrayList<>();
 		dataBrickList.add(new SetVariableBrick(BrickValues.SET_VARIABLE));
 		dataBrickList.add(new ChangeVariableBrick(BrickValues.CHANGE_VARIABLE));

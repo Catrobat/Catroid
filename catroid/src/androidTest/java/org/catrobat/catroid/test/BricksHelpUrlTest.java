@@ -111,6 +111,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#SetBrightnessBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WebRequestBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WebRequestBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LookRequestBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#LookRequestBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.BackgroundRequestBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#BackgroundRequestBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Lego EV3%20Bricks/#LegoEv3MotorMoveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.HideBrick",
