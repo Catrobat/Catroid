@@ -110,6 +110,7 @@ public class ShowTextActor extends Actor {
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		drawVariables(ProjectManager.getInstance().getCurrentProject().getUserVariables(), batch);
+		drawVariables(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables(), batch);
 		drawVariables(sprite.getUserVariables(), batch);
 	}
 

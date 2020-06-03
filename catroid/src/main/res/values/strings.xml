@@ -714,6 +714,7 @@
     <!--  -->
 
     <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">Variables for all actors and objects</string>
     <string name="local_vars_headline">Variables for this actor or object only</string>
     <string name="global_lists_headline">Lists for all actors and objects</string>

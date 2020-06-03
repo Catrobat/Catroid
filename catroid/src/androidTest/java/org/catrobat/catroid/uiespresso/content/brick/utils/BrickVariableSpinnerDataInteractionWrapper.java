@@ -70,6 +70,21 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
 	}
 
+	public BrickVariableSpinnerDataInteractionWrapper performNewMultiplayerVariable(String variableName) {
+		dataInteraction.perform(click());
+
+		onView(withText(R.string.new_option))
+				.perform(click());
+
+		onView(withId(R.id.multiplayer))
+				.perform(click());
+
+		enterTextOnDialogue(R.id.input_edit_text, variableName);
+		checkShowsText(variableName);
+
+		return new BrickVariableSpinnerDataInteractionWrapper(dataInteraction);
+	}
+
 	private static void enterTextOnDialogue(int editTextId, String textToEnter) {
 		onView(withId(editTextId))
 				.perform(typeText(textToEnter), closeSoftKeyboard());

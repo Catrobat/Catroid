@@ -44,6 +44,14 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 			AppCompatActivity activity, BrickSpinner<UserVariable> spinner) {
 
 		super(activity);
+
+		View dialogView = View.inflate(activity, R.layout.dialog_new_user_data, null);
+		RadioButton multiplayerRadioButton = dialogView.findViewById(R.id.multiplayer);
+		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(activity.getApplicationContext())) {
+			multiplayerRadioButton.setVisibility(View.VISIBLE);
+		}
+		setView(dialogView);
+
 		setHint(activity.getString(R.string.data_label))
 				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
 				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
@@ -51,9 +59,12 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 
 					RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
 					boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
+					boolean addToMultiplayerVariables = multiplayerRadioButton.isChecked();
 
 					if (addToProjectVariables) {
 						project.addUserVariable(userVariable);
+					} else if (addToMultiplayerVariables) {
+						project.addMultiplayerVariable(userVariable);
 					} else {
 						sprite.addUserVariable(userVariable);
 					}
@@ -68,13 +79,6 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 				});
 
 		setTitle(R.string.formula_editor_variable_dialog_title);
-
-		View dialogView = View.inflate(activity, R.layout.dialog_new_user_data, null);
-		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(activity.getApplicationContext())) {
-			RadioButton multiplayerRadioButton = dialogView.findViewById(R.id.multiplayer);
-			multiplayerRadioButton.setVisibility(View.VISIBLE);
-		}
-		setView(dialogView);
 
 		setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(currentUserVariable));
 		setOnCancelListener(dialog -> spinner.setSelection(currentUserVariable));

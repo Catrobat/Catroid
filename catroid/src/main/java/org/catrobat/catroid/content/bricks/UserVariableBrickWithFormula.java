@@ -80,6 +80,7 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 		items.add(new NewOption(context.getString(R.string.new_option)));
 		items.addAll(sprite.getUserVariables());
 		items.addAll(ProjectManager.getInstance().getCurrentProject().getUserVariables());
+		items.addAll(ProjectManager.getInstance().getCurrentProject().getMultiplayerVariables());
 
 		spinner = new BrickSpinner<>(getSpinnerId(), view, items);
 		spinner.setOnItemSelectedListener(this);

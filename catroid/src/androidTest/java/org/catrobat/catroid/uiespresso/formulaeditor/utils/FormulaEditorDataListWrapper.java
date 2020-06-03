@@ -43,7 +43,8 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 
 	public enum ItemScope {
 		GLOBAL,
-		LOCAL
+		LOCAL,
+		MULTIPLAYER
 	}
 
 	public enum ItemType {
@@ -82,6 +83,10 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 				break;
 			case LOCAL:
 				onView(withId(R.id.local))
+						.perform(click());
+				break;
+			case MULTIPLAYER:
+				onView(withId(R.id.multiplayer))
 						.perform(click());
 				break;
 			default:

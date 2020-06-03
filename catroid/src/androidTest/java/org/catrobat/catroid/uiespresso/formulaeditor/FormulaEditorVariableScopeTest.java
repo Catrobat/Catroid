@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
@@ -37,6 +38,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
+import androidx.test.core.app.ApplicationProvider;
+
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
@@ -44,6 +47,7 @@ import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewIn
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -56,6 +60,9 @@ public class FormulaEditorVariableScopeTest {
 
 	@Before
 	public void setUp() throws Exception {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
+				ApplicationProvider.getApplicationContext(), true);
+
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorAddVariableTestFormulaEditorVariableScopeTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 
@@ -74,7 +81,8 @@ public class FormulaEditorVariableScopeTest {
 		onDataList()
 				.performAdd("GlobalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
 				.performAdd("LocalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL)
-				.performAdd("LocalVar2", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL);
+				.performAdd("LocalVar2", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL)
+				.performAdd("MultiplayerVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.MULTIPLAYER);
 
 		onDataList()
 				.performAdd("GlobalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
@@ -82,15 +90,20 @@ public class FormulaEditorVariableScopeTest {
 				.performAdd("LocalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.LOCAL);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.headline)
-				.check(matches(withText(R.string.global_vars_headline)));
+				.check(matches(withText(R.string.multiplayer_vars_headline)));
 
 		onRecyclerView().atPosition(1).onChildView(R.id.headline)
+				.check(matches(withText(R.string.global_vars_headline)));
+
+		onRecyclerView().atPosition(2).onChildView(R.id.headline)
 				.check(matches(withText(R.string.local_vars_headline)));
 
-		onRecyclerView().atPosition(3).onChildView(R.id.headline)
+		onRecyclerView().perform(scrollToPosition(4));
+		onRecyclerView().atPosition(4).onChildView(R.id.headline)
 				.check(matches(withText(R.string.global_lists_headline)));
 
-		onRecyclerView().atPosition(5).onChildView(R.id.headline)
+		onRecyclerView().perform(scrollToPosition(6));
+		onRecyclerView().atPosition(6).onChildView(R.id.headline)
 				.check(matches(withText(R.string.local_lists_headline)));
 	}
 }

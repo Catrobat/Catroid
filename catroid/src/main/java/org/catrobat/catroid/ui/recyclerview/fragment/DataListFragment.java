@@ -189,10 +189,12 @@ public class DataListFragment extends Fragment implements
 
 		List<UserVariable> globalVars = currentProject.getUserVariables();
 		List<UserVariable> localVars = currentSprite.getUserVariables();
+		List<UserVariable> multiplayerVars = currentProject.getMultiplayerVariables();
 		List<UserList> globalLists = currentProject.getUserLists();
 		List<UserList> localLists = currentSprite.getUserLists();
 
-		adapter = new DataListAdapter(globalVars, localVars, globalLists, localLists);
+		adapter = new DataListAdapter(multiplayerVars, globalVars, localVars, globalLists,
+				localLists);
 		onAdapterReady();
 	}
 

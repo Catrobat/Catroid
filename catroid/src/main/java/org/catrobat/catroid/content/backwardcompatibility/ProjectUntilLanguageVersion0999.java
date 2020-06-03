@@ -49,6 +49,7 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 	private XmlHeader header = new XmlHeader();
 	private List<Setting> settings = new ArrayList<>();
 	private List<UserVariable> programVariableList = new ArrayList<>();
+	private List<UserVariable> programMultiplayerVariableList = new ArrayList<>();
 	private List<UserList> programListOfLists = new ArrayList<>();
 	private List<SceneUntilLanguageVersion0999> scenes = new ArrayList<>();
 
@@ -58,6 +59,7 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 		project.getSettings().addAll(getSettings());
 
 		project.getUserVariables().addAll(getUserVariables());
+		project.getMultiplayerVariables().addAll(getMultiplayerVariables());
 		project.getUserLists().addAll(getUserLists());
 
 		for (SceneUntilLanguageVersion0999 legacyScene : getSceneList()) {
@@ -90,6 +92,10 @@ public class ProjectUntilLanguageVersion0999 implements Serializable {
 
 	public List<UserVariable> getUserVariables() {
 		return programVariableList;
+	}
+
+	public List<UserVariable> getMultiplayerVariables() {
+		return programMultiplayerVariableList;
 	}
 
 	public List<UserList> getUserLists() {

@@ -720,6 +720,7 @@ public class SpriteActivity extends BaseActivity {
 
 		List<UserData> variables = new ArrayList<>();
 		variables.addAll(currentProject.getUserVariables());
+		variables.addAll(currentProject.getMultiplayerVariables());
 		variables.addAll(currentSprite.getUserVariables());
 
 		List<UserData> lists = new ArrayList<>();
@@ -732,6 +733,7 @@ public class SpriteActivity extends BaseActivity {
 				.setTextWatcher(textWatcher)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
+					boolean addToMultiplayerData = multiplayerRadioButton.isChecked();
 
 					if (makeListCheckBox.isChecked()) {
 						UserList userList = new UserList(textInput);
@@ -742,7 +744,9 @@ public class SpriteActivity extends BaseActivity {
 						}
 					} else {
 						UserVariable userVariable = new UserVariable(textInput);
-						if (addToProjectUserData) {
+						if (addToMultiplayerData) {
+							currentProject.addMultiplayerVariable(userVariable);
+						} else if (addToProjectUserData) {
 							currentProject.addUserVariable(userVariable);
 						} else {
 							currentSprite.addUserVariable(userVariable);

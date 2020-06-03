@@ -50,8 +50,9 @@ import static org.junit.Assert.assertEquals;
 public class FormulaEditorDataListAdapterArraysValueTest {
 
 	private Project project;
-	private String userVarName = "userVar";
-	private String userListName = "LIST";
+	private final String userVarName = "userVar";
+	private final String userListName = "LIST";
+	private final String multiplayerVarName = "multiplayerVar";
 
 	@Before
 	public void setUp() throws Exception {
@@ -63,8 +64,11 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.0"));
 		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.0"));
 		userList.addListItem(NumberFormats.stringWithoutTrailingZero("1.05"));
+		UserVariable multiplayerVariable = new UserVariable(multiplayerVarName);
+		multiplayerVariable.setValue(NumberFormats.stringWithoutTrailingZero("2.0"));
 		project.addUserList(userList);
 		project.addUserVariable(userVariable);
+		project.addMultiplayerVariable(multiplayerVariable);
 	}
 
 	@Test
@@ -81,6 +85,12 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 	public void testValueOfUserVariable() {
 		UserVariable userVar = project.getUserVariable(userVarName);
 		assertEquals(String.valueOf(1), userVar.getValue());
+	}
+
+	@Test
+	public void testValueOfMultiplayerVariable() {
+		UserVariable multiplayerVariable = project.getMultiplayerVariable(multiplayerVarName);
+		assertEquals(String.valueOf(2), multiplayerVariable.getValue());
 	}
 
 	private void createProject() {

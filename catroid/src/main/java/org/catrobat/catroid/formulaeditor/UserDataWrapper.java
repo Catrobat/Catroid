@@ -35,7 +35,10 @@ public final class UserDataWrapper {
 			userVariable = sprite.getUserVariable(name);
 		}
 		if (project != null && userVariable == null) {
-			return project.getUserVariable(name);
+			userVariable = project.getUserVariable(name);
+			if (userVariable == null) {
+				userVariable = project.getMultiplayerVariable(name);
+			}
 		}
 		return userVariable;
 	}

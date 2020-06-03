@@ -84,6 +84,19 @@ public class VariableBrickTest {
 				.checkShowsText(variableName);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testCreatingNewMultiplayerVariable() {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
+				ApplicationProvider.getApplicationContext(), true);
+
+		final String variableName = "multiplayerVariable";
+		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
+				.performNewMultiplayerVariable(variableName)
+				.checkShowsText(variableName)
+				.checkShowsVariableNameInAdapter(variableName);
+	}
+
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	@Flaky

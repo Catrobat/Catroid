@@ -56,7 +56,8 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 		"settings",
 		"scenes",
 		"programVariableList",
-		"programListOfLists"
+		"programListOfLists",
+		"programMultiplayerVariableList"
 })
 public class Project implements Serializable {
 
@@ -68,6 +69,8 @@ public class Project implements Serializable {
 	private List<Setting> settings = new ArrayList<>();
 	@XStreamAlias("programVariableList")
 	private List<UserVariable> userVariables = new ArrayList<>();
+	@XStreamAlias("programMultiplayerVariableList")
+	private List<UserVariable> multiplayerVariables = new ArrayList<>();
 	@XStreamAlias("programListOfLists")
 	private List<UserList> userLists = new ArrayList<>();
 	@XStreamAlias("scenes")
@@ -221,12 +224,35 @@ public class Project implements Serializable {
 		return false;
 	}
 
+	public List<UserVariable> getMultiplayerVariables() {
+		if (multiplayerVariables == null) {
+			multiplayerVariables = new ArrayList<>();
+		}
+		return multiplayerVariables;
+	}
+
+	public UserVariable getMultiplayerVariable(String name) {
+		for (UserVariable variable : multiplayerVariables) {
+			if (variable.getName().equals(name)) {
+				return variable;
+			}
+		}
+		return null;
+	}
+
+	public boolean addMultiplayerVariable(UserVariable multiplayerVariable) {
+		return multiplayerVariables.add(multiplayerVariable);
+	}
+
 	public void resetUserData() {
 		for (UserVariable userVariable : userVariables) {
 			userVariable.reset();
 		}
 		for (UserList userList : userLists) {
 			userList.reset();
+		}
+		for (UserVariable multiplayerVariable : multiplayerVariables) {
+			multiplayerVariable.reset();
 		}
 	}
 
