@@ -106,8 +106,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	NfcAdapter nfcAdapter;
 	private static NdefMessage nfcTagMessage;
 	StageDialog stageDialog;
-	AlertDialog askDialog;
-	AlertDialog permissionDialog;
+	private AlertDialog askDialog;
+	private AlertDialog permissionDialog;
 	private boolean resizePossible;
 
 	static int numberOfSpritesCloned;
@@ -149,6 +149,12 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	protected void onDestroy() {
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
+		}
+		if (askDialog != null) {
+			askDialog.dismiss();
+		}
+		if (permissionDialog != null) {
+			permissionDialog.dismiss();
 		}
 		super.onDestroy();
 	}
@@ -249,6 +255,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			.create();
 
 		permissionDialog.show();
+	}
+
+	public boolean dialogIsShowing() {
+		return (stageDialog.isShowing() || askDialog != null || permissionDialog != null);
 	}
 
 	@Override
