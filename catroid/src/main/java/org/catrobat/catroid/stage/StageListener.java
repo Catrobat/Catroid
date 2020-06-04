@@ -435,20 +435,23 @@ public class StageListener implements ApplicationListener {
 			return;
 		}
 		this.stageDialog = stageDialog;
-		if (!ProjectManager.getInstance().getStartScene().getName().equals(scene.getName())) {
-			transitionToScene(ProjectManager.getInstance().getStartScene().getName());
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
+
+		if (!projectManager.getStartScene().getName().equals(scene.getName())) {
+			transitionToScene(projectManager.getStartScene().getName());
 		}
 		stageBackupMap.clear();
 		embroideryPatternManager.clear();
 
-		FlashUtil.reset();
 		VibrationUtil.reset();
+		FlashUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
 
-		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());
+		UserDataWrapper.resetAllUserData(currentProject);
 
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+		for (Scene scene : currentProject.getSceneList()) {
 			scene.firstStart = true;
 		}
 		reloadProject = true;

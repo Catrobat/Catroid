@@ -318,7 +318,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
 			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
 			if (vibration != null) {
-				VibrationUtil.setContext(stageActivity);
+				VibrationUtil.setVibrator(vibration);
 				VibrationUtil.activateVibrationThread();
 				resourceInitialized();
 			} else {

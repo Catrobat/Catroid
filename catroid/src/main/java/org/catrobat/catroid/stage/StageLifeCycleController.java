@@ -39,6 +39,7 @@ import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -128,6 +129,7 @@ public final class StageLifeCycleController {
 
 	static void stagePause(final StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			if (stageActivity.nfcAdapter != null) {
 				try {
 					stageActivity.nfcAdapter.disableForegroundDispatch(stageActivity);
@@ -150,8 +152,10 @@ public final class StageLifeCycleController {
 			if (bluetoothDeviceService != null) {
 				bluetoothDeviceService.pause();
 			}
+
 			VibrationUtil.pauseVibration();
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+
+			if (currentProject.isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
 			if (stageActivity.stageResourceHolder.droneInitializer != null) {
@@ -240,6 +244,8 @@ public final class StageLifeCycleController {
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Project currentProject = projectManager.getCurrentProject();
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
 			stageActivity.jumpingSumoDisconnect();
 			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
@@ -255,7 +261,7 @@ public final class StageLifeCycleController {
 				CameraManager.getInstance().releaseCamera();
 				CameraManager.getInstance().setToDefaultCamera();
 			}
-			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			if (currentProject.isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
 			StageActivity.stageListener.finish();
@@ -267,6 +273,6 @@ public final class StageLifeCycleController {
 				stageActivity.stageResourceHolder.droneController.onDestroy();
 			}
 		}
-		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
+		projectManager.setCurrentlyPlayingScene(projectManager.getCurrentlyEditedScene());
 	}
 }
