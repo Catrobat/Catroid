@@ -61,7 +61,7 @@ import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.actions.AskAction;
-import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WebAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
@@ -76,6 +76,7 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
+import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.lang.ref.WeakReference;
@@ -100,14 +101,15 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public static final int REGISTER_INTENT = 1;
 	private static final int PERFORM_INTENT = 2;
 	public static final int REQUEST_PERMISSION = 3;
+	public static final int SHOW_TOAST = 4;
 
 	StageAudioFocus stageAudioFocus;
 	PendingIntent pendingIntent;
 	NfcAdapter nfcAdapter;
 	private static NdefMessage nfcTagMessage;
 	StageDialog stageDialog;
-	AlertDialog askDialog;
-	AlertDialog permissionDialog;
+	private AlertDialog askDialog;
+	private AlertDialog permissionDialog;
 	private boolean resizePossible;
 
 	static int numberOfSpritesCloned;
@@ -150,6 +152,12 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
+		if (askDialog != null) {
+			askDialog.dismiss();
+		}
+		if (permissionDialog != null) {
+			permissionDialog.dismiss();
+		}
 		super.onDestroy();
 	}
 
@@ -169,13 +177,16 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 						showDialog((String) params.get(1), (AskAction) params.get(0));
 						break;
 					case REQUEST_PERMISSION:
-						askUserForPermission((String) params.get(1), (WebRequestAction) params.get(0));
+						askUserForPermission((String) params.get(1), (WebAction) params.get(0));
 						break;
 					case REGISTER_INTENT:
 						currentStage.queueIntent((IntentListener) params.get(0));
 						break;
 					case PERFORM_INTENT:
 						currentStage.startQueuedIntent((Integer) params.get(0));
+						break;
+					case SHOW_TOAST:
+						showToastMessage((String) params.get(0));
 						break;
 					default:
 						Log.e(TAG, "Unhandled message in messagehandler, case " + message.what);
@@ -218,7 +229,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		askDialog.show();
 	}
 
-	private void askUserForPermission(String url, final WebRequestAction requestAction) {
+	private void showToastMessage(String message) {
+		ToastUtil.showError(this, message);
+	}
+
+	private void askUserForPermission(String url, final WebAction webAction) {
 		StageLifeCycleController.stagePause(this);
 
 		final View view = LayoutInflater.from(this).inflate(R.layout.dialog_request_permission, null);
@@ -240,12 +255,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				}
 				return false;
 			})
-			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> {
-				requestAction.grantPermission();
-			})
-			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> {
-				requestAction.denyPermission();
-			})
+			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> webAction.grantPermission())
+			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> webAction.denyPermission())
 			.setOnDismissListener(dialog -> {
 				permissionDialog = null;
 				StageLifeCycleController.stageResume(this);
@@ -253,6 +264,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			.create();
 
 		permissionDialog.show();
+	}
+
+	public boolean dialogIsShowing() {
+		return (stageDialog.isShowing() || askDialog != null || permissionDialog != null);
 	}
 
 	@Override

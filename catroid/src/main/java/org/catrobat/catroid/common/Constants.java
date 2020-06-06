@@ -38,7 +38,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999992f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999993f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -122,6 +122,8 @@ public final class Constants {
 
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
+
+	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
 
 	// HTTP status codes:
 	public static final int ERROR_BAD_REQUEST = 400;

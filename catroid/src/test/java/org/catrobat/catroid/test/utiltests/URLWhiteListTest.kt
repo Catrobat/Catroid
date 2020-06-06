@@ -24,7 +24,7 @@ package org.catrobat.catroid.test.utiltests
 
 import android.content.Context
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.ProjectManager.checkIfURLIsInWhitelist
+import org.catrobat.catroid.ProjectManager.checkIfURLIsWhitelisted
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
@@ -74,49 +74,49 @@ class URLWhiteListTest {
     @Test
     fun testNoProtocol() {
         doReturn("tugraz.at").`when`(domains).getString(0)
-        assertTrue(checkIfURLIsInWhitelist("https://www.tugraz.at"))
-        assertFalse(checkIfURLIsInWhitelist("www.tugraz.at"))
+        assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.at"))
+        assertFalse(checkIfURLIsWhitelisted("www.tugraz.at"))
     }
 
     @Test
     fun testEnding() {
         doReturn("net").`when`(domains).getString(0)
-        assertTrue(checkIfURLIsInWhitelist("https://www.wikipedia.net/blabla"))
-        assertFalse(checkIfURLIsInWhitelist("https://something.net.com/blabla"))
+        assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.net/blabla"))
+        assertFalse(checkIfURLIsWhitelisted("https://something.net.com/blabla"))
     }
 
     @Test
     fun testCommonInternetScheme() {
         doReturn("tugraz.at").`when`(domains).getString(0)
-        assertTrue(checkIfURLIsInWhitelist("http://www.ist.tugraz.at:8080/blablabla"))
-        assertTrue(checkIfURLIsInWhitelist("http://www.ist.tugraz.at:8080/"))
-        assertTrue(checkIfURLIsInWhitelist("http://connect4.ist.tugraz.at"))
-        assertFalse(checkIfURLIsInWhitelist("http://myaccount:mypassword@www.ist.tugraz.at:8080/blablabla"))
-        assertFalse(checkIfURLIsInWhitelist("http://myaccount:@www.ist.tugraz.at/blablabla"))
-        assertFalse(checkIfURLIsInWhitelist("http://myaccount:mypassword@www.ist.tugraz.at/blablabla"))
-        assertFalse(checkIfURLIsInWhitelist("http://www.tugraz.at:/"))
+        assertTrue(checkIfURLIsWhitelisted("http://www.ist.tugraz.at:8080/blablabla"))
+        assertTrue(checkIfURLIsWhitelisted("http://www.ist.tugraz.at:8080/"))
+        assertTrue(checkIfURLIsWhitelisted("http://connect4.ist.tugraz.at"))
+        assertFalse(checkIfURLIsWhitelisted("http://myaccount:mypassword@www.ist.tugraz.at:8080/blablabla"))
+        assertFalse(checkIfURLIsWhitelisted("http://myaccount:@www.ist.tugraz.at/blablabla"))
+        assertFalse(checkIfURLIsWhitelisted("http://myaccount:mypassword@www.ist.tugraz.at/blablabla"))
+        assertFalse(checkIfURLIsWhitelisted("http://www.tugraz.at:/"))
     }
 
     @Test
     fun testDomainEndsWithEntry() {
         doReturn("wikipedia.org").`when`(domains).getString(0)
-        assertTrue(checkIfURLIsInWhitelist("https://www.wikipedia.org/hallo"))
-        assertFalse(checkIfURLIsInWhitelist("https://wikipedia.org.dark.net/trallala"))
-        assertFalse(checkIfURLIsInWhitelist("https://wikipedia.orgxxx/trallala"))
-        assertFalse(checkIfURLIsInWhitelist("https://www.dark.net/wikipedia.org/"))
+        assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.org/hallo"))
+        assertFalse(checkIfURLIsWhitelisted("https://wikipedia.org.dark.net/trallala"))
+        assertFalse(checkIfURLIsWhitelisted("https://wikipedia.orgxxx/trallala"))
+        assertFalse(checkIfURLIsWhitelisted("https://www.dark.net/wikipedia.org/"))
     }
 
     @Test
     fun testDomainExtension() {
         doReturn("wikipedia.org").`when`(domains).getString(0)
-        assertFalse(checkIfURLIsInWhitelist("https://wwwwikipedia.org/hallo"))
+        assertFalse(checkIfURLIsWhitelisted("https://wwwwikipedia.org/hallo"))
     }
 
     @Test
     fun testEscapedDots() {
         doReturn("ac.at").`when`(domains).getString(0)
-        assertTrue(checkIfURLIsInWhitelist("https://www.tugraz.ac.at/hallo"))
-        assertFalse(checkIfURLIsInWhitelist("https://www.tugraz.acbat/hallo"))
+        assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.ac.at/hallo"))
+        assertFalse(checkIfURLIsWhitelisted("https://www.tugraz.acbat/hallo"))
     }
 
     @After

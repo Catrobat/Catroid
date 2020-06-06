@@ -1276,6 +1276,7 @@
     <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
     <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
     <string name="brick_replace_item_in_userlist_with_value">with</string>
+
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
@@ -1286,6 +1287,15 @@
         &lt;a href=%1s>wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
     </string>
+    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
+    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
+    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
+    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

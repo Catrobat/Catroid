@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.web
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
 import org.catrobat.catroid.web.WebConnection
 import org.junit.Assert.assertTrue
@@ -37,7 +38,6 @@ import java.util.concurrent.CompletableFuture
 @RunWith(AndroidJUnit4::class)
 class HttpResponseTest : WebConnection.WebRequestListener {
     private val okHttpClient = OkHttpClient()
-    private lateinit var webConnection: WebConnection
     private lateinit var response: CompletableFuture<String>
 
     companion object {
@@ -47,29 +47,41 @@ class HttpResponseTest : WebConnection.WebRequestListener {
 
     @Before
     fun setUp() {
-        webConnection = WebConnection(okHttpClient)
-        webConnection.setListener(this)
         response = CompletableFuture()
     }
 
     @Test
     fun testHttp() {
-        webConnection.setUrl("http://catrob.at/bot")
-        webConnection.sendWebRequest()
+        WebConnection(okHttpClient, this, "http://catrob.at/bot").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
         assertTrue(response.get().endsWith(HTML_RESPONSE_END))
     }
 
     @Test
     fun testHttps() {
-        webConnection.setUrl("https://catrob.at/bot")
-        webConnection.sendWebRequest()
+        WebConnection(okHttpClient, this, "https://catrob.at/bot").sendWebRequest()
         assertTrue(response.get().startsWith(HTML_RESPONSE_START))
         assertTrue(response.get().endsWith(HTML_RESPONSE_END))
     }
 
-    override fun onRequestFinished(responseString: String) {
-        response.complete(responseString)
+    @Test
+    fun testLook() {
+        WebConnection(okHttpClient, this, "https://catrob.at/penguin").sendWebRequest()
+        assertTrue(response.get().contains("PNG"))
+    }
+
+    @Test
+    fun testBackground() {
+        WebConnection(okHttpClient, this, "https://catrob.at/HalloweenPortrait").sendWebRequest()
+        assertTrue(response.get().contains("PNG"))
+    }
+
+    override fun onRequestSuccess(httpResponse: Response) {
+        response.complete(httpResponse.body()?.string() ?: "")
+    }
+
+    override fun onRequestError(httpError: String) {
+        response.complete(httpError)
     }
 
     override fun onCancelledCall() {

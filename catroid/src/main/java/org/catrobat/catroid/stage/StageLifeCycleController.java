@@ -164,7 +164,7 @@ public final class StageLifeCycleController {
 	}
 
 	public static void stageResume(final StageActivity stageActivity) {
-		if (stageActivity.stageDialog.isShowing() || stageActivity.askDialog != null) {
+		if (stageActivity.dialogIsShowing()) {
 			return;
 		}
 

@@ -101,6 +101,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
+import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
@@ -193,7 +194,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.web.WebConnectionFactory;
 
 public class ActionFactory extends Actions {
 
@@ -1324,7 +1324,13 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
 		action.setUserVariable(userVariable);
-		action.setWebConnectionFactory(new WebConnectionFactory());
+		return action;
+	}
+
+	public Action createLookRequestAction(Sprite sprite, Formula variableFormula) {
+		LookRequestAction action = action(LookRequestAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
 		return action;
 	}
 }
