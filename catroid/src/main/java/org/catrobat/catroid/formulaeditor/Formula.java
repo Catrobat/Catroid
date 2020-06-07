@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import java.io.Serializable;
 import java.util.Set;
 
+import static org.catrobat.catroid.formulaeditor.Functions.getFunctionByValue;
 import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
 
 public class Formula implements Serializable {
@@ -217,7 +218,6 @@ public class Formula implements Serializable {
 	public String getResultForComputeDialog(Context context) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		ElementType type = formulaTree.getElementType();
-		Functions function = Functions.getFunctionByValue(formulaTree.getValue());
 
 		if (formulaTree.isLogicalOperator()) {
 			boolean result;
@@ -232,8 +232,8 @@ public class Formula implements Serializable {
 				|| type == ElementType.SENSOR
 				|| type == ElementType.USER_LIST
 				|| (type == ElementType.FUNCTION
-				&& (Functions.TEXT.contains(function)
-				|| Functions.LIST.contains(function)))) {
+				&& (Functions.TEXT.contains(getFunctionByValue(formulaTree.getValue()))
+				|| Functions.LIST.contains(getFunctionByValue(formulaTree.getValue()))))) {
 			try {
 				return interpretString(sprite);
 			} catch (InterpretationException interpretationException) {
