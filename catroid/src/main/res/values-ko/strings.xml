@@ -162,6 +162,9 @@
     <string name="preference_raspi_host">Raspberry Pi의 IP-/ 호스트 주소</string>
     <string name="preference_raspi_port">Raspberry Pi 포트</string>
     <!--  -->
+    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">Beta</string>
     <string name="error_scratch_program_not_accessible_any_more">앗! 프로그램 사라지거나 접근할 수 없습니다.</string>
@@ -413,6 +416,7 @@
     <string name="nfc_tag_name_label">NFC 태그 이름</string>
     <string name="string_label">텍스트</string>
     <string name="data_label">이름</string>
+    <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">마지막 접근: %s, 크기: %s</string>
     <string name="last_access_today">오늘, %s</string>
@@ -549,6 +553,7 @@
     <string name="tnf_well_known_mailto">이메일</string>
     <!--  -->
     <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">배우와 오브젝트를 위한 변수</string>
     <string name="local_vars_headline">배우와 오브젝트만을 위한 변수</string>
     <string name="global_lists_headline">배우와 오브젝트를 위한 리스트</string>
@@ -556,6 +561,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">모든 장면 배우, 오브젝트, 복사본</string>
     <string name="new_data_for_this_sprite_only">이 장면 배우, 오브젝트, 복사본</string>
+    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
+        on connected multiplayer devices</string>
     <!-- Backpack -->
     <string name="backpack_title">당신의 스크립트 모음</string>
     <string name="pack">묶기</string>
@@ -716,13 +723,13 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">블록 이동</string>
     <string name="brick_context_dialog_move_script">스크립트 이동</string>
-    <string name="brick_context_dialog_delete_brick">블록 삭제</string>
+    <string name="brick_context_dialog_delete_brick">블럭 삭제</string>
     <string name="brick_context_dialog_copy_brick">블록 복사</string>
     <string name="brick_context_dialog_copy_script">스크립트 복사</string>
     <string name="brick_context_dialog_formula_edit_brick">수식 편집</string>
     <string name="brick_context_dialog_delete_script">스크립트 삭제</string>
-    <string name="brick_context_dialog_comment_in">활성화 블록</string>
-    <string name="brick_context_dialog_comment_out">비활성화 블록</string>
+    <string name="brick_context_dialog_comment_in">Enable brick</string>
+    <string name="brick_context_dialog_comment_out">Disable brick</string>
     <string name="brick_context_dialog_highlight_brick_parts">블록 강조</string>
     <string name="brick_context_dialog_comment_in_script">사용가능 스크립트</string>
     <string name="brick_context_dialog_comment_out_script">비활성화 스크립트</string>
@@ -757,9 +764,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="sign_in_error">로그인시 문제가 발생하였습니다.</string>
     <string name="error_google_plus_sign_in">구글 로그인 오류. 상태: %s</string>
     <string name="error_session_expired">세션이 만료되었습니다. 다시 로그인해 주십시오.</string>
-    <string name="sign_in_with_google">Google 계정으로 로그인</string>
     <string name="error_register_empty_username">사용자 이름 없음</string>
-    <string name="error_register_username_as_email">이메일은 사용자 이름으로 사용할 수 없음</string>
+    <string name="error_register_username_as_email">Email address cannot be used as username</string>
     <string name="error_register_invalid_username">사용자 이름에는 문자(a–z), 숫자(0–9)와 dashes (-), underscores (_), and periods (.)만 사용하세요.</string>
     <string name="error_register_username_start_with">사용자 이름은 dashes (-), underscores (_)나 periods (.)로 시작할 수 없습니다.</string>
     <string name="error_register_invalid_email_format">잘못된 이메일 형식</string>
@@ -786,7 +792,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="prestage_resource_not_available_text">이 프로젝트는 기기에서 작동하지 않습니다.
 다음 장치가 사용않됩니다:\n\n</string>
     <string name="prestage_resource_in_use_text">다른 장치가 점핑 스모와 연결되어 있습니다. 다른 기기가 드론과 연결되어 있는 것은 아닌지 확인하세요.</string>
-    <string name="prestage_no_vibration_available">\u2022 진동\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 컴퍼스\n</string>
@@ -838,6 +844,15 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="category_cast">캐스트</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">테스트 중</string>
+    <!--  -->
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Add label</string>
+    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_default_input_name">Name of input</string>
+    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"위치 설정"</string>
@@ -1012,6 +1027,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_broadcast_default_value">"신호 1"</string>
     <string name="brick_add_item_to_userlist_add">추가하기</string>
     <string name="brick_add_item_to_userlist">리스트에</string>
+    <string name="brick_clear_userlist">Delete all items from list</string>
     <string name="brick_delete_item_from_userlist_delete">리스트에서 항목을 삭제하기</string>
     <string name="brick_delete_item_from_userlist">번째 위치에서</string>
     <string name="brick_insert_item_into_userlist_insert_into">추가하기</string>
@@ -1021,8 +1037,28 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_replace_item_in_userlist_item_at_index">위치에서</string>
     <string name="brick_replace_item_in_userlist_with_value">으로</string>
     <string name="brick_web_request">웹 요청 보내기</string>
+    <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">답변 저장</string>
-    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
+    <string name="brick_web_request_warning_title">Allow web access?</string>
+    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious other persons or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
+    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
+    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
+    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_store_csv_into_userlist_store">Store column</string>
+    <string name="brick_store_csv_into_userlist_of">of the</string>
+    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into">리스트로</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">내 첫 프로그램</string>
@@ -1501,6 +1537,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_list_item_parameter">(1, *리스트 이름*)</string>
     <string name="formula_editor_function_contains">포함</string>
     <string name="formula_editor_function_contains_parameter">(*리스트 이름*, 1)</string>
+    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1, *리스트 이름*)</string>
     <string name="formula_editor_function_number_of_items">항목의 수</string>
     <string name="formula_editor_function_number_of_items_parameter">(*리스트 이름*)</string>
     <string name="formula_editor_function_collision">오브젝트 터치</string>
