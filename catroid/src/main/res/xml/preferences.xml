@@ -22,7 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen package="org.catrobat.catroid"
+<PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
@@ -30,6 +30,12 @@
         android:key="setting_multilingual"
         android:summary="@string/preference_description_language"
         android:title="@string/preference_title_language" />
+
+    <WhiteListEditorPreference
+        android:defaultValue="false"
+        android:key="setting_user_whitelist"
+        android:summary="@string/preference_description_web_access"
+        android:title="@string/preference_title_web_access" />
 
     <CheckBoxPreference
         android:defaultValue="false"

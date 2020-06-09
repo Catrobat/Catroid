@@ -22,18 +22,15 @@
  */
 package org.catrobat.catroid.test.utiltests
 
-import android.content.Context
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.ProjectManager.checkIfURLIsWhitelisted
+import org.catrobat.catroid.WhiteListManager
+import org.catrobat.catroid.WhiteListManager.checkIfURLIsWhitelisted
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.any
@@ -45,49 +42,45 @@ import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.InputStream
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 @RunWith(PowerMockRunner::class)
-@PrepareForTest(Utils::class)
+@PrepareForTest(Utils::class, WhiteListManager::class)
 class URLWhiteListTest {
-    private lateinit var domains: JSONArray
-
-    companion object {
-        @BeforeClass
-        @JvmStatic
-        fun setUpBeforeClass() {
-            ProjectManager(mock(Context::class.java))
-        }
-    }
+    private lateinit var userWhiteListMatcher: Matcher
 
     @Before
     fun setUp() {
-        val stream = mock(InputStream::class.java)
-        val whiteList = mock(JSONObject::class.java)
-        domains = mock(JSONArray::class.java)
+        userWhiteListMatcher = mock(Matcher::class.java)
+        WhiteListManager.userWhiteListPattern = mock(Pattern::class.java)
+        doReturn(userWhiteListMatcher).`when`(WhiteListManager.userWhiteListPattern)!!
+            .matcher(anyString())
+
         mockStatic(Utils::class.java)
+        val stream = mock(InputStream::class.java)
+        val urlWhiteList = constructWhitelist(listOf("tugraz.at", "net", "wikipedia.org", "ac.at"))
         given(Utils.getInputStreamFromAsset(any(), anyString())).willReturn(stream)
-        given(Utils.getJsonObjectFromInputStream(stream)).willReturn(whiteList)
-        doReturn(domains).`when`(whiteList).getJSONArray(Constants.URL_WHITELIST_JSON_ARRAY_NAME)
-        doReturn(1).`when`(domains).length()
+        given(Utils.getJsonObjectFromInputStream(stream)).willReturn(urlWhiteList)
     }
 
     @Test
     fun testNoProtocol() {
-        doReturn("tugraz.at").`when`(domains).getString(0)
+        doReturn(false).`when`(userWhiteListMatcher).matches()
         assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.at"))
         assertFalse(checkIfURLIsWhitelisted("www.tugraz.at"))
     }
 
     @Test
     fun testEnding() {
-        doReturn("net").`when`(domains).getString(0)
+        doReturn(false).`when`(userWhiteListMatcher).matches()
         assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.net/blabla"))
         assertFalse(checkIfURLIsWhitelisted("https://something.net.com/blabla"))
     }
 
     @Test
     fun testCommonInternetScheme() {
-        doReturn("tugraz.at").`when`(domains).getString(0)
+        doReturn(false).`when`(userWhiteListMatcher).matches()
         assertTrue(checkIfURLIsWhitelisted("http://www.ist.tugraz.at:8080/blablabla"))
         assertTrue(checkIfURLIsWhitelisted("http://www.ist.tugraz.at:8080/"))
         assertTrue(checkIfURLIsWhitelisted("http://connect4.ist.tugraz.at"))
@@ -99,28 +92,33 @@ class URLWhiteListTest {
 
     @Test
     fun testDomainEndsWithEntry() {
-        doReturn("wikipedia.org").`when`(domains).getString(0)
+        doReturn(false).`when`(userWhiteListMatcher).matches()
         assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.org/hallo"))
-        assertFalse(checkIfURLIsWhitelisted("https://wikipedia.org.dark.net/trallala"))
+        assertFalse(checkIfURLIsWhitelisted("https://wikipedia.org.darknet.com/trallala"))
         assertFalse(checkIfURLIsWhitelisted("https://wikipedia.orgxxx/trallala"))
-        assertFalse(checkIfURLIsWhitelisted("https://www.dark.net/wikipedia.org/"))
+        assertFalse(checkIfURLIsWhitelisted("https://www.darknet.com/wikipedia.org/"))
     }
 
     @Test
     fun testDomainExtension() {
-        doReturn("wikipedia.org").`when`(domains).getString(0)
+        doReturn(false).`when`(userWhiteListMatcher).matches()
         assertFalse(checkIfURLIsWhitelisted("https://wwwwikipedia.org/hallo"))
     }
 
     @Test
     fun testEscapedDots() {
-        doReturn("ac.at").`when`(domains).getString(0)
+        doReturn(false).`when`(userWhiteListMatcher).matches()
         assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.ac.at/hallo"))
         assertFalse(checkIfURLIsWhitelisted("https://www.tugraz.acbat/hallo"))
     }
 
-    @After
-    fun tearDown() {
-        ProjectManager.resetURLWhitelistPattern()
+    @Test
+    fun testUserDomain() {
+        doReturn(true).`when`(userWhiteListMatcher).matches()
+        assertTrue(checkIfURLIsWhitelisted("https://something.net.com/blabla"))
+        assertTrue(checkIfURLIsWhitelisted("https://www.darknet.com/wikipedia.org/"))
     }
+
+    private fun constructWhitelist(domains: List<String>): JSONObject =
+        JSONObject(mapOf(Constants.WHITELIST_JSON_ARRAY_NAME to JSONArray(domains)))
 }

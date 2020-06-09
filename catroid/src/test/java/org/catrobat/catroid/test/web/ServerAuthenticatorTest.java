@@ -160,7 +160,7 @@ public class ServerAuthenticatorTest {
 		PowerMockito.when(createFormEncodedRequest(anyMap(), anyString())).thenReturn(requestMock);
 		PowerMockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), eq(requestMock))).thenReturn(responseString);
 		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
-		PowerMockito.whenNew(JSONObject.class).withArguments(responseString).thenReturn(responseJsonObjectMock);
+		PowerMockito.whenNew(JSONObject.class).withAnyArguments().thenReturn(responseJsonObjectMock);
 		when(responseJsonObjectMock.optString(anyString())).thenReturn("message");
 
 		doReturn(true).when(authenticatorSpy).isInvalidResponse(eq(0), eq(responseJsonObjectMock));
@@ -180,7 +180,7 @@ public class ServerAuthenticatorTest {
 		PowerMockito.when(CatrobatWebClientKt.performCallWith(eq(okHttpClientMock), eq(requestMock))).thenReturn("");
 
 		JSONObject responseJsonObjectMock = PowerMockito.mock(JSONObject.class);
-		PowerMockito.whenNew(JSONObject.class).withArguments(anyString()).thenReturn(responseJsonObjectMock);
+		PowerMockito.whenNew(JSONObject.class).withAnyArguments().thenReturn(responseJsonObjectMock);
 		String expectedToken = "any TOKEN";
 		String expectedEmail = "random EMAIL";
 		when(responseJsonObjectMock.optString(eq(Constants.TOKEN))).thenReturn(expectedToken);

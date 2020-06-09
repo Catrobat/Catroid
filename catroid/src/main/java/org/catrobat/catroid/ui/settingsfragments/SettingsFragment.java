@@ -68,6 +68,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_EDIT_USER_WHITELIST = "setting_user_whitelist";
 	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS = "setting_embroidery_bricks";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -124,6 +125,10 @@ public class SettingsFragment extends PreferenceFragment {
 		setLanguage();
 
 		screen = getPreferenceScreen();
+
+		if (!BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			screen.removePreference(findPreference(SETTINGS_EDIT_USER_WHITELIST));
+		}
 
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
 			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);

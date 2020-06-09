@@ -46,6 +46,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
+
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
     
@@ -107,6 +111,10 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Set the app\'s language</string>
+
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or revoke whitelisted domains</string>
+    <string name="preference_screen_web_access_title">Edit web access whitelist</string>
 
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
@@ -1294,6 +1302,14 @@
         you have entered to malicious other persons or to the public. See our
         &lt;a href=%1s>wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="brick_web_request_whitelist_warning_title">Always allow web access?</string>
+    <string name="brick_web_request_whitelist_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="brick_web_request_whitelist_edit_hint">If you want to revoke this permission
+        later, you can remove the domain from the whitelist in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
