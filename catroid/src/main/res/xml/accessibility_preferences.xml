@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+    <PreferenceScreen
+        android:key="setting_accessibility_screen"
+        android:title="@string/preference_title_accessibility"
+        android:summary="@string/preference_description_accessibility"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+       <PreferenceCategory android:key="setting_accessibility_profiles_category"
+           android:title="@string/preference_title_accessibility_profiles">
+            <PreferenceScreen
+                android:key="setting_accessibility_profile_screen"
+                android:summary="@string/preference_description_accessibility_profiles"
+                android:title="@string/preference_title_accessibility_profile"/>
+       </PreferenceCategory>
+
+       <PreferenceCategory android:key="setting_text_appearance_category"
+           android:title="@string/preference_title_accessibility_text_appearance">
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="accessibility_large_text"
+                android:title="@string/preference_title_accessibility_large_text"
+                android:summary="@string/preference_description_accessibility_large_text"/>
+
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_high_contrast"
+               android:summary="@string/preference_description_accessibility_high_contrast"
+               android:title="@string/preference_title_accessibility_high_contrast" />
+
+           <ListPreference
+               android:defaultValue="regular"
+               android:entries="@array/accessibility_font_style"
+               android:entryValues="@array/accessibility_font_style_values"
+               android:key="accessibility_font_style"
+               android:summary="%s"
+               android:title="@string/preference_title_accessibility_font_style" />
+       </PreferenceCategory>
+
+       <PreferenceCategory android:key="setting_icon_category"
+           android:title="@string/preference_title_accessibility_Brick_icons">
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_category_icons"
+               android:title="@string/preference_title_accessibility_category_icons"
+               android:summary="@string/preference_description_accessibility_category_icons"/>
+
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_category_icons_big"
+               android:title="@string/preference_title_accessibility_category_icons_big"
+               android:summary="@string/preference_description_accessibility_category_icons_big"/>
+
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_category_icons_high_contrast"
+               android:title="@string/preference_title_accessibility_category_icons_high_contrast" />
+
+       </PreferenceCategory>
+
+       <PreferenceCategory android:key="setting_handling_category"
+           android:title="@string/preference_title_accessibility_handling">
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_element_spacing"
+               android:title="@string/preference_title_accessibility_element_spacing"
+               android:summary="@string/preference_description_accessibility_element_spacing"/>
+
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_dragndrop_delay"
+               android:title="@string/preference_title_accessibility_dragndrop_delay"
+               android:summary="@string/preference_description_accessibility_dragndrop_delay"/>
+
+           <CheckBoxPreference
+               android:defaultValue="false"
+               android:key="accessibility_beginner_bricks"
+               android:title="@string/preference_title_accessibility_beginner_bricks"
+               android:summary="@string/preference_description_accessibility_beginner_bricks"/>
+       </PreferenceCategory>
+
+    </PreferenceScreen>

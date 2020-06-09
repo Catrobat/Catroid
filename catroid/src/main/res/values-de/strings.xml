@@ -164,6 +164,9 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/Host-Adresse</string>
     <string name="preference_raspi_port">Raspberry Pi Port</string>
     <!--  -->
+    <string name="preference_title_multiplayer_variables_enabled">Mehrspieler-Erweiterung</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Hoppla! Das Projekt scheint
@@ -479,6 +482,7 @@
     <string name="nfc_tag_name_label">NFC-Tag-Name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
+    <string name="Image_format_not_supported">Bildformat wird nicht unterstützt</string>
     <!-- Details -->
     <string name="project_details">Letzter Zugriff: %s, Größe: %s</string>
     <string name="last_access_today">Heute, %s</string>
@@ -637,6 +641,7 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">Variablen für alle Figuren und Objekte</string>
     <string name="local_vars_headline">Variablen nur für diese Figur oder dieses Objekt</string>
     <string name="global_lists_headline">Listen für alle Figuren und Objekte</string>
@@ -644,6 +649,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Für alle Figuren, Objekte und Klone in allen Szenen</string>
     <string name="new_data_for_this_sprite_only">Nur für diese Figur, dieses Objekt oder für einen ihrer Klone</string>
+    <string name="new_data_for_connected_devices">Für alle Akteure, Objekte und Klone in allen Szenen von Projekten
+        auf verbundenen Mehrspieler-Geräten</string>
     <!-- Backpack -->
     <string name="backpack_title">Rucksack</string>
     <string name="pack">Einpacken</string>
@@ -812,7 +819,6 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="sign_in_error">Beim Anmelden ist etwas schief gelaufen.</string>
     <string name="error_google_plus_sign_in">Google Sign-In Fehler. Status: %s</string>
     <string name="error_session_expired">Sitzung abgelaufen, bitte erneut einloggen.</string>
-    <string name="sign_in_with_google">Mit Goggle einloggen</string>
     <string name="error_register_empty_username">Leerer Benuzername</string>
     <string name="error_register_username_as_email">E-Mail-Adressen können nicht als Benutzername verwendet werden.</string>
     <string name="error_register_invalid_username">Benutzernamen dürfen nur Buchstaben (a–Z), Zahlen (0–9), Bindestriche (-), Unterstriche (_) und Punkte (.) enthalten.</string>
@@ -841,7 +847,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="prestage_resource_not_available_text">Leider funktioniert dieses Projekt nicht auf deinem Gerät.
         die folgenden Komponenten sind nicht verfügbar: \n\n</string>
     <string name="prestage_resource_in_use_text">Ein anderes Gerät ist mit der Jumping Sumo verbunden. Versichere dich, dass du als einziger/e die Drohne steuerst.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrator\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Beschleunigungssensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Neigungssensor\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompass\n</string>
@@ -893,6 +899,15 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="category_cast">Cast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Testen</string>
+    <!--  -->
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Benutzerdefinierte Bausteine</string>
+    <string name="brick_user_defined_add_input">Eingabe hinzufügen</string>
+    <string name="brick_user_defined_add_input_description">Eingabe für diesen Baustein hinzufügen:</string>
+    <string name="brick_user_defined_add_label_description">Label für diesen Baustein hinzufügen:</string>
+    <string name="brick_user_defined_default_input_name">Name der Eingabe</string>
+    <string name="brick_user_defined_default_label">Beschriftung</string>
+    <string name="brick_user_defined_already_exists">Ein Baustein mit diesen Labels existiert bereits. Bitte füge mehr Labels oder Eingaben hinzu.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Setze an Position "</string>
@@ -975,12 +990,12 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_flash_off">aus</string>
     <string name="brick_vibration">Vibrieren für</string>
     <string name="brick_ask_label">Frage</string>
-    <string name="brick_ask_store">und speichere die eingegebene Antwort in</string>
+    <string name="brick_ask_store">und speichere das Eingegebene in</string>
     <string name="brick_ask_default_question">Wie heißt du?</string>
     <string name="brick_ask_dialog_hint">"Gib deine Antwort ein:"</string>
     <string name="brick_ask_dialog_submit">Antwort senden</string>
     <string name="brick_ask_speech_label">Frage</string>
-    <string name="brick_ask_speech_store">und speichere die gesprochene Antwort in</string>
+    <string name="brick_ask_speech_store">und speichere das Gesprochene in</string>
     <string name="brick_ask_speech_default_question">Wie heißt du?</string>
     <!--  -->
     <!-- Pen bricks -->
@@ -1010,7 +1025,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_stop_stitch">Beende aktuellen Stich</string>
     <!--  -->
     <!-- Control bricks -->
-    <string name="brick_when_started">Wenn Programm startet</string>
+    <string name="brick_when_started">Wenn Szene startet</string>
     <string name="brick_when">Wenn angetippt</string>
     <string name="brick_when_condition_when">Wenn</string>
     <string name="brick_when_becomes_true">wahr wird</string>
@@ -1063,7 +1078,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_change_variable">Ändere Variable</string>
     <string name="brick_write_variable_on_device">Variable auf Gerät schreiben</string>
     <string name="brick_read_variable_from_device">Variable von Gerät lesen</string>
-    <string name="brick_write_list_on_device">Liste auf Gerät schreiben</string>
+    <string name="brick_write_list_on_device">Liste auf Gerät speichern</string>
     <string name="brick_read_list_from_device">Liste von Gerät lesen</string>
     <string name="brick_note_default_value">Kommentar hier hinzufügen&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
@@ -1071,6 +1086,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_broadcast_default_value">"Nachricht 1"</string>
     <string name="brick_add_item_to_userlist_add">Hinzufügen</string>
     <string name="brick_add_item_to_userlist">zur Liste</string>
+    <string name="brick_clear_userlist">Alle Elemente aus der Liste löschen</string>
     <string name="brick_delete_item_from_userlist_delete">Element aus Liste löschen</string>
     <string name="brick_delete_item_from_userlist">auf Position</string>
     <string name="brick_insert_item_into_userlist_insert_into">Einfügen</string>
@@ -1080,8 +1096,28 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_replace_item_in_userlist_item_at_index">auf Position</string>
     <string name="brick_replace_item_in_userlist_with_value">mit</string>
     <string name="brick_web_request">Webanfrage senden an</string>
+    <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">und speichere Antwort in</string>
-    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
+    <string name="brick_web_request_warning_title">Allow web access?</string>
+    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious other persons or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
+    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
+    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
+    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_store_csv_into_userlist_store">Speichere Spalte</string>
+    <string name="brick_store_csv_into_userlist_of">von den</string>
+    <string name="brick_store_csv_into_userlist_csv">durch Kommas getrennten Werten</string>
+    <string name="brick_store_csv_into_userlist_into">in Liste</string>
+    <string name="brick_store_csv_into_userlist_data">Kätzchen,niedlich\nWelpe,Schlingel\nOktopus intelligent</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mein erstes Projekt</string>
@@ -1561,6 +1597,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_list_item_parameter">(1,*Listenname*)</string>
     <string name="formula_editor_function_contains">enthält</string>
     <string name="formula_editor_function_contains_parameter">(*Listenname*,1)</string>
+    <string name="formula_editor_function_index_of_item">Item-Index</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1,*Listenname*)</string>
     <string name="formula_editor_function_number_of_items">Anzahl der Elemente</string>
     <string name="formula_editor_function_number_of_items_parameter">(*Listenname*)</string>
     <string name="formula_editor_function_collision">berührt Figur oder Objekt</string>

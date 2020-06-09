@@ -88,7 +88,10 @@ public class DeleteAllScenesTest {
 		onView(withText(R.string.delete))
 				.perform(click());
 
-		onView(withId(R.id.toggle_selection))
+		onView(withId(R.id.overflow))
+				.perform(click());
+
+		onView(withText("Select all"))
 				.perform(click());
 
 		onView(withId(R.id.confirm))

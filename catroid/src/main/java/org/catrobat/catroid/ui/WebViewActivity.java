@@ -41,6 +41,8 @@ import android.webkit.URLUtil;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -101,7 +103,7 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
 				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
 
-		setLoginCookies(url);
+		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
 		webView.loadUrl(url);
 
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
@@ -255,9 +257,8 @@ public class WebViewActivity extends AppCompatActivity {
 		return extension;
 	}
 
-	public void setLoginCookies(String url) {
-		SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+	@VisibleForTesting
+	public static void setLoginCookies(String url, SharedPreferences sharedPreferences, CookieManager cookieManager) {
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
@@ -265,17 +266,18 @@ public class WebViewActivity extends AppCompatActivity {
 			return;
 		}
 
-		String encodedUsername = null;
+		String encodedUsername;
 		try {
 			encodedUsername = URLEncoder.encode(username, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
+			return;
 		}
 
-		Cookie usernameCookie = new Cookie(Cookie.USERNAME_COOKIE, encodedUsername);
-		Cookie tokenCookie = new Cookie(Cookie.TOKEN_COOKIE, token);
-		CookieManager.getInstance().setCookie(url, usernameCookie.generateCookieString());
-		CookieManager.getInstance().setCookie(url, tokenCookie.generateCookieString());
+		Cookie usernameCookie = new Cookie(Constants.USERNAME_COOKIE_NAME, encodedUsername);
+		Cookie tokenCookie = new Cookie(Constants.TOKEN_COOKIE_NAME, token);
+		cookieManager.setCookie(url, usernameCookie.generateCookieString());
+		cookieManager.setCookie(url, tokenCookie.generateCookieString());
 	}
 
 	public static void clearCookies() {

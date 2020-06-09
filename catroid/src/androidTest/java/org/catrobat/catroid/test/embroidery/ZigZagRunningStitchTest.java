@@ -57,9 +57,9 @@ public class ZigZagRunningStitchTest {
 		embroideryPatternManager = Mockito.mock(EmbroideryPatternManager.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		StageActivity.stageListener.embroideryPatternManager = embroideryPatternManager;
-		final int width = 5;
-		final int height = 10;
-		zigZagRunningStitch = new ZigZagRunningStitch(sprite, width, height);
+		final int length = 5;
+		final int width = 10;
+		zigZagRunningStitch = new ZigZagRunningStitch(sprite, length, width);
 	}
 
 	@After
@@ -76,7 +76,7 @@ public class ZigZagRunningStitchTest {
 	@Test
 	public void testSimpleMoveOfRunningStitch() {
 		zigZagRunningStitch.update(10, 10);
-		verify(embroideryPatternManager, times(6)).addStitchCommand(any());
+		verify(embroideryPatternManager, times(3)).addStitchCommand(any());
 	}
 
 	@Test
@@ -84,6 +84,6 @@ public class ZigZagRunningStitchTest {
 		zigZagRunningStitch.setStartCoordinates(10, 10);
 		zigZagRunningStitch.update(0, 0);
 
-		verify(embroideryPatternManager, times(6)).addStitchCommand(any());
+		verify(embroideryPatternManager, times(3)).addStitchCommand(any());
 	}
 }

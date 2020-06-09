@@ -33,6 +33,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
@@ -55,10 +56,12 @@ import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.hamcrest.core.AllOf.allOf;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -90,6 +93,7 @@ public class ProjectActivityTest {
 	public void tearDown() throws Exception {
 		Intents.release();
 		TestUtils.deleteProjects(PROJECT_NAME);
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -119,8 +123,21 @@ public class ProjectActivityTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withText(R.string.upload_button)).perform(click());
-
 		intended(allOf(hasComponent(ProjectUploadActivity.class.getName())));
+	}
+
+	@Test
+	public void projectNotSavedOnReloadFromUploadActivityTest() {
+		baseActivityTestRule.launchActivity();
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText(R.string.upload_button)).perform(click());
+		pressBack();
+
+		Sprite sprite = new SingleSprite("nextSprite");
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		currentScene.addSprite(sprite);
+
+		assertTrue(ProjectManager.getInstance().getCurrentProject().getDefaultScene().getSpriteList().contains(sprite));
 	}
 
 	private SharedPreferences getDefaultSharedPreferences() {

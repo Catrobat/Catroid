@@ -24,6 +24,8 @@ package org.catrobat.catroid.test.physics;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -39,6 +41,8 @@ import org.catrobat.catroid.test.utils.Reflection;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+
+import static org.mockito.Mockito.mock;
 
 public final class PhysicsTestUtils {
 
@@ -104,6 +108,7 @@ public final class PhysicsTestUtils {
 
 	public static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
+		lookData.setTextureRegion(new TextureRegion(mock(Texture.class)));
 		lookData.setFile(testImage);
 		lookData.setName(testImage.getName());
 		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);

@@ -349,11 +349,18 @@ public class SpriteActivity extends BaseActivity {
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
 
 				Fragment fragment = getCurrentFragment();
+				Brick brick = null;
 
 				if (fragment instanceof ScriptFragment) {
-					Brick brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
-					if (brick != null) {
-						((VisualPlacementBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+					brick = ((ScriptFragment) fragment).findBrickByHash(brickHash);
+				} else if (fragment instanceof FormulaEditorFragment) {
+					brick = ((FormulaEditorFragment) fragment).getFormulaBrick();
+				}
+
+				if (brick != null) {
+					((VisualPlacementBrick) brick).setCoordinates(xCoordinate, yCoordinate);
+					if (fragment instanceof FormulaEditorFragment) {
+						((FormulaEditorFragment) fragment).updateFragmentAfterVisualPlacement();
 					}
 				}
 				break;
@@ -697,13 +704,23 @@ public class SpriteActivity extends BaseActivity {
 
 	public void handleAddUserDataButton() {
 		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
-		CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
-		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
 
+		CheckBox makeListCheckBox = view.findViewById(R.id.make_list);
 		makeListCheckBox.setVisibility(View.VISIBLE);
+
+		RadioButton multiplayerRadioButton = view.findViewById(R.id.multiplayer);
+		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(getApplicationContext())) {
+			multiplayerRadioButton.setVisibility(View.VISIBLE);
+			multiplayerRadioButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+				makeListCheckBox.setEnabled(!isChecked);
+			});
+		}
+
+		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
 
 		List<UserData> variables = new ArrayList<>();
 		variables.addAll(currentProject.getUserVariables());
+		variables.addAll(currentProject.getMultiplayerVariables());
 		variables.addAll(currentSprite.getUserVariables());
 
 		List<UserData> lists = new ArrayList<>();
@@ -716,6 +733,7 @@ public class SpriteActivity extends BaseActivity {
 				.setTextWatcher(textWatcher)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
+					boolean addToMultiplayerData = multiplayerRadioButton.isChecked();
 
 					if (makeListCheckBox.isChecked()) {
 						UserList userList = new UserList(textInput);
@@ -726,7 +744,9 @@ public class SpriteActivity extends BaseActivity {
 						}
 					} else {
 						UserVariable userVariable = new UserVariable(textInput);
-						if (addToProjectUserData) {
+						if (addToMultiplayerData) {
+							currentProject.addMultiplayerVariable(userVariable);
+						} else if (addToProjectUserData) {
 							currentProject.addUserVariable(userVariable);
 						} else {
 							currentSprite.addUserVariable(userVariable);
@@ -750,6 +770,7 @@ public class SpriteActivity extends BaseActivity {
 				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
 				textWatcher.setScope(variables);
 			}
+			multiplayerRadioButton.setEnabled(!checked);
 		});
 
 		alertDialog.show();

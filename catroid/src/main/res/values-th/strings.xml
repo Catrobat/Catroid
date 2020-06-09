@@ -162,6 +162,9 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
     <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
+    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">เบต้า</string>
     <string name="error_scratch_program_not_accessible_any_more">อ๊ะ!  ดูเหมือนว่าโครงการจะหายไปหรือคุณอาจสูญเสียการเข้าถึง</string>
@@ -425,6 +428,7 @@
     <string name="nfc_tag_name_label">ชื่อแท็ก NFC</string>
     <string name="string_label">ข้อความ</string>
     <string name="data_label">ชื่อ</string>
+    <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">การเข้าถึงล่าสุด: %s ขนาด: %s</string>
     <string name="last_access_today">วันนี้ %s</string>
@@ -561,6 +565,7 @@
     <string name="tnf_well_known_mailto">อีเมล</string>
     <!--  -->
     <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">ตัวแปรสำหรับนักแสดงและวัตถุทั้งหมด</string>
     <string name="local_vars_headline">ตัวแปรสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
     <string name="global_lists_headline">รายการสำหรับนักแสดงและวัตถุทั้งหมด</string>
@@ -568,6 +573,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">สำหรับนักแสดงวัตถุและโคลนทุกฉาก</string>
     <string name="new_data_for_this_sprite_only">สำหรับนักแสดงวัตถุหรือหนึ่งในโคลนของมันเท่านั้น</string>
+    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
+        on connected multiplayer devices</string>
     <!-- Backpack -->
     <string name="backpack_title">ชุดข้อมูลของคุณ</string>
     <string name="pack">Pack</string>
@@ -685,15 +692,15 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="soundrecorder_text_view">แตะไอคอนด้านบนเพื่อเริ่ม หรือหยุดการบันทึก</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">ย้ายก้อนคำสั่ง</string>
+    <string name="brick_context_dialog_move_brick">ย้ายคำสั่ง</string>
     <string name="brick_context_dialog_move_script">ย้ายสคริปต์</string>
-    <string name="brick_context_dialog_delete_brick">ลบก้อนคำสั่ง</string>
-    <string name="brick_context_dialog_copy_brick">คัดลอกก้อนคำสั่ง</string>
+    <string name="brick_context_dialog_delete_brick">ลบคำสั่ง</string>
+    <string name="brick_context_dialog_copy_brick">คัดลอกคำสั่ง</string>
     <string name="brick_context_dialog_copy_script">คัดลอกสคริปต์</string>
     <string name="brick_context_dialog_formula_edit_brick">แก้ไขสูตร</string>
     <string name="brick_context_dialog_delete_script">ลบสคริปต์</string>
-    <string name="brick_context_dialog_comment_in">เปิดใช้งาน คำสั้ง</string>
-    <string name="brick_context_dialog_comment_out">ปิดการใช้งาน คำสั่ง</string>
+    <string name="brick_context_dialog_comment_in">Enable brick</string>
+    <string name="brick_context_dialog_comment_out">Disable brick</string>
     <string name="brick_context_dialog_highlight_brick_parts">เน้น คำสั้ง</string>
     <string name="brick_context_dialog_comment_in_script">เปิดใช้งานสคริปต์</string>
     <string name="brick_context_dialog_comment_out_script">ปิดการใช้งานสคริปต์</string>
@@ -728,9 +735,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="sign_in_error">เกิดข้อผิดพลาดระหว่างลงชื่อเข้าใช้</string>
     <string name="error_google_plus_sign_in">ข้อผิดพลาดการลงชื่อเข้าใช้ Google สถานะ: %s</string>
     <string name="error_session_expired">เซสชันหมดอายุโปรดเข้าสู่ระบบ</string>
-    <string name="sign_in_with_google">Sign in with Google</string>
     <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">ไม่สามารถใช้ที่อยู่อีเมลเป็นชื่อผู้ใช้</string>
+    <string name="error_register_username_as_email">Email address cannot be used as username</string>
     <string name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9), เครื่องหมายขีดกลาง (-), เครื่องหมายขีดล่าง (_) และจุด (.)</string>
     <string name="error_register_username_start_with">ชื่อผู้ใช้ไม่ควรเริ่มต้นด้วยขีดกลาง (-), ขีดล่าง (_) หรือจุด (.)</string>
     <string name="error_register_invalid_email_format">Invalid email format</string>
@@ -757,7 +763,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="prestage_resource_not_available_title">ไม่มีส่วนประกอบ</string>
     <string name="prestage_resource_not_available_text">น่าเสียดายที่โครงการนี้ใช้ไม่ได้กับอุปกรณ์ของคุณ  ส่วนประกอบต่อไปนี้ไม่สามารถใช้งานได้: \ n\n</string>
     <string name="prestage_resource_in_use_text">อุปกรณ์อื่นเชื่อมต่อกับ Jumping Sumo  ตรวจสอบให้แน่ใจว่าคุณเป็นคนที่เชื่อมต่อกับโดรน</string>
-    <string name="prestage_no_vibrator_available">\u2022 การสั่นสะเทือน \n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 เซ็นเซอร์ความเร่ง \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 เซ็นเซอร์ความเอียง \ n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 เข็มทิศ \n</string>
@@ -809,6 +815,15 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Testing</string>
+    <!--  -->
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Add label</string>
+    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_default_input_name">Name of input</string>
+    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"วางที่"</string>
@@ -983,6 +998,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_broadcast_default_value">"ข้อความ 1"</string>
     <string name="brick_add_item_to_userlist_add">เพิ่ม</string>
     <string name="brick_add_item_to_userlist">ไปยังรายการ</string>
+    <string name="brick_clear_userlist">Delete all items from list</string>
     <string name="brick_delete_item_from_userlist_delete">ลบข้อมูลออกจากรายการ</string>
     <string name="brick_delete_item_from_userlist">ที่ตำแหน่ง</string>
     <string name="brick_insert_item_into_userlist_insert_into">แทรก</string>
@@ -992,8 +1008,28 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_replace_item_in_userlist_item_at_index">ที่ตำแหน่ง</string>
     <string name="brick_replace_item_in_userlist_with_value">แทนด้วย</string>
     <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
+    <string name="brick_web_request_warning_title">Allow web access?</string>
+    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious other persons or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
+    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
+    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
+    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_store_csv_into_userlist_store">Store column</string>
+    <string name="brick_store_csv_into_userlist_of">of the</string>
+    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into">ลงในรายการ</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">โปรแกรมแรกของฉัน</string>
@@ -1478,6 +1514,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_list_item_parameter">(1, *ชื่อรายการ*)</string>
     <string name="formula_editor_function_contains">ประกอบด้วย</string>
     <string name="formula_editor_function_contains_parameter">(*ชื่อรายการ*,1)</string>
+    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1, *ชื่อรายการ*)</string>
     <string name="formula_editor_function_number_of_items">จำนวนรายการ</string>
     <string name="formula_editor_function_number_of_items_parameter">(*ชื่อรายการ*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>

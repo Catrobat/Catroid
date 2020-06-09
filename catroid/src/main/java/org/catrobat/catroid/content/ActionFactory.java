@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.actions.ChangeYByNAction;
 import org.catrobat.catroid.content.actions.ChooseCameraAction;
 import org.catrobat.catroid.content.actions.ClearBackgroundAction;
 import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
+import org.catrobat.catroid.content.actions.ClearUserListAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
@@ -100,6 +101,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorMoveAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorStopAction;
 import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
+import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.NextLookAction;
 import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
@@ -155,6 +157,7 @@ import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
+import org.catrobat.catroid.content.actions.StoreCSVIntoUserListAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TripleStitchAction;
@@ -191,7 +194,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
-import org.catrobat.catroid.web.WebConnectionFactory;
 
 public class ActionFactory extends Actions {
 
@@ -752,6 +754,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createClearUserListAction(UserList userList) {
+		ClearUserListAction action = action(ClearUserListAction.class);
+		action.setUserList(userList);
+		return action;
+	}
+
 	public Action createAddItemToUserListAction(Sprite sprite, Formula userListFormula, UserList userList) {
 		AddItemToUserListAction action = action(AddItemToUserListAction.class);
 		action.setSprite(sprite);
@@ -766,6 +774,16 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setFormulaIndexToInsert(userListFormulaIndexToInsert);
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
+		action.setUserList(userList);
+		return action;
+	}
+
+	public Action createStoreCSVIntoUserListAction(Sprite sprite, Formula userListFormulaColumn,
+			Formula userListFormulaCSV, UserList userList) {
+		StoreCSVIntoUserListAction action = action(StoreCSVIntoUserListAction.class);
+		action.setSprite(sprite);
+		action.setFormulaColumnToExtract(userListFormulaColumn);
+		action.setFormulaCSVData(userListFormulaCSV);
 		action.setUserList(userList);
 		return action;
 	}
@@ -1305,9 +1323,14 @@ public class ActionFactory extends Actions {
 		WebRequestAction action = action(WebRequestAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
-		action.interpretUrl();
 		action.setUserVariable(userVariable);
-		action.setWebConnectionFactory(new WebConnectionFactory());
+		return action;
+	}
+
+	public Action createLookRequestAction(Sprite sprite, Formula variableFormula) {
+		LookRequestAction action = action(LookRequestAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
 		return action;
 	}
 }

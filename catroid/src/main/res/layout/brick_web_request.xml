@@ -38,9 +38,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_web_request_layout"
-        style="@style/BrickContainer.Control.Medium">
+        style="@style/BrickContainer.UserVariables.Medium">
 
-        <include layout="@layout/icon_brick_category_control" />
+        <include layout="@layout/icon_brick_category_data" />
 
         <TextView
             style="@style/BrickText.SingleLine"

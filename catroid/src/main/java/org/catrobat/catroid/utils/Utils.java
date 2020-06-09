@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
@@ -48,10 +49,14 @@ import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -59,8 +64,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import okhttp3.Response;
 
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -189,6 +198,26 @@ public final class Utils {
 		return extractedUrls;
 	}
 
+	public static String getFileNameFromURL(String url) {
+		int fileExtensionIndex = url.lastIndexOf('.');
+		int fileNameIndex = Math.max(url.substring(0, fileExtensionIndex).lastIndexOf('/'), 0) + 1;
+		String fileName = url.substring(fileNameIndex);
+		fileName = fileName.split("[?&#]")[0];
+		return fileName.contains(":") ? fileName.split(":")[1] : fileName;
+	}
+
+	public static String getFileNameFromHttpResponse(Response httpResponse) {
+		String contentDisposition = httpResponse.header("Content-Disposition");
+		if (contentDisposition != null) {
+			Pattern fileNamePattern = Pattern.compile("filename\\*?=[\'\"]?(?:UTF-\\d[\'\"]*)?([^;\r\n\"\']*)[\'\"]?;?");
+			Matcher matcher = fileNamePattern.matcher(contentDisposition);
+			if (matcher.find()) {
+				return matcher.group(1);
+			}
+		}
+		return null;
+	}
+
 	public static Date getScratchSecondReleasePublishedDate() {
 		final Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, Constants.SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_YEAR);
@@ -307,6 +336,16 @@ public final class Utils {
 		}
 
 		return messageDigest;
+	}
+
+	@NotNull
+	public static InputStream getInputStreamFromAsset(Context context, String filename) throws IOException, NullPointerException {
+		return context.getAssets().open(filename, AssetManager.ACCESS_BUFFER);
+	}
+
+	@NotNull
+	public static JSONObject getJsonObjectFromInputStream(InputStream stream) throws JSONException {
+		return new JSONObject(new Scanner(stream).useDelimiter("\\A").next());
 	}
 
 	public static String getVersionName(Context context) {

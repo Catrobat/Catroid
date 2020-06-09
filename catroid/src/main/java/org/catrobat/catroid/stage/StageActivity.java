@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -35,12 +34,17 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
@@ -50,11 +54,14 @@ import com.badlogic.gdx.backends.android.AndroidGraphics;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.actions.AskAction;
+import org.catrobat.catroid.content.actions.WebAction;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
@@ -69,7 +76,8 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -77,6 +85,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.NonNull;
+import androidx.test.espresso.idling.CountingIdlingResource;
 
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
@@ -91,13 +100,16 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public static final int ASK_MESSAGE = 0;
 	public static final int REGISTER_INTENT = 1;
 	private static final int PERFORM_INTENT = 2;
+	public static final int REQUEST_PERMISSION = 3;
+	public static final int SHOW_TOAST = 4;
 
 	StageAudioFocus stageAudioFocus;
 	PendingIntent pendingIntent;
 	NfcAdapter nfcAdapter;
 	private static NdefMessage nfcTagMessage;
 	StageDialog stageDialog;
-	AlertDialog askDialog;
+	private AlertDialog askDialog;
+	private AlertDialog permissionDialog;
 	private boolean resizePossible;
 
 	static int numberOfSpritesCloned;
@@ -111,6 +123,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	AndroidApplicationConfiguration configuration = null;
 
 	public StageResourceHolder stageResourceHolder;
+	public CountingIdlingResource idlingResource = new CountingIdlingResource("StageActivity");
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 	public static WeakReference<StageActivity> activeStageActivity;
 
@@ -139,6 +152,12 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
+		if (askDialog != null) {
+			askDialog.dismiss();
+		}
+		if (permissionDialog != null) {
+			permissionDialog.dismiss();
+		}
 		super.onDestroy();
 	}
 
@@ -157,11 +176,17 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 					case ASK_MESSAGE:
 						showDialog((String) params.get(1), (AskAction) params.get(0));
 						break;
+					case REQUEST_PERMISSION:
+						askUserForPermission((String) params.get(1), (WebAction) params.get(0));
+						break;
 					case REGISTER_INTENT:
 						currentStage.queueIntent((IntentListener) params.get(0));
 						break;
 					case PERFORM_INTENT:
 						currentStage.startQueuedIntent((Integer) params.get(0));
+						break;
+					case SHOW_TOAST:
+						showToastMessage((String) params.get(0));
 						break;
 					default:
 						Log.e(TAG, "Unhandled message in messagehandler, case " + message.what);
@@ -174,42 +199,75 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private void showDialog(String question, final AskAction askAction) {
 		StageLifeCycleController.stagePause(this);
 
-		AlertDialog.Builder alertBuilder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog));
 		final EditText edittext = new EditText(getContext());
-		alertBuilder.setView(edittext);
-		alertBuilder.setMessage(getContext().getString(R.string.brick_ask_dialog_hint));
-		alertBuilder.setTitle(question);
-		alertBuilder.setCancelable(false);
 
-		alertBuilder.setOnKeyListener(new DialogInterface.OnKeyListener() {
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+		askDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
+			.setView(edittext)
+			.setMessage(getContext().getString(R.string.brick_ask_dialog_hint))
+			.setTitle(question)
+			.setCancelable(false)
+			.setOnKeyListener((dialog, keyCode, event) -> {
 				if (keyCode == KeyEvent.KEYCODE_BACK) {
 					onBackPressed();
 					return true;
 				}
 				return false;
-			}
-		});
-
-		alertBuilder.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
+			})
+			.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), (dialog, whichButton) -> {
 				String questionAnswer = edittext.getText().toString();
 				askAction.setAnswerText(questionAnswer);
-			}
-		});
-
-		alertBuilder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-			@Override
-			public void onDismiss(DialogInterface dialog) {
+			})
+			.setOnDismissListener(dialog -> {
 				askDialog = null;
-				StageLifeCycleController.stageResume(StageActivity.this);
-			}
-		});
+				StageLifeCycleController.stageResume(this);
+			})
+			.create();
 
-		askDialog = alertBuilder.create();
-		askDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		if (askDialog.getWindow() != null) {
+			askDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+		}
 		askDialog.show();
+	}
+
+	private void showToastMessage(String message) {
+		ToastUtil.showError(this, message);
+	}
+
+	private void askUserForPermission(String url, final WebAction webAction) {
+		StageLifeCycleController.stagePause(this);
+
+		final View view = LayoutInflater.from(this).inflate(R.layout.dialog_request_permission, null);
+		final TextView urlView = view.findViewById(R.id.request_url);
+		urlView.setText(url);
+		final TextView warningView = view.findViewById(R.id.request_warning);
+		warningView.setText(Html.fromHtml(
+				getString(R.string.brick_web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL)));
+		warningView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		permissionDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
+			.setTitle(getContext().getString(R.string.brick_web_request_warning_title))
+			.setCancelable(false)
+			.setView(view)
+			.setOnKeyListener((dialog, keyCode, event) -> {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					onBackPressed();
+					return true;
+				}
+				return false;
+			})
+			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> webAction.grantPermission())
+			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> webAction.denyPermission())
+			.setOnDismissListener(dialog -> {
+				permissionDialog = null;
+				StageLifeCycleController.stageResume(this);
+			})
+			.create();
+
+		permissionDialog.show();
+	}
+
+	public boolean dialogIsShowing() {
+		return (stageDialog.isShowing() || askDialog != null || permissionDialog != null);
 	}
 
 	@Override
@@ -229,21 +287,26 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onBackPressed() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).disconnectDevices();
+			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			if (service != null) {
+				service.disconnectDevices();
+			}
 
 			TextToSpeechHolder.getInstance().deleteSpeechFiles();
 			if (FlashUtil.isAvailable()) {
 				FlashUtil.destroy();
 			}
-			if (VibratorUtil.isActive()) {
-				VibratorUtil.destroy();
+			if (VibrationUtil.isActive()) {
+				VibrationUtil.destroy();
 			}
 			Intent marketingIntent = new Intent(this, MarketingActivity.class);
 			startActivity(marketingIntent);
 			finish();
 		} else {
 			StageLifeCycleController.stagePause(this);
-			stageListener.takeScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME);
+			idlingResource.increment();
+			stageListener.requestTakingScreenshot(SCREENSHOT_AUTOMATIC_FILE_NAME,
+					success -> runOnUiThread(() -> idlingResource.decrement()));
 			stageDialog.show();
 		}
 	}
@@ -254,14 +317,17 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 		TextToSpeechHolder.getInstance().shutDownTextToSpeech();
 
-		ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
+		BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+		if (service != null) {
+			service.pause();
+		}
 
 		if (FaceDetectionHandler.isFaceDetectionRunning()) {
 			FaceDetectionHandler.stopFaceDetection();
 		}
 
-		if (VibratorUtil.isActive()) {
-			VibratorUtil.pauseVibrator();
+		if (VibrationUtil.isActive()) {
+			VibrationUtil.pauseVibration();
 		}
 
 		RaspberryPiService.getInstance().disconnect();
@@ -284,11 +350,12 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		ScreenValueHandler.updateScreenWidthAndHeight(getContext());
 		int virtualScreenWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
 		int virtualScreenHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
-		if (virtualScreenHeight > virtualScreenWidth) {
-			iflandscapeModeSwitchWidthAndHeight();
-		} else {
-			ifPortraitSwitchWidthAndHeight();
+
+		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode()
+				|| virtualScreenHeight < virtualScreenWidth && isInPortraitMode()) {
+			swapWidthAndHeigth();
 		}
+
 		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
 		float screenAspectRatio = ScreenValues.getAspectRatio();
 
@@ -296,44 +363,41 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				|| Float.compare(screenAspectRatio, aspectRatio) == 0
 				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			resizePossible = false;
-			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
-			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
+			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
 			return;
 		}
 
 		resizePossible = true;
 
-		float scale = 1f;
 		float ratioHeight = (float) ScreenValues.SCREEN_HEIGHT / (float) virtualScreenHeight;
 		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
 
 		if (aspectRatio < screenAspectRatio) {
-			scale = ratioHeight / ratioWidth;
-			stageListener.maximizeViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
-			stageListener.maximizeViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maximizeViewPortWidth) / 2f);
-			stageListener.maximizeViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+			float scale = ratioHeight / ratioWidth;
+			stageListener.maxViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
+			stageListener.maxViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maxViewPortWidth) / 2f);
+			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
 		} else if (aspectRatio > screenAspectRatio) {
-			scale = ratioWidth / ratioHeight;
-			stageListener.maximizeViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
-			stageListener.maximizeViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maximizeViewPortHeight) / 2f);
-			stageListener.maximizeViewPortWidth = ScreenValues.SCREEN_WIDTH;
+			float scale = ratioWidth / ratioHeight;
+			stageListener.maxViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
+			stageListener.maxViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maxViewPortHeight) / 2f);
+			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
 		}
 	}
 
-	private void iflandscapeModeSwitchWidthAndHeight() {
-		if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
+	private boolean isInPortraitMode() {
+		return ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT;
 	}
 
-	private void ifPortraitSwitchWidthAndHeight() {
-		if (ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		}
+	private boolean isInLandscapeMode() {
+		return !isInPortraitMode();
+	}
+
+	private void swapWidthAndHeigth() {
+		int tmp = ScreenValues.SCREEN_HEIGHT;
+		ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
+		ScreenValues.SCREEN_WIDTH = tmp;
 	}
 
 	@Override
@@ -399,7 +463,10 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			return;
 		}
 		Intent i = intentListeners.get(intentKey).getTargetIntent();
-		i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, this.getClass().getPackage().getName());
+		Package pack = this.getClass().getPackage();
+		if (pack != null) {
+			i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, pack.getName());
+		}
 		this.startActivityForResult(i, intentKey);
 	}
 
@@ -440,12 +507,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			startStageActivity(activity);
 		} else {
 			new PlaySceneDialog.Builder(activity)
-					.setPositiveButton(R.string.play, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							startStageActivity(activity);
-						}
-					})
+					.setPositiveButton(R.string.play, (dialog, which) -> startStageActivity(activity))
 					.create()
 					.show();
 		}

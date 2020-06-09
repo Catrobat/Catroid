@@ -28,7 +28,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="3.9dp"
     android:background="@drawable/toolbar_background"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    android:theme="@style/ToolbarTheme"
     app:titleTextAppearance="@style/ToolbarTitle" />

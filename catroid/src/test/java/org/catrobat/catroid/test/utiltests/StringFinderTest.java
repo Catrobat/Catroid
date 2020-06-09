@@ -38,7 +38,7 @@ public class StringFinderTest {
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
-	private String singleLine = "Catrobat HQ. You will never find a more wretched hive of scum and villainy.";
+	private String singleLine = "Mos eisley spaceport. You will never find a more wretched hive of scum and villainy.";
 	private String multiLine = "I must not fear.\n"
 			+ "Fear is the mind-killer.\n"
 			+ "Fear is the little-death that brings total obliteration.\n"

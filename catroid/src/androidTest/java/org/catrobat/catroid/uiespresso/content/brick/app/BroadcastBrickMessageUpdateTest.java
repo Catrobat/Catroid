@@ -32,14 +32,17 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
 import org.catrobat.catroid.content.bricks.BroadcastWaitBrick;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,28 +50,34 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickUtils.createNewBroadCastMessageOnBrick;
+import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastBrickMessageUpdateTest {
 	private String defaultMessage = "defaultMessage";
-	String message = "Oida!";
+	String message = "newAddedMessage";
 	BroadcastReceiverBrick firstBroadcastBrick;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
+	@After
+	public void tearDown() throws IOException {
+		baseActivityTestRule.finishActivity();
+		TestUtils.deleteProjects(BroadcastBrickMessageUpdateTest.class.getSimpleName());
+	}
+
 	@Before
 	public void setUp() throws Exception {
-		createProject(this.getClass().getSimpleName());
+		createTestProjectWithBricks(BroadcastBrickMessageUpdateTest.class.getSimpleName());
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Test
 	public void testAllBroadcastBricksSpinnersShowTheNewAddedMessage() {
-		createNewBroadCastMessageOnBrick(message, firstBroadcastBrick,
-				(SpriteActivity) baseActivityTestRule.getActivity());
+		createNewBroadcastMessageOnBrick(message, firstBroadcastBrick,
+				baseActivityTestRule.getActivity());
 
 		List<String> spinnerValues = Arrays.asList(
 				UiTestUtils.getResourcesString(R.string.new_option),
@@ -92,7 +101,7 @@ public class BroadcastBrickMessageUpdateTest {
 				.checkNameableValuesAvailable(spinnerValues);
 	}
 
-	private void createProject(String projectName) {
+	private void createTestProjectWithBricks(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new Sprite("testSprite");
 

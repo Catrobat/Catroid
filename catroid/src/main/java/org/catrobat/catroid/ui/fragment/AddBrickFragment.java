@@ -31,8 +31,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -144,12 +142,7 @@ public class AddBrickFragment extends ListFragment {
 			listIndexToFocus = -1;
 		}
 
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				addBrickToScript(adapter.getItem(position));
-			}
-		});
+		getListView().setOnItemClickListener((parent, view, position, id) -> addBrickToScript(adapter.getItem(position)));
 	}
 
 	public void addBrickToScript(Brick brickToAdd) {

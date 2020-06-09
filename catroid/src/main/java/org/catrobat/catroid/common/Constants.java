@@ -38,7 +38,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99997f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999993f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -82,6 +82,10 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
+	// Whitelist File
+	public static final String URL_WHITELIST_JSON_FILE_NAME = "URL_whitelist.json";
+	public static final String URL_WHITELIST_JSON_ARRAY_NAME = "domains";
+
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
 
@@ -107,6 +111,7 @@ public final class Constants {
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
+	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
@@ -114,6 +119,18 @@ public final class Constants {
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
+
+	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
+	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";
+
+	public static final String USER_AGENT = "Mozilla/5.0 (compatible; Catrobatbot/1.0; +https://catrob.at/bot)";
+
+	// HTTP status codes:
+	public static final int ERROR_BAD_REQUEST = 400;
+	public static final int ERROR_TOO_MANY_REQUESTS = 429;
+	public static final int ERROR_SERVER_ERROR = 500;
+	public static final int ERROR_TIMEOUT = 504;
+	public static final int ERROR_AUTHENTICATION_REQUIRED = 511;
 
 	// XStream:
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
@@ -164,8 +181,8 @@ public final class Constants {
 	public static final String SCRATCH_CONVERTER_HOST = "scratch2.catrob.at";
 	public static final String SCRATCH_SEARCH_URL = "https://api.scratch.mit.edu/search/projects";
 	public static final int SCRATCH_CONVERTER_MAX_NUMBER_OF_JOBS_PER_CLIENT = 3;
-	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "ws://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
-	public static final String SCRATCH_CONVERTER_BASE_URL = "http://" + SCRATCH_CONVERTER_HOST + "/";
+	public static final String SCRATCH_CONVERTER_WEB_SOCKET = "wss://" + SCRATCH_CONVERTER_HOST + "/convertersocket";
+	public static final String SCRATCH_CONVERTER_BASE_URL = "https://" + SCRATCH_CONVERTER_HOST + "/";
 	public static final String SCRATCH_CONVERTER_API_BASE_URL = SCRATCH_CONVERTER_BASE_URL + "api/v1/";
 	public static final String SCRATCH_CONVERTER_API_DEFAULT_PROJECTS_URL = SCRATCH_CONVERTER_API_BASE_URL + "projects/";
 	public static final int SCRATCH_SECOND_RELEASE_PUBLISHED_DATE_YEAR = 2013;

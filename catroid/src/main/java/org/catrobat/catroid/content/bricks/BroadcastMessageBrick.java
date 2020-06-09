@@ -38,6 +38,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NonEmptyStringTextWatcher;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -67,15 +68,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		List<String> messages = ProjectManager.getInstance().getCurrentProject()
 				.getBroadcastMessageContainer().getBroadcastMessages();
 
-		if (messages.isEmpty()) {
-			messages.add(context.getString(R.string.brick_broadcast_default_value));
-		}
-
-		List<Nameable> items = new ArrayList<>();
-		items.add(new NewOption(context.getString(R.string.new_option)));
-		for (String message : messages) {
-			items.add(new StringOption(message));
-		}
+		List<Nameable> items = getSortedItemListFromMessages(context, messages);
 
 		spinner = new BrickSpinner<>(R.id.brick_broadcast_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
@@ -132,5 +125,23 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 	@VisibleForTesting
 	public DialogInterface.OnCancelListener getCanceledListener() {
 		return dialog -> spinner.setSelection(getBroadcastMessage());
+	}
+
+	@VisibleForTesting
+	public static List<Nameable> getSortedItemListFromMessages(Context context, List<String> messages) {
+		if (messages.isEmpty()) {
+			String defaultValue = context.getString(R.string.brick_broadcast_default_value);
+			return Collections.singletonList(new StringOption(defaultValue));
+		}
+
+		Collections.sort(messages, String::compareToIgnoreCase);
+
+		List<Nameable> items = new ArrayList<>();
+		items.add(new NewOption(context.getString(R.string.new_option)));
+
+		for (String message : messages) {
+			items.add(new StringOption(message));
+		}
+		return items;
 	}
 }

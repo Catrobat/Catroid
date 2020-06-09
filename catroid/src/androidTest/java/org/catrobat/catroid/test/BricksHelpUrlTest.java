@@ -27,6 +27,7 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -109,7 +110,11 @@ public class BricksHelpUrlTest {
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBrightnessBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#SetBrightnessBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WebRequestBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Control%20Bricks/#WebRequestBrick");
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WebRequestBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LookRequestBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#LookRequestBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.BackgroundRequestBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#BackgroundRequestBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Lego EV3%20Bricks/#LegoEv3MotorMoveBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.HideBrick",
@@ -290,6 +295,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Event%20Bricks/#WhenStartedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#DeleteItemOfUserListBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ClearUserListBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#ClearUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.GoToBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Motion%20Bricks/#GoToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick",
@@ -386,6 +393,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#ZigZagStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TripleStitchBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#TripleStitchBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#StoreCSVIntoUserListBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
@@ -441,6 +452,9 @@ public class BricksHelpUrlTest {
 		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
 				InstrumentationRegistry.getInstrumentation().getTargetContext());
 		String brickHelpUrl = brick.getHelpUrl(category);
+		if (brick instanceof UserDefinedBrick) {
+			brickHelpUrl = brick.getHelpUrl("Your bricks");
+		}
 		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
 	}
 

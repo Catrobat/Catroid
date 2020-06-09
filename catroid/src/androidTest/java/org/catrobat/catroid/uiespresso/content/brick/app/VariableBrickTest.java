@@ -31,6 +31,7 @@ import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -39,13 +40,18 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
+import static org.hamcrest.Matchers.not;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -76,6 +82,19 @@ public class VariableBrickTest {
 		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(variableName)
 				.checkShowsText(variableName);
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void testCreatingNewMultiplayerVariable() {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
+				ApplicationProvider.getApplicationContext(), true);
+
+		final String variableName = "multiplayerVariable";
+		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
+				.performNewMultiplayerVariable(variableName)
+				.checkShowsText(variableName)
+				.checkShowsVariableNameInAdapter(variableName);
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class})
@@ -109,5 +128,37 @@ public class VariableBrickTest {
 
 		onBrickAtPosition(setBrickPosition).onSpinner(R.id.change_variable_spinner)
 				.checkShowsText(variableName);
+	}
+
+	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Test
+	public void testMultiplayerVariableScopeIsVisibleWithEnabledPreference() {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
+				ApplicationProvider.getApplicationContext(), true);
+
+		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
+				.perform(click());
+
+		onView(withText(R.string.new_option))
+				.perform(click());
+
+		onView(withId(R.id.multiplayer))
+				.check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Functional.class})
+	@Test
+	public void testMultiplayerVariableScopeIsNotVisibleWithDisabledPreference() {
+		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
+				ApplicationProvider.getApplicationContext(), false);
+
+		onBrickAtPosition(setBrickPosition).onVariableSpinner(R.id.set_variable_spinner)
+				.perform(click());
+
+		onView(withText(R.string.new_option))
+				.perform(click());
+
+		onView(withId(R.id.multiplayer))
+				.check(matches(not(isDisplayed())));
 	}
 }

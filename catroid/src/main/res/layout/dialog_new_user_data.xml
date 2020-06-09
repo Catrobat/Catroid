@@ -64,6 +64,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/new_data_for_this_sprite_only" />
+
+            <RadioButton
+                android:id="@+id/multiplayer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_data_for_connected_devices"
+                android:visibility="gone" />
         </RadioGroup>
 
         <CheckBox

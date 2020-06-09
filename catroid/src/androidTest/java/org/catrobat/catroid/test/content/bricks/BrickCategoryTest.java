@@ -53,6 +53,7 @@ import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
+import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
@@ -102,6 +103,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtMotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick;
 import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
+import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
@@ -165,6 +167,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
@@ -281,7 +284,8 @@ public class BrickCategoryTest {
 						SetBackgroundByIndexAndWaitBrick.class,
 						CameraBrick.class,
 						ChooseCameraBrick.class,
-						FlashBrick.class)},
+						FlashBrick.class,
+						LookRequestBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,
@@ -309,8 +313,7 @@ public class BrickCategoryTest {
 						StopScriptBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenClonedBrick.class,
-						WebRequestBrick.class)},
+						WhenClonedBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -320,13 +323,16 @@ public class BrickCategoryTest {
 						ReadVariableFromDeviceBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
+						ClearUserListBrick.class,
 						InsertItemIntoUserListBrick.class,
 						ReplaceItemInUserListBrick.class,
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
+						StoreCSVIntoUserListBrick.class,
+						WebRequestBrick.class,
+						LookRequestBrick.class,
 						AskBrick.class,
-						AskSpeechBrick.class,
-						WebRequestBrick.class)},
+						AskSpeechBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -382,7 +388,9 @@ public class BrickCategoryTest {
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
-						FinishStageBrick.class)},
+						FinishStageBrick.class,
+						StoreCSVIntoUserListBrick.class,
+						WebRequestBrick.class)},
 		});
 	}
 

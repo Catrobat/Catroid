@@ -112,7 +112,9 @@ public class BrickAdapter extends BaseAdapter implements
 		itemView.setVisibility(viewStateManager.isVisible(position) ? View.VISIBLE : View.INVISIBLE);
 		itemView.setAlpha(viewStateManager.isEnabled(position) ? 1 : DISABLED_BRICK_ALPHA);
 
-		Drawable background = ((ViewGroup) itemView).getChildAt(1).getBackground();
+		View brickViewContainer = ((ViewGroup) itemView).getChildAt(1);
+		Drawable background = brickViewContainer.getBackground();
+
 		if (item.isCommentedOut()) {
 			ColorMatrix matrix = new ColorMatrix();
 			matrix.setSaturation(0);

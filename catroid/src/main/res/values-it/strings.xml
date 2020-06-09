@@ -164,6 +164,9 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
     <string name="preference_raspi_port">Porta Raspberry Pi</string>
     <!--  -->
+    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Oops! Il programma pare essere scomparso
@@ -482,6 +485,7 @@
     <string name="nfc_tag_name_label">Nome del Tag NFC</string>
     <string name="string_label">Testo</string>
     <string name="data_label">Nome</string>
+    <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">Ultimo accesso: %s, dimensione: %s</string>
     <string name="last_access_today">oggi, %s</string>
@@ -640,6 +644,7 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">Variabili per tutti gli oggetti</string>
     <string name="local_vars_headline">Variabili per solo questo oggetto</string>
     <string name="global_lists_headline">Liste per tutti gli oggetti</string>
@@ -647,6 +652,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Per tutti gli oggetti</string>
     <string name="new_data_for_this_sprite_only">Solo per questo oggetto</string>
+    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
+        on connected multiplayer devices</string>
     <!-- Backpack -->
     <string name="backpack_title">Tuo zaino</string>
     <string name="pack">Impacchetta</string>
@@ -813,15 +820,15 @@
     <string name="soundrecorder_text_view">Premere l\'icona qui sopra per avviare e interrompere la registrazione.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Sposta mattoncino</string>
+    <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Sposta script</string>
     <string name="brick_context_dialog_delete_brick">Elimina mattoncino</string>
     <string name="brick_context_dialog_copy_brick">Copia mattoncino</string>
     <string name="brick_context_dialog_copy_script">Copia script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Modifica Formula</string>
-    <string name="brick_context_dialog_delete_script">Elimina lo script</string>
-    <string name="brick_context_dialog_comment_in">Abilita mattoncino</string>
-    <string name="brick_context_dialog_comment_out">Disabilita mattoncino</string>
+    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
+    <string name="brick_context_dialog_delete_script">Cancella script</string>
+    <string name="brick_context_dialog_comment_in">Enable brick</string>
+    <string name="brick_context_dialog_comment_out">Disable brick</string>
     <string name="brick_context_dialog_highlight_brick_parts">Evidenzia parti mattoncino</string>
     <string name="brick_context_dialog_comment_in_script">Abilita script</string>
     <string name="brick_context_dialog_comment_out_script">Disabilita script</string>
@@ -856,9 +863,8 @@
     <string name="sign_in_error">Qualcosa è andato storto durante l\'accesso.</string>
     <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
     <string name="error_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
-    <string name="sign_in_with_google">Accedi con Google</string>
     <string name="error_register_empty_username">Nome utente vuoto</string>
-    <string name="error_register_username_as_email">Non si può usare l\'Indirizzo di e-mail come nome utente</string>
+    <string name="error_register_username_as_email">Email address cannot be used as username</string>
     <string name="error_register_invalid_username">Il nome utente deve contenere solo lettere (a-z), numeri (0-9), trattini (-),
         trattini bassi (_) e punti (.).</string>
     <string name="error_register_username_start_with">Il nome utente non deve iniziare con trattini (-), trattini bassi (_) o
@@ -888,7 +894,7 @@
         Non sono disponibili i seguenti componenti:\n\n</string>
     <string name="prestage_resource_in_use_text">Un altro dispositivo è connesso al Jumping Sumo. Assicurati
     di essere il solo a controllare il drone.</string>
-    <string name="prestage_no_vibrator_available">\u2022 Vibrazione\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore di Accelerazione\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensore di Inclinazione\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Bussola\n</string>
@@ -942,9 +948,18 @@
     <string name="category_raspi">Raspberry Pi</string>
     <string name="category_assertions">Verifica</string>
     <!--  -->
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Add label</string>
+    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_default_input_name">Name of input</string>
+    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posiziona a "</string>
-    <string name="brick_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">Posiziona visivamente</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"Imposta X a "</string>
@@ -1119,6 +1134,7 @@
     <string name="brick_broadcast_default_value">"messaggio 1"</string>
     <string name="brick_add_item_to_userlist_add">Aggiungi</string>
     <string name="brick_add_item_to_userlist">alla lista</string>
+    <string name="brick_clear_userlist">Delete all items from list</string>
     <string name="brick_delete_item_from_userlist_delete">Elimina l\'elemento dalla lista</string>
     <string name="brick_delete_item_from_userlist">alla posizione</string>
     <string name="brick_insert_item_into_userlist_insert_into">Inserire</string>
@@ -1128,8 +1144,28 @@
     <string name="brick_replace_item_in_userlist_item_at_index">alla posizione</string>
     <string name="brick_replace_item_in_userlist_with_value">con</string>
     <string name="brick_web_request">Invia richiesta web a</string>
+    <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">e memorizza la risposta in</string>
-    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
+    <string name="brick_web_request_warning_title">Allow web access?</string>
+    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious other persons or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
+    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
+    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
+    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_store_csv_into_userlist_store">Store column</string>
+    <string name="brick_store_csv_into_userlist_of">of the</string>
+    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into">nella lista</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Il mio primo programma</string>
@@ -1616,6 +1652,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contiene</string>
     <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_number_of_items">numero_di_elementi</string>
     <string name="formula_editor_function_number_of_items_parameter">(*nome _lista*)</string>
     <string name="formula_editor_function_collision">oggetti_toccati</string>

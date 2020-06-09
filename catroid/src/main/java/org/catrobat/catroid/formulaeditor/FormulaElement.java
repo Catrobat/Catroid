@@ -544,6 +544,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionContains(right, sprite);
 			case NUMBER_OF_ITEMS:
 				return interpretFunctionNumberOfItems(left, sprite);
+			case INDEX_OF_ITEM:
+				return interpretFunctionIndexOfItem(left, sprite);
 		}
 		return 0d;
 	}
@@ -569,6 +571,17 @@ public class FormulaElement implements Serializable {
 					return 1d;
 				}
 			}
+		}
+
+		return 0d;
+	}
+
+	private Object interpretFunctionIndexOfItem(Object left, Sprite sprite) {
+		if (rightChild.getElementType() == ElementType.USER_LIST) {
+			Project currentProject = ProjectManager.getInstance().getCurrentProject();
+			UserList userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
+
+			return (double) (userList.getIndexOf(left) + 1);
 		}
 
 		return 0d;
@@ -753,8 +766,8 @@ public class FormulaElement implements Serializable {
 	private Object interpretFunctionRand(Object left, Object right) {
 		double from = (double) left;
 		double to = (double) right;
-		double low = (from <= to) ? from : to;
-		double high = (from <= to) ? to : from;
+		double low = Math.min(from, to);
+		double high = Math.max(from, to);
 
 		if (low == high) {
 			return low;

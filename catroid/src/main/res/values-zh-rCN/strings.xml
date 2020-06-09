@@ -162,6 +162,9 @@
     <string name="preference_raspi_host">树莓派 IP-/ 主机地址</string>
     <string name="preference_raspi_port">树莓派端口</string>
     <!--  -->
+    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">公测版</string>
     <string name="error_scratch_program_not_accessible_any_more">哎呀！项目似乎已经消失了
@@ -420,6 +423,7 @@
     <string name="nfc_tag_name_label">NFC 标签名称</string>
     <string name="string_label">文本</string>
     <string name="data_label">名称</string>
+    <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">最后访问： %s，大小： %s</string>
     <string name="last_access_today">今天， %s</string>
@@ -427,7 +431,7 @@
     <string name="sprite_details">积木： %d, 外观: %d, 声音: %d</string>
     <string name="look_details">分辨率: %s, 大小: %s</string>
     <string name="sound_duration">时长：%s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="sound_details">持续时间: %s, 大小: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">重命名项目</string>
@@ -474,44 +478,44 @@
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="other">已复制 %d 场景</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="other">以复制 %d 个对象或物体</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="other">已复制 %d 外观</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="other">已复制 %d 音响</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="other">已复制 %d NFC 标签。</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="other">已删除 %d 个项目</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="other">已删除 %d 个场景</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="other">已删除 %d 个脚本</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="other">已删除 %d 个外观</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="other">已删除 %d 个音响</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="other">已删除 %d NFC 标签</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="other">已删除 %d 个脚本</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="other">已删除 %d 项</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -521,15 +525,15 @@
     <string name="description">描述：</string>
     <string name="set_description">设置描述</string>
     <string name="details_date_today">今天</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="import_project">导入项目</string>
+    <string name="error_import_project">获取项目时出错。</string>
+    <string name="error_no_files_found">未找到项目。</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">点击\"+\"来添加脚本</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">点击 \"+\" 添加演员或对象</string>
+    <string name="default_sprite_name">我的对象或物体</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">按“+”添加外观</string>
@@ -541,8 +545,8 @@
     <string name="sound_select_source">选择一个声音</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-    <string name="ndef_record_label">as record type</string>
+    <string name="fragment_nfctag_text_description">扫描 NFC 标签来添加它们</string>
+    <string name="ndef_record_label">作为记录类型</string>
     <string name="brick_set_nfc_tag">设置下一个NFC标签为</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC标签</string>
@@ -556,6 +560,7 @@
     <string name="tnf_well_known_mailto">邮箱</string>
     <!--  -->
     <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">Variables for all actors and objects</string>
     <string name="local_vars_headline">Variables for this actor or object only</string>
     <string name="global_lists_headline">Lists for all actors and objects</string>
@@ -563,9 +568,11 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
     <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
+    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
+        on connected multiplayer devices</string>
     <!-- Backpack -->
     <string name="backpack_title">你的背包</string>
-    <string name="pack">Pack</string>
+    <string name="pack">组件</string>
     <string name="unpack">取出</string>
     <!--  -->
     <!-- Sprite Attribute Activity -->
@@ -578,14 +585,14 @@
     <string name="new_project_dialog_title">新建程序</string>
     <string name="new_project_empty">创新新程序</string>
     <string name="new_project_default">创建示例程序</string>
-    <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
+    <string name="new_project_default_drone">创建一个示例AR.无人机2.0 项目</string>
     <string name="new_project_default_jumping_sumo">创建Jumping Sumo示例程序</string>
     <string name="project_orientation_title">方向：</string>
-    <string name="project_select_screen_title">Screen:</string>
+    <string name="project_select_screen_title">屏幕：</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">已合并 个项目</string>
+    <string name="merging_project_text">这两个项目尚不能合并</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">新建对象</string>
@@ -596,7 +603,7 @@
     <string name="add_look_draw_new_image">绘制图像</string>
     <string name="add_look_choose_image">选择图像</string>
     <string name="add_look_media_library">媒体库</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
+    <string name="add_look_drone_video">AR.无人机 2.0 视频</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">添加声音</string>
@@ -604,8 +611,8 @@
     <string name="add_sound_choose_file">选择文件</string>
     <string name="add_sound_music">音乐作曲家</string>
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
+    <string name="rating_dialog_title">为软件评分</string>
+    <string name="rating_google_play_dialog_text">如果您喜欢这个应用程序，请在应用商店为我们评分 ！</string>
     <string name="rating_dialog_rate_now">现在</string>
     <string name="rating_dialog_rate_later">稍后</string>
     <string name="rating_dialog_rate_never">从不</string>
@@ -620,20 +627,16 @@
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">使用与服务条例</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">您即将使用此应用与 Parrot 的AR.无人机2.0。 我们强烈提醒您遵守Parrot和Catrobat的使用和服务条款。</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">不要再次提醒我。</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">您即将使用这个应用程序与Parrot Jumping Sumo。 我们强烈提醒您遵守Parrot和Catrobat的使用条款和服务。</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">隐私策略</string>
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_police_header_headline">欢迎!</string>
+    <string name="disclaimer_privacy_policy_header">在您开始编码之前，请阅读并接受我们的隐私 策略来使用应用程序：</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -771,9 +774,8 @@
     <string name="sign_in_error">在登录时发生了错误。</string>
     <string name="error_google_plus_sign_in">谷歌登录错误。状态： %s</string>
     <string name="error_session_expired">您的会话已过期，请登录。</string>
-    <string name="sign_in_with_google">通过 Google 登录</string>
     <string name="error_register_empty_username">用户名为空</string>
-    <string name="error_register_username_as_email">电子邮件地址不能用作用户名</string>
+    <string name="error_register_username_as_email">Email address cannot be used as username</string>
     <string name="error_register_invalid_username">用户名只能包含字母 (a-z), 数字 (0-9),
 dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="error_register_username_start_with">用户名不应以破折号 (-), 下划线 (_), 或
@@ -802,7 +804,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_resource_not_available_text">不幸此项目无法在您的设备上运行。
 以下组件不可用:\n\n</string>
     <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
-    <string name="prestage_no_vibrator_available">\u2022 震动器\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 倾角传感器\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 电子罗盘\n</string>
@@ -855,9 +857,18 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="category_raspi">树莓派</string>
     <string name="category_assertions">测试中</string>
     <!--  -->
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Add label</string>
+    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_default_input_name">Name of input</string>
+    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"放在 "</string>
-    <string name="brick_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">视觉设置</string>
     <string name="x_label">"X: "</string>
     <string name="y_label">"Y: "</string>
     <string name="brick_set_x">"设置X坐标为 "</string>
@@ -964,7 +975,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_stitch">Stitch</string>
     <string name="brick_running_stitch">Start running stitch with length</string>
     <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
+    <string name="brick_zigzag_stitch_width">和宽度</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
     <!--  -->
@@ -1004,10 +1015,10 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_when_cloned">当作为克隆启动</string>
     <string name="brick_delete_this_clone">删除这个克隆</string>
     <string name="brick_assert_that">Assert:</string>
-    <string name="brick_is_equal_to">equal to expected:</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at">"Single tap at"</string>
-    <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_is_equal_to">等于预期：</string>
+    <string name="brick_wait_till_idle">等待所有其他脚本停止</string>
+    <string name="brick_tap_at">"单击在"</string>
+    <string name="brick_finish_stage">结束阶段</string>
     <plurals name="time_plural">
         <item quantity="other">次</item>
     </plurals>
@@ -1018,16 +1029,17 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_if_end">如果结束</string>
     <string name="brick_set_variable">设置变量</string>
     <string name="brick_change_variable">增加变量</string>
-    <string name="brick_write_variable_on_device">Write variable on device</string>
-    <string name="brick_read_variable_from_device">Read variable from device</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
+    <string name="brick_write_variable_on_device">在设备上写入变量</string>
+    <string name="brick_read_variable_from_device">从设备读取变量</string>
+    <string name="brick_write_list_on_device">在设备上写入列表</string>
+    <string name="brick_read_list_from_device">从设备读取列表</string>
     <string name="brick_note_default_value">在这里添加注释&#8230;</string>
     <string name="brick_think_bubble_default_value">嗯……！</string>
     <string name="brick_say_bubble_default_value">您好！</string>
     <string name="brick_broadcast_default_value">"新消息"</string>
     <string name="brick_add_item_to_userlist_add">添加</string>
     <string name="brick_add_item_to_userlist">到列表中</string>
+    <string name="brick_clear_userlist">从列表中删除所有项目。</string>
     <string name="brick_delete_item_from_userlist_delete">从列表中删除项，在列表</string>
     <string name="brick_delete_item_from_userlist">位置为</string>
     <string name="brick_insert_item_into_userlist_insert_into">插入</string>
@@ -1036,9 +1048,29 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">替换项目在列表</string>
     <string name="brick_replace_item_in_userlist_item_at_index">的位置</string>
     <string name="brick_replace_item_in_userlist_with_value">以</string>
-    <string name="brick_web_request">Send web request to</string>
-    <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_default_value">https://official-joke-api.appspot.com/random_joke</string>
+    <string name="brick_web_request">发送网络请求到</string>
+    <string name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string name="brick_web_request_result">并存储答案</string>
+    <string name="brick_web_request_warning_title">Allow web access?</string>
+    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious other persons or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
+    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
+    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
+    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_store_csv_into_userlist_store">Store column</string>
+    <string name="brick_store_csv_into_userlist_of">of the</string>
+    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into">到列表中</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">我的第一个程序</string>
@@ -1047,9 +1079,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="default_project_cloud_name">云</string>
     <string name="default_project_cloud_sprite_name_1">云1</string>
     <string name="default_project_cloud_sprite_name_2">云2</string>
-    <string name="default_project_sprites_animal_name">Animal</string>
-    <string name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string name="default_project_sprites_animal_wings_down">Wings down</string>
+    <string name="default_project_sprites_animal_name">动物</string>
+    <string name="default_project_sprites_animal_wings_up">双翼上移</string>
+    <string name="default_project_sprites_animal_wings_down">双翼下移</string>
     <string name="default_project_sprites_tweet_1">鸟鸣1</string>
     <string name="default_project_sprites_tweet_2">鸟鸣2</string>
     <!-- Default ChromeCast Values -->
@@ -1067,7 +1099,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="default_cast_project_var_direction">方向</string>
     <string name="default_cast_project_name">我的第一个Cast程序</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
+    <string name="default_drone_project_name">我的第一个AR.无人机 2.0 项目</string>
     <string name="default_drone_project_sprites_takeoff">起飞</string>
     <string name="default_drone_project_sprites_flip">翻转</string>
     <string name="default_drone_project_sprites_up">上升</string>
@@ -1108,11 +1140,11 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="drone_set_tilt_outdoor">20 度 </string>
     <string name="drone_set_tilt_max">30 度</string>
     <!-- Notification Channel -->
-    <string name="channel_description">%1$s notification channel</string>
+    <string name="channel_description">%1$s 通知频道</string>
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">预览图像已保存</string>
-    <string name="notification_download_project_cancel">Cancel project download</string>
+    <string name="notification_download_project_cancel">取消项目下载</string>
     <string name="notification_reconvert_download_program_cancel">已取消下载/重新转换程序</string>
     <string name="notification_upload_title_pending">"上传中 "</string>
     <string name="notification_upload_title_finished">"查看 "</string>
@@ -1125,13 +1157,12 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="notification_download_pending">正在下载</string>
     <string name="notification_download_finished">下载完成</string>
     <string name="notification_title_open">"打开 "</string>
-    <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
+    <string name="notification_low_battery_with_value">注意。电池电量低。当前状态是 %d</string>
     <string name="size_of_project">大小：</string>
     <string name="drone_emergency_battery_low">电池电量太低 （自动着陆）。</string>
     <string name="drone_emergency_camera">一个或多个摄像头没有响应。</string>
     <string name="drone_emergency_ultrasound">超声波传感器无响应</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
+    <string name="drone_emergency_angle">AR.无人机2.0 Euler 角度过高。关闭引擎以防止危险行为。</string>
     <string name="drone_emergency_cutout">一个或多个马达受环境影响停止。</string>
     <string name="drone_alert_battery_low">电量过低，无法再次起飞。</string>
     <string name="drone_alert_ultrasound">超声波传感器无法确定AR 2.0无人机的高度。</string>
@@ -1146,9 +1177,8 @@ needs read and write access to it. You can always change permissions through you
     <!-- Error messages -->
     <string name="error_project_upload">在上传程序的时候发生了一个错误。</string>
     <string name="error_project_download">下载程序时发生了一个错误。</string>
-    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
+    <string name="error_project_already_in_queue">"项目 %s 已在队列中。"</string>
+    <string name="error_could_not_decode_project_name_from_url">\"您的下载无法开始，似乎我们的服务器有问题。</string>
     <string name="error_new_project">创建新程序时发生了一个错误。</string>
     <string name="error_rename_scene">在重命名场景时发生了一个错误。</string>
     <string name="error_load_project">在加载程序的时候发生了一个错误。</string>
@@ -1215,7 +1245,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">树莓派设置</string>
     <string name="raspi_settings_gpio_version">GPIO 版本</string>
-    <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
+    <string name="error_connecting_to">错误：无法连接到 %s ： %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">设置NXT马达</string>
@@ -1249,11 +1279,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_disable_nxt_info_dialog_description">打开程序时不显示程序指定的NXT设置。</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">NXT传感器与端口的配对由程序指定，必须由打开的程序进行配置。</string>
     <string name="lego_nxt_sensor_config_info_text">当前程序使用了乐高头脑风暴NXT积木或传感器。如果要正确使用这些功能请将传感器与机器人按以下方式连接</string>
-    <string name="lego_port_1">Port 1</string>
-    <string name="lego_port_2">Port 2</string>
-    <string name="lego_port_3">Port 3</string>
-    <string name="lego_port_4">Port 4</string>
-    <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
+    <string name="lego_port_1">端口 1</string>
+    <string name="lego_port_2">端口 2</string>
+    <string name="lego_port_3">端口 3</string>
+    <string name="lego_port_4">端口 4</string>
+    <string name="lego_sensor_config_dont_show_again">不要再次显示此消息。</string>
     <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
     <string name="lego_ev3_sensor_config_info_title">EV3 传感器配置</string>
     <string name="preference_disable_ev3_info_dialog_description">打开一个程序时不会显示程序指定的 EV3 设置。</string>
@@ -1325,12 +1355,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_drone_power">求幂</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Blink green red</string>
-    <string name="drone_animation_blinkgreen">Blink green</string>
-    <string name="drone_animation_blinkred">Blink red</string>
-    <string name="drone_animation_blinkorange">Blink orange</string>
+    <string name="drone_animation_blinkgreenred">闪亮绿红灯</string>
+    <string name="drone_animation_blinkgreen">闪亮绿灯</string>
+    <string name="drone_animation_blinkred">闪亮红灯</string>
+    <string name="drone_animation_blinkorange">闪烁橙灯</string>
     <string name="drone_animation_snakegreenred">Snake green red</string>
-    <string name="drone_animation_fire">Fire</string>
+    <string name="drone_animation_fire">射击</string>
     <string name="drone_animation_standard">标准</string>
     <string name="drone_animation_red">红色</string>
     <string name="drone_animation_green">绿色</string>
@@ -1525,6 +1555,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_list_item_parameter">(1，*列表名称*)</string>
     <string name="formula_editor_function_contains">包含</string>
     <string name="formula_editor_function_contains_parameter">(*列表名称*,1)</string>
+    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1，*列表名称*)</string>
     <string name="formula_editor_function_number_of_items">数据项数量</string>
     <string name="formula_editor_function_number_of_items_parameter">(*列表名称*)</string>
     <string name="formula_editor_function_collision">碰到对象</string>

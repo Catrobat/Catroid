@@ -28,7 +28,6 @@
 
     <TextView
         style="@style/BrickCategoryText"
-        android:drawableEnd="@drawable/main_menu_button_arrow"
         android:text="@string/category_lego_ev3">
     </TextView>
 

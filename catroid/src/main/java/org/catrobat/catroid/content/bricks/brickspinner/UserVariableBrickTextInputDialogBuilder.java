@@ -24,6 +24,7 @@
 package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.app.Dialog;
+import android.view.View;
 import android.widget.RadioButton;
 
 import org.catrobat.catroid.R;
@@ -33,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,6 +44,14 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 			AppCompatActivity activity, BrickSpinner<UserVariable> spinner) {
 
 		super(activity);
+
+		View dialogView = View.inflate(activity, R.layout.dialog_new_user_data, null);
+		RadioButton multiplayerRadioButton = dialogView.findViewById(R.id.multiplayer);
+		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(activity.getApplicationContext())) {
+			multiplayerRadioButton.setVisibility(View.VISIBLE);
+		}
+		setView(dialogView);
+
 		setHint(activity.getString(R.string.data_label))
 				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
 				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
@@ -49,9 +59,12 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 
 					RadioButton addToProjectVariablesRadioButton = ((Dialog) dialog).findViewById(R.id.global);
 					boolean addToProjectVariables = addToProjectVariablesRadioButton.isChecked();
+					boolean addToMultiplayerVariables = multiplayerRadioButton.isChecked();
 
 					if (addToProjectVariables) {
 						project.addUserVariable(userVariable);
+					} else if (addToMultiplayerVariables) {
+						project.addMultiplayerVariable(userVariable);
 					} else {
 						sprite.addUserVariable(userVariable);
 					}
@@ -66,7 +79,7 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 				});
 
 		setTitle(R.string.formula_editor_variable_dialog_title);
-		setView(R.layout.dialog_new_user_data);
+
 		setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(currentUserVariable));
 		setOnCancelListener(dialog -> spinner.setSelection(currentUserVariable));
 	}

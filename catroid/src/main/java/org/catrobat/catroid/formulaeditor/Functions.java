@@ -24,15 +24,21 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.util.Log;
 
+import java.util.EnumSet;
+
 public enum Functions {
 
 	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, ARCTAN2, EXP, POWER, FLOOR, CEIL,
 	MAX,
 	MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, REGEX, LIST_ITEM, CONTAINS, NUMBER_OF_ITEMS, ARDUINOANALOG, ARDUINODIGITAL, RASPIDIGITAL,
+	LETTER, JOIN, REGEX, LIST_ITEM, CONTAINS, INDEX_OF_ITEM, NUMBER_OF_ITEMS, ARDUINOANALOG,
+	ARDUINODIGITAL, RASPIDIGITAL,
 	MULTI_FINGER_X, MULTI_FINGER_Y, MULTI_FINGER_TOUCHED;
 
 	private static final String TAG = Functions.class.getSimpleName();
+	public static final EnumSet<Functions> TEXT = EnumSet.of(LENGTH, LETTER, JOIN, REGEX);
+	public static final EnumSet<Functions> LIST = EnumSet.of(LIST_ITEM, CONTAINS, INDEX_OF_ITEM,
+			NUMBER_OF_ITEMS);
 
 	public static boolean isFunction(String value) {
 		return getFunctionByValue(value) != null;

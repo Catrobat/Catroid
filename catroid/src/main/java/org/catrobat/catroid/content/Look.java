@@ -65,9 +65,6 @@ public class Look extends Image {
 	public static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
-	protected boolean imageChanged = false;
-	protected boolean brightnessChanged = false;
-	protected boolean colorChanged = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
@@ -111,11 +108,11 @@ public class Look extends Image {
 		this.addListener(new EventWrapperListener(this));
 	}
 
-	public boolean isLookVisible() {
+	public synchronized boolean isLookVisible() {
 		return lookVisible;
 	}
 
-	public void setLookVisible(boolean lookVisible) {
+	public synchronized void setLookVisible(boolean lookVisible) {
 		this.lookVisible = lookVisible;
 	}
 
@@ -168,15 +165,14 @@ public class Look extends Image {
 		return false;
 	}
 
-	public void createBrightnessContrastHueShader() {
+	public synchronized void createBrightnessContrastHueShader() {
 		shader = new BrightnessContrastHueShader();
 		shader.setBrightness(brightness);
 		shader.setHue(hue);
 	}
 
 	@Override
-	public void draw(Batch batch, float parentAlpha) {
-		checkImageChanged();
+	public synchronized void draw(Batch batch, float parentAlpha) {
 		batch.setShader(shader);
 		if (alpha == 0.0f) {
 			super.setVisible(false);
@@ -225,60 +221,49 @@ public class Look extends Image {
 		scheduler.setState(state);
 	}
 
-	protected void checkImageChanged() {
-		if (imageChanged) {
-			if (lookData == null) {
-				setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
-				setDrawable(null);
-				imageChanged = false;
-				return;
-			}
-
-			pixmap = lookData.getPixmap();
+	public synchronized void refreshTextures(boolean refreshShader) {
+		if (lookData == null) {
+			setBounds(getX() + getWidth() / 2f, getY() + getHeight() / 2f, 0f, 0f);
+			setDrawable(null);
+			return;
+		}
+		pixmap = lookData.getPixmap();
+		if (pixmap != null) {
 			float newX = getX() - (pixmap.getWidth() - getWidth()) / 2f;
 			float newY = getY() - (pixmap.getHeight() - getHeight()) / 2f;
-
 			setSize(pixmap.getWidth(), pixmap.getHeight());
 			setPosition(newX, newY);
 			setOrigin(getWidth() / 2f, getHeight() / 2f);
-
-			if (brightnessChanged) {
-				shader.setBrightness(brightness);
-				brightnessChanged = false;
-			}
-
-			if (colorChanged) {
-				shader.setHue(hue);
-				colorChanged = false;
-			}
-
 			TextureRegion region = lookData.getTextureRegion();
 			TextureRegionDrawable drawable = new TextureRegionDrawable(region);
 			setDrawable(drawable);
-
 			flipLookDataIfNeeded(getRotationMode());
-			imageChanged = false;
+			if (refreshShader) {
+				refreshShader();
+			}
 		}
 	}
 
-	public void refreshTextures() {
-		this.imageChanged = true;
+	private void refreshShader() {
+		createShaderIfNotExisting();
+		shader.setBrightness(brightness);
+		shader.setHue(hue);
 	}
 
-	public LookData getLookData() {
+	public synchronized LookData getLookData() {
 		return lookData;
 	}
 
-	public void setLookData(LookData lookData) {
+	public synchronized void setLookData(LookData lookData) {
 		this.lookData = lookData;
-		imageChanged = true;
+		refreshTextures(false);
 	}
 
 	public boolean haveAllThreadsFinished() {
 		return scheduler.haveAllThreadsFinished();
 	}
 
-	public String getImagePath() {
+	public synchronized String getImagePath() {
 		String path;
 		if (this.lookData == null) {
 			path = "";
@@ -307,9 +292,10 @@ public class Look extends Image {
 	public float getDistanceToTouchPositionInUserInterfaceDimensions() {
 		int touchIndex = TouchUtil.getLastTouchIndex();
 
-		return (float)
-				Math.sqrt(Math.pow((TouchUtil.getX(touchIndex) - getXInUserInterfaceDimensionUnit()), 2)
-						+ Math.pow((TouchUtil.getY(touchIndex) - getYInUserInterfaceDimensionUnit()), 2));
+		float dx = TouchUtil.getX(touchIndex) - getXInUserInterfaceDimensionUnit();
+		float dy = TouchUtil.getY(touchIndex) - getYInUserInterfaceDimensionUnit();
+
+		return (float) Math.hypot(dx, dy);
 	}
 
 	public float getAngularVelocityInUserInterfaceDimensionUnit() {
@@ -488,7 +474,7 @@ public class Look extends Image {
 		return brightness * 100f;
 	}
 
-	public void setBrightnessInUserInterfaceDimensionUnit(float percent) {
+	public synchronized void setBrightnessInUserInterfaceDimensionUnit(float percent) {
 		if (percent < 0f) {
 			percent = 0f;
 		} else if (percent > 200f) {
@@ -496,8 +482,7 @@ public class Look extends Image {
 		}
 
 		brightness = percent / 100f;
-		brightnessChanged = true;
-		imageChanged = true;
+		refreshTextures(true);
 	}
 
 	public void changeBrightnessInUserInterfaceDimensionUnit(float changePercent) {
@@ -508,14 +493,19 @@ public class Look extends Image {
 		return hue * COLOR_SCALE;
 	}
 
-	public void setColorInUserInterfaceDimensionUnit(float val) {
+	public synchronized void setColorInUserInterfaceDimensionUnit(float val) {
 		val = val % COLOR_SCALE;
 		if (val < 0) {
 			val = COLOR_SCALE + val;
 		}
 		hue = val / COLOR_SCALE;
-		colorChanged = true;
-		imageChanged = true;
+		refreshTextures(true);
+	}
+
+	private void createShaderIfNotExisting() {
+		if (shader == null) {
+			createBrightnessContrastHueShader();
+		}
 	}
 
 	public void changeColorInUserInterfaceDimensionUnit(float val) {

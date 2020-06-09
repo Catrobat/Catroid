@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import java.io.Serializable;
 import java.util.Set;
 
+import static org.catrobat.catroid.formulaeditor.Functions.getFunctionByValue;
 import static org.catrobat.catroid.utils.NumberFormats.stringWithoutTrailingZero;
 
 public class Formula implements Serializable {
@@ -229,10 +230,10 @@ public class Formula implements Serializable {
 			return context.getString(logicalFormulaResultIdentifier);
 		} else if (type == ElementType.STRING
 				|| type == ElementType.SENSOR
+				|| type == ElementType.USER_LIST
 				|| (type == ElementType.FUNCTION
-				&& (Functions.getFunctionByValue(formulaTree.getValue()) == Functions.LETTER
-				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.JOIN)
-				|| Functions.getFunctionByValue(formulaTree.getValue()) == Functions.REGEX)) {
+				&& (Functions.TEXT.contains(getFunctionByValue(formulaTree.getValue()))
+				|| Functions.LIST.contains(getFunctionByValue(formulaTree.getValue()))))) {
 			try {
 				return interpretString(sprite);
 			} catch (InterpretationException interpretationException) {

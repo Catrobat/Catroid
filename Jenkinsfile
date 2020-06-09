@@ -1,19 +1,8 @@
 #!groovy
 
 class DockerParameters {
-    def fileName = 'Dockerfile.jenkins'
-
-    // 'docker build' would normally copy the whole build-dir to the container, changing the
-    // docker build directory avoids that overhead
-    def dir = 'docker'
-
-    // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
-    // corresponding user can be added. This is needed to provide the jenkins user inside
-    // the container for the ssh-agent to work.
-    // Another way would be to simply map the passwd file, but would spoil additional information
-    // Also hand in the group id of kvm to allow using /dev/kvm.
-    def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
-
+    def image = 'catrobat/catrobat-android'
+    def imageLabel = 'stable'
     def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=14G'
     def label = 'LimitedEmulator'
 }
@@ -48,8 +37,13 @@ def allFlavoursParameters() {
             'assembleLunaAndCatDebug assemblePhiroDebug assembleArduinoDebug' : ''
 }
 
-def useDebugLabelParameter(defaultLabel){
+def useDebugLabelParameter(defaultLabel) {
     return env.DEBUG_LABEL?.trim() ? env.DEBUG_LABEL : defaultLabel
+}
+
+def useDockerLabelParameter(dockerImage, defaultLabel) {
+    def label = env.DOCKER_LABEL?.trim() ? env.DOCKER_LABEL : defaultLabel
+    return dockerImage + ':' + label
 }
 
 pipeline {
@@ -60,12 +54,17 @@ pipeline {
                 'APKs will point to this Catrobat web server, useful for testing web changes. E.g https://web-test.catrob.at'
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
+        string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
     }
 
     options {
         timeout(time: 2, unit: 'HOURS')
         timestamps()
-        buildDiscarder(logRotator(numToKeepStr: '30'))
+        buildDiscarder(logRotator(numToKeepStr: env.BRANCH_NAME == 'master' ? '10' :
+                                                env.BRANCH_NAME == 'develop' ? '5' : '2',
+                                  artifactNumToKeepStr: env.BRANCH_NAME == 'master' ? '2' :
+                                                        env.BRANCH_NAME == 'develop' ? '2' : '1'
+        ))
     }
 
     triggers {
@@ -78,19 +77,18 @@ pipeline {
             parallel {
                 stage('1') {
                     agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
+                        docker {
+                            image useDockerLabelParameter(d.image, d.imageLabel)
                             args d.args
                             label useDebugLabelParameter(d.label)
+                            alwaysPull true
                         }
                     }
 
                     stages {
                         stage('APKs') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     script {
                                         def additionalParameters = [webTestUrlParameter(), allFlavoursParameters()].findAll {
                                             it
@@ -116,7 +114,7 @@ pipeline {
 
                         stage('Static Analysis') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh './gradlew pmd checkstyle lintCatroidDebug detekt'
                                 }
                             }
@@ -124,17 +122,17 @@ pipeline {
                             post {
                                 always {
                                     recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
-                                                 tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
-                                                         checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
-                                                         pmdParser(pattern: 'catroid/build/reports/pmd.xml'),
-                                                         detekt(pattern: 'catroid/build/reports/detekt/detekt.xml')]
+                                            tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
+                                                    checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
+                                                    pmdParser(pattern: 'catroid/build/reports/pmd.xml'),
+                                                    detekt(pattern: 'catroid/build/reports/detekt/detekt.xml')]
                                 }
                             }
                         }
 
                         stage('Unit Tests') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh './gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport'
                                 }
                             }
@@ -148,7 +146,7 @@ pipeline {
 
                         stage('Instrumented Unit Tests') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
@@ -164,7 +162,7 @@ pipeline {
 
                         stage('Testrunner Tests') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android28 \
                                                 startEmulator createCatroidDebugAndroidTestCoverageReport \
                                                 -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
@@ -184,7 +182,7 @@ pipeline {
                             }
 
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
@@ -200,7 +198,7 @@ pipeline {
 
                         stage('RTL Tests') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
@@ -224,19 +222,18 @@ pipeline {
 
                 stage('2') {
                     agent {
-                        dockerfile {
-                            filename d.fileName
-                            dir d.dir
-                            additionalBuildArgs d.buildArgs
+                        docker {
+                            image useDockerLabelParameter(d.image, d.imageLabel)
                             args d.args
                             label useDebugLabelParameter(d.label)
+                            alwaysPull true
                         }
                     }
 
                     stages {
                         stage('Pull Request Suite') {
                             steps {
-                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
                                     sh '''./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''

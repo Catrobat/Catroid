@@ -44,7 +44,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 
 	private static final long serialVersionUID = 1L;
 
-	public static final String ANYTHING_ESCAPE_CHAR = "\0";
+	private static final String ANYTHING_ESCAPE_CHAR = "\0";
 
 	private WhenBounceOffScript script;
 
@@ -83,14 +83,7 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 		items.add(new StringOption(ANYTHING_ESCAPE_CHAR + context.getString(R.string.collision_with_anything)
 				+ ANYTHING_ESCAPE_CHAR));
 
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList()) {
-			if (sprite == currentSprite) {
-				continue;
-			}
-			items.add(sprite);
-		}
-
+		items.addAll(ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList());
 		spinner = new BrickSpinner<>(R.id.brick_when_bounce_off_spinner, view, items);
 		spinner.setOnItemSelectedListener(this);
 		spinner.setSelection(script.getSpriteToBounceOffName());

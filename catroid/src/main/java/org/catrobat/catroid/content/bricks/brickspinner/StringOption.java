@@ -25,6 +25,8 @@ package org.catrobat.catroid.content.bricks.brickspinner;
 
 import org.catrobat.catroid.common.Nameable;
 
+import androidx.annotation.Nullable;
+
 public final class StringOption implements Nameable {
 
 	private String name;
@@ -41,5 +43,18 @@ public final class StringOption implements Nameable {
 	@Override
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public boolean equals(@Nullable Object other) {
+		if (other instanceof StringOption) {
+			return this.getName().equals(((StringOption) other).getName());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.getName().hashCode();
 	}
 }

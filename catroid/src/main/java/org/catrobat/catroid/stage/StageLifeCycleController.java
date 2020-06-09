@@ -34,6 +34,7 @@ import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
@@ -50,7 +51,7 @@ import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.FlashUtil;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.util.List;
 
@@ -73,7 +74,7 @@ public final class StageLifeCycleController {
 			return;
 		}
 
-		stageActivity.numberOfSpritesCloned = 0;
+		StageActivity.numberOfSpritesCloned = 0;
 
 		if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
 			stageActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -136,7 +137,7 @@ public final class StageLifeCycleController {
 			}
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
-			stageActivity.stageListener.menuPause();
+			StageActivity.stageListener.menuPause();
 			stageActivity.stageAudioFocus.releaseAudioFocus();
 			if (CameraManager.getInstance() != null) {
 				FlashUtil.pauseFlash();
@@ -144,8 +145,12 @@ public final class StageLifeCycleController {
 				CameraManager.getInstance().pausePreview();
 				CameraManager.getInstance().releaseCamera();
 			}
-			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).pause();
-			VibratorUtil.pauseVibrator();
+			BluetoothDeviceService bluetoothDeviceService =
+					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			if (bluetoothDeviceService != null) {
+				bluetoothDeviceService.pause();
+			}
+			VibrationUtil.pauseVibration();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
@@ -159,7 +164,7 @@ public final class StageLifeCycleController {
 	}
 
 	public static void stageResume(final StageActivity stageActivity) {
-		if (stageActivity.stageDialog.isShowing() || stageActivity.askDialog != null) {
+		if (stageActivity.dialogIsShowing()) {
 			return;
 		}
 
@@ -180,8 +185,8 @@ public final class StageLifeCycleController {
 				FlashUtil.resumeFlash();
 			}
 
-			if (resourcesSet.contains(Brick.VIBRATOR)) {
-				VibratorUtil.resumeVibrator();
+			if (resourcesSet.contains(Brick.VIBRATION)) {
+				VibrationUtil.resumeVibration();
 			}
 
 			if (resourcesSet.contains(Brick.FACE_DETECTION)) {
@@ -223,7 +228,7 @@ public final class StageLifeCycleController {
 
 			SoundManager.getInstance().resume();
 			if (stageActivity.stageResourceHolder.initFinished()) {
-				stageActivity.stageListener.menuResume();
+				StageActivity.stageListener.menuResume();
 			}
 			if (stageActivity.stageResourceHolder.droneInitializer != null) {
 				stageActivity.stageResourceHolder.droneInitializer.onResume();
@@ -237,8 +242,11 @@ public final class StageLifeCycleController {
 	static void stageDestroy(StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
 			stageActivity.jumpingSumoDisconnect();
-			ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE).destroy();
-			VibratorUtil.destroy();
+			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
+			if (service != null) {
+				service.destroy();
+			}
+			VibrationUtil.destroy();
 			SensorHandler.stopSensorListeners();
 			if (CameraManager.getInstance() != null) {
 				FlashUtil.destroy();
@@ -250,7 +258,7 @@ public final class StageLifeCycleController {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}
-			stageActivity.stageListener.finish();
+			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
 			if (stageActivity.stageResourceHolder.droneInitializer != null) {
 				stageActivity.stageResourceHolder.droneInitializer.onDestroy();

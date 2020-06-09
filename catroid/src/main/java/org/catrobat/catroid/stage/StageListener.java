@@ -23,14 +23,12 @@
 package org.catrobat.catroid.stage;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.os.SystemClock;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -53,7 +51,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.camera.CameraManager;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
@@ -80,12 +77,9 @@ import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.TouchUtil;
-import org.catrobat.catroid.utils.VibratorUtil;
+import org.catrobat.catroid.utils.VibrationUtil;
 import org.catrobat.catroid.web.WebConnectionHolder;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,7 +87,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import kotlinx.coroutines.GlobalScope;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
@@ -117,12 +113,10 @@ public class StageListener implements ApplicationListener {
 	public boolean firstFrameDrawn = false;
 
 	private boolean makeScreenshot = false;
-	private String pathForSceneScreenshot;
 	private int screenshotWidth;
 	private int screenshotHeight;
 	private int screenshotX;
 	private int screenshotY;
-	private byte[] screenshot = null;
 
 	private Project project;
 	private Scene scene;
@@ -136,9 +130,7 @@ public class StageListener implements ApplicationListener {
 	private Viewport viewPort;
 	public ShapeRenderer shapeRenderer;
 	private PenActor penActor;
-	private EmbroideryActor embroideryActor;
 	public EmbroideryPatternManager embroideryPatternManager;
-	private float screenRatio;
 	public WebConnectionHolder webConnectionHolder;
 
 	private List<Sprite> sprites;
@@ -159,10 +151,10 @@ public class StageListener implements ApplicationListener {
 
 	private StageDialog stageDialog;
 
-	public int maximizeViewPortX = 0;
-	public int maximizeViewPortY = 0;
-	public int maximizeViewPortHeight = 0;
-	public int maximizeViewPortWidth = 0;
+	int maxViewPortX = 0;
+	int maxViewPortY = 0;
+	int maxViewPortHeight = 0;
+	int maxViewPortWidth = 0;
 
 	public boolean axesOn = false;
 	private static final Color AXIS_COLOR = new Color(0xff000cff);
@@ -175,6 +167,9 @@ public class StageListener implements ApplicationListener {
 	private InputListener inputListener = null;
 
 	private Map<Sprite, ShowBubbleActor> bubbleActorMap = new HashMap<>();
+	private String screenshotName;
+	private ScreenshotSaverCallback screenshotSaverCallback = null;
+	private ScreenshotSaver screenshotSaver;
 
 	public StageListener() {
 		webConnectionHolder = new WebConnectionHolder();
@@ -188,7 +183,6 @@ public class StageListener implements ApplicationListener {
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		scene = ProjectManager.getInstance().getCurrentlyPlayingScene();
-		pathForSceneScreenshot = scene.getDirectory().getAbsolutePath() + "/";
 
 		if (stage == null) {
 			createNewStage();
@@ -198,20 +192,22 @@ public class StageListener implements ApplicationListener {
 		}
 		initScreenMode();
 		initStageInputListener();
+		screenshotSaver = new ScreenshotSaver(Gdx.files, getScreenshotPath(), screenshotWidth,
+				screenshotHeight);
 
 		font = getLabelFont(project);
 
 		physicsWorld = scene.resetPhysicsWorld();
 		sprites = new ArrayList<>(scene.getSpriteList());
+
+		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
-		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maximizeViewPortWidth, maximizeViewPortHeight, virtualWidth, virtualHeight);
+		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maxViewPortWidth, maxViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
 		FaceDetectionHandler.resumeFaceDetection();
-
-		embroideryPatternManager = new DSTPatternManager();
 	}
 
 	public void setPaused(boolean paused) {
@@ -273,8 +269,8 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(penActor);
 		penActor.setZIndex(Z_LAYER_PEN_ACTOR);
 
-		screenRatio = calculateScreenRatio();
-		embroideryActor = new EmbroideryActor(screenRatio);
+		float screenRatio = calculateScreenRatio();
+		EmbroideryActor embroideryActor = new EmbroideryActor(screenRatio, embroideryPatternManager, shapeRenderer);
 		stage.addActor(embroideryActor);
 		embroideryActor.setZIndex(Z_LAYER_EMBROIDERY_ACTOR);
 	}
@@ -371,14 +367,14 @@ public class StageListener implements ApplicationListener {
 		stage.addListener(inputListener);
 	}
 
-	public void menuResume() {
+	void menuResume() {
 		if (reloadProject) {
 			return;
 		}
 		paused = false;
 	}
 
-	public void menuPause() {
+	void menuPause() {
 		if (finished || reloadProject) {
 			return;
 		}
@@ -446,7 +442,7 @@ public class StageListener implements ApplicationListener {
 		embroideryPatternManager.clear();
 
 		FlashUtil.reset();
-		VibratorUtil.reset();
+		VibrationUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
 
@@ -464,10 +460,11 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
 			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
+			VibrationUtil.resumeVibration();
 		}
 
 		for (Sprite sprite : sprites) {
-			sprite.look.refreshTextures();
+			sprite.look.refreshTextures(true);
 		}
 	}
 
@@ -480,6 +477,7 @@ public class StageListener implements ApplicationListener {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
 			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
+			VibrationUtil.pauseVibration();
 		}
 	}
 
@@ -562,9 +560,15 @@ public class StageListener implements ApplicationListener {
 		}
 
 		if (makeScreenshot) {
-			screenshot = ScreenUtils
+			byte[] screenshot = ScreenUtils
 					.getFrameBufferPixels(screenshotX, screenshotY, screenshotWidth, screenshotHeight, true);
 			makeScreenshot = false;
+			screenshotSaver.saveScreenshotAndNotify(
+					screenshot,
+					screenshotName,
+					this::notifyScreenshotCallbackAndCleanup,
+					GlobalScope.INSTANCE
+			);
 		}
 
 		if (axesOn && !finished) {
@@ -664,44 +668,20 @@ public class StageListener implements ApplicationListener {
 		finished = true;
 	}
 
-	public boolean takeScreenshot(String screenshotName) {
+	public void requestTakingScreenshot(@NonNull String screenshotName,
+			@NonNull ScreenshotSaverCallback screenshotCallback) {
+		this.screenshotName = screenshotName;
+		this.screenshotSaverCallback = screenshotCallback;
 		makeScreenshot = true;
-		while (makeScreenshot) {
-			Thread.yield();
-		}
-		return saveScreenshot(screenshot, screenshotName);
 	}
 
-	@VisibleForTesting
-	public boolean saveScreenshot(byte[] screenshot, String fileName) {
-		if (screenshot == null) {
-			return false;
+	private void notifyScreenshotCallbackAndCleanup(Boolean success) {
+		if (screenshotSaverCallback != null) {
+			screenshotSaverCallback.screenshotSaved(success);
+			this.screenshotSaverCallback = null;
+		} else {
+			Log.e("StageListener", "Lost reference to screenshot callback");
 		}
-		int length = screenshot.length;
-		Bitmap fullScreenBitmap;
-		int[] colors = new int[length / 4];
-
-		if (colors.length != screenshotWidth * screenshotHeight || colors.length == 0) {
-			return false;
-		}
-
-		for (int i = 0; i < length; i += 4) {
-			colors[i / 4] = android.graphics.Color.argb(255, screenshot[i] & 0xFF, screenshot[i + 1] & 0xFF,
-					screenshot[i + 2] & 0xFF);
-		}
-		fullScreenBitmap = Bitmap.createBitmap(colors, 0, screenshotWidth, screenshotWidth, screenshotHeight,
-				Config.ARGB_8888);
-
-		FileHandle imageScene = Gdx.files.absolute(pathForSceneScreenshot + fileName);
-		OutputStream streamScene = imageScene.write(false);
-		try {
-			new File(pathForSceneScreenshot + Constants.NO_MEDIA_FILE).createNewFile();
-			fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, 100, streamScene);
-			streamScene.close();
-		} catch (IOException e) {
-			return false;
-		}
-		return true;
 	}
 
 	public byte[] getPixels(int x, int y, int width, int height) {
@@ -743,13 +723,25 @@ public class StageListener implements ApplicationListener {
 				screenshotX = 0;
 				screenshotY = 0;
 				viewPort = new ScalingViewport(Scaling.stretch, virtualWidth, virtualHeight, camera);
+				shapeRenderer.identity();
 				break;
 			case MAXIMIZE:
-				screenshotWidth = maximizeViewPortWidth;
-				screenshotHeight = maximizeViewPortHeight;
-				screenshotX = maximizeViewPortX;
-				screenshotY = maximizeViewPortY;
+				float yScale = 1.0f;
+				float xScale = 1.0f;
+				if (screenshotWidth != maxViewPortWidth && maxViewPortWidth > 0) {
+					xScale = screenshotWidth / (float) maxViewPortWidth;
+				}
+				if (screenshotHeight != maxViewPortHeight && maxViewPortHeight > 0) {
+					yScale = screenshotHeight / (float) maxViewPortHeight;
+				}
+
+				screenshotWidth = maxViewPortWidth;
+				screenshotHeight = maxViewPortHeight;
+				screenshotX = maxViewPortX;
+				screenshotY = maxViewPortY;
+
 				viewPort = new ExtendViewport(virtualWidth, virtualHeight, camera);
+				shapeRenderer.scale(xScale, yScale, 1.0f);
 				break;
 			default:
 				break;
@@ -757,6 +749,7 @@ public class StageListener implements ApplicationListener {
 		viewPort.update(SCREEN_WIDTH, SCREEN_HEIGHT, false);
 		camera.position.set(0, 0, 0);
 		camera.update();
+		shapeRenderer.updateMatrices();
 	}
 
 	private void disposeTextures() {
@@ -822,6 +815,7 @@ public class StageListener implements ApplicationListener {
 		PenActor penActor;
 		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
+		Map<String, Integer> soundsDurationMap;
 
 		boolean paused;
 		boolean finished;
@@ -859,7 +853,7 @@ public class StageListener implements ApplicationListener {
 				FlashUtil.flashOff();
 			}
 		}
-		backup.timeToVibrate = VibratorUtil.getTimeToVibrate();
+		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
 		backup.camera = camera;
 		backup.batch = batch;
@@ -875,7 +869,7 @@ public class StageListener implements ApplicationListener {
 				CameraManager.getInstance().pauseForScene();
 			}
 		}
-
+		backup.soundsDurationMap = SoundManager.getInstance().getPlayingSoundDurationMap();
 		return backup;
 	}
 
@@ -902,10 +896,10 @@ public class StageListener implements ApplicationListener {
 			FlashUtil.flashOn();
 		}
 		if (backup.timeToVibrate > 0) {
-			VibratorUtil.resumeVibrator();
-			VibratorUtil.setTimeToVibrate(backup.timeToVibrate);
+			VibrationUtil.resumeVibration();
+			VibrationUtil.setTimeToVibrate(backup.timeToVibrate);
 		} else {
-			VibratorUtil.pauseVibrator();
+			VibrationUtil.pauseVibration();
 		}
 		physicsWorld = backup.physicsWorld;
 		camera = backup.camera;
@@ -918,6 +912,9 @@ public class StageListener implements ApplicationListener {
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
+		for (Map.Entry<String, Integer> entry : backup.soundsDurationMap.entrySet()) {
+			SoundManager.getInstance().playSoundFileWithStartTime(entry.getKey(), entry.getValue());
+		}
 		initStageInputListener();
 	}
 
@@ -928,5 +925,10 @@ public class StageListener implements ApplicationListener {
 		float creatorDiagonalPixel = (float) Math.sqrt(Math.pow(header.getVirtualScreenWidth(), 2)
 				+ Math.pow(header.getVirtualScreenHeight(), 2));
 		return creatorDiagonalPixel / deviceDiagonalPixel;
+	}
+
+	@VisibleForTesting
+	public String getScreenshotPath() {
+		return scene.getDirectory().getAbsolutePath() + "/";
 	}
 }

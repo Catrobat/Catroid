@@ -66,7 +66,7 @@
         <item name="android:fontFamily">@string/sans_serif_font</item>
         <item name="app_font">@string/sans_serif_font</item>
         <!-- Category Icon Visibility -->
-        <item name="category_icon_visiblity">2</item>
+        <item name="category_icon_visibility">2</item>
         <!-- Category Icon Visibility -->
         <item name="category_icon_size">40dp</item>
         <!-- Icon Contrast -->
@@ -92,6 +92,9 @@
         <item name="android:textColor">@color/toolbar_title</item>
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
+    </style>
+    <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/toolbar_icons</item>
     </style>
 
     <!-- ActionMode -->
@@ -142,12 +145,27 @@
         <item name="android:background">@drawable/bottom_bar_background_selector</item>
     </style>
 
+    <style name="Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:background">@drawable/button_background_selector</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/vh_item_title</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+    </style>
+
     <style name="BrickText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">?attr/large</item>
         <item name="android:textColor">@color/solid_white</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:singleLine">true</item>
     </style>
 
     <style name="BrickText.SingleLine">
@@ -185,7 +203,7 @@
 
     <style name="CategoryIconStyle">
         <item name="android:layout_marginEnd">10dp</item>
-        <item name="android:visibility">?attr/category_icon_visiblity</item>
+        <item name="android:visibility">?attr/category_icon_visibility</item>
         <item name="android:layout_width">?attr/category_icon_size</item>
         <item name="android:layout_height">?attr/category_icon_size</item>
         <item name="android:scaleType">fitXY</item>
@@ -410,6 +428,13 @@
     <style name="BrickContainer.Control.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_orange_3h</item>
+    </style>
+
+    <style name ="BrickContainer.Userbrick"></style>
+
+    <style name="BrickContainer.Userbrick.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_darkblue_1h</item>
     </style>
 
     <style name="BrickContainer.Event"></style>
