@@ -136,6 +136,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -526,6 +527,7 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new WriteVariableOnDeviceBrick());
 		dataBrickList.add(new ReadVariableFromDeviceBrick());
 		dataBrickList.add(new WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)));
+		dataBrickList.add(new ReadVariableFromFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)));
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new ClearUserListBrick());
