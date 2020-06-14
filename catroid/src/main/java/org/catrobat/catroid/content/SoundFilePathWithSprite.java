@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,40 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import android.util.Log;
+package org.catrobat.catroid.content;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+import androidx.annotation.Nullable;
 
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+public class SoundFilePathWithSprite {
+	private final String soundFilePath;
+	private final Sprite sprite;
 
-public class WaitAction extends TemporalAction {
-
-	protected Sprite sprite;
-	protected Formula duration;
-
-	@Override
-	protected void begin() {
-		try {
-			Float newDuration = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
-			super.setDuration(newDuration);
-		} catch (InterpretationException interpretationException) {
-			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
-		}
-	}
-
-	public void setDelay(Formula delay) {
-		this.duration = delay;
-	}
-
-	public void setSprite(Sprite sprite) {
+	public SoundFilePathWithSprite(String soundFilePath, Sprite sprite) {
+		this.soundFilePath = soundFilePath;
 		this.sprite = sprite;
 	}
 
 	@Override
-	protected void update(float percent) {
+	public boolean equals(@Nullable Object obj) {
+		if (obj instanceof SoundFilePathWithSprite) {
+			SoundFilePathWithSprite soundFilePathWithSprite = (SoundFilePathWithSprite) obj;
+			return soundFilePathWithSprite.soundFilePath.equals(soundFilePath)
+					&& soundFilePathWithSprite.sprite == sprite;
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = sprite.hashCode();
+		return (31 * result + soundFilePath.hashCode());
 	}
 }

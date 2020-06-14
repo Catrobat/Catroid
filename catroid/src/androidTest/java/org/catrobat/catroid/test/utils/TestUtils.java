@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.HideBrick;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 
@@ -44,6 +45,9 @@ import java.io.File;
 import java.io.IOException;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.platform.app.InstrumentationRegistry;
+
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 
 public final class TestUtils {
 
@@ -92,5 +96,12 @@ public final class TestUtils {
 		pixmap.setColor(color);
 		pixmap.fillRectangle(0, 0, width, height);
 		return pixmap;
+	}
+
+	public static File createSoundFile(Project project, int source, String soundName) throws IOException {
+		return ResourceImporter
+				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getInstrumentation().getContext().getResources(),
+						source, new File(project.getDefaultScene().getDirectory(),
+								SOUND_DIRECTORY_NAME), soundName);
 	}
 }

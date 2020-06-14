@@ -25,9 +25,9 @@ package org.catrobat.catroid.test.io;
 import android.media.MediaPlayer;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.MediaPlayerWithSoundDetails;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.R;
@@ -46,13 +46,11 @@ import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.mockito.Mockito.verify;
 
 @RunWith(AndroidJUnit4.class)
@@ -62,20 +60,18 @@ public class SoundManagerTest {
 	public final ExpectedException exception = ExpectedException.none();
 
 	private final SoundManager soundManager = SoundManager.getInstance();
-
+	private static final int NUMBER_OF_SOUNDFILES = 3;
 	private Project project;
-	private File soundFile;
+	private final File[] soundFiles = new File[NUMBER_OF_SOUNDFILES];
 
 	@Before
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects();
 		createProject();
 		soundManager.clear();
-
-		soundFile = ResourceImporter
-				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-						R.raw.testsound, new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
-						"testsound.m4a");
+		soundFiles[0] = TestUtils.createSoundFile(project, R.raw.testsound, "testsound.m4a");
+		soundFiles[1] = TestUtils.createSoundFile(project, R.raw.testsoundui, "testsoundui.mp3");
+		soundFiles[2] = TestUtils.createSoundFile(project, R.raw.longsound, "longsound.mp3");
 	}
 
 	@After
@@ -86,7 +82,8 @@ public class SoundManagerTest {
 
 	@Test
 	public void testPlaySound() {
-		soundManager.playSoundFile(soundFile.getAbsolutePath());
+		soundManager.playSoundFile(soundFiles[0].getAbsolutePath(),
+				project.getDefaultScene().getBackgroundSprite());
 
 		MediaPlayer mediaPlayer = soundManager.getMediaPlayers().get(0);
 		assertTrue(mediaPlayer.isPlaying());
@@ -95,7 +92,8 @@ public class SoundManagerTest {
 
 	@Test
 	public void testClear() {
-		soundManager.playSoundFile(soundFile.getAbsolutePath());
+		soundManager.playSoundFile(soundFiles[1].getAbsolutePath(),
+				project.getDefaultScene().getBackgroundSprite());
 
 		MediaPlayer mediaPlayer = soundManager.getMediaPlayers().get(0);
 		assertTrue(mediaPlayer.isPlaying());
@@ -109,7 +107,8 @@ public class SoundManagerTest {
 
 	@Test
 	public void testPauseAndResume() {
-		soundManager.playSoundFile(soundFile.getAbsolutePath());
+		soundManager.playSoundFile(soundFiles[0].getAbsolutePath(),
+				project.getDefaultScene().getBackgroundSprite());
 
 		MediaPlayer mediaPlayer = soundManager.getMediaPlayers().get(0);
 		assertTrue(mediaPlayer.isPlaying());
@@ -123,49 +122,82 @@ public class SoundManagerTest {
 
 	@Test
 	public void testPauseAndResumeMultipleSounds() {
-		final int playSoundFilesCount = 3;
-		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
+		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
 
-		for (int index = 0; index < playSoundFilesCount; index++) {
-			soundManager.playSoundFile(soundFile.getAbsolutePath());
+		for (int index = 0; index < NUMBER_OF_SOUNDFILES; index++) {
+			soundManager.playSoundFile(soundFiles[index].getAbsolutePath(),
+					Mockito.mock(Sprite.class));
 		}
 
-		for (int index = 0; index < playSoundFilesCount; index++) {
+		for (int index = 0; index < NUMBER_OF_SOUNDFILES; index++) {
 			assertTrue(mediaPlayers.get(index).isPlaying());
 		}
 
 		soundManager.pause();
 
-		for (int index = 0; index < playSoundFilesCount; index++) {
+		for (int index = 0; index < NUMBER_OF_SOUNDFILES; index++) {
 			assertFalse(mediaPlayers.get(index).isPlaying());
 		}
 
 		soundManager.resume();
 
-		for (int index = 0; index < playSoundFilesCount; index++) {
+		for (int index = 0; index < NUMBER_OF_SOUNDFILES; index++) {
 			assertTrue(mediaPlayers.get(index).isPlaying());
 		}
+	}
+
+	@Test
+	public void testStopOfSoundWhenSameSoundIsStarted() {
+		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
+
+		for (int index = 0; index < NUMBER_OF_SOUNDFILES; index++) {
+			soundManager.playSoundFile(soundFiles[0].getAbsolutePath(),
+					project.getDefaultScene().getBackgroundSprite());
+		}
+		assertEquals(1, mediaPlayers.size());
+		assertTrue(mediaPlayers.get(0).isPlaying());
+	}
+
+	@Test
+	public void testPlaySameSoundDifferentSprite() {
+		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
+		soundManager.playSoundFile(soundFiles[2].getAbsolutePath(),
+				project.getDefaultScene().getBackgroundSprite());
+		soundManager.playSoundFile(soundFiles[2].getAbsolutePath(),
+				project.getDefaultScene().getSpriteList().get(1));
+		assertTrue(mediaPlayers.get(0).isPlaying());
+		assertTrue(mediaPlayers.get(1).isPlaying());
+	}
+
+	@Test
+	public void testPlaySameSoundFirstStopped() {
+		soundManager.playSoundFile(soundFiles[0].getAbsolutePath(),
+				project.getDefaultScene().getBackgroundSprite());
+		soundManager.getMediaPlayers().get(0).stop();
+		assertFalse(soundManager.getMediaPlayers().get(0).isPlaying());
+		soundManager.playSoundFile(soundFiles[0].getAbsolutePath(),
+				project.getDefaultScene().getBackgroundSprite());
+		assertTrue(soundManager.getMediaPlayers().get(0).isPlaying());
 	}
 
 	@Test
 	public void testMediaPlayerLimit() {
 		assertEquals(7, SoundManager.MAX_MEDIA_PLAYERS);
 
-		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS + 3; index++) {
-			soundManager.playSoundFile(soundFile.getAbsolutePath());
+			soundManager.playSoundFile(soundFiles[0].getAbsolutePath(), Mockito.mock(Sprite.class));
 		}
 
-		assertEquals(SoundManager.MAX_MEDIA_PLAYERS, mediaPlayers.size());
+		assertEquals(SoundManager.MAX_MEDIA_PLAYERS, soundManager.getMediaPlayers().size());
 	}
 
 	@Test
 	public void testIfAllMediaPlayersInTheListAreUnique() {
-		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
 		for (int index = 0; index < SoundManager.MAX_MEDIA_PLAYERS; index++) {
-			SoundManager.getInstance().playSoundFile(soundFile.getAbsolutePath());
+			SoundManager.getInstance().playSoundFile(soundFiles[0].getAbsolutePath(),
+					Mockito.mock(Sprite.class));
 		}
-
+		List<MediaPlayerWithSoundDetails> mediaPlayers = soundManager.getMediaPlayers();
 		for (MediaPlayer mediaPlayer : mediaPlayers) {
 			assertEquals(1, Collections.frequency(mediaPlayers, mediaPlayer));
 		}
@@ -179,9 +211,9 @@ public class SoundManagerTest {
 
 	@Test
 	public void testSetVolume() {
-		List<MediaPlayer> mediaPlayers = soundManager.getMediaPlayers();
-		MediaPlayer mediaPlayerMock = Mockito.mock(MediaPlayer.class);
-		mediaPlayers.add(mediaPlayerMock);
+		MediaPlayerWithSoundDetails mediaPlayerMock = Mockito.mock(
+				MediaPlayerWithSoundDetails.class);
+		soundManager.getMediaPlayers().add(mediaPlayerMock);
 
 		float newVolume = 80.9f;
 		soundManager.setVolume(newVolume);

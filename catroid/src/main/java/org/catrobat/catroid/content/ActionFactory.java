@@ -166,6 +166,7 @@ import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
+import org.catrobat.catroid.content.actions.WaitForSoundAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
@@ -220,6 +221,14 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitAction(Sprite sprite, Formula delay) {
 		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
+
+	public Action createWaitForSoundAction(Sprite sprite, Formula delay, String soundFilePath) {
+		WaitForSoundAction action = action(WaitForSoundAction.class);
+		action.setSoundFilePath(soundFilePath);
 		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;

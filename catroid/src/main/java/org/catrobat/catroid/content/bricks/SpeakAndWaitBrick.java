@@ -29,9 +29,13 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
+import java.io.File;
+
 public class SpeakAndWaitBrick extends FormulaBrick {
 
 	private static final long serialVersionUID = 1L;
+
+	private File speechFile = null;
 
 	public SpeakAndWaitBrick() {
 		addAllowedBrickField(BrickField.SPEAK, R.id.brick_speak_and_wait_edit_text);
@@ -61,9 +65,10 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
 				.createSpeakAction(sprite, getFormulaWithBrickField(BrickField.SPEAK)));
-		sequence.addAction(sprite.getActionFactory()
-				.createWaitAction(sprite,
-						new Formula(getDurationOfSpokenText(sprite, getFormulaWithBrickField(BrickField.SPEAK)))));
+
+		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite,
+				new Formula(getDurationOfSpokenText(sprite,
+						getFormulaWithBrickField(BrickField.SPEAK))), speechFile.getAbsolutePath()));
 	}
 
 	private float getDurationOfSpokenText(Sprite sprite, Formula text) {
@@ -75,7 +80,7 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 		action.setDetermineLength(true);
 
 		action.act(1.0f);
-
+		speechFile = action.getSpeechFile();
 		return action.getLengthOfText() / 1000;
 	}
 }
