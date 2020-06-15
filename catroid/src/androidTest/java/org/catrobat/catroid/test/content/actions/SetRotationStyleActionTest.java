@@ -31,24 +31,32 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.test.physics.PhysicsTestRule;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class SetRotationStyleActionTest {
+
+	@Rule
+	public PhysicsTestRule rule = new PhysicsTestRule();
 
 	private Sprite sprite;
 	private PhysicsWorld physicsWorld;
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new Sprite("testSprite");
-		physicsWorld = new PhysicsWorld(1920, 1600);
+		sprite = rule.sprite;
+		physicsWorld = rule.physicsWorld;
 	}
 
 	@Test
@@ -99,18 +107,22 @@ public class SetRotationStyleActionTest {
 		physicsLook.setRotation(90);
 		assertEquals(90f, physicsObject.getDirection());
 		assertEquals(90f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(-90);
 		assertEquals(-90f, physicsObject.getDirection());
 		assertEquals(-90f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(0);
 		assertEquals(0f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(180);
 		assertEquals(180f, physicsObject.getDirection());
 		assertEquals(180f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 	}
 
 	@Test
@@ -123,41 +135,51 @@ public class SetRotationStyleActionTest {
 		physicsLook.setRotation(90);
 		assertEquals(90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(-90);
 		assertEquals(-90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(0);
 		assertEquals(0f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(180);
 		assertEquals(180f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 	}
 
 	@Test
 	public void testLRModeInPhysics() {
+		assertNotNull(sprite.look.getLookData());
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		PhysicsLook physicsLook = new PhysicsLook(sprite, physicsWorld);
+		physicsLook.setLookData(sprite.look.getLookData());
 
 		physicsLook.setRotationMode(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
 
 		physicsLook.setRotation(90);
 		assertEquals(90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertTrue(physicsLook.isFlipped());
 
 		physicsLook.setRotation(-90);
 		assertEquals(-90f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(0);
 		assertEquals(0f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertFalse(physicsLook.isFlipped());
 
 		physicsLook.setRotation(180);
 		assertEquals(180f, physicsObject.getDirection());
 		assertEquals(0f, physicsLook.getRotation());
+		assertTrue(physicsLook.isFlipped());
 	}
 }

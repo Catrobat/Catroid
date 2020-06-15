@@ -71,7 +71,7 @@ public class PhysicalCollision {
 		fireBounceOffEvent(spriteBouncingOff, null);
 	}
 
-	static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
+	public static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
 		BounceOffEventId identifier = new BounceOffEventId(bouncingSprite, staticSprite);
 		EventWrapper event = new EventWrapper(identifier, NO_WAIT);
 		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
