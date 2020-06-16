@@ -75,6 +75,7 @@ import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
+import org.catrobat.catroid.content.actions.ForVariableFromToAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
@@ -850,6 +851,16 @@ public class ActionFactory extends Actions {
 	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
+		action.setAction(repeatedAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createForVariableFromToAction(Sprite sprite, UserVariable controlVariable,
+			Formula from, Formula to, Action repeatedAction) {
+		ForVariableFromToAction action = Actions.action(ForVariableFromToAction.class);
+		action.setRange(from, to);
+		action.setControlVariable(controlVariable);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
 		return action;
