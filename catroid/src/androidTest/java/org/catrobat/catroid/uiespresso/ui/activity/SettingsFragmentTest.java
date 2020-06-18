@@ -54,7 +54,6 @@ import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
-import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.PARROT_JUMPING_SUMO_SCREEN_KEY;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
@@ -64,6 +63,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MULTIPLAYER_VARIABLES_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_ARDUINO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_HINTS;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_JUMPING_SUMO_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_NFC_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_PHIRO_BRICKS;
@@ -93,7 +93,7 @@ public class SettingsFragmentTest {
 			SETTINGS_SHOW_PHIRO_BRICKS, SETTINGS_SHOW_NFC_BRICKS, SETTINGS_SHOW_HINTS, SETTINGS_CRASH_REPORTS,
 			SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED,
 			SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED,
-			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, PARROT_JUMPING_SUMO_SCREEN_KEY,
+			SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS, SETTINGS_SHOW_JUMPING_SUMO_BRICKS,
 			SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED,
 			SETTINGS_CAST_GLOBALLY_ENABLED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
@@ -138,6 +138,7 @@ public class SettingsFragmentTest {
 	public void basicSettingsTest() {
 		checkPreference(R.string.preference_title_enable_arduino_bricks, SETTINGS_SHOW_ARDUINO_BRICKS);
 		checkPreference(R.string.preference_title_enable_phiro_bricks, SETTINGS_SHOW_PHIRO_BRICKS);
+		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, SETTINGS_SHOW_JUMPING_SUMO_BRICKS);
 		checkPreference(R.string.preference_title_enable_nfc_bricks, SETTINGS_SHOW_NFC_BRICKS);
 		checkPreference(R.string.preference_title_enable_hints, SETTINGS_SHOW_HINTS);
 		checkPreference(R.string.preference_title_enable_crash_reports, SETTINGS_CRASH_REPORTS);
@@ -186,14 +187,6 @@ public class SettingsFragmentTest {
 				.perform(click());
 
 		checkPreference(R.string.preference_title_enable_quadcopter_bricks, SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS);
-	}
-
-	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
-	@Test
-	public void parrotJumpingSumoSettingsTest() {
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_jumpingsumo_bricks)).perform(click());
-
-		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, PARROT_JUMPING_SUMO_SCREEN_KEY);
 	}
 
 	@Test
