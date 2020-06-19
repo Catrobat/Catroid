@@ -361,26 +361,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case BACKPACK:
-				return R.plurals.am_pack_projects_title;
-			case COPY:
-				return R.plurals.am_copy_projects_title;
-			case DELETE:
-				return R.plurals.am_delete_projects_title;
-			case RENAME:
-				return R.plurals.am_rename_projects_title;
-			case MERGE:
-				return R.plurals.am_merge_projects_title;
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
-
-	@Override
 	public void onItemClick(ProjectData item) {
 		if (actionModeType == NONE) {
 			setShowProgressBar(true);

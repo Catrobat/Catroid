@@ -164,25 +164,6 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	}
 
 	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case BACKPACK:
-				return R.plurals.am_pack_looks_title;
-			case COPY:
-				return R.plurals.am_copy_looks_title;
-			case DELETE:
-				return R.plurals.am_delete_looks_title;
-			case RENAME:
-				return R.plurals.am_rename_looks_title;
-			case MERGE:
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
-
-	@Override
 	public void onItemClick(LookData item) {
 		if (actionModeType != NONE) {
 			return;

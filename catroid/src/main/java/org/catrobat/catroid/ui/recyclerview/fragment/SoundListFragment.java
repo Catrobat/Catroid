@@ -162,25 +162,6 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 	}
 
 	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case BACKPACK:
-				return R.plurals.am_pack_sounds_title;
-			case COPY:
-				return R.plurals.am_copy_sounds_title;
-			case DELETE:
-				return R.plurals.am_delete_sounds_title;
-			case RENAME:
-				return R.plurals.am_rename_sounds_title;
-			case MERGE:
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
-
-	@Override
 	public void onItemClick(SoundInfo item) {
 		if (actionModeType != NONE) {
 			return;

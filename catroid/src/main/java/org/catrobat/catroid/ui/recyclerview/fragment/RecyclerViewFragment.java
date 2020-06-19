@@ -332,8 +332,24 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
 		updateSelectionToggle(actionMode.getMenu());
-		actionMode.setTitle(getResources()
-				.getQuantityString(getActionModeTitleId(actionModeType), selectedItemCnt, selectedItemCnt));
+		switch (actionModeType) {
+			case BACKPACK:
+				actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
+				break;
+			case COPY:
+				actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
+				break;
+			case DELETE:
+				actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
+				break;
+			case MERGE:
+				actionMode.setTitle(getString(R.string.am_merge) + " " + selectedItemCnt);
+				break;
+			case RENAME:
+				return;
+			case NONE:
+				throw new IllegalStateException("ActionModeType not set Correctly");
+		}
 	}
 
 	protected void updateSelectionToggle(Menu menu) {
@@ -366,9 +382,6 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	void setShowEmptyView(boolean visible) {
 		emptyView.setVisibility(visible ? View.VISIBLE : View.GONE);
 	}
-
-	@PluralsRes
-	protected abstract int getActionModeTitleId(@ActionModeType int actionModeType);
 
 	@Override
 	public void onItemLongClick(T item, CheckableVH holder) {
