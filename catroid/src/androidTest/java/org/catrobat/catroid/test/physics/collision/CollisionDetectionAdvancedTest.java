@@ -26,8 +26,6 @@ package org.catrobat.catroid.test.physics.collision;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import junit.framework.Assert;
-
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.ActionFactory;
@@ -52,13 +50,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.test.physics.PhysicsTestUtils.generateLookData;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class CollisionDetectionAdvancedTest {
@@ -111,18 +109,18 @@ public class CollisionDetectionAdvancedTest {
 		Polygon[] collisionPolygons1 = sprite1.look.getLookData().getCollisionInformation().collisionPolygons;
 		Polygon[] collisionPolygons2 = sprite2.look.getLookData().getCollisionInformation().collisionPolygons;
 
-		Assert.assertNotNull(collisionPolygons1);
-		Assert.assertEquals(2, collisionPolygons1.length);
+		assertNotNull(collisionPolygons1);
+		assertEquals(2, collisionPolygons1.length);
 
-		Assert.assertNotNull(collisionPolygons2);
-		Assert.assertEquals(3, collisionPolygons2.length);
+		assertNotNull(collisionPolygons2);
+		assertEquals(3, collisionPolygons2.length);
 
 		XstreamSerializer.getInstance().saveProject(project);
 	}
 
 	@Test
 	public void testCollisionBetweenMovingLooks() {
-		assertEquals(0d, CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
+		assertFalse(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
 
 		float steps = 200.0f;
 		ActionFactory factory = new ActionFactory();
@@ -130,12 +128,12 @@ public class CollisionDetectionAdvancedTest {
 		Action moveNSteptsaction = factory.createMoveNStepsAction(sprite2, new Formula(steps));
 		moveNSteptsaction.act(1.0f);
 
-		assertThat(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look), is(greaterThan(0d)));
+		assertTrue(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
 	}
 
 	@Test
 	public void testCollisionBetweenExpandingLooks() {
-		assertEquals(0d, CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
+		assertFalse(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
 
 		float size = 300.0f;
 		ActionFactory factory = new ActionFactory();
@@ -143,6 +141,6 @@ public class CollisionDetectionAdvancedTest {
 		Action createChangeSizeByNAction = factory.createChangeSizeByNAction(sprite2, new Formula(size));
 		createChangeSizeByNAction.act(1.0f);
 
-		assertThat(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look), is(greaterThan(0d)));
+		assertTrue(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
 	}
 }
