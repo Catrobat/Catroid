@@ -37,6 +37,7 @@ object Conversions {
         }
     }
 
+    @Suppress("MagicNumber")
     @ColorInt
     @JvmStatic
     @JvmOverloads
@@ -59,7 +60,5 @@ object Conversions {
     }
 
     @JvmStatic
-    fun booleanToDouble(value: Boolean): Double {
-        return if (value) TRUE else FALSE
-    }
+    fun booleanToDouble(value: Boolean) = if (value) TRUE else FALSE
 }

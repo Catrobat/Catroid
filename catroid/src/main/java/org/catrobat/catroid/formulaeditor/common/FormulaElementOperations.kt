@@ -57,10 +57,8 @@ object FormulaElementOperations {
     }
 
     @JvmStatic
-    fun equalsDoubleIEEE754(left: Double, right: Double): Boolean {
-        return (left.isNaN() && right.isNaN())
-            || !left.isNaN() && !right.isNaN() && left >= right && left <= right
-    }
+    fun equalsDoubleIEEE754(left: Double, right: Double) =
+        left.isNaN() && right.isNaN() || !left.isNaN() && !right.isNaN() && left >= right && left <= right
 
     @JvmStatic
     fun interpretOperatorEqual(left: Any, right: Any): Boolean {
@@ -76,12 +74,10 @@ object FormulaElementOperations {
     @JvmStatic
     fun tryInterpretDoubleValue(obj: Any): Double {
         return when (obj) {
-            is String -> {
-                try {
-                    valueOf(obj)
-                } catch (_: NumberFormatException) {
-                    Double.NaN
-                }
+            is String -> try {
+                valueOf(obj)
+            } catch (_: NumberFormatException) {
+                Double.NaN
             }
             else -> obj as Double
         }
@@ -102,19 +98,14 @@ object FormulaElementOperations {
     }
 
     @JvmStatic
-    fun isInteger(value: Double): Boolean {
-        return value.isFinite() && value == round(value)
-    }
+    fun isInteger(value: Double) = value.isFinite() && value == round(value)
 
     @JvmStatic
-    fun tryGetLookBackgroundNumber(lookData: LookData?, lookDataList: List<LookData>): Double {
-        return lookData?.let { lookDataList.indexOf(it) + 1.0 } ?: 1.0
-    }
+    fun tryGetLookBackgroundNumber(lookData: LookData?, lookDataList: List<LookData>) =
+        lookData?.let { lookDataList.indexOf(it) + 1.0 } ?: 1.0
 
     @JvmStatic
-    fun getLookBackgroundName(lookData: LookData?): String {
-        return lookData?.name ?: ""
-    }
+    fun getLookBackgroundName(lookData: LookData?) = lookData?.name ?: ""
 
     @JvmStatic
     fun tryCalculateCollidesWithEdge(
@@ -215,14 +206,10 @@ object FormulaElementOperations {
         return stringBuilder.toString().trim { it <= ' ' }
     }
 
-    private fun listConsistsOfSingleCharacters(userListStringValues: List<String>): Boolean {
-        return userListStringValues.none { it.length > 1 }
-    }
+    private fun listConsistsOfSingleCharacters(userListStringValues: List<String>) = userListStringValues.none { it.length > 1 }
 
     @JvmStatic
-    fun interpretUserVariable(userVariable: UserVariable?): Any {
-        return userVariable?.value ?: Conversions.FALSE
-    }
+    fun interpretUserVariable(userVariable: UserVariable?) = userVariable?.value ?: Conversions.FALSE
 
     @JvmStatic
     fun interpretLookCollision(look: Look, looks: List<Look>): Double {
@@ -233,9 +220,7 @@ object FormulaElementOperations {
     }
 
     @JvmStatic
-    fun toLooks(sprites: List<Sprite>): List<Look> {
-        return sprites.map { it.look }
-    }
+    fun toLooks(sprites: List<Sprite>) = sprites.map { it.look }
 
     @JvmStatic
     fun interpretSensor(
@@ -256,7 +241,7 @@ object FormulaElementOperations {
     fun tryFindSprite(scene: Scene, spriteName: String?): Sprite? {
         return try {
             scene.getSprite(spriteName)
-        } catch (exception: Resources.NotFoundException) {
+        } catch (_: Resources.NotFoundException) {
             null
         }
     }
@@ -280,6 +265,7 @@ object FormulaElementOperations {
         return interpretLookCollision(firstLook, toLooks(sprites))
     }
 
+    @Suppress("TooGenericExceptionCaught")
     @JvmStatic
     fun tryInterpretCollision(
         firstLook: Look,
@@ -289,7 +275,7 @@ object FormulaElementOperations {
     ): Double {
         return try {
             interpretCollision(firstLook, secondSpriteName, currentlyPlayingScene, stageListener)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             Conversions.FALSE
         }
     }

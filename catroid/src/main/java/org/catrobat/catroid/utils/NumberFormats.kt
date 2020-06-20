@@ -28,14 +28,12 @@ class NumberFormats private constructor() {
         fun trimTrailingCharacters(value: String?): String {
             value ?: return ""
             if (value.contains(".") && value.matches("[0-9.-]+".toRegex())) {
-                return when {
-                    !value.contains(".") -> value
-                    else -> value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
-                }
+                return value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
             }
             return value
         }
 
+        @Suppress("MagicNumber")
         @JvmStatic
         fun toMetricUnitRepresentation(number: Int): String {
             return when {

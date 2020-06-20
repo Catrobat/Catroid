@@ -99,9 +99,7 @@ object FormulaElementResources {
     @JvmStatic
     fun addFunctionResources(resources: MutableSet<Int?>, functions: Functions?) {
         when (functions) {
-            Functions.ARDUINOANALOG,
-            Functions.ARDUINODIGITAL -> Brick.BLUETOOTH_SENSORS_ARDUINO
-
+            Functions.ARDUINOANALOG, Functions.ARDUINODIGITAL -> Brick.BLUETOOTH_SENSORS_ARDUINO
             Functions.RASPIDIGITAL -> Brick.SOCKET_RASPI
             else -> return
         }.let { resources.add(it) }
