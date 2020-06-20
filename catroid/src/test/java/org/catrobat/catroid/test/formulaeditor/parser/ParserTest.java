@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -31,10 +30,10 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,32 +42,10 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ParserTest {
-
-	private static final float LOOK_ALPHA = 50f;
-	private static final float LOOK_Y_POSITION = 23.4f;
-	private static final float LOOK_X_POSITION = 5.6f;
-	private static final float LOOK_BRIGHTNESS = 70f;
-	private static final float LOOK_COLOR = 0f;
-	private static final float LOOK_SCALE = 90.3f;
-	private static final float LOOK_ROTATION = 30.7f;
-	private static final int LOOK_ZPOSITION = 3;
+	@Mock
 	private Sprite testSprite;
-
-	@Before
-	public void setUp() {
-		testSprite = new SingleSprite("sprite");
-		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
-		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
-		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
-		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
-		testSprite.look.setColorInUserInterfaceDimensionUnit(LOOK_COLOR);
-		testSprite.look.setScaleX(LOOK_SCALE);
-		testSprite.look.setScaleY(LOOK_SCALE);
-		testSprite.look.setRotation(LOOK_ROTATION);
-		testSprite.look.setZIndex(LOOK_ZPOSITION);
-	}
 
 	@Test
 	public void testNumbers() {
@@ -94,7 +71,7 @@ public class ParserTest {
 
 	@Test
 	public void testBracket() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -114,7 +91,7 @@ public class ParserTest {
 		assertNotNull(parseTree);
 		assertEquals(9.0, parseTree.interpretRecursive(testSprite));
 
-		internTokenList = new LinkedList<InternToken>();
+		internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
@@ -141,7 +118,7 @@ public class ParserTest {
 
 	@Test
 	public void testEmptyInput() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
 		FormulaElement parseTree = internParser.parseFormula();
@@ -152,7 +129,7 @@ public class ParserTest {
 
 	@Test
 	public void testFuctionalAndSimpleBracketsCorrection() {
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.ABS.name()));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));

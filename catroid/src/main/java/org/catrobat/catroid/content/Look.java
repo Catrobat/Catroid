@@ -45,6 +45,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ThreadScheduler;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.lang.annotation.Retention;
@@ -618,10 +619,11 @@ public class Look extends Image {
 		if (getLookData() == null) {
 			originalPolygons = new Polygon[0];
 		} else {
-			if (getLookData().getCollisionInformation().collisionPolygons == null) {
-				getLookData().getCollisionInformation().loadCollisionPolygon();
+			CollisionInformation collisionInformation = getLookData().getCollisionInformation();
+			if (collisionInformation.collisionPolygons == null) {
+				collisionInformation.loadCollisionPolygon();
 			}
-			originalPolygons = getLookData().getCollisionInformation().collisionPolygons;
+			originalPolygons = collisionInformation.collisionPolygons;
 		}
 
 		Polygon[] transformedPolygons = new Polygon[originalPolygons.length];
