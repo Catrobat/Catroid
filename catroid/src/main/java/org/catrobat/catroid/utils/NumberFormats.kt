@@ -33,16 +33,16 @@ class NumberFormats private constructor() {
                     else -> value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
                 }
             }
-            return ""
+            return value
         }
 
         @JvmStatic
         fun toMetricUnitRepresentation(number: Int): String {
             return when {
-                number < 1000 -> "" + number
-                number < 10000 -> "" + number / 1000 + ((number % 1000) / 100).let { if (it > 0) ".$it" else "" } + "k"
-                number < 1000000 -> "" + number / 1000 + "k"
-                else -> "" + number / 1000000 + "M"
+                number >= 1_000_000 -> "${number / 1_000_000}M"
+                number >= 10_000 && number % 1_000 > 100 -> "${number / 1_000}.${number % 1_000 / 100}k"
+                number >= 1_000 -> "${number / 1_000}k"
+                else -> number.toString()
             }
         }
     }
