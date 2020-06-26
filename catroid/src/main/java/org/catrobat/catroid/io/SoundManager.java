@@ -82,7 +82,7 @@ public class SoundManager {
 		}
 	}
 
-	private void stopSameSoundInSprite(String pathToSoundFile, Sprite sprite) {
+	public synchronized void stopSameSoundInSprite(String pathToSoundFile, Sprite sprite) {
 		for (MediaPlayerWithSoundDetails mediaPlayer : mediaPlayers) {
 			if (mediaPlayer.isPlaying() && mediaPlayer.getStartedBySprite() == sprite
 					&& mediaPlayer.getPathToSoundFile().equals(pathToSoundFile)) {

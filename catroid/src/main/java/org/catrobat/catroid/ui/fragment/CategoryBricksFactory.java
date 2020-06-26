@@ -179,6 +179,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -424,6 +425,7 @@ public class CategoryBricksFactory {
 		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new PlaySoundAndWaitBrick());
+		soundBrickList.add(new StopSoundBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 

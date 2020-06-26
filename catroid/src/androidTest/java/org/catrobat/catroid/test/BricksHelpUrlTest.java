@@ -172,6 +172,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Event%20Bricks/#BroadcastBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FlashBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#FlashBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopSoundBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Sound%20Bricks/#StopSoundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopAllSoundsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Sound%20Bricks/#StopAllSoundsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick",
