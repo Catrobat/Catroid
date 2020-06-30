@@ -136,7 +136,7 @@ public class ProjectAndSceneScreenshotLoader {
 				projectAndSceneImage = null;
 			} else {
 				projectAndSceneImage = ImageEditing.getScaledBitmapFromPath(pathOfScreenshot, thumbnailWidth, thumbnailHeight,
-						ImageEditing.ResizeType.STAY_IN_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
+						ImageEditing.ResizeType.FILL_RECTANGLE_WITH_SAME_ASPECT_RATIO, true);
 			}
 
 			String screenshotName = "";
