@@ -179,7 +179,7 @@
     <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
     <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
     <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
-     <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
+    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
     <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
     <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
     <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
@@ -202,6 +202,9 @@
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
+
+    <string name="preference_title_enable_test_bricks">Testing extension</string>
+    <string name="preference_description_test_bricks">Allows to create tests</string>
 
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>

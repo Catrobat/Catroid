@@ -206,7 +206,7 @@ public class BrickCategoryFragment extends ListFragment {
 		if (!onlyBeginnerBricks() && BuildConfig.FEATURE_USERBRICKS_ENABLED) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
 		}
-		if (BuildConfig.DEBUG) {
+		if (SettingsFragment.isTestSharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_assert, null));
 		}
 
