@@ -48,6 +48,19 @@
     <color name="snackbar">#FF33B5E5</color>
     <color name="separator">#51656C</color>
 
+    <!-- Formula Editor Colors -->
+    <color name="formula_editor_meta_button">#F8C4C4</color>
+    <color name="formula_editor_meta_button_pressed">#F5AEAE</color>
+    <color name="formula_editor_category_button">#D3D3D3</color>
+    <color name="formula_editor_category_button_pressed">#A9A9A9</color>
+    <color name="formula_editor_category_text">#002B3B</color>
+    <color name="formula_editor_symbol_button">#E9E9E9</color>
+    <color name="formula_editor_symbol_button_pressed">#A9A9A9</color>
+    <color name="formula_editor_symbol_text">#242424</color>
+    <color name="formula_editor_ok_button">#A5DFF3</color>
+    <color name="formula_editor_ok_button_pressed">#4FC2F7</color>
+    <color name="formula_editor_ok_text">#002B3B</color>
+
     <!-- Material Design Colors -->
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
