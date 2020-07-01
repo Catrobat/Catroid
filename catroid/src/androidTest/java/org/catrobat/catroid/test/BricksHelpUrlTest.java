@@ -362,6 +362,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Motion%20Bricks/#VibrationBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WriteVariableOnDeviceBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteVariableToFileBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WriteVariableToFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Jumping Sumo%20Bricks/#JumpingSumoAnimationsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetPenColorBrick",

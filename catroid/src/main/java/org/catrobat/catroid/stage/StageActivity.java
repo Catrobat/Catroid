@@ -59,9 +59,12 @@ import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.WebAction;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
@@ -71,6 +74,8 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.PlaySceneDialog;
+import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
+import org.catrobat.catroid.ui.runtimepermissions.PermissionAdaptingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
@@ -90,7 +95,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 
-public class StageActivity extends AndroidApplication implements PermissionHandlingActivity {
+public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
 	public static final String TAG = StageActivity.class.getSimpleName();
 	public static StageListener stageListener;
@@ -479,6 +484,27 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			intentListeners.remove(requestCode);
 		} else {
 			stageResourceHolder.onActivityResult(requestCode, resultCode, data);
+		}
+	}
+
+	@Override
+	public void adaptToDeniedPermissions(List<String> deniedPermissions) {
+		Brick.ResourcesSet requiredResources = new Brick.ResourcesSet();
+		Project project = ProjectManager.getInstance().getCurrentProject();
+
+		for (Scene scene: project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Brick brick : sprite.getAllBricks()) {
+					brick.addRequiredResources(requiredResources);
+					List<String> requiredPermissions = BrickResourcesToRuntimePermissions.translate(requiredResources);
+					requiredPermissions.retainAll(deniedPermissions);
+
+					if (!requiredPermissions.isEmpty()) {
+						brick.setCommentedOut(true);
+					}
+					requiredResources.clear();
+				}
+			}
 		}
 	}
 

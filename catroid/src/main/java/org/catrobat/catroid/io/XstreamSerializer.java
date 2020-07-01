@@ -237,6 +237,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -472,6 +473,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
 		xstream.alias("brick", WriteListOnDeviceBrick.class);
 		xstream.alias("brick", ReadVariableFromDeviceBrick.class);
+		xstream.alias("brick", WriteVariableToFileBrick.class);
 		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);

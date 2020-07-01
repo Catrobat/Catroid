@@ -49,6 +49,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -71,6 +72,7 @@ import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.utils.VibrationUtil;
 
+import java.io.File;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -400,6 +402,20 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			Project currentProject = ProjectManager.getInstance().getCurrentProject();
 			RaspberryPiService.getInstance().enableRaspberryInterruptPinsForProject(currentProject);
 			connectRaspberrySocket();
+		}
+
+		if (requiredResourcesSet.contains(Brick.STORAGE_WRITE)) {
+			File directory = Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+
+			if (directory.exists() || directory.mkdirs()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.STORAGE_WRITE);
+			}
+		}
+
+		if (requiredResourcesSet.contains(Brick.STORAGE_READ)) {
+			resourceInitialized();
 		}
 
 		if (initFinished()) {

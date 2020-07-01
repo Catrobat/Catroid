@@ -192,6 +192,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
@@ -321,6 +322,7 @@ public class BrickCategoryTest {
 						HideTextBrick.class,
 						WriteVariableOnDeviceBrick.class,
 						ReadVariableFromDeviceBrick.class,
+						WriteVariableToFileBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
 						ClearUserListBrick.class,

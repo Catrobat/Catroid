@@ -172,6 +172,7 @@ import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
+import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -1299,6 +1300,15 @@ public class ActionFactory extends Actions {
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
 		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
 		action.setUserVariable(userVariable);
+
+		return action;
+	}
+
+	public Action createWriteVariableToFileAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+		WriteVariableToFileAction action = Actions.action(WriteVariableToFileAction.class);
+		action.setSprite(sprite);
+		action.setUserVariable(userVariable);
+		action.setFormula(variableFormula);
 
 		return action;
 	}

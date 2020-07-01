@@ -71,6 +71,7 @@ import java.util.regex.Pattern;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.Response;
 
+import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
@@ -261,6 +262,11 @@ public final class Utils {
 
 		return url.replace(width + "x", Integer.toString(newWidth) + "x")
 				.replace("x" + height, "x" + Integer.toString(newHeight));
+	}
+
+	public static String sanitizeFileName(String fileName) {
+		fileName = fileName.replaceAll("[\\\\ /:*?\"^<>|]", "");
+		return fileName.substring(0, Math.min(fileName.length(), MAX_FILE_NAME_LENGTH));
 	}
 
 	public static String md5Checksum(File file) {

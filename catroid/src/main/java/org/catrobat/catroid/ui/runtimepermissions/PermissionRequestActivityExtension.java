@@ -25,9 +25,11 @@ package org.catrobat.catroid.ui.runtimepermissions;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.DialogInterface;
+import android.app.AlertDialog;
+import android.content.DialogInterface.OnClickListener;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.view.ContextThemeWrapper;
 
 import org.catrobat.catroid.R;
 
@@ -84,22 +86,38 @@ public class PermissionRequestActivityExtension {
 
 	@TargetApi(23)
 	private void showPermissionRationale(final Activity activity, final RequiresPermissionTask task) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-				&& activity.shouldShowRequestPermissionRationale(task.getPermissions().get(0))) {
-			showAlertOKCancel(activity, activity.getResources().getString(task.getRationaleString()), new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					((PermissionHandlingActivity) activity).addToRequiresPermissionTaskList(task);
-					activity.requestPermissions(task.getPermissions().toArray(new String[0]), task.getPermissionRequestId());
-				}
-			});
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && activity.shouldShowRequestPermissionRationale(task.getPermissions().get(0))) {
+			String message = activity.getResources().getString(task.getRationaleString());
+
+			OnClickListener okListener = (dialog, whichButton) -> {
+				((PermissionHandlingActivity) activity).addToRequiresPermissionTaskList(task);
+				activity.requestPermissions(task.getPermissions().toArray(new String[0]), task.getPermissionRequestId());
+			};
+
+			if (activity instanceof PermissionAdaptingActivity) {
+				showAlertOKIgnoreCancel(activity, message, okListener, (dialog, whichButton) -> {
+					((PermissionAdaptingActivity) activity).adaptToDeniedPermissions(task.getPermissions());
+					activity.recreate();
+				});
+			} else {
+				showAlertOKCancel(activity, message, okListener);
+			}
 		}
 	}
 
-	private void showAlertOKCancel(Activity activity, String message, DialogInterface.OnClickListener okListener) {
-		new android.app.AlertDialog.Builder(activity)
+	private void showAlertOKCancel(Activity activity, String message, OnClickListener okListener) {
+		new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
 				.setMessage(message)
 				.setPositiveButton(R.string.ok, okListener)
+				.setNegativeButton(R.string.cancel, null)
+				.show();
+	}
+
+	private void showAlertOKIgnoreCancel(Activity activity, String message, OnClickListener okListener, OnClickListener ignoreListener) {
+		new AlertDialog.Builder(new ContextThemeWrapper(activity, R.style.Theme_AppCompat_Dialog))
+				.setMessage(message)
+				.setPositiveButton(R.string.ok, okListener)
+				.setNeutralButton(R.string.ignore, ignoreListener)
 				.setNegativeButton(R.string.cancel, null)
 				.show();
 	}
