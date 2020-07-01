@@ -23,5 +23,5 @@
 
 package org.catrobat.catroid.userbrick;
 
-public interface UserBrickData {
+public class UserDefinedBrickData {
 }

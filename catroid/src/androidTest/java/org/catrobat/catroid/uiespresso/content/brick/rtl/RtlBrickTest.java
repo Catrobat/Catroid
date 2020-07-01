@@ -650,7 +650,7 @@ public class RtlBrickTest {
 		assertEquals(arLocale.getDisplayLanguage(), Locale.getDefault().getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		openCategory(R.string.category_user_bricks);
-		onView(allOf(withId(android.R.id.list), withParent(withId(R.id.add_brick_fragment_list)))).check(matches(hasChildCount(0)));
+		onView(allOf(withId(android.R.id.list), withParent(withId(R.id.fragment_user_defined_brick_list)))).check(matches(hasChildCount(0)));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

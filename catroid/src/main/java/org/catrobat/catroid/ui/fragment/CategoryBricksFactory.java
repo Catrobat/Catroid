@@ -188,6 +188,8 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
@@ -766,12 +768,6 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_pen);
 			}
 		}
-		categoryBricks = setupUserBricksCategoryList();
-		for (Brick categoryBrick : categoryBricks) {
-			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_user_bricks);
-			}
-		}
 		categoryBricks = setupDataCategoryList(context, isBackgroundSprite);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
@@ -858,6 +854,10 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_data);
 		} else if (brick instanceof StoreCSVIntoUserListBrick) {
 			category = res.getString(R.string.category_data);
+		} else if (brick instanceof UserDefinedBrick) {
+			category = res.getString(R.string.category_user_bricks);
+		} else if (brick instanceof UserDefinedReceiverBrick) {
+			category = res.getString(R.string.category_user_bricks);
 		}
 
 		config.locale = savedLocale;

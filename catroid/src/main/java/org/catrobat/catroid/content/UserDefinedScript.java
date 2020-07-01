@@ -21,35 +21,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.userbrick;
+package org.catrobat.catroid.content;
 
-import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
+import org.catrobat.catroid.content.eventids.EventId;
 
-import androidx.annotation.Nullable;
+import java.util.UUID;
 
-public class UserBrickLabel implements UserBrickData {
+import androidx.annotation.VisibleForTesting;
 
-	private Nameable label;
+public class UserDefinedScript extends Script {
 
-	public UserBrickLabel(Nameable label) {
-		this.label = label;
+	private static final long serialVersionUID = 1L;
+	private UUID userDefinedBrickID;
+
+	public UserDefinedScript(UUID userDefinedBrickID) {
+		this.userDefinedBrickID = userDefinedBrickID;
 	}
 
-	public Nameable getLabel() {
-		return this.label;
+	@VisibleForTesting
+	public UserDefinedScript() {
 	}
 
 	@Override
-	public boolean equals(@Nullable Object obj) {
-		if (obj instanceof UserBrickLabel) {
-			UserBrickLabel other = (UserBrickLabel) obj;
-			return this.label.getName().equals(other.label.getName());
+	public ScriptBrick getScriptBrick() {
+		if (scriptBrick == null) {
+			scriptBrick = new UserDefinedReceiverBrick(this);
 		}
-		return false;
+		return scriptBrick;
 	}
 
 	@Override
-	public int hashCode() {
-		return this.label.getName().hashCode();
+	public EventId createEventId(Sprite sprite) {
+		return null;
+	}
+
+	public UUID getUserDefinedBrickID() {
+		return userDefinedBrickID;
 	}
 }

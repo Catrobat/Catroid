@@ -44,9 +44,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
-import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
@@ -57,11 +55,11 @@ import androidx.fragment.app.FragmentManager;
 
 import static org.catrobat.catroid.content.bricks.UserDefinedBrick.INPUT;
 
-public class AddUserDataToUserBrickFragment extends Fragment {
+public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 
-	public static final String TAG = AddUserDataToUserBrickFragment.class.getSimpleName();
+	public static final String TAG = AddUserDataToUserDefinedBrickFragment.class.getSimpleName();
 
-	private boolean isAddInputOrLabel;
+	private boolean isAddInput;
 	private AppCompatActivity activity;
 	private TextInputEditText addUserDataUserBrickEditText;
 	private TextInputLayout addUserDataUserBrickTextLayout;
@@ -81,13 +79,13 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 		Bundle arguments = getArguments();
 		if (arguments != null) {
 			userDefinedBrick = (UserDefinedBrick) getArguments().getSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT);
-			isAddInputOrLabel = getArguments().getBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT);
+			isAddInput = getArguments().getBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT);
 		}
 
 		if (userDefinedBrick != null) {
 			View userBrickView = userDefinedBrick.getView(getActivity());
 			userBrickSpace.addView(userBrickView);
-			userBrickTextView = userDefinedBrick.currentUserDataEditText;
+			userBrickTextView = userDefinedBrick.currentUserDefinedDataTextView;
 		}
 		addUserDataUserBrickEditText = view.findViewById(R.id.user_data_user_brick_edit_field);
 		addUserDataUserBrickTextLayout = view.findViewById(R.id.user_data_user_brick_text_layout);
@@ -121,7 +119,7 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 	}
 
 	public boolean isAddInput() {
-		return isAddInputOrLabel == INPUT;
+		return isAddInput == INPUT;
 	}
 
 	@Override
@@ -159,11 +157,11 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 		if (item.getItemId() == R.id.next) {
 			FragmentManager fragmentManager = getFragmentManager();
 			if (fragmentManager != null) {
-				AddUserBrickFragment addUserBrickFragment = (AddUserBrickFragment)
-						getFragmentManager().findFragmentByTag(AddUserBrickFragment.TAG);
+				AddUserDefinedBrickFragment addUserDefinedBrickFragment = (AddUserDefinedBrickFragment)
+						getFragmentManager().findFragmentByTag(AddUserDefinedBrickFragment.TAG);
 				getFragmentManager().popBackStackImmediate();
-				if (addUserBrickFragment != null && addUserDataUserBrickEditText.getText() != null) {
-					addUserBrickFragment.addUserDataToUserBrick(new StringOption(addUserDataUserBrickEditText.getText().toString()), isAddInputOrLabel);
+				if (addUserDefinedBrickFragment != null && addUserDataUserBrickEditText.getText() != null) {
+					addUserDefinedBrickFragment.addUserDataToUserBrick(addUserDataUserBrickEditText.getText().toString(), isAddInput);
 				}
 			}
 		}
@@ -193,8 +191,8 @@ public class AddUserDataToUserBrickFragment extends Fragment {
 	private class UserDataTextWatcher implements TextWatcher {
 
 		private boolean isNameUnique(String name) {
-			for (Nameable item : userDefinedBrick.getUserDataList(INPUT)) {
-				if (item.getName().equals(name)) {
+			for (String item : userDefinedBrick.getUserDataList(INPUT)) {
+				if (item.equals(name)) {
 					return false;
 				}
 			}

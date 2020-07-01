@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @XStreamFieldKeyOrder({
 		"name",
@@ -66,7 +67,8 @@ import java.util.Set;
 		"scriptList",
 		"nfcTagList",
 		"userVariables",
-		"userLists"
+		"userLists",
+		"userDefinedBrickList"
 })
 public class Sprite implements Cloneable, Nameable, Serializable {
 
@@ -90,7 +92,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private List<NfcTagData> nfcTagList = new ArrayList<>();
 	private List<UserVariable> userVariables = new ArrayList<>();
 	private List<UserList> userLists = new ArrayList<>();
-	private transient List<Brick> userDefinedBrickList = new ArrayList<>();
+	private List<Brick> userDefinedBrickList = new ArrayList<>();
 
 	private transient ActionFactory actionFactory = new ActionFactory();
 
@@ -139,8 +141,45 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return userDefinedBrickList;
 	}
 
-	public boolean addUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
-		return userDefinedBrickList.add(userDefinedBrick);
+	public UserDefinedBrick getUserDefinedBrickWithSameUserData(UserDefinedBrick userDefinedBrick) {
+		if (userDefinedBrick == null) {
+			return null;
+		}
+		for (Brick brick: userDefinedBrickList) {
+			if (((UserDefinedBrick) brick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
+				return (UserDefinedBrick) brick;
+			}
+		}
+		return null;
+	}
+
+	public UserDefinedBrick getUserDefinedBrickByID(UUID userDefinedBrickID) {
+		for (Brick brick : userDefinedBrickList) {
+			if (((UserDefinedBrick) brick).getUserDefinedBrickID().equals(userDefinedBrickID)) {
+				return (UserDefinedBrick) brick;
+			}
+		}
+		return null;
+	}
+
+	private boolean containsUserDefinedBrickWithSameUserData(UserDefinedBrick userDefinedBrick) {
+		return getUserDefinedBrickWithSameUserData(userDefinedBrick) != null;
+	}
+
+	public void addUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
+		userDefinedBrickList.add(userDefinedBrick);
+	}
+
+	public void addClonesOfUserDefinedBrickList(List<UserDefinedBrick> userDefinedBricks) {
+		for (UserDefinedBrick userDefinedBrick : userDefinedBricks) {
+			if (!containsUserDefinedBrickWithSameUserData(userDefinedBrick)) {
+				try {
+					addUserDefinedBrick((UserDefinedBrick) userDefinedBrick.clone());
+				} catch (CloneNotSupportedException e) {
+					Log.e(TAG, Log.getStackTraceString(e));
+				}
+			}
+		}
 	}
 
 	public List<UserVariable> getUserVariables() {
@@ -450,7 +489,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public static boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick, Sprite sprite) {
 		for (Brick alreadyDefinedBrick : sprite.getUserDefinedBrickList()) {
-			if (alreadyDefinedBrick.equals(userDefinedBrick)) {
+			if (((UserDefinedBrick) alreadyDefinedBrick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
 				return true;
 			}
 		}

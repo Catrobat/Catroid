@@ -1069,6 +1069,9 @@
     <string name="brick_user_defined_default_label">Label text</string>
 
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
 
     <!-- Motion bricks -->
