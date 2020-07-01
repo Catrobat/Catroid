@@ -78,23 +78,24 @@ public class MainMenuFragment extends Fragment implements
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NEW, PROGRAMS, HELP, EXPLORE, UPLOAD})
+	@IntDef({PROGRAMS, HELP, EXPLORE, UPLOAD})
 	@interface ButtonId {
 	}
 
-	private static final int NEW = 1;
 	private static final int PROGRAMS = 2;
 	private static final int HELP = 3;
 	private static final int EXPLORE = 4;
 	private static final int UPLOAD = 5;
 
-	private static final int CURRENTTHUMBNAILSIZE = 150;
+	private static final int CURRENTTHUMBNAILSIZE = 130;
 	private static final int CONTINUE = R.id.current_project;
+	private static final int NEW = R.id.floating_action_button;
 
 	private View parent;
 	private RecyclerView recyclerView;
 	private ButtonAdapter buttonAdapter;
 	private File projectDir;
+	View.OnClickListener listener;
 
 	@Nullable
 	@Override
@@ -123,12 +124,14 @@ public class MainMenuFragment extends Fragment implements
 		buttonAdapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(buttonAdapter);
 
-		parent.findViewById(R.id.current_project).setOnClickListener(new View.OnClickListener() {
+		listener = new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				onProgramClick(v);
 			}
-		});
+		};
+		parent.findViewById(R.id.current_project).setOnClickListener(listener);
+		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
 
 		projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
 				.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity())));
@@ -140,8 +143,6 @@ public class MainMenuFragment extends Fragment implements
 	private List<RVButton> getItems() {
 		List<RVButton> items = new ArrayList<>();
 
-		items.add(new RVButton(NEW, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_new),
-				getString(R.string.main_menu_new)));
 		items.add(new RVButton(PROGRAMS, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_programs),
 				getString(R.string.main_menu_programs)));
 		items.add(new RVButton(HELP, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_help),
@@ -183,10 +184,6 @@ public class MainMenuFragment extends Fragment implements
 	@Override
 	public void onItemClick(@ButtonId int id) {
 		switch (id) {
-			case NEW:
-				new NewProjectDialogFragment()
-						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
-				break;
 			case PROGRAMS:
 				setShowProgressBar(true);
 				startActivity(new Intent(getActivity(), ProjectListActivity.class));
@@ -218,6 +215,10 @@ public class MainMenuFragment extends Fragment implements
 				new ProjectLoadTask(projectDir, getContext())
 						.setListener(this)
 						.execute();
+				break;
+			case NEW:
+				new NewProjectDialogFragment()
+						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
 				break;
 		}
 	}

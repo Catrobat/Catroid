@@ -38,8 +38,7 @@
         android:id="@+id/current_project"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
         android:paddingStart="28dp"
         android:paddingEnd="@dimen/view_holder_padding"
         android:gravity="center_vertical"
@@ -53,8 +52,8 @@
             <ImageView
                 android:id="@+id/image_view"
                 android:contentDescription="@string/main_menu_continue"
-                android:layout_width="140dp"
-                android:layout_height="140dp"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
                 android:cropToPadding="true"
                 android:scaleType="centerCrop" />
 
@@ -72,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/vh_item_title"
-                android:textSize="?attr/large"/>
+                android:textSize="?attr/x_large"/>
 
             <TextView
                 android:text="@string/main_menu_continue"
@@ -85,11 +84,32 @@
 
     </LinearLayout>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:overScrollMode="never"
         app:layoutManager="LinearLayoutManager">
     </androidx.recyclerview.widget.RecyclerView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/main_menu_new"
+        android:src="@drawable/baseline_add_white_24"
+        android:theme="@style/Theme.AppCompat"
+        app:backgroundTint="@color/orange"
+        app:elevation="10dp" />
+    </RelativeLayout>
+
 </LinearLayout>
+
