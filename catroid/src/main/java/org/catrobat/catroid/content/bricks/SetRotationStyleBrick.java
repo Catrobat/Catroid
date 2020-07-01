@@ -80,15 +80,15 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable RotationStyleOption item) {
+	public void onItemSelected(Integer spinnerId, @Nullable RotationStyleOption item) {
 		selection = item != null ? item.getRotationStyle() : 0;
 	}
 

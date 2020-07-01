@@ -400,6 +400,23 @@
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
 
+    <style name="BrickContainer.Test" tools:ignore="UnusedResources"></style>
+
+    <style name="BrickContainer.Test.Small" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Test.Medium" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Test.Big" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
     <style name="BrickContainer.Lego"></style>
 
     <style name="BrickContainer.Lego.Small">

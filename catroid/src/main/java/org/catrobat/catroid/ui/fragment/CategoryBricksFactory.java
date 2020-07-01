@@ -35,8 +35,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenConditionScript;
@@ -47,6 +45,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -692,27 +691,11 @@ public class CategoryBricksFactory {
 	private List<Brick> setupAssertionsCategoryList(Context context) {
 		List<Brick> assertionsBrickList = new ArrayList<>();
 
-		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
-		assertionsBrickList.add(assertEqualsBrick);
-
-		WaitTillIdleBrick waitTillIdleBrick = new WaitTillIdleBrick();
-		assertionsBrickList.add(waitTillIdleBrick);
-
+		assertionsBrickList.add(new AssertEqualsBrick());
+		assertionsBrickList.add(new AssertUserListsBrick());
+		assertionsBrickList.add(new WaitTillIdleBrick());
 		assertionsBrickList.add(new TapAtBrick());
-
 		assertionsBrickList.add(new FinishStageBrick());
-
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					for (Brick brick : script.getBrickList()) {
-						if (brick instanceof AssertEqualsBrick) {
-							assertionsBrickList.remove(assertEqualsBrick);
-						}
-					}
-				}
-			}
-		}
 
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));

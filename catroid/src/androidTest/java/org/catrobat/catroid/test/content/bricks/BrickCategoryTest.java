@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -388,6 +389,7 @@ public class BrickCategoryTest {
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
+						AssertUserListsBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						FinishStageBrick.class,

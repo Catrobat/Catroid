@@ -70,16 +70,16 @@ public class CloneBrick extends BrickBaseType implements BrickSpinner.OnItemSele
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 		objectToClone = null;
 	}
 
 	@Override
-	public void onItemSelected(@Nullable Sprite item) {
+	public void onItemSelected(Integer spinnerId, @Nullable Sprite item) {
 		objectToClone = item;
 	}
 

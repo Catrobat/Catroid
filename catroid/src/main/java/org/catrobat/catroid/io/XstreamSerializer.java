@@ -70,6 +70,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -303,6 +304,7 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(UserDefinedBrickLabel.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
+		xstream.registerConverter(new XStreamUserDataHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider(),
 				xstream.getClassLoaderReference()));
 
@@ -332,6 +334,7 @@ public final class XstreamSerializer {
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "formulaList");
+		xstream.omitField(HideTextBrick.class, "userDataList");
 
 		xstream.omitField(SayBubbleBrick.class, "type");
 		xstream.omitField(SayBubbleBrick.class, "type");
@@ -519,6 +522,7 @@ public final class XstreamSerializer {
 
 		xstream.alias("brick", AssertEqualsBrick.class);
 		xstream.alias("brick", FinishStageBrick.class);
+		xstream.alias("brick", AssertUserListsBrick.class);
 
 		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
