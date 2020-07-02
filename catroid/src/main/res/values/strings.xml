@@ -24,6 +24,8 @@
 <resources>
 
     <!-- General terms -->
+    <string name="no_internet" translatable="false">No Internet</string>
+    <string name="retry" translatable="false">Retry</string>
     <string name="stage">Stage</string>
     <string name="play">Play</string>
     <string name="settings">Settings</string>

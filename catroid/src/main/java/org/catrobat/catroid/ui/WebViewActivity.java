@@ -36,6 +36,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.WebView;
@@ -81,6 +82,7 @@ public class WebViewActivity extends AppCompatActivity {
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
+	private boolean previousstate = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -158,9 +160,6 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)) {
-				allowGoBack = false;
-				onBackPressed();
 			}
 		}
 
@@ -171,6 +170,11 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.dismiss();
 				webViewLoadingDialog = null;
 			}
+			if (previousstate) {
+				findViewById(R.id.nointernet).setVisibility(View.GONE);
+				webView.setVisibility(View.VISIBLE);
+			}
+			previousstate = false;
 		}
 
 		@Override
@@ -196,8 +200,20 @@ public class WebViewActivity extends AppCompatActivity {
 
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
-				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
+			if (!Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
+				findViewById(R.id.nointernet).setVisibility(View.VISIBLE);
+				webView.setVisibility(View.GONE);
+				findViewById(R.id.retry).setOnClickListener(v -> {
+					if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
+						webView.reload();
+						previousstate = true;
+						webViewLoadingDialog = new ProgressDialog(view.getContext(), R.style.WebViewLoadingCircle);
+						webViewLoadingDialog.setCancelable(true);
+						webViewLoadingDialog.setCanceledOnTouchOutside(false);
+						webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
+						webViewLoadingDialog.show();
+					}
+				});
 			}
 		}
 
