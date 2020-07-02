@@ -123,6 +123,7 @@ import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
+import org.catrobat.catroid.content.actions.ReadVariableFromFileAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
@@ -1322,6 +1323,17 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setUserVariable(userVariable);
 		action.setFormula(variableFormula);
+
+		return action;
+	}
+
+	public Action createReadVariableFromFileAction(
+			Sprite sprite, Formula variableFormula, UserVariable userVariable, boolean deleteFile) {
+		ReadVariableFromFileAction action = Actions.action(ReadVariableFromFileAction.class);
+		action.setSprite(sprite);
+		action.setUserVariable(userVariable);
+		action.setFormula(variableFormula);
+		action.setDeleteFile(deleteFile);
 
 		return action;
 	}
