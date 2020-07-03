@@ -26,9 +26,9 @@ package org.catrobat.catroid
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import org.catrobat.catroid.common.Constants.JSON_INDENTATION
-import org.catrobat.catroid.common.Constants.URL_WHITELIST_JSON_FILE_NAME
-import org.catrobat.catroid.common.Constants.USER_WHITELIST_FILE
-import org.catrobat.catroid.common.Constants.WHITELIST_JSON_ARRAY_NAME
+import org.catrobat.catroid.common.Constants.TRUSTED_DOMAINS_FILE_NAME
+import org.catrobat.catroid.common.Constants.TRUSTED_USER_DOMAINS_FILE
+import org.catrobat.catroid.common.Constants.TRUST_LIST_JSON_ARRAY_NAME
 import org.catrobat.catroid.utils.Utils
 import org.json.JSONArray
 import org.json.JSONException
@@ -36,39 +36,39 @@ import org.json.JSONObject
 import java.io.IOException
 import java.util.regex.Pattern
 
-object WhiteListManager {
-    private val TAG = WhiteListManager::class.java.simpleName
-    private const val READ_ERROR_LOG = "Cannot read whitelist"
-    private const val PARSE_ERROR_LOG = "Cannot parse whitelist"
+object TrustedDomainManager {
+    private val TAG = TrustedDomainManager::class.java.simpleName
+    private const val READ_ERROR_LOG = "Cannot read trusted domains"
+    private const val PARSE_ERROR_LOG = "Cannot parse trusted domains"
 
-    private val urlWhitelistPattern: Pattern? by lazy {
-        initializeURLWhitelistPattern()
+    private val trustListPattern: Pattern? by lazy {
+        initializeTrustListPattern()
     }
-    var userWhiteListPattern: Pattern? = null
+    var userTrustListPattern: Pattern? = null
 
     @Synchronized
-    fun checkIfURLIsWhitelisted(url: String): Boolean {
-        if (userWhiteListPattern == null) {
-            userWhiteListPattern = initializeUserWhitelistPattern()
+    fun isURLTrusted(url: String): Boolean {
+        if (userTrustListPattern == null) {
+            userTrustListPattern = initializeUserTrustListPattern()
         }
-        return urlWhitelistPattern?.matcher(url)?.matches() ?: false ||
-            userWhiteListPattern?.matcher(url)?.matches() ?: false
+        return trustListPattern?.matcher(url)?.matches() ?: false ||
+            userTrustListPattern?.matcher(url)?.matches() ?: false
     }
 
-    fun addToUserWhitelist(domain: String): Boolean {
+    fun addToUserTrustList(domain: String): Boolean {
         try {
             val domains = when {
-                USER_WHITELIST_FILE.exists() ->
-                    USER_WHITELIST_FILE.inputStream().use {
-                        val whiteList = Utils.getJsonObjectFromInputStream(it)
-                        whiteList.getJSONArray(WHITELIST_JSON_ARRAY_NAME).put(cleanUpUserInput(domain))
+                TRUSTED_USER_DOMAINS_FILE.exists() ->
+                    TRUSTED_USER_DOMAINS_FILE.inputStream().use {
+                        val trustList = Utils.getJsonObjectFromInputStream(it)
+                        trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME).put(cleanUpUserInput(domain))
                 }
-                USER_WHITELIST_FILE.createNewFile() -> JSONArray(listOf(cleanUpUserInput(domain)))
+                TRUSTED_USER_DOMAINS_FILE.createNewFile() -> JSONArray(listOf(cleanUpUserInput(domain)))
                 else -> return false
             }
-            userWhiteListPattern = getWhiteListPatternFromDomains(domains)
-            val whiteList = JSONObject(mapOf(WHITELIST_JSON_ARRAY_NAME to domains))
-            USER_WHITELIST_FILE.writeText(whiteList.toString(JSON_INDENTATION))
+            userTrustListPattern = getTrustListPatternFromDomains(domains)
+            val trustList = JSONObject(mapOf(TRUST_LIST_JSON_ARRAY_NAME to domains))
+            TRUSTED_USER_DOMAINS_FILE.writeText(trustList.toString(JSON_INDENTATION))
             return true
         } catch (e: IOException) {
             Log.e(TAG, READ_ERROR_LOG, e)
@@ -79,12 +79,12 @@ object WhiteListManager {
         }
     }
 
-    fun getUserWhiteList(): String {
+    fun getUserTrustList(): String {
         return try {
-            if (USER_WHITELIST_FILE.exists()) {
-                USER_WHITELIST_FILE.inputStream().use {
-                    val whiteList = Utils.getJsonObjectFromInputStream(it)
-                    val domains = whiteList.getJSONArray(WHITELIST_JSON_ARRAY_NAME)
+            if (TRUSTED_USER_DOMAINS_FILE.exists()) {
+                TRUSTED_USER_DOMAINS_FILE.inputStream().use {
+                    val trustList = Utils.getJsonObjectFromInputStream(it)
+                    val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
                     cleanUpUserInput(domains.join("\n"))
                 }
             } else ""
@@ -97,15 +97,15 @@ object WhiteListManager {
         }
     }
 
-    fun setUserWhiteList(domains: String): Boolean {
+    fun setUserTrustList(domains: String): Boolean {
         try {
             return when {
-                domains.isBlank() -> resetUserWhiteList()
-                USER_WHITELIST_FILE.exists() || USER_WHITELIST_FILE.createNewFile() -> {
+                domains.isBlank() -> resetUserTrustList()
+                TRUSTED_USER_DOMAINS_FILE.exists() || TRUSTED_USER_DOMAINS_FILE.createNewFile() -> {
                     val jsonArray = JSONArray(cleanUpUserInput(domains).split("\n"))
-                    userWhiteListPattern = getWhiteListPatternFromDomains(jsonArray)
-                    val whiteList = JSONObject(mapOf(WHITELIST_JSON_ARRAY_NAME to jsonArray))
-                    USER_WHITELIST_FILE.writeText(whiteList.toString(JSON_INDENTATION))
+                    userTrustListPattern = getTrustListPatternFromDomains(jsonArray)
+                    val trustList = JSONObject(mapOf(TRUST_LIST_JSON_ARRAY_NAME to jsonArray))
+                    TRUSTED_USER_DOMAINS_FILE.writeText(trustList.toString(JSON_INDENTATION))
                     true
                 }
                 else -> false
@@ -119,15 +119,15 @@ object WhiteListManager {
         }
     }
 
-    private fun initializeURLWhitelistPattern(): Pattern? {
+    private fun initializeTrustListPattern(): Pattern? {
         try {
             Utils.getInputStreamFromAsset(
                 CatroidApplication.getAppContext(),
-                URL_WHITELIST_JSON_FILE_NAME
+                TRUSTED_DOMAINS_FILE_NAME
             ).use {
-                val whiteList = Utils.getJsonObjectFromInputStream(it)
-                val domains = whiteList.getJSONArray(WHITELIST_JSON_ARRAY_NAME)
-                return getWhiteListPatternFromDomains(domains)
+                val trustList = Utils.getJsonObjectFromInputStream(it)
+                val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
+                return getTrustListPatternFromDomains(domains)
             }
         } catch (e: IOException) {
             Log.e(TAG, READ_ERROR_LOG, e)
@@ -138,15 +138,15 @@ object WhiteListManager {
         }
     }
 
-    private fun initializeUserWhitelistPattern(): Pattern? {
+    private fun initializeUserTrustListPattern(): Pattern? {
         try {
-            if (!USER_WHITELIST_FILE.exists()) {
+            if (!TRUSTED_USER_DOMAINS_FILE.exists()) {
                 return null
             }
-            USER_WHITELIST_FILE.inputStream().use {
-                val whiteList = Utils.getJsonObjectFromInputStream(it)
-                val domains = whiteList.getJSONArray(WHITELIST_JSON_ARRAY_NAME)
-                return getWhiteListPatternFromDomains(domains)
+            TRUSTED_USER_DOMAINS_FILE.inputStream().use {
+                val trustList = Utils.getJsonObjectFromInputStream(it)
+                val domains = trustList.getJSONArray(TRUST_LIST_JSON_ARRAY_NAME)
+                return getTrustListPatternFromDomains(domains)
             }
         } catch (e: IOException) {
             Log.e(TAG, READ_ERROR_LOG, e)
@@ -157,7 +157,7 @@ object WhiteListManager {
         }
     }
 
-    private fun getWhiteListPatternFromDomains(domains: JSONArray): Pattern {
+    private fun getTrustListPatternFromDomains(domains: JSONArray): Pattern {
         val trustedDomains = StringBuilder("(")
         for (i in 0 until domains.length()) {
             trustedDomains.append(domains.getString(i))
@@ -178,8 +178,8 @@ object WhiteListManager {
         string.replace("[ \"{}\\[\\]]|(\\n){2,}".toRegex(), "").removeSuffix("\n")
 
     @VisibleForTesting
-    fun resetUserWhiteList(): Boolean {
-        userWhiteListPattern = null
-        return USER_WHITELIST_FILE.delete()
+    fun resetUserTrustList(): Boolean {
+        userTrustListPattern = null
+        return TRUSTED_USER_DOMAINS_FILE.delete()
     }
 }

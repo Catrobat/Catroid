@@ -26,7 +26,7 @@ import android.util.Log
 import androidx.annotation.CallSuper
 import com.badlogic.gdx.scenes.scene2d.Action
 import okhttp3.Response
-import org.catrobat.catroid.WhiteListManager
+import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
@@ -117,7 +117,7 @@ abstract class WebAction : Action(), WebRequestListener {
     }
 
     private fun checkPermission() =
-        if (WhiteListManager.checkIfURLIsWhitelisted(url!!)) {
+        if (TrustedDomainManager.isURLTrusted(url!!)) {
             grantPermission()
         } else {
             askForPermission()

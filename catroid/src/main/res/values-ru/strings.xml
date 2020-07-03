@@ -1300,8 +1300,8 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Разрешить веб-доступ?</string>
-    <string name="brick_web_request_warning_message">Будьте очень осторожны, прежде чем разрешить доступ, так как ссылка может быть вредоносной!!!
+    <string name="web_request_warning_title">Разрешить веб-доступ?</string>
+    <string name="web_request_warning_message">Будьте очень осторожны, прежде чем разрешить доступ, так как ссылка может быть вредоносной!!!
 Для получения дополнительной информации переходите сюда: &lt;a href=%1s&gt;wiki&lt;/a&gt; </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1309,8 +1309,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

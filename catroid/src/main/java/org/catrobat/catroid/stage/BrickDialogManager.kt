@@ -37,7 +37,7 @@ import androidx.core.text.HtmlCompat
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.BuildConfig
 import org.catrobat.catroid.R
-import org.catrobat.catroid.WhiteListManager
+import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.actions.AskAction
 import org.catrobat.catroid.content.actions.WebAction
@@ -101,14 +101,14 @@ class BrickDialogManager(val stageActivity: StageActivity) :
 
         view.findViewById<TextView>(R.id.request_warning).apply {
             text = HtmlCompat.fromHtml(
-                stageActivity.getString(R.string.brick_web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL),
+                stageActivity.getString(R.string.web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL),
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
             movementMethod = LinkMovementMethod.getInstance()
         }
 
         return AlertDialog.Builder(ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-            .setTitle(stageActivity.getString(R.string.brick_web_request_warning_title))
+            .setTitle(stageActivity.getString(R.string.web_request_warning_title))
             .setCancelable(false)
             .setView(view)
             .setOnKeyListener(this)
@@ -117,7 +117,7 @@ class BrickDialogManager(val stageActivity: StageActivity) :
                 webAction.grantPermission()
             }
             .setNeutralButton(stageActivity.getString(R.string.always)) { dialog, _ ->
-                openDialog(createWhitelistDialog(webAction, url, dialog as Dialog))
+                openDialog(createTrustDomainDialog(webAction, url, dialog as Dialog))
             }
             .setNegativeButton(stageActivity.getString(R.string.deny)) { _, _ ->
                 webAction.denyPermission()
@@ -125,18 +125,18 @@ class BrickDialogManager(val stageActivity: StageActivity) :
             .create()
     }
 
-    private fun createWhitelistDialog(webAction: WebAction, url: String, webAccessDialog: Dialog): Dialog {
+    private fun createTrustDomainDialog(webAction: WebAction, url: String, webAccessDialog: Dialog): Dialog {
         val domain = URI(url).host.removePrefix("www.")
         val view = LayoutInflater.from(stageActivity).inflate(R.layout.dialog_web_access, null)
         view.findViewById<TextView>(R.id.request_url).text = domain
 
         val warningMessage = StringBuilder()
-            .append(stageActivity.getString(R.string.brick_web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL))
+            .append(stageActivity.getString(R.string.web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL))
             .append("<br><br>")
-            .append(stageActivity.getString(R.string.brick_web_request_whitelist_warning_message))
+            .append(stageActivity.getString(R.string.web_request_trust_domain_warning_message))
 
         if (!BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
-            warningMessage.append(" ").append(stageActivity.getString(R.string.brick_web_request_whitelist_edit_hint))
+            warningMessage.append(" ").append(stageActivity.getString(R.string.trusted_domains_edit_hint))
         }
 
         view.findViewById<TextView>(R.id.request_warning).apply {
@@ -145,13 +145,13 @@ class BrickDialogManager(val stageActivity: StageActivity) :
         }
 
         return AlertDialog.Builder(ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
-            .setTitle(stageActivity.getString(R.string.brick_web_request_whitelist_warning_title))
+            .setTitle(stageActivity.getString(R.string.web_request_trust_domain_warning_title))
             .setCancelable(false)
             .setView(view)
             .setOnKeyListener(this)
             .setOnDismissListener(this)
             .setPositiveButton(stageActivity.getString(R.string.always)) { _, _ ->
-                WhiteListManager.addToUserWhitelist(domain)
+                TrustedDomainManager.addToUserTrustList(domain)
                 webAction.grantPermission()
             }
             .setNeutralButton(stageActivity.getString(R.string.cancel)) { _, _ ->

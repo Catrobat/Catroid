@@ -113,8 +113,8 @@
     <string name="preference_description_language">Set the app\'s language</string>
 
     <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or revoke whitelisted domains</string>
-    <string name="preference_screen_web_access_title">Edit web access whitelist</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
 
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
@@ -1296,19 +1296,19 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s>wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
     </string>
-    <string name="brick_web_request_whitelist_warning_title">Always allow web access?</string>
-    <string name="brick_web_request_whitelist_warning_message">By always allowing access, you will
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
         not be asked again to confirm web addresses from this domain.
     </string>
-    <string name="brick_web_request_whitelist_edit_hint">If you want to revoke this permission
-        later, you can remove the domain from the whitelist in
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
         the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
@@ -1317,8 +1317,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
 
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>

@@ -83,11 +83,11 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
-	// Whitelist File
-	public static final String URL_WHITELIST_JSON_FILE_NAME = "urlWhitelist.json";
-	public static final String USER_WHITELIST_JSON_FILE_NAME = "userWhitelist.json";
-	public static final String WHITELIST_JSON_ARRAY_NAME = "domains";
-	public static final File USER_WHITELIST_FILE = new File(DEFAULT_ROOT_DIRECTORY, USER_WHITELIST_JSON_FILE_NAME);
+	// Trusted domains
+	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";
+	public static final String TRUSTED_USER_DOMAINS_FILE_NAME = "trustedUserDomains.json";
+	public static final String TRUST_LIST_JSON_ARRAY_NAME = "domains";
+	public static final File TRUSTED_USER_DOMAINS_FILE = new File(DEFAULT_ROOT_DIRECTORY, TRUSTED_USER_DOMAINS_FILE_NAME);
 	public static final int JSON_INDENTATION = 4;
 
 	// Temporary Files and Directories:

@@ -24,11 +24,11 @@ package org.catrobat.catroid.test.utiltests
 
 import android.content.Context
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.WhiteListManager
-import org.catrobat.catroid.WhiteListManager.addToUserWhitelist
-import org.catrobat.catroid.WhiteListManager.checkIfURLIsWhitelisted
-import org.catrobat.catroid.WhiteListManager.getUserWhiteList
-import org.catrobat.catroid.WhiteListManager.setUserWhiteList
+import org.catrobat.catroid.TrustedDomainManager
+import org.catrobat.catroid.TrustedDomainManager.addToUserTrustList
+import org.catrobat.catroid.TrustedDomainManager.getUserTrustList
+import org.catrobat.catroid.TrustedDomainManager.isURLTrusted
+import org.catrobat.catroid.TrustedDomainManager.setUserTrustList
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.utils.Utils
@@ -54,7 +54,7 @@ import java.io.InputStream
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(Utils::class, CatroidApplication::class, Constants::class, FlavoredConstants::class)
-class UserWhiteListTest {
+class TrustedUserDomainsTest {
     @Before
     fun setUp() {
         mockStatic(Utils::class.java)
@@ -72,52 +72,52 @@ class UserWhiteListTest {
     }
 
     @Test
-    fun testEmptyWhiteList() {
-        assertFalse(checkIfURLIsWhitelisted("https://www.tugraz.at"))
-        assertFalse(checkIfURLIsWhitelisted("https://www.wikipedia.net/blabla"))
-        assertFalse(checkIfURLIsWhitelisted("https://www.darknet.com/"))
+    fun testEmptyTrustList() {
+        assertFalse(isURLTrusted("https://www.tugraz.at"))
+        assertFalse(isURLTrusted("https://www.wikipedia.net/blabla"))
+        assertFalse(isURLTrusted("https://www.darknet.com/"))
     }
 
     @Test
-    fun testSetUserWhitelist() {
-        assertTrue(setUserWhiteList("tugraz.at\nwikipedia.net"))
-        assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.at"))
-        assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.net/blabla"))
-        assertFalse(checkIfURLIsWhitelisted("https://www.darknet.com/"))
+    fun testSetUserTrustList() {
+        assertTrue(setUserTrustList("tugraz.at\nwikipedia.net"))
+        assertTrue(isURLTrusted("https://www.tugraz.at"))
+        assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
+        assertFalse(isURLTrusted("https://www.darknet.com/"))
     }
 
     @Test
     fun testWhitespaces() {
-        assertTrue(setUserWhiteList(" t ugra z.a t   \n wik iped ia.net   "))
-        assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.at"))
-        assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.net/blabla"))
-        assertFalse(checkIfURLIsWhitelisted("https://www.darknet.com/"))
+        assertTrue(setUserTrustList(" t ugra z.a t   \n wik iped ia.net   "))
+        assertTrue(isURLTrusted("https://www.tugraz.at"))
+        assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
+        assertFalse(isURLTrusted("https://www.darknet.com/"))
     }
 
     @Test
-    fun testAddToUserWhitelist() {
-        Constants.USER_WHITELIST_FILE.createNewFile()
+    fun testAddToUserTrustList() {
+        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
         given(Utils.getJsonObjectFromInputStream(any()))
-            .willReturn(constructWhitelist(listOf("tugraz.at")))
-        addToUserWhitelist("wikipedia.net")
-        assertTrue(checkIfURLIsWhitelisted("https://www.tugraz.at"))
-        assertTrue(checkIfURLIsWhitelisted("https://www.wikipedia.net/blabla"))
-        assertFalse(checkIfURLIsWhitelisted("https://www.darknet.com/"))
+            .willReturn(constructTrustList(listOf("tugraz.at")))
+        addToUserTrustList("wikipedia.net")
+        assertTrue(isURLTrusted("https://www.tugraz.at"))
+        assertTrue(isURLTrusted("https://www.wikipedia.net/blabla"))
+        assertFalse(isURLTrusted("https://www.darknet.com/"))
     }
 
     @Test
-    fun testGetUserWhitelist() {
-        Constants.USER_WHITELIST_FILE.createNewFile()
+    fun testGetUserTrustList() {
+        Constants.TRUSTED_USER_DOMAINS_FILE.createNewFile()
         given(Utils.getJsonObjectFromInputStream(any()))
-            .willReturn(constructWhitelist(listOf("tugraz.at", "wikipedia.net")))
-        assertEquals("tugraz.at\nwikipedia.net", getUserWhiteList())
+            .willReturn(constructTrustList(listOf("tugraz.at", "wikipedia.net")))
+        assertEquals("tugraz.at\nwikipedia.net", getUserTrustList())
     }
 
     @After
     fun tearDown() {
-        WhiteListManager.resetUserWhiteList()
+        TrustedDomainManager.resetUserTrustList()
     }
 
-    private fun constructWhitelist(domains: List<String>): JSONObject =
-        JSONObject(mapOf(Constants.WHITELIST_JSON_ARRAY_NAME to JSONArray(domains)))
+    private fun constructTrustList(domains: List<String>): JSONObject =
+        JSONObject(mapOf(Constants.TRUST_LIST_JSON_ARRAY_NAME to JSONArray(domains)))
 }

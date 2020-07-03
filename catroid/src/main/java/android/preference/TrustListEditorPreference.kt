@@ -35,10 +35,10 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat.startActivity
 import org.catrobat.catroid.R
-import org.catrobat.catroid.WhiteListManager
+import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 
-class WhiteListEditorPreference(context: Context, attrs: AttributeSet) : EditTextPreference(context, attrs) {
+class TrustListEditorPreference(context: Context, attrs: AttributeSet) : EditTextPreference(context, attrs) {
     private val neutralButtonText = context.getString(R.string.brick_context_dialog_help)
 
     init {
@@ -53,7 +53,7 @@ class WhiteListEditorPreference(context: Context, attrs: AttributeSet) : EditTex
             .setIcon(dialogIcon)
             .setPositiveButton(positiveButtonText) { _, _ ->
                 text = editText.text.toString()
-                WhiteListManager.setUserWhiteList(text)
+                TrustedDomainManager.setUserTrustList(text)
             }
             .setNeutralButton(neutralButtonText, null)
             .setNegativeButton(negativeButtonText, this)
@@ -83,7 +83,7 @@ class WhiteListEditorPreference(context: Context, attrs: AttributeSet) : EditTex
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
-        text = WhiteListManager.getUserWhiteList()
+        text = TrustedDomainManager.getUserTrustList()
         editText.setText(text)
         editText.setSelection(text.length)
         val oldParent = editText.parent
