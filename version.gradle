@@ -21,28 +21,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-apply from:'version.gradle'
+ext {
+    CatroidBuild = [
+            minSdkVersion : 21,
+            compileSdkVersion : 28,
+            targetSdkVersion : 28,
+            versionCode : 78,
+            versionName : "0.9.73",
+    ]
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
+    projectVersion = "0.9"
+    gdxVersion = "1.9.10"
+    mockitoVersion = "2.8.47"
+    paintroidVersion = "2.5.0"
+    playServicesVersion = "17.0.0"
+    cameraXVersion = "1.0.0-beta06"
 
-    dependencies {
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-        classpath 'com.android.tools.build:gradle:3.5.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.60"
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
-        classpath 'org.catrobat.gradle.androidemulators:android-emulators-gradle:1.6.2'
-    }
-}
+    kotlinVersion = '1.3.60'
+    junitVersion = '4.12'
+    espressoVersion = '3.1.0'
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-    }
+    // Android X
+    androidxAppcompatVersion = '1.1.0'
+    androidxExtJunitVersion = '1.1.1'
+
 }
