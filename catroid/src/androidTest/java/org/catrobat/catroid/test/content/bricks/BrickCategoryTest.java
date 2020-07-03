@@ -74,6 +74,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -311,6 +312,7 @@ public class BrickCategoryTest {
 						WaitUntilBrick.class,
 						RepeatBrick.class,
 						RepeatUntilBrick.class,
+						ForVariableFromToBrick.class,
 						SceneTransitionBrick.class,
 						SceneStartBrick.class,
 						StopScriptBrick.class,

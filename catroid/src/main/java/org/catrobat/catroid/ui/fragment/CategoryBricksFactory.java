@@ -83,6 +83,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -333,6 +334,8 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WaitUntilBrick(ifConditionFormula));
 		controlBrickList.add(new RepeatBrick(new Formula(BrickValues.REPEAT)));
 		controlBrickList.add(new RepeatUntilBrick(ifConditionFormula));
+		controlBrickList.add(new ForVariableFromToBrick(new Formula(BrickValues.FOR_LOOP_FROM),
+				new Formula(BrickValues.FOR_LOOP_TO)));
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
