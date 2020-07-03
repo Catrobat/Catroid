@@ -52,7 +52,7 @@ task standalonePreparation() {
      */
     if (project.hasProperty('download')) {
         project.ext.projectId = project['suffix']
-        project.ext.appId += '.' + project['suffix']
+        project.CatroidBuild.appId += '.' + project['suffix']
         project.ext.manifestAppIcon = '@drawable/icon'
         project.ext.appZipFile = new File(makeAppsCache().absolutePath + '/' + project.ext.projectId + '.zip')
 
