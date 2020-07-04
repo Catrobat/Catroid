@@ -49,7 +49,6 @@ import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -344,12 +343,10 @@ public final class Utils {
 		return messageDigest;
 	}
 
-	@NotNull
 	public static InputStream getInputStreamFromAsset(Context context, String filename) throws IOException, NullPointerException {
 		return context.getAssets().open(filename, AssetManager.ACCESS_BUFFER);
 	}
 
-	@NotNull
 	public static JSONObject getJsonObjectFromInputStream(InputStream stream) throws JSONException {
 		return new JSONObject(new Scanner(stream).useDelimiter("\\A").next());
 	}

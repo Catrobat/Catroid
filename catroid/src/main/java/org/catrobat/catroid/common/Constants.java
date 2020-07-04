@@ -35,6 +35,7 @@ import java.util.Calendar;
 import androidx.annotation.IntDef;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Constants {
 
@@ -82,9 +83,12 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
-	// Whitelist File
-	public static final String URL_WHITELIST_JSON_FILE_NAME = "URL_whitelist.json";
-	public static final String URL_WHITELIST_JSON_ARRAY_NAME = "domains";
+	// Trusted domains
+	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";
+	public static final String TRUSTED_USER_DOMAINS_FILE_NAME = "trustedUserDomains.json";
+	public static final String TRUST_LIST_JSON_ARRAY_NAME = "domains";
+	public static final File TRUSTED_USER_DOMAINS_FILE = new File(DEFAULT_ROOT_DIRECTORY, TRUSTED_USER_DOMAINS_FILE_NAME);
+	public static final int JSON_INDENTATION = 4;
 
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();

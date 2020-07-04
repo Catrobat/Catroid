@@ -28,6 +28,7 @@ import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.stage.BrickDialogManager
 import org.catrobat.catroid.stage.StageActivity
 
 class AskAction : Action() {
@@ -48,10 +49,8 @@ class AskAction : Action() {
             )
         }
 
-        val params = arrayListOf<Any>(this, question)
-        val message =
-            StageActivity.messageHandler.obtainMessage(StageActivity.ASK_MESSAGE, params)
-        message.sendToTarget()
+        val params = arrayListOf(BrickDialogManager.DialogType.ASK_DIALOG, this, question)
+        StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_DIALOG, params).sendToTarget()
         questionAsked = true
     }
 

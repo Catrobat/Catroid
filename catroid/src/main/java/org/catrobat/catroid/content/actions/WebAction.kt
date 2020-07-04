@@ -26,16 +26,16 @@ import android.util.Log
 import androidx.annotation.CallSuper
 import com.badlogic.gdx.scenes.scene2d.Action
 import okhttp3.Response
-import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
+import org.catrobat.catroid.stage.BrickDialogManager
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageActivity.stageListener
 import org.catrobat.catroid.web.WebConnection
 import org.catrobat.catroid.web.WebConnection.WebRequestListener
-import java.util.ArrayList
 
 abstract class WebAction : Action(), WebRequestListener {
     private var webConnection: WebConnection? = null
@@ -72,8 +72,8 @@ abstract class WebAction : Action(), WebRequestListener {
             denyPermission()
         } else {
             permissionStatus = PermissionStatus.PENDING
-            val params = ArrayList<Any>(listOf(this, url))
-            StageActivity.messageHandler.obtainMessage(StageActivity.REQUEST_PERMISSION, params).sendToTarget()
+            val params = arrayListOf(BrickDialogManager.DialogType.WEB_ACCESS_DIALOG, this, url!!)
+            StageActivity.messageHandler.obtainMessage(StageActivity.SHOW_DIALOG, params).sendToTarget()
         }
     }
 
@@ -117,7 +117,7 @@ abstract class WebAction : Action(), WebRequestListener {
     }
 
     private fun checkPermission() =
-        if (ProjectManager.checkIfURLIsWhitelisted(url)) {
+        if (TrustedDomainManager.isURLTrusted(url!!)) {
             grantPermission()
         } else {
             askForPermission()

@@ -23,7 +23,6 @@
 package org.catrobat.catroid.stage;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.nfc.NdefMessage;
@@ -34,36 +33,25 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.speech.RecognizerIntent;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.ContextThemeWrapper;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.AndroidGraphics;
+import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.AskAction;
-import org.catrobat.catroid.content.actions.WebAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
@@ -102,19 +90,17 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	public static final int REQUEST_START_STAGE = 101;
 
-	public static final int ASK_MESSAGE = 0;
-	public static final int REGISTER_INTENT = 1;
-	private static final int PERFORM_INTENT = 2;
-	public static final int REQUEST_PERMISSION = 3;
-	public static final int SHOW_TOAST = 4;
+	public static final int REGISTER_INTENT = 0;
+	private static final int PERFORM_INTENT = 1;
+	public static final int SHOW_DIALOG = 2;
+	public static final int SHOW_TOAST = 3;
 
 	StageAudioFocus stageAudioFocus;
 	PendingIntent pendingIntent;
 	NfcAdapter nfcAdapter;
 	private static NdefMessage nfcTagMessage;
 	StageDialog stageDialog;
-	private AlertDialog askDialog;
-	private AlertDialog permissionDialog;
+	BrickDialogManager brickDialogManager;
 	private boolean resizePossible;
 
 	static int numberOfSpritesCloned;
@@ -157,12 +143,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		if (ProjectManager.getInstance().getCurrentProject() != null) {
 			StageLifeCycleController.stageDestroy(this);
 		}
-		if (askDialog != null) {
-			askDialog.dismiss();
-		}
-		if (permissionDialog != null) {
-			permissionDialog.dismiss();
-		}
 		super.onDestroy();
 	}
 
@@ -178,101 +158,32 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 				List<Object> params = (ArrayList<Object>) message.obj;
 
 				switch (message.what) {
-					case ASK_MESSAGE:
-						showDialog((String) params.get(1), (AskAction) params.get(0));
-						break;
-					case REQUEST_PERMISSION:
-						askUserForPermission((String) params.get(1), (WebAction) params.get(0));
-						break;
 					case REGISTER_INTENT:
 						currentStage.queueIntent((IntentListener) params.get(0));
 						break;
 					case PERFORM_INTENT:
 						currentStage.startQueuedIntent((Integer) params.get(0));
 						break;
+					case SHOW_DIALOG:
+						brickDialogManager.showDialog((BrickDialogManager.DialogType) params.get(0),
+								(Action) params.get(1), (String) params.get(2));
+						break;
 					case SHOW_TOAST:
 						showToastMessage((String) params.get(0));
 						break;
 					default:
 						Log.e(TAG, "Unhandled message in messagehandler, case " + message.what);
-						break;
 				}
 			}
 		};
 	}
 
-	private void showDialog(String question, final AskAction askAction) {
-		StageLifeCycleController.stagePause(this);
-
-		final EditText edittext = new EditText(getContext());
-
-		askDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
-			.setView(edittext)
-			.setMessage(getContext().getString(R.string.brick_ask_dialog_hint))
-			.setTitle(question)
-			.setCancelable(false)
-			.setOnKeyListener((dialog, keyCode, event) -> {
-				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					onBackPressed();
-					return true;
-				}
-				return false;
-			})
-			.setPositiveButton(getContext().getString(R.string.brick_ask_dialog_submit), (dialog, whichButton) -> {
-				String questionAnswer = edittext.getText().toString();
-				askAction.setAnswerText(questionAnswer);
-			})
-			.setOnDismissListener(dialog -> {
-				askDialog = null;
-				StageLifeCycleController.stageResume(this);
-			})
-			.create();
-
-		if (askDialog.getWindow() != null) {
-			askDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-		}
-		askDialog.show();
+	public boolean dialogIsShowing() {
+		return (stageDialog.isShowing() || brickDialogManager.dialogIsShowing());
 	}
 
 	private void showToastMessage(String message) {
 		ToastUtil.showError(this, message);
-	}
-
-	private void askUserForPermission(String url, final WebAction webAction) {
-		StageLifeCycleController.stagePause(this);
-
-		final View view = LayoutInflater.from(this).inflate(R.layout.dialog_request_permission, null);
-		final TextView urlView = view.findViewById(R.id.request_url);
-		urlView.setText(url);
-		final TextView warningView = view.findViewById(R.id.request_warning);
-		warningView.setText(Html.fromHtml(
-				getString(R.string.brick_web_request_warning_message, Constants.WEB_REQUEST_WIKI_URL)));
-		warningView.setMovementMethod(LinkMovementMethod.getInstance());
-
-		permissionDialog = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.Theme_AppCompat_Dialog))
-			.setTitle(getContext().getString(R.string.brick_web_request_warning_title))
-			.setCancelable(false)
-			.setView(view)
-			.setOnKeyListener((dialog, keyCode, event) -> {
-				if (keyCode == KeyEvent.KEYCODE_BACK) {
-					onBackPressed();
-					return true;
-				}
-				return false;
-			})
-			.setPositiveButton(getContext().getString(R.string.yes), (dialog, whichButton) -> webAction.grantPermission())
-			.setNegativeButton(getContext().getString(R.string.no), (dialog, whichButton) -> webAction.denyPermission())
-			.setOnDismissListener(dialog -> {
-				permissionDialog = null;
-				StageLifeCycleController.stageResume(this);
-			})
-			.create();
-
-		permissionDialog.show();
-	}
-
-	public boolean dialogIsShowing() {
-		return (stageDialog.isShowing() || askDialog != null || permissionDialog != null);
 	}
 
 	@Override
@@ -358,7 +269,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 		if (virtualScreenHeight > virtualScreenWidth && isInLandscapeMode()
 				|| virtualScreenHeight < virtualScreenWidth && isInPortraitMode()) {
-			swapWidthAndHeigth();
+			swapWidthAndHeight();
 		}
 
 		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
@@ -399,7 +310,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		return !isInPortraitMode();
 	}
 
-	private void swapWidthAndHeigth() {
+	private void swapWidthAndHeight() {
 		int tmp = ScreenValues.SCREEN_HEIGHT;
 		ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
 		ScreenValues.SCREEN_WIDTH = tmp;

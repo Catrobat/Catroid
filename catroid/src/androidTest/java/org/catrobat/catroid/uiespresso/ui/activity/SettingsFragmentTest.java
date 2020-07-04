@@ -23,14 +23,20 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SettingsActivity;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -46,6 +52,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
@@ -76,7 +84,12 @@ import static org.hamcrest.core.Is.is;
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
@@ -97,6 +110,7 @@ public class SettingsFragmentTest {
 			SETTINGS_SHOW_RASPI_BRICKS, SETTINGS_MULTIPLAYER_VARIABLES_ENABLED,
 			SETTINGS_CAST_GLOBALLY_ENABLED));
 	private Map<String, Boolean> initialSettings = new HashMap<>();
+	private Matcher<Intent> expectedBrowserIntent;
 
 	@Before
 	public void setUp() throws Exception {
@@ -108,6 +122,14 @@ public class SettingsFragmentTest {
 		}
 		setAllSettingsTo(true);
 		baseActivityTestRule.launchActivity(null);
+
+		Intents.init();
+		expectedBrowserIntent = allOf(
+				hasAction(Intent.ACTION_VIEW),
+				hasData(Uri.parse(Constants.WEB_REQUEST_WIKI_URL)));
+
+		intending(expectedBrowserIntent).respondWith(
+				new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
 	}
 
 	private void setAllSettingsTo(boolean value) {
@@ -131,6 +153,7 @@ public class SettingsFragmentTest {
 		sharedPreferencesEditor.putInt(ACCESSIBILITY_PROFILE_PREFERENCE_KEY, R.id.default_profile);
 		sharedPreferencesEditor.commit();
 		initialSettings.clear();
+		Intents.release();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -196,6 +219,7 @@ public class SettingsFragmentTest {
 		checkPreference(R.string.preference_title_enable_jumpingsumo_bricks, PARROT_JUMPING_SUMO_SCREEN_KEY);
 	}
 
+	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Gadgets.class})
 	@Test
 	public void rasPiSettingsTest() {
 		onData(PreferenceMatchers.withTitle(R.string.preference_title_enable_raspi_bricks))
@@ -232,6 +256,24 @@ public class SettingsFragmentTest {
 		}
 		onView(withId(android.R.id.button2))
 				.check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void webAccessSettingTest() {
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_web_access)).perform(click());
+		onView(withText(R.string.preference_screen_web_access_title)).check(matches(isDisplayed()));
+
+		onView(withId(android.R.id.edit)).perform(typeText("domain.net"));
+		onView(withId(android.R.id.button2)).perform(click());
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_web_access)).perform(click());
+		onView(withId(android.R.id.button1)).perform(click());
+
+		onData(PreferenceMatchers.withTitle(R.string.preference_title_web_access)).perform(click());
+		ViewActions.closeSoftKeyboard();
+		onView(withId(android.R.id.button3)).perform(click());
+		intended(expectedBrowserIntent);
 	}
 
 	private void checkPreference(int displayedTitleResourceString, String sharedPreferenceTag) {
