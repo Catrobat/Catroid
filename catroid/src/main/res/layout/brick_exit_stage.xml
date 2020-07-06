@@ -35,15 +35,17 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_finish_stage_layout"
-        style="@style/BrickContainer.Test.Small">
-
-        <include layout="@layout/icon_brick_category_look" />
+        android:id="@+id/brick_exit_stage_layout"
+        style="@style/BrickContainer.Control.Small"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/brick_finish_stage_label"
+            android:id="@+id/brick_exit_stage_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_finish_tests" />
+            android:text="@string/brick_finish_stage" />
+
+        <include layout="@layout/icon_brick_category_look" />
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

@@ -20,22 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.actions;
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.TestResult
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+class FinishStageAction : TemporalAction() {
+    var silent: Boolean = false
 
-import org.catrobat.catroid.stage.StageActivity;
-import org.catrobat.catroid.stage.TestResult;
+    override fun update(percent: Float) {
+        if (silent) {
+            StageActivity.finishStage()
+        } else {
+            StageActivity.finishTestWithResult(
+                TestResult(SUCCESS_MESSAGE, TestResult.STAGE_ACTIVITY_TEST_SUCCESS)
+            )
+        }
+    }
 
-import static org.catrobat.catroid.stage.TestResult.STAGE_ACTIVITY_TEST_SUCCESS;
-
-public class FinishStageAction extends TemporalAction {
-
-	private static final String SUCCESS_MESSAGE = "Success";
-
-	@Override
-	protected void update(float percent) {
-		StageActivity.finishTestWithResult(new TestResult(SUCCESS_MESSAGE, STAGE_ACTIVITY_TEST_SUCCESS));
-	}
+    companion object {
+        private const val SUCCESS_MESSAGE = "Success"
+    }
 }

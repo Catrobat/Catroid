@@ -72,6 +72,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
@@ -315,6 +316,7 @@ public class BrickCategoryTest {
 						ForVariableFromToBrick.class,
 						SceneTransitionBrick.class,
 						SceneStartBrick.class,
+						ExitStageBrick.class,
 						StopScriptBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,

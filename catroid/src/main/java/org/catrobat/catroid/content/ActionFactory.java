@@ -1310,8 +1310,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createFinishStageAction() {
+	public Action createFinishStageAction(boolean silent) {
 		FinishStageAction action = action(FinishStageAction.class);
+		action.setSilent(silent);
 		return action;
 	}
 
