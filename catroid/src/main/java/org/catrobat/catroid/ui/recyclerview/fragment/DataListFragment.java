@@ -320,9 +320,9 @@ public class DataListFragment extends Fragment implements
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(getResources().getQuantityString(R.plurals.am_delete_user_data_items_title,
-				selectedItemCnt,
-				selectedItemCnt));
+		if (actionModeType == DELETE) {
+			actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
+		}
 	}
 
 	@Override

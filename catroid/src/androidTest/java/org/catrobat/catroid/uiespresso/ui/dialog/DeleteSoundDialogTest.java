@@ -51,6 +51,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 
@@ -140,9 +141,7 @@ public class DeleteSoundDialogTest {
 		onView(withText(toBeDeletedSoundName))
 				.check(matches(isDisplayed()));
 
-		onView(withText(ApplicationProvider.getApplicationContext()
-				.getResources().getQuantityString(R.plurals.am_delete_sounds_title, 1, 1)))
-				.check(matches(isDisplayed()));
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 1");
 	}
 
 	private void createProject(String projectName) throws IOException {

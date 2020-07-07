@@ -117,27 +117,20 @@ public class ActionModeMergeTest {
 
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
-		onActionMode()
-				.checkTitleMatches(String.format(UiTestUtils.getQuantitiyString(R.plurals
-						.am_merge_projects_title, 1), 1));
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
 				.performCheckItem();
-		onActionMode()
-				.checkTitleMatches(String.format(UiTestUtils.getQuantitiyString(R.plurals
-						.am_merge_projects_title, 2), 2));
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 2");
 
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
-		onActionMode()
-				.checkTitleMatches(String.format(UiTestUtils.getQuantitiyString(R.plurals
-						.am_merge_projects_title, 1), 1));
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 1");
 
 		onRecyclerView().atPosition(1)
 				.performCheckItem();
-		onActionMode()
-				.checkTitleMatches(String.format(UiTestUtils.getQuantitiyString(R.plurals
-						.am_merge_projects_title, 0), 0));
+
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.merge) + " 0");
 	}
 
 	private void createProject(String projectName) {

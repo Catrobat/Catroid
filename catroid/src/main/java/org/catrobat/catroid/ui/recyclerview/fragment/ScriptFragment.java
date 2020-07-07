@@ -375,22 +375,19 @@ public class ScriptFragment extends ListFragment implements
 	public void onSelectionChanged(int selectedItemCnt) {
 		switch (actionModeType) {
 			case BACKPACK:
-				actionMode.setTitle(getResources()
-						.getQuantityString(R.plurals.am_pack_scripts_title, selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
 				break;
 			case COPY:
-				actionMode.setTitle(getResources()
-						.getQuantityString(R.plurals.am_copy_scripts_title, selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
 				break;
 			case DELETE:
-				actionMode.setTitle(getResources()
-						.getQuantityString(R.plurals.am_delete_bricks_title, selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
 				break;
 			case COMMENT:
+				actionMode.setTitle(getString(R.string.comment_in_out) + " " + selectedItemCnt);
 				break;
 			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
+				throw new IllegalStateException("ActionModeType not set Correctly");
 		}
 	}
 

@@ -35,6 +35,7 @@ import org.catrobat.catroid.runner.Flaky;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,6 +46,7 @@ import org.junit.runner.RunWith;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
@@ -115,9 +117,7 @@ public class RenameSpriteTest {
 		onView(withText(secondSpriteName))
 				.check(matches(isDisplayed()));
 
-		onView(withText(ApplicationProvider.getApplicationContext()
-				.getResources().getQuantityString(R.plurals.am_rename_sprites_title, 1, 1)))
-				.check(matches(isDisplayed()));
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.rename));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

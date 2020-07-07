@@ -113,18 +113,4 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	protected String getItemName(String item) {
 		return item;
 	}
-
-	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case UNPACK:
-				return R.plurals.am_unpack_scripts_title;
-			case DELETE:
-				return R.plurals.am_delete_scripts_title;
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
 }

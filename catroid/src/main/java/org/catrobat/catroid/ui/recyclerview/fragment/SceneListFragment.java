@@ -227,25 +227,6 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	}
 
 	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case BACKPACK:
-				return R.plurals.am_pack_scenes_title;
-			case COPY:
-				return R.plurals.am_copy_scenes_title;
-			case DELETE:
-				return R.plurals.am_delete_scenes_title;
-			case RENAME:
-				return R.plurals.am_rename_scenes_title;
-			case MERGE:
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
-
-	@Override
 	public void onItemClick(Scene item) {
 		if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentlyEditedScene(item);

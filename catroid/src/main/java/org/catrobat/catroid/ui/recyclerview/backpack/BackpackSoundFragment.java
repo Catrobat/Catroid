@@ -115,18 +115,4 @@ public class BackpackSoundFragment extends BackpackRecyclerViewFragment<SoundInf
 	public String getItemName(SoundInfo item) {
 		return item.getName();
 	}
-
-	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case UNPACK:
-				return R.plurals.am_unpack_sounds_title;
-			case DELETE:
-				return R.plurals.am_delete_sounds_title;
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
 }
