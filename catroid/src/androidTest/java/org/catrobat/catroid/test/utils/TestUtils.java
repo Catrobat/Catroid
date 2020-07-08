@@ -52,6 +52,7 @@ import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 public final class TestUtils {
 
 	public static final String DEFAULT_TEST_PROJECT_NAME = "testProject";
+	public static final String DEFAULT_TEST_SPRITE_NAME = "testProject";
 
 	public static final double DELTA = 0.00001;
 

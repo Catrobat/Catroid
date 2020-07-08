@@ -159,6 +159,7 @@ import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
+import org.catrobat.catroid.content.actions.StopSoundAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.StoreCSVIntoUserListAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
@@ -558,6 +559,13 @@ public class ActionFactory extends Actions {
 
 	public Action createPlaySoundAction(Sprite sprite, SoundInfo sound) {
 		PlaySoundAction action = Actions.action(PlaySoundAction.class);
+		action.setSprite(sprite);
+		action.setSound(sound);
+		return action;
+	}
+
+	public Action createStopSoundAction(Sprite sprite, SoundInfo sound) {
+		StopSoundAction action = Actions.action(StopSoundAction.class);
 		action.setSprite(sprite);
 		action.setSound(sound);
 		return action;
