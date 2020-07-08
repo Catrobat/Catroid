@@ -29,12 +29,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
@@ -62,6 +62,11 @@ public class ActionBarTitleFullyDisplayedTest {
 	public void setUp() throws Exception {
 		createTestProject("ActionBarTitleFullyDisplayedTest");
 		baseActivityTestRule.launchActivity(null);
+	}
+
+	@After
+	public void tearDown() {
+		ProjectManager.getInstance().setCurrentProject(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -99,8 +104,6 @@ public class ActionBarTitleFullyDisplayedTest {
 		project.addScene(sceneThree);
 
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectSaveTask
-				.task(project, ApplicationProvider.getApplicationContext());
 	}
 
 	public void assertIsTextCompletelyDisplayed(BaseActivityTestRule<ProjectActivity> activity) {
