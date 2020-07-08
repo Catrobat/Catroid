@@ -32,7 +32,7 @@
     <color name="checkbox_and_radio_button_description">@color/solid_white</color>
     <color name="dialog_title_and_text_view">@color/solid_white</color>
     <color name="vh_headline">@color/solid_white</color>
-    <color name="vh_item_title" />
+    <color name="vh_item_title">#aadbf0</color>
     <color name="vh_item_details">@color/solid_white</color>
     <color name="spinner_icon_and_inactive_elements">@color/solid_white</color>
 
