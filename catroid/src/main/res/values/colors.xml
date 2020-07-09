@@ -89,4 +89,8 @@
     <color name="pocketmusic_odd_dusk">#E0E0E0</color>
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
 
+    <!-- Icon Colors -->
+    <color name="project_icons">@color/accent</color>
+    <color name="stage_icons_pressed">#e3f9fd</color>
+
 </resources>

@@ -88,6 +88,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
+        android:paddingStart="16dp"
+        android:paddingEnd="0dp"
         android:id="@+id/recycler_view"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="48dp"
@@ -105,7 +107,8 @@
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:contentDescription="@string/main_menu_new"
-        android:src="@drawable/baseline_add_white_24"
+        android:src="@drawable/ic_plus"
+        android:tint="@color/solid_white"
         android:theme="@style/Theme.AppCompat"
         app:backgroundTint="@color/orange"
         app:elevation="10dp" />
