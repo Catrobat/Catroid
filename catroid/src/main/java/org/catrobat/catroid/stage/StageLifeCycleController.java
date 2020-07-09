@@ -111,6 +111,7 @@ public final class StageLifeCycleController {
 		if (stageActivity.getGdxGraphics().getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) stageActivity.getGdxGraphics().getView();
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+			glView.setZOrderOnTop(true);
 		}
 		stageActivity.stageAudioFocus = new StageAudioFocus(stageActivity);
 		stageActivity.stageResourceHolder = new StageResourceHolder(stageActivity);
