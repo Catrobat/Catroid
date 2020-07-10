@@ -175,7 +175,10 @@ public class WebViewActivity extends AppCompatActivity {
 
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			if (url != null && url.startsWith(Constants.WHATSAPP_URI)) {
+			if (url == null) {
+				return false;
+			}
+			if (url.startsWith(Constants.WHATSAPP_URI)) {
 				if (isWhatsappInstalled()) {
 					Uri uri = Uri.parse(url);
 					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -203,11 +206,8 @@ public class WebViewActivity extends AppCompatActivity {
 
 		private boolean checkIfWebViewVisitExternalWebsite(String url) {
 			// help URL has to be opened in an external browser
-			if ((url.contains(MAIN_URL_HTTPS) && !url.contains(CATROBAT_HELP_URL))
-					|| url.contains(LIBRARY_BASE_URL)) {
-				return false;
-			}
-			return true;
+			return (!url.contains(MAIN_URL_HTTPS) || url.contains(CATROBAT_HELP_URL))
+					&& !url.contains(LIBRARY_BASE_URL);
 		}
 	}
 
@@ -262,7 +262,7 @@ public class WebViewActivity extends AppCompatActivity {
 		String username = sharedPreferences.getString(Constants.USERNAME, Constants.NO_USERNAME);
 		String token = sharedPreferences.getString(Constants.TOKEN, Constants.NO_TOKEN);
 
-		if (username.equals(Constants.NO_USERNAME) || token.equals(Constants.NO_TOKEN)) {
+		if (username == null || token == null || username.equals(Constants.NO_USERNAME) || token.equals(Constants.NO_TOKEN)) {
 			return;
 		}
 
