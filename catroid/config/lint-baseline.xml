@@ -35,6 +35,61 @@
     </issue>
 
     <issue
+        id="UnusedAttribute"
+        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
+        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\layout\dialog_stage.xml"
+            line="57"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
+        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\layout\dialog_stage.xml"
+            line="65"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
+        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\layout\dialog_stage.xml"
+            line="75"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
+        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\layout\dialog_stage.xml"
+            line="83"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
+        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\layout\dialog_stage.xml"
+            line="91"
+            column="13"/>
+    </issue>
+
+    <issue
         id="StaticFieldLeak"
         message="Do not place Android context classes in static fields (static reference to `CastManager` which has field `remoteLayout` pointing to `RelativeLayout`); this is a memory leak"
         errorLine1=" private static final CastManager INSTANCE = new CastManager();"
@@ -329,14 +384,14 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (43 more)">
+        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (40 more)">
         <location
             file="src\main\res\drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (43 more)">
+        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (40 more)">
         <location
             file="src\main\res\drawable-mdpi"/>
     </issue>
@@ -350,7 +405,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (112 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (90 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -659,7 +714,7 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src\main\res\layout\dialog_stage.xml"
-            line="91"
+            line="96"
             column="6"/>
     </issue>
 
@@ -670,7 +725,7 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src\main\res\layout\dialog_stage.xml"
-            line="99"
+            line="104"
             column="6"/>
     </issue>
 
