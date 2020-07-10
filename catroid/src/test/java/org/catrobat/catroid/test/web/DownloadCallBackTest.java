@@ -45,6 +45,6 @@ public class DownloadCallBackTest {
 		Mockito.doCallRealMethod().when(callback).onDownloadFinished(Mockito.anyString(),
 				Mockito.anyString());
 		callback.onDownloadFinished("name", "url");
-		Mockito.verify(fragment, Mockito.times(1)).setAndLoadCurrentProject();
+		Mockito.verify(fragment, Mockito.times(1)).refreshData();
 	}
 }

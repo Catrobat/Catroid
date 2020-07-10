@@ -1,4 +1,4 @@
- /*
+/*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
@@ -20,25 +20,11 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.utils
 
-import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback
-import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment
-import java.lang.ref.WeakReference
+package org.catrobat.catroid.ui.recyclerview;
 
-object ProjectDownloadUtil : ProjectDownloadCallback {
-    private lateinit var fragment: WeakReference<MainMenuFragment>
-    fun setFragment(fragment: MainMenuFragment) {
-        this.fragment = WeakReference<MainMenuFragment>(fragment)
-    }
-
-    override fun onDownloadFinished(catrobatProgramName: String, url: String) {
-        fragment.get()?.refreshData()
-    }
-
-    override fun onDownloadStarted(string: String) = Unit
-
-    override fun onDownloadProgress(progress: Int, url: String) = Unit
-
-    override fun onUserCanceledDownload(url: String) = Unit
+public class ProjectListener {
+	public interface OnProjectListener {
+		void onProjectClick(int position);
+	}
 }
