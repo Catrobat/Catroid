@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -32,10 +31,10 @@ import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,17 +42,13 @@ import java.util.List;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public class ParserTestOperators {
 
+	@Mock
 	private Sprite testSprite;
 	private static final Double TRUE = 1d;
 	private static final Double FALSE = 0d;
-
-	@Before
-	public void setUp() {
-		testSprite = new SingleSprite("sprite");
-	}
 
 	@Test
 	public void testOperatorChain() {

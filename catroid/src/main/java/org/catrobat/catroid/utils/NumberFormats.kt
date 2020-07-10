@@ -20,31 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.formulaeditor;
+package org.catrobat.catroid.utils
 
-import org.catrobat.catroid.utils.EnumUtils;
+class NumberFormats private constructor() {
+    companion object {
+        @JvmStatic
+        fun trimTrailingCharacters(value: String?): String {
+            value ?: return ""
+            if (value.contains(".") && value.matches("[0-9.-]+".toRegex())) {
+                return value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
+            }
+            return value
+        }
 
-import java.util.EnumSet;
-
-public enum Functions {
-
-	SIN, COS, TAN, LN, LOG, SQRT, RAND, ROUND, ABS, PI, MOD, ARCSIN, ARCCOS, ARCTAN, ARCTAN2, EXP, POWER, FLOOR, CEIL,
-	MAX,
-	MIN, TRUE, FALSE, LENGTH,
-	LETTER, JOIN, REGEX, LIST_ITEM, CONTAINS, INDEX_OF_ITEM, NUMBER_OF_ITEMS, ARDUINOANALOG,
-	ARDUINODIGITAL, RASPIDIGITAL,
-	MULTI_FINGER_X, MULTI_FINGER_Y, MULTI_FINGER_TOUCHED;
-
-	private static final String TAG = Functions.class.getSimpleName();
-	public static final EnumSet<Functions> TEXT = EnumSet.of(LENGTH, LETTER, JOIN, REGEX);
-	public static final EnumSet<Functions> LIST = EnumSet.of(LIST_ITEM, CONTAINS, INDEX_OF_ITEM,
-			NUMBER_OF_ITEMS);
-
-	public static boolean isFunction(String value) {
-		return EnumUtils.isValidEnum(Functions.class, value);
-	}
-
-	public static Functions getFunctionByValue(String value) {
-		return EnumUtils.getEnum(Functions.class, value);
-	}
+        @Suppress("MagicNumber")
+        @JvmStatic
+        fun toMetricUnitRepresentation(number: Int): String {
+            return when {
+                number >= 1_000_000 -> "${number / 1_000_000}M"
+                number >= 10_000 && number % 1_000 > 100 -> "${number / 1_000}.${number % 1_000 / 100}k"
+                number >= 1_000 -> "${number / 1_000}k"
+                else -> number.toString()
+            }
+        }
+    }
 }

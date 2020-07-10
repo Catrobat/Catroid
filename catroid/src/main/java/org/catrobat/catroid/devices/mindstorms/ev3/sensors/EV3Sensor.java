@@ -36,6 +36,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandPara
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandByte.EV3CommandVariableScope;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3CommandType;
 import org.catrobat.catroid.devices.mindstorms.ev3.EV3Reply;
+import org.catrobat.catroid.utils.EnumUtils;
 
 import java.util.Locale;
 
@@ -71,15 +72,8 @@ public abstract class EV3Sensor implements LegoSensor {
 		}
 
 		public static EV3Sensor.Sensor getSensorFromSensorCode(String sensorCode) {
-			if (sensorCode == null) {
-				return Sensor.NO_SENSOR;
-			}
-
-			try {
-				return valueOf(sensorCode);
-			} catch (IllegalArgumentException e) {
-				return Sensor.NO_SENSOR;
-			}
+			Sensor sensor = EnumUtils.getEnum(Sensor.class, sensorCode);
+			return sensor != null ? sensor : Sensor.NO_SENSOR;
 		}
 	}
 

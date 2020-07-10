@@ -71,18 +71,17 @@ public class GroupSprite extends Sprite {
 		}
 	}
 
-	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName) {
-		List<Sprite> result = new ArrayList<Sprite>();
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName, List<Sprite> sprites) {
+		List<Sprite> result = new ArrayList<>();
 		int position = 0;
-		for (Sprite sprite : spriteList) {
+		for (Sprite sprite : sprites) {
 			if (groupName.equals(sprite.getName())) {
 				break;
 			}
 			position++;
 		}
-		for (int childPosition = position + 1; childPosition < spriteList.size(); childPosition++) {
-			Sprite spriteToCheck = spriteList.get(childPosition);
+		for (int childPosition = position + 1; childPosition < sprites.size(); childPosition++) {
+			Sprite spriteToCheck = sprites.get(childPosition);
 			if (spriteToCheck instanceof GroupItemSprite) {
 				result.add(spriteToCheck);
 			} else {
@@ -95,7 +94,8 @@ public class GroupSprite extends Sprite {
 	@Override
 	public void createCollisionPolygons() {
 		Log.i("GroupSprite", "Creating Collision Polygons for all Sprites of group!");
-		List<Sprite> groupSprites = getSpritesFromGroupWithGroupName(getName());
+		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList();
+		List<Sprite> groupSprites = getSpritesFromGroupWithGroupName(getName(), spriteList);
 		for (Sprite sprite : groupSprites) {
 			for (LookData lookData : sprite.getLookList()) {
 				lookData.getCollisionInformation().calculate();

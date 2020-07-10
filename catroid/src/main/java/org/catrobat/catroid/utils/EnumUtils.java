@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2019 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,41 +20,33 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
 
-import org.catrobat.catroid.utils.EnumUtils;
+package org.catrobat.catroid.utils;
 
-public abstract class DroneConfigPreference {
-
-	public enum Preferences {
-		FIRST,
-		SECOND,
-		THIRD,
-		FOURTH;
-
-		public static String[] getPreferenceCodes() {
-			String[] valueStrings = new String[values().length];
-
-			for (int i = 0; i < values().length; ++i) {
-				valueStrings[i] = values()[i].name();
-			}
-
-			return valueStrings;
-		}
-
-		public String getPreferenceCode() {
-			return getPreferenceCode(this);
-		}
-
-		public static String getPreferenceCode(DroneConfigPreference.Preferences preference) {
-			return preference.name();
-		}
-
-		public static DroneConfigPreference.Preferences getPreferenceFromPreferenceCode(String preferenceCode) {
-			Preferences preferences = EnumUtils.getEnum(Preferences.class, preferenceCode);
-			return preferences != null ? preferences : Preferences.FIRST;
-		}
+public final class EnumUtils {
+	private EnumUtils() {
 	}
 
-	public static final String TAG = DroneConfigPreference.class.getSimpleName();
+	public static <E extends Enum<E>> boolean isValidEnum(Class<E> clazz, String name) {
+		if (name == null) {
+			return false;
+		}
+		try {
+			Enum.valueOf(clazz, name);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		return true;
+	}
+
+	public static <E extends Enum<E>> E getEnum(Class<E> clazz, String name) {
+		if (name == null) {
+			return null;
+		}
+		try {
+			return Enum.valueOf(clazz, name);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
 }
