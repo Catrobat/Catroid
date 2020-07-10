@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -415,8 +416,12 @@ public class ScriptFragment extends ListFragment implements
 
 	public void addBrick(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		addBrick(brick, sprite, adapter, listView);
+	}
 
-		if (adapter.getCount() == 0) {
+	@VisibleForTesting
+	public void addBrick(Brick brick, Sprite sprite, BrickAdapter brickAdapter, BrickListView brickListView) {
+		if (brickAdapter.getCount() == 0) {
 			if (brick instanceof ScriptBrick) {
 				sprite.addScript(brick.getScript());
 			} else {
@@ -424,21 +429,17 @@ public class ScriptFragment extends ListFragment implements
 				script.addBrick(brick);
 				sprite.addScript(script);
 			}
-			adapter.updateItems(sprite);
-		} else if (adapter.getCount() == 1) {
-			if (brick instanceof ScriptBrick) {
-				sprite.addScript(0, brick.getScript());
-			} else {
-				sprite.getScriptList().get(0).addBrick(brick);
-			}
-			adapter.updateItems(sprite);
+			brickAdapter.updateItems(sprite);
+		} else if (brickAdapter.getCount() == 1 && !(brick instanceof ScriptBrick)) {
+			sprite.getScriptList().get(0).addBrick(brick);
+			brickAdapter.updateItems(sprite);
 		} else {
-			int firstVisibleBrick = listView.getFirstVisiblePosition();
-			int lastVisibleBrick = listView.getLastVisiblePosition();
+			int firstVisibleBrick = brickListView.getFirstVisiblePosition();
+			int lastVisibleBrick = brickListView.getLastVisiblePosition();
 			int position = (1 + lastVisibleBrick - firstVisibleBrick) / 2;
 			position += firstVisibleBrick;
-			adapter.addItem(position, brick);
-			listView.startMoving(brick);
+			brickAdapter.addItem(position, brick);
+			brickListView.startMoving(brick);
 		}
 	}
 
