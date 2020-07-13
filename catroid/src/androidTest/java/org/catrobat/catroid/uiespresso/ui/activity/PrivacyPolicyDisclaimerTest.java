@@ -98,8 +98,6 @@ public class PrivacyPolicyDisclaimerTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		onView(withText(R.string.main_menu_continue))
-				.check(matches(isDisplayed()));
 		onView(withText(R.string.main_menu_programs))
 				.check(matches(isDisplayed()));
 	}

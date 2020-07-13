@@ -30,59 +30,47 @@
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
     android:orientation="vertical"
-    android:background="@drawable/button_background_selector">
+    android:background="@color/solid_white">
 
     <include layout="@layout/progress_bar" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/current_project"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingStart="28dp"
-        android:paddingEnd="@dimen/view_holder_padding"
+        android:layout_height="280dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp">
 
-            <ImageView
-                android:id="@+id/image_view"
-                android:contentDescription="@string/main_menu_continue"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:cropToPadding="true"
-                android:scaleType="centerCrop" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
+        <ImageView
+            android:id="@+id/image_view"
+            android:contentDescription="@string/main_menu_continue"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="24dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:cropToPadding="true"
+            android:scaleType="centerCrop" />
 
-            <TextView
-                android:id="@+id/project_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/vh_item_title"
-                android:textSize="?attr/x_large"/>
+        <ImageView
+            android:contentDescription="@string/main_menu_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/edit_button"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_edit_circle" />
 
-            <TextView
-                android:text="@string/main_menu_continue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/vh_item_details"
-                android:textSize="?attr/small"/>
+        <ImageView
+            android:id="@+id/upload_button"
+            android:contentDescription="@string/main_menu_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_publish_circle" />
 
-        </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 <RelativeLayout
     android:layout_width="match_parent"

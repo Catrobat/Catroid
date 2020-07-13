@@ -77,18 +77,15 @@ public class MainMenuFragment extends Fragment implements
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({PROGRAMS, HELP, EXPLORE, UPLOAD})
+	@IntDef({PROGRAMS, HELP, EXPLORE})
 	@interface ButtonId {
 	}
 
 	private static final int PROGRAMS = 2;
 	private static final int HELP = 3;
 	private static final int EXPLORE = 4;
-	private static final int UPLOAD = 5;
 
 	private static final int CURRENTTHUMBNAILSIZE = 500;
-	private static final int CONTINUE = R.id.current_project;
-	private static final int NEW = R.id.floating_action_button;
 
 	private View parent;
 	private RecyclerView recyclerView;
@@ -118,9 +115,13 @@ public class MainMenuFragment extends Fragment implements
 				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
 				int itemHeight = parent.getHeight() / items.size();
 				view.setMinimumHeight(itemHeight);
+				TextView title = view.findViewById(R.id.title_view);
+				title.setTextColor(getResources().getColor(R.color.solid_black));
+				view.setBackgroundColor(getResources().getColor(R.color.solid_white));
 				return new ButtonVH(view);
 			}
 		};
+
 		buttonAdapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(buttonAdapter);
 
@@ -130,8 +131,10 @@ public class MainMenuFragment extends Fragment implements
 				onProgramClick(v);
 			}
 		};
-		parent.findViewById(R.id.current_project).setOnClickListener(listener);
+		parent.findViewById(R.id.edit_button).setOnClickListener(listener);
+		parent.findViewById(R.id.upload_button).setOnClickListener(listener);
 		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
+		parent.findViewById(R.id.image_view).setOnClickListener(listener);
 
 		setAndLoadCurrentProject();
 		setShowProgressBar(false);
@@ -146,8 +149,6 @@ public class MainMenuFragment extends Fragment implements
 				getString(R.string.main_menu_help)));
 		items.add(new RVButton(EXPLORE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_community),
 				getString(R.string.main_menu_web)));
-		items.add(new RVButton(UPLOAD, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_upload),
-				getString(R.string.main_menu_upload)));
 		return items;
 	}
 
@@ -204,20 +205,13 @@ public class MainMenuFragment extends Fragment implements
 				setShowProgressBar(true);
 				startActivity(new Intent(getActivity(), WebViewActivity.class));
 				break;
-			case UPLOAD:
-				setShowProgressBar(true);
-				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
-						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
-				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_DIR, projectDir);
-				startActivity(intent);
-				break;
 		}
 	}
 
 	public void onProgramClick(View view) {
 		switch (view.getId()) {
-			case CONTINUE:
+			case R.id.image_view:
+			case R.id.edit_button:
 				setShowProgressBar(true);
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
@@ -225,9 +219,17 @@ public class MainMenuFragment extends Fragment implements
 						.setListener(this)
 						.execute();
 				break;
-			case NEW:
+			case R.id.floating_action_button:
 				new NewProjectDialogFragment()
 						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
+				break;
+			case R.id.upload_button:
+				setShowProgressBar(true);
+				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
+						.putExtra(ProjectUploadActivity.PROJECT_DIR,
+								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
+										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
+				startActivity(intent);
 				break;
 		}
 	}
@@ -281,8 +283,6 @@ public class MainMenuFragment extends Fragment implements
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
 
-		TextView titleView = parent.findViewById(R.id.project_title);
-		titleView.setText(currentProject);
 		ProjectAndSceneScreenshotLoader loader =
 				new ProjectAndSceneScreenshotLoader(CURRENTTHUMBNAILSIZE, CURRENTTHUMBNAILSIZE);
 

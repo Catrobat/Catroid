@@ -126,7 +126,7 @@ public class AddUserDefinedBrickFragment extends Fragment {
 
 	@Override
 	public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
-		inflater.inflate(R.menu.menu_confirm, menu);
+		inflater.inflate(R.menu.menu_confirm_userdefined, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
 

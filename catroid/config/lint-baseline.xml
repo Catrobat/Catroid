@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2020 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -299,90 +299,6 @@
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-hdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-hdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-mdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-xhdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-mdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-xhdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-hdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-hdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-mdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-xhdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-mdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-xhdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
         id="IconDensities"
         message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (40 more)">
         <location
@@ -405,7 +321,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (90 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -483,7 +399,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="289"
+            line="288"
             column="19"/>
     </issue>
 
