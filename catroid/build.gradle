@@ -53,7 +53,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = "2.4.1"
+    paintroidVersion = "2.5.0"
 }
 
 apply plugin: 'com.android.application'
