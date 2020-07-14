@@ -43,6 +43,7 @@ import org.catrobat.catroid.io.XstreamSerializer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -58,6 +59,20 @@ public final class TestUtils {
 
 	private TestUtils() {
 		throw new AssertionError();
+	}
+
+	public static void deleteProjects() throws IOException {
+		File[] filesOfRootDirectory = FlavoredConstants.DEFAULT_ROOT_DIRECTORY.listFiles();
+		if (filesOfRootDirectory == null || filesOfRootDirectory.length == 0) {
+			return;
+		}
+
+		ArrayList<String> projectFilesToDelete = new ArrayList<>();
+		for (File file : filesOfRootDirectory) {
+			projectFilesToDelete.add(file.getName());
+		}
+
+		deleteProjects(projectFilesToDelete.toArray(new String[0]));
 	}
 
 	public static void deleteProjects(String... projectNames) throws IOException {

@@ -29,6 +29,7 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.SoundManager
+import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.test.R
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.test.utils.TestUtils.createSoundFile
@@ -50,10 +51,7 @@ class StopSoundActionTest {
 
     @Before
     fun setUp() {
-        project = Project(
-            ApplicationProvider.getApplicationContext(),
-            TestUtils.DEFAULT_TEST_PROJECT_NAME
-        )
+        project = createProject()
         soundFile = createSoundFile(project, R.raw.testsound, "soundTest.mp3")
         sprite = SingleSprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
     }
@@ -92,7 +90,15 @@ class StopSoundActionTest {
     @After
     fun tearDown() {
         soundManager.clear()
+        TestUtils.deleteProjects()
     }
 
     private fun createSoundInfo(soundFile: File) = SoundInfo().also { it.file = soundFile }
+
+    private fun createProject(): Project {
+        val newProject: Project = Project(ApplicationProvider.getApplicationContext(),
+            TestUtils.DEFAULT_TEST_PROJECT_NAME)
+        XstreamSerializer.getInstance().saveProject(newProject)
+        return newProject
+    }
 }
