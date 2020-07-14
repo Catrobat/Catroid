@@ -80,6 +80,7 @@ import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.tryParseIntFromObject;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementResources.addFunctionResources;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementResources.addSensorsResources;
+import static org.catrobat.catroid.sensing.ColorCollisionDetection.interpretFunctionTouchesColor;
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaElement implements Serializable {
@@ -316,7 +317,7 @@ public class FormulaElement implements Serializable {
 				return tryInterpretOperator(sprite, value);
 			case FUNCTION:
 				Functions function = Functions.getFunctionByValue(value);
-				return interpretFunction(function, sprite, currentProject);
+				return interpretFunction(function, sprite, currentProject, currentlyPlayingScene);
 			case SENSOR:
 				return interpretSensor(sprite, currentlyEditedScene, currentProject, value);
 			case USER_VARIABLE:
@@ -341,7 +342,7 @@ public class FormulaElement implements Serializable {
 		return interpretOperator(operator, sprite);
 	}
 
-	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject) {
+	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject, Scene currentlyPlayingScene) {
 		Object firstArgument = tryInterpretRecursive(leftChild, sprite);
 		Object secondArgument = tryInterpretRecursive(rightChild, sprite);
 
@@ -362,8 +363,12 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionNumberOfItems(firstArgument, sprite, currentProject);
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
+			case COLLIDES_WITH_COLOR:
+				return booleanToDouble(interpretFunctionTouchesColor(firstArgument, sprite, currentProject, currentlyPlayingScene));
 			default:
-				return interpretFormulaFunction(function, firstArgument, secondArgument);
+				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
+				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
+				return interpretFormulaFunction(function, firstArgumentDouble, secondArgumentDouble);
 		}
 	}
 
@@ -683,9 +688,11 @@ public class FormulaElement implements Serializable {
 
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
 
-		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
-				rightChild);
+		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent());
 
+		cloneThis.leftChild = this;
+		cloneThis.rightChild = rightChild;
+		cloneThis.leftChild.parent = cloneThis;
 		cloneThis.parent.rightChild = cloneThis;
 	}
 
