@@ -111,6 +111,9 @@ public final class Constants {
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
 
+	// Default "flavor" in the web which equals "pocketcode"
+	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
+
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
