@@ -30,6 +30,7 @@
     <string name="undo">Отменить</string>
     <string name="new_option">новое&#8230;</string>
     <string name="confirm">Подтвердить</string>
+    <string name="ignore">Игнорировать</string>
     <string name="cancel">Отменить</string>
     <string name="next">Далее</string>
     <string name="back">Назад</string>
@@ -38,6 +39,9 @@
     <string name="close">Закрыть</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="once">Одинажды</string>
+    <string name="always">Всегда</string>
+    <string name="deny">Запретить</string>
     <string name="agree">Принять</string>
     <string name="disagree">Отклонить</string>
     <string name="select_all">Выбрать все</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Настройки</string>
     <string name="preference_title_language">Язык</string>
     <string name="preference_description_language">Выберите язык приложения</string>
+    <string name="preference_title_web_access">Веб-доступ</string>
+    <string name="preference_description_web_access">Изменить, чтобы добавить или удалить доверенные домены</string>
+    <string name="preference_screen_web_access_title">Изменить доверенные домены</string>
     <string name="preference_title_accessibility">Доступность</string>
     <string name="preference_description_accessibility">Изменить вид приложения</string>
     <string name="preference_title_accessibility_profiles">Профили доступности</string>
@@ -164,9 +171,9 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/хост-адрес</string>
     <string name="preference_raspi_port">Порт Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_multiplayer_variables_enabled">Расширение мультиплеера</string>
+    <string name="preference_description_multiplayer_variables_enabled">Разрешить приложению использовать
+        многопользовательские переменные, передаваемые через Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">Бета</string>
     <string name="error_scratch_program_not_accessible_any_more">Ой! Проект, похоже, исчез
@@ -285,14 +292,14 @@
     <string name="name_empty">Пожалуйста, введите текст</string>
     <!-- Recycler View -->
     <string name="am_empty_list">В этом списке пока нет элементов. Пожалуйста, добавь несколько.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_merge_error">Объединение не завершено.  Для слияния должны быть выбраны как минимум 2 проэкта</string>
     <string name="am_backpack">Упаковать</string>
     <string name="am_unpack">Распаковать</string>
     <string name="am_copy">Копировать</string>
     <string name="am_delete">Удалить</string>
     <string name="am_rename">Переименовать</string>
     <string name="am_convert">Конвертировать</string>
-    <string name="am_merge">Merge</string>
+    <string name="am_merge">Объединить</string>
     <string name="dialog_confirm_delete">Ты не сможешь это отменить!</string>
     <string name="list_headline_sprites">Актеры и объекты</string>
     <!-- Options Menu Options -->
@@ -300,9 +307,60 @@
     <string name="copy">Копировать</string>
     <string name="delete">Удалить</string>
     <string name="rename">Переименовать</string>
-    <string name="merge">Merge</string>
+    <string name="merge">Объединить</string>
     <string name="show_details">Показать детали</string>
     <string name="hide_details">Скрыть детали</string>
+    <!-- New Dialog Titles -->
+    <string name="new_scene_dialog">Новая сцена</string>
+    <!-- Delete Dialog Titles -->
+    <plurals name="delete_projects">
+        <item quantity="one">Удалить этот проект?</item>
+        <item quantity="few">Удалить эти проекты?</item>
+        <item quantity="many">Удалить эти проекты?</item>
+        <item quantity="other">Удалить эти проекты?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">Удалить эту сцену?</item>
+        <item quantity="few">Удалить эти сцены?</item>
+        <item quantity="many">Удалить эти сцены?</item>
+        <item quantity="other">Удалить эти сцены?</item>
+    </plurals>
+    <plurals name="delete_sprites">
+        <item quantity="one">Удалить этого актера или объект?</item>
+        <item quantity="few">Удалить этих актеров или объекты?</item>
+        <item quantity="many">Удалить этих актеров или объекты?</item>
+        <item quantity="other">Удалить этих актеров или объекты?</item>
+    </plurals>
+    <plurals name="delete_looks">
+        <item quantity="one">Удалить этот образ?</item>
+        <item quantity="few">Удалить эти образы?</item>
+        <item quantity="many">Удалить эти образы?</item>
+        <item quantity="other">Удалить эти образы?</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">Удалить этот звук?</item>
+        <item quantity="few">Удалить эти звуки?</item>
+        <item quantity="many">Удалить эти звуки?</item>
+        <item quantity="other">Удалить эти звуки?</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">Удалить этот тег?</item>
+        <item quantity="few">Удалить эти теги?</item>
+        <item quantity="many">Удалить эти теги?</item>
+        <item quantity="other">Удалить эти теги?</item>
+    </plurals>
+    <plurals name="delete_scripts">
+        <item quantity="one">Удалить этот скрипт?</item>
+        <item quantity="few">Удалить эти скрипты?</item>
+        <item quantity="many">Удалить эти скрипты?</item>
+        <item quantity="other">Удалить эти скрипты?</item>
+    </plurals>
+    <plurals name="delete_bricks">
+        <item quantity="one">Удалить этот блок?</item>
+        <item quantity="few">Удалить эти блоки?</item>
+        <item quantity="many">Удалить эти блоки?</item>
+        <item quantity="other">Удалить эти блоки?</item>
+    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Название проекта</string>
     <string name="scene_name_label">Название сцены</string>
@@ -314,10 +372,10 @@
     <string name="nfc_tag_name_label">Название NFC тега</string>
     <string name="string_label">Текст</string>
     <string name="data_label">Название</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_format_not_supported">Формат изображения не поддерживается</string>
     <!-- Details -->
     <string name="project_details">Последний раз доступа: %s, размер: %s</string>
-    <string name="last_access_today">today, %s</string>
+    <string name="last_access_today">Сегодня, %s</string>
     <string name="scene_details">Актеры и объекты: %d, образов: %d, звуков: %d</string>
     <string name="sprite_details">Блоков: %d, образов: %d, звуков: %d</string>
     <string name="look_details">Разрешение: %s, размер: %s</string>
@@ -517,7 +575,7 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">Переменные для подключенных устройств</string>
     <string name="global_vars_headline">Переменные для всех актеров и объектов</string>
     <string name="local_vars_headline">Переменные только для этого актера или объекта</string>
     <string name="global_lists_headline">Списки для всех актеров или объектов</string>
@@ -525,8 +583,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Для всех актеров, объектов, и клонов во всех сценах</string>
     <string name="new_data_for_this_sprite_only">Только для этого актера, объекта или его клонов</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_connected_devices">Для всех актеров, объектов и клонов во всех сценах проектов
+     на подключенных многопользовательских устройствах</string>
     <!-- Backpack -->
     <string name="backpack_title">Ваш рюкзак</string>
     <string name="pack">Упаковать</string>
@@ -548,8 +606,8 @@
     <string name="project_select_screen_title">Экран:</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">Объединенный проект</string>
+    <string name="merging_project_text">Эти два проекта пока не могут быть объединены</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Новый актер или объект</string>
@@ -832,6 +890,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">Кирпич с этими ярлыками уже существует. Пожалуйста, добавьте больше меток или входов.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Поместить в "</string>
@@ -937,6 +997,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Воспроизвести звук</string>
     <string name="brick_play_sound_and_wait">Играть звук и ждать</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Остановить все звуки</string>
     <string name="brick_set_volume_to">Установить громкость</string>
     <string name="brick_change_volume_by">Изменить громкость на</string>
@@ -983,6 +1044,9 @@
     <string name="brick_say_bubble">Cказать</string>
     <string name="brick_think_say_for_text">в течении</string>
     <string name="brick_forever">Вечно</string>
+    <string name="brick_loop_for_values_from">Для значений от</string>
+    <string name="brick_loop_in">в</string>
+    <string name="brick_loop_to">до</string>
     <string name="brick_repeat">Повторять</string>
     <string name="brick_repeat_until">Повторять до тех пор, пока</string>
     <string name="brick_when_touched">При прикосновении к экрану</string>
@@ -995,6 +1059,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Завершить этап</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">раз</item>
         <item quantity="few">разa</item>
@@ -1010,6 +1077,15 @@
     <string name="brick_change_variable">Изменить значение</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Считать переменную</string>
+    <string name="brick_read_variable_from_file_center">с файла</string>
+    <string name="brick_read_variable_from_file_bottom">и</string>
+    <string name="brick_read_variable_from_file_keep">сохранить файл</string>
+    <string name="brick_read_variable_from_file_delete">удалить файл</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">новое примечание&#8230;</string>
@@ -1031,8 +1107,20 @@
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
     <string name="web_request_warning_title">Разрешить веб-доступ?</string>
-    <string name="web_request_warning_message">Будьте очень осторожны, прежде чем разрешить доступ, так как ссылка может быть вредоносной!!!
-Для получения дополнительной информации переходите сюда: &lt;a href=%1s&gt;wiki&lt;/a&gt; </string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious others or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
+    </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>

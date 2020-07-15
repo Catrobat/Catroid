@@ -30,6 +30,7 @@
     <string name="undo">Cofnij</string>
     <string name="new_option">Nowy&#8230;</string>
     <string name="confirm">Potwierdź</string>
+    <string name="ignore">Zignoruj</string>
     <string name="cancel">Anuluj</string>
     <string name="next">Dalej</string>
     <string name="back">Wstecz</string>
@@ -38,6 +39,9 @@
     <string name="close">Zamknij</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="once">Tylko raz</string>
+    <string name="always">Zawsze</string>
+    <string name="deny">Odmów</string>
     <string name="agree">Zgadzam się</string>
     <string name="disagree">Nie zgadzam się</string>
     <string name="select_all">Zaznacz wszystko</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Ustawienia</string>
     <string name="preference_title_language">Język</string>
     <string name="preference_description_language">Ustaw język aplikacji</string>
+    <string name="preference_title_web_access">Dostęp do sieci Web</string>
+    <string name="preference_description_web_access">Edytuj aby dodać lub usunąć zaufane domeny</string>
+    <string name="preference_screen_web_access_title">Edytuj zaufane domeny</string>
     <string name="preference_title_accessibility">Ułatwienia dostępu</string>
     <string name="preference_description_accessibility">Zmień wygląd aplikacji</string>
     <string name="preference_title_accessibility_profiles">Profile dostępności</string>
@@ -162,9 +169,9 @@
     <string name="preference_raspi_host">Raspberry Pi – IP / adres hosta</string>
     <string name="preference_raspi_port">Port Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_multiplayer_variables_enabled">Rozszerzenie trybu wieloosobowego</string>
+    <string name="preference_description_multiplayer_variables_enabled">Zezwalaj aplikacji na używanie
+        zmiennych wieloosobowych udostępnianych przez Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Upss! Wydaje się, że program zniknął lub mogłeś utracić dostęp do niego.</string>
@@ -347,7 +354,7 @@
     <string name="nfc_tag_name_label">Nazwa tagu NFC</string>
     <string name="string_label">Tekst</string>
     <string name="data_label">Nazwa</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_format_not_supported">Format obrazu nie jest obsługiwany</string>
     <!-- Details -->
     <string name="project_details">Ostatni dostęp: %s, Rozmiar: %s</string>
     <string name="last_access_today">dziś, %s</string>
@@ -550,7 +557,7 @@
     <string name="tnf_well_known_mailto">E-mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">Zmienne dla połączonych urządzeń</string>
     <string name="global_vars_headline">Zmienna dla wszystkich obiektów</string>
     <string name="local_vars_headline">Zmienna tylko dla tego obiektu</string>
     <string name="global_lists_headline">Listy dla wszystkich obiektów</string>
@@ -759,7 +766,7 @@
     <string name="error_google_plus_sign_in">Błąd logowania Google. Status: %s</string>
     <string name="error_session_expired">Sesja wygasła, zaloguj się ponownie.</string>
     <string name="error_register_empty_username">Puste pole nazwy użytkownika</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
+    <string name="error_register_username_as_email">Adres e-mail nie może być użyty jako nazwa użytkownika</string>
     <string name="error_register_invalid_username">Nazwa użytkownika powinna zawierać tylko litery (a – z), cyfry (0 – 9),
         myślniki (-), podkreślenia (_) i kropki (.).</string>
     <string name="error_register_username_start_with">Nazwa użytkownika nie może zaczynać się od myślnika (-), podkreślenia (_) ani kropki (.).</string>
@@ -786,7 +793,7 @@
     <string name="prestage_resource_not_available_title">Składnik niedostępny</string>
     <string name="prestage_resource_not_available_text">Niestety ten program nie działa na Twoim urządzeniu.         Następujące składniki są niedostępne: \n\n</string>
     <string name="prestage_resource_in_use_text">Inne urządzenie jest połączone z Jumping Sumo. Bądź pewien, że jesteś jedynym kontrolerem drona.</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Wibracje\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Czujnik przyspieszenia\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Czujnik nachylenia\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Kompas\n</string>
@@ -840,13 +847,15 @@
     <string name="category_assertions">Testowanie</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_add_label">Dodaj etykietę</string>
+    <string name="brick_user_defined_add_input">Dodaj dane wejściowe</string>
+    <string name="brick_user_defined_add_input_description">Dodaj dane wejściowe dla tego bloku:</string>
+    <string name="brick_user_defined_add_label_description">Dodaj etykietę dla tego bloku:</string>
     <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_default_label">Tekst etykiety</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Zdefiniuj</string>
+    <string name="brick_user_defined_script_as">jako</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Idź do "</string>
@@ -952,6 +961,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Zagraj dźwięk</string>
     <string name="brick_play_sound_and_wait">Uruchom dźwięk i czekaj</string>
+    <string name="brick_stop_sound">Zatrzymaj dźwięk</string>
     <string name="brick_stop_all_sounds">Zatrzymaj wszystkie dźwięki</string>
     <string name="brick_set_volume_to">Ustaw głośność na</string>
     <string name="brick_change_volume_by">Zmień głośność o</string>
@@ -998,6 +1008,9 @@
     <string name="brick_say_bubble">Powiedz</string>
     <string name="brick_think_say_for_text">przez</string>
     <string name="brick_forever">Zawsze</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">na</string>
     <string name="brick_repeat">Powtórz</string>
     <string name="brick_repeat_until">Powtarzaj aż</string>
     <string name="brick_when_touched">Kiedy dotknięto ekran</string>
@@ -1010,6 +1023,9 @@
     <string name="brick_wait_till_idle">Zaczekaj, aż wszystkie inne skrypty zostaną zatrzymane</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">raz</item>
         <item quantity="few">razy</item>
@@ -1025,6 +1041,15 @@
     <string name="brick_change_variable">Zmień zmienną</string>
     <string name="brick_write_variable_on_device">Zapisz zmienną na urządzeniu</string>
     <string name="brick_read_variable_from_device">Wczytaj zmienną z urządzenia</string>
+    <string name="brick_write_variable_to_file_top">Zapisz zmienną</string>
+    <string name="brick_write_variable_to_file_bottom">do pliku</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Wczytaj zmienną</string>
+    <string name="brick_read_variable_from_file_center">z pliku</string>
+    <string name="brick_read_variable_from_file_bottom">i</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">usuń plik</string>
     <string name="brick_write_list_on_device">Zapisz listę na urządzeniu</string>
     <string name="brick_read_list_from_device">Wczytaj listę z urządzenia</string>
     <string name="brick_note_default_value">tutaj dodaj komentarz&#8230;</string>
@@ -1045,24 +1070,32 @@
     <string name="brick_web_request">Wyślij żądanie do</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">i przechowaj odpowiedź w</string>
-    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_title">Zezwolić na dostęp do sieci?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
     </string>
-    <string name="brick_look_request">Get image from</string>
+    <string name="web_request_trust_domain_warning_title">Zawsze zezwalać na dostęp do sieci?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
+    </string>
+    <string name="brick_look_request">Pobierz obraz z</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request_result">i użyj jako aktualny wygląd</string>
+    <string name="brick_background_request_result">i użyj jako bieżące tło</string>
     <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
     <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_csv">wartości oddzielone przecinkami</string>
     <string name="brick_store_csv_into_userlist_into">do listy</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->

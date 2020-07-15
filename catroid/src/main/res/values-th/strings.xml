@@ -30,6 +30,7 @@
     <string name="undo">เลิกทำ</string>
     <string name="new_option">สร้างใหม่&#8230;</string>
     <string name="confirm">ยืนยัน</string>
+    <string name="ignore">เพิกเฉย</string>
     <string name="cancel">ยกเลิก</string>
     <string name="next">ถัดไป</string>
     <string name="back">ย้อนกลับ</string>
@@ -38,6 +39,9 @@
     <string name="close">ปิด</string>
     <string name="yes">ใช่</string>
     <string name="no">ไม่ใช่</string>
+    <string name="once">ครั้งเดียว</string>
+    <string name="always">ทุกครั้ง</string>
+    <string name="deny">ปฏิเสธ</string>
     <string name="agree">ตกลง</string>
     <string name="disagree">ไม่เห็นด้วย</string>
     <string name="select_all">เลือก​ทั้ง​หมด</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">การตั้งค่า</string>
     <string name="preference_title_language">ภาษา</string>
     <string name="preference_description_language">ตั้งค่าภาษาของแอพ</string>
+    <string name="preference_title_web_access">การเข้าถึงเว็บ</string>
+    <string name="preference_description_web_access">แก้ไขเพื่อเพิ่มหรือลบโดเมนที่เชื่อถือได้</string>
+    <string name="preference_screen_web_access_title">แก้ไขโดเมนที่เชื่อถือได้</string>
     <string name="preference_title_accessibility">การ​เข้า​ใช้​งาน</string>
     <string name="preference_description_accessibility">เปลี่ยนรูปลักษณ์ของแอพ</string>
     <string name="preference_title_accessibility_profiles">โปรไฟล์การเข้าถึง</string>
@@ -156,15 +163,15 @@
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
     <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
+    <string name="preference_raspi_enable_bricks">เปิดใช้งานชุดคำสั้งและเซ็นเซอร์</string>
     <string name="preference_raspi_help">ช่วยเหลือ / เริ่มต้นใช้งาน</string>
     <string name="preference_raspi_help_summary">รับความช่วยเหลือเกี่ยวกับวิธีกำหนดการตั้งค่าการเชื่อมต่อ</string>
     <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
     <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_multiplayer_variables_enabled">ส่วนขยายผู้เล่นหลายคน</string>
+    <string name="preference_description_multiplayer_variables_enabled">อนุญาตให้แอปใช้
+         ตัวแปรหลายคนแชร์ผ่านบลูทู ธ</string>
     <!-- Scratch Converter activity -->
     <string name="beta">เบต้า</string>
     <string name="error_scratch_program_not_accessible_any_more">อ๊ะ!  ดูเหมือนว่าโครงการจะหายไปหรือคุณอาจสูญเสียการเข้าถึง</string>
@@ -263,7 +270,7 @@
     <string name="am_delete">ลบ</string>
     <string name="am_rename">เปลี่ยนชื่อ</string>
     <string name="am_convert">แปลง</string>
-    <string name="am_merge">Merge</string>
+    <string name="am_merge">รวม</string>
     <string name="dialog_confirm_delete">คุณไม่สามารถเลิกทำสิ่งนี้ได้!</string>
     <string name="list_headline_sprites">นักแสดงและวัตถุ</string>
     <!-- Options Menu Options -->
@@ -275,25 +282,30 @@
     <string name="show_details">แสดงรายละเอียด</string>
     <string name="hide_details">แก้ไขรายละเอียด</string>
     <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">New scene</string>
+    <string name="new_scene_dialog">ฉากใหม่</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="other">Delete these projects?</item>
+        <item quantity="other">ลบโครงการนี้หรือไม่
+ลบโครงการเหล่านี้หรือไม่</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="other">Delete these scenes?</item>
+        <item quantity="other">ลบฉากนี้หรือไม่
+ลบฉากเหล่านี้หรือไม่</item>
     </plurals>
     <plurals name="delete_sprites">
         <item quantity="other">ลบนักแสดงหรือวัตถุนี้หรือไม่</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="other">ลบรูปลักษณ์นี้หรือไม่
+ลบรูปลักษณ์เหล่านี้หรือไม่</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="other">ลบเสียงนี้ไหม
+ลบเสียงเหล่านี้หรือไม่</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="other">Delete these tags?</item>
+        <item quantity="other">ลบแท็กนี้หรือไม่
+ลบแท็กเหล่านี้หรือไม่</item>
     </plurals>
     <plurals name="delete_scripts">
         <item quantity="other">ลบสคริปต์นี้หรือไม่
@@ -314,7 +326,7 @@
     <string name="nfc_tag_name_label">ชื่อแท็ก NFC</string>
     <string name="string_label">ข้อความ</string>
     <string name="data_label">ชื่อ</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_format_not_supported">รูปแบบไฟล์ที่ไม่สนับสนุน</string>
     <!-- Details -->
     <string name="project_details">การเข้าถึงล่าสุด: %s ขนาด: %s</string>
     <string name="last_access_today">วันนี้ %s</string>
@@ -375,7 +387,7 @@
         <item quantity="other">คัดลอก %d นักแสดงหรือวัตถุ</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="other">คัดลอก%dรูปลักษณ์</item>
     </plurals>
     <plurals name="copied_sounds">
         <item quantity="other">คัดลอก %d เสียง</item>
@@ -394,19 +406,19 @@
         <item quantity="other">ลบ %d สคริปต์</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="other">ลบ%dรูปลักษณ์</item>
     </plurals>
     <plurals name="deleted_sounds">
         <item quantity="other">ลบ %d เสียง</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="other">ลบ %d แท็ก NFC</item>
     </plurals>
     <plurals name="deleted_scripts">
         <item quantity="other">ลบ %d สคริปต์</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="other">ลบ %d รายการ?</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -416,9 +428,9 @@
     <string name="description">คำอธิบาย:</string>
     <string name="set_description">กำหนดคำอธิบาย</string>
     <string name="details_date_today">วันนี้</string>
-    <string name="import_project">Import project</string>
+    <string name="import_project">นำเข้าโครงการ</string>
     <string name="error_import_project">เกิดข้อผิดพลาดขณะนำเข้าโครงการ</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="error_no_files_found">ไม่พบไฟล์โครงการ</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">เคาะ \"+\" เพื่อเพิ่มสคริปต์</string>
     <!--  -->
@@ -433,45 +445,45 @@
     <!--  -->
     <!-- SoundListFragment -->
     <string name="fragment_sound_text_description">เคาะ \"+\" เพื่อใส่เสียง</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="sound_select_source">เลือกเสียง</string>
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">สแกนแท็ก NFC เพื่อเพิ่ม</string>
-    <string name="ndef_record_label">as record type</string>
+    <string name="ndef_record_label">บันทึกเป็น</string>
     <string name="brick_set_nfc_tag">รอให้แท็ก NFC ถัดไปเขียน</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">แท็ก NFC</string>
-    <string name="tnf_empty">Empty</string>
+    <string name="tnf_empty">ว่างเปล่า</string>
     <string name="tnf_external_type">ประเภทภายนอก</string>
     <string name="tnf_mime_media">ข้อความ</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
-    <string name="tnf_well_known_sms">SMS</string>
+    <string name="tnf_well_known_tel">เบอร์​โทรศัพท์</string>
+    <string name="tnf_well_known_sms">ข้อความ SMS</string>
     <string name="tnf_well_known_mailto">อีเมล</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">ตัวแปรสำหรับอุปกรณ์ที่เชื่อมต่อ</string>
     <string name="global_vars_headline">ตัวแปรสำหรับนักแสดงและวัตถุทั้งหมด</string>
     <string name="local_vars_headline">ตัวแปรสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
     <string name="global_lists_headline">รายการสำหรับนักแสดงและวัตถุทั้งหมด</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
+    <string name="local_lists_headline">รายการสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">สำหรับนักแสดงวัตถุและโคลนทุกฉาก</string>
     <string name="new_data_for_this_sprite_only">สำหรับนักแสดงวัตถุหรือหนึ่งในโคลนของมันเท่านั้น</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_connected_devices">สำหรับนักแสดงวัตถุและโคลนในทุกฉากของโครงการ
+         บนอุปกรณ์มัลติเพลเยอร์ที่เชื่อมต่อ</string>
     <!-- Backpack -->
     <string name="backpack_title">ชุดข้อมูลของคุณ</string>
-    <string name="pack">Pack</string>
-    <string name="unpack">Unpack</string>
+    <string name="pack">เก็บ</string>
+    <string name="unpack">แตกออก</string>
     <!--  -->
     <!-- Sprite Attribute Activity -->
     <string name="scripts">สคริปต์</string>
     <string name="backgrounds">พื้นหลัง</string>
     <string name="looks">รูปลักษณ์</string>
     <string name="sounds">เสียง</string>
-    <string name="nfctags">NFC Tags</string>
+    <string name="nfctags">แท็ก NFC</string>
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_title">โปรแกรมใหม่</string>
     <string name="new_project_empty">Create an empty project</string>
@@ -621,35 +633,35 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="sign_in_error">เกิดข้อผิดพลาดระหว่างลงชื่อเข้าใช้</string>
     <string name="error_google_plus_sign_in">ข้อผิดพลาดการลงชื่อเข้าใช้ Google สถานะ: %s</string>
     <string name="error_session_expired">เซสชันหมดอายุโปรดเข้าสู่ระบบ</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
+    <string name="error_register_empty_username">ชื่อผู้ใช้ว่างเปล่า</string>
+    <string name="error_register_username_as_email">ไม่สามารถใช้ที่อยู่อีเมลเป็นชื่อผู้ใช้</string>
     <string name="error_register_invalid_username">ชื่อผู้ใช้ควรมีตัวอักษร (a – z), ตัวเลข (0–9), เครื่องหมายขีดกลาง (-), เครื่องหมายขีดล่าง (_) และจุด (.)</string>
     <string name="error_register_username_start_with">ชื่อผู้ใช้ไม่ควรเริ่มต้นด้วยขีดกลาง (-), ขีดล่าง (_) หรือจุด (.)</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="error_register_invalid_email_format">รูปแบบอีเมลไม่ถูกต้อง</string>
+    <string name="error_register_empty_password">ช่องรหัสผ่านว่างเปล่า</string>
+    <string name="error_register_password_at_least_6_characters">รหัสผ่านควรมีอย่างน้อย 6 ตัวอักษร</string>
+    <string name="error_register_passwords_mismatch">รหัสผ่านไม่ตรงกัน</string>
+    <string name="error_register_empty_confirm_password">ช่องใส่ยืนยันรหัสผ่านว่างเปล่า</string>
+    <string name="error_register_username_already_exists">ชื่อผู้ใช้นี้มีอยู่ในระบบอยู่แล้ว</string>
+    <string name="error_register_email_exists">มีอีเมลนี้อยู่ในระบบแล้ว</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_title">มีโครงการ</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
-    <string name="overwrite_rename">Choose a new name</string>
+    <string name="overwrite_text">มีโครงการชื่อนี้อยู่แล้ว</string>
+    <string name="overwrite_replace">เขียนทับโครงการ</string>
+    <string name="overwrite_rename">เลือกชื่อใหม่</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_project_name">เพลงไม่มีชื่อ</string>
+    <string name="pocket_music_default_track_name">ติดตาม 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
+    <string name="prestage_text_to_speech_engine_not_installed">เครื่องมือ Text-to-Speech ไม่ได้ติดตั้ง!\n คุณต้องการที่จะ
+         ติดตั้งหรือไม่</string>
     <string name="prestage_resource_not_available_title">ไม่มีส่วนประกอบ</string>
     <string name="prestage_resource_not_available_text">น่าเสียดายที่โครงการนี้ใช้ไม่ได้กับอุปกรณ์ของคุณ  ส่วนประกอบต่อไปนี้ไม่สามารถใช้งานได้: \ n\n</string>
     <string name="prestage_resource_in_use_text">อุปกรณ์อื่นเชื่อมต่อกับ Jumping Sumo  ตรวจสอบให้แน่ใจว่าคุณเป็นคนที่เชื่อมต่อกับโดรน</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_no_vibration_available">\u2022 การสั่นสะเทือน \n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 เซ็นเซอร์ความเร่ง \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 เซ็นเซอร์ความเอียง \ n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 เข็มทิศ \n</string>
@@ -671,7 +683,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="stage_dialog_axes_on">เปิดใช้แกน</string>
     <string name="stage_dialog_axes_off">ปิดใช้แกน</string>
     <string name="stage_dialog_maximize">ขยาย/\nยืด</string>
-    <string name="stage_dialog_screenshot">Preview</string>
+    <string name="stage_dialog_screenshot">แสดงตัวอย่าง</string>
     <string name="stage_dialog_embroidery">การตกแต่ง</string>
     <!--  -->
     <!-- Broadcast spinner -->
@@ -679,7 +691,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="dialog_new_broadcast_message_name">ข้อความ:</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_default_all">all</string>
+    <string name="brick_when_nfc_default_all">ทั้งหมด</string>
     <!-- -->
     <!-- Brick categories -->
     <string name="categories">หมวดหมู่</string>
@@ -689,7 +701,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="category_pen">ปากกา</string>
     <string name="category_sound">เสียง</string>
     <string name="category_control">ควบคุม</string>
-    <string name="category_event">Event</string>
+    <string name="category_event">เหตุการณ์</string>
     <string name="category_user_bricks">คำสั่งของคุณ</string>
     <string name="category_data">ข้อมูล</string>
     <string name="category_lego_nxt">Lego NXT</string>
@@ -703,13 +715,15 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="category_assertions">Testing</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_user_defined_add_label">เพิ่มป้ายชื่อ</string>
+    <string name="brick_user_defined_add_input">เพิ่มข้อมูลนำเข้า</string>
     <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
     <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">กำหนด</string>
+    <string name="brick_user_defined_script_as">เช่นเดียวกับ</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"วางที่"</string>
@@ -740,21 +754,21 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_point_to">ชี้ไปยัง</string>
     <string name="brick_glide">ไถล</string>
     <string name="brick_glide_to_x">ไปยังตำแหน่ง X:</string>
-    <string name="brick_go_to">Go to</string>
-    <string name="brick_go_to_touch_position">touch position</string>
-    <string name="brick_go_to_random_position">random position</string>
+    <string name="brick_go_to">ไปยัง</string>
+    <string name="brick_go_to_touch_position">ตำแหน่งสัมผัส</string>
+    <string name="brick_go_to_random_position">ตำแหน่งสุ่ม</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">Set your motion type to</string>
-    <string name="brick_set_physics_object_type_dynamic">moving and bouncing under gravity</string>
-    <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
-    <string name="brick_set_physics_object_type_no">not moving or bouncing under gravity (default)</string>
-    <string name="brick_set_mass">"Set mass to"</string>
-    <string name="brick_set_mass_unit">kilogram</string>
-    <string name="brick_set_gravity_to">"Set gravity for all actors and objects to"</string>
-    <string name="brick_set_gravity_unit">steps/second²</string>
-    <string name="brick_set_velocity_to">"Set velocity to"</string>
-    <string name="brick_set_velocity_unit">steps/second</string>
+    <string name="brick_set_physics_object_type">ตั้งค่าประเภทการเคลื่อนไหวของคุณเป็น</string>
+    <string name="brick_set_physics_object_type_dynamic">เคลื่อนที่และกระดอนภายใต้แรงโน้มถ่วง</string>
+    <string name="brick_set_physics_object_type_fixed">ไม่เคลื่อนไหวภายใต้แรงโน้มถ่วง แต่คนอื่น ๆ กระเด็นคุณภายใต้แรงโน้มถ่วง</string>
+    <string name="brick_set_physics_object_type_no">ไม่เคลื่อนไหวหรือกระดอนภายใต้แรงโน้มถ่วง (ค่าเริ่มต้น)</string>
+    <string name="brick_set_mass">"ตั้งค่ามวลเป็น"</string>
+    <string name="brick_set_mass_unit">กิโลกรัม</string>
+    <string name="brick_set_gravity_to">"ตั้งค่าแรงโน้มถ่วงสำหรับนักแสดงและวัตถุทั้งหมดให้เป็น"</string>
+    <string name="brick_set_gravity_unit">ขั้นตอน / วินาที²</string>
+    <string name="brick_set_velocity_to">"ตั้งค่าความเร็วเป็น"</string>
+    <string name="brick_set_velocity_unit">ขั้นตอน / วินาที</string>
     <string name="brick_turn_speed_unit">degrees/second</string>
     <string name="brick_set_friction">"Set friction to"</string>
     <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
@@ -809,6 +823,7 @@ A-8010 กราซ, ออสเตรีย \n
     <!-- Sound bricks -->
     <string name="brick_play_sound">เริ่มเล่นเสียง</string>
     <string name="brick_play_sound_and_wait">เริ่มเสียงแล้วรอ</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">หยุดเสียงทั้งหมด</string>
     <string name="brick_set_volume_to">ตั้งระดับเสียงเป็น</string>
     <string name="brick_change_volume_by">เปลี่ยนระดับเสียงทีละ</string>
@@ -852,6 +867,9 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_say_bubble">พูด</string>
     <string name="brick_think_say_for_text">สำหรับ</string>
     <string name="brick_forever">ตลอดไป</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">กำหนดความหมาย</string>
     <string name="brick_repeat">ทำซ้ำ</string>
     <string name="brick_repeat_until">ทำซ้ำจนกระทั่ง</string>
     <string name="brick_when_touched">เมื่อเวทีถูกทาบทาม</string>
@@ -864,6 +882,9 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_wait_till_idle">รอจนกระทั่งสคริปต์อื่น ๆ หยุดทำงาน</string>
     <string name="brick_tap_at">"แตะครั้งเดียวที่"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="other">ครั้ง</item>
     </plurals>
@@ -876,6 +897,15 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_change_variable">เปลี่ยนค่าตัวแปร</string>
     <string name="brick_write_variable_on_device">เขียนตัวแปรบนอุปกรณ์</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">จากไฟล์</string>
+    <string name="brick_read_variable_from_file_bottom">และ</string>
+    <string name="brick_read_variable_from_file_keep">เก็บไฟล์</string>
+    <string name="brick_read_variable_from_file_delete">ลบไฟล์</string>
     <string name="brick_write_list_on_device">เขียนรายการบนอุปกรณ์</string>
     <string name="brick_read_list_from_device">อ่านรายการจากอุปกรณ์</string>
     <string name="brick_note_default_value">เพิ่มความคิดเห็นที่นี่&#8230;</string>
@@ -884,7 +914,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_broadcast_default_value">"ข้อความ 1"</string>
     <string name="brick_add_item_to_userlist_add">เพิ่ม</string>
     <string name="brick_add_item_to_userlist">ไปยังรายการ</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
+    <string name="brick_clear_userlist">ลบรายการทั้งหมดจากรายการ</string>
     <string name="brick_delete_item_from_userlist_delete">ลบข้อมูลออกจากรายการ</string>
     <string name="brick_delete_item_from_userlist">ที่ตำแหน่ง</string>
     <string name="brick_insert_item_into_userlist_insert_into">แทรก</string>
@@ -893,56 +923,61 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_replace_item_in_userlist_replace_in_list">แทนที่ข้อมูลในรายการ</string>
     <string name="brick_replace_item_in_userlist_item_at_index">ที่ตำแหน่ง</string>
     <string name="brick_replace_item_in_userlist_with_value">แทนด้วย</string>
-    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_web_request">ส่งคำขอทางเว็บไปที่</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">and store answer in</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
-    </string>
-    <string name="brick_look_request">Get image from</string>
+    <string name="brick_web_request_result">และเก็บคำตอบไว้</string>
+    <string name="web_request_warning_title">อนุญาตการเข้าถึงเว็บหรือไม่</string>
+    <string name="web_request_warning_message">ระวังให้มากก่อนอนุญาตให้เข้าถึงตั้งแต่
+         ลิงก์อาจเปิดเผยข้อมูลส่วนบุคคลของคุณ
+         คุณเข้าสู่บุคคลอื่นที่เป็นอันตรายหรือสาธารณะ ดูของเรา
+         &lt;a href=%1s>wiki&lt;/a&gt; สำหรับข้อมูลเพิ่มเติมว่าทำไมสิ่งนี้ถึงได้
+         เป็นอันตรายอย่างยิ่ง</string>
+    <string name="web_request_trust_domain_warning_title">อนุญาตการเข้าถึงเว็บเสมอหรือไม่</string>
+    <string name="web_request_trust_domain_warning_message">ด้วยการอนุญาตให้เข้าถึงเสมอคุณจะ
+         จะไม่ถูกถามอีกครั้งเพื่อยืนยันที่อยู่เว็บจากโดเมนนี้</string>
+    <string name="trusted_domains_edit_hint">หากคุณต้องการเพิกถอนการอนุญาตนี้
+         ในภายหลังคุณสามารถลบรายการออกจากรายการโดเมนที่เชื่อถือได้ใน
+         การตั้งค่าของแอพนี้</string>
+    <string name="brick_look_request">รับภาพจาก</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_look_request_result">และใช้เป็นรูปลักษณ์ปัจจุบัน</string>
+    <string name="brick_background_request_result">และใช้เป็นพื้นหลังปัจจุบัน</string>
+    <string name="look_request_http_error_message">"รับภาพจาก%1$sข้อผิดพลาด HTTP ที่ส่งคืน%2$s"</string>
+    <string name="look_request_type_error_message">"รับภาพจาก%1$s ไม่สามารถดึงรูปแบบภาพที่เป็นที่รู้จัก"</string>
+    <string name="brick_store_csv_into_userlist_store">คอลัมน์ร้านค้า</string>
+    <string name="brick_store_csv_into_userlist_of">ของ</string>
+    <string name="brick_store_csv_into_userlist_csv">ค่าที่คั่นด้วยเครื่องหมายจุลภาค</string>
     <string name="brick_store_csv_into_userlist_into">ลงในรายการ</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">โปรแกรมแรกของฉัน</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">ฉาก %1$d</string>
     <string name="default_project_background_name">พื้นหลัง</string>
-    <string name="default_project_cloud_name">Clouds</string>
-    <string name="default_project_cloud_sprite_name_1">Clouds1</string>
-    <string name="default_project_cloud_sprite_name_2">Clouds2</string>
-    <string name="default_project_sprites_animal_name">Animal</string>
-    <string name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string name="default_project_sprites_animal_wings_down">Wings down</string>
-    <string name="default_project_sprites_tweet_1">Tweet1</string>
-    <string name="default_project_sprites_tweet_2">Tweet2</string>
+    <string name="default_project_cloud_name">เมฆ</string>
+    <string name="default_project_cloud_sprite_name_1">เมฆ 1</string>
+    <string name="default_project_cloud_sprite_name_2">เมฆ 2</string>
+    <string name="default_project_sprites_animal_name">สัตว์</string>
+    <string name="default_project_sprites_animal_wings_up">ปีกขึ้น</string>
+    <string name="default_project_sprites_animal_wings_down">ปีกลง</string>
+    <string name="default_project_sprites_tweet_1">ทวีต 1</string>
+    <string name="default_project_sprites_tweet_2">ทวีต 2</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">พื้นหลัง</string>
-    <string name="default_cast_project_cloud_name">Clouds</string>
-    <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
-    <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
-    <string name="default_cast_project_sprites_bird_name">Bird</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
-    <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
-    <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
+    <string name="default_cast_project_cloud_name">เมฆ</string>
+    <string name="default_cast_project_cloud_sprite_name1">เมฆ 1</string>
+    <string name="default_cast_project_cloud_sprite_name2">เมฆ 2</string>
+    <string name="default_cast_project_sprites_bird_name">นก</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up">ปีกนกขึ้น</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down">ปีกนกลง</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">ปีกนกขึ้น ด้านซ้าย</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">ปีกนกขึ้น ด้านขวา</string>
+    <string name="default_cast_project_sprites_tweet_1">ทวีต 1</string>
+    <string name="default_cast_project_sprites_tweet_2">ทวีต 2</string>
     <string name="default_cast_project_var_direction">ทิศทาง</string>
-    <string name="default_cast_project_name">My first Chromecast project</string>
+    <string name="default_cast_project_name">Chromecast โครงการแรกของฉัน</string>
     <!-- Default Drone Values -->
     <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
     <string name="default_drone_project_sprites_takeoff">ออกบิน</string>
@@ -955,7 +990,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="default_drone_project_sprites_back">ย้อนกลับ</string>
     <string name="default_drone_project_sprites_turn_left">เลี้ยวซ้าย</string>
     <string name="default_drone_project_sprites_turn_right">เลี้ยวขวา</string>
-    <string name="default_drone_project_sprites_emergency">Emergency</string>
+    <string name="default_drone_project_sprites_emergency">ฉุกเฉิน</string>
     <string name="drone_brick_set_text">ข้อความ</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1012,7 +1047,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="drone_alert_battery_low">แบตเตอรี่เหลือน้อยเกินไปที่จะถอดอีกครั้ง</string>
     <string name="drone_alert_ultrasound">เซ็นเซอร์อัลตร้าซาวด์ไม่สามารถระบุความสูง AR.Drone 2.0</string>
     <string name="drone_alert_vision">ไม่มีการประมาณความเร็วจากกล้องหันหน้าไปทางด้านล่าง</string>
-    <string name="drone_emergency_title">Emergency</string>
+    <string name="drone_emergency_title">ฉุกเฉิน</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นอิฐของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
