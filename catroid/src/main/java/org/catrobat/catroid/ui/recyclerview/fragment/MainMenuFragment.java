@@ -87,15 +87,16 @@ public class MainMenuFragment extends Fragment implements
 	private static final int EXPLORE = 4;
 	private static final int UPLOAD = 5;
 
-	private static final int CURRENTTHUMBNAILSIZE = 130;
+	private static final int CURRENTTHUMBNAILSIZE = 500;
 	private static final int CONTINUE = R.id.current_project;
 	private static final int NEW = R.id.floating_action_button;
 
 	private View parent;
 	private RecyclerView recyclerView;
 	private ButtonAdapter buttonAdapter;
-	private File projectDir;
 	View.OnClickListener listener;
+	List<ProjectData> myProjects;
+	String currentProject;
 
 	@Nullable
 	@Override
@@ -133,8 +134,12 @@ public class MainMenuFragment extends Fragment implements
 		parent.findViewById(R.id.current_project).setOnClickListener(listener);
 		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
 
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-				.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity())));
+		updateMyProjects();
+		if (myProjects.size() != 0) {
+			currentProject = myProjects.get(0).getName();
+		} else {
+			currentProject = Utils.getCurrentProjectName(getContext());
+		}
 		loadProjectImage();
 
 		setShowProgressBar(false);
@@ -158,15 +163,19 @@ public class MainMenuFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();
 		setShowProgressBar(false);
-		loadProjectImage();
-		projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-				.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity())));
 
 		String projectName = getActivity().getIntent().getStringExtra(EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			getActivity().getIntent().removeExtra(EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
+		updateMyProjects();
+		if (myProjects.size() != 0) {
+			currentProject = myProjects.get(0).getName();
+		} else {
+			currentProject = Utils.getCurrentProjectName(getContext());
+		}
+		loadProjectImage();
 	}
 
 	private void loadDownloadedProject(String name) {
@@ -198,10 +207,10 @@ public class MainMenuFragment extends Fragment implements
 				break;
 			case UPLOAD:
 				setShowProgressBar(true);
+				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
 				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_DIR,
-								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
+						.putExtra(ProjectUploadActivity.PROJECT_DIR, projectDir);
 				startActivity(intent);
 				break;
 		}
@@ -211,7 +220,8 @@ public class MainMenuFragment extends Fragment implements
 		switch (view.getId()) {
 			case CONTINUE:
 				setShowProgressBar(true);
-
+				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
 				new ProjectLoadTask(projectDir, getContext())
 						.setListener(this)
 						.execute();
@@ -240,8 +250,8 @@ public class MainMenuFragment extends Fragment implements
 		}
 	}
 
-	private ProjectData getCurrentProject() {
-		List<ProjectData> items = new ArrayList<>();
+	private void updateMyProjects() {
+		myProjects = new ArrayList<>();
 
 		for (File projectDir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
 			File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
@@ -252,36 +262,34 @@ public class MainMenuFragment extends Fragment implements
 			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
 
 			try {
-				items.add(metaDataParser.getProjectMetaData());
+				myProjects.add(metaDataParser.getProjectMetaData());
 			} catch (IOException e) {
-				Log.e(TAG, "Well, that's awkward.", e);
+				Log.e(TAG, "Project not parseable", e);
 			}
 		}
-		if (items.size() == 0) {
-			return null;
+		if (myProjects.size() == 0) {
+			return;
 		}
-		Collections.sort(items, new Comparator<ProjectData>() {
+		Collections.sort(myProjects, new Comparator<ProjectData>() {
 			@Override
 			public int compare(ProjectData project1, ProjectData project2) {
 				return Long.compare(project2.getLastUsed(), project1.getLastUsed());
 			}
 		});
-
-		return items.get(0);
 	}
 
 	private void loadProjectImage() {
-		ProjectData currentProject = getCurrentProject();
-		if (currentProject == null) {
-			return;
-		}
-		TextView titleView = parent.findViewById(R.id.title_view);
-		titleView.setText(currentProject.getName());
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
+
+		TextView titleView = parent.findViewById(R.id.project_title);
+		titleView.setText(currentProject);
 		ProjectAndSceneScreenshotLoader loader =
 				new ProjectAndSceneScreenshotLoader(CURRENTTHUMBNAILSIZE, CURRENTTHUMBNAILSIZE);
 
-		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(currentProject.getDirectory());
-		loader.loadAndShowScreenshot(currentProject.getName(), sceneName, false,
+		String sceneName =
+				XstreamSerializer.extractDefaultSceneNameFromXml(projectDir);
+		loader.loadAndShowScreenshot(currentProject, sceneName, false,
 				parent.findViewById(R.id.image_view));
 	}
 }
