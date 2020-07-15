@@ -30,6 +30,7 @@
     <string name="undo">Poništi</string>
     <string name="new_option">Novi&#8230;</string>
     <string name="confirm">Potvrdi</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Odustani</string>
     <string name="next">Iduće</string>
     <string name="back">Nazad</string>
@@ -38,6 +39,9 @@
     <string name="close">Zatvoriti</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Slažem se</string>
     <string name="disagree">Ne slažem se</string>
     <string name="select_all">Izaberi sve</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Podešavanja</string>
     <string name="preference_title_language">Jezik</string>
     <string name="preference_description_language">Postavi jezik aplikacije</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Pristupačnost</string>
     <string name="preference_description_accessibility">Promjeni luk aplikacije</string>
     <string name="preference_title_accessibility_profiles">Profili pristupačnosti</string>
@@ -290,6 +297,49 @@
     <string name="merge">Merge</string>
     <string name="show_details">Prikaži detalje</string>
     <string name="hide_details">Sakrij detalje</string>
+    <!-- New Dialog Titles -->
+    <string name="new_scene_dialog">Nova scena</string>
+    <!-- Delete Dialog Titles -->
+    <plurals name="delete_projects">
+        <item quantity="one">Obrišite ovaj projekat?</item>
+        <item quantity="few">Obrišite ove projekte?</item>
+        <item quantity="other">Obrišite ove projekte?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">Obrišite ovu scenu?</item>
+        <item quantity="few">Obrišite ove scene?</item>
+        <item quantity="other">Obrišite ove scene?</item>
+    </plurals>
+    <plurals name="delete_sprites">
+        <item quantity="one">Obrisati ovog učesnika ili objekat?</item>
+        <item quantity="few">Obrisati ove učesnike ili objekte?</item>
+        <item quantity="other">Obrisati ove učesnike ili objekte?</item>
+    </plurals>
+    <plurals name="delete_looks">
+        <item quantity="one">Obrisati ovaj izgled?</item>
+        <item quantity="few">Obrisati ove izglede?</item>
+        <item quantity="other">Obrisati ove izglede?</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">Obrisati ovaj zvuk?</item>
+        <item quantity="few">Obrisati ove zvukove?</item>
+        <item quantity="other">Obrisati ove zvukove?</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">Obrisati ovu oznaku?</item>
+        <item quantity="few">Obrisati ove oznake?</item>
+        <item quantity="other">Obrisati ove oznake?</item>
+    </plurals>
+    <plurals name="delete_scripts">
+        <item quantity="one">Obrisati ovu skriptu?</item>
+        <item quantity="few">Obrisati ove skripte?</item>
+        <item quantity="other">Obrisati ove skripte?</item>
+    </plurals>
+    <plurals name="delete_bricks">
+        <item quantity="one">Obrisati ovaj blok?</item>
+        <item quantity="few">Obrisati ove blokove?</item>
+        <item quantity="other">Obrisati ove blokove?</item>
+    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Naziv projekta</string>
     <string name="scene_name_label">Naziv scene</string>
@@ -789,6 +839,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Postavi na "</string>
@@ -892,6 +944,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Pokreni zvuk</string>
     <string name="brick_play_sound_and_wait">Pokrenite zvuk i čekajte</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Zaustavi sve zvukove</string>
     <string name="brick_set_volume_to">Postavi glasnoću na</string>
     <string name="brick_change_volume_by">Promjeni glasnoću za</string>
@@ -937,6 +990,9 @@
     <string name="brick_say_bubble">Recite</string>
     <string name="brick_think_say_for_text">za</string>
     <string name="brick_forever">Zauvijek</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">za</string>
     <string name="brick_repeat">Ponovi</string>
     <string name="brick_repeat_until">Ponavljajte dok</string>
     <string name="brick_when_touched">When stage is tapped</string>
@@ -949,6 +1005,9 @@
     <string name="brick_wait_till_idle">Sačekajte dok sve ostale skripte prestanu raditi</string>
     <string name="brick_tap_at">"Jedan pritisak na"</string>
     <string name="brick_finish_stage">Zadnja faza</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">vrijeme</item>
         <item quantity="few">vremena</item>
@@ -963,6 +1022,15 @@
     <string name="brick_change_variable">Promjeni varijablu</string>
     <string name="brick_write_variable_on_device">Pišite varijable na uređaju</string>
     <string name="brick_read_variable_from_device">Čitajte varijable sa uređaja</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">i</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Napišite listu na uređaj</string>
     <string name="brick_read_list_from_device">Čitajte listu sa uređaja</string>
     <string name="brick_note_default_value">dodaj komentar ovdje&#8230;</string>
@@ -986,9 +1054,17 @@
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
