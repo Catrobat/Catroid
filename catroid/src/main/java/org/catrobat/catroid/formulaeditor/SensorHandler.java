@@ -43,7 +43,7 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.camera.CameraManager;
+import org.catrobat.catroid.camera.FaceDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -51,7 +51,6 @@ import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -194,10 +193,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		SensorHandler.registerListener(instance);
 
-		if (CameraManager.getInstance() != null) {
-			FaceDetectionHandler.registerOnFaceDetectedListener(instance);
-			FaceDetectionHandler.registerOnFaceDetectionStatusListener(instance);
-		}
+		FaceDetector.addListener(instance);
 
 		if (instance.sensorLoudness != null) {
 			instance.sensorLoudness.registerListener(instance);
@@ -268,8 +264,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.locationManager.removeGpsStatusListener(instance);
 		}
 
-		FaceDetectionHandler.unregisterOnFaceDetectedListener(instance);
-		FaceDetectionHandler.unregisterOnFaceDetectionStatusListener(instance);
+		FaceDetector.removeListener(instance);
 	}
 
 	public static Object getSensorValue(Sensors sensor) {

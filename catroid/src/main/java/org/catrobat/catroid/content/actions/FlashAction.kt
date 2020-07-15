@@ -20,9 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.camera;
+package org.catrobat.catroid.content.actions
 
-public interface JpgPreviewCallback {
+import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
+import org.catrobat.catroid.stage.StageActivity
 
-	void onFrame(byte[] jpgData);
+class FlashAction : TemporalAction() {
+    var flashOn = false
+
+    override fun update(percent: Float) {
+        if (flashOn) {
+            StageActivity.getActiveCameraManager()?.enableFlash()
+        } else {
+            StageActivity.getActiveCameraManager()?.disableFlash()
+        }
+    }
 }

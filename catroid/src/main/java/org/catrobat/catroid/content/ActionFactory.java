@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
 
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.SoundInfo;
@@ -1181,15 +1180,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createTurnFlashOnAction() {
+	public Action createFlashAction(boolean flashOn) {
 		FlashAction action = action(FlashAction.class);
-		action.turnFlashOn();
-		return action;
-	}
-
-	public Action createTurnFlashOffAction() {
-		FlashAction action = action(FlashAction.class);
-		action.turnFlashOff();
+		action.setFlashOn(flashOn);
 		return action;
 	}
 
@@ -1200,9 +1193,9 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createUpdateCameraPreviewAction(CameraManager.CameraState state) {
+	public Action createUpdateCameraPreviewAction(boolean turnOn) {
 		CameraBrickAction action = action(CameraBrickAction.class);
-		action.setCameraAction(state);
+		action.setActive(turnOn);
 		return action;
 	}
 
