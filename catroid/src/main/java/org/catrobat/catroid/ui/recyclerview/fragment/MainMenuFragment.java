@@ -140,6 +140,9 @@ public class MainMenuFragment extends Fragment implements
 		} else {
 			currentProject = Utils.getCurrentProjectName(getContext());
 		}
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
+		ProjectLoadTask.task(projectDir, getContext());
 		loadProjectImage();
 
 		setShowProgressBar(false);
@@ -169,12 +172,17 @@ public class MainMenuFragment extends Fragment implements
 			getActivity().getIntent().removeExtra(EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
+
 		updateMyProjects();
+
 		if (myProjects.size() != 0) {
 			currentProject = myProjects.get(0).getName();
 		} else {
 			currentProject = Utils.getCurrentProjectName(getContext());
 		}
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
+		ProjectLoadTask.task(projectDir, getContext());
 		loadProjectImage();
 	}
 
