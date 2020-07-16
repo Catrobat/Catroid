@@ -94,18 +94,18 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		script.setNfcTag(null);
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 		script.setMatchAll(true);
 		script.setNfcTag(null);
 	}
 
 	@Override
-	public void onItemSelected(@Nullable NfcTagData item) {
+	public void onItemSelected(Integer spinnerId, @Nullable NfcTagData item) {
 		script.setNfcTag(item);
 		script.setMatchAll(false);
 	}

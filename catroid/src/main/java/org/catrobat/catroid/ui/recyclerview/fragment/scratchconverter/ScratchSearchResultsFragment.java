@@ -345,8 +345,7 @@ public class ScratchSearchResultsFragment extends Fragment implements
 	public void onSelectionChanged(int selectedItemCnt) {
 		switch (actionModeType) {
 			case CONVERT:
-				actionMode.setTitle(getResources().getQuantityString(R.plurals.am_convert_projects_title,
-						selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_convert) + " " + selectedItemCnt);
 				break;
 			case NONE:
 			default:

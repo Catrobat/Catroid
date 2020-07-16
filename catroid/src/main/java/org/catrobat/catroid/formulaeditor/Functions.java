@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.formulaeditor;
 
-import android.util.Log;
+import org.catrobat.catroid.utils.EnumUtils;
 
 import java.util.EnumSet;
 
@@ -41,15 +41,10 @@ public enum Functions {
 			NUMBER_OF_ITEMS);
 
 	public static boolean isFunction(String value) {
-		return getFunctionByValue(value) != null;
+		return EnumUtils.isValidEnum(Functions.class, value);
 	}
 
 	public static Functions getFunctionByValue(String value) {
-		try {
-			return valueOf(value);
-		} catch (IllegalArgumentException illegalArgumentException) {
-			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		}
-		return null;
+		return EnumUtils.getEnum(Functions.class, value);
 	}
 }

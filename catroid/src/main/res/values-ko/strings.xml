@@ -30,6 +30,7 @@
     <string name="undo">취소</string>
     <string name="new_option">새로운 신호</string>
     <string name="confirm">확인</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">취소</string>
     <string name="next">다음</string>
     <string name="back">돌아가기</string>
@@ -38,6 +39,9 @@
     <string name="close">닫기</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">동의</string>
     <string name="disagree">동의하지 않음</string>
     <string name="select_all">모두 선택</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">설정</string>
     <string name="preference_title_language">언어</string>
     <string name="preference_description_language">앱의 언어 선택</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">접근성</string>
     <string name="preference_description_accessibility">응용 프로그램의 모양을 변경</string>
     <string name="preference_title_accessibility_profiles">접근성 참고사항</string>
@@ -264,120 +271,6 @@
     <string name="merge">병합</string>
     <string name="show_details">세부 정보 표시</string>
     <string name="hide_details">세부 사항 숨기기</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="other">%d 프로젝트 묶기</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="other">%d 프로젝트 복사</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="other">%d 프로젝트 삭제</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="other">%d 프로젝트 이름 변경</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="other">%d 프로젝트 변환</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="other">%d 프로젝트 병합</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="other">%d 장면 묶기</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="other">%d 장면 풀기</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="other">%d 장면 복사</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="other">%d 장면 삭제</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="other">%d 장면 이름 변경</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="other">%d 배우와 오브젝트 묶기</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="other">%d 배우와 오브젝트 풀기</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="other">%d 배우와 오브젝트 복사</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="other">%d 배우와 오브젝트 삭제</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="other">%d 배우와 오브젝트 이름 변경</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="other">%d 모양 묶기</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="other">%d 모양 풀기</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="other">%d 모양 복사</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="other">%d 모양 삭제</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="other">%d 모양 이름 변경</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="other">%d 소리 묶기</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="other">%d 소리 풀기</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="other">%d 소리 복사</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="other">%d 소리 삭제</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="other">%d 소리 이름 변경</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="other">%d NFC 태그 복사</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="other">%d NFC 태그 삭제</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="other">%d NFC 태그 이름 변경</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="other">%d 블록 묶기</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="other">%d 블록 풀기</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="other">%d 블록 복사</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="other">%d 블록 삭제</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="other">%d 스크립트 삭제</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="other">%d 데이터 항목 삭제</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">새로운 장면</string>
     <!-- Delete Dialog Titles -->
@@ -853,6 +746,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"위치 설정"</string>
@@ -952,6 +847,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!-- Sound bricks -->
     <string name="brick_play_sound">소리 재생</string>
     <string name="brick_play_sound_and_wait">소리 재생하고 기다리기</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">모든 소리 멈추기</string>
     <string name="brick_set_volume_to">음량 설정하기</string>
     <string name="brick_change_volume_by">음량 바꾸기</string>
@@ -995,6 +891,9 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_say_bubble">말</string>
     <string name="brick_think_say_for_text">동안</string>
     <string name="brick_forever">계속 반복</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">to</string>
     <string name="brick_repeat">반복</string>
     <string name="brick_repeat_until">반복 때까지</string>
     <string name="brick_when_touched">화면을 터치할 때</string>
@@ -1007,6 +906,9 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_wait_till_idle">다른 스크립트가 정지할 때까지 기다리기</string>
     <string name="brick_tap_at">"한 번 누르기"</string>
     <string name="brick_finish_stage">마지막 스테이지</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="other">번</item>
     </plurals>
@@ -1019,6 +921,15 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_change_variable">변수 바꾸기</string>
     <string name="brick_write_variable_on_device">변수 저장하기</string>
     <string name="brick_read_variable_from_device">변수 불러오기</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">그리고</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">리스트 저장하기</string>
     <string name="brick_read_list_from_device">리스트 불러오기</string>
     <string name="brick_note_default_value">여기에 코멘트를 추가&#8230;</string>
@@ -1039,12 +950,20 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_web_request">웹 요청 보내기</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">답변 저장</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1052,8 +971,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

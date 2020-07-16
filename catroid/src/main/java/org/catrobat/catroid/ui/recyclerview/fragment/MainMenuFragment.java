@@ -26,12 +26,18 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
+import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
@@ -46,9 +52,12 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.IntDef;
@@ -58,6 +67,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
@@ -68,25 +78,30 @@ public class MainMenuFragment extends Fragment implements
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({CONTINUE, NEW, PROGRAMS, HELP, EXPLORE, UPLOAD})
+	@IntDef({PROGRAMS, HELP, EXPLORE, UPLOAD})
 	@interface ButtonId {
 	}
 
-	private static final int CONTINUE = 0;
-	private static final int NEW = 1;
 	private static final int PROGRAMS = 2;
 	private static final int HELP = 3;
 	private static final int EXPLORE = 4;
 	private static final int UPLOAD = 5;
 
+	private static final int CURRENTTHUMBNAILSIZE = 500;
+	private static final int CONTINUE = R.id.current_project;
+	private static final int NEW = R.id.floating_action_button;
+
 	private View parent;
 	private RecyclerView recyclerView;
-	private ButtonAdapter adapter;
+	private ButtonAdapter buttonAdapter;
+	View.OnClickListener listener;
+	List<ProjectData> myProjects;
+	String currentProject;
 
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-		parent = inflater.inflate(R.layout.fragment_list_view, container, false);
+		parent = inflater.inflate(R.layout.landing_page, container, false);
 		recyclerView = parent.findViewById(R.id.recycler_view);
 		setShowProgressBar(true);
 		return parent;
@@ -96,7 +111,7 @@ public class MainMenuFragment extends Fragment implements
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		List<RVButton> items = getItems();
-		adapter = new ButtonAdapter(items) {
+		buttonAdapter = new ButtonAdapter(items) {
 
 			@NonNull
 			@Override
@@ -107,17 +122,32 @@ public class MainMenuFragment extends Fragment implements
 				return new ButtonVH(view);
 			}
 		};
-		adapter.setOnItemClickListener(this);
-		recyclerView.setAdapter(adapter);
+		buttonAdapter.setOnItemClickListener(this);
+		recyclerView.setAdapter(buttonAdapter);
+
+		listener = new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onProgramClick(v);
+			}
+		};
+		parent.findViewById(R.id.current_project).setOnClickListener(listener);
+		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
+
+		updateMyProjects();
+		if (myProjects.size() != 0) {
+			currentProject = myProjects.get(0).getName();
+		} else {
+			currentProject = Utils.getCurrentProjectName(getContext());
+		}
+		loadProjectImage();
+
 		setShowProgressBar(false);
 	}
 
 	private List<RVButton> getItems() {
 		List<RVButton> items = new ArrayList<>();
-		items.add(new RVButton(CONTINUE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_continue),
-				getString(R.string.main_menu_continue)));
-		items.add(new RVButton(NEW, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_new),
-				getString(R.string.main_menu_new)));
+
 		items.add(new RVButton(PROGRAMS, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_programs),
 				getString(R.string.main_menu_programs)));
 		items.add(new RVButton(HELP, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_help),
@@ -133,14 +163,19 @@ public class MainMenuFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();
 		setShowProgressBar(false);
-		adapter.items.get(0).subtitle = Utils.getCurrentProjectName(getActivity());
-		adapter.notifyDataSetChanged();
 
 		String projectName = getActivity().getIntent().getStringExtra(EXTRA_PROJECT_NAME);
 		if (projectName != null) {
 			getActivity().getIntent().removeExtra(EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
+		updateMyProjects();
+		if (myProjects.size() != 0) {
+			currentProject = myProjects.get(0).getName();
+		} else {
+			currentProject = Utils.getCurrentProjectName(getContext());
+		}
+		loadProjectImage();
 	}
 
 	private void loadDownloadedProject(String name) {
@@ -158,18 +193,6 @@ public class MainMenuFragment extends Fragment implements
 	@Override
 	public void onItemClick(@ButtonId int id) {
 		switch (id) {
-			case CONTINUE:
-				setShowProgressBar(true);
-				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-						.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity())));
-				new ProjectLoadTask(projectDir, getContext())
-						.setListener(this)
-						.execute();
-				break;
-			case NEW:
-				new NewProjectDialogFragment()
-						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
-				break;
 			case PROGRAMS:
 				setShowProgressBar(true);
 				startActivity(new Intent(getActivity(), ProjectListActivity.class));
@@ -184,11 +207,28 @@ public class MainMenuFragment extends Fragment implements
 				break;
 			case UPLOAD:
 				setShowProgressBar(true);
+				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
 				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_DIR,
-								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
+						.putExtra(ProjectUploadActivity.PROJECT_DIR, projectDir);
 				startActivity(intent);
+				break;
+		}
+	}
+
+	public void onProgramClick(View view) {
+		switch (view.getId()) {
+			case CONTINUE:
+				setShowProgressBar(true);
+				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
+				new ProjectLoadTask(projectDir, getContext())
+						.setListener(this)
+						.execute();
+				break;
+			case NEW:
+				new NewProjectDialogFragment()
+						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
 				break;
 		}
 	}
@@ -208,5 +248,48 @@ public class MainMenuFragment extends Fragment implements
 			setShowProgressBar(false);
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 		}
+	}
+
+	private void updateMyProjects() {
+		myProjects = new ArrayList<>();
+
+		for (File projectDir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
+			File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+			if (!xmlFile.exists()) {
+				continue;
+			}
+
+			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
+
+			try {
+				myProjects.add(metaDataParser.getProjectMetaData());
+			} catch (IOException e) {
+				Log.e(TAG, "Project not parseable", e);
+			}
+		}
+		if (myProjects.size() == 0) {
+			return;
+		}
+		Collections.sort(myProjects, new Comparator<ProjectData>() {
+			@Override
+			public int compare(ProjectData project1, ProjectData project2) {
+				return Long.compare(project2.getLastUsed(), project1.getLastUsed());
+			}
+		});
+	}
+
+	private void loadProjectImage() {
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
+
+		TextView titleView = parent.findViewById(R.id.project_title);
+		titleView.setText(currentProject);
+		ProjectAndSceneScreenshotLoader loader =
+				new ProjectAndSceneScreenshotLoader(CURRENTTHUMBNAILSIZE, CURRENTTHUMBNAILSIZE);
+
+		String sceneName =
+				XstreamSerializer.extractDefaultSceneNameFromXml(projectDir);
+		loader.loadAndShowScreenshot(currentProject, sceneName, false,
+				parent.findViewById(R.id.image_view));
 	}
 }

@@ -37,10 +37,9 @@
 
         <org.catrobat.catroid.ui.BrickLayout
             android:id="@+id/brick_user_brick"
-            style="@style/BrickContainer.Userbrick.Medium"
-            app:userDefinedBrick="true"
-            android:layout_width="match_parent">
-            <include layout="@layout/icon_brick_category_look"/>
+            style="@style/BrickContainer.UserDefinedBrick.Medium"
+            app:userDefinedBrick="true">
+            <include layout="@layout/icon_brick_category_userbrick"/>
         </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

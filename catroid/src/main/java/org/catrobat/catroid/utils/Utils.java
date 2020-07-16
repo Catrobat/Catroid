@@ -49,7 +49,6 @@ import org.catrobat.catroid.transfers.GoogleLoginHandler;
 import org.catrobat.catroid.transfers.LogoutTask;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.WebconnectionException;
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -71,6 +70,7 @@ import java.util.regex.Pattern;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.Response;
 
+import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
@@ -263,6 +263,11 @@ public final class Utils {
 				.replace("x" + height, "x" + Integer.toString(newHeight));
 	}
 
+	public static String sanitizeFileName(String fileName) {
+		fileName = fileName.replaceAll("[\\\\ /:*?\"^<>|]", "");
+		return fileName.substring(0, Math.min(fileName.length(), MAX_FILE_NAME_LENGTH));
+	}
+
 	public static String md5Checksum(File file) {
 
 		if (!file.isFile()) {
@@ -338,12 +343,10 @@ public final class Utils {
 		return messageDigest;
 	}
 
-	@NotNull
 	public static InputStream getInputStreamFromAsset(Context context, String filename) throws IOException, NullPointerException {
 		return context.getAssets().open(filename, AssetManager.ACCESS_BUFFER);
 	}
 
-	@NotNull
 	public static JSONObject getJsonObjectFromInputStream(InputStream stream) throws JSONException {
 		return new JSONObject(new Scanner(stream).useDelimiter("\\A").next());
 	}

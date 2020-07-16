@@ -30,6 +30,7 @@
     <string name="undo">التراجع عن</string>
     <string name="new_option">جديد&#8230;</string>
     <string name="confirm">تأكيد</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">إلغاء</string>
     <string name="next">التالي</string>
     <string name="back">رجوع</string>
@@ -38,6 +39,9 @@
     <string name="close">إغلاق</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">موافق</string>
     <string name="disagree">غير موافق</string>
     <string name="select_all">تحديد الكل</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">إعدادات</string>
     <string name="preference_title_language">اللغة</string>
     <string name="preference_description_language">تعيين لغة التطبيق</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">إمكانية الوصول</string>
     <string name="preference_description_accessibility">تغيير مظهر التطبيق</string>
     <string name="preference_title_accessibility_profiles">ملفات تعريف إمكانية الوصول</string>
@@ -300,295 +307,6 @@
     <string name="merge">Merge</string>
     <string name="show_details">إظهار التفاصيل</string>
     <string name="hide_details">إخفاء التفاصيل</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="zero">حزم %d مشروع</item>
-        <item quantity="one">حزم %d مشروع</item>
-        <item quantity="two">حزم%d مشاريع</item>
-        <item quantity="few">حزم %d مشاريع</item>
-        <item quantity="many">حزم %d مشاريع</item>
-        <item quantity="other">حزم %d مشاريع</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="zero">نسخ %d مشروع</item>
-        <item quantity="one">نسخ %d مشروع</item>
-        <item quantity="two">نسخ %d مشاريع</item>
-        <item quantity="few">نسخ %d مشاريع</item>
-        <item quantity="many">نسخ %d مشاريع</item>
-        <item quantity="other">نسخ %d مشاريع</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="zero">حذف %d مشروع</item>
-        <item quantity="one">حذف %d مشروع</item>
-        <item quantity="two">حذف %d مشاريع</item>
-        <item quantity="few">حذف %d مشاريع</item>
-        <item quantity="many">حذف %d مشاريع</item>
-        <item quantity="other">حذف %d مشاريع</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="zero">إعادة تسمية %d مشروع</item>
-        <item quantity="one">إعادة تسمية %d مشروع</item>
-        <item quantity="two">إعادة تسمية %d مشاريع</item>
-        <item quantity="few">إعادة تسمية %d مشاريع</item>
-        <item quantity="many">إعادة تسمية %d مشاريع</item>
-        <item quantity="other">إعادة تسمية %d مشاريع</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="zero">تحويل %d مشروع</item>
-        <item quantity="one">تحويل %d مشروع</item>
-        <item quantity="two">تحويل %d مشاريع</item>
-        <item quantity="few">تحويل %d مشاريع</item>
-        <item quantity="many">تحويل %d مشاريع</item>
-        <item quantity="other">تحويل %d مشاريع</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="zero">Merge %d projects</item>
-        <item quantity="one">Merge %d project</item>
-        <item quantity="two">Merge %d projects</item>
-        <item quantity="few">Merge %d projects</item>
-        <item quantity="many">Merge %d projects</item>
-        <item quantity="other">Merge %d projects</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="zero">حزم %d مشهد</item>
-        <item quantity="one">حزم %d مشهد</item>
-        <item quantity="two">حزم %d مشاهد</item>
-        <item quantity="few">حزم %d مشاهد</item>
-        <item quantity="many">حزم %d مشاهد</item>
-        <item quantity="other">حزم %d مشاهد</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="zero">فك حزم %d مشهد</item>
-        <item quantity="one">فك حزم %d مشهد</item>
-        <item quantity="two">فك حزم %d مشاهد</item>
-        <item quantity="few">فك حزم %d مشاهد</item>
-        <item quantity="many">فك حزم %d مشاهد</item>
-        <item quantity="other">فك حزم %d مشاهد</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="zero">نسخ %d مشهد</item>
-        <item quantity="one">نسخ %d مشهد</item>
-        <item quantity="two">نسخ %d مشاهد</item>
-        <item quantity="few">نسخ %d مشاهد</item>
-        <item quantity="many">نسخ %d مشاهد</item>
-        <item quantity="other">نسخ %d مشاهد</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="zero">حذف %d مشهد</item>
-        <item quantity="one">حذف %d مشهد</item>
-        <item quantity="two">حذف %d مشاهد</item>
-        <item quantity="few">حذف %d مشاهد</item>
-        <item quantity="many">حذف %d مشاهد</item>
-        <item quantity="other">حذف %d مشاهد</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="zero">إعادة تسمية %d مشهد</item>
-        <item quantity="one">إعادة تسمية %d مشهد</item>
-        <item quantity="two">إعادة تسمية %d مشاهد</item>
-        <item quantity="few">إعادة تسمية %d مشاهد</item>
-        <item quantity="many">إعادة تسمية %d مشاهد</item>
-        <item quantity="other">إعادة تسمية %d مشاهد</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="zero">حزم %d مشروع</item>
-        <item quantity="one">حزم %d مشروع</item>
-        <item quantity="two">حزم %d مشاريع</item>
-        <item quantity="few">حزم %d مشاريع</item>
-        <item quantity="many">حزم %d مشاريع</item>
-        <item quantity="other">حزم %d مشاريع</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="zero">فك حزم %d عنصر</item>
-        <item quantity="one">فك حزم %d عنصر</item>
-        <item quantity="two">فك حزم %d عناصر</item>
-        <item quantity="few">فك حزم %d عناصر</item>
-        <item quantity="many">فك حزم %d عناصر</item>
-        <item quantity="other">فك حزم %d عناصر</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="zero">نسخ %d عنصر</item>
-        <item quantity="one">نسخ %d عنصر</item>
-        <item quantity="two">نسخ %d عناصر</item>
-        <item quantity="few">نسخ %d عناصر</item>
-        <item quantity="many">نسخ %d عناصر</item>
-        <item quantity="other">نسخ %d عناصر</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="zero">حذف %d عنصر</item>
-        <item quantity="one">حذف %d عنصر</item>
-        <item quantity="two">حذف %d عناصر</item>
-        <item quantity="few">حذف %d عناصر</item>
-        <item quantity="many">حذف %d عناصر</item>
-        <item quantity="other">حذف %d عناصر</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="zero">إعادة تسمية %d عنصر</item>
-        <item quantity="one">إعادة تسمية %d عنصر</item>
-        <item quantity="two">إعادة تسمية %d عناصر</item>
-        <item quantity="few">إعادة تسمية %d عناصر</item>
-        <item quantity="many">إعادة تسمية %d عناصر</item>
-        <item quantity="other">إعادة تسمية %d عناصر</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="zero">حزم %d مظهر</item>
-        <item quantity="one">حزم %d مظهر</item>
-        <item quantity="two">حزم %d مظاهر</item>
-        <item quantity="few">حزم %d مظاهر</item>
-        <item quantity="many">حزم %d مظاهر</item>
-        <item quantity="other">حزم %d مظاهر</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="zero">فك حزم %d مظهر</item>
-        <item quantity="one">فك حزم %d مظهر</item>
-        <item quantity="two">فك حزم %d مظاهر</item>
-        <item quantity="few">فك حزم %d مظاهر</item>
-        <item quantity="many">فك حزم %d مظاهر</item>
-        <item quantity="other">فك حزم %d مظاهر</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="zero">نسخ %d مظهر</item>
-        <item quantity="one">نسخ %d مظهر</item>
-        <item quantity="two">نسخ %d مظاهر</item>
-        <item quantity="few">نسخ %d مظاهر</item>
-        <item quantity="many">نسخ %d مظاهر</item>
-        <item quantity="other">نسخ %d مظاهر</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="zero">حذف %d مظهر</item>
-        <item quantity="one">حذف %d مظهر</item>
-        <item quantity="two">حذف %d مظاهر</item>
-        <item quantity="few">حذف %d مظاهر</item>
-        <item quantity="many">حذف %d مظاهر</item>
-        <item quantity="other">حذف %d مظاهر</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="zero">إعادة تسمية %d مظهر</item>
-        <item quantity="one">إعادة تسمية %d مظهر</item>
-        <item quantity="two">إعادة تسمية %d مظاهر</item>
-        <item quantity="few">إعادة تسمية %d مظاهر</item>
-        <item quantity="many">إعادة تسمية %d مظاهر</item>
-        <item quantity="other">إعادة تسمية %d مظاهر</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="zero">حزم %d ملف صوتي</item>
-        <item quantity="one">حزم %d ملف صوتي</item>
-        <item quantity="two">حزم %d ملفات صوتية</item>
-        <item quantity="few">حزم %d ملفات صوتية</item>
-        <item quantity="many">حزم %d ملفات صوتية</item>
-        <item quantity="other">حزم %d ملفات صوتية</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="zero">فك حزم %d ملف صوتي</item>
-        <item quantity="one">فك حزم %d ملف صوتي</item>
-        <item quantity="two">فك حزم %d ملفات صوتية</item>
-        <item quantity="few">فك حزم %d ملفات صوتية</item>
-        <item quantity="many">فك حزم %d ملفات صوتية</item>
-        <item quantity="other">فك حزم %d ملفات صوتية</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="zero">نسخ %d ملف صوتي</item>
-        <item quantity="one">نسخ %d ملف صوتي</item>
-        <item quantity="two">نسخ %d ملفات صوتية</item>
-        <item quantity="few">نسخ %d ملفات صوتية</item>
-        <item quantity="many">نسخ %d ملفات صوتية</item>
-        <item quantity="other">نسخ %d ملفات صوتية</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="zero">حذف %d ملف صوتي</item>
-        <item quantity="one">حذف %d ملف صوتي</item>
-        <item quantity="two">حذف %d ملفات صوتية</item>
-        <item quantity="few">حذف %d ملفات صوتية</item>
-        <item quantity="many">حذف %d ملفات صوتية</item>
-        <item quantity="other">حذف %d ملفات صوتية</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="zero">إعادة تسمية %d ملف صوتي</item>
-        <item quantity="one">إعادة تسمية %d ملف صوتي</item>
-        <item quantity="two">إعادة تسمية %d ملفات صوتية</item>
-        <item quantity="few">إعادة تسمية %d ملفات صوتية</item>
-        <item quantity="many">إعادة تسمية %d ملفات صوتية</item>
-        <item quantity="other">إعادة تسمية %d ملفات صوتية</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="zero">نسخ %d وسم NFC</item>
-        <item quantity="one">نسخ %d وسم NFC</item>
-        <item quantity="two">نسخ %d وسوم NFC</item>
-        <item quantity="few">نسخ %d وسوم NFC</item>
-        <item quantity="many">نسخ %d وسوم NFC</item>
-        <item quantity="other">نسخ %d وسوم NFC</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="zero">حذف %d وسم NFC</item>
-        <item quantity="one">حذف %d وسم NFC</item>
-        <item quantity="two">حذف %d وسوم NFC</item>
-        <item quantity="few">حذف %d وسوم NFC</item>
-        <item quantity="many">حذف %d وسوم NFC</item>
-        <item quantity="other">حذف %d وسوم NFC</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="zero">إعادة تسمية %d وسم NFC</item>
-        <item quantity="one">إعادة تسمية %d وسم NFC</item>
-        <item quantity="two">إعادة تسمية %d وسوم NFC</item>
-        <item quantity="few">إعادة تسمية %d وسوم NFC</item>
-        <item quantity="many">إعادة تسمية %d وسوم NFC</item>
-        <item quantity="other">إعادة تسمية %d وسوم NFC</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="zero">حزم %d لبّنة برمجية</item>
-        <item quantity="one">حزم %d لبّنة برمجية</item>
-        <item quantity="two">حزم %d لبّنات برمجية</item>
-        <item quantity="few">حزم %d لبّنات برمجية</item>
-        <item quantity="many">حزم %d لبّنات برمجية</item>
-        <item quantity="other">حزم %d لبّنات برمجية</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="zero">فك حزم %d نص برمجي</item>
-        <item quantity="one">فك حزم %d نص برمجي</item>
-        <item quantity="two">فك حزم %d نصوص برمجية</item>
-        <item quantity="few">فك حزم %d نصوص برمجية</item>
-        <item quantity="many">فك حزم %d نصوص برمجية</item>
-        <item quantity="other">فك حزم %d نصوص برمجية</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="zero">نسخ %d لبّنة برمجية</item>
-        <item quantity="one">نسخ %d لبّنة برمجية</item>
-        <item quantity="two">نسخ %d لبّنات برمجية</item>
-        <item quantity="few">نسخ %d لبّنات برمجية</item>
-        <item quantity="many">نسخ %d لبّنات برمجية</item>
-        <item quantity="other">نسخ %d لبّنات برمجية</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="zero">حذف %d لبّنة برمجية</item>
-        <item quantity="one">حذف %d لبّنة برمجية</item>
-        <item quantity="two">حذف %d لبّنات برمجية</item>
-        <item quantity="few">حذف %d لبّنات برمجية</item>
-        <item quantity="many">حذف %d لبّنات برمجية</item>
-        <item quantity="other">حذف %d لبّنات برمجية</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="zero">حذف %d نص برمجي</item>
-        <item quantity="one">حذف %d نص برمجي</item>
-        <item quantity="two">حذف %d نصوص برمجية</item>
-        <item quantity="few">حذف %d نصوص برمجية</item>
-        <item quantity="many">حذف %d نصوص برمجية</item>
-        <item quantity="other">حذف %d نصوص برمجية</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="zero">حذف %d عنصر بيانات</item>
-        <item quantity="one">حذف %d عنصر بيانات</item>
-        <item quantity="two">حذف %d عناصر بيانات</item>
-        <item quantity="few">حذف %d عناصر بيانات</item>
-        <item quantity="many">حذف %d عناصر بيانات</item>
-        <item quantity="other">حذف %d عناصر بيانات</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">مشهد جديد</string>
     <!-- Delete Dialog Titles -->
@@ -1227,6 +945,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"تحديد موقع الكائن في "</string>
@@ -1336,6 +1056,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">بدء تشغيل مقطع صوتي</string>
     <string name="brick_play_sound_and_wait">بدء تشغيل مقطع صوتي والانتظار</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">إيقاف كافة الأصوات</string>
     <string name="brick_set_volume_to">تعيين مستوى الصوت إلى</string>
     <string name="brick_change_volume_by">تغيير مستوى الصوت بمقدار</string>
@@ -1384,6 +1105,9 @@
     <string name="brick_say_bubble">قُل</string>
     <string name="brick_think_say_for_text">لفترة</string>
     <string name="brick_forever">تكرار لا نهائي</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">إلى</string>
     <string name="brick_repeat">تكرار</string>
     <string name="brick_repeat_until">تكرار حتى</string>
     <string name="brick_when_touched">عند لمس الشاشة</string>
@@ -1396,6 +1120,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="zero">مرة</item>
         <item quantity="one">مرة</item>
@@ -1413,6 +1140,15 @@
     <string name="brick_change_variable">تغيير قيمة المتغير</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">و</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">أضف تعليق هنا&#8230;</string>
@@ -1433,12 +1169,20 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1446,8 +1190,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

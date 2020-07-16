@@ -280,25 +280,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case BACKPACK:
-				return R.plurals.am_pack_sprites_title;
-			case COPY:
-				return R.plurals.am_copy_sprites_title;
-			case DELETE:
-				return R.plurals.am_delete_sprites_title;
-			case RENAME:
-				return R.plurals.am_rename_sprites_title;
-			case MERGE:
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
-
-	@Override
 	public void renameItem(Sprite item, String name) {
 		item.rename(name);
 		finishActionMode();

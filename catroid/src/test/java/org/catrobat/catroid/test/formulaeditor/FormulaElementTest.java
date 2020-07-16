@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -32,7 +30,6 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
-import org.catrobat.catroid.test.MockUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -49,11 +46,10 @@ import static org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.asse
 
 @RunWith(JUnit4.class)
 public class FormulaElementTest {
-
 	@Test
 	public void testGetInternTokenList() {
 
-		List<InternToken> internTokenList = new LinkedList<InternToken>();
+		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_OPEN));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
@@ -73,18 +69,14 @@ public class FormulaElementTest {
 
 	@Test
 	public void testInterpretNonExistingUserVariable() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
-		assertEquals(FormulaElement.NOT_EXISTING_USER_VARIABLE_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(null));
 	}
 
 	@Test
 	public void testInterpretNonExistingUserList() {
-		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
-		ProjectManager.getInstance().setCurrentProject(project);
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_LIST, "notExistingUserList", null);
-		assertEquals(FormulaElement.NOT_EXISTING_USER_LIST_INTERPRETATION_VALUE, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(null));
 	}
 
 	@Test

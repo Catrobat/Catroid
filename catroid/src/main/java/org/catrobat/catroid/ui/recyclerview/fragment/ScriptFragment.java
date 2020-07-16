@@ -54,7 +54,7 @@ import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment.OnCategorySelectedListener;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
-import org.catrobat.catroid.ui.fragment.UserBrickListFragment;
+import org.catrobat.catroid.ui.fragment.UserDefinedBrickListFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.BrickAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
@@ -70,6 +70,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -334,8 +335,8 @@ public class ScriptFragment extends ListFragment implements
 		String tag = "";
 
 		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			addListFragment = UserBrickListFragment.newInstance(this);
-			tag = UserBrickListFragment.USER_BRICK_LIST_FRAGMENT_TAG;
+			addListFragment = UserDefinedBrickListFragment.newInstance(this);
+			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
 		} else {
 			addListFragment = AddBrickFragment.newInstance(category, this);
 			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
@@ -375,22 +376,19 @@ public class ScriptFragment extends ListFragment implements
 	public void onSelectionChanged(int selectedItemCnt) {
 		switch (actionModeType) {
 			case BACKPACK:
-				actionMode.setTitle(getResources()
-						.getQuantityString(R.plurals.am_pack_scripts_title, selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_backpack) + " " + selectedItemCnt);
 				break;
 			case COPY:
-				actionMode.setTitle(getResources()
-						.getQuantityString(R.plurals.am_copy_scripts_title, selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_copy) + " " + selectedItemCnt);
 				break;
 			case DELETE:
-				actionMode.setTitle(getResources()
-						.getQuantityString(R.plurals.am_delete_bricks_title, selectedItemCnt, selectedItemCnt));
+				actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
 				break;
 			case COMMENT:
+				actionMode.setTitle(getString(R.string.comment_in_out) + " " + selectedItemCnt);
 				break;
 			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
+				throw new IllegalStateException("ActionModeType not set Correctly");
 		}
 	}
 
@@ -418,8 +416,12 @@ public class ScriptFragment extends ListFragment implements
 
 	public void addBrick(Brick brick) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		addBrick(brick, sprite, adapter, listView);
+	}
 
-		if (adapter.getCount() == 0) {
+	@VisibleForTesting
+	public void addBrick(Brick brick, Sprite sprite, BrickAdapter brickAdapter, BrickListView brickListView) {
+		if (brickAdapter.getCount() == 0) {
 			if (brick instanceof ScriptBrick) {
 				sprite.addScript(brick.getScript());
 			} else {
@@ -427,21 +429,17 @@ public class ScriptFragment extends ListFragment implements
 				script.addBrick(brick);
 				sprite.addScript(script);
 			}
-			adapter.updateItems(sprite);
-		} else if (adapter.getCount() == 1) {
-			if (brick instanceof ScriptBrick) {
-				sprite.addScript(0, brick.getScript());
-			} else {
-				sprite.getScriptList().get(0).addBrick(brick);
-			}
-			adapter.updateItems(sprite);
+			brickAdapter.updateItems(sprite);
+		} else if (brickAdapter.getCount() == 1 && !(brick instanceof ScriptBrick)) {
+			sprite.getScriptList().get(0).addBrick(brick);
+			brickAdapter.updateItems(sprite);
 		} else {
-			int firstVisibleBrick = listView.getFirstVisiblePosition();
-			int lastVisibleBrick = listView.getLastVisiblePosition();
+			int firstVisibleBrick = brickListView.getFirstVisiblePosition();
+			int lastVisibleBrick = brickListView.getLastVisiblePosition();
 			int position = (1 + lastVisibleBrick - firstVisibleBrick) / 2;
 			position += firstVisibleBrick;
-			adapter.addItem(position, brick);
-			listView.startMoving(brick);
+			brickAdapter.addItem(position, brick);
+			brickListView.startMoving(brick);
 		}
 	}
 

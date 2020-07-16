@@ -59,6 +59,7 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.SoundBackup;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.eventids.EventId;
@@ -815,7 +816,7 @@ public class StageListener implements ApplicationListener {
 		PenActor penActor;
 		EmbroideryPatternManager embroideryPatternManager;
 		Map<Sprite, ShowBubbleActor> bubbleActorMap;
-		Map<String, Integer> soundsDurationMap;
+		List<SoundBackup> soundBackupList;
 
 		boolean paused;
 		boolean finished;
@@ -869,7 +870,8 @@ public class StageListener implements ApplicationListener {
 				CameraManager.getInstance().pauseForScene();
 			}
 		}
-		backup.soundsDurationMap = SoundManager.getInstance().getPlayingSoundDurationMap();
+		backup.soundBackupList = new ArrayList<>();
+		backup.soundBackupList.addAll(SoundManager.getInstance().getPlayingSoundBackups());
 		return backup;
 	}
 
@@ -912,8 +914,9 @@ public class StageListener implements ApplicationListener {
 		if (CameraManager.getInstance() != null && backup.cameraRunning) {
 			CameraManager.getInstance().resumeForScene();
 		}
-		for (Map.Entry<String, Integer> entry : backup.soundsDurationMap.entrySet()) {
-			SoundManager.getInstance().playSoundFileWithStartTime(entry.getKey(), entry.getValue());
+		for (SoundBackup soundBackup : backup.soundBackupList) {
+			SoundManager.getInstance().playSoundFileWithStartTime(soundBackup.getPathToSoundFile(),
+					soundBackup.getStartedBySprite(), soundBackup.getCurrentPosition());
 		}
 		initStageInputListener();
 	}

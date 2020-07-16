@@ -158,7 +158,8 @@ public class WebViewActivity extends AppCompatActivity {
 				webViewLoadingDialog.setCanceledOnTouchOutside(false);
 				webViewLoadingDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small);
 				webViewLoadingDialog.show();
-			} else if (allowGoBack && urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)) {
+			} else if (allowGoBack && (urlClient.equals(FlavoredConstants.BASE_URL_HTTPS)
+					|| urlClient.equals(Constants.BASE_APP_URL_HTTPS))) {
 				allowGoBack = false;
 				onBackPressed();
 			}

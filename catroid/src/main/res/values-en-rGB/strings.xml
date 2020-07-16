@@ -30,6 +30,7 @@
     <string name="undo">Undo</string>
     <string name="new_option">new&#8230;</string>
     <string name="confirm">Confirm</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Cancel</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
@@ -38,6 +39,9 @@
     <string name="close">Close</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
     <string name="select_all">Select all</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Set the app\'s language</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
@@ -290,155 +297,6 @@
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="one">Pack %d project</item>
-        <item quantity="other">Pack %d projects</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="one">Copy %d project</item>
-        <item quantity="other">Copy %d projects</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="one">Delete %d project</item>
-        <item quantity="other">Delete %d projects</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="one">Rename %d project</item>
-        <item quantity="other">Rename %d projects</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="one">Convert %d project</item>
-        <item quantity="other">Convert %d projects</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="one">Merge %d project</item>
-        <item quantity="other">Merge %d projects</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="one">Pack %d scene</item>
-        <item quantity="other">Pack %d scenes</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="one">Unpack %d scene</item>
-        <item quantity="other">Unpack %d scenes</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="one">Copy %d scene</item>
-        <item quantity="other">Copy %d scenes</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="one">Delete %d scene</item>
-        <item quantity="other">Delete %d scenes</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="one">Rename %d scene</item>
-        <item quantity="other">Rename %d scenes</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="one">Pack %d actor or object</item>
-        <item quantity="other">Pack %d actors or objects</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="one">Unpack %d actor or object</item>
-        <item quantity="other">Unpack %d actors or objects</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="one">Copy %d actor or object</item>
-        <item quantity="other">Copy %d actors or objects</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="one">Delete %d actor or object</item>
-        <item quantity="other">Delete %d actors or objects</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="one">Rename %d actor or object</item>
-        <item quantity="other">Rename %d actors or objects</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="one">Pack %d look</item>
-        <item quantity="other">Pack %d looks</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="one">Unpack %d look</item>
-        <item quantity="other">Unpack %d looks</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="one">Copy %d look</item>
-        <item quantity="other">Copy %d looks</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="one">Delete %d look</item>
-        <item quantity="other">Delete %d looks</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="one">Rename %d look</item>
-        <item quantity="other">Rename %d looks</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="one">Pack %d sound</item>
-        <item quantity="other">Pack %d sounds</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="one">Unpack %d sound</item>
-        <item quantity="other">Unpack %d sounds</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="one">Copy %d sound</item>
-        <item quantity="other">Copy %d sounds</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="one">Delete %d sound</item>
-        <item quantity="other">Delete %d sounds</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="one">Rename %d sound</item>
-        <item quantity="other">Rename %d sounds</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="one">Copy %d NFC tag</item>
-        <item quantity="other">Copy %d NFC tags</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="one">Delete %d NFC tag</item>
-        <item quantity="other">Delete %d NFC tags</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="one">Rename %d NFC tag</item>
-        <item quantity="other">Rename %d NFC tags</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="one">Pack %d brick</item>
-        <item quantity="other">Pack %d bricks</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="one">Unpack %d script</item>
-        <item quantity="other">Unpack %d scripts</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="one">Copy %d brick</item>
-        <item quantity="other">Copy %d bricks</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="one">Delete %d brick</item>
-        <item quantity="other">Delete %d bricks</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="one">Delete %d script</item>
-        <item quantity="other">Delete %d scripts</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="one">Delete %d data item</item>
-        <item quantity="other">Delete %d data items</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
     <!-- Delete Dialog Titles -->
@@ -959,6 +817,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at "</string>
@@ -1060,6 +920,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Start sound</string>
     <string name="brick_play_sound_and_wait">Start sound and wait</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Stop all sounds</string>
     <string name="brick_set_volume_to">Set volume to</string>
     <string name="brick_change_volume_by">Change volume by</string>
@@ -1104,6 +965,9 @@
     <string name="brick_say_bubble">Say</string>
     <string name="brick_think_say_for_text">for</string>
     <string name="brick_forever">Forever</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">to</string>
     <string name="brick_repeat">Repeat</string>
     <string name="brick_repeat_until">Repeat until</string>
     <string name="brick_when_touched">When stage is tapped</string>
@@ -1116,6 +980,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">time</item>
         <item quantity="other">times</item>
@@ -1129,6 +996,15 @@
     <string name="brick_change_variable">Change variable</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">AND</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">add comment here&#8230;</string>
@@ -1149,12 +1025,20 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1162,8 +1046,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

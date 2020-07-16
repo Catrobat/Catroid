@@ -86,15 +86,15 @@ public class SetNfcTagBrick extends FormulaBrick implements
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable NfcTypeOption item) {
+	public void onItemSelected(Integer spinnerId, @Nullable NfcTypeOption item) {
 		nfcTagNdefType = item.getNfcTagNdefType();
 	}
 

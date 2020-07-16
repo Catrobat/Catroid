@@ -49,6 +49,7 @@ import org.catrobat.catroid.content.Setting;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenClonedScript;
@@ -69,6 +70,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -105,6 +107,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -163,6 +166,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -206,6 +210,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -216,6 +221,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickWithFormula;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
@@ -235,10 +241,14 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 import org.catrobat.catroid.utils.StringFinder;
 
 import java.io.File;
@@ -292,10 +302,15 @@ public final class XstreamSerializer {
 		xstream.processAnnotations(Setting.class);
 		xstream.processAnnotations(UserVariableBrickWithFormula.class);
 		xstream.processAnnotations(UserListBrick.class);
+		xstream.processAnnotations(UserDefinedBrickData.class);
+		xstream.processAnnotations(UserDefinedBrickInput.class);
+		xstream.processAnnotations(UserDefinedBrickLabel.class);
 
 		xstream.registerConverter(new XStreamConcurrentFormulaHashMapConverter());
+		xstream.registerConverter(new XStreamUserDataHashMapConverter());
 		xstream.registerConverter(new XStreamUserVariableConverter(xstream.getMapper(), xstream.getReflectionProvider(),
 				xstream.getClassLoaderReference()));
+
 		xstream.registerConverter(new XStreamBrickConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamScriptConverter(xstream.getMapper(), xstream.getReflectionProvider()));
 		xstream.registerConverter(new XStreamSpriteConverter(xstream.getMapper(), xstream.getReflectionProvider()));
@@ -322,6 +337,7 @@ public final class XstreamSerializer {
 		xstream.omitField(ShowTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "userVariableName");
 		xstream.omitField(HideTextBrick.class, "formulaList");
+		xstream.omitField(HideTextBrick.class, "userDataList");
 
 		xstream.omitField(SayBubbleBrick.class, "type");
 		xstream.omitField(SayBubbleBrick.class, "type");
@@ -356,6 +372,7 @@ public final class XstreamSerializer {
 		xstream.alias("script", RaspiInterruptScript.class);
 		xstream.alias("script", WhenTouchDownScript.class);
 		xstream.alias("script", WhenBackgroundChangesScript.class);
+		xstream.alias("script", UserDefinedScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", AskBrick.class);
@@ -391,6 +408,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", IfThenLogicEndBrick.class);
 
 		xstream.alias("brick", UserDefinedBrick.class);
+		xstream.alias("brick", UserDefinedReceiverBrick.class);
 		xstream.alias("brick", IfOnEdgeBounceBrick.class);
 		xstream.alias("brick", InsertItemIntoUserListBrick.class);
 		xstream.alias("brick", FlashBrick.class);
@@ -418,6 +436,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", PreviousLookBrick.class);
 		xstream.alias("brick", RepeatBrick.class);
 		xstream.alias("brick", RepeatUntilBrick.class);
+		xstream.alias("brick", ForVariableFromToBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
 		xstream.alias("brick", SceneTransitionBrick.class);
 		xstream.alias("brick", SceneStartBrick.class);
@@ -443,6 +462,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SpeakBrick.class);
 		xstream.alias("brick", SpeakAndWaitBrick.class);
 		xstream.alias("brick", StampBrick.class);
+		xstream.alias("brick", StopSoundBrick.class);
 		xstream.alias("brick", StopAllSoundsBrick.class);
 		xstream.alias("brick", ThinkBubbleBrick.class);
 		xstream.alias("brick", SayBubbleBrick.class);
@@ -459,8 +479,10 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WhenStartedBrick.class);
 		xstream.alias("brick", WhenClonedBrick.class);
 		xstream.alias("brick", WriteVariableOnDeviceBrick.class);
+		xstream.alias("brick", ReadVariableFromFileBrick.class);
 		xstream.alias("brick", WriteListOnDeviceBrick.class);
 		xstream.alias("brick", ReadVariableFromDeviceBrick.class);
+		xstream.alias("brick", WriteVariableToFileBrick.class);
 		xstream.alias("brick", ReadListFromDeviceBrick.class);
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
@@ -506,6 +528,7 @@ public final class XstreamSerializer {
 
 		xstream.alias("brick", AssertEqualsBrick.class);
 		xstream.alias("brick", FinishStageBrick.class);
+		xstream.alias("brick", AssertUserListsBrick.class);
 
 		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);

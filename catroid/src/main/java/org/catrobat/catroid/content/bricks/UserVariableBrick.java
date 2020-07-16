@@ -89,7 +89,7 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
@@ -105,11 +105,11 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable UserVariable item) {
+	public void onItemSelected(Integer spinnerId, @Nullable UserVariable item) {
 		userVariable = item;
 	}
 }

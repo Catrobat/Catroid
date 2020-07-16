@@ -77,7 +77,7 @@ open class LookRequestAction : WebAction() {
 
     private fun handleInvalidFormat() {
         CatroidApplication.getAppContext()?.let {
-            showToastMessage(it.getString(R.string.brick_look_request_type_error_message, url))
+            showToastMessage(it.getString(R.string.look_request_type_error_message, url))
         }
     }
 
@@ -89,7 +89,7 @@ open class LookRequestAction : WebAction() {
     override fun handleError(error: String) {
         errorCode = error
         CatroidApplication.getAppContext()?.let {
-            showToastMessage(it.getString(R.string.brick_look_request_http_error_message, url, errorCode))
+            showToastMessage(it.getString(R.string.look_request_http_error_message, url, errorCode))
         }
     }
 

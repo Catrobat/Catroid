@@ -38,6 +38,7 @@ plugins {
 }
 
 repositories {
+    mavenLocal()
     maven { url "https://jitpack.io" }
     maven { url 'https://maven.fabric.io/public' }
 }
@@ -52,7 +53,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = "2.4.1"
+    paintroidVersion = "2.5.0"
 }
 
 apply plugin: 'com.android.application'
@@ -66,6 +67,10 @@ apply from: 'gradle/emulator_tasks.gradle'
 apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
+
+if(rootProject.hasProperty('paintroidLocal')) {
+    paintroidVersion = paintroidVersion + "-LOCAL"
+}
 
 if (rootProject.hasProperty('independent')) {
     println "Independent build"
@@ -133,8 +138,8 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
-        versionCode 74
-        versionName "0.9.70"
+        versionCode 75
+        versionName "0.9.71"
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true
@@ -433,6 +438,7 @@ dependencies {
     testImplementation 'org.robolectric:shadows-multidex:4.2.1'
 
     testImplementation 'org.reflections:reflections:0.9.11'
+    testImplementation 'org.json:json:20190722'
 
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"

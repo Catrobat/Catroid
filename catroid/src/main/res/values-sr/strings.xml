@@ -30,6 +30,7 @@
     <string name="undo">Поништите акцију</string>
     <string name="new_option">Нови&#8230;</string>
     <string name="confirm">Потврди</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Откажи</string>
     <string name="next">Даље</string>
     <string name="back">Назад</string>
@@ -38,6 +39,9 @@
     <string name="close">Затвори</string>
     <string name="yes">Да</string>
     <string name="no">Не</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Прихватам</string>
     <string name="disagree">Не прихватам</string>
     <string name="select_all">Изабери све</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Подешавања</string>
     <string name="preference_title_language">Језик</string>
     <string name="preference_description_language">Подесите језик апикације</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Приступачност</string>
     <string name="preference_description_accessibility">Промени изглед апликације</string>
     <string name="preference_title_accessibility_profiles">Приступачност профили</string>
@@ -288,190 +295,6 @@
     <string name="merge">Обједини</string>
     <string name="show_details">Прикажи детаље</string>
     <string name="hide_details">Сакриј детаље</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="one">Упакуј %d пројекат</item>
-        <item quantity="few">Упакуј %d пројекат</item>
-        <item quantity="other">Упакуј %d пројекат</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="one">Копирај %d пројекат</item>
-        <item quantity="few">Копирај %d пројекат</item>
-        <item quantity="other">Копирај %d пројекат</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="one">Обриши %d пројекат</item>
-        <item quantity="few">Обриши %d пројекат</item>
-        <item quantity="other">Обриши %d пројекат</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="one">Преименуј %d пројекат</item>
-        <item quantity="few">Преименуј %d пројекат</item>
-        <item quantity="other">Преименуј %d пројекат</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="one">Конвертуј %d пројекат</item>
-        <item quantity="few">Конвертуј %d пројекат</item>
-        <item quantity="other">Конвертуј %d пројекат</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="one">Обједини %d пројекат</item>
-        <item quantity="few">Обједини %d пројекат</item>
-        <item quantity="other">Обједини %d пројекат</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="one">Упакуј %d сцену</item>
-        <item quantity="few">Упакуј %d сцену</item>
-        <item quantity="other">Упакуј %d сцену</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="one">Отпакуј %d сцену</item>
-        <item quantity="few">Отпакуј %d сцену</item>
-        <item quantity="other">Отпакуј %d сцену</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="one">Копирај %d сцену</item>
-        <item quantity="few">Копирај %d сцену</item>
-        <item quantity="other">Копирај %d сцену</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="one">Обриши %d сцену</item>
-        <item quantity="few">Обриши %d сцену</item>
-        <item quantity="other">Обриши %d сцену</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="one">Преименуј %d сцену</item>
-        <item quantity="few">Преименуј %d сцену</item>
-        <item quantity="other">Преименуј %d сцену</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="one">Упакуј %d актор или објекат</item>
-        <item quantity="few">Упакуј %d актор или објекат</item>
-        <item quantity="other">Упакуј %d актор или објекат</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="one">Отпакуј %d актор или објекат</item>
-        <item quantity="few">Отпакуј %d актор или објекат</item>
-        <item quantity="other">Отпакуј %d актор или објекат</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="one">Копирај %d актор или објекат</item>
-        <item quantity="few">Копирај %d актор или објекат</item>
-        <item quantity="other">Копирај %d актор или објекат</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="one">Обриши %d актор или објекат</item>
-        <item quantity="few">Обриши %d актор или објекат</item>
-        <item quantity="other">Обриши %d актор или објекат</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="one">Преименуј %d актор или објекат</item>
-        <item quantity="few">Преименуј %d актор или објекат</item>
-        <item quantity="other">Преименуј %d актор или објекат</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="one">Упакуј %d iзглед</item>
-        <item quantity="few">Упакуј %d iзглед</item>
-        <item quantity="other">Упакуј %d iзглед</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="one">Отпакуј %d iзглед</item>
-        <item quantity="few">Упакуј %d iзглед</item>
-        <item quantity="other">Упакуј %d iзглед</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="one">Копирај %d iзглед</item>
-        <item quantity="few">Копирај %d iзглед</item>
-        <item quantity="other">Копирај %d iзглед</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="one">Обриши %d iзглед</item>
-        <item quantity="few">Обриши %d iзглед</item>
-        <item quantity="other">Обриши %d iзглед</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="one">Преименуј %d iзглед</item>
-        <item quantity="few">Преименуј %d iзглед</item>
-        <item quantity="other">Преименуј %d iзглед</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="one">Упакуј %d звук</item>
-        <item quantity="few">Упакуј %d звук</item>
-        <item quantity="other">Упакуј %d звук</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="one">Отпакуј %d звук</item>
-        <item quantity="few">Отпакуј %d звук</item>
-        <item quantity="other">Отпакуј %d звук</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="one">Копирај %d звук</item>
-        <item quantity="few">Копирај %d звук</item>
-        <item quantity="other">Копирај %d звук</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="one">Обриши %d звук</item>
-        <item quantity="few">Обриши %d звук</item>
-        <item quantity="other">Обриши %d звук</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="one">Преименуј %d звук</item>
-        <item quantity="few">Преименуј %d звук</item>
-        <item quantity="other">Преименуј %d звук</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="one">Копирај %d NFC tag</item>
-        <item quantity="few">Копирај %d NFC tag</item>
-        <item quantity="other">Копирај %d NFC tag</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="one">Обриши %d NFC tag</item>
-        <item quantity="few">Обриши %d NFC tag</item>
-        <item quantity="other">Обриши %d NFC tag</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="one">Преименуј %d NFC tag</item>
-        <item quantity="few">Преименуј %d NFC tag</item>
-        <item quantity="other">Преименуј %d NFC tag</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="one">Упакуј %d блок</item>
-        <item quantity="few">Упакуј %d блок</item>
-        <item quantity="other">Упакуј %d блок</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="one">Отпакуј %d скрипту</item>
-        <item quantity="few">Отпакуј %d скрипту</item>
-        <item quantity="other">Отпакуј %d скрипту</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="one">Копирај %d блок</item>
-        <item quantity="few">Копирај %d блок</item>
-        <item quantity="other">Копирај %d блок</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="one">Обриши %d блок</item>
-        <item quantity="few">Обриши %d блок</item>
-        <item quantity="other">Обриши %d блок</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="one">Обриши %d скрипту</item>
-        <item quantity="few">Обриши %d скрипту</item>
-        <item quantity="other">Обриши %d скрипту</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="one">Delete %d data item</item>
-        <item quantity="few">Delete %d data items</item>
-        <item quantity="other">Delete %d data items</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
     <!-- Delete Dialog Titles -->
@@ -1021,6 +844,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Постави на"</string>
@@ -1124,6 +949,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Start sound</string>
     <string name="brick_play_sound_and_wait">Start sound and wait</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Stop all sounds</string>
     <string name="brick_set_volume_to">Подеси збук на</string>
     <string name="brick_change_volume_by">Промени јачину за</string>
@@ -1169,6 +995,9 @@
     <string name="brick_say_bubble">Кажи</string>
     <string name="brick_think_say_for_text">за</string>
     <string name="brick_forever">Заувек</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">to</string>
     <string name="brick_repeat">Понови</string>
     <string name="brick_repeat_until">Понови док</string>
     <string name="brick_when_touched">Када је фаза додирнута</string>
@@ -1181,6 +1010,9 @@
     <string name="brick_wait_till_idle">Чекај док се све остале скрипте зауставе</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">време</item>
         <item quantity="few">times</item>
@@ -1195,6 +1027,15 @@
     <string name="brick_change_variable">Промени променљиву</string>
     <string name="brick_write_variable_on_device">Упиши променљиву на уређај</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">and</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">add comment here&#8230;</string>
@@ -1215,12 +1056,20 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1228,8 +1077,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

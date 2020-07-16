@@ -234,8 +234,16 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 
 	@Override
 	public void onSelectionChanged(int selectedItemCnt) {
-		actionMode.setTitle(getResources()
-				.getQuantityString(getActionModeTitleId(actionModeType), selectedItemCnt, selectedItemCnt));
+		switch (actionModeType) {
+			case UNPACK:
+				actionMode.setTitle(getString(R.string.am_unpack) + " " + selectedItemCnt);
+				break;
+			case DELETE:
+				actionMode.setTitle(getString(R.string.am_delete) + " " + selectedItemCnt);
+				break;
+			case NONE:
+				throw new IllegalStateException("ActionModeType not set Correctly");
+		}
 	}
 
 	protected void finishActionMode() {
@@ -289,9 +297,6 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		parentView.findViewById(R.id.progress_bar).setVisibility(show ? View.VISIBLE : View.GONE);
 		recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
 	}
-
-	@PluralsRes
-	protected abstract int getActionModeTitleId(@ActionModeType int actionModeType);
 
 	@Override
 	public void onItemLongClick(T item, CheckableVH holder) {

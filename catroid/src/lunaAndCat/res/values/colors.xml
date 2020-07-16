@@ -42,4 +42,10 @@
     <color name="accent">#EAB7D5</color>
     <color name="brick_field_highlight">#33B5E5</color>
 
+    <!-- Formula Editor Colors -->
+    <color name="formula_editor_category_text">#200E3D</color>
+    <color name="formula_editor_ok_button">#C8A2CA</color>
+    <color name="formula_editor_ok_button_pressed">#EAB7D5</color>
+    <color name="formula_editor_ok_text">#200E3D</color>
+
 </resources>

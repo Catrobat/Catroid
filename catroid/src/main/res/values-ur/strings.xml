@@ -30,6 +30,7 @@
     <string name="undo">واپس کریں</string>
     <string name="new_option">نئی</string>
     <string name="confirm">تصدیق کریں</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">منسوخ کریں</string>
     <string name="next">اگلا</string>
     <string name="back">پیچھے</string>
@@ -38,6 +39,9 @@
     <string name="close">بند کریں</string>
     <string name="yes">ہاں</string>
     <string name="no">نہيں</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">متفق</string>
     <string name="disagree">غیر متفق</string>
     <string name="select_all">تمام منتخب کریں</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">ترتیبات</string>
     <string name="preference_title_language">زبان</string>
     <string name="preference_description_language">ایپ کی زبان کو سیٹ کریں</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">رسائی</string>
     <string name="preference_description_accessibility">اپلی کیشن کی ظاہری شکل تبدیل کریں</string>
     <string name="preference_title_accessibility_profiles"> پروفائل رسائی</string>
@@ -283,199 +290,6 @@
     <string name="merge">Merge</string>
     <string name="show_details">تفصیلات دکھائیں</string>
     <string name="hide_details">تفصیلات چھپائیں</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="one">پروجیکٹ کو پیک کریں</item>
-        <item quantity="other">پروجیکٹ کو پیک کریں</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="one">٪ d منصوبے کاپی کریں
-٪ d منصوبوں کاپی کریں</item>
-        <item quantity="other">٪ d منصوبے کاپی کریں
-٪ d منصوبوں کاپی کریں</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="one">٪ d پروجیکٹ ختم کرو
-٪ d پروجیکٹ کو ختم کرو</item>
-        <item quantity="other">٪ d پروجیکٹ ختم کرو
-٪ d پروجیکٹ کو ختم کرو</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="one">٪ d پروجیکٹ کا نام تبدیل کریں</item>
-        <item quantity="other">٪ d پروجیکٹ کا نام تبدیل کریں</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="one">پروجیکٹ تبدیل کریں</item>
-        <item quantity="other">پروجیکٹ تبدیل کریں</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="one">Merge %d project</item>
-        <item quantity="other">Merge %d projects</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="one">پیک %d منظر</item>
-        <item quantity="other">پیک %d منظر</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="one">٪ d منظر غیر پیک کریں
-٪ d مناظر کھولیں</item>
-        <item quantity="other">٪ d منظر غیر پیک کریں
-٪ d مناظر کھولیں</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="one">منظر ٪ d کاپی کریں
- مناظر ٪ d کاپی کریں</item>
-        <item quantity="other">منظر ٪ d کاپی کریں
- مناظر ٪ d کاپی کریں</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="one">ختم٪ d منظر
-ختم٪ d مناظر</item>
-        <item quantity="other">ختم٪ d منظر
-ختم٪ d مناظر</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="one">%d منظر کو نیا نام دیں</item>
-        <item quantity="other">%d منظر کو نیا نام دیں</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="one">پیک %d اداکار یا آبجیکٹ</item>
-        <item quantity="other">پیک %d اداکار یا آبجیکٹ</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="one"> اداکار یا اعتراض ٪ d غیر پیک کریں</item>
-        <item quantity="other"> اداکار یا اعتراض ٪ d غیر پیک کریں</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="one">٪ d اداکاروں یا آبجیکٹ کاپی کریں
-٪ d اداکاروں یا آبجیکٹ کاپی کریں</item>
-        <item quantity="other">٪ d اداکاروں یا آبجیکٹ کاپی کریں
-٪ d اداکاروں یا آبجیکٹ کاپی کریں</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="one">٪ d اداکار یا اعتراض ختم
-٪ d اداکاروں یا اشیاء ختم</item>
-        <item quantity="other">٪ d اداکار یا اعتراض ختم
-٪ d اداکاروں یا اشیاء ختم</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="one">٪ d اداکار یا آبجیکٹ کا نام تبدیل کریں
-٪ d اداکاروں یا آبجیکٹ کا نام تبدیل کریں</item>
-        <item quantity="other">٪ d اداکار یا آبجیکٹ کا نام تبدیل کریں
-٪ d اداکاروں یا آبجیکٹ کا نام تبدیل کریں</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="one">پیک %d نظر</item>
-        <item quantity="other">پیک %d لگتا ہے</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="one">پیک %d نظر</item>
-        <item quantity="other">٪ d آواز غیر پیک کریں</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="one">٪ d نظر کاپی کریں
-٪ d کاپی لگائیں</item>
-        <item quantity="other">٪ d نظر کاپی کریں
-٪ d کاپی لگائیں</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="one">٪ d نظر کو حذف کریں
-٪ d کو حذف کریں</item>
-        <item quantity="other">٪ d نظر کو حذف کریں
-٪ d کو حذف کریں</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="one"> نظر ٪ d  کا نام تبدیل کریں</item>
-        <item quantity="other"> نظر ٪ d  کا نام تبدیل کریں</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="one">%d آواز پیک</item>
-        <item quantity="other">Pack %d sounds</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="one">٪ d آواز غیر پیک کریں
-٪ d آوازوں کو کھولیں</item>
-        <item quantity="other">٪ d آواز غیر پیک کریں
-٪ d آوازوں کو کھولیں</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="one">٪ d آواز کاپی کریں
-٪ d آواز کاپی کریں</item>
-        <item quantity="other">٪ d آواز کاپی کریں
-٪ d آواز کاپی کریں</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="one">٪ d آواز حذف کریں
-٪ d آوازیں حذف کریں</item>
-        <item quantity="other">٪ d آواز حذف کریں
-٪ d آوازیں حذف کریں</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="one">٪ d آواز کا نام تبدیل کریں
-٪ d آوازوں کا نام تبدیل کریں</item>
-        <item quantity="other">٪ d آواز کا نام تبدیل کریں
-٪ d آوازوں کا نام تبدیل کریں</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="one">٪ d این ایف سی ٹیگ کو کاپی کریں
-٪ d این ایف سی ٹیگز کاپی کریں</item>
-        <item quantity="other">٪ d این ایف سی ٹیگ کو کاپی کریں
-٪ d این ایف سی ٹیگز کاپی کریں</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="one">٪ d این ایف سی ٹیگ کو حذف کریں
-٪ d این ایف سی ٹیگ کو حذف کریں</item>
-        <item quantity="other">٪ d این ایف سی ٹیگ کو حذف کریں
-٪ d این ایف سی ٹیگ کو حذف کریں</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="one">٪ d این ایف سی ٹیگ کا نام تبدیل کریں
-٪ d این ایف ایف ٹیگ کا نام تبدیل کریں</item>
-        <item quantity="other">٪ d این ایف سی ٹیگ کا نام تبدیل کریں
-٪ d این ایف ایف ٹیگ کا نام تبدیل کریں</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="one">٪ d اینٹوں پیک
-٪ d اینٹوں پیک</item>
-        <item quantity="other">٪ d اینٹوں پیک
-٪ d اینٹوں پیک</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="one">٪ d سکرپٹ کو کھولیں
-٪ d سکرپٹ کو ناپاک کریں</item>
-        <item quantity="other">٪ d سکرپٹ کو کھولیں
-٪ d سکرپٹ کو ناپاک کریں</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="one">٪ d اینٹ کاپی کریں
-٪ d اینٹوں کاپی کریں</item>
-        <item quantity="other">٪ d اینٹ کاپی کریں
-٪ d اینٹوں کاپی کریں</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="one">٪ d اینٹ حذف کریں
-٪ d اینٹوں کو حذف کریں</item>
-        <item quantity="other">٪ d اینٹ حذف کریں
-٪ d اینٹوں کو حذف کریں</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="one">٪ d سکرپٹ کو حذف کریں
-٪ d سکرپٹ حذف کریں</item>
-        <item quantity="other">٪ d سکرپٹ کو حذف کریں
-٪ d سکرپٹ حذف کریں</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="one">٪ d ڈیٹا اشیاء ختم</item>
-        <item quantity="other">٪ d ڈیٹا اشیاء ختم</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">نیا منظر</string>
     <!-- Delete Dialog Titles -->
@@ -1015,6 +829,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"جگہ رکھیں"</string>
@@ -1116,6 +932,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">آواز کا آغاز</string>
     <string name="brick_play_sound_and_wait">آواز کا آغاز اور انتظار کریں</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">تمام آوازیں بند کریں</string>
     <string name="brick_set_volume_to">حجم سیٹ کریں</string>
     <string name="brick_change_volume_by">حجم تبدیل کریں</string>
@@ -1160,6 +977,9 @@
     <string name="brick_say_bubble">کہہ دو</string>
     <string name="brick_think_say_for_text">کےلیے</string>
     <string name="brick_forever">ہمیشہ کے لئے</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">کرنا</string>
     <string name="brick_repeat">دہرائیں</string>
     <string name="brick_repeat_until">تک دہرائیں</string>
     <string name="brick_when_touched">جب اسٹیج  ٹیپ کیا جاتا ہے</string>
@@ -1172,6 +992,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">وقت</item>
         <item quantity="other">وقت</item>
@@ -1185,6 +1008,15 @@
     <string name="brick_change_variable">متغیر تبدیل کریں</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">اور</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">تبصرہ شامل کریں یہاں&#8230;</string>
@@ -1205,12 +1037,20 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1218,8 +1058,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

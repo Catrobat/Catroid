@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.content.bricks.BroadcastReceiverBrick;
@@ -73,6 +74,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -126,6 +128,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -167,6 +170,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -192,6 +196,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
@@ -294,6 +299,7 @@ public class BrickCategoryTest {
 						ClearBackgroundBrick.class)},
 				{"Sound", Arrays.asList(PlaySoundBrick.class,
 						PlaySoundAndWaitBrick.class,
+						StopSoundBrick.class,
 						StopAllSoundsBrick.class,
 						SetVolumeToBrick.class,
 						ChangeVolumeByNBrick.class,
@@ -308,6 +314,7 @@ public class BrickCategoryTest {
 						WaitUntilBrick.class,
 						RepeatBrick.class,
 						RepeatUntilBrick.class,
+						ForVariableFromToBrick.class,
 						SceneTransitionBrick.class,
 						SceneStartBrick.class,
 						StopScriptBrick.class,
@@ -321,6 +328,8 @@ public class BrickCategoryTest {
 						HideTextBrick.class,
 						WriteVariableOnDeviceBrick.class,
 						ReadVariableFromDeviceBrick.class,
+						WriteVariableToFileBrick.class,
+						ReadVariableFromFileBrick.class,
 						AddItemToUserListBrick.class,
 						DeleteItemOfUserListBrick.class,
 						ClearUserListBrick.class,
@@ -386,6 +395,7 @@ public class BrickCategoryTest {
 						RaspiSendDigitalValueBrick.class,
 						RaspiPwmBrick.class)},
 				{"Testing", Arrays.asList(AssertEqualsBrick.class,
+						AssertUserListsBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						FinishStageBrick.class,

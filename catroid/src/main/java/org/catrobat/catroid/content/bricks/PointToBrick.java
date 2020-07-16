@@ -88,7 +88,7 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (!(activity instanceof SpriteActivity)) {
 			return;
@@ -104,11 +104,11 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable Sprite item) {
+	public void onItemSelected(Integer spinnerId, @Nullable Sprite item) {
 		pointedObject = item;
 	}
 

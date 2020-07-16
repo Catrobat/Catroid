@@ -35,8 +35,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenConditionScript;
@@ -47,6 +45,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.AskBrick;
 import org.catrobat.catroid.content.bricks.AskSpeechBrick;
 import org.catrobat.catroid.content.bricks.AssertEqualsBrick;
+import org.catrobat.catroid.content.bricks.AssertUserListsBrick;
 import org.catrobat.catroid.content.bricks.BackgroundRequestBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -84,6 +83,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -137,6 +137,7 @@ import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.ReadListFromDeviceBrick;
 import org.catrobat.catroid.content.bricks.ReadVariableFromDeviceBrick;
+import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
@@ -179,6 +180,7 @@ import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -188,6 +190,8 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitTillIdleBrick;
@@ -205,6 +209,7 @@ import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
+import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -330,6 +335,8 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new WaitUntilBrick(ifConditionFormula));
 		controlBrickList.add(new RepeatBrick(new Formula(BrickValues.REPEAT)));
 		controlBrickList.add(new RepeatUntilBrick(ifConditionFormula));
+		controlBrickList.add(new ForVariableFromToBrick(new Formula(BrickValues.FOR_LOOP_FROM),
+				new Formula(BrickValues.FOR_LOOP_TO)));
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
@@ -421,6 +428,7 @@ public class CategoryBricksFactory {
 		List<Brick> soundBrickList = new ArrayList<>();
 		soundBrickList.add(new PlaySoundBrick());
 		soundBrickList.add(new PlaySoundAndWaitBrick());
+		soundBrickList.add(new StopSoundBrick());
 		soundBrickList.add(new StopAllSoundsBrick());
 		soundBrickList.add(new SetVolumeToBrick(BrickValues.SET_VOLUME_TO));
 
@@ -523,6 +531,8 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new HideTextBrick());
 		dataBrickList.add(new WriteVariableOnDeviceBrick());
 		dataBrickList.add(new ReadVariableFromDeviceBrick());
+		dataBrickList.add(new WriteVariableToFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)));
+		dataBrickList.add(new ReadVariableFromFileBrick(context.getString(R.string.brick_write_variable_to_file_default_value)));
 		dataBrickList.add(new AddItemToUserListBrick(BrickValues.ADD_ITEM_TO_USERLIST));
 		dataBrickList.add(new DeleteItemOfUserListBrick(BrickValues.DELETE_ITEM_OF_USERLIST));
 		dataBrickList.add(new ClearUserListBrick());
@@ -688,27 +698,11 @@ public class CategoryBricksFactory {
 	private List<Brick> setupAssertionsCategoryList(Context context) {
 		List<Brick> assertionsBrickList = new ArrayList<>();
 
-		AssertEqualsBrick assertEqualsBrick = new AssertEqualsBrick();
-		assertionsBrickList.add(assertEqualsBrick);
-
-		WaitTillIdleBrick waitTillIdleBrick = new WaitTillIdleBrick();
-		assertionsBrickList.add(waitTillIdleBrick);
-
+		assertionsBrickList.add(new AssertEqualsBrick());
+		assertionsBrickList.add(new AssertUserListsBrick());
+		assertionsBrickList.add(new WaitTillIdleBrick());
 		assertionsBrickList.add(new TapAtBrick());
-
 		assertionsBrickList.add(new FinishStageBrick());
-
-		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
-			for (Sprite sprite : scene.getSpriteList()) {
-				for (Script script : sprite.getScriptList()) {
-					for (Brick brick : script.getBrickList()) {
-						if (brick instanceof AssertEqualsBrick) {
-							assertionsBrickList.remove(assertEqualsBrick);
-						}
-					}
-				}
-			}
-		}
 
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
@@ -764,12 +758,6 @@ public class CategoryBricksFactory {
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_pen);
-			}
-		}
-		categoryBricks = setupUserBricksCategoryList();
-		for (Brick categoryBrick : categoryBricks) {
-			if (brick.getClass().equals(categoryBrick.getClass())) {
-				category = res.getString(R.string.category_user_bricks);
 			}
 		}
 		categoryBricks = setupDataCategoryList(context, isBackgroundSprite);
@@ -858,6 +846,10 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_data);
 		} else if (brick instanceof StoreCSVIntoUserListBrick) {
 			category = res.getString(R.string.category_data);
+		} else if (brick instanceof UserDefinedBrick) {
+			category = res.getString(R.string.category_user_bricks);
+		} else if (brick instanceof UserDefinedReceiverBrick) {
+			category = res.getString(R.string.category_user_bricks);
 		}
 
 		config.locale = savedLocale;

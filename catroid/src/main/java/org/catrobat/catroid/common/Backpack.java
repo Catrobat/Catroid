@@ -25,6 +25,7 @@ package org.catrobat.catroid.common;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -42,4 +43,5 @@ public class Backpack implements Serializable {
 	public List<LookData> backpackedLooks = new CopyOnWriteArrayList<>();
 
 	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
+	public HashMap<String, List<UserDefinedBrick>> backpackedUserDefinedBricks = new HashMap<>();
 }

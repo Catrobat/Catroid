@@ -45,10 +45,12 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 
 	private Spinner spinner;
 	private BrickSpinnerAdapter adapter;
+	private Integer spinnerid;
 
 	private OnItemSelectedListener<T> onItemSelectedListener;
 
-	public BrickSpinner(int spinnerId, @NonNull View parent, List<Nameable> items) {
+	public BrickSpinner(Integer spinnerId, @NonNull View parent, List<Nameable> items) {
+		spinnerid = spinnerId;
 		adapter = new BrickSpinnerAdapter(parent.getContext(), android.R.layout.simple_spinner_item, items);
 		spinner = parent.findViewById(spinnerId);
 		spinner.setAdapter(adapter);
@@ -73,10 +75,10 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		}
 
 		if (item.getClass().equals(StringOption.class)) {
-			onItemSelectedListener.onStringOptionSelected(item.getName());
+			onItemSelectedListener.onStringOptionSelected(spinnerid, item.getName());
 			return;
 		}
-		onItemSelectedListener.onItemSelected((T) item);
+		onItemSelectedListener.onItemSelected(spinnerid, (T) item);
 	}
 
 	@Override
@@ -131,14 +133,14 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 	private void onSelectionSet(Nameable selectedItem) {
 		if (onItemSelectedListener != null) {
 			if (selectedItem.getClass().equals(NewOption.class)) {
-				onItemSelectedListener.onItemSelected(null);
+				onItemSelectedListener.onItemSelected(spinnerid, null);
 				return;
 			}
 			if (selectedItem.getClass().equals(StringOption.class)) {
-				onItemSelectedListener.onStringOptionSelected(selectedItem.getName());
+				onItemSelectedListener.onStringOptionSelected(spinnerid, selectedItem.getName());
 				return;
 			}
-			onItemSelectedListener.onItemSelected((T) selectedItem);
+			onItemSelectedListener.onItemSelected(spinnerid, (T) selectedItem);
 		}
 	}
 
@@ -166,7 +168,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
 					if (event.getActionIndex() == MotionEvent.ACTION_DOWN && item.getClass().equals(NewOption.class)) {
-						onItemSelectedListener.onNewOptionSelected();
+						onItemSelectedListener.onNewOptionSelected(spinnerid);
 					}
 					return false;
 				}
@@ -213,10 +215,10 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 
 	public interface OnItemSelectedListener<T> {
 
-		void onNewOptionSelected();
+		void onNewOptionSelected(Integer spinnerId);
 
-		void onStringOptionSelected(String string);
+		void onStringOptionSelected(Integer spinnerId, String string);
 
-		void onItemSelected(@Nullable T item);
+		void onItemSelected(Integer spinnerId, @Nullable T item);
 	}
 }

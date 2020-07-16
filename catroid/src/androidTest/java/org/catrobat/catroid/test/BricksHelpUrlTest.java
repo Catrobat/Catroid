@@ -27,7 +27,6 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -105,6 +104,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Jumping Sumo%20Bricks/#JumpingSumoTurnBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.RepeatBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Control%20Bricks/#RepeatBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ForVariableFromToBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Control%20Bricks/#ForVariableFromToBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SayBubbleBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#SayBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetBrightnessBrick",
@@ -173,6 +174,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Event%20Bricks/#BroadcastBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.FlashBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Looks%20Bricks/#FlashBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopSoundBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Sound%20Bricks/#StopSoundBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StopAllSoundsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Sound%20Bricks/#StopAllSoundsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick",
@@ -363,6 +366,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Motion%20Bricks/#VibrationBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WriteVariableOnDeviceBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteVariableToFileBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#WriteVariableToFileBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#ReadVariableFromFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.JumpingSumoAnimationsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Jumping Sumo%20Bricks/#JumpingSumoAnimationsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetPenColorBrick",
@@ -395,8 +402,12 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Embroidery%20Bricks/#TripleStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Your bricks%20Bricks/#UserDefinedReceiverBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Data%20Bricks/#StoreCSVIntoUserListBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AssertUserListsBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#AssertUserListsBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")
@@ -452,9 +463,6 @@ public class BricksHelpUrlTest {
 		String category = new CategoryBricksFactory().getBrickCategory(brick, false,
 				InstrumentationRegistry.getInstrumentation().getTargetContext());
 		String brickHelpUrl = brick.getHelpUrl(category);
-		if (brick instanceof UserDefinedBrick) {
-			brickHelpUrl = brick.getHelpUrl("Your bricks");
-		}
 		assertEquals(brickToHelpUrlMapping.get(simpleName), brickHelpUrl);
 	}
 

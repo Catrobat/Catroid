@@ -129,7 +129,7 @@
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:layout_gravity">bottom</item>
-        <item name="android:drawablePadding">10dp</item>
+        <item name="android:drawablePadding">8dp</item>
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1.5</item>
@@ -171,6 +171,10 @@
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
         <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
+    </style>
+
+    <style name="BrickText.SingleLine.UserDefinedScript">
+        <item name="android:textColor">@color/dark_blue</item>
     </style>
 
     <style name="BrickText.Multiple">
@@ -396,6 +400,23 @@
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
 
+    <style name="BrickContainer.Test" tools:ignore="UnusedResources"></style>
+
+    <style name="BrickContainer.Test.Small" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_cyan_1h</item>
+    </style>
+
+    <style name="BrickContainer.Test.Medium" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_cyan_2h</item>
+    </style>
+
+    <style name="BrickContainer.Test.Big" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_cyan_3h</item>
+    </style>
+
     <style name="BrickContainer.Lego"></style>
 
     <style name="BrickContainer.Lego.Small">
@@ -430,9 +451,9 @@
         <item name="android:background">@drawable/brick_orange_3h</item>
     </style>
 
-    <style name ="BrickContainer.Userbrick"></style>
+    <style name ="BrickContainer.UserDefinedBrick"></style>
 
-    <style name="BrickContainer.Userbrick.Medium">
+    <style name="BrickContainer.UserDefinedBrick.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
         <item name="android:background">@drawable/brick_darkblue_1h</item>
     </style>
@@ -466,9 +487,19 @@
         <item name="android:background">@drawable/brick_control_2h</item>
     </style>
 
+    <style name ="BrickContainer.Script.Define">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_white_define_2h</item>
+        <item name="android:layout_marginTop">@dimen/material_design_spacing_large</item>
+        <item name="android:layout_marginBottom">@dimen/script_spacing</item>
+    </style>
+
+    <style name ="BrickContainer.Script.As">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_white_1h</item>
+    </style>
+
     <style name="FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:textColor">@color/accent</item>
         <item name="android:lines">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">0dp</item>
@@ -477,6 +508,26 @@
         <item name="android:layout_marginTop">@dimen/key_margin</item>
         <item name="android:layout_marginStart">@dimen/key_margin</item>
         <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
+    </style>
+
+     <style name="FormulaEditorMetaButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_meta_button</item>
+        <item name="android:textColor">@color/formula_editor_category_text</item>
+    </style>
+
+    <style name="FormulaEditorCategoryButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_category_button</item>
+        <item name="android:textColor">@color/formula_editor_category_text</item>
+    </style>
+
+    <style name="FormulaEditorKeyboardButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_keyboard_button</item>
+        <item name="android:textColor">@color/formula_editor_symbol_text</item>
+    </style>
+
+    <style name="FormulaEditorOkButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_ok_button</item>
+        <item name="android:textColor">@color/formula_editor_ok_text</item>
     </style>
 
     <style name="BrickCategory">

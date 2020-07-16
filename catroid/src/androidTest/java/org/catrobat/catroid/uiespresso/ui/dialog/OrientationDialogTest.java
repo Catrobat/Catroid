@@ -104,7 +104,7 @@ public class OrientationDialogTest {
 	@Test
 	@Category({Level.Smoke.class, Cat.AppUi.class, Cat.Gadgets.class})
 	public void testCreateNewCastProject() {
-		onView(withText(R.string.main_menu_new))
+		onView(withId(R.id.floating_action_button))
 				.perform(click());
 		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));

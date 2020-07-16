@@ -30,6 +30,7 @@
     <string name="undo">Отменить</string>
     <string name="new_option">новое&#8230;</string>
     <string name="confirm">Подтвердить</string>
+    <string name="ignore">Игнорировать</string>
     <string name="cancel">Отменить</string>
     <string name="next">Далее</string>
     <string name="back">Назад</string>
@@ -38,6 +39,9 @@
     <string name="close">Закрыть</string>
     <string name="yes">Да</string>
     <string name="no">Нет</string>
+    <string name="once">Одинажды</string>
+    <string name="always">Всегда</string>
+    <string name="deny">Запретить</string>
     <string name="agree">Принять</string>
     <string name="disagree">Отклонить</string>
     <string name="select_all">Выбрать все</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Настройки</string>
     <string name="preference_title_language">Язык</string>
     <string name="preference_description_language">Выберите язык приложения</string>
+    <string name="preference_title_web_access">Веб-доступ</string>
+    <string name="preference_description_web_access">Изменить, чтобы добавить или удалить доверенные домены</string>
+    <string name="preference_screen_web_access_title">Изменить доверенные домены</string>
     <string name="preference_title_accessibility">Доступность</string>
     <string name="preference_description_accessibility">Изменить вид приложения</string>
     <string name="preference_title_accessibility_profiles">Профили доступности</string>
@@ -164,9 +171,9 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/хост-адрес</string>
     <string name="preference_raspi_port">Порт Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_multiplayer_variables_enabled">Расширение мультиплеера</string>
+    <string name="preference_description_multiplayer_variables_enabled">Разрешить приложению использовать
+        многопользовательские переменные, передаваемые через Bluetooth</string>
     <!-- Scratch Converter activity -->
     <string name="beta">Бета</string>
     <string name="error_scratch_program_not_accessible_any_more">Ой! Проект, похоже, исчез
@@ -285,14 +292,14 @@
     <string name="name_empty">Пожалуйста, введите текст</string>
     <!-- Recycler View -->
     <string name="am_empty_list">В этом списке пока нет элементов. Пожалуйста, добавь несколько.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_merge_error">Объединение не завершено.  Для слияния должны быть выбраны как минимум 2 проэкта</string>
     <string name="am_backpack">Упаковать</string>
     <string name="am_unpack">Распаковать</string>
     <string name="am_copy">Копировать</string>
     <string name="am_delete">Удалить</string>
     <string name="am_rename">Переименовать</string>
     <string name="am_convert">Конвертировать</string>
-    <string name="am_merge">Merge</string>
+    <string name="am_merge">Объединить</string>
     <string name="dialog_confirm_delete">Ты не сможешь это отменить!</string>
     <string name="list_headline_sprites">Актеры и объекты</string>
     <!-- Options Menu Options -->
@@ -300,228 +307,9 @@
     <string name="copy">Копировать</string>
     <string name="delete">Удалить</string>
     <string name="rename">Переименовать</string>
-    <string name="merge">Merge</string>
+    <string name="merge">Объединить</string>
     <string name="show_details">Показать детали</string>
     <string name="hide_details">Скрыть детали</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="one">Упаковать %d проект</item>
-        <item quantity="few">Упаковать %d проектов</item>
-        <item quantity="many">Упаковать %d проектов</item>
-        <item quantity="other">Упаковать %d проектов</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="one">Копировать %d проект</item>
-        <item quantity="few">Копировать %d проектов</item>
-        <item quantity="many">Копировать %d проектов</item>
-        <item quantity="other">Копировать %d проектов</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="one">Удалить %d проект</item>
-        <item quantity="few">Удалить %d проектов</item>
-        <item quantity="many">Удалить %d проектов</item>
-        <item quantity="other">Удалить %d проектов</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="one">Переименовать %d проект</item>
-        <item quantity="few">Переименовать %d проектов</item>
-        <item quantity="many">Переименовать %d проектов</item>
-        <item quantity="other">Переименовать %d проектов</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="one">Конвертировать %d проект</item>
-        <item quantity="few">Конвертировать %d проектов</item>
-        <item quantity="many">Конвертировать %d проектов</item>
-        <item quantity="other">Конвертировать %d проектов</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="one">Merge %d project</item>
-        <item quantity="few">Merge %d projects</item>
-        <item quantity="many">Merge %d projects</item>
-        <item quantity="other">Merge %d projects</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="one">Упаковать %d сцену</item>
-        <item quantity="few">Упаковать %d сцен</item>
-        <item quantity="many">Упаковать %d сцен</item>
-        <item quantity="other">Упаковать %d сцен</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="one">Распаковать %d сцену</item>
-        <item quantity="few">Распаковать %d сцен</item>
-        <item quantity="many">Распаковать %d сцен</item>
-        <item quantity="other">Распаковать %d сцен</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="one">Копировать %d сцену</item>
-        <item quantity="few">Копировать %d сцен</item>
-        <item quantity="many">Копировать %d сцен</item>
-        <item quantity="other">Копировать %d сцен</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="one">Удалить %d сцену</item>
-        <item quantity="few">Удалить %d сцен</item>
-        <item quantity="many">Удалить %d сцен</item>
-        <item quantity="other">Удалить %d сцен</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="one">Переименовать %d сцену</item>
-        <item quantity="few">Переименовать %d сцен</item>
-        <item quantity="many">Переименовать %d сцен</item>
-        <item quantity="other">Переименовать %d сцен</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="one">Упаковать %d актера или объект</item>
-        <item quantity="few">Упаковать %d актеров или объектов</item>
-        <item quantity="many">Упаковать %d актеров или объектов</item>
-        <item quantity="other">Упаковать %d актеров или объектов</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="one">Распаковать %d актера или объект</item>
-        <item quantity="few">Распаковать %d актеров или объектов</item>
-        <item quantity="many">Распаковать %d актеров или объектов</item>
-        <item quantity="other">Распаковать %d актеров или объектов</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="one">Копировать %d актера или объект</item>
-        <item quantity="few">Копировать %d актеров или объектов</item>
-        <item quantity="many">Копировать %d актеров или объектов</item>
-        <item quantity="other">Копировать %d актеров или объектов</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="one">Удалить %d актера или объект</item>
-        <item quantity="few">Удалить %d актеров или объектов</item>
-        <item quantity="many">Удалить %d актеров или объектов</item>
-        <item quantity="other">Удалить %d актеров или объектов</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="one">Переименовать %d актера или объект</item>
-        <item quantity="few">Переименовать %d актеров или объектов</item>
-        <item quantity="many">Переименовать %d актеров или объектов</item>
-        <item quantity="other">Переименовать %d актеров или объектов</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="one">Упаковать %d образ</item>
-        <item quantity="few">Упаковать %d образов</item>
-        <item quantity="many">Упаковать %d образов</item>
-        <item quantity="other">Упаковать %d образов</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="one">Распаковать %d образ</item>
-        <item quantity="few">Распаковать %d образов</item>
-        <item quantity="many">Распаковать %d образов</item>
-        <item quantity="other">Распаковать %d образов</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="one">Копировать %d образ</item>
-        <item quantity="few">Копировать %d образов</item>
-        <item quantity="many">Копировать %d образов</item>
-        <item quantity="other">Копировать %d образов</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="one">Удалить %d образ</item>
-        <item quantity="few">Удалить %d образов</item>
-        <item quantity="many">Удалить %d образов</item>
-        <item quantity="other">Удалить %d образов</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="one">Переименовать %d образ</item>
-        <item quantity="few">Переименовать %d образов</item>
-        <item quantity="many">Переименовать %d образов</item>
-        <item quantity="other">Переименовать %d образов</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="one">Упаковать %d звук</item>
-        <item quantity="few">Упаковать %d звуков</item>
-        <item quantity="many">Упаковать %d звуков</item>
-        <item quantity="other">Упаковать %d звуков</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="one">Распаковать %d звук</item>
-        <item quantity="few">Распаковать %d звуков</item>
-        <item quantity="many">Распаковать %d звуков</item>
-        <item quantity="other">Распаковать %d звуков</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="one">Копировать %d звук</item>
-        <item quantity="few">Копировать %d звуков</item>
-        <item quantity="many">Копировать %d звуков</item>
-        <item quantity="other">Копировать %d звуков</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="one">Удалить %d звук</item>
-        <item quantity="few">Удалить %d звуков</item>
-        <item quantity="many">Удалить %d звуков</item>
-        <item quantity="other">Удалить %d звуков</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="one">Переименовать %d звук</item>
-        <item quantity="few">Переименовать %d звуков</item>
-        <item quantity="many">Переименовать %d звуков</item>
-        <item quantity="other">Переименовать %d звуков</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="one">Копировать %d NFC тег</item>
-        <item quantity="few">Копировать %d NFC тегов</item>
-        <item quantity="many">Копировать %d NFC тегов</item>
-        <item quantity="other">Копировать %d NFC тегов</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="one">Удалить %d NFC тег</item>
-        <item quantity="few">Удалить %d NFC тегов</item>
-        <item quantity="many">Удалить %d NFC тегов</item>
-        <item quantity="other">Удалить %d NFC тегов</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="one">Переименовать %d NFC тег</item>
-        <item quantity="few">Переименовать %d NFC тегов</item>
-        <item quantity="many">Переименовать %d NFC тегов</item>
-        <item quantity="other">Переименовать %d NFC тегов</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="one">Упаковать %d блок</item>
-        <item quantity="few">Упаковать %d блоков</item>
-        <item quantity="many">Упаковать %d блоков</item>
-        <item quantity="other">Упаковать %d блоков</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="one">Распаковать %d скрипт</item>
-        <item quantity="few">Распаковать %d скриптов</item>
-        <item quantity="many">Распаковать %d скриптов</item>
-        <item quantity="other">Распаковать %d скриптов</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="one">Копировать %d блок</item>
-        <item quantity="few">Копировать %d блоков</item>
-        <item quantity="many">Копировать %d блоков</item>
-        <item quantity="other">Копировать %d блоков</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="one">Удалить %d блок</item>
-        <item quantity="few">Удалить %d блоков</item>
-        <item quantity="many">Удалить %d блоков</item>
-        <item quantity="other">Удалить %d блоков</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="one">Удалить %d скрипт</item>
-        <item quantity="few">Удалить %d скриптов</item>
-        <item quantity="many">Удалить %d скриптов</item>
-        <item quantity="other">Удалить %d скриптов</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="one">Удалить %d элемент данных</item>
-        <item quantity="few">Удалить %d элементов данных</item>
-        <item quantity="many">Удалить %d элементов данных</item>
-        <item quantity="other">Удалить %d элементов данных</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Новая сцена</string>
     <!-- Delete Dialog Titles -->
@@ -584,10 +372,10 @@
     <string name="nfc_tag_name_label">Название NFC тега</string>
     <string name="string_label">Текст</string>
     <string name="data_label">Название</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_format_not_supported">Формат изображения не поддерживается</string>
     <!-- Details -->
     <string name="project_details">Последний раз доступа: %s, размер: %s</string>
-    <string name="last_access_today">today, %s</string>
+    <string name="last_access_today">Сегодня, %s</string>
     <string name="scene_details">Актеры и объекты: %d, образов: %d, звуков: %d</string>
     <string name="sprite_details">Блоков: %d, образов: %d, звуков: %d</string>
     <string name="look_details">Разрешение: %s, размер: %s</string>
@@ -787,7 +575,7 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">Переменные для подключенных устройств</string>
     <string name="global_vars_headline">Переменные для всех актеров и объектов</string>
     <string name="local_vars_headline">Переменные только для этого актера или объекта</string>
     <string name="global_lists_headline">Списки для всех актеров или объектов</string>
@@ -795,8 +583,8 @@
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Для всех актеров, объектов, и клонов во всех сценах</string>
     <string name="new_data_for_this_sprite_only">Только для этого актера, объекта или его клонов</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_connected_devices">Для всех актеров, объектов и клонов во всех сценах проектов
+     на подключенных многопользовательских устройствах</string>
     <!-- Backpack -->
     <string name="backpack_title">Ваш рюкзак</string>
     <string name="pack">Упаковать</string>
@@ -818,8 +606,8 @@
     <string name="project_select_screen_title">Экран:</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">Объединенный проект</string>
+    <string name="merging_project_text">Эти два проекта пока не могут быть объединены</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">Новый актер или объект</string>
@@ -1102,6 +890,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">Кирпич с этими ярлыками уже существует. Пожалуйста, добавьте больше меток или входов.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Поместить в "</string>
@@ -1207,6 +997,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Воспроизвести звук</string>
     <string name="brick_play_sound_and_wait">Играть звук и ждать</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Остановить все звуки</string>
     <string name="brick_set_volume_to">Установить громкость</string>
     <string name="brick_change_volume_by">Изменить громкость на</string>
@@ -1253,6 +1044,9 @@
     <string name="brick_say_bubble">Cказать</string>
     <string name="brick_think_say_for_text">в течении</string>
     <string name="brick_forever">Вечно</string>
+    <string name="brick_loop_for_values_from">Для значений от</string>
+    <string name="brick_loop_in">в</string>
+    <string name="brick_loop_to">до</string>
     <string name="brick_repeat">Повторять</string>
     <string name="brick_repeat_until">Повторять до тех пор, пока</string>
     <string name="brick_when_touched">При прикосновении к экрану</string>
@@ -1265,6 +1059,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Завершить этап</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">раз</item>
         <item quantity="few">разa</item>
@@ -1280,6 +1077,15 @@
     <string name="brick_change_variable">Изменить значение</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Считать переменную</string>
+    <string name="brick_read_variable_from_file_center">с файла</string>
+    <string name="brick_read_variable_from_file_bottom">и</string>
+    <string name="brick_read_variable_from_file_keep">сохранить файл</string>
+    <string name="brick_read_variable_from_file_delete">удалить файл</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">новое примечание&#8230;</string>
@@ -1300,17 +1106,29 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Разрешить веб-доступ?</string>
-    <string name="brick_web_request_warning_message">Будьте очень осторожны, прежде чем разрешить доступ, так как ссылка может быть вредоносной!!!
-Для получения дополнительной информации переходите сюда: &lt;a href=%1s&gt;wiki&lt;/a&gt; </string>
+    <string name="web_request_warning_title">Разрешить веб-доступ?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious others or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
+    </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

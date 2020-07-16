@@ -31,14 +31,19 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
+import org.catrobat.catroid.content.bricks.UserDataBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.UserListBrick;
 import org.catrobat.catroid.content.bricks.UserVariableBrickInterface;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -47,6 +52,7 @@ import org.catrobat.catroid.ui.controller.BackpackListManager;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ScriptController {
 
@@ -58,7 +64,15 @@ public class ScriptController {
 	public Script copy(Script scriptToCopy, Project dstProject, Scene dstScene, Sprite dstSprite)
 			throws IOException, CloneNotSupportedException {
 
-		Script script = scriptToCopy.clone();
+		Script script;
+
+		if (!(scriptToCopy instanceof UserDefinedScript)) {
+			script = scriptToCopy.clone();
+		} else {
+			script = copyUserDefinedScript(scriptToCopy, dstSprite);
+		}
+		copyUserDefinedBricksOfScript(script, dstSprite);
+
 		List<Brick> scriptFlatBrickList = new ArrayList<>();
 		script.addToFlatList(scriptFlatBrickList);
 
@@ -96,6 +110,22 @@ public class ScriptController {
 						.getUserList(previousUserList.getName(), dstSprite, dstProject);
 				((UserListBrick) brick).setUserList(updatedUserList);
 			}
+
+			if (brick instanceof UserDataBrick) {
+				for (Map.Entry<Brick.BrickData, UserData> entry
+						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
+					UserData previousUserData = entry.getValue();
+					UserData updatedUserList;
+					if (Brick.BrickData.isUserList(entry.getKey())) {
+						updatedUserList = UserDataWrapper
+								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+					} else {
+						updatedUserList = UserDataWrapper
+								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+					}
+					entry.setValue(updatedUserList);
+				}
+			}
 		}
 
 		return script;
@@ -103,14 +133,21 @@ public class ScriptController {
 
 	public void pack(String groupName, List<Brick> bricksToPack) throws CloneNotSupportedException {
 		List<Script> scriptsToPack = new ArrayList<>();
+		List<UserDefinedBrick> userDefinedBrickListToPack = new ArrayList<>();
 
 		for (Brick brick : bricksToPack) {
 			if (brick instanceof ScriptBrick) {
+				if (brick instanceof UserDefinedReceiverBrick) {
+					UserDefinedBrick userDefinedBrick =
+							((UserDefinedReceiverBrick) brick).getUserDefinedBrick();
+					userDefinedBrickListToPack.add((UserDefinedBrick) userDefinedBrick.clone());
+				}
 				Script scriptToPack = brick.getScript();
 				scriptsToPack.add(scriptToPack.clone());
 			}
 		}
 
+		BackpackListManager.getInstance().addUserDefinedBrickToBackPack(groupName, userDefinedBrickListToPack);
 		BackpackListManager.getInstance().addScriptToBackPack(groupName, scriptsToPack);
 		BackpackListManager.getInstance().saveBackpack();
 	}
@@ -207,8 +244,50 @@ public class ScriptController {
 						.getUserList(previousUserList.getName(), dstSprite, dstProject);
 				((UserListBrick) brick).setUserList(updatedUserList);
 			}
+
+			if (brick instanceof UserDataBrick) {
+				for (Map.Entry<Brick.BrickData, UserData> entry
+						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
+					UserData previousUserData = entry.getValue();
+					UserData updatedUserList;
+					if (Brick.BrickData.isUserList(entry.getKey())) {
+						updatedUserList = UserDataWrapper
+								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+					} else {
+						updatedUserList = UserDataWrapper
+								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+					}
+					entry.setValue(updatedUserList);
+				}
+			}
 		}
 
 		dstSprite.getScriptList().add(script);
+	}
+
+	private Script copyUserDefinedScript(Script scriptToCopy, Sprite dstSprite) throws CloneNotSupportedException {
+		UserDefinedReceiverBrick userDefinedReceiverBrickToCopy = (UserDefinedReceiverBrick) scriptToCopy.getScriptBrick();
+		UserDefinedBrick userDefinedBrickToCopy = userDefinedReceiverBrickToCopy.getUserDefinedBrick();
+		UserDefinedBrick copiedUserDefinedBrick = dstSprite.getUserDefinedBrickWithSameUserData(userDefinedBrickToCopy);
+		if (copiedUserDefinedBrick != null && userDefinedBrickToCopy.getUserDefinedBrickID() != copiedUserDefinedBrick.getUserDefinedBrickID()) {
+			userDefinedReceiverBrickToCopy = new UserDefinedReceiverBrick(copiedUserDefinedBrick);
+		}
+		for (Brick brick : scriptToCopy.getBrickList()) {
+			userDefinedReceiverBrickToCopy.getScript().addBrick(brick.clone());
+		}
+		return userDefinedReceiverBrickToCopy.getScript();
+	}
+
+	private void copyUserDefinedBricksOfScript(Script script, Sprite dstSprite) {
+		for (int brickIndex = 0; brickIndex < script.getBrickList().size(); brickIndex++) {
+			Brick brick = script.getBrickList().get(brickIndex);
+			if (brick instanceof UserDefinedBrick) {
+				UserDefinedBrick userDefinedBrickToCopy = (UserDefinedBrick) brick;
+				UserDefinedBrick copiedUserDefinedBrick = dstSprite.getUserDefinedBrickWithSameUserData(userDefinedBrickToCopy);
+				if (copiedUserDefinedBrick != null) {
+					script.getBrickList().set(brickIndex, copiedUserDefinedBrick);
+				}
+			}
+		}
 	}
 }

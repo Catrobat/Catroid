@@ -89,7 +89,7 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	}
 
 	@Override
-	public void onNewOptionSelected() {
+	public void onNewOptionSelected(Integer spinnerId) {
 		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return;
@@ -127,11 +127,11 @@ public abstract class UserListBrick extends FormulaBrick implements BrickSpinner
 	}
 
 	@Override
-	public void onStringOptionSelected(String string) {
+	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
 	@Override
-	public void onItemSelected(@Nullable UserList item) {
+	public void onItemSelected(Integer spinnerId, @Nullable UserList item) {
 		userList = item;
 	}
 }

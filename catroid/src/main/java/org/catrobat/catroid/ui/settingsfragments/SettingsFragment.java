@@ -68,6 +68,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED = "settings_mindstorms_ev3_bricks_enabled";
 	public static final String SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED = "settings_mindstorms_ev3_show_sensor_info_box_disabled";
 	public static final String SETTINGS_SHOW_PARROT_AR_DRONE_BRICKS = "setting_parrot_ar_drone_bricks";
+	public static final String SETTINGS_EDIT_TRUSTED_DOMAINS = "setting_trusted_domains";
+	public static final String SETTINGS_SHOW_JUMPING_SUMO_BRICKS = "setting_parrot_jumping_sumo_bricks";
 	public static final String SETTINGS_SHOW_EMBROIDERY_BRICKS = "setting_embroidery_bricks";
 	public static final String SETTINGS_SHOW_PHIRO_BRICKS = "setting_enable_phiro_bricks";
 	public static final String SETTINGS_SHOW_ARDUINO_BRICKS = "setting_arduino_bricks";
@@ -86,7 +88,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String NXT_SCREEN_KEY = "setting_nxt_screen";
 	public static final String EV3_SCREEN_KEY = "setting_ev3_screen";
 	public static final String DRONE_SCREEN_KEY = "settings_drone_screen";
-	public static final String PARROT_JUMPING_SUMO_SCREEN_KEY = "setting_parrot_jumping_sumo_bricks";
 	public static final String RASPBERRY_SCREEN_KEY = "settings_raspberry_screen";
 
 	public static final String NXT_SETTINGS_CATEGORY = "setting_nxt_category";
@@ -125,6 +126,10 @@ public class SettingsFragment extends PreferenceFragment {
 
 		screen = getPreferenceScreen();
 
+		if (!BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			screen.removePreference(findPreference(SETTINGS_EDIT_TRUSTED_DOMAINS));
+		}
+
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
 			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
 			embroideryPreference.setEnabled(false);
@@ -135,6 +140,12 @@ public class SettingsFragment extends PreferenceFragment {
 			CheckBoxPreference phiroPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_PHIRO_BRICKS);
 			phiroPreference.setEnabled(false);
 			screen.removePreference(phiroPreference);
+		}
+
+		if (!BuildConfig.FEATURE_PARROT_JUMPING_SUMO_ENABLED) {
+			CheckBoxPreference jumpingSumoPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_JUMPING_SUMO_BRICKS);
+			jumpingSumoPreference.setEnabled(false);
+			screen.removePreference(jumpingSumoPreference);
 		}
 
 		if (!BuildConfig.FEATURE_ARDUINO_ENABLED) {
@@ -216,13 +227,6 @@ public class SettingsFragment extends PreferenceFragment {
 						.addToBackStack(ParrotARDroneSettingsFragment.TAG)
 						.commit();
 				break;
-			case PARROT_JUMPING_SUMO_SCREEN_KEY:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new ParrotJumpingSumoSettingsFragment(),
-								ParrotJumpingSumoSettingsFragment.TAG)
-						.addToBackStack(ParrotJumpingSumoSettingsFragment.TAG)
-						.commit();
-				break;
 			case RASPBERRY_SCREEN_KEY:
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new RaspberryPiSettingsFragment(), RaspberryPiSettingsFragment.TAG)
@@ -254,7 +258,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	public static boolean isJSSharedPreferenceEnabled(Context context) {
-		return getBooleanSharedPreference(false, PARROT_JUMPING_SUMO_SCREEN_KEY, context);
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_JUMPING_SUMO_BRICKS, context);
 	}
 
 	public static boolean isMindstormsNXTSharedPreferenceEnabled(Context context) {
@@ -281,7 +285,7 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static void setJumpingSumoSharedPreferenceEnabled(Context context, boolean value) {
 		getSharedPreferences(context).edit()
-				.putBoolean(PARROT_JUMPING_SUMO_SCREEN_KEY, value)
+				.putBoolean(SETTINGS_SHOW_JUMPING_SUMO_BRICKS, value)
 				.apply();
 	}
 

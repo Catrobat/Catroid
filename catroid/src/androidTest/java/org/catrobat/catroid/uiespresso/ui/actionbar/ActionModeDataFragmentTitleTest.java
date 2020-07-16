@@ -70,6 +70,7 @@ public class ActionModeDataFragmentTitleTest {
 	@Test
 	public void actionModeDataFragmentTitleTest() {
 		openContextualActionModeOverflowMenu();
+
 		onView(withText(R.string.delete))
 				.perform(click());
 
@@ -82,9 +83,7 @@ public class ActionModeDataFragmentTitleTest {
 		onDataList().onListAtPosition(2)
 				.performCheckItem();
 
-		onActionMode()
-				.checkTitleMatches(String.format(UiTestUtils.getQuantitiyString(R.plurals
-						.am_delete_user_data_items_title, 2), 2));
+		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.delete) + " 2");
 	}
 
 	private void createProject() {

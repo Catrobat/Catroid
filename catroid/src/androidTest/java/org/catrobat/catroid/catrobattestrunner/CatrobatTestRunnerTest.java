@@ -50,19 +50,28 @@ public class CatrobatTestRunnerTest {
 
 	@Test
 	public void testFailMismatchingTypes() throws Exception {
-		exception.expectMessage("expected:<5.0> but was:<some text>");
+		exception.expectMessage("AssertEqualsError\n"
+				+ "expected: <5.0>\n"
+				+ "actual:   <some text>\n"
+				+ "deviation: ^");
 		testAsset("testFailMismatchingTypes.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
 	@Test
 	public void testFailStringNotEqual() throws Exception {
-		exception.expectMessage("expected:<diff> but was:<text>");
+		exception.expectMessage("AssertEqualsError\n"
+				+ "expected: <diff>\n"
+				+ "actual:   <text>\n"
+				+ "deviation: ^");
 		testAsset("testFailStringNotEqual.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
 	@Test
 	public void testFailDoubleNotEqual() throws Exception {
-		exception.expectMessage("expected:<1.0> but was:<1.1>");
+		exception.expectMessage("AssertEqualsError\n"
+				+ "expected: <1.0>\n"
+				+ "actual:   <1.1>\n"
+				+ "deviation: --^");
 		testAsset("testFailDoubleNotEqual.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
@@ -76,6 +85,57 @@ public class CatrobatTestRunnerTest {
 	@Test
 	public void testTapBrick() throws Exception {
 		testAsset("testTapBrick.catrobat", "catrobatTestRunnerTests/success");
+	}
+
+	@Test
+	public void testSuccessListEqual() throws Exception {
+
+		testAsset("testSuccessListEqual.catrobat", "catrobatTestRunnerTests/success");
+	}
+
+	@Test
+	public void testFailListDoubleNotEqual() throws Exception {
+		exception.expectMessage("AssertUserListError\n"
+				+ "position: 1\n"
+				+ "expected: <1.1>\n"
+				+ "actual:   <1.2>\n"
+				+ "deviation: --^\n"
+				+ "\n"
+				+ "position: 2\n"
+				+ "expected: <5.2>\n"
+				+ "actual:   <5>\n"
+				+ "deviation: -^\n");
+		testAsset("testFailListDoubleNotEqual.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testFailListStringNotEqual() throws Exception {
+		exception.expectMessage("AssertUserListError\n"
+				+ "position: 0\n"
+				+ "expected: <first String>\n"
+				+ "actual:   <second String>\n"
+				+ "deviation: ^\n"
+				+ "\n"
+				+ "position: 1\n"
+				+ "expected: <second String>\n"
+				+ "actual:   <first String>\n"
+				+ "deviation: ^\n");
+		testAsset("testFailListStringNotEqual.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testFailListMismatchingTypes() throws Exception {
+		exception.expectMessage("AssertUserListError\n"
+				+ "position: 0\n"
+				+ "expected: <first String>\n"
+				+ "actual:   <125.0>\n"
+				+ "deviation: ^\n"
+				+ "\n"
+				+ "position: 1\n"
+				+ "expected: <12.3>\n"
+				+ "actual:   <second String>\n"
+				+ "deviation: ^\n");
+		testAsset("testFailListMismatchingTypes.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
 	private void testAsset(String assetName, String assetPath) throws Exception {

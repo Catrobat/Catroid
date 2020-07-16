@@ -28,6 +28,8 @@ import android.util.Log;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.ScriptAdapter;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
@@ -54,12 +56,18 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	protected void unpackItems(List<String> selectedItems) {
 		setShowProgressBar(true);
 		int unpackedItemCnt = 0;
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 
 		for (String item : selectedItems) {
+			List<UserDefinedBrick> userDefinedBricks = BackpackListManager.getInstance().getBackpackedUserDefinedBricks().get(item);
+			if (userDefinedBricks != null) {
+				sprite.addClonesOfUserDefinedBrickList(userDefinedBricks);
+			}
+
 			List<Script> scripts = BackpackListManager.getInstance().getBackpackedScripts().get(item);
 			for (Script script : scripts) {
 				try {
-					scriptController.unpack(script, ProjectManager.getInstance().getCurrentSprite());
+					scriptController.unpack(script, sprite);
 					unpackedItemCnt++;
 				} catch (CloneNotSupportedException e) {
 					Log.e(TAG, Log.getStackTraceString(e));
@@ -104,19 +112,5 @@ public class BackpackScriptFragment extends BackpackRecyclerViewFragment<String>
 	@Override
 	protected String getItemName(String item) {
 		return item;
-	}
-
-	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case UNPACK:
-				return R.plurals.am_unpack_scripts_title;
-			case DELETE:
-				return R.plurals.am_delete_scripts_title;
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
 	}
 }

@@ -34,7 +34,7 @@
         android:layout_height="match_parent"
         android:clickable="false"
         android:divider="@android:color/transparent"
-        android:dividerHeight="-5dip" >
+        android:dividerHeight="@dimen/script_spacing" >
     </org.catrobat.catroid.ui.dragndrop.BrickListView>
 
     <RelativeLayout

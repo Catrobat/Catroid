@@ -90,8 +90,9 @@ public final class StageLifeCycleController {
 
 		stageActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-		stageActivity.stageListener = new StageListener();
-		stageActivity.stageDialog = new StageDialog(stageActivity, stageActivity.stageListener, R.style.StageDialog);
+		StageActivity.stageListener = new StageListener();
+		stageActivity.stageDialog = new StageDialog(stageActivity, StageActivity.stageListener, R.style.StageDialog);
+		stageActivity.brickDialogManager = new BrickDialogManager(stageActivity);
 		stageActivity.calculateScreenSizes();
 
 		stageActivity.configuration = new AndroidApplicationConfiguration();
@@ -101,9 +102,9 @@ public final class StageLifeCycleController {
 			stageActivity.setContentView(R.layout.activity_stage_gamepad);
 			CastManager.getInstance().initializeGamepadActivity(stageActivity);
 			CastManager.getInstance()
-					.addStageViewToLayout((GLSurfaceView20) stageActivity.initializeForView(stageActivity.stageListener, stageActivity.configuration));
+					.addStageViewToLayout((GLSurfaceView20) stageActivity.initializeForView(StageActivity.stageListener, stageActivity.configuration));
 		} else {
-			stageActivity.initialize(stageActivity.stageListener, stageActivity.configuration);
+			stageActivity.initialize(StageActivity.stageListener, stageActivity.configuration);
 		}
 
 		//CATROID-105 - TODO: does this make any difference? probably necessary for cast:
@@ -241,6 +242,7 @@ public final class StageLifeCycleController {
 
 	static void stageDestroy(StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
+			stageActivity.brickDialogManager.dismissAllDialogs();
 			stageActivity.jumpingSumoDisconnect();
 			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (service != null) {

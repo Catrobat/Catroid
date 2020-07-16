@@ -30,6 +30,7 @@
     <string name="undo">Zpět</string>
     <string name="new_option">Nová&#8230;</string>
     <string name="confirm">Potvrdit</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Zrušit</string>
     <string name="next">Další</string>
     <string name="back">Zpět</string>
@@ -38,6 +39,9 @@
     <string name="close">Zavřít</string>
     <string name="yes">Ano</string>
     <string name="no">Ne</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Souhlasím</string>
     <string name="disagree">Nesouhlasím</string>
     <string name="select_all">Vybrat vše</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Nastavení</string>
     <string name="preference_title_language">Jazyk</string>
     <string name="preference_description_language">Nastavit jazyk aplikace</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Změnit vzhled aplikace</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
@@ -302,225 +309,6 @@
     <string name="merge">Merge</string>
     <string name="show_details">Zobrazit detaily</string>
     <string name="hide_details">Skrýt detaily</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="one">Pack %d project</item>
-        <item quantity="few">Pack %d projects</item>
-        <item quantity="many">Pack %d projects</item>
-        <item quantity="other">Pack %d projects</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="one">Kopírovat %d projekt</item>
-        <item quantity="few">Kopírovat %d projekty</item>
-        <item quantity="many">Kopírovat %d projektů</item>
-        <item quantity="other">Kopírovat %d projektů</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="one">Smazat %d projekt</item>
-        <item quantity="few">Smazat %d projekty</item>
-        <item quantity="many">Smazat %d projektů</item>
-        <item quantity="other">Smazat %d projektů</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="one">Rename %d project</item>
-        <item quantity="few">Rename %d projects</item>
-        <item quantity="many">Rename %d projects</item>
-        <item quantity="other">Rename %d projects</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="one">Convert %d project</item>
-        <item quantity="few">Convert %d projects</item>
-        <item quantity="many">Convert %d projects</item>
-        <item quantity="other">Convert %d projects</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="one">Merge %d project</item>
-        <item quantity="few">Merge %d projects</item>
-        <item quantity="many">Merge %d projects</item>
-        <item quantity="other">Merge %d projects</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="one">Zabalit %d scénu</item>
-        <item quantity="few">Zabalit %d scény</item>
-        <item quantity="many">Zabalit %d scén</item>
-        <item quantity="other">Zabalit %d scén</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="one">Vybalit %d scénu</item>
-        <item quantity="few">Vybalit %d scény</item>
-        <item quantity="many">Vybalit %d scén</item>
-        <item quantity="other">Vybalit %d scén</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="one">Kopírovat %d scénu</item>
-        <item quantity="few">Kopírovat %d scény</item>
-        <item quantity="many">Kopírovat %d scén</item>
-        <item quantity="other">Kopírovat %d scén</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="one">Smazat %d scénu</item>
-        <item quantity="few">Smazat %d scény</item>
-        <item quantity="many">Smazat %d scén</item>
-        <item quantity="other">Smazat %d scén</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="one">Přejmenovat %d scénu</item>
-        <item quantity="few">Přejmenovat %d scény</item>
-        <item quantity="many">Přejmenovat %d scén</item>
-        <item quantity="other">Přejmenovat %d scén</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="one">Zabalit %d objekt</item>
-        <item quantity="few">Zabalit %d objekty</item>
-        <item quantity="many">Zabalit %d objektů</item>
-        <item quantity="other">Zabalit %d objektů</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="one">Vybalit %d objekt</item>
-        <item quantity="few">Vybalit %d objekty</item>
-        <item quantity="many">Vybalit %d objektů</item>
-        <item quantity="other">Vybalit %d objektů</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="one">Kopírovat %d objekt</item>
-        <item quantity="few">Kopírovat %d objekty</item>
-        <item quantity="many">Kopírovat %d objektů</item>
-        <item quantity="other">Kopírovat %d objektů</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="one">Smazat %d objekt</item>
-        <item quantity="few">Smazat %d objekty</item>
-        <item quantity="many">Smazat %d objektů</item>
-        <item quantity="other">Smazat %d objektů</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="one">Přejmenovat %d objekt</item>
-        <item quantity="few">Přejmenovat %d objekty</item>
-        <item quantity="many">Přejmenovat %d objektů</item>
-        <item quantity="other">Přejmenovat %d objektů</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="one">Zabalit %d vzhled</item>
-        <item quantity="few">Zabalit %d vzhledy</item>
-        <item quantity="many">Zabalit %d vzhledů</item>
-        <item quantity="other">Zabalit %d vzhledů</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="one">Vybalit %d vzhled</item>
-        <item quantity="few">Vybalit %d vzhledy</item>
-        <item quantity="many">Vybalit %d vzhledů</item>
-        <item quantity="other">Vybalit %d vzhledů</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="one">Kopírovat %d vzhled</item>
-        <item quantity="few">Kopírovat %d vzhledy</item>
-        <item quantity="many">Kopírovat %d vzhledů</item>
-        <item quantity="other">Kopírovat %d vzhledů</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="one">Smazat %d vzhled</item>
-        <item quantity="few">Smazat %d vzhledy</item>
-        <item quantity="many">Smazat %d vzhledů</item>
-        <item quantity="other">Smazat %d vzhledů</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="one">Přejmenovat %d vzhled</item>
-        <item quantity="few">Přejmenovat %d vzhledy</item>
-        <item quantity="many">Přejmenovat %d vzhledů</item>
-        <item quantity="other">Přejmenovat %d vzhledů</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="one">Zabalit %d zvuk</item>
-        <item quantity="few">Zabalit %d zvuky</item>
-        <item quantity="many">Zabalit %d zvuků</item>
-        <item quantity="other">Zabalit %d zvuků</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="one">Vybalit %d zvuk</item>
-        <item quantity="few">Vybalit %d zvuky</item>
-        <item quantity="many">Vybalit %d zvuků</item>
-        <item quantity="other">Vybalit %d zvuků</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="one">Kopírovat %d zvuk</item>
-        <item quantity="few">Kopírovat %d zvuky</item>
-        <item quantity="many">Kopírovat %d zvuků</item>
-        <item quantity="other">Kopírovat %d zvuků</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="one">Smazat %d zvuk</item>
-        <item quantity="few">Smazat %d zvuky</item>
-        <item quantity="many">Smazat %d zvuků</item>
-        <item quantity="other">Smazat %d zvuků</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="one">Přejmenovat %d zvuk</item>
-        <item quantity="few">Přejmenovat %d zvuky</item>
-        <item quantity="many">Přejmenovat %d zvuků</item>
-        <item quantity="other">Přejmenovat %d zvuků</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="one">Copy %d NFC tag</item>
-        <item quantity="few">Copy %d NFC tags</item>
-        <item quantity="many">Copy %d NFC tags</item>
-        <item quantity="other">Copy %d NFC tags</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="one">Delete %d NFC tag</item>
-        <item quantity="few">Delete %d NFC tags</item>
-        <item quantity="many">Delete %d NFC tags</item>
-        <item quantity="other">Delete %d NFC tags</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="one">Rename %d NFC tag</item>
-        <item quantity="few">Rename %d NFC tags</item>
-        <item quantity="many">Rename %d NFC tags</item>
-        <item quantity="other">Rename %d NFC tags</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="one">Zabalit %d blok</item>
-        <item quantity="few">Zabalit %d bloky</item>
-        <item quantity="many">Zabalit %d bloků</item>
-        <item quantity="other">Zabalit %d bloků</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="one">Unpack %d script</item>
-        <item quantity="few">Unpack %d scripts</item>
-        <item quantity="many">Unpack %d scripts</item>
-        <item quantity="other">Unpack %d scripts</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="one">Kopírovat %d blok</item>
-        <item quantity="few">Kopírovat %d bloky</item>
-        <item quantity="many">Kopírovat %d bloků</item>
-        <item quantity="other">Kopírovat %d bloků</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="one">Smazat %d blok</item>
-        <item quantity="few">Smazat %d bloky</item>
-        <item quantity="many">Smazat %d bloků</item>
-        <item quantity="other">Smazat %d bloků</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="one">Smazat %d skript</item>
-        <item quantity="few">Smazat %d skripty</item>
-        <item quantity="many">Smazat %d skriptů</item>
-        <item quantity="other">Smazat %d skriptů</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="one">Delete %d data item</item>
-        <item quantity="few">Delete %d data items</item>
-        <item quantity="many">Delete %d data items</item>
-        <item quantity="other">Delete %d data items</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nová scéna</string>
     <!-- Delete Dialog Titles -->
@@ -1100,6 +888,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Umístěte na "</string>
@@ -1205,6 +995,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Spuštění zvuku</string>
     <string name="brick_play_sound_and_wait">Spustit zvuk a čekat</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Zastavit všechny zvuky</string>
     <string name="brick_set_volume_to">Nastavit hlasitost na</string>
     <string name="brick_change_volume_by">Změnit hlasitost o</string>
@@ -1251,6 +1042,9 @@
     <string name="brick_say_bubble">Říct</string>
     <string name="brick_think_say_for_text">pro</string>
     <string name="brick_forever">Navždy</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">do</string>
     <string name="brick_repeat">Opakovat</string>
     <string name="brick_repeat_until">Opakovat dokud</string>
     <string name="brick_when_touched">Při dotyku obrazovky</string>
@@ -1263,6 +1057,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">krát</item>
         <item quantity="few">krát</item>
@@ -1278,6 +1075,15 @@
     <string name="brick_change_variable">Změnit proměnnou</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">AND</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">přidat sem komentář&#8230;</string>
@@ -1298,12 +1104,20 @@
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1311,8 +1125,8 @@
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

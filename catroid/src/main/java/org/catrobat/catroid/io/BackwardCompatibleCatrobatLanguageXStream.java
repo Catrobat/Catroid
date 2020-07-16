@@ -31,6 +31,7 @@ import com.thoughtworks.xstream.converters.reflection.PureJavaReflectionProvider
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.WhenConditionScript;
@@ -153,6 +154,7 @@ import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
 import org.catrobat.catroid.content.bricks.TurnRightSpeedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
@@ -380,6 +382,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(RaspiIfLogicBeginBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("digitalPinNumber", BrickField.IF_CONDITION);
 		brickInfoMap.put("raspiIfLogicBeginBrick", brickInfo);
+
+		brickInfo = new BrickInfo(UserDefinedBrick.class.getSimpleName());
+		brickInfoMap.put("userDefinedBrick", brickInfo);
 
 		brickInfo = new BrickInfo(LoopEndBrick.class.getSimpleName());
 		brickInfoMap.put("loopEndBrick", brickInfo);
@@ -704,6 +709,7 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		scriptInfoMap.put("collisionScript", WhenBounceOffScript.class.getSimpleName());
 		scriptInfoMap.put("whenTouchDownScript", WhenTouchDownScript.class.getSimpleName());
 		scriptInfoMap.put("whenGamepadButtonScript", WhenGamepadButtonScript.class.getSimpleName());
+		scriptInfoMap.put("userDefinedScript", UserDefinedScript.class.getSimpleName());
 	}
 
 	private void modifyXMLToSupportUnknownFields(File file) {

@@ -22,7 +22,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<PreferenceScreen package="org.catrobat.catroid"
+<PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
@@ -30,6 +30,12 @@
         android:key="setting_multilingual"
         android:summary="@string/preference_description_language"
         android:title="@string/preference_title_language" />
+
+    <TrustListEditorPreference
+        android:defaultValue=""
+        android:key="setting_trusted_domains"
+        android:summary="@string/preference_description_web_access"
+        android:title="@string/preference_title_web_access" />
 
     <CheckBoxPreference
         android:defaultValue="false"
@@ -64,12 +70,13 @@
 
     </PreferenceScreen>
 
-    <PreferenceScreen
-            android:key="setting_parrot_jumping_sumo_bricks"
-            android:summary="@string/preference_description_jumpingsumo_bricks"
-            android:title="@string/preference_title_enable_jumpingsumo_bricks" >
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_parrot_jumping_sumo_bricks"
+        android:summary="@string/preference_description_jumpingsumo_bricks"
+        android:title="@string/preference_title_enable_jumpingsumo_bricks" >
 
-    </PreferenceScreen>
+    </CheckBoxPreference>
 
      <CheckBoxPreference
          android:defaultValue="@string/FEATURE_ARDUINO_PREFERENCES_ENABLED"

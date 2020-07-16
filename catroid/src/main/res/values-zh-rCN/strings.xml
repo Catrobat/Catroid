@@ -30,6 +30,7 @@
     <string name="undo">撤销</string>
     <string name="new_option">新建&#8230;</string>
     <string name="confirm">确认</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">取消</string>
     <string name="next">下一步</string>
     <string name="back">后退</string>
@@ -38,6 +39,9 @@
     <string name="close">关闭</string>
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">同意</string>
     <string name="disagree">不同意</string>
     <string name="select_all">全部选择</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">设置</string>
     <string name="preference_title_language">语言</string>
     <string name="preference_description_language">设置应用的语言</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">可访问性</string>
     <string name="preference_description_accessibility">更改应用的外观</string>
     <string name="preference_title_accessibility_profiles">辅助功能配置文件</string>
@@ -271,120 +278,6 @@
     <string name="merge">合并</string>
     <string name="show_details">显示详情</string>
     <string name="hide_details">隐藏详情</string>
-    <!-- Action Mode Titles -->
-    <!-- Project Action Mode Titles -->
-    <plurals name="am_pack_projects_title">
-        <item quantity="other">组件 %d 个项目</item>
-    </plurals>
-    <plurals name="am_copy_projects_title">
-        <item quantity="other">复制 %d 个项目</item>
-    </plurals>
-    <plurals name="am_delete_projects_title">
-        <item quantity="other">删除 %d 个项目</item>
-    </plurals>
-    <plurals name="am_rename_projects_title">
-        <item quantity="other">重命名 %d 个项目</item>
-    </plurals>
-    <plurals name="am_convert_projects_title">
-        <item quantity="other">已转换 %d 个项目</item>
-    </plurals>
-    <plurals name="am_merge_projects_title">
-        <item quantity="other">合并 %d 个项目</item>
-    </plurals>
-    <!-- Scene Action Mode Titles -->
-    <plurals name="am_pack_scenes_title">
-        <item quantity="other">包 %d 场景</item>
-    </plurals>
-    <plurals name="am_unpack_scenes_title">
-        <item quantity="other">解包 %d 场景</item>
-    </plurals>
-    <plurals name="am_copy_scenes_title">
-        <item quantity="other">复制 %d 个场景</item>
-    </plurals>
-    <plurals name="am_delete_scenes_title">
-        <item quantity="other">删除 %d 个场景</item>
-    </plurals>
-    <plurals name="am_rename_scenes_title">
-        <item quantity="other">重命名 %d 场景</item>
-    </plurals>
-    <!-- Sprite Action Mode Titles -->
-    <plurals name="am_pack_sprites_title">
-        <item quantity="other">包 %d 个对象或物体</item>
-    </plurals>
-    <plurals name="am_unpack_sprites_title">
-        <item quantity="other">解包 %d 个对象或物体</item>
-    </plurals>
-    <plurals name="am_copy_sprites_title">
-        <item quantity="other">复制 %d 个对象或物体</item>
-    </plurals>
-    <plurals name="am_delete_sprites_title">
-        <item quantity="other">删除 %d 个对象或物体</item>
-    </plurals>
-    <plurals name="am_rename_sprites_title">
-        <item quantity="other">重命名 %d 个对象或物体</item>
-    </plurals>
-    <!-- Look Action Mode Titles -->
-    <plurals name="am_pack_looks_title">
-        <item quantity="other">包 %d 外观</item>
-    </plurals>
-    <plurals name="am_unpack_looks_title">
-        <item quantity="other">解包 %d 外观</item>
-    </plurals>
-    <plurals name="am_copy_looks_title">
-        <item quantity="other">复制 %d 个外观</item>
-    </plurals>
-    <plurals name="am_delete_looks_title">
-        <item quantity="other">删除 %d 个外观</item>
-    </plurals>
-    <plurals name="am_rename_looks_title">
-        <item quantity="other">重命名 %d 外观</item>
-    </plurals>
-    <!-- Sound Action Mode Titles -->
-    <plurals name="am_pack_sounds_title">
-        <item quantity="other">包 %d 音响</item>
-    </plurals>
-    <plurals name="am_unpack_sounds_title">
-        <item quantity="other">解包 %d 音响</item>
-    </plurals>
-    <plurals name="am_copy_sounds_title">
-        <item quantity="other">复制 %d 音响</item>
-    </plurals>
-    <plurals name="am_delete_sounds_title">
-        <item quantity="other">删除 %d 个音响</item>
-    </plurals>
-    <plurals name="am_rename_sounds_title">
-        <item quantity="other">重命名 %d 音响</item>
-    </plurals>
-    <!-- NFC Tag Action Mode Titles -->
-    <plurals name="am_copy_nfc_tags_title">
-        <item quantity="other">复制 %d NFC 标签</item>
-    </plurals>
-    <plurals name="am_delete_nfc_tags_title">
-        <item quantity="other">删除 %d NFC 标签</item>
-    </plurals>
-    <plurals name="am_rename_nfc_tags_title">
-        <item quantity="other">重命名 %d NFC 标签</item>
-    </plurals>
-    <!-- Script Action Mode Titles -->
-    <plurals name="am_pack_scripts_title">
-        <item quantity="other">包 %d 积木</item>
-    </plurals>
-    <plurals name="am_unpack_scripts_title">
-        <item quantity="other">解包 %d 个脚本</item>
-    </plurals>
-    <plurals name="am_copy_scripts_title">
-        <item quantity="other">复制 %d 个积木。</item>
-    </plurals>
-    <plurals name="am_delete_bricks_title">
-        <item quantity="other">删除 %d 砖块</item>
-    </plurals>
-    <plurals name="am_delete_scripts_title">
-        <item quantity="other">删除 %d 个脚本</item>
-    </plurals>
-    <!-- Data Item Action Mode Titles -->
-    <plurals name="am_delete_user_data_items_title">
-        <item quantity="other">删除 %d 个数据项</item>
-    </plurals>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">新场景</string>
     <!-- Delete Dialog Titles -->
@@ -865,6 +758,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"放在 "</string>
@@ -964,6 +859,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <!-- Sound bricks -->
     <string name="brick_play_sound">播放声音</string>
     <string name="brick_play_sound_and_wait">播放声音并等待</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">停止所有声音</string>
     <string name="brick_set_volume_to">将音量设为</string>
     <string name="brick_change_volume_by">将音量增加</string>
@@ -1007,6 +903,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_say_bubble">说</string>
     <string name="brick_think_say_for_text">持续</string>
     <string name="brick_forever">无限重复</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">为</string>
     <string name="brick_repeat">重复执行</string>
     <string name="brick_repeat_until">重复执行直到</string>
     <string name="brick_when_touched">当屏幕被点击</string>
@@ -1019,6 +918,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_wait_till_idle">等待所有其他脚本停止</string>
     <string name="brick_tap_at">"单击在"</string>
     <string name="brick_finish_stage">结束阶段</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="other">次</item>
     </plurals>
@@ -1031,6 +933,15 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_change_variable">增加变量</string>
     <string name="brick_write_variable_on_device">在设备上写入变量</string>
     <string name="brick_read_variable_from_device">从设备读取变量</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">且</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">在设备上写入列表</string>
     <string name="brick_read_list_from_device">从设备读取列表</string>
     <string name="brick_note_default_value">在这里添加注释&#8230;</string>
@@ -1051,12 +962,20 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_web_request">发送网络请求到</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">并存储答案</string>
-    <string name="brick_web_request_warning_title">Allow web access?</string>
-    <string name="brick_web_request_warning_message">Be very careful before allowing access, since the
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1064,8 +983,8 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result">and use as current look</string>
     <string name="brick_background_request_result">and use as current background</string>
-    <string name="brick_look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="brick_look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>

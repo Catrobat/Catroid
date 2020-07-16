@@ -177,24 +177,6 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 	}
 
 	@Override
-	@PluralsRes
-	protected int getActionModeTitleId(@ActionModeType int actionModeType) {
-		switch (actionModeType) {
-			case COPY:
-				return R.plurals.am_copy_nfc_tags_title;
-			case DELETE:
-				return R.plurals.am_delete_nfc_tags_title;
-			case RENAME:
-				return R.plurals.am_rename_nfc_tags_title;
-			case BACKPACK:
-			case MERGE:
-			case NONE:
-			default:
-				throw new IllegalStateException("ActionModeType not set correctly");
-		}
-	}
-
-	@Override
 	public void onItemClick(NfcTagData item) {
 	}
 }

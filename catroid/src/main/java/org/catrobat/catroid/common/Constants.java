@@ -35,10 +35,11 @@ import java.util.Calendar;
 import androidx.annotation.IntDef;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999993f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999997f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -82,9 +83,12 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
-	// Whitelist File
-	public static final String URL_WHITELIST_JSON_FILE_NAME = "URL_whitelist.json";
-	public static final String URL_WHITELIST_JSON_ARRAY_NAME = "domains";
+	// Trusted domains
+	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";
+	public static final String TRUSTED_USER_DOMAINS_FILE_NAME = "trustedUserDomains.json";
+	public static final String TRUST_LIST_JSON_ARRAY_NAME = "domains";
+	public static final File TRUSTED_USER_DOMAINS_FILE = new File(DEFAULT_ROOT_DIRECTORY, TRUSTED_USER_DOMAINS_FILE_NAME);
+	public static final int JSON_INDENTATION = 4;
 
 	// Temporary Files and Directories:
 	public static final File CACHE_DIR = CatroidApplication.getAppContext().getCacheDir();
@@ -106,6 +110,9 @@ public final class Constants {
 	private static final String MAIN_URL_PRODUCTION = "https://share.catrob.at";
 	private static final String WEB_TEST_URL = BuildConfig.WEB_TEST_URL;
 	public static final String MAIN_URL_HTTPS = BuildConfig.WEB_TEST_FLAG ? WEB_TEST_URL : MAIN_URL_PRODUCTION;
+
+	// Default "flavor" in the web which equals "pocketcode"
+	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
 
 	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
 
@@ -238,6 +245,7 @@ public final class Constants {
 	//Various:
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
+	public static final int MAX_FILE_NAME_LENGTH = 127;
 
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;

@@ -36,7 +36,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_finish_stage_layout"
-        style="@style/BrickContainer.Arduino.Small">
+        style="@style/BrickContainer.Test.Small">
 
         <include layout="@layout/icon_brick_category_look" />
 

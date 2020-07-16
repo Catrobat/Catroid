@@ -38,6 +38,7 @@ import org.catrobat.catroid.content.actions.ArduinoSendPWMValueAction;
 import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.AssertEqualsAction;
+import org.catrobat.catroid.content.actions.AssertUserListAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -74,6 +75,7 @@ import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
+import org.catrobat.catroid.content.actions.ForVariableFromToAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
@@ -122,6 +124,7 @@ import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
 import org.catrobat.catroid.content.actions.ReadListFromDeviceAction;
 import org.catrobat.catroid.content.actions.ReadVariableFromDeviceAction;
+import org.catrobat.catroid.content.actions.ReadVariableFromFileAction;
 import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
@@ -156,6 +159,7 @@ import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
 import org.catrobat.catroid.content.actions.StopOtherScriptsAction;
 import org.catrobat.catroid.content.actions.StopRunningStitchAction;
+import org.catrobat.catroid.content.actions.StopSoundAction;
 import org.catrobat.catroid.content.actions.StopThisScriptAction;
 import org.catrobat.catroid.content.actions.StoreCSVIntoUserListAction;
 import org.catrobat.catroid.content.actions.TapAtAction;
@@ -166,11 +170,13 @@ import org.catrobat.catroid.content.actions.TurnRightAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
+import org.catrobat.catroid.content.actions.WaitForSoundAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
 import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
+import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
@@ -220,6 +226,14 @@ public class ActionFactory extends Actions {
 
 	public Action createWaitAction(Sprite sprite, Formula delay) {
 		WaitAction action = action(WaitAction.class);
+		action.setSprite(sprite);
+		action.setDelay(delay);
+		return action;
+	}
+
+	public Action createWaitForSoundAction(Sprite sprite, Formula delay, String soundFilePath) {
+		WaitForSoundAction action = action(WaitForSoundAction.class);
+		action.setSoundFilePath(soundFilePath);
 		action.setSprite(sprite);
 		action.setDelay(delay);
 		return action;
@@ -550,6 +564,13 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createStopSoundAction(Sprite sprite, SoundInfo sound) {
+		StopSoundAction action = Actions.action(StopSoundAction.class);
+		action.setSprite(sprite);
+		action.setSound(sound);
+		return action;
+	}
+
 	public Action createPointInDirectionAction(Sprite sprite, Formula degrees) {
 		PointInDirectionAction action = Actions.action(PointInDirectionAction.class);
 		action.setSprite(sprite);
@@ -838,6 +859,16 @@ public class ActionFactory extends Actions {
 	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
+		action.setAction(repeatedAction);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createForVariableFromToAction(Sprite sprite, UserVariable controlVariable,
+			Formula from, Formula to, Action repeatedAction) {
+		ForVariableFromToAction action = Actions.action(ForVariableFromToAction.class);
+		action.setRange(from, to);
+		action.setControlVariable(controlVariable);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
 		return action;
@@ -1275,6 +1306,18 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createAssertUserListsAction(Sprite sprite, UserList actual, UserList expected,
+			String position) {
+		AssertUserListAction action = action(AssertUserListAction.class);
+		action.setActual(actual);
+		action.setExpected(expected);
+
+		action.setSprite(sprite);
+		action.setPosition(position);
+
+		return action;
+	}
+
 	public Action createFinishStageAction() {
 		FinishStageAction action = action(FinishStageAction.class);
 		return action;
@@ -1290,6 +1333,26 @@ public class ActionFactory extends Actions {
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
 		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
 		action.setUserVariable(userVariable);
+
+		return action;
+	}
+
+	public Action createWriteVariableToFileAction(Sprite sprite, Formula variableFormula, UserVariable userVariable) {
+		WriteVariableToFileAction action = Actions.action(WriteVariableToFileAction.class);
+		action.setSprite(sprite);
+		action.setUserVariable(userVariable);
+		action.setFormula(variableFormula);
+
+		return action;
+	}
+
+	public Action createReadVariableFromFileAction(
+			Sprite sprite, Formula variableFormula, UserVariable userVariable, boolean deleteFile) {
+		ReadVariableFromFileAction action = Actions.action(ReadVariableFromFileAction.class);
+		action.setSprite(sprite);
+		action.setUserVariable(userVariable);
+		action.setFormula(variableFormula);
+		action.setDeleteFile(deleteFile);
 
 		return action;
 	}
