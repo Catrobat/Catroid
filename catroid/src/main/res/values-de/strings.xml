@@ -30,6 +30,7 @@
     <string name="undo">Rückgängig</string>
     <string name="new_option">Neu&#8230;</string>
     <string name="confirm">Bestätigen</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Abbrechen</string>
     <string name="next">Weiter</string>
     <string name="back">Zurück</string>
@@ -38,6 +39,9 @@
     <string name="close">Schließen</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Zustimmen</string>
     <string name="disagree">Ablehnen</string>
     <string name="select_all">Alle auswählen</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_language">Sprache</string>
     <string name="preference_description_language">App-Sprache auswählen</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
     <string name="preference_description_accessibility">Wähle ein Profil und konfiguriere deine eigenen Einstellungen für die Benutzeroberfläche der App.</string>
     <string name="preference_title_accessibility_profiles">Bediehnungshilfen</string>
@@ -759,6 +766,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_user_defined_default_input_name">Name der Eingabe</string>
     <string name="brick_user_defined_default_label">Beschriftung</string>
     <string name="brick_user_defined_already_exists">Ein Baustein mit diesen Labels existiert bereits. Bitte füge mehr Labels oder Eingaben hinzu.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Setze an Position "</string>
@@ -860,6 +869,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <!-- Sound bricks -->
     <string name="brick_play_sound">Klang starten</string>
     <string name="brick_play_sound_and_wait">Starte Klang und warte</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Alle Klänge stoppen</string>
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
@@ -904,6 +914,9 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_say_bubble">Sage</string>
     <string name="brick_think_say_for_text">für</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">auf</string>
     <string name="brick_repeat">Wiederhole</string>
     <string name="brick_repeat_until">Wiederholen bis</string>
     <string name="brick_when_touched">Wenn der Bildschirm berührt wird</string>
@@ -916,6 +929,9 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_wait_till_idle">Warten bis alle anderen Skripte gestoppt sind</string>
     <string name="brick_tap_at">"Einfaches tippen auf"</string>
     <string name="brick_finish_stage">Stufe beenden</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">mal</item>
         <item quantity="other">mal</item>
@@ -929,6 +945,15 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_change_variable">Ändere Variable</string>
     <string name="brick_write_variable_on_device">Variable auf Gerät schreiben</string>
     <string name="brick_read_variable_from_device">Variable von Gerät lesen</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">UND</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Liste auf Gerät speichern</string>
     <string name="brick_read_list_from_device">Liste von Gerät lesen</string>
     <string name="brick_note_default_value">Kommentar hier hinzufügen&#8230;</string>
@@ -952,9 +977,17 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
@@ -1601,18 +1634,18 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
         hier deine Formel erstellen.</string>
     <string name="formula_editor_intro_title_compute">Berechnen</string>
     <string name="formula_editor_intro_summary_compute">Um deine Formel zu Testen und um dein Ergebnis vorzeitig anzeigen zu lassen,
-        kannst du \"Berechnen\" verwenden. </string>
+        kannst du auf \"Berechnen\" klicken. </string>
     <string name="formula_editor_intro_title_object">Eigenschaften</string>
     <string name="formula_editor_intro_summary_object">Dies ist eine Sammlung der Werte von Eigenschaften der
         Figur oder des Objekts. Dabei sind zum Beispiel die x und y-Koordinaten oder die aktuelle Geschwindigkeit.</string>
     <string name="formula_editor_intro_title_functions">Funktionen</string>
     <string name="formula_editor_intro_summary_functions">Wie bei einem Taschenrechner bietet der Formel Editor
-        eine Vielzahl an klassischen mathematischen Funktionien an.\nDarunter findest du zum Beispiel Winkelfunktionen wie \"sin\" und \"cos\" 
+        eine Vielzahl an klassischen mathematischen Funktionen an.\nDarunter findest du zum Beispiel Winkelfunktionen wie \"sin\" und \"cos\" 
         aber auch einen Zufallsgenerator.</string>
     <string name="formula_editor_intro_title_logic">Logik</string>
-    <string name="formula_editor_intro_summary_logic">Logik wird zum Vergleichen und Verknüpfung von Werten verwendet. Um Werte zu
-        vergleichen kannst du zum Beispiel &gt; (größer als) oder \"=\" (ist gleich) verwenden.\nFür Verknüpfungen von Werten dienen zum Beispiel
-        \"UND\", \"ODER\" und \"NICHT\". </string>
+    <string name="formula_editor_intro_summary_logic">Logik wird zum Vergleichen und Verknüpfen von Werten verwendet. Um Werte zu
+        vergleichen kannst du zum Beispiel \"&amp;gt\"; (größer als) oder \"=\" (ist gleich) verwenden.\nUm Werte zu verknüpfen, können
+        \"UND\", \"ODER\" und \"NICHT\" verwendet werden. </string>
     <string name="formula_editor_intro_title_device">Sensoren</string>
     <string name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein 
         Smartphone oder Tablet aufzeichnet.\nZum Beispiel die Neigung deines Geräts oder die Lautstärke in deiner Umgebung. </string>

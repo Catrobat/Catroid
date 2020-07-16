@@ -30,6 +30,7 @@
     <string name="undo">Annulla</string>
     <string name="new_option">Nuovo&#8230;</string>
     <string name="confirm">Conferma</string>
+    <string name="ignore">Ignora</string>
     <string name="cancel">Annulla</string>
     <string name="next">Avanti</string>
     <string name="back">Indietro</string>
@@ -38,6 +39,9 @@
     <string name="close">Chiudere</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Acconsento</string>
     <string name="disagree">Non sono d\'accordo</string>
     <string name="select_all">Seleziona tutto</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Impostazioni</string>
     <string name="preference_title_language">Lingua</string>
     <string name="preference_description_language">Imposta la lingua dell\'applicazione</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Accessibilità</string>
     <string name="preference_description_accessibility">Modifica l\'aspetto dell\'app</string>
     <string name="preference_title_accessibility_profiles">Profili di accessibilità</string>
@@ -807,6 +814,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posiziona a "</string>
@@ -908,6 +917,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Inizia suono</string>
     <string name="brick_play_sound_and_wait">Avvia suono e attendi</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Interrompi tutti i suoni</string>
     <string name="brick_set_volume_to">Imposta volume a</string>
     <string name="brick_change_volume_by">Modifica il volume di</string>
@@ -952,6 +962,9 @@
     <string name="brick_say_bubble">Dire</string>
     <string name="brick_think_say_for_text">per</string>
     <string name="brick_forever">Per sempre</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">a</string>
     <string name="brick_repeat">Ripeti</string>
     <string name="brick_repeat_until">Ripeti fino a quando</string>
     <string name="brick_when_touched">Quando lo schermo viene toccato</string>
@@ -964,6 +977,9 @@
     <string name="brick_wait_till_idle">Attendi che tutti gli altri script siano stati fermati</string>
     <string name="brick_tap_at">"Tocco singolo su"</string>
     <string name="brick_finish_stage">Stage finale</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">volta</item>
         <item quantity="other">volte</item>
@@ -977,6 +993,15 @@
     <string name="brick_change_variable">Cambia variabile</string>
     <string name="brick_write_variable_on_device">Scrivi la variabile sul dispositivo</string>
     <string name="brick_read_variable_from_device">Leggi la variabile dal dispositivo</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">AND</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Scrivi la lista sul dispositivo</string>
     <string name="brick_read_list_from_device">Leggi la lista dal dispositivo</string>
     <string name="brick_note_default_value">aggiungi qui un commento&#8230;</string>
@@ -1000,9 +1025,17 @@
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>

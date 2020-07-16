@@ -30,6 +30,7 @@
     <string name="undo">செயல்தவிர்</string>
     <string name="new_option">புதியவை&#8230;</string>
     <string name="confirm">உறுதிசெய்</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">தவிர்</string>
     <string name="next">அடுத்து</string>
     <string name="back">பின்செல்</string>
@@ -38,6 +39,9 @@
     <string name="close">மூடு</string>
     <string name="yes">அமாம்</string>
     <string name="no">இல்லை</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">ஏற்கிறேன்</string>
     <string name="disagree">மறுக்கிறேன்</string>
     <string name="select_all">அனைத்தையும் தேர்ந்தெடு</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">அமைப்புகள்</string>
     <string name="preference_title_language">மொழி</string>
     <string name="preference_description_language">பயன்பாட்டு மொழியை மாற்றி அமைக்கவும்</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">அணுகல்தன்மை</string>
     <string name="preference_description_accessibility">செயலியின் தோற்றத்தை மாற்றவும்</string>
     <string name="preference_title_accessibility_profiles">அணுகல் சுயவிவரங்கள்</string>
@@ -367,7 +374,7 @@
         <item quantity="one">பேக் பேக் செய்யப்பட்ட% d ஒலி.</item>
         <item quantity="other">பேக் பேக் செய்யப்பட்ட% d ஒலிகள்.</item>
     </plurals>
-    <string name="packed_script_group">ஒரு ஸ்கிரிப்ட் குழுவை பேக் பேக் செய்தது.</string>
+    <string name="packed_script_group">ஒரு ஸ்கிரிப்ட்  குழுவை பேக் பேக் செய்தது.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
         <item quantity="one">தொகுக்கப்படாத% d காட்சி.</item>
@@ -794,6 +801,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"இடத்தில்"</string>
@@ -895,6 +904,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">ஒலியைத் தொடங்குங்கள்</string>
     <string name="brick_play_sound_and_wait">ஒலியைத் தொடங்கி காத்திருங்கள்</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">எல்லா ஒலிகளையும் நிறுத்துங்கள்</string>
     <string name="brick_set_volume_to">அளவை அமைக்கவும்</string>
     <string name="brick_change_volume_by">அளவை மாற்றவும்</string>
@@ -939,6 +949,9 @@
     <string name="brick_say_bubble">சொல்</string>
     <string name="brick_think_say_for_text">ஆக</string>
     <string name="brick_forever">என்றென்றும்</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">க்கு</string>
     <string name="brick_repeat">மீண்டும்</string>
     <string name="brick_repeat_until">வரை மீண்டும் செய்யவும்</string>
     <string name="brick_when_touched">மேடை தட்டும்போது</string>
@@ -951,6 +964,9 @@
     <string name="brick_wait_till_idle">மற்ற எல்லா ஸ்கிரிப்டுகளும் நிறுத்தப்படும் வரை காத்திருங்கள்</string>
     <string name="brick_tap_at">"இல் ஒற்றை தட்டு"</string>
     <string name="brick_finish_stage">நிலையை முடிக்க</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">நேரம்</item>
         <item quantity="other">times</item>
@@ -964,6 +980,15 @@
     <string name="brick_change_variable">மாறி மாற்று</string>
     <string name="brick_write_variable_on_device">சாதனத்தில் மாறி எழுதவும்</string>
     <string name="brick_read_variable_from_device">சாதனத்திலிருந்து மாறியைப் படிக்கவும்</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">மற்றும்</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">சாதனத்தில் பட்டியலை எழுதுங்கள்</string>
     <string name="brick_read_list_from_device">சாதனத்திலிருந்து பட்டியலைப் படிக்கவும்</string>
     <string name="brick_note_default_value">கருத்தை இங்கே சேர்க்கவும்&#8230;</string>
@@ -987,9 +1012,17 @@
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>

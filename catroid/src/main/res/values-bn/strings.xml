@@ -30,6 +30,7 @@
     <string name="undo">পূর্বাবস্থায় ফিরুন</string>
     <string name="new_option">শুরু</string>
     <string name="confirm">নিশ্চিত</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">বাতিল</string>
     <string name="next">পরবর্তী</string>
     <string name="back">পিছনে</string>
@@ -38,6 +39,9 @@
     <string name="close">বন্ধ</string>
     <string name="yes">হ্যাঁ</string>
     <string name="no">না</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">একমত</string>
     <string name="disagree">রাজি না</string>
     <string name="select_all">সব নির্বাচন করুন</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">সেটিংস</string>
     <string name="preference_title_language">ভাষা</string>
     <string name="preference_description_language">অ্যাপ্লিকেশনটির ভাষা নির্বাচন করুন</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">প্রবেশযোগ্যতা</string>
     <string name="preference_description_accessibility">অ্যাপ্লিকেশনটির চেহারা পরিবর্তন করুন</string>
     <string name="preference_title_accessibility_profiles">প্রবেশযোগ্য প্রোফাইল</string>
@@ -273,6 +280,41 @@
     <string name="merge">একত্রীকরণ</string>
     <string name="show_details">বিস্তারিত প্রদর্শন করুন</string>
     <string name="hide_details">বিস্তারিতকে আড়াল করুন</string>
+    <!-- New Dialog Titles -->
+    <string name="new_scene_dialog">নতুন দৃশ্য</string>
+    <!-- Delete Dialog Titles -->
+    <plurals name="delete_projects">
+        <item quantity="one">এই প্রজেক্টটি মুছুন</item>
+        <item quantity="other">এই প্রজেক্টগুলি মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">এই দৃশ্যটি মুছবেন?</item>
+        <item quantity="other">এই দৃশ্যগুলি মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_sprites">
+        <item quantity="one">এই অভিনেতা বা বস্তু মুছবেন?</item>
+        <item quantity="other">এই অভিনেতা বা অবজেক্ট মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_looks">
+        <item quantity="one">এই চেহারা মুছবেন?</item>
+        <item quantity="other">এই চেহারা মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">এই শব্দটি মুছবেন?</item>
+        <item quantity="other">এই শব্দগুলি মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">এই ট্যাগ মুছবেন?</item>
+        <item quantity="other">এই ট্যাগগুলি মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_scripts">
+        <item quantity="one">এই স্ক্রিপ্ট মুছবেন?</item>
+        <item quantity="other">এই স্ক্রিপ্টগুলি মুছবেন?</item>
+    </plurals>
+    <plurals name="delete_bricks">
+        <item quantity="one">এই ব্রিকটি মুছবেন?</item>
+        <item quantity="other">এই ব্রিকগুলি মুছবেন?</item>
+    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">প্রজেক্টের নাম</string>
     <string name="scene_name_label">দৃশ্য নাম</string>
@@ -739,6 +781,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"এ স্থান"</string>
@@ -840,6 +884,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">শব্দ শুরু করুন</string>
     <string name="brick_play_sound_and_wait">শব্দ শুরু করুন এবং অপেক্ষা করুন</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">সমস্ত শব্দ বন্ধ করুন</string>
     <string name="brick_set_volume_to">ভলিউম সেট করুন</string>
     <string name="brick_change_volume_by">এর মাধ্যমে ভলিউম পরিবর্তন করুন</string>
@@ -884,6 +929,9 @@
     <string name="brick_say_bubble">বলা</string>
     <string name="brick_think_say_for_text">জন্য</string>
     <string name="brick_forever">চিরতরে</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">প্রতি</string>
     <string name="brick_repeat">পুনরাবৃত্তি</string>
     <string name="brick_repeat_until">পর্যন্ত পুনরাবৃত্তি</string>
     <string name="brick_when_touched">যখন পর্যায়টি টেপ করা হয়</string>
@@ -896,6 +944,9 @@
     <string name="brick_wait_till_idle">অন্যান্য সমস্ত স্ক্রিপ্ট বন্ধ না হওয়া পর্যন্ত অপেক্ষা করুন</string>
     <string name="brick_tap_at">"একটি ট্যাপ করুন"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">সময়</item>
         <item quantity="other">বার</item>
@@ -909,6 +960,15 @@
     <string name="brick_change_variable">ভ্যারিয়েবল পরিবর্তন করুন</string>
     <string name="brick_write_variable_on_device">ডিভাইসে ভ্যারিয়েবল লিখুন</string>
     <string name="brick_read_variable_from_device">ডিভাইস থেকে ভেরিয়েবল পড়ুন</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">এবং</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">এখানে মন্তব্য যুক্ত করুন &#8230;</string>
@@ -932,9 +992,17 @@
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>

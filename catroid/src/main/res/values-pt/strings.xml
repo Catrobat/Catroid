@@ -30,6 +30,7 @@
     <string name="undo">Desfazer</string>
     <string name="new_option">Novo&#8230;</string>
     <string name="confirm">Confirmar</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Cancelar</string>
     <string name="next">Próximo</string>
     <string name="back">Voltar</string>
@@ -38,6 +39,9 @@
     <string name="close">Fechar</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Concordar</string>
     <string name="disagree">Discordar</string>
     <string name="select_all">Selecionar todos</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Configurações</string>
     <string name="preference_title_language">Língua</string>
     <string name="preference_description_language">Estabelecer a língua da aplicação</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Acessibilidade</string>
     <string name="preference_description_accessibility">Alterar a aparência da aplicação</string>
     <string name="preference_title_accessibility_profiles">Perfis de acessibilidade</string>
@@ -287,6 +294,41 @@
     <string name="merge">Merge</string>
     <string name="show_details">Mostrar pormenores</string>
     <string name="hide_details">Esconder pormenores</string>
+    <!-- New Dialog Titles -->
+    <string name="new_scene_dialog">New scene</string>
+    <!-- Delete Dialog Titles -->
+    <plurals name="delete_projects">
+        <item quantity="one">Delete this project?</item>
+        <item quantity="other">Delete these projects?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">Delete this scene?</item>
+        <item quantity="other">Delete these scenes?</item>
+    </plurals>
+    <plurals name="delete_sprites">
+        <item quantity="one">Delete this actor or object?</item>
+        <item quantity="other">Delete these actors or objects?</item>
+    </plurals>
+    <plurals name="delete_looks">
+        <item quantity="one">Delete this look?</item>
+        <item quantity="other">Delete these looks?</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">Delete this sound?</item>
+        <item quantity="other">Delete these sounds?</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">Delete this tag?</item>
+        <item quantity="other">Delete these tags?</item>
+    </plurals>
+    <plurals name="delete_scripts">
+        <item quantity="one">Delete this script?</item>
+        <item quantity="other">Delete these scripts?</item>
+    </plurals>
+    <plurals name="delete_bricks">
+        <item quantity="one">Delete this brick?</item>
+        <item quantity="other">Delete these bricks?</item>
+    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>
@@ -771,6 +813,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posicionar em "</string>
@@ -872,6 +916,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Iniciar áudio</string>
     <string name="brick_play_sound_and_wait">Start sound and wait</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Parar todos os áudios</string>
     <string name="brick_set_volume_to">Definir volume para</string>
     <string name="brick_change_volume_by">Alterar volume por</string>
@@ -916,6 +961,9 @@
     <string name="brick_say_bubble">Say</string>
     <string name="brick_think_say_for_text">durante</string>
     <string name="brick_forever">Forever</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">para</string>
     <string name="brick_repeat">Repetir</string>
     <string name="brick_repeat_until">Repetir até</string>
     <string name="brick_when_touched">Quando alguém toca no ecrã</string>
@@ -928,6 +976,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">vez</item>
         <item quantity="other">vezes</item>
@@ -941,6 +992,15 @@
     <string name="brick_change_variable">Atlerar variável</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">E</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">adicionar comentário aqui&#8230;</string>
@@ -964,9 +1024,17 @@
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>

@@ -28,8 +28,9 @@
     <string name="settings">Podešavanja</string>
     <string name="redo">Ponovi</string>
     <string name="undo">Opozovi</string>
-    <string name="new_option">nova…</string>
+    <string name="new_option">nova&#8230;</string>
     <string name="confirm">Potvrdi</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">Otkaži</string>
     <string name="next">Slеdеćе</string>
     <string name="back">Nazad</string>
@@ -38,6 +39,9 @@
     <string name="close">Zatvori</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">Prihvati</string>
     <string name="disagree">Ne slažem se</string>
     <string name="select_all">Izaberi sve</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">Podešavanja</string>
     <string name="preference_title_language">Jezik</string>
     <string name="preference_description_language">Podesi jezik app-a</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">Pristupačnost</string>
     <string name="preference_description_accessibility">Promeni izgleda aplikacije</string>
     <string name="preference_title_accessibility_profiles">Profili pristupačnosti</string>
@@ -113,7 +120,7 @@
     <string name="preference_title_accessibility_beginner_bricks">Početni režim</string>
     <string name="preference_description_accessibility_beginner_bricks">Prikaži samo jednostavne funkcije.</string>
     <string name="preference_title_accessibility_font_style">Odaberite tip teksta</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="accessibility_font_regular">Regularno</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">Izmene su primenjene.</string>
@@ -161,12 +168,12 @@
     <string name="preference_raspi_enable_bricks">Omogući kocke i senzore</string>
     <string name="preference_raspi_help">Pomoć / početak</string>
     <string name="preference_raspi_help_summary">Pomoć za konfiguraciju postavki veze</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
+    <string name="preference_raspi_host">Raspberry Pi IP-/host-adresa</string>
     <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_multiplayer_variables_enabled">Multiplejer dodatak</string>
+    <string name="preference_description_multiplayer_variables_enabled">Dozvolite aplikaciji da koristi
+        multiplejer promenljive koje se dele preko Bluetooth-a</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Ups! Čini se da je projekat nestao
@@ -213,7 +220,7 @@
     <string name="convert">Pretvori</string>
     <string name="converting">Pretvaram&#8230;</string>
     <string name="status_scheduled">Planiran</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
+    <string name="status_waiting_for_worker">Tražite slobodnog radnika … Molimo pričekajte …</string>
     <string name="status_started">Počeo&#8230;</string>
     <string name="status_conversion_finished">Konverzija gotova</string>
     <plurals name="status_in_progress_x_jobs">
@@ -332,27 +339,27 @@
         <item quantity="other">Delete these tags?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">Delete this script?</item>
-        <item quantity="few">Delete these scripts?</item>
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="one">Obriši ovu skriptu?</item>
+        <item quantity="few">Obriši ove skripte?</item>
+        <item quantity="other">Obriši ove skripte?</item>
     </plurals>
     <plurals name="delete_bricks">
-        <item quantity="one">Delete this brick?</item>
-        <item quantity="few">Delete these bricks?</item>
-        <item quantity="other">Delete these bricks?</item>
+        <item quantity="one">Obriši ovu kocku?</item>
+        <item quantity="few">Obriši ove kocke?</item>
+        <item quantity="other">Obriši ove kocke?</item>
     </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Naziv projekta</string>
     <string name="scene_name_label">Ime scene</string>
     <string name="sprite_name_label">Ime glumca ili objekta</string>
     <string name="sprite_group_name_label">Ime grupe</string>
-    <string name="script_group_label">Script group name</string>
+    <string name="script_group_label">Naziv grupe skripti</string>
     <string name="look_name_label">Ime izgleda</string>
     <string name="sound_name_label">Zvučno ime</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Tekst</string>
     <string name="data_label">Imе</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_format_not_supported">Format slike nije podržan</string>
     <!-- Details -->
     <string name="project_details">Poslednji pristup: %s, veličina: %s</string>
     <string name="last_access_today">danas, %s</string>
@@ -399,9 +406,9 @@
     <string name="packed_script_group">Backpacked one script group.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
-        <item quantity="few">Unpacked %d scenes.</item>
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="one">Otpakovao %d scenu</item>
+        <item quantity="few">Otpakovao %d scene</item>
+        <item quantity="other">Otpakovao %d scena</item>
     </plurals>
     <plurals name="unpacked_sprites">
         <item quantity="one">Unpacked %d actor or object.</item>
@@ -409,40 +416,40 @@
         <item quantity="other">Unpacked %d actors or objects.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
-        <item quantity="few">Unpacked %d looks.</item>
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="one">Otpakovao %d izgled</item>
+        <item quantity="few">Otpakovao %d izgleda</item>
+        <item quantity="other">Otpakovao %d izgleda</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
-        <item quantity="few">Unpacked %d sounds.</item>
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="one">Otpakovao %d zvuk</item>
+        <item quantity="few">Otpakovao %d zvukova</item>
+        <item quantity="other">Otpakovao %d zvukova</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
-        <item quantity="few">Unpacked %d scripts.</item>
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="one">Otpakovao %d skriptu</item>
+        <item quantity="few">Otpakovao %d skripte</item>
+        <item quantity="other">Otpakovao %d skripti</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
-        <item quantity="few">Copied %d scenes.</item>
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="one">Kopirao %d scenu</item>
+        <item quantity="few">Kopirao %d scene</item>
+        <item quantity="other">Kopirao %d scena</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
-        <item quantity="few">Copied %d actors or objects.</item>
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="one">Kopirao %d aktera ili objekat</item>
+        <item quantity="few">Kopirao %d aktera ili objekata</item>
+        <item quantity="other">Kopirao %d aktera ili objekata</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
-        <item quantity="few">Copied %d looks.</item>
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="one">Kopirao %d izgled</item>
+        <item quantity="few">Kopirao %d izgleda</item>
+        <item quantity="other">Kopirao %d izgleda</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
-        <item quantity="few">Copied %d sounds.</item>
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="one">Kopirao %d zvuk</item>
+        <item quantity="few">Kopirao %d zvukova</item>
+        <item quantity="other">Kopirao %d zvukova</item>
     </plurals>
     <plurals name="copied_nfc_tags">
         <item quantity="one">Copied %d NFC tag.</item>
@@ -451,14 +458,14 @@
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
-        <item quantity="few">Deleted %d projects.</item>
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="one">Obrisao %d projekat.</item>
+        <item quantity="few">Obrisao %d projekata.</item>
+        <item quantity="other">Obrisao %d projekata.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
-        <item quantity="few">Deleted %d scenes.</item>
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="one">Obrisao %d scenu.</item>
+        <item quantity="few">Obrisao %d scena.</item>
+        <item quantity="other">Obrisao %d scena.</item>
     </plurals>
     <plurals name="deleted_sprites">
         <item quantity="one">Deleted %d sprite.</item>
@@ -481,9 +488,9 @@
         <item quantity="other">Deleted %d NFC tags.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
-        <item quantity="few">Deleted %d scripts.</item>
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="one">Obrisao %d skriptu</item>
+        <item quantity="few">Obrisao %d skripte</item>
+        <item quantity="other">Obrisao %d skripti</item>
     </plurals>
     <plurals name="deleted_Items">
         <item quantity="one">Deleted %d item.</item>
@@ -509,7 +516,7 @@
     <string name="default_sprite_name">Moji glumci ili objekti</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+    <string name="fragment_look_text_description">Pritisni \"+\" da bi dodali izglede</string>
     <string name="select_look_from_gallery">Izaberi sliku</string>
     <string name="select_look_from_camera">Izaberi fotografiju</string>
     <!--  -->
@@ -535,8 +542,8 @@
     <!-- DataListFragment -->
     <string name="multiplayer_vars_headline">Variables for connected devices</string>
     <string name="global_vars_headline">Promenljive za sve glumce i objekte</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
+    <string name="local_vars_headline">Promenljive samo za ovog aktera ili objekat</string>
+    <string name="global_lists_headline">Liste za sve aktere i objekte</string>
     <string name="local_lists_headline">Liste samo za ovog aktera ili objekta</string>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
@@ -612,8 +619,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Pravila o privatnosti</string>
     <string name="disclaimer_privacy_police_header_headline">Dobrodošli!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_policy_header">Pre nego što počnete sa programiranjem, pročitajte i prihvatite našu Politiku privatnosti da biste koristili aplikaciju:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -838,7 +844,7 @@
     <string name="category_arduino">Arduino</string>
     <string name="category_cast">Chromecast</string>
     <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
+    <string name="category_assertions">Testiranje</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Dodaj oznaku</string>
@@ -847,7 +853,9 @@
     <string name="brick_user_defined_add_label_description">Dodajte oznaku za ovu kocku:</string>
     <string name="brick_user_defined_default_input_name">Naziv unosa</string>
     <string name="brick_user_defined_default_label">Tekst oznake</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_already_exists">Kocka sa ovim oznakama već postoji. Dodajte još oznaka ili unosa.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Postavi na"</string>
@@ -889,7 +897,7 @@
     <!-- Physics -->
     <string name="brick_set_physics_object_type">Podesi svoj tip pokreta na</string>
     <string name="brick_set_physics_object_type_dynamic">krećući se i skačući pod gravitacijom</string>
-    <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
+    <string name="brick_set_physics_object_type_fixed">ne pomera se pod dejstvom gravitacije, ali drugi odbijaju od vas pod uticajem gravitacije</string>
     <string name="brick_set_physics_object_type_no">not moving or bouncing under gravity (default)</string>
     <string name="brick_set_mass">"Podesite masu na"</string>
     <string name="brick_set_mass_unit">kilogram</string>
@@ -951,6 +959,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Pokreni zvuk</string>
     <string name="brick_play_sound_and_wait">Pokreni zvuk i čekaj</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">Isključite sve zvukove</string>
     <string name="brick_set_volume_to">Postavi jačinu zvuka na</string>
     <string name="brick_change_volume_by">Promenite jačinu zvuka za</string>
@@ -980,9 +989,9 @@
     <string name="brick_stop_all_scripts">sve skripte</string>
     <string name="brick_stop_other_scripts">ostale skripte ovog aktera ili objekta</string>
     <plurals name="second_plural">
-        <item quantity="one">"second"</item>
-        <item quantity="few">"seconds"</item>
-        <item quantity="other">"seconds"</item>
+        <item quantity="one">"sekunda"</item>
+        <item quantity="few">"sekunde"</item>
+        <item quantity="other">"sekundi"</item>
     </plurals>
     <string name="brick_collision_receive">Kad odskočiš</string>
     <string name="collision_with_anything">any edge, actor, or object</string>
@@ -994,8 +1003,11 @@
     <string name="brick_note">Beleška</string>
     <string name="brick_think_bubble">Misli</string>
     <string name="brick_say_bubble">Govori</string>
-    <string name="brick_think_say_for_text">for</string>
+    <string name="brick_think_say_for_text">za</string>
     <string name="brick_forever">Zauvek</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">za</string>
     <string name="brick_repeat">Ponavljaj</string>
     <string name="brick_repeat_until">Ponavljaj dok</string>
     <string name="brick_when_touched">Kad je scena pritisnuta</string>
@@ -1008,20 +1020,32 @@
     <string name="brick_wait_till_idle">Sačekajte da se zaustave sve ostale skripte</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Završi scenu</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
-        <item quantity="one">time</item>
-        <item quantity="few">times</item>
-        <item quantity="other">times</item>
+        <item quantity="one">puta</item>
+        <item quantity="few">puta</item>
+        <item quantity="other">puta</item>
     </plurals>
     <string name="brick_loop_end">Kraj petlje</string>
-    <string name="brick_if_begin">If</string>
+    <string name="brick_if_begin">Ako</string>
     <string name="brick_if_begin_second_part">je tačan onda</string>
-    <string name="brick_if_else">Else</string>
-    <string name="brick_if_end">End if</string>
+    <string name="brick_if_else">Osim</string>
+    <string name="brick_if_end">Kraj ako</string>
     <string name="brick_set_variable">Podesi promenljivu</string>
     <string name="brick_change_variable">Promeni varijablu</string>
     <string name="brick_write_variable_on_device">Pišite promenljivu na uređaj</string>
     <string name="brick_read_variable_from_device">Pročitajte promenljivu sa uređaja</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">i</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Pišite listu na uređaj</string>
     <string name="brick_read_list_from_device">Pročitajte listu sa uređaja</string>
     <string name="brick_note_default_value">dodaj komentar ovde&#8230;</string>
@@ -1032,32 +1056,40 @@
     <string name="brick_add_item_to_userlist">u listu</string>
     <string name="brick_clear_userlist">Izbriši sve stavke sa liste</string>
     <string name="brick_delete_item_from_userlist_delete">Izbriši stavku sa liste</string>
-    <string name="brick_delete_item_from_userlist">at position</string>
+    <string name="brick_delete_item_from_userlist">na položaju</string>
     <string name="brick_insert_item_into_userlist_insert_into">Ubaci</string>
     <string name="brick_insert_item_into_userlist_into_list">u listu</string>
-    <string name="brick_insert_item_into_userlist_at_position">at position</string>
+    <string name="brick_insert_item_into_userlist_at_position">na položaju</string>
     <string name="brick_replace_item_in_userlist_replace_in_list">Zamenite stavku u listi</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
-    <string name="brick_replace_item_in_userlist_with_value">with</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">na položaju</string>
+    <string name="brick_replace_item_in_userlist_with_value">sa</string>
     <string name="brick_web_request">Pošalji web zahtev za</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">i spremite odgovor u</string>
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
     </string>
-    <string name="brick_look_request">Get image from</string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
+    </string>
+    <string name="brick_look_request">Uzmi sliku od</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
+    <string name="brick_look_request_result">i koristi kao trenutni izgled</string>
     <string name="brick_background_request_result">and use as current background</string>
     <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
     <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
+    <string name="brick_store_csv_into_userlist_store">Sačuvaj kolonu</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
     <string name="brick_store_csv_into_userlist_into">u listu</string>
@@ -1101,7 +1133,7 @@
     <string name="default_drone_project_sprites_back">Nazad</string>
     <string name="default_drone_project_sprites_turn_left">Okreni levo</string>
     <string name="default_drone_project_sprites_turn_right">Okreni desno</string>
-    <string name="default_drone_project_sprites_emergency">Emergency</string>
+    <string name="default_drone_project_sprites_emergency">Hitno</string>
     <string name="drone_brick_set_text">Tekst</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1134,10 +1166,10 @@
     <string name="channel_description">%1$s notification channel</string>
     <!--  -->
     <!-- Notifications -->
-    <string name="notification_screenshot_ok">Preview image saved</string>
+    <string name="notification_screenshot_ok">Slika za pregled je sačuvana</string>
     <string name="notification_download_project_cancel">Otkaži preuzimanje projekta</string>
     <string name="notification_reconvert_download_program_cancel">Otkazano preuzimanje/rekonvertovanje projekta</string>
-    <string name="notification_upload_title_pending">"Uploading"</string>
+    <string name="notification_upload_title_pending">"Otpremanje"</string>
     <string name="notification_upload_title_finished">"Pogledati na"</string>
     <string name="notification_upload_pending">Otpremanje u toku</string>
     <string name="notification_upload_finished">Otpremanje uspešno</string>
@@ -1150,16 +1182,16 @@
     <string name="notification_title_open">"Otvori"</string>
     <string name="notification_low_battery_with_value">Pažnja. Baterija je prazna. Trenutni status je %d</string>
     <string name="size_of_project">Veličina:</string>
-    <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
+    <string name="drone_emergency_battery_low">Baterija je prazna (automatsko sletanje).</string>
     <string name="drone_emergency_camera">Jedna ili više kamera ne reaguje.</string>
-    <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
+    <string name="drone_emergency_ultrasound">Ultrazvučni senzor ne reaguje.</string>
     <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
         behavior.</string>
-    <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
-    <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
+    <string name="drone_emergency_cutout">Okolina je zaustavila jedan ili više motora.</string>
+    <string name="drone_alert_battery_low">Baterija je preniska da bi se ponovo moglo poletiti.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
-    <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
-    <string name="drone_emergency_title">Emergency</string>
+    <string name="drone_alert_vision">Nema procene brzine od kamere usmerene odozdo.</string>
+    <string name="drone_emergency_title">Hitno</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1175,7 +1207,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_new_project">Došlo je do greške prilikom stvaranja novog projekta.</string>
     <string name="error_rename_scene">Došlo je do greške prilikom preimanovanja scene.</string>
     <string name="error_load_project">Došlo je do greške prilikom učitavanja projekta.</string>
-    <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
+    <string name="error_screenshot_failed">Došlo je do greške tokom čuvanja slike za pregled.</string>
     <string name="error_internet_connection">Došlo je do nepoznate greške. Proverite Internet vezu.</string>
     <string name="error_project_compatibility">Projekat nije kompatibilan sa ovom verzijom aplikacije.</string>
     <string name="error_outdated_version">Verzija ove aplikacije je zastarela. Ažuriranje sada?</string>
@@ -1260,7 +1292,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="nxt_choose_sensor_2">Senzor povezan na port 2</string>
     <string name="nxt_choose_sensor_3">Senzor povezan na port 3</string>
     <string name="nxt_choose_sensor_4">Senzor povezan na port 4</string>
-    <string name="nxt_no_sensor">none</string>
+    <string name="nxt_no_sensor">nijedan</string>
     <string name="nxt_sensor_touch">NXT senzor dodira</string>
     <string name="nxt_sensor_sound">NXT senzor zvuka</string>
     <string name="nxt_sensor_light">NXT senzor svetlosti</string>
@@ -1312,7 +1344,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">Sve</string>
     <string name="ev3_play_tone">Play EV3 tone</string>
-    <string name="ev3_tone_duration_for">for</string>
+    <string name="ev3_tone_duration_for">za</string>
     <string name="ev3_tone_volume">Jačina zvuka</string>
     <string name="ev3_tone_percent">%</string>
     <string name="ev3_motor_stop">Isključi EV3 motor</string>
@@ -1431,7 +1463,7 @@ needs read and write access to it. You can always change permissions through you
     <!-- tone -->
     <string name="phiro_play_tone">Play Phiro music\n</string>
     <string name="phiro_tone_duration">Trajanje</string>
-    <string name="brick_phiro_select_tone">tone</string>
+    <string name="brick_phiro_select_tone">ton</string>
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>

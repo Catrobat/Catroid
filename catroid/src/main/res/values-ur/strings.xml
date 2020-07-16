@@ -30,6 +30,7 @@
     <string name="undo">واپس کریں</string>
     <string name="new_option">نئی</string>
     <string name="confirm">تصدیق کریں</string>
+    <string name="ignore">Ignore</string>
     <string name="cancel">منسوخ کریں</string>
     <string name="next">اگلا</string>
     <string name="back">پیچھے</string>
@@ -38,6 +39,9 @@
     <string name="close">بند کریں</string>
     <string name="yes">ہاں</string>
     <string name="no">نہيں</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
     <string name="agree">متفق</string>
     <string name="disagree">غیر متفق</string>
     <string name="select_all">تمام منتخب کریں</string>
@@ -87,6 +91,9 @@
     <string name="preference_title">ترتیبات</string>
     <string name="preference_title_language">زبان</string>
     <string name="preference_description_language">ایپ کی زبان کو سیٹ کریں</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
     <string name="preference_title_accessibility">رسائی</string>
     <string name="preference_description_accessibility">اپلی کیشن کی ظاہری شکل تبدیل کریں</string>
     <string name="preference_title_accessibility_profiles"> پروفائل رسائی</string>
@@ -822,6 +829,8 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"جگہ رکھیں"</string>
@@ -923,6 +932,7 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">آواز کا آغاز</string>
     <string name="brick_play_sound_and_wait">آواز کا آغاز اور انتظار کریں</string>
+    <string name="brick_stop_sound">Stop sound</string>
     <string name="brick_stop_all_sounds">تمام آوازیں بند کریں</string>
     <string name="brick_set_volume_to">حجم سیٹ کریں</string>
     <string name="brick_change_volume_by">حجم تبدیل کریں</string>
@@ -967,6 +977,9 @@
     <string name="brick_say_bubble">کہہ دو</string>
     <string name="brick_think_say_for_text">کےلیے</string>
     <string name="brick_forever">ہمیشہ کے لئے</string>
+    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_to">کرنا</string>
     <string name="brick_repeat">دہرائیں</string>
     <string name="brick_repeat_until">تک دہرائیں</string>
     <string name="brick_when_touched">جب اسٹیج  ٹیپ کیا جاتا ہے</string>
@@ -979,6 +992,9 @@
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_assert_lists">Assert lists</string>
+    <string name="brick_assert_actual">Actual:</string>
+    <string name="brick_assert_expected">Expected:</string>
     <plurals name="time_plural">
         <item quantity="one">وقت</item>
         <item quantity="other">وقت</item>
@@ -992,6 +1008,15 @@
     <string name="brick_change_variable">متغیر تبدیل کریں</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Read variable</string>
+    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_read_variable_from_file_bottom">اور</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
     <string name="brick_note_default_value">تبصرہ شامل کریں یہاں&#8230;</string>
@@ -1015,9 +1040,17 @@
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious other persons or to the public. See our
+        you have entered to malicious others or to the public. See our
         &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
         be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
     </string>
     <string name="brick_look_request">Get image from</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
