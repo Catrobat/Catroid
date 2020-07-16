@@ -138,7 +138,7 @@ android {
         targetSdkVersion 28
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
-        versionCode 76
+        versionCode 77
         versionName "0.9.72"
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
