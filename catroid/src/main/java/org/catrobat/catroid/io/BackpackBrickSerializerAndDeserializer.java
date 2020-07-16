@@ -33,30 +33,30 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 
 import java.lang.reflect.Type;
 
-public class BackpackInterfaceSerializerAndDeserializer<T> implements JsonSerializer<T>,
-		JsonDeserializer<T> {
+public class BackpackBrickSerializerAndDeserializer implements JsonSerializer<Brick>, JsonDeserializer<Brick> {
 
-	private static final String TAG = BackpackInterfaceSerializerAndDeserializer.class.getSimpleName();
+	private static final String TAG = BackpackBrickSerializerAndDeserializer.class.getSimpleName();
 
-	private static final String TYPE = "type";
+	private static final String TYPE = "bricktype";
 	private static final String PROPERTY = "properties";
 
 	@Override
-	public JsonElement serialize(T object, Type interfaceType, JsonSerializationContext context) {
+	public JsonElement serialize(Brick brick, Type typeOfSrc, JsonSerializationContext context) {
 		JsonObject jsonObject = new JsonObject();
-		String packageName = object.getClass().getPackage().getName();
-		String className = object.getClass().getSimpleName();
+		String packageName = brick.getClass().getPackage().getName();
+		String className = brick.getClass().getSimpleName();
 		jsonObject.add(TYPE, new JsonPrimitive(packageName + '.' + className));
-		jsonObject.add(PROPERTY, context.serialize(object, object.getClass()));
+		jsonObject.add(PROPERTY, context.serialize(brick, brick.getClass()));
 		return jsonObject;
 	}
 
 	@Override
-	public T deserialize(JsonElement json, Type interfaceType, JsonDeserializationContext context) {
+	public Brick deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
 		JsonObject jsonObject = json.getAsJsonObject();
 		String type = jsonObject.get(TYPE).getAsString();
 		JsonElement element = jsonObject.get(PROPERTY);
@@ -65,7 +65,7 @@ public class BackpackInterfaceSerializerAndDeserializer<T> implements JsonSerial
 		try {
 			classToDeserialize = Class.forName(type);
 		} catch (ClassNotFoundException classNotFoundException) {
-			Log.e(TAG, "Could not deserialize backpacked element: " + type);
+			Log.e(TAG, "Could not deserialize backpacked brick element: " + type);
 			BackpackListManager.getInstance().backpackFile.delete();
 			return null;
 		}
