@@ -142,7 +142,11 @@ public class UserDefinedBrick extends BrickBaseType {
 		return userDefinedBrickDataList.get(userDefinedBrickDataList.size() - 1) instanceof UserDefinedBrickLabel;
 	}
 
-	public boolean isUserDefinedBrickDataEqual(UserDefinedBrick other) {
+	public boolean isUserDefinedBrickDataEqual(Brick brick) {
+		if (!(brick instanceof UserDefinedBrick)) {
+			return false;
+		}
+		UserDefinedBrick other = (UserDefinedBrick) brick;
 		if (userDefinedBrickDataList.size() != other.userDefinedBrickDataList.size()) {
 			return false;
 		}

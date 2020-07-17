@@ -162,12 +162,19 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return null;
 	}
 
-	private boolean containsUserDefinedBrickWithSameUserData(UserDefinedBrick userDefinedBrick) {
+	public boolean containsUserDefinedBrickWithSameUserData(UserDefinedBrick userDefinedBrick) {
 		return getUserDefinedBrickWithSameUserData(userDefinedBrick) != null;
 	}
 
 	public void addUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
 		userDefinedBrickList.add(userDefinedBrick);
+	}
+
+	public void removeUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
+		for (Script script : scriptList) {
+			script.removeAllOccurrencesOfUserDefinedBrick(script.brickList, userDefinedBrick);
+		}
+		userDefinedBrickList.remove(userDefinedBrick);
 	}
 
 	public void addClonesOfUserDefinedBrickList(List<UserDefinedBrick> userDefinedBricks) {
@@ -487,8 +494,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 	}
 
-	public static boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick, Sprite sprite) {
-		for (Brick alreadyDefinedBrick : sprite.getUserDefinedBrickList()) {
+	public boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick) {
+		for (Brick alreadyDefinedBrick : getUserDefinedBrickList()) {
 			if (((UserDefinedBrick) alreadyDefinedBrick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
 				return true;
 			}

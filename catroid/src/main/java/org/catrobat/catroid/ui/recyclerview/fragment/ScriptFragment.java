@@ -45,6 +45,7 @@ import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
@@ -174,7 +175,7 @@ public class ScriptFragment extends ListFragment implements
 				copy(adapter.getSelectedItems());
 				break;
 			case DELETE:
-				showDeleteAlert(adapter.getSelectedItems());
+				showDeleteAlert(adapter.getSelectedItems(), false);
 				break;
 			case COMMENT:
 				toggleComments(adapter.getSelectedItems());
@@ -468,6 +469,12 @@ public class ScriptFragment extends ListFragment implements
 	private List<Integer> getContextMenuItems(Brick brick) {
 		List<Integer> items = new ArrayList<>();
 
+		if (brick instanceof UserDefinedReceiverBrick) {
+			items.add(R.string.brick_context_dialog_delete_definition);
+			items.add(R.string.brick_context_dialog_move_definition);
+			return items;
+		}
+
 		if (brick instanceof ScriptBrick) {
 			items.add(R.string.backpack_add);
 			items.add(R.string.brick_context_dialog_copy_script);
@@ -529,7 +536,10 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
-				showDeleteAlert(brick.getAllParts());
+				showDeleteAlert(brick.getAllParts(), false);
+				break;
+			case R.string.brick_context_dialog_delete_definition:
+				showDeleteAlert(brick.getAllParts(), true);
 				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
@@ -555,6 +565,7 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_move_brick:
 			case R.string.brick_context_dialog_move_script:
+			case R.string.brick_context_dialog_move_definition:
 				onItemLongClick(brick, position);
 				break;
 			case R.string.brick_context_dialog_help:
@@ -645,11 +656,18 @@ public class ScriptFragment extends ListFragment implements
 		finishActionMode();
 	}
 
-	private void showDeleteAlert(List<Brick> selectedBricks) {
-		new AlertDialog.Builder(getContext())
-				.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, selectedBricks.size()))
-				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, (dialog, id) -> delete(selectedBricks))
+	private void showDeleteAlert(List<Brick> selectedBricks, boolean isUserDefinedReceiverBrick) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+		if (isUserDefinedReceiverBrick) {
+			builder.setTitle(R.string.delete_definition)
+					.setMessage(R.string.dialog_confirm_delete_definition);
+		} else {
+			builder.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, selectedBricks.size()))
+					.setMessage(R.string.dialog_confirm_delete);
+		}
+
+		builder.setPositiveButton(R.string.yes, (dialog, id) -> delete(selectedBricks))
 				.setNegativeButton(R.string.no, null)
 				.setCancelable(false)
 				.show();
