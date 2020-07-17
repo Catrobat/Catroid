@@ -134,14 +134,7 @@ public class MainMenuFragment extends Fragment implements
 		parent.findViewById(R.id.current_project).setOnClickListener(listener);
 		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
 
-		updateMyProjects();
-		if (myProjects.size() != 0) {
-			currentProject = myProjects.get(0).getName();
-		} else {
-			currentProject = Utils.getCurrentProjectName(getContext());
-		}
-		loadProjectImage();
-
+		setAndLoadCurrentProject();
 		setShowProgressBar(false);
 	}
 
@@ -169,12 +162,19 @@ public class MainMenuFragment extends Fragment implements
 			getActivity().getIntent().removeExtra(EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
+		setAndLoadCurrentProject();
+	}
+
+	private void setAndLoadCurrentProject() {
 		updateMyProjects();
 		if (myProjects.size() != 0) {
 			currentProject = myProjects.get(0).getName();
 		} else {
 			currentProject = Utils.getCurrentProjectName(getContext());
 		}
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
+				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
+		ProjectLoadTask.task(projectDir, getContext());
 		loadProjectImage();
 	}
 
