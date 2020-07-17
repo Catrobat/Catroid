@@ -27,8 +27,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 
 import org.catrobat.catroid.common.Backpack;
 import org.catrobat.catroid.content.Script;
@@ -89,13 +87,11 @@ public final class BackpackSerializer {
 		try {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(backpackFile));
 			return backpackGson.fromJson(bufferedReader, Backpack.class);
-		} catch (FileNotFoundException e) {
-			Log.e(TAG, "FileNotFoundException: Could not create buffered Writer with file: "
-					+ backpackFile.getAbsolutePath());
-			return new Backpack();
-		} catch (JsonSyntaxException | JsonIOException jsonException) {
-			Log.e(TAG, "Cannot load Backpack. Creating new Backpack File.", jsonException);
-			backpackFile.delete();
+		} catch (Exception e) {
+			if (!(e instanceof FileNotFoundException)) {
+				backpackFile.delete();
+			}
+			Log.e(TAG, "Cannot load Backpack. Creating new Backpack File.", e);
 			return new Backpack();
 		}
 	}
