@@ -44,7 +44,7 @@ class ReadVariableFromFileAction : EventAction() {
         }
 
         var fileName = Utils.sanitizeFileName(formula!!.interpretString(sprite))
-        if (!fileName.endsWith(".txt")) {
+        if (!fileName.contains(Regex("\\.\\w+$"))) {
             fileName += ".txt"
         }
 
