@@ -25,6 +25,7 @@ package org.catrobat.catroid.camera
 import android.graphics.Point
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.mlkit.vision.common.InputImage
@@ -32,6 +33,7 @@ import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import org.catrobat.catroid.CatroidApplication
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.COORDINATE_TRANSFORMATION_OFFSET
 import org.catrobat.catroid.common.Constants.ML_KIT_ANALYSIS_HEIGHT
@@ -64,7 +66,7 @@ object FaceDetector : ImageAnalysis.Analyzer {
         sensorListeners.remove(listener)
     }
 
-    @androidx.camera.core.ExperimentalGetImage
+    @ExperimentalGetImage
     override fun analyze(imageProxy: ImageProxy) {
         imageProxy.image?.let { mediaImage ->
             val image = InputImage.fromMediaImage(
@@ -99,18 +101,42 @@ object FaceDetector : ImageAnalysis.Analyzer {
     }
 
     private fun translateFaceToSensorValues(face: Face) {
-        val invertX = StageActivity.getActiveCameraManager().isCameraFacingFront.not()
-        val relativeX = face.boundingBox.exactCenterX() / ML_KIT_ANALYSIS_WIDTH
-        val relativeY = face.boundingBox.exactCenterY() / ML_KIT_ANALYSIS_HEIGHT
-        val positionX = (SCREEN_WIDTH * (COORDINATE_TRANSFORMATION_OFFSET - relativeX)).roundToInt()
-        val positionY = (SCREEN_HEIGHT * (COORDINATE_TRANSFORMATION_OFFSET - relativeY)).roundToInt()
-        val facePosition = Point(if (invertX) -positionX else positionX, positionY)
+        val invertAxis = StageActivity.getActiveCameraManager().isCameraFacingFront
+        val aspectRatio = ML_KIT_ANALYSIS_HEIGHT.toFloat() / ML_KIT_ANALYSIS_WIDTH
+
+        val facePosition = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
+            val relativeY = face.boundingBox.exactCenterX() / ML_KIT_ANALYSIS_HEIGHT
+            coordinatesFromRelativePosition(
+                1 - face.boundingBox.exactCenterY() / ML_KIT_ANALYSIS_WIDTH,
+                SCREEN_WIDTH / aspectRatio,
+                if (invertAxis) relativeY else 1 - relativeY,
+                SCREEN_WIDTH.toFloat()
+            )
+        } else {
+            val relativeX = face.boundingBox.exactCenterX() / ML_KIT_ANALYSIS_WIDTH
+            coordinatesFromRelativePosition(
+                if (invertAxis) 1 - relativeX else relativeX,
+                SCREEN_HEIGHT / aspectRatio,
+                1 - face.boundingBox.exactCenterY() / ML_KIT_ANALYSIS_HEIGHT,
+                SCREEN_HEIGHT.toFloat()
+            )
+        }
 
         val relativeFaceSize = (face.boundingBox.width().toFloat() / ML_KIT_ANALYSIS_WIDTH)
             .coerceAtMost(1f)
         val faceSize = (MAX_FACE_SIZE * relativeFaceSize).roundToInt()
         onFaceDetected(facePosition, faceSize)
     }
+
+    private fun coordinatesFromRelativePosition(
+        relativeX: Float,
+        width: Float,
+        relativeY: Float,
+        height: Float
+    ) = Point(
+            (width * (relativeX - COORDINATE_TRANSFORMATION_OFFSET)).roundToInt(),
+            (height * (relativeY - COORDINATE_TRANSFORMATION_OFFSET)).roundToInt()
+        )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun updateDetectionStatus(faceDetected: Boolean) {

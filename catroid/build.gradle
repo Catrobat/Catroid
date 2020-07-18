@@ -187,7 +187,8 @@ android {
 
     lintOptions {
         lintConfig file('config/lint.xml')
-        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation', 'LintBaseline'
+        ignore 'GradleDependency', 'OldTargetApi', 'ExtraTranslation', 'MissingTranslation',
+                'LintBaseline', 'ObsoleteLintCustomCheck'
 
         abortOnError false
 
