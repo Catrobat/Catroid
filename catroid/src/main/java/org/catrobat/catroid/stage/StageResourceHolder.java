@@ -60,13 +60,11 @@ import org.catrobat.catroid.drone.ardrone.DroneInitializer;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.SensorLoudness;
 import org.catrobat.catroid.sensing.GatherCollisionInformationTask;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -281,8 +279,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_BACK)) {
-			CameraManager.makeInstance();
-			if (CameraManager.getInstance().hasBackCamera()) {
+			if (getCameraManager().getHasBackCamera()) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.CAMERA_BACK);
@@ -290,8 +287,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_FRONT)) {
-			CameraManager.makeInstance();
-			if (CameraManager.getInstance().hasFrontCamera()) {
+			if (getCameraManager().getHasFrontCamera()) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.CAMERA_FRONT);
@@ -299,9 +295,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.VIDEO)) {
-			CameraManager.makeInstance();
-			if (CameraManager.getInstance().hasFrontCamera()
-					|| CameraManager.getInstance().hasBackCamera()) {
+			if (getCameraManager().getHasFrontCamera() || getCameraManager().getHasBackCamera()) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.VIDEO);
@@ -309,12 +303,11 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.CAMERA_FLASH)) {
-			CameraManager.makeInstance();
-			if (CameraManager.getInstance().isCameraFlashAvailable()) {
-				CameraManager.getInstance().switchToCameraWithFlash();
+			if (getCameraManager().getHasFlash()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.CAMERA_FLASH);
 			}
-			FlashUtil.initializeFlash();
-			resourceInitialized();
 		}
 
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
@@ -346,11 +339,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.FACE_DETECTION)) {
-			CameraManager.makeInstance();
-			FaceDetectionHandler.resetFaceDedection();
-
-			boolean success = FaceDetectionHandler.startFaceDetection();
-			if (success) {
+			if (getCameraManager().startFaceDetection()) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.FACE_DETECTION);
@@ -361,7 +350,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			if (CastManager.getInstance().isConnected()) {
 				resourceInitialized();
 			} else {
-
 				if (!SettingsFragment.isCastSharedPreferenceEnabled(stageActivity)) {
 					ToastUtil.showError(stageActivity, stageActivity.getString(R.string.cast_enable_cast_feature));
 				} else if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
@@ -443,9 +431,6 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		stageActivity.nfcAdapter = NfcAdapter.getDefaultAdapter(stageActivity);
-		if (CameraManager.getInstance() != null) {
-			CameraManager.getInstance().setStageActivity(stageActivity);
-		}
 		StageActivity.stageListener.setPaused(false);
 	}
 
@@ -458,13 +443,19 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 	public synchronized void resourceInitialized() {
 		requiredResourceCounter--;
 		if (requiredResourceCounter == 0) {
-
 			if (failedResources.isEmpty()) {
 				initFinishedRunStage();
 			} else {
 				showResourceFailedErrorDialog();
 			}
 		}
+	}
+
+	private CameraManager getCameraManager() {
+		if (stageActivity.cameraManager == null) {
+			stageActivity.cameraManager = new CameraManager(stageActivity);
+		}
+		return stageActivity.cameraManager;
 	}
 
 	public void endStageActivity() {
@@ -506,13 +497,21 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
 							.prestage_no_front_camera_available);
 					break;
+				case Brick.VIDEO:
+					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
+							.prestage_no_camera_available);
+					break;
+				case Brick.CAMERA_FLASH:
+					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
+							.prestage_no_flash_available);
+					break;
 				case Brick.VIBRATION:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
 							.prestage_no_vibration_available);
 					break;
 				case Brick.FACE_DETECTION:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
-							.prestage_no_camera_available);
+							.prestage_no_face_detection_available);
 					break;
 				case Brick.JUMPING_SUMO:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
@@ -525,32 +524,22 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 
-		AlertDialog.Builder failedResourceAlertBuilder = new AlertDialog.Builder(stageActivity);
-		failedResourceAlertBuilder.setTitle(R.string.prestage_resource_not_available_title);
-		failedResourceAlertBuilder.setMessage(failedResourcesMessage).setCancelable(false)
-				.setPositiveButton(stageActivity.getString(R.string.ok), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						endStageActivity();
-					}
-				});
-		AlertDialog alert = failedResourceAlertBuilder.create();
-		alert.show();
+		new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
+				.setTitle(R.string.prestage_resource_not_available_title)
+				.setMessage(failedResourcesMessage).setCancelable(false)
+				.setPositiveButton(stageActivity.getString(R.string.ok), (dialog, id) -> endStageActivity())
+				.create()
+				.show();
 	}
 
 	public void showResourceInUseErrorDialog() {
 		String failedResourcesMessage = stageActivity.getString(R.string.prestage_resource_in_use_text);
-		AlertDialog.Builder failedResourceAlertBuilder = new AlertDialog.Builder(stageActivity);
-		failedResourceAlertBuilder.setTitle(R.string.prestage_resource_not_available_title);
-		failedResourceAlertBuilder.setMessage(failedResourcesMessage).setCancelable(false)
-				.setPositiveButton(stageActivity.getString(R.string.ok), new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						endStageActivity();
-					}
-				});
-		AlertDialog alert = failedResourceAlertBuilder.create();
-		alert.show();
+		new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog))
+				.setTitle(R.string.prestage_resource_not_available_title)
+				.setMessage(failedResourcesMessage).setCancelable(false)
+				.setPositiveButton(stageActivity.getString(R.string.ok), (dialog, id) -> endStageActivity())
+				.create()
+				.show();
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {

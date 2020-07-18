@@ -246,6 +246,10 @@ public final class Constants {
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 	public static final int MAX_FILE_NAME_LENGTH = 127;
+	public static final double COORDINATE_TRANSFORMATION_OFFSET = 0.5;
+
+	public static final int ML_KIT_ANALYSIS_WIDTH = 480;
+	public static final int ML_KIT_ANALYSIS_HEIGHT = 720;
 
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;

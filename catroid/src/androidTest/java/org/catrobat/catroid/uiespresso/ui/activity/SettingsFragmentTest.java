@@ -52,7 +52,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.intent.Intents;
 import androidx.test.espresso.matcher.PreferenceMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -258,13 +257,10 @@ public class SettingsFragmentTest {
 		onView(withText(R.string.preference_screen_web_access_title)).check(matches(isDisplayed()));
 
 		onView(withId(android.R.id.edit)).perform(typeText("domain.net"));
-		onView(withId(android.R.id.button2)).perform(click());
 
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_web_access)).perform(click());
-		onView(withId(android.R.id.button1)).perform(click());
+		onView(withId(android.R.id.button1)).check(matches(isDisplayed()));
+		onView(withId(android.R.id.button2)).check(matches(isDisplayed()));
 
-		onData(PreferenceMatchers.withTitle(R.string.preference_title_web_access)).perform(click());
-		ViewActions.closeSoftKeyboard();
 		onView(withId(android.R.id.button3)).perform(click());
 		intended(expectedBrowserIntent);
 	}

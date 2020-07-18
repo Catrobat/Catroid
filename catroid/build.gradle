@@ -54,6 +54,8 @@ ext {
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
     paintroidVersion = "2.5.0"
+    playServicesVersion = "17.0.0"
+    cameraXVersion = "1.0.0-beta06"
 }
 
 apply plugin: 'com.android.application'
@@ -373,10 +375,10 @@ dependencies {
     implementation 'com.parrot:arsdk:3.12.6'
 
     // CAST
-    implementation 'com.google.android.gms:play-services-cast:12.0.0'
+    implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
 
     // Analytics
-    implementation 'com.google.android.gms:play-services-analytics:12.0.0'
+    implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
 
     implementation 'com.google.guava:guava:28.2-android'
     implementation 'com.google.code.gson:gson:2.8.0'
@@ -401,6 +403,14 @@ dependencies {
     arduinoImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
+    // CameraX
+    implementation "androidx.camera:camera-camera2:$cameraXVersion"
+    implementation "androidx.camera:camera-lifecycle:$cameraXVersion"
+    implementation 'androidx.camera:camera-view:1.0.0-alpha13'
+
+    // ML Kit
+    implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.0.0'
+
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
     implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
@@ -414,7 +424,7 @@ dependencies {
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-armeabi-v7a"
     natives "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-arm64-v8a"
 
-    implementation 'com.google.android.gms:play-services-auth:12.0.0'
+    implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
 
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356

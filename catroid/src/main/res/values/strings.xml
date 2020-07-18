@@ -854,9 +854,11 @@
     <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
     <string name="no_nfc_available">NFC not available</string>
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
@@ -1056,6 +1058,8 @@
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
     <string name="brick_wait">Wait</string>
+    <string name="brick_wait_until">Wait until</string>
+    <string name="brick_wait_until_second_part">is true</string>
     <string name="brick_when_gamepad_button">When gamepad button</string>
     <string name="brick_when_gamepad_button_tapped">tapped</string>
     <string name="brick_when_nfc">When NFC</string>
@@ -1915,8 +1919,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_choose_camera">Use camera</string>
     <string name="choose_camera_front">front</string>
     <string name="choose_camera_back">rear</string>
-    <string name="brick_wait_until">Wait until</string>
-    <string name="brick_wait_until_second_part">is true</string>
+    <string name="camera_error_generic">
+        Something went wrong while trying to use the camera.
+    </string>
+    <string name="camera_error_face_detection">
+        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
     <!-- -->
 
     <!-- Cast strings -->

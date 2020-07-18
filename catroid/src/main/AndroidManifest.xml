@@ -44,7 +44,7 @@
     <uses-permission android:name="android.permission.GET_TASKS" tools:node="remove" />
 
     <uses-feature
-        android:name="android.hardware.camera"
+        android:name="android.hardware.camera2"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
 

@@ -66,7 +66,6 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
@@ -76,7 +75,6 @@ import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
-import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.TouchUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 import org.catrobat.catroid.web.WebConnectionHolder;
@@ -208,7 +206,6 @@ public class StageListener implements ApplicationListener {
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
-		FaceDetectionHandler.resumeFaceDetection();
 	}
 
 	public void setPaused(boolean paused) {
@@ -442,7 +439,10 @@ public class StageListener implements ApplicationListener {
 		stageBackupMap.clear();
 		embroideryPatternManager.clear();
 
-		FlashUtil.reset();
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		if (cameraManager != null) {
+			cameraManager.reset();
+		}
 		VibrationUtil.reset();
 		TouchUtil.reset();
 		removeAllClonedSpritesFromStage();
@@ -459,7 +459,6 @@ public class StageListener implements ApplicationListener {
 	public void resume() {
 		if (!paused) {
 			setSchedulerStateForAllLooks(ThreadScheduler.RUNNING);
-			FaceDetectionHandler.resumeFaceDetection();
 			SoundManager.getInstance().resume();
 			VibrationUtil.resumeVibration();
 		}
@@ -476,7 +475,6 @@ public class StageListener implements ApplicationListener {
 		}
 		if (!paused) {
 			setSchedulerStateForAllLooks(ThreadScheduler.SUSPENDED);
-			FaceDetectionHandler.pauseFaceDetection();
 			SoundManager.getInstance().pause();
 			VibrationUtil.pauseVibration();
 		}
@@ -484,7 +482,8 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-		if (CameraManager.getInstance() != null && CameraManager.getInstance().getState() == CameraManager.CameraState.previewRunning) {
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
+		if (cameraManager != null && cameraManager.isCameraVisible()) {
 			Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		} else {
 			Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
@@ -662,10 +661,6 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void finish() {
-		if (CameraManager.getInstance() != null) {
-			CameraManager.getInstance().setToDefaultCamera();
-		}
-
 		finished = true;
 	}
 
@@ -838,6 +833,7 @@ public class StageListener implements ApplicationListener {
 
 	private StageBackup saveToBackup() {
 		StageBackup backup = new StageBackup();
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
 
 		backup.sprites = new ArrayList<>(sprites);
 		backup.actors = new Array<>(stage.getActors());
@@ -848,11 +844,9 @@ public class StageListener implements ApplicationListener {
 		backup.paused = paused;
 		backup.finished = finished;
 		backup.reloadProject = reloadProject;
-		if (CameraManager.getInstance() != null) {
-			backup.flashState = FlashUtil.isOn();
-			if (backup.flashState) {
-				FlashUtil.flashOff();
-			}
+		backup.flashState = cameraManager != null && cameraManager.getFlashOn();
+		if (backup.flashState) {
+			cameraManager.disableFlash();
 		}
 		backup.timeToVibrate = VibrationUtil.getTimeToVibrate();
 		backup.physicsWorld = physicsWorld;
@@ -864,11 +858,9 @@ public class StageListener implements ApplicationListener {
 
 		backup.axesOn = axesOn;
 		backup.deltaActionTimeDivisor = deltaActionTimeDivisor;
-		if (CameraManager.getInstance() != null) {
-			backup.cameraRunning = CameraManager.getInstance().isCameraActive();
-			if (backup.cameraRunning) {
-				CameraManager.getInstance().pauseForScene();
-			}
+		backup.cameraRunning = cameraManager != null && cameraManager.isCameraActive();
+		if (backup.cameraRunning) {
+			cameraManager.pause();
 		}
 		backup.soundBackupList = new ArrayList<>();
 		backup.soundBackupList.addAll(SoundManager.getInstance().getPlayingSoundBackups());
@@ -878,6 +870,7 @@ public class StageListener implements ApplicationListener {
 	private void restoreFromBackup(StageBackup backup) {
 		sprites.clear();
 		sprites.addAll(backup.sprites);
+		CameraManager cameraManager = StageActivity.getActiveCameraManager();
 
 		stage.clear();
 		for (Actor actor : backup.actors) {
@@ -894,8 +887,8 @@ public class StageListener implements ApplicationListener {
 		paused = backup.paused;
 		finished = backup.finished;
 		reloadProject = backup.reloadProject;
-		if (CameraManager.getInstance() != null && backup.flashState) {
-			FlashUtil.flashOn();
+		if (backup.flashState && cameraManager != null) {
+			cameraManager.enableFlash();
 		}
 		if (backup.timeToVibrate > 0) {
 			VibrationUtil.resumeVibration();
@@ -911,8 +904,8 @@ public class StageListener implements ApplicationListener {
 		viewPort = backup.viewPort;
 		axesOn = backup.axesOn;
 		deltaActionTimeDivisor = backup.deltaActionTimeDivisor;
-		if (CameraManager.getInstance() != null && backup.cameraRunning) {
-			CameraManager.getInstance().resumeForScene();
+		if (backup.cameraRunning && cameraManager != null) {
+			cameraManager.resume();
 		}
 		for (SoundBackup soundBackup : backup.soundBackupList) {
 			SoundManager.getInstance().playSoundFileWithStartTime(soundBackup.getPathToSoundFile(),
