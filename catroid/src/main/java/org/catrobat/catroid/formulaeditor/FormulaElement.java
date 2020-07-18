@@ -688,11 +688,9 @@ public class FormulaElement implements Serializable {
 
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
 
-		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent());
+		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
+				rightChild);
 
-		cloneThis.leftChild = this;
-		cloneThis.rightChild = rightChild;
-		cloneThis.leftChild.parent = cloneThis;
 		cloneThis.parent.rightChild = cloneThis;
 	}
 

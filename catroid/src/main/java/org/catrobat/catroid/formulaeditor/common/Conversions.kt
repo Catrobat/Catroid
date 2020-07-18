@@ -22,17 +22,20 @@
  */
 package org.catrobat.catroid.formulaeditor.common
 
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.Matrix
 import androidx.annotation.ColorInt
 import com.badlogic.gdx.graphics.Pixmap
-import java.nio.ByteBuffer
-import kotlin.experimental.and
+import com.badlogic.gdx.math.Intersector
+import com.badlogic.gdx.math.Polygon
+import org.catrobat.catroid.BuildConfig
+import kotlin.math.absoluteValue
+import com.badlogic.gdx.graphics.Color as LibGDXColor
 
+@Suppress("MagicNumber")
 object Conversions {
     const val TRUE = 1.0
     const val FALSE = 0.0
+    private const val EPSILON = 8 / 256F
 
     private fun tryParseDouble(argument: String): Double? {
         return try {
@@ -42,7 +45,6 @@ object Conversions {
         }
     }
 
-    @Suppress("MagicNumber")
     @ColorInt
     @JvmStatic
     @JvmOverloads
@@ -68,56 +70,69 @@ object Conversions {
     fun booleanToDouble(value: Boolean) = if (value) TRUE else FALSE
 
     @JvmStatic
-    fun matchesColor(pixels: ByteBuffer, color: Int): Boolean {
-        val bytes = ByteArray(pixels.remaining())
-        pixels[bytes]
-        var i = 0
-        while (i < bytes.size) {
-            val pixelColor: Int =
-                bytes[i].toInt() and 0xFF shl 16 or (bytes[i + 1].toInt() and 0xFF shl 8) or
-                    (bytes[i + 2].toInt() and 0xFF)
-            if (compareColors(color, pixelColor)) {
-                return true
+    fun matchesColor(pixmap: Pixmap, collisionPolygons: Array<Polygon>, color: String): Boolean {
+        val vertices = collisionPolygons.flatMap { polygon -> polygon.vertices.asIterable() }
+        val boundingRectangle = BoundingRectangle(vertices)
+
+        if (BuildConfig.DEBUG && !boundingRectangle.hasValidBoundaries(pixmap)) {
+            error("Wrong projection matrix or rotation")
+        }
+
+        return matchColorInBoundingRectangle(boundingRectangle, pixmap, color, collisionPolygons)
+    }
+
+    private fun matchColorInBoundingRectangle(boundingRectangle: BoundingRectangle, pixmap: Pixmap, color: String, polygons: Array<Polygon>): Boolean {
+        for (x in boundingRectangle.left..boundingRectangle.right) {
+            for (y in boundingRectangle.top..boundingRectangle.bottom) {
+                val pixmapColor = LibGDXColor(pixmap.getPixel(x, y))
+
+                if (!pixmapColor.equalsColor(LibGDXColor.valueOf(color))) {
+                    continue
+                }
+
+                if (isPointInSprite(polygons, x, y)) {
+                    return true
+                }
             }
-            i += 4
         }
         return false
     }
 
-    @JvmStatic
-    fun compareColors(colorA: Int, colorB: Int): Boolean {
-        return Color.red(colorA) and 248 == Color.red(colorB) and 248 && Color.green(colorA) and
-            248 == Color.green(colorB) and 248 && Color.blue(colorA) and 240 == Color.blue(colorB) and 240
-    }
-
-    @JvmStatic
-    fun convertToBitmap(pixmap: Pixmap): Bitmap? {
-        val buf = pixmap.pixels
-        val byteColors = ByteArray(buf.remaining())
-        buf[byteColors]
-        buf.rewind()
-        return convertToBitmap(byteColors, pixmap.width, pixmap.height)
-    }
-
-    @JvmStatic
-    fun convertToBitmap(byteColors: ByteArray, pixmapWidth: Int, pixmapHeight: Int): Bitmap? {
-        val colors = IntArray(byteColors.size / 4)
-        for (i in colors.indices) {
-            colors[i] = Color.argb(
-                0xFF, byteColors[i * 4].toInt() and 0xFF,
-                byteColors[i * 4 + 1].toInt() and 0xFF, byteColors[i * 4 + 2].toInt() and 0xFF
-            )
+    private fun isPointInSprite(polygons: Array<Polygon>, x: Int, y: Int): Boolean {
+        var inPolygonCounter = 0
+        for (polygon in polygons) {
+            val vertices = polygon.vertices
+            if (Intersector.isPointInPolygon(vertices, 0, vertices.size, x + 0.5F, y + 0.5F)) {
+                inPolygonCounter++
+            }
         }
-        return Bitmap.createBitmap(
-            colors, 0, pixmapWidth,
-            pixmapWidth, pixmapHeight, Bitmap.Config.ARGB_8888
-        )
+        return inPolygonCounter.isOdd()
     }
 
-    @JvmStatic
-    fun flipBitmap(bitmap: Bitmap): Bitmap? {
-        val m = Matrix()
-        m.preScale(1f, -1f)
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, m, false)
+    private fun LibGDXColor.equalsColor(color: LibGDXColor): Boolean {
+        return this.r.absDiff(color.r) < EPSILON &&
+            this.g.absDiff(color.g) < EPSILON &&
+            this.b.absDiff(color.b) < EPSILON
+    }
+
+    private fun Float.absDiff(f: Float): Float = (this - f).absoluteValue
+
+    private fun Int.isOdd(): Boolean = this % 2 == 1
+
+    private class BoundingRectangle(vertices: List<Float>) {
+        val top = vertices.getYVertices().min()?.toInt() ?: 0
+        val bottom = vertices.getYVertices().max()?.toInt() ?: 0
+        val left = vertices.getXVertices().min()?.toInt() ?: 0
+        val right = vertices.getXVertices().max()?.toInt() ?: 0
+
+        private fun List<Float>.getYVertices() = this.filterIndexed { i, _ -> i.isOdd() }
+        private fun List<Float>.getXVertices() = this.filterIndexed { i, _ -> !i.isOdd() }
+
+        private fun Pixmap.validXIndex(x: Int) = x > 0 && x < this.width
+        private fun Pixmap.validYIndex(y: Int) = y > 0 && y < this.height
+
+        fun hasValidBoundaries(pixmap: Pixmap) = pixmap.run {
+            validXIndex(left) && validXIndex(right) && validYIndex(top) && validYIndex(bottom)
+        }
     }
 }
