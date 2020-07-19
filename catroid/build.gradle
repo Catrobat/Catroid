@@ -296,7 +296,9 @@ android {
             resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "true"
         }
         standalone {
-            applicationIdSuffix '.standalone'
+            if (!project.hasProperty('packageName')) {
+                applicationIdSuffix '.standalone'
+            }
             versionCode 1
             versionName '1.0'
 
