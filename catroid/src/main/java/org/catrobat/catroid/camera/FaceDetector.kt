@@ -36,8 +36,6 @@ import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.COORDINATE_TRANSFORMATION_OFFSET
-import org.catrobat.catroid.common.Constants.ML_KIT_ANALYSIS_HEIGHT
-import org.catrobat.catroid.common.Constants.ML_KIT_ANALYSIS_WIDTH
 import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
 import org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent
@@ -76,7 +74,7 @@ object FaceDetector : ImageAnalysis.Analyzer {
 
             detectionClient.process(image)
                 .addOnSuccessListener { faces ->
-                    updateSensorValues(faces)
+                    updateSensorValues(faces, mediaImage.width, mediaImage.height)
                     imageProxy.close()
                 }
                 .addOnFailureListener { e ->
@@ -91,39 +89,39 @@ object FaceDetector : ImageAnalysis.Analyzer {
         }
     }
 
-    private fun updateSensorValues(faces: List<Face>) {
+    private fun updateSensorValues(faces: List<Face>, imageWidth: Int, imageHeight: Int) {
         val detected = faces.isNotEmpty()
 
         updateDetectionStatus(detected)
         if (detected) {
-            translateFaceToSensorValues(faces[0])
+            translateFaceToSensorValues(faces[0], imageWidth, imageHeight)
         }
     }
 
-    private fun translateFaceToSensorValues(face: Face) {
+    private fun translateFaceToSensorValues(face: Face, imageWidth: Int, imageHeight: Int) {
         val invertAxis = StageActivity.getActiveCameraManager().isCameraFacingFront
-        val aspectRatio = ML_KIT_ANALYSIS_HEIGHT.toFloat() / ML_KIT_ANALYSIS_WIDTH
+        val aspectRatio = imageWidth.toFloat() / imageHeight
+        val faceBounds = face.boundingBox
 
         val facePosition = if (ProjectManager.getInstance().isCurrentProjectLandscapeMode) {
-            val relativeY = face.boundingBox.exactCenterX() / ML_KIT_ANALYSIS_HEIGHT
+            val relativeY = faceBounds.exactCenterX() / imageWidth
             coordinatesFromRelativePosition(
-                1 - face.boundingBox.exactCenterY() / ML_KIT_ANALYSIS_WIDTH,
+                1 - faceBounds.exactCenterY() / imageHeight,
                 SCREEN_WIDTH / aspectRatio,
                 if (invertAxis) relativeY else 1 - relativeY,
                 SCREEN_WIDTH.toFloat()
             )
         } else {
-            val relativeX = face.boundingBox.exactCenterX() / ML_KIT_ANALYSIS_WIDTH
+            val relativeX = faceBounds.exactCenterX() / imageHeight
             coordinatesFromRelativePosition(
                 if (invertAxis) 1 - relativeX else relativeX,
                 SCREEN_HEIGHT / aspectRatio,
-                1 - face.boundingBox.exactCenterY() / ML_KIT_ANALYSIS_HEIGHT,
+                1 - faceBounds.exactCenterY() / imageWidth,
                 SCREEN_HEIGHT.toFloat()
             )
         }
 
-        val relativeFaceSize = (face.boundingBox.width().toFloat() / ML_KIT_ANALYSIS_WIDTH)
-            .coerceAtMost(1f)
+        val relativeFaceSize = (faceBounds.height().toFloat() / imageHeight).coerceAtMost(1f)
         val faceSize = (MAX_FACE_SIZE * relativeFaceSize).roundToInt()
         onFaceDetected(facePosition, faceSize)
     }
