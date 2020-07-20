@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -134,6 +135,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_logic_greaterequal);
 	private static final List<Integer> SENSORS_DEFAULT = Arrays.asList(R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_function_touched);
+	private static final List<Integer> SENSORS_COLOR =
+			Arrays.asList(R.string.formula_editor_sensor_color_at_x_y);
 	private static final List<Integer> SENSORS_ACCELERATION = Arrays.asList(R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration);
 	private static final List<Integer> SENSORS_INCLINATION = Arrays.asList(R.string.formula_editor_sensor_x_inclination,
@@ -512,6 +515,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private List<CategoryListItem> getDeviceSensorItems() {
 		List<CategoryListItem> deviceSensorItems = new ArrayList<>();
 		deviceSensorItems.addAll(toCategoryListItems(SENSORS_DEFAULT));
+
+		if (BuildConfig.DEBUG) {
+			deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR));
+		}
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
 		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)

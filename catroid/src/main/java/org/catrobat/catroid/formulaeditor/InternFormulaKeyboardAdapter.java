@@ -367,6 +367,14 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.COLLIDES_WITH_EDGE);
 			case R.string.formula_editor_function_touched:
 				return buildObject(Sensors.COLLIDES_WITH_FINGER);
+
+			case R.string.formula_editor_sensor_color_at_x_y:
+				//return buildObject(Sensors.COLOR_AT);
+				return buildDoubleParameterFunction(Functions.COLOR_AT,
+					InternTokenType.NUMBER, "100",
+					InternTokenType.NUMBER, "200");
+
+
 		}
 		return null;
 	}
