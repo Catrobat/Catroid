@@ -97,9 +97,6 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         get() = lifecycle.currentState in listOf(Lifecycle.State.STARTED, Lifecycle.State.RESUMED) &&
             (cameraProvider.isBound(previewUseCase) || cameraProvider.isBound(analysisUseCase))
 
-    val isCameraVisible: Boolean
-        get() = isCameraActive && previewVisible
-
     @Synchronized
     fun reset() {
         flashOn = false

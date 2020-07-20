@@ -482,12 +482,7 @@ public class StageListener implements ApplicationListener {
 
 	@Override
 	public void render() {
-		CameraManager cameraManager = StageActivity.getActiveCameraManager();
-		if (cameraManager != null && cameraManager.isCameraVisible()) {
-			Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
-		} else {
-			Gdx.gl20.glClearColor(1f, 1f, 1f, 0f);
-		}
+		Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
