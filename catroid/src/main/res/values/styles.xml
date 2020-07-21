@@ -283,7 +283,12 @@
 
     <style name="BrickContainer.Device"></style>
 
-    <style name="BrickContainer.Device.Small" tools:ignore="UnusedResources">
+    <style name="BrickContainer.Device.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_gold_1h</item>
+    </style>
+
+    <style name="BrickContainer.Device.SmallWhen" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
         <item name="android:background">@drawable/brick_control_gold_1h</item>
     </style>

@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -135,6 +136,9 @@ public final class StageLifeCycleController {
 				}
 			}
 			SpeechRecognitionHolder.Companion.getInstance().destroy();
+
+			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
+
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();

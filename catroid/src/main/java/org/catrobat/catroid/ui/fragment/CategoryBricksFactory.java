@@ -146,6 +146,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -614,6 +615,7 @@ public class CategoryBricksFactory {
 	protected List<Brick> setupDeviceCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> deviceBrickList = new ArrayList<>();
 
+		deviceBrickList.add(new ResetTimerBrick());
 		deviceBrickList.add(new WhenBrick());
 		deviceBrickList.add(new WhenTouchDownBrick());
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
