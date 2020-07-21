@@ -145,11 +145,11 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	private void onCreateView() {
-		int thumbnailWidth = getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
-		int thumbnailHeight = getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
-		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
+		int thumbnailSize = 100;
+		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(thumbnailSize,
+				thumbnailSize);
 		screenshotLoader.loadAndShowScreenshot(project.getDirectory().getName(),
-				project.getDirectory().getName(),
+				screenshotLoader.getScreenshotSceneName(project.getDirectory()),
 				false,
 				findViewById(R.id.project_image_view));
 

@@ -75,6 +75,8 @@ public final class Constants {
 
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
+	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 
 	// Backpack Directories
 	public static final String BACKPACK_DIRECTORY_NAME = "backpack";

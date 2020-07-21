@@ -69,7 +69,7 @@ import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMB
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.SENSOR;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.USER_VARIABLE;
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 public class ChromeCastProjectCreator extends ProjectCreator {
 

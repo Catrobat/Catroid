@@ -77,15 +77,15 @@ public class ProjectDetailsFragment extends Fragment {
 			getActivity().onBackPressed();
 		}
 
-		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(projectData.getDirectory());
-
 		int thumbnailWidth = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_width);
 		int thumbnailHeight = getActivity().getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		ProjectAndSceneScreenshotLoader screenshotLoader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 
 		XmlHeader header = project.getXmlHeader();
 		ImageView image = view.findViewById(R.id.image);
-		screenshotLoader.loadAndShowScreenshot(projectData.getName(), sceneName, false, image);
+		screenshotLoader.loadAndShowScreenshot(projectData.getName(),
+				screenshotLoader.getScreenshotSceneName(project.getDirectory()), false,
+				image);
 
 		String size = FileMetaDataExtractor
 				.getSizeAsString(new File(DEFAULT_ROOT_DIRECTORY, projectData.getName()), getActivity());

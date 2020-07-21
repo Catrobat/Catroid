@@ -54,7 +54,7 @@ import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 public class DefaultExampleProject extends DefaultProjectCreator {
 	public DefaultExampleProject() {

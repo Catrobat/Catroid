@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
-import org.catrobat.catroid.stage.StageListener;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
 import java.io.File;
@@ -48,6 +47,8 @@ import java.util.List;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 @XStreamAlias("program")
 public class LegacyProjectWithoutScenes implements Serializable {
@@ -80,8 +81,8 @@ public class LegacyProjectWithoutScenes implements Serializable {
 
 		StorageOperations.createSceneDirectory(scene.getDirectory());
 
-		File automaticScreenshot = new File(projectDir, StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File manualScreenshot = new File(projectDir, StageListener.SCREENSHOT_MANUAL_FILE_NAME);
+		File automaticScreenshot = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
+		File manualScreenshot = new File(projectDir, SCREENSHOT_MANUAL_FILE_NAME);
 
 		StorageOperations.copyDir(new File(projectDir, IMAGE_DIRECTORY_NAME),
 				new File(scene.getDirectory(), IMAGE_DIRECTORY_NAME));
