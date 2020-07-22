@@ -842,15 +842,17 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSceneTransitionAction(String sceneName) {
+	public Action createSceneTransitionAction(String sceneName, Sprite sprite) {
 		SceneTransitionAction action = action(SceneTransitionAction.class);
 		action.setScene(sceneName);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public Action createSceneStartAction(String sceneName) {
+	public Action createSceneStartAction(String sceneName, Sprite sprite) {
 		SceneStartAction action = action(SceneStartAction.class);
 		action.setScene(sceneName);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -1282,7 +1284,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createStopScriptAction(int spinnerSelection, Script currentScript) {
+	public Action createStopScriptAction(int spinnerSelection, Script currentScript, Sprite sprite) {
 		switch (spinnerSelection) {
 			case BrickValues.STOP_THIS_SCRIPT:
 				StopThisScriptAction stopThisScriptAction = Actions.action(StopThisScriptAction.class);
@@ -1291,6 +1293,7 @@ public class ActionFactory extends Actions {
 			case BrickValues.STOP_OTHER_SCRIPTS:
 				StopOtherScriptsAction stopOtherScriptsAction = Actions.action(StopOtherScriptsAction.class);
 				stopOtherScriptsAction.setCurrentScript(currentScript);
+				stopOtherScriptsAction.setSprite(sprite);
 				return stopOtherScriptsAction;
 			default:
 				return Actions.action(StopAllScriptsAction.class);
@@ -1363,8 +1366,18 @@ public class ActionFactory extends Actions {
 
 	public Action createTapAtAction(Sprite sprite, Formula x, Formula y) {
 		TapAtAction action = Actions.action(TapAtAction.class);
-		action.setPosition(x, y);
 		action.setSprite(sprite);
+		action.setDuration(0);
+		action.setPosition(x, y);
+
+		return action;
+	}
+
+	public Action createTapForAction(Sprite sprite, Formula x, Formula y, Formula duration) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setSprite(sprite);
+		action.setDuration(duration);
+		action.setPosition(x, y);
 		return action;
 	}
 

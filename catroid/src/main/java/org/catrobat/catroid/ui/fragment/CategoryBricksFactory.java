@@ -187,6 +187,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
+import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
@@ -709,6 +710,7 @@ public class CategoryBricksFactory {
 		assertionsBrickList.add(new ParameterizedBrick());
 		assertionsBrickList.add(new WaitTillIdleBrick());
 		assertionsBrickList.add(new TapAtBrick());
+		assertionsBrickList.add(new TapForBrick());
 		assertionsBrickList.add(new FinishStageBrick());
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));

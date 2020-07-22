@@ -1117,6 +1117,8 @@
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"for"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>

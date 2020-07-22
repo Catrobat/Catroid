@@ -139,6 +139,6 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart));
+		sequence.addAction(sprite.getActionFactory().createSceneStartAction(sceneToStart, sprite));
 	}
 }
