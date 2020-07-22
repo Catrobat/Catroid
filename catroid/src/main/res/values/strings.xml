@@ -909,6 +909,7 @@
     <string name="category_event">Event</string>
     <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Data</string>
+    <string name="category_device">Device</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>

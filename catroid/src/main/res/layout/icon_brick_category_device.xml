@@ -23,36 +23,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
-
-    <CheckBox
-        android:id="@+id/brick_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:visibility="gone" />
-
-    <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_when_nfc_layout"
-        style="@style/BrickContainer.Device.MediumWhen">
-
-        <include layout="@layout/icon_brick_category_device" />
-
-        <TextView
-            android:id="@+id/brick_when_nfc_label"
-            style="@style/BrickText.SingleLine"
-            android:paddingTop="25dp"
-            android:text="@string/brick_when_nfc" />
-
-        <Spinner
-            android:id="@+id/brick_when_nfc_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textDirection="locale" />
-
-    </org.catrobat.catroid.ui.BrickLayout>
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:src="?attr/icon_device"
+        style="@style/CategoryIconStyle">
+    </ImageView >
 </LinearLayout>
