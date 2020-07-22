@@ -45,14 +45,16 @@ import org.catrobat.catroid.stage.StageActivity
 import kotlin.math.roundToInt
 
 object FaceDetector : ImageAnalysis.Analyzer {
-    private val detectionClient = FaceDetection.getClient(
-        FaceDetectorOptions.Builder()
-            .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
-            .enableTracking()
-            .build()
-    )
-    private val sensorListeners = mutableSetOf<SensorCustomEventListener>()
     private const val MAX_FACE_SIZE = 100
+    private val sensorListeners = mutableSetOf<SensorCustomEventListener>()
+    private val detectionClient by lazy {
+        FaceDetection.getClient(
+            FaceDetectorOptions.Builder()
+                .setClassificationMode(FaceDetectorOptions.CLASSIFICATION_MODE_ALL)
+                .enableTracking()
+                .build()
+        )
+    }
 
     @JvmStatic
     fun addListener(listener: SensorCustomEventListener) {
