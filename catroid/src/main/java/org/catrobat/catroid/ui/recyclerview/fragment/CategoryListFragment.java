@@ -105,7 +105,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_arctan, R.string.formula_editor_function_arctan2,
 			R.string.formula_editor_function_exp, R.string.formula_editor_function_power,
 			R.string.formula_editor_function_floor, R.string.formula_editor_function_ceil,
-			R.string.formula_editor_function_max, R.string.formula_editor_function_min);
+			R.string.formula_editor_function_max, R.string.formula_editor_function_min,
+			R.string.formula_editor_function_if_then_else);
 	private static final List<Integer> MATH_PARAMS = asList(R.string.formula_editor_function_sin_parameter,
 			R.string.formula_editor_function_cos_parameter, R.string.formula_editor_function_tan_parameter,
 			R.string.formula_editor_function_ln_parameter, R.string.formula_editor_function_log_parameter,
@@ -116,7 +117,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_arctan_parameter, R.string.formula_editor_function_arctan2_parameter,
 			R.string.formula_editor_function_exp_parameter, R.string.formula_editor_function_power_parameter,
 			R.string.formula_editor_function_floor_parameter, R.string.formula_editor_function_ceil_parameter,
-			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter);
+			R.string.formula_editor_function_max_parameter, R.string.formula_editor_function_min_parameter,
+			R.string.formula_editor_function_if_then_else_parameter);
 	private static final List<Integer> STRING_FUNCTIONS = asList(R.string.formula_editor_function_length,
 			R.string.formula_editor_function_letter, R.string.formula_editor_function_join,
 			R.string.formula_editor_function_regex, R.string.formula_editor_function_regex_assistant);
