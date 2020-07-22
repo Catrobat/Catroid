@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -34,14 +36,17 @@ import android.view.View;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -53,6 +58,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
+import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled;
 
 public class SpriteAttributesActivity extends BaseActivity implements ButtonAdapter.OnItemClickListener {
 
@@ -88,6 +96,31 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 		BottomBar.hideAddButton(this);
 		updateActionBarTitle();
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
+				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
+			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
+			ToastUtil.showError(this, message);
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData testResult = ClipData.newPlainText("TestResult",
+					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+			clipboard.setPrimaryClip(testResult);
+		}
+
+		if (resultCode != RESULT_OK) {
+			if (isCastSharedPreferenceEnabled(this)
+					&& ProjectManager.getInstance().getCurrentProject().isCastProject()
+					&& !CastManager.getInstance().isConnected()) {
+
+				CastManager.getInstance().openDeviceSelectorOrDisconnectDialog(this);
+			}
+			return;
+		}
 	}
 
 	private void updateActionBarTitle() {

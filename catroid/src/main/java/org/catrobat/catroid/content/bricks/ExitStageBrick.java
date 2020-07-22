@@ -26,20 +26,20 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-public class FinishStageBrick extends BrickBaseType {
+public class ExitStageBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	public FinishStageBrick() {
+	public ExitStageBrick() {
 	}
 
 	@Override
 	public int getViewResource() {
-		return R.layout.brick_finish_stage;
+		return R.layout.brick_exit_stage;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createFinishStageAction(false));
+		sequence.addAction(sprite.getActionFactory().createFinishStageAction(true));
 	}
 }

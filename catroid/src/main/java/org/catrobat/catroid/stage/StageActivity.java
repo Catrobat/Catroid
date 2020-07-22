@@ -24,6 +24,8 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -392,6 +394,16 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
+				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
+			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
+			ToastUtil.showError(this, message);
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData testResult = ClipData.newPlainText("TestResult",
+					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+			clipboard.setPrimaryClip(testResult);
+		}
+
 		//Register your intent with "queueIntent"
 		if (intentListeners.indexOfKey(requestCode) >= 0) {
 			IntentListener asker = intentListeners.get(requestCode);
@@ -457,6 +469,13 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private static void startStageActivity(Activity activity) {
 		Intent intent = new Intent(activity, StageActivity.class);
 		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+	}
+
+	public static void finishStage() {
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null && !stageActivity.isFinishing()) {
+			stageActivity.finish();
+		}
 	}
 
 	public static void finishTestWithResult(TestResult testResult) {
