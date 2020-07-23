@@ -52,6 +52,9 @@ task standalonePreparation() {
      */
     if (project.hasProperty('download')) {
         project.ext.projectId = project['suffix']
+        if (project.hasProperty('packageName')) {
+            project.ext.appId = project['packageName']
+        }
         project.ext.appId += '.' + project['suffix']
         project.ext.manifestAppIcon = '@drawable/icon'
         project.ext.appZipFile = new File(makeAppsCache().absolutePath + '/' + project.ext.projectId + '.zip')
@@ -221,7 +224,7 @@ def messUpIntentFilters() {
 */
 
 tasks.whenTaskAdded { task ->
-    if (task.name == 'preStandaloneDebugBuild') {
+    if (task.name == 'preStandaloneDebugBuild' || task.name == 'preStandaloneSignedReleaseBuild') {
         task.dependsOn 'standalonePreparation'
     } else if (task.name == 'assembleStandaloneDebug') {
         task.finalizedBy 'standaloneCleanup'
