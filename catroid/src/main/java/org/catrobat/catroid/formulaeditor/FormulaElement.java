@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.catrobat.catroid.sensing.ColorCollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
@@ -80,7 +81,6 @@ import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.tryParseIntFromObject;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementResources.addFunctionResources;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementResources.addSensorsResources;
-import static org.catrobat.catroid.sensing.ColorCollisionDetection.interpretFunctionTouchesColor;
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
 public class FormulaElement implements Serializable {
@@ -364,7 +364,7 @@ public class FormulaElement implements Serializable {
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
 			case COLLIDES_WITH_COLOR:
-				return booleanToDouble(interpretFunctionTouchesColor(firstArgument, sprite, currentProject, currentlyPlayingScene));
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, currentlyPlayingScene).interpretFunctionTouchesColor(firstArgument));
 			default:
 				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
 				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);

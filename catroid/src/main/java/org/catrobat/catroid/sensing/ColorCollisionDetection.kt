@@ -45,22 +45,32 @@ import org.catrobat.catroid.formulaeditor.common.Conversions.matchesColor
 import org.catrobat.catroid.formulaeditor.common.FormulaElementOperations
 import org.catrobat.catroid.stage.StageActivity
 
-object ColorCollisionDetection {
-    @JvmStatic
-    fun interpretFunctionTouchesColor(parameter: Any?, sprite: Sprite, currentProject: Project, currentlyPlayingScene: Scene): Boolean {
+class ColorCollisionDetection(
+    private val sprite: Sprite,
+    private val currentProject: Project,
+    private val currentlyPlayingScene: Scene
+) {
+
+    fun interpretFunctionTouchesColor(parameter: Any?): Boolean {
         val look = sprite.look
         if (areParametersInvalid(parameter, look)) {
             return false
         }
         val color = parameter as String
-        val spriteList: MutableList<Sprite> = getOtherSprites(currentlyPlayingScene, sprite)
-
+        val spriteList: MutableList<Sprite> = getOtherSprites()
+        val batch = SpriteBatch()
         val projectionMatrix = createProjectionMatrix(currentProject, look)
-        val pixmap = recreateStageOnCameraView(spriteList, projectionMatrix, look)
-        return matchesColor(pixmap, look.currentCollisionPolygon, color)
+        val pixmap = recreateStageOnCameraView(spriteList, projectionMatrix, look, batch)
+
+        try {
+            return  matchesColor(pixmap, look.currentCollisionPolygon, color)
+        } finally {
+            pixmap.dispose()
+            batch.dispose()
+        }
     }
 
-    private fun getOtherSprites(currentlyPlayingScene: Scene, sprite: Sprite): MutableList<Sprite> =
+    private fun getOtherSprites(): MutableList<Sprite> =
         currentlyPlayingScene.spriteList
             .filter { s -> s != sprite }
             .flatMap { s -> FormulaElementOperations.getAllClones(s, StageActivity.stageListener) }
@@ -69,25 +79,22 @@ object ColorCollisionDetection {
     private fun areParametersInvalid(parameter: Any?, look: Look): Boolean =
         parameter == null || parameter !is String || look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
 
-    private val batch = SpriteBatch()
-    private fun recreateStageOnCameraView(spriteList: List<Sprite>, projectionMatrix: Matrix4, actor: Actor): Pixmap {
-
+    private fun recreateStageOnCameraView(spriteList: List<Sprite>, projectionMatrix: Matrix4, actor: Actor, batch: SpriteBatch): Pixmap {
         val buffer = FrameBuffer(Pixmap.Format.RGBA8888, actor.width.toInt(), actor.height.toInt(), false)
 
         batch.projectionMatrix = projectionMatrix
         buffer.begin()
         batch.begin()
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        drawSprites(spriteList)
+        drawSprites(spriteList, batch)
         batch.end()
-
         val pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, buffer.width, buffer.height)
         buffer.end()
         buffer.dispose()
         return pixmap
     }
 
-    private fun drawSprites(spriteList: List<Sprite>) {
+    private fun drawSprites(spriteList: List<Sprite>, batch: SpriteBatch) {
         for (sprite in spriteList) {
             sprite.look.draw(batch, 1f)
         }
