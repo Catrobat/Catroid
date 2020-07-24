@@ -1200,6 +1200,12 @@
     <string name="default_project_sprites_animal_wings_down">Wings down</string>
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_outer_loop">Outer Loop</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_inner_loop">Inner Loop</string>
 
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Background</string>

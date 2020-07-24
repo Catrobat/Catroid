@@ -22,13 +22,6 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<androidx.appcompat.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/toolbar_background"
-    android:theme="@style/ToolbarTheme"
-    app:titleTextAppearance="@style/ToolbarTitle"
-    app:titleMarginStart="32dp" />
+<resources>
+        <string name="app_name">Embroidery Designer</string>
+</resources>
