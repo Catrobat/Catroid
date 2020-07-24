@@ -53,7 +53,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = "2.5.0"
+    paintroidVersion = "2.5.1"
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta06"
 }
