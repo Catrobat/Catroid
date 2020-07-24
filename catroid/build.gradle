@@ -179,10 +179,12 @@ android {
         buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
         resValue "string", "FEATURE_ARDUINO_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_RASPI_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
+        resValue "string", "DEBUG_MODE", "false"
     }
 
     lintOptions {
@@ -254,6 +256,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
+            resValue "string", "DEBUG_MODE", "true"
             ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
@@ -265,6 +268,7 @@ android {
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+            signingConfig signingConfigs.debug
         }
 
         signedRelease {
