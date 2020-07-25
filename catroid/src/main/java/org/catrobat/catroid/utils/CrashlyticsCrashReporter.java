@@ -25,24 +25,18 @@ package org.catrobat.catroid.utils;
 
 import android.content.Context;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
-
-import org.catrobat.catroid.BuildConfig;
-
-import io.fabric.sdk.android.Fabric;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 class CrashlyticsCrashReporter implements CrashReporterInterface {
 
+	private FirebaseCrashlytics crashlytics;
+
 	public void initialize(Context context) {
 
-		Crashlytics crashlyticsKit = new Crashlytics.Builder()
-				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-				.build();
-		Fabric.with(context, crashlyticsKit);
+		crashlytics = FirebaseCrashlytics.getInstance();
 	}
 
 	public void logException(Throwable exception) {
-		Crashlytics.logException(exception);
+		crashlytics.recordException(exception);
 	}
 }

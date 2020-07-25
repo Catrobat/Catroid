@@ -23,13 +23,12 @@
 
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
         google()
         jcenter()
     }
     dependencies {
-        classpath 'io.fabric.tools:gradle:1.31.0'
         classpath 'com.google.gms:google-services:4.3.2'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.2.0'
     }
 }
 
@@ -40,7 +39,6 @@ plugins {
 repositories {
     mavenLocal()
     maven { url "https://jitpack.io" }
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 ext {
@@ -61,7 +59,7 @@ ext {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'jacoco-android'
 
 apply from: 'gradle/code_quality_tasks.gradle'
@@ -110,16 +108,6 @@ ext.copyGoogleServicesFile = { flavorName, flavorId ->
             line.replaceAll('@appId@', flavorId)
                 .replaceAll('@apiKey@', getProperty('firebaseApiKey', '@apiKey@'))
         }
-    }
-}
-
-copy {
-    from "fabric-template.properties"
-    rename { "fabric.properties" }
-    into "."
-    filter { line ->
-        line.replaceAll('@fabricApiKey@', getProperty('fabricApiKey', "0123456789012345678901234567890123456789"))
-            .replaceAll('@fabricApiSecret@', getProperty('fabricApiSecret', "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"))
     }
 }
 
@@ -255,6 +243,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
+            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "DEBUG_MODE", "true"
             ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
@@ -437,9 +426,7 @@ dependencies {
     }
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
-    implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true
-    }
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
