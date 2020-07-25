@@ -157,6 +157,7 @@ import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -1445,6 +1446,12 @@ public class ActionFactory extends Actions {
 		LookRequestAction action = action(LookRequestAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
+		return action;
+	}
+
+	public Action createStartListeningAction(UserVariable userVariable) {
+		StartListeningAction action = Actions.action(StartListeningAction.class);
+		action.setUserVariable(userVariable);
 		return action;
 	}
 }

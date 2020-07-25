@@ -1055,6 +1055,11 @@
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">Hello!</string>
     <string name="brick_speak_and_wait">and wait</string>
+    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
     <!--  -->
 
     <!-- Embroidery bricks -->

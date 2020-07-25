@@ -417,6 +417,7 @@ public class StageListener implements ApplicationListener {
 		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 
 		SoundManager.getInstance().clear();
+		SpeechRecognitionHolder.Companion.getInstance().destroy();
 		stageBackupMap.remove(sceneName);
 
 		Gdx.input.setInputProcessor(stage);

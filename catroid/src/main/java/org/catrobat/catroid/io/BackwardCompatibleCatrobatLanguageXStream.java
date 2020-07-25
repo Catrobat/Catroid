@@ -146,6 +146,7 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -225,6 +226,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(AskSpeechBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("askQuestionSpoken", BrickField.ASK_SPEECH_QUESTION);
 		brickInfoMap.put("askSpeechBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StartListeningBrick.class.getSimpleName());
+		brickInfoMap.put("startListeningBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
