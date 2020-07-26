@@ -141,7 +141,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val globalLists = ProjectManager.getInstance().currentProject.userLists
         val localLists = ProjectManager.getInstance().currentSprite.userLists
 
-        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
+        adapter = DataListAdapter(ArrayList(), ArrayList(), ArrayList(), ArrayList(), globalLists, localLists)
         adapter?.showCheckBoxes(true)
         onAdapterReady()
     }
@@ -199,14 +199,13 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
                 )
             )
             .setPositiveButton(
-                getString(R.string.ok),
-                TextInputDialog.OnClickListener { _: DialogInterface?, textInput: String? ->
-                    renameItem(
-                        item,
-                        textInput
-                    )
-                }
-            )
+                getString(R.string.ok)
+            ) { _: DialogInterface?, textInput: String? ->
+                renameItem(
+                    item,
+                    textInput
+                )
+            }
         builder.setTitle(R.string.rename_data_dialog)
             .setNegativeButton(R.string.cancel, null)
             .show()

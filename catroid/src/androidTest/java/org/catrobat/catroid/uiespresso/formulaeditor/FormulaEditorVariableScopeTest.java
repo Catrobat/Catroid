@@ -23,16 +23,28 @@
 
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
+import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.SetXBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper;
+import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,13 +56,17 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorD
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 
+import static java.util.Arrays.asList;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+@Category({Cat.AppUi.class, Level.Smoke.class})
 public class FormulaEditorVariableScopeTest {
 
 	@Rule
@@ -58,26 +74,29 @@ public class FormulaEditorVariableScopeTest {
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
 			SpriteActivity.FRAGMENT_SCRIPTS);
 
+	private static UserDefinedBrickLabel label = new UserDefinedBrickLabel("Label");
+	private static UserDefinedBrickInput input = new UserDefinedBrickInput("Input");
+	private static UserDefinedBrickInput secondInput = new UserDefinedBrickInput("SecondInput");
+
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects(FormulaEditorVariableScopeTest.class.getSimpleName());
+	}
+
 	@Before
 	public void setUp() throws Exception {
 		SettingsFragment.setMultiplayerVariablesPreferenceEnabled(
 				ApplicationProvider.getApplicationContext(), true);
 
-		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorAddVariableTestFormulaEditorVariableScopeTest");
-		script.addBrick(new ChangeSizeByNBrick(0));
+		createProject(FormulaEditorVariableScopeTest.class.getSimpleName());
 
 		baseActivityTestRule.launchActivity();
-
-		onView(withId(R.id.brick_change_size_by_edit_text))
-				.perform(click());
-
-		onFormulaEditor()
-				.performOpenDataFragment();
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
-	public void variableScopeTest() {
+	public void testVariableScope() {
+		openFormulaEditorOnBrickField(R.id.brick_change_size_by_edit_text);
+
 		onDataList()
 				.performAdd("GlobalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.GLOBAL)
 				.performAdd("LocalVar", FormulaEditorDataListWrapper.ItemType.VARIABLE, FormulaEditorDataListWrapper.ItemScope.LOCAL)
@@ -90,20 +109,69 @@ public class FormulaEditorVariableScopeTest {
 				.performAdd("LocalList", FormulaEditorDataListWrapper.ItemType.LIST, FormulaEditorDataListWrapper.ItemScope.LOCAL);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.headline)
-				.check(matches(withText(R.string.multiplayer_vars_headline)));
-
-		onRecyclerView().atPosition(1).onChildView(R.id.headline)
-				.check(matches(withText(R.string.global_vars_headline)));
+				.check(matches(withText(UiTestUtils.getResources().getQuantityString(R.plurals.user_defined_brick_input_headline, 2))));
 
 		onRecyclerView().atPosition(2).onChildView(R.id.headline)
-				.check(matches(withText(R.string.local_vars_headline)));
+				.check(matches(withText(R.string.multiplayer_vars_headline)));
 
-		onRecyclerView().perform(scrollToPosition(4));
+		onRecyclerView().atPosition(3).onChildView(R.id.headline)
+				.check(matches(withText(R.string.global_vars_headline)));
+
 		onRecyclerView().atPosition(4).onChildView(R.id.headline)
-				.check(matches(withText(R.string.global_lists_headline)));
+				.check(matches(withText(R.string.local_vars_headline)));
 
 		onRecyclerView().perform(scrollToPosition(6));
 		onRecyclerView().atPosition(6).onChildView(R.id.headline)
+				.check(matches(withText(R.string.global_lists_headline)));
+
+		onRecyclerView().perform(scrollToPosition(8));
+		onRecyclerView().atPosition(8).onChildView(R.id.headline)
 				.check(matches(withText(R.string.local_lists_headline)));
+	}
+
+	@Test
+	public void testCorrectOrderOfUserDefinedInputs() {
+		openFormulaEditorOnBrickField(R.id.brick_change_size_by_edit_text);
+
+		onDataList().onVariableAtPosition(0).checkHasName(input.getName());
+		onDataList().onVariableAtPosition(1).checkHasName(secondInput.getName());
+	}
+
+	@Test
+	public void testUserDefinedInputOnlyInCorrespondingDefineScript() {
+		openFormulaEditorOnBrickField(R.id.brick_set_x_edit_text);
+
+		onRecyclerView().atPosition(0).onChildView(R.id.headline)
+				.check(doesNotExist());
+	}
+
+	private void openFormulaEditorOnBrickField(int brickFieldId) {
+		onView(withId(brickFieldId))
+				.perform(click());
+
+		onFormulaEditor()
+				.performOpenDataFragment();
+	}
+
+	private void createProject(String projectName) {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		Sprite sprite = new Sprite("Sprite1");
+		UserDefinedBrick userDefinedBrick = new UserDefinedBrick(asList(input, label, secondInput));
+
+		Script userDefinedScript = new UserDefinedScript();
+		userDefinedScript.setScriptBrick(new UserDefinedReceiverBrick(userDefinedBrick));
+		userDefinedScript.addBrick(new ChangeSizeByNBrick(0));
+
+		Script startScript = new StartScript();
+		startScript.addBrick(new SetXBrick(0));
+
+		sprite.addScript(userDefinedScript);
+		sprite.addScript(startScript);
+
+		project.getDefaultScene().addSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 	}
 }

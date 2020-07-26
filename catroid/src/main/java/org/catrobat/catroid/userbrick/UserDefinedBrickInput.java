@@ -25,24 +25,31 @@ package org.catrobat.catroid.userbrick;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.formulaeditor.UserData;
+
 import java.io.Serializable;
+import java.util.UUID;
 
 import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
 
 @XStreamAlias("userDefinedBrickInput")
-public class UserDefinedBrickInput extends UserDefinedBrickData implements Serializable {
+public class UserDefinedBrickInput extends UserDefinedBrickData implements Serializable,
+		UserData<Object> {
 
 	@XStreamAlias("input")
-	InputFormulaField input;
+	private InputFormulaField input;
+	private transient Object value;
 
 	public UserDefinedBrickInput(String input) {
 		this.input = new InputFormulaField(input);
 		this.type = INPUT;
+		this.value = 0d;
 	}
 
 	public UserDefinedBrickInput(UserDefinedBrickInput userDefinedBrickInput) {
 		this.input = userDefinedBrickInput.input;
 		this.type = INPUT;
+		this.value = userDefinedBrickInput.value;
 	}
 
 	@Override
@@ -50,8 +57,35 @@ public class UserDefinedBrickInput extends UserDefinedBrickData implements Seria
 		return this.input.toString();
 	}
 
+	@Override
+	public void setName(String name) {
+	}
+
 	public InputFormulaField getInputFormulaField() {
 		return this.input;
+	}
+
+	@Override
+	public Object getValue() {
+		if (this.value == null) {
+			this.value = 0d;
+		}
+		return this.value;
+	}
+
+	@Override
+	public void setValue(Object value) {
+		this.value = value;
+	}
+
+	@Override
+	public void reset() {
+		this.value = 0d;
+	}
+
+	@Override
+	public UUID getDeviceKey() {
+		return UUID.nameUUIDFromBytes(this.input.toString().getBytes());
 	}
 }
 

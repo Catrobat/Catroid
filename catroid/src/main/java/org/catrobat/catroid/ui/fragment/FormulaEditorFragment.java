@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -539,7 +540,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			case InternFormulaParser.PARSER_STACK_OVERFLOW:
 				return checkReturnWithoutSaving(InternFormulaParser.PARSER_STACK_OVERFLOW);
 			case InternFormulaParser.PARSER_NO_INPUT:
-				if (Brick.BrickField.isExpectingStringValue((Brick.BrickField) currentFormulaField)) {
+				if (currentFormulaField instanceof Brick.BrickField && Brick.BrickField.isExpectingStringValue((Brick.BrickField) currentFormulaField)) {
 					return saveValidFormula(new FormulaElement(FormulaElement.ElementType.STRING, "", null));
 				}
 				// fallthrough
@@ -643,6 +644,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private void showDataFragment() {
 		DataListFragment fragment = new DataListFragment();
 		fragment.setFormulaEditorDataInterface(this);
+
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(DataListFragment.PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT,
+				formulaBrick.getScript().getScriptBrick());
+		fragment.setArguments(bundle);
+
 		getFragmentManager().beginTransaction()
 				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
 				.add(R.id.fragment_container, fragment, DataListFragment.TAG)
@@ -656,6 +663,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			addUserVariableToActiveFormula(item.getName());
 		} else if (item instanceof UserList) {
 			addUserListToActiveFormula(item.getName());
+		} else if (item instanceof UserDefinedBrickInput) {
+			addUserDefinedBrickInputToActiveFormula(item.getName());
 		}
 	}
 
@@ -696,6 +705,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void addUserVariableToActiveFormula(String userVariableName) {
 		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID,
 				userVariableName);
+	}
+
+	public void addUserDefinedBrickInputToActiveFormula(String userDefinedBrickInput) {
+		formulaEditorEditText.handleKeyEvent(InternFormulaKeyboardAdapter.FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID,
+				userDefinedBrickInput);
 	}
 
 	public void addCollideFormulaToActiveFormula(String spriteName) {
