@@ -61,7 +61,8 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     val hasBackCamera = cameraProvider.hasCamera(CameraSelector.DEFAULT_BACK_CAMERA)
     val hasFlash = stageActivity.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)
 
-    private var previewVisible = false
+    var previewVisible = false
+        private set
 
     var faceDetectionOn = false
         private set
