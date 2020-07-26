@@ -148,7 +148,7 @@ public class AddUserDefinedBrickFragment extends Fragment {
 				userDefinedBrick.addLabel("");
 			}
 
-			if (Sprite.doesUserBrickAlreadyExist(userDefinedBrick, currentSprite)) {
+			if (currentSprite.doesUserBrickAlreadyExist(userDefinedBrick)) {
 				ToastUtil.showErrorWithColor(getContext(), R.string.brick_user_defined_already_exists, Color.RED);
 				if (brickIsEmpty) {
 					userDefinedBrick.removeLastLabel();

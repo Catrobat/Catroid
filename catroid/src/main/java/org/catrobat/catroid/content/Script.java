@@ -24,7 +24,9 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.CompositeBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 
 import java.io.Serializable;
@@ -126,6 +128,22 @@ public abstract class Script implements Serializable, Cloneable {
 			}
 		}
 		return false;
+	}
+
+	public void removeAllOccurrencesOfUserDefinedBrick(List<Brick> brickList, UserDefinedBrick userDefinedBrick) {
+		for (int brickIndex = 0; brickIndex < brickList.size(); brickIndex++) {
+			Brick currentBrick = brickList.get(brickIndex);
+			if (currentBrick instanceof CompositeBrick) {
+				CompositeBrick currentCompositeBrick = (CompositeBrick) currentBrick;
+				removeAllOccurrencesOfUserDefinedBrick(currentCompositeBrick.getNestedBricks(), userDefinedBrick);
+				if (currentCompositeBrick.hasSecondaryList()) {
+					removeAllOccurrencesOfUserDefinedBrick(currentCompositeBrick.getSecondaryNestedBricks(), userDefinedBrick);
+				}
+			}
+			if (currentBrick instanceof UserDefinedBrick && userDefinedBrick.isUserDefinedBrickDataEqual(currentBrick)) {
+				brickList.remove(brickIndex--);
+			}
+		}
 	}
 
 	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {

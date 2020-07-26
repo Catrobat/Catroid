@@ -23,8 +23,6 @@
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -77,9 +75,7 @@ public class UserDefinedBrickTest {
 
 	@Before
 	public void setUp() throws IOException {
-		Script script =
-				BrickTestUtils.createProjectAndGetStartScript(UserDefinedBrickTest.class.getSimpleName());
-		script.addBrick(new GlideToBrick());
+		BrickTestUtils.createProjectAndGetStartScript(UserDefinedBrickTest.class.getSimpleName());
 		baseActivityTestRule.launchActivity();
 	}
 

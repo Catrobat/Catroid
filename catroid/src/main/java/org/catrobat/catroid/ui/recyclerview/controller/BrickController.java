@@ -29,6 +29,8 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 
 import java.util.List;
 
@@ -63,6 +65,10 @@ public final class BrickController {
 	public void delete(@NonNull List<Brick> bricksToDelete, Sprite parent) {
 		for (Brick brick : bricksToDelete) {
 			Script script = brick.getScript();
+			if (brick instanceof UserDefinedReceiverBrick) {
+				UserDefinedBrick userDefinedBrick = ((UserDefinedReceiverBrick) brick).getUserDefinedBrick();
+				parent.removeUserDefinedBrick(userDefinedBrick);
+			}
 
 			if (brick instanceof ScriptBrick) {
 				parent.removeScript(script);
