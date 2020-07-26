@@ -29,6 +29,8 @@ import java.io.Serializable;
 
 import androidx.annotation.Nullable;
 
+import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.LABEL;
+
 @XStreamAlias("userDefinedBrickLabel")
 public class UserDefinedBrickLabel extends UserDefinedBrickData implements Serializable {
 
@@ -37,16 +39,18 @@ public class UserDefinedBrickLabel extends UserDefinedBrickData implements Seria
 
 	public UserDefinedBrickLabel(String label) {
 		this.label = label;
+		this.type = LABEL;
 	}
 
 	public UserDefinedBrickLabel(UserDefinedBrickLabel userDefinedBrickLabel) {
 		this.label = userDefinedBrickLabel.label;
+		this.type = LABEL;
 	}
 
-	public String getLabel() {
+	@Override
+	public String getName() {
 		return this.label;
 	}
-
 	@Override
 	public boolean equals(@Nullable Object obj) {
 		if (obj instanceof UserDefinedBrickLabel) {

@@ -29,10 +29,10 @@ import org.catrobat.catroid.content.bricks.Brick;
 public class UndoState {
 
 	public final InternFormulaState internFormulaState;
-	public final Brick.BrickField brickField;
+	public final Brick.FormulaField formulaField;
 
-	public UndoState(InternFormulaState internFormulaState, Brick.BrickField brickField) {
-		this.brickField = brickField;
+	public UndoState(InternFormulaState internFormulaState, Brick.FormulaField formulaField) {
+		this.formulaField = formulaField;
 		this.internFormulaState = internFormulaState;
 	}
 
@@ -46,11 +46,11 @@ public class UndoState {
 		}
 		UndoState stateCompareTo = (UndoState) objectCompareTo;
 		return Objects.equal(this.internFormulaState, stateCompareTo.internFormulaState)
-				&& this.brickField == stateCompareTo.brickField;
+				&& this.formulaField == stateCompareTo.formulaField;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(internFormulaState, brickField);
+		return Objects.hashCode(internFormulaState, formulaField);
 	}
 }

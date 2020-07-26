@@ -23,35 +23,41 @@
 
 package org.catrobat.catroid.userbrick;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import org.catrobat.catroid.content.bricks.Brick;
 
-import java.io.Serializable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
-import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
+public class InputFormulaField implements Brick.FormulaField {
 
-@XStreamAlias("userDefinedBrickInput")
-public class UserDefinedBrickInput extends UserDefinedBrickData implements Serializable {
+	String input;
 
-	@XStreamAlias("input")
-	InputFormulaField input;
-
-	public UserDefinedBrickInput(String input) {
-		this.input = new InputFormulaField(input);
-		this.type = INPUT;
+	public InputFormulaField(String input) {
+		this.input = input;
 	}
 
-	public UserDefinedBrickInput(UserDefinedBrickInput userDefinedBrickInput) {
-		this.input = userDefinedBrickInput.input;
-		this.type = INPUT;
+	@VisibleForTesting
+	public InputFormulaField() {
+		input = null;
 	}
 
 	@Override
-	public String getName() {
-		return this.input.toString();
+	public int hashCode() {
+		return this.input.hashCode();
 	}
 
-	public InputFormulaField getInputFormulaField() {
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		if (obj instanceof InputFormulaField) {
+			return this.input.equals(((InputFormulaField) obj).input);
+		}
+		return false;
+	}
+
+	@NonNull
+	@Override
+	public String toString() {
 		return this.input;
 	}
 }
-

@@ -21,37 +21,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.userbrick;
+package org.catrobat.catroid.io;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonElement;
 
-import java.io.Serializable;
+import org.catrobat.catroid.content.bricks.Brick;
 
-import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
+import java.lang.reflect.Type;
 
-@XStreamAlias("userDefinedBrickInput")
-public class UserDefinedBrickInput extends UserDefinedBrickData implements Serializable {
-
-	@XStreamAlias("input")
-	InputFormulaField input;
-
-	public UserDefinedBrickInput(String input) {
-		this.input = new InputFormulaField(input);
-		this.type = INPUT;
-	}
-
-	public UserDefinedBrickInput(UserDefinedBrickInput userDefinedBrickInput) {
-		this.input = userDefinedBrickInput.input;
-		this.type = INPUT;
-	}
-
+public class BackpackFormulaFieldSerializerAndDeserializer extends BackpackInterfaceSerializerAndDeserializer<Brick.FormulaField> {
 	@Override
-	public String getName() {
-		return this.input.toString();
-	}
-
-	public InputFormulaField getInputFormulaField() {
-		return this.input;
+	public Brick.FormulaField deserialize(JsonElement json, Type interfaceType, JsonDeserializationContext context) {
+		if (!json.isJsonObject()) {
+			return Brick.BrickField.valueOf(json.getAsString());
+		}
+		return super.deserialize(json, interfaceType, context);
 	}
 }
-

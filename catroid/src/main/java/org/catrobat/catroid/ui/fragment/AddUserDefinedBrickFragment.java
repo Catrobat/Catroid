@@ -41,6 +41,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,6 +51,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
+import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.LABEL;
 
 public class AddUserDefinedBrickFragment extends Fragment {
 
@@ -82,8 +86,8 @@ public class AddUserDefinedBrickFragment extends Fragment {
 		addLabel = view.findViewById(R.id.button_add_label);
 		addInput = view.findViewById(R.id.button_add_input);
 
-		addLabel.setOnClickListener(v -> handleAddLabel());
-		addInput.setOnClickListener(v -> handleAddInput());
+		addLabel.setOnClickListener(v -> handleAddUserDefinedBrickData(LABEL));
+		addInput.setOnClickListener(v -> handleAddUserDefinedBrickData(INPUT));
 
 		Bundle arguments = getArguments();
 		if (arguments != null) {
@@ -162,6 +166,7 @@ public class AddUserDefinedBrickFragment extends Fragment {
 	}
 
 	private void addUserDefinedScriptToScript(UserDefinedBrick brickToAddScript) {
+
 		UserDefinedReceiverBrick scriptBrick = new UserDefinedReceiverBrick(brickToAddScript);
 		scriptFragment.addBrick(scriptBrick);
 
@@ -195,12 +200,12 @@ public class AddUserDefinedBrickFragment extends Fragment {
 		}
 	}
 
-	private void handleAddLabel() {
+	private void handleAddUserDefinedBrickData(UserDefinedBrickDataType dataType) {
 		AddUserDataToUserDefinedBrickFragment addUserDataToUserDefinedBrickFragment = new AddUserDataToUserDefinedBrickFragment();
 
 		Bundle bundle = new Bundle();
 		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
-		bundle.putBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT, UserDefinedBrick.LABEL);
+		bundle.putSerializable(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT, dataType);
 
 		addUserDataToUserDefinedBrickFragment.setArguments(bundle);
 
@@ -213,26 +218,8 @@ public class AddUserDefinedBrickFragment extends Fragment {
 		}
 	}
 
-	private void handleAddInput() {
-		AddUserDataToUserDefinedBrickFragment addUserDataToUserDefinedBrickFragment = new AddUserDataToUserDefinedBrickFragment();
-
-		Bundle bundle = new Bundle();
-		bundle.putSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT, userDefinedBrick);
-		bundle.putBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT, UserDefinedBrick.INPUT);
-
-		addUserDataToUserDefinedBrickFragment.setArguments(bundle);
-
-		FragmentManager fragmentManager = getFragmentManager();
-		if (fragmentManager != null) {
-			fragmentManager.beginTransaction()
-					.add(R.id.fragment_container, addUserDataToUserDefinedBrickFragment, AddUserDataToUserDefinedBrickFragment.TAG)
-					.addToBackStack(AddUserDataToUserDefinedBrickFragment.TAG)
-					.commit();
-		}
-	}
-
-	void addUserDataToUserBrick(String input, boolean isInput) {
-		if (isInput) {
+	void addUserDataToUserBrick(String input, UserDefinedBrickDataType dataType) {
+		if (dataType == INPUT) {
 			userDefinedBrick.addInput(input);
 		} else {
 			userDefinedBrick.addLabel(input);

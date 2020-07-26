@@ -267,7 +267,7 @@ public class BrickFormulaDefaultValueTest {
 		}
 		assertNotNull(brickInAdapter);
 
-		Brick.BrickField brickField = ((FormulaBrick) brickInAdapter).brickFieldToTextViewIdMap.inverse().get(formulaTextFieldId);
+		Brick.FormulaField brickField = ((FormulaBrick) brickInAdapter).brickFieldToTextViewIdMap.inverse().get(formulaTextFieldId);
 		String actual = ((FormulaBrick) brickInAdapter).getFormulaWithBrickField(brickField).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
 		assertEquals(expected, actual);
 	}

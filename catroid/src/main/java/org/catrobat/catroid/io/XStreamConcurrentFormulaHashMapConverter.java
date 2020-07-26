@@ -32,11 +32,13 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.userbrick.InputFormulaField;
 
 public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 
 	private static final String FORMULA = "formula";
 	private static final String CATEGORY = "category";
+	private static final String USER_DEFINED_INPUT = "input";
 
 	@Override
 	public boolean canConvert(Class type) {
@@ -47,10 +49,18 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 	public void marshal(Object object, HierarchicalStreamWriter hierarchicalStreamWriter,
 			MarshallingContext marshallingContext) {
 		ConcurrentFormulaHashMap concurrentFormulaHashMap = (ConcurrentFormulaHashMap) object;
-		for (Brick.BrickField brickField : concurrentFormulaHashMap.keySet()) {
+		for (Brick.FormulaField formulaField : concurrentFormulaHashMap.keySet()) {
 			hierarchicalStreamWriter.startNode(FORMULA);
-			hierarchicalStreamWriter.addAttribute(CATEGORY, brickField.toString());
-			marshallingContext.convertAnother(concurrentFormulaHashMap.get(brickField).getRoot());
+
+			String attributeString;
+			if (formulaField instanceof InputFormulaField) {
+				attributeString = USER_DEFINED_INPUT;
+			} else {
+				attributeString = CATEGORY;
+			}
+
+			hierarchicalStreamWriter.addAttribute(attributeString, formulaField.toString());
+			marshallingContext.convertAnother(concurrentFormulaHashMap.get(formulaField).getRoot());
 			hierarchicalStreamWriter.endNode();
 		}
 	}
@@ -60,7 +70,14 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 		ConcurrentFormulaHashMap concurrentFormulaHashMap = new ConcurrentFormulaHashMap();
 		while (hierarchicalStreamReader.hasMoreChildren()) {
 			hierarchicalStreamReader.moveDown();
-			Brick.BrickField brickField = Brick.BrickField.valueOf(hierarchicalStreamReader.getAttribute(CATEGORY));
+
+			Brick.FormulaField formulaField;
+			if (hierarchicalStreamReader.getAttribute(CATEGORY) != null) {
+				formulaField = Brick.BrickField.valueOf(hierarchicalStreamReader.getAttribute(CATEGORY));
+			} else {
+				formulaField = new InputFormulaField(hierarchicalStreamReader.getAttribute(USER_DEFINED_INPUT));
+			}
+
 			Formula formula;
 			if (FORMULA.equals(hierarchicalStreamReader.getNodeName())) {
 				FormulaElement rootFormula = (FormulaElement) unmarshallingContext.convertAnother(concurrentFormulaHashMap,
@@ -71,7 +88,7 @@ public class XStreamConcurrentFormulaHashMapConverter implements Converter {
 			}
 			hierarchicalStreamReader.moveUp();
 
-			concurrentFormulaHashMap.putIfAbsent(brickField, formula);
+			concurrentFormulaHashMap.putIfAbsent(formulaField, formula);
 		}
 		return concurrentFormulaHashMap;
 	}
