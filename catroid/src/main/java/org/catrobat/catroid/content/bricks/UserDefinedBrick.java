@@ -168,7 +168,7 @@ public class UserDefinedBrick extends FormulaBrick {
 		List<String> userDataList = new ArrayList<>();
 		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
 			if (userDefinedBrickData.getType() == dataType) {
-				userDataList.add(userDefinedBrickData.getName());
+				userDataList.add((userDefinedBrickData.getName()));
 			}
 		}
 		return userDataList;
