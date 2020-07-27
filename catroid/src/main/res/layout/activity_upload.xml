@@ -46,6 +46,9 @@
             android:id="@+id/project_image_view"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginStart="@dimen/dialog_input_offset"
+            android:cropToPadding="true"
+            android:scaleType="centerCrop"
             android:layout_marginBottom="@dimen/details_spacing"/>
 
         <LinearLayout

@@ -90,7 +90,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlinx.coroutines.GlobalScope;
 
-import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
 import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 
@@ -102,8 +101,6 @@ public class StageListener implements ApplicationListener {
 	private static final float AXIS_FONT_SIZE_SCALE_FACTOR = 0.025f;
 
 	private float deltaActionTimeDivisor = 10f;
-	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
-	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 
 	private Stage stage = null;
 	private boolean paused = true;

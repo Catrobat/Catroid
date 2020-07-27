@@ -30,6 +30,7 @@ import com.badlogic.gdx.Files
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import java.io.File
 import java.io.IOException
@@ -105,6 +106,15 @@ class ScreenshotSaver(
             File(folder + Constants.NO_MEDIA_FILE).createNewFile()
             fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamScene)
             streamScene.close()
+
+            if (ProjectManager.getInstance().currentProject != null) {
+                val projectFolder = ProjectManager.getInstance().currentProject.directory.absolutePath + "/"
+                val imageProject = gdxFileHandler.absolute(projectFolder + fileName)
+                val streamProject = imageProject.write(false)
+                File(projectFolder + Constants.NO_MEDIA_FILE).createNewFile()
+                fullScreenBitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_QUALITY, streamProject)
+                streamProject.close()
+            }
         } catch (e: IOException) {
             Log.w(TAG, "Could not save screenshot to file", e)
             return false
