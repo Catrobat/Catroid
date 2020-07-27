@@ -410,6 +410,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#AssertUserListsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ExitStageBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Control%20Bricks/#ExitStageBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParameterizedBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#ParameterizedBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParameterizedEndBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#ParameterizedEndBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

@@ -138,6 +138,70 @@ public class CatrobatTestRunnerTest {
 		testAsset("testFailListMismatchingTypes.catrobat", "catrobatTestRunnerTests/fail");
 	}
 
+	@Test
+	public void testFailParamMismatch() throws Exception {
+		exception.expectMessage("Failed Tests:\n\n"
+				+ "[2] actual = 1.0\n"
+				+ "expected: <1.1>\n"
+				+ "actual:   <1.0>\n"
+				+ "deviation: --^\n\n"
+				+ "[3] actual = String\n"
+				+ "expected: <123>\n"
+				+ "actual:   <String>\n"
+				+ "deviation: ^\n\n"
+				+ "[4] actual = 345\n"
+				+ "expected: <Test String>\n"
+				+ "actual:   <345>\n"
+				+ "deviation: ^\n\n"
+				+ "[5] actual = Actual\n"
+				+ "expected: <Expected>\n"
+				+ "actual:   <Actual>\n"
+				+ "deviation: ^\n\n\n"
+				+ "Succeeded Tests:\n\n"
+				+ "[0] actual = 5.0\n"
+				+ "5.0 == 5\n\n"
+				+ "[1] actual = 3\n"
+				+ "3 == 3.0");
+		testAsset("testFailParamMismatch.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testFailParamStringNotEqual() throws Exception {
+		exception.expectMessage("ParameterizedAssertError\n"
+				+ "Failed Tests:\n\n"
+				+ "[1] firstPart = puppy | secondPart = naughty\n"
+				+ "expected: <puppy is not naughty>\n"
+				+ "actual:   <puppy is naughty>\n"
+				+ "deviation: ----------^\n\n\n"
+				+ "Succeeded Tests:\n\n"
+				+ "[0] firstPart = kitty | secondPart = cute\n"
+				+ "kitty is cute == kitty is cute\n\n"
+				+ "[2] firstPart = octopus | secondPart = intelligent\n"
+				+ "octopus is intelligent == octopus is intelligent");
+		testAsset("testFailParamStringNotEqual.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testFailParamMissingInput() throws Exception {
+		exception.expectMessage("ParameterizedInitialisationError\n"
+				+ "Input was not selected");
+		testAsset("testFailParamMissingInput.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testFailParamEmptyInput() throws Exception {
+		exception.expectMessage("ParameterizedInitialisationError\n"
+				+ "Input list is missing elements\n"
+				+ "Failed Tests:\n\n\n"
+				+ "Succeeded Tests:");
+		testAsset("testFailParamEmptyInput.catrobat", "catrobatTestRunnerTests/fail");
+	}
+
+	@Test
+	public void testSuccessParamCalculations() throws Exception {
+		testAsset("testSuccessParamCalculations.catrobat", "catrobatTestRunnerTests/success");
+	}
+
 	private void testAsset(String assetName, String assetPath) throws Exception {
 		catrobatTestRunner.assetName = assetName;
 		catrobatTestRunner.assetPath = assetPath;

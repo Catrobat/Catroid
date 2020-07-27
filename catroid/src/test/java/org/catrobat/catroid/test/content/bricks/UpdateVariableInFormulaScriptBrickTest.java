@@ -34,7 +34,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
-import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,7 +84,7 @@ public class UpdateVariableInFormulaScriptBrickTest {
 
 	@Before
 	public void setUp() throws IllegalAccessException, InstantiationException {
-		Project project = new Project();
+		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		userVariable = new UserVariable();
 		userList = new UserList();
 		Scene scene = new Scene();
@@ -111,7 +111,8 @@ public class UpdateVariableInFormulaScriptBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userVariable);
+		ProjectManager.getInstance().getCurrentProject()
+				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userVariable);
 
 		map.forEach((k, v) -> {
 			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
@@ -129,7 +130,8 @@ public class UpdateVariableInFormulaScriptBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
+		ProjectManager.getInstance().getCurrentProject()
+				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userVariable);
 
 		map.forEach((k, v) -> {
 			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
@@ -147,7 +149,8 @@ public class UpdateVariableInFormulaScriptBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		DataListFragment.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
+		ProjectManager.getInstance().getCurrentProject()
+				.updateUserDataReferences(VARIABLE_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {
 			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),
@@ -165,7 +168,8 @@ public class UpdateVariableInFormulaScriptBrickTest {
 			formulaBrick.setFormulaWithBrickField(k, newFormula);
 		});
 
-		DataListFragment.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
+		ProjectManager.getInstance().getCurrentProject()
+				.updateUserDataReferences(INVALID_NAME, NEW_VARIABLE_NAME, userList);
 
 		map.forEach((k, v) -> {
 			assertEquals(v.getTrimmedFormulaString(CatroidApplication.getAppContext()),

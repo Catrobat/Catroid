@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -565,6 +566,9 @@ public class SpriteActivity extends BaseActivity {
 		if (getCurrentFragment() instanceof SoundListFragment) {
 			handleAddSoundButton();
 		}
+		if (getCurrentFragment() instanceof ListSelectorFragment) {
+			handleAddUserListButton();
+		}
 	}
 
 	public void handleAddSpriteButton() {
@@ -787,6 +791,40 @@ public class SpriteActivity extends BaseActivity {
 			}
 			multiplayerRadioButton.setEnabled(!checked);
 		});
+
+		alertDialog.show();
+	}
+
+	public void handleAddUserListButton() {
+		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
+		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
+
+		List<UserData> lists = new ArrayList<>();
+		lists.addAll(currentProject.getUserLists());
+		lists.addAll(currentSprite.getUserLists());
+
+		NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(lists);
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this)
+				.setTextWatcher(textWatcher)
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
+
+					UserList userList = new UserList(textInput);
+					if (addToProjectUserData) {
+						currentProject.addUserList(userList);
+					} else {
+						currentSprite.addUserList(userList);
+					}
+
+					if (getCurrentFragment() instanceof ListSelectorFragment) {
+						((ListSelectorFragment) getCurrentFragment()).notifyDataSetChanged();
+					}
+				});
+
+		final AlertDialog alertDialog = builder.setTitle(R.string.formula_editor_list_dialog_title)
+				.setView(view)
+				.create();
 
 		alertDialog.show();
 	}
