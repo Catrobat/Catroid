@@ -25,6 +25,7 @@ package org.catrobat.catroid.utils;
 
 import android.content.Context;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.catrobat.catroid.BuildConfig;
@@ -35,6 +36,8 @@ class CrashlyticsCrashReporter implements CrashReporterInterface {
 
 	public void initialize(Context context) {
 
+		// Some devices and tests do not initialize FirebaseApp through ContentProvider
+		FirebaseApp.initializeApp(context);
 		crashlytics = FirebaseCrashlytics.getInstance();
 	}
 
