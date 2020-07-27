@@ -47,7 +47,7 @@ ext {
     appId = 'org.catrobat.catroid'
     appName = '@string/app_name'
     manifestAppName = '@string/app_name'
-    manifestAppIcon = '@drawable/ic_launcher'
+    manifestAppIcon = '@mipmap/ic_launcher'
 
     projectVersion = "0.9"
     gdxVersion = "1.9.10"

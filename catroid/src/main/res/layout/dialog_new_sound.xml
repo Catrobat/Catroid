@@ -41,7 +41,7 @@
             <TextView
                 android:id="@+id/dialog_new_sound_recorder"
                 android:background="@drawable/new_object_dialog_selector"
-                android:drawableTop="@drawable/ic_launcher"
+                android:drawableTop="@drawable/pc_toolbar_icon"
                 android:gravity="center"
                 android:text="@string/add_sound_from_recorder"
                 android:textSize="?attr/medium" />

@@ -21,6 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
+
 <issues format="5" by="lint 3.5.2" client="gradle" variant="catroidDebug" version="3.5.2">
 
     <issue
@@ -173,7 +174,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="100"
+            line="101"
             column="10"/>
     </issue>
 
@@ -184,7 +185,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="102"
+            line="103"
             column="10"/>
     </issue>
 
@@ -195,7 +196,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="104"
+            line="105"
             column="10"/>
     </issue>
 
@@ -299,6 +300,27 @@
     </issue>
 
     <issue
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
+        <location
+            file="src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
+            line="25"
+            column="1"/>
+        <location
+            file="src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
+    </issue>
+
+    <issue
         id="IconDensities"
         message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (40 more)">
         <location
@@ -321,7 +343,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (85 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -399,7 +421,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="288"
+            line="289"
             column="19"/>
     </issue>
 
