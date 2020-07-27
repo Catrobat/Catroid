@@ -243,9 +243,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
             resValue "string", "DEBUG_MODE", "true"
-            ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
         }

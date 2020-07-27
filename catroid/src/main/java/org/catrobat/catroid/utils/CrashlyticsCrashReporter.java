@@ -27,6 +27,8 @@ import android.content.Context;
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
+import org.catrobat.catroid.BuildConfig;
+
 class CrashlyticsCrashReporter implements CrashReporterInterface {
 
 	private FirebaseCrashlytics crashlytics;
@@ -37,6 +39,9 @@ class CrashlyticsCrashReporter implements CrashReporterInterface {
 	}
 
 	public void logException(Throwable exception) {
+		if (BuildConfig.DEBUG) {
+			return;
+		}
 		crashlytics.recordException(exception);
 	}
 }
