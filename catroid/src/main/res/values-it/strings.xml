@@ -174,6 +174,8 @@
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Testing extension</string>
+    <string name="preference_description_test_bricks">Allows to create tests</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Oops! Il programma pare essere scomparso
@@ -288,6 +290,8 @@
     <string name="am_convert">Converti</string>
     <string name="am_merge">Unisci</string>
     <string name="dialog_confirm_delete">Non è possibile annullarlo!</string>
+    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
+        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">Attori ed oggetti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Zaino</string>
@@ -332,6 +336,7 @@
         <item quantity="one">Elimina questo mattoncino?</item>
         <item quantity="other">Elimina questi mattoncini?</item>
     </plurals>
+    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Nome del programma</string>
     <string name="scene_name_label">Nome della scena</string>
@@ -680,11 +685,13 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Sposta script</string>
+    <string name="brick_context_dialog_move_definition">Move this definition</string>
     <string name="brick_context_dialog_delete_brick">Elimina mattoncino</string>
     <string name="brick_context_dialog_copy_brick">Copia mattoncino</string>
     <string name="brick_context_dialog_copy_script">Copia script</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
     <string name="brick_context_dialog_delete_script">Cancella script</string>
+    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
     <string name="brick_context_dialog_comment_in">Enable brick</string>
     <string name="brick_context_dialog_comment_out">Disable brick</string>
     <string name="brick_context_dialog_highlight_brick_parts">Evidenzia parti mattoncino</string>
@@ -759,9 +766,11 @@
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Motore di sintesi vocale\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
-    <string name="prestage_no_camera_available">\u2022 Rileva volti\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
+    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Componente sconosciuto\n</string>
     <string name="no_nfc_available">NFC non disponibile</string>
     <string name="nfc_not_activated">Attiva NFC, poi premi indietro per tornare all\'app!</string>
@@ -939,6 +948,8 @@
     <string name="brick_when_condition_when">Quando</string>
     <string name="brick_when_becomes_true">diventa vero</string>
     <string name="brick_wait">Attendi</string>
+    <string name="brick_wait_until">Aspetta fino a quando</string>
+    <string name="brick_wait_until_second_part">è vero</string>
     <string name="brick_when_gamepad_button">Quando pulsante gamepad</string>
     <string name="brick_when_gamepad_button_tapped">premuto</string>
     <string name="brick_when_nfc">Quando NFC</string>
@@ -972,14 +983,29 @@
     <string name="brick_clone_this">me stesso</string>
     <string name="brick_when_cloned">Quando vengo clonato</string>
     <string name="brick_delete_this_clone">Elimina questo clone</string>
-    <string name="brick_assert_that">Asserzione:</string>
-    <string name="brick_is_equal_to">uguale al previsto:</string>
+    <string name="brick_assert_that">Assert</string>
+    <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Attendi che tutti gli altri script siano stati fermati</string>
     <string name="brick_tap_at">"Tocco singolo su"</string>
     <string name="brick_finish_stage">Stage finale</string>
+    <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
     <string name="brick_assert_actual">Actual:</string>
     <string name="brick_assert_expected">Expected:</string>
+    <string name="brick_parameterized_assert">assert</string>
+    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
+        <item quantity="other">For each tuple of items of</item>
+    </plurals>
+    <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="other">stored in variables with the same names</item>
+    </plurals>
+    <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
+        <item quantity="other">%d lists selected</item>
+    </plurals>
     <plurals name="time_plural">
         <item quantity="one">volta</item>
         <item quantity="other">volte</item>
@@ -1063,6 +1089,12 @@
     <string name="default_project_sprites_animal_wings_down">Ali chiuse</string>
     <string name="default_project_sprites_tweet_1">Cinguettio1</string>
     <string name="default_project_sprites_tweet_2">Cinguettio2</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_outer_loop">Outer Loop</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Sfondo</string>
     <string name="default_cast_project_cloud_name">Nuvole</string>
@@ -1726,8 +1758,11 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="brick_choose_camera">Usa la videocamera</string>
     <string name="choose_camera_front">anteriore</string>
     <string name="choose_camera_back">posteriore</string>
-    <string name="brick_wait_until">Aspetta fino a quando</string>
-    <string name="brick_wait_until_second_part">è vero</string>
+    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    </string>
+    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

@@ -174,6 +174,8 @@
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Testing extension</string>
+    <string name="preference_description_test_bricks">Allows to create tests</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
@@ -300,6 +302,8 @@
     <string name="am_convert">Konvertovať</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
+    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
+        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">Objekty</string>
     <!-- Options Menu Options -->
     <string name="backpack">Batoh</string>
@@ -360,6 +364,7 @@
         <item quantity="many">Delete these bricks?</item>
         <item quantity="other">Odstrániť tieto bloky?</item>
     </plurals>
+    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>
@@ -754,11 +759,13 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Move script</string>
+    <string name="brick_context_dialog_move_definition">Move this definition</string>
     <string name="brick_context_dialog_delete_brick">Delete brick</string>
     <string name="brick_context_dialog_copy_brick">Copy brick</string>
     <string name="brick_context_dialog_copy_script">Copy script</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
     <string name="brick_context_dialog_delete_script">Delete script</string>
+    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
     <string name="brick_context_dialog_comment_in">Enable brick</string>
     <string name="brick_context_dialog_comment_out">Disable brick</string>
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
@@ -833,9 +840,11 @@
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
+    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
     <string name="no_nfc_available">NFC nie je k dispozícii</string>
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
@@ -1017,6 +1026,8 @@
     <string name="brick_when_condition_when">Keď</string>
     <string name="brick_when_becomes_true">bude platiť</string>
     <string name="brick_wait">Čakaj</string>
+    <string name="brick_wait_until">Wait until</string>
+    <string name="brick_wait_until_second_part">is true</string>
     <string name="brick_when_gamepad_button">Keď tlačítko gamepadu</string>
     <string name="brick_when_gamepad_button_tapped">stlačené</string>
     <string name="brick_when_nfc">Keď NFC</string>
@@ -1052,14 +1063,35 @@
     <string name="brick_clone_this">seba</string>
     <string name="brick_when_cloned">Pri štarte ako klon</string>
     <string name="brick_delete_this_clone">Vymaž tento klon</string>
-    <string name="brick_assert_that">Assert:</string>
-    <string name="brick_is_equal_to">equal to expected:</string>
+    <string name="brick_assert_that">Assert</string>
+    <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_finish_stage">Finish stage</string>
+    <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
     <string name="brick_assert_actual">Actual:</string>
     <string name="brick_assert_expected">Expected:</string>
+    <string name="brick_parameterized_assert">assert</string>
+    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
+        <item quantity="few">For each tuple of items of</item>
+        <item quantity="many">For each tuple of items of</item>
+        <item quantity="other">For each tuple of items of</item>
+    </plurals>
+    <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="few">stored in variables with the same names</item>
+        <item quantity="many">stored in variables with the same names</item>
+        <item quantity="other">stored in variables with the same names</item>
+    </plurals>
+    <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
+        <item quantity="few">%d lists selected</item>
+        <item quantity="many">%d lists selected</item>
+        <item quantity="other">%d lists selected</item>
+    </plurals>
     <plurals name="time_plural">
         <item quantity="one">krát</item>
         <item quantity="few">krát</item>
@@ -1145,6 +1177,12 @@
     <string name="default_project_sprites_animal_wings_down">Wings down</string>
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_outer_loop">Outer Loop</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Pozadie</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
@@ -1813,8 +1851,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_choose_camera">Use camera</string>
     <string name="choose_camera_front">front</string>
     <string name="choose_camera_back">rear</string>
-    <string name="brick_wait_until">Wait until</string>
-    <string name="brick_wait_until_second_part">is true</string>
+    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    </string>
+    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

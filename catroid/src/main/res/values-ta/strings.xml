@@ -172,6 +172,8 @@
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Testing extension</string>
+    <string name="preference_description_test_bricks">Allows to create tests</string>
     <!-- Scratch Converter activity -->
     <string name="beta">பீட்டா</string>
     <string name="error_scratch_program_not_accessible_any_more">அச்சச்சோ! திட்டம் மறைந்துவிட்டதாக தெரிகிறது
@@ -279,6 +281,8 @@
     <string name="am_convert">மாற்று</string>
     <string name="am_merge">ஒன்றுசேர்</string>
     <string name="dialog_confirm_delete">இதை செயல்தவிர்க்க முடியாது!</string>
+    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
+        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">நடிகர்களும் பொருட்களும்</string>
     <!-- Options Menu Options -->
     <string name="backpack">முதுகுப்பை</string>
@@ -323,6 +327,7 @@
         <item quantity="one">இந்த செங்களை நீக்கவா?</item>
         <item quantity="other">Delete these bricks?</item>
     </plurals>
+    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">செயற்திட்டத்தின் பெயர்</string>
     <string name="scene_name_label">காட்சி பெயர்</string>
@@ -667,11 +672,13 @@
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">செங்கல் நகர்த்து</string>
     <string name="brick_context_dialog_move_script">ஸ்கிரிப்டை நகர்த்தவும்</string>
+    <string name="brick_context_dialog_move_definition">Move this definition</string>
     <string name="brick_context_dialog_delete_brick">செங்கலை நீக்கு</string>
     <string name="brick_context_dialog_copy_brick">செங்கலை நகலெடுக்கவும்</string>
     <string name="brick_context_dialog_copy_script">ஸ்கிரிப்டை நகலெடுக்கவும்</string>
     <string name="brick_context_dialog_formula_edit_brick">சூத்திரத்தைத் திருத்து</string>
     <string name="brick_context_dialog_delete_script">ஸ்கிரிப்டை நீக்கு</string>
+    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
     <string name="brick_context_dialog_comment_in">Enable brick</string>
     <string name="brick_context_dialog_comment_out">Disable brick</string>
     <string name="brick_context_dialog_highlight_brick_parts">செங்கல் பாகங்களை முன்னிலைப்படுத்தவும்</string>
@@ -746,9 +753,11 @@
     <string name="prestage_no_gps_sensor_available">புவியியல்</string>
     <string name="prestage_text_to_speech_error">உரை-க்கு-பேச்சு இயந்திரம்</string>
     <string name="prestage_no_back_camera_available">பின் கேமரா</string>
-    <string name="prestage_no_camera_available">முகம் கண்டறிதல்</string>
+    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_jumping_sumo_available">ஜம்பிங் சுமோ</string>
     <string name="prestage_no_front_camera_available">முன் கேமரா</string>
+    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
     <string name="prestage_default_resource_not_available">அறியப்படாத கூறு</string>
     <string name="no_nfc_available">NFC கிடைக்கவில்லை</string>
     <string name="nfc_not_activated">பயன்பாட்டிற்குத் திரும்ப NFC ஐச் செயல்படுத்தவும், மீண்டும் அழுத்தவும்.</string>
@@ -926,6 +935,8 @@
     <string name="brick_when_condition_when">எப்பொழுது</string>
     <string name="brick_when_becomes_true">உண்மை ஆகிறது</string>
     <string name="brick_wait">காத்திருக்கவும்</string>
+    <string name="brick_wait_until">அதுவரை காத்திரு</string>
+    <string name="brick_wait_until_second_part">உண்மை</string>
     <string name="brick_when_gamepad_button">கேம்பேட் பொத்தான் போது</string>
     <string name="brick_when_gamepad_button_tapped">தட்டப்பட்டது</string>
     <string name="brick_when_nfc">NFC போது</string>
@@ -959,14 +970,29 @@
     <string name="brick_clone_this">உங்களை</string>
     <string name="brick_when_cloned">நீங்கள் ஒரு குளோனாகத் தொடங்கும்போது</string>
     <string name="brick_delete_this_clone">இந்த குளோனை நீக்கு</string>
-    <string name="brick_assert_that">வலியுறுத்தும்:</string>
-    <string name="brick_is_equal_to">எதிர்பார்த்ததற்கு சமம்:</string>
+    <string name="brick_assert_that">Assert</string>
+    <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">மற்ற எல்லா ஸ்கிரிப்டுகளும் நிறுத்தப்படும் வரை காத்திருங்கள்</string>
     <string name="brick_tap_at">"இல் ஒற்றை தட்டு"</string>
     <string name="brick_finish_stage">நிலையை முடிக்க</string>
+    <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
     <string name="brick_assert_actual">Actual:</string>
     <string name="brick_assert_expected">Expected:</string>
+    <string name="brick_parameterized_assert">assert</string>
+    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
+        <item quantity="other">For each tuple of items of</item>
+    </plurals>
+    <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="other">stored in variables with the same names</item>
+    </plurals>
+    <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
+        <item quantity="other">%d lists selected</item>
+    </plurals>
     <plurals name="time_plural">
         <item quantity="one">நேரம்</item>
         <item quantity="other">times</item>
@@ -1050,6 +1076,12 @@
     <string name="default_project_sprites_animal_wings_down">சிறகுகள் கீழே</string>
     <string name="default_project_sprites_tweet_1">ட்வீட்1</string>
     <string name="default_project_sprites_tweet_2">ட்வீட்2</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_outer_loop">Outer Loop</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">பின்னணி</string>
     <string name="default_cast_project_cloud_name">மேகங்கள்</string>
@@ -1698,8 +1730,11 @@
     <string name="brick_choose_camera">கேமராவைப் பயன்படுத்துங்கள்</string>
     <string name="choose_camera_front">முன்</string>
     <string name="choose_camera_back">பின்</string>
-    <string name="brick_wait_until">அதுவரை காத்திரு</string>
-    <string name="brick_wait_until_second_part">உண்மை</string>
+    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    </string>
+    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
