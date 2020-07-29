@@ -145,6 +145,13 @@ public class FormulaEditorVariableScopeTest {
 				.check(doesNotExist());
 	}
 
+	@Test
+	public void testAddParameterOfUserDefinedReceiverBrick() {
+		openFormulaEditorOnBrickField(R.id.brick_change_size_by_edit_text);
+		onDataList().onVariableAtPosition(0).perform(click());
+		onFormulaEditor().checkShows("[" + input.getName() + "] ");
+	}
+
 	private void openFormulaEditorOnBrickField(int brickFieldId) {
 		onView(withId(brickFieldId))
 				.perform(click());

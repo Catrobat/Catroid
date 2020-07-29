@@ -63,6 +63,7 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.OPERATOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.SENSOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.STRING;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_DEFINED_BRICK_INPUT;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_VARIABLE;
 import static org.catrobat.catroid.formulaeditor.common.Conversions.FALSE;
@@ -88,7 +89,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	private ElementType type;
@@ -161,6 +162,9 @@ public class FormulaElement implements Serializable {
 				break;
 			case USER_LIST:
 				addToken(tokens, USER_LIST, value);
+				break;
+			case USER_DEFINED_BRICK_INPUT:
+				addToken(tokens, USER_DEFINED_BRICK_INPUT, value);
 				break;
 			case NUMBER:
 				addToken(tokens, NUMBER, trimTrailingCharacters(value));
