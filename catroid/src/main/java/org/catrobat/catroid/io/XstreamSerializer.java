@@ -46,7 +46,6 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.UserDefinedScript;
@@ -108,6 +107,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -150,6 +150,7 @@ import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
+import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -187,6 +188,8 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetInstrumentBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
@@ -196,6 +199,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -209,6 +213,7 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
@@ -216,6 +221,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
+import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
@@ -242,6 +248,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
@@ -362,7 +369,6 @@ public final class XstreamSerializer {
 
 		xstream.alias("script", Script.class);
 		xstream.alias("object", Sprite.class);
-		xstream.alias("object", SingleSprite.class);
 		xstream.alias("object", GroupSprite.class);
 		xstream.alias("object", GroupItemSprite.class);
 
@@ -434,12 +440,14 @@ public final class XstreamSerializer {
 		xstream.alias("brick", GoToBrick.class);
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);
+		xstream.alias("brick", PauseForBeatsBrick.class);
 		xstream.alias("brick", PointInDirectionBrick.class);
 		xstream.alias("brick", PointToBrick.class);
 		xstream.alias("brick", PreviousLookBrick.class);
 		xstream.alias("brick", RepeatBrick.class);
 		xstream.alias("brick", RepeatUntilBrick.class);
 		xstream.alias("brick", ForVariableFromToBrick.class);
+		xstream.alias("brick", ForItemInUserListBrick.class);
 		xstream.alias("brick", ReplaceItemInUserListBrick.class);
 		xstream.alias("brick", SceneTransitionBrick.class);
 		xstream.alias("brick", SceneStartBrick.class);
@@ -452,6 +460,8 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SetBackgroundByIndexBrick.class);
 		xstream.alias("brick", SetBackgroundAndWaitBrick.class);
 		xstream.alias("brick", SetBackgroundByIndexAndWaitBrick.class);
+		xstream.alias("brick", SetInstrumentBrick.class);
+		xstream.alias("brick", SetTempoBrick.class);
 		xstream.alias("brick", SetPenColorBrick.class);
 		xstream.alias("brick", SetPenSizeBrick.class);
 		xstream.alias("brick", SetRotationStyleBrick.class);
@@ -464,9 +474,11 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ShowTextBrick.class);
 		xstream.alias("brick", SpeakBrick.class);
 		xstream.alias("brick", SpeakAndWaitBrick.class);
+		xstream.alias("brick", StartListeningBrick.class);
 		xstream.alias("brick", StampBrick.class);
 		xstream.alias("brick", StopSoundBrick.class);
 		xstream.alias("brick", StopAllSoundsBrick.class);
+		xstream.alias("brick", SetListeningLanguageBrick.class);
 		xstream.alias("brick", ThinkBubbleBrick.class);
 		xstream.alias("brick", SayBubbleBrick.class);
 		xstream.alias("brick", ThinkForBubbleBrick.class);
@@ -537,6 +549,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ParameterizedEndBrick.class);
 
 		xstream.alias("brick", TapAtBrick.class);
+		xstream.alias("brick", TapForBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);
 		xstream.alias("brick", JumpingSumoJumpHighBrick.class);
@@ -557,6 +570,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopRunningStitchBrick.class);
 		xstream.alias("brick", ZigZagStitchBrick.class);
 		xstream.alias("brick", TripleStitchBrick.class);
+		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
 		xstream.alias("brick", WhenTouchDownBrick.class);
@@ -617,7 +631,7 @@ public final class XstreamSerializer {
 					scene.setProject(project);
 				}
 			}
-
+			project.checkForInvisibleSprites();
 			project.setDirectory(projectDir);
 			setFileReferences(project);
 			return project;

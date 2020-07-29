@@ -24,14 +24,18 @@ package org.catrobat.catroid.io;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.widget.ImageView;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,6 +43,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -73,6 +78,9 @@ public class ProjectAndSceneScreenshotLoader {
 	private ExecutorService executorService;
 	private int thumbnailWidth;
 	private int thumbnailHeight;
+
+	private static int[] placeholderImages = {R.drawable.catrobat, R.drawable.elephant, R.drawable.lynx,
+			R.drawable.panda, R.drawable.pingu, R.drawable.racoon};
 
 	private Map<String, Bitmap> imageCache = Collections.synchronizedMap(new LinkedHashMap<String, Bitmap>(
 			INITIAL_VALUE, LOAD_FACTOR, true) {
@@ -233,6 +241,20 @@ public class ProjectAndSceneScreenshotLoader {
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectAndSceneScreenshotData.projectName);
 				manualScreenshotFile = new File(projectDir, SCREENSHOT_MANUAL_FILE_NAME);
 				automaticScreenShotFile = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
+				if (!automaticScreenShotFile.exists()) {
+					int random = new Random().nextInt(placeholderImages.length);
+					try {
+						ResourceImporter.createImageFileFromResourcesInDirectory(ProjectManager.getInstance().getApplicationContext().getResources(),
+								placeholderImages[random],
+								projectDir,
+								SCREENSHOT_AUTOMATIC_FILE_NAME,
+								1);
+					} catch (IOException e) {
+						Log.e(ProjectAndSceneScreenshotLoader.class.getSimpleName(),
+								"Cannot create placeholder image for project" + projectDir.getAbsolutePath(), e);
+					}
+					automaticScreenShotFile = new File(projectDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
+				}
 			}
 
 			if (manualScreenshotFile.exists() && manualScreenshotFile.length() > 0) {

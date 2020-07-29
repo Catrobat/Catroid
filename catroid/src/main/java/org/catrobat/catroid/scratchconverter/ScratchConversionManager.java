@@ -261,7 +261,7 @@ public class ScratchConversionManager implements ConversionManager {
 	// ConvertCallback
 	// -----------------------------------------------------------------------------------------------------------------
 	@Override
-	public void onInfo(final float supportedCatrobatLanguageVersion, final Job[] jobs) {
+	public void onInfo(final double supportedCatrobatLanguageVersion, final Job[] jobs) {
 		for (Job job : jobs) {
 			job.setDownloadState(readDownloadStateFromDisk(job.getJobID()));
 		}

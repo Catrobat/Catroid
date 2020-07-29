@@ -58,6 +58,7 @@
         <attr name="icon_phiro" format="reference"/>
         <attr name="icon_control" format="reference"/>
         <attr name="icon_look" format="reference"/>
+        <attr name="icon_device" format="reference"/>
         <attr name="icon_raspberrypi" format="reference"/>
         <attr name="icon_embroidery" format="reference" />
         <attr name="icon_userbrick" format="reference" />

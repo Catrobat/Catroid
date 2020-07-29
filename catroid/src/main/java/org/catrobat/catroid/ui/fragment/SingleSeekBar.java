@@ -56,12 +56,7 @@ public class SingleSeekBar {
 		seekBarTitle.setText(seekBarTitleId);
 
 		valueTextView = view.findViewById(R.id.single_seekbar_value);
-		valueTextView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				FormulaEditorFragment.showFragment(context, formulaBrick, brickField);
-			}
-		});
+		valueTextView.setOnClickListener(view1 -> FormulaEditorFragment.showFragment(context, formulaBrick, brickField));
 
 		SeekBar seekBar = view.findViewById(R.id.single_seekbar_seekbar);
 		String currentStringValue = formulaBrick.getFormulaWithBrickField(brickField).getTrimmedFormulaString(context);

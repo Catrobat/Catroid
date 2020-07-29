@@ -26,11 +26,10 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.RepeatAction;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.ChangeYByNBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.eventids.EventId;
@@ -101,7 +100,7 @@ public class RepeatActionTest {
 
 	@Test
 	public void testRepeatCount() {
-		Sprite sprite = new SingleSprite("sprite");
+		Sprite sprite = new Sprite("sprite");
 		Script script = new StartScript();
 
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
@@ -155,11 +154,11 @@ public class RepeatActionTest {
 
 	@Test
 	public void testNegativeRepeats() throws Exception {
-		Sprite sprite = new SingleSprite("sprite");
+		Sprite sprite = new Sprite("sprite");
 
 		RepeatBrick repeatBrick = new RepeatBrick(new Formula(-1));
 
-		EventThread sequence = (EventThread) ActionFactory.createEventThread(new StartScript());
+		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		repeatBrick.addActionToSequence(sprite, sequence);
 
 		RepeatAction repeatAction = (RepeatAction) sequence.getActions().get(0);
@@ -202,7 +201,7 @@ public class RepeatActionTest {
 
 	@Test
 	public void testBrickWithInvalidStringFormula() {
-		Formula stringFormula = new Formula(String.valueOf(NOT_NUMERICAL_STRING));
+		Formula stringFormula = new Formula(NOT_NUMERICAL_STRING);
 		Sprite testSprite = new Sprite("testSprite");
 		testWithFormula(testSprite, stringFormula, testSprite.look.getYInUserInterfaceDimensionUnit());
 	}

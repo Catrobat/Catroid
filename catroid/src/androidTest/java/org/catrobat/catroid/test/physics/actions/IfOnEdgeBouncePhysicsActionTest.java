@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
@@ -81,7 +82,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 
-		float setYValue = -ScreenValues.SCREEN_HEIGHT / 2 + 1; // So that nearly the half of the rectangle should be outside of the screen
+		float setYValue = -ScreenValues.SCREEN_HEIGHT / 2.0f;
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 		float setVelocityYValue = -(IfOnEdgeBouncePhysicsAction.THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE - 1.0f);
 		physicsObject.setVelocity(physicsObject.getVelocity().x, setVelocityYValue);
@@ -95,7 +96,6 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		float setYValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
 
 		physicsWorld.step(0.3f);
-
 		assertThat(sprite.look.getYInUserInterfaceDimensionUnit(), is(greaterThan(setYValueAfterAct)));
 	}
 
@@ -106,7 +106,7 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 
-		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - 1; // So that nearly the half of the rectangle should be outside of the screen
+		float setYValue = ScreenValues.SCREEN_HEIGHT / 2.0f;
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 		float setVelocityYValue = IfOnEdgeBouncePhysicsAction.THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE + 0.5f;
 		physicsObject.setVelocity(physicsObject.getVelocity().x, setVelocityYValue);
@@ -134,9 +134,9 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 
-		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - sprite.look.getLookData().getPixmap().getWidth() / 4;
+		float setXValue = ScreenValues.SCREEN_WIDTH / 2.0f - sprite.look.getLookData().getPixmap().getWidth() / 4.0f;
 		sprite.look.setXInUserInterfaceDimensionUnit(setXValue);
-		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - sprite.look.getLookData().getPixmap().getHeight() / 4;
+		float setYValue = ScreenValues.SCREEN_HEIGHT / 2.0f - sprite.look.getLookData().getPixmap().getHeight() / 4.0f;
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 
 		float setVelocityXValue = 400.0f;
@@ -198,9 +198,9 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
 		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
 
-		float setXValue = ScreenValues.SCREEN_WIDTH / 2 - sprite.look.getLookData().getPixmap().getWidth() / 4;
+		float setXValue = ScreenValues.SCREEN_WIDTH / 2.0f - sprite.look.getLookData().getPixmap().getWidth() / 4.0f;
 		sprite.look.setXInUserInterfaceDimensionUnit(setXValue);
-		float setYValue = ScreenValues.SCREEN_HEIGHT / 2 - sprite.look.getLookData().getPixmap().getHeight() / 4;
+		float setYValue = ScreenValues.SCREEN_HEIGHT / 2.0f - sprite.look.getLookData().getPixmap().getHeight() / 4.0f;
 		sprite.look.setYInUserInterfaceDimensionUnit(setYValue);
 
 		assertEquals(setXValue, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -244,7 +244,129 @@ public class IfOnEdgeBouncePhysicsActionTest {
 		assertEquals((float) testYValue, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	public boolean allActionsOfAllSpritesAreFinished() {
+	private Action setUpBounceWithSteps(float direction, float xValue, float yValue) {
+		assertNotNull(sprite.look.getLookData());
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+		physicsObject.setType(PhysicsObject.Type.DYNAMIC);
+		sprite.look.setXInUserInterfaceDimensionUnit(xValue);
+		sprite.look.setYInUserInterfaceDimensionUnit(yValue);
+		sprite.look.setDirectionInUserInterfaceDimensionUnit(direction);
+		Action ifOnEdgeBouncePhysicsAction = sprite.getActionFactory().createIfOnEdgeBounceAction(sprite);
+		sprite.movedByStepsBrick = true;
+		return ifOnEdgeBouncePhysicsAction;
+	}
+
+	@Test
+	public void testOnEdgeBounceWithStepsRight() {
+		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(90.0f,
+				ScreenValues.SCREEN_WIDTH / 2.0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		float xValueBeforeAct = sprite.look.getXInUserInterfaceDimensionUnit();
+		float directionBefore = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		ifOnEdgeBouncePhysicsAction.act(0.1f);
+		float xValueAfterAct = sprite.look.getXInUserInterfaceDimensionUnit();
+		float directionAfter = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		physicsWorld.step(1.0f);
+		assertThat(xValueBeforeAct, is(greaterThan(xValueAfterAct)));
+		assertEquals(-directionBefore, directionAfter);
+	}
+
+	@Test
+	public void testOnEdgeBounceWithStepsLeft() {
+		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(-90.0f,
+				-ScreenValues.SCREEN_WIDTH / 2.0f, sprite.look.getYInUserInterfaceDimensionUnit());
+		float xValueBeforeAct = sprite.look.getXInUserInterfaceDimensionUnit();
+		float directionBefore = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		ifOnEdgeBouncePhysicsAction.act(0.1f);
+		float xValueAfterAct = sprite.look.getXInUserInterfaceDimensionUnit();
+		float directionAfter = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		physicsWorld.step(1.0f);
+		assertThat(xValueBeforeAct, is(lessThan(xValueAfterAct)));
+		assertEquals(-directionBefore, directionAfter);
+	}
+
+	@Test
+	public void testOnEdgeBounceWithStepsTop() {
+		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(0,
+				sprite.look.getXInUserInterfaceDimensionUnit(), ScreenValues.SCREEN_HEIGHT / 2.0f);
+		float yValueBeforeAct = sprite.look.getYInUserInterfaceDimensionUnit();
+		ifOnEdgeBouncePhysicsAction.act(0.1f);
+		float yValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
+		physicsWorld.step(1.0f);
+		assertThat(yValueBeforeAct, is(greaterThan(yValueAfterAct)));
+		assertEquals(180.0f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+	}
+
+	@Test
+	public void testOnEdgeBounceWithStepsBottom() {
+		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(180,
+				sprite.look.getXInUserInterfaceDimensionUnit(), -ScreenValues.SCREEN_HEIGHT / 2.0f);
+		float yValueBeforeAct = sprite.look.getYInUserInterfaceDimensionUnit();
+		ifOnEdgeBouncePhysicsAction.act(0.1f);
+		float yValueAfterAct = sprite.look.getYInUserInterfaceDimensionUnit();
+		physicsWorld.step(1.0f);
+		assertThat(yValueBeforeAct, is(lessThan(yValueAfterAct)));
+		assertEquals(0.0f, sprite.look.getDirectionInUserInterfaceDimensionUnit());
+	}
+
+	@Test
+	public void testFlipRightEdgeWithStepsAndLeftRightRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY, 90.0f,
+				ScreenValues.SCREEN_WIDTH / 2.0f, 0);
+		assertTrue(sprite.look.isFlipped());
+	}
+
+	@Test
+	public void testFlipLeftEdgeWithStepsAndLeftRightRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY, -90.0f,
+				-ScreenValues.SCREEN_WIDTH / 2.0f, 0);
+		assertFalse(sprite.look.isFlipped());
+	}
+
+	@Test
+	public void testFlipTopEdgeWithStepsAndLeftRightRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY, 0, 0, ScreenValues.SCREEN_HEIGHT / 2.0f);
+		assertFalse(sprite.look.getLookData().getTextureRegion().isFlipY());
+	}
+
+	@Test
+	public void testFlipBottomEdgeWithStepsAndLeftRightRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY, 180, 0, ScreenValues.SCREEN_HEIGHT / 2.0f);
+		assertFalse(sprite.look.getLookData().getTextureRegion().isFlipY());
+	}
+
+	@Test
+	public void testFlipRightEdgeWithStepsAndNoRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_NONE, 90.0f,
+				ScreenValues.SCREEN_WIDTH / 2.0f, 0);
+		assertFalse(sprite.look.isFlipped());
+	}
+
+	@Test
+	public void testFlipLeftEdgeWithStepsAndNoRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_NONE, -90.0f,
+				-ScreenValues.SCREEN_WIDTH / 2.0f, 0);
+		assertFalse(sprite.look.isFlipped());
+	}
+
+	@Test
+	public void testFlipTopEdgeWithStepsAndNoRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_NONE, 0, 0, ScreenValues.SCREEN_HEIGHT / 2.0f);
+		assertFalse(sprite.look.getLookData().getTextureRegion().isFlipY());
+	}
+
+	@Test
+	public void testFlipBottomEdgeWithStepsAndNoRotationStyle() {
+		startActionWithRotationStyle(Look.ROTATION_STYLE_NONE, 180, 0, ScreenValues.SCREEN_HEIGHT / 2.0f);
+		assertFalse(sprite.look.getLookData().getTextureRegion().isFlipY());
+	}
+
+	private void startActionWithRotationStyle(int rotationStyle, float direction, float xValue, float yValue) {
+		sprite.look.setRotationMode(rotationStyle);
+		Action ifOnEdgeBouncePhysicsAction = setUpBounceWithSteps(direction, xValue, yValue);
+		ifOnEdgeBouncePhysicsAction.act(0.1f);
+	}
+
+	private boolean allActionsOfAllSpritesAreFinished() {
 		for (Sprite spriteOfList : project.getDefaultScene().getSpriteList()) {
 			if (!spriteOfList.look.haveAllThreadsFinished()) {
 				return false;

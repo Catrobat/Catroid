@@ -42,8 +42,6 @@ import org.catrobat.catroid.utils.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.VisibleForTesting;
-
 public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
@@ -57,11 +55,6 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 	public RepeatBrick(Formula condition) {
 		this();
 		setFormulaWithBrickField(Brick.BrickField.TIMES_TO_REPEAT, condition);
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
 	}
 
 	@Override
@@ -89,7 +82,6 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 		for (Brick brick : loopBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -181,7 +173,7 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -207,6 +199,11 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 
 		EndBrick(RepeatBrick parent) {
 			this.parent = parent;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

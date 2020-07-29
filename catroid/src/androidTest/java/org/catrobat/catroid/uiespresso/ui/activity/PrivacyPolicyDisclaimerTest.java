@@ -23,13 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.ui.activity;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
-import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,70 +37,63 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 @RunWith(AndroidJUnit4.class)
 public class PrivacyPolicyDisclaimerTest {
 
 	@Rule
-	public DontGenerateDefaultProjectActivityTestRule<MainMenuActivity> baseActivityTestRule = new
-			DontGenerateDefaultProjectActivityTestRule<>(MainMenuActivity.class, false, false);
+	public ActivityTestRule<MainMenuActivity> activityTestRule =
+			new ActivityTestRule<>(MainMenuActivity.class, true, false);
 
-	private int bufferedPrivacyPolicyPreferenceSetting;
+	private int bufferedPreferenceSetting;
+	private String privacyPolicyUrl;
 
 	@Before
-	public void setUp() throws Exception {
-		SharedPreferences sharedPreferences =
-				PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext());
+	public void setUp() {
+		bufferedPreferenceSetting = PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		bufferedPrivacyPolicyPreferenceSetting = sharedPreferences
-				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+		privacyPolicyUrl = Constants.CATROBAT_PRIVACY_POLICY_URL;
+
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
+				.edit()
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
+						getInstrumentation().getTargetContext()
+								.getString(R.string.dialog_privacy_policy_text)
+								.hashCode())
+				.commit();
 	}
 
 	@After
 	public void tearDown() {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
-						bufferedPrivacyPolicyPreferenceSetting)
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, bufferedPreferenceSetting)
 				.commit();
 	}
 
 	@Test
-	public void testShowPrivacyPolicyDisclaimer() {
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
-						0)
-				.commit();
-
-		baseActivityTestRule.launchActivity(null);
-
-		onView(withId(R.id.header)).check(matches(isDisplayed()));
-	}
-
-	@Test
-	public void testHidePrivacyPolicyDisclaimer() {
-		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
-				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
-						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
-						.hashCode())
-				.commit();
-
-		baseActivityTestRule.launchActivity(null);
-
-		onView(withText(R.string.main_menu_continue))
-				.check(matches(isDisplayed()));
-		onView(withText(R.string.main_menu_programs))
-				.check(matches(isDisplayed()));
+	public void mainMenuActivityTest() {
+		activityTestRule.launchActivity(new Intent());
+		Intents.init();
+		openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext());
+		onView(withText(R.string.main_menu_privacy_policy)).perform(click());
+		Matcher expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData(privacyPolicyUrl));
+		intended(expectedIntent);
+		Intents.release();
 	}
 }

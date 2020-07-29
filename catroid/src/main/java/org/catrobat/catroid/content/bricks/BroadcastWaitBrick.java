@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
@@ -45,6 +44,6 @@ public class BroadcastWaitBrick extends BroadcastBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, EventWrapper.WAIT));
+		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, true));
 	}
 }

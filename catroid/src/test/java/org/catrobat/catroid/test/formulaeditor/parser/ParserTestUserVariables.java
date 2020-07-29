@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.formulaeditor.parser;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -64,7 +63,7 @@ public class ParserTestUserVariables {
 	@Before
 	public void setUp() {
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
-		firstSprite = new SingleSprite("firstSprite");
+		firstSprite = new Sprite("firstSprite");
 		StartScript startScript = new StartScript();
 		ChangeSizeByNBrick changeBrick = new ChangeSizeByNBrick(10);
 		firstSprite.addScript(startScript);

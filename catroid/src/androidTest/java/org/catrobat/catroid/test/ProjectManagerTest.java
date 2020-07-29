@@ -70,7 +70,7 @@ public class ProjectManagerTest {
 	private static final String OLD_PROJECT = "OLD_PROJECT";
 	private static final String NEW_PROJECT = "NEW_PROJECT";
 
-	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
+	private static final double CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0;
 	private static final String ZIP_FILENAME_WRONG_NESTING_BRICKS = "CoinCatcher2.catrobat";
 	private static final String PROJECT_NAME_NESTING_BRICKS = "Coin Catcher 2";
 

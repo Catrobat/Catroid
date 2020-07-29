@@ -150,6 +150,7 @@ abstract class WebAction : Action(), WebRequestListener {
     override fun restart() {
         stageListener.webConnectionHolder.removeConnection(webConnection)
         webConnection = null
+        url = null
         requestStatus = RequestStatus.NOT_SENT
         permissionStatus = PermissionStatus.UNKNOWN
     }
@@ -157,6 +158,7 @@ abstract class WebAction : Action(), WebRequestListener {
     @CallSuper
     override fun onCancelledCall() {
         webConnection = null
+        url = null
         requestStatus = RequestStatus.NOT_SENT
     }
 }

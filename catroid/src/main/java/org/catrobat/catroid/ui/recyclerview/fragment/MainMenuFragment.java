@@ -30,7 +30,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -42,11 +41,14 @@ import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
 import org.catrobat.catroid.ui.WebViewActivity;
+import org.catrobat.catroid.ui.recyclerview.ProjectListener;
 import org.catrobat.catroid.ui.recyclerview.RVButton;
 import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
+import org.catrobat.catroid.ui.recyclerview.adapter.HorizontalProjectsAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.ProjectDownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -64,37 +66,38 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 public class MainMenuFragment extends Fragment implements
+		ProjectListener.OnProjectListener,
 		ButtonAdapter.OnItemClickListener,
 		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = MainMenuFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({PROGRAMS, HELP, EXPLORE, UPLOAD})
+	@IntDef({HELP, EXPLORE})
 	@interface ButtonId {
 	}
 
-	private static final int PROGRAMS = 2;
 	private static final int HELP = 3;
 	private static final int EXPLORE = 4;
-	private static final int UPLOAD = 5;
 
 	private static final int CURRENTTHUMBNAILSIZE = 500;
-	private static final int CONTINUE = R.id.current_project;
-	private static final int NEW = R.id.floating_action_button;
 
 	private View parent;
 	private RecyclerView recyclerView;
 	private ButtonAdapter buttonAdapter;
-	View.OnClickListener listener;
-	List<ProjectData> myProjects;
+	private View.OnClickListener listener;
+	private List<ProjectData> myProjects;
+	private HorizontalProjectsAdapter projectsAdapter;
+	private RecyclerView projectsRecyclerView;
 	String currentProject;
 
 	@Nullable
@@ -116,11 +119,12 @@ public class MainMenuFragment extends Fragment implements
 			@Override
 			public ButtonVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
-				int itemHeight = parent.getHeight() / items.size();
-				view.setMinimumHeight(itemHeight);
+				view.setMinimumHeight(recyclerView.getHeight() / items.size());
+
 				return new ButtonVH(view);
 			}
 		};
+
 		buttonAdapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(buttonAdapter);
 
@@ -130,24 +134,31 @@ public class MainMenuFragment extends Fragment implements
 				onProgramClick(v);
 			}
 		};
-		parent.findViewById(R.id.current_project).setOnClickListener(listener);
+		parent.findViewById(R.id.edit_button).setOnClickListener(listener);
+		parent.findViewById(R.id.upload_button).setOnClickListener(listener);
 		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
+		ProjectDownloadUtil.INSTANCE.setFragment(this);
+		projectsRecyclerView = parent.findViewById(R.id.my_projects_recyclerview);
+		projectsRecyclerView.setHasFixedSize(true);
+		parent.findViewById(R.id.my_projects).setOnClickListener(listener);
+		parent.findViewById(R.id.image_view).setOnClickListener(listener);
 
-		setAndLoadCurrentProject();
+		SnapHelper snap = new LinearSnapHelper();
+		snap.attachToRecyclerView(projectsRecyclerView);
+
+		projectsAdapter = new HorizontalProjectsAdapter(this);
+		projectsRecyclerView.setAdapter(projectsAdapter);
+
+		refreshData();
 		setShowProgressBar(false);
 	}
 
 	private List<RVButton> getItems() {
 		List<RVButton> items = new ArrayList<>();
-
-		items.add(new RVButton(PROGRAMS, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_programs),
-				getString(R.string.main_menu_programs)));
 		items.add(new RVButton(HELP, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_help),
 				getString(R.string.main_menu_help)));
 		items.add(new RVButton(EXPLORE, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_community),
 				getString(R.string.main_menu_web)));
-		items.add(new RVButton(UPLOAD, ContextCompat.getDrawable(getActivity(), R.drawable.ic_main_menu_upload),
-				getString(R.string.main_menu_upload)));
 		return items;
 	}
 
@@ -161,11 +172,10 @@ public class MainMenuFragment extends Fragment implements
 			getActivity().getIntent().removeExtra(EXTRA_PROJECT_NAME);
 			loadDownloadedProject(projectName);
 		}
-		setAndLoadCurrentProject();
+		refreshData();
 	}
 
 	private void setAndLoadCurrentProject() {
-		updateMyProjects();
 		if (myProjects.size() != 0) {
 			currentProject = myProjects.get(0).getName();
 		} else {
@@ -192,10 +202,6 @@ public class MainMenuFragment extends Fragment implements
 	@Override
 	public void onItemClick(@ButtonId int id) {
 		switch (id) {
-			case PROGRAMS:
-				setShowProgressBar(true);
-				startActivity(new Intent(getActivity(), ProjectListActivity.class));
-				break;
 			case HELP:
 				setShowProgressBar(true);
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL)));
@@ -204,20 +210,13 @@ public class MainMenuFragment extends Fragment implements
 				setShowProgressBar(true);
 				startActivity(new Intent(getActivity(), WebViewActivity.class));
 				break;
-			case UPLOAD:
-				setShowProgressBar(true);
-				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
-						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
-				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
-						.putExtra(ProjectUploadActivity.PROJECT_DIR, projectDir);
-				startActivity(intent);
-				break;
 		}
 	}
 
 	public void onProgramClick(View view) {
 		switch (view.getId()) {
-			case CONTINUE:
+			case R.id.image_view:
+			case R.id.edit_button:
 				setShowProgressBar(true);
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
@@ -225,9 +224,21 @@ public class MainMenuFragment extends Fragment implements
 						.setListener(this)
 						.execute();
 				break;
-			case NEW:
+			case R.id.floating_action_button:
 				new NewProjectDialogFragment()
 						.show(getFragmentManager(), NewProjectDialogFragment.TAG);
+				break;
+			case R.id.upload_button:
+				setShowProgressBar(true);
+				Intent intent = new Intent(getActivity(), ProjectUploadActivity.class)
+						.putExtra(ProjectUploadActivity.PROJECT_DIR,
+								new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
+										.encodeSpecialCharsForFileSystem(Utils.getCurrentProjectName(getActivity()))));
+				startActivity(intent);
+				break;
+			case R.id.my_projects:
+				setShowProgressBar(true);
+				startActivity(new Intent(getActivity(), ProjectListActivity.class));
 				break;
 		}
 	}
@@ -281,12 +292,38 @@ public class MainMenuFragment extends Fragment implements
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
 
-		TextView titleView = parent.findViewById(R.id.project_title);
-		titleView.setText(currentProject);
 		ProjectAndSceneScreenshotLoader loader =
 				new ProjectAndSceneScreenshotLoader(CURRENTTHUMBNAILSIZE, CURRENTTHUMBNAILSIZE);
 
 		loader.loadAndShowScreenshot(projectDir.getName(), loader.getScreenshotSceneName(projectDir), false,
 				parent.findViewById(R.id.image_view));
+	}
+
+	private void updateRecyclerview() {
+		if (myProjects.size() < 2) {
+			projectsAdapter.setItems(null);
+		} else {
+			int projectsCount = Math.min(myProjects.size(), 10);
+			projectsAdapter.setItems(myProjects.subList(1, projectsCount));
+		}
+		projectsAdapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onProjectClick(int position) {
+		setShowProgressBar(true);
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
+				.encodeSpecialCharsForFileSystem(myProjects.get(position + 1).getName()));
+		updateRecyclerview();
+
+		new ProjectLoadTask(projectDir, getContext())
+				.setListener(this)
+				.execute();
+	}
+
+	public void refreshData() {
+		updateMyProjects();
+		setAndLoadCurrentProject();
+		updateRecyclerview();
 	}
 }

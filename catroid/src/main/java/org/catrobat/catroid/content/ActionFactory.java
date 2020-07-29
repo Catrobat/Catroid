@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.actions.AskAction;
 import org.catrobat.catroid.content.actions.AskSpeechAction;
 import org.catrobat.catroid.content.actions.AssertEqualsAction;
 import org.catrobat.catroid.content.actions.AssertUserListAction;
+import org.catrobat.catroid.content.actions.BroadcastAction;
 import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
@@ -72,9 +73,9 @@ import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.EventAction;
-import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
+import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
@@ -105,9 +106,8 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
-import org.catrobat.catroid.content.actions.NextLookAction;
-import org.catrobat.catroid.content.actions.NotifyEventWaiterAction;
 import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
+import org.catrobat.catroid.content.actions.PauseForBeatsAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
 import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
@@ -119,7 +119,6 @@ import org.catrobat.catroid.content.actions.PhiroSensorAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
-import org.catrobat.catroid.content.actions.PreviousLookAction;
 import org.catrobat.catroid.content.actions.RaspiIfLogicAction;
 import org.catrobat.catroid.content.actions.RaspiPwmAction;
 import org.catrobat.catroid.content.actions.RaspiSendDigitalValueAction;
@@ -134,17 +133,20 @@ import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.content.actions.SetBackgroundLookAction;
-import org.catrobat.catroid.content.actions.SetBackgroundLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
+import org.catrobat.catroid.content.actions.SetInstrumentAction;
+import org.catrobat.catroid.content.actions.SetListeningLanguageAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
+import org.catrobat.catroid.content.actions.SetNextLookAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
 import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
+import org.catrobat.catroid.content.actions.SetPreviousLookAction;
 import org.catrobat.catroid.content.actions.SetRotationStyleAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.SetTempoAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
@@ -156,6 +158,7 @@ import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.actions.StampAction;
+import org.catrobat.catroid.content.actions.StartListeningAction;
 import org.catrobat.catroid.content.actions.StitchAction;
 import org.catrobat.catroid.content.actions.StopAllScriptsAction;
 import org.catrobat.catroid.content.actions.StopAllSoundsAction;
@@ -176,6 +179,7 @@ import org.catrobat.catroid.content.actions.WaitForSoundAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WriteEmbroideryToFileAction;
 import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
@@ -196,8 +200,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
-import org.catrobat.catroid.content.eventids.BroadcastEventId;
-import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -209,24 +212,10 @@ import kotlin.Pair;
 
 public class ActionFactory extends Actions {
 
-	public EventAction createBroadcastAction(String broadcastMessage, @EventWrapper.WaitMode int waitMode) {
-		BroadcastEventId id = new BroadcastEventId(broadcastMessage);
-		return createEventAction(id, waitMode);
-	}
-
-	private EventAction createEventAction(EventId eventId, @EventWrapper.WaitMode int waitMode) {
-		EventWrapper event = new EventWrapper(eventId, waitMode);
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		EventAction action = Actions.action(EventAction.class);
-		action.setEvent(event);
-		action.setReceivingSprites(currentProject.getSpriteListWithClones());
-		return action;
-	}
-
-	public Action createNotifyEventWaiterAction(Sprite sprite, EventWrapper event) {
-		NotifyEventWaiterAction action = Actions.action(NotifyEventWaiterAction.class);
-		action.setEvent(event);
-		action.setSprite(sprite);
+	public EventAction createBroadcastAction(String broadcastMessage, boolean wait) {
+		BroadcastAction action = action(BroadcastAction.class);
+		action.setBroadcastMessage(broadcastMessage);
+		action.setWait(wait);
 		return action;
 	}
 
@@ -557,12 +546,6 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createNextLookAction(Sprite sprite) {
-		NextLookAction action = Actions.action(NextLookAction.class);
-		action.setSprite(sprite);
-		return action;
-	}
-
 	public Action createPlaySoundAction(Sprite sprite, SoundInfo sound) {
 		PlaySoundAction action = Actions.action(PlaySoundAction.class);
 		action.setSprite(sprite);
@@ -624,43 +607,16 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetLookAction(Sprite sprite, LookData lookData, @EventWrapper.WaitMode int waitMode) {
-		return createSetLookEventAction((SetLookAction) createSetLookAction(sprite, lookData), waitMode);
+	public Action createSetLookAction(Sprite sprite, LookData lookData) {
+		return createSetLookAction(sprite, lookData, false);
 	}
 
-	public Action createSetLookAction(Sprite sprite, LookData lookData) {
+	public Action createSetLookAction(Sprite sprite, LookData lookData, boolean wait) {
 		SetLookAction action = Actions.action(SetLookAction.class);
 		action.setSprite(sprite);
 		action.setLookData(lookData);
+		action.setWait(wait);
 		return action;
-	}
-
-	private Action createSetLookEventAction(SetLookAction action, @EventWrapper.WaitMode int waitMode) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		action.setWaitMode(waitMode);
-		action.setReceivingSprites(currentProject.getSpriteListWithClones());
-		return action;
-	}
-
-	public Action createSetBackgroundLookAction(LookData lookData, @EventWrapper.WaitMode int waitMode) {
-		return createSetBackgroundLookEventAction((SetBackgroundLookAction) createSetBackgroundLookAction(lookData), waitMode);
-	}
-
-	public Action createSetBackgroundLookAction(LookData lookData) {
-		SetBackgroundLookAction action = Actions.action(SetBackgroundLookAction.class);
-		action.setLookData(lookData);
-		return action;
-	}
-
-	private Action createSetBackgroundLookEventAction(SetBackgroundLookAction action, @EventWrapper.WaitMode int waitMode) {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		action.setWaitMode(waitMode);
-		action.setReceivingSprites(currentProject.getSpriteListWithClones());
-		return action;
-	}
-
-	public Action createSetLookByIndexAction(Sprite sprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
-		return createSetLookEventAction((SetLookAction) createSetLookByIndexAction(sprite, formula), waitMode);
 	}
 
 	public Action createSetLookByIndexAction(Sprite sprite, Formula formula) {
@@ -670,14 +626,32 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSetBackgroundLookByIndexAction(Sprite scopeSprite, Formula formula, @EventWrapper.WaitMode int waitMode) {
-		return createSetBackgroundLookEventAction((SetBackgroundLookAction) createSetBackgroundLookByIndexAction(scopeSprite, formula), waitMode);
+	public Action createSetBackgroundAction(LookData lookData, boolean wait) {
+		SetLookAction action = Actions.action(SetLookAction.class);
+		action.setSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		action.setLookData(lookData);
+		action.setWait(wait);
+		return action;
 	}
 
-	public Action createSetBackgroundLookByIndexAction(Sprite scopeSprite, Formula formula) {
-		SetBackgroundLookByIndexAction action = Actions.action(SetBackgroundLookByIndexAction.class);
-		action.setScopeSprite(scopeSprite);
+	public Action createSetBackgroundByIndexAction(Sprite sprite, Formula formula, boolean wait) {
+		SetLookByIndexAction action = Actions.action(SetLookByIndexAction.class);
+		action.setSprite(ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite());
+		action.setScopeSprite(sprite);
 		action.setFormula(formula);
+		action.setWait(wait);
+		return action;
+	}
+
+	public Action createSetNextLookAction(Sprite sprite) {
+		SetNextLookAction action = Actions.action(SetNextLookAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createSetPreviousLookAction(Sprite sprite) {
+		SetPreviousLookAction action = action(SetPreviousLookAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -725,6 +699,26 @@ public class ActionFactory extends Actions {
 
 	public Action createStopAllSoundsAction() {
 		return Actions.action(StopAllSoundsAction.class);
+	}
+
+	public Action createPauseForBeatsAction(Sprite sprite, Formula beats) {
+		PauseForBeatsAction action = action(PauseForBeatsAction.class);
+		action.setSprite(sprite);
+		action.setBeats(beats);
+		return action;
+	}
+
+	public Action createSetInstrumentAction(PickableMusicalInstrument instrument) {
+		SetInstrumentAction action = action(SetInstrumentAction.class);
+		action.setInstrument(instrument);
+		return action;
+	}
+
+	public Action createSetTempoAction(Sprite sprite, Formula tempo) {
+		SetTempoAction action = action(SetTempoAction.class);
+		action.setSprite(sprite);
+		action.setTempo(tempo);
+		return action;
 	}
 
 	public Action createTurnLeftAction(Sprite sprite, Formula degrees) {
@@ -841,15 +835,17 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createSceneTransitionAction(String sceneName) {
+	public Action createSceneTransitionAction(String sceneName, Sprite sprite) {
 		SceneTransitionAction action = action(SceneTransitionAction.class);
 		action.setScene(sceneName);
+		action.setSprite(sprite);
 		return action;
 	}
 
-	public Action createSceneStartAction(String sceneName) {
+	public Action createSceneStartAction(String sceneName, Sprite sprite) {
 		SceneStartAction action = action(SceneStartAction.class);
 		action.setScene(sceneName);
+		action.setSprite(sprite);
 		return action;
 	}
 
@@ -880,6 +876,15 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createForItemInUserListAction(UserList userList,
+			UserVariable userVariable, Action repeatedAction) {
+		ForItemInUserListAction action = Actions.action(ForItemInUserListAction.class);
+		action.setAction(repeatedAction);
+		action.setUserList(userList);
+		action.setCurrentItemVariable(userVariable);
+		return action;
+	}
+
 	public Action createWaitUntilAction(Sprite sprite, Formula condition) {
 		WaitUntilAction action = Actions.action(WaitUntilAction.class);
 		action.setSprite(sprite);
@@ -904,7 +909,7 @@ public class ActionFactory extends Actions {
 
 	public Action createForeverAction(Sprite sprite, ScriptSequenceAction foreverSequence) {
 		RepeatAction action = Actions.action(RepeatAction.class);
-		action.setIsForeverRepeat(true);
+		action.setForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
 		return action;
@@ -944,12 +949,16 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public static Action eventSequence(Script script) {
-		return new ScriptSequenceAction(script);
+	public Action createWriteEmbroideryToFileAction(Sprite sprite, Formula fileName) {
+		WriteEmbroideryToFileAction action = Actions.action(WriteEmbroideryToFileAction.class);
+		action.setSprite(sprite);
+		action.setFormula(fileName);
+
+		return action;
 	}
 
-	public static Action createEventThread(Script script) {
-		return new EventThread(script);
+	public static Action createScriptSequenceAction(Script script) {
+		return new ScriptSequenceAction(script);
 	}
 
 	public Action createSetBounceFactorAction(Sprite sprite, Formula bounceFactor) {
@@ -1266,13 +1275,7 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createPreviousLookAction(Sprite sprite) {
-		PreviousLookAction action = action(PreviousLookAction.class);
-		action.setSprite(sprite);
-		return action;
-	}
-
-	public Action createStopScriptAction(int spinnerSelection, Script currentScript) {
+	public Action createStopScriptAction(int spinnerSelection, Script currentScript, Sprite sprite) {
 		switch (spinnerSelection) {
 			case BrickValues.STOP_THIS_SCRIPT:
 				StopThisScriptAction stopThisScriptAction = Actions.action(StopThisScriptAction.class);
@@ -1281,6 +1284,7 @@ public class ActionFactory extends Actions {
 			case BrickValues.STOP_OTHER_SCRIPTS:
 				StopOtherScriptsAction stopOtherScriptsAction = Actions.action(StopOtherScriptsAction.class);
 				stopOtherScriptsAction.setCurrentScript(currentScript);
+				stopOtherScriptsAction.setSprite(sprite);
 				return stopOtherScriptsAction;
 			default:
 				return Actions.action(StopAllScriptsAction.class);
@@ -1353,8 +1357,18 @@ public class ActionFactory extends Actions {
 
 	public Action createTapAtAction(Sprite sprite, Formula x, Formula y) {
 		TapAtAction action = Actions.action(TapAtAction.class);
-		action.setPosition(x, y);
 		action.setSprite(sprite);
+		action.setStartX(x);
+		action.setStartY(y);
+		return action;
+	}
+
+	public Action createTapForAction(Sprite sprite, Formula x, Formula y, Formula duration) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setSprite(sprite);
+		action.setDurationFormula(duration);
+		action.setStartX(x);
+		action.setStartY(y);
 		return action;
 	}
 
@@ -1422,6 +1436,18 @@ public class ActionFactory extends Actions {
 		LookRequestAction action = action(LookRequestAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
+		return action;
+	}
+
+	public Action createStartListeningAction(UserVariable userVariable) {
+		StartListeningAction action = Actions.action(StartListeningAction.class);
+		action.setUserVariable(userVariable);
+		return action;
+	}
+
+	public Action createSetListeningLanguageAction(String listeningLanguageTag) {
+		SetListeningLanguageAction action = action(SetListeningLanguageAction.class);
+		action.listeningLanguageTag = listeningLanguageTag;
 		return action;
 	}
 }

@@ -54,13 +54,16 @@ public class ListProjectFilesTask extends AsyncTask<File, Void, List<File>> {
 	}
 
 	private static void findProjectFiles(File dir, List<File> projectFiles) {
-		for (File file : dir.listFiles()) {
-			if (file.isDirectory()) {
-				findProjectFiles(file, projectFiles);
-			}
+		// this check will prevent a future crash on android 11
+		if (dir.canRead() && dir.listFiles() != null) {
+			for (File file : dir.listFiles()) {
+				if (file.isDirectory()) {
+					findProjectFiles(file, projectFiles);
+				}
 
-			if (file.getName().endsWith(CATROBAT_EXTENSION)) {
-				projectFiles.add(file);
+				if (file.getName().endsWith(CATROBAT_EXTENSION)) {
+					projectFiles.add(file);
+				}
 			}
 		}
 	}

@@ -84,6 +84,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -121,6 +122,7 @@ import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
+import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -158,6 +160,8 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetInstrumentBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
@@ -167,6 +171,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -179,6 +184,7 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
@@ -186,6 +192,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
+import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
@@ -210,6 +217,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
@@ -256,6 +264,9 @@ public class CategoryBricksFactory {
 		if (category.equals(context.getString(R.string.category_data))) {
 			return setupDataCategoryList(context, isBackgroundSprite);
 		}
+		if (category.equals(context.getString(R.string.category_device))) {
+			return setupDeviceCategoryList(context, isBackgroundSprite);
+		}
 		if (category.equals(context.getString(R.string.category_lego_nxt))) {
 			return setupLegoNxtCategoryList();
 		}
@@ -281,7 +292,7 @@ public class CategoryBricksFactory {
 			return setupRaspiCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_embroidery))) {
-			return setupEmbroideryCategoryList();
+			return setupEmbroideryCategoryList(context);
 		}
 		if (category.equals(context.getString(R.string.category_assertions))) {
 			return setupAssertionsCategoryList(context);
@@ -315,6 +326,8 @@ public class CategoryBricksFactory {
 		}
 		eventBrickList.add(new WhenBackgroundChangesBrick());
 		eventBrickList.add(new WhenClonedBrick());
+		eventBrickList.add(new CloneBrick());
+		eventBrickList.add(new DeleteThisCloneBrick());
 
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
@@ -340,6 +353,7 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new RepeatUntilBrick(ifConditionFormula));
 		controlBrickList.add(new ForVariableFromToBrick(new Formula(BrickValues.FOR_LOOP_FROM),
 				new Formula(BrickValues.FOR_LOOP_TO)));
+		controlBrickList.add(new ForItemInUserListBrick());
 		controlBrickList.add(new SceneTransitionBrick(null));
 		controlBrickList.add(new SceneStartBrick(null));
 
@@ -349,13 +363,28 @@ public class CategoryBricksFactory {
 
 		controlBrickList.add(new ExitStageBrick());
 		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
+		controlBrickList.add(new WaitTillIdleBrick());
 
+		controlBrickList.add(new WhenClonedBrick());
 		controlBrickList.add(new CloneBrick());
 		controlBrickList.add(new DeleteThisCloneBrick());
-		controlBrickList.add(new WhenClonedBrick());
+
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			controlBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
+
+		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		List<String> broadcastMessages = currentProject.getBroadcastMessageContainer().getBroadcastMessages();
+		String broadcastMessage = context.getString(R.string.brick_broadcast_default_value);
+		if (broadcastMessages.size() > 0) {
+			broadcastMessage = broadcastMessages.get(0);
+		}
+		controlBrickList.add(new BroadcastReceiverBrick(new BroadcastScript(broadcastMessage)));
+		controlBrickList.add(new BroadcastBrick(broadcastMessage));
+		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
+
+		controlBrickList.add(new TapAtBrick());
+		controlBrickList.add(new TapForBrick());
 
 		return controlBrickList;
 	}
@@ -446,6 +475,12 @@ public class CategoryBricksFactory {
 					BrickValues.PHIRO_DURATION));
 		}
 		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+		soundBrickList.add(new StartListeningBrick());
+		soundBrickList.add(new SetListeningLanguageBrick());
+
+		soundBrickList.add(new SetInstrumentBrick());
+		soundBrickList.add(new SetTempoBrick(100));
+		soundBrickList.add(new PauseForBeatsBrick(1));
 
 		return soundBrickList;
 	}
@@ -563,7 +598,89 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
+		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) {
+			dataBrickList.add(new WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)));
+		}
+
+		dataBrickList.add(new StartListeningBrick());
+
+		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
+			dataBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
+		}
+
 		return dataBrickList;
+	}
+
+	protected List<Brick> setupDeviceCategoryList(Context context, boolean isBackgroundSprite) {
+		List<Brick> deviceBrickList = new ArrayList<>();
+
+		deviceBrickList.add(new WhenBrick());
+		deviceBrickList.add(new WhenTouchDownBrick());
+		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
+			deviceBrickList.add(new WhenNfcBrick());
+			deviceBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
+		}
+
+		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
+			deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+			if (!isBackgroundSprite) {
+				deviceBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
+			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
+			} else {
+				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
+			}
+		}
+
+		deviceBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
+		deviceBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
+		deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
+		deviceBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
+		deviceBrickList.add(new StartListeningBrick());
+
+		if (!ProjectManager.getInstance().getCurrentProject().isCastProject()) {
+			deviceBrickList.add(new CameraBrick());
+			deviceBrickList.add(new ChooseCameraBrick());
+			deviceBrickList.add(new FlashBrick());
+		}
+
+		deviceBrickList.add(new WriteVariableOnDeviceBrick());
+		deviceBrickList.add(new ReadVariableFromDeviceBrick());
+		deviceBrickList.add(new WriteListOnDeviceBrick());
+		deviceBrickList.add(new ReadListFromDeviceBrick());
+		deviceBrickList.add(new TapAtBrick());
+		deviceBrickList.add(new TapForBrick());
+
+		if (SettingsFragment.isCastSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupChromecastCategoryList(context));
+		}
+		if (SettingsFragment.isMindstormsNXTSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupLegoNxtCategoryList());
+		}
+		if (SettingsFragment.isMindstormsEV3SharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupLegoEv3CategoryList());
+		}
+		if (SettingsFragment.isDroneSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupDroneCategoryList());
+		}
+		if (SettingsFragment.isJSSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupJumpingSumoCategoryList());
+		}
+		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupPhiroProCategoryList());
+		}
+		if (SettingsFragment.isArduinoSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupArduinoCategoryList());
+		}
+		if (SettingsFragment.isRaspiSharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupRaspiCategoryList());
+		}
+		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) {
+			deviceBrickList.addAll(setupEmbroideryCategoryList(context));
+		}
+
+		return deviceBrickList;
 	}
 
 	private List<Brick> setupLegoNxtCategoryList() {
@@ -688,7 +805,7 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
-	private List<Brick> setupEmbroideryCategoryList() {
+	private List<Brick> setupEmbroideryCategoryList(Context context) {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
@@ -696,6 +813,8 @@ public class CategoryBricksFactory {
 				new Formula(BrickValues.ZIGZAG_STITCH_WIDTH)));
 		embroideryBrickList.add(new TripleStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
 		embroideryBrickList.add(new StopRunningStitchBrick());
+		embroideryBrickList.add(new WriteEmbroideryToFileBrick(
+				context.getString(R.string.brick_default_embroidery_file)));
 		return embroideryBrickList;
 	}
 
@@ -707,6 +826,7 @@ public class CategoryBricksFactory {
 		assertionsBrickList.add(new ParameterizedBrick());
 		assertionsBrickList.add(new WaitTillIdleBrick());
 		assertionsBrickList.add(new TapAtBrick());
+		assertionsBrickList.add(new TapForBrick());
 		assertionsBrickList.add(new FinishStageBrick());
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
@@ -818,7 +938,7 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_cast);
 			}
 		}
-		categoryBricks = setupEmbroideryCategoryList();
+		categoryBricks = setupEmbroideryCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_embroidery);
@@ -856,6 +976,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_user_bricks);
 		} else if (brick instanceof ParameterizedEndBrick) {
 			category = res.getString(R.string.category_assertions);
+		} else if (brick instanceof WriteEmbroideryToFileBrick) {
+			category = res.getString(R.string.category_embroidery);
 		}
 
 		config.locale = savedLocale;

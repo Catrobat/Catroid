@@ -60,7 +60,8 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.ACCESSIBILITY_PROFILE_PREFERENCE_KEY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CRASH_REPORTS;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED;
@@ -229,19 +230,9 @@ public class SettingsFragmentTest {
 				.check(matches(isDisplayed()));
 		onData(is(instanceOf(String.class))).atPosition(0)
 				.check(matches(withText(R.string.device_language)));
-		for (String rtlLanguage : LANGUAGE_CODE) {
-
-			if (rtlLanguage.equals("sd")) {
-				onData(hasToString("سنڌي"))
-						.check(matches(isDisplayed()));
-			} else if (rtlLanguage.length() == 2) {
-				Locale rtlLocale = new Locale(rtlLanguage);
-				onData(hasToString(rtlLocale.getDisplayName(rtlLocale)))
-						.check(matches(isDisplayed()));
-			} else if (rtlLanguage.length() == 6) {
-				String language = rtlLanguage.substring(0, 2);
-				String country = rtlLanguage.substring(4);
-				Locale rtlLocale = new Locale(language, country);
+		for (String languageTag : LANGUAGE_TAGS) {
+			if (!languageTag.equals(DEVICE_LANGUAGE)) {
+				Locale rtlLocale = Locale.forLanguageTag(languageTag);
 				onData(hasToString(rtlLocale.getDisplayName(rtlLocale)))
 						.check(matches(isDisplayed()));
 			}

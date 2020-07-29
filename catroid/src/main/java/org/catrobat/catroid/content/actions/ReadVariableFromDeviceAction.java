@@ -31,7 +31,7 @@ import org.catrobat.catroid.io.DeviceVariableAccessor;
 
 import java.io.File;
 
-public class ReadVariableFromDeviceAction extends EventAction {
+public class ReadVariableFromDeviceAction extends AsynchronousAction {
 	private UserVariable userVariable;
 	private boolean readActionFinished;
 
@@ -40,13 +40,17 @@ public class ReadVariableFromDeviceAction extends EventAction {
 		if (userVariable == null) {
 			return true;
 		}
+		return super.act(delta);
+	}
 
-		if (firstStart) {
-			firstStart = false;
-			readActionFinished = false;
-			new ReadTask().execute(userVariable);
-		}
+	@Override
+	public void initialize() {
+		readActionFinished = false;
+		new ReadTask().execute(userVariable);
+	}
 
+	@Override
+	public boolean isFinished() {
 		return readActionFinished;
 	}
 

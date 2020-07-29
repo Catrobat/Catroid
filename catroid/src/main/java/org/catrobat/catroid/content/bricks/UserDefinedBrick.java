@@ -28,15 +28,21 @@ import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.ui.BrickLayout;
 import org.catrobat.catroid.ui.fragment.AddUserDataToUserDefinedBrickFragment;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.userbrick.InputFormulaField;
 import org.catrobat.catroid.userbrick.UserDefinedBrickData;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.userbrick.UserDefinedBrickLabel;
 
@@ -44,16 +50,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import androidx.annotation.VisibleForTesting;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-public class UserDefinedBrick extends BrickBaseType {
+import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
+
+public class UserDefinedBrick extends FormulaBrick {
 	private static final long serialVersionUID = 1L;
 
 	public static final String USER_BRICK_BUNDLE_ARGUMENT = "user_brick";
 	public static final String ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT = "addInputOrLabel";
-	public static final boolean INPUT = true;
-	public static final boolean LABEL = false;
 
 	@XStreamAlias("userDefinedBrickDataList")
 	private List<UserDefinedBrickData> userDefinedBrickDataList;
@@ -61,33 +68,63 @@ public class UserDefinedBrick extends BrickBaseType {
 	@XStreamAlias("userDefinedBrickID")
 	private UUID userDefinedBrickID;
 
+	@XStreamAlias("callingBrick")
+	private boolean isCallingBrick;
+
 	private transient BrickLayout userDefinedBrickLayout;
 	public transient TextView currentUserDefinedDataTextView;
+	public transient BiMap<FormulaField, TextView> formulaFieldToTextViewMap = HashBiMap.create(2);
 
 	public UserDefinedBrick() {
 		userDefinedBrickDataList = new ArrayList<>();
 		userDefinedBrickID = UUID.randomUUID();
 	}
 
-	public UserDefinedBrick(List<UserDefinedBrickData> userBrickDataList) {
-		this.userDefinedBrickDataList = userBrickDataList;
-		this.userDefinedBrickID = UUID.randomUUID();
-	}
-
 	public UserDefinedBrick(UserDefinedBrick userDefinedBrick) {
 		copyUserDefinedDataList(userDefinedBrick);
-		this.userDefinedBrickID = UUID.randomUUID();
+		this.userDefinedBrickID = userDefinedBrick.getUserDefinedBrickID();
+		this.isCallingBrick = userDefinedBrick.isCallingBrick;
+	}
+
+	@VisibleForTesting
+	public UserDefinedBrick(List<UserDefinedBrickData> userBrickDataList) {
+		this.userDefinedBrickDataList = userBrickDataList;
+	}
+
+	@Override
+	public Brick clone() throws CloneNotSupportedException {
+		UserDefinedBrick clone = (UserDefinedBrick) super.clone();
+		clone.copyUserDefinedDataList(this);
+		clone.userDefinedBrickID = this.getUserDefinedBrickID();
+		clone.isCallingBrick = this.isCallingBrick;
+		return clone;
 	}
 
 	private void copyUserDefinedDataList(UserDefinedBrick userDefinedBrick) {
 		this.userDefinedBrickDataList = new ArrayList<>();
 		for (UserDefinedBrickData data : userDefinedBrick.getUserDefinedBrickDataList()) {
 			if (data instanceof UserDefinedBrickInput) {
-				userDefinedBrickDataList.add(new UserDefinedBrickInput((UserDefinedBrickInput) data));
+				UserDefinedBrickInput oldInput = (UserDefinedBrickInput) data;
+				UserDefinedBrickInput newInput = new UserDefinedBrickInput(oldInput);
+				userDefinedBrickDataList.add(newInput);
+				if (userDefinedBrick.isCallingBrick) {
+					copyFormulaOfInput(oldInput, newInput);
+				}
 			} else {
 				userDefinedBrickDataList.add(new UserDefinedBrickLabel((UserDefinedBrickLabel) data));
 			}
 		}
+	}
+
+	private void copyFormulaOfInput(UserDefinedBrickInput oldInput, UserDefinedBrickInput newInput) {
+		FormulaField formulaField = oldInput.getInputFormulaField();
+		Formula formula = formulaMap.get(formulaField);
+		formulaMap.remove(formulaField);
+		formulaMap.putIfAbsent(newInput.getInputFormulaField(), formula);
+	}
+
+	public void setCallingBrick(boolean callingBrick) {
+		isCallingBrick = callingBrick;
 	}
 
 	public UUID getUserDefinedBrickID() {
@@ -117,19 +154,21 @@ public class UserDefinedBrick extends BrickBaseType {
 		return this.userDefinedBrickDataList;
 	}
 
-	public List<String> getUserDataList(boolean isInput) {
-		List<String> userDataList = new ArrayList<>();
-		if (isInput) {
-			for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
-				if (userDefinedBrickData instanceof UserDefinedBrickInput) {
-					userDataList.add(((UserDefinedBrickInput) userDefinedBrickData).getInput());
-				}
+	public List<UserDefinedBrickInput> getUserDefinedBrickInputs() {
+		List<UserDefinedBrickInput> userDefinedBrickInputs = new ArrayList<>();
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				userDefinedBrickInputs.add((UserDefinedBrickInput) userDefinedBrickData);
 			}
-		} else {
-			for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
-				if (userDefinedBrickData instanceof UserDefinedBrickLabel) {
-					userDataList.add(((UserDefinedBrickLabel) userDefinedBrickData).getLabel());
-				}
+		}
+		return userDefinedBrickInputs;
+	}
+
+	public List<String> getUserDataListAsStrings(UserDefinedBrickDataType dataType) {
+		List<String> userDataList = new ArrayList<>();
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.getType() == dataType) {
+				userDataList.add(userDefinedBrickData.getName());
 			}
 		}
 		return userDataList;
@@ -139,7 +178,7 @@ public class UserDefinedBrick extends BrickBaseType {
 		if (userDefinedBrickDataList.isEmpty()) {
 			return false;
 		}
-		return userDefinedBrickDataList.get(userDefinedBrickDataList.size() - 1) instanceof UserDefinedBrickLabel;
+		return userDefinedBrickDataList.get(userDefinedBrickDataList.size() - 1).isLabel();
 	}
 
 	public boolean isUserDefinedBrickDataEqual(Brick brick) {
@@ -165,67 +204,97 @@ public class UserDefinedBrick extends BrickBaseType {
 	}
 
 	@Override
-	public Brick clone() throws CloneNotSupportedException {
-		UserDefinedBrick clone = (UserDefinedBrick) super.clone();
-		clone.copyUserDefinedDataList(this);
-		clone.userDefinedBrickID = this.getUserDefinedBrickID();
-		return clone;
-	}
-
-	@Override
 	public View getView(Context context) {
 		super.getView(context);
 		userDefinedBrickLayout = view.findViewById(R.id.brick_user_brick);
-		boolean isAddInputFragment = false;
-		boolean isAddLabelFragment = false;
 
-		Fragment currentFragment =
-				((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		TextView textView = null;
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				textView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
+			} else {
+				textView = new TextView(new ContextThemeWrapper(context, R.style.BrickText));
+			}
+			textView.setText(userDefinedBrickData.getName());
+			if (userDefinedBrickData.isInput() && isCallingBrick) {
+				InputFormulaField formulaField = ((UserDefinedBrickInput) userDefinedBrickData).getInputFormulaField();
+				addAllowedBrickField(formulaField, textView);
+				textView.setText(getFormulaWithBrickField(formulaField).getTrimmedFormulaString(context));
+			}
+			userDefinedBrickLayout.addView(textView);
+		}
+
+		Fragment currentFragment = ((FragmentActivity) context).getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 		if (currentFragment instanceof AddUserDataToUserDefinedBrickFragment) {
-			isAddInputFragment = ((AddUserDataToUserDefinedBrickFragment) currentFragment).isAddInput();
-			isAddLabelFragment = !isAddInputFragment;
-		}
-
-		for (UserDefinedBrickData userBrickData : userDefinedBrickDataList) {
-			if (userBrickData instanceof UserDefinedBrickInput) {
-				addTextViewForUserData(context, ((UserDefinedBrickInput) userBrickData).getInput(),
-						INPUT);
-			}
-			if (userBrickData instanceof UserDefinedBrickLabel) {
-				addTextViewForUserData(context, ((UserDefinedBrickLabel) userBrickData).getLabel(),
-						LABEL);
-			}
-		}
-		if (isAddInputFragment) {
-			String defaultText =
-					new UniqueNameProvider().getUniqueName(context.getResources().getString(R.string.brick_user_defined_default_input_name), getUserDataList(INPUT));
-			addTextViewForUserData(context, defaultText, INPUT);
-		}
-		if (isAddLabelFragment && !lastContentIsLabel()) {
-			String defaultText =
-					new UniqueNameProvider().getUniqueName(context.getResources().getString(R.string.brick_user_defined_default_label), getUserDataList(LABEL));
-			addTextViewForUserData(context, defaultText, LABEL);
+			UserDefinedBrickDataType dataTypeToAdd = ((AddUserDataToUserDefinedBrickFragment) currentFragment).getDataTypeToAdd();
+			addTextViewForUserData(context, textView, dataTypeToAdd);
 		}
 
 		return view;
 	}
 
-	private void addTextViewForUserData(Context context, String text, boolean isInput) {
-
-		TextView userDataTextView;
-		if (isInput) {
-			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
+	private void addTextViewForUserData(Context context, TextView textView, UserDefinedBrickDataType dataType) {
+		String text = getDefaultText(context, dataType);
+		if (dataType == INPUT) {
+			textView = new TextView(new ContextThemeWrapper(context, R.style.BrickEditText));
+			userDefinedBrickLayout.addView(textView);
 		} else {
-			userDataTextView = new TextView(new ContextThemeWrapper(context, R.style.BrickText));
+			if (lastContentIsLabel()) {
+				text = userDefinedBrickDataList.get(userDefinedBrickDataList.size() - 1).getName();
+			} else {
+				textView = new TextView(new ContextThemeWrapper(context, R.style.BrickText));
+				userDefinedBrickLayout.addView(textView);
+			}
 		}
-		userDataTextView.setText(text);
-		currentUserDefinedDataTextView = userDataTextView;
-		userDefinedBrickLayout.addView(userDataTextView);
+		textView.setText(text);
+		currentUserDefinedDataTextView = textView;
+	}
+
+	private String getDefaultText(Context context, UserDefinedBrickDataType dataTypeToAdd) {
+		String defaultText;
+		if (dataTypeToAdd == INPUT) {
+			defaultText = context.getResources().getString(R.string.brick_user_defined_default_input_name);
+		} else {
+			defaultText = context.getResources().getString(R.string.brick_user_defined_default_label);
+		}
+		defaultText = new UniqueNameProvider().getUniqueName(defaultText, getUserDataListAsStrings(dataTypeToAdd));
+		return defaultText;
+	}
+
+	protected void addAllowedBrickField(FormulaField formulaField, TextView textView) {
+		formulaMap.putIfAbsent(formulaField, new Formula(0));
+		formulaFieldToTextViewMap.put(formulaField, textView);
+	}
+
+	@Override
+	public void setClickListeners() {
+		for (BiMap.Entry<FormulaField, TextView> entry : formulaFieldToTextViewMap.entrySet()) {
+			TextView brickFieldView = entry.getValue();
+			brickFieldView.setOnClickListener(this);
+		}
+	}
+
+	@Override
+	public void showFormulaEditorToEditFormula(View view) {
+		if (formulaFieldToTextViewMap.inverse().containsKey(view)) {
+			FormulaEditorFragment.showFragment(view.getContext(), this, getBrickFieldFromTextView((TextView) view));
+		} else {
+			FormulaEditorFragment.showFragment(view.getContext(), this, getDefaultBrickField());
+		}
 	}
 
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_user_brick;
+	}
+
+	public Brick.FormulaField getBrickFieldFromTextView(TextView view) {
+		return formulaFieldToTextViewMap.inverse().get(view);
+	}
+
+	@Override
+	public TextView getTextView(FormulaField formulaField) {
+		return formulaFieldToTextViewMap.get(formulaField);
 	}
 
 	@Override

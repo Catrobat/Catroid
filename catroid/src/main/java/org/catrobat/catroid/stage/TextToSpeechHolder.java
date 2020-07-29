@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -65,7 +66,8 @@ public final class TextToSpeechHolder {
 					textToSpeech.setOnUtteranceCompletedListener(onUtteranceCompletedListenerContainer);
 					stageResourceHolder.resourceInitialized();
 				} else {
-					AlertDialog.Builder builder = new AlertDialog.Builder(stageActivity);
+					AlertDialog.Builder builder =
+							new AlertDialog.Builder(new ContextThemeWrapper(stageActivity, R.style.Theme_AppCompat_Dialog));
 					builder.setMessage(R.string.prestage_text_to_speech_engine_not_installed).setCancelable(false)
 							.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
 								@Override

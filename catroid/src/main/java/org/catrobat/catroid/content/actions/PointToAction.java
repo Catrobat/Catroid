@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physics.PhysicsLook;
 
 public class PointToAction extends TemporalAction {
 
@@ -62,6 +63,9 @@ public class PointToAction extends TemporalAction {
 		} else {
 			rotationDegrees = 90f - Math.toDegrees(Math.atan2(pointedSpriteYPosition - spriteYPosition,
 					pointedSpriteXPosition - spriteXPosition));
+		}
+		if (sprite.look instanceof PhysicsLook) {
+			((PhysicsLook) sprite.look).setFlippedByDirection((float) rotationDegrees);
 		}
 		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) rotationDegrees);
 	}

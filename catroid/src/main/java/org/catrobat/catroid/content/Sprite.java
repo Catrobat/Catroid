@@ -23,22 +23,22 @@
 package org.catrobat.catroid.content;
 
 import android.content.Context;
-import android.graphics.PointF;
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -53,9 +53,11 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.stage.StageActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -71,6 +73,7 @@ import java.util.UUID;
 		"userLists",
 		"userDefinedBrickList"
 })
+
 public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -80,10 +83,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
-	private transient boolean convertToSingleSprite = false;
+	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
+	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
+	private transient List<Integer> usedTouchPointer = new ArrayList<>();
 
 	@XStreamAsAttribute
 	private String name;
@@ -99,6 +103,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public transient boolean isClone = false;
 	public transient Sprite myOriginal = null;
+
+	public transient boolean movedByStepsBrick = false;
 
 	public Sprite() {
 	}
@@ -293,14 +299,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (Script script : scriptList) {
 			createThreadAndAddToEventMap(script);
 		}
-		look.fire(new EventWrapper(new EventId(startType), EventWrapper.NO_WAIT));
+		look.fire(new EventWrapper(new EventId(startType), false));
 	}
 
 	private void createThreadAndAddToEventMap(Script script) {
 		if (script.isCommentedOut()) {
 			return;
 		}
-		idToEventThreadMap.put(script.createEventId(this), createEventThread(script));
+		idToEventThreadMap.put(script.createEventId(this), createSequenceAction(script));
 	}
 
 	public ActionFactory getActionFactory() {
@@ -314,8 +320,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public Sprite convert() {
 		Sprite convertedSprite;
 
-		if (convertToSingleSprite) {
-			convertedSprite = new SingleSprite(name);
+		if (convertToSprite) {
+			convertedSprite = new Sprite(name);
 		} else if (convertToGroupItemSprite) {
 			convertedSprite = new GroupItemSprite(name);
 		} else {
@@ -340,8 +346,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return convertedSprite;
 	}
 
-	private EventThread createEventThread(Script script) {
-		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
+	private ScriptSequenceAction createSequenceAction(Script script) {
+		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
 		script.run(this, sequence);
 		return sequence;
 	}
@@ -516,25 +522,17 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 	}
 
-	public class PenConfiguration {
-		public boolean penDown = false;
-		public double penSize = BrickValues.PEN_SIZE;
-		public PenColor penColor = new PenColor(0, 0, 1, 1);
-		public PointF previousPoint = null;
-		public boolean stamp = false;
-	}
-
 	public boolean toBeConverted() {
-		return convertToSingleSprite || convertToGroupItemSprite;
+		return convertToSprite || convertToGroupItemSprite;
 	}
 
-	public void setConvertToSingleSprite(boolean convertToSingleSprite) {
+	public void setConvertToSprite(boolean convertToSprite) {
 		this.convertToGroupItemSprite = false;
-		this.convertToSingleSprite = convertToSingleSprite;
+		this.convertToSprite = convertToSprite;
 	}
 
 	public void setConvertToGroupItemSprite(boolean convertToGroupItemSprite) {
-		this.convertToSingleSprite = false;
+		this.convertToSprite = false;
 		this.convertToGroupItemSprite = convertToGroupItemSprite;
 	}
 
@@ -542,7 +540,35 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return look.getZIndex() == Constants.Z_INDEX_BACKGROUND;
 	}
 
-	public Multimap<EventId, EventThread> getIdToEventThreadMap() {
+	public boolean isBackgroundSprite(Context context) {
+		return name.equals(context.getString(R.string.background));
+	}
+
+	public Multimap<EventId, ScriptSequenceAction> getIdToEventThreadMap() {
 		return idToEventThreadMap;
+	}
+
+	public int getUnusedPointer() {
+		int result = 0;
+		while (result < 20 && usedTouchPointer.contains(result)) {
+			++result;
+		}
+		usedTouchPointer.add(result);
+
+		return result;
+	}
+
+	public void releaseUsedPointer(int position) {
+		usedTouchPointer.removeAll(Collections.singleton(position));
+	}
+
+	public void releaseAllPointers() {
+		if (StageActivity.stageListener != null) {
+			Stage stage = StageActivity.stageListener.getStage();
+			for (int pointer : usedTouchPointer) {
+				stage.touchUp(0, 0, pointer, 0);
+			}
+		}
+		usedTouchPointer.clear();
 	}
 }

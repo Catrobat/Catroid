@@ -100,6 +100,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -131,6 +132,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
@@ -138,6 +140,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -149,8 +152,10 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
@@ -176,6 +181,7 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -245,6 +251,7 @@ public class RtlBrickTest {
 				enabledByThisTestPeripheralCategories.add(category);
 			}
 		}
+		Utils.fetchSpeechRecognitionSupportedLanguages(ApplicationProvider.getApplicationContext());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -390,6 +397,10 @@ public class RtlBrickTest {
 
 		checkIfBrickISRtl(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_layout);
 
+		checkIfBrickISRtl(StopSoundBrick.class, R.id.brick_stop_sound_layout);
+
+		checkIfBrickISRtl(SetTempoBrick.class, R.id.brick_set_tempo_layout);
+
 		checkIfBrickISRtl(StopAllSoundsBrick.class, R.id.brick_stop_all_sounds_layout);
 
 		checkIfBrickISRtl(SetVolumeToBrick.class, R.id.brick_set_volume_to_layout);
@@ -403,6 +414,12 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(PhiroPlayToneBrick.class, R.id.brick_phiro_play_tone_layout);
 
 		checkIfBrickISRtl(AskSpeechBrick.class, R.id.brick_set_variable_layout);
+
+		checkIfBrickISRtl(StartListeningBrick.class, R.id.brick_start_listening_layout);
+
+		checkIfBrickISRtl(SetListeningLanguageBrick.class, R.id.brick_set_listening_language_layout);
+
+		checkIfBrickISRtl(PauseForBeatsBrick.class, R.id.brick_pause_for_beats_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -446,7 +463,7 @@ public class RtlBrickTest {
 
 		checkIfBrickAtPositionIsRtl(SetBackgroundAndWaitBrick.class, 0, R.id.brick_set_background_layout);
 
-		checkIfBrickAtPositionIsRtl(SetBackgroundByIndexBrick.class, 1, R.id.brick_set_background_by_index_layout);
+		checkIfBrickAtPositionIsRtl(SetBackgroundByIndexBrick.class, 0, R.id.brick_set_background_by_index_layout);
 
 		checkIfBrickISRtl(SetBackgroundByIndexAndWaitBrick.class, R.id.brick_set_background_by_index_layout);
 

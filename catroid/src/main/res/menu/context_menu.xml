@@ -29,12 +29,12 @@
     <item
         android:id="@+id/confirm"
         android:title="@string/confirm"
-        android:icon="@drawable/done_white"
+        android:icon="@drawable/ic_done"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/overflow"
-        android:icon="@drawable/baseline_more_vert_white_24"
+        android:icon="@drawable/ic_more_vert"
         app:showAsAction="always"
         android:visible="false">
         <menu>

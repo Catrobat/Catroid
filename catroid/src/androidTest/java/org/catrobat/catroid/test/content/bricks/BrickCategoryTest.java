@@ -75,6 +75,7 @@ import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
+import org.catrobat.catroid.content.bricks.ForItemInUserListBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -111,6 +112,7 @@ import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
+import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -148,6 +150,8 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetInstrumentBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
@@ -156,6 +160,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -168,6 +173,7 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
@@ -175,6 +181,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
+import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
@@ -196,6 +203,7 @@ import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
@@ -251,7 +259,8 @@ public class BrickCategoryTest {
 						RunningStitchBrick.class,
 						ZigZagStitchBrick.class,
 						TripleStitchBrick.class,
-						StopRunningStitchBrick.class)},
+						StopRunningStitchBrick.class,
+						WriteEmbroideryToFileBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
 						WhenBrick.class,
 						WhenTouchDownBrick.class,
@@ -261,7 +270,9 @@ public class BrickCategoryTest {
 						WhenConditionBrick.class,
 						WhenBounceOffBrick.class,
 						WhenBackgroundChangesBrick.class,
-						WhenClonedBrick.class)},
+						WhenClonedBrick.class,
+						CloneBrick.class,
+						DeleteThisCloneBrick.class)},
 				{"Looks", Arrays.asList(SetLookBrick.class,
 						SetLookByIndexBrick.class,
 						NextLookBrick.class,
@@ -307,7 +318,12 @@ public class BrickCategoryTest {
 						ChangeVolumeByNBrick.class,
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
-						AskSpeechBrick.class)},
+						AskSpeechBrick.class,
+						StartListeningBrick.class,
+						SetListeningLanguageBrick.class,
+						SetInstrumentBrick.class,
+						SetTempoBrick.class,
+						PauseForBeatsBrick.class)},
 				{"Control", Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
 						ForeverBrick.class,
@@ -317,13 +333,20 @@ public class BrickCategoryTest {
 						RepeatBrick.class,
 						RepeatUntilBrick.class,
 						ForVariableFromToBrick.class,
+						ForItemInUserListBrick.class,
 						SceneTransitionBrick.class,
 						SceneStartBrick.class,
 						ExitStageBrick.class,
 						StopScriptBrick.class,
+						WaitTillIdleBrick.class,
+						WhenClonedBrick.class,
 						CloneBrick.class,
 						DeleteThisCloneBrick.class,
-						WhenClonedBrick.class)},
+						BroadcastReceiverBrick.class,
+						BroadcastBrick.class,
+						BroadcastWaitBrick.class,
+						TapAtBrick.class,
+						TapForBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -344,7 +367,27 @@ public class BrickCategoryTest {
 						WebRequestBrick.class,
 						LookRequestBrick.class,
 						AskBrick.class,
-						AskSpeechBrick.class)},
+						AskSpeechBrick.class,
+						StartListeningBrick.class)},
+				{"Device", Arrays.asList(WhenBrick.class,
+						WhenTouchDownBrick.class,
+						WebRequestBrick.class,
+						LookRequestBrick.class,
+						VibrationBrick.class,
+						SpeakBrick.class,
+						SpeakAndWaitBrick.class,
+						AskSpeechBrick.class,
+						StartListeningBrick.class,
+						CameraBrick.class,
+						ChooseCameraBrick.class,
+						FlashBrick.class,
+						WriteVariableOnDeviceBrick.class,
+						ReadVariableFromDeviceBrick.class,
+						WriteListOnDeviceBrick.class,
+						ReadListFromDeviceBrick.class,
+						TapAtBrick.class,
+						TapForBrick.class)
+				},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -402,6 +445,7 @@ public class BrickCategoryTest {
 						ParameterizedBrick.class,
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
+						TapForBrick.class,
 						FinishStageBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},

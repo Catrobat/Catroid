@@ -99,6 +99,7 @@ import org.catrobat.catroid.content.bricks.VibrationBrick;
 import org.catrobat.catroid.content.bricks.WaitBrick;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
 import org.catrobat.catroid.content.bricks.WhenConditionBrick;
+import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
 import org.catrobat.catroid.content.bricks.ZigZagStitchBrick;
 import org.catrobat.catroid.ui.fragment.CategoryBricksFactory;
 import org.junit.Before;
@@ -213,6 +214,7 @@ public class BrickFormulaDefaultValueTest {
 				{"ZigZagStitchBrick - R.id.brick_zigzag_stitch_edit_text_height", "Embroidery", ZigZagStitchBrick.class, R.id.brick_zigzag_stitch_edit_text_width, "10 "},
 				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", RunningStitchBrick.class, R.id.brick_running_stitch_edit_text_length, "10 "},
 				{"RunningStitchBrick - R.id.brick_running_stitch_edit_text_steps", "Embroidery", TripleStitchBrick.class, R.id.brick_triple_stitch_edit_text_steps, "10 "},
+				{"WriteEmbroideryToFileBrick - R.id.brick_write_embroidery_to_file_edit_text", "Embroidery", WriteEmbroideryToFileBrick.class, R.id.brick_write_embroidery_to_file_edit_text, "'embroidery.dst' "},
 		});
 	}
 
@@ -267,7 +269,7 @@ public class BrickFormulaDefaultValueTest {
 		}
 		assertNotNull(brickInAdapter);
 
-		Brick.BrickField brickField = ((FormulaBrick) brickInAdapter).brickFieldToTextViewIdMap.inverse().get(formulaTextFieldId);
+		Brick.FormulaField brickField = ((FormulaBrick) brickInAdapter).brickFieldToTextViewIdMap.inverse().get(formulaTextFieldId);
 		String actual = ((FormulaBrick) brickInAdapter).getFormulaWithBrickField(brickField).getTrimmedFormulaString(ApplicationProvider.getApplicationContext());
 		assertEquals(expected, actual);
 	}

@@ -111,6 +111,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCENES);
 		}
 		loadFragment(fragmentPosition);
+		ProjectUtils.showWarningForSuspiciousBricksOnce(this);
 		showLegoSensorConfigInfo();
 	}
 

@@ -33,7 +33,6 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -102,7 +101,7 @@ public class PhysicsObjectTest {
 	@Test
 	public void testNullBody() {
 		exception.expect(NullPointerException.class);
-		new PhysicsObject(null, new SingleSprite("TestSprite"));
+		new PhysicsObject(null, new Sprite("TestSprite"));
 	}
 
 	@Test
@@ -324,7 +323,7 @@ public class PhysicsObjectTest {
 	public void testIfOnEndgeBounce() throws Exception {
 		PhysicsObject physicsObject = PhysicsTestUtils.createPhysicsObject(physicsWorld, PhysicsObject.Type.DYNAMIC,
 				1.0f, 1.0f);
-		Sprite sprite = new SingleSprite("TestSprite");
+		Sprite sprite = new Sprite("TestSprite");
 		physicsObject.setIfOnEdgeBounce(true, sprite);
 
 		assertTrue((Boolean) Reflection.getPrivateField(physicsObject, "ifOnEdgeBounce"));

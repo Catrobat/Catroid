@@ -1,0 +1,125 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2020 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group android:scaleX="0.14976563"
+      android:scaleY="0.14976563"
+      android:translateX="15.66"
+      android:translateY="15.66">
+    <group>
+      <clip-path
+          android:pathData="M-63.5,-63.5h639v639h-639z"/>
+      <group>
+        <clip-path
+            android:pathData="M-63.5,-63.5h639v639h-639z"/>
+        <path
+            android:pathData="M334.8,382.6c-1.8,8.6 -10.3,14.2 -19,12.3L143.2,358c-8.6,-1.8 -14.1,-10.3 -12.3,-19L188.6,69c1.9,-8.6 10.4,-14.2 19,-12.3l172.6,36.8c8.7,1.9 14.2,10.3 12.3,19L334.8,382.6z"
+            android:fillColor="#FF7700"/>
+      </group>
+      <group>
+        <clip-path
+            android:pathData="M-63.5,-63.5h639v639h-639z"/>
+        <group>
+          <clip-path
+              android:pathData="M161.9,104.8h196.3v257.4h-196.3z"/>
+          <group>
+            <clip-path
+                android:pathData="M161.9,104.8h196.3v257.4h-196.3z"/>
+            <path
+                android:pathData="M310,362.2l-148.1,-31.6l48.2,-225.8l148.1,31.6z"
+                android:strokeAlpha="0.8"
+                android:fillColor="#FFFFFF"
+                android:fillAlpha="0.8"/>
+          </group>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M396.5,393.2c-9.6,10.3 -122.3,62.4 -140.5,62.5c-18.2,0.1 -131.9,-50.7 -140.5,-62.1c-8.5,-11.4 -21.4,-225.3 -21.4,-225.3h323.7C417.9,168.3 406.1,382.9 396.5,393.2"
+              android:fillColor="#008B96"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M256,455.7c-18.2,0.1 -131.9,-48.7 -140.5,-60c-8.5,-11.4 -21.4,-227.3 -21.4,-227.3h161.5L256,455.7z"
+              android:fillColor="#17A5B8"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M113.2,221.5c-1.3,-19.1 -2.1,-32.1 -2.1,-32.1l-0.4,-6.8h38.9v12.8h-25.3c0.3,5.6 0.9,14.4 1.6,25.2L113.2,221.5z"
+              android:fillColor="#FFFFFF"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M330.9,195.5h-59.1v-12.8h59.1V195.5zM240.2,195.5h-59.1v-12.8h59.1V195.5z"
+              android:fillColor="#FFFFFF"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M399,221.5l-12.8,-0.8c0.7,-10.8 1.2,-19.6 1.5,-25.2h-25.3v-12.8h38.9l-0.4,6.8C400.9,189.4 400.2,202.3 399,221.5"
+              android:fillColor="#FFFFFF"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M273.2,437.1l-4.3,-12.1c13,-4.6 33.6,-13.3 54.9,-23.4l5.5,11.6C307.6,423.4 286.6,432.4 273.2,437.1M237.8,436.9c-14.1,-4.8 -35.2,-13.7 -56.3,-23.5l5.4,-11.6c20.8,9.7 41.3,18.3 55,23L237.8,436.9zM152.4,398.9c-18.3,-9.7 -20.7,-13 -21.7,-14.4c-1.5,-1.9 -3.7,-4.9 -7.4,-39.5l12.8,-1.4c2.8,25.4 4.5,31.8 5.1,33.3c0.7,0.7 4.2,3.6 17.4,10.6L152.4,398.9zM358.3,398.7l-6,-11.4c13.7,-7.2 17.8,-10.2 18.8,-11.1c0.6,-1.5 2.4,-7.8 5.1,-31.8l12.8,1.4c-3.8,34.1 -6.3,36.8 -8.2,38.8C379.9,385.8 377.1,388.8 358.3,398.7M392.2,313.8l-12.8,-1.1c1.5,-17.1 3.1,-37.3 4.6,-60l12.8,0.9C395.3,276.3 393.8,296.6 392.2,313.8M120.1,312.9c-1.5,-17.2 -3.1,-37.5 -4.8,-60.2l12.8,-0.9c1.6,22.7 3.2,42.8 4.7,60L120.1,312.9z"
+              android:fillColor="#FFFFFF"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M256,212.1c-48.6,0 -87.9,39.4 -87.9,87.9c0,48.6 39.4,87.9 87.9,87.9c48.6,0 88,-39.4 88,-87.9C343.9,251.5 304.6,212.1 256,212.1"
+              android:fillColor="#FFFFFF"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M195.7,300c0,-33.1 26.9,-60 60,-60c33.1,0 60,26.9 60,60c0,33.1 -26.9,60 -60,60C222.5,360 195.7,333.2 195.7,300"
+              android:fillColor="#17A5B8"/>
+        </group>
+        <group>
+          <clip-path
+              android:pathData="M-63.5,-63.5h639v639h-639z"/>
+          <path
+              android:pathData="M238.8,338.5l46.5,-38.5l-46.5,-38.5z"
+              android:fillColor="#FFFFFF"/>
+        </group>
+      </group>
+    </group>
+  </group>
+</vector>

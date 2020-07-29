@@ -61,6 +61,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/project_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/dialog_input_offset"
@@ -99,6 +100,33 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/project_description_upload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="1"
+                android:selectAllOnFocus="true" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/project_notes_and_credits_explanation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dialog_input_offset"
+            android:paddingEnd="@dimen/details_spacing"
+            android:paddingBottom="@dimen/material_design_spacing_large"
+            android:text="@string/upload_notes_and_credits_explanation"
+            android:visibility="invisible"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_project_notes_and_credits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="true"
+            android:hint="@string/upload_notes_and_credits"
+            android:visibility="invisible">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/project_notes_and_credits_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minLines="1"

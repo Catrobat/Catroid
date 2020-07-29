@@ -90,6 +90,7 @@ public class BrickAdapter extends BaseAdapter implements
 
 	public void setCheckBoxMode(int checkBoxMode) {
 		this.checkBoxMode = checkBoxMode;
+		notifyDataSetChanged();
 	}
 
 	public void updateItems(Sprite sprite) {
@@ -296,8 +297,10 @@ public class BrickAdapter extends BaseAdapter implements
 			if (divideScriptAtPositionAndAddBricksToMovingScript) {
 				int positionToDivideScriptAt = brickAboveTargetPosition.getPositionInScript() + 1;
 
-				List<Brick> bricksToMove = bricksInScriptAtTargetPosition
-						.subList(positionToDivideScriptAt, bricksInScriptAtTargetPosition.size());
+				List<Brick> bricksToMove = new ArrayList<>();
+				for (int i = positionToDivideScriptAt; i < bricksInScriptAtTargetPosition.size(); i++) {
+					bricksToMove.add(bricksInScriptAtTargetPosition.get(i));
+				}
 
 				bricksInScriptToMove.addAll(bricksToMove);
 				bricksInScriptAtTargetPosition.removeAll(bricksToMove);

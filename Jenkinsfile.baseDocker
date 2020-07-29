@@ -10,13 +10,7 @@ pipeline {
         DOCKER_DIR = 'docker'
         DOCKER_REPO = "catrobat"
     }
-
-    parameters {
-        booleanParam name: 'TAG_STABLE', defaultValue: false, description: 'When selected image will be tagged stable'
-        booleanParam name: 'TAG_TESTING', defaultValue: true, description: 'When selected image will be tagged testing'
-        string name: 'IMAGE_NAME', defaultValue: 'catrobat-android', description: 'Name for docker image to build'
-    }
-
+    
     options {
         timeout(time: 2, unit: 'HOURS')
         timestamps()

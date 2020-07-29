@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2020 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,22 @@
             file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
             line="352"
             column="14"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
+        severity="Warning"
+        message="Attribute `requestLegacyExternalStorage` is only used in API level 29 and higher (current min is 21)"
+        category="Correctness"
+        priority="6"
+        summary="Attribute unused on older versions"
+        explanation="This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the `minSdkVersion` attribute).&#xA;&#xA;This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance or functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.&#xA;&#xA;Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `&lt;tag>` element in layouts introduced in API 21."
+        errorLine1="        android:requestLegacyExternalStorage=&quot;true&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\AndroidManifest.xml"
+            line="94"
+            column="9"/>
     </issue>
 
     <issue
@@ -87,6 +103,17 @@
             file="src\main\res\layout\dialog_stage.xml"
             line="91"
             column="13"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Must be one of: PixelFormat.RGBA_8888, PixelFormat.RGBX_8888, PixelFormat.RGBA_F16, PixelFormat.RGBA_1010102, PixelFormat.RGB_888, PixelFormat.RGB_565"
+        errorLine1="  stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),"
+        errorLine2="                                                  ~">
+        <location
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            line="287"
+            column="51"/>
     </issue>
 
     <issue
@@ -173,7 +200,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="100"
+            line="101"
             column="10"/>
     </issue>
 
@@ -184,7 +211,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="102"
+            line="103"
             column="10"/>
     </issue>
 
@@ -195,7 +222,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="104"
+            line="105"
             column="10"/>
     </issue>
 
@@ -299,99 +326,95 @@
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_brown_2h_9` appears to be unused">
         <location
-            file="src\main\res\drawable-hdpi\icon_redo.png"/>
+            file="src\main\res\drawable-ldpi\brick_brown_2h_9.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_brown_2h_9.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_brown_2h_9.9.png"/>
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_control_1h` appears to be unused">
         <location
-            file="src\main\res\drawable-ldrtl-hdpi\icon_redo.png"/>
+            file="src\main\res\drawable-ldpi\brick_control_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_control_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_control_1h.9.png"/>
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_gold_1h` appears to be unused">
         <location
-            file="src\main\res\drawable-ldrtl-mdpi\icon_redo.png"/>
+            file="src\main\res\drawable-hdpi\brick_gold_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-ldpi\brick_gold_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_gold_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_gold_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xxhdpi\brick_gold_1h.9.png"/>
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
+        id="UnusedResources"
+        message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
+        errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
+        errorLine2="^">
         <location
-            file="src\main\res\drawable-ldrtl-xhdpi\icon_redo.png"/>
+            file="src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
+            line="25"
+            column="1"/>
+        <location
+            file="src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
+        <location
+            file="src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
+        id="UnusedResources"
+        message="The resource `R.style.BrickContainer_Event_Medium` appears to be unused"
+        errorLine1="    &lt;style name=&quot;BrickContainer.Event.Medium&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\drawable-mdpi\icon_redo.png"/>
+            file="src\main\res\values\styles.xml"
+            line="507"
+            column="12"/>
     </issue>
 
     <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
+        id="UnusedResources"
+        message="The resource `R.style.BrickContainer_Script_Small` appears to be unused"
+        errorLine1="    &lt;style name=&quot;BrickContainer.Script.Small&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\drawable-xhdpi\icon_redo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-hdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-hdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-mdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-ldrtl-xhdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-mdpi\icon_undo.png"/>
-    </issue>
-
-    <issue
-        id="IconColors"
-        message="Action Bar icons should use a single gray color (`#333333` for light themes (with 60%/30% opacity for enabled/disabled), and `#FFFFFF` with opacity 80%/30% for dark themes">
-        <location
-            file="src\main\res\drawable-xhdpi\icon_undo.png"/>
+            file="src\main\res\values\styles.xml"
+            line="514"
+            column="12"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (40 more)">
+        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (41 more)">
         <location
             file="src\main\res\drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (40 more)">
+        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (41 more)">
         <location
             file="src\main\res\drawable-mdpi"/>
     </issue>
@@ -405,7 +428,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (90 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -802,6 +825,17 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src\main\res\layout\icon_brick_category_data.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src\main\res\layout\icon_brick_category_device.xml"
             line="28"
             column="6"/>
     </issue>

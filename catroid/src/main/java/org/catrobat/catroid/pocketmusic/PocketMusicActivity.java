@@ -50,7 +50,7 @@ import java.util.Random;
 
 import androidx.appcompat.widget.Toolbar;
 
-import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.MIDI_FOLDER;
+import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.midiFolder;
 
 public class PocketMusicActivity extends BaseActivity {
 
@@ -67,6 +67,8 @@ public class PocketMusicActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		midiFolder = new File(getApplicationContext().getFilesDir().getPath(), "musicdroid");
 
 		midiDriver = new MidiNotePlayer();
 
@@ -121,8 +123,8 @@ public class PocketMusicActivity extends BaseActivity {
 	}
 
 	private Project createEmptyProject() throws IOException {
-		if (!MIDI_FOLDER.exists() && !MIDI_FOLDER.mkdir()) {
-			throw new IOException("Cannot create dir MIDI folder at: " + MIDI_FOLDER.getAbsolutePath());
+		if (!midiFolder.exists() && !midiFolder.mkdir()) {
+			throw new IOException("Cannot create dir MIDI folder at: " + midiFolder.getAbsolutePath());
 		}
 
 		Project project = new Project(getString(R.string.pocket_music_default_project_name),
@@ -131,7 +133,7 @@ public class PocketMusicActivity extends BaseActivity {
 		Track track = new Track(MusicalKey.VIOLIN, Project.DEFAULT_INSTRUMENT);
 
 		project.putTrack(getString(R.string.pocket_music_default_track_name), track);
-		project.setFile(new File(MIDI_FOLDER, "MUS-" + Math.abs(new Random().nextInt()) + ".midi"));
+		project.setFile(new File(midiFolder, "MUS-" + Math.abs(new Random().nextInt()) + ".midi"));
 
 		return project;
 	}
@@ -146,7 +148,7 @@ public class PocketMusicActivity extends BaseActivity {
 					.convertTrackGridToTrack(tactScroller.getTrackGrid(), Project.DEFAULT_BEATS_PER_MINUTE);
 
 			if (track.isEmpty() && receivedSoundInfoThroughIntent) {
-				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile());
+				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile(), true);
 				ProjectManager.getInstance().getCurrentSprite().getSoundList().remove(soundInfo);
 
 				try {
@@ -159,7 +161,7 @@ public class PocketMusicActivity extends BaseActivity {
 					project.putTrack(trackName, track);
 				}
 
-				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile());
+				SoundInfo soundInfo = new SoundInfo(project.getName(), project.getFile(), true);
 				ProjectToMidiConverter projectToMidiConverter = new ProjectToMidiConverter();
 
 				try {
@@ -179,16 +181,10 @@ public class PocketMusicActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if (midiDriver != null) {
+		if (midiDriver != null && !MidiNotePlayer.isInitialized()) {
 			midiDriver.start();
-		}
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (midiDriver != null) {
-			midiDriver.stop();
+		} else {
+			midiDriver.setInstrument((byte) 0, Project.DEFAULT_INSTRUMENT);
 		}
 	}
 }

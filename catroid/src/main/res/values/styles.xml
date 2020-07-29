@@ -39,6 +39,9 @@
         <!-- android:textColorSecondary changes unchecked Checkboxes, disabled buttons, spinner icon -->
         <item name="android:textColorSecondary">@color/spinner_icon_and_inactive_elements</item>
 
+        <item name="android:itemTextAppearance">@color/solid_black</item>
+        <item name="itemTextColor">@color/solid_black</item>
+        <item name="actionMenuTextColor">@color/toolbar_title</item>
         <!-- android:textColorHint changes only non focused hints -->
         <!-- <item name="android:textColorHint">@color/accent</item> -->
 
@@ -85,6 +88,7 @@
         <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
         <item name="icon_embroidery">@drawable/embroidery_pos</item>
         <item name="icon_userbrick">@drawable/yourbrick_pos</item>
+        <item name="icon_device">@drawable/device_pos</item>
     </style>
 
     <!-- Toolbar -->
@@ -92,6 +96,7 @@
         <item name="android:textColor">@color/toolbar_title</item>
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
+        <item name="android:actionMenuTextColor">@color/toolbar_title</item>
     </style>
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlNormal">@color/toolbar_icons</item>
@@ -99,13 +104,15 @@
 
     <!-- ActionMode -->
     <style name="ActionMode" parent="Widget.AppCompat.ActionMode">
-        <item name="background">@drawable/toolbar_background</item>
+        <item name="background">@color/toolbar_background</item>
         <item name="titleTextStyle">@style/ActionModeTitle</item>
+        <item name="theme">@style/ToolbarTheme</item>
     </style>
 
     <style name="ActionModeTitle" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
+        <item name="android:textColor">@color/toolbar_title</item>
     </style>
 
     <style name="CastGamepad">
@@ -170,6 +177,11 @@
 
     <style name="BrickText.SingleLine">
         <item name="android:maxLines">1</item>
+        <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
+    </style>
+
+    <style name="BrickText.MultipleLines">
+        <item name="android:singleLine">false</item>
         <item name="android:paddingEnd">@dimen/material_design_spacing_small</item>
     </style>
 
@@ -267,6 +279,28 @@
     <style name="BrickContainer.Look.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
         <item name="android:background">@drawable/brick_green_3h</item>
+    </style>
+
+    <style name="BrickContainer.Device"></style>
+
+    <style name="BrickContainer.Device.Small" tools:ignore="UnusedResources">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_control_gold_1h</item>
+    </style>
+
+    <style name="BrickContainer.Device.MediumWhen">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_control_gold_2h</item>
+    </style>
+
+    <style name="BrickContainer.Device.Medium">
+        <item name="android:minHeight">@dimen/brick_height_medium</item>
+        <item name="android:background">@drawable/brick_gold_2h</item>
+    </style>
+
+    <style name="BrickContainer.Device.Big">
+        <item name="android:minHeight">@dimen/brick_height_big</item>
+        <item name="android:background">@drawable/brick_gold_3h</item>
     </style>
 
     <style name="BrickContainer.Embroidery"></style>
@@ -510,9 +544,13 @@
         <item name="android:layout_below">@+id/formula_editor_keyboard_decimal_mark</item>
     </style>
 
-     <style name="FormulaEditorMetaButton" parent="@style/FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_meta_button</item>
-        <item name="android:textColor">@color/formula_editor_category_text</item>
+     <style name="FormulaEditorComputeButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_compute_button_selector</item>
+        <item name="android:textColor">@color/formula_editor_compute_text</item>
+    </style>
+
+    <style name="FormulaEditorDeleteButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_delete_button_selector</item>
     </style>
 
     <style name="FormulaEditorCategoryButton" parent="@style/FormulaEditorButton">
@@ -569,6 +607,10 @@
 
     <style name="BrickCategory.Looks">
         <item name="android:background">@drawable/brick_selection_background_looks</item>
+    </style>
+
+    <style name="BrickCategory.Device">
+        <item name="android:background">@drawable/brick_selection_background_device</item>
     </style>
 
     <style name="BrickCategory.Pen">

@@ -25,11 +25,8 @@
 
     <!-- Toolbar and Bottombar Colors -->
     <color name="toolbar_background">#20103B</color>
-    <color name="toolbar_icons">@color/solid_white</color>
 
     <!-- Text Colors -->
-    <color name="toolbar_title">@color/solid_white</color>
-    <color name="vh_headline">@color/solid_white</color>
     <color name="vh_item_title">@color/accent</color>
     <color name="vh_item_details">@color/accent</color>
 
@@ -46,7 +43,11 @@
 
     <!-- Formula Editor Colors -->
     <color name="formula_editor_category_text">#390B52</color>
-    <color name="formula_editor_ok_button">#390B52</color>
+    <color name="formula_editor_compute_button">#380F50</color>
+    <color name="formula_editor_compute_button_pressed">#392858</color>
+    <color name="formula_editor_compute_text">@color/solid_white</color>
+    <color name="formula_editor_delete_icon">#390B52</color>
+    <color name="formula_editor_ok_button">#8D60D6</color>
     <color name="formula_editor_ok_button_pressed">#380F50</color>
     <color name="formula_editor_ok_text">#F9F9F9</color>
 

@@ -67,7 +67,7 @@ public class ConditionScriptTrigger {
 
 	private void triggerScript(Sprite sprite) {
 		if (status == TRIGGER_NOW) {
-			EventWrapper eventWrapper = new EventWrapper(new WhenConditionEventId(formula), EventWrapper.NO_WAIT);
+			EventWrapper eventWrapper = new EventWrapper(new WhenConditionEventId(formula), false);
 			sprite.look.fire(eventWrapper);
 			status = ALREADY_TRIGGERED;
 		}

@@ -60,15 +60,19 @@ public class GroupSprite extends Sprite {
 		return groupItems;
 	}
 
-	public boolean getCollapsed() {
+	public boolean isCollapsed() {
 		return collapsed;
 	}
 
 	public void setCollapsed(boolean collapsed) {
 		this.collapsed = collapsed;
 		for (GroupItemSprite item : getGroupItems()) {
-			item.collapsed = collapsed;
+			item.setCollapsed(collapsed);
 		}
+	}
+
+	public int getNumberOfItems() {
+		return getGroupItems().size();
 	}
 
 	public static List<Sprite> getSpritesFromGroupWithGroupName(String groupName, List<Sprite> sprites) {

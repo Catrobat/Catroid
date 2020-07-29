@@ -97,7 +97,6 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		for (Brick brick : loopBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -166,7 +165,7 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 			userVariable.setDummy(true);
 		}
 
-		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -186,6 +185,11 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 
 		EndBrick(ForVariableFromToBrick parent) {
 			this.parent = parent;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

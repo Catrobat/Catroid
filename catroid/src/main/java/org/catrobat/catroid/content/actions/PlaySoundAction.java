@@ -27,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
 public class PlaySoundAction extends TemporalAction {
 
@@ -36,7 +37,11 @@ public class PlaySoundAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
-			SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
+			if (sound.isMidiFile()) {
+				MidiSoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
+			} else {
+				SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
+			}
 		}
 	}
 

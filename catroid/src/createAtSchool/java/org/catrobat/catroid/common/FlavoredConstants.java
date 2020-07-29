@@ -49,6 +49,8 @@ public final class FlavoredConstants {
 	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
 	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
 
+	public static final String CATROBAT_PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy";
+
 	private FlavoredConstants() {
 		throw new AssertionError("No.");
 	}

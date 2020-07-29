@@ -37,9 +37,6 @@ pipeline {
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
                                 -PsigningKeyPassword=$signingKeyPassword \
-                                -PfirebaseApiKey=$firebaseApiKey \
-                                -PfabricApiKey=$fabricApiKey \
-                                -PfabricApiSecret=$fabricApiSecret
                             '''
                         } else if (env.flavor == 'Playground') {
                             sh '''
@@ -49,9 +46,6 @@ pipeline {
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
                                 -PsigningKeyPassword=$signingKeyPassword \
-                                -PfirebaseApiKey=$firebaseApiKey \
-                                -PfabricApiKey=$fabricApiKey \
-                                -PfabricApiSecret=$fabricApiSecret \
                                 -Pplayground=true
                             '''
                         } else {
@@ -62,9 +56,6 @@ pipeline {
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
                                 -PsigningKeyPassword=$signingKeyPassword \
-                                -PfirebaseApiKey=$firebaseApiKey \
-                                -PfabricApiKey=$fabricApiKey \
-                                -PfabricApiSecret=$fabricApiSecret
                             '''
                         }
                     }

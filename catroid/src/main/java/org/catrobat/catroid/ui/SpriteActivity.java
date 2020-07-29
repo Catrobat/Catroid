@@ -136,6 +136,7 @@ public class SpriteActivity extends BaseActivity {
 	private Project currentProject;
 	private Sprite currentSprite;
 	private Scene currentScene;
+	private Menu currentMenu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -211,7 +212,14 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
+		currentMenu = menu;
 		return super.onCreateOptionsMenu(menu);
+	}
+
+	public void showUndoSpinnerSelection(boolean visible) {
+		if (currentMenu != null) {
+			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+		}
 	}
 
 	@Override

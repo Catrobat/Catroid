@@ -58,7 +58,9 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 
 	@Override
 	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.addAll(Arrays.asList(NETWORK_CONNECTION, MICROPHONE));
+		requiredResourcesSet.addAll(Arrays.asList(
+				Brick.MICROPHONE,
+				Brick.SPEECH_RECOGNITION));
 		super.addRequiredResources(requiredResourcesSet);
 	}
 

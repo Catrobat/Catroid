@@ -26,7 +26,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -70,7 +69,7 @@ public class PhysicsSpriteCloneTest {
 		XstreamSerializer.getInstance().saveProject(project);
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		sprite = new SingleSprite("TestSprite");
+		sprite = new Sprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);
 	}
 

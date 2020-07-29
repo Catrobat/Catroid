@@ -31,6 +31,8 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
+import static org.catrobat.catroid.common.Constants.TEXT_FROM_CAMERA_SENSOR_HASHCODE;
+
 public class SetVariableAction extends TemporalAction {
 
 	private Sprite sprite;
@@ -50,7 +52,7 @@ public class SetVariableAction extends TemporalAction {
 		}
 
 		try {
-			if (!isFirstLevelStringTree && value instanceof String) {
+			if (!isFirstLevelStringTree && value instanceof String && userVariable.hashCode() != TEXT_FROM_CAMERA_SENSOR_HASHCODE) {
 				value = Double.valueOf((String) value);
 			}
 		} catch (NumberFormatException numberFormatException) {

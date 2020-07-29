@@ -39,6 +39,8 @@ public class PhysicsLook extends Look {
 	private final PhysicsObject physicsObject;
 	private final PhysicsObjectStateHandler physicsObjectStateHandler = new PhysicsObjectStateHandler();
 
+	private boolean isFlippedByAction = false;
+
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -128,21 +130,15 @@ public class PhysicsLook extends Look {
 	@Override
 	public float getRotation() {
 		super.setRotation((physicsObject.getDirection() % 360));
-
 		float rotation = super.getRotation();
 		float realRotation = physicsObject.getDirection() % 360;
 		if (realRotation < 0) {
 			realRotation += 360;
 		}
-
 		switch (super.getRotationMode()) {
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
 				super.setRotation(0f);
-				boolean orientedRight = realRotation > 180 || realRotation == 0;
-				boolean orientedLeft = realRotation <= 180 && realRotation != 0;
-				if (((isFlipped() && orientedRight) || (!isFlipped() && orientedLeft)) && lookData != null) {
-					lookData.getTextureRegion().flip(true, false);
-				}
+				flipLookDataIfNeeded(realRotation);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
 				super.setRotation(rotation);
@@ -151,7 +147,6 @@ public class PhysicsLook extends Look {
 				super.setRotation(0f);
 				break;
 		}
-
 		return super.getRotation();
 	}
 
@@ -188,6 +183,39 @@ public class PhysicsLook extends Look {
 
 	public void updatePhysicsObjectState(boolean record) {
 		physicsObjectStateHandler.update(record);
+	}
+
+	private void flipLookDataIfNeeded(float realRotation) {
+		boolean orientedRight = realRotation > 180 || realRotation == 0;
+		boolean orientedLeft = realRotation <= 180 && realRotation != 0;
+		boolean isLookDataFlipped = isFlipped();
+		if (isFlippedByAction) {
+			isLookDataFlipped = !isLookDataFlipped;
+		}
+		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
+			lookData.getTextureRegion().flip(true, false);
+		}
+	}
+
+	public void updateFlippedByAction() {
+		isFlippedByAction = !isFlippedByAction;
+	}
+
+	public void setFlippedByDegree(float degree) {
+		float direction = getDirectionInUserInterfaceDimensionUnit();
+		float newDirection = (degree + direction) % 360;
+		setFlippedByDirection(newDirection);
+	}
+
+	public void setFlippedByDirection(float newDirection) {
+		newDirection %= 360;
+		if (newDirection < 0) {
+			newDirection += 360;
+		}
+		float direction = getDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
+		if ((direction >= 0 && direction <= 180) != (newDirection >= 0 && newDirection <= 180)) {
+			updateFlippedByAction();
+		}
 	}
 
 	@Override

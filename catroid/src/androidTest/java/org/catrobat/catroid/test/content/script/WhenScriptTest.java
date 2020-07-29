@@ -29,7 +29,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -66,7 +65,7 @@ public class WhenScriptTest {
 	}
 
 	private Sprite createSprite() {
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		sprite.look = new Look(sprite) {
 			{
 				pixmap = TestUtils.createRectanglePixmap(WIDTH, HEIGHT, Color.RED);

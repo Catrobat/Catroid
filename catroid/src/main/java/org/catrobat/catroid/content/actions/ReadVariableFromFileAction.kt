@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.actions
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
@@ -32,7 +33,7 @@ import org.catrobat.catroid.utils.Utils
 import java.io.File
 import java.io.IOException
 
-class ReadVariableFromFileAction : EventAction() {
+class ReadVariableFromFileAction : Action() {
     var sprite: Sprite? = null
     var formula: Formula? = null
     var userVariable: UserVariable? = null

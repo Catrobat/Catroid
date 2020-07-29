@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -67,6 +68,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -76,6 +78,7 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.TestCase.assertNotNull;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSpinnerDefaultValueTest {
 
 	private CategoryBricksFactory categoryBricksFactory;

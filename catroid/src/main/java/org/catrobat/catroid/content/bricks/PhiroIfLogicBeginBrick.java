@@ -53,16 +53,6 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	private List<Brick> ifBranchBricks = new ArrayList<>();
 	private List<Brick> elseBranchBricks = new ArrayList<>();
 
-	@VisibleForTesting
-	public ElseBrick getElseBrick() {
-		return elseBrick;
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
-	}
-
 	@Override
 	public boolean hasSecondaryList() {
 		return true;
@@ -92,11 +82,9 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		for (Brick brick : ifBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		elseBrick.setCommentedOut(commentedOut);
 		for (Brick brick : elseBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -227,8 +215,8 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : ifBranchBricks) {
 			if (!brick.isCommentedOut()) {
@@ -253,6 +241,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 		ElseBrick(PhiroIfLogicBeginBrick ifBrick) {
 			parent = ifBrick;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override
@@ -295,6 +288,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 		EndBrick(PhiroIfLogicBeginBrick ifBrick) {
 			parent = ifBrick;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

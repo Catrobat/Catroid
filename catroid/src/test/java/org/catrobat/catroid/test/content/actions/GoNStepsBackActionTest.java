@@ -28,7 +28,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
@@ -68,10 +67,10 @@ public class GoNStepsBackActionTest {
 	public void setUp() throws Exception {
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 
-		background = new SingleSprite("background");
-		penActorSprite = new SingleSprite("penActor");
-		embroideryActorSprite = new SingleSprite("embroideryActor");
-		realSprite = new SingleSprite("testSprite");
+		background = new Sprite("background");
+		penActorSprite = new Sprite("penActor");
+		embroideryActorSprite = new Sprite("embroideryActor");
+		realSprite = new Sprite("testSprite");
 
 		project.getDefaultScene().addSprite(penActorSprite);
 		project.getDefaultScene().addSprite(embroideryActorSprite);
@@ -92,11 +91,11 @@ public class GoNStepsBackActionTest {
 		Group parentGroup = new Group();
 
 		for (int i = 0; i < 20; i++) {
-			Sprite spriteBefore = new SingleSprite("before" + i);
+			Sprite spriteBefore = new Sprite("before" + i);
 			parentGroup.addActor(spriteBefore.look);
 			project.getDefaultScene().addSprite(spriteBefore);
 		}
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		parentGroup.addActor(sprite.look);
 		project.getDefaultScene().addSprite(sprite);
 		assertEquals(20, sprite.look.getZIndex());
@@ -145,8 +144,8 @@ public class GoNStepsBackActionTest {
 
 	@Test
 	public void testBoundaryBackground() {
-		Sprite sprite1 = new SingleSprite("TestSprite1");
-		Sprite sprite2 = new SingleSprite("TestSprite2");
+		Sprite sprite1 = new Sprite("TestSprite1");
+		Sprite sprite2 = new Sprite("TestSprite2");
 
 		Group parentGroup = new Group();
 		parentGroup.addActor(background.look);

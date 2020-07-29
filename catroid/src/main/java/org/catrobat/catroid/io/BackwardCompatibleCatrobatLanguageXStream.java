@@ -126,6 +126,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
@@ -134,6 +135,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -146,6 +148,7 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
@@ -225,6 +228,12 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(AskSpeechBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("askQuestionSpoken", BrickField.ASK_SPEECH_QUESTION);
 		brickInfoMap.put("askSpeechBrick", brickInfo);
+
+		brickInfo = new BrickInfo(StartListeningBrick.class.getSimpleName());
+		brickInfoMap.put("startListeningBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetListeningLanguageBrick.class.getSimpleName());
+		brickInfoMap.put("setSpeechLanguageBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);
@@ -419,6 +428,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(PlaySoundAndWaitBrick.class.getSimpleName());
 		brickInfoMap.put("playSoundAndWaitBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetTempoBrick.class.getSimpleName());
+		brickInfoMap.put("setTempoBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);

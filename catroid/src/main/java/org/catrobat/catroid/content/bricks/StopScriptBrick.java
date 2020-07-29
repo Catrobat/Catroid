@@ -85,6 +85,7 @@ public class StopScriptBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection, sequence.getScript()));
+		sequence.addAction(sprite.getActionFactory().createStopScriptAction(spinnerSelection,
+				sequence.getScript(), sprite));
 	}
 }

@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.io.SoundManager;
@@ -45,7 +44,7 @@ public class ChangeVolumeByNActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		SoundManager.getInstance().setVolume(INITIALIZED_VALUE);
 	}
 

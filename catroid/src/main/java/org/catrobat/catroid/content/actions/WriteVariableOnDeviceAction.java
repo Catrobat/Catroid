@@ -32,7 +32,7 @@ import org.catrobat.catroid.io.DeviceVariableAccessor;
 import java.io.File;
 import java.io.IOException;
 
-public class WriteVariableOnDeviceAction extends EventAction {
+public class WriteVariableOnDeviceAction extends AsynchronousAction {
 	private static final String TAG = WriteVariableOnDeviceAction.class.getSimpleName();
 	private UserVariable userVariable;
 	private boolean writeActionFinished;
@@ -42,13 +42,17 @@ public class WriteVariableOnDeviceAction extends EventAction {
 		if (userVariable == null) {
 			return true;
 		}
+		return super.act(delta);
+	}
 
-		if (firstStart) {
-			firstStart = false;
-			writeActionFinished = false;
-			new WriteTask().execute(userVariable);
-		}
+	@Override
+	public void initialize() {
+		writeActionFinished = false;
+		new WriteTask().execute(userVariable);
+	}
 
+	@Override
+	public boolean isFinished() {
 		return writeActionFinished;
 	}
 

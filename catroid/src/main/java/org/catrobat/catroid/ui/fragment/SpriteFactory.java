@@ -24,13 +24,11 @@ package org.catrobat.catroid.ui.fragment;
 
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 
 public class SpriteFactory {
 
 	public static final String SPRITE_BASE = Sprite.class.getSimpleName();
-	public static final String SPRITE_SINGLE = SingleSprite.class.getSimpleName();
 	public static final String SPRITE_GROUP = GroupSprite.class.getSimpleName();
 	public static final String SPRITE_GROUP_ITEM = GroupItemSprite.class.getSimpleName();
 
@@ -41,8 +39,8 @@ public class SpriteFactory {
 	public Sprite newInstance(String type, String name) {
 		Sprite sprite = null;
 
-		if (type.equals(SPRITE_SINGLE) || type.equals(SPRITE_BASE)) {
-			sprite = new SingleSprite(name);
+		if (type.equals(SPRITE_BASE)) {
+			sprite = new Sprite(name);
 		} else if (type.equals(SPRITE_GROUP)) {
 			sprite = new GroupSprite(name);
 		} else if (type.equals(SPRITE_GROUP_ITEM)) {

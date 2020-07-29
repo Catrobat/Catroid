@@ -27,7 +27,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
@@ -63,10 +62,10 @@ public class GoNStepsBackActionPMTest {
 	public void setUp() throws Exception {
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 
-		background = new SingleSprite("background");
-		penActorSprite = new SingleSprite("penActor");
-		embroideryActorSprite = new SingleSprite("embroideryActor");
-		realSprite = new SingleSprite("testSprite");
+		background = new Sprite("background");
+		penActorSprite = new Sprite("penActor");
+		embroideryActorSprite = new Sprite("embroideryActor");
+		realSprite = new Sprite("testSprite");
 
 		project.getDefaultScene().addSprite(penActorSprite);
 		project.getDefaultScene().addSprite(embroideryActorSprite);
@@ -85,8 +84,8 @@ public class GoNStepsBackActionPMTest {
 	@Test
 	public void testBoudaryForeground() {
 		final int expectedLayer = 4;
-		Sprite sprite1 = new SingleSprite("TestSprite1");
-		Sprite sprite2 = new SingleSprite("TestSprite2");
+		Sprite sprite1 = new Sprite("TestSprite1");
+		Sprite sprite2 = new Sprite("TestSprite2");
 
 		Group parentGroup = new Group();
 		parentGroup.addActor(background.look);

@@ -33,8 +33,10 @@ import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
 import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.catrobat.catroid.sensing.ColorCollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
@@ -62,6 +64,7 @@ import static org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.OPERATOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.SENSOR;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.STRING;
+import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_DEFINED_BRICK_INPUT;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_LIST;
 import static org.catrobat.catroid.formulaeditor.InternTokenType.USER_VARIABLE;
 import static org.catrobat.catroid.formulaeditor.common.Conversions.FALSE;
@@ -87,7 +90,7 @@ public class FormulaElement implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public enum ElementType {
-		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, BRACKET, STRING, COLLISION_FORMULA
+		OPERATOR, FUNCTION, NUMBER, SENSOR, USER_VARIABLE, USER_LIST, USER_DEFINED_BRICK_INPUT, BRACKET, STRING, COLLISION_FORMULA
 	}
 
 	private ElementType type;
@@ -99,7 +102,7 @@ public class FormulaElement implements Serializable {
 
 	protected FormulaElement() {
 		List<FunctionProvider> functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
-				new MathFunctionProvider(), new TouchFunctionProvider());
+				new MathFunctionProvider(), new TouchFunctionProvider(), new TextBlockFunctionProvider());
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);
@@ -160,6 +163,9 @@ public class FormulaElement implements Serializable {
 				break;
 			case USER_LIST:
 				addToken(tokens, USER_LIST, value);
+				break;
+			case USER_DEFINED_BRICK_INPUT:
+				addToken(tokens, USER_DEFINED_BRICK_INPUT, value);
 				break;
 			case NUMBER:
 				addToken(tokens, NUMBER, trimTrailingCharacters(value));
@@ -362,8 +368,16 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionNumberOfItems(firstArgument, sprite, currentProject);
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
+			case COLLIDES_WITH_COLOR:
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+								.tryInterpretFunctionTouchesColor(firstArgument));
+			case COLOR_TOUCHES_COLOR:
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+						.tryInterpretFunctionColorTouchesColor(firstArgument, secondArgument));
 			default:
-				return interpretFormulaFunction(function, firstArgument, secondArgument);
+				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
+				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
+				return interpretFormulaFunction(function, firstArgumentDouble, secondArgumentDouble);
 		}
 	}
 

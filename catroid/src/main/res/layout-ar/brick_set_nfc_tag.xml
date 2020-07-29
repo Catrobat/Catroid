@@ -38,9 +38,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_set_nfc_tag_layout"
-        style="@style/BrickContainer.Control.Big">
+        style="@style/BrickContainer.Device.Big">
 
-        <include layout="@layout/icon_brick_category_control" />
+        <include layout="@layout/icon_brick_category_device" />
 
         <TextView
             android:id="@+id/brick_set_nfc_tag_label"

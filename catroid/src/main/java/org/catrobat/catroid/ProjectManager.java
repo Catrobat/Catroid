@@ -26,7 +26,6 @@ import android.content.Context;
 import android.util.Log;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
-import org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.SoundInfo;
@@ -41,7 +40,6 @@ import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.content.bricks.Brick.BrickField;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.dagger.EagerSingleton;
@@ -80,6 +78,10 @@ public final class ProjectManager implements EagerSingleton {
 	private Sprite currentSprite;
 
 	private Context applicationContext;
+
+	public Context getApplicationContext() {
+		return applicationContext;
+	}
 
 	public ProjectManager(Context applicationContext) {
 		if (instance != null) {
@@ -123,33 +125,33 @@ public final class ProjectManager implements EagerSingleton {
 			restorePreviousProject(previousProject);
 			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 		}
-		if (project.getCatrobatLanguageVersion() < 0.9f && project.getCatrobatLanguageVersion() != 0.8f) {
+		if (project.getCatrobatLanguageVersion() < 0.9 && project.getCatrobatLanguageVersion() != 0.8) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
 
-		if (project.getCatrobatLanguageVersion() <= 0.91f) {
+		if (project.getCatrobatLanguageVersion() <= 0.91) {
 			project.setScreenMode(ScreenModes.STRETCH);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.992f) {
+		if (project.getCatrobatLanguageVersion() <= 0.992) {
 			ProjectManager.updateCollisionFormulasTo993(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.993f) {
+		if (project.getCatrobatLanguageVersion() <= 0.993) {
 			ProjectManager.updateSetPenColorFormulasTo994(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.994f) {
+		if (project.getCatrobatLanguageVersion() <= 0.994) {
 			ProjectManager.updateArduinoValuesTo995(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.995f) {
+		if (project.getCatrobatLanguageVersion() <= 0.995) {
 			ProjectManager.updateCollisionScriptsTo996(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.999f) {
+		if (project.getCatrobatLanguageVersion() <= 0.999) {
 			ProjectManager.makeShallowCopiesDeepAgain(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.9993f) {
+		if (project.getCatrobatLanguageVersion() <= 0.9993) {
 			ProjectManager.updateScriptsToTreeStructure(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.99992f) {
+		if (project.getCatrobatLanguageVersion() <= 0.99992) {
 			removePermissionsFile(project);
 		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
@@ -333,9 +335,9 @@ public final class ProjectManager implements EagerSingleton {
 					for (Brick brick : script.getBrickList()) {
 						if (brick instanceof SetPenColorBrick) {
 							SetPenColorBrick spcBrick = (SetPenColorBrick) brick;
-							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_RED, BrickField.PEN_COLOR_RED);
-							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_GREEN, BrickField.PEN_COLOR_GREEN);
-							spcBrick.replaceFormulaBrickField(BrickField.PHIRO_LIGHT_BLUE, BrickField.PEN_COLOR_BLUE);
+							spcBrick.replaceFormulaBrickField(Brick.BrickField.PHIRO_LIGHT_RED, Brick.BrickField.PEN_COLOR_RED);
+							spcBrick.replaceFormulaBrickField(Brick.BrickField.PHIRO_LIGHT_GREEN, Brick.BrickField.PEN_COLOR_GREEN);
+							spcBrick.replaceFormulaBrickField(Brick.BrickField.PHIRO_LIGHT_BLUE, Brick.BrickField.PEN_COLOR_BLUE);
 						}
 					}
 				}
@@ -423,7 +425,7 @@ public final class ProjectManager implements EagerSingleton {
 		}
 	}
 
-	@SuppressWarnings({"unused"})
+	@SuppressWarnings("unused")
 	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
 		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
 	}
@@ -439,16 +441,16 @@ public final class ProjectManager implements EagerSingleton {
 		currentlyPlayingScene = currentlyEditedScene;
 	}
 
-	@SuppressWarnings({"unused"})
-	public void createNewExampleProject(String name, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+	@SuppressWarnings("unused")
+	public void createNewExampleProject(String name, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
 		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
 	}
 
 	/**
-	 * @deprecated use {@link #createNewExampleProject(String, ProjectCreatorType, boolean)} ()} without Context instead.
+	 * @deprecated use {@link #createNewExampleProject(String, DefaultProjectHandler.ProjectCreatorType, boolean)} ()} without Context instead.
 	 */
 	@Deprecated
-	public void createNewExampleProject(String name, Context context, ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
+	public void createNewExampleProject(String name, Context context, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
 		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
 		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
 		currentSprite = null;

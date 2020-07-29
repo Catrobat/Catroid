@@ -28,8 +28,7 @@
     <color name="toolbar_icons">@color/accent</color>
 
     <!-- Text Colors -->
-    <color name="toolbar_title">#D19FC1</color>
-    <color name="vh_headline">@color/solid_white</color>
+    <color name="toolbar_title">@color/accent</color>
     <color name="vh_item_title">@color/accent</color>
     <color name="vh_item_details">@color/accent</color>
 
@@ -44,6 +43,10 @@
     <color name="brick_field_highlight">#33B5E5</color>
 
     <!-- Formula Editor Colors -->
+    <color name="formula_editor_compute_button">#392757</color>
+    <color name="formula_editor_compute_button_pressed">#392858</color>
+    <color name="formula_editor_compute_text">@color/solid_white</color>
+    <color name="formula_editor_delete_icon">#392757</color>
     <color name="formula_editor_category_text">#200E3D</color>
     <color name="formula_editor_ok_button">#C8A2CA</color>
     <color name="formula_editor_ok_button_pressed">#EAB7D5</color>

@@ -140,6 +140,6 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSceneTransitionAction(sceneForTransition));
+		sequence.addAction(sprite.getActionFactory().createSceneTransitionAction(sceneForTransition, sprite));
 	}
 }

@@ -28,7 +28,6 @@ import android.content.Context;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
@@ -88,7 +87,7 @@ public class ArduinoSettingsTest {
 
 	private void createProjectArduino() {
 		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new SingleSprite("Arduino");
+		Sprite sprite = new Sprite("Arduino");
 
 		StartScript startScript = new StartScript();
 		ArduinoSendPWMValueBrick brick = new ArduinoSendPWMValueBrick(3, 255);

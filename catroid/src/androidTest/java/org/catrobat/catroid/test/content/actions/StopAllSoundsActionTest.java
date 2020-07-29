@@ -29,7 +29,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.MediaPlayerWithSoundDetails;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
@@ -72,7 +71,7 @@ public class StopAllSoundsActionTest {
 
 	@Test
 	public void testStopOneSound() {
-		Sprite testSprite = new SingleSprite("testSprite");
+		Sprite testSprite = new Sprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		testSprite.getSoundList().add(soundInfo);
 
@@ -95,7 +94,7 @@ public class StopAllSoundsActionTest {
 	@Test
 	public void testStopSimultaneousPlayingSounds() throws Exception {
 		File soundFile2 = TestUtils.createSoundFile(project, R.raw.testsoundui, "soundTest.mp3");
-		Sprite testSprite = new SingleSprite("testSprite");
+		Sprite testSprite = new Sprite("testSprite");
 		SoundInfo soundInfo = createSoundInfo(soundFile);
 		SoundInfo soundInfo2 = createSoundInfo(soundFile2);
 		testSprite.getSoundList().add(soundInfo);

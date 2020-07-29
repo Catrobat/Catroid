@@ -32,7 +32,6 @@ import android.preference.PreferenceManager;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
@@ -85,7 +84,7 @@ public class ProjectUploadRatingDialogTest {
 		bundle = new Bundle();
 		Project project = new Project(context, PROJECT_NAME, false);
 
-		Sprite firstSprite = new SingleSprite("firstSprite");
+		Sprite firstSprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectSaveTask.task(project, context);
 
@@ -114,12 +113,16 @@ public class ProjectUploadRatingDialogTest {
 		onView(withId(R.id.next))
 				.perform(click());
 
+		onView(withId(R.id.next))
+				.perform(click());
+
 		onView(withText(R.string.next))
 				.perform(click());
 
 		projectUploadController = activityTestRule.getActivity().getProjectUploadController();
 
-		verify(projectUploadController, times(1)).startUpload(eq("ProjectUploadRatingDialogTest"), eq(""), any());
+		verify(projectUploadController, times(1)).startUpload(eq("ProjectUploadRatingDialogTest"),
+				eq(""), eq(""), any());
 	}
 
 	@Test
@@ -127,6 +130,9 @@ public class ProjectUploadRatingDialogTest {
 		sharedPreferences.edit()
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
 				.commit();
+
+		onView(withId(R.id.next))
+				.perform(click());
 
 		onView(withId(R.id.next))
 				.perform(click());
@@ -152,6 +158,9 @@ public class ProjectUploadRatingDialogTest {
 		onView(withId(R.id.next))
 				.perform(click());
 
+		onView(withId(R.id.next))
+				.perform(click());
+
 		onView(withText(R.string.next))
 				.perform(click());
 
@@ -173,6 +182,9 @@ public class ProjectUploadRatingDialogTest {
 		onView(withId(R.id.next))
 				.perform(click());
 
+		onView(withId(R.id.next))
+				.perform(click());
+
 		onView(withText(R.string.next))
 				.perform(click());
 
@@ -190,6 +202,9 @@ public class ProjectUploadRatingDialogTest {
 		sharedPreferences.edit()
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
 				.commit();
+
+		onView(withId(R.id.next))
+				.perform(click());
 
 		onView(withId(R.id.next))
 				.perform(click());

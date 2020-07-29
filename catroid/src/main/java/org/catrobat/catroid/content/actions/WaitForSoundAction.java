@@ -26,6 +26,8 @@ package org.catrobat.catroid.content.actions;
 import org.catrobat.catroid.content.MediaPlayerWithSoundDetails;
 import org.catrobat.catroid.content.SoundFilePathWithSprite;
 import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiPlayer;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
 import java.util.Set;
 
@@ -35,6 +37,7 @@ public class WaitForSoundAction extends WaitAction {
 	public static final String TAG = WaitForSoundAction.class.getSimpleName();
 	private String soundFilePath;
 	private SoundManager soundManager = SoundManager.getInstance();
+	private MidiSoundManager midiSoundManager = MidiSoundManager.getInstance();
 	private boolean soundStopped = false;
 
 	public void setSoundFilePath(String soundFilePath) {
@@ -43,6 +46,16 @@ public class WaitForSoundAction extends WaitAction {
 
 	@Override
 	protected void update(float percent) {
+		if (soundFilePath != null && !midiSoundManager.getStartedSoundfilePaths().isEmpty()) {
+			SoundFilePathWithSprite spriteSoundFilePath = new SoundFilePathWithSprite(soundFilePath, sprite);
+			Set<SoundFilePathWithSprite> recentlyStarted = midiSoundManager.getStartedSoundfilePaths();
+			if (recentlyStarted.contains(spriteSoundFilePath) && !midiSoundManager.isSoundInSpritePlaying(sprite, soundFilePath)) {
+				recentlyStarted.remove(spriteSoundFilePath);
+				finish();
+				soundStopped = true;
+				return;
+			}
+		}
 		if (soundFilePath != null && !soundManager.getRecentlyStoppedSoundfilePaths().isEmpty()) {
 			SoundFilePathWithSprite spriteSoundFilePath =
 					new SoundFilePathWithSprite(soundFilePath, sprite);
@@ -64,10 +77,21 @@ public class WaitForSoundAction extends WaitAction {
 				setTime(mediaPlayer.getCurrentPosition());
 			}
 		}
+		for (MidiPlayer midiPlayer : midiSoundManager.getMidiPlayers()) {
+			if (midiPlayer.isPlaying() && midiPlayer.getStartedBySprite() == sprite && midiPlayer.getPathToSoundFile().equals(soundFilePath) && !soundStopped) {
+				restart();
+				setTime(midiPlayer.getCurrentPosition());
+			}
+		}
 	}
 
 	@VisibleForTesting
 	public void setSoundManager(SoundManager soundManager) {
 		this.soundManager = soundManager;
+	}
+
+	@VisibleForTesting
+	public void setMidiSoundManager(MidiSoundManager midiSoundManager) {
+		this.midiSoundManager = midiSoundManager;
 	}
 }

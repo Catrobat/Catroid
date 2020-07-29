@@ -24,11 +24,13 @@
 package org.catrobat.catroid.pocketmusic.mididriver;
 
 import org.billthefarmer.mididriver.MidiDriver;
+import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.Project;
 
 public final class MidiNotePlayer implements MidiDriver.OnMidiStartListener {
 
 	private final MidiDriver midiDriver;
+	private static boolean initialized = false;
 
 	public MidiNotePlayer() {
 		midiDriver = new MidiDriver();
@@ -43,22 +45,23 @@ public final class MidiNotePlayer implements MidiDriver.OnMidiStartListener {
 
 	public void start() {
 		midiDriver.start();
+		initialized = true;
 	}
 
 	public void stop() {
 		midiDriver.stop();
 	}
 
-	private void sendMidi(int midiSignal, int instrument) {
+	private void sendMidi(int midiSignal, int message) {
 		byte[] midiMessage = new byte[2];
 
 		midiMessage[0] = (byte) midiSignal;
-		midiMessage[1] = (byte) instrument;
+		midiMessage[1] = (byte) message;
 
 		midiDriver.write(midiMessage);
 	}
 
-	void sendMidi(int midiSignal, int note, int velocity) {
+	public void sendMidi(int midiSignal, int note, int velocity) {
 		byte[] midiMessage = new byte[3];
 
 		midiMessage[0] = (byte) midiSignal;
@@ -66,5 +69,21 @@ public final class MidiNotePlayer implements MidiDriver.OnMidiStartListener {
 		midiMessage[2] = (byte) velocity;
 
 		midiDriver.write(midiMessage);
+	}
+
+	public void setInstrument(byte channel, MusicalInstrument instrument) {
+		byte status = MidiSignals.PROGRAM_CHANGE.getSignalByte();
+		status |= channel;
+		sendMidi(status, (byte) instrument.getProgram());
+	}
+
+	public void setVolume(byte channel, int volume) {
+		byte status = MidiSignals.CONTROL_CHANGE.getSignalByte();
+		status |= channel;
+		sendMidi(status, MidiSignals.CHANNEL_VOLUME.getSignalByte(), volume);
+	}
+
+	public static boolean isInitialized() {
+		return initialized;
 	}
 }

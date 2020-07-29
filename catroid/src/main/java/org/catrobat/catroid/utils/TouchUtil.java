@@ -105,7 +105,7 @@ public final class TouchUtil {
 	}
 
 	private static void fireTouchEvent() {
-		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), EventWrapper.NO_WAIT);
+		EventWrapper event = new EventWrapper(new EventId(EventId.TAP_BACKGROUND), false);
 		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
 	}
 

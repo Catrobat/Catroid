@@ -28,7 +28,6 @@ import android.widget.EditText;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
@@ -199,8 +198,8 @@ public class RenameSpriteTest {
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
-		Sprite firstSprite = new SingleSprite(firstSpriteName);
-		Sprite secondSprite = new SingleSprite(secondSpriteName);
+		Sprite firstSprite = new Sprite(firstSpriteName);
+		Sprite secondSprite = new Sprite(secondSpriteName);
 
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);

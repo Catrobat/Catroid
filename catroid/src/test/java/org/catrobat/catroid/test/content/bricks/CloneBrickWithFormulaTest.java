@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
@@ -144,7 +143,7 @@ public class CloneBrickWithFormulaTest {
 	@Parameterized.Parameter(2)
 	public Brick.BrickField brickField;
 
-	private Sprite sprite = new SingleSprite("testSprite");
+	private Sprite sprite = new Sprite("testSprite");
 	private Formula brickFormula;
 	private Formula cloneBrickFormula;
 

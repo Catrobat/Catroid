@@ -27,7 +27,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-public class TapAtBrick extends FormulaBrick {
+public class TapAtBrick extends VisualPlacementBrick {
 
 	private static final long serialVersionUID = 1L;
 
@@ -61,5 +61,25 @@ public class TapAtBrick extends FormulaBrick {
 		sequence.addAction(sprite.getActionFactory().createTapAtAction(sprite,
 				getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION)));
+	}
+
+	@Override
+	public BrickField getXBrickField() {
+		return BrickField.X_POSITION;
+	}
+
+	@Override
+	public BrickField getYBrickField() {
+		return BrickField.Y_POSITION;
+	}
+
+	@Override
+	public int getXEditTextId() {
+		return R.id.brick_tap_at_edit_text_x;
+	}
+
+	@Override
+	public int getYEditTextId() {
+		return R.id.brick_tap_at_edit_text_y;
 	}
 }

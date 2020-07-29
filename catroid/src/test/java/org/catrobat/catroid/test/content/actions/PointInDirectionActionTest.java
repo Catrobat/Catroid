@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
@@ -40,7 +39,7 @@ public class PointInDirectionActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 	}
 
 	@Test
@@ -73,7 +72,7 @@ public class PointInDirectionActionTest {
 
 	@Test
 	public void testRotateAndPoint() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setRotation(-42);
 		sprite.getActionFactory().createPointInDirectionAction(sprite, new Formula(90))
 				.act(1.0f);

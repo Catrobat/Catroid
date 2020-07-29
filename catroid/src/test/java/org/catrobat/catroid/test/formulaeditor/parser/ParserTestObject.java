@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.formulaeditor.parser;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -63,7 +62,7 @@ public class ParserTestObject {
 	public void setUp() {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
-		testSprite = new SingleSprite("sprite");
+		testSprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
