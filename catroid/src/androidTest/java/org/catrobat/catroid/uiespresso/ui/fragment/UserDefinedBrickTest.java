@@ -40,6 +40,7 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertTrue;
@@ -57,6 +58,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -168,6 +170,23 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
 		assertTrue(scriptFragment.isCurrentlyMoving());
+	}
+
+	@Test
+	public void testUserDefinedBrickDescriptionExists() {
+		selectYourBricks();
+		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(isDisplayed()));
+		onView(withId(R.id.button_add_user_brick))
+				.perform(click());
+		onView(withId(R.id.button_add_input))
+				.perform(click());
+		onView(withId(R.id.next))
+				.perform(click());
+		onView(withId(R.id.confirm))
+				.perform(click());
+		onView(withId(R.id.fragment_script)).perform(click());
+		selectYourBricks();
+		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 	}
 
 	private void selectYourBricks() {

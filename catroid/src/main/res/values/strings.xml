@@ -930,6 +930,8 @@
 
     <string name="brick_user_defined_script_define">Define</string>
     <string name="brick_user_defined_script_as">as</string>
+
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
 
     <!-- Motion bricks -->
