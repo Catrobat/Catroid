@@ -174,6 +174,8 @@
     <string name="preference_title_multiplayer_variables_enabled">Mehrspieler-Erweiterung</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Testing extension</string>
+    <string name="preference_description_test_bricks">Allows to create tests</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Hoppla! Das Projekt scheint
@@ -285,6 +287,8 @@
     <string name="am_convert">Konvertieren</string>
     <string name="am_merge">Zusammenführen</string>
     <string name="dialog_confirm_delete">Du kannst das nicht rückgängig machen!</string>
+    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
+        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string name="backpack">Rucksack</string>
@@ -329,6 +333,7 @@
         <item quantity="one">Diesen Baustein löschen?</item>
         <item quantity="other">Diese Bausteine löschen?</item>
     </plurals>
+    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Projektname</string>
     <string name="scene_name_label">Szenenname</string>
@@ -636,11 +641,13 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
     <string name="brick_context_dialog_move_script">Skript bewegen</string>
+    <string name="brick_context_dialog_move_definition">Move this definition</string>
     <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
     <string name="brick_context_dialog_copy_brick">Baustein kopieren</string>
     <string name="brick_context_dialog_copy_script">Skript kopieren</string>
     <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
     <string name="brick_context_dialog_delete_script">Skript löschen</string>
+    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
     <string name="brick_context_dialog_comment_in">Baustein aktivieren</string>
     <string name="brick_context_dialog_comment_out">Baustein deaktivieren</string>
     <string name="brick_context_dialog_highlight_brick_parts">Zusammengehörende Block-Teile hervorheben</string>
@@ -712,9 +719,11 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-to-Speech Modul\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Hintere Kamera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Gesichtserkennung\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Vordere Kamera\n</string>
+    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
     <string name="prestage_default_resource_not_available">\u2022 unbekannte Komponente\n</string>
     <string name="no_nfc_available">NFC nicht verfügbar</string>
     <string name="nfc_not_activated">Bitte aktiviere NFC und drücke dann zurück, um in die App zurückzukehren!</string>
@@ -891,6 +900,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_when_condition_when">Wenn</string>
     <string name="brick_when_becomes_true">wahr wird</string>
     <string name="brick_wait">Warte</string>
+    <string name="brick_wait_until">Warte bis</string>
+    <string name="brick_wait_until_second_part">wahr ist</string>
     <string name="brick_when_gamepad_button">Wenn Gamepad Button</string>
     <string name="brick_when_gamepad_button_tapped">getippt</string>
     <string name="brick_when_nfc">Bei NFC</string>
@@ -924,14 +935,29 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_clone_this">mir</string>
     <string name="brick_when_cloned">Wenn ich als Klon entstehe</string>
     <string name="brick_delete_this_clone">Lösche diesen Klon</string>
-    <string name="brick_assert_that">Assert:</string>
-    <string name="brick_is_equal_to">gleich wie erwartet</string>
+    <string name="brick_assert_that">Assert</string>
+    <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Warten bis alle anderen Skripte gestoppt sind</string>
     <string name="brick_tap_at">"Einfaches tippen auf"</string>
     <string name="brick_finish_stage">Stufe beenden</string>
+    <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
     <string name="brick_assert_actual">Actual:</string>
     <string name="brick_assert_expected">Expected:</string>
+    <string name="brick_parameterized_assert">assert</string>
+    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
+        <item quantity="other">For each tuple of items of</item>
+    </plurals>
+    <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="other">stored in variables with the same names</item>
+    </plurals>
+    <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
+        <item quantity="other">%d lists selected</item>
+    </plurals>
     <plurals name="time_plural">
         <item quantity="one">mal</item>
         <item quantity="other">mal</item>
@@ -1015,6 +1041,12 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="default_project_sprites_animal_wings_down">Flügel unten</string>
     <string name="default_project_sprites_tweet_1">Zwitscher1</string>
     <string name="default_project_sprites_tweet_2">Zwitscher2</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_outer_loop">Outer Loop</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Hintergrund</string>
     <string name="default_cast_project_cloud_name">Wolken</string>
@@ -1671,8 +1703,11 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_choose_camera">Verwende Kamera</string>
     <string name="choose_camera_front">Frontkamera</string>
     <string name="choose_camera_back">Hauptkamera</string>
-    <string name="brick_wait_until">Warte bis</string>
-    <string name="brick_wait_until_second_part">wahr ist</string>
+    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    </string>
+    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
