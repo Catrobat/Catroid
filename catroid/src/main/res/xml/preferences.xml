@@ -44,7 +44,7 @@
         android:title="@string/preference_title_multiplayer_variables_enabled" />
 
     <CheckBoxPreference
-        android:defaultValue="false"
+        android:defaultValue="@string/FEATURE_EMBROIDERY_PREFERENCES_ENABLED"
         android:key="setting_embroidery_bricks"
         android:summary="@string/preference_description_embroidery_bricks"
         android:title="@string/preference_title_enable_embroidery_bricks" />
@@ -52,34 +52,27 @@
     <PreferenceScreen
         android:key="setting_nxt_screen"
         android:summary="@string/preference_description_mindstorms_nxt_bricks"
-        android:title="@string/preference_title_enable_mindstorms_nxt_bricks">
+        android:title="@string/preference_title_enable_mindstorms_nxt_bricks" />
 
-    </PreferenceScreen>
 
     <PreferenceScreen
         android:key="setting_ev3_screen"
         android:summary="@string/preference_description_mindstorms_ev3_bricks"
-        android:title="@string/preference_title_enable_mindstorms_ev3_bricks">
-
-    </PreferenceScreen>
+        android:title="@string/preference_title_enable_mindstorms_ev3_bricks" />
 
     <PreferenceScreen
         android:key="settings_drone_screen"
         android:summary="@string/preference_description_quadcopter_bricks"
-        android:title="@string/preference_title_enable_quadcopter_bricks">
-
-    </PreferenceScreen>
+        android:title="@string/preference_title_enable_quadcopter_bricks" />
 
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="setting_parrot_jumping_sumo_bricks"
         android:summary="@string/preference_description_jumpingsumo_bricks"
-        android:title="@string/preference_title_enable_jumpingsumo_bricks" >
-
-    </CheckBoxPreference>
+        android:title="@string/preference_title_enable_jumpingsumo_bricks" />
 
      <CheckBoxPreference
-         android:defaultValue="@string/FEATURE_ARDUINO_PREFERENCES_ENABLED"
+         android:defaultValue="false"
          android:key="setting_arduino_bricks"
          android:summary="@string/preference_description_arduino_bricks"
          android:title="@string/preference_title_enable_arduino_bricks" />
@@ -90,13 +83,10 @@
         android:summary="@string/preference_description_nfc_bricks"
         android:title="@string/preference_title_enable_nfc_bricks" />
 
-
     <PreferenceScreen
         android:key="settings_raspberry_screen"
         android:summary="@string/preference_description_raspi_bricks"
-        android:title="@string/preference_title_enable_raspi_bricks">
-
-    </PreferenceScreen>
+        android:title="@string/preference_title_enable_raspi_bricks" />
 
     <CheckBoxPreference
         android:defaultValue="@string/FEATURE_PHIRO_PREFERENCES_ENABLED"
@@ -113,14 +103,19 @@
     <PreferenceScreen
         android:key="setting_accessibility_screen"
         android:summary="@string/preference_description_accessibility"
-        android:title="@string/preference_title_accessibility">
-    </PreferenceScreen>
+        android:title="@string/preference_title_accessibility" />
 
     <CheckBoxPreference
         android:defaultValue="@string/SNACKBAR_HINTS_ENABLED"
         android:key="setting_enable_hints"
         android:summary="@string/preference_description_hints"
         android:title="@string/preference_title_enable_hints" />
+
+    <CheckBoxPreference
+        android:defaultValue="@string/DEBUG_MODE"
+        android:key="setting_test_bricks"
+        android:summary="@string/preference_description_test_bricks"
+        android:title="@string/preference_title_enable_test_bricks" />
 
     <CheckBoxPreference
         android:defaultValue="true"

@@ -40,16 +40,19 @@ class StopSoundBrick : BrickBaseType(),
     BrickSpinner.OnItemSelectedListener<SoundInfo>, NewItemInterface<SoundInfo> {
 
     var sound: SoundInfo? = null
-    lateinit var spinner: BrickSpinner<SoundInfo>
+
+    @Transient
+    private lateinit var spinner: BrickSpinner<SoundInfo>
 
     override fun getViewResource() = R.layout.brick_stop_sound
 
     override fun getView(context: Context): View {
         super.getView(context)
+
         val items = mutableListOf<Nameable>(NewOption(context.getString(R.string.new_option)))
         items.addAll(ProjectManager.getInstance().currentSprite.soundList)
-        spinner = BrickSpinner(R.id.brick_stop_sound_spinner, view, items)
-        spinner.apply {
+        with(BrickSpinner<SoundInfo>(R.id.brick_stop_sound_spinner, view, items)) {
+            spinner = this
             setOnItemSelectedListener(this@StopSoundBrick)
             setSelection(sound)
         }
@@ -63,8 +66,8 @@ class StopSoundBrick : BrickBaseType(),
         }
     }
 
-    override fun addItem(item: SoundInfo?) {
-        item?.let { spinner.add(it) }
+    override fun addItem(item: SoundInfo) {
+        spinner.add(item)
         spinner.setSelection(item)
     }
 

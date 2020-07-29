@@ -62,7 +62,7 @@ import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.FUNCTION;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.NUMBER;
 import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPERATOR;
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 public class DefaultProjectCreator extends ProjectCreator {
 

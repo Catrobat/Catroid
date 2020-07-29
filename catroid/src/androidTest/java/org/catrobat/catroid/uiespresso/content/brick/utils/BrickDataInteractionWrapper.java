@@ -113,7 +113,8 @@ public class BrickDataInteractionWrapper extends DataInteractionWrapper {
 				BrickCoordinatesProvider.UPPER_LEFT_CORNER,
 				Press.FINGER));
 		onView(anyOf(withText(R.string.brick_context_dialog_delete_brick),
-				withText(R.string.brick_context_dialog_delete_script)))
+				withText(R.string.brick_context_dialog_delete_script),
+				withText(R.string.brick_context_dialog_delete_definition)))
 				.perform(click());
 		onView(withText(R.string.yes))
 				.perform(click());

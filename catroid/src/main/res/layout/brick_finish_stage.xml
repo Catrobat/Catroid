@@ -43,7 +43,7 @@
         <TextView
             android:id="@+id/brick_finish_stage_label"
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_finish_stage" />
+            android:text="@string/brick_finish_tests" />
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

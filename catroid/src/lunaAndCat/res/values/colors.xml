@@ -36,6 +36,7 @@
     <!-- Backgrounds -->
     <color name="app_background">#2A1848</color>
     <color name="button_background">#392757</color>
+    <color name="button_bottom_bar">#392757</color>
     <color name="button_border_top">@color/accent</color>
 
     <!-- Accent Colors -->

@@ -24,6 +24,8 @@ package org.catrobat.catroid.stage;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -46,6 +48,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -56,7 +59,6 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
@@ -67,7 +69,6 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionAdaptingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
@@ -80,7 +81,7 @@ import java.util.Random;
 import androidx.annotation.NonNull;
 import androidx.test.espresso.idling.CountingIdlingResource;
 
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
@@ -107,6 +108,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	public static Handler messageHandler;
 	JumpingSumoDeviceController jumpingSumoDeviceController;
+	CameraManager cameraManager;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
 	public static Random randomGenerator = new Random();
@@ -209,9 +211,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			}
 
 			TextToSpeechHolder.getInstance().deleteSpeechFiles();
-			if (FlashUtil.isAvailable()) {
-				FlashUtil.destroy();
-			}
 			if (VibrationUtil.isActive()) {
 				VibrationUtil.destroy();
 			}
@@ -238,10 +237,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			service.pause();
 		}
 
-		if (FaceDetectionHandler.isFaceDetectionRunning()) {
-			FaceDetectionHandler.stopFaceDetection();
-		}
-
 		if (VibrationUtil.isActive()) {
 			VibrationUtil.pauseVibration();
 		}
@@ -256,6 +251,17 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		}
 		success = JumpingSumoInitializer.getInstance().disconnect();
 		return success;
+	}
+
+	public static CameraManager getActiveCameraManager() {
+		if (activeStageActivity != null) {
+			return activeStageActivity.get().cameraManager;
+		}
+		return null;
+	}
+
+	public CameraManager getCameraManager() {
+		return cameraManager;
 	}
 
 	public boolean getResizePossible() {
@@ -388,6 +394,16 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
+				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
+			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
+			ToastUtil.showError(this, message);
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData testResult = ClipData.newPlainText("TestResult",
+					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+			clipboard.setPrimaryClip(testResult);
+		}
+
 		//Register your intent with "queueIntent"
 		if (intentListeners.indexOfKey(requestCode) >= 0) {
 			IntentListener asker = intentListeners.get(requestCode);
@@ -453,6 +469,13 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	private static void startStageActivity(Activity activity) {
 		Intent intent = new Intent(activity, StageActivity.class);
 		activity.startActivityForResult(intent, StageActivity.REQUEST_START_STAGE);
+	}
+
+	public static void finishStage() {
+		StageActivity stageActivity = StageActivity.activeStageActivity.get();
+		if (stageActivity != null && !stageActivity.isFinishing()) {
+			stageActivity.finish();
+		}
 	}
 
 	public static void finishTestWithResult(TestResult testResult) {

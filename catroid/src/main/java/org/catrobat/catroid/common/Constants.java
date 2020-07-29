@@ -39,7 +39,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999997f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999999f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -75,6 +75,8 @@ public final class Constants {
 
 	public static final String IMAGE_DIRECTORY_NAME = "images";
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
+	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
+	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 
 	// Backpack Directories
 	public static final String BACKPACK_DIRECTORY_NAME = "backpack";
@@ -246,6 +248,7 @@ public final class Constants {
 	public static final int BUFFER_8K = 8 * 1024;
 	public static final String PREF_PROJECTNAME_KEY = "projectName";
 	public static final int MAX_FILE_NAME_LENGTH = 127;
+	public static final double COORDINATE_TRANSFORMATION_OFFSET = 0.5;
 
 	public static final String COLLISION_PNG_META_TAG_KEY = "CollisionPolygonVertices";
 	public static final int COLLISION_VERTEX_LIMIT = 100;

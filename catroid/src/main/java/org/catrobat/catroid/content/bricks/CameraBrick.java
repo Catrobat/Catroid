@@ -30,7 +30,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
@@ -97,14 +96,6 @@ public class CameraBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createUpdateCameraPreviewAction(getCameraStateFromSpinner()));
-	}
-
-	private CameraManager.CameraState getCameraStateFromSpinner() {
-		if (spinnerSelectionID == OFF) {
-			return CameraManager.CameraState.stopped;
-		}
-
-		return CameraManager.CameraState.prepare;
+		sequence.addAction(sprite.getActionFactory().createUpdateCameraPreviewAction(spinnerSelectionID == ON));
 	}
 }

@@ -82,6 +82,7 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_MULTILINGUAL = "setting_multilingual";
 	public static final String SETTINGS_PARROT_JUMPING_SUMO_CATROBAT_TERMS_OF_SERVICE_ACCEPTED_PERMANENTLY =
 			"setting_parrot_jumping_sumo_catrobat_terms_of_service_accepted_permanently";
+	public static final String SETTINGS_TEST_BRICKS = "setting_test_bricks";
 	PreferenceScreen screen = null;
 
 	public static final String ACCESSIBILITY_SCREEN_KEY = "setting_accessibility_screen";
@@ -177,6 +178,13 @@ public class SettingsFragment extends PreferenceFragment {
 					(CheckBoxPreference) findPreference(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
 			multiplayerPreference.setEnabled(false);
 			screen.removePreference(multiplayerPreference);
+		}
+
+		if (!BuildConfig.FEATURE_TESTBRICK_ENABLED) {
+			CheckBoxPreference testPreference =
+					(CheckBoxPreference) findPreference(SETTINGS_TEST_BRICKS);
+			testPreference.setEnabled(BuildConfig.DEBUG);
+			screen.removePreference(testPreference);
 		}
 	}
 
@@ -301,6 +309,10 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_NFC_BRICKS, context);
+	}
+
+	public static boolean isTestSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(BuildConfig.DEBUG, SETTINGS_TEST_BRICKS, context);
 	}
 
 	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {

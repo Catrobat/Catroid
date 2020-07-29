@@ -40,6 +40,6 @@ public class FinishStageBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createFinishStageAction());
+		sequence.addAction(sprite.getActionFactory().createFinishStageAction(false));
 	}
 }

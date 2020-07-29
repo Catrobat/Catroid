@@ -24,8 +24,13 @@ package org.catrobat.catroid.content;
 
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.CompositeBrick;
+import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.ListSelectorBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.formulaeditor.UserData;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -128,10 +133,56 @@ public abstract class Script implements Serializable, Cloneable {
 		return false;
 	}
 
+	public void removeAllOccurrencesOfUserDefinedBrick(List<Brick> brickList, UserDefinedBrick userDefinedBrick) {
+		for (int brickIndex = 0; brickIndex < brickList.size(); brickIndex++) {
+			Brick currentBrick = brickList.get(brickIndex);
+			if (currentBrick instanceof CompositeBrick) {
+				CompositeBrick currentCompositeBrick = (CompositeBrick) currentBrick;
+				removeAllOccurrencesOfUserDefinedBrick(currentCompositeBrick.getNestedBricks(), userDefinedBrick);
+				if (currentCompositeBrick.hasSecondaryList()) {
+					removeAllOccurrencesOfUserDefinedBrick(currentCompositeBrick.getSecondaryNestedBricks(), userDefinedBrick);
+				}
+			}
+			if (currentBrick instanceof UserDefinedBrick && userDefinedBrick.isUserDefinedBrickDataEqual(currentBrick)) {
+				brickList.remove(brickIndex--);
+			}
+		}
+	}
+
 	public void addRequiredResources(final Brick.ResourcesSet resourcesSet) {
 		for (Brick brick : brickList) {
 			if (!brick.isCommentedOut()) {
 				brick.addRequiredResources(resourcesSet);
+			}
+		}
+	}
+
+	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
+		List<Brick> flatList = new ArrayList<>();
+		addToFlatList(flatList);
+		boolean containedInListSelector = false;
+
+		for (Brick brick : flatList) {
+			if (brick instanceof ListSelectorBrick) {
+				containedInListSelector = true;
+				break;
+			}
+		}
+
+		for (Brick brick : flatList) {
+			if (brick instanceof FormulaBrick) {
+				((FormulaBrick) brick).updateUserDataReference(oldName, newName, item,
+						containedInListSelector);
+			}
+		}
+	}
+
+	public void deselectElements(List<UserData<?>> elements) {
+		List<Brick> flatList = new ArrayList<>();
+		addToFlatList(flatList);
+		for (Brick brick : flatList) {
+			if (brick instanceof ListSelectorBrick) {
+				((ListSelectorBrick) brick).deselectElements(elements);
 			}
 		}
 	}

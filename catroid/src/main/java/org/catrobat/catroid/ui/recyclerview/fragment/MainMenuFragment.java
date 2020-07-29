@@ -37,7 +37,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.ProjectListActivity;
@@ -287,9 +286,7 @@ public class MainMenuFragment extends Fragment implements
 		ProjectAndSceneScreenshotLoader loader =
 				new ProjectAndSceneScreenshotLoader(CURRENTTHUMBNAILSIZE, CURRENTTHUMBNAILSIZE);
 
-		String sceneName =
-				XstreamSerializer.extractDefaultSceneNameFromXml(projectDir);
-		loader.loadAndShowScreenshot(currentProject, sceneName, false,
+		loader.loadAndShowScreenshot(projectDir.getName(), loader.getScreenshotSceneName(projectDir), false,
 				parent.findViewById(R.id.image_view));
 	}
 }

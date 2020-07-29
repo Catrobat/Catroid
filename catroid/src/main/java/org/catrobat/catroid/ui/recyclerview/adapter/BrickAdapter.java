@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.ListSelectorBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.ui.dragndrop.BrickAdapterInterface;
@@ -136,6 +137,8 @@ public class BrickAdapter extends BaseAdapter implements
 				item.getCheckBox().setVisibility(View.GONE);
 				if (item instanceof FormulaBrick) {
 					((FormulaBrick) item).setClickListeners();
+				} else if (item instanceof ListSelectorBrick) {
+					((ListSelectorBrick) item).setClickListeners();
 				}
 				break;
 			case ALL:

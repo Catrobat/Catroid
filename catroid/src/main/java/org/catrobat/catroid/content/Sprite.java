@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.WhenConditionBrick;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.embroidery.RunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -162,12 +163,19 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return null;
 	}
 
-	private boolean containsUserDefinedBrickWithSameUserData(UserDefinedBrick userDefinedBrick) {
+	public boolean containsUserDefinedBrickWithSameUserData(UserDefinedBrick userDefinedBrick) {
 		return getUserDefinedBrickWithSameUserData(userDefinedBrick) != null;
 	}
 
 	public void addUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
 		userDefinedBrickList.add(userDefinedBrick);
+	}
+
+	public void removeUserDefinedBrick(UserDefinedBrick userDefinedBrick) {
+		for (Script script : scriptList) {
+			script.removeAllOccurrencesOfUserDefinedBrick(script.brickList, userDefinedBrick);
+		}
+		userDefinedBrickList.remove(userDefinedBrick);
 	}
 
 	public void addClonesOfUserDefinedBrickList(List<UserDefinedBrick> userDefinedBricks) {
@@ -487,13 +495,25 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 	}
 
-	public static boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick, Sprite sprite) {
-		for (Brick alreadyDefinedBrick : sprite.getUserDefinedBrickList()) {
+	public boolean doesUserBrickAlreadyExist(UserDefinedBrick userDefinedBrick) {
+		for (Brick alreadyDefinedBrick : getUserDefinedBrickList()) {
 			if (((UserDefinedBrick) alreadyDefinedBrick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
+		for (Script script : scriptList) {
+			script.updateUserDataReferences(oldName, newName, item);
+		}
+	}
+
+	public void deselectElements(List<UserData<?>> elements) {
+		for (Script script : scriptList) {
+			script.deselectElements(elements);
+		}
 	}
 
 	public class PenConfiguration {

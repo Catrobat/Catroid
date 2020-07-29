@@ -81,6 +81,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick;
@@ -118,6 +119,8 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.ParameterizedBrick;
+import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -344,6 +347,7 @@ public class CategoryBricksFactory {
 			controlBrickList.add(new PhiroIfLogicBeginBrick());
 		}
 
+		controlBrickList.add(new ExitStageBrick());
 		controlBrickList.add(new StopScriptBrick(BrickValues.STOP_THIS_SCRIPT));
 
 		controlBrickList.add(new CloneBrick());
@@ -700,10 +704,10 @@ public class CategoryBricksFactory {
 
 		assertionsBrickList.add(new AssertEqualsBrick());
 		assertionsBrickList.add(new AssertUserListsBrick());
+		assertionsBrickList.add(new ParameterizedBrick());
 		assertionsBrickList.add(new WaitTillIdleBrick());
 		assertionsBrickList.add(new TapAtBrick());
 		assertionsBrickList.add(new FinishStageBrick());
-
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
@@ -850,6 +854,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_user_bricks);
 		} else if (brick instanceof UserDefinedReceiverBrick) {
 			category = res.getString(R.string.category_user_bricks);
+		} else if (brick instanceof ParameterizedEndBrick) {
+			category = res.getString(R.string.category_assertions);
 		}
 
 		config.locale = savedLocale;

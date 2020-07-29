@@ -35,7 +35,6 @@ import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -43,14 +42,12 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.facedetection.FaceDetectionHandler;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
-import org.catrobat.catroid.utils.FlashUtil;
 import org.catrobat.catroid.utils.VibrationUtil;
 
 import java.util.List;
@@ -111,6 +108,7 @@ public final class StageLifeCycleController {
 		if (stageActivity.getGdxGraphics().getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) stageActivity.getGdxGraphics().getView();
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
+			glView.setZOrderOnTop(true);
 		}
 		stageActivity.stageAudioFocus = new StageAudioFocus(stageActivity);
 		stageActivity.stageResourceHolder = new StageResourceHolder(stageActivity);
@@ -140,12 +138,10 @@ public final class StageLifeCycleController {
 			SoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();
 			stageActivity.stageAudioFocus.releaseAudioFocus();
-			if (CameraManager.getInstance() != null) {
-				FlashUtil.pauseFlash();
-				FaceDetectionHandler.pauseFaceDetection();
-				CameraManager.getInstance().pausePreview();
-				CameraManager.getInstance().releaseCamera();
+			if (stageActivity.cameraManager != null) {
+				stageActivity.cameraManager.pause();
 			}
+
 			BluetoothDeviceService bluetoothDeviceService =
 					ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (bluetoothDeviceService != null) {
@@ -182,16 +178,8 @@ public final class StageLifeCycleController {
 				}
 			}
 
-			if (resourcesSet.contains(Brick.CAMERA_FLASH)) {
-				FlashUtil.resumeFlash();
-			}
-
 			if (resourcesSet.contains(Brick.VIBRATION)) {
 				VibrationUtil.resumeVibration();
-			}
-
-			if (resourcesSet.contains(Brick.FACE_DETECTION)) {
-				FaceDetectionHandler.resumeFaceDetection();
 			}
 
 			if (resourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)
@@ -204,10 +192,8 @@ public final class StageLifeCycleController {
 				}
 			}
 
-			if (resourcesSet.contains(Brick.CAMERA_BACK)
-					|| resourcesSet.contains(Brick.CAMERA_FRONT)
-					|| resourcesSet.contains(Brick.VIDEO)) {
-				CameraManager.getInstance().resumePreviewAsync();
+			if (stageActivity.cameraManager != null) {
+				stageActivity.cameraManager.resume();
 			}
 
 			if (resourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
@@ -221,10 +207,6 @@ public final class StageLifeCycleController {
 
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().resumeRemoteLayoutFromPauseScreen();
-			}
-
-			if (CameraManager.getInstance() != null) {
-				FaceDetectionHandler.resumeFaceDetection();
 			}
 
 			SoundManager.getInstance().resume();
@@ -249,14 +231,11 @@ public final class StageLifeCycleController {
 				service.destroy();
 			}
 			VibrationUtil.destroy();
-			SensorHandler.stopSensorListeners();
-			if (CameraManager.getInstance() != null) {
-				FlashUtil.destroy();
-				FaceDetectionHandler.stopFaceDetection();
-				CameraManager.getInstance().stopPreviewAsync();
-				CameraManager.getInstance().releaseCamera();
-				CameraManager.getInstance().setToDefaultCamera();
+			if (stageActivity.cameraManager != null) {
+				stageActivity.cameraManager.destroy();
+				stageActivity.cameraManager = null;
 			}
+			SensorHandler.stopSensorListeners();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().onStageDestroyed();
 			}

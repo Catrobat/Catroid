@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.ui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,17 +53,20 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
+import org.catrobat.catroid.utils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -82,6 +87,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
@@ -268,6 +274,16 @@ public class SpriteActivity extends BaseActivity {
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+
+		if (resultCode == TestResult.STAGE_ACTIVITY_TEST_SUCCESS
+				|| resultCode == TestResult.STAGE_ACTIVITY_TEST_FAIL) {
+			String message = data.getStringExtra(TEST_RESULT_MESSAGE);
+			ToastUtil.showError(this, message);
+			ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+			ClipData testResult = ClipData.newPlainText("TestResult",
+					ProjectManager.getInstance().getCurrentProject().getName() + "\n" + message);
+			clipboard.setPrimaryClip(testResult);
+		}
 
 		if (resultCode != RESULT_OK) {
 			if (SettingsFragment.isCastSharedPreferenceEnabled(this)
@@ -550,6 +566,9 @@ public class SpriteActivity extends BaseActivity {
 		if (getCurrentFragment() instanceof SoundListFragment) {
 			handleAddSoundButton();
 		}
+		if (getCurrentFragment() instanceof ListSelectorFragment) {
+			handleAddUserListButton();
+		}
 	}
 
 	public void handleAddSpriteButton() {
@@ -772,6 +791,40 @@ public class SpriteActivity extends BaseActivity {
 			}
 			multiplayerRadioButton.setEnabled(!checked);
 		});
+
+		alertDialog.show();
+	}
+
+	public void handleAddUserListButton() {
+		View view = View.inflate(this, R.layout.dialog_new_user_data, null);
+		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
+
+		List<UserData> lists = new ArrayList<>();
+		lists.addAll(currentProject.getUserLists());
+		lists.addAll(currentSprite.getUserLists());
+
+		NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(lists);
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this)
+				.setTextWatcher(textWatcher)
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
+
+					UserList userList = new UserList(textInput);
+					if (addToProjectUserData) {
+						currentProject.addUserList(userList);
+					} else {
+						currentSprite.addUserList(userList);
+					}
+
+					if (getCurrentFragment() instanceof ListSelectorFragment) {
+						((ListSelectorFragment) getCurrentFragment()).notifyDataSetChanged();
+					}
+				});
+
+		final AlertDialog alertDialog = builder.setTitle(R.string.formula_editor_list_dialog_title)
+				.setView(view)
+				.create();
 
 		alertDialog.show();
 	}

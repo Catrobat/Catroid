@@ -27,6 +27,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -168,5 +169,17 @@ public class Scene implements Nameable, Serializable {
 			}
 		}
 		return messagesInUse;
+	}
+
+	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
+		for (Sprite sprite : spriteList) {
+			sprite.updateUserDataReferences(oldName, newName, item);
+		}
+	}
+
+	public void deselectElements(List<UserData<?>> elements) {
+		for (Sprite sprite : spriteList) {
+			sprite.deselectElements(elements);
+		}
 	}
 }

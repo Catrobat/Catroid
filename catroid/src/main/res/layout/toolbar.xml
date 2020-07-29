@@ -30,4 +30,5 @@
     android:layout_height="wrap_content"
     android:background="@drawable/toolbar_background"
     android:theme="@style/ToolbarTheme"
-    app:titleTextAppearance="@style/ToolbarTitle" />
+    app:titleTextAppearance="@style/ToolbarTitle"
+    app:titleMarginStart="32dp" />

@@ -48,7 +48,7 @@ import org.catrobat.catroid.utils.ToastUtil;
 import java.io.File;
 import java.io.IOException;
 
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 
 public class StageDialog extends Dialog implements View.OnClickListener {
 	private static final String TAG = StageDialog.class.getSimpleName();

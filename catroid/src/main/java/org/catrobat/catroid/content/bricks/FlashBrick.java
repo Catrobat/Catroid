@@ -89,10 +89,6 @@ public class FlashBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		if (spinnerSelectionID == FLASH_ON) {
-			sequence.addAction(sprite.getActionFactory().createTurnFlashOnAction());
-		} else {
-			sequence.addAction(sprite.getActionFactory().createTurnFlashOffAction());
-		}
+		sequence.addAction(sprite.getActionFactory().createFlashAction(spinnerSelectionID == FLASH_ON));
 	}
 }

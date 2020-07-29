@@ -31,16 +31,22 @@ import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_AUTOMATIC_FILE_NAME;
-import static org.catrobat.catroid.stage.StageListener.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 
 public class ProjectAndSceneScreenshotLoader {
 
@@ -113,6 +119,41 @@ public class ProjectAndSceneScreenshotLoader {
 		ScreenshotData screenshotData = new ScreenshotData(projectName, sceneName, isBackpackScene, null);
 		ScreenshotLoader screenshotLoader = new ScreenshotLoader(screenshotData);
 		return screenshotLoader.getScreenshotFile();
+	}
+
+	public String getScreenshotSceneName(File projectDir) {
+		FilenameFilter filter = new FilenameFilter() {
+
+			public boolean accept(File f, String name) {
+				return name.endsWith(DEFAULT_IMAGE_EXTENSION);
+			}
+		};
+		File[] projectScreenshots = projectDir.listFiles(filter);
+		if (projectScreenshots == null || projectScreenshots.length != 0) {
+			return null;
+		}
+		List<File> screenshots = new ArrayList<>();
+		for (File scene : projectDir.listFiles()) {
+			File[] sceneScreenshots = scene.listFiles(filter);
+			if (sceneScreenshots != null && sceneScreenshots.length > 0) {
+				screenshots.addAll(Arrays.asList(sceneScreenshots));
+			}
+		}
+		if (screenshots.isEmpty()) {
+			return null;
+		}
+		Collections.sort(screenshots, new Comparator<File>() {
+			@Override
+			public int compare(File screenshot2, File screenshot1) {
+				return Long.compare(screenshot1.lastModified(), screenshot2.lastModified());
+			}
+		});
+		for (File screenshot : screenshots) {
+			if (screenshot.getName().equals(SCREENSHOT_MANUAL_FILE_NAME)) {
+				return screenshot.getParentFile().getName();
+			}
+		}
+		return screenshots.get(0).getParentFile().getName();
 	}
 
 	class ScreenshotLoader implements Runnable {

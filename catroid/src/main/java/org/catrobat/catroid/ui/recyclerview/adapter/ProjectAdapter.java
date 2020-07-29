@@ -30,7 +30,6 @@ import android.view.View;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
-import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ExtendedVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 
@@ -52,10 +51,12 @@ public class ProjectAdapter extends ExtendedRVAdapter<ProjectData> {
 		int thumbnailHeight = context.getResources().getDimensionPixelSize(R.dimen.project_thumbnail_height);
 		ProjectAndSceneScreenshotLoader loader = new ProjectAndSceneScreenshotLoader(thumbnailWidth, thumbnailHeight);
 		ProjectData item = items.get(position);
-		String sceneName = XstreamSerializer.extractDefaultSceneNameFromXml(item.getDirectory());
 
 		holder.title.setText(item.getName());
-		loader.loadAndShowScreenshot(item.getDirectory().getName(), sceneName, false, holder.image);
+		loader.loadAndShowScreenshot(item.getDirectory().getName(),
+				loader.getScreenshotSceneName(item.getDirectory()),
+				false,
+				holder.image);
 
 		if (showDetails) {
 			Date lastModified = new Date(item.getLastUsed());

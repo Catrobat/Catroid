@@ -33,8 +33,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -97,7 +98,7 @@ public class UserDefinedBrickEqualityTest {
 	@Parameterized.Parameter(3)
 	public boolean expectedOutput;
 
-	@Mock
+	@Spy
 	private Sprite spriteMock;
 
 	private static UserDefinedBrickLabel defaultLabel = new UserDefinedBrickLabel("Label");
@@ -110,8 +111,9 @@ public class UserDefinedBrickEqualityTest {
 
 	@Before
 	public void setUp() throws Exception {
-		brickToTest = new UserDefinedBrick(brickToTestBrickData);
+		MockitoAnnotations.initMocks(this);
 
+		brickToTest = new UserDefinedBrick(brickToTestBrickData);
 		UserDefinedBrick alreadyDefinedUserBrickOfSprite = new UserDefinedBrick(alreadyDefinedUserBrickOfSpriteBrickData);
 		userDefinedBrickListOfSprite = new ArrayList<>();
 		userDefinedBrickListOfSprite.add(alreadyDefinedUserBrickOfSprite);
@@ -119,8 +121,7 @@ public class UserDefinedBrickEqualityTest {
 
 	@Test
 	public void testDoesUserBrickAlreadyExist() {
-		spriteMock = Mockito.mock(Sprite.class);
 		Mockito.when(spriteMock.getUserDefinedBrickList()).thenReturn(userDefinedBrickListOfSprite);
-		assertSame(Sprite.doesUserBrickAlreadyExist(brickToTest, spriteMock), expectedOutput);
+		assertSame(spriteMock.doesUserBrickAlreadyExist(brickToTest), expectedOutput);
 	}
 }

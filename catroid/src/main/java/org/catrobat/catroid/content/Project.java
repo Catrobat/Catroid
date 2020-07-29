@@ -34,6 +34,7 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
@@ -381,5 +382,17 @@ public class Project implements Serializable {
 
 	public void setXmlHeader(XmlHeader xmlHeader) {
 		this.xmlHeader = xmlHeader;
+	}
+
+	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
+		for (Scene scene : sceneList) {
+			scene.updateUserDataReferences(oldName, newName, item);
+		}
+	}
+
+	public void deselectElements(List<UserData<?>> elements) {
+		for (Scene scene : sceneList) {
+			scene.deselectElements(elements);
+		}
 	}
 }

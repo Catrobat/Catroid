@@ -38,7 +38,7 @@ pipeline {
             step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
         }
         unsuccessful {
-            notifyChat(['#s2cc', '#catroweb-deployment'])
+            notifyChat(['#system-tests'])
         }
     }
 }

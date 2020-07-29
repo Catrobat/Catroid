@@ -407,6 +407,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 										.commit();
 								break;
 							case 4:
+								ProjectLoadTask.task(item.getDirectory(), getContext());
 								startActivity(new Intent(getActivity(), ProjectUploadActivity.class)
 										.putExtra(ProjectUploadActivity.PROJECT_DIR, item.getDirectory()));
 								break;

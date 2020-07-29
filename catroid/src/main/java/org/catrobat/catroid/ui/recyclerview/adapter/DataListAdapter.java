@@ -52,7 +52,9 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
-	@interface DataType {}
+	@interface DataType {
+	}
+
 	private static final int VAR_MULTIPLAYER = 0;
 	private static final int VAR_GLOBAL = 1;
 	private static final int VAR_LOCAL = 2;
@@ -100,7 +102,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		};
 		globalVarAdapter.setSelectionListener(this);
 
-		localVarAdapter = new VariableRVAdapter(localVars){
+		localVarAdapter = new VariableRVAdapter(localVars) {
 			@Override
 			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
@@ -108,6 +110,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_vars_headline);
 				}
 			}
+
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_LOCAL));
@@ -123,6 +126,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_lists_headline);
 				}
 			}
+
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_GLOBAL));
@@ -138,6 +142,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.local_lists_headline);
 				}
 			}
+
 			@Override
 			protected void onCheckBoxClick(int position) {
 				super.onCheckBoxClick(getRelativeItemPosition(position, LIST_LOCAL));
@@ -236,7 +241,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	@Override
-	public @LayoutRes int getItemViewType(int position) {
+	public @LayoutRes
+	int getItemViewType(int position) {
 		@DataType
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);
@@ -307,6 +313,15 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		notifyDataSetChanged();
 	}
 
+	public void selectAll() {
+		multiplayerVarAdapter.selectAll();
+		globalVarAdapter.selectAll();
+		localVarAdapter.selectAll();
+		globalListAdapter.selectAll();
+		localListAdapter.selectAll();
+		notifyDataSetChanged();
+	}
+
 	public void remove(UserData item) {
 		if (item instanceof UserVariable) {
 			if (!globalVarAdapter.remove((UserVariable) item) && !localVarAdapter.remove((UserVariable) item)) {
@@ -359,6 +374,33 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		return selectedItems;
 	}
 
+	public void setSelection(UserData item, boolean selection) {
+		if (item instanceof UserVariable) {
+			if (!globalVarAdapter.setSelection((UserVariable) item, selection)
+					&& !localVarAdapter.setSelection((UserVariable) item, selection)) {
+				multiplayerVarAdapter.setSelection((UserVariable) item, selection);
+			}
+		} else {
+			if (!globalListAdapter.setSelection((UserList) item, selection)) {
+				localListAdapter.setSelection((UserList) item, selection);
+			}
+		}
+	}
+
+	public void toggleSelection(UserData item) {
+		if (item instanceof UserVariable) {
+			if (!globalVarAdapter.toggleSelection((UserVariable) item)
+					&& !localVarAdapter.toggleSelection((UserVariable) item)) {
+				multiplayerVarAdapter.toggleSelection((UserVariable) item);
+			}
+		} else {
+			if (!globalListAdapter.toggleSelection((UserList) item)) {
+				localListAdapter.toggleSelection((UserList) item);
+			}
+		}
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public int getItemCount() {
 		return multiplayerVarAdapter.getItemCount()
@@ -366,5 +408,13 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 				+ localVarAdapter.getItemCount()
 				+ globalListAdapter.getItemCount()
 				+ localListAdapter.getItemCount();
+	}
+
+	public int getSelectedItemCount() {
+		return multiplayerVarAdapter.getSelectedItemCount()
+				+ globalVarAdapter.getSelectedItemCount()
+				+ localVarAdapter.getSelectedItemCount()
+				+ globalListAdapter.getSelectedItemCount()
+				+ localListAdapter.getSelectedItemCount();
 	}
 }
