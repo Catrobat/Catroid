@@ -199,6 +199,7 @@ public final class VibrationUtil {
 	private static synchronized void stopVibrate() {
 		if (vibration != null) {
 			Log.d(TAG, "stopVibrate()");
+			Log.d(TAG, "time spent vibrating is: " + (SystemClock.uptimeMillis() - startTime));
 			vibration.cancel();
 		}
 	}
