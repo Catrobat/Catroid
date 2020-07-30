@@ -63,7 +63,7 @@ class ColorCollisionDetection(
         val pixmap = recreateStageOnCameraView(spriteList, projectionMatrix, look, batch)
 
         try {
-            return  matchesColor(pixmap, look.currentCollisionPolygon, color)
+            return matchesColor(pixmap, look.currentCollisionPolygon, color)
         } finally {
             pixmap.dispose()
             batch.dispose()
