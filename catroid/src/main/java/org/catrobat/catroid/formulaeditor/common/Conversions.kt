@@ -27,6 +27,9 @@ import androidx.annotation.ColorInt
 import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Polygon
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.catrobat.catroid.BuildConfig
 import kotlin.math.absoluteValue
 import com.badlogic.gdx.graphics.Color as LibGDXColor
@@ -70,15 +73,17 @@ object Conversions {
     fun booleanToDouble(value: Boolean) = if (value) TRUE else FALSE
 
     @JvmStatic
-    fun matchesColor(pixmap: Pixmap, collisionPolygons: Array<Polygon>, color: String): Boolean {
+    fun matchesColor(pixmap: Pixmap, collisionPolygons: Array<Polygon>, color: String): Boolean = runBlocking {
         val vertices = collisionPolygons.flatMap { polygon -> polygon.vertices.asIterable() }
         val boundingRectangle = BoundingRectangle(vertices)
 
         if (BuildConfig.DEBUG && !boundingRectangle.hasValidBoundaries(pixmap)) {
             error("Wrong projection matrix or rotation")
         }
-
-        return matchColorInBoundingRectangle(boundingRectangle, pixmap, color, collisionPolygons)
+        val matchesColorCoroutine = GlobalScope.async {
+            matchColorInBoundingRectangle(boundingRectangle, pixmap, color, collisionPolygons)
+        }
+        return@runBlocking matchesColorCoroutine.await()
     }
 
     private fun matchColorInBoundingRectangle(boundingRectangle: BoundingRectangle, pixmap: Pixmap, color: String, polygons: Array<Polygon>): Boolean {
