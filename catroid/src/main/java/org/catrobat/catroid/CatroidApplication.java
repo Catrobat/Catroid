@@ -65,7 +65,7 @@ public class CatroidApplication extends Application implements HasActivityInject
 	DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
 	protected AppComponent appComponents;
 
-	@TargetApi(28)
+	@TargetApi(29)
 	@Override
 	public void onCreate() {
 		super.onCreate();

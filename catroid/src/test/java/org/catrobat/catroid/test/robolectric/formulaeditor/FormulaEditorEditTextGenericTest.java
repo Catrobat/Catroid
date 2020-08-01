@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.robolectric.formulaeditor;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
@@ -46,6 +47,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.ParameterizedRobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
+import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
 
@@ -54,6 +56,7 @@ import androidx.annotation.IdRes;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class FormulaEditorEditTextGenericTest {
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}" + "-Test")

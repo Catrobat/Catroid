@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -143,7 +144,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
-@Config(sdk = {25})
+@Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSingleFormulaFieldTest {
 
 	private SpriteActivity activity;

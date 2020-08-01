@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.widget.ListAdapter;
 
@@ -44,6 +45,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.android.controller.ActivityController;
+import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,6 +67,7 @@ import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTING
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_SHOW_RASPI_BRICKS;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class BrickAddCategoryTest {
 
 	private SpriteActivity activity;
