@@ -175,8 +175,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.updateVariableReferences(oldName, newName, this.context);
 		history.push(new UndoState(internFormula.getInternFormulaState(),
 				formulaEditorFragment.getCurrentBrickField()));
-		Map<Brick.BrickField, InternFormulaState> initialState = history.initialStates;
-		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialState.entrySet()) {
+		Map<Brick.FormulaField, InternFormulaState> initialState = history.initialStates;
+		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialState.entrySet()) {
 			state.getValue().updateUserDataTokens(InternTokenType.USER_VARIABLE, oldName, newName);
 		}
 		String resultingText = updateTextAndCursorFromInternFormula();
@@ -191,8 +191,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.updateListReferences(oldName, newName, this.context);
 		history.push(new UndoState(internFormula.getInternFormulaState(),
 				formulaEditorFragment.getCurrentBrickField()));
-		Map<Brick.BrickField, InternFormulaState> initialState = history.initialStates;
-		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialState.entrySet()) {
+		Map<Brick.FormulaField, InternFormulaState> initialState = history.initialStates;
+		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialState.entrySet()) {
 			state.getValue().updateUserDataTokens(InternTokenType.USER_LIST, oldName, newName);
 		}
 		String resultingText = updateTextAndCursorFromInternFormula();

@@ -35,7 +35,7 @@ public class FormulaEditorHistory {
 	private Stack<UndoState> redoStack = null;
 	private UndoState current = null;
 	private boolean hasUnsavedChanges = false;
-	Map<Brick.BrickField, InternFormulaState> initialStates = null;
+	Map<Brick.FormulaField, InternFormulaState> initialStates = null;
 
 	public FormulaEditorHistory(UndoState state) {
 		current = state;
@@ -52,8 +52,8 @@ public class FormulaEditorHistory {
 		if (current != null) {
 			undoStack.push(current);
 		}
-		if (!initialStates.containsKey(current.brickField)) {
-			initialStates.put(current.brickField, current.internFormulaState);
+		if (!initialStates.containsKey(current.formulaField)) {
+			initialStates.put(current.formulaField, current.internFormulaState);
 		}
 		current = state;
 		redoStack.clear();
@@ -112,7 +112,7 @@ public class FormulaEditorHistory {
 		return hasUnsavedChanges;
 	}
 
-	public Map<Brick.BrickField, InternFormulaState> getInitialStates() {
+	public Map<Brick.FormulaField, InternFormulaState> getInitialStates() {
 		return initialStates;
 	}
 

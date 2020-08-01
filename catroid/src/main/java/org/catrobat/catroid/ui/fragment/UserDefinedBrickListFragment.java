@@ -136,7 +136,9 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 
 	private void addUserDefinedBrickToScript(Brick userDefinedBrickToAdd) {
 		try {
-			scriptFragment.addBrick(userDefinedBrickToAdd.clone());
+			Brick clonedBrick = userDefinedBrickToAdd.clone();
+			((UserDefinedBrick) clonedBrick).setCallingBrick(true);
+			scriptFragment.addBrick(clonedBrick);
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 			Fragment categoryFragment = getFragmentManager()

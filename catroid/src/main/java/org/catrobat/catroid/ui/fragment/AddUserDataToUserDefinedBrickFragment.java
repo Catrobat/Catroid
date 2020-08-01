@@ -45,6 +45,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType;
 import org.jetbrains.annotations.NotNull;
 
 import androidx.annotation.NonNull;
@@ -53,13 +54,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import static org.catrobat.catroid.content.bricks.UserDefinedBrick.INPUT;
+import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType.INPUT;
 
 public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 
 	public static final String TAG = AddUserDataToUserDefinedBrickFragment.class.getSimpleName();
 
-	private boolean isAddInput;
+	private UserDefinedBrickDataType dataTypeToAdd;
 	private AppCompatActivity activity;
 	private TextInputEditText addUserDataUserBrickEditText;
 	private TextInputLayout addUserDataUserBrickTextLayout;
@@ -79,7 +80,8 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 		Bundle arguments = getArguments();
 		if (arguments != null) {
 			userDefinedBrick = (UserDefinedBrick) getArguments().getSerializable(UserDefinedBrick.USER_BRICK_BUNDLE_ARGUMENT);
-			isAddInput = getArguments().getBoolean(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT);
+			dataTypeToAdd =
+					(UserDefinedBrickDataType) getArguments().getSerializable(UserDefinedBrick.ADD_INPUT_OR_LABEL_BUNDLE_ARGUMENT);
 		}
 
 		if (userDefinedBrick != null) {
@@ -95,7 +97,7 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 		addUserDataUserBrickEditText.setText(userBrickTextView.getText());
 		if (getContext() != null) {
 			addUserDataUserBrickEditText.addTextChangedListener(new UserDataTextWatcher());
-			if (isAddInput()) {
+			if (dataTypeToAdd == INPUT) {
 				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_input_description));
 			} else {
 				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_label_description));
@@ -116,10 +118,6 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 		setHasOptionsMenu(true);
 
 		return view;
-	}
-
-	public boolean isAddInput() {
-		return isAddInput == INPUT;
 	}
 
 	@Override
@@ -161,7 +159,7 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 						getFragmentManager().findFragmentByTag(AddUserDefinedBrickFragment.TAG);
 				getFragmentManager().popBackStackImmediate();
 				if (addUserDefinedBrickFragment != null && addUserDataUserBrickEditText.getText() != null) {
-					addUserDefinedBrickFragment.addUserDataToUserBrick(addUserDataUserBrickEditText.getText().toString(), isAddInput);
+					addUserDefinedBrickFragment.addUserDataToUserBrick(addUserDataUserBrickEditText.getText().toString(), dataTypeToAdd);
 				}
 			}
 		}
@@ -170,6 +168,10 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 
 	private void setNextItemEnabled(boolean enabled) {
 		nextItem.setEnabled(enabled);
+	}
+
+	public UserDefinedBrickDataType getDataTypeToAdd() {
+		return dataTypeToAdd;
 	}
 
 	private void showStandardSystemKeyboard() {
@@ -191,7 +193,7 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 	private class UserDataTextWatcher implements TextWatcher {
 
 		private boolean isNameUnique(String name) {
-			for (String item : userDefinedBrick.getUserDataList(INPUT)) {
+			for (String item : userDefinedBrick.getUserDataListAsStrings(INPUT)) {
 				if (item.equals(name)) {
 					return false;
 				}
@@ -228,7 +230,7 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 		@Override
 		public void afterTextChanged(Editable editable) {
 			userBrickTextView.setText(editable.toString());
-			if (isAddInput()) {
+			if (dataTypeToAdd == INPUT) {
 				String error = validateName(editable.toString());
 				if (error != null) {
 					scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));

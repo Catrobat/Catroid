@@ -53,6 +53,7 @@ public final class BackpackSerializer {
 		gsonBuilder.registerTypeAdapter(Script.class, new BackpackScriptSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(Brick.class, new BackpackInterfaceSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(UserDefinedBrickData.class, new BackpackInterfaceSerializerAndDeserializer());
+		gsonBuilder.registerTypeAdapter(Brick.FormulaField.class, new BackpackFormulaFieldSerializerAndDeserializer());
 		backpackGson = gsonBuilder.create();
 	}
 

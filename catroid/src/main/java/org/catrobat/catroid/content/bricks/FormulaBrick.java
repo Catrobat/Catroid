@@ -53,29 +53,29 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@XStreamAlias("formulaList")
 	ConcurrentFormulaHashMap formulaMap = new ConcurrentFormulaHashMap();
 
-	public transient BiMap<BrickField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
+	public transient BiMap<FormulaField, Integer> brickFieldToTextViewIdMap = HashBiMap.create(2);
 
-	public Formula getFormulaWithBrickField(BrickField brickField) throws IllegalArgumentException {
-		if (formulaMap.containsKey(brickField)) {
-			return formulaMap.get(brickField);
+	public Formula getFormulaWithBrickField(FormulaField formulaField) throws IllegalArgumentException {
+		if (formulaMap.containsKey(formulaField)) {
+			return formulaMap.get(formulaField);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field: " + this.getClass().getSimpleName()
-					+ " does have BrickField." + brickField.toString());
+					+ " does not have BrickField." + formulaField.toString());
 		}
 	}
 
-	public void setFormulaWithBrickField(BrickField brickField, Formula formula) throws IllegalArgumentException {
-		if (formulaMap.containsKey(brickField)) {
-			formulaMap.replace(brickField, formula);
+	public void setFormulaWithBrickField(FormulaField formulaField, Formula formula) throws IllegalArgumentException {
+		if (formulaMap.containsKey(formulaField)) {
+			formulaMap.replace(formulaField, formula);
 		} else {
 			throw new IllegalArgumentException("Incompatible Brick Field: Cannot set BrickField."
-					+ brickField.toString() + " fot " + this.getClass().getSimpleName());
+					+ formulaField.toString() + " for " + this.getClass().getSimpleName());
 		}
 	}
 
-	protected void addAllowedBrickField(BrickField brickField, int textViewResourceId) {
-		formulaMap.putIfAbsent(brickField, new Formula(0));
-		brickFieldToTextViewIdMap.put(brickField, textViewResourceId);
+	protected void addAllowedBrickField(FormulaField formulaField, int textViewResourceId) {
+		formulaMap.putIfAbsent(formulaField, new Formula(0));
+		brickFieldToTextViewIdMap.put(formulaField, textViewResourceId);
 	}
 
 	@Override
@@ -86,11 +86,11 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	public void replaceFormulaBrickField(BrickField oldBrickField, BrickField newBrickField) {
-		if (formulaMap.containsKey(oldBrickField)) {
-			Formula brickFormula = formulaMap.get(oldBrickField);
-			formulaMap.remove(oldBrickField);
-			formulaMap.put(newBrickField, brickFormula);
+	public void replaceFormulaBrickField(FormulaField oldFormulaField, FormulaField newFormulaField) {
+		if (formulaMap.containsKey(oldFormulaField)) {
+			Formula brickFormula = formulaMap.get(oldFormulaField);
+			formulaMap.remove(oldFormulaField);
+			formulaMap.put(newFormulaField, brickFormula);
 		}
 	}
 
@@ -104,17 +104,17 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 	@Override
 	public View getView(Context context) {
 		super.getView(context);
-		for (BiMap.Entry<BrickField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
-			TextView brickFieldView = view.findViewById(entry.getValue());
-			brickFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
+		for (BiMap.Entry<FormulaField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
+			TextView formulaFieldView = view.findViewById(entry.getValue());
+			formulaFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
 		}
 		return view;
 	}
 
 	public void setClickListeners() {
-		for (BiMap.Entry<BrickField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
-			TextView brickFieldView = view.findViewById(entry.getValue());
-			brickFieldView.setOnClickListener(this);
+		for (BiMap.Entry<FormulaField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
+			TextView formulaFieldView = view.findViewById(entry.getValue());
+			formulaFieldView.setOnClickListener(this);
 		}
 	}
 
@@ -127,12 +127,12 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		return formulaMap;
 	}
 
-	public TextView getTextView(BrickField brickField) {
-		return view.findViewById(brickFieldToTextViewIdMap.get(brickField));
+	public TextView getTextView(FormulaField formulaField) {
+		return view.findViewById(brickFieldToTextViewIdMap.get(formulaField));
 	}
 
-	public void highlightTextView(BrickField brickField) {
-		TextView formulaTextField = view.findViewById(brickFieldToTextViewIdMap.get(brickField));
+	public void highlightTextView(FormulaField formulaField) {
+		TextView formulaTextField = getTextView(formulaField);
 
 		formulaTextField.getBackground().mutate()
 				.setColorFilter(view.getContext().getResources()
@@ -152,30 +152,30 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		}
 	}
 
-	public BrickField getDefaultBrickField() {
+	public FormulaField getDefaultBrickField() {
 		return formulaMap.keys().nextElement();
 	}
 
-	boolean isBrickFieldANumber(BrickField brickField) {
-		return getFormulaWithBrickField(brickField).isNumber();
+	boolean isBrickFieldANumber(FormulaField formulaField) {
+		return getFormulaWithBrickField(formulaField).isNumber();
 	}
 
 	public View getCustomView(Context context) {
 		throw new IllegalStateException("There is no custom view for the " + getClass().getSimpleName() + ".");
 	}
 
-	public Brick.BrickField getBrickFieldFromTextViewId(int textViewId) {
+	public FormulaField getBrickFieldFromTextViewId(int textViewId) {
 		return brickFieldToTextViewIdMap.inverse().get(textViewId);
 	}
 
-	protected void setSecondsLabel(View view, BrickField brickField) {
+	protected void setSecondsLabel(View view, FormulaField formulaField) {
 		TextView textView = view.findViewById(R.id.brick_seconds_label);
 		Context context = textView.getContext();
 
-		if (getFormulaWithBrickField(brickField).isNumber()) {
+		if (getFormulaWithBrickField(formulaField).isNumber()) {
 			try {
 				Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-				Double formulaValue = formulaMap.get(brickField).interpretDouble(sprite);
+				Double formulaValue = formulaMap.get(formulaField).interpretDouble(sprite);
 				textView.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(formulaValue)));
 				return;
