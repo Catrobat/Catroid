@@ -24,32 +24,21 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
+import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
+import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 
-public class PlaySoundAction extends TemporalAction {
+public class SetInstrumentAction extends TemporalAction {
 
-	private Sprite sprite;
-	private SoundInfo sound;
+	PickableMusicalInstrument selectedInstrument;
 
 	@Override
 	protected void update(float percent) {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
-			if (sound.isMidiFile()) {
-				MidiSoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			} else {
-				SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			}
-		}
+		MusicalInstrument instrument = MusicalInstrument.getInstrumentFromProgram(selectedInstrument.getValue());
+		MidiSoundManager.getInstance().setInstrument(instrument);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	public void setSound(SoundInfo sound) {
-		this.sound = sound;
+	public void setInstrument(PickableMusicalInstrument selectedInstrument) {
+		this.selectedInstrument = selectedInstrument;
 	}
 }

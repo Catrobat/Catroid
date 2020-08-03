@@ -24,6 +24,7 @@ package org.catrobat.catroid.pocketmusic.mididriver;
 
 public enum MidiSignals {
 
+	CHANNEL_VOLUME((byte) 0x07),
 	MIDI_TIME_CODE((byte) 0xF1),
 	SONG_POSITION_POBYTEER((byte) 0xF2),
 	SONG_SELECT((byte) 0xF3),

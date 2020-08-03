@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,36 +20,52 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
 
-import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
+package org.catrobat.catroid.content.bricks.brickspinner;
 
-import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.io.SoundManager;
-import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
+import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.utils.Utils;
 
-public class PlaySoundAction extends TemporalAction {
+import java.io.Serializable;
 
-	private Sprite sprite;
-	private SoundInfo sound;
+public class PickableMusicalInstrument implements Nameable, Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String name;
+	private int value;
+
+	public PickableMusicalInstrument(String name, int value) {
+		this.name = name;
+		this.value = value;
+	}
+
+	public static int getIndexByValue(int value) {
+		int index = 0;
+		for (PickableMusicalInstrument instrument : Utils.getPickableMusicalInstruments()) {
+			if (instrument.getValue() == value) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
+	}
 
 	@Override
-	protected void update(float percent) {
-		if (sound != null && sprite.getSoundList().contains(sound) && sound.getFile() != null) {
-			if (sound.isMidiFile()) {
-				MidiSoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			} else {
-				SoundManager.getInstance().playSoundFile(sound.getFile().getAbsolutePath(), sprite);
-			}
-		}
+	public String getName() {
+		return name;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public int getValue() {
+		return value;
 	}
 
-	public void setSound(SoundInfo sound) {
-		this.sound = sound;
+	@Override
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 }

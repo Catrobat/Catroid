@@ -380,6 +380,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/LoopEndlessBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlaySoundBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/PlaySoundBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetInstrumentBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/SetInstrumentBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ThinkBubbleBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/ThinkBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AskBrick",

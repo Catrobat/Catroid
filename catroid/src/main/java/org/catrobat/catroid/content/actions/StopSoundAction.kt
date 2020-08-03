@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.common.SoundInfo
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.io.SoundManager
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager
 
 class StopSoundAction : TemporalAction() {
     var sprite: Sprite? = null
@@ -34,6 +35,7 @@ class StopSoundAction : TemporalAction() {
     override fun update(percent: Float) {
         sound?.file?.let {
             SoundManager.getInstance().stopSameSoundInSprite(it.absolutePath, sprite)
+            MidiSoundManager.getInstance().stopSameSoundInSprite(it.absolutePath, sprite)
         }
     }
 }

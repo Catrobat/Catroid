@@ -139,6 +139,7 @@ import org.catrobat.catroid.content.actions.SetBackgroundLookAction;
 import org.catrobat.catroid.content.actions.SetBackgroundLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
+import org.catrobat.catroid.content.actions.SetInstrumentAction;
 import org.catrobat.catroid.content.actions.SetLookAction;
 import org.catrobat.catroid.content.actions.SetLookByIndexAction;
 import org.catrobat.catroid.content.actions.SetNfcTagAction;
@@ -198,6 +199,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -727,6 +729,12 @@ public class ActionFactory extends Actions {
 
 	public Action createStopAllSoundsAction() {
 		return Actions.action(StopAllSoundsAction.class);
+	}
+
+	public Action createSetInstrumentAction(PickableMusicalInstrument instrument) {
+		SetInstrumentAction action = action(SetInstrumentAction.class);
+		action.setInstrument(instrument);
+		return action;
 	}
 
 	public Action createTurnLeftAction(Sprite sprite, Formula degrees) {

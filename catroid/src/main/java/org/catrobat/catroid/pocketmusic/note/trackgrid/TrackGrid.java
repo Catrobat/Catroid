@@ -128,7 +128,8 @@ public class TrackGrid {
 						+ "and noteLength %s. ", noteName.name(), tactIndex, columnIndex, noteLength.toString()));
 				currentGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
 				long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
-				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler, midiDriver, null));
+				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler,
+						midiDriver, null, (byte) 0));
 			}
 		} else {
 			if (indexInList >= 0) {
@@ -180,7 +181,7 @@ public class TrackGrid {
 				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(tactIndex);
 				for (GridRowPosition position : gridRowPositions) {
 					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - SOUND_OFFSET,
-							handler, midiDriver, pianoView);
+							handler, midiDriver, pianoView, (byte) 0);
 
 					handler.postAtTime(runnable, currentTime + tactOffset + playLength
 							* position.getColumnStartIndex() + SOUND_OFFSET);
@@ -193,7 +194,8 @@ public class TrackGrid {
 	public void stopPlayback(PianoView pianoView) {
 		for (MidiRunnable r : playRunnables) {
 			handler.removeCallbacks(r);
-			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler, midiDriver, pianoView));
+			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler,
+					midiDriver, pianoView, (byte) 0));
 		}
 		playRunnables.clear();
 	}
