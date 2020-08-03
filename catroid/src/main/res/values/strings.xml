@@ -1070,6 +1070,8 @@
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
 
     <!-- Control bricks -->
@@ -1378,6 +1380,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
 
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
@@ -1386,7 +1390,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>
     <!--  -->
-
 
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>

@@ -404,6 +404,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/ZigZagStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TripleStitchBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/TripleStitchBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/WriteEmbroideryToFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/UserDefinedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick",

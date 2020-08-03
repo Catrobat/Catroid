@@ -179,6 +179,7 @@ import org.catrobat.catroid.content.actions.WaitForSoundAction;
 import org.catrobat.catroid.content.actions.WaitTillIdleAction;
 import org.catrobat.catroid.content.actions.WaitUntilAction;
 import org.catrobat.catroid.content.actions.WebRequestAction;
+import org.catrobat.catroid.content.actions.WriteEmbroideryToFileAction;
 import org.catrobat.catroid.content.actions.WriteListOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableOnDeviceAction;
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
@@ -962,6 +963,14 @@ public class ActionFactory extends Actions {
 	public static Action createStopRunningStitchAction(Sprite sprite) {
 		StopRunningStitchAction action = Actions.action(StopRunningStitchAction.class);
 		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createWriteEmbroideryToFileAction(Sprite sprite, Formula fileName) {
+		WriteEmbroideryToFileAction action = Actions.action(WriteEmbroideryToFileAction.class);
+		action.setSprite(sprite);
+		action.setFormula(fileName);
+
 		return action;
 	}
 
