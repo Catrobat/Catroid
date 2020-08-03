@@ -24,11 +24,9 @@
 package org.catrobat.catroid.stage;
 
 import android.content.res.Resources;
-import android.graphics.PointF;
 import android.util.DisplayMetrics;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -36,11 +34,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.PenConfiguration;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 
@@ -64,7 +62,8 @@ public class PenActor extends Actor {
 	public void draw(Batch batch, float parentAlpha) {
 		buffer.begin();
 		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList()) {
-			drawLinesForSprite(sprite);
+			PenConfiguration pen = sprite.penConfiguration;
+			pen.drawLinesForSprite(screenRatio);
 		}
 		buffer.end();
 
@@ -87,40 +86,14 @@ public class PenActor extends Actor {
 		bufferBatch.begin();
 		buffer.begin();
 		for (Sprite sprite : ProjectManager.getInstance().getCurrentlyPlayingScene().getSpriteList()) {
-			Sprite.PenConfiguration pen = sprite.penConfiguration;
-			if (pen.stamp) {
+			PenConfiguration pen = sprite.penConfiguration;
+			if (pen.hasStamp()) {
 				sprite.look.draw(bufferBatch, 1.0f);
-				pen.stamp = false;
+				pen.setStamp(false);
 			}
 		}
 		buffer.end();
 		bufferBatch.end();
-	}
-
-	private void drawLinesForSprite(Sprite sprite) {
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		Sprite.PenConfiguration pen = sprite.penConfiguration;
-
-		if (pen.previousPoint == null) {
-			pen.previousPoint = new PointF(x, y);
-			return;
-		}
-
-		ShapeRenderer renderer = StageActivity.stageListener.shapeRenderer;
-		renderer.setColor(new Color(pen.penColor.r, pen.penColor.g, pen.penColor.b, pen.penColor.a));
-		renderer.begin(ShapeRenderer.ShapeType.Filled);
-
-		if (pen.penDown && (pen.previousPoint.x != x || pen.previousPoint.y != y)) {
-			Float penSize = (float) pen.penSize * screenRatio;
-			renderer.circle(pen.previousPoint.x, pen.previousPoint.y, penSize / 2);
-			renderer.rectLine(pen.previousPoint.x, pen.previousPoint.y, x, y, penSize);
-			renderer.circle(x, y, penSize / 2);
-		}
-
-		renderer.end();
-		pen.previousPoint.x = x;
-		pen.previousPoint.y = y;
 	}
 
 	public void dispose() {

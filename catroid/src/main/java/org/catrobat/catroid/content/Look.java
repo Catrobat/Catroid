@@ -66,6 +66,7 @@ public class Look extends Image {
 	public static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
+	private boolean simultaneousMovementXY = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
@@ -200,6 +201,15 @@ public class Look extends Image {
 		}
 	}
 
+	@Override
+	protected void positionChanged() {
+		if (sprite != null && sprite.penConfiguration.isPenDown() && !simultaneousMovementXY) {
+			float x = getXInUserInterfaceDimensionUnit();
+			float y = getYInUserInterfaceDimensionUnit();
+			sprite.penConfiguration.addPosition(new PointF(x, y));
+		}
+	}
+
 	public void startThread(EventThread threadToBeStarted) {
 		if (scheduler != null) {
 			scheduler.startThread(threadToBeStarted);
@@ -315,8 +325,18 @@ public class Look extends Image {
 	}
 
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
+		adjustSimultaneousMovementXY(x, y);
 		setXInUserInterfaceDimensionUnit(x);
+		adjustSimultaneousMovementXY(this.getX(), y);
 		setYInUserInterfaceDimensionUnit(y);
+	}
+
+	private void adjustSimultaneousMovementXY(float x, float y) {
+		if (x != this.getX() && y != this.getY()) {
+			simultaneousMovementXY = true;
+		} else {
+			simultaneousMovementXY = false;
+		}
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {
