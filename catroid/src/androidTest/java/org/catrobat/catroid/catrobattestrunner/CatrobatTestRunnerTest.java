@@ -96,12 +96,12 @@ public class CatrobatTestRunnerTest {
 	@Test
 	public void testFailListDoubleNotEqual() throws Exception {
 		exception.expectMessage("AssertUserListError\n"
-				+ "position: 1\n"
+				+ "position: 2\n"
 				+ "expected: <1.1>\n"
 				+ "actual:   <1.2>\n"
 				+ "deviation: --^\n"
 				+ "\n"
-				+ "position: 2\n"
+				+ "position: 3\n"
 				+ "expected: <5.2>\n"
 				+ "actual:   <5>\n"
 				+ "deviation: -^\n");
@@ -111,12 +111,12 @@ public class CatrobatTestRunnerTest {
 	@Test
 	public void testFailListStringNotEqual() throws Exception {
 		exception.expectMessage("AssertUserListError\n"
-				+ "position: 0\n"
+				+ "position: 1\n"
 				+ "expected: <first String>\n"
 				+ "actual:   <second String>\n"
 				+ "deviation: ^\n"
 				+ "\n"
-				+ "position: 1\n"
+				+ "position: 2\n"
 				+ "expected: <second String>\n"
 				+ "actual:   <first String>\n"
 				+ "deviation: ^\n");
@@ -126,12 +126,12 @@ public class CatrobatTestRunnerTest {
 	@Test
 	public void testFailListMismatchingTypes() throws Exception {
 		exception.expectMessage("AssertUserListError\n"
-				+ "position: 0\n"
+				+ "position: 1\n"
 				+ "expected: <first String>\n"
 				+ "actual:   <125.0>\n"
 				+ "deviation: ^\n"
 				+ "\n"
-				+ "position: 1\n"
+				+ "position: 2\n"
 				+ "expected: <12.3>\n"
 				+ "actual:   <second String>\n"
 				+ "deviation: ^\n");
@@ -141,26 +141,26 @@ public class CatrobatTestRunnerTest {
 	@Test
 	public void testFailParamMismatch() throws Exception {
 		exception.expectMessage("Failed Tests:\n\n"
-				+ "[2] actual = 1.0\n"
+				+ "[3] actual = 1.0\n"
 				+ "expected: <1.1>\n"
 				+ "actual:   <1.0>\n"
 				+ "deviation: --^\n\n"
-				+ "[3] actual = String\n"
+				+ "[4] actual = String\n"
 				+ "expected: <123>\n"
 				+ "actual:   <String>\n"
 				+ "deviation: ^\n\n"
-				+ "[4] actual = 345\n"
+				+ "[5] actual = 345\n"
 				+ "expected: <Test String>\n"
 				+ "actual:   <345>\n"
 				+ "deviation: ^\n\n"
-				+ "[5] actual = Actual\n"
+				+ "[6] actual = Actual\n"
 				+ "expected: <Expected>\n"
 				+ "actual:   <Actual>\n"
 				+ "deviation: ^\n\n\n"
 				+ "Succeeded Tests:\n\n"
-				+ "[0] actual = 5.0\n"
+				+ "[1] actual = 5.0\n"
 				+ "5.0 == 5\n\n"
-				+ "[1] actual = 3\n"
+				+ "[2] actual = 3\n"
 				+ "3 == 3.0");
 		testAsset("testFailParamMismatch.catrobat", "catrobatTestRunnerTests/fail");
 	}
@@ -169,14 +169,14 @@ public class CatrobatTestRunnerTest {
 	public void testFailParamStringNotEqual() throws Exception {
 		exception.expectMessage("ParameterizedAssertError\n"
 				+ "Failed Tests:\n\n"
-				+ "[1] firstPart = puppy | secondPart = naughty\n"
+				+ "[2] firstPart = puppy | secondPart = naughty\n"
 				+ "expected: <puppy is not naughty>\n"
 				+ "actual:   <puppy is naughty>\n"
 				+ "deviation: ----------^\n\n\n"
 				+ "Succeeded Tests:\n\n"
-				+ "[0] firstPart = kitty | secondPart = cute\n"
+				+ "[1] firstPart = kitty | secondPart = cute\n"
 				+ "kitty is cute == kitty is cute\n\n"
-				+ "[2] firstPart = octopus | secondPart = intelligent\n"
+				+ "[3] firstPart = octopus | secondPart = intelligent\n"
 				+ "octopus is intelligent == octopus is intelligent");
 		testAsset("testFailParamStringNotEqual.catrobat", "catrobatTestRunnerTests/fail");
 	}

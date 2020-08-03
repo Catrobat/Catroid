@@ -87,7 +87,7 @@ class RepeatParameterizedAction : RepeatAction() {
     }
 
     private fun initParameter(): Boolean = parameterizedData?.let {
-        it.currentParameters = "[${it.currentPosition}] "
+        it.currentParameters = "[${it.currentPosition + 1}] "
 
         for ((userList, userVariable) in parameters) {
             val data = userList.value

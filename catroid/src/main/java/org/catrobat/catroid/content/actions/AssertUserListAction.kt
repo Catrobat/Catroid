@@ -81,7 +81,7 @@ class AssertUserListAction : AssertAction() {
         expected: Any
     ): String {
         val indicator = generateIndicator(actual, expected)
-        return "position: $listPosition\n" +
+        return "position: ${listPosition + 1}\n" +
             "expected: <$expected>\n" +
             "actual:   <$actual>\n" +
             "deviation: $indicator\n\n"
