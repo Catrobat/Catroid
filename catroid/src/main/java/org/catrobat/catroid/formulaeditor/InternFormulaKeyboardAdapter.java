@@ -390,6 +390,8 @@ public class InternFormulaKeyboardAdapter {
 						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_collides_with_color:
 				return buildSingleParameterFunction(Functions.COLLIDES_WITH_COLOR, InternTokenType.STRING, "#ff0000");
+			case R.string.formula_editor_listening_language_sensor:
+				return buildSensor(Sensors.SPEECH_RECOGNITION_LANGUAGE);
 		}
 		return null;
 	}

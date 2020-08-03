@@ -126,6 +126,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
@@ -229,6 +230,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(StartListeningBrick.class.getSimpleName());
 		brickInfoMap.put("startListeningBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetListeningLanguageBrick.class.getSimpleName());
+		brickInfoMap.put("setSpeechLanguageBrick", brickInfo);
 
 		brickInfo = new BrickInfo(BroadcastBrick.class.getSimpleName());
 		brickInfoMap.put("broadcastBrick", brickInfo);

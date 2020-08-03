@@ -74,6 +74,7 @@ public class ProjectUploadController {
 	public void startUpload(String projectName, String projectDescription, Project project) {
 		project.setDescription(projectDescription);
 		project.setDeviceData(context);
+		project.setListeningLanguageTag();
 		ProjectSaveTask.task(project, context);
 
 		Intent uploadIntent = createUploadIntent(projectName, projectDescription, project);

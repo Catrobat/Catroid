@@ -51,6 +51,7 @@ import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.utils.Utils.SPEECH_RECOGNITION_SUPPORTED_LANGUAGES;
 
 @XStreamAlias("program")
 @XStreamFieldKeyOrder({
@@ -393,6 +394,14 @@ public class Project implements Serializable {
 	public void deselectElements(List<UserData<?>> elements) {
 		for (Scene scene : sceneList) {
 			scene.deselectElements(elements);
+		}
+	}
+
+	public void setListeningLanguageTag() {
+		if (xmlHeader.getListeningLanguageTag().isEmpty()
+				&& !SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.isEmpty()) {
+			// first item represents the default speech recognition language
+			xmlHeader.setListeningLanguageTag(SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.get(0));
 		}
 	}
 }

@@ -227,6 +227,9 @@ public class InternToExternGenerator {
 				R.string.formula_editor_logic_leserequal);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Operators.SMALLER_THAN.name(),
 				R.string.formula_editor_logic_lesserthan);
+
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SPEECH_RECOGNITION_LANGUAGE.name(),
+				R.string.formula_editor_listening_language_sensor);
 	}
 	public InternToExternGenerator(Context context) {
 		this.context = context;

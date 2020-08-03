@@ -424,6 +424,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/TapForBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartListeningBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/StartListeningBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetListeningLanguageBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/SetListeningLanguageBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

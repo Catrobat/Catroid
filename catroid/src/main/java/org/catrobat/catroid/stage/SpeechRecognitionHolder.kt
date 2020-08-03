@@ -66,6 +66,13 @@ class SpeechRecognitionHolder private constructor() {
             private set
     }
 
+    fun forceSetLanguage() {
+        speechIntent.putExtra(
+            RecognizerIntent.EXTRA_LANGUAGE, SensorHandler
+                .getListeningLanguageSensor()
+        )
+    }
+
     fun initSpeechRecognition(
         stageActivity: StageActivity,
         stageResourceHolder: StageResourceHolder
@@ -73,7 +80,8 @@ class SpeechRecognitionHolder private constructor() {
 
         speechIntent = Intent(ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(EXTRA_LANGUAGE_MODEL, LANGUAGE_MODEL_FREE_FORM)
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, SensorHandler.getListeningLanguageSensor())
+            putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, true)
             putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, stageActivity.packageName)
             putExtra(EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, ONE_SECOND)
             putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_MINIMUM_LENGTH_MILLIS, FIVE_SECONDS)
@@ -122,7 +130,7 @@ class SpeechRecognitionHolder private constructor() {
 
                 var spokenWords = ""
                 if (candidates != null && candidates.isNotEmpty()) {
-                    spokenWords = candidates[0]
+                    spokenWords = candidates.first()
                 }
 
                 callback.onResult(spokenWords)
