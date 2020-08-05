@@ -87,8 +87,8 @@ object Conversions {
     }
 
     private fun matchColorInBoundingRectangle(boundingRectangle: BoundingRectangle, pixmap: Pixmap, color: String, polygons: Array<Polygon>): Boolean {
-        for (x in boundingRectangle.left..boundingRectangle.right) {
-            for (y in boundingRectangle.top..boundingRectangle.bottom) {
+        for (x in boundingRectangle.left until boundingRectangle.right) {
+            for (y in boundingRectangle.top until boundingRectangle.bottom) {
                 val pixmapColor = LibGDXColor(pixmap.getPixel(x, y))
 
                 if (!pixmapColor.equalsColor(LibGDXColor.valueOf(color))) {
@@ -133,8 +133,8 @@ object Conversions {
         private fun List<Float>.getYVertices() = this.filterIndexed { i, _ -> i.isOdd() }
         private fun List<Float>.getXVertices() = this.filterIndexed { i, _ -> !i.isOdd() }
 
-        private fun Pixmap.validXIndex(x: Int) = x > 0 && x < this.width
-        private fun Pixmap.validYIndex(y: Int) = y > 0 && y < this.height
+        private fun Pixmap.validXIndex(x: Int) = x >= 0 && x <= this.width
+        private fun Pixmap.validYIndex(y: Int) = y >= 0 && y <= this.height
 
         fun hasValidBoundaries(pixmap: Pixmap) = pixmap.run {
             validXIndex(left) && validXIndex(right) && validYIndex(top) && validYIndex(bottom)

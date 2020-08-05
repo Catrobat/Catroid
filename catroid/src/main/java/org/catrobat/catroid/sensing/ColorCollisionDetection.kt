@@ -39,16 +39,13 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Scene
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.matchesColor
-import org.catrobat.catroid.formulaeditor.common.FormulaElementOperations
 import org.catrobat.catroid.stage.StageActivity
 
 class ColorCollisionDetection(
     private val sprite: Sprite,
-    private val currentProject: Project,
-    private val currentlyPlayingScene: Scene
+    private val currentProject: Project
 ) {
 
     fun interpretFunctionTouchesColor(parameter: Any?): Boolean {
@@ -57,10 +54,10 @@ class ColorCollisionDetection(
             return false
         }
         val color = parameter as String
-        val spriteList: MutableList<Sprite> = getOtherSprites()
+        val lookList: MutableList<Look> = getLooksOfOtherSprites()
         val batch = SpriteBatch()
         val projectionMatrix = createProjectionMatrix(currentProject, look)
-        val pixmap = recreateStageOnCameraView(spriteList, projectionMatrix, look, batch)
+        val pixmap = recreateStageOnCameraView(lookList, projectionMatrix, look, batch)
 
         try {
             return matchesColor(pixmap, look.currentCollisionPolygon, color)
@@ -70,23 +67,23 @@ class ColorCollisionDetection(
         }
     }
 
-    private fun getOtherSprites(): MutableList<Sprite> =
-        currentlyPlayingScene.spriteList
-            .filter { s -> s != sprite }
-            .flatMap { s -> FormulaElementOperations.getAllClones(s, StageActivity.stageListener) }
+    private fun getLooksOfOtherSprites(): MutableList<Look> =
+        ArrayList<Sprite>(StageActivity.stageListener.spritesFromStage)
+            .filter { s -> (s != sprite || s.isClone) && s.look.isLookVisible }
+            .map { s -> s.look }
             .toMutableList()
 
     private fun areParametersInvalid(parameter: Any?, look: Look): Boolean =
         parameter == null || parameter !is String || look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
 
-    private fun recreateStageOnCameraView(spriteList: List<Sprite>, projectionMatrix: Matrix4, actor: Actor, batch: SpriteBatch): Pixmap {
+    private fun recreateStageOnCameraView(lookList: List<Look>, projectionMatrix: Matrix4, actor: Actor, batch: SpriteBatch): Pixmap {
         val buffer = FrameBuffer(Pixmap.Format.RGBA8888, actor.width.toInt(), actor.height.toInt(), false)
 
         batch.projectionMatrix = projectionMatrix
         buffer.begin()
         batch.begin()
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT)
-        drawSprites(spriteList, batch)
+        drawSprites(lookList, batch)
         batch.end()
         val pixmap = ScreenUtils.getFrameBufferPixmap(0, 0, buffer.width, buffer.height)
         buffer.end()
@@ -94,9 +91,9 @@ class ColorCollisionDetection(
         return pixmap
     }
 
-    private fun drawSprites(spriteList: List<Sprite>, batch: SpriteBatch) {
-        for (sprite in spriteList) {
-            sprite.look.draw(batch, 1f)
+    private fun drawSprites(lookList: List<Look>, batch: SpriteBatch) {
+        for (look in lookList) {
+            look.draw(batch, 1f)
         }
     }
 

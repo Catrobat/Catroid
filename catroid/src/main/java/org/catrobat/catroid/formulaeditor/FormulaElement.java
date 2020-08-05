@@ -317,7 +317,7 @@ public class FormulaElement implements Serializable {
 				return tryInterpretOperator(sprite, value);
 			case FUNCTION:
 				Functions function = Functions.getFunctionByValue(value);
-				return interpretFunction(function, sprite, currentProject, currentlyPlayingScene);
+				return interpretFunction(function, sprite, currentProject);
 			case SENSOR:
 				return interpretSensor(sprite, currentlyEditedScene, currentProject, value);
 			case USER_VARIABLE:
@@ -342,7 +342,7 @@ public class FormulaElement implements Serializable {
 		return interpretOperator(operator, sprite);
 	}
 
-	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject, Scene currentlyPlayingScene) {
+	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject) {
 		Object firstArgument = tryInterpretRecursive(leftChild, sprite);
 		Object secondArgument = tryInterpretRecursive(rightChild, sprite);
 
@@ -364,7 +364,7 @@ public class FormulaElement implements Serializable {
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
 			case COLLIDES_WITH_COLOR:
-				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, currentlyPlayingScene).interpretFunctionTouchesColor(firstArgument));
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject).interpretFunctionTouchesColor(firstArgument));
 			default:
 				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
 				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
