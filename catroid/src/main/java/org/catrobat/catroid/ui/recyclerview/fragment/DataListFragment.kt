@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.DialogInterface
@@ -37,6 +38,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.content.bricks.ScriptBrick
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
@@ -45,6 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.ArrayList
@@ -60,6 +64,7 @@ class DataListFragment : Fragment(),
     private var adapter: DataListAdapter? = null
     private var actionMode: ActionMode? = null
     private var formulaEditorDataInterface: FormulaEditorDataInterface? = null
+    private var parentScriptBrick: ScriptBrick? = null
 
     @ActionModeType
     var actionModeType = NONE
@@ -152,18 +157,25 @@ class DataListFragment : Fragment(),
     }
 
     private fun initializeAdapter() {
+        arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT).let { parentScriptBrick = it as ScriptBrick? }
+
         val currentProject =
             ProjectManager.getInstance().currentProject
         val currentSprite =
             ProjectManager.getInstance().currentSprite
+
+        var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
+        if (parentScriptBrick is UserDefinedReceiverBrick) {
+            userDefinedBrickInputs = (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
+        }
+
         val globalVars = currentProject.userVariables
         val localVars = currentSprite.userVariables
-        val multiplayerVars =
-            currentProject.multiplayerVariables
+        val multiplayerVars = currentProject.multiplayerVariables
         val globalLists = currentProject.userLists
         val localLists = currentSprite.userLists
         adapter = DataListAdapter(
-            multiplayerVars, globalVars, localVars, globalLists,
+            userDefinedBrickInputs, multiplayerVars, globalVars, localVars, globalLists,
             localLists
         )
         onAdapterReady()
@@ -253,14 +265,13 @@ class DataListFragment : Fragment(),
                 )
             )
             .setPositiveButton(
-                getString(R.string.ok),
-                TextInputDialog.OnClickListener { _: DialogInterface?, textInput: String? ->
-                    renameItem(
-                        item,
-                        textInput
-                    )
-                }
-            )
+                getString(R.string.ok)
+            ) { _: DialogInterface?, textInput: String? ->
+                renameItem(
+                    item,
+                    textInput
+                )
+            }
         builder.setTitle(R.string.rename_data_dialog)
             .setNegativeButton(R.string.cancel, null)
             .show()
@@ -299,6 +310,9 @@ class DataListFragment : Fragment(),
         item: UserData<*>,
         holder: CheckableVH
     ) {
+        if (item is UserDefinedBrickInput) {
+            return
+        }
         val items =
             arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
         AlertDialog.Builder(activity!!)
@@ -335,6 +349,7 @@ class DataListFragment : Fragment(),
     companion object {
         @JvmField
         val TAG: String = DataListFragment::class.java.simpleName
+        const val PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT: String = "parent_script_brick"
         private const val NONE = 0
         private const val DELETE = 1
 

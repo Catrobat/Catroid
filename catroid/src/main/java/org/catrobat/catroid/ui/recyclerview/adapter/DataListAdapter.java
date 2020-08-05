@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
 import java.io.File;
 import java.lang.annotation.Retention;
@@ -51,31 +52,44 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	public boolean allowMultiSelection = true;
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
-	@interface DataType {
-	}
+	@IntDef({USER_DEFINED_BRICK_INPUTS, VAR_MULTIPLAYER, VAR_GLOBAL, VAR_LOCAL, LIST_GLOBAL, LIST_LOCAL})
+	@interface DataType {}
 
-	private static final int VAR_MULTIPLAYER = 0;
-	private static final int VAR_GLOBAL = 1;
-	private static final int VAR_LOCAL = 2;
-	private static final int LIST_GLOBAL = 3;
-	private static final int LIST_LOCAL = 4;
+	private static final int USER_DEFINED_BRICK_INPUTS = 0;
+	private static final int VAR_MULTIPLAYER = 1;
+	private static final int VAR_GLOBAL = 2;
+	private static final int VAR_LOCAL = 3;
+	private static final int LIST_GLOBAL = 4;
+	private static final int LIST_LOCAL = 5;
 
-	private final VariableRVAdapter multiplayerVarAdapter;
-	private final VariableRVAdapter globalVarAdapter;
-	private final VariableRVAdapter localVarAdapter;
+	private final UserDataRVAdapter<UserDefinedBrickInput> userDefinedBrickInputAdapter;
+	private final UserDataRVAdapter<UserVariable> multiplayerVarAdapter;
+	private final UserDataRVAdapter<UserVariable> globalVarAdapter;
+	private final UserDataRVAdapter<UserVariable> localVarAdapter;
 	private final ListRVAdapter globalListAdapter;
 	private final ListRVAdapter localListAdapter;
 
 	private RVAdapter.SelectionListener selectionListener;
 
-	public DataListAdapter(List<UserVariable> multiplayerVars,
+	public DataListAdapter(List<UserDefinedBrickInput> userDefinedBrickInputs,
+			List<UserVariable> multiplayerVars,
 			List<UserVariable> globalVars,
 			List<UserVariable> localVars,
 			List<UserList> globalLists,
 			List<UserList> localLists) {
 
-		multiplayerVarAdapter = new VariableRVAdapter(multiplayerVars) {
+		userDefinedBrickInputAdapter = new UserDataRVAdapter<UserDefinedBrickInput>(userDefinedBrickInputs) {
+			@Override
+			public void onBindViewHolder(CheckableVH holder, int position) {
+				super.onBindViewHolder(holder, position);
+				if (position == 0) {
+					((TextView) holder.itemView.findViewById(R.id.headline)).setText(holder.itemView.getResources().getQuantityText(R.plurals.user_defined_brick_input_headline, userDefinedBrickInputAdapter.getItemCount()));
+				}
+			}
+		};
+		userDefinedBrickInputAdapter.setSelectionListener(this);
+
+		multiplayerVarAdapter = new UserDataRVAdapter<UserVariable>(multiplayerVars) {
 			@Override
 			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
@@ -91,7 +105,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		};
 		multiplayerVarAdapter.setSelectionListener(this);
 
-		globalVarAdapter = new VariableRVAdapter(globalVars) {
+		globalVarAdapter = new UserDataRVAdapter<UserVariable>(globalVars) {
 			@Override
 			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
@@ -102,7 +116,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		};
 		globalVarAdapter.setSelectionListener(this);
 
-		localVarAdapter = new VariableRVAdapter(localVars) {
+		localVarAdapter = new UserDataRVAdapter<UserVariable>(localVars){
 			@Override
 			public void onBindViewHolder(CheckableVH holder, int position) {
 				super.onBindViewHolder(holder, position);
@@ -153,19 +167,25 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 	private int getRelativeItemPosition(int position, @DataType int dataType) {
 		switch (dataType) {
-			case VAR_MULTIPLAYER:
+			case USER_DEFINED_BRICK_INPUTS:
 				return position;
+			case VAR_MULTIPLAYER:
+				return position - userDefinedBrickInputAdapter.getItemCount();
 			case VAR_GLOBAL:
-				return position - multiplayerVarAdapter.getItemCount();
+				return position - (userDefinedBrickInputAdapter.getItemCount()
+						+ multiplayerVarAdapter.getItemCount());
 			case VAR_LOCAL:
-				return position - (multiplayerVarAdapter.getItemCount()
+				return position - (userDefinedBrickInputAdapter.getItemCount()
+						+ multiplayerVarAdapter.getItemCount()
 						+ globalVarAdapter.getItemCount());
 			case LIST_GLOBAL:
-				return position - (multiplayerVarAdapter.getItemCount()
+				return position - (userDefinedBrickInputAdapter.getItemCount()
+						+ multiplayerVarAdapter.getItemCount()
 						+ globalVarAdapter.getItemCount()
 						+ localVarAdapter.getItemCount());
 			case LIST_LOCAL:
-				return position - (multiplayerVarAdapter.getItemCount()
+				return position - (userDefinedBrickInputAdapter.getItemCount()
+						+ multiplayerVarAdapter.getItemCount()
 						+ globalVarAdapter.getItemCount()
 						+ localVarAdapter.getItemCount()
 						+ globalListAdapter.getItemCount());
@@ -176,25 +196,33 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	private @DataType int getDataType(int position) {
-		if (position < multiplayerVarAdapter.getItemCount()) {
+		if (position < userDefinedBrickInputAdapter.getItemCount()) {
+			return USER_DEFINED_BRICK_INPUTS;
+		}
+		if (position < (userDefinedBrickInputAdapter.getItemCount()
+				+ multiplayerVarAdapter.getItemCount())) {
 			return VAR_MULTIPLAYER;
 		}
-		if (position < (multiplayerVarAdapter.getItemCount()
+		if (position < (userDefinedBrickInputAdapter.getItemCount()
+				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount())) {
 			return VAR_GLOBAL;
 		}
-		if (position < (multiplayerVarAdapter.getItemCount()
+		if (position < (userDefinedBrickInputAdapter.getItemCount()
+				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount()
 				+ localVarAdapter.getItemCount())) {
 			return VAR_LOCAL;
 		}
-		if (position < (multiplayerVarAdapter.getItemCount()
+		if (position < (userDefinedBrickInputAdapter.getItemCount()
+				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount()
 				+ localVarAdapter.getItemCount()
 				+ globalListAdapter.getItemCount())) {
 			return LIST_GLOBAL;
 		}
-		if (position < (multiplayerVarAdapter.getItemCount()
+		if (position < (userDefinedBrickInputAdapter.getItemCount()
+				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount()
 				+ localVarAdapter.getItemCount()
 				+ globalListAdapter.getItemCount()
@@ -218,6 +246,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	public void setOnItemClickListener(RVAdapter.OnItemClickListener onItemClickListener) {
+		userDefinedBrickInputAdapter.setOnItemClickListener(onItemClickListener);
 		multiplayerVarAdapter.setOnItemClickListener(onItemClickListener);
 		globalVarAdapter.setOnItemClickListener(onItemClickListener);
 		localVarAdapter.setOnItemClickListener(onItemClickListener);
@@ -247,6 +276,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 		int dataType = getDataType(position);
 		position = getRelativeItemPosition(position, dataType);
 		switch (dataType) {
+			case USER_DEFINED_BRICK_INPUTS:
 			case VAR_MULTIPLAYER:
 			case VAR_GLOBAL:
 			case VAR_LOCAL:
@@ -273,6 +303,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					localVarAdapter.onBindViewHolder(holder, position);
 				} else if (dataType == VAR_MULTIPLAYER) {
 					multiplayerVarAdapter.onBindViewHolder(holder, position);
+				} else if (dataType == USER_DEFINED_BRICK_INPUTS) {
+					userDefinedBrickInputAdapter.onBindViewHolder(holder, position);
 				}
 				break;
 			case R.layout.vh_list_with_headline:
@@ -296,6 +328,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	}
 
 	public void updateDataSet() {
+		userDefinedBrickInputAdapter.notifyDataSetChanged();
 		multiplayerVarAdapter.notifyDataSetChanged();
 		globalVarAdapter.notifyDataSetChanged();
 		localVarAdapter.notifyDataSetChanged();
@@ -341,6 +374,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 	public List<UserData> getItems() {
 		List<UserData> items = new ArrayList<>();
+		items.addAll(userDefinedBrickInputAdapter.getItems());
 		items.addAll(multiplayerVarAdapter.getItems());
 		items.addAll(globalVarAdapter.getItems());
 		items.addAll(localVarAdapter.getItems());
@@ -403,7 +437,8 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 
 	@Override
 	public int getItemCount() {
-		return multiplayerVarAdapter.getItemCount()
+		return userDefinedBrickInputAdapter.getItemCount()
+				+ multiplayerVarAdapter.getItemCount()
 				+ globalVarAdapter.getItemCount()
 				+ localVarAdapter.getItemCount()
 				+ globalListAdapter.getItemCount()

@@ -299,6 +299,8 @@ public class InternToExternGenerator {
 				return "\"" + internToken.getTokenStringValue() + "\"";
 			case USER_LIST:
 				return "*" + internToken.getTokenStringValue() + "*";
+			case USER_DEFINED_BRICK_INPUT:
+				return "[" + internToken.getTokenStringValue() + "]";
 			case STRING:
 				return "\'" + internToken.getTokenStringValue() + "\'";
 			case COLLISION_FORMULA:

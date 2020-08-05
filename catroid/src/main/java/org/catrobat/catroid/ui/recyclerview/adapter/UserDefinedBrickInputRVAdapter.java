@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,17 +27,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.recyclerview.viewholder.VariableVH;
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
 import java.util.List;
 
 import static org.catrobat.catroid.utils.NumberFormats.trimTrailingCharacters;
 
-public class VariableRVAdapter extends RVAdapter<UserVariable> {
+public class UserDefinedBrickInputRVAdapter extends RVAdapter<UserDefinedBrickInput> {
 
-	VariableRVAdapter(List<UserVariable> items) {
+	UserDefinedBrickInputRVAdapter(List<UserDefinedBrickInput> items) {
 		super(items);
 	}
 
@@ -51,7 +51,7 @@ public class VariableRVAdapter extends RVAdapter<UserVariable> {
 	public void onBindViewHolder(CheckableVH holder, int position) {
 		super.onBindViewHolder(holder, position);
 
-		UserVariable item = items.get(position);
+		UserDefinedBrickInput item = items.get(position);
 		VariableVH variableVH = (VariableVH) holder;
 		variableVH.title.setText(item.getName());
 		variableVH.value.setText(trimTrailingCharacters(item.getValue().toString()));

@@ -29,9 +29,10 @@ import java.util.List;
 
 public class InternFormulaKeyboardAdapter {
 
-	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 2;
-	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
 	public static final int FORMULA_EDITOR_USER_VARIABLE_RESOURCE_ID = 0;
+	public static final int FORMULA_EDITOR_USER_LIST_RESOURCE_ID = 1;
+	public static final int FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID = 2;
+	public static final int FORMULA_EDITOR_COLLIDE_RESOURCE_ID = 3;
 
 	public List<InternToken> createInternTokenListByResourceId(int resource, String name) {
 
@@ -39,12 +40,16 @@ public class InternFormulaKeyboardAdapter {
 			return buildUserVariable(name);
 		}
 
-		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
-			return buildCollideWithFormula(name);
-		}
-
 		if ((resource == FORMULA_EDITOR_USER_LIST_RESOURCE_ID) && !name.isEmpty()) {
 			return buildUserList(name);
+		}
+
+		if ((resource == FORMULA_EDITOR_USER_DEFINED_BRICK_INPUT_RESOURCE_ID) && !name.isEmpty()) {
+			return buildUserDefinedBrickInput(name);
+		}
+
+		if ((resource == FORMULA_EDITOR_COLLIDE_RESOURCE_ID) && !name.isEmpty()) {
+			return buildCollideWithFormula(name);
 		}
 
 		if ((resource == R.id.formula_editor_keyboard_string)) {
@@ -392,6 +397,13 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildUserVariable(String userVariableName) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
+		return returnList;
+	}
+
+	private List<InternToken> buildUserDefinedBrickInput(String userDefinedBrickInput) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(InternTokenType.USER_DEFINED_BRICK_INPUT,
+				userDefinedBrickInput));
 		return returnList;
 	}
 
