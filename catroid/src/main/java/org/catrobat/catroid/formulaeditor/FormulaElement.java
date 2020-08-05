@@ -33,6 +33,7 @@ import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
 import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
+import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.sensing.ColorCollisionDetection;
@@ -101,7 +102,7 @@ public class FormulaElement implements Serializable {
 
 	protected FormulaElement() {
 		List<FunctionProvider> functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
-				new MathFunctionProvider(), new TouchFunctionProvider());
+				new MathFunctionProvider(), new TouchFunctionProvider(), new TextBlockFunctionProvider());
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);

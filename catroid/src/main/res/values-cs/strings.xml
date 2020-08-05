@@ -1762,7 +1762,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_general">General properties</string>
     <string name="formula_editor_object_movement">Pohybové vlastnosti</string>
-    <string name="formula_editor_device_face_detection">Rozpoznávání obličeje</string>
     <string name="formula_editor_device_date_and_time">Datum a čas</string>
     <string name="formula_editor_device_touch_detection">Detekce doteku</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>

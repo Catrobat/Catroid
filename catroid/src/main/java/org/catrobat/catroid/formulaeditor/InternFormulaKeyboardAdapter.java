@@ -374,6 +374,20 @@ public class InternFormulaKeyboardAdapter {
 				return buildObject(Sensors.COLLIDES_WITH_EDGE);
 			case R.string.formula_editor_function_touched:
 				return buildObject(Sensors.COLLIDES_WITH_FINGER);
+
+			case R.string.formula_editor_sensor_text_from_camera:
+				return buildObject(Sensors.TEXT_FROM_CAMERA);
+			case R.string.formula_editor_sensor_text_blocks_number:
+				return buildObject(Sensors.TEXT_BLOCKS_NUMBER);
+			case R.string.formula_editor_function_text_block_x:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_X,
+						InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_text_block_y:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_Y,
+						InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_text_block_size:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_SIZE,
+						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_collides_with_color:
 				return buildSingleParameterFunction(Functions.COLLIDES_WITH_COLOR, InternTokenType.STRING, "#ff0000");
 		}

@@ -347,6 +347,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			}
 		}
 
+		if (requiredResourcesSet.contains(Brick.TEXT_DETECTION)) {
+			if (getCameraManager().startTextDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.TEXT_DETECTION);
+			}
+		}
+
 		if (requiredResourcesSet.contains(Brick.CAST_REQUIRED)) {
 			if (CastManager.getInstance().isConnected()) {
 				resourceInitialized();
@@ -529,8 +537,12 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 					break;
 
 				case Brick.SPEECH_RECOGNITION:
-					failedResourcesMessage = failedResourcesMessage + stageActivity
-							.getString(R.string.speech_recognition_not_available);
+					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
+							.speech_recognition_not_available);
+					break;
+				case Brick.TEXT_DETECTION:
+					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
+							.prestage_no_text_detection_available);
 					break;
 				default:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string

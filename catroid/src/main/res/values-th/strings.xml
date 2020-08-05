@@ -1566,7 +1566,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_logic_comparison">ผู้ประกอบการเปรียบเทียบ</string>
     <string name="formula_editor_object_general">คุณสมบัติทั่วไป</string>
     <string name="formula_editor_object_movement">คุณสมบัติเคลื่อนที่</string>
-    <string name="formula_editor_device_face_detection">ตรวจจับใบหน้า</string>
     <string name="formula_editor_device_date_and_time">วันและเวลา</string>
     <string name="formula_editor_device_touch_detection">ตรวจจับการสัมผัส</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>

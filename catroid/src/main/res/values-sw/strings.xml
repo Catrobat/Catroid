@@ -1668,7 +1668,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">vikokotoa mfanano</string>
     <string name="formula_editor_object_general">Sifa za jumla</string>
     <string name="formula_editor_object_movement">mwendo mali</string>
-    <string name="formula_editor_device_face_detection">Kigundua uso</string>
     <string name="formula_editor_device_date_and_time">Tarehe na saa</string>
     <string name="formula_editor_device_touch_detection">Gusa kigunduzi</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT </string>

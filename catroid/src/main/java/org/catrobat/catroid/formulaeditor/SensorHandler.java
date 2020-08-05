@@ -44,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.FaceDetector;
+import org.catrobat.catroid.camera.TextDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -85,6 +86,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+	private float textBlocksNumber = 0f;
+	private String textFromCamera = "0";
 
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
@@ -200,6 +203,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		SensorHandler.registerListener(instance);
 
 		FaceDetector.addListener(instance);
+		TextDetector.addListener(instance);
 
 		if (instance.sensorLoudness != null) {
 			instance.sensorLoudness.registerListener(instance);
@@ -271,6 +275,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 
 		FaceDetector.removeListener(instance);
+		TextDetector.removeListener(instance);
 	}
 
 	public static Object getSensorValue(Sensors sensor) {
@@ -453,6 +458,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return (double) instance.facePositionY;
 				}
+			case TEXT_FROM_CAMERA:
+				return instance.textFromCamera;
+			case TEXT_BLOCKS_NUMBER:
+				return (double) instance.textBlocksNumber;
 			case LOUDNESS:
 				return (double) instance.loudness;
 			case DATE_YEAR:
@@ -588,6 +597,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.faceSize = 0f;
 			instance.facePositionX = 0f;
 			instance.facePositionY = 0f;
+			instance.textFromCamera = "0";
+			instance.textBlocksNumber = 0f;
 		}
 	}
 
@@ -677,6 +688,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 			case FACE_Y_POSITION:
 				instance.facePositionY = event.values[0];
+				break;
+			case TEXT_BLOCKS_NUMBER:
+				instance.textBlocksNumber = event.values[0];
+				break;
+			case TEXT_FROM_CAMERA:
+				instance.textFromCamera = event.valuesString[0];
 				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);
