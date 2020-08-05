@@ -145,7 +145,9 @@ public final class VibrationUtil {
 					while (keepAlive) {
 						try {
 							vibrationThreadSemaphore.acquire();
-							startVibrate();
+							if (!startVibrate()) {
+								break;
+							}
 							while ((startTime + timeToVibrate) > SystemClock.uptimeMillis()) {
 								Thread.yield();
 							}
@@ -187,13 +189,17 @@ public final class VibrationUtil {
 		vibrationThread = null;
 	}
 
-	private static synchronized void startVibrate() {
+	private static synchronized boolean startVibrate() {
 		if (vibration != null) {
-			Log.d(TAG, "startVibrate()");
 			startTime = SystemClock.uptimeMillis();
+			if (!keepAlive) {
+				return false;
+			}
+			Log.d(TAG, "startVibrate()");
 			vibration.vibrate(MAX_TIME_TO_VIBRATE);
 			Log.d(TAG, "start time was: " + Long.toString(startTime));
 		}
+		return true;
 	}
 
 	private static synchronized void stopVibrate() {
