@@ -55,6 +55,10 @@ public class ShowBubbleActor extends Actor {
 	ArrayList<String> bubbleValue;
 	private Sprite sprite;
 	private int type;
+	private Pixmap pixmapLeft;
+	private Pixmap pixmapRight;
+	private Texture textureLeft;
+	private Texture textureRight;
 	private Image imageLeft;
 	private Image imageRight;
 	private Image image;
@@ -73,9 +77,20 @@ public class ShowBubbleActor extends Actor {
 		getImageForDraw().draw(batch, parentAlpha);
 	}
 
+	public void close() {
+		pixmapRight.dispose();
+		textureRight.dispose();
+		pixmapLeft.dispose();
+		textureLeft.dispose();
+	}
+
 	private void init() {
-		imageRight = new Image(new Texture(drawBubbleOnCanvas(bubbleValue, true)));
-		imageLeft = new Image(new Texture(drawBubbleOnCanvas(bubbleValue, false)));
+		pixmapRight = drawBubbleOnCanvas(bubbleValue, true);
+		textureRight = new Texture(pixmapRight);
+		imageRight = new Image(textureRight);
+		pixmapLeft = drawBubbleOnCanvas(bubbleValue, false);
+		textureLeft = new Texture(pixmapLeft);
+		imageLeft = new Image(textureLeft);
 		image = imageRight;
 	}
 

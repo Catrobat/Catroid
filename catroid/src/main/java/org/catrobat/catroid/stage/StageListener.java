@@ -793,6 +793,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void removeBubbleActorForSprite(Sprite sprite) {
+		getBubbleActorForSprite(sprite).close();
 		getStage().getActors().removeValue(getBubbleActorForSprite(sprite), true);
 		bubbleActorMap.remove(sprite);
 	}
