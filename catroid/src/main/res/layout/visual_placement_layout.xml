@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#60002B3B"
-            app:titleTextAppearance="@style/ToolbarTitle" />
+            app:titleTextAppearance="@color/solid_white" />
         
     </FrameLayout>
 

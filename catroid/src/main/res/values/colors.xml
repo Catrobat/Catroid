@@ -24,11 +24,11 @@
 <resources>
 
     <!-- Toolbar and Bottombar Colors -->
-    <color name="toolbar_background">#002B3B</color>
-    <color name="toolbar_icons">@color/solid_white</color>
+    <color name="toolbar_background">@color/solid_white</color>
+    <color name="toolbar_icons">@color/solid_black</color>
 
     <!-- Text Colors -->
-    <color name="toolbar_title">@color/solid_white</color>
+    <color name="toolbar_title">@color/solid_black</color>
     <color name="checkbox_and_radio_button_description">@color/solid_white</color>
     <color name="dialog_title_and_text_view">@color/solid_white</color>
     <color name="vh_headline">@color/solid_white</color>
@@ -91,6 +91,7 @@
     <color name="pocketmusic_even_dusk">#BDBDBD</color>
 
     <!-- Icon Colors -->
+    <color name="landing_page_icons">@color/solid_black</color>
     <color name="project_icons">@color/accent</color>
     <color name="stage_icons_pressed">#e3f9fd</color>
 

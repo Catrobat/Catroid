@@ -23,13 +23,7 @@
   -->
 <resources>
 
-    <!-- Toolbar and Bottombar Colors -->
-    <color name="toolbar_background">#20103B</color>
-    <color name="toolbar_icons">@color/accent</color>
-
     <!-- Text Colors -->
-    <color name="toolbar_title">#D19FC1</color>
-    <color name="vh_headline">@color/solid_white</color>
     <color name="vh_item_title">@color/accent</color>
     <color name="vh_item_details">@color/accent</color>
 
