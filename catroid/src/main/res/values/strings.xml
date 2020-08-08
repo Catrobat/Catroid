@@ -1102,6 +1102,7 @@
     <string name="brick_think_say_for_text">for</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
     <string name="brick_loop_to">to</string>
     <string name="brick_repeat">Repeat</string>

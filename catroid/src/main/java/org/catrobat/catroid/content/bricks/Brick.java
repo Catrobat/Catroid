@@ -98,10 +98,11 @@ public interface Brick extends Serializable, Cloneable {
 	}
 
 	enum BrickData {
-		ASSERT_LISTS_EXPECTED, ASSERT_LISTS_ACTUAL;
+		ASSERT_LISTS_EXPECTED, ASSERT_LISTS_ACTUAL, FOR_ITEM_IN_USERLIST_LIST,
+		FOR_ITEM_IN_USERLIST_VARIABLE;
 
 		public static final BrickData[] EXPECTS_USERLIST = {ASSERT_LISTS_EXPECTED,
-				ASSERT_LISTS_ACTUAL};
+				ASSERT_LISTS_ACTUAL, FOR_ITEM_IN_USERLIST_LIST};
 
 		public static boolean isUserList(BrickData field) {
 			for (BrickData bf : EXPECTS_USERLIST) {
