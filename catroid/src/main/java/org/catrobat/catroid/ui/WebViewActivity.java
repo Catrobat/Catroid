@@ -199,8 +199,14 @@ public class WebViewActivity extends AppCompatActivity {
 
 		@Override
 		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-			if (Utils.checkIsNetworkAvailableAndShowErrorMessage(WebViewActivity.this)) {
-				ToastUtil.showError(getBaseContext(), R.string.error_unknown_error);
+
+			if (errorCode == ERROR_HOST_LOOKUP || description.contains("ERR_INTERNET_DISCONNECTED")) {
+				setContentView(R.layout.activity_network_error);
+				setSupportActionBar(findViewById(R.id.toolbar));
+				getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
+				getSupportActionBar().setTitle(R.string.app_name);
+			} else {
+				Log.e(TAG, "could'nt connect to the server! info: " + description + " : " + errorCode);
 			}
 		}
 
