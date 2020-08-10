@@ -416,6 +416,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#ParameterizedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ParameterizedEndBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#ParameterizedEndBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapForBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#TapForBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

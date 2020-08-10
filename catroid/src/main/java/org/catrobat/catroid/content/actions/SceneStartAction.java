@@ -24,15 +24,18 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class SceneStartAction extends TemporalAction {
 
 	private String sceneName;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
 		if (sceneName != null) {
+			sprite.releaseAllPointers();
 			StageActivity.stageListener.startScene(sceneName);
 		}
 	}
@@ -45,5 +48,9 @@ public class SceneStartAction extends TemporalAction {
 
 	public void setScene(String sceneName) {
 		this.sceneName = sceneName;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }

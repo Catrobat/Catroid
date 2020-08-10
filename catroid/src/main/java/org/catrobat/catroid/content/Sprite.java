@@ -26,6 +26,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.util.Log;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
@@ -53,9 +54,11 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsWorld;
+import org.catrobat.catroid.stage.StageActivity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -84,6 +87,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
+	private transient List<Integer> usedTouchPointer = new ArrayList<>();
 
 	@XStreamAsAttribute
 	private String name;
@@ -544,5 +548,29 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public Multimap<EventId, EventThread> getIdToEventThreadMap() {
 		return idToEventThreadMap;
+	}
+
+	public int getUnusedPointer() {
+		int result = 0;
+		while (result < 20 && usedTouchPointer.contains(result)) {
+			++result;
+		}
+		usedTouchPointer.add(result);
+
+		return result;
+	}
+
+	public void releaseUsedPointer(int position) {
+		usedTouchPointer.removeAll(Collections.singleton(position));
+	}
+
+	public void releaseAllPointers() {
+		if (StageActivity.stageListener != null) {
+			Stage stage = StageActivity.stageListener.getStage();
+			for (int pointer : usedTouchPointer) {
+				stage.touchUp(0, 0, pointer, 0);
+			}
+		}
+		usedTouchPointer.clear();
 	}
 }

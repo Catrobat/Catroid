@@ -217,6 +217,7 @@ import org.catrobat.catroid.content.bricks.StopScriptBrick;
 import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick;
 import org.catrobat.catroid.content.bricks.TapAtBrick;
+import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
@@ -539,6 +540,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ParameterizedEndBrick.class);
 
 		xstream.alias("brick", TapAtBrick.class);
+		xstream.alias("brick", TapForBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);
 		xstream.alias("brick", JumpingSumoJumpHighBrick.class);
