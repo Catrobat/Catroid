@@ -23,6 +23,9 @@
   -->
 <resources>
 
+    <!-- Toolbar and Bottombar Colors -->
+    <color name="toolbar_background">#20103B</color>
+
     <!-- Text Colors -->
     <color name="vh_item_title">@color/accent</color>
     <color name="vh_item_details">@color/accent</color>

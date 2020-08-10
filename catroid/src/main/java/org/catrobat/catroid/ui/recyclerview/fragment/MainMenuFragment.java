@@ -30,7 +30,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -115,9 +114,6 @@ public class MainMenuFragment extends Fragment implements
 				View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.vh_button, parent, false);
 				int itemHeight = parent.getHeight() / items.size();
 				view.setMinimumHeight(itemHeight);
-				TextView title = view.findViewById(R.id.title_view);
-				title.setTextColor(getResources().getColor(R.color.solid_black));
-				view.setBackgroundColor(getResources().getColor(R.color.solid_white));
 				return new ButtonVH(view);
 			}
 		};

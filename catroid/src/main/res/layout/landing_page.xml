@@ -30,7 +30,7 @@
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing"
     android:orientation="vertical"
-    android:background="@color/solid_white">
+    android:background="@color/button_background">
 
     <include layout="@layout/progress_bar" />
 
