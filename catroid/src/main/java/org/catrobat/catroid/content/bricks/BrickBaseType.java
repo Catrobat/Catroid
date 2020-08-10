@@ -194,6 +194,7 @@ public abstract class BrickBaseType implements Brick {
 			position = getPositionInScript();
 			scriptName = getScript().getClass().getSimpleName();
 		}
+		position += 2;
 		return "Brick at position " + position + "\nin \"" + scriptName + "\"";
 	}
 }
