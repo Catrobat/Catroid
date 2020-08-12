@@ -169,6 +169,7 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
@@ -309,7 +310,8 @@ public class BrickCategoryTest {
 						ChangeVolumeByNBrick.class,
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
-						AskSpeechBrick.class)},
+						AskSpeechBrick.class,
+						StartListeningBrick.class)},
 				{"Control", Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
 						ForeverBrick.class,

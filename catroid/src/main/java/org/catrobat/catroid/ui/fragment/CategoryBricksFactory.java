@@ -180,6 +180,7 @@ import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StitchBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopRunningStitchBrick;
@@ -449,6 +450,9 @@ public class CategoryBricksFactory {
 					BrickValues.PHIRO_DURATION));
 		}
 		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+		if (BuildConfig.FEATURE_START_LISTENING_BRICK_ENABLED) {
+			soundBrickList.add(new StartListeningBrick());
+		}
 
 		return soundBrickList;
 	}

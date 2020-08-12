@@ -418,6 +418,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#ParameterizedEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapForBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Testing%20Bricks/#TapForBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartListeningBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/Brick%20Documentation/Sound%20Bricks/#StartListeningBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

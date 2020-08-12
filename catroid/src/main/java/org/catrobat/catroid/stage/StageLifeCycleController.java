@@ -134,6 +134,7 @@ public final class StageLifeCycleController {
 					Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
 				}
 			}
+			SpeechRecognitionHolder.Companion.getInstance().destroy();
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();
