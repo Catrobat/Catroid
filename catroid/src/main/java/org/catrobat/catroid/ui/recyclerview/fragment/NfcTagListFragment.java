@@ -38,6 +38,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.recyclerview.adapter.NfcTagAdapter;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -105,7 +106,17 @@ public class NfcTagListFragment extends RecyclerViewFragment<NfcTagData> {
 					.getUniqueNameInNameables(getString(R.string.default_tag_name), adapter.getItems());
 			item.setName(name);
 			item.setNfcTagUid(uid);
-			adapter.add(item);
+			Iterator<NfcTagData> it = adapter.getItems().iterator();
+			boolean duplicate = false;
+			while (it.hasNext() && !duplicate) {
+				String nextUid = it.next().getNfcTagUid();
+				if (nextUid.equals(uid)) {
+					duplicate = true;
+				}
+			}
+			if (!duplicate) {
+				adapter.add(item);
+			}
 		} else {
 			Log.e(TAG, "NFC Tag does not have a UID.");
 		}
