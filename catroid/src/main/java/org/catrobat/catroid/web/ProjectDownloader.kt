@@ -136,7 +136,7 @@ class ProjectDownloader(
             super.onReceiveResult(resultCode, resultData)
             when (resultCode) {
                 UPDATE_PROGRESS_CODE -> {
-                    val progress = resultData.getLong(UPDATE_PROGRESS_EXTRA)
+                    val progress = resultData.getInt(UPDATE_PROGRESS_EXTRA)
                     callbackWeakReference.get()?.onDownloadProgress(progress.toInt(), url)
                 }
                 SUCCESS_CODE -> {

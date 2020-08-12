@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.viewholder.ButtonVH;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
+import org.catrobat.catroid.utils.ProjectDownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -130,6 +131,7 @@ public class MainMenuFragment extends Fragment implements
 		parent.findViewById(R.id.edit_button).setOnClickListener(listener);
 		parent.findViewById(R.id.upload_button).setOnClickListener(listener);
 		parent.findViewById(R.id.floating_action_button).setOnClickListener(listener);
+		ProjectDownloadUtil.INSTANCE.setFragment(this);
 		parent.findViewById(R.id.image_view).setOnClickListener(listener);
 
 		setAndLoadCurrentProject();
@@ -161,7 +163,7 @@ public class MainMenuFragment extends Fragment implements
 		setAndLoadCurrentProject();
 	}
 
-	private void setAndLoadCurrentProject() {
+	public void setAndLoadCurrentProject() {
 		updateMyProjects();
 		if (myProjects.size() != 0) {
 			currentProject = myProjects.get(0).getName();
