@@ -41,7 +41,7 @@
 
         <item name="android:itemTextAppearance">@color/solid_black</item>
         <item name="itemTextColor">@color/solid_black</item>
-        <item name="actionMenuTextColor">@color/solid_black</item>
+        <item name="actionMenuTextColor">@color/toolbar_title</item>
         <!-- android:textColorHint changes only non focused hints -->
         <!-- <item name="android:textColorHint">@color/accent</item> -->
 
