@@ -364,7 +364,8 @@ public class FormulaElement implements Serializable {
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
 			case COLLIDES_WITH_COLOR:
-				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject).interpretFunctionTouchesColor(firstArgument));
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+								.tryInterpretFunctionTouchesColor(firstArgument));
 			default:
 				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
 				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);

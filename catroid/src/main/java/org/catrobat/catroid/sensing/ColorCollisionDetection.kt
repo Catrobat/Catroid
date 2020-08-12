@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.sensing
 
+import androidx.annotation.VisibleForTesting
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
@@ -41,12 +42,25 @@ import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.matchesColor
-import org.catrobat.catroid.stage.StageActivity
+import org.catrobat.catroid.stage.StageListener
+import java.util.regex.Pattern
 
 class ColorCollisionDetection(
     private val sprite: Sprite,
-    private val currentProject: Project
+    private val currentProject: Project,
+    private val stageListener: StageListener
 ) {
+
+    private val colorPattern = Pattern.compile("#\\p{XDigit}{6}")
+
+    @Suppress("TooGenericExceptionCaught")
+    fun tryInterpretFunctionTouchesColor(parameter: Any?): Boolean {
+        return try {
+            interpretFunctionTouchesColor(parameter)
+        } catch (_: Exception) {
+            false
+        }
+    }
 
     fun interpretFunctionTouchesColor(parameter: Any?): Boolean {
         val look = sprite.look
@@ -68,13 +82,15 @@ class ColorCollisionDetection(
     }
 
     private fun getLooksOfOtherSprites(): MutableList<Look> =
-        ArrayList<Sprite>(StageActivity.stageListener.spritesFromStage)
+        ArrayList<Sprite>(stageListener.spritesFromStage)
             .filter { s -> (s != sprite || s.isClone) && s.look.isLookVisible }
             .map { s -> s.look }
             .toMutableList()
 
-    private fun areParametersInvalid(parameter: Any?, look: Look): Boolean =
-        parameter == null || parameter !is String || look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
+    @VisibleForTesting
+    fun areParametersInvalid(parameter: Any?, look: Look): Boolean =
+        parameter == null || parameter !is String || !colorPattern.matcher(parameter).matches() ||
+            look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
 
     private fun recreateStageOnCameraView(lookList: List<Look>, projectionMatrix: Matrix4, actor: Actor, batch: SpriteBatch): Pixmap {
         val buffer = FrameBuffer(Pixmap.Format.RGBA8888, actor.width.toInt(), actor.height.toInt(), false)
