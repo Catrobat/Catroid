@@ -1157,6 +1157,8 @@
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"for"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>

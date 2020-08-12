@@ -189,6 +189,7 @@ import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
@@ -355,7 +356,8 @@ public class BrickCategoryTest {
 						BroadcastBrick.class,
 						BroadcastWaitBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)},
+						TapForBrick.class,
+						TouchAndSlideBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -396,7 +398,9 @@ public class BrickCategoryTest {
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)},
+						TapForBrick.class,
+						TouchAndSlideBrick.class)
+				},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -455,6 +459,7 @@ public class BrickCategoryTest {
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						TapForBrick.class,
+						TouchAndSlideBrick.class,
 						FinishStageBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},

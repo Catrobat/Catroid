@@ -426,6 +426,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParameterizedEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapForBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TapForBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TouchAndSlideBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TouchAndSlideBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartListeningBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartListeningBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetListeningLanguageBrick",

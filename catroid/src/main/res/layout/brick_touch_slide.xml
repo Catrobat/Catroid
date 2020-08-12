@@ -37,41 +37,76 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_tap_at_layout"
-        style="@style/BrickContainer.Device.Medium">
+        android:id="@+id/brick_touch_and_slide_layout"
+        style="@style/BrickContainer.Device.Big">
 
         <include layout="@layout/icon_brick_category_device" />
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_touch_slide" />
         
         <TextView
             style="@style/BrickText.SingleLine"
-            android:text="@string/brick_tap_at">
-        </TextView>
+            android:text="@string/brick_touch_from_x"
+            app:layout_newLine="true" />
 
         <TextView
-            style="@style/BrickText.SingleLine"
-            android:text="@string/x_label"
-            app:layout_newLine="true">
-        </TextView>
-
-        <TextView
-            android:id="@+id/brick_tap_at_edit_text_x"
+            android:id="@+id/brick_touch_slide_edit_from_x"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true">
-        </TextView>
+            app:layout_textField="true" />
 
         <TextView
             style="@style/BrickText.SingleLine"
             android:paddingStart="@dimen/material_design_spacing_small"
-            android:text="@string/y_label">
-        </TextView>
+            android:text="@string/y_label"
+            android:paddingEnd="@dimen/material_design_spacing_small" />
 
         <TextView
-            android:id="@+id/brick_tap_at_edit_text_y"
+            android:id="@+id/brick_touch_slide_edit_from_y"
             style="@style/BrickEditText"
             app:layout_inputType="number"
-            app:layout_textField="true">
-        </TextView>
+            app:layout_textField="true" />
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_glide_to_x"
+            app:layout_newLine="true" />
+
+        <TextView
+            android:id="@+id/brick_touch_slide_edit_to_x"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:paddingStart="@dimen/material_design_spacing_small"
+            android:text="@string/y_label"
+            android:paddingEnd="@dimen/material_design_spacing_small" />
+
+        <TextView
+            android:id="@+id/brick_touch_slide_edit_to_y"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
+
+        <TextView
+            style="@style/BrickText.SingleLine"
+            android:text="@string/brick_loop_in"
+            app:layout_newLine="true" />
+
+        <TextView
+            android:id="@+id/brick_tap_for_edit_duration"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true" />
+
+        <TextView
+            android:id="@+id/brick_seconds_label"
+            style="@style/BrickText.SingleLine" />
+
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

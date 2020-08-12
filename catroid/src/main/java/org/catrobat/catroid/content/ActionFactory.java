@@ -1402,6 +1402,18 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createTouchAndSlideAction(Sprite sprite, Formula x, Formula y,
+			Formula xChange, Formula yChange, Formula duration) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setSprite(sprite);
+		action.setDurationFormula(duration);
+		action.setStartX(x);
+		action.setStartY(y);
+		action.setChangeX(xChange);
+		action.setChangeY(yChange);
+		return action;
+	}
+
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
 		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
 		action.setUserVariable(userVariable);
