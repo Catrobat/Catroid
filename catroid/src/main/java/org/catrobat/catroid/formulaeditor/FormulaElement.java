@@ -35,6 +35,7 @@ import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.catrobat.catroid.sensing.ColorCollisionDetection;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
@@ -362,8 +363,13 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionNumberOfItems(firstArgument, sprite, currentProject);
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
+			case COLLIDES_WITH_COLOR:
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+								.tryInterpretFunctionTouchesColor(firstArgument));
 			default:
-				return interpretFormulaFunction(function, firstArgument, secondArgument);
+				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
+				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
+				return interpretFormulaFunction(function, firstArgumentDouble, secondArgumentDouble);
 		}
 	}
 

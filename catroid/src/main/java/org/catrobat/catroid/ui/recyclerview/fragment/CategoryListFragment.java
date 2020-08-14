@@ -58,6 +58,7 @@ import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -86,10 +87,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> OBJECT_PHYSICAL_1 = Arrays.asList(R.string.formula_editor_object_x,
 			R.string.formula_editor_object_y, R.string.formula_editor_object_size,
 			R.string.formula_editor_object_rotation, R.string.formula_editor_object_layer);
-	private static final List<Integer> OBJECT_PHYSICAL_COLLISION = Arrays.asList(R.string.formula_editor_function_collision);
+	private static final List<Integer> OBJECT_PHYSICAL_COLLISION = Collections.singletonList(R.string.formula_editor_function_collision);
 	private static final List<Integer> OBJECT_PHYSICAL_2 = Arrays.asList(R.string.formula_editor_function_collides_with_edge,
-			R.string.formula_editor_function_touched, R.string.formula_editor_object_x_velocity,
-			R.string.formula_editor_object_y_velocity, R.string.formula_editor_object_angular_velocity);
+			R.string.formula_editor_function_touched, R.string.formula_editor_function_collides_with_color,
+			R.string.formula_editor_object_x_velocity, R.string.formula_editor_object_y_velocity,
+			R.string.formula_editor_object_angular_velocity);
 	private static final List<Integer> MATH_FUNCTIONS = Arrays.asList(R.string.formula_editor_function_sin,
 			R.string.formula_editor_function_cos, R.string.formula_editor_function_tan,
 			R.string.formula_editor_function_ln, R.string.formula_editor_function_log,
@@ -128,17 +130,21 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> LOGIC_BOOL = Arrays.asList(R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false);
-	private static final List<Integer> LOCIG_COMPARISION = Arrays.asList(R.string.formula_editor_logic_equal,
+	private static final List<Integer> LOGIC_COMPARISION = Arrays.asList(R.string.formula_editor_logic_equal,
 			R.string.formula_editor_logic_notequal, R.string.formula_editor_logic_lesserthan,
 			R.string.formula_editor_logic_leserequal, R.string.formula_editor_logic_greaterthan,
 			R.string.formula_editor_logic_greaterequal);
 	private static final List<Integer> SENSORS_DEFAULT = Arrays.asList(R.string.formula_editor_sensor_loudness,
 			R.string.formula_editor_function_touched);
+	private static final List<Integer> SENSORS_COLOR =
+			Collections.singletonList(R.string.formula_editor_function_collides_with_color);
+	private static final List<Integer> SENSORS_COLOR_PARAMS =
+			Collections.singletonList(R.string.formula_editor_function_collides_with_color_parameter);
 	private static final List<Integer> SENSORS_ACCELERATION = Arrays.asList(R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration);
 	private static final List<Integer> SENSORS_INCLINATION = Arrays.asList(R.string.formula_editor_sensor_x_inclination,
 			R.string.formula_editor_sensor_y_inclination);
-	private static final List<Integer> SENSORS_COMPASS = Arrays.asList(R.string.formula_editor_sensor_compass_direction);
+	private static final List<Integer> SENSORS_COMPASS = Collections.singletonList(R.string.formula_editor_sensor_compass_direction);
 	private static final List<Integer> SENSORS_GPS = Arrays.asList(R.string.formula_editor_sensor_latitude,
 			R.string.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy,
 			R.string.formula_editor_sensor_altitude);
@@ -188,8 +194,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
 			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
 			R.string.formula_editor_sensor_drone_num_frames);
-	private static final List<Integer> SENSORS_RASPBERRY = Arrays.asList(R.string.formula_editor_function_raspi_read_pin_value_digital);
-	private static final List<Integer> SENSORS_RASPBERRY_PARAMS = Arrays.asList(R.string.formula_editor_function_pin_default_parameter);
+	private static final List<Integer> SENSORS_RASPBERRY = Collections.singletonList(R.string.formula_editor_function_raspi_read_pin_value_digital);
+	private static final List<Integer> SENSORS_RASPBERRY_PARAMS = Collections.singletonList(R.string.formula_editor_function_pin_default_parameter);
 	private static final List<Integer> SENSORS_NFC = Arrays.asList(R.string.formula_editor_nfc_tag_id,
 			R.string.formula_editor_nfc_tag_message);
 	private static final List<Integer> SENSORS_CAST_GAMEPAD = Arrays.asList(R.string.formula_editor_sensor_gamepad_a_pressed,
@@ -210,7 +216,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initializeAdapter();
 	}
@@ -218,8 +224,19 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	@Override
 	public void onResume() {
 		super.onResume();
-		((AppCompatActivity) getActivity()).getSupportActionBar()
-				.setTitle(getArguments().getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT));
+		Bundle arguments = getArguments();
+		if (arguments == null) {
+			return;
+		}
+		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+		if (appCompatActivity == null) {
+			return;
+		}
+		ActionBar supportActionBar = appCompatActivity.getSupportActionBar();
+		if (supportActionBar != null) {
+			String title = arguments.getString(ACTION_BAR_TITLE_BUNDLE_ARGUMENT);
+			supportActionBar.setTitle(title);
+		}
 	}
 
 	@Override
@@ -229,7 +246,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			menu.getItem(index).setVisible(false);
 		}
 
-		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		AppCompatActivity appCompatActivity = (AppCompatActivity) getActivity();
+		if (appCompatActivity == null) {
+			return;
+		}
+		ActionBar supportActionBar = appCompatActivity.getSupportActionBar();
+		if (supportActionBar != null) {
+			supportActionBar.setDisplayHomeAsUpEnabled(true);
+		}
 	}
 
 	@Override
@@ -465,7 +489,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private List<CategoryListItem> getLogicItems() {
 		List<CategoryListItem> result = new ArrayList<>();
 		result.addAll(addHeader(toCategoryListItems(LOGIC_BOOL), getString(R.string.formula_editor_logic_boolean)));
-		result.addAll(addHeader(toCategoryListItems(LOCIG_COMPARISION),
+		result.addAll(addHeader(toCategoryListItems(LOGIC_COMPARISION),
 				getString(R.string.formula_editor_logic_comparison)));
 		return result;
 	}
@@ -506,12 +530,13 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		List<CategoryListItem> result = toCategoryListItems(OBJECT_PHYSICAL_1);
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_COLLISION, CategoryListRVAdapter.COLLISION));
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_2));
+		result.addAll(toCategoryListItems(SENSORS_COLOR, SENSORS_COLOR_PARAMS));
 		return addHeader(result, getString(R.string.formula_editor_object_movement));
 	}
 
 	private List<CategoryListItem> getDeviceSensorItems() {
-		List<CategoryListItem> deviceSensorItems = new ArrayList<>();
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_DEFAULT));
+		List<CategoryListItem> deviceSensorItems = new ArrayList<>(toCategoryListItems(SENSORS_DEFAULT));
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR, SENSORS_COLOR_PARAMS));
 
 		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
 		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
