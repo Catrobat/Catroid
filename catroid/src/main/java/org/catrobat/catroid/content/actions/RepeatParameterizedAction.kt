@@ -47,7 +47,6 @@ class RepeatParameterizedAction : RepeatAction() {
 
         if (!isCurrentLoopInitialized) {
             if (parameterizedData?.currentPosition ?: 1 >= parameterizedData?.listSize ?: 0) {
-                parameterizedData?.reset()
                 return true
             }
             if (initParameter()) {
@@ -61,12 +60,10 @@ class RepeatParameterizedAction : RepeatAction() {
         currentTime += delta
         if (action.act(delta) && currentTime >= loopDelay) {
             if (parameterizedData?.currentPosition ?: 1 >= parameterizedData?.listSize ?: 0) {
-                parameterizedData?.reset()
                 return true
             }
 
             isCurrentLoopInitialized = false
-
             action?.restart()
         }
         return false
@@ -74,6 +71,7 @@ class RepeatParameterizedAction : RepeatAction() {
 
     override fun restart() {
         isCurrentLoopInitialized = false
+        parameterizedData?.reset()
         super.restart()
     }
 

@@ -42,7 +42,7 @@ open class LookRequestAction : WebAction() {
     private var fileExtension: String? = null
 
     override fun act(delta: Float): Boolean {
-        return if (sprite == null) {
+        return if (sprite == null || formula == null) {
             true
         } else super.act(delta)
     }
