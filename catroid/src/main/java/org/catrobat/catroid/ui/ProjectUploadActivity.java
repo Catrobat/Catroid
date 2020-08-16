@@ -71,7 +71,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_ID;
 import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
-import static org.catrobat.catroid.common.Constants.SHARE_PROGRAM_URL;
+import static org.catrobat.catroid.common.Constants.SHARE_PROJECT_URL;
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
@@ -331,7 +331,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		String projectId = resultData.getString(EXTRA_PROJECT_ID);
 		Button positiveButton = uploadProgressDialog.getButton(DialogInterface.BUTTON_POSITIVE);
 		positiveButton.setOnClickListener((view) -> {
-			String projectUrl = SHARE_PROGRAM_URL + projectId;
+			String projectUrl = SHARE_PROJECT_URL + projectId;
 			Intent intent = new Intent(this, WebViewActivity.class);
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
 			startActivity(intent);
