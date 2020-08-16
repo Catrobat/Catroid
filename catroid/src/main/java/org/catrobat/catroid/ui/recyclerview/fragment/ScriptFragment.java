@@ -472,6 +472,7 @@ public class ScriptFragment extends ListFragment implements
 		if (brick instanceof UserDefinedReceiverBrick) {
 			items.add(R.string.brick_context_dialog_delete_definition);
 			items.add(R.string.brick_context_dialog_move_definition);
+			items.add(R.string.brick_context_dialog_help);
 			return items;
 		}
 
