@@ -91,6 +91,7 @@
         android:label="${appName}"
         android:theme="@style/Catroid"
         android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
         tools:replace="android:label,android:allowBackup"
         android:usesCleartextTraffic="true">
 
