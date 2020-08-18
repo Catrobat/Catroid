@@ -87,7 +87,7 @@ public class CatroidApplication extends Application implements HasActivityInject
 		appComponents.initializeEagerSingletons();
 		appComponents.inject(this);
 
-		defaultSystemLanguage = Locale.getDefault().getLanguage();
+		defaultSystemLanguage = Locale.getDefault().toLanguageTag();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);

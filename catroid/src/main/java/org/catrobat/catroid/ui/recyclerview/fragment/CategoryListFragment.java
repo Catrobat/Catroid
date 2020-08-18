@@ -148,6 +148,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> SENSORS_GPS = Arrays.asList(R.string.formula_editor_sensor_latitude,
 			R.string.formula_editor_sensor_longitude, R.string.formula_editor_sensor_location_accuracy,
 			R.string.formula_editor_sensor_altitude);
+	private static final List<Integer> SENSOR_USER_LANGUAGE =
+			Collections.singletonList(R.string.formula_editor_sensor_user_language);
 	private static final List<Integer> SENSORS_TOUCH = Arrays.asList(R.string.formula_editor_function_finger_x,
 			R.string.formula_editor_function_finger_y, R.string.formula_editor_function_is_finger_touching,
 			R.string.formula_editor_function_multi_finger_x, R.string.formula_editor_function_multi_finger_y,
@@ -546,6 +548,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
 				: Collections.emptyList());
 		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
+		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
 
 		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
 	}

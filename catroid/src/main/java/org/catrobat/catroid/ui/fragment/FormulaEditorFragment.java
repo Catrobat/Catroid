@@ -67,6 +67,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -138,6 +139,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		actionBar.setTitle(R.string.formula_editor_title);
 
 		setHasOptionsMenu(true);
+		SettingsFragment.setToChosenLanguage(getActivity());
 	}
 
 	private static void showFragment(Context context, FormulaBrick formulaBrick, Brick.FormulaField formulaField, boolean showCustomView) {
