@@ -37,6 +37,22 @@
 
     <issue
         id="UnusedAttribute"
+        severity="Warning"
+        message="Attribute `requestLegacyExternalStorage` is only used in API level 29 and higher (current min is 21)"
+        category="Correctness"
+        priority="6"
+        summary="Attribute unused on older versions"
+        explanation="This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the `minSdkVersion` attribute).&#xA;&#xA;This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance or functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.&#xA;&#xA;Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `&lt;tag>` element in layouts introduced in API 21."
+        errorLine1="        android:requestLegacyExternalStorage=&quot;true&quot;"
+        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\AndroidManifest.xml"
+            line="94"
+            column="9"/>
+    </issue>
+
+    <issue
+        id="UnusedAttribute"
         message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
         errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">

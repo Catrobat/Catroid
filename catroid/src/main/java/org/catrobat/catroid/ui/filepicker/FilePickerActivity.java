@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.filepicker;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import org.catrobat.catroid.R;
@@ -35,7 +36,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import androidx.appcompat.widget.Toolbar;
@@ -75,7 +76,7 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 
 	private void getFiles() {
 		new RequiresPermissionTask(PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE,
-				Arrays.asList(READ_EXTERNAL_STORAGE),
+				Collections.singletonList(READ_EXTERNAL_STORAGE),
 				R.string.runtime_permission_general) {
 
 			@Override
@@ -89,10 +90,16 @@ public class FilePickerActivity extends BaseActivity implements ListProjectFiles
 	private List<File> getStorageRoots() {
 		List<File> rootDirs = new ArrayList<>();
 		for (File externalFilesDir : getExternalFilesDirs(null)) {
-			String path = externalFilesDir.getAbsolutePath();
-			String packageName = getApplicationContext().getPackageName();
-			path = path.replaceAll("/Android/data/" + packageName + "/files", "");
-			rootDirs.add(new File(path));
+			try {
+				String path = externalFilesDir.getAbsolutePath();
+				Log.e(TAG, externalFilesDir.canRead() + " Path: " + path);
+				String packageName = getApplicationContext().getPackageName();
+				path = path.replaceAll("/Android/data/" + packageName + "/files", "");
+				rootDirs.add(new File(path));
+			} catch (Exception e) {
+				// needed for APIs 21 & 22
+				Log.e(TAG, "externalFilesDir is null" + e.getMessage());
+			}
 		}
 		return rootDirs;
 	}
