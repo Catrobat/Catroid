@@ -65,6 +65,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class UserDefinedBrickTest {
 
+	private final long sleepThreshold = 1000;
+
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
@@ -151,12 +153,13 @@ public class UserDefinedBrickTest {
 	}
 
 	@Test
-	public void testAddUserDefinedBrickToScriptFragment() {
+	public void testAddUserDefinedBrickToScriptFragment() throws InterruptedException {
 		clickOnAddInputToUserBrick();
 		onView(withId(R.id.next))
 				.perform(click());
 		onView(withId(R.id.confirm))
 				.perform(click());
+		Thread.sleep(sleepThreshold);
 		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
 		ScriptFragment scriptFragment = ((ScriptFragment) baseActivityTestRule.getActivity()
 				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
@@ -168,12 +171,13 @@ public class UserDefinedBrickTest {
 				.inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.atPosition(0)
 				.perform(click());
+		Thread.sleep(sleepThreshold);
 		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
 		assertTrue(scriptFragment.isCurrentlyMoving());
 	}
 
 	@Test
-	public void testUserDefinedBrickDescriptionExists() {
+	public void testUserDefinedBrickDescriptionExists() throws InterruptedException {
 		selectYourBricks();
 		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(isDisplayed()));
 		onView(withId(R.id.button_add_user_brick))
@@ -186,6 +190,7 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.fragment_script)).perform(click());
 		selectYourBricks();
+		Thread.sleep(sleepThreshold);
 		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 	}
 
