@@ -44,6 +44,8 @@ public class SoundInfo implements Cloneable, Nameable, Serializable {
 
 	private transient File file;
 
+	boolean midiFile;
+
 	public SoundInfo() {
 	}
 
@@ -51,6 +53,14 @@ public class SoundInfo implements Cloneable, Nameable, Serializable {
 		this.name = name;
 		this.file = file;
 		fileName = file.getName();
+		midiFile = false;
+	}
+
+	public SoundInfo(String name, @NonNull File file, boolean midiFile) {
+		this.name = name;
+		this.file = file;
+		fileName = file.getName();
+		this.midiFile = midiFile;
 	}
 
 	public String getName() {
@@ -76,6 +86,10 @@ public class SoundInfo implements Cloneable, Nameable, Serializable {
 	public void setFile(File file) {
 		this.file = file;
 		fileName = file.getName();
+	}
+
+	public boolean isMidiFile() {
+		return midiFile;
 	}
 
 	@SuppressWarnings("MethodDoesntCallSuperMethod")

@@ -159,6 +159,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetInstrumentBrick;
 import org.catrobat.catroid.content.bricks.SetLookBrick;
 import org.catrobat.catroid.content.bricks.SetLookByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
@@ -450,9 +451,12 @@ public class CategoryBricksFactory {
 					BrickValues.PHIRO_DURATION));
 		}
 		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+
 		if (BuildConfig.FEATURE_START_LISTENING_BRICK_ENABLED) {
 			soundBrickList.add(new StartListeningBrick());
 		}
+
+		soundBrickList.add(new SetInstrumentBrick());
 
 		return soundBrickList;
 	}

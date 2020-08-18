@@ -57,7 +57,7 @@ public class MidiToProjectConverterTest {
 	@Before
 	public void setUp() {
 		project = createProjectWithSemiComplexTracks();
-		file = new File(ProjectToMidiConverter.MIDI_FOLDER + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
+		file = new File(ProjectToMidiConverter.midiFolder + File.separator + project.getName() + ProjectToMidiConverter.MIDI_FILE_EXTENSION);
 	}
 
 	@After

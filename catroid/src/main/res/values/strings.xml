@@ -1060,6 +1060,7 @@
     <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
     for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="set_instrument_to">Set instrument to</string>
     <!--  -->
 
     <!-- Embroidery bricks -->
