@@ -371,6 +371,9 @@ public class FormulaElement implements Serializable {
 			case COLLIDES_WITH_COLOR:
 				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
 								.tryInterpretFunctionTouchesColor(firstArgument));
+			case COLOR_TOUCHES_COLOR:
+				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+						.tryInterpretFunctionColorTouchesColor(firstArgument, secondArgument));
 			default:
 				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
 				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);

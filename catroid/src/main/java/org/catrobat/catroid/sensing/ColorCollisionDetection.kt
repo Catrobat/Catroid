@@ -31,7 +31,6 @@ import com.badlogic.gdx.graphics.Pixmap
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.math.Matrix4
-import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.utils.Scaling
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.viewport.ExtendViewport
@@ -41,40 +40,55 @@ import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.common.Conversions.matchesColor
+import org.catrobat.catroid.formulaeditor.common.Conversions.isValidHexColor
 import org.catrobat.catroid.stage.StageListener
-import java.util.regex.Pattern
 
 class ColorCollisionDetection(
     private val sprite: Sprite,
     private val currentProject: Project,
     private val stageListener: StageListener
 ) {
-
-    private val colorPattern = Pattern.compile("#\\p{XDigit}{6}")
+    private val look = sprite.look
+    private val polygons = sprite.look.currentCollisionPolygon
+    private val boundingRectangle = polygons.toBoundingRectangle()
 
     @Suppress("TooGenericExceptionCaught")
-    fun tryInterpretFunctionTouchesColor(parameter: Any?): Boolean {
+    fun tryInterpretFunctionTouchesColor(color: Any?): Boolean {
+        if (isParameterInvalid(color) || isLookInvalid()) {
+            return false
+        }
+        val matcher = TouchesColorMatcher(color as String, polygons)
         return try {
-            interpretFunctionTouchesColor(parameter)
+            interpretMatcherOnStage(matcher)
         } catch (_: Exception) {
             false
         }
     }
 
-    fun interpretFunctionTouchesColor(parameter: Any?): Boolean {
-        val look = sprite.look
-        if (areParametersInvalid(parameter, look)) {
+    @Suppress("TooGenericExceptionCaught")
+    fun tryInterpretFunctionColorTouchesColor(spriteColor: Any?, stageColor: Any?): Boolean {
+        if (isParameterInvalid(spriteColor) || isParameterInvalid(stageColor) || isLookInvalid()) {
             return false
         }
-        val color = parameter as String
+        val lookData = look.lookData.clone()
+        val matcher = ColorTouchesColorMatcher(lookData.pixmap, spriteColor as String, stageColor as String)
+        return try {
+            interpretMatcherOnStage(matcher)
+        } catch (_: Exception) {
+            false
+        } finally {
+            lookData.dispose()
+        }
+    }
+
+    private fun interpretMatcherOnStage(matcher: ConditionMatcher): Boolean {
         val lookList: MutableList<Look> = getLooksOfOtherSprites()
         val batch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(currentProject, look)
-        val pixmap = recreateStageOnCameraView(lookList, projectionMatrix, look, batch)
-
+        val projectionMatrix = createProjectionMatrix(currentProject)
+        val pixmap = recreateStageOnCameraView(lookList, projectionMatrix, batch)
+        matcher.setStagePixmap(pixmap)
         try {
-            return matchesColor(pixmap, look.currentCollisionPolygon, color)
+            return ConditionMatcherRunner(matcher).matchAsync(boundingRectangle)
         } finally {
             pixmap.dispose()
             batch.dispose()
@@ -88,12 +102,12 @@ class ColorCollisionDetection(
             .toMutableList()
 
     @VisibleForTesting
-    fun areParametersInvalid(parameter: Any?, look: Look): Boolean =
-        parameter == null || parameter !is String || !colorPattern.matcher(parameter).matches() ||
-            look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
+    fun isParameterInvalid(parameter: Any?): Boolean = parameter !is String || !parameter.isValidHexColor()
 
-    private fun recreateStageOnCameraView(lookList: List<Look>, projectionMatrix: Matrix4, actor: Actor, batch: SpriteBatch): Pixmap {
-        val buffer = FrameBuffer(Pixmap.Format.RGBA8888, actor.width.toInt(), actor.height.toInt(), false)
+    private fun isLookInvalid(): Boolean = look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
+
+    private fun recreateStageOnCameraView(lookList: List<Look>, projectionMatrix: Matrix4, batch: SpriteBatch): Pixmap {
+        val buffer = FrameBuffer(Pixmap.Format.RGBA8888, look.width.toInt(), look.height.toInt(), false)
 
         batch.projectionMatrix = projectionMatrix
         buffer.begin()
@@ -113,14 +127,14 @@ class ColorCollisionDetection(
         }
     }
 
-    private fun createProjectionMatrix(project: Project, actor: Actor): Matrix4 {
-        val scaledWidth = actor.width * actor.scaleX
-        val scaledHeight = actor.height * actor.scaleY
+    private fun createProjectionMatrix(project: Project): Matrix4 {
+        val scaledWidth = look.width * look.scaleX
+        val scaledHeight = look.height * look.scaleY
         val camera = OrthographicCamera(scaledWidth, scaledHeight)
         val viewPort = createViewport(project, scaledWidth, scaledHeight, camera)
         viewPort.apply()
-        camera.position.set(actor.x + actor.width / 2, actor.y + actor.height / 2, 0f)
-        camera.rotate(actor.rotation)
+        camera.position.set(look.x + look.width / 2, look.y + look.height / 2, 0f)
+        camera.rotate(-look.rotation)
         camera.update()
         return camera.combined
     }

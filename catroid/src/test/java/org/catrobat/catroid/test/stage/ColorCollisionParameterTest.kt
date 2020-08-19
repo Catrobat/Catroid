@@ -22,25 +22,20 @@
  */
 package org.catrobat.catroid.test.stage
 
-import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.sensing.ColorCollisionDetection
 import org.catrobat.catroid.stage.StageListener
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.mockito.Mockito
-import org.mockito.Mockito.`when` as mockitoWhen
 
 @RunWith(Parameterized::class)
 internal class ColorCollisionParameterTest(
     private val name: String,
-    private val parameter: String,
-    private val lookHeight: Float,
-    private val lookWidth: Float,
+    private val parameter: Any?,
     private val expected: Boolean
 ) {
     private val sprite = Sprite()
@@ -51,32 +46,23 @@ internal class ColorCollisionParameterTest(
     companion object {
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
-        fun data(): List<Array<out Any>> {
+        fun data(): List<Array<out Any?>> {
             return listOf(
-                arrayOf("Too Short Parameter", "#FFFFF", 1F, 1F, true),
-                arrayOf("Too Long Parameter", "#FFFFFFF", 1F, 1F, true),
-                arrayOf("Invalid Hex", "#FFDGFF", 1F, 1F, true),
-                arrayOf("No # at the beginning", "FFFFFFF", 1F, 1F, true),
-                arrayOf("Invalid Look Height", "#FFFFFF", 0F, 1F, true),
-                arrayOf("Invalid Look Width", "#FFFFFF", 1F, 0F, true),
-                arrayOf("Valid Uppercase Hex", "#FFFFFF", 1F, 1F, false),
-                arrayOf("Valid lowercase Hex", "#ffffff", 1F, 1F, false),
-                arrayOf("Valid lower- uppercase mixed Hex", "#fff000", 1F, 1F, false)
+                arrayOf("Too Short Parameter", "#FFFFF", true),
+                arrayOf("Too Long Parameter", "#FFFFFFF", true),
+                arrayOf("Invalid Hex", "#FFDGFF", true),
+                arrayOf("No # at the beginning", "FFFFFFF", true),
+                arrayOf("Null", null, true),
+                arrayOf("Any Object", Any(), true),
+                arrayOf("Valid Uppercase Hex", "#FFFFFF", false),
+                arrayOf("Valid lowercase Hex", "#ffffff", false),
+                arrayOf("Valid lower- uppercase mixed Hex", "#fffFFF", false)
             )
         }
     }
 
-    @Before
-    fun setUp() {
-        val look = Mockito.mock(Look::class.java)
-        mockitoWhen(look.height).thenReturn(lookHeight)
-        mockitoWhen(look.width).thenReturn(lookWidth)
-        sprite.look = look
-        mockitoWhen(stageListenerMock.spritesFromStage).thenReturn(ArrayList())
-    }
-
     @Test
     fun testAreParametersInvalid() {
-        Assert.assertEquals(expected, colorCollisionDetection.areParametersInvalid(parameter, sprite.look))
+        Assert.assertEquals(expected, colorCollisionDetection.isParameterInvalid(parameter))
     }
 }

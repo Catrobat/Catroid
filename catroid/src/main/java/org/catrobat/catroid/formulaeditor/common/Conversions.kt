@@ -24,21 +24,12 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
-import com.badlogic.gdx.graphics.Pixmap
-import com.badlogic.gdx.math.Intersector
-import com.badlogic.gdx.math.Polygon
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import org.catrobat.catroid.BuildConfig
-import kotlin.math.absoluteValue
-import com.badlogic.gdx.graphics.Color as LibGDXColor
+import java.util.regex.Pattern
 
-@Suppress("MagicNumber")
 object Conversions {
     const val TRUE = 1.0
     const val FALSE = 0.0
-    private const val EPSILON = 8 / 256F
+    private val colorPattern = Pattern.compile("#\\p{XDigit}{6}")
 
     private fun tryParseDouble(argument: String): Double? {
         return try {
@@ -52,12 +43,14 @@ object Conversions {
     @JvmStatic
     @JvmOverloads
     fun tryParseColor(string: String?, defaultValue: Int = Color.BLACK): Int {
-        return if (string != null && string.length == 7 && string.matches("^#[0-9a-fA-F]+$".toRegex())) {
+        return if (string.isValidHexColor()) {
             Color.parseColor(string)
         } else {
             defaultValue
         }
     }
+
+    fun String?.isValidHexColor() = this != null && colorPattern.matcher(this).matches()
 
     @JvmStatic
     fun convertArgumentToDouble(argument: Any?): Double? {
@@ -71,73 +64,4 @@ object Conversions {
 
     @JvmStatic
     fun booleanToDouble(value: Boolean) = if (value) TRUE else FALSE
-
-    @JvmStatic
-    fun matchesColor(pixmap: Pixmap, collisionPolygons: Array<Polygon>, color: String): Boolean = runBlocking {
-        val vertices = collisionPolygons.flatMap { polygon -> polygon.vertices.asIterable() }
-        val boundingRectangle = BoundingRectangle(vertices)
-
-        if (BuildConfig.DEBUG && !boundingRectangle.hasValidBoundaries(pixmap)) {
-            error("Wrong projection matrix or rotation")
-        }
-        val matchesColorCoroutine = GlobalScope.async {
-            matchColorInBoundingRectangle(boundingRectangle, pixmap, color, collisionPolygons)
-        }
-        return@runBlocking matchesColorCoroutine.await()
-    }
-
-    private fun matchColorInBoundingRectangle(boundingRectangle: BoundingRectangle, pixmap: Pixmap, color: String, polygons: Array<Polygon>): Boolean {
-        for (x in boundingRectangle.left until boundingRectangle.right) {
-            for (y in boundingRectangle.top until boundingRectangle.bottom) {
-                val pixmapColor = LibGDXColor(pixmap.getPixel(x, y))
-
-                if (!pixmapColor.equalsColor(LibGDXColor.valueOf(color))) {
-                    continue
-                }
-
-                if (isPointInSprite(polygons, x, y)) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
-
-    private fun isPointInSprite(polygons: Array<Polygon>, x: Int, y: Int): Boolean {
-        var inPolygonCounter = 0
-        for (polygon in polygons) {
-            val vertices = polygon.vertices
-            if (Intersector.isPointInPolygon(vertices, 0, vertices.size, x + 0.5F, y + 0.5F)) {
-                inPolygonCounter++
-            }
-        }
-        return inPolygonCounter.isOdd()
-    }
-
-    private fun LibGDXColor.equalsColor(color: LibGDXColor): Boolean {
-        return this.r.absDiff(color.r) < EPSILON &&
-            this.g.absDiff(color.g) < EPSILON &&
-            this.b.absDiff(color.b) < EPSILON
-    }
-
-    private fun Float.absDiff(f: Float): Float = (this - f).absoluteValue
-
-    private fun Int.isOdd(): Boolean = this % 2 == 1
-
-    private class BoundingRectangle(vertices: List<Float>) {
-        val top = vertices.getYVertices().min()?.toInt() ?: 0
-        val bottom = vertices.getYVertices().max()?.toInt() ?: 0
-        val left = vertices.getXVertices().min()?.toInt() ?: 0
-        val right = vertices.getXVertices().max()?.toInt() ?: 0
-
-        private fun List<Float>.getYVertices() = this.filterIndexed { i, _ -> i.isOdd() }
-        private fun List<Float>.getXVertices() = this.filterIndexed { i, _ -> !i.isOdd() }
-
-        private fun Pixmap.validXIndex(x: Int) = x >= 0 && x <= this.width
-        private fun Pixmap.validYIndex(y: Int) = y >= 0 && y <= this.height
-
-        fun hasValidBoundaries(pixmap: Pixmap) = pixmap.run {
-            validXIndex(left) && validXIndex(right) && validYIndex(top) && validYIndex(bottom)
-        }
-    }
 }
