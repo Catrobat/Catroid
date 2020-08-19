@@ -170,6 +170,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -480,6 +481,7 @@ public class CategoryBricksFactory {
 		}
 
 		soundBrickList.add(new SetInstrumentBrick());
+		soundBrickList.add(new SetTempoBrick(100));
 
 		return soundBrickList;
 	}

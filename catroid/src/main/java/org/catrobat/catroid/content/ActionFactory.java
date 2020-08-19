@@ -148,6 +148,7 @@ import org.catrobat.catroid.content.actions.SetPenColorAction;
 import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetRotationStyleAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.SetTempoAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVariableAction;
@@ -736,6 +737,13 @@ public class ActionFactory extends Actions {
 	public Action createSetInstrumentAction(PickableMusicalInstrument instrument) {
 		SetInstrumentAction action = action(SetInstrumentAction.class);
 		action.setInstrument(instrument);
+		return action;
+	}
+
+	public Action createSetTempoAction(Sprite sprite, Formula tempo) {
+		SetTempoAction action = action(SetTempoAction.class);
+		action.setSprite(sprite);
+		action.setTempo(tempo);
 		return action;
 	}
 

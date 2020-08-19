@@ -199,6 +199,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -460,6 +461,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", SetBackgroundAndWaitBrick.class);
 		xstream.alias("brick", SetBackgroundByIndexAndWaitBrick.class);
 		xstream.alias("brick", SetInstrumentBrick.class);
+		xstream.alias("brick", SetTempoBrick.class);
 		xstream.alias("brick", SetPenColorBrick.class);
 		xstream.alias("brick", SetPenSizeBrick.class);
 		xstream.alias("brick", SetRotationStyleBrick.class);

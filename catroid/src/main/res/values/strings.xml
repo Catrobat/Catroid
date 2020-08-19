@@ -1064,6 +1064,7 @@
     for %s is missing or needs to be updated. Would you like to download or update it now?</string>
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Set tempo to</string>
     <!--  -->
 
     <!-- Embroidery bricks -->
