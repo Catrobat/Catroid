@@ -143,6 +143,7 @@ public final class StageLifeCycleController {
 
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
+			MidiSoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();
 			stageActivity.stageAudioFocus.releaseAudioFocus();
 			if (stageActivity.cameraManager != null) {
@@ -217,6 +218,7 @@ public final class StageLifeCycleController {
 			}
 
 			SoundManager.getInstance().resume();
+			MidiSoundManager.getInstance().resume();
 			if (stageActivity.stageResourceHolder.initFinished()) {
 				StageActivity.stageListener.menuResume();
 			}

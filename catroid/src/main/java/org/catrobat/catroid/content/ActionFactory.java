@@ -120,6 +120,7 @@ import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
 import org.catrobat.catroid.content.actions.PhiroPlayToneAction;
 import org.catrobat.catroid.content.actions.PhiroRGBLightAction;
 import org.catrobat.catroid.content.actions.PhiroSensorAction;
+import org.catrobat.catroid.content.actions.PlayDrumForBeatsAction;
 import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
@@ -207,6 +208,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -746,6 +748,14 @@ public class ActionFactory extends Actions {
 		ChangeTempoByAction action = action(ChangeTempoByAction.class);
 		action.setSprite(sprite);
 		action.setTempo(tempo);
+		return action;
+	}
+
+	public Action createPlayDrumForBeatsAction(Sprite sprite, Formula beats, PickableDrum drum) {
+		PlayDrumForBeatsAction action = action(PlayDrumForBeatsAction.class);
+		action.setSprite(sprite);
+		action.setBeats(beats);
+		action.setDrum(drum);
 		return action;
 	}
 
