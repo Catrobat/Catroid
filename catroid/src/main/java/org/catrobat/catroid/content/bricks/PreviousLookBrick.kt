@@ -20,39 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.bricks
 
-package org.catrobat.catroid.content.actions;
+import android.content.Context
+import android.view.View
+import android.widget.TextView
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.actions.ScriptSequenceAction
 
-import android.util.Log;
+class PreviousLookBrick : BrickBaseType() {
+    override fun getViewResource() = R.layout.brick_previous_look
 
-import org.catrobat.catroid.formulaeditor.Formula;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
+    override fun getView(context: Context): View {
+        super.getView(context)
+        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
+            view.findViewById<TextView>(R.id.brick_previous_look_text_view)
+                .setText(R.string.brick_previous_background)
+        }
+        return view
+    }
 
-public class SetLookByIndexAction extends SetLookAction {
-
-	private Formula formula;
-
-	@Override
-	public boolean act(float delta) {
-		updateLookFromFormula();
-		return super.act(delta);
-	}
-
-	private void updateLookFromFormula() {
-		int lookPosition = -1;
-
-		try {
-			lookPosition = formula.interpretInteger(sprite);
-		} catch (InterpretationException ex) {
-			Log.d(getClass().getSimpleName(), "Formula Interpretation for look index failed", ex);
-		}
-
-		if (lookPosition > 0 && lookPosition <= sprite.getLookList().size()) {
-			look = sprite.getLookList().get(lookPosition - 1);
-		}
-	}
-
-	public void setFormula(Formula formula) {
-		this.formula = formula;
-	}
+    override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
+        sequence.addAction(sprite.actionFactory.createSetPreviousLookAction(sprite))
+    }
 }

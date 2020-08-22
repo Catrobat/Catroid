@@ -164,7 +164,7 @@ public class StopAllScriptsActionTest {
 		sprite.initializeEventThreads(EventId.START);
 
 		executeAllActions();
-		sprite.look.fire(new EventWrapper(new BroadcastEventId(broadcastMessage), EventWrapper.NO_WAIT));
+		sprite.look.fire(new EventWrapper(new BroadcastEventId(broadcastMessage), false));
 		executeAllActions();
 
 		assertEquals((float) position, sprite.look.getXInUserInterfaceDimensionUnit());

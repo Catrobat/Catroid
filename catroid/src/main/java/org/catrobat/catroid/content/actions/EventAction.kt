@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,30 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+package org.catrobat.catroid.content.actions
 
-public class BroadcastWaitBrick extends BroadcastBrick {
+import org.catrobat.catroid.content.EventWrapper
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.eventids.EventId
 
-	private static final long serialVersionUID = 1L;
+abstract class EventAction : AsynchronousAction() {
+    protected abstract val receivingSprites: List<Sprite>
+    private var event: EventWrapper? = null
+    var wait = false
 
-	public BroadcastWaitBrick() {
-	}
+    override fun initialize() {
+        event = getEventId()?.let { EventWrapper(it, wait) }
+        if (event != null) {
+            receivingSprites.forEach { sprite ->
+                sprite.look.fire(event)
+            }
+        }
+    }
 
-	public BroadcastWaitBrick(String broadcastMessage) {
-		super(broadcastMessage);
-	}
+    override fun isFinished() = event?.isWaitingForSprite() != true
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_broadcast_wait;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, true));
-	}
+    abstract fun getEventId(): EventId?
 }

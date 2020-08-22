@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
@@ -95,7 +95,7 @@ public class SpriteTest {
 		userVariable.setVisible(false);
 		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
 
-		EventThread thread = (EventThread) ActionFactory.createEventThread(new StartScript());
+		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
 				new Formula(10), userVariable));
 		secondScript.run(sprite2, thread);

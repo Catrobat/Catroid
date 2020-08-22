@@ -760,7 +760,7 @@ public class StageListener implements ApplicationListener {
 
 	public void gamepadPressed(String buttonType) {
 		EventId eventId = new GamepadEventId(buttonType);
-		EventWrapper gamepadEvent = new EventWrapper(eventId, EventWrapper.NO_WAIT);
+		EventWrapper gamepadEvent = new EventWrapper(eventId, false);
 		project.fireToAllSprites(gamepadEvent);
 	}
 

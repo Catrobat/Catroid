@@ -215,8 +215,8 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
-		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction ifSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		ScriptSequenceAction elseSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : ifBranchBricks) {
 			if (!brick.isCommentedOut()) {

@@ -133,7 +133,7 @@ public class RPiSocketConnection {
 		String[] messageSegments = broadcastMessage.split(" ");
 		if (messageSegments.length == 3 && ProjectManager.getInstance().getCurrentProject() != null) {
 			RaspiEventId id = new RaspiEventId(messageSegments[1], messageSegments[2]);
-			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(new EventWrapper(id, EventWrapper.NO_WAIT));
+			ProjectManager.getInstance().getCurrentProject().fireToAllSprites(new EventWrapper(id, false));
 		}
 	}
 

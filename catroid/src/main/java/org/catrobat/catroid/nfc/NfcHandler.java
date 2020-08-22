@@ -108,9 +108,9 @@ public final class NfcHandler {
 
 	private static void fireNfcEvents(String uid) {
 		EventId nfcEventId = new NfcEventId(uid);
-		EventWrapper nfcEvent = new EventWrapper(nfcEventId, EventWrapper.NO_WAIT);
+		EventWrapper nfcEvent = new EventWrapper(nfcEventId, false);
 		EventId anyNfcEventId = new EventId(EventId.ANY_NFC);
-		EventWrapper anyNfcEvent = new EventWrapper(anyNfcEventId, EventWrapper.NO_WAIT);
+		EventWrapper anyNfcEvent = new EventWrapper(anyNfcEventId, false);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.fireToAllSprites(nfcEvent);

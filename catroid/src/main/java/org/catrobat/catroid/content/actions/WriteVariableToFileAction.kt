@@ -24,6 +24,7 @@ package org.catrobat.catroid.content.actions
 
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
@@ -36,7 +37,7 @@ import java.io.File
 import java.io.IOException
 import java.util.ArrayList
 
-class WriteVariableToFileAction : EventAction() {
+class WriteVariableToFileAction : Action() {
     var sprite: Sprite? = null
     var formula: Formula? = null
     var userVariable: UserVariable? = null

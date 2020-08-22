@@ -76,7 +76,7 @@ public class IfOnEdgeBounceAction extends TemporalAction {
 	}
 
 	private void fireBounceEvent() {
-		sprite.look.fire(new EventWrapper(new BounceOffEventId(sprite, null), EventWrapper.NO_WAIT));
+		sprite.look.fire(new EventWrapper(new BounceOffEventId(sprite, null), false));
 	}
 
 	private boolean isLookingUp(float direction) {

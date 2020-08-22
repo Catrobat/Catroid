@@ -20,49 +20,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Event
+import com.badlogic.gdx.scenes.scene2d.EventListener
+import org.catrobat.catroid.content.actions.ScriptSequenceActionWithWaiter
 
-import org.catrobat.catroid.content.EventWrapper;
-import org.catrobat.catroid.content.Sprite;
+class EventWrapperListener internal constructor(private val look: Look) : EventListener {
 
-public class NotifyEventWaiterAction extends Action {
+    override fun handle(event: Event) =
+        if (event is EventWrapper) {
+            handleEvent(event)
+            true
+        } else false
 
-	private EventWrapper event;
-	private Sprite sprite;
-	private boolean firstStart = true;
-
-	@Override
-	public boolean act(float delta) {
-		if (firstStart) {
-			event.notify(sprite);
-			firstStart = false;
-		}
-		return true;
-	}
-
-	public void setEvent(EventWrapper event) {
-		this.event = event;
-	}
-
-	public EventWrapper getEvent() {
-		return event;
-	}
-
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
-	@Override
-	public void restart() {
-		super.restart();
-		firstStart = true;
-	}
-
-	@Override
-	public void reset() {
-		event.notify(sprite);
-		super.reset();
-	}
+    private fun handleEvent(event: EventWrapper) {
+        with(look) {
+            sprite.idToEventThreadMap[event.eventId].forEach { sequenceAction ->
+                stopThreadWithScript(sequenceAction.script)
+                if (event.addSpriteToWaitList(sprite)) {
+                    startThread(ScriptSequenceActionWithWaiter(sequenceAction, event, sprite))
+                } else {
+                    startThread(sequenceAction)
+                }
+            }
+        }
+    }
 }

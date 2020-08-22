@@ -147,7 +147,8 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 			userVariable.setDummy(true);
 		}
 
-		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction repeatSequence =
+				(ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {

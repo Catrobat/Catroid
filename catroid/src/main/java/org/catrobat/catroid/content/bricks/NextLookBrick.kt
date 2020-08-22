@@ -20,38 +20,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.bricks
 
-package org.catrobat.catroid.content.bricks;
+import android.content.Context
+import android.view.View
+import android.widget.TextView
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.R
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.actions.ScriptSequenceAction
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.Formula;
+class NextLookBrick : BrickBaseType() {
+    override fun getViewResource() = R.layout.brick_next_look
 
-public class SetLookByIndexBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
+    override fun getView(context: Context): View {
+        super.getView(context)
+        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
+            view.findViewById<TextView>(R.id.brick_next_look_text_view)
+                .setText(R.string.brick_next_background)
+        }
+        return view
+    }
 
-	public SetLookByIndexBrick() {
-		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_look_by_index_edit_text);
-	}
-
-	public SetLookByIndexBrick(int index) {
-		this(new Formula(index));
-	}
-
-	public SetLookByIndexBrick(Formula formula) {
-		this();
-		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_look_by_index;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX)));
-	}
+    override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
+        sequence.addAction(sprite.actionFactory.createSetNextLookAction(sprite))
+    }
 }

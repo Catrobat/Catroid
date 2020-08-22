@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,30 +20,28 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+package org.catrobat.catroid.content.actions
 
-public class BroadcastWaitBrick extends BroadcastBrick {
+import com.badlogic.gdx.scenes.scene2d.Action
 
-	private static final long serialVersionUID = 1L;
+abstract class AsynchronousAction : Action() {
+    @JvmField
+    protected var initialized = false
 
-	public BroadcastWaitBrick() {
-	}
+    override fun act(delta: Float): Boolean {
+        if (!initialized) {
+            initialize()
+            initialized = true
+        }
+        return isFinished()
+    }
 
-	public BroadcastWaitBrick(String broadcastMessage) {
-		super(broadcastMessage);
-	}
+    abstract fun initialize()
 
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_broadcast_wait;
-	}
+    abstract fun isFinished(): Boolean
 
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createBroadcastAction(broadcastMessage, true));
-	}
+    override fun restart() {
+        initialized = false
+    }
 }
