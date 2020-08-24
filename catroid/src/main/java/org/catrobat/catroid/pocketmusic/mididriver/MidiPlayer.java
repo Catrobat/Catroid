@@ -30,16 +30,20 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.NoteLength;
+import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiToProjectConverter;
+import org.catrobat.catroid.pocketmusic.ui.TrackView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import androidx.annotation.VisibleForTesting;
 
 public class MidiPlayer {
 	private static MidiNotePlayer notePlayer = new MidiNotePlayer();
@@ -54,8 +58,9 @@ public class MidiPlayer {
 	private long startTime;
 	private String sourceFilePath;
 
-	private MusicalInstrument instrument;
+	private MusicalInstrument instrument = Project.DEFAULT_INSTRUMENT;
 	private float tempo;
+
 	private float volume;
 	private Sprite startedBySprite;
 
@@ -124,8 +129,8 @@ public class MidiPlayer {
 		notePlayer.setInstrument(channel, instrument);
 		notePlayer.setVolume(channel, (int) volume);
 
-		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
-		playLength /= (tempo / 100f);
+		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		playLength /= tempo / 100f;
 
 		startTime = System.currentTimeMillis();
 
@@ -139,13 +144,19 @@ public class MidiPlayer {
 				}
 				List<NoteEvent> noteEventList = track.getNoteEventsForTick(tick);
 				for (NoteEvent noteEvent : noteEventList) {
+					MidiRunnable runnable;
+					int adjustedMidiValue = getAdjustedMidiValue(instrument, noteEvent.getNoteName().getMidi());
 					if (noteEvent.isNoteOn()) {
-						MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, noteEvent.getNoteName(),
+						runnable = new MidiRunnable(MidiSignals.NOTE_ON, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
 								playLength, handler, notePlayer, null, channel);
-						runnable.setScheduledTime(startTime + (long) (tick / (tempo / 100)));
-						handler.postDelayed(runnable, (long) (tick / (tempo / 100)));
-						playRunnables.add(runnable);
+						runnable.setManualNoteOff(true);
+					} else {
+						runnable = new MidiRunnable(MidiSignals.NOTE_OFF, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
+								playLength, handler, notePlayer, null, channel);
 					}
+					runnable.setScheduledTime(startTime + (long) (tick / (tempo / 100)));
+					handler.postDelayed(runnable, (long) (tick / (tempo / 100)));
+					playRunnables.add(runnable);
 				}
 			}
 		}
@@ -168,8 +179,41 @@ public class MidiPlayer {
 			} else {
 				playRunnables.remove(r);
 			}
+			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler,
+					notePlayer, null, channel));
 		}
 		paused = true;
+	}
+
+	public void pauseForBeats(int beats) {
+		long currentTime = System.currentTimeMillis();
+
+		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		playLength /= tempo / 100;
+
+		List<MidiRunnable> playRunnablesCopy = new ArrayList<>(playRunnables);
+		for (MidiRunnable r : playRunnablesCopy) {
+			if (r.getScheduledTime() > currentTime && r.getScheduledTime() < currentTime + (playLength * beats) + playLength / 2) {
+				handler.removeCallbacks(r);
+				handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler,
+						notePlayer, null, channel), playLength - (currentTime - r.getScheduledTime()));
+				playRunnables.remove(r);
+			}
+		}
+	}
+
+	private int getAdjustedMidiValue(MusicalInstrument instrument, int originalMidiValue) {
+		float preparedMidiValue = originalMidiValue - NoteName.DEFAULT_NOTE_NAME.getMidi();
+		int instrumentRange = instrument.getHighEnd() - instrument.getLowEnd();
+		int start = instrument.getLowEnd() + instrumentRange / 4;
+		int end = instrument.getHighEnd() - instrumentRange / 4;
+		float adjustedInstrumentRange = end - start;
+
+		float proportion = preparedMidiValue / TrackView.ROW_COUNT;
+
+		int adjustedMidiValue = start + (int) (proportion * adjustedInstrumentRange);
+
+		return adjustedMidiValue;
 	}
 
 	public void resume() {
@@ -231,5 +275,30 @@ public class MidiPlayer {
 
 	public long getCurrentPosition() {
 		return System.currentTimeMillis() - startTime;
+	}
+
+	public long getStartTimeOffset() {
+		return startTimeOffset;
+	}
+
+	public List<MidiRunnable> getPlayRunnables() {
+		return playRunnables;
+	}
+
+	public byte getChannel() {
+		return channel;
+	}
+
+	@VisibleForTesting
+	public static void resetChannelCounter() {
+		channelCounter = 0;
+	}
+	@VisibleForTesting
+	public void setProject(Project project) {
+		this.project = project;
+	}
+	@VisibleForTesting
+	public Handler getHandler() {
+		return handler;
 	}
 }

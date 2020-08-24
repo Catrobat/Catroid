@@ -28,6 +28,7 @@ import android.util.Log;
 import org.catrobat.catroid.content.SoundFilePathWithSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
+import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 
@@ -55,6 +56,8 @@ public class MidiSoundManager {
 	private static final int MIN_TEMPO_PERCENT = 20;
 	private static final int MAX_TEMPO_PERCENT = 500;
 
+	long pausedUntil = 0;
+
 	@VisibleForTesting
 	public MidiSoundManager() {
 	}
@@ -76,13 +79,17 @@ public class MidiSoundManager {
 				midiPlayer.setInstrument(instrument);
 				midiPlayer.setTempo(tempo);
 				midiPlayer.setVolume(this.volume * 127 / 100);
-				midiPlayer.seekTo(startTimeInMilSeconds);
+				if (pausedUntil > System.currentTimeMillis() + startTimeInMilSeconds) {
+					midiPlayer.seekTo(pausedUntil - System.currentTimeMillis() + startTimeInMilSeconds);
+				} else {
+					midiPlayer.seekTo(startTimeInMilSeconds);
+				}
 				midiPlayer.start();
 			} catch (Exception exception) {
 				Log.e(TAG, "Couldn't play sound file '" + soundFilePath + "'", exception);
 			}
+			startedSoundfilePaths.add(new SoundFilePathWithSprite(soundFilePath, sprite));
 		}
-		startedSoundfilePaths.add(new SoundFilePathWithSprite(soundFilePath, sprite));
 	}
 
 	private MidiPlayer getAvailableMidiPlayer() {
@@ -134,6 +141,17 @@ public class MidiSoundManager {
 				midiPlayer.reset();
 			}
 		}
+	}
+
+	public void pauseForBeats(int beats) {
+		for (MidiPlayer midiPlayer : midiPlayers) {
+			if (midiPlayer.isPlaying()) {
+				midiPlayer.pauseForBeats(beats);
+			}
+		}
+		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
+		playLength /= tempo / 100;
+		pausedUntil = System.currentTimeMillis() + (playLength * beats);
 	}
 
 	public boolean isSoundInSpritePlaying(Sprite sprite, String soundFilePath) {

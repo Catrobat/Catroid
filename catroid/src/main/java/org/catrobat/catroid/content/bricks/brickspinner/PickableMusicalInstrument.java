@@ -23,26 +23,48 @@
 
 package org.catrobat.catroid.content.bricks.brickspinner;
 
+import android.content.Context;
+
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
-import org.catrobat.catroid.utils.Utils;
 
 import java.io.Serializable;
 
-public class PickableMusicalInstrument implements Nameable, Serializable {
+public enum PickableMusicalInstrument implements Nameable, Serializable {
+	PIANO(R.string.piano, 0),
+	ELECTRIC_PIANO(R.string.electric_piano, 2),
+	CELLO(R.string.cello, 42),
+	FLUTE(R.string.flute, 73),
+	VIBRAPHONE(R.string.vibraphone, 11),
+	ORGAN(R.string.organ, 16),
+	GUITAR(R.string.guitar, 24),
+	ELECTRIC_GUITAR(R.string.electric_guitar, 26),
+	BASS(R.string.bass, 32),
+	PIZZICATO(R.string.pizzicato, 45),
+	SYNTH_PAD(R.string.synth_pad, 90),
+	CHOIR(R.string.choir, 52),
+	SYNTH_LEAD(R.string.synth_lead, 80),
+	WOODEN_FLUTE(R.string.wooden_flute, 75),
+	TROMBONE(R.string.trombone, 57),
+	SAXOPHONE(R.string.saxophone, 64),
+	BASSOON(R.string.bassoon, 70),
+	CLARINET(R.string.clarinet, 71),
+	MUSIC_BOX(R.string.music_box, 10),
+	STEEL_DRUM(R.string.steel_drum, 114),
+	MARIMBA(R.string.marimba, 12);
 
-	private static final long serialVersionUID = 1L;
-
-	private String name;
+	private int nameStringId;
 	private int value;
+	private String name;
 
-	public PickableMusicalInstrument(String name, int value) {
-		this.name = name;
+	PickableMusicalInstrument(int nameStringId, int value) {
+		this.nameStringId = nameStringId;
 		this.value = value;
 	}
 
 	public static int getIndexByValue(int value) {
 		int index = 0;
-		for (PickableMusicalInstrument instrument : Utils.getPickableMusicalInstruments()) {
+		for (PickableMusicalInstrument instrument : values()) {
 			if (instrument.getValue() == value) {
 				return index;
 			}
@@ -67,5 +89,9 @@ public class PickableMusicalInstrument implements Nameable, Serializable {
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+
+	public String getString(Context context) {
+		return context.getString(nameStringId);
 	}
 }
