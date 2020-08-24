@@ -32,8 +32,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadStringProvider;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,9 +59,12 @@ public class MessageContainerSaveStateTest {
 	private final String projectName1 = "TestProject1";
 	private final String broadcastMessage1 = "testBroadcast1";
 	private final String unusedMessage = "Unused Message";
+	private ProjectLoadStringProvider projectLoadStringProvider;
 
 	@Before
 	public void setUp() throws Exception {
+		projectLoadStringProvider =
+				new ProjectLoadStringProvider(ApplicationProvider.getApplicationContext());
 		createTestProjects();
 	}
 
@@ -96,8 +101,7 @@ public class MessageContainerSaveStateTest {
 
 		XstreamSerializer.getInstance().saveProject(project1);
 
-		ProjectManager.getInstance()
-				.loadProject(project1.getDirectory(), ApplicationProvider.getApplicationContext());
+		new ProjectLoadAndUpdate().loadProject(project1.getDirectory(), projectLoadStringProvider);
 
 		ProjectManager.getInstance()
 				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());

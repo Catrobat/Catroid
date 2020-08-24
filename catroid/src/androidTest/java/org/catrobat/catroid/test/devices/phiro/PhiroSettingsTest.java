@@ -34,7 +34,9 @@ import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectLoadStringProvider;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.junit.After;
@@ -57,27 +59,29 @@ public class PhiroSettingsTest {
 	private boolean sharedPreferenceBuffer;
 	private String projectName = "testProject";
 	private Project project;
+	private ProjectLoadStringProvider projectLoadStringProvider;
 
 	@Before
 	public void setUp() throws Exception {
 		sharedPreferenceBuffer =
 				SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext());
-		SettingsFragment.setPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), false);
+		SettingsFragment.setPhiroSharedPreferenceEnabled(false);
 		createProject();
+		projectLoadStringProvider =
+				new ProjectLoadStringProvider(ApplicationProvider.getApplicationContext());
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		SettingsFragment
-				.setPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), sharedPreferenceBuffer);
+				.setPhiroSharedPreferenceEnabled(sharedPreferenceBuffer);
 	}
 
 	@Test
 	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
 		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
-		ProjectManager.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		new ProjectLoadAndUpdate().loadProject(project.getDirectory(), projectLoadStringProvider);
 
 		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 

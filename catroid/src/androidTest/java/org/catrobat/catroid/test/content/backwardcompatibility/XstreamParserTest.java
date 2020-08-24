@@ -32,6 +32,7 @@ import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -51,6 +52,13 @@ import static org.junit.Assert.assertNotSame;
 public class XstreamParserTest {
 
 	private File projectDir;
+	private String defaultSceneName;
+
+	@Before
+	public void setUp() {
+		defaultSceneName =
+				ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1);
+	}
 
 	@After
 	public void tearDown() throws IOException {
@@ -68,8 +76,7 @@ public class XstreamParserTest {
 		copyProjectFromAssets(assetName, projectName);
 		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
-		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
+		Project project = XstreamSerializer.getInstance().loadProject(projectDir, defaultSceneName);
 
 		assertNotNull(project);
 
@@ -121,8 +128,7 @@ public class XstreamParserTest {
 		copyProjectFromAssets(assetName, projectName);
 		projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
-		Project project = XstreamSerializer.getInstance()
-				.loadProject(projectDir, ApplicationProvider.getApplicationContext());
+		Project project = XstreamSerializer.getInstance().loadProject(projectDir, defaultSceneName);
 
 		assertNotNull(project);
 

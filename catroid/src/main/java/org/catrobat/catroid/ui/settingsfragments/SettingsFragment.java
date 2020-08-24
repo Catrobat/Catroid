@@ -56,6 +56,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
+import static org.catrobat.catroid.CatroidApplication.getAppContext;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
@@ -290,20 +291,20 @@ public class SettingsFragment extends PreferenceFragment {
 		return getBooleanSharedPreference(false, SETTINGS_CAST_GLOBALLY_ENABLED, context);
 	}
 
-	public static void setPhiroSharedPreferenceEnabled(Context context, boolean value) {
-		getSharedPreferences(context).edit()
+	public static void setPhiroSharedPreferenceEnabled(boolean value) {
+		getSharedPreferences(getAppContext()).edit()
 				.putBoolean(SETTINGS_SHOW_PHIRO_BRICKS, value)
 				.apply();
 	}
 
-	public static void setJumpingSumoSharedPreferenceEnabled(Context context, boolean value) {
-		getSharedPreferences(context).edit()
+	public static void setJumpingSumoSharedPreferenceEnabled(boolean value) {
+		getSharedPreferences(getAppContext()).edit()
 				.putBoolean(SETTINGS_SHOW_JUMPING_SUMO_BRICKS, value)
 				.apply();
 	}
 
-	public static void setArduinoSharedPreferenceEnabled(Context context, boolean value) {
-		getSharedPreferences(context).edit()
+	public static void setArduinoSharedPreferenceEnabled(boolean value) {
+		getSharedPreferences(getAppContext()).edit()
 				.putBoolean(SETTINGS_SHOW_ARDUINO_BRICKS, value)
 				.apply();
 	}
@@ -379,8 +380,8 @@ public class SettingsFragment extends PreferenceFragment {
 		return getSharedPreferences(context).getString(RASPI_VERSION_SPINNER, null);
 	}
 
-	public static void setLegoMindstormsNXTSensorMapping(Context context, NXTSensor.Sensor[] sensorMapping) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+	public static void setLegoMindstormsNXTSensorMapping(NXTSensor.Sensor[] sensorMapping) {
+		SharedPreferences.Editor editor = getSharedPreferences(getAppContext()).edit();
 		for (int i = 0; i < NXT_SENSORS.length; i++) {
 			editor.putString(NXT_SENSORS[i], sensorMapping[i].getSensorCode());
 		}
@@ -388,8 +389,8 @@ public class SettingsFragment extends PreferenceFragment {
 		editor.apply();
 	}
 
-	public static void setLegoMindstormsEV3SensorMapping(Context context, EV3Sensor.Sensor[] sensorMapping) {
-		SharedPreferences.Editor editor = getSharedPreferences(context).edit();
+	public static void setLegoMindstormsEV3SensorMapping(EV3Sensor.Sensor[] sensorMapping) {
+		SharedPreferences.Editor editor = getSharedPreferences(getAppContext()).edit();
 		for (int i = 0; i < EV3_SENSORS.length; i++) {
 			editor.putString(EV3_SENSORS[i], sensorMapping[i].getSensorCode());
 		}
@@ -429,14 +430,14 @@ public class SettingsFragment extends PreferenceFragment {
 		return DroneConfigPreference.Preferences.getPreferenceFromPreferenceCode(preference);
 	}
 
-	public static void enableLegoMindstormsNXTBricks(Context context) {
-		getSharedPreferences(context).edit()
+	public static void enableLegoMindstormsNXTBricks() {
+		getSharedPreferences(getAppContext()).edit()
 				.putBoolean(SETTINGS_MINDSTORMS_NXT_BRICKS_ENABLED, true)
 				.apply();
 	}
 
-	public static void enableLegoMindstormsEV3Bricks(Context context) {
-		getSharedPreferences(context).edit()
+	public static void enableLegoMindstormsEV3Bricks() {
+		getSharedPreferences(getAppContext()).edit()
 				.putBoolean(SETTINGS_MINDSTORMS_EV3_BRICKS_ENABLED, true)
 				.apply();
 	}

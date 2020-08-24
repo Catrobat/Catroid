@@ -113,8 +113,7 @@ public class BroadcastAndWaitBrickMessageContainerTest {
 
 		baseActivityTestRule.finishActivity();
 
-		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
 
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 

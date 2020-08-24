@@ -22,11 +22,8 @@
  */
 package org.catrobat.catroid.content.backwardcompatibility;
 
-import android.content.Context;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Setting;
@@ -45,10 +42,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 @XStreamAlias("program")
 public class LegacyProjectWithoutScenes implements Serializable {
@@ -60,7 +57,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 	private LegacyDataContainer data = null;
 	private List<Setting> settings = new ArrayList<>();
 
-	public Project toProject(Context context) throws IOException {
+	public Project toProject(String defaultSceneName) throws IOException {
 		File projectDir = getDirectory();
 
 		Project project = new Project();
@@ -75,7 +72,7 @@ public class LegacyProjectWithoutScenes implements Serializable {
 			sprite.getUserLists().addAll(getSpriteUserLists(sprite));
 		}
 
-		Scene scene = new Scene(context.getString(R.string.default_scene_name, 1), project);
+		Scene scene = new Scene(defaultSceneName, project);
 		scene.getSpriteList().addAll(getSpriteList());
 		project.addScene(scene);
 

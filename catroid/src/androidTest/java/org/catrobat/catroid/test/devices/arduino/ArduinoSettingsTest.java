@@ -33,7 +33,9 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.asynctask.ProjectLoadStringProvider;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -57,20 +59,23 @@ public class ArduinoSettingsTest {
 	private boolean sharedPreferenceBuffer;
 	private String projectName = ArduinoSettingsTest.class.getSimpleName();
 	private Project project;
+	private ProjectLoadStringProvider projectLoadStringProvider;
 
 	@Before
 	public void setUp() throws Exception {
 		Context context = ApplicationProvider.getApplicationContext();
 		sharedPreferenceBuffer = SettingsFragment.isArduinoSharedPreferenceEnabled(context);
-		SettingsFragment.setArduinoSharedPreferenceEnabled(context, false);
+		SettingsFragment.setArduinoSharedPreferenceEnabled(false);
 		createProjectArduino();
+		projectLoadStringProvider =
+				new ProjectLoadStringProvider(ApplicationProvider.getApplicationContext());
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		TestUtils.deleteProjects(projectName);
 		SettingsFragment
-				.setArduinoSharedPreferenceEnabled(ApplicationProvider.getApplicationContext(), sharedPreferenceBuffer);
+				.setArduinoSharedPreferenceEnabled(sharedPreferenceBuffer);
 	}
 
 	@Test
@@ -79,7 +84,7 @@ public class ArduinoSettingsTest {
 
 		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().loadProject(project.getDirectory(), context);
+		new ProjectLoadAndUpdate().loadProject(project.getDirectory(), projectLoadStringProvider);
 
 		assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 

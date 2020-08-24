@@ -81,7 +81,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 
 		sensorMappingBuffer = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(),
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(
 				new NXTSensor.Sensor[] {
 						NXTSensor.Sensor.NO_SENSOR,
 						NXTSensor.Sensor.NO_SENSOR,
@@ -111,7 +111,7 @@ public class LegoConfigDialogActivityRecreationRegressionTest {
 		setNXTBrickSetting(nxtSettingBuffer);
 
 		SettingsFragment
-				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMappingBuffer);
+				.setLegoMindstormsNXTSensorMapping(sensorMappingBuffer);
 
 		TestUtils.deleteProjects(getClass().getSimpleName());
 	}

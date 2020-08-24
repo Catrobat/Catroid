@@ -53,12 +53,14 @@ public class DefaultDroneProgramLoadingTest {
 	private String projectName;
 	private Project currentProjectBuffer;
 	private Project project;
+	private String defaultSceneName;
 
 	@Before
 	public void setUp() throws Exception {
 		Context targetContext = ApplicationProvider.getApplicationContext();
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 		projectName = targetContext.getString(R.string.default_drone_project_name);
+		defaultSceneName = targetContext.getString(R.string.default_scene_name, 1);
 		project = new ArDroneProjectCreator()
 				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), false);
 	}
@@ -71,8 +73,8 @@ public class DefaultDroneProgramLoadingTest {
 
 	@Test
 	public void testDroneProgramLoadingSuccessfully() throws IOException, LoadingProjectException {
-		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		Project loadedProject =
+				XstreamSerializer.getInstance().loadProject(project.getDirectory(), defaultSceneName);
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();

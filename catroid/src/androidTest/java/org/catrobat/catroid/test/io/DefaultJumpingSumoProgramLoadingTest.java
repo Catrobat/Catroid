@@ -55,6 +55,7 @@ public class DefaultJumpingSumoProgramLoadingTest {
 	private Context targetContext;
 	private Project project;
 	private int expectedSizeOfLookList = 1;
+	private String defaultSceneName;
 
 	public DefaultJumpingSumoProgramLoadingTest() {
 		storageHandler = XstreamSerializer.getInstance();
@@ -66,6 +67,7 @@ public class DefaultJumpingSumoProgramLoadingTest {
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
 		projectName = targetContext.getString(R.string.default_jumping_sumo_project_name);
 		project = new JumpingSumoProjectCreator().createDefaultProject(projectName, targetContext, false);
+		defaultSceneName = targetContext.getString(R.string.default_scene_name, 1);
 	}
 
 	@After
@@ -76,7 +78,7 @@ public class DefaultJumpingSumoProgramLoadingTest {
 
 	@Test
 	public void testJumpingSumoProgramLoadingSuccessfully() throws IOException, LoadingProjectException {
-		Project loadedProject = storageHandler.loadProject(project.getDirectory(), targetContext);
+		Project loadedProject = storageHandler.loadProject(project.getDirectory(), defaultSceneName);
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
 

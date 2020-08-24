@@ -26,6 +26,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.LegoNXTSetting;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
@@ -83,6 +84,7 @@ public class XstreamSerializerTest {
 
 	private final XstreamSerializer storageHandler;
 	private final String projectName = "testProject";
+	private String defaultSceneName;
 
 	private Project currentProjectBuffer;
 
@@ -98,6 +100,8 @@ public class XstreamSerializerTest {
 	public void setUp() throws Exception {
 		TestUtils.deleteProjects(projectName);
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
+		defaultSceneName =
+				ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1);
 	}
 
 	@After
@@ -143,8 +147,8 @@ public class XstreamSerializerTest {
 		ProjectSaveTask
 				.task(project, ApplicationProvider.getApplicationContext());
 
-		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		Project loadedProject =
+				XstreamSerializer.getInstance().loadProject(project.getDirectory(), defaultSceneName);
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();
@@ -276,7 +280,7 @@ public class XstreamSerializerTest {
 		Project project = generateMultiplePermissionsProject();
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		SettingsFragment.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), sensorMapping);
+		SettingsFragment.setLegoMindstormsNXTSensorMapping(sensorMapping);
 
 		ProjectSaveTask.task(project, ApplicationProvider.getApplicationContext());
 
@@ -298,7 +302,7 @@ public class XstreamSerializerTest {
 		changedSensorMapping[0] = NXTSensor.Sensor.LIGHT_ACTIVE;
 
 		SettingsFragment
-				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), changedSensorMapping);
+				.setLegoMindstormsNXTSensorMapping(changedSensorMapping);
 
 		assertTrue(ProjectLoadTask
 				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));

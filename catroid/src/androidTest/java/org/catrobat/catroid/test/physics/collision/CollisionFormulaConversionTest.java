@@ -40,6 +40,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
@@ -65,11 +66,13 @@ public class CollisionFormulaConversionTest {
 
 	private static final String COLLISION_TEST_PROJECT = "COLLISION_TEST_PROJECT";
 	private ProjectManager projectManager;
+	private ProjectLoadAndUpdate projectLoadAndUpdate;
 
 	@Before
 	public void setUp() throws Exception {
 		ScreenValueHandler.updateScreenWidthAndHeight(InstrumentationRegistry.getInstrumentation().getContext());
 		projectManager = ProjectManager.getInstance();
+		projectLoadAndUpdate = new ProjectLoadAndUpdate();
 	}
 
 	@After
@@ -90,7 +93,7 @@ public class CollisionFormulaConversionTest {
 				ApplicationProvider.getApplicationContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 
-		ProjectManager.updateCollisionFormulasTo993(project);
+		projectLoadAndUpdate.updateCollisionFormulasTo993(project);
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);
@@ -129,7 +132,7 @@ public class CollisionFormulaConversionTest {
 				ApplicationProvider.getApplicationContext(),
 				firstSpriteName, secondSpriteName, thirdSpriteName, collisionTag);
 
-		ProjectManager.updateCollisionFormulasTo993(project);
+		projectLoadAndUpdate.updateCollisionFormulasTo993(project);
 
 		Sprite sprite1 = project.getDefaultScene().getSprite(firstSpriteName);
 		Brick brick = sprite1.getScript(0).getBrick(0);

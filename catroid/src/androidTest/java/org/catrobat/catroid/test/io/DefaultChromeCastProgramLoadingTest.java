@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.io;
 
+import android.content.Context;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.defaultprojectcreators.ChromeCastProjectCreator;
@@ -51,13 +53,16 @@ public class DefaultChromeCastProgramLoadingTest {
 	private String projectName;
 	private Project currentProjectBuffer;
 	private Project project;
+	private String defaultSceneName;
 
 	@Before
 	public void setUp() throws Exception {
 		currentProjectBuffer = ProjectManager.getInstance().getCurrentProject();
-		projectName = ApplicationProvider.getApplicationContext().getString(R.string.default_cast_project_name);
+		Context context = ApplicationProvider.getApplicationContext();
+		projectName = context.getString(R.string.default_cast_project_name);
+		defaultSceneName = context.getString(R.string.default_scene_name, 1);
 		project = new ChromeCastProjectCreator()
-				.createDefaultProject(projectName, ApplicationProvider.getApplicationContext(), true);
+				.createDefaultProject(projectName, context, true);
 	}
 
 	@After
@@ -68,8 +73,8 @@ public class DefaultChromeCastProgramLoadingTest {
 
 	@Test
 	public void testLoadingChromeCastProgram() throws IOException, LoadingProjectException {
-		Project loadedProject = XstreamSerializer.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		Project loadedProject =
+				XstreamSerializer.getInstance().loadProject(project.getDirectory(), defaultSceneName);
 
 		Scene preScene = project.getDefaultScene();
 		Scene postScene = loadedProject.getDefaultScene();

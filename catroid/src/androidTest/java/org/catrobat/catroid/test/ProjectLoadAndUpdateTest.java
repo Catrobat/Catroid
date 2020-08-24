@@ -28,11 +28,11 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.UiTestCatroidApplication;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.ProjectLoadAndUpdate;
-import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectLoadStringProvider;
-import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.junit.After;
@@ -44,34 +44,33 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
-import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
 @RunWith(AndroidJUnit4.class)
-public class ProjectManagerTest {
+public class ProjectLoadAndUpdateTest {
 
 	@Rule
 	public final ExpectedException exception = ExpectedException.none();
 
 	private static final String PROJECT_NAME = "testProject";
-	private static final String OLD_PROJECT = "OLD_PROJECT";
-	private static final String NEW_PROJECT = "NEW_PROJECT";
 
 	private static final float CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED = 0.0f;
+	private static final String ZIP_FILENAME_WRONG_NESTING_BRICKS = "CoinCatcher2.catrobat";
+	private static final String PROJECT_NAME_NESTING_BRICKS = "Coin Catcher 2";
 
 	private ProjectManager projectManager;
 	private ProjectLoadAndUpdate projectLoadAndUpdate;
-	private ProjectLoadStringProvider projectLoadStringProvider;
+	private ProjectLoadStringProvider updateStringProvider;
 
 	@Before
 	public void setUp() throws Exception {
@@ -79,63 +78,50 @@ public class ProjectManagerTest {
 		ScreenValueHandler.updateScreenWidthAndHeight(targetContext);
 		projectManager = UiTestCatroidApplication.projectManager;
 		projectLoadAndUpdate = new ProjectLoadAndUpdate();
-		projectLoadStringProvider =
-				new ProjectLoadStringProvider(ApplicationProvider.getApplicationContext());
+		updateStringProvider = new ProjectLoadStringProvider(targetContext);
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		projectManager.setCurrentProject(null);
-		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
+		TestUtils.deleteProjects(PROJECT_NAME);
 		TestUtils.removeFromPreferences(ApplicationProvider.getApplicationContext(), Constants.PREF_PROJECTNAME_KEY);
 	}
 
 	@Test
-	public void testShouldKeepExistingProjectIfCannotLoadNewProject() throws IOException, ProjectException {
-		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, OLD_PROJECT);
-
-		projectLoadAndUpdate.loadProject(project.getDirectory(), projectLoadStringProvider);
-
-		TestUtils.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
+	public void testCatrobatLanguageVersionNotSupported() throws IOException, ProjectException {
+		Project project = TestUtils
+				.createProjectWithLanguageVersion(CATROBAT_LANGUAGE_VERSION_NOT_SUPPORTED, PROJECT_NAME);
 
 		try {
-			projectLoadAndUpdate.loadProject(new File(NEW_PROJECT), projectLoadStringProvider);
-			fail("Expected ProjectException while loading  project " + NEW_PROJECT);
-		} catch (ProjectException expected) {
+			projectLoadAndUpdate.loadProject(project.getDirectory(), updateStringProvider);
+			fail("Project shouldn't be compatible");
+		} catch (CompatibilityProjectException expected) {
 		}
 
-		Project currentProject = projectManager.getCurrentProject();
+		TestUtils.deleteProjects();
+	}
 
-		assertNotNull(currentProject);
-		assertEquals(OLD_PROJECT, currentProject.getName());
-
-		TestUtils.deleteProjects(OLD_PROJECT, NEW_PROJECT);
+	@Test(expected = ProjectException.class)
+	public void testLoadUnexistingProject() throws Exception {
+		projectLoadAndUpdate.loadProject(new File(PROJECT_NAME), updateStringProvider);
 	}
 
 	@Test
-	public void testSavingAProjectDuringDelete() throws IOException, ProjectException {
-		Project project = TestUtils.createProjectWithLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION, PROJECT_NAME);
+	public void testLoadProjectWithInvalidNestingBrickReferences() throws IOException, ProjectException {
+		DEFAULT_ROOT_DIRECTORY.mkdir();
 
-		projectLoadAndUpdate.loadProject(project.getDirectory(), projectLoadStringProvider);
+		InputStream inputStream =
+				InstrumentationRegistry.getInstrumentation().getContext().getAssets().open(ZIP_FILENAME_WRONG_NESTING_BRICKS);
+		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME_NESTING_BRICKS);
+		new ZipArchiver().unzip(inputStream, projectDir);
 
-		Project currentProject = projectManager.getCurrentProject();
-		assertNotNull(String.format("Could not load %s project.", PROJECT_NAME), currentProject);
+		projectLoadAndUpdate.loadProject(projectDir, updateStringProvider);
+		Project project = projectManager.getCurrentProject();
 
-		File directory = new File(DEFAULT_ROOT_DIRECTORY, PROJECT_NAME);
-		assertTrue(String.format("Directory %s does not exist", directory.getPath()), directory.exists());
+		assertNotNull(project);
+		assertEquals(PROJECT_NAME_NESTING_BRICKS, project.getName());
 
-		// simulate multiple saving trigger asynchronous (occurs in black box testing)
-		for (int i = 0; i < 3; i++) {
-			currentProject.setDescription(currentProject.getDescription() + i);
-			new ProjectSaveTask(currentProject, ApplicationProvider.getApplicationContext())
-					.execute();
-		}
-
-		// simulate deletion, saveProject asyncTask will be "automatically" cancelled (Please remark: there is still a chance
-		// of a race condition, because we rely on a "project" reference which gets used in a multithreaded environment)
-		projectManager.setCurrentProject(null);
-		StorageOperations.deleteDir(directory);
-
-		assertFalse(directory.exists());
+		TestUtils.deleteProjects(PROJECT_NAME_NESTING_BRICKS);
 	}
 }

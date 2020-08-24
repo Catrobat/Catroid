@@ -32,8 +32,10 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
 import org.catrobat.catroid.exceptions.ProjectException;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadStringProvider;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.junit.After;
 import org.junit.Before;
@@ -62,10 +64,15 @@ public class MessageContainerTest {
 
 	private Project project1;
 	private Project project2;
+	private ProjectLoadAndUpdate projectLoadAndUpdate;
+	private ProjectLoadStringProvider projectLoadStringProvider;
 
 	@Before
 	public void setUp() throws Exception {
 		createTestProjects();
+		projectLoadAndUpdate = new ProjectLoadAndUpdate();
+		projectLoadStringProvider =
+				new ProjectLoadStringProvider(ApplicationProvider.getApplicationContext());
 	}
 
 	@After
@@ -89,8 +96,7 @@ public class MessageContainerTest {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance()
-				.loadProject(project2.getDirectory(), ApplicationProvider.getApplicationContext());
+		projectLoadAndUpdate.loadProject(project2.getDirectory(), projectLoadStringProvider);
 
 		currentProject = ProjectManager.getInstance().getCurrentProject();
 		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
@@ -132,8 +138,7 @@ public class MessageContainerTest {
 		project2.getDefaultScene().addSprite(sprite2);
 		XstreamSerializer.getInstance().saveProject(project2);
 
-		ProjectManager.getInstance()
-				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
-						ApplicationProvider.getApplicationContext());
+		projectLoadAndUpdate.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY,
+						projectName2), projectLoadStringProvider);
 	}
 }

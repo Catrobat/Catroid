@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -61,7 +62,9 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	public static boolean task(File projectDir, Context context) {
 		try {
-			ProjectManager.getInstance().loadProject(projectDir, context);
+			ProjectLoadStringProvider updateStringProvider =
+					new ProjectLoadStringProvider(context);
+			new ProjectLoadAndUpdate().loadProject(projectDir, updateStringProvider);
 			Project project = ProjectManager.getInstance().getCurrentProject();
 			new DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project);
 			new DeviceListAccessor(projectDir).cleanUpDeletedUserData(project);
@@ -93,7 +96,6 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 	}
 
 	public interface ProjectLoadListener {
-
 		void onLoadFinished(boolean success);
 	}
 }

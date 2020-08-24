@@ -23,14 +23,14 @@
 
 package org.catrobat.catroid.test.content.project;
 
-import android.content.Context;
-
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
+import org.catrobat.catroid.io.ProjectLoadAndUpdate;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadStringProvider;
 import org.catrobat.catroid.test.StaticSingletonInitializer;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,122 +44,94 @@ import java.io.File;
 
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.doReturn;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({XstreamSerializer.class, ProjectManager.class})
+@PrepareForTest({XstreamSerializer.class})
 public class LoadProjectsTest {
-
-	private static final float INVALID_LANGUAGE_VERSION = 0.1234f;
-	private static final float TOO_BIG_LANGUAGE_VERSION = 123.04f;
+	private static final float INVALID_LANGUAGE_VERSION = 0.0001f;
+	private static final float TOO_BIG_LANGUAGE_VERSION = 999.9999f;
 	private static final float OLDEST_LANGUAGE_VERSION = 0.8f;
-	private static final String RESTORE_PROJECT_STRING = "restorePreviousProject";
-	private ProjectManager projectManagerSpy;
 	private File fileMock;
-	private Context contextMock;
 	private Project projectMock;
+	private XmlHeader xmlHeaderSpy;
+	private ProjectLoadStringProvider stringProviderMock;
+	private ProjectLoadAndUpdate projectLoadAndUpdateSpy;
 
 	@Before
 	public void setUp() throws Exception {
 		fileMock = Mockito.mock(File.class);
-		contextMock = Mockito.mock(Context.class);
 		projectMock = Mockito.mock(Project.class);
-		StaticSingletonInitializer.initializeStaticSingletonMethods();
-		projectManagerSpy = PowerMockito.spy(ProjectManager.getInstance());
-		XstreamSerializer xstreamSerializerMock = PowerMockito.mock(XstreamSerializer.class);
-
-		PowerMockito.mockStatic(XstreamSerializer.class);
-		PowerMockito.mockStatic(ProjectManager.class);
-
-		when(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock);
+		xmlHeaderSpy = Mockito.spy(new XmlHeader());
 		when(projectMock.getRequiredResources()).thenReturn(new Brick.ResourcesSet());
-		doReturn(projectMock).when(xstreamSerializerMock).loadProject(Mockito.any(), Mockito.any());
+		when(projectMock.getXmlHeader()).thenReturn(xmlHeaderSpy);
+		StaticSingletonInitializer.initializeStaticSingletonMethods();
+
+		XstreamSerializer xstreamSerializerMock = PowerMockito.mock(XstreamSerializer.class);
+		PowerMockito.mockStatic(XstreamSerializer.class);
+		when(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock);
+
+		doReturn(projectMock).when(xstreamSerializerMock).loadProject(any(), any());
+
+		projectLoadAndUpdateSpy = Mockito.spy(new ProjectLoadAndUpdate());
+		stringProviderMock = Mockito.mock(ProjectLoadStringProvider.class);
+		initStringProviderMock();
 	}
 
-	@Test (expected = CompatibilityProjectException.class)
+	@Test(expected = CompatibilityProjectException.class)
 	public void testInvalidLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(INVALID_LANGUAGE_VERSION);
-
-		try {
-			projectManagerSpy.loadProject(fileMock, contextMock);
-		} finally {
-			PowerMockito.verifyPrivate(projectManagerSpy, times(1)).invoke(RESTORE_PROJECT_STRING,
-					any());
-		}
+		projectLoadAndUpdateSpy.loadProject(fileMock, stringProviderMock);
+		verify(projectLoadAndUpdateSpy, times(1)).restorePreviousProject(any());
 	}
 
-	@Test (expected = OutdatedVersionProjectException.class)
+	@Test(expected = OutdatedVersionProjectException.class)
 	public void testTooBigLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(TOO_BIG_LANGUAGE_VERSION);
-
-		try {
-			projectManagerSpy.loadProject(fileMock, contextMock);
-		} finally {
-			PowerMockito.verifyPrivate(projectManagerSpy, times(1)).invoke(RESTORE_PROJECT_STRING,
-					any());
-		}
+		projectLoadAndUpdateSpy.loadProject(fileMock, stringProviderMock);
+		verify(projectLoadAndUpdateSpy, times(1)).restorePreviousProject(any());
 	}
 
 	@Test
 	public void testOldestLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(OLDEST_LANGUAGE_VERSION);
 
-		projectManagerSpy.loadProject(fileMock, contextMock);
+		projectLoadAndUpdateSpy.loadProject(fileMock, stringProviderMock);
 
-		verify(projectMock, times(1)).setScreenMode(any());
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.updateCollisionFormulasTo993(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.updateSetPenColorFormulasTo994(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.updateArduinoValuesTo995(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.updateCollisionScriptsTo996(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.makeShallowCopiesDeepAgain(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.updateScriptsToTreeStructure(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(1));
-		ProjectManager.removePermissionsFile(projectMock);
+		verify(xmlHeaderSpy, times(1)).setScreenMode(any());
+		verify(projectLoadAndUpdateSpy, times(1)).updateCollisionFormulasTo993(projectMock);
+		verify(projectLoadAndUpdateSpy, times(1)).updateSetPenColorFormulasTo994(projectMock);
+		verify(projectLoadAndUpdateSpy, times(1)).updateArduinoValuesTo995(projectMock);
+		verify(projectLoadAndUpdateSpy, times(1)).updateCollisionScriptsTo996(projectMock);
+		verify(projectLoadAndUpdateSpy, times(1)).makeShallowCopiesDeepAgain(projectMock);
+		verify(projectLoadAndUpdateSpy, times(1)).updateScriptsToTreeStructure(projectMock);
+		verify(projectLoadAndUpdateSpy, times(1)).removePermissionsFile(projectMock);
 	}
 
 	@Test
 	public void testCurrentLanguageVersion() throws Exception {
 		when(projectMock.getCatrobatLanguageVersion()).thenReturn(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
-		projectManagerSpy.loadProject(fileMock, contextMock);
+		projectLoadAndUpdateSpy.loadProject(fileMock, stringProviderMock);
 
-		verify(projectMock, times(0)).setScreenMode(any());
+		verify(xmlHeaderSpy, times(0)).setScreenMode(any());
+		verify(projectLoadAndUpdateSpy, times(0)).updateCollisionFormulasTo993(projectMock);
+		verify(projectLoadAndUpdateSpy, times(0)).updateSetPenColorFormulasTo994(projectMock);
+		verify(projectLoadAndUpdateSpy, times(0)).updateArduinoValuesTo995(projectMock);
+		verify(projectLoadAndUpdateSpy, times(0)).updateCollisionScriptsTo996(projectMock);
+		verify(projectLoadAndUpdateSpy, times(0)).makeShallowCopiesDeepAgain(projectMock);
+		verify(projectLoadAndUpdateSpy, times(0)).updateScriptsToTreeStructure(projectMock);
+		verify(projectLoadAndUpdateSpy, times(0)).removePermissionsFile(projectMock);
+	}
 
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.updateCollisionFormulasTo993(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.updateSetPenColorFormulasTo994(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.updateArduinoValuesTo995(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.updateCollisionScriptsTo996(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.makeShallowCopiesDeepAgain(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.updateScriptsToTreeStructure(projectMock);
-
-		PowerMockito.verifyStatic(ProjectManager.class, times(0));
-		ProjectManager.removePermissionsFile(projectMock);
+	private void initStringProviderMock() {
+		when(stringProviderMock.getOutdatedErrorMessage()).thenReturn("Outdated");
+		when(stringProviderMock.getLoadErrorMessage()).thenReturn("Load");
+		when(stringProviderMock.getDefaultSceneName()).thenReturn("DefaultScene");
+		when(stringProviderMock.getBackgroundString()).thenReturn("Background");
+		when(stringProviderMock.getCompatibilityErrorMessage()).thenReturn("Compatibility");
 	}
 }

@@ -70,7 +70,8 @@ public class ProjectDetailsFragment extends Fragment {
 
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
-			project = XstreamSerializer.getInstance().loadProject(projectData.getDirectory(), getActivity());
+			project = XstreamSerializer.getInstance().loadProject(projectData.getDirectory(),
+					getString(R.string.default_scene_name, 1));
 		} catch (IOException | LoadingProjectException e) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));

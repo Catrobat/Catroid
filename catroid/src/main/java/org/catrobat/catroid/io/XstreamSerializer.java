@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.io;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.google.common.base.Charsets;
@@ -587,7 +586,8 @@ public final class XstreamSerializer {
 		xstream.alias("nxtPort", LegoNXTSetting.NXTPort.class);
 	}
 
-	public Project loadProject(File projectDir, Context context) throws IOException, LoadingProjectException {
+	public Project loadProject(File projectDir, String defaultSceneName) throws IOException,
+			LoadingProjectException {
 		cleanUpTmpCodeFile(projectDir);
 
 		File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
@@ -611,7 +611,7 @@ public final class XstreamSerializer {
 						(LegacyProjectWithoutScenes) xstream.getProjectFromXML(xmlFile);
 				prepareXstream(Project.class, Scene.class);
 
-				project = projectWithoutScenes.toProject(context);
+				project = projectWithoutScenes.toProject(defaultSceneName);
 			} else if (projectMetaData.getLanguageVersion() < 0.9991) {
 				prepareXstream(ProjectUntilLanguageVersion0999.class, SceneUntilLanguageVersion0999.class);
 				ProjectUntilLanguageVersion0999 legacyProject =
