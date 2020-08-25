@@ -32,7 +32,7 @@ class WebRequestAction : WebAction() {
     var response: String? = null
 
     override fun act(delta: Float): Boolean {
-        return if (userVariable == null) {
+        return if (userVariable == null || sprite == null || formula == null) {
             true
         } else super.act(delta)
     }

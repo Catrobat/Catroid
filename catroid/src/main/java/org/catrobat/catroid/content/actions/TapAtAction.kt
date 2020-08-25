@@ -36,13 +36,25 @@ class TapAtAction : TemporalAction() {
     private lateinit var stage: Stage
     private lateinit var touchCoords: Vector2
     private var errorDetected: Boolean = false
-    private var pointer: Int = 0
+    private var pointer: Int = -1
     private var x = 0f
     private var y = 0f
+    var durationFormula: Formula? = null
     lateinit var sprite: Sprite
+    lateinit var startX: Formula
+    lateinit var startY: Formula
 
     override fun begin() {
         super.begin()
+        try {
+            x = startX.interpretFloat(sprite) ?: 0f
+            y = startY.interpretFloat(sprite) ?: 0f
+            duration = durationFormula?.interpretFloat(sprite) ?: 0f
+        } catch (e: InterpretationException) {
+            Log.d(TAG, "Position not valid", e)
+            errorDetected = true
+        }
+
         if (!errorDetected) {
             pointer = sprite.unusedPointer ?: 0
             stage = StageActivity.stageListener.stage
@@ -60,27 +72,17 @@ class TapAtAction : TemporalAction() {
         if (!errorDetected) {
             stage.touchUp(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
             sprite.releaseUsedPointer(pointer)
+            pointer = -1
         }
     }
 
-    fun setPosition(x: Formula?, y: Formula?) {
-        try {
-            this.x = x?.interpretFloat(sprite) ?: 0f
-            this.y = y?.interpretFloat(sprite) ?: 0f
-        } catch (e: InterpretationException) {
-            Log.d(TAG, "Position not valid", e)
-            errorDetected = true
+    override fun restart() {
+        if (pointer != -1) {
+            stage.touchUp(touchCoords.x.toInt(), touchCoords.y.toInt(), pointer, 0)
+            sprite.releaseUsedPointer(pointer)
+            pointer = -1
         }
-    }
-
-    fun setDuration(durationFormula: Formula) {
-        duration = try {
-            durationFormula.interpretFloat(sprite)
-        } catch (e: InterpretationException) {
-            Log.d(TAG, "Duration not valid", e)
-            errorDetected = true
-            0f
-        }
+        super.restart()
     }
 
     companion object {
