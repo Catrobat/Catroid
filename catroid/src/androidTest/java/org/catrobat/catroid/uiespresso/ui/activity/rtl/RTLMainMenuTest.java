@@ -29,6 +29,8 @@ import android.preference.PreferenceManager;
 import android.view.View;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
@@ -80,7 +82,7 @@ public class RTLMainMenuTest {
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
 						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
-						.hashCode())
+								.hashCode())
 				.commit();
 	}
 
@@ -92,27 +94,34 @@ public class RTLMainMenuTest {
 						bufferedPrivacyPolicyPreferenceSetting)
 				.commit();
 		SettingsFragment.removeLanguageSharedPreference(ApplicationProvider.getApplicationContext());
+		SensorHandler.stopSensorListeners();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToArabic() {
-		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "ar");
+		String arabicLanguageTag = "ar";
+		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), arabicLanguageTag);
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), ARABIC_LOCALE.getDisplayLanguage());
 		assertTrue(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_RTL, conf.getLayoutDirection());
+		assertEquals(arabicLanguageTag, (String) SensorHandler.getSensorValue(Sensors.USER_LANGUAGE));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
 	@Test
 	public void testSetLanguageToGerman() {
-		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), "de");
+		String germanLanguageTag = "de";
+		SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext());
+		SettingsFragment.setLanguageSharedPreference(ApplicationProvider.getApplicationContext(), germanLanguageTag);
 		baseActivityTestRule.launchActivity(null);
 
 		assertEquals(Locale.getDefault().getDisplayLanguage(), GERMAN_LOCALE.getDisplayLanguage());
 		assertFalse(RtlUiTestUtils.checkTextDirectionIsRtl(Locale.getDefault().getDisplayName()));
 		assertEquals(View.LAYOUT_DIRECTION_LTR, conf.getLayoutDirection());
+		assertEquals(germanLanguageTag, (String) SensorHandler.getSensorValue(Sensors.USER_LANGUAGE));
 	}
 }

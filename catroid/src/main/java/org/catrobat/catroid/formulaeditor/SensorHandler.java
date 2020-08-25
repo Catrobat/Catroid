@@ -55,6 +55,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -97,8 +98,13 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private double longitude = 0d;
 	private float locationAccuracy = 0f;
 	private double altitude = 0d;
+	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
 
 	private SensorLoudness sensorLoudness = null;
+
+	public static void setUserLocaleTag(String userLocale) {
+		userLocaleTag = userLocale;
+	}
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -326,6 +332,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case ALTITUDE:
 				return instance.altitude;
+
+			case USER_LANGUAGE:
+				return userLocaleTag;
 
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
