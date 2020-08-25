@@ -149,6 +149,7 @@ public class BrickAddCategoryTest {
 				R.string.category_looks,
 				R.string.category_pen,
 				R.string.category_data,
+				R.string.category_device,
 				R.string.category_user_bricks,
 				R.string.category_assertions));
 

@@ -100,5 +100,6 @@
         <item name="icon_look">@drawable/look_neg</item>
         <item name="icon_raspberrypi">@drawable/raspberrypi_neg</item>
         <item name="icon_embroidery">@drawable/embroidery_neg</item>
+        <item name="icon_device">@drawable/device_neg</item>
     </style>
 </resources>

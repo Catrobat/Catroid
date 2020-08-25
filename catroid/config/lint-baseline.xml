@@ -21,7 +21,6 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-
 <issues format="5" by="lint 3.5.2" client="gradle" variant="catroidDebug" version="3.5.2">
 
     <issue
@@ -104,6 +103,17 @@
             file="src\main\res\layout\dialog_stage.xml"
             line="91"
             column="13"/>
+    </issue>
+
+    <issue
+        id="WrongConstant"
+        message="Must be one of: PixelFormat.RGBA_8888, PixelFormat.RGBX_8888, PixelFormat.RGBA_F16, PixelFormat.RGBA_1010102, PixelFormat.RGB_888, PixelFormat.RGB_565"
+        errorLine1="  stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),"
+        errorLine2="                                                  ~">
+        <location
+            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            line="287"
+            column="51"/>
     </issue>
 
     <issue
@@ -317,6 +327,43 @@
 
     <issue
         id="UnusedResources"
+        message="The resource `R.drawable.brick_brown_2h_9` appears to be unused">
+        <location
+            file="src\main\res\drawable-ldpi\brick_brown_2h_9.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_brown_2h_9.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_brown_2h_9.9.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_control_1h` appears to be unused">
+        <location
+            file="src\main\res\drawable-ldpi\brick_control_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_control_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_control_1h.9.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.drawable.brick_silver_1h` appears to be unused">
+        <location
+            file="src\main\res\drawable-hdpi\brick_silver_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-ldpi\brick_silver_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-mdpi\brick_silver_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xhdpi\brick_silver_1h.9.png"/>
+        <location
+            file="src\main\res\drawable-xxhdpi\brick_silver_1h.9.png"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
         message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
@@ -337,15 +384,37 @@
     </issue>
 
     <issue
+        id="UnusedResources"
+        message="The resource `R.style.BrickContainer_Event_Medium` appears to be unused"
+        errorLine1="    &lt;style name=&quot;BrickContainer.Event.Medium&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\values\styles.xml"
+            line="507"
+            column="12"/>
+    </issue>
+
+    <issue
+        id="UnusedResources"
+        message="The resource `R.style.BrickContainer_Script_Small` appears to be unused"
+        errorLine1="    &lt;style name=&quot;BrickContainer.Script.Small&quot;>"
+        errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src\main\res\values\styles.xml"
+            line="514"
+            column="12"/>
+    </issue>
+
+    <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (40 more)">
+        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (41 more)">
         <location
             file="src\main\res\drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (40 more)">
+        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (41 more)">
         <location
             file="src\main\res\drawable-mdpi"/>
     </issue>
@@ -359,7 +428,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (85 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -756,6 +825,17 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src\main\res\layout\icon_brick_category_data.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src\main\res\layout\icon_brick_category_device.xml"
             line="28"
             column="6"/>
     </issue>

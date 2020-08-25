@@ -154,6 +154,12 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(arduinoPreference);
 		}
 
+		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
+			CheckBoxPreference raspiPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+			raspiPreference.setEnabled(false);
+			screen.removePreference(raspiPreference);
+		}
+
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
@@ -302,8 +308,18 @@ public class SettingsFragment extends PreferenceFragment {
 				.apply();
 	}
 
+	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value)
+				.apply();
+	}
+
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
+	}
+
+	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {
