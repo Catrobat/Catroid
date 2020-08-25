@@ -214,6 +214,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick;
 import org.catrobat.catroid.content.bricks.WriteListOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableOnDeviceBrick;
 import org.catrobat.catroid.content.bricks.WriteVariableToFileBrick;
@@ -285,7 +286,7 @@ public class CategoryBricksFactory {
 			return setupRaspiCategoryList();
 		}
 		if (category.equals(context.getString(R.string.category_embroidery))) {
-			return setupEmbroideryCategoryList();
+			return setupEmbroideryCategoryList(context);
 		}
 		if (category.equals(context.getString(R.string.category_assertions))) {
 			return setupAssertionsCategoryList(context);
@@ -574,6 +575,11 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
 		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
+		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) {
+			dataBrickList.add(new WriteEmbroideryToFileBrick(
+					context.getString(R.string.brick_default_embroidery_file)));
+		}
+
 		return dataBrickList;
 	}
 
@@ -699,7 +705,7 @@ public class CategoryBricksFactory {
 		return raspiBrickList;
 	}
 
-	private List<Brick> setupEmbroideryCategoryList() {
+	private List<Brick> setupEmbroideryCategoryList(Context context) {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
@@ -707,6 +713,8 @@ public class CategoryBricksFactory {
 				new Formula(BrickValues.ZIGZAG_STITCH_WIDTH)));
 		embroideryBrickList.add(new TripleStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
 		embroideryBrickList.add(new StopRunningStitchBrick());
+		embroideryBrickList.add(new WriteEmbroideryToFileBrick(
+				context.getString(R.string.brick_default_embroidery_file)));
 		return embroideryBrickList;
 	}
 
@@ -830,7 +838,7 @@ public class CategoryBricksFactory {
 				category = res.getString(R.string.category_cast);
 			}
 		}
-		categoryBricks = setupEmbroideryCategoryList();
+		categoryBricks = setupEmbroideryCategoryList(context);
 		for (Brick categoryBrick : categoryBricks) {
 			if (brick.getClass().equals(categoryBrick.getClass())) {
 				category = res.getString(R.string.category_embroidery);
@@ -868,6 +876,8 @@ public class CategoryBricksFactory {
 			category = res.getString(R.string.category_user_bricks);
 		} else if (brick instanceof ParameterizedEndBrick) {
 			category = res.getString(R.string.category_assertions);
+		} else if (brick instanceof WriteEmbroideryToFileBrick) {
+			category = res.getString(R.string.category_embroidery);
 		}
 
 		config.locale = savedLocale;

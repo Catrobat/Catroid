@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.catrobattestrunner;
 
+import android.Manifest.permission;
 import android.app.Instrumentation;
 
 import org.catrobat.catroid.common.Constants;
@@ -46,6 +47,7 @@ import java.util.List;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
+import androidx.test.rule.GrantPermissionRule;
 
 import static junit.framework.Assert.fail;
 import static junit.framework.TestCase.assertTrue;
@@ -61,6 +63,12 @@ public class CatrobatTestRunner {
 	@Rule
 	public ActivityTestRule<StageActivity> baseActivityTestRule = new
 			ActivityTestRule<>(StageActivity.class, true, false);
+	@Rule
+	public GrantPermissionRule runtimePermissionRule =
+			GrantPermissionRule.grant(
+					permission.READ_EXTERNAL_STORAGE,
+					permission.WRITE_EXTERNAL_STORAGE
+			);
 
 	private static final String TEST_ASSETS_ROOT = "catrobatTests";
 
@@ -143,6 +151,7 @@ public class CatrobatTestRunner {
 			}
 			Thread.sleep(intervalMillis);
 		}
+
 		fail("Timeout after " + TIMEOUT + "ms\n"
 				+ "Test never got into ready state - is the AssertEqualsBrick reached?\n");
 	}
