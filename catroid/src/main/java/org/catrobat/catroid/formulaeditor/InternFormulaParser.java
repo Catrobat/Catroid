@@ -241,6 +241,10 @@ public class InternFormulaParser {
 				currentElement.replaceElement(userList());
 				break;
 
+			case USER_DEFINED_BRICK_INPUT:
+				currentElement.replaceElement(userDefinedBrickInput());
+				break;
+
 			case STRING:
 				currentElement.replaceElement(FormulaElement.ElementType.STRING, string());
 				break;
@@ -292,6 +296,14 @@ public class InternFormulaParser {
 		}
 
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_LIST,
+				currentToken.getTokenStringValue(), null);
+
+		getNextToken();
+		return lookTree;
+	}
+
+	private FormulaElement userDefinedBrickInput() {
+		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT,
 				currentToken.getTokenStringValue(), null);
 
 		getNextToken();
