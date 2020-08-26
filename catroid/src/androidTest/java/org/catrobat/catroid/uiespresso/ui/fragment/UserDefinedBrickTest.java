@@ -45,6 +45,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertTrue;
 
+import static org.catrobat.catroid.WaitForConditionAction.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -65,7 +66,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class UserDefinedBrickTest {
 
-	private final long sleepThreshold = 1000;
+	private final long waitThreshold = 5000;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -159,8 +160,9 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.confirm))
 				.perform(click());
-		Thread.sleep(sleepThreshold);
-		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+
 		ScriptFragment scriptFragment = ((ScriptFragment) baseActivityTestRule.getActivity()
 				.getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG));
 		assertTrue(scriptFragment.isCurrentlyMoving());
@@ -171,15 +173,18 @@ public class UserDefinedBrickTest {
 				.inAdapterView(BrickPrototypeListMatchers.isBrickPrototypeView())
 				.atPosition(0)
 				.perform(click());
-		Thread.sleep(sleepThreshold);
-		onView(withId(R.id.fragment_script)).check(matches(isDisplayed()));
+
+		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
+
 		assertTrue(scriptFragment.isCurrentlyMoving());
 	}
 
 	@Test
 	public void testUserDefinedBrickDescriptionExists() throws InterruptedException {
 		selectYourBricks();
-		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(isDisplayed()));
+
+		onView(withText(R.string.brick_user_defined_list_empty)).perform(waitFor(isDisplayed(), waitThreshold));
+
 		onView(withId(R.id.button_add_user_brick))
 				.perform(click());
 		onView(withId(R.id.button_add_input))
@@ -190,7 +195,7 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.fragment_script)).perform(click());
 		selectYourBricks();
-		Thread.sleep(sleepThreshold);
+
 		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 	}
 
