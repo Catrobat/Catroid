@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
@@ -101,6 +102,7 @@ public class ScriptFragment extends ListFragment implements
 	private ActionMode actionMode;
 	private BrickAdapter adapter;
 	private BrickListView listView;
+	private BrickSpinner currentSpinner;
 
 	private ScriptController scriptController = new ScriptController();
 	private BrickController brickController = new BrickController();
@@ -274,6 +276,9 @@ public class ScriptFragment extends ListFragment implements
 			listView.cancelHighlighting();
 		}
 		switch (item.getItemId()) {
+			case R.id.menu_undo:
+				currentSpinner.undoSelection();
+				break;
 			case R.id.backpack:
 				prepareActionMode(BACKPACK);
 				break;
@@ -398,6 +403,10 @@ public class ScriptFragment extends ListFragment implements
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}
+	}
+
+	public void setCurrentSpinner(BrickSpinner currentSpinner) {
+		this.currentSpinner = currentSpinner;
 	}
 
 	public Brick findBrickByHash(int hashCode) {
