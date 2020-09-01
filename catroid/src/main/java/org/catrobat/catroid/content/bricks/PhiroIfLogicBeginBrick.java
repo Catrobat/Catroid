@@ -53,16 +53,6 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 	private List<Brick> ifBranchBricks = new ArrayList<>();
 	private List<Brick> elseBranchBricks = new ArrayList<>();
 
-	@VisibleForTesting
-	public ElseBrick getElseBrick() {
-		return elseBrick;
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
-	}
-
 	@Override
 	public boolean hasSecondaryList() {
 		return true;
@@ -92,11 +82,9 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		for (Brick brick : ifBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		elseBrick.setCommentedOut(commentedOut);
 		for (Brick brick : elseBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -256,6 +244,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		}
 
 		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
+		}
+
+		@Override
 		public boolean consistsOfMultipleParts() {
 			return true;
 		}
@@ -295,6 +288,11 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 		EndBrick(PhiroIfLogicBeginBrick ifBrick) {
 			parent = ifBrick;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

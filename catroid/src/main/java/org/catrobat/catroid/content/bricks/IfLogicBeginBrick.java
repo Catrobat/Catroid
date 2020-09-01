@@ -58,16 +58,6 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		setFormulaWithBrickField(BrickField.IF_CONDITION, formula);
 	}
 
-	@VisibleForTesting
-	public ElseBrick getElseBrick() {
-		return elseBrick;
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
-	}
-
 	@Override
 	public boolean hasSecondaryList() {
 		return true;
@@ -97,11 +87,9 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		for (Brick brick : ifBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		elseBrick.setCommentedOut(commentedOut);
 		for (Brick brick : elseBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -242,6 +230,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		}
 
 		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
+		}
+
+		@Override
 		public boolean consistsOfMultipleParts() {
 			return true;
 		}
@@ -281,6 +274,11 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 		EndBrick(IfLogicBeginBrick ifBrick) {
 			parent = ifBrick;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override
