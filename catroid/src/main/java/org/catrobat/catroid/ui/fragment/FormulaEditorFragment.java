@@ -23,12 +23,14 @@
 package org.catrobat.catroid.ui.fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -327,7 +329,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 							endFormulaEditor();
 							return true;
 						case R.id.formula_editor_keyboard_string:
-							showNewStringDialog();
+							if (isSelectedTextFirstParamOfRegularExpression()) {
+								showNewRegexAssistantDialog();
+							} else {
+								showNewStringDialog();
+							}
 							return true;
 						case R.id.formula_editor_keyboard_delete:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
@@ -364,6 +370,33 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void onStop() {
 		super.onStop();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitleBuffer);
+	}
+
+	private boolean isSelectedTextFirstParamOfRegularExpression() {
+		return getFormulaEditorEditText().isSelectedTokenFirstParamOfRegularExpression();
+	}
+
+	private void showNewRegexAssistantDialog() {
+		String selectedFormulaText = getSelectedFormulaText();
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.string_label))
+				.setText(selectedFormulaText)
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> addString(textInput));
+
+		int titleId = R.string.formula_editor_dialog_change_regular_expression;
+
+		builder.setNeutralButton(R.string.assistant,
+				(DialogInterface.OnClickListener) (dialog, textInput) -> regexTesting());
+
+		builder.setTitle(titleId)
+				.setNegativeButton(R.string.cancel, null)
+				.show();
+	}
+
+	private void regexTesting() {
+		Log.i("REGEX BUTTON", "Button Press detected");
 	}
 
 	private void showNewStringDialog() {

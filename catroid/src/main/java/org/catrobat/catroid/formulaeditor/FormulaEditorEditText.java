@@ -273,6 +273,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		return internFormula.getSelectedText();
 	}
 
+	public boolean isSelectedTokenFirstParamOfRegularExpression() {
+		return internFormula.isSelectedTokenFirstParamOfRegularExpression();
+	}
+
 	public void overrideSelectedText(String string) {
 		internFormula.overrideSelectedText(string, context);
 		history.push(new UndoState(internFormula.getInternFormulaState(),
