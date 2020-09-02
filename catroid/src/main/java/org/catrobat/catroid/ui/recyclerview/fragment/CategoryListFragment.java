@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -273,6 +274,9 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			case CategoryListRVAdapter.DEFAULT:
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
+				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
+					Log.i("RegexButtonTest", "Wurde gedrückt");
+					getActivity().onBackPressed();
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
 					getActivity().onBackPressed();
