@@ -31,7 +31,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -91,7 +90,7 @@ public class PhysicsLookDataTest {
 				testImageFilename,
 				1);
 
-		sprite = new SingleSprite("TestSprite");
+		sprite = new Sprite("TestSprite");
 		lookData = PhysicsTestUtils.generateLookData(testImage);
 		sprite.getLookList().add(lookData);
 		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);

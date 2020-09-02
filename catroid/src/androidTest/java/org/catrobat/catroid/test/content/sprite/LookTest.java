@@ -27,7 +27,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.junit.Before;
@@ -47,7 +46,7 @@ public class LookTest {
 	@Before
 	public void setUp() {
 		Group parentGroup = new Group();
-		sprite = new SingleSprite("test");
+		sprite = new Sprite("test");
 		parentGroup.addActor(sprite.look);
 	}
 

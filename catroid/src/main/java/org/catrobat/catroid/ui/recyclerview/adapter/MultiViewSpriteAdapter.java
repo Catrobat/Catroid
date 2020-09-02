@@ -161,7 +161,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 		if (toItem instanceof GroupSprite) {
 			if (srcPosition > targetPosition) {
-				fromItem.setConvertToSingleSprite(true);
+				fromItem.setConvertToSprite(true);
 			} else {
 				fromItem.setConvertToGroupItemSprite(true);
 			}
@@ -174,12 +174,12 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		}
 
 		if (fromItem instanceof GroupItemSprite && !(toItem instanceof GroupItemSprite)) {
-			fromItem.setConvertToSingleSprite(true);
+			fromItem.setConvertToSprite(true);
 			return super.onItemMove(srcPosition, targetPosition);
 		}
 
 		fromItem.setConvertToGroupItemSprite(false);
-		fromItem.setConvertToSingleSprite(false);
+		fromItem.setConvertToSprite(false);
 		return super.onItemMove(srcPosition, targetPosition);
 	}
 

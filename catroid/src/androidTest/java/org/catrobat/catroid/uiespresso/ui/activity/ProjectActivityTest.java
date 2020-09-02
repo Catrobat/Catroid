@@ -34,7 +34,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
@@ -82,7 +81,7 @@ public class ProjectActivityTest {
 	@Before
 	public void setUp() {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
-		Sprite firstSprite = new SingleSprite("firstSprite");
+		Sprite firstSprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(firstSprite);
@@ -133,7 +132,7 @@ public class ProjectActivityTest {
 		onView(withText(R.string.upload_button)).perform(click());
 		pressBack();
 
-		Sprite sprite = new SingleSprite("nextSprite");
+		Sprite sprite = new Sprite("nextSprite");
 		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		currentScene.addSprite(sprite);
 

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.formulaeditor.parser
 
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Functions.ARCTAN2
@@ -73,7 +72,7 @@ class TwoParametersFunctionParserTest(
 
     @Before
     fun setUp() {
-        sprite = SingleSprite("sprite")
+        sprite = Sprite("sprite")
     }
 
     @Test

@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.bricks;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.AskBrick;
@@ -88,7 +87,7 @@ public class CloneBrickUpdateVariableTest {
 	public void setUp() throws Exception {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
 		StartScript script = new StartScript();

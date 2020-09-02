@@ -30,7 +30,6 @@ import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -71,7 +70,7 @@ public class SpeakActionTest {
 		File temporaryCacheFolder = temporaryFolder.newFolder("SpeakTest");
 		Mockito.when(contextMock.getCacheDir()).thenAnswer(invocation -> temporaryCacheFolder);
 
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);

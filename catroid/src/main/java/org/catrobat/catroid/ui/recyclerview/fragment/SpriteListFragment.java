@@ -253,7 +253,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		for (Sprite item : selectedItems) {
 			if (item instanceof GroupSprite) {
 				for (Sprite sprite : ((GroupSprite) item).getGroupItems()) {
-					sprite.setConvertToSingleSprite(true);
+					sprite.setConvertToSprite(true);
 					Sprite convertedSprite = spriteController.convert(sprite);
 					adapter.getItems().set(adapter.getItems().indexOf(sprite), convertedSprite);
 				}

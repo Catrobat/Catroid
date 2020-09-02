@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.script;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.HideBrick;
@@ -53,7 +52,7 @@ public class StartScriptTest {
 	@Test
 	public void testStartScript() {
 		double size = 300;
-		Sprite testSprite = new SingleSprite("testSprite");
+		Sprite testSprite = new Sprite("testSprite");
 		Script testScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(size);

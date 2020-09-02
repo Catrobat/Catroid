@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.sprite;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -66,7 +65,7 @@ public class SpriteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 		project.getDefaultScene().addSprite(sprite);
 		sprite.addUserVariable(new UserVariable(LOCAL_VARIABLE_NAME));
@@ -80,7 +79,7 @@ public class SpriteTest {
 
 	@Test
 	public void testAddScript() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -98,7 +97,7 @@ public class SpriteTest {
 
 	@Test
 	public void testGetScript() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -109,7 +108,7 @@ public class SpriteTest {
 
 	@Test
 	public void testRemoveAllScripts() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -122,7 +121,7 @@ public class SpriteTest {
 
 	@Test
 	public void testRemoveScript() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -136,7 +135,7 @@ public class SpriteTest {
 
 	@Test
 	public void testGetScriptIndex() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		Script firstScript = new StartScript();
 		Script secondScript = new StartScript();
 		sprite.addScript(firstScript);
@@ -171,7 +170,7 @@ public class SpriteTest {
 
 	@Test
 	public void testBrickCount() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		Script script = new StartScript();
 		ForeverBrick foreverBrick = new ForeverBrick();
 		foreverBrick.addBrick(new SetXBrick());

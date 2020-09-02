@@ -27,7 +27,6 @@ import okhttp3.Response
 import okhttp3.ResponseBody
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.LookRequestAction
 import org.catrobat.catroid.content.actions.WebAction
@@ -74,7 +73,7 @@ class LookRequestActionTest {
     fun setUp() {
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
-        testSprite = SingleSprite("testSprite")
+        testSprite = Sprite("testSprite")
         lookData1 = mock(LookData::class.java)
         testSprite.look.lookData = lookData1
         lookData2 = mock(LookData::class.java)

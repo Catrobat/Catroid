@@ -32,7 +32,6 @@ import android.preference.PreferenceManager;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.ProjectUploadActivity;
@@ -85,7 +84,7 @@ public class ProjectUploadRatingDialogTest {
 		bundle = new Bundle();
 		Project project = new Project(context, PROJECT_NAME, false);
 
-		Sprite firstSprite = new SingleSprite("firstSprite");
+		Sprite firstSprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(firstSprite);
 		ProjectSaveTask.task(project, context);
 

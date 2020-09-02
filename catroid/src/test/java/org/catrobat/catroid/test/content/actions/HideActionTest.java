@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.junit.Before;
 import org.junit.Rule;
@@ -54,7 +53,7 @@ public class HideActionTest {
 
 	@Test
 	public void testHide() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		assertTrue(sprite.look.isVisible());
 		ActionFactory factory = sprite.getActionFactory();
 		Action action = factory.createHideAction(sprite);

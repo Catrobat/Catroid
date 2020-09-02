@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
@@ -50,7 +49,7 @@ public class SetXActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 	}
 
 	@Test

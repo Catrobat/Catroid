@@ -27,7 +27,6 @@ import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -104,7 +103,7 @@ public class MessageContainerTest {
 	private void createTestProjects() throws ProjectException {
 		project1 = new Project(ApplicationProvider.getApplicationContext(), projectName1);
 
-		Sprite sprite1 = new SingleSprite("cat");
+		Sprite sprite1 = new Sprite("cat");
 		Script script1 = new StartScript();
 		BroadcastBrick brick1 = new BroadcastBrick(broadcastMessage1);
 		script1.addBrick(brick1);
@@ -120,7 +119,7 @@ public class MessageContainerTest {
 
 		project2 = new Project(ApplicationProvider.getApplicationContext(), projectName2);
 
-		Sprite sprite2 = new SingleSprite("cat");
+		Sprite sprite2 = new Sprite("cat");
 		Script script2 = new StartScript();
 		BroadcastBrick brick2 = new BroadcastBrick(broadcastMessage2);
 		script2.addBrick(brick2);

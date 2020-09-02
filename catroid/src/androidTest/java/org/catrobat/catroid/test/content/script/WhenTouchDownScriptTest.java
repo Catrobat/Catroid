@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.content.script;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenTouchDownScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -50,7 +49,7 @@ public class WhenTouchDownScriptTest {
 
 	@Before
 	public void setUp() {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		sprite.look.setXInUserInterfaceDimensionUnit(0);
 		touchDownScript = new WhenTouchDownScript();
 		sprite.addScript(touchDownScript);

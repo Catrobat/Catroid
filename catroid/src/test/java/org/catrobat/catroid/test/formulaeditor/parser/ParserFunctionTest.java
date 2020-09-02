@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -54,7 +53,7 @@ public class ParserFunctionTest {
 
 	@Before
 	public void setUp() {
-		testSprite = new SingleSprite("sprite");
+		testSprite = new Sprite("sprite");
 	}
 
 	@Test

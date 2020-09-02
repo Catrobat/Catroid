@@ -34,7 +34,7 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import org.catrobat.catroid.common.LookData;
-import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.test.utils.Reflection;
@@ -62,7 +62,7 @@ public final class PhysicsTestUtils {
 	}
 
 	public static PhysicsObject createPhysicsObject(PhysicsWorld physicsWorld, PhysicsObject.Type type, Shape shape) {
-		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new SingleSprite("TestSprite"));
+		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(new Sprite("TestSprite"));
 
 		if (type != null) {
 			physicsObject.setType(type);

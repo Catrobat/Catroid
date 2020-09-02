@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.WaitUntilBrick;
@@ -51,11 +50,11 @@ public class WaitUntilActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		testSprite = new SingleSprite("testSprite");
+		testSprite = new Sprite("testSprite");
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 		testSprite.removeAllScripts();
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(new SingleSprite("testSprite1"));
+		ProjectManager.getInstance().setCurrentSprite(new Sprite("testSprite1"));
 		project.removeUserVariable(TEST_USERVARIABLE);
 		UserVariable userVariable = new UserVariable(TEST_USERVARIABLE);
 		project.addUserVariable(userVariable);

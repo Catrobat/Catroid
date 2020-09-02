@@ -73,6 +73,7 @@ import java.util.UUID;
 		"userLists",
 		"userDefinedBrickList"
 })
+
 public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -82,7 +83,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient Look look = new Look(this);
 	public transient PenConfiguration penConfiguration = new PenConfiguration();
 	public transient RunningStitch runningStitch = new RunningStitch();
-	private transient boolean convertToSingleSprite = false;
+	private transient boolean convertToSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
@@ -319,8 +320,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public Sprite convert() {
 		Sprite convertedSprite;
 
-		if (convertToSingleSprite) {
-			convertedSprite = new SingleSprite(name);
+		if (convertToSprite) {
+			//convertedSprite = new SingleSprite(name);
+			convertedSprite = new Sprite(name);
 		} else if (convertToGroupItemSprite) {
 			convertedSprite = new GroupItemSprite(name);
 		} else {
@@ -522,16 +524,16 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	public boolean toBeConverted() {
-		return convertToSingleSprite || convertToGroupItemSprite;
+		return convertToSprite || convertToGroupItemSprite;
 	}
 
-	public void setConvertToSingleSprite(boolean convertToSingleSprite) {
+	public void setConvertToSprite(boolean convertToSprite) {
 		this.convertToGroupItemSprite = false;
-		this.convertToSingleSprite = convertToSingleSprite;
+		this.convertToSprite = convertToSprite;
 	}
 
 	public void setConvertToGroupItemSprite(boolean convertToGroupItemSprite) {
-		this.convertToSingleSprite = false;
+		this.convertToSprite = false;
 		this.convertToGroupItemSprite = convertToGroupItemSprite;
 	}
 

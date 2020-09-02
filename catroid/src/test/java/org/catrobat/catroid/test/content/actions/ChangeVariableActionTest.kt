@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.actions
 import org.junit.Assert
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -64,7 +63,7 @@ class ChangeVariableActionTest(
 
     @Before
     fun setUp() {
-        testSprite = SingleSprite("testSprite")
+        testSprite = Sprite("testSprite")
         Project(MockUtil.mockContextForProject(), "testProject").apply {
             addUserVariable(userVariable)
             ProjectManager.getInstance().currentProject = this

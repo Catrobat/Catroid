@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.devices.phiro;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
@@ -86,7 +85,7 @@ public class PhiroSettingsTest {
 
 	private void createProject() {
 		project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new SingleSprite("Phiro");
+		Sprite sprite = new Sprite("Phiro");
 		StartScript startScript = new StartScript();
 		SetSizeToBrick setSizeToBrick = new SetSizeToBrick(
 				new Formula(new FormulaElement(FormulaElement.ElementType.SENSOR,

@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.content.actions.WebRequestAction
@@ -77,7 +76,7 @@ class WebRequestActionTest {
     fun setUp() {
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
-        testSprite = SingleSprite("testSprite")
+        testSprite = Sprite("testSprite")
         userVariable = UserVariable(TEST_USER_VARIABLE)
         webConnection = mock(WebConnection::class.java)
         response = mock(Response::class.java)
