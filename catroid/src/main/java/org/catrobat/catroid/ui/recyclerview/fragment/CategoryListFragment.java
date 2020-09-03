@@ -275,7 +275,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
-					Log.i("RegexButtonTest", "Wurde gedrückt");
 					getActivity().onBackPressed();
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
