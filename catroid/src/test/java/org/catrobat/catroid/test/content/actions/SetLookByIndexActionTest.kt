@@ -27,7 +27,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.test.MockUtil
@@ -54,7 +53,7 @@ class SetLookByIndexActionTest {
 
         lookData1 = LookData("firstLook", mock(File::class.java))
         lookData2 = LookData("secondLook", mock(File::class.java))
-        sprite = SingleSprite("testSprite").apply {
+        sprite = Sprite("testSprite").apply {
             lookList.add(lookData1)
             lookList.add(lookData2)
             look.lookData = lookData1

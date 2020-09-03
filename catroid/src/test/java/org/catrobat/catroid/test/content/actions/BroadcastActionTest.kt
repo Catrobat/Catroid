@@ -27,7 +27,6 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.BroadcastScript
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Script
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.StartScript
 import org.catrobat.catroid.content.bricks.BroadcastBrick
@@ -62,7 +61,7 @@ class BroadcastActionTest {
 
         startScript = StartScript()
         broadcastScript = BroadcastScript(MESSAGE_1)
-        sprite = SingleSprite("testSprite").apply {
+        sprite = Sprite("testSprite").apply {
             addScript(startScript)
             addScript(broadcastScript)
         }

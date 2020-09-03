@@ -629,7 +629,7 @@ public final class XstreamSerializer {
 					scene.setProject(project);
 				}
 			}
-
+			project.checkForInvisibleSprites();
 			project.setDirectory(projectDir);
 			setFileReferences(project);
 			return project;

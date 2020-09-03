@@ -187,4 +187,24 @@ public class Scene implements Nameable, Serializable {
 			sprite.deselectElements(elements);
 		}
 	}
+
+	public void checkForInvisibleSprites() {
+		for (Sprite sprite : spriteList) {
+			if (sprite instanceof GroupItemSprite && isInvisibleSprite(spriteList.indexOf(sprite))) {
+				sprite.setConvertToSprite(true);
+				Sprite convertedSprite = sprite.convert();
+				spriteList.set(spriteList.indexOf(sprite), convertedSprite);
+			}
+		}
+	}
+
+	private boolean isInvisibleSprite(int index) {
+		for (int spriteIndex = index - 1; spriteIndex > 0; spriteIndex--) {
+			Sprite currentSprite = spriteList.get(spriteIndex);
+			if (!(currentSprite instanceof GroupItemSprite)) {
+				return !(currentSprite instanceof GroupSprite);
+			}
+		}
+		return true;
+	}
 }

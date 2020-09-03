@@ -54,8 +54,7 @@ class StopSoundActionTest {
             TestUtils.DEFAULT_TEST_PROJECT_NAME
         )
         soundFile = createSoundFile(project, R.raw.testsound, "soundTest.mp3")
-        sprite =
-            Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
+        sprite = Sprite(TestUtils.DEFAULT_TEST_SPRITE_NAME)
     }
 
     @Test

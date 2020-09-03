@@ -94,7 +94,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 					for (Sprite item : items) {
 						if (item instanceof GroupSprite) {
 							GroupSprite groupSprite = (GroupSprite) item;
-							groupSprite.setCollapsed(groupSprite.getCollapsed());
+							groupSprite.setCollapsed(groupSprite.isCollapsed());
 						}
 					}
 
@@ -289,7 +289,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public void onItemClick(Sprite item) {
 		if (item instanceof GroupSprite) {
 			GroupSprite groupSprite = (GroupSprite) item;
-			groupSprite.setCollapsed(!groupSprite.getCollapsed());
+			groupSprite.setCollapsed(!groupSprite.isCollapsed());
 			adapter.notifyDataSetChanged();
 		} else if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentSprite(item);

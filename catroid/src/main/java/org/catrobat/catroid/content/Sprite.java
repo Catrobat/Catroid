@@ -321,7 +321,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		Sprite convertedSprite;
 
 		if (convertToSprite) {
-			//convertedSprite = new SingleSprite(name);
 			convertedSprite = new Sprite(name);
 		} else if (convertToGroupItemSprite) {
 			convertedSprite = new GroupItemSprite(name);

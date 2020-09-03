@@ -91,7 +91,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		holder.title.setText(item.getName());
 
 		if (holder.getItemViewType() == SPRITE_GROUP) {
-			Drawable drawable = ((GroupSprite) item).getCollapsed()
+			Drawable drawable = ((GroupSprite) item).isCollapsed()
 					? context.getResources().getDrawable(R.drawable.ic_play)
 					: context.getResources().getDrawable(R.drawable.ic_play_down);
 			holder.image.setImageDrawable(drawable);
@@ -108,7 +108,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams
 					.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 			holder.itemView.setLayoutParams(params);
-			if (((GroupItemSprite) item).collapsed) {
+			if (((GroupItemSprite) item).isCollapsed()) {
 				params.height = 0;
 				holder.itemView.setLayoutParams(params);
 			}
@@ -160,10 +160,12 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		}
 
 		if (toItem instanceof GroupSprite) {
-			if (srcPosition > targetPosition) {
-				fromItem.setConvertToSprite(true);
-			} else {
+			GroupSprite groupItem = (GroupSprite) toItem;
+			if (targetPosition > srcPosition) {
+				targetPosition += groupItem.getNumberOfItems();
 				fromItem.setConvertToGroupItemSprite(true);
+			} else {
+				fromItem.setConvertToSprite(true);
 			}
 			return super.onItemMove(srcPosition, targetPosition);
 		}
