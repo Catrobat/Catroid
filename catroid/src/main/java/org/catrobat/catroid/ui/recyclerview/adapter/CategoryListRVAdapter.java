@@ -59,8 +59,12 @@ public class CategoryListRVAdapter extends RecyclerView.Adapter<ViewHolder> {
 		public @CategoryListItemType int type;
 
 		public CategoryListItem(int nameResId, String text, @CategoryListItemType int type) {
+			if (nameResId == R.string.formula_editor_function_regex_assistant) {
+				this.text = "\t\t\t\t\t" + text;
+			} else {
+				this.text = text;
+			}
 			this.nameResId = nameResId;
-			this.text = text;
 			this.type = type;
 		}
 	}
