@@ -78,7 +78,7 @@ public class CategoryListFragmentTest {
 		onBrickAtPosition(changeSizeBrickPosition).onChildView(withId(R.id.brick_change_size_by_edit_text))
 				.perform(click());
 
-		String regular_expression_assistant =
+		String regularExpressionAssistant =
 				UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
 
 		String formulaEditorTextFieldBeforeButtonClick = getFormulaEditorText(FORMULA_EDITOR_TEXT_FIELD_MATCHER);
@@ -86,14 +86,14 @@ public class CategoryListFragmentTest {
 		//Tests if button exists
 		onFormulaEditor()
 				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.performOnItemWithText(regular_expression_assistant, click());
+				.performOnItemWithText(regularExpressionAssistant, click());
 
 		//Test if button doesn't change formula editor textfield
 		Assert.assertEquals(formulaEditorTextFieldBeforeButtonClick, getFormulaEditorText(FORMULA_EDITOR_TEXT_FIELD_MATCHER));
 	}
 
 	String getFormulaEditorText(final Matcher<View> matcher) {
-		final String[] stringHolder = { null };
+		final String[] stringHolder = {null};
 		onView(matcher).perform(new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -107,7 +107,7 @@ public class CategoryListFragmentTest {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				TextView tv = (TextView)view; //Save, because of check in getConstraints()
+				TextView tv = (TextView) view; //Save, because of check in getConstraints()
 				stringHolder[0] = tv.getText().toString();
 			}
 		});
