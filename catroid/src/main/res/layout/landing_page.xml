@@ -51,6 +51,13 @@
             android:scaleType="centerCrop" />
 
         <ImageView
+            android:id="@+id/shadow"
+            android:contentDescription="@string/main_menu_continue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#1a000000" />
+
+        <ImageView
             android:contentDescription="@string/main_menu_continue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
