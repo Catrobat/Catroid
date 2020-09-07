@@ -55,7 +55,14 @@ public class NumberFormatsTest {
 				{"string.1900", "string.1900"},
 				{"string0.10", "string0.10"},
 				{"Pocket", "Pocket"},
-				{"Pocket.", "Pocket."}
+				{"Pocket.", "Pocket."},
+				{"1.00", "1.00"},
+				{"-1.0", "-1"},
+				{"-0.0", "-0.0"},
+				{".0", ".0"},
+				{".", "."},
+				{"1-1.0", "1-1.0"},
+				{"1.0.0", "1.0.0"}
 		});
 	}
 
