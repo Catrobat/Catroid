@@ -1717,7 +1717,6 @@
     <string name="formula_editor_logic_comparison">operatory porównania</string>
     <string name="formula_editor_object_general">ustawienia ogólne</string>
     <string name="formula_editor_object_movement">właściwości ruchu</string>
-    <string name="formula_editor_device_face_detection">Wykrywanie twarzy</string>
     <string name="formula_editor_device_date_and_time">Data i czas</string>
     <string name="formula_editor_device_touch_detection">Wykrywanie dotyku</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>

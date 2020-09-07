@@ -159,9 +159,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_no_parameter);
-	private static final List<Integer> SENSORS_FACE_DETECTION = Arrays.asList(R.string.formula_editor_sensor_face_detected,
+	private static final List<Integer> SENSORS_VISUAL_DETECTION = Arrays.asList(R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
-			R.string.formula_editor_sensor_face_y_position);
+			R.string.formula_editor_sensor_face_y_position,
+			R.string.formula_editor_sensor_text_from_camera,
+			R.string.formula_editor_sensor_text_blocks_number,
+			R.string.formula_editor_function_text_block_x,
+			R.string.formula_editor_function_text_block_y,
+			R.string.formula_editor_function_text_block_size);
 	private static final List<Integer> SENSORS_DATE_TIME = Arrays.asList(R.string.formula_editor_sensor_date_year,
 			R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day,
 			R.string.formula_editor_sensor_date_weekday, R.string.formula_editor_sensor_time_hour,
@@ -500,7 +505,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		List<CategoryListItem> result = new ArrayList<>();
 		result.addAll(getDeviceSensorItems());
 		result.addAll(getTouchDetectionSensorItems());
-		result.addAll(getFaceDetectionSensorItems());
+		result.addAll(getVisualSensorItems());
 		result.addAll(getDateTimeSensorItems());
 		result.addAll(getNxtSensorItems());
 		result.addAll(getEv3SensorItems());
@@ -558,8 +563,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		);
 	}
 
-	private List<CategoryListItem> getFaceDetectionSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_FACE_DETECTION), getString(R.string.formula_editor_device_face_detection));
+	private List<CategoryListItem> getVisualSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_VISUAL_DETECTION), getString(R.string.formula_editor_device_visual_detection));
 	}
 
 	private List<CategoryListItem> getDateTimeSensorItems() {

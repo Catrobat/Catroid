@@ -1587,7 +1587,6 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_logic_comparison">비교 연산</string>
     <string name="formula_editor_object_general">일반 속성</string>
     <string name="formula_editor_object_movement">운동 속성</string>
-    <string name="formula_editor_device_face_detection">얼굴 인식</string>
     <string name="formula_editor_device_date_and_time">날짜와 시간</string>
     <string name="formula_editor_device_touch_detection">터치 감지</string>
     <string name="formula_editor_device_lego_nxt">레고 NXT</string>

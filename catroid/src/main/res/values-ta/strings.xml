@@ -1650,7 +1650,6 @@
     <string name="formula_editor_logic_comparison">ஒப்பீட்டு ஆபரேட்டர்கள்</string>
     <string name="formula_editor_object_general">பொது பண்புகள்</string>
     <string name="formula_editor_object_movement">இயக்க பண்புகள்</string>
-    <string name="formula_editor_device_face_detection">முகம் கண்டறிதல்</string>
     <string name="formula_editor_device_date_and_time">தேதி மற்றும் நேரம்</string>
     <string name="formula_editor_device_touch_detection">தொடு கண்டறிதல்</string>
     <string name="formula_editor_device_lego_nxt">லெகோ மைண்ட்ஸ்டார்ம்ஸ் என்.எக்ஸ்.டி.</string>

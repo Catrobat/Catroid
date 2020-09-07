@@ -1685,7 +1685,6 @@
     <string name="formula_editor_logic_comparison">موازنہ آپریٹرز</string>
     <string name="formula_editor_object_general">عام خصوصیات</string>
     <string name="formula_editor_object_movement">حرکت خصوصیات</string>
-    <string name="formula_editor_device_face_detection">چہرے کی شناخت</string>
     <string name="formula_editor_device_date_and_time">تاریخ اور وقت</string>
     <string name="formula_editor_device_touch_detection"> چھونا کھوج</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>

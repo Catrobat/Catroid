@@ -1623,7 +1623,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">比較演算子</string>
     <string name="formula_editor_object_general">全般プロパティ</string>
     <string name="formula_editor_object_movement">運動プロパティ</string>
-    <string name="formula_editor_device_face_detection">顔検出</string>
     <string name="formula_editor_device_date_and_time">日付と時刻</string>
     <string name="formula_editor_device_touch_detection">タッチ検出</string>
     <string name="formula_editor_device_lego_nxt">レゴマインドストームNXT</string>

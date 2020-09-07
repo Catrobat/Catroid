@@ -39,7 +39,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.9999995f;
+	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.9999996f;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -276,6 +276,8 @@ public final class Constants {
 
 	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
+
+	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
 
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;

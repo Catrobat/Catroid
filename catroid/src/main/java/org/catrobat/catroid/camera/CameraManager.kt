@@ -67,6 +67,9 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     var faceDetectionOn = false
         private set
 
+    var textDetectionOn = false
+        private set
+
     var flashOn = false
         private set
 
@@ -103,6 +106,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         flashOn = false
         previewVisible = false
         faceDetectionOn = false
+        textDetectionOn = false
         unbindPreview()
         switchToDefaultCamera()
     }
@@ -149,6 +153,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
             }
             if (cameraProvider.isBound(analysisUseCase)) {
                 bindFaceDetector()
+                bindTextDetector()
             }
             return true
         }
@@ -216,6 +221,15 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         return true
     }
 
+    @Synchronized
+    fun startTextDetection(): Boolean {
+        if (textDetectionOn.not()) {
+            textDetectionOn = true
+            bindTextDetector()
+        }
+        return true
+    }
+
     private fun bindPreview(): Boolean {
         previewView.visibility = View.VISIBLE
         return bindUseCase(previewUseCase).also {
@@ -235,6 +249,10 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     private fun bindFaceDetector() = bindUseCase(analysisUseCase).also {
         analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceDetector)
+    }
+
+    private fun bindTextDetector() = bindUseCase(analysisUseCase).also {
+        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), TextDetector)
     }
 
     private fun bindUseCase(useCase: UseCase): Boolean {
