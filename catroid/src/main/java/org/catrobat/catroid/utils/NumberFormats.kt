@@ -27,8 +27,8 @@ class NumberFormats private constructor() {
         @JvmStatic
         fun trimTrailingCharacters(value: String?): String {
             value ?: return ""
-            if (value.contains(".") && value.matches("[0-9.-]+".toRegex())) {
-                return value.replace("0*$".toRegex(), "").replace("\\.$".toRegex(), "")
+            if (value.contains(".") && value.matches("(-?[1-9]\\d*|0)\\.(0|\\d*[1-9]0)".toRegex())) {
+                return value.replace("0$".toRegex(), "").replace("\\.$".toRegex(), "")
             }
             return value
         }
