@@ -76,6 +76,6 @@ public class RegularExpressionAssistantDialog {
 	private void createListOfFeatures() {
 		listOfFeatures = new ArrayList<>();
 
-		listOfFeatures.add(new RegularExpressionFeatureDummy(R.string.formula_editor_function_regex_assistant_dummy));
+		listOfFeatures.add(new HtmlExtractorDialog());
 	}
 }
