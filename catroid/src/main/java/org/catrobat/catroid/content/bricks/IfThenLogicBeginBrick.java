@@ -37,8 +37,6 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.VisibleForTesting;
-
 public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 
 	private static final long serialVersionUID = 1L;
@@ -54,11 +52,6 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 	public IfThenLogicBeginBrick(Formula formula) {
 		this();
 		setFormulaWithBrickField(Brick.BrickField.IF_CONDITION, formula);
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
 	}
 
 	@Override
@@ -86,7 +79,6 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 		for (Brick brick : ifBranchBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -188,6 +180,11 @@ public class IfThenLogicBeginBrick extends FormulaBrick implements CompositeBric
 
 		EndBrick(IfThenLogicBeginBrick parent) {
 			this.parent = parent;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

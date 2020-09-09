@@ -76,7 +76,6 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 		for (Brick brick : loopBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -166,6 +165,11 @@ public class ForItemInUserListBrick extends UserDataBrick implements CompositeBr
 
 		EndBrick(ForItemInUserListBrick parent) {
 			this.parent = parent;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override
