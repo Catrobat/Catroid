@@ -103,6 +103,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private double altitude = 0d;
 	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
 
+	private static String listeningLanguageSensor;
+
 	private SensorLoudness sensorLoudness = null;
 
 	public static void setUserLocaleTag(String userLocale) {
@@ -587,8 +589,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case NFC_TAG_ID:
 				return String.valueOf(NfcHandler.getLastNfcTagId());
+			case SPEECH_RECOGNITION_LANGUAGE:
+				return listeningLanguageSensor;
 		}
 		return 0d;
+	}
+
+	public static String getListeningLanguageSensor() {
+		return listeningLanguageSensor;
+	}
+
+	public static void setListeningLanguageSensor(String listeningLanguageTag) {
+		listeningLanguageSensor = listeningLanguageTag;
+		Log.d(TAG, "listening language sensor changed to: " + listeningLanguageSensor);
 	}
 
 	public static void clearFaceDetectionValues() {

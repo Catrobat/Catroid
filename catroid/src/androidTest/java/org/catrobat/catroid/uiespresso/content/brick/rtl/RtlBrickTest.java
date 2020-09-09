@@ -131,6 +131,7 @@ import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
+import org.catrobat.catroid.content.bricks.SetListeningLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetMassBrick;
 import org.catrobat.catroid.content.bricks.SetNfcTagBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
@@ -149,8 +150,10 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.content.bricks.StampBrick;
+import org.catrobat.catroid.content.bricks.StartListeningBrick;
 import org.catrobat.catroid.content.bricks.StopAllSoundsBrick;
 import org.catrobat.catroid.content.bricks.StopScriptBrick;
+import org.catrobat.catroid.content.bricks.StopSoundBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
 import org.catrobat.catroid.content.bricks.TurnRightBrick;
@@ -176,6 +179,7 @@ import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickCategoryListMatchers;
 import org.catrobat.catroid.uiespresso.util.matchers.BrickPrototypeListMatchers;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -245,6 +249,7 @@ public class RtlBrickTest {
 				enabledByThisTestPeripheralCategories.add(category);
 			}
 		}
+		Utils.fetchSpeechRecognitionSupportedLanguages(ApplicationProvider.getApplicationContext());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -390,6 +395,8 @@ public class RtlBrickTest {
 
 		checkIfBrickISRtl(PlaySoundAndWaitBrick.class, R.id.brick_play_sound_layout);
 
+		checkIfBrickISRtl(StopSoundBrick.class, R.id.brick_stop_sound_layout);
+
 		checkIfBrickISRtl(StopAllSoundsBrick.class, R.id.brick_stop_all_sounds_layout);
 
 		checkIfBrickISRtl(SetVolumeToBrick.class, R.id.brick_set_volume_to_layout);
@@ -403,6 +410,10 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(PhiroPlayToneBrick.class, R.id.brick_phiro_play_tone_layout);
 
 		checkIfBrickISRtl(AskSpeechBrick.class, R.id.brick_set_variable_layout);
+
+		checkIfBrickISRtl(StartListeningBrick.class, R.id.brick_start_listening_layout);
+
+		checkIfBrickISRtl(SetListeningLanguageBrick.class, R.id.brick_set_listening_language_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

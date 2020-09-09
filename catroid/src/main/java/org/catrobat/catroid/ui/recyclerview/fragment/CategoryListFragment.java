@@ -212,6 +212,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_sensor_gamepad_left_pressed,
 			R.string.formula_editor_sensor_gamepad_right_pressed);
 
+	private static final List<Integer> SENSORS_SPEECH_RECOGNITION = Collections.singletonList(R.string.formula_editor_listening_language_sensor);
+
 	private RecyclerView recyclerView;
 
 	@Override
@@ -507,6 +509,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getTouchDetectionSensorItems());
 		result.addAll(getVisualSensorItems());
 		result.addAll(getDateTimeSensorItems());
+		result.addAll(getSpeechRecognitionItems());
 		result.addAll(getNxtSensorItems());
 		result.addAll(getEv3SensorItems());
 		result.addAll(getPhiroSensorItems());
@@ -617,5 +620,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return ProjectManager.getInstance().getCurrentProject().isCastProject()
 				? addHeader(toCategoryListItems(SENSORS_CAST_GAMEPAD), getString(R.string.formula_editor_device_cast))
 				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getSpeechRecognitionItems() {
+		return addHeader(toCategoryListItems(SENSORS_SPEECH_RECOGNITION),
+				getString(R.string.formula_editor_speech_recognition));
 	}
 }
