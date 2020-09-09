@@ -21,33 +21,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.dialogs.regexassistant;
+package org.catrobat.catroid.utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.utils.HtmlRegexExtractor;
 
-public class HtmlExtractorDialog extends RegularExpressionFeature {
-
-	public HtmlExtractorDialog() {
-		this.titleId = R.string.formula_editor_regex_html_extractor_dialog_title;
+public class HtmlRegexExtractor {
+	private Context context;
+	public HtmlRegexExtractor(Context context) {
+		this.context = context;
 	}
-
-	public void openDialog(Context context) {
-		HtmlExtractorInputDialog.Builder builder = new HtmlExtractorInputDialog.Builder(context);
-		builder.setKeywordHint(R.string.keyword_label);
-		builder.setHtmlHint(R.string.html_label);
-		builder.setPositiveButton(R.string.ok, new HtmlExtractorInputDialog.OnClickListener() {
-			@Override
-			public void onPositiveButtonClick(DialogInterface dialog, String keywordInput, String htmlInput) {
-				HtmlRegexExtractor htmlRegexExt = new HtmlRegexExtractor(context);
-				htmlRegexExt.searchKeyword(keywordInput, htmlInput);
-			}
-		});
-		builder.setTitle(R.string.formula_editor_regex_html_extractor_dialog_title);
-		builder.setNegativeButton(R.string.cancel, null);
-		builder.show();
+	public void searchKeyword(String search, String text) {
+		ToastUtil.showError(context, R.string.formula_editor_function_regex_html_extractor_not_found);
 	}
 }
