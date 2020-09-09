@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.graphics.PointF;
+
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.Sprite;
@@ -32,7 +34,17 @@ public class PenUpAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		this.sprite.penConfiguration.penDown = false;
+
+		if (!this.sprite.penConfiguration.isPenDown()) {
+			return;
+		}
+
+		this.sprite.penConfiguration.setPenDown(false);
+		this.sprite.penConfiguration.addPosition(
+				new PointF(this.sprite.look.getXInUserInterfaceDimensionUnit(),
+						this.sprite.look.getYInUserInterfaceDimensionUnit())
+		);
+		this.sprite.penConfiguration.incrementQueuesToFinish();
 	}
 
 	public void setSprite(Sprite sprite) {

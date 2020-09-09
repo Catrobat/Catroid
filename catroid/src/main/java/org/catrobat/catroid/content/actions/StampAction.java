@@ -33,7 +33,7 @@ public class StampAction extends TemporalAction {
 
 	@Override
 	protected void update(float delta) {
-		this.sprite.penConfiguration.stamp = true;
+		this.sprite.penConfiguration.setStamp(true);
 		StageActivity.stageListener.getPenActor().stampToFrameBuffer();
 	}
 

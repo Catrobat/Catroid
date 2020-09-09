@@ -23,7 +23,6 @@
 package org.catrobat.catroid.content;
 
 import android.content.Context;
-import android.graphics.PointF;
 import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -33,7 +32,6 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
@@ -518,14 +516,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (Script script : scriptList) {
 			script.deselectElements(elements);
 		}
-	}
-
-	public class PenConfiguration {
-		public boolean penDown = false;
-		public double penSize = BrickValues.PEN_SIZE;
-		public PenColor penColor = new PenColor(0, 0, 1, 1);
-		public PointF previousPoint = null;
-		public boolean stamp = false;
 	}
 
 	public boolean toBeConverted() {
