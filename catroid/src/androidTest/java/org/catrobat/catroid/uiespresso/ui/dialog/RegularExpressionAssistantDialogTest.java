@@ -21,77 +21,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.ui.fragment;
-
-import android.content.Intent;
-import android.net.Uri;
+package org.catrobat.catroid.uiespresso.ui.dialog;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.testsuites.annotations.Cat;
-import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
-import static org.hamcrest.Matchers.allOf;
 
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.intent.Intents.intended;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-@Category({Cat.AppUi.class, Level.Smoke.class})
 @RunWith(AndroidJUnit4.class)
-public class CategoryListFragmentTest {
+public class RegularExpressionAssistantDialogTest {
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	private static Integer whenBrickPosition = 0;
-	private static Integer changeSizeBrickPosition = 1;
-
-	@Test
-	public void testWikiLinkOnButtonClick() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript(
-				"OpenWikiPageOnButtonClickTest");
+	@Before
+	public void setUp() throws Exception {
+		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorFunctionListTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 
-		onBrickAtPosition(whenBrickPosition).checkShowsText(R.string.brick_when_started);
-		onBrickAtPosition(changeSizeBrickPosition).checkShowsText(R.string.brick_change_size_by);
-		onBrickAtPosition(changeSizeBrickPosition).onChildView(withId(R.id.brick_change_size_by_edit_text))
-				.perform(click());
+		String regularExpressionAssistant =
+				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
 
-		Intents.init();
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(regularExpressionAssistant);
+	}
 
-		try {
-			String regularExpressionAssistant = "\t\t\t\t\t"
-					+ UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
-
-			onFormulaEditor()
-					.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-					.performOnItemWithText(regularExpressionAssistant, click());
-
-			intended(allOf(
-					hasAction(Intent.ACTION_VIEW),
-					hasData(Uri.parse("https://catrob.at/regex"))));
-		} finally {
-			Intents.release();
-		}
+	@Test
+	public void testDialogTitle() {
+		onView(withText(R.string.formula_editor_dialog_regular_expression_assistant_title)).check(matches(isDisplayed()));
 	}
 }
