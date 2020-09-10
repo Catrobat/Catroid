@@ -103,6 +103,15 @@ public class HtmlExtractorDialogTest {
 		onView(withText(R.string.formula_editor_function_regex_html_extractor_not_found)).inRoot(withDecorView(not(baseActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
 	}
 
+	@Test
+	public void testHtmlExtractorDialogFoundMessage() {
+		onView(withHint(R.string.keyword_label)).perform(typeText("Key"));
+		onView(withHint(R.string.html_label)).perform(typeText("Keyword was Found"));
+		onView(withText(R.string.ok)).perform(click());
+
+		onView(withText(R.string.formula_editor_function_regex_html_extractor_found)).inRoot(withDecorView(not(baseActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+	}
+
 	private void openHtmlExtractor() {
 		String regularExpressionAssistant =
 				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
