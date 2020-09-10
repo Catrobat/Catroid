@@ -23,8 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
-import android.view.View;
-import android.widget.TextView;
+import android.content.Intent;
+import android.net.Uri;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
@@ -36,25 +36,22 @@ import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
-import org.hamcrest.Matcher;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 
-import androidx.test.espresso.UiController;
-import androidx.test.espresso.ViewAction;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
+import static org.hamcrest.Matchers.allOf;
 
-import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
@@ -68,9 +65,10 @@ public class CategoryListFragmentTest {
 	private static Integer whenBrickPosition = 0;
 	private static Integer changeSizeBrickPosition = 1;
 
-	@Before
-	public void setUp() {
-		Script script = BrickTestUtils.createProjectAndGetStartScript("RegexAssistantButtonTest");
+	@Test
+	public void testWikiLinkOnButtonClick() {
+		Script script = BrickTestUtils.createProjectAndGetStartScript(
+				"OpenWikiPageOnButtonClickTest");
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 
@@ -78,43 +76,22 @@ public class CategoryListFragmentTest {
 		onBrickAtPosition(changeSizeBrickPosition).checkShowsText(R.string.brick_change_size_by);
 		onBrickAtPosition(changeSizeBrickPosition).onChildView(withId(R.id.brick_change_size_by_edit_text))
 				.perform(click());
-	}
 
-	@Test
-	public void testRegexButtonImplementation() {
-		String regularExpressionAssistant =
-				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
+		Intents.init();
 
-		String formulaEditorTextFieldBeforeButtonClick = getFormulaEditorText(FORMULA_EDITOR_TEXT_FIELD_MATCHER);
+		try {
+			String regularExpressionAssistant = "\t\t\t\t\t"
+					+ UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
 
-		//Tests if button exists
-		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
-				.performOnItemWithText(regularExpressionAssistant, click());
+			onFormulaEditor()
+					.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
+					.performOnItemWithText(regularExpressionAssistant, click());
 
-		//Test if button doesn't change formula editor textfield
-		Assert.assertEquals(formulaEditorTextFieldBeforeButtonClick, getFormulaEditorText(FORMULA_EDITOR_TEXT_FIELD_MATCHER));
-	}
-
-	String getFormulaEditorText(final Matcher<View> matcher) {
-		final String[] stringHolder = {null};
-		onView(matcher).perform(new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return isAssignableFrom(TextView.class);
-			}
-
-			@Override
-			public String getDescription() {
-				return "getting text from a TextView";
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				TextView tv = (TextView) view; //Save, because of check in getConstraints()
-				stringHolder[0] = tv.getText().toString();
-			}
-		});
-		return stringHolder[0];
+			intended(allOf(
+					hasAction(Intent.ACTION_VIEW),
+					hasData(Uri.parse("https://catrob.at/regex"))));
+		} finally {
+			Intents.release();
+		}
 	}
 }

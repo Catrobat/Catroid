@@ -50,6 +50,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
+import org.catrobat.catroid.web.WebpageUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -281,7 +282,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
-					getActivity().onBackPressed();
+					WebpageUtils.openWikiPage(getContext());
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
 					getActivity().onBackPressed();
