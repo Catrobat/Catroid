@@ -25,14 +25,15 @@ package org.catrobat.catroid.camera
 import android.content.pm.PackageManager
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
+import android.widget.FrameLayout
+import androidx.annotation.UiThread
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.core.UseCase
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -45,9 +46,8 @@ import java.util.concurrent.Executors
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
     private val lifecycle = LifecycleRegistry(this)
-    private val previewView = PreviewView(stageActivity).also {
-        it.scaleType = PreviewView.ScaleType.FILL_CENTER
-        it.visibility = View.INVISIBLE
+    private val previewView = PreviewView(stageActivity).apply {
+        visibility = View.INVISIBLE
     }
 
     private val previewUseCase = Preview.Builder().build()
@@ -79,10 +79,10 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
 
     init {
         if (hasFrontCamera || hasBackCamera) {
-            stageActivity.addContentView(previewView, ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
-            ))
+            stageActivity.addContentView(
+                previewView,
+                FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+            )
         }
 
         defaultCameraSelector = if (hasFrontCamera) {
@@ -240,6 +240,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         }
     }
 
+    @UiThread
     private fun unbindPreview() {
         cameraProvider.unbind(previewUseCase)
         if (cameraProvider.isBound(analysisUseCase).not()) {
@@ -247,6 +248,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         }
     }
 
+    @UiThread
     private fun bindFaceDetector() = bindUseCase(analysisUseCase).also {
         analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceDetector)
     }
@@ -255,6 +257,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), TextDetector)
     }
 
+    @UiThread
     private fun bindUseCase(useCase: UseCase): Boolean {
         if (cameraProvider.isBound(useCase)) {
             cameraProvider.unbind(useCase)
