@@ -36,6 +36,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -71,5 +72,17 @@ public class RegularExpressionAssistantDialogTest {
 	@Test
 	public void testDialogTitle() {
 		onView(withText(R.string.formula_editor_dialog_regular_expression_assistant_title)).check(matches(isDisplayed()));
+	}
+
+	@Test
+	public void testCancelButton() {
+		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
+	}
+
+	@Test (expected = NoMatchingViewException.class)
+	public void testCancelButtonFunctionality() {
+		onView(withText(R.string.cancel)).perform(click());
+
+		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
 	}
 }

@@ -32,9 +32,10 @@ import androidx.appcompat.app.AlertDialog;
 public class RegularExpressionAssistantDialog {
 	public void createAssistant(Context context) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
-		builder.setView(R.layout.dialog_regular_expression_assistant);
 
-		builder.setTitle(R.string.formula_editor_function_regex_assistant);
+		builder.setView(R.layout.dialog_regular_expression_assistant);
+		builder.setTitle(R.string.formula_editor_dialog_regular_expression_assistant_title);
+		builder.setNegativeButton(R.string.cancel, null);
 
 		AlertDialog dialog = builder.create();
 
