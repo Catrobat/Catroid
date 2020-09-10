@@ -30,7 +30,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -73,6 +72,7 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.web.WebpageUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -388,15 +388,15 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		int titleId = R.string.formula_editor_dialog_change_regular_expression;
 
 		builder.setNeutralButton(R.string.assistant,
-				(DialogInterface.OnClickListener) (dialog, textInput) -> regexTesting());
+				(DialogInterface.OnClickListener) (dialog, textInput) -> openWikiPage());
 
 		builder.setTitle(titleId)
 				.setNegativeButton(R.string.cancel, null)
 				.show();
 	}
 
-	private void regexTesting() {
-		Log.i("REGEX BUTTON", "Button Press detected");
+	private void openWikiPage() {
+		WebpageUtils.openWikiPage(getContext());
 	}
 
 	private void showNewStringDialog() {
