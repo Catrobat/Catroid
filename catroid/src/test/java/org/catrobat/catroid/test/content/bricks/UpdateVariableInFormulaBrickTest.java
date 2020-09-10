@@ -101,6 +101,8 @@ public class UpdateVariableInFormulaBrickTest {
 		sprite.addScript(script);
 		script.addBrick(formulaBrick);
 
+		project.addUserVariable(userVariable);
+		project.addUserList(userList);
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

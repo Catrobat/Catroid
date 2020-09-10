@@ -404,4 +404,9 @@ public class Project implements Serializable {
 			xmlHeader.setListeningLanguageTag(SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.get(0));
 		}
 	}
+
+	public boolean isGlobalVariable(UserData<?> item) {
+		return getUserVariables().contains(item) || getUserLists().contains(item)
+				|| getMultiplayerVariables().contains(item);
+	}
 }
