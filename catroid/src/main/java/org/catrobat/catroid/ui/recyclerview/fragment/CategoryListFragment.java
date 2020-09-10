@@ -42,6 +42,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
+import org.catrobat.catroid.ui.dialogs.RegularExpressionAssistantDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
@@ -50,7 +51,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.settingsfragments.RaspberryPiSettingsFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
-import org.catrobat.catroid.web.WebpageUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -282,7 +282,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
-					WebpageUtils.openWikiPage(getContext());
+					openRegularExpressionAssistant();
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
 					getActivity().onBackPressed();
@@ -336,6 +336,10 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			return;
 		}
 		addResourceToActiveFormulaInFormulaEditor(categoryListItem, projectUserList.get(projectUserList.size() - 1));
+	}
+
+	private void openRegularExpressionAssistant() {
+		new RegularExpressionAssistantDialog().createAssistant(getContext());
 	}
 
 	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserList> projectUserList, List<UserList> spriteUserList,
