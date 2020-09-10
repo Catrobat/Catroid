@@ -43,6 +43,8 @@
     <string name="done">Done</string>
     <string name="close">Close</string>
 
+    <string name= "assistant">Assistant</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
@@ -1916,6 +1918,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string name="formula_editor_sensor_face_detected">face is visible</string>
