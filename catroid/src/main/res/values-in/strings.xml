@@ -494,8 +494,6 @@
     <string name="new_project_dialog_title">Program Baru</string>
     <string name="new_project_empty">Buat program kosong</string>
     <string name="new_project_default">Buat contoh program</string>
-    <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
-    <string name="new_project_default_jumping_sumo">Buat contoh Jumping Sumo Program</string>
     <string name="project_orientation_title">Orientasi:</string>
     <string name="project_select_screen_title">Screen:</string>
     <!--  -->
@@ -512,7 +510,6 @@
     <string name="add_look_draw_new_image">Membuat gambar</string>
     <string name="add_look_choose_image">Pilih gambar</string>
     <string name="add_look_media_library">Perpustakaan media</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Tambahkan Suara</string>
@@ -535,15 +532,8 @@
     <string name="dialog_terms_of_use_link_text">Syarat Penggunaan dan Layanan</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Syarat Penggunaan dan Layanan</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Jangan ingatkan saya lagi.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Kebijakan privasi</string>
@@ -721,7 +711,6 @@
     <string name="prestage_resource_not_available_title">Komponen tidak tersedia</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Perangkat lain terhubung ke Jumping Sumo. Pastikan, Anda adalah satu-satunya Pengendali untuk Drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\\2022 Sensor akselerasi \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inklinasi \n</string>
@@ -730,7 +719,6 @@
     <string name="prestage_text_to_speech_error">\n2022 Mesin Text-To-Speech \n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Lompati Sumo \n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -1066,18 +1054,6 @@
     <string name="default_cast_project_var_direction">arah</string>
     <string name="default_cast_project_name">Program Cast pertama saya</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">Take off</string>
-    <string name="default_drone_project_sprites_flip">Balik</string>
-    <string name="default_drone_project_sprites_up">Atas</string>
-    <string name="default_drone_project_sprites_down">Bawah</string>
-    <string name="default_drone_project_sprites_left">Kiri</string>
-    <string name="default_drone_project_sprites_right">Kanan</string>
-    <string name="default_drone_project_sprites_forward">Lanjut</string>
-    <string name="default_drone_project_sprites_back">Kembali</string>
-    <string name="default_drone_project_sprites_turn_left">Belok Kiri</string>
-    <string name="default_drone_project_sprites_turn_right">Belok Kanan</string>
-    <string name="default_drone_project_sprites_emergency">Keadaan darurat</string>
     <string name="drone_brick_set_text">Teks</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1124,18 +1100,7 @@
     <string name="notification_download_pending">Sedang mengunduh</string>
     <string name="notification_download_finished">Berhasil mengunduh</string>
     <string name="notification_title_open">"Buka "</string>
-    <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
     <string name="size_of_project">Ukuran:</string>
-    <string name="drone_emergency_battery_low">Baterai rendah (landing otomatis).</string>
-    <string name="drone_emergency_camera">Satu atau lebih kamera tidak merespons.</string>
-    <string name="drone_emergency_ultrasound">Sensor ultrasound tidak merespons.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
-    <string name="drone_emergency_cutout">Satu atau lebih motor dihentikan oleh lingkungan.</string>
-    <string name="drone_alert_battery_low">Baterai terlalu rendah untuk lepas landas lagi.</string>
-    <string name="drone_alert_ultrasound">Sensor ultrasound tidak dapat menentukan ketinggian AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Tidak ada perkiraan kecepatan dari kamera menghadap bawah.</string>
-    <string name="drone_emergency_title">Keadaan darurat</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1161,18 +1126,6 @@ needs read and write access to it. You can always change permissions through you
         change something and try again.</string>
     <string name="error_adding_brick">Terjadi kesalahan saat menambahkan bata ini</string>
     <string name="error_copying_brick">Terjadi kesalahan saat menyalin bata ini</string>
-    <string name="error_no_drone_connected_title">Tidak dapat menemukan AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Hubungkan wifi Anda ke AR.Drone 2.0 dan coba lagi.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 baterai rendah: %d%%</string>
-    <string name="error_drone_low_battery">Masukkan baterai yang penuh dan coba lagi.</string>
-    <string name="error_jumpingsumo_wrong_platform">Kami tidak dapat menjalankan proyek Jumping Sumo di perangkat Anda.</string>
-    <string name="error_no_jumpingsumo_connected_title">Tidak dapat menemukan Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">Hubungkan wifi Anda ke Jumping Sumo dan coba lagi.</string>
-    <string name="error_jumpingsumo_battery_title">Melompatkan baterai Sumo rendah</string>
-    <string name="error_jumpingsumo_battery">Masukkan baterai yang penuh dan coba lagi.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Tidak ada dukungan Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">Tidak ada dukungan AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Kami tidak dapat menjalankan proyek AR.Drone 2.0 di perangkat Anda.</string>
     <string name="error_rename_incompatible_project">Mengganti nama sebuah proyek yang tidak kompatibel tidak mungkin dilakukan.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">Terjadi kesalahan yang tidak diketahui.</string>
@@ -1359,19 +1312,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">Mengambil Gambar Melompat Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">Program Jumping Sumo pertama saya</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Lanjut</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Ke belakang</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animasi</string>
     <string name="default_jumping_sumo_project_sprites_sound">Suara</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">Tidak ada suara</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Lompat jauh</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Lompat tinggi</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Belok kiri</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Belok kanan</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Balik</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Memotret</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Berputar</string>
@@ -1549,16 +1490,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_time_hour">jam</string>
     <string name="formula_editor_sensor_time_minute">menit</string>
     <string name="formula_editor_sensor_time_second">kedua</string>
-    <string name="formula_editor_sensor_drone_battery_status">status_baterai_drone</string>
-    <string name="formula_editor_sensor_drone_emergency_state">keadaan_darurat_drone</string>
-    <string name="formula_editor_sensor_drone_flying">drone_terbang</string>
-    <string name="formula_editor_sensor_drone_initialized">drone_diinisialisasi</string>
-    <string name="formula_editor_sensor_drone_usb_active">usb_drone_aktif</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">waktu_sisa_usb_drone</string>
-    <string name="formula_editor_sensor_drone_camera_ready">kamera_drone_siap</string>
-    <string name="formula_editor_sensor_drone_record_ready">rekaman_drone_siap</string>
-    <string name="formula_editor_sensor_drone_recording">drone_merekam</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone_num_bingkai</string>
     <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
@@ -1633,7 +1564,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
-    <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Melemparkan</string>
     <string name="formula_editor_string">Abc</string>

@@ -662,8 +662,6 @@
     <string name="new_project_dialog_title">برنامج جديد</string>
     <string name="new_project_empty">إنشاء برنامج فارغ</string>
     <string name="new_project_default">إنشاء مشروع إفتراضي</string>
-    <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
-    <string name="new_project_default_jumping_sumo">إنشاء برنامج مثال على Jumping Sumo</string>
     <string name="project_orientation_title">الإتجاه:</string>
     <string name="project_select_screen_title">الشاشة:</string>
     <!--  -->
@@ -680,7 +678,6 @@
     <string name="add_look_draw_new_image">رسم صورة </string>
     <string name="add_look_choose_image">اختر الصورة</string>
     <string name="add_look_media_library">مكتبة الوسائط</string>
-    <string name="add_look_drone_video">فيديو \" طائرة بدون طيار\"</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">إضافة صوت</string>
@@ -703,15 +700,8 @@
     <string name="dialog_terms_of_use_link_text">شروط الاستخدام والخدمات</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">شروط الاستخدام والخدمات لـ بوكت كود</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">لاتذكرني مرة أخرى.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
@@ -889,8 +879,6 @@
     <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
     <string name="prestage_resource_not_available_text">للأسف هذا البرنامج لا يعمل على الجهاز الخاص بك.
         المكونات التالية غير متوفرة: \n\n</string>
-    <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
-        المتحكم الوحيد بالطائرة بدون طيار.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 جهاز استشعار الميل\n</string>
@@ -899,7 +887,6 @@
     <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
     <string name="prestage_no_back_camera_available">\u2022 الكاميرا الخلفية\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -1269,18 +1256,6 @@
     <string name="default_cast_project_var_direction">الاتجاه</string>
     <string name="default_cast_project_name">مشروعي الأول لـ كروم كاست</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">مشروعي الأول لـ \"طائرة بدون طيار\"</string>
-    <string name="default_drone_project_sprites_takeoff">إقلاع</string>
-    <string name="default_drone_project_sprites_flip">قلب افقي-عمودي</string>
-    <string name="default_drone_project_sprites_up">الأعلى</string>
-    <string name="default_drone_project_sprites_down">الأسفل</string>
-    <string name="default_drone_project_sprites_left">اليسار</string>
-    <string name="default_drone_project_sprites_right">اليمين</string>
-    <string name="default_drone_project_sprites_forward">الأمام</string>
-    <string name="default_drone_project_sprites_back">رجوع</string>
-    <string name="default_drone_project_sprites_turn_left">انعطف نحو اليسار</string>
-    <string name="default_drone_project_sprites_turn_right">انعطف نحو اليمين</string>
-    <string name="default_drone_project_sprites_emergency">حالات الطوارئ</string>
     <string name="drone_brick_set_text">النص</string>
     <string name="drone_brick_set_x">س:</string>
     <!--  -->
@@ -1327,17 +1302,7 @@
     <string name="notification_download_pending">جاري التنزيل</string>
     <string name="notification_download_finished">تم التنزيل بنجاح</string>
     <string name="notification_title_open">"فتح"</string>
-    <string name="notification_low_battery_with_value">تحذير. طاقة البطارية منخفضة. الوضع الحالي %d</string>
     <string name="size_of_project">الحجم:</string>
-    <string name="drone_emergency_battery_low">البطارية منخفضة (الهبوط الأوتوماتيكي).</string>
-    <string name="drone_emergency_camera">كاميرا واحدة أو أكثر لا تعطي إستجابة.</string>
-    <string name="drone_emergency_ultrasound">استشعار الموجات فوق الصوتية لا يستجيب.</string>
-    <string name="drone_emergency_angle">زاوية أويلر الخاصة بالطائرة بدون طيار ارتفعت كثيراً. تم إيقاف المحركات لتفادي أي سلوك        خطير.</string>
-    <string name="drone_emergency_cutout">واحد أو أكثر من المحركات توقفت بسبب البيئة.</string>
-    <string name="drone_alert_battery_low">طاقة البطارية منخفض جداً للإنطلاق مرة أخرى.</string>
-    <string name="drone_alert_ultrasound">استشعار الموجات فوق الصوتية لا يمكنه تحديد إرتفاع الطائرة بدون طيار.</string>
-    <string name="drone_alert_vision">لا يوجد تقدير لسرعة الكاميرا المواجهة السفلية.</string>
-    <string name="drone_emergency_title">حالات الطوارئ</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">يحتاج هذا التطبيق الحصول على الإذونات المطلوبة ليعمل بشكل مناسب. مثلاً.,
@@ -1364,18 +1329,6 @@
         قم بتغيير شيئاً ما ثم حاول مجدداً.</string>
     <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
     <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
-    <string name="error_no_drone_connected_title">لا يمكن العثور على الطائرة بدون طيار 2.0.</string>
-    <string name="error_no_drone_connected">قم بإيصال واي فاي بالطائرة بدون طيار2.0، ثم حاول مرة أخرى.</string>
-    <string name="error_drone_low_battery_title">بطارية الطائرة بدون طيار منخفضة:%d%%</string>
-    <string name="error_drone_low_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-    <string name="error_jumpingsumo_wrong_platform">لا يمكننا تشغيل مشروع Jumping Sumo على جهازك.</string>
-    <string name="error_no_jumpingsumo_connected_title">لا يمكن العثور على Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">قم بإيصال واي فاي بـ Jumping Sumo ثم حاول مرة أخرى.</string>
-    <string name="error_jumpingsumo_battery_title">بطارية Jumping Sumo منخفضة</string>
-    <string name="error_jumpingsumo_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">لا يوجد دعم لـ Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">لا يوجد دعم لطائرة بدون طيار2.0.</string>
-    <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
     <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">حدث خطأ غير معروف.</string>
@@ -1561,19 +1514,7 @@
     <string name="brick_jumping_sumo_taking_picture">التقاط صورة من Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">مشروعي الأول لـ Jumping Sumo</string>
-    <string name="add_look_jumping_sumo_video">فيديو Jumping Sumo</string>
-    <string name="default_jumping_sumo_project_sprites_forward">الأمام</string>
-    <string name="default_jumping_sumo_project_sprites_backward">الى الخلف</string>
-    <string name="default_jumping_sumo_project_sprites_animation">الرسوم المتحركة</string>
     <string name="default_jumping_sumo_project_sprites_sound">الصوت</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">لا يوجد صوت</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">اقفز طويلاً</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">اقفز عالياً</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">إتجه إلى اليسار</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">إتجه إلى اليمين</string>
-    <string name="default_jumping_sumo_project_sprites_flip">قلب افقي-عمودي</string>
-    <string name="default_jumping_sumo_project_sprites_picture">إلتقط صور</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">لف مغزلي</string>
@@ -1751,16 +1692,6 @@
     <string name="formula_editor_sensor_time_hour">ساعة</string>
     <string name="formula_editor_sensor_time_minute">دقيقة</string>
     <string name="formula_editor_sensor_time_second">ثانية</string>
-    <string name="formula_editor_sensor_drone_battery_status">حالة_بطارية_الطيارة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_emergency_state">حالة_الطوارئ_للطيارة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_flying">أقلاع_الطيارة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_initialized">تهيئة_الطائرة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_usb_active">usb_فعال_طائرة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">usbالوقت_المتبقي_طائرة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_camera_ready">كاميرا_الطائرة_بدون_طيار_جاهزة</string>
-    <string name="formula_editor_sensor_drone_record_ready">تسجيل_الطائرة_بدون_طيار_جاهز</string>
-    <string name="formula_editor_sensor_drone_recording">عملية_التسجيل_جارية</string>
-    <string name="formula_editor_sensor_drone_num_frames">عدد_الإطارات</string>
     <string name="formula_editor_sensor_lego_nxt_1">جهاز استشعار_NXT_1</string>
     <string name="formula_editor_sensor_lego_nxt_2">جهاز_استشعار_NXT_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">جهاز_استشعار_NXT_3</string>
@@ -1835,7 +1766,6 @@
     <string name="formula_editor_device_arduino">الاردوينو</string>
     <string name="formula_editor_device_phiro">روبوت الاطفال</string>
     <string name="formula_editor_device_raspberry">راسبيري باي</string>
-    <string name="formula_editor_device_drone">طائرة بدون طيار</string>
     <string name="formula_editor_device_nfc">تقنية الاتصال قريب المدى (NFC)</string>
     <string name="formula_editor_device_cast">بث وإرسال</string>
     <string name="formula_editor_string">أ ب ج</string>

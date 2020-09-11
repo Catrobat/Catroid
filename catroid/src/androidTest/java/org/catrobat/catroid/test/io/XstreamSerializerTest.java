@@ -247,7 +247,6 @@ public class XstreamSerializerTest {
 	@Test
 	public void testGetRequiredResources() {
 		Brick.ResourcesSet resources = generateMultiplePermissionsProject().getRequiredResources();
-		assertTrue(resources.contains(Brick.ARDRONE_SUPPORT));
 		assertTrue(resources.contains(Brick.FACE_DETECTION));
 		assertTrue(resources.contains(Brick.BLUETOOTH_LEGO_NXT));
 		assertTrue(resources.contains(Brick.TEXT_TO_SPEECH));

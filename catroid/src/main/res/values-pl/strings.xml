@@ -587,8 +587,6 @@
     <string name="new_project_dialog_title">Nowy program</string>
     <string name="new_project_empty">Utwórz pusty program</string>
     <string name="new_project_default">Stwórz przykładowy Program</string>
-    <string name="new_project_default_drone">Stwórz przykładowy program dla AR.Drone</string>
-    <string name="new_project_default_jumping_sumo">Stwórz przykładowy Program Skaczący Sumo</string>
     <string name="project_orientation_title">Orientacja ekranu:</string>
     <string name="project_select_screen_title">Ekran:</string>
     <!--  -->
@@ -605,7 +603,6 @@
     <string name="add_look_draw_new_image">Rysuj obraz</string>
     <string name="add_look_choose_image">Wybierz obraz</string>
     <string name="add_look_media_library">Biblioteka</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 wideo</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Dodaj dźwięk</string>
@@ -625,12 +622,8 @@
     <string name="dialog_terms_of_use_link_text">Warunki użytkowania i korzystania z usługi</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Warunki użytkowania Pocket Code i korzystania z usługi</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Za chwilę będziesz używać tej aplikacji razem z AR.Drone 2.0 firmy Parrot. Zdecydowanie zalecamy przestrzeganie Warunków użytkowania i usług zarówno Catrobat, jak i Parrot.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Nie przypominaj mi ponownie.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Za chwilę będziesz używać tej aplikacji razem z Jumping Sumo firmy Parrot. Zdecydowanie zalecamy przestrzeganie Warunków użytkowania i usług zarówno Catrobat, jak i Parrot.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Polityka prywatności</string>
@@ -799,7 +792,6 @@
     <string name="prestage_text_to_speech_engine_not_installed">Zamiana tekstu na głos nie zainstalowana!\nCzy chcesz ją zainstalować?</string>
     <string name="prestage_resource_not_available_title">Składnik niedostępny</string>
     <string name="prestage_resource_not_available_text">Niestety ten program nie działa na Twoim urządzeniu.         Następujące składniki są niedostępne: \n\n</string>
-    <string name="prestage_resource_in_use_text">Inne urządzenie jest połączone z Jumping Sumo. Bądź pewien, że jesteś jedynym kontrolerem drona.</string>
     <string name="prestage_no_vibration_available">\u2022 Wibracje\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Czujnik przyspieszenia\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Czujnik nachylenia\n</string>
@@ -808,7 +800,6 @@
     <string name="prestage_text_to_speech_error">\u2022 Zamiana tekstu na mowę\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Aparat z tyłu\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Skaczący Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Aparat z przodu\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -1164,18 +1155,6 @@
     <string name="default_cast_project_var_direction">kierunek</string>
     <string name="default_cast_project_name">Mój pierwszy program Cast</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">Mój pierwszy program dla drona AR,Drone 2.0</string>
-    <string name="default_drone_project_sprites_takeoff">Startuj</string>
-    <string name="default_drone_project_sprites_flip">Obróć</string>
-    <string name="default_drone_project_sprites_up">W górę</string>
-    <string name="default_drone_project_sprites_down">W dół</string>
-    <string name="default_drone_project_sprites_left">Lewo</string>
-    <string name="default_drone_project_sprites_right">Prawo</string>
-    <string name="default_drone_project_sprites_forward">Naprzód</string>
-    <string name="default_drone_project_sprites_back">Wstecz</string>
-    <string name="default_drone_project_sprites_turn_left">Obróć w lewo</string>
-    <string name="default_drone_project_sprites_turn_right">Obróć w prawo</string>
-    <string name="default_drone_project_sprites_emergency">Tryb awaryjny</string>
     <string name="drone_brick_set_text">Tekst</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1222,17 +1201,7 @@
     <string name="notification_download_pending">Trwa pobieranie</string>
     <string name="notification_download_finished">Pobieranie zakończone powodzeniem</string>
     <string name="notification_title_open">"Otwórz "</string>
-    <string name="notification_low_battery_with_value">Uwaga! Bateria jest rozładowana. Aktualny stan %d</string>
     <string name="size_of_project">Rozmiar:</string>
-    <string name="drone_emergency_battery_low">Bateria jest słaba (automatyczne lądowanie).</string>
-    <string name="drone_emergency_camera">Jedna lub więcej kamer nie odpowiada.</string>
-    <string name="drone_emergency_ultrasound">Czujnik ultradźwięków nie odpowiada.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Kąty Eulera były zbyt wysokie. Silniki wyłączają się, aby zapobiec niebezpiecznym zachowaniom.</string>
-    <string name="drone_emergency_cutout">Jeden lub więcej silników został zatrzymany przez otoczenie.</string>
-    <string name="drone_alert_battery_low">Bateria jest zbyt słaba, aby startować ponownie.</string>
-    <string name="drone_alert_ultrasound">Czujnik ultradźwiękowy nie może określić wysokości AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Brak oszacowania prędkości z dolnej kamery.</string>
-    <string name="drone_emergency_title">Tryb awaryjny</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Ta aplikacja potrzebuje wymaganych uprawnień do prawidłowego działania. Np. bloczek aparatu wymaga dostępu do aparatu urządzenia, element formuły „lokalizacja” wymaga dostępu do czujnika geolokalizacji urządzenia, a aby importować i eksportować projekty z i do pamięci lokalnej, aplikacja musi mieć dostęp do odczytu i zapisu. Zawsze możesz zmienić uprawnienia za pomocą ustawień urządzenia.</string>
@@ -1253,18 +1222,6 @@
     <string name="error_upload_default_project">Nie możesz przesłać niezmodyfikowanego przykładowego projektu. Zmień coś i spróbuj ponownie.</string>
     <string name="error_adding_brick">Podczas dodawania tego bloku wystąpił błąd</string>
     <string name="error_copying_brick">Podczas kopiowania tego bloku wystąpił błąd</string>
-    <string name="error_no_drone_connected_title">Nie można znaleźć AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Połącz AR.Drone 2.0 z WiFi spróbuj ponownie.</string>
-    <string name="error_drone_low_battery_title">Niski poziom baterii drona AR.Drone 2.0: %d%%</string>
-    <string name="error_drone_low_battery">Włóż naładowaną baterię i spróbuj ponownie.</string>
-    <string name="error_jumpingsumo_wrong_platform">Nie można uruchomić projektu Jumping Sumo na tym urządzeniu.</string>
-    <string name="error_no_jumpingsumo_connected_title">Nie można znaleźć Skaczącego Sumo</string>
-    <string name="error_no_jumpingsumo_connected">Połącz swoje wifi do Skaczącego Sumo i spróbuj ponownie.</string>
-    <string name="error_jumpingsumo_battery_title">Rozładowana bateria Jumping Sumo</string>
-    <string name="error_jumpingsumo_battery">Włóż naładowaną baterię i spróbuj ponownie.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Brak wsparcia Skaczącego Sumo</string>
-    <string name="error_drone_wrong_platform_title">Brak wsparcia AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Nie można uruchomić projektu AR.Drone 2.0 na tym urządzeniu.</string>
     <string name="error_rename_incompatible_project">Zmiana nazwy projektu niezgodnego z tą wersją nie jest możliwa.</string>
     <string name="error_embroidery_file_export">Coś poszło nie tak podczas udostępniania pliku.</string>
     <string name="error_unknown_error">Wystąpił nieznany błąd.</string>
@@ -1450,19 +1407,7 @@
     <string name="brick_jumping_sumo_taking_picture">Robienie zdjęć Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">Mój pierwszy program Jumping Sumo</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo wideo</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Naprzód</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Do tyłu</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animacje</string>
     <string name="default_jumping_sumo_project_sprites_sound">Dźwięk</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">Brak dźwięku</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Długi skok</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Wysoki skok</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Obróć w lewo o</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Obróć w prawo o</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Obróć</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Łapanie zdjęć</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Obrót</string>
@@ -1640,16 +1585,6 @@
     <string name="formula_editor_sensor_time_hour">godzina</string>
     <string name="formula_editor_sensor_time_minute">minuta</string>
     <string name="formula_editor_sensor_time_second">sekunda</string>
-    <string name="formula_editor_sensor_drone_battery_status">stan_baterii_drona</string>
-    <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
-    <string name="formula_editor_sensor_drone_flying">drone_flying</string>
-    <string name="formula_editor_sensor_drone_initialized">drone_initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone_usb_active</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">drone_usb_remaining_time</string>
-    <string name="formula_editor_sensor_drone_camera_ready">drone_camera_ready</string>
-    <string name="formula_editor_sensor_drone_record_ready">drone_record_ready</string>
-    <string name="formula_editor_sensor_drone_recording">drone_recording</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
     <string name="formula_editor_sensor_lego_nxt_1">NXT_czujnik_1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT_czujnik_2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT_czujnik_3</string>
@@ -1724,7 +1659,6 @@
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
-    <string name="formula_editor_device_drone">Dron</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Cast</string>
     <string name="formula_editor_string">Abc</string>

@@ -493,8 +493,6 @@
     <string name="new_project_dialog_title">โปรแกรมใหม่</string>
     <string name="new_project_empty">สร้างโครงการที่ไม่มีตัวอย่าง</string>
     <string name="new_project_default">สร้างโครงการตัวอย่าง</string>
-    <string name="new_project_default_drone">สร้างตัวอย่างโครงการ AR.Drone 2.0</string>
-    <string name="new_project_default_jumping_sumo">สร้างตัวอย่างโครงการ Jumping Sumo</string>
     <string name="project_orientation_title">ปฐมนิเทศ:</string>
     <string name="project_select_screen_title">หน้าจอ:</string>
     <!--  -->
@@ -511,7 +509,6 @@
     <string name="add_look_draw_new_image">วาดรูป</string>
     <string name="add_look_choose_image">เลือกรูปภาพ</string>
     <string name="add_look_media_library">ไลบรารีสื่อ</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">เพิ่มเสียง</string>
@@ -531,14 +528,8 @@
     <string name="dialog_terms_of_use_link_text">ข้อกำหนดการใช้งานและบริการ</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">ข้อกำหนดการใช้งานและบริการ</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">คุณกำลังจะใช้แอพนี้ร่วมกับ AR.Drone 2.0 ของ Parrot  เราขอเตือนอย่างยิ่งให้คุณปฏิบัติตามข้อกำหนดในการให้บริการทั้งของ Parrot และ Catrobat</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">ไม่ต้องเตือนฉันอีก</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">นโยบายความเป็นส่วนตัว</string>
@@ -667,7 +658,6 @@ A-8010 กราซ, ออสเตรีย \n
          ติดตั้งหรือไม่</string>
     <string name="prestage_resource_not_available_title">ไม่มีส่วนประกอบ</string>
     <string name="prestage_resource_not_available_text">น่าเสียดายที่โครงการนี้ใช้ไม่ได้กับอุปกรณ์ของคุณ  ส่วนประกอบต่อไปนี้ไม่สามารถใช้งานได้: \ n\n</string>
-    <string name="prestage_resource_in_use_text">อุปกรณ์อื่นเชื่อมต่อกับ Jumping Sumo  ตรวจสอบให้แน่ใจว่าคุณเป็นคนที่เชื่อมต่อกับโดรน</string>
     <string name="prestage_no_vibration_available">\u2022 การสั่นสะเทือน \n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 เซ็นเซอร์ความเร่ง \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 เซ็นเซอร์ความเอียง \ n</string>
@@ -676,7 +666,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="prestage_text_to_speech_error">\u2022 เครื่องมือแปลงข้อความเป็นคำพูด \n</string>
     <string name="prestage_no_back_camera_available">\u2022 กล้องด้านหลัง \n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 กล้องด้านหน้า \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -1008,18 +997,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="default_cast_project_var_direction">ทิศทาง</string>
     <string name="default_cast_project_name">Chromecast โครงการแรกของฉัน</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">ออกบิน</string>
-    <string name="default_drone_project_sprites_flip">พลิก</string>
-    <string name="default_drone_project_sprites_up">ขึ้น</string>
-    <string name="default_drone_project_sprites_down">ลง</string>
-    <string name="default_drone_project_sprites_left">ซ้าย</string>
-    <string name="default_drone_project_sprites_right">ขวา</string>
-    <string name="default_drone_project_sprites_forward">ไปข้างหน้า</string>
-    <string name="default_drone_project_sprites_back">ย้อนกลับ</string>
-    <string name="default_drone_project_sprites_turn_left">เลี้ยวซ้าย</string>
-    <string name="default_drone_project_sprites_turn_right">เลี้ยวขวา</string>
-    <string name="default_drone_project_sprites_emergency">ฉุกเฉิน</string>
     <string name="drone_brick_set_text">ข้อความ</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1066,17 +1043,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="notification_download_pending">ดาวน์โหลดอยู่</string>
     <string name="notification_download_finished">ดาวน์โหลดเสร็จเรียบร้อย</string>
     <string name="notification_title_open">"เปิด​ "</string>
-    <string name="notification_low_battery_with_value">ความสนใจ แบตเตอรี่เหลือน้อย สถานะปัจจุบันคือ %d</string>
     <string name="size_of_project">ขนาด:</string>
-    <string name="drone_emergency_battery_low">แบตเตอรี่ต่ำ (ลงจอดอัตโนมัติ)</string>
-    <string name="drone_emergency_camera">กล้องอย่างน้อยหนึ่งตัวไม่ตอบสนอง</string>
-    <string name="drone_emergency_ultrasound">เซ็นเซอร์อัลตร้าซาวด์ไม่ตอบสนอง</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 มุมออยเลอร์สูงเกินไป  มอเตอร์ปิดตัวลงเพื่อป้องกันพฤติกรรมที่เป็นอันตราย</string>
-    <string name="drone_emergency_cutout">มอเตอร์หนึ่งตัวหรือมากกว่าถูกหยุดโดยสภาพแวดล้อม</string>
-    <string name="drone_alert_battery_low">แบตเตอรี่เหลือน้อยเกินไปที่จะถอดอีกครั้ง</string>
-    <string name="drone_alert_ultrasound">เซ็นเซอร์อัลตร้าซาวด์ไม่สามารถระบุความสูง AR.Drone 2.0</string>
-    <string name="drone_alert_vision">ไม่มีการประมาณความเร็วจากกล้องหันหน้าไปทางด้านล่าง</string>
-    <string name="drone_emergency_title">ฉุกเฉิน</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">แอปนี้ต้องการสิทธิ์ที่ร้องขอเพื่อให้สามารถทำงานได้ ตัวอย่างเช่นอิฐของกล้องต้องการการเข้าถึงกล้องของอุปกรณ์องค์ประกอบของสูตร \"ตำแหน่ง\" ต้องการการเข้าถึงเซ็นเซอร์ตำแหน่งทางภูมิศาสตร์ของอุปกรณ์และเพื่อนำเข้าและส่งออกโครงการจากและไปยังหน่วยความจำท้องถิ่นแอปนี้จำเป็นต้องมีสิทธิ์อ่านและเขียน. คุณสามารถเปลี่ยนการอนุญาตผ่านการตั้งค่าอุปกรณ์ของคุณ</string>
@@ -1096,18 +1063,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="error_upload_default_project">คุณไม่สามารถอัพโหลดโครงการตัวอย่างที่ไม่ได้แก้ไข  โปรดเปลี่ยนบางสิ่งและลองอีกครั้ง</string>
     <string name="error_adding_brick">เกิดข้อผิดพลาดขณะเพิ่มก้อนนี้</string>
     <string name="error_copying_brick">เกิดข้อผิดพลาดขณะคัดลอกก้อนนี้</string>
-    <string name="error_no_drone_connected_title">ไม่พบ AR.Drone 2.0</string>
-    <string name="error_no_drone_connected">เชื่อมต่อ wifi ของคุณกับ AR.Drone 2.0 แล้วลองอีกครั้ง</string>
-    <string name="error_drone_low_battery_title">แบตเตอรี่ AR.Drone 2.0 ต่ำ:%d%%</string>
-    <string name="error_drone_low_battery">ใส่ถ่านที่ช๊าทแล้วและลองใหม่อีกครั้ง</string>
-    <string name="error_jumpingsumo_wrong_platform">เราไม่สามารถเรียกใช้โครงการ Jumping Sumo บนอุปกรณ์ของคุณ</string>
-    <string name="error_no_jumpingsumo_connected_title">ไม่พบ Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">เชื่อมต่อ wifi ของคุณกับ Jumping Sumo แล้วลองอีกครั้ง</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo แบตเตอรี่ต่ำ</string>
-    <string name="error_jumpingsumo_battery">ใส่ถ่านที่ช๊าทแล้วและลองใหม่อีกครั้ง</string>
-    <string name="error_jumpingsumo_wrong_platform_title">ไม่มีการสนับสนุน Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">ไม่รองรับ AR.Drone 2.0</string>
-    <string name="error_drone_wrong_platform">เราไม่สามารถเรียกใช้โครงการ AR.Drone 2.0 บนอุปกรณ์ของคุณ</string>
     <string name="error_rename_incompatible_project">ไม่สามารถเปลี่ยนชื่อโครงการที่เข้ากันไม่ได้</string>
     <string name="error_embroidery_file_export">เกิดข้อผิดพลาดบางอย่างขณะแชร์ไฟล์การปัก</string>
     <string name="error_unknown_error">บางอย่างผิดพลาด.</string>
@@ -1299,19 +1254,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">ไปข้างหน้า</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-    <string name="default_jumping_sumo_project_sprites_animation">ภาพเคลื่อนไหว</string>
     <string name="default_jumping_sumo_project_sprites_sound">เสียง</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">เลี้ยวซ้าย</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">เลี้ยวขวา</string>
-    <string name="default_jumping_sumo_project_sprites_flip">พลิก</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Spin</string>
@@ -1489,16 +1432,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_sensor_time_hour">hour</string>
     <string name="formula_editor_sensor_time_minute">minute</string>
     <string name="formula_editor_sensor_time_second">second</string>
-    <string name="formula_editor_sensor_drone_battery_status">drone battery status</string>
-    <string name="formula_editor_sensor_drone_emergency_state">drone emergency state</string>
-    <string name="formula_editor_sensor_drone_flying">drone flying</string>
-    <string name="formula_editor_sensor_drone_initialized">drone initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone usb active</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">drone usb remaining time</string>
-    <string name="formula_editor_sensor_drone_camera_ready">drone camera ready</string>
-    <string name="formula_editor_sensor_drone_record_ready">drone record ready</string>
-    <string name="formula_editor_sensor_drone_recording">drone camera recording</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone camera number of frames</string>
     <string name="formula_editor_sensor_lego_nxt_1">NXT sensor 1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT sensor 2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT sensor 3</string>
@@ -1573,7 +1506,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
-    <string name="formula_editor_device_drone">โดรน</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>

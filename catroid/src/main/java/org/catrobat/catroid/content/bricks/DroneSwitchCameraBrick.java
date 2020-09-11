@@ -40,12 +40,6 @@ public class DroneSwitchCameraBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDroneSwitchCameraAction());
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(ARDRONE_SUPPORT);
 	}
 }
 

@@ -548,8 +548,6 @@
     <string name="new_project_dialog_title">نېا پروگرام</string>
     <string name="new_project_empty">ایک خالی پروجیکٹ بنائیں</string>
     <string name="new_project_default">ایک مثال کے طور پر پروجیکٹ بنائیں</string>
-    <string name="new_project_default_drone">آر ڈیروون 2.0 پروجیکٹ کا ایک مثال بنائیں</string>
-    <string name="new_project_default_jumping_sumo">آر ڈیروون 2.0 پروجیکٹ کا ایک مثال بنائیں</string>
     <string name="project_orientation_title">واقفیت</string>
     <string name="project_select_screen_title">اسکرین</string>
     <!--  -->
@@ -566,7 +564,6 @@
     <string name="add_look_draw_new_image">تصویر بنائیں</string>
     <string name="add_look_choose_image">تصویر منتخب کریں</string>
     <string name="add_look_media_library">میڈیا لائبریری</string>
-    <string name="add_look_drone_video">AR.ڈرون 2.0 ویڈیو</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">آواز ا ضافہ کریں</string>
@@ -589,15 +586,8 @@
     <string name="dialog_terms_of_use_link_text">استعمال اور خدمات کی شرائط</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">استعمال اور خدمات کی شرائط</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">آپ اس اپلی کیشن کو طوطا کے ساتھ ساتھ استعمال کرنا چاہتے ہیں
-         AR.Done 2.0. ہم آپ کو پادری اور کیٹتوٹ دونوں کے استعمال اور خدمات کی شرائط دونوں کی طرف سے اطمینان دینے پر زور دیتے ہیں.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">مجھے دوبارہ یاد نہ دلائیں۔</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">آپ اس اپلی کیشن کے ساتھ مل کر استعمال کرتے ہیں
-          طوطا کی جمپنگ سومو. ہم آپ کو پادری اور Catrobat کے استعمال کی شرائط اور دونوں دونوں کی طرف سے اطمینان دینے پر زور دیتے ہیں
-         خدمات</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">رازداری کا طریقہ کار</string>
@@ -772,8 +762,6 @@
     <string name="prestage_resource_not_available_title">اجزاء دستیاب نہیں</string>
     <string name="prestage_resource_not_available_text">بدقسمتی سے یہ منصوبہ آپ کے آلے پر کام نہیں کرتا.
          مندرجہ ذیل اجزاء دستیاب نہیں ہیں: \ n \ n</string>
-    <string name="prestage_resource_in_use_text">ایک اور آلہ جمپنگ سومو سے منسلک ہے. یقینی بنائیں کہ آپ
-         ڈرون سے منسلک ہے.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\ u2022 تیز رفتار سینسر n\ </string>
     <string name="prestage_no_inclination_sensor_available">\ u2022 چڑھنے سینسر n\</string>
@@ -782,7 +770,6 @@
     <string name="prestage_text_to_speech_error">\ u2022 متن سے بات کرنے والے انجن \ n</string>
     <string name="prestage_no_back_camera_available">\ u2022 ریئر کیمرے \ n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\ u2022 جموں سمو \ n</string>
     <string name="prestage_no_front_camera_available">\ u2022 فرنٹ کیمرے \ n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -1125,18 +1112,6 @@
     <string name="default_cast_project_var_direction">سمت</string>
     <string name="default_cast_project_name">میرا پہلا کروم کاسٹ پروجیکٹ</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">میرا پہلا AR.Done 2.0 پروجیکٹ</string>
-    <string name="default_drone_project_sprites_takeoff">آغاز پرواز</string>
-    <string name="default_drone_project_sprites_flip">پلٹائیں</string>
-    <string name="default_drone_project_sprites_up">اوپر</string>
-    <string name="default_drone_project_sprites_down">نیچے</string>
-    <string name="default_drone_project_sprites_left">بائیں طرف</string>
-    <string name="default_drone_project_sprites_right">دائیں طرف</string>
-    <string name="default_drone_project_sprites_forward">آگے کریں</string>
-    <string name="default_drone_project_sprites_back">واپس</string>
-    <string name="default_drone_project_sprites_turn_left">بائیں طرف</string>
-    <string name="default_drone_project_sprites_turn_right">دائیں جانب مڑیں</string>
-    <string name="default_drone_project_sprites_emergency">ہنگامی</string>
     <string name="drone_brick_set_text">متن</string>
     <string name="drone_brick_set_x">ایکس:</string>
     <!--  -->
@@ -1183,17 +1158,7 @@
     <string name="notification_download_pending">ڈاؤن لوڈ جاری ہے</string>
     <string name="notification_download_finished">ڈاؤن لوڈ کامیاب</string>
     <string name="notification_title_open">"کھولیں"</string>
-    <string name="notification_low_battery_with_value">توجہ. بیٹری کم ہے. موجودہ حیثیت٪ %d ہے</string>
     <string name="size_of_project">پیمائش:</string>
-    <string name="drone_emergency_battery_low">بیٹری کم ہے (خودکار لینڈنگ).</string>
-    <string name="drone_emergency_camera">ایک یا زیادہ کیمرے جواب نہیں دے رہے ہیں.</string>
-    <string name="drone_emergency_ultrasound">الٹراساؤنڈ سینسر جواب نہیں دے رہا ہے.</string>
-    <string name="drone_emergency_angle">AR.Done 2.0 Euler زاویہ بہت زیادہ چلا گیا. خطرناک رویے کو روکنے کے لئے موٹر بند   </string>
-    <string name="drone_emergency_cutout">ایک یا زیادہ موٹرز ماحول کی طرف سے بند کر دیا گیا تھا.</string>
-    <string name="drone_alert_battery_low">دوبارہ دوبارہ لینے کے لئے بیٹری بہت کم ہے.</string>
-    <string name="drone_alert_ultrasound">الٹراسوناؤن سینسر AR.Dron 2.0 اونچائی کا تعین نہیں کرسکتا ہے.</string>
-    <string name="drone_alert_vision">رفتار کا تخمینہ نہیں ہے, نیچے کا سامنا کیمرے سے.</string>
-    <string name="drone_emergency_title">ہنگامی</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">یہ اپلی کیشن مناسب طریقے سے کام کرنے کے لئے مطلوبہ اجازت کی ضرورت ہے. مثال کے طور پر
@@ -1219,18 +1184,6 @@
          کچھ تبدیل کریں اور دوبارہ کوشش کریں.</string>
     <string name="error_adding_brick">اس اینٹ کو شامل کرتے وقت کچھ غلط ہوا.</string>
     <string name="error_copying_brick">اس اینٹ کاپی کرتے وقت کچھ غلط ہوگیا.</string>
-    <string name="error_no_drone_connected_title">AR.Done 2.0 نہیں مل سکا.</string>
-    <string name="error_no_drone_connected">اپنی وائی فائی AR.Dron 2.0 پر مربوط کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_drone_low_battery_title"> ڈرون 2.0 بیٹری کم: %d%%</string>
-    <string name="error_drone_low_battery">ایک چارج شدہ بیٹری  داخل کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_jumpingsumo_wrong_platform">ہم آپ کے آلے پر جمپنگ سومو منصوبے کو نہیں چل سکتے.</string>
-    <string name="error_no_jumpingsumo_connected_title">جمپنگ سومو کو نہیں ڈھونڈ سکتا</string>
-    <string name="error_no_jumpingsumo_connected">اپنی وائی فائی AR.Dron 2.0 پر مربوط کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_jumpingsumo_battery_title">جموں سمو بیٹری کم</string>
-    <string name="error_jumpingsumo_battery">ایک چارج شدہ بیٹری  داخل کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">جمپنگ سومو کی حمایت نہیں</string>
-    <string name="error_drone_wrong_platform_title"> ڈرون 2.0 کی حمایت  نہیں ہے ۔</string>
-    <string name="error_drone_wrong_platform">ہم آپ کے آلہ پر AR.Done 2.0 پروجیکٹ نہیں چل سکتے.</string>
     <string name="error_rename_incompatible_project">ناممکن منصوبے کا نام تبدیل کرنا ممکن نہیں ہے.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">کچھ غلط ہو گیا!.</string>
@@ -1417,19 +1370,7 @@
     <string name="brick_jumping_sumo_taking_picture">جمپنگ سومو تصویر لے رہا ہے</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">آگے کریں</string>
-    <string name="default_jumping_sumo_project_sprites_backward">پسماندہ</string>
-    <string name="default_jumping_sumo_project_sprites_animation">حرکت اندازی</string>
     <string name="default_jumping_sumo_project_sprites_sound">آواز</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">کوئی آواز نہیں</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">لمبی چھلانگ</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">اعلی چھلانگ</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">بائیں مڑو</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">دائیں مڑیں</string>
-    <string name="default_jumping_sumo_project_sprites_flip">پلٹائیں</string>
-    <string name="default_jumping_sumo_project_sprites_picture">تصویر لیجئے</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">اسپن</string>
@@ -1608,16 +1549,6 @@
     <string name="formula_editor_sensor_time_hour">گھنٹے</string>
     <string name="formula_editor_sensor_time_minute">منٹ</string>
     <string name="formula_editor_sensor_time_second">سیکنڈ</string>
-    <string name="formula_editor_sensor_drone_battery_status">ڈرون بیٹری کی حیثیت</string>
-    <string name="formula_editor_sensor_drone_emergency_state">ڈرون ہنگامی حالت</string>
-    <string name="formula_editor_sensor_drone_flying">ڈرون پرواز</string>
-    <string name="formula_editor_sensor_drone_initialized">ڈرون کی ابتدا</string>
-    <string name="formula_editor_sensor_drone_usb_active">  ڈرون usb فعال</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">ڈرون USB باقی وقت ہے</string>
-    <string name="formula_editor_sensor_drone_camera_ready">ڈرون کیمرے تیار</string>
-    <string name="formula_editor_sensor_drone_record_ready">ڈرون ریکارڈ تیار</string>
-    <string name="formula_editor_sensor_drone_recording">ڈرون کیمرے ریکارڈنگ</string>
-    <string name="formula_editor_sensor_drone_num_frames">ڈرون کیمرے تعداد فریم</string>
     <string name="formula_editor_sensor_lego_nxt_1">NXT سینسر 1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT سینسر 2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT سینسر 3</string>
@@ -1692,7 +1623,6 @@
     <string name="formula_editor_device_arduino">آردوانو</string>
     <string name="formula_editor_device_phiro">پہرو</string>
     <string name="formula_editor_device_raspberry">راسباری پائی Pi</string>
-    <string name="formula_editor_device_drone">ڈرون</string>
     <string name="formula_editor_device_nfc">این ایف سی</string>
     <string name="formula_editor_device_cast">کروم کاسٹ</string>
     <string name="formula_editor_string">اے بی سی</string>

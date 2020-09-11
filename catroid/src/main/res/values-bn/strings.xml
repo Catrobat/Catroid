@@ -515,8 +515,6 @@
     <string name="new_project_dialog_title">নতুন প্রজেক্ট</string>
     <string name="new_project_empty">একটি খালি প্রজেক্ট তৈরি করুন</string>
     <string name="new_project_default">একটি উদাহরণস্বরূপ প্রজেক্ট তৈরি করুন</string>
-    <string name="new_project_default_drone">একটি উদাহরণস্বরূপ এআর.ড্রোন ২.০ প্রকল্প তৈরি করুন</string>
-    <string name="new_project_default_jumping_sumo">একটি উদাহরণস্বরূপ জাম্পিং সুমো প্রকল্প তৈরি করুন</string>
     <string name="project_orientation_title">বিন্যাস</string>
     <string name="project_select_screen_title">পর্দা</string>
     <!--  -->
@@ -533,7 +531,6 @@
     <string name="add_look_draw_new_image">চিত্র আঁকুন</string>
     <string name="add_look_choose_image">ছবি নির্বাচন করুন</string>
     <string name="add_look_media_library">মিডিয়া লাইব্রেরি</string>
-    <string name="add_look_drone_video">এআর.ড্রোন ২.০ ভিডিও</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">শব্দ যোগ করুন</string>
@@ -553,12 +550,8 @@
     <string name="dialog_terms_of_use_link_text">ব্যবহার এবং সেবার শর্তাদি</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">ব্যবহার এবং সেবার শর্তাদি</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">আপনি পারত এআর.ড্রোন 2.0 এর সাথে একত্রে এই অ্যাপ্লিকেশনটি ব্যবহার করতে চলেছেন। আমরা আপনাকে প্রবলভাবে স্মরণ করিয়ে দিচ্ছি যে পারত এবং ক্যাট্রোব্যাট উভয় ব্যবহারের শর্তাদি এবং পরিষেবাদি মেনে চলুন।</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">আমাকে আবার মনে করিয়ে দিবেন না</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">আপনি পারত জাম্পিং সুমো এর সাথে একত্রে এই অ্যাপ্লিকেশনটি ব্যবহার করতে চলেছেন। আমরা আপনাকে প্রবলভাবে স্মরণ করিয়ে দিচ্ছি যে পারত এবং ক্যাট্রোব্যাট উভয় ব্যবহারের শর্তাদি এবং পরিষেবাদি মেনে চলুন।</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">গোপনীয়তার নীতিমালা</string>
@@ -726,7 +719,6 @@
     <string name="prestage_text_to_speech_engine_not_installed">পাঠ্য থেকে স্পিচ ইঞ্জিন ইনস্টল করা হয়নি! আপনি কি এটি ইনস্টল করতে চান?</string>
     <string name="prestage_resource_not_available_title">উপাদানটি নেই</string>
     <string name="prestage_resource_not_available_text">দুর্ভাগ্যক্রমে এই প্রজেক্টটি আপনার ডিভাইসে কাজ করে না। নিম্নলিখিত উপাদানগুলি অনুপস্থিত:</string>
-    <string name="prestage_resource_in_use_text">আরেকটি ডিভাইস জাম্পিং সুমোর সাথে সংযুক্ত। নিশ্চিত হন যে আপনিই ড্রোনটির সাথে সংযুক্ত আছেন।</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 ত্বরণ সেন্সর \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 প্রবণতা সেন্সর \n</string>
@@ -735,7 +727,6 @@
     <string name="prestage_text_to_speech_error">\u2022 পাঠ্য থেকে স্পিচ ইঞ্জিন \n</string>
     <string name="prestage_no_back_camera_available">\u2022 পেছনের ক্যামেরা \n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 জাম্পিং সুমো \n</string>
     <string name="prestage_no_front_camera_available">\u2022 সামনের ক্যামেরা \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -1077,18 +1068,6 @@
     <string name="default_cast_project_var_direction">গতিপথ</string>
     <string name="default_cast_project_name">আমার প্রথম চরমকাস্ট প্রজেক্ট</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">আমার প্রথম এআর.ড্রোন ২.০ প্রজেক্ট</string>
-    <string name="default_drone_project_sprites_takeoff">উড্ডয়ন করা</string>
-    <string name="default_drone_project_sprites_flip">ফ্লিপ</string>
-    <string name="default_drone_project_sprites_up">উপরে</string>
-    <string name="default_drone_project_sprites_down">নিচে</string>
-    <string name="default_drone_project_sprites_left">বাম দিক</string>
-    <string name="default_drone_project_sprites_right">ডান দিক</string>
-    <string name="default_drone_project_sprites_forward">সামনে</string>
-    <string name="default_drone_project_sprites_back">পিছনে</string>
-    <string name="default_drone_project_sprites_turn_left">বাম দিকে ঘুরুন</string>
-    <string name="default_drone_project_sprites_turn_right">ডান দিকে ঘুরুন</string>
-    <string name="default_drone_project_sprites_emergency">জরুরী</string>
     <string name="drone_brick_set_text">পাঠ্য</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1135,17 +1114,7 @@
     <string name="notification_download_pending">আপলোড চলছে</string>
     <string name="notification_download_finished">ডাউনলোড সফল</string>
     <string name="notification_title_open">"খুলুন"</string>
-    <string name="notification_low_battery_with_value">মনোযোগ. ব্যাটারি স্বল্প. বর্তমান অবস্থা %d</string>
     <string name="size_of_project">আকার</string>
-    <string name="drone_emergency_battery_low">ব্যাটারি কম (স্বয়ংক্রিয় অবতরণ)।</string>
-    <string name="drone_emergency_camera">এক বা একাধিক ক্যামেরা সাড়া দিচ্ছে না।</string>
-    <string name="drone_emergency_ultrasound">আল্ট্রাসাউন্ড সেন্সর সাড়া দিচ্ছে না।</string>
-    <string name="drone_emergency_angle">এআর.ড্রোন ২.০ ইউলারের কোণগুলি খুব বেশি গেছে। মোটরগুলি বিপজ্জনক আচরণ রোধ করতে বন্ধ করে দেয়।</string>
-    <string name="drone_emergency_cutout">এক বা একাধিক মোটর পরিবেশ দ্বারা বন্ধ ছিল।</string>
-    <string name="drone_alert_battery_low">ব্যাটারি খুব কম আবার খুলে ফেলতে।</string>
-    <string name="drone_alert_ultrasound">আল্ট্রাসাউন্ড সেন্সর এআর.ড্রোন ২.০ উচ্চতা নির্ধারণ করতে পারে না।</string>
-    <string name="drone_alert_vision">নীচের মুখের ক্যামেরা থেকে গতির কোনও অনুমান নেই।</string>
-    <string name="drone_emergency_title">জরুরী</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">এই অ্যাপ্লিকেশনটির সঠিকভাবে কাজ করার জন্য অনুরোধ করা অনুমতিগুলি দরকার। উদাহরণস্বরূপ, ক্যামেরা ব্রিক ডিভাইসের ক্যামেরায় অ্যাক্সেস প্রয়োজন, \"অবস্থান\" সূত্র উপাদানটি ডিভাইসের ভূ-অবস্থান সেন্সরটিতে অ্যাক্সেসের প্রয়োজন, এবং স্থানীয় মেমরি থেকে এবং আমদানি ও রফতানি করতে অ্যাপ্লিকেশনটিকে এটি পড়তে এবং লেখার অ্যাক্সেসের প্রয়োজন । আপনি সর্বদা আপনার ডিভাইসের সেটিংসের মাধ্যমে অনুমতিগুলি পরিবর্তন করতে পারেন।</string>
@@ -1166,18 +1135,6 @@
     <string name="error_upload_default_project">আপনি একটি অপরিবর্তিত উদাহরণ প্রজেক্ট আপলোড করতে পারবেন না। দয়া করে কিছু পরিবর্তন করুন এবং আবার চেষ্টা করুন।</string>
     <string name="error_adding_brick">এই ব্রিকটি যুক্ত করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_copying_brick">এই ব্রিকটি অনুলিপি করার সময় কিছু ভুল হয়েছে।</string>
-    <string name="error_no_drone_connected_title">এআর.ড্রোন ২.০ খুঁজে পাচ্ছেন না।</string>
-    <string name="error_no_drone_connected">আপনার ওয়াইফাইটি এআর.ড্রোন ২.০ এর সাথে সংযুক্ত করুন এবং আবার চেষ্টা করুন।</string>
-    <string name="error_drone_low_battery_title">এআর.ড্রোন ২.০ ব্যাটারি কম: %d%%</string>
-    <string name="error_drone_low_battery">চার্জযুক্ত ব্যাটারি প্রবেশ করান এবং আবার চেষ্টা করুন।</string>
-    <string name="error_jumpingsumo_wrong_platform">আমরা আপনার ডিভাইসে একটি জাম্পিং সুমো প্রজেক্ট চালাতে পারি না।</string>
-    <string name="error_no_jumpingsumo_connected_title">জাম্পিং সুমো খুঁজে পাচ্ছেন না</string>
-    <string name="error_no_jumpingsumo_connected">আপনার ওয়াইফাইটি জাম্পিং সুমোর সাথে সংযুক্ত করুন এবং আবার চেষ্টা করুন।</string>
-    <string name="error_jumpingsumo_battery_title">জাম্পিং সুমোর ব্যাটারি কম</string>
-    <string name="error_jumpingsumo_battery">চার্জযুক্ত ব্যাটারি প্রবেশ করান এবং আবার চেষ্টা করুন।</string>
-    <string name="error_jumpingsumo_wrong_platform_title">জাম্পিং সুমো সমর্থন নেই</string>
-    <string name="error_drone_wrong_platform_title">এআর.ড্রোন 2.0 সমর্থন নেই।</string>
-    <string name="error_drone_wrong_platform">আমরা আপনার ডিভাইসে একটি এআর.ড্রোন ২.০ প্রজেক্ট চালাতে পারি না।</string>
     <string name="error_rename_incompatible_project">একটি অসঙ্গত প্রকল্পের নামকরণ সম্ভব নয়।</string>
     <string name="error_embroidery_file_export">সূচিকর্ম ফাইলটি শেয়ার করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_unknown_error">কিছু একটা ভুল হয়েছে</string>
@@ -1363,19 +1320,7 @@
     <string name="brick_jumping_sumo_taking_picture">জাম্পিং সুমো ছবি তোলা</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">আমার প্রথম জাম্পিং সুমো প্রজেক্ট</string>
-    <string name="add_look_jumping_sumo_video">জাম্পিং সুমো ভিডিও</string>
-    <string name="default_jumping_sumo_project_sprites_forward">সামনে</string>
-    <string name="default_jumping_sumo_project_sprites_backward">পিছনে</string>
-    <string name="default_jumping_sumo_project_sprites_animation">অ্যানিমেশন</string>
     <string name="default_jumping_sumo_project_sprites_sound">শব্দ</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">কোন শব্দ নেই</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">দীর্ঘ লাফ দাও</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">উচু লাফ</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">বাম দিকে ঘুরুন</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">ডান দিকে ঘুরুন</string>
-    <string name="default_jumping_sumo_project_sprites_flip">ফ্লিপ</string>
-    <string name="default_jumping_sumo_project_sprites_picture">ছবি তুলুন</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">ঘূর্ণন</string>
@@ -1553,16 +1498,6 @@
     <string name="formula_editor_sensor_time_hour">ঘন্টা</string>
     <string name="formula_editor_sensor_time_minute">মিনিট</string>
     <string name="formula_editor_sensor_time_second">সেকেন্ড</string>
-    <string name="formula_editor_sensor_drone_battery_status">ড্রোন ব্যাটারি স্থিতি</string>
-    <string name="formula_editor_sensor_drone_emergency_state">ড্রোন জরুরি অবস্থা</string>
-    <string name="formula_editor_sensor_drone_flying">ড্রোন উড়ন্ত</string>
-    <string name="formula_editor_sensor_drone_initialized">ড্রোন শুরু</string>
-    <string name="formula_editor_sensor_drone_usb_active">ড্রোন ইউএসবি সক্রিয়</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">ড্রোন ইউএসবি বাকি সময়</string>
-    <string name="formula_editor_sensor_drone_camera_ready">ড্রোন ক্যামেরা প্রস্তুত</string>
-    <string name="formula_editor_sensor_drone_record_ready">ড্রোন রেকর্ড প্রস্তুত</string>
-    <string name="formula_editor_sensor_drone_recording">ড্রোন ক্যামেরা রেকর্ডিং</string>
-    <string name="formula_editor_sensor_drone_num_frames">ড্রোন ক্যামেরা ফ্রেম সংখ্যা</string>
     <string name="formula_editor_sensor_lego_nxt_1">এনএক্সটি সেন্সর ১</string>
     <string name="formula_editor_sensor_lego_nxt_2">এনএক্সটি সেন্সর ২</string>
     <string name="formula_editor_sensor_lego_nxt_3">এনএক্সটি সেন্সর ৩</string>
@@ -1637,7 +1572,6 @@
     <string name="formula_editor_device_arduino">আরডুইনো</string>
     <string name="formula_editor_device_phiro">ফিরো</string>
     <string name="formula_editor_device_raspberry">রাস্পবেরি পাই</string>
-    <string name="formula_editor_device_drone">ড্রোন</string>
     <string name="formula_editor_device_nfc">এনএফসি</string>
     <string name="formula_editor_device_cast">ক্রোমকাস্ট</string>
     <string name="formula_editor_string">বর্ণমালা</string>

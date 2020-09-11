@@ -23,25 +23,14 @@
 package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
-import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.ToastUtil;
-
-import java.io.IOException;
 
 import androidx.fragment.app.DialogFragment;
-
-import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DRONE;
-import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_JUMPING_SUMO;
 
 public class NewProjectDialogFragment extends DialogFragment {
 
@@ -53,14 +42,6 @@ public class NewProjectDialogFragment extends DialogFragment {
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
-		if (SettingsFragment.isDroneSharedPreferenceEnabled(getContext())) {
-			view.findViewById(R.id.project_default_drone_radio_button).setVisibility(View.VISIBLE);
-		}
-
-		if (JumpingSumoServiceWrapper.isJumpingSumoSharedPreferenceEnabled()) {
-			view.findViewById(R.id.project_default_jumping_sumo_radio_button).setVisibility(View.VISIBLE);
-		}
-
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setHint(getString(R.string.project_name_label))
 				.setTextWatcher(new NewProjectNameTextWatcher<>())
@@ -71,12 +52,6 @@ public class NewProjectDialogFragment extends DialogFragment {
 							break;
 						case R.id.project_default_radio_button:
 							showOrientationDialog(textInput, false);
-							break;
-						case R.id.project_default_drone_radio_button:
-							createARDroneProject(textInput);
-							break;
-						case R.id.project_default_jumping_sumo_radio_button:
-							createJumpingSumoProject(textInput);
 							break;
 						default:
 							throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
@@ -94,27 +69,5 @@ public class NewProjectDialogFragment extends DialogFragment {
 		OrientationDialogFragment
 				.newInstance(projectName, createEmptyProject)
 				.show(getFragmentManager(), OrientationDialogFragment.TAG);
-	}
-
-	void createARDroneProject(String name) {
-		try {
-			ProjectManager.getInstance()
-					.createNewExampleProject(name, getContext(), PROJECT_CREATOR_DRONE, false);
-			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			startActivity(intent);
-		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_new_project);
-		}
-	}
-
-	void createJumpingSumoProject(String name) {
-		try {
-			ProjectManager.getInstance()
-					.createNewExampleProject(name, getContext(), PROJECT_CREATOR_JUMPING_SUMO, false);
-			Intent intent = new Intent(getActivity(), ProjectActivity.class);
-			startActivity(intent);
-		} catch (IOException e) {
-			ToastUtil.showError(getActivity(), R.string.error_new_project);
-		}
 	}
 }

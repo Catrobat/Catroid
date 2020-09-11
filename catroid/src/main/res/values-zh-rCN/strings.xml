@@ -478,8 +478,6 @@
     <string name="new_project_dialog_title">新建程序</string>
     <string name="new_project_empty">创新新程序</string>
     <string name="new_project_default">创建示例程序</string>
-    <string name="new_project_default_drone">创建一个示例AR.无人机2.0 项目</string>
-    <string name="new_project_default_jumping_sumo">创建Jumping Sumo示例程序</string>
     <string name="project_orientation_title">方向：</string>
     <string name="project_select_screen_title">屏幕：</string>
     <!--  -->
@@ -496,7 +494,6 @@
     <string name="add_look_draw_new_image">绘制图像</string>
     <string name="add_look_choose_image">选择图像</string>
     <string name="add_look_media_library">媒体库</string>
-    <string name="add_look_drone_video">AR.无人机 2.0 视频</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">添加声音</string>
@@ -519,12 +516,8 @@
     <string name="dialog_terms_of_use_link_text">使用与服务条例</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">使用与服务条例</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">您即将使用此应用与 Parrot 的AR.无人机2.0。 我们强烈提醒您遵守Parrot和Catrobat的使用和服务条款。</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">不要再次提醒我。</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">您即将使用这个应用程序与Parrot Jumping Sumo。 我们强烈提醒您遵守Parrot和Catrobat的使用条款和服务。</string>
     <!--  -->
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">隐私策略</string>
@@ -696,7 +689,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_resource_not_available_title">组件不可用</string>
     <string name="prestage_resource_not_available_text">不幸此项目无法在您的设备上运行。
 以下组件不可用:\n\n</string>
-    <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 倾角传感器\n</string>
@@ -705,7 +697,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_text_to_speech_error">\u2022 文字转语音引擎\n</string>
     <string name="prestage_no_back_camera_available">\u2022 后置摄像头\n</string>
     <string name="prestage_no_camera_available">\u2022 人脸侦测\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 前置摄像头\n</string>
     <string name="prestage_default_resource_not_available">\u2022 未知部件\n</string>
     <string name="no_nfc_available">NFC 不可用</string>
@@ -1018,18 +1009,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="default_cast_project_var_direction">方向</string>
     <string name="default_cast_project_name">我的第一个Cast程序</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">我的第一个AR.无人机 2.0 项目</string>
-    <string name="default_drone_project_sprites_takeoff">起飞</string>
-    <string name="default_drone_project_sprites_flip">翻转</string>
-    <string name="default_drone_project_sprites_up">上升</string>
-    <string name="default_drone_project_sprites_down">下降</string>
-    <string name="default_drone_project_sprites_left">左移</string>
-    <string name="default_drone_project_sprites_right">右移</string>
-    <string name="default_drone_project_sprites_forward">前进</string>
-    <string name="default_drone_project_sprites_back">后退</string>
-    <string name="default_drone_project_sprites_turn_left">左转</string>
-    <string name="default_drone_project_sprites_turn_right">右转</string>
-    <string name="default_drone_project_sprites_emergency">紧急情况</string>
     <string name="drone_brick_set_text">文本</string>
     <string name="drone_brick_set_x">X：</string>
     <!--  -->
@@ -1076,17 +1055,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="notification_download_pending">正在下载</string>
     <string name="notification_download_finished">下载完成</string>
     <string name="notification_title_open">"打开 "</string>
-    <string name="notification_low_battery_with_value">注意。电池电量低。当前状态是 %d</string>
     <string name="size_of_project">大小：</string>
-    <string name="drone_emergency_battery_low">电池电量太低 （自动着陆）。</string>
-    <string name="drone_emergency_camera">一个或多个摄像头没有响应。</string>
-    <string name="drone_emergency_ultrasound">超声波传感器无响应</string>
-    <string name="drone_emergency_angle">AR.无人机2.0 Euler 角度过高。关闭引擎以防止危险行为。</string>
-    <string name="drone_emergency_cutout">一个或多个马达受环境影响停止。</string>
-    <string name="drone_alert_battery_low">电量过低，无法再次起飞。</string>
-    <string name="drone_alert_ultrasound">超声波传感器无法确定AR 2.0无人机的高度。</string>
-    <string name="drone_alert_vision">底部摄像头无法估算出速度。</string>
-    <string name="drone_emergency_title">紧急情况</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1111,18 +1080,6 @@ needs read and write access to it. You can always change permissions through you
         change something and try again.</string>
     <string name="error_adding_brick">在添加积木的时候发生了一个错误。</string>
     <string name="error_copying_brick">在复制积木的时候发生了一个错误。</string>
-    <string name="error_no_drone_connected_title">找不到AR 2.0无人机</string>
-    <string name="error_no_drone_connected">将AR 2.0无人机连接到您的无线网络，然后重试。</string>
-    <string name="error_drone_low_battery_title">AR2.0无人机电量低: %d%%</string>
-    <string name="error_drone_low_battery">插入充好电的电池，然后重试。</string>
-    <string name="error_jumpingsumo_wrong_platform">我们无法在您的设备上运行Jumping Sumo项目。</string>
-    <string name="error_no_jumpingsumo_connected_title">找不到Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">将您的Jumping Sumo连接到您的无线网络，然后重试。</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo电量低</string>
-    <string name="error_jumpingsumo_battery">插入充好电的电池，然后重试。</string>
-    <string name="error_jumpingsumo_wrong_platform_title">暂不支持Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">暂不支持AR无人机2.0</string>
-    <string name="error_drone_wrong_platform">我们无法在您的设备上运行AR2.0无人机项目。</string>
     <string name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_unknown_error">发生未知错误。</string>
@@ -1309,19 +1266,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">Jumping Sumo拍摄照片</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">我的第一个Jumping Sumo程序</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo视频</string>
-    <string name="default_jumping_sumo_project_sprites_forward">前进</string>
-    <string name="default_jumping_sumo_project_sprites_backward">后退</string>
-    <string name="default_jumping_sumo_project_sprites_animation">动画</string>
     <string name="default_jumping_sumo_project_sprites_sound">声音</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">静音</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">长距离跳跃</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">跳高</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">左转</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">右转</string>
-    <string name="default_jumping_sumo_project_sprites_flip">翻转</string>
-    <string name="default_jumping_sumo_project_sprites_picture">拍照</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">旋转</string>
@@ -1499,16 +1444,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_time_hour">小时</string>
     <string name="formula_editor_sensor_time_minute">分钟</string>
     <string name="formula_editor_sensor_time_second">秒</string>
-    <string name="formula_editor_sensor_drone_battery_status">无人机电池状态</string>
-    <string name="formula_editor_sensor_drone_emergency_state">无人机应急警报状态</string>
-    <string name="formula_editor_sensor_drone_flying">无人机正在飞行</string>
-    <string name="formula_editor_sensor_drone_initialized">无人机已初始化</string>
-    <string name="formula_editor_sensor_drone_usb_active">无人机USB启用</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">无人机usb剩余时间</string>
-    <string name="formula_editor_sensor_drone_camera_ready">无人机相机已就绪</string>
-    <string name="formula_editor_sensor_drone_record_ready">无人机录像已就绪</string>
-    <string name="formula_editor_sensor_drone_recording">无人机录像中</string>
-    <string name="formula_editor_sensor_drone_num_frames">无人机镜头数</string>
     <string name="formula_editor_sensor_lego_nxt_1">NXT传感器1</string>
     <string name="formula_editor_sensor_lego_nxt_2">NXT传感器2</string>
     <string name="formula_editor_sensor_lego_nxt_3">NXT传感器3</string>
@@ -1583,7 +1518,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
     <string name="formula_editor_device_raspberry">树莓派</string>
-    <string name="formula_editor_device_drone">无人机</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Cast</string>
     <string name="formula_editor_string">文本</string>
