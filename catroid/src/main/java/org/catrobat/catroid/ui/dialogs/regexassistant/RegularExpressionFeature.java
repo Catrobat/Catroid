@@ -21,24 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.dialogs;
+package org.catrobat.catroid.ui.dialogs.regexassistant;
 
 import android.content.Context;
 
-import org.catrobat.catroid.R;
+public abstract class RegularExpressionFeature {
 
-import androidx.appcompat.app.AlertDialog;
+	int titleId;
 
-public class RegularExpressionAssistantDialog {
-	public void createAssistant(Context context) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+	public abstract void openDialog(Context context);
 
-		builder.setView(R.layout.dialog_regular_expression_assistant);
-		builder.setTitle(R.string.formula_editor_dialog_regular_expression_assistant_title);
-		builder.setNegativeButton(R.string.cancel, null);
-
-		AlertDialog dialog = builder.create();
-
-		dialog.show();
+	public int getTitleId() {
+		return titleId;
 	}
 }

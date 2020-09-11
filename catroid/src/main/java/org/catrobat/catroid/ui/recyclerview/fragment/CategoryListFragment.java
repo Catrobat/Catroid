@@ -42,7 +42,7 @@ import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
-import org.catrobat.catroid.ui.dialogs.RegularExpressionAssistantDialog;
+import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter.CategoryListItem;
@@ -339,7 +339,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private void openRegularExpressionAssistant() {
-		new RegularExpressionAssistantDialog().createAssistant(getContext());
+		new RegularExpressionAssistantDialog(getContext()).createAssistant();
 	}
 
 	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserList> projectUserList, List<UserList> spriteUserList,
