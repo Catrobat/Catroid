@@ -62,27 +62,53 @@ public class RegularExpressionAssistantDialogTest {
 		script.addBrick(new ChangeSizeByNBrick(0));
 		baseActivityTestRule.launchActivity();
 
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
+	}
+
+	private void clickOnAssistantInFunctionList() {
 		String regularExpressionAssistant =
 				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
-
-		onBrickAtPosition(1).onChildView(withId(R.id.brick_change_size_by_edit_text)).perform(click());
 		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(regularExpressionAssistant);
 	}
 
 	@Test
 	public void testDialogTitle() {
+		clickOnAssistantInFunctionList();
 		onView(withText(R.string.formula_editor_dialog_regular_expression_assistant_title)).check(matches(isDisplayed()));
 	}
 
 	@Test
 	public void testCancelButton() {
+		clickOnAssistantInFunctionList();
 		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
 	}
 
 	@Test (expected = NoMatchingViewException.class)
 	public void testCancelButtonFunctionality() {
+		clickOnAssistantInFunctionList();
 		onView(withText(R.string.cancel)).perform(click());
 
 		onView(withText(R.string.cancel)).check(matches(isDisplayed()));
+	}
+
+	@Test //refactor to wiki button or html extract once they are implemented
+	public void testIsDummyFeatureInList() {
+		//setup
+		clickOnAssistantInFunctionList();
+
+		//test
+		onView(withText(R.string.formula_editor_function_regex_assistant_dummy)).check(matches(isDisplayed()));
+	}
+
+	@Test //refactor to wiki button or html extract once they are implemented
+	public void testDoesDummyOpenCorrectDialog() {
+		//setup
+		clickOnAssistantInFunctionList();
+
+		//test
+		onView(withText(R.string.formula_editor_function_regex_assistant_dummy)).perform(click()); //clicke auf dummy
+		String nameOfDummyDialog =
+				UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant_dummy) + "Dialog";
+		onView(withText(nameOfDummyDialog)).check(matches(isDisplayed()));
 	}
 }
