@@ -41,7 +41,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.GET_TASKS" tools:node="remove" />
 
     <uses-feature
         android:name="android.hardware.camera2"
@@ -93,7 +92,8 @@
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         tools:replace="android:label,android:allowBackup"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="UnusedAttribute">
 
         <activity
             android:name=".ui.SettingsActivity"

@@ -62,20 +62,11 @@ public class DroneTurnLeftBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(ARDRONE_SUPPORT);
-		super.addRequiredResources(requiredResourcesSet);
-	}
-
-	@Override
 	public BrickField getDefaultBrickField() {
 		return BrickField.DRONE_TIME_TO_FLY_IN_SECONDS;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDroneTurnLeftAction(sprite,
-				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
-				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 	}
 }

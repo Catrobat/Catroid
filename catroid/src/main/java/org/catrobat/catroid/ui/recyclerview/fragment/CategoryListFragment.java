@@ -198,12 +198,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_phiro_sensor_bottom_right);
 	private static final List<Integer> SENSORS_ARDUINO = asList(R.string.formula_editor_function_arduino_read_pin_value_analog,
 			R.string.formula_editor_function_arduino_read_pin_value_digital);
-	private static final List<Integer> SENSORS_DRONE = asList(R.string.formula_editor_sensor_drone_battery_status,
-			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
-			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
-			R.string.formula_editor_sensor_drone_usb_remaining_time, R.string.formula_editor_sensor_drone_camera_ready,
-			R.string.formula_editor_sensor_drone_record_ready, R.string.formula_editor_sensor_drone_recording,
-			R.string.formula_editor_sensor_drone_num_frames);
 	private static final List<Integer> SENSORS_RASPBERRY = singletonList(R.string.formula_editor_function_raspi_read_pin_value_digital);
 	private static final List<Integer> SENSORS_RASPBERRY_PARAMS = singletonList(R.string.formula_editor_function_pin_default_parameter);
 	private static final List<Integer> SENSORS_NFC = asList(R.string.formula_editor_nfc_tag_id,
@@ -562,7 +556,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getEv3SensorItems());
 		result.addAll(getPhiroSensorItems());
 		result.addAll(getArduinoSensorItems());
-		result.addAll(getDroneSensorItems());
 		result.addAll(getRaspberrySensorItems());
 		result.addAll(getNfcItems());
 		result.addAll(getCastGamepadSensorItems());
@@ -640,12 +633,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private List<CategoryListItem> getArduinoSensorItems() {
 		return SettingsFragment.isArduinoSharedPreferenceEnabled(getActivity().getApplicationContext())
 				? addHeader(toCategoryListItems(SENSORS_ARDUINO), getString(R.string.formula_editor_device_arduino))
-				: Collections.emptyList();
-	}
-
-	private List<CategoryListItem> getDroneSensorItems() {
-		return SettingsFragment.isDroneSharedPreferenceEnabled(getActivity().getApplicationContext())
-				? addHeader(toCategoryListItems(SENSORS_DRONE), getString(R.string.formula_editor_device_drone))
 				: Collections.emptyList();
 	}
 

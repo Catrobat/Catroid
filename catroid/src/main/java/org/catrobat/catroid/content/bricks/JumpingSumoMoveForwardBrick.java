@@ -53,20 +53,11 @@ public class JumpingSumoMoveForwardBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(JUMPING_SUMO);
-		super.addRequiredResources(requiredResourcesSet);
-	}
-
-	@Override
 	public BrickField getDefaultBrickField() {
 		return BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveForwardAction(sprite,
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
-				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
 	}
 }

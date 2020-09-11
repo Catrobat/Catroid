@@ -37,11 +37,5 @@ public class DroneFlipBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDroneFlipAction());
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(ARDRONE_SUPPORT);
 	}
 }

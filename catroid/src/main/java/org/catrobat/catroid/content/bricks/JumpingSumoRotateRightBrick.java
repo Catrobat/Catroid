@@ -50,15 +50,7 @@ public class JumpingSumoRotateRightBrick extends FormulaBrick {
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(JUMPING_SUMO);
-		super.addRequiredResources(requiredResourcesSet);
-	}
-
-	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createJumpingSumoRotateRightAction(sprite, getFormulaWithBrickField(BrickField.JUMPING_SUMO_ROTATE)));
 	}
 }
 

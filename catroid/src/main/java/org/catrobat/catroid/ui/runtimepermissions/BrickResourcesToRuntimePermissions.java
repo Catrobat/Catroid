@@ -65,8 +65,6 @@ public final class BrickResourcesToRuntimePermissions {
 		brickResourcesToPermissions.put(Brick.BLUETOOTH_PHIRO, bluetoothPermissions);
 		brickResourcesToPermissions.put(Brick.BLUETOOTH_SENSORS_ARDUINO, bluetoothPermissions);
 		List<String> wifiPermissions = Arrays.asList(CHANGE_WIFI_MULTICAST_STATE, CHANGE_WIFI_STATE, ACCESS_WIFI_STATE);
-		brickResourcesToPermissions.put(Brick.ARDRONE_SUPPORT, wifiPermissions);
-		brickResourcesToPermissions.put(Brick.JUMPING_SUMO, wifiPermissions);
 		brickResourcesToPermissions.put(Brick.CAST_REQUIRED, wifiPermissions);
 		brickResourcesToPermissions.put(Brick.CAMERA_BACK, Arrays.asList(CAMERA));
 		brickResourcesToPermissions.put(Brick.CAMERA_FRONT, Arrays.asList(CAMERA));
