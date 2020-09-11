@@ -63,6 +63,7 @@ import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
+import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
@@ -72,7 +73,6 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.web.WebpageUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -388,15 +388,15 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		int titleId = R.string.formula_editor_dialog_change_regular_expression;
 
 		builder.setNeutralButton(R.string.assistant,
-				(DialogInterface.OnClickListener) (dialog, textInput) -> openWikiPage());
+				(DialogInterface.OnClickListener) (dialog, textInput) -> openAssistantDialog());
 
 		builder.setTitle(titleId)
 				.setNegativeButton(R.string.cancel, null)
 				.show();
 	}
 
-	private void openWikiPage() {
-		WebpageUtils.openWikiPage(getContext());
+	private void openAssistantDialog() {
+		new RegularExpressionAssistantDialog(getContext()).createAssistant();
 	}
 
 	private void showNewStringDialog() {
