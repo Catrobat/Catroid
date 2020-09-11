@@ -33,6 +33,13 @@ public class HtmlRegexExtractor {
 		this.context = context;
 	}
 	public void searchKeyword(String search, String text) {
-		ToastUtil.showError(context, R.string.formula_editor_function_regex_html_extractor_not_found);
+		int index = text.indexOf(search);
+		if (index >= 0) {
+			ToastUtil.showSuccess(context,
+					R.string.formula_editor_function_regex_html_extractor_found);
+		} else {
+			ToastUtil.showError(context,
+					R.string.formula_editor_function_regex_html_extractor_not_found);
+		}
 	}
 }
