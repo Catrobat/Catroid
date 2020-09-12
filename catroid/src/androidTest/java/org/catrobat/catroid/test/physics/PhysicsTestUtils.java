@@ -108,7 +108,7 @@ public final class PhysicsTestUtils {
 
 	public static LookData generateLookData(File testImage) {
 		LookData lookData = new LookData();
-		lookData.setTextureRegion(new TextureRegion(mock(Texture.class)));
+		lookData.setTextureRegion(new TextureRegion(mock(Texture.class), 0.0f, 0.0f, 1.0f, 1.0f));
 		lookData.setFile(testImage);
 		lookData.setName(testImage.getName());
 		Pixmap pixmap = PhysicsTestUtils.getPixmapFromFile(testImage);

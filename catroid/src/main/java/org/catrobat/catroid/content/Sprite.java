@@ -102,6 +102,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient boolean isClone = false;
 	public transient Sprite myOriginal = null;
 
+	public transient boolean movedByStepsBrick = false;
+
 	public Sprite() {
 	}
 
