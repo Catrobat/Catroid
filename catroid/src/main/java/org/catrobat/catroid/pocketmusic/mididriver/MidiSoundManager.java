@@ -40,7 +40,7 @@ import androidx.annotation.VisibleForTesting;
 
 public class MidiSoundManager {
 	private MusicalInstrument instrument = Project.DEFAULT_INSTRUMENT;
-	private int tempo = 100;
+	private float tempo = 100.0f;
 	private float volume = 70.0f;
 
 	public static final int MAX_MIDI_PLAYERS = 15;
@@ -51,6 +51,9 @@ public class MidiSoundManager {
 	private final List<MidiPlayer> midiPlayers = new ArrayList<>(MAX_MIDI_PLAYERS);
 
 	private Set<SoundFilePathWithSprite> startedSoundfilePaths = new HashSet<>();
+
+	private static final int MIN_TEMPO_PERCENT = 20;
+	private static final int MAX_TEMPO_PERCENT = 500;
 
 	@VisibleForTesting
 	public MidiSoundManager() {
@@ -151,11 +154,17 @@ public class MidiSoundManager {
 		return instrument;
 	}
 
-	public void setTempo(int tempoParam) {
-		tempo = tempoParam;
+	public void setTempo(float tempo) {
+		if (tempo > MAX_TEMPO_PERCENT) {
+			this.tempo = MAX_TEMPO_PERCENT;
+		} else if (tempo < MIN_TEMPO_PERCENT) {
+			this.tempo = MIN_TEMPO_PERCENT;
+		} else {
+			this.tempo = tempo;
+		}
 	}
 
-	public int getTempo() {
+	public float getTempo() {
 		return tempo;
 	}
 

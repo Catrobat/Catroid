@@ -55,7 +55,7 @@ public class MidiPlayer {
 	private String sourceFilePath;
 
 	private MusicalInstrument instrument;
-	private int tempo;
+	private float tempo;
 	private float volume;
 	private Sprite startedBySprite;
 
@@ -125,7 +125,7 @@ public class MidiPlayer {
 		notePlayer.setVolume(channel, (int) volume);
 
 		long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
-		playLength /= tempo / 100;
+		playLength /= (tempo / 100f);
 
 		startTime = System.currentTimeMillis();
 
@@ -139,19 +139,13 @@ public class MidiPlayer {
 				}
 				List<NoteEvent> noteEventList = track.getNoteEventsForTick(tick);
 				for (NoteEvent noteEvent : noteEventList) {
-
-					MidiRunnable runnable;
 					if (noteEvent.isNoteOn()) {
-						runnable = new MidiRunnable(MidiSignals.NOTE_ON, noteEvent.getNoteName(),
+						MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, noteEvent.getNoteName(),
 								playLength, handler, notePlayer, null, channel);
-						runnable.setManualNoteOff(true);
-					} else {
-						runnable = new MidiRunnable(MidiSignals.NOTE_OFF, noteEvent.getNoteName(),
-								playLength, handler, notePlayer, null, channel);
+						runnable.setScheduledTime(startTime + (long) (tick / (tempo / 100)));
+						handler.postDelayed(runnable, (long) (tick / (tempo / 100)));
+						playRunnables.add(runnable);
 					}
-					runnable.setScheduledTime(startTime + tick / (tempo / 100));
-					handler.postDelayed(runnable, tick / (tempo / 100));
-					playRunnables.add(runnable);
 				}
 			}
 		}
@@ -203,7 +197,7 @@ public class MidiPlayer {
 		this.instrument = instrument;
 	}
 
-	public void setTempo(int tempo) {
+	public void setTempo(float tempo) {
 		this.tempo = tempo;
 	}
 
@@ -227,7 +221,7 @@ public class MidiPlayer {
 		return instrument;
 	}
 
-	public int getTempo() {
+	public float getTempo() {
 		return tempo;
 	}
 
