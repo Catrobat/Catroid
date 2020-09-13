@@ -53,4 +53,8 @@
     <string name="terms_of_use_link_template" translatable="false">&lt;a href=%1$s>%2$s&lt;/a></string>
     <string name="preference_raspi_help_link">https://catrob.at/RaspberryPi</string>
 
+    <!-- name of shared preference file used for storing names of approved projects -->
+    <string name="preference_approved_list_file_key" translatable="false">
+        security_warning_approved_projects</string>
+
 </resources>

@@ -474,11 +474,8 @@ public class CategoryBricksFactory {
 					BrickValues.PHIRO_DURATION));
 		}
 		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
-
-		if (BuildConfig.FEATURE_START_LISTENING_BRICK_ENABLED) {
-			soundBrickList.add(new StartListeningBrick());
-			soundBrickList.add(new SetListeningLanguageBrick());
-		}
+		soundBrickList.add(new StartListeningBrick());
+		soundBrickList.add(new SetListeningLanguageBrick());
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new SetTempoBrick(100));
@@ -603,9 +600,7 @@ public class CategoryBricksFactory {
 			dataBrickList.add(new WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)));
 		}
 
-		if (BuildConfig.FEATURE_START_LISTENING_BRICK_ENABLED) {
-			dataBrickList.add(new StartListeningBrick());
-		}
+		dataBrickList.add(new StartListeningBrick());
 
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			dataBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
@@ -640,9 +635,7 @@ public class CategoryBricksFactory {
 		deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
 		deviceBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
-		if (BuildConfig.FEATURE_START_LISTENING_BRICK_ENABLED) {
-			deviceBrickList.add(new StartListeningBrick());
-		}
+		deviceBrickList.add(new StartListeningBrick());
 
 		if (!ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			deviceBrickList.add(new CameraBrick());
