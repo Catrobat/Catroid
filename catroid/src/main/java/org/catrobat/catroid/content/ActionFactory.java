@@ -935,7 +935,7 @@ public class ActionFactory extends Actions {
 
 	public Action createForeverAction(Sprite sprite, ScriptSequenceAction foreverSequence) {
 		RepeatAction action = Actions.action(RepeatAction.class);
-		action.setIsForeverRepeat(true);
+		action.setForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
 		return action;
