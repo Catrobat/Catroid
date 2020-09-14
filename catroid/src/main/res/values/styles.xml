@@ -285,22 +285,22 @@
 
     <style name="BrickContainer.Device.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
-        <item name="android:background">@drawable/brick_silver_1h_when_9</item>
+        <item name="android:background">@drawable/brick_control_gold_1h</item>
     </style>
 
     <style name="BrickContainer.Device.MediumWhen">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_silver_2h_when_9</item>
+        <item name="android:background">@drawable/brick_control_gold_2h</item>
     </style>
 
     <style name="BrickContainer.Device.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
-        <item name="android:background">@drawable/brick_silver_2h</item>
+        <item name="android:background">@drawable/brick_gold_2h</item>
     </style>
 
     <style name="BrickContainer.Device.Big">
         <item name="android:minHeight">@dimen/brick_height_big</item>
-        <item name="android:background">@drawable/brick_silver_3h</item>
+        <item name="android:background">@drawable/brick_gold_3h</item>
     </style>
 
     <style name="BrickContainer.Embroidery"></style>
