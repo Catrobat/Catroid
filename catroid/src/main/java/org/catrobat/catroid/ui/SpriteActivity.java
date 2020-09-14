@@ -58,6 +58,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
@@ -178,7 +179,18 @@ public class SpriteActivity extends BaseActivity {
 
 		switch (fragmentPosition) {
 			case FRAGMENT_SCRIPTS:
-				fragmentTransaction.replace(R.id.fragment_container, new ScriptFragment(), ScriptFragment.TAG);
+				if(!SettingsFragment.useCatBlocks(this)) {
+					fragmentTransaction.replace(R.id.fragment_container, new ScriptFragment(currentProject),
+							ScriptFragment.TAG);
+				}
+				else {
+					Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+					Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+					fragmentTransaction.replace(R.id.fragment_container,
+							new CatblocksScriptFragment(currentProject, currentScene,
+									currentSprite, 0),
+							CatblocksScriptFragment.Companion.getTAG());
+				}
 				break;
 			case FRAGMENT_LOOKS:
 				fragmentTransaction.replace(R.id.fragment_container, new LookListFragment(), LookListFragment.TAG);

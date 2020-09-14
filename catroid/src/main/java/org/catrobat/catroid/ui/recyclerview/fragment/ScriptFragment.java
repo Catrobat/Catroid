@@ -35,6 +35,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -48,8 +50,10 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.CatblocksActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
@@ -63,12 +67,20 @@ import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.UniqueStringTextWatcher;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.IntDef;
@@ -76,6 +88,8 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
 
 public class ScriptFragment extends ListFragment implements
@@ -86,15 +100,23 @@ public class ScriptFragment extends ListFragment implements
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
 	@interface ActionModeType {
 	}
+
+	public ScriptFragment(Project currentProject) {
+		this.currentProject = currentProject;
+	}
+
+	private Project currentProject;
 
 	private static final int NONE = 0;
 	private static final int BACKPACK = 1;
 	private static final int COPY = 2;
 	private static final int DELETE = 3;
 	private static final int COMMENT = 4;
+	private static final int CATBLOCKS = 5;
+
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -263,6 +285,7 @@ public class ScriptFragment extends ListFragment implements
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -290,6 +313,9 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.id.comment_in_out:
 				prepareActionMode(COMMENT);
+				break;
+			case R.id.catblocks:
+				switchToCatblocks();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -657,6 +683,42 @@ public class ScriptFragment extends ListFragment implements
 		Intent intent = new Intent(getActivity(), BackpackActivity.class);
 		intent.putExtra(BackpackActivity.EXTRA_FRAGMENT_POSITION, BackpackActivity.FRAGMENT_SCRIPTS);
 		startActivity(intent);
+	}
+
+	private void switchToCatblocks() {
+
+		int scriptIndex = -1;
+
+		try {
+			int firstVisible = listView.getFirstVisiblePosition();
+
+			if(firstVisible >= 0)
+			{
+				Object firstBrick = listView.getItemAtPosition((firstVisible));
+
+				if(firstBrick != null && firstBrick instanceof Brick)
+				{
+					Script scriptOfBrick = ((Brick)firstBrick).getScript();
+
+					scriptIndex =
+							ProjectManager.getInstance().getCurrentSprite().getScriptIndex(scriptOfBrick);
+				}
+			}
+		}
+		catch (Exception e) {}
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+
+		SettingsFragment.setUseCatBlocks(getContext(), true);
+
+		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(currentProject,
+				currentScene, currentSprite, scriptIndex);
+
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
+				CatblocksScriptFragment.Companion.getTAG());
+		fragmentTransaction.commit();
 	}
 
 	private void copy(List<Brick> selectedBricks) {

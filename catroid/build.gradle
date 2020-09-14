@@ -378,6 +378,9 @@ dependencies {
         exclude group: 'xmlpull'
     }
 
+    // Catblocks
+    implementation "androidx.webkit:webkit:1.2.0"
+
     // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'
     implementation 'com.github.billthefarmer:mididriver:v1.16'

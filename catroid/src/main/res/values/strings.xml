@@ -805,6 +805,8 @@
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
     <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/enable</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
 
 

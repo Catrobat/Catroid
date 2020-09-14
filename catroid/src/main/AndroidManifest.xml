@@ -198,6 +198,11 @@
             android:windowSoftInputMode="adjustNothing" />
 
         <activity
+            android:name=".ui.CatblocksActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing" />
+
+        <activity
             android:name=".ui.ScratchConverterActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">
