@@ -28,7 +28,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.actions.ScriptSequenceActionWithWaiter;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -45,7 +46,7 @@ public class ThreadScheduler {
 	public static final int RUNNING = 0;
 	public static final int SUSPENDED = 1;
 
-	private Array<EventThread> startQueue = new Array<>();
+	private Array<ScriptSequenceAction> startQueue = new Array<>();
 	private Array<Action> stopQueue = new Array<>();
 	private Actor actor;
 	@SchedulerState
@@ -63,7 +64,7 @@ public class ThreadScheduler {
 	}
 
 	private void startThreadsInStartQueue() {
-		for (EventThread thread : startQueue) {
+		for (ScriptSequenceAction thread : startQueue) {
 			thread.restart();
 			actor.addAction(thread);
 		}
@@ -82,24 +83,26 @@ public class ThreadScheduler {
 	private void stopThreadsInStopQueue(Array<Action> actions) {
 		actions.removeAll(stopQueue, true);
 		for (Action action : stopQueue) {
-			if (action instanceof EventThread) {
-				((EventThread) action).notifyWaiter();
+			if (action instanceof ScriptSequenceActionWithWaiter) {
+				((ScriptSequenceActionWithWaiter) action).notifyWaiter();
 			}
 		}
 		stopQueue.clear();
 	}
 
-	public void startThread(EventThread threadToBeStarted) {
-		removeThreadsWithEqualScriptFromStartQueue(threadToBeStarted);
-		startQueue.add(threadToBeStarted);
+	public void startThread(ScriptSequenceAction sequenceAction) {
+		removeThreadsWithEqualScriptFromStartQueue(sequenceAction);
+		startQueue.add(sequenceAction);
 	}
 
-	private void removeThreadsWithEqualScriptFromStartQueue(EventThread threadToBeStarted) {
-		Iterator<EventThread> iterator = startQueue.iterator();
+	private void removeThreadsWithEqualScriptFromStartQueue(ScriptSequenceAction sequenceAction) {
+		Iterator<ScriptSequenceAction> iterator = startQueue.iterator();
 		while (iterator.hasNext()) {
-			EventThread action = iterator.next();
-			if (action.getScript() == threadToBeStarted.getScript()) {
-				action.notifyWaiter();
+			ScriptSequenceAction action = iterator.next();
+			if (action.getScript() == sequenceAction.getScript()) {
+				if (action instanceof ScriptSequenceActionWithWaiter) {
+					((ScriptSequenceActionWithWaiter) action).notifyWaiter();
+				}
 				iterator.remove();
 			}
 		}
@@ -107,7 +110,7 @@ public class ThreadScheduler {
 
 	public void stopThreadsWithScript(Script script) {
 		for (Action action : actor.getActions()) {
-			if (action instanceof EventThread && ((EventThread) action).getScript() == script) {
+			if (action instanceof ScriptSequenceAction && ((ScriptSequenceAction) action).getScript() == script) {
 				stopQueue.add(action);
 			}
 		}

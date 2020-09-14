@@ -32,7 +32,7 @@ import org.catrobat.catroid.io.DeviceUserDataAccessor;
 
 import java.io.File;
 
-public class ReadListFromDeviceAction extends EventAction {
+public class ReadListFromDeviceAction extends AsynchronousAction {
 	private UserList userList;
 	private boolean readActionFinished;
 
@@ -41,13 +41,17 @@ public class ReadListFromDeviceAction extends EventAction {
 		if (userList == null) {
 			return true;
 		}
+		return super.act(delta);
+	}
 
-		if (firstStart) {
-			firstStart = false;
-			readActionFinished = false;
-			new ReadListFromDeviceAction.ReadTask().execute(userList);
-		}
+	@Override
+	public void initialize() {
+		readActionFinished = false;
+		new ReadListFromDeviceAction.ReadTask().execute(userList);
+	}
 
+	@Override
+	public boolean isFinished() {
 		return readActionFinished;
 	}
 

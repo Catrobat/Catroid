@@ -32,12 +32,13 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.SoundInfo;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -83,7 +84,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	public transient RunningStitch runningStitch = new RunningStitch();
 	private transient boolean convertToSingleSprite = false;
 	private transient boolean convertToGroupItemSprite = false;
-	private transient Multimap<EventId, EventThread> idToEventThreadMap = LinkedHashMultimap.create();
+	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 	private transient List<Integer> usedTouchPointer = new ArrayList<>();
 
@@ -297,14 +298,14 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		for (Script script : scriptList) {
 			createThreadAndAddToEventMap(script);
 		}
-		look.fire(new EventWrapper(new EventId(startType), EventWrapper.NO_WAIT));
+		look.fire(new EventWrapper(new EventId(startType), false));
 	}
 
 	private void createThreadAndAddToEventMap(Script script) {
 		if (script.isCommentedOut()) {
 			return;
 		}
-		idToEventThreadMap.put(script.createEventId(this), createEventThread(script));
+		idToEventThreadMap.put(script.createEventId(this), createSequenceAction(script));
 	}
 
 	public ActionFactory getActionFactory() {
@@ -344,8 +345,8 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return convertedSprite;
 	}
 
-	private EventThread createEventThread(Script script) {
-		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
+	private ScriptSequenceAction createSequenceAction(Script script) {
+		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
 		script.run(this, sequence);
 		return sequence;
 	}
@@ -538,7 +539,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return look.getZIndex() == Constants.Z_INDEX_BACKGROUND;
 	}
 
-	public Multimap<EventId, EventThread> getIdToEventThreadMap() {
+	public boolean isBackgroundSprite(Context context) {
+		return name.equals(context.getString(R.string.background));
+	}
+
+	public Multimap<EventId, ScriptSequenceAction> getIdToEventThreadMap() {
 		return idToEventThreadMap;
 	}
 

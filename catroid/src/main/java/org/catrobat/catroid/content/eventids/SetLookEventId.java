@@ -20,42 +20,43 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.bricks;
 
-import android.content.Context;
-import android.view.View;
-import android.widget.TextView;
+package org.catrobat.catroid.content.eventids;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-public class NextLookBrick extends BrickBaseType {
+public class SetLookEventId extends EventId {
+	public final Sprite sprite;
+	public final LookData lookData;
 
-	private static final long serialVersionUID = 1L;
-
-	public NextLookBrick() {
+	public SetLookEventId(Sprite sprite, LookData lookData) {
+		this.sprite = sprite;
+		this.lookData = lookData;
 	}
 
 	@Override
-	public int getViewResource() {
-		return R.layout.brick_next_look;
-	}
-
-	@Override
-	public View getView(Context context) {
-		super.getView(context);
-		if (ProjectManager.getInstance().getCurrentSprite().getName().equals(context.getString(R.string.background))) {
-			TextView textField = view.findViewById(R.id.brick_next_look_text_view);
-			textField.setText(R.string.brick_next_background);
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof SetLookEventId)) {
+			return false;
+		}
+		if (!super.equals(o)) {
+			return false;
 		}
 
-		return view;
+		SetLookEventId that = (SetLookEventId) o;
+
+		return sprite.equals(that.sprite) && lookData.equals(that.lookData);
 	}
 
 	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createNextLookAction(sprite));
+	public int hashCode() {
+		int result = super.hashCode();
+		result = 31 * result + sprite.hashCode();
+		result = 31 * result + (lookData != null ? lookData.hashCode() : 0);
+		return result;
 	}
 }

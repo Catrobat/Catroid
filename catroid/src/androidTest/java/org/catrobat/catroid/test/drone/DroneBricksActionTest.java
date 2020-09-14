@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
 import org.catrobat.catroid.content.bricks.DroneMoveBackwardBrick;
 import org.catrobat.catroid.content.bricks.DroneMoveDownBrick;
@@ -62,7 +62,7 @@ public class DroneBricksActionTest {
 
 	public TemporalAction action;
 	private Sprite sprite;
-	private EventThread sequenceAction;
+	private ScriptSequenceAction sequenceAction;
 	private int powerInPercent;
 	private int durationInSeconds;
 
@@ -79,7 +79,7 @@ public class DroneBricksActionTest {
 
 		DroneServiceWrapper.setDroneService(droneControlService);
 		sprite = new SingleSprite("droneTestSprite");
-		sequenceAction = (EventThread) ActionFactory.createEventThread(new StartScript());
+		sequenceAction = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 	}
 
 	private void addActionToSequenceAndAct(BrickBaseType brick) {

@@ -68,7 +68,7 @@ public class ScriptSequenceAction extends SequenceAction {
 	}
 
 	public ScriptSequenceAction clone() {
-		ScriptSequenceAction copy = (ScriptSequenceAction) ActionFactory.eventSequence(script);
+		ScriptSequenceAction copy = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
 		for (Action childAction : getActions()) {
 			copy.addAction(childAction);
 		}

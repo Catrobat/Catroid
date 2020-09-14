@@ -141,7 +141,7 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {

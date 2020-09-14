@@ -20,38 +20,22 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.bricks;
+import org.catrobat.catroid.content.eventids.EventId
+import org.catrobat.catroid.formulaeditor.Formula
 
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.ScriptSequenceAction;
-import org.catrobat.catroid.formulaeditor.Formula;
+abstract class SetRelativeLookAction : SetLookByIndexAction() {
+    abstract val change: Int
 
-public class SetLookByIndexBrick extends FormulaBrick {
-	private static final long serialVersionUID = 1L;
-
-	public SetLookByIndexBrick() {
-		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_look_by_index_edit_text);
-	}
-
-	public SetLookByIndexBrick(int index) {
-		this(new Formula(index));
-	}
-
-	public SetLookByIndexBrick(Formula formula) {
-		this();
-		setFormulaWithBrickField(BrickField.LOOK_INDEX, formula);
-	}
-
-	@Override
-	public int getViewResource() {
-		return R.layout.brick_set_look_by_index;
-	}
-
-	@Override
-	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX)));
-	}
+    override fun getEventId(): EventId? {
+        val lookList = sprite?.lookList
+        val currentLookData = sprite?.look?.lookData
+        val newIndex =
+            if (currentLookData != null && lookList?.contains(currentLookData) == true) {
+                (lookList.indexOf(currentLookData) + change + lookList.size) % lookList.size
+            } else -1
+        formula = Formula(newIndex + 1)
+        return super.getEventId()
+    }
 }

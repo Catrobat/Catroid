@@ -28,7 +28,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
@@ -48,6 +47,6 @@ public class SetBackgroundAndWaitBrick extends SetBackgroundBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetBackgroundLookAction(look, EventWrapper.WAIT));
+		sequence.addAction(sprite.getActionFactory().createSetBackgroundAction(look, true));
 	}
 }

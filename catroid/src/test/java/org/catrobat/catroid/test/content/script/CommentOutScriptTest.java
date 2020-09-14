@@ -40,7 +40,6 @@ import org.catrobat.catroid.content.WhenGamepadButtonScript;
 import org.catrobat.catroid.content.WhenNfcScript;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.WhenTouchDownScript;
-import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
@@ -107,7 +106,7 @@ public class CommentOutScriptTest {
 		script.addBrick(brick);
 		script.setCommentedOut(true);
 
-		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
+		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
 
 		script.run(sprite, sequence);
 
@@ -122,7 +121,7 @@ public class CommentOutScriptTest {
 		script.addBrick(brick);
 		script.getScriptBrick().setCommentedOut(true);
 
-		EventThread sequence = (EventThread) ActionFactory.createEventThread(script);
+		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
 
 		script.run(sprite, sequence);
 

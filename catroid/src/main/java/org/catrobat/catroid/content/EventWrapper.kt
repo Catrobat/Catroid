@@ -20,44 +20,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content
 
-import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Event
+import org.catrobat.catroid.content.eventids.EventId
 
-import org.catrobat.catroid.content.EventWrapper;
-import org.catrobat.catroid.content.Sprite;
+class EventWrapper(internal val eventId: EventId, private val wait: Boolean) : Event() {
+    private val spriteWaitList = mutableSetOf<Sprite>()
 
-import java.util.List;
+    fun notify(sprite: Sprite) {
+        spriteWaitList.remove(sprite)
+    }
 
-public class EventAction extends Action {
+    internal fun addSpriteToWaitList(sprite: Sprite) = wait.also {
+        if (it) spriteWaitList.add(sprite)
+    }
 
-	protected EventWrapper event;
-	boolean firstStart = true;
-	private List<Sprite> receivingSprites;
-
-	@Override
-	public boolean act(float delta) {
-		if (firstStart) {
-			firstStart = false;
-			for (Sprite spriteOfList : receivingSprites) {
-				spriteOfList.look.fire(event);
-			}
-		}
-		List<Sprite> spritesToWaitFor = event.getSpritesToWaitFor();
-
-		return spritesToWaitFor == null || spritesToWaitFor.size() == 0;
-	}
-
-	@Override
-	public void restart() {
-		firstStart = true;
-	}
-
-	public void setEvent(EventWrapper event) {
-		this.event = event;
-	}
-
-	public void setReceivingSprites(List<Sprite> receivingSprites) {
-		this.receivingSprites = receivingSprites;
-	}
+    fun isWaitingForSprite() = spriteWaitList.isNotEmpty()
 }

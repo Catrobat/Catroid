@@ -26,7 +26,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BroadcastEventId;
 import org.catrobat.catroid.content.eventids.RaspiEventId;
-import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
+import org.catrobat.catroid.content.eventids.SetLookEventId;
 import org.catrobat.catroid.content.eventids.WhenConditionEventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class EventIDHashCodeTest {
 	@Test
 	public void setBackgroundNullTest() {
 		Sprite sprite = Mockito.mock(Sprite.class);
-		SetBackgroundEventId backgroundEventId = new SetBackgroundEventId(sprite, null);
+		SetLookEventId backgroundEventId = new SetLookEventId(sprite, null);
 		assertEquals(backgroundEventId.hashCode(), sprite.hashCode() * 31);
 	}
 
@@ -52,7 +52,7 @@ public class EventIDHashCodeTest {
 	public void setBackgroundTest() {
 		Sprite sprite = Mockito.mock(Sprite.class);
 		LookData lookData = Mockito.mock(LookData.class);
-		SetBackgroundEventId backgroundEventId = new SetBackgroundEventId(sprite, lookData);
+		SetLookEventId backgroundEventId = new SetLookEventId(sprite, lookData);
 		assertEquals(backgroundEventId.hashCode(), sprite.hashCode() * 31 + lookData.hashCode());
 	}
 

@@ -43,7 +43,8 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ThreadScheduler;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.actions.ScriptSequenceActionWithWaiter;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -159,7 +160,7 @@ public class Look extends Image {
 
 		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
 				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
-			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), EventWrapper.NO_WAIT);
+			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), false);
 			sprite.look.fire(event);
 			return true;
 		}
@@ -210,9 +211,9 @@ public class Look extends Image {
 		}
 	}
 
-	public void startThread(EventThread threadToBeStarted) {
+	public void startThread(ScriptSequenceAction sequenceAction) {
 		if (scheduler != null) {
-			scheduler.startThread(threadToBeStarted);
+			scheduler.startThread(sequenceAction);
 		}
 	}
 
@@ -661,8 +662,8 @@ public class Look extends Image {
 
 	void notifyAllWaiters() {
 		for (Action action : getActions()) {
-			if (action instanceof EventThread) {
-				((EventThread) action).notifyWaiter();
+			if (action instanceof ScriptSequenceActionWithWaiter) {
+				((ScriptSequenceActionWithWaiter) action).notifyWaiter();
 			}
 		}
 	}

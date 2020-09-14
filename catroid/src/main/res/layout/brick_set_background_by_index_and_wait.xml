@@ -49,7 +49,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/brick_set_background_by_index_edit_text"
+            android:id="@+id/brick_set_background_by_index_wait_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true">

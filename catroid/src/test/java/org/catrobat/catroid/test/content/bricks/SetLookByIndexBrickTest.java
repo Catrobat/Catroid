@@ -41,7 +41,7 @@ import org.junit.runners.JUnit4;
 import org.mockito.Mockito;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 
 @RunWith(JUnit4.class)
@@ -71,7 +71,7 @@ public class SetLookByIndexBrickTest {
 
 		brick.addActionToSequence(sprite, new ScriptSequenceAction(Mockito.mock(Script.class)));
 
-		Mockito.verify(actionFactory).createSetLookByIndexAction(eq(sprite), any(Formula.class), anyInt());
+		Mockito.verify(actionFactory).createSetLookByIndexAction(eq(sprite), any(Formula.class));
 	}
 
 	@Test
@@ -82,6 +82,6 @@ public class SetLookByIndexBrickTest {
 
 		brick.addActionToSequence(sprite, new ScriptSequenceAction(Mockito.mock(Script.class)));
 
-		Mockito.verify(actionFactory).createSetBackgroundLookByIndexAction(eq(sprite), any(Formula.class), anyInt());
+		Mockito.verify(actionFactory).createSetBackgroundByIndexAction(eq(sprite), any(Formula.class), anyBoolean());
 	}
 }

@@ -20,10 +20,8 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.content.actions;
+package org.catrobat.catroid.content.actions
 
-public class PreviousLookAction extends NextLookAction {
-	public PreviousLookAction() {
-		direction = PREVIOUS;
-	}
+class SetPreviousLookAction : SetRelativeLookAction() {
+    override val change = -1
 }
