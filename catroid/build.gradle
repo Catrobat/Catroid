@@ -180,6 +180,7 @@ android {
         buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_REGULAR_EXPRESSION_ASSISTANT_ENABLED", "true"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
@@ -266,6 +267,7 @@ android {
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_REGULAR_EXPRESSION_ASSISTANT_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig signingConfigs.debug
         }

@@ -26,6 +26,7 @@ package org.catrobat.catroid.ui.dialogs.regexassistant;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 
 import java.util.ArrayList;
@@ -76,7 +77,9 @@ public class RegularExpressionAssistantDialog {
 	private void createListOfFeatures() {
 		listOfFeatures = new ArrayList<>();
 
-		listOfFeatures.add(new HtmlExtractorDialog());
+		if (BuildConfig.FEATURE_REGULAR_EXPRESSION_ASSISTANT_ENABLED) {
+			listOfFeatures.add(new HtmlExtractorDialog());
+		}
 		listOfFeatures.add(new WikiWebPage());
 	}
 }
