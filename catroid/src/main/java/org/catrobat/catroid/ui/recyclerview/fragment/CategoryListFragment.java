@@ -282,6 +282,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
+					addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem());
+					getActivity().onBackPressed();
 					openRegularExpressionAssistant();
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
@@ -336,6 +338,18 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			return;
 		}
 		addResourceToActiveFormulaInFormulaEditor(categoryListItem, projectUserList.get(projectUserList.size() - 1));
+	}
+
+	private CategoryListItem getRegularExpressionItem() {
+		CategoryListItem regexItem = null;
+
+		List<CategoryListItem> itemList = getFunctionItems();
+		for (CategoryListItem item : itemList) {
+			if (item.nameResId == R.string.formula_editor_function_regex) {
+				regexItem = item;
+			}
+		}
+		return regexItem;
 	}
 
 	private void openRegularExpressionAssistant() {
