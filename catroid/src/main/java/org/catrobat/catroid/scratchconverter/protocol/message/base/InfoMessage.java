@@ -30,15 +30,15 @@ import java.util.Arrays;
 public class InfoMessage extends BaseMessage {
 
 	private final Job[] jobList;
-	private final float catrobatLanguageVersion;
+	private final double catrobatLanguageVersion;
 
-	public InfoMessage(final float catrobatLanguageVersion, final Job[] jobList) {
+	public InfoMessage(final double catrobatLanguageVersion, final Job[] jobList) {
 		super();
 		this.catrobatLanguageVersion = catrobatLanguageVersion;
 		this.jobList = (jobList != null) ? Arrays.copyOf(jobList, jobList.length) : new Job[0];
 	}
 
-	public float getCatrobatLanguageVersion() {
+	public double getCatrobatLanguageVersion() {
 		return catrobatLanguageVersion;
 	}
 

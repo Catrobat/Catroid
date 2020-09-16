@@ -73,7 +73,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyFloat;
+import static org.mockito.Matchers.anyDouble;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -552,7 +552,7 @@ public class WebSocketClientTest {
 				+ "/download?job_id=2&client_id=" + VALID_CLIENT_ID + "&fname=Test%20program2";
 		expectedFinishedJob.setDownloadURL(expectedDownloadURL);
 
-		final float expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+		final double expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 
 		final Job[] expectedJobs = new Job[] {expectedUnscheduledJob, expectedFinishedJob};
 		final InfoMessage infoMessage = new InfoMessage(expectedCatrobatLanguageVersion, expectedJobs);
@@ -589,7 +589,7 @@ public class WebSocketClientTest {
 				assertNotNull(invocation.getArguments()[0]);
 				assertNotNull(invocation.getArguments()[1]);
 
-				final float catrobatLanguageVersion = (float) invocation.getArguments()[0];
+				final double catrobatLanguageVersion = (double) invocation.getArguments()[0];
 				final Job[] jobs = (Job[]) invocation.getArguments()[1];
 
 				assertEquals(expectedCatrobatLanguageVersion, catrobatLanguageVersion);
@@ -602,7 +602,7 @@ public class WebSocketClientTest {
 				}
 				return null;
 			}
-		}).when(convertCallbackMock).onInfo(any(Float.class), any(Job[].class));
+		}).when(convertCallbackMock).onInfo(any(Double.class), any(Job[].class));
 
 		doAnswer(new Answer<Void>() {
 			@Override
@@ -628,7 +628,7 @@ public class WebSocketClientTest {
 		webSocketClient.setConvertCallback(convertCallbackMock);
 		webSocketClient.onBaseMessage(infoMessage);
 
-		verify(convertCallbackMock, times(1)).onInfo(anyFloat(), any(Job[].class));
+		verify(convertCallbackMock, times(1)).onInfo(anyDouble(), any(Job[].class));
 		verify(convertCallbackMock, times(1)).onConversionAlreadyFinished(any(Job.class),
 				any(Client.ProjectDownloadCallback.class), anyString());
 		verifyNoMoreInteractions(convertCallbackMock);

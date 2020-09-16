@@ -123,33 +123,33 @@ public final class ProjectManager implements EagerSingleton {
 			restorePreviousProject(previousProject);
 			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
 		}
-		if (project.getCatrobatLanguageVersion() < 0.9f && project.getCatrobatLanguageVersion() != 0.8f) {
+		if (project.getCatrobatLanguageVersion() < 0.9 && project.getCatrobatLanguageVersion() != 0.8) {
 			restorePreviousProject(previousProject);
 			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
 		}
 
-		if (project.getCatrobatLanguageVersion() <= 0.91f) {
+		if (project.getCatrobatLanguageVersion() <= 0.91) {
 			project.setScreenMode(ScreenModes.STRETCH);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.992f) {
+		if (project.getCatrobatLanguageVersion() <= 0.992) {
 			ProjectManager.updateCollisionFormulasTo993(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.993f) {
+		if (project.getCatrobatLanguageVersion() <= 0.993) {
 			ProjectManager.updateSetPenColorFormulasTo994(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.994f) {
+		if (project.getCatrobatLanguageVersion() <= 0.994) {
 			ProjectManager.updateArduinoValuesTo995(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.995f) {
+		if (project.getCatrobatLanguageVersion() <= 0.995) {
 			ProjectManager.updateCollisionScriptsTo996(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.999f) {
+		if (project.getCatrobatLanguageVersion() <= 0.999) {
 			ProjectManager.makeShallowCopiesDeepAgain(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.9993f) {
+		if (project.getCatrobatLanguageVersion() <= 0.9993) {
 			ProjectManager.updateScriptsToTreeStructure(project);
 		}
-		if (project.getCatrobatLanguageVersion() <= 0.99992f) {
+		if (project.getCatrobatLanguageVersion() <= 0.99992) {
 			removePermissionsFile(project);
 		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);

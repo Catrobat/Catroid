@@ -68,7 +68,8 @@ public final class TestUtils {
 		}
 	}
 
-	public static Project createProjectWithLanguageVersion(float catrobatLanguageVersion, String projectName) {
+	public static Project createProjectWithLanguageVersion(double catrobatLanguageVersion,
+			String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 

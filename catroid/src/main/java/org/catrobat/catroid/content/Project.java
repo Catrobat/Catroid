@@ -297,7 +297,7 @@ public class Project implements Serializable {
 		xmlHeader.setScreenMode(screenMode);
 	}
 
-	public float getCatrobatLanguageVersion() {
+	public double getCatrobatLanguageVersion() {
 		return xmlHeader.getCatrobatLanguageVersion();
 	}
 
@@ -334,7 +334,7 @@ public class Project implements Serializable {
 		return resourcesSet;
 	}
 
-	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+	public void setCatrobatLanguageVersion(double catrobatLanguageVersion) {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
