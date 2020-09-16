@@ -88,11 +88,12 @@ pipeline {
             parallel {
                 stage('1') {
                     agent {
-                        docker {
-                            image useDockerLabelParameter(d.image, d.imageLabel)
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
                             args d.args
                             label useDebugLabelParameter(d.label)
-                            alwaysPull true
                         }
                     }
 
