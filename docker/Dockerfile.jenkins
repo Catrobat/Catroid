@@ -49,6 +49,7 @@ RUN wget --no-check-certificate -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk
 RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
 
 RUN apt-get update && apt-get install -y adoptopenjdk-8-hotspot
+RUN apt-get install -y python2
 RUN apt-get install -y --no-install-recommends \
         rubygems \
         ruby-dev \
