@@ -122,106 +122,6 @@ pipeline {
                                 }
                             }
                         }
-
-                        stage('Static Analysis') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh './gradlew pmd checkstyle lintCatroidDebug detekt'
-                                }
-                            }
-
-                            post {
-                                always {
-                                    recordIssues aggregatingResults: true, enabledForFailure: true, qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]],
-                                            tools: [androidLintParser(pattern: 'catroid/build/reports/lint*.xml'),
-                                                    checkStyle(pattern: 'catroid/build/reports/checkstyle.xml'),
-                                                    pmdParser(pattern: 'catroid/build/reports/pmd.xml'),
-                                                    detekt(pattern: 'catroid/build/reports/detekt/detekt.xml')]
-                                }
-                            }
-                        }
-
-                        stage('Unit Tests') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh './gradlew -PenableCoverage jacocoTestCatroidDebugUnitTestReport'
-                                }
-                            }
-
-                            post {
-                                always {
-                                    junitAndCoverage 'catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport', 'jacocoTestCatroidDebugUnitTestReport.xml', 'unit'
-                                }
-                            }
-                        }
-
-                        stage('Instrumented Unit Tests') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=instrumented_unit_logcat.txt -Pemulator=android28 \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.LocalHeadlessTestSuite'''
-                                }
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'instrumented_unit'
-                                }
-                            }
-                        }
-
-                        stage('Testrunner Tests') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=testrunner_logcat.txt -Pemulator=android28 \
-                                                startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                                -Pandroid.testInstrumentationRunnerArguments.package=org.catrobat.catroid.catrobattestrunner'''
-                                }
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'testrunner'
-                                }
-                            }
-                        }
-
-                        stage('Quarantined Tests') {
-                            when {
-                                expression { isJobStartedByTimer() }
-                            }
-
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=quarantined_logcat.txt -Pemulator=android28 \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoQuarantineTestSuite'''
-                                }
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'quarantined'
-                                }
-                            }
-                        }
-
-                        stage('RTL Tests') {
-                            steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
-                                    sh '''./gradlew -PenableCoverage -PlogcatFile=rtltests_logcat.txt -Pemulator=android24 \
-                                            startEmulator createCatroidDebugAndroidTestCoverageReport \
-                                            -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoRtlTestSuite'''
-                                }
-                            }
-
-                            post {
-                                always {
-                                    postEmulator 'rtltests'
-                                }
-                            }
-                        }
                     }
 
                     post {
@@ -249,6 +149,7 @@ pipeline {
                                     sh '''./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
+                                    sh '''echo delete docker container'''
                                 }
                             }
 
@@ -260,6 +161,20 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    post {
+        always {
+            node('master') {
+                unstash 'logParserRules'
+                step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
+            }
+        }
+        changed {
+            node('master') {
+                notifyChat()
             }
         }
     }
