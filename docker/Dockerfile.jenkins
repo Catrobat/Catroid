@@ -42,7 +42,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libasound2 \
          wget \
          gnupg \
-         software-properties-common
+         software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 # Install Fastlane
 RUN wget --no-check-certificate -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
