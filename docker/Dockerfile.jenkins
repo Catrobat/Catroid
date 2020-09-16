@@ -41,6 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libnss3-dev \
          libasound2 \
          wget \
+         gnupg \
     && rm -rf /var/lib/apt/lists/*
 # Install Fastlane
 RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
