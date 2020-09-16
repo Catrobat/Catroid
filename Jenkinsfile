@@ -169,7 +169,7 @@ pipeline {
     post {
         always {
             node('master') {
-                unstash 'logParserRules'
+                #unstash 'logParserRules'
                 step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
             }
         }
