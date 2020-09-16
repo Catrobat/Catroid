@@ -396,7 +396,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void openAssistantDialog() {
-		new RegularExpressionAssistantDialog(getContext()).createAssistant();
+		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
 	private void showNewStringDialog() {

@@ -38,20 +38,17 @@ public class HtmlRegexExtractor {
 		this.context = context;
 	}
 
-	public void searchKeyword(String keyword, String text) {
+	public String searchKeyword(String keyword, String text) {
 		String keywordFound = findKeyword(keyword, text);
 		String regexFound = htmlToRegexConverter(keywordFound, text);
 		if (regexFound == null) {
 			showError();
+			return "";
 		} else {
-			showSuccess();
+			return regexFound;
 		}
 	}
 
-	private void showSuccess() {
-		ToastUtil.showSuccess(context,
-				R.string.formula_editor_function_regex_html_extractor_found);
-	}
 	private void showError() {
 		ToastUtil.showError(context,
 				R.string.formula_editor_function_regex_html_extractor_not_found);

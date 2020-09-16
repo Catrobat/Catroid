@@ -27,12 +27,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.utils.HtmlRegexExtractor;
+
+import androidx.fragment.app.FragmentManager;
 
 public class HtmlExtractorDialog extends RegularExpressionFeature {
 
-	public HtmlExtractorDialog() {
+	private FragmentManager fragmentManager;
+	public HtmlExtractorDialog(FragmentManager fragmentManager) {
 		this.titleId = R.string.formula_editor_regex_html_extractor_dialog_title;
+		this.fragmentManager = fragmentManager;
 	}
 
 	public void openDialog(Context context) {
@@ -43,11 +48,27 @@ public class HtmlExtractorDialog extends RegularExpressionFeature {
 			@Override
 			public void onPositiveButtonClick(DialogInterface dialog, String keywordInput, String htmlInput) {
 				HtmlRegexExtractor htmlRegexExt = new HtmlRegexExtractor(context);
-				htmlRegexExt.searchKeyword(keywordInput, htmlInput);
+				outputText(htmlRegexExt.searchKeyword(keywordInput, htmlInput));
 			}
 		});
 		builder.setTitle(R.string.formula_editor_regex_html_extractor_dialog_title);
 		builder.setNegativeButton(R.string.cancel, null);
 		builder.show();
+	}
+
+	private FormulaEditorFragment getFormulaEditorFragment() {
+		FormulaEditorFragment formulaEditorFragment = null;
+		if (fragmentManager != null) {
+			formulaEditorFragment = ((FormulaEditorFragment) fragmentManager
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		}
+		return formulaEditorFragment;
+	}
+
+	private void outputText(String text) {
+		FormulaEditorFragment formulaEditorFragment = getFormulaEditorFragment();
+		if (formulaEditorFragment != null && (!text.equals(""))) {
+			formulaEditorFragment.addString(text);
+		}
 	}
 }

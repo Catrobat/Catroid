@@ -33,15 +33,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 
 public class RegularExpressionAssistantDialog {
 
 	static List<RegularExpressionFeature> listOfFeatures;
 	List<String> namesOfFeatures;
 	Context context;
+	FragmentManager fragmentManager;
 
-	public RegularExpressionAssistantDialog(Context context) {
+	public RegularExpressionAssistantDialog(Context context, FragmentManager fragmentManager) {
 		this.context = context;
+		this.fragmentManager = fragmentManager;
 		createListOfFeatures();
 	}
 
@@ -77,7 +80,7 @@ public class RegularExpressionAssistantDialog {
 	private void createListOfFeatures() {
 		listOfFeatures = new ArrayList<>();
 		if (BuildConfig.FEATURE_REGULAR_EXPRESSION_ASSISTANT_ENABLED) {
-			listOfFeatures.add(new HtmlExtractorDialog());
+			listOfFeatures.add(new HtmlExtractorDialog(fragmentManager));
 			listOfFeatures.add(new JsonExtractorDialog());
 		}
 		listOfFeatures.add(new WikiWebPage());
