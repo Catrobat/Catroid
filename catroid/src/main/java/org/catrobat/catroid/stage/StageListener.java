@@ -73,6 +73,7 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -443,6 +444,7 @@ public class StageListener implements ApplicationListener {
 		}
 		VibrationUtil.reset();
 		TouchUtil.reset();
+		MidiSoundManager.getInstance().reset();
 		removeAllClonedSpritesFromStage();
 
 		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());

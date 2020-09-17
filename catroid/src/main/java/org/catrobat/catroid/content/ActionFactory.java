@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
+import org.catrobat.catroid.content.actions.ChangeTempoByAction;
 import org.catrobat.catroid.content.actions.ChangeTransparencyByNAction;
 import org.catrobat.catroid.content.actions.ChangeVariableAction;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
@@ -716,6 +717,13 @@ public class ActionFactory extends Actions {
 
 	public Action createSetTempoAction(Sprite sprite, Formula tempo) {
 		SetTempoAction action = action(SetTempoAction.class);
+		action.setSprite(sprite);
+		action.setTempo(tempo);
+		return action;
+	}
+
+	public Action createChangeTempoAction(Sprite sprite, Formula tempo) {
+		ChangeTempoByAction action = action(ChangeTempoByAction.class);
 		action.setSprite(sprite);
 		action.setTempo(tempo);
 		return action;
