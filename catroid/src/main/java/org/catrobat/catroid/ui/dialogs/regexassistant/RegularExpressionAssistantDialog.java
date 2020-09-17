@@ -77,5 +77,6 @@ public class RegularExpressionAssistantDialog {
 		listOfFeatures = new ArrayList<>();
 
 		listOfFeatures.add(new HtmlExtractorDialog());
+		listOfFeatures.add(new WikiWebPage());
 	}
 }
