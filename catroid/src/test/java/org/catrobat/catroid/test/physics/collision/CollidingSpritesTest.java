@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.test.physics.collision;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.CollidingSprites;
 import org.junit.Test;
@@ -35,8 +34,8 @@ import static org.junit.Assert.assertNotEquals;
 
 @RunWith(JUnit4.class)
 public class CollidingSpritesTest {
-	final Sprite sprite1 = new SingleSprite("sprite1");
-	final Sprite sprite2 = new SingleSprite("sprite2");
+	final Sprite sprite1 = new Sprite("sprite1");
+	final Sprite sprite2 = new Sprite("sprite2");
 
 	@Test
 	public void equalsWorksWithSameSpriteOrder() {
@@ -56,7 +55,7 @@ public class CollidingSpritesTest {
 
 	@Test
 	public void equalsFailsForUnequalCollidingSprites() {
-		Sprite sprite3 = new SingleSprite("sprite3");
+		Sprite sprite3 = new Sprite("sprite3");
 
 		CollidingSprites sprites1 = new CollidingSprites(sprite1, sprite2);
 		CollidingSprites sprites2 = new CollidingSprites(sprite3, sprite2);

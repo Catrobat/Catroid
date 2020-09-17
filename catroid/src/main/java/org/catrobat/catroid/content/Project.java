@@ -409,4 +409,10 @@ public class Project implements Serializable {
 		return getUserVariables().contains(item) || getUserLists().contains(item)
 				|| getMultiplayerVariables().contains(item);
 	}
+
+	public void checkForInvisibleSprites() {
+		for (Scene scene : sceneList) {
+			scene.checkForInvisibleSprites();
+		}
+	}
 }

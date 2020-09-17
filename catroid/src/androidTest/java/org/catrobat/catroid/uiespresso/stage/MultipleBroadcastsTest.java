@@ -25,7 +25,6 @@ package org.catrobat.catroid.uiespresso.stage;
 
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -65,7 +64,7 @@ public class MultipleBroadcastsTest {
 		project = UiTestUtils.createEmptyProject("test");
 		userVariables = new ArrayList<>();
 		for (int i = 0; i < VALUES.length; i++) {
-			Sprite sprite = new SingleSprite("sprite" + i);
+			Sprite sprite = new Sprite("sprite" + i);
 			project.getDefaultScene().addSprite(sprite);
 			UserVariable userVariable = new UserVariable("var" + i);
 			project.addUserVariable(userVariable);

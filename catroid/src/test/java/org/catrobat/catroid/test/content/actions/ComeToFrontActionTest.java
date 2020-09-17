@@ -29,7 +29,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
@@ -65,15 +64,15 @@ public class ComeToFrontActionTest {
 		Project project = new Project(MockUtil.mockContextForProject(), projectName);
 		Group parentGroup = new Group();
 
-		Sprite bottomSprite = new SingleSprite("catroid");
+		Sprite bottomSprite = new Sprite("catroid");
 		parentGroup.addActor(bottomSprite.look);
 		assertEquals(0, bottomSprite.look.getZIndex());
 
-		Sprite middleSprite = new SingleSprite("catroid cat");
+		Sprite middleSprite = new Sprite("catroid cat");
 		parentGroup.addActor(middleSprite.look);
 		assertEquals(1, middleSprite.look.getZIndex());
 
-		Sprite topSprite = new SingleSprite("scratch");
+		Sprite topSprite = new Sprite("scratch");
 		parentGroup.addActor(topSprite.look);
 		assertEquals(2, topSprite.look.getZIndex());
 
@@ -89,7 +88,7 @@ public class ComeToFrontActionTest {
 		action.act(1.0f);
 		assertEquals(middleSprite.look.getZIndex(), getZMaxValue(middleSprite));
 
-		Sprite nextSprite = new SingleSprite("dog");
+		Sprite nextSprite = new Sprite("dog");
 		parentGroup.addActor(nextSprite.look);
 		project.getDefaultScene().addSprite(nextSprite);
 
@@ -137,12 +136,12 @@ public class ComeToFrontActionTest {
 		Project project = new Project(MockUtil.mockContextForProject(), projectName);
 		Group parentGroup = new Group();
 
-		Sprite firstSprite = new SingleSprite("firstSprite");
+		Sprite firstSprite = new Sprite("firstSprite");
 		parentGroup.addActor(firstSprite.look);
 		project.getDefaultScene().addSprite(firstSprite);
 
 		for (int i = 0; i < 10; i++) {
-			Sprite sprite = new SingleSprite("testSprite" + i);
+			Sprite sprite = new Sprite("testSprite" + i);
 			parentGroup.addActor(sprite.look);
 			sprite.look.setZIndex(Integer.MAX_VALUE);
 			project.getDefaultScene().addSprite(sprite);

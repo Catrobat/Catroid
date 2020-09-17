@@ -29,7 +29,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.test.MockUtil;
@@ -66,7 +65,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testTurnRightTwice() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -87,7 +86,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testTurnRightAndScale() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -104,7 +103,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testScaleandTurnRight() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -121,7 +120,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testTurnRightNegative() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -135,7 +134,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testTurnRight() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -149,7 +148,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testTurnRightAndTurnLeft() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
@@ -165,7 +164,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testBrickWithStringFormula() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		Action action = sprite.getActionFactory().createTurnRightAction(sprite,
 				new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
@@ -183,7 +182,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testNullFormula() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		Action action = sprite.getActionFactory().createTurnRightAction(sprite, null);
 		action.act(1.0f);
 		assertEquals(0f, sprite.look.getRotation());
@@ -193,7 +192,7 @@ public class TurnRightActionTest {
 
 	@Test
 	public void testNotANumberFormula() {
-		Sprite sprite = new SingleSprite("test");
+		Sprite sprite = new Sprite("test");
 		Action action = sprite.getActionFactory().createTurnRightAction(sprite, new Formula(Double.NaN));
 		action.act(1.0f);
 		assertEquals(0f, sprite.look.getRotation());

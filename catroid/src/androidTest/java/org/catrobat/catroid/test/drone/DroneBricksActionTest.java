@@ -29,7 +29,6 @@ import com.parrot.freeflight.drone.DroneConfig;
 import com.parrot.freeflight.service.DroneControlService;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -78,7 +77,7 @@ public class DroneBricksActionTest {
 		when(droneControlService.getDroneConfig()).thenReturn(droneConfig);
 
 		DroneServiceWrapper.setDroneService(droneControlService);
-		sprite = new SingleSprite("droneTestSprite");
+		sprite = new Sprite("droneTestSprite");
 		sequenceAction = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 	}
 

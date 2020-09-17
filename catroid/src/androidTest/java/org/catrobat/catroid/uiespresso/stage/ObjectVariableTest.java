@@ -24,7 +24,6 @@ package org.catrobat.catroid.uiespresso.stage;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -113,12 +112,12 @@ public class ObjectVariableTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite1"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite2"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite3"));
-		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new SingleSprite("sprite4"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite1"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite2"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite3"));
+		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite4"));
 
-		sprite = new SingleSprite("sprite5");
+		sprite = new Sprite("sprite5");
 		StartScript startScript = new StartScript();
 
 		SetXBrick setXBrick = new SetXBrick((int) SPRITE_X_POSITION);

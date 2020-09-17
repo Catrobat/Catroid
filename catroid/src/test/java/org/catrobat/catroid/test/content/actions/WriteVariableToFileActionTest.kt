@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions
 
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction
 import org.catrobat.catroid.formulaeditor.Formula
@@ -80,7 +79,7 @@ class WriteVariableToFileActionTest(
 
     @Before
     fun setUp() {
-        sprite = SingleSprite("testSprite")
+        sprite = Sprite("testSprite")
         file = Mockito.mock(File::class.java)
     }
 

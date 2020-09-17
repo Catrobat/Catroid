@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.RepeatAction;
@@ -101,7 +100,7 @@ public class RepeatActionTest {
 
 	@Test
 	public void testRepeatCount() {
-		Sprite sprite = new SingleSprite("sprite");
+		Sprite sprite = new Sprite("sprite");
 		Script script = new StartScript();
 
 		Formula repeatFormula = new Formula(new FormulaElement(ElementType.SENSOR, Sensors.OBJECT_Y.name(), null));
@@ -155,7 +154,7 @@ public class RepeatActionTest {
 
 	@Test
 	public void testNegativeRepeats() throws Exception {
-		Sprite sprite = new SingleSprite("sprite");
+		Sprite sprite = new Sprite("sprite");
 
 		RepeatBrick repeatBrick = new RepeatBrick(new Formula(-1));
 

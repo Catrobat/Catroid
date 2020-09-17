@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.actions
 
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.test.MockUtil
 import org.junit.Assert
@@ -102,7 +101,7 @@ class IfOnEdgeBounceActionTest(
 
     @Before
     fun setUp() {
-        sprite = SingleSprite("Test")
+        sprite = Sprite("Test")
         sprite.look.apply {
             width = WIDTH
             height = HEIGHT

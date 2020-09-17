@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.junit.Before;
 import org.junit.Test;
@@ -129,8 +128,8 @@ public class PointToActionTest {
 	}
 
 	private void createProject() {
-		sprite = new SingleSprite("sprite");
-		pointedSprite = new SingleSprite("pointedSprite");
+		sprite = new Sprite("sprite");
+		pointedSprite = new Sprite("pointedSprite");
 		Project project = new Project();
 		Scene scene = new Scene();
 		project.addScene(scene);

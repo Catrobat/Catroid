@@ -27,7 +27,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
@@ -68,7 +67,7 @@ public class RepeatUntilActionTest {
 	public void setUp() throws Exception {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 
-		testSprite = new SingleSprite("testSprite");
+		testSprite = new Sprite("testSprite");
 		testScript = new StartScript();
 		testSprite.removeAllScripts();
 		testSprite.addScript(testScript);

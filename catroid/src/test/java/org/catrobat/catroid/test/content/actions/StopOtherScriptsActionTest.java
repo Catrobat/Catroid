@@ -30,7 +30,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -60,7 +59,7 @@ public class StopOtherScriptsActionTest {
 	@Before
 	public void setUp() {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		createProjectWithSprite(sprite);
 		startScript1 = new StartScript();
 		startScript2 = new StartScript();

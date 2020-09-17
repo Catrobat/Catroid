@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.content.sprite;
 
 import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.content.Sprite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -64,7 +64,7 @@ public class LookCatroidAngleToStageAngleTest {
 
 	@Test
 	public void testCatroidAngleToStageAngle() {
-		Look look = new Look(new SingleSprite("testsprite"));
+		Look look = new Look(new Sprite("testsprite"));
 		assertEquals(expectedAngle, look.convertCatroidAngleToStageAngle(inputAngle));
 		assertEquals(expectedAngle, look.convertCatroidAngleToStageAngle(inputAngle + 360.0f));
 

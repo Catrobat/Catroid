@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
@@ -50,7 +49,7 @@ public class PlaceAtBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 	}
 
 	@Test
@@ -71,7 +70,7 @@ public class PlaceAtBrickTest {
 
 	@Test
 	public void testBoundaryPositions() {
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE),
 				new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());

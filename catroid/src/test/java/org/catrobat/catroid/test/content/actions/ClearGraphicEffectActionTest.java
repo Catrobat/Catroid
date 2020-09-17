@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.actions;
 import com.badlogic.gdx.scenes.scene2d.Action;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,7 +43,7 @@ public class ClearGraphicEffectActionTest {
 	@Test
 	public void testClearGraphicEffect() {
 		float value = 80f;
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		sprite.look.setTransparencyInUserInterfaceDimensionUnit(value);
 		assertEquals(value, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 		sprite.look.setBrightnessInUserInterfaceDimensionUnit(value);

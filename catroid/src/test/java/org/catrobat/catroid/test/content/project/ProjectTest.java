@@ -29,7 +29,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.test.MockUtil;
@@ -62,8 +61,8 @@ public class ProjectTest {
 	public void testAddRemoveSprite() {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		Scene scene = project.getDefaultScene();
-		Sprite bottomSprite = new SingleSprite("bottom");
-		Sprite topSprite = new SingleSprite("top");
+		Sprite bottomSprite = new Sprite("bottom");
+		Sprite topSprite = new Sprite("top");
 
 		scene.addSprite(bottomSprite);
 		scene.addSprite(topSprite);

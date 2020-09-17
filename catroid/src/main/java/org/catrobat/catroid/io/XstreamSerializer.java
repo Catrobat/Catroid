@@ -46,7 +46,6 @@ import org.catrobat.catroid.content.RaspiInterruptScript;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.UserDefinedScript;
@@ -369,7 +368,6 @@ public final class XstreamSerializer {
 
 		xstream.alias("script", Script.class);
 		xstream.alias("object", Sprite.class);
-		xstream.alias("object", SingleSprite.class);
 		xstream.alias("object", GroupSprite.class);
 		xstream.alias("object", GroupItemSprite.class);
 
@@ -631,7 +629,7 @@ public final class XstreamSerializer {
 					scene.setProject(project);
 				}
 			}
-
+			project.checkForInvisibleSprites();
 			project.setDirectory(projectDir);
 			setFileReferences(project);
 			return project;

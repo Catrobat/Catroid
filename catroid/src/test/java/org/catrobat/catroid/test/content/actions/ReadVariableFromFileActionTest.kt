@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.test.content.actions
 
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.ReadVariableFromFileAction
 import org.catrobat.catroid.formulaeditor.Formula
@@ -85,7 +84,7 @@ class ReadVariableFromFileActionTest(
 
     @Before
     fun setUp() {
-        sprite = SingleSprite("testSprite")
+        sprite = Sprite("testSprite")
         file = Mockito.mock(File::class.java)
         doReturn(true).`when`(file).delete()
     }

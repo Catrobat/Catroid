@@ -30,7 +30,6 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -101,7 +100,7 @@ public class HighlightBrickPartsTest {
 		String projectName = "highlightBrickPartsTest";
 		Project project = new Project(MockUtil.mockContextForProject(), projectName);
 
-		Sprite sprite = new SingleSprite("sprite");
+		Sprite sprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(sprite);
 		Script script = new StartScript();
 

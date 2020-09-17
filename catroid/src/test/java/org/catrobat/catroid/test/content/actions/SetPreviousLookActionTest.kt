@@ -26,7 +26,6 @@ import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.SingleSprite
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.test.MockUtil
 import org.junit.Assert.assertEquals
@@ -54,7 +53,7 @@ class SetPreviousLookActionTest {
         lookData1 = LookData("firstLook", mock(File::class.java))
         lookData2 = LookData("secondLook", mock(File::class.java))
         lookData3 = LookData("thirdLook", mock(File::class.java))
-        sprite = SingleSprite("testSprite").apply {
+        sprite = Sprite("testSprite").apply {
             lookList.add(lookData1)
             lookList.add(lookData2)
             lookList.add(lookData3)
@@ -81,7 +80,7 @@ class SetPreviousLookActionTest {
 
     @Test
     fun testEmptyLookList() {
-        with(SingleSprite("noLookSprite")) {
+        with(Sprite("noLookSprite")) {
             actionFactory.createSetPreviousLookAction(sprite).act(1f)
             org.junit.Assert.assertNull(look.lookData)
         }
@@ -89,7 +88,7 @@ class SetPreviousLookActionTest {
 
     @Test
     fun testSingleLook() {
-        with(SingleSprite("singleLookSprite")) {
+        with(Sprite("singleLookSprite")) {
             lookList.add(lookData1)
             look.lookData = lookData1
             actionFactory.createSetPreviousLookAction(sprite).act(1f)
