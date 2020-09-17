@@ -1,12 +1,23 @@
 #!groovy
 
 class DockerParameters {
-    def image = 'catrobat/catrobat-android'
-    def imageLabel = 'stable'
+    def fileName = 'Dockerfile.jenkins'
+
+    // 'docker build' would normally copy the whole build-dir to the container, changing the
+    // docker build directory avoids that overhead
+    def dir = 'docker'
+
+    // Pass the uid and the gid of the current user (jenkins-user) to the Dockerfile, so a
+    // corresponding user can be added. This is needed to provide the jenkins user inside
+    // the container for the ssh-agent to work.
+    // Another way would be to simply map the passwd file, but would spoil additional information
+    // Also hand in the group id of kvm to allow using /dev/kvm.
+    def buildArgs = '--build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) --build-arg KVM_GROUP_ID=$(getent group kvm | cut -d: -f3)'
+
     def args = '--device /dev/kvm:/dev/kvm -v /var/local/container_shared/gradle_cache/$EXECUTOR_NUMBER:/home/user/.gradle -m=14G'
     def label = 'LimitedEmulator'
 }
-
+ 
 def d = new DockerParameters()
 
 def junitAndCoverage(String jacocoReportDir, String jacocoReportXml, String coverageName) {
@@ -77,11 +88,12 @@ pipeline {
             parallel {
                 stage('1') {
                     agent {
-                        docker {
-                            image useDockerLabelParameter(d.image, d.imageLabel)
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
                             args d.args
                             label useDebugLabelParameter(d.label)
-                            alwaysPull true
                         }
                     }
 
@@ -222,18 +234,19 @@ pipeline {
 
                 stage('2') {
                     agent {
-                        docker {
-                            image useDockerLabelParameter(d.image, d.imageLabel)
+                        dockerfile {
+                            filename d.fileName
+                            dir d.dir
+                            additionalBuildArgs d.buildArgs
                             args d.args
                             label useDebugLabelParameter(d.label)
-                            alwaysPull true
                         }
                     }
 
                     stages {
                         stage('Pull Request Suite') {
                             steps {
-                                catchError(buildResult: 'FAILURE', stageResult: 'FAILURE') {
+                                catchError(buildResult: 'FAILURE' ,stageResult: 'FAILURE') {
                                     sh '''./gradlew copyAndroidNatives -PenableCoverage -PlogcatFile=pull_request_suite_logcat.txt -Pemulator=android28 \
                                             startEmulator createCatroidDebugAndroidTestCoverageReport \
                                             -Pandroid.testInstrumentationRunnerArguments.class=org.catrobat.catroid.testsuites.UiEspressoPullRequestTriggerSuite'''
@@ -253,12 +266,6 @@ pipeline {
     }
 
     post {
-        always {
-            node('master') {
-                unstash 'logParserRules'
-                step([$class: 'LogParserPublisher', failBuildOnError: true, projectRulePath: 'buildScripts/log_parser_rules', unstableOnWarning: true, useProjectRule: true])
-            }
-        }
         changed {
             node('master') {
                 notifyChat()
