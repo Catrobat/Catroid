@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 # Android Dependencies
 # --------------------
 # Adapt the paramters below to change the dependencies.
@@ -31,7 +31,7 @@ ARG _SDKMANAGER=$ANDROID_SDK_ROOT/tools/bin/sdkmanager
 # x11-commons/x11-utils/libpulse0 needed to start emulator
 RUN apt-get update && apt-get install -y --no-install-recommends \
         curl \
-        openjdk-8-jdk \
+#        openjdk-8-jdk \
         unzip \
         openssh-client \
          x11-common \
@@ -40,21 +40,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
          libxcursor-dev \
          libnss3-dev \
          libasound2 \
+         wget \
+         gnupg \
+         software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 # Install Fastlane
-#RUN apt-get update && apt-get install -y --no-install-recommends \
-#        rubygems \
-#        ruby-dev \
-#        g++ \
-#        make \
-#        less \
-#    && rm -rf /var/lib/apt/lists/* \
-#    && gem update --system \
-#    && gem install fastlane -NV \
-#    && apt-get purge -y --auto-remove \
-#        ruby-dev \
-#        g++ \
-#        make
+RUN wget --no-check-certificate -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add -
+RUN add-apt-repository --yes https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+
+RUN apt-get update && apt-get install -y adoptopenjdk-8-hotspot
+RUN apt-get install -y python2
+RUN apt-get install -y --no-install-recommends \
+        rubygems \
+        ruby-dev \
+        g++ \
+        make \
+        less \
+        git \
+    && rm -rf /var/lib/apt/lists/* \
+    && gem update --system \
+    && gem install fastlane -NV \
+    && apt-get purge -y --auto-remove \
+        ruby-dev \
+        g++ \
+        make
 # User Management
 # ---------------
 #
