@@ -143,7 +143,14 @@ public class RegularExpressionAssistantDialogTest {
 	public void testDoesHtmlExtractorOpensCorrectDialog() {
 		clickOnAssistantInFunctionList();
 
-		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).perform(click()); //click on HTML Extractor
+		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).perform(click());
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).check(matches(isDisplayed()));
+	}
+	@Test
+	public void testDoesJsonExtractorOpensCorrectDialog() {
+		clickOnAssistantInFunctionList();
+
+		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).perform(click());
+		onView(withText(R.string.formula_editor_function_regex_json_extractor_title)).check(matches(isDisplayed()));
 	}
 }
