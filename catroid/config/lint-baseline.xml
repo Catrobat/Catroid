@@ -349,17 +349,17 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.drawable.brick_silver_1h` appears to be unused">
+        message="The resource `R.drawable.brick_gold_1h` appears to be unused">
         <location
-            file="src\main\res\drawable-hdpi\brick_silver_1h.9.png"/>
+            file="src\main\res\drawable-hdpi\brick_gold_1h.9.png"/>
         <location
-            file="src\main\res\drawable-ldpi\brick_silver_1h.9.png"/>
+            file="src\main\res\drawable-ldpi\brick_gold_1h.9.png"/>
         <location
-            file="src\main\res\drawable-mdpi\brick_silver_1h.9.png"/>
+            file="src\main\res\drawable-mdpi\brick_gold_1h.9.png"/>
         <location
-            file="src\main\res\drawable-xhdpi\brick_silver_1h.9.png"/>
+            file="src\main\res\drawable-xhdpi\brick_gold_1h.9.png"/>
         <location
-            file="src\main\res\drawable-xxhdpi\brick_silver_1h.9.png"/>
+            file="src\main\res\drawable-xxhdpi\brick_gold_1h.9.png"/>
     </issue>
 
     <issue
