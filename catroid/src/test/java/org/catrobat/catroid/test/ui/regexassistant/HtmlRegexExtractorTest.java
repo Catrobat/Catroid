@@ -41,9 +41,9 @@ public class HtmlRegexExtractorTest {
 	}
 	private HtmlRegexExtractor htmlExtractor;
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void testFindKeywordWithEmptyKeyword() {
-		htmlExtractor.findKeyword("", "abc");
+		assertNull(htmlExtractor.findKeyword("", "abc"));
 	}
 
 	@Test
@@ -60,12 +60,6 @@ public class HtmlRegexExtractorTest {
 	public void testFindKeywordInSentence() {
 		assertEquals("abc", htmlExtractor.findKeyword("abc", "Wer are looking for the abc "
 				+ "statement in long text"));
-	}
-
-	@Test
-	public void testFindKeywordInSentenceWithSpaceInKeyword() {
-		assertEquals("ab c", htmlExtractor.findKeyword("ab c", "Wer are looking for the "
-				+ "ab c statement in long text"));
 	}
 
 	@Test
@@ -107,5 +101,54 @@ public class HtmlRegexExtractorTest {
 	public void testFindKeywordSmallestOccurrence() {
 		assertEquals("Hello&nbsp;World", htmlExtractor.findKeyword("Hello World",
 				"Hello Banana Animal Text Hello&nbsp;World Ape"));
+	}
+
+	@Test
+	public void testCreateRegexWithOneCharContext() {
+		assertEquals("b(.*)e", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
+	}
+
+	@Test
+	public void testCreateRegexWithKeywordAtStart() {
+		assertEquals("(.*)c", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
+	}
+
+	@Test
+	public void testCreateRegexWithKeywordAtEnd() {
+		assertEquals("d(.*)", htmlExtractor.htmlToRegexConverter("efg", "abcdefg"));
+	}
+
+	@Test
+	public void testCreateRegexWithDuplicateKeywordFirstOccurrence1CharContext() {
+		assertEquals("ab(.*)defga", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
+	}
+
+	@Test
+	public void testCreateRegexWith2CharContext() {
+		assertEquals("yb(.*)de", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
+	}
+
+	@Test
+	public void testCreateRegexWhereKeywordEqualsHtmlText() {
+		assertEquals("(.*)", htmlExtractor.htmlToRegexConverter("abcdefg", "abcdefg"));
+	}
+
+	@Test
+	public void testCreateRegexPostfixInKeyword() {
+		assertEquals("(.*)b", htmlExtractor.htmlToRegexConverter("abc", "abcbc"));
+	}
+
+	@Test
+	public void testCreateRegexOutOfBoundsAfter2CharContext() {
+		assertEquals("b(.*)ba", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
+	}
+	@Test
+	public void testFirstKeyBordersOnSecondKey() {
+		assertEquals("baaaa(.*)aaaaK", htmlExtractor.htmlToRegexConverter("KEY",
+				"baaaaKEYaaaaKEYaaaa"));
+	}
+	@Test
+	public void testCreateRegexWhereTextOnlyKeywords() {
+		assertEquals("(.*)aa", htmlExtractor.htmlToRegexConverter("a", "aaa"));
 	}
 }

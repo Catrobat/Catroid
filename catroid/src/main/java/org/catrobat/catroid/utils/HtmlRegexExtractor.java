@@ -41,7 +41,9 @@ public class HtmlRegexExtractor {
 	}
 
 	public void searchKeyword(String keyword, String text) {
-		if (findKeyword(keyword, text) == null) {
+		String keywordFound = findKeyword(keyword, text);
+		String regexFound = htmlToRegexConverter(keywordFound, text);
+		if (regexFound == null) {
 			showError();
 		} else {
 			showSuccess();
@@ -60,7 +62,7 @@ public class HtmlRegexExtractor {
 	@VisibleForTesting
 	public String findKeyword(String keyword, String text) {
 		if (keyword.equals("")) {
-			throw new IllegalArgumentException("No empty keywords allowed");
+			return null;
 		}
 		if (text.indexOf(keyword) >= 0) {
 			return keyword;
@@ -92,5 +94,52 @@ public class HtmlRegexExtractor {
 			}
 		}
 		return shortestOccurrence;
+	}
+
+	public String htmlToRegexConverter(String keyword, String htmlText) {
+		int keywordIndex;
+		String regex;
+
+		if (keyword != null) {
+			keywordIndex = htmlText.indexOf(keyword);
+			if (keyword.equals(htmlText)) {
+				regex = "(.*)";
+			} else {
+				regex = "(.*)";
+				int distance = 0;
+				do {
+					distance++;
+
+					String beforeKeyword = "";
+					int beforeKeywordIndex = keywordIndex - distance;
+					if (beforeKeywordIndex >= 0) {
+						beforeKeyword = String.valueOf(htmlText.charAt(beforeKeywordIndex));
+					}
+
+					String afterKeyword = "";
+					int afterKeywordIndex = keywordIndex + keyword.length() + distance - 1;
+					if (afterKeywordIndex < htmlText.length()) {
+						afterKeyword =
+								String.valueOf(htmlText.charAt(afterKeywordIndex));
+					}
+
+					regex = beforeKeyword + regex + afterKeyword;
+				} while (!matchesUniquely(regex, htmlText, keyword));
+			}
+		} else {
+			regex = null;
+		}
+		return regex;
+	}
+	private boolean matchesUniquely(String pattern, String text, String expectedMatch) {
+		int counter = 0;
+		Matcher matcher = Pattern.compile(pattern).matcher(text);
+
+		String matched = null;
+		while (matcher.find()) {
+			matched = matcher.group(1);
+			counter++;
+		}
+		return counter == 1 && expectedMatch.equals(matched);
 	}
 }
