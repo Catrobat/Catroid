@@ -1077,6 +1077,8 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
 
     <!-- Embroidery bricks -->
@@ -1240,6 +1242,30 @@
     <string name="brick_store_csv_into_userlist_into">into list</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
 
+    <!--  -->
+
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+     <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+     <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+     <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
 
     <!-- Default Values -->

@@ -183,6 +183,8 @@ public class PocketMusicActivity extends BaseActivity {
 		super.onResume();
 		if (midiDriver != null && !MidiNotePlayer.isInitialized()) {
 			midiDriver.start();
+		} else {
+			midiDriver.setInstrument((byte) 0, Project.DEFAULT_INSTRUMENT);
 		}
 	}
 }

@@ -32,7 +32,6 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
-import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,7 @@ import androidx.annotation.Nullable;
 
 public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.OnItemSelectedListener<PickableMusicalInstrument> {
 
-	public PickableMusicalInstrument instrumentSelection = Utils.getPickableMusicalInstruments().get(0);
+	public PickableMusicalInstrument instrumentSelection = PickableMusicalInstrument.values()[0];
 
 	@Override
 	public int getViewResource() {
@@ -57,7 +56,8 @@ public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.On
 		super.getView(context);
 		List<Nameable> items = new ArrayList<>();
 
-		for (PickableMusicalInstrument instrument : Utils.getPickableMusicalInstruments()) {
+		for (PickableMusicalInstrument instrument : PickableMusicalInstrument.values()) {
+			instrument.setName(instrument.getString(context));
 			items.add(instrument);
 		}
 

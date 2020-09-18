@@ -107,6 +107,7 @@ import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
 import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
+import org.catrobat.catroid.content.actions.PauseForBeatsAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
 import org.catrobat.catroid.content.actions.PenUpAction;
 import org.catrobat.catroid.content.actions.PhiroMotorMoveBackwardAction;
@@ -698,6 +699,13 @@ public class ActionFactory extends Actions {
 
 	public Action createStopAllSoundsAction() {
 		return Actions.action(StopAllSoundsAction.class);
+	}
+
+	public Action createPauseForBeatsAction(Sprite sprite, Formula beats) {
+		PauseForBeatsAction action = action(PauseForBeatsAction.class);
+		action.setSprite(sprite);
+		action.setBeats(beats);
+		return action;
 	}
 
 	public Action createSetInstrumentAction(PickableMusicalInstrument instrument) {
