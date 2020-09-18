@@ -76,9 +76,9 @@ public class RegularExpressionAssistantDialog {
 
 	private void createListOfFeatures() {
 		listOfFeatures = new ArrayList<>();
-
 		if (BuildConfig.FEATURE_REGULAR_EXPRESSION_ASSISTANT_ENABLED) {
 			listOfFeatures.add(new HtmlExtractorDialog());
+			listOfFeatures.add(new JsonExtractorDialog());
 		}
 		listOfFeatures.add(new WikiWebPage());
 	}
