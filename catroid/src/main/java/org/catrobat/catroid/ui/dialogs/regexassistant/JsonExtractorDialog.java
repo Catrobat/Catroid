@@ -23,17 +23,25 @@
 
 package org.catrobat.catroid.ui.dialogs.regexassistant;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.utils.JsonRegexExtractor;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 
 public class JsonExtractorDialog extends RegularExpressionFeature {
-	public JsonExtractorDialog() {
+	private FragmentManager fragmentManager;
+	public JsonExtractorDialog(FragmentManager fragmentManager) {
 		this.titleId = R.string.formula_editor_function_regex_json_extractor_title;
+		this.fragmentManager = fragmentManager;
 	}
 	@Override
 	public void openDialog(Context context) {
@@ -56,9 +64,28 @@ public class JsonExtractorDialog extends RegularExpressionFeature {
 		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				TextInputLayout textInputLayout = ((Dialog) dialog).findViewById(R.id.input);
+				String input = textInputLayout.getEditText().getText().toString();
+				String regex = JsonRegexExtractor.getJsonParserRegex(input);
+				outputText(regex);
 			}
 		});
 
 		builder.show();
+	}
+	private FormulaEditorFragment getFormulaEditorFragment() {
+		FormulaEditorFragment formulaEditorFragment = null;
+		if (fragmentManager != null) {
+			formulaEditorFragment = ((FormulaEditorFragment) fragmentManager
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		}
+		return formulaEditorFragment;
+	}
+
+	private void outputText(String text) {
+		FormulaEditorFragment formulaEditorFragment = getFormulaEditorFragment();
+		if (formulaEditorFragment != null) {
+			formulaEditorFragment.addString(text);
+		}
 	}
 }
