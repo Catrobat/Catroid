@@ -810,4 +810,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		}
 	}
+
+	public int getIndexOfCorrespondingRegularExpression() {
+		return formulaEditorEditText.getIndexOfCorrespondingRegularExpression();
+	}
+
+	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
+		formulaEditorEditText.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+	}
 }

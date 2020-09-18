@@ -284,9 +284,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
-					addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem());
-					getActivity().onBackPressed();
-					openRegularExpressionAssistant();
+					regularExpressionAssistantActivityOnButtonClick();
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
 					getActivity().onBackPressed();
@@ -352,6 +350,33 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			}
 		}
 		return regexItem;
+	}
+
+	private void regularExpressionAssistantActivityOnButtonClick() {
+		int indexOfCorrespondingRegularExpression = 0;
+		FormulaEditorFragment formulaEditorFragment = getFormulaEditorFragment();
+
+		if (formulaEditorFragment != null) {
+			indexOfCorrespondingRegularExpression =
+					formulaEditorFragment.getIndexOfCorrespondingRegularExpression();
+
+			if (indexOfCorrespondingRegularExpression >= 0) {
+				formulaEditorFragment.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfCorrespondingRegularExpression);
+			} else {
+				addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem());
+			}
+
+			getActivity().onBackPressed();
+			openRegularExpressionAssistant();
+		}
+	}
+
+	private FormulaEditorFragment getFormulaEditorFragment() {
+		if (getFragmentManager() != null) {
+			return ((FormulaEditorFragment) getFragmentManager()
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		}
+		return null;
 	}
 
 	private void openRegularExpressionAssistant() {
