@@ -25,17 +25,24 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.ShowTextBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithVisualPlacement;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.catrobat.catroid.visualplacement.VisualPlacementActivity;
 import org.junit.After;
@@ -50,6 +57,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.intent.Intents;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -78,7 +86,9 @@ public class VisualPlacementBrickTest {
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
 				{"GlideToBrick", R.string.brick_glide, new GlideToBrick()},
-				{"PlaceAtBrick", R.string.brick_place_at, new PlaceAtBrick()}
+				{"PlaceAtBrick", R.string.brick_place_at, new PlaceAtBrick()},
+				{"ShowTextBrick", R.string.brick_show_variable, new ShowTextBrick()},
+				{"ShowTextColorSizeAlignment", R.string.brick_show_variable_size, new ShowTextColorSizeAlignmentBrick(0, 0, 100, "#FFFF00")}
 		});
 	}
 
@@ -91,7 +101,8 @@ public class VisualPlacementBrickTest {
 	@Parameterized.Parameter(2)
 	public VisualPlacementBrick brick;
 
-	int brickPosition = 1;
+	private int brickPosition = 1;
+	private UserVariable userVariable;
 
 	@After
 	public void tearDown() {
@@ -112,11 +123,31 @@ public class VisualPlacementBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script =
-				BrickTestUtils.createProjectAndGetStartScript(VisualPlacementBrickTest.class.getSimpleName());
+		Script script = createProject();
+		if (brick instanceof UserVariableBrickWithVisualPlacement) {
+			((UserVariableBrickWithVisualPlacement) brick).setUserVariable(userVariable);
+		}
 		script.addBrick(brick);
 		baseActivityTestRule.launchActivity();
 		Intents.init();
+	}
+
+	public Script createProject() {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), VisualPlacementBrickTest.class.getSimpleName());
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript();
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		userVariable = new UserVariable("userVariable");
+		sprite.addScript(script);
+		sprite.addUserVariable(userVariable);
+		project.getDefaultScene().addSprite(sprite);
+
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getCurrentSprite().addUserVariable(userVariable);
+		return script;
 	}
 
 	@Test

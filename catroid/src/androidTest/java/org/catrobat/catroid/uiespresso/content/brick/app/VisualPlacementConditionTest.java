@@ -25,15 +25,21 @@ package org.catrobat.catroid.uiespresso.content.brick.app;
 
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
+import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.UserVariableBrickWithVisualPlacement;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -41,9 +47,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
+import org.junit.runners.Parameterized;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+
+import androidx.test.core.app.ApplicationProvider;
 
 import static org.catrobat.catroid.uiespresso.content.brick.app.VisualPlacementBrickTest.isFormulaEditorShownImmediatelyWithTapOnEditText;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
@@ -54,17 +64,39 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @Category({Cat.AppUi.class, Level.Smoke.class})
-@RunWith(JUnit4.class)
-public class GlideToBrickTest {
+@RunWith(Parameterized.class)
+public class VisualPlacementConditionTest {
 	private static final String TAG = VisualPlacementBrickTest.class.getSimpleName();
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
 
-	public int brickString = R.string.brick_glide;
-	public VisualPlacementBrick brick = new GlideToBrick();
-	int brickPosition = 1;
+	@Parameterized.Parameters(name = "{0}")
+	public static Collection<Object[]> data() {
+		return Arrays.asList(new Object[][] {
+				{"GlideToBrick", R.string.brick_glide, new GlideToBrick(), R.id.brick_glide_to_edit_text_duration, -1},
+				{"ShowTextColorSizeAlignment", R.string.brick_show_variable_size, new ShowTextColorSizeAlignmentBrick(0, 0, 100, "#FFFF00"), R.id.brick_show_variable_color_size_edit_relative_size, R.id.brick_show_variable_color_size_edit_color},
+		});
+	}
+
+	@Parameterized.Parameter
+	public String name;
+
+	@Parameterized.Parameter(1)
+	public int brickString;
+
+	@Parameterized.Parameter(2)
+	public VisualPlacementBrick brick;
+
+	@Parameterized.Parameter(3)
+	public int firstEditTextId;
+
+	@Parameterized.Parameter(4)
+	public int secondEditTextId;
+
+	private int brickPosition = 1;
+	private UserVariable userVariable;
 
 	@After
 	public void tearDown() {
@@ -78,25 +110,51 @@ public class GlideToBrickTest {
 
 	@Before
 	public void setUp() throws Exception {
-		Script script =
-				BrickTestUtils.createProjectAndGetStartScript(VisualPlacementBrickTest.class.getSimpleName());
+		Script script = createProject();
+		if (brick instanceof UserVariableBrickWithVisualPlacement) {
+			((UserVariableBrickWithVisualPlacement) brick).setUserVariable(userVariable);
+		}
 		script.addBrick(brick);
 		baseActivityTestRule.launchActivity();
 	}
 
-	@Test
-	public void testVisualPlacementNotShownForGlideSecondsOption() {
-		onBrickAtPosition(brickPosition).checkShowsText(brickString);
-		isFormulaEditorShownImmediatelyWithTapOnEditText(R.id.brick_glide_to_edit_text_duration);
+	public Script createProject() {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), VisualPlacementBrickTest.class.getSimpleName());
+		Sprite sprite = new Sprite("testSprite");
+		Script script = new StartScript();
+		ProjectManager projectManager = ProjectManager.getInstance();
+
+		userVariable = new UserVariable("userVariable");
+		sprite.addScript(script);
+		sprite.addUserVariable(userVariable);
+		project.getDefaultScene().addSprite(sprite);
+
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
+		projectManager.setCurrentlyEditedScene(project.getDefaultScene());
+		projectManager.getCurrentSprite().addUserVariable(userVariable);
+		return script;
 	}
 
 	@Test
-	public void testVisualPlacementInFormulaFragmentNotShownForGlideSecondsOption() {
+	public void testVisualPlacementNotShownForWrongTextField() {
+		onBrickAtPosition(brickPosition).checkShowsText(brickString);
+		isFormulaEditorShownImmediatelyWithTapOnEditText(firstEditTextId);
+		if (secondEditTextId != -1) {
+			isFormulaEditorShownImmediatelyWithTapOnEditText(firstEditTextId);
+		}
+	}
+
+	@Test
+	public void testVisualPlacementInFormulaFragmentNotShownForWrongTextField() {
 		onBrickAtPosition(brickPosition).checkShowsText(brickString);
 		onView(withId(brick.getXEditTextId()))
 				.perform(click());
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
-		isFormulaEditorShownImmediatelyWithTapOnEditText(R.id.brick_glide_to_edit_text_duration);
+		isFormulaEditorShownImmediatelyWithTapOnEditText(firstEditTextId);
+		if (secondEditTextId != -1) {
+			isFormulaEditorShownImmediatelyWithTapOnEditText(firstEditTextId);
+		}
 	}
 }
