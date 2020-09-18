@@ -33,7 +33,9 @@ import java.util.regex.Pattern;
 import androidx.annotation.VisibleForTesting;
 
 public class HtmlRegexExtractor {
+
 	private Context context;
+
 	public HtmlRegexExtractor(Context context) {
 		this.context = context;
 	}
