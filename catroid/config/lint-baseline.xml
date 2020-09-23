@@ -36,12 +36,7 @@
 
     <issue
         id="UnusedAttribute"
-        severity="Warning"
         message="Attribute `requestLegacyExternalStorage` is only used in API level 29 and higher (current min is 21)"
-        category="Correctness"
-        priority="6"
-        summary="Attribute unused on older versions"
-        explanation="This check finds attributes set in XML files that were introduced in a version newer than the oldest version targeted by your application (with the `minSdkVersion` attribute).&#xA;&#xA;This is not an error; the application will simply ignore the attribute. However, if the attribute is important to the appearance or functionality of your application, you should consider finding an alternative way to achieve the same result with only available attributes, and then you can optionally create a copy of the layout in a layout-vNN folder which will be used on API NN or higher where you can take advantage of the newer attribute.&#xA;&#xA;Note: This check does not only apply to attributes. For example, some tags can be unused too, such as the new `&lt;tag>` element in layouts introduced in API 21."
         errorLine1="        android:requestLegacyExternalStorage=&quot;true&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
@@ -117,6 +112,18 @@
     </issue>
 
     <issue
+        id="OutdatedLibrary"
+        message="This version is deprecated. Details: The Fabric Crashlytics SDK is now deprecated and will continue reporting your app&apos;s crashes only until November 15, 2020. To continue getting crash reports in the Firebase console, make sure you upgrade to the Firebase Crashlytics SDK version 17.0.0+.
+&#xA;For more information, visit https://firebase.google.com/docs/crashlytics/upgrade-sdk. Consider switching to recommended version 17.2.2."
+        errorLine1="    implementation (&apos;com.crashlytics.sdk.android:crashlytics:2.6.8@aar&apos;) {"
+        errorLine2="    ^">
+        <location
+            file="build.gradle"
+            line="442"
+            column="5"/>
+    </issue>
+
+    <issue
         id="StaticFieldLeak"
         message="Do not place Android context classes in static fields (static reference to `CastManager` which has field `remoteLayout` pointing to `RelativeLayout`); this is a memory leak"
         errorLine1=" private static final CastManager INSTANCE = new CastManager();"
@@ -134,7 +141,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\CatroidApplication.java"
-            line="54"
+            line="55"
             column="10"/>
     </issue>
 
@@ -200,7 +207,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="101"
+            line="104"
             column="10"/>
     </issue>
 
@@ -211,7 +218,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="103"
+            line="106"
             column="10"/>
     </issue>
 
@@ -222,7 +229,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="105"
+            line="108"
             column="10"/>
     </issue>
 
@@ -266,7 +273,7 @@
         errorLine2="               ~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\actions\ReadListFromDeviceAction.java"
-            line="58"
+            line="62"
             column="16"/>
     </issue>
 
@@ -277,7 +284,7 @@
         errorLine2="               ~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\actions\ReadVariableFromDeviceAction.java"
-            line="57"
+            line="61"
             column="16"/>
     </issue>
 
@@ -310,7 +317,7 @@
         errorLine2="               ~~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\actions\WriteListOnDeviceAction.java"
-            line="61"
+            line="65"
             column="16"/>
     </issue>
 
@@ -321,7 +328,7 @@
         errorLine2="               ~~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\actions\WriteVariableOnDeviceAction.java"
-            line="59"
+            line="63"
             column="16"/>
     </issue>
 
@@ -428,7 +435,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (85 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -451,7 +458,7 @@
         errorLine2="                   ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\bricks\brickspinner\BrickSpinner.java"
-            line="169"
+            line="213"
             column="20"/>
     </issue>
 
@@ -506,7 +513,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="289"
+            line="293"
             column="19"/>
     </issue>
 
@@ -695,28 +702,6 @@
             file="src\main\res\layout\activity_upload.xml"
             line="45"
             column="10"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\bottom_bar.xml"
-            line="33"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\bottom_bar.xml"
-            line="39"
-            column="6"/>
     </issue>
 
     <issue
@@ -1448,34 +1433,34 @@
     <issue
         id="RtlSymmetry"
         message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_orientation.xml"
-            line="44"
-            column="13"/>
+            file="src\main\res\layout\dialog_new_project.xml"
+            line="67"
+            column="17"/>
     </issue>
 
     <issue
         id="RtlSymmetry"
         message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_orientation.xml"
-            line="52"
-            column="13"/>
+            file="src\main\res\layout\dialog_new_project.xml"
+            line="75"
+            column="17"/>
     </issue>
 
     <issue
         id="RtlSymmetry"
         message="When you define `paddingStart` you should probably also define `paddingEnd` for right-to-left symmetry"
-        errorLine1="             android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
-        errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
+        errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_orientation.xml"
-            line="61"
-            column="14"/>
+            file="src\main\res\layout\dialog_new_project.xml"
+            line="84"
+            column="17"/>
     </issue>
 
     <issue
