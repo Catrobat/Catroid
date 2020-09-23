@@ -612,7 +612,6 @@
     <string name="backgrounds">Backgrounds</string>
     <string name="looks">Looks</string>
     <string name="sounds">Sounds</string>
-    <string name="nfctags">NFC Tags</string>
 
 
     <!-- NewProjectDialog -->
@@ -913,6 +912,7 @@
     <!--  -->
 
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
 
