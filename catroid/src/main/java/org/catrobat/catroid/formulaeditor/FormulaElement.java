@@ -547,14 +547,14 @@ public class FormulaElement implements Serializable {
 
 	private static String interpretFunctionJoin(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild) {
-		return interpretFunctionString(leftChild, scope) + interpretFunctionString(rightChild,
-				scope);
+		return interpretFunctionString(leftChild, scope).concat(interpretFunctionString(rightChild,
+				scope));
 	}
 
 	private static String interpretFunctionJoin3(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
-		return interpretFunctionString(leftChild, scope) + interpretFunctionString(rightChild,
-				scope) + interpretFunctionString(additionalChildren.get(0), scope);
+		return interpretFunctionString(leftChild, scope).concat(interpretFunctionString(rightChild,
+				scope).concat(interpretFunctionString(additionalChildren.get(0), scope)));
 	}
 
 	private static String interpretFunctionFlatten(Scope scope, FormulaElement leftChild) {
