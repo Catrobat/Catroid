@@ -63,6 +63,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply plugin: 'jacoco-android'
+apply plugin: 'maven-publish'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/emulator_tasks.gradle'
@@ -284,6 +285,9 @@ android {
 
     productFlavors {
         catroid {
+            if (project.hasProperty("snapshot")) {
+                versionName = versionName + '-Locale'
+            }
             isDefault.set(true)
         }
         createAtSchool {

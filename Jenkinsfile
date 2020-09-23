@@ -66,6 +66,7 @@ pipeline {
         booleanParam name: 'BUILD_ALL_FLAVOURS', defaultValue: false, description: 'When selected all flavours are built and archived as artifacts that can be installed alongside other versions of the same APK.'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
+        string name: 'BUILD_WITH_PAINTDROID', defaultValue: 'no', description: 'When set to \'yes\' the the current Catroid build will be build with the current develop Branch of Paintroid'
     }
 
     options {
@@ -120,6 +121,21 @@ pipeline {
 
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                     archiveArtifacts '**/*.apk'
+                                }
+                            }
+                        }
+
+                        stage('Build with Paintroid') {
+                            when {
+                                environment name: 'BUILD_WITH_PAINTDROID', value: 'yes'
+                            }
+                            steps {
+                                sh './gradlew publishToMavenLocal -Psnapshot'
+                                sh 'rm -rf Paintroid; mkdir Paintroid'
+                                dir('Paintroid') {
+                                    git branch: 'develop', url: 'https://github.com/Catrobat/Paintroid.git'
+                                    sh "./gradlew assembleDebug"
+                                    archiveArtifacts 'app/build/outputs/apk/debug/paintroid-debug.apk'
                                 }
                             }
                         }
