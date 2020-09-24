@@ -204,7 +204,8 @@ public class Look extends Image {
 
 	@Override
 	protected void positionChanged() {
-		if (sprite != null && sprite.penConfiguration.isPenDown() && !simultaneousMovementXY) {
+		if (sprite != null && sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()
+				&& !simultaneousMovementXY) {
 			float x = getXInUserInterfaceDimensionUnit();
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
