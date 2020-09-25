@@ -38,6 +38,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -130,6 +131,9 @@ public class StageListener implements ApplicationListener {
 	public WebConnectionHolder webConnectionHolder;
 
 	private List<Sprite> sprites;
+	private Sprite spriteToFocusOn = null;
+	private float horizontalFlex = 0.0f;
+	private float verticalFlex = 0.0f;
 
 	private float virtualWidthHalf;
 	private float virtualHeightHalf;
@@ -506,6 +510,12 @@ public class StageListener implements ApplicationListener {
 			scene.firstStart = true;
 			reloadProject = false;
 
+			if (spriteToFocusOn != null) {
+				spriteToFocusOn = null;
+				camera.position.set(0, 0, 0);
+				camera.update();
+			}
+
 			if (stageDialog != null) {
 				synchronized (stageDialog) {
 					stageDialog.notify();
@@ -582,6 +592,39 @@ public class StageListener implements ApplicationListener {
 			testPixels = ScreenUtils.getFrameBufferPixels(testX, testY, testWidth, testHeight, false);
 			makeTestPixels = false;
 		}
+
+		if (spriteToFocusOn != null) {
+			calculateCameraPositionForFocusedSprite();
+		}
+	}
+
+	@VisibleForTesting
+	public void calculateCameraPositionForFocusedSprite() {
+		Vector3 currentPos = camera.position;
+		float currentXDifference = spriteToFocusOn.look.getXInUserInterfaceDimensionUnit() - currentPos.x;
+		float currentYDifference = spriteToFocusOn.look.getYInUserInterfaceDimensionUnit() - currentPos.y;
+		float limitX = virtualWidthHalf * (horizontalFlex / 100);
+		float limitY = virtualHeightHalf * (verticalFlex / 100);
+		float newCameraXPos = camera.position.x;
+		float newCameraYPos = camera.position.y;
+
+		if (Math.abs(currentXDifference) > limitX) {
+			newCameraXPos = spriteToFocusOn.look.getXInUserInterfaceDimensionUnit()
+					- convertLimitOnNegativeDifference(currentXDifference, limitX);
+		}
+		if (Math.abs(currentYDifference) > limitY) {
+			newCameraYPos = spriteToFocusOn.look.getYInUserInterfaceDimensionUnit()
+					- convertLimitOnNegativeDifference(currentYDifference, limitY);
+		}
+
+		if (newCameraXPos != camera.position.x || newCameraYPos != camera.position.y) {
+			camera.position.set(newCameraXPos, newCameraYPos, 0.0f);
+			camera.update();
+		}
+	}
+
+	private float convertLimitOnNegativeDifference(float difference, float limit) {
+		return difference < 0 ? limit * -1 : limit;
 	}
 
 	private void printPhysicsLabelOnScreen() {
@@ -781,6 +824,18 @@ public class StageListener implements ApplicationListener {
 		}
 	}
 
+	public void setSpriteToFocusOn(Sprite spriteToFocusOn) {
+		this.spriteToFocusOn = spriteToFocusOn;
+	}
+
+	public void setHorizontalFlex(float horizontalFlex) {
+		this.horizontalFlex = horizontalFlex;
+	}
+
+	public void setVerticalFlex(float verticalFlex) {
+		this.verticalFlex = verticalFlex;
+	}
+
 	public void setBubbleActorForSprite(Sprite sprite, ShowBubbleActor showBubbleActor) {
 		addActor(showBubbleActor);
 		bubbleActorMap.put(sprite, showBubbleActor);
@@ -798,6 +853,26 @@ public class StageListener implements ApplicationListener {
 
 	public List<Sprite> getSpritesFromStage() {
 		return sprites;
+	}
+
+	@VisibleForTesting
+	public OrthographicCamera getCamera() {
+		return camera;
+	}
+
+	@VisibleForTesting
+	public void setCamera(OrthographicCamera camera) {
+		this.camera = camera;
+	}
+
+	@VisibleForTesting
+	public void setVirtualWidthHalf(float virtualWidthHalf) {
+		this.virtualWidthHalf = virtualWidthHalf;
+	}
+
+	@VisibleForTesting
+	public void setVirtualHeightHalf(float virtualHeightHalf) {
+		this.virtualHeightHalf = virtualHeightHalf;
 	}
 
 	private class StageBackup {

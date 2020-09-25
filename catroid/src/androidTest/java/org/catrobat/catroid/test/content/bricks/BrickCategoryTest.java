@@ -147,6 +147,7 @@ import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetBounceBrick;
 import org.catrobat.catroid.content.bricks.SetBrightnessBrick;
+import org.catrobat.catroid.content.bricks.SetCameraFocusPointBrick;
 import org.catrobat.catroid.content.bricks.SetColorBrick;
 import org.catrobat.catroid.content.bricks.SetFrictionBrick;
 import org.catrobat.catroid.content.bricks.SetGravityBrick;
@@ -245,6 +246,7 @@ public class BrickCategoryTest {
 						GlideToBrick.class,
 						GoNStepsBackBrick.class,
 						ComeToFrontBrick.class,
+						SetCameraFocusPointBrick.class,
 						VibrationBrick.class,
 						SetPhysicsObjectTypeBrick.class,
 						WhenBounceOffBrick.class,
@@ -295,6 +297,7 @@ public class BrickCategoryTest {
 						SetColorBrick.class,
 						ChangeColorByNBrick.class,
 						ClearGraphicEffectBrick.class,
+						SetCameraFocusPointBrick.class,
 						WhenBackgroundChangesBrick.class,
 						SetBackgroundBrick.class,
 						SetBackgroundByIndexBrick.class,
