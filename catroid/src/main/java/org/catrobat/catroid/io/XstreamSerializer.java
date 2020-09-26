@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -430,6 +431,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", LoopEndBrick.class);
 		xstream.alias("brick", LoopEndlessBrick.class);
 		xstream.alias("brick", LookRequestBrick.class);
+		xstream.alias("brick", DeleteLookBrick.class);
 		xstream.alias("brick", BackgroundRequestBrick.class);
 		xstream.alias("brick", MoveNStepsBrick.class);
 		xstream.alias("brick", NextLookBrick.class);

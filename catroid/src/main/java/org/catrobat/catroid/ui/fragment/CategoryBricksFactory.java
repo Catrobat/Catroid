@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -541,6 +542,8 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH,
 					BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
+
+		looksBrickList.add(new DeleteLookBrick());
 
 		return looksBrickList;
 	}

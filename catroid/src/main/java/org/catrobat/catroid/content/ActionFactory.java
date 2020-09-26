@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.actions.ClearUserListAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
+import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
 import org.catrobat.catroid.content.actions.DroneEmergencyAction;
 import org.catrobat.catroid.content.actions.DroneFlipAction;
@@ -651,6 +652,12 @@ public class ActionFactory extends Actions {
 
 	public Action createSetPreviousLookAction(Sprite sprite) {
 		SetPreviousLookAction action = action(SetPreviousLookAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
+	public Action createDeleteLookAction(Sprite sprite) {
+		DeleteLookAction action = Actions.action(DeleteLookAction.class);
 		action.setSprite(sprite);
 		return action;
 	}
