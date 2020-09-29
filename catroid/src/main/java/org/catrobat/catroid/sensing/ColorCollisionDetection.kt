@@ -57,7 +57,7 @@ class ColorCollisionDetection(
         if (isParameterInvalid(color) || isLookInvalid()) {
             return false
         }
-        val matcher = TouchesColorMatcher(color as String, polygons)
+        val matcher = TouchesColorMatcher(color as String)
         return try {
             interpretMatcherOnStage(matcher)
         } catch (_: Exception) {
@@ -70,14 +70,11 @@ class ColorCollisionDetection(
         if (isParameterInvalid(spriteColor) || isParameterInvalid(stageColor) || isLookInvalid()) {
             return false
         }
-        val lookData = look.lookData.clone()
-        val matcher = ColorTouchesColorMatcher(lookData.pixmap, spriteColor as String, stageColor as String)
+        val matcher = ColorTouchesColorMatcher(spriteColor as String, stageColor as String)
         return try {
             interpretMatcherOnStage(matcher)
         } catch (_: Exception) {
             false
-        } finally {
-            lookData.dispose()
         }
     }
 
@@ -85,12 +82,15 @@ class ColorCollisionDetection(
         val lookList: MutableList<Look> = getLooksOfOtherSprites()
         val batch = SpriteBatch()
         val projectionMatrix = createProjectionMatrix(currentProject)
-        val pixmap = recreateStageOnCameraView(lookList, projectionMatrix, batch)
-        matcher.setStagePixmap(pixmap)
+        val stagePixmap = recreateStageOnCameraView(lookList, projectionMatrix, batch)
+        matcher.stagePixmap = stagePixmap
+        val lookData = look.lookData.clone()
+        matcher.spritePixmap = lookData.pixmap
         try {
             return ConditionMatcherRunner(matcher).matchAsync(boundingRectangle)
         } finally {
-            pixmap.dispose()
+            stagePixmap.dispose()
+            lookData.dispose()
             batch.dispose()
         }
     }
