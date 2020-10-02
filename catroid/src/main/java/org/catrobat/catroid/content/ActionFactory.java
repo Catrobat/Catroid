@@ -177,6 +177,7 @@ import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TripleStitchAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
+import org.catrobat.catroid.content.actions.UserDefinedBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
@@ -210,12 +211,24 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
 
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Pair;
 
 public class ActionFactory extends Actions {
+
+	public EventAction createUserBrickAction(List<UserDefinedBrickData> userDefinedBrickDataList,
+											UUID userDefinedBrickID, Sprite sprite) {
+		UserDefinedBrickAction action = action(UserDefinedBrickAction.class);
+		action.setUserDefinedBrickDataList(userDefinedBrickDataList);
+		action.setUserDefinedBrickID(userDefinedBrickID);
+		action.setSprite(sprite);
+		action.setWait(true);
+		return action;
+	}
 
 	public EventAction createBroadcastAction(String broadcastMessage, boolean wait) {
 		BroadcastAction action = action(BroadcastAction.class);

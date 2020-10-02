@@ -26,6 +26,7 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
 
 import java.util.UUID;
 
@@ -54,7 +55,7 @@ public class UserDefinedScript extends Script {
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
-		return null;
+		return new UserDefinedBrickEventId(userDefinedBrickID);
 	}
 
 	public UUID getUserDefinedBrickID() {
