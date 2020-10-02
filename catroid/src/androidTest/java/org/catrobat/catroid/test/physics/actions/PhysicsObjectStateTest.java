@@ -218,25 +218,22 @@ public class PhysicsObjectStateTest {
 	}
 
 	private void setX(float value) {
-		SetXAction setXAction = new SetXAction();
-		setXAction.setSprite(sprite);
-		setXAction.setX(new Formula(value));
+		SetXAction setXAction = (SetXAction) sprite.getActionFactory().createSetXAction(sprite,
+				new Formula(value));
 		setXAction.act(1.0f);
 		sprite.look.getX();
 	}
 
 	private void setY(float value) {
-		SetYAction setYAction = new SetYAction();
-		setYAction.setSprite(sprite);
-		setYAction.setY(new Formula(value));
+		SetYAction setYAction = (SetYAction) sprite.getActionFactory().createSetYAction(sprite,
+				new Formula(value));
 		setYAction.act(1.0f);
 		sprite.look.getY();
 	}
 
 	private void transparency(int percent) {
-		SetTransparencyAction ghostEffectAction = new SetTransparencyAction();
-		ghostEffectAction.setSprite(sprite);
-		ghostEffectAction.setTransparency(new Formula(percent));
+		SetTransparencyAction ghostEffectAction =
+				(SetTransparencyAction) sprite.getActionFactory().createSetTransparencyAction(sprite, new Formula(percent));
 		ghostEffectAction.act(1.0f);
 	}
 

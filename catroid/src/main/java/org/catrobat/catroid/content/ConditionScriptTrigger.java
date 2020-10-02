@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.eventids.WhenConditionEventId;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -54,7 +55,8 @@ public class ConditionScriptTrigger {
 
 	void evaluateAndTriggerActions(Sprite sprite) {
 		try {
-			boolean conditionValue = formula.interpretBoolean(sprite);
+			Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, null);
+			boolean conditionValue = formula.interpretBoolean(scope);
 			if (conditionValue) {
 				triggerScript(sprite);
 			} else {

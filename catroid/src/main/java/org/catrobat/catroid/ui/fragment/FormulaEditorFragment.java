@@ -47,8 +47,15 @@ import android.widget.TableRow;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.UserDefinedScript;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
@@ -79,6 +86,7 @@ import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -510,7 +518,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private void showComputeDialog() {
 		InternFormulaParser internFormulaParser = formulaEditorEditText.getFormulaParser();
-		final FormulaElement formulaElement = internFormulaParser.parseFormula();
+		final FormulaElement formulaElement = internFormulaParser.parseFormula(generateScope());
 		if (formulaElement == null) {
 			if (internFormulaParser.getErrorTokenIndex() >= 0) {
 				formulaEditorEditText.setParseErrorCursorAndSelection();
@@ -534,7 +542,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					}
 				}
 				Formula formulaToCompute = new Formula(formulaElement);
-				FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(getActivity());
+				FormulaEditorComputeDialog computeDialog =
+						new FormulaEditorComputeDialog(getActivity(), generateScope());
 				computeDialog.setFormula(formulaToCompute);
 				computeDialog.show();
 			}
@@ -652,9 +661,29 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
+	private Scope generateScope() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		ScriptSequenceAction sequence = null;
+		Script script = formulaBrick.getScript();
+		if (script instanceof UserDefinedScript) {
+			UserDefinedReceiverBrick brick = (UserDefinedReceiverBrick) script.getScriptBrick();
+			List<UserDefinedBrickInput> inputs =
+					brick.getUserDefinedBrick().getUserDefinedBrickInputs();
+			List<Object> inputNames = new ArrayList<>();
+			for (UserDefinedBrickInput input : inputs) {
+				inputNames.add(new UserVariable(input.getName()));
+			}
+
+			sequence = new ScriptSequenceAction(script);
+			((UserDefinedScript) (sequence.getScript())).setUserDefinedBrickInputs(inputNames);
+		}
+		return new Scope(project, sprite, sequence);
+	}
+
 	public boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
-		FormulaElement formulaParseTree = formulaToParse.parseFormula();
+		FormulaElement formulaParseTree = formulaToParse.parseFormula(generateScope());
 
 		switch (formulaToParse.getErrorTokenIndex()) {
 			case InternFormulaParser.PARSER_OK:
@@ -890,7 +919,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialStates.entrySet()) {
 			InternFormula internFormula = state.getValue().createInternFormulaFromState();
 			formulaBrick.setFormulaWithBrickField(state.getKey(),
-					new Formula(internFormula.getInternFormulaParser().parseFormula()));
+					new Formula(internFormula.getInternFormulaParser().parseFormula(generateScope())));
 		}
 	}
 

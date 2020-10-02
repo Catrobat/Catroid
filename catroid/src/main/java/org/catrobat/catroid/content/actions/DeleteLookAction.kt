@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.eventids.SetLookEventId
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.ui.recyclerview.controller.LookController
 
-class DeleteLookAction : SpriteEventAction() {
+class DeleteLookAction : SingleSpriteEventAction() {
 
     private var lookController = LookController()
     private var xstreamSerializer: XstreamSerializer = XstreamSerializer.getInstance()

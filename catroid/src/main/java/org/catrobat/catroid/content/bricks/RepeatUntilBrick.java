@@ -150,7 +150,7 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 		}
 
 		Action action = sprite.getActionFactory()
-				.createRepeatUntilAction(sprite,
+				.createRepeatUntilAction(sprite, sequence,
 						getFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION), repeatSequence);
 
 		sequence.addAction(action);

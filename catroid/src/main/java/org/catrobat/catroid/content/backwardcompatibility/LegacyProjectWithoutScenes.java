@@ -45,10 +45,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 
 @XStreamAlias("program")
 public class LegacyProjectWithoutScenes implements Serializable {

@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.embroidery.DSTFileGenerator
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.stage.StageActivity
@@ -40,7 +40,7 @@ import java.io.IOException
 import java.util.ArrayList
 
 class WriteEmbroideryToFileAction : Action() {
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var formula: Formula? = null
     val context: Context = CatroidApplication.getAppContext()
 
@@ -50,7 +50,7 @@ class WriteEmbroideryToFileAction : Action() {
         }
 
         if (stageListener.embroideryPatternManager.validPatternExists()) {
-            var fileName = Utils.sanitizeFileName(formula!!.interpretString(sprite))
+            var fileName = Utils.sanitizeFileName(formula!!.interpretString(scope))
             if (!fileName.endsWith(Constants.EMBROIDERY_FILE_EXTENSION)) {
                 fileName += Constants.EMBROIDERY_FILE_EXTENSION
             }

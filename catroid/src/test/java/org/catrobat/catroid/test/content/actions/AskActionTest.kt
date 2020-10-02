@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import junit.framework.Assert
 import org.catrobat.catroid.content.Sprite
@@ -39,12 +40,14 @@ import org.powermock.modules.junit4.PowerMockRunner
 @PrepareForTest(GdxNativesLoader::class)
 class AskActionTest {
     private lateinit var testSprite: Sprite
+    private lateinit var testSequence: SequenceAction
     private lateinit var userVariableForAnswer: UserVariable
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
         testSprite = Sprite("testSprite")
+        testSequence = SequenceAction("testSequence")
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
     }
@@ -53,6 +56,7 @@ class AskActionTest {
     fun testAskAndCheckAnswer() {
         val action = testSprite.actionFactory.createAskAction(
             testSprite,
+            testSequence,
             Formula(ASK_QUESTION),
             userVariableForAnswer
         ) as AskAction

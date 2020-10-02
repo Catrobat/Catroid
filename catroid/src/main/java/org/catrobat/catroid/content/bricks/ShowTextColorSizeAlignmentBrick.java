@@ -154,7 +154,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		}
 
 		sequence.addAction(sprite.getActionFactory().createShowVariableColorAndSizeAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION),
+				sequence, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
 				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));

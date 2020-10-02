@@ -21,29 +21,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.actions
+package org.catrobat.catroid.content
 
-import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.content.Scope
-import org.catrobat.catroid.formulaeditor.Formula
-import org.catrobat.catroid.io.XstreamSerializer
-import org.catrobat.catroid.stage.StageActivity
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 
-abstract class PocketPaintAction : Action(), StageActivity.IntentListener {
-    var formula: Formula? = null
-    var scope: Scope? = null
-    protected var responseReceived = false
-    protected var questionAsked = false
-    protected var nextLookAction: SetNextLookAction? = null
-    protected var xstreamSerializer: XstreamSerializer = XstreamSerializer.getInstance()
-
-    override fun restart() {
-        questionAsked = false
-        responseReceived = false
-        super.restart()
-    }
-
-    fun nextLookAction(nextLookAction: SetNextLookAction) {
-        this.nextLookAction = nextLookAction
-    }
-}
+data class Scope(
+    val project: Project,
+    val sprite: Sprite,
+    val sequence: SequenceAction?
+)

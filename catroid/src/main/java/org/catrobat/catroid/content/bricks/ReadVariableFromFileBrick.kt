@@ -86,7 +86,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
         userVariable?.name?.let {
             sequence.addAction(
                 sprite.actionFactory.createReadVariableFromFileAction(
-                    sprite,
+                    sprite, sequence,
                     getFormulaWithBrickField(BrickField.READ_FILENAME),
                     userVariable,
                     spinnerSelectionID == DELETE

@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;

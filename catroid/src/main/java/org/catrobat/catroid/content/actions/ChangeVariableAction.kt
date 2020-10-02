@@ -23,18 +23,18 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
 
 class ChangeVariableAction : Action() {
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var changeVariable: Formula? = null
     var userVariable: UserVariable? = null
 
     override fun act(delta: Float): Boolean {
         val originalValue = userVariable?.value as? Double ?: return true
-        val value = changeVariable?.interpretObject(sprite) ?: 0.0
+        val value = changeVariable?.interpretObject(scope) ?: 0.0
         (value as? Double ?: (value as? String)?.toDoubleOrNull())?.run {
             updateUserVariable(originalValue, this)
         }

@@ -107,7 +107,8 @@ public class SetNfcTagBrick extends FormulaBrick implements
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetNfcTagAction(sprite, getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE), nfcTagNdefType));
+				.createSetNfcTagAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.NFC_NDEF_MESSAGE), nfcTagNdefType));
 	}
 
 	class NfcTypeOption implements Nameable {

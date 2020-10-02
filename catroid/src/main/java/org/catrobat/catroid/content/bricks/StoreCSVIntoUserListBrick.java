@@ -75,7 +75,7 @@ public class StoreCSVIntoUserListBrick extends UserListBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createStoreCSVIntoUserListAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createStoreCSVIntoUserListAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_COLUMN),
 				getFormulaWithBrickField(BrickField.STORE_CSV_INTO_USERLIST_CSV), userList));
 	}

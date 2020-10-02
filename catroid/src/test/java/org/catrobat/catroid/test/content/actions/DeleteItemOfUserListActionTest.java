@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -46,6 +48,7 @@ public class DeleteItemOfUserListActionTest {
 	private static final List<Object> INITIALIZED_LIST_VALUES = new ArrayList<Object>();
 
 	private Sprite testSprite;
+	private SequenceAction testSequence;
 	private Project project;
 	private UserList userList;
 
@@ -55,6 +58,7 @@ public class DeleteItemOfUserListActionTest {
 	public void setUp() throws Exception {
 		actionFactory = new ActionFactory();
 		testSprite = new Sprite("testSprite");
+		testSequence = new SequenceAction();
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		userList = new UserList(TEST_USER_LIST_NAME, INITIALIZED_LIST_VALUES);
@@ -68,7 +72,8 @@ public class DeleteItemOfUserListActionTest {
 
 	@Test
 	public void testDeleteItemOfUserList() {
-		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(1d), userList).act(1f);
+		actionFactory.createDeleteItemOfUserListAction(testSprite, testSequence, new Formula(1d),
+				userList).act(1f);
 		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
 		Object firstItemOfUserList = userList.getValue().get(0);
 
@@ -79,13 +84,13 @@ public class DeleteItemOfUserListActionTest {
 
 	@Test
 	public void testDeleteItemWithInvalidUserList() {
-		actionFactory.createAddItemToUserListAction(testSprite, new Formula(1d), null).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, testSequence, new Formula(1d), null).act(1f);
 		assertEquals(3, userList.getValue().size());
 	}
 
 	@Test
 	public void testDeleteNullFormula() {
-		actionFactory.createDeleteItemOfUserListAction(testSprite, null, userList).act(1f);
+		actionFactory.createDeleteItemOfUserListAction(testSprite, testSequence, null, userList).act(1f);
 
 		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
 		Object firstItemOfUserList = userList.getValue().get(0);
@@ -97,7 +102,8 @@ public class DeleteItemOfUserListActionTest {
 
 	@Test
 	public void testNotANumberFormula() {
-		actionFactory.createDeleteItemOfUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
+		actionFactory.createDeleteItemOfUserListAction(testSprite, testSequence, new Formula(Double.NaN),
+				userList).act(1f);
 
 		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
 		Object firstItemOfUserList = userList.getValue().get(0);

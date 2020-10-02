@@ -40,6 +40,7 @@ import com.badlogic.gdx.utils.viewport.Viewport
 import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.isValidHexColor
 import org.catrobat.catroid.stage.StageListener
@@ -48,12 +49,11 @@ import kotlin.math.sqrt
 private const val MAX_PIXELS = 10_000f
 
 class ColorCollisionDetection(
-    private val sprite: Sprite,
-    private val currentProject: Project,
+    private val scope: Scope,
     private val stageListener: StageListener
 ) {
-    private val look: Look = sprite.look
-    private val polygons = sprite.look.currentCollisionPolygon
+    private val look: Look = scope.sprite.look
+    private val polygons = scope.sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
     private val scale = calculateBufferScale()
     private val bufferWidth = (boundingRectangle.width * scale).toInt()
@@ -89,7 +89,7 @@ class ColorCollisionDetection(
         val lookList: MutableList<Look> = getLooksOfOtherSprites()
         val batch = SpriteBatch()
         val spriteBatch = SpriteBatch()
-        val projectionMatrix = createProjectionMatrix(currentProject)
+        val projectionMatrix = createProjectionMatrix(scope.project)
         matcher.stagePixmap = createPicture(lookList, projectionMatrix, batch)
         val wasLookVisible = look.isLookVisible
         look.isLookVisible = true
@@ -108,7 +108,7 @@ class ColorCollisionDetection(
 
     private fun getLooksOfOtherSprites(): MutableList<Look> =
         ArrayList<Sprite>(stageListener.spritesFromStage)
-            .filter { s -> (s != sprite || s.isClone) && s.look.isLookVisible }
+            .filter { s -> (s != scope.sprite || s.isClone) && s.look.isLookVisible }
             .map { s -> s.look }
             .toMutableList()
 

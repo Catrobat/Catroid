@@ -46,9 +46,9 @@ class EditLookBrick : BrickBaseType() {
     }
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        val nextLookAction = sprite.actionFactory.createSetNextLookAction(sprite)
+        val nextLookAction = sprite.actionFactory.createSetNextLookAction(sprite, sequence)
         sequence.addAction(sprite.actionFactory.createEditLookAction(
-            sprite, nextLookAction as SetNextLookAction))
+            sprite, sequence, nextLookAction as SetNextLookAction))
         sequence.addAction(nextLookAction)
     }
 }

@@ -29,7 +29,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 
 public class StoreCSVIntoUserListAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 
 	private Formula formulaColumnToExtract;
 	private Formula formulaCSVData;
@@ -57,11 +57,11 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 
 		String csvData;
 		try {
-			csvData = formulaCSVData == null ? "" : formulaCSVData.interpretString(sprite);
+			csvData = formulaCSVData == null ? "" : formulaCSVData.interpretString(scope);
 
 			int columnToExtract;
 			columnToExtract = formulaColumnToExtract == null ? 0
-					: formulaColumnToExtract.interpretInteger(sprite);
+					: formulaColumnToExtract.interpretInteger(scope);
 
 			columnToExtract--;
 
@@ -114,7 +114,7 @@ public class StoreCSVIntoUserListAction extends TemporalAction {
 		this.formulaCSVData = formulaCSVData;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

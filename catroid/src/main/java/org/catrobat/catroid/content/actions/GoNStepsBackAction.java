@@ -28,28 +28,28 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.common.Constants;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class GoNStepsBackAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula steps;
 
 	@Override
 	protected void update(float delta) {
 		Float stepsValue;
 		try {
-			stepsValue = steps == null ? Float.valueOf(0f) : steps.interpretFloat(sprite);
+			stepsValue = steps == null ? Float.valueOf(0f) : steps.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
 
-		int zPosition = sprite.look.getZIndex();
+		int zPosition = scope.getSprite().look.getZIndex();
 		if (stepsValue.intValue() > 0 && (zPosition - stepsValue.intValue()) < Constants.Z_INDEX_FIRST_SPRITE) {
-			sprite.look.setZIndex(Constants.Z_INDEX_FIRST_SPRITE);
+			scope.getSprite().look.setZIndex(Constants.Z_INDEX_FIRST_SPRITE);
 		} else if (stepsValue.intValue() < 0 && (zPosition - stepsValue.intValue()) < zPosition) {
 			toFront(delta);
 		} else {
@@ -58,18 +58,18 @@ public class GoNStepsBackAction extends TemporalAction {
 	}
 
 	private void toFront(float delta) {
-		Action comeToFrontAction = sprite.getActionFactory().createComeToFrontAction(sprite);
+		Action comeToFrontAction = scope.getSprite().getActionFactory().createComeToFrontAction(scope.getSprite());
 		comeToFrontAction.act(delta);
 	}
 
 	private void goNStepsBack(int steps) {
-		int zPosition = sprite.look.getZIndex();
+		int zPosition = scope.getSprite().look.getZIndex();
 		int newSpriteZIndex = Math.max(zPosition - steps, Constants.Z_INDEX_FIRST_SPRITE);
-		sprite.look.setZIndex(newSpriteZIndex);
+		scope.getSprite().look.setZIndex(newSpriteZIndex);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setSteps(Formula steps) {

@@ -76,7 +76,7 @@ public class LegoEv3PlayToneBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoEv3PlayToneAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createLegoEv3PlayToneAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.LEGO_EV3_FREQUENCY),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_DURATION_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.LEGO_EV3_VOLUME)));

@@ -83,7 +83,7 @@ public class PlayDrumForBeatsBrick extends FormulaBrick implements BrickSpinner.
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPlayDrumForBeatsAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createPlayDrumForBeatsAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.PLAY_DRUM), drumSelection));
 	}
 

@@ -48,7 +48,7 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
         userVariable?.name?.let {
             sequence.addAction(
                 sprite.actionFactory.createWriteVariableToFileAction(
-                    sprite, getFormulaWithBrickField(BrickField.WRITE_FILENAME), userVariable))
+                    sprite, sequence, getFormulaWithBrickField(BrickField.WRITE_FILENAME), userVariable))
         }
     }
 

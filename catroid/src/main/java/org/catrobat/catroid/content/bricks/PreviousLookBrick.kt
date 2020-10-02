@@ -43,6 +43,6 @@ class PreviousLookBrick : BrickBaseType() {
     }
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.createSetPreviousLookAction(sprite))
+        sequence.addAction(sprite.actionFactory.createSetPreviousLookAction(sprite, sequence))
     }
 }

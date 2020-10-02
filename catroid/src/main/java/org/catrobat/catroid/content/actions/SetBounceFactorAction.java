@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 public class SetBounceFactorAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private PhysicsObject physicsObject;
 	private Formula bounceFactor;
 
@@ -41,7 +41,8 @@ public class SetBounceFactorAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newBounceFactor;
 		try {
-			newBounceFactor = bounceFactor == null ? Float.valueOf(0f) : bounceFactor.interpretFloat(sprite);
+			newBounceFactor = bounceFactor == null ? Float.valueOf(0f)
+					: bounceFactor.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
@@ -49,8 +50,8 @@ public class SetBounceFactorAction extends TemporalAction {
 		physicsObject.setBounceFactor(newBounceFactor / 100.0f);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPhysicsObject(PhysicsObject physicsObject) {

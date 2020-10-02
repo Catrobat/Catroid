@@ -46,7 +46,7 @@ class OpenUrlBrick constructor() : FormulaBrick() {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory.createOpenUrlAction(
-                sprite,
+                sprite, sequence,
                 getFormulaWithBrickField(BrickField.OPEN_URL)
             )
         )

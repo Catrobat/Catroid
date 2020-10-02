@@ -30,10 +30,12 @@ import org.catrobat.catroid.content.GroupSprite
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.SensorHandler
 import org.catrobat.catroid.formulaeditor.Sensors
+import org.catrobat.catroid.formulaeditor.UserData
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.nfc.NfcHandler
@@ -212,6 +214,17 @@ object FormulaElementOperations {
     fun interpretUserVariable(userVariable: UserVariable?) = userVariable?.value ?: Conversions.FALSE
 
     @JvmStatic
+    fun interpretUserDefinedBrickInput(userDefinedBrickInput: UserData<Any>): Any {
+        return userDefinedBrickInput?.let {
+            when {
+                it is UserVariable -> interpretUserVariable(it)
+                it is UserList -> interpretUserList(it)
+                else -> null
+            }
+        } ?: Conversions.FALSE
+    }
+
+    @JvmStatic
     fun interpretLookCollision(look: Look, looks: List<Look>): Double {
         val collides = looks.any {
             look != it && CollisionDetection.checkCollisionBetweenLooks(look, it)
@@ -281,9 +294,10 @@ object FormulaElementOperations {
     }
 
     @JvmStatic
-    fun tryInterpretElementRecursive(element: FormulaElement, sprite: Sprite?): Any {
+    fun tryInterpretElementRecursive(element: FormulaElement, scope: Scope):
+        Any {
         return try {
-            element.interpretRecursive(sprite)
+            element.interpretRecursive(scope)
         } catch (numberFormatException: NumberFormatException) {
             Double.NaN
         }

@@ -74,7 +74,7 @@ public class DroneMoveForwardBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDroneMoveForwardAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createDroneMoveForwardAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.DRONE_TIME_TO_FLY_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.DRONE_POWER_IN_PERCENT)));
 	}

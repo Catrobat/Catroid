@@ -32,7 +32,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ListSelectorBrick
@@ -45,13 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.utils.ToastUtil
-
 import java.util.ArrayList
-
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.utils.UserDataUtil
 

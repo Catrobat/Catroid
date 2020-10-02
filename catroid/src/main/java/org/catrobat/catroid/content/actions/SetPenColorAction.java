@@ -28,13 +28,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.content.PenColor;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class SetPenColorAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula red;
 	private Formula green;
 	private Formula blue;
@@ -42,19 +42,19 @@ public class SetPenColorAction extends TemporalAction {
 	@Override
 	protected void update(float delta) {
 		try {
-			int newRed = red == null ? 0 : red.interpretInteger(sprite);
-			int newGreen = green == null ? 0 : green.interpretInteger(sprite);
-			int newBlue = blue == null ? 0 : blue.interpretInteger(sprite);
+			int newRed = red == null ? 0 : red.interpretInteger(scope);
+			int newGreen = green == null ? 0 : green.interpretInteger(scope);
+			int newBlue = blue == null ? 0 : blue.interpretInteger(scope);
 			Color color = new Color();
 			Color.argb8888ToColor(color, android.graphics.Color.argb(0xFF, newRed, newGreen, newBlue));
-			sprite.penConfiguration.setPenColor(new PenColor(color.r, color.g, color.b, color.a));
+			scope.getSprite().penConfiguration.setPenColor(new PenColor(color.r, color.g, color.b, color.a));
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setRed(Formula red) {

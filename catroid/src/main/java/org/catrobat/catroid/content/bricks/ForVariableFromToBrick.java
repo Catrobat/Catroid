@@ -174,7 +174,7 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		}
 
 		Action action = sprite.getActionFactory()
-				.createForVariableFromToAction(sprite, userVariable,
+				.createForVariableFromToAction(sprite, sequence, userVariable,
 						getFormulaWithBrickField(BrickField.FOR_LOOP_FROM),
 						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence);
 

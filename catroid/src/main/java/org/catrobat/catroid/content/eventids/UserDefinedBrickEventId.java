@@ -23,13 +23,22 @@
 
 package org.catrobat.catroid.content.eventids;
 
+import java.util.List;
 import java.util.UUID;
 
 public class UserDefinedBrickEventId extends EventId {
 	public final UUID userDefinedBrickID;
+	public List<Object> userBrickParameters;
+
+	public UserDefinedBrickEventId(UUID userDefinedBrickID,
+			List<Object> userBrickParameters) {
+		this.userDefinedBrickID = userDefinedBrickID;
+		this.userBrickParameters = userBrickParameters;
+	}
 
 	public UserDefinedBrickEventId(UUID userDefinedBrickID) {
 		this.userDefinedBrickID = userDefinedBrickID;
+		this.userBrickParameters = null;
 	}
 
 	@Override

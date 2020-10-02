@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.actions
 
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
@@ -34,7 +34,7 @@ class RepeatAction : RepeatAction() {
     private var isRepeatActionInitialized = false
     private var repeatCountValue = 0
     private var currentTime = 0f
-    lateinit var sprite: Sprite
+    var scope: Scope? = null
     var isForeverRepeat = false
     var repeatCount: Formula? = null
 
@@ -74,7 +74,7 @@ class RepeatAction : RepeatAction() {
 
     private fun interpretRepeatCount() {
         repeatCountValue = try {
-            repeatCount?.interpretInteger(sprite) ?: 0
+            repeatCount?.interpretInteger(scope) ?: 0
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,

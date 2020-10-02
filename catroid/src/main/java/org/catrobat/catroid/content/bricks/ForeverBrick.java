@@ -143,7 +143,7 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 			}
 		}
 
-		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
+		Action action = sprite.getActionFactory().createForeverAction(sprite, sequence, foreverSequence);
 
 		sequence.addAction(action);
 	}

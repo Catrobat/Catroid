@@ -67,6 +67,7 @@ public class AskSpeechBrick extends UserVariableBrickWithFormula {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createAskSpeechAction(sprite, getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
+				.createAskSpeechAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.ASK_SPEECH_QUESTION), userVariable));
 	}
 }
