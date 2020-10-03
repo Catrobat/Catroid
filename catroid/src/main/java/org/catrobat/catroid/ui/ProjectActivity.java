@@ -113,6 +113,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		loadFragment(fragmentPosition);
 		ProjectUtils.showWarningForSuspiciousBricksOnce(this);
 		showLegoSensorConfigInfo();
+
+		handleAddButton();
+		handlePlayButton();
 	}
 
 	private void loadFragment(int fragmentPosition) {
@@ -334,14 +337,16 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				.show();
 	}
 
-	public void handleAddButton(View view) {
-		if (getCurrentFragment() instanceof SceneListFragment) {
-			handleAddSceneButton();
-			return;
-		}
-		if (getCurrentFragment() instanceof SpriteListFragment) {
-			handleAddSpriteButton();
-		}
+	public void handleAddButton() {
+		findViewById(R.id.button_add).setOnClickListener(v ->  {
+					if (getCurrentFragment() instanceof SceneListFragment) {
+						handleAddSceneButton();
+						return;
+					}
+					if (getCurrentFragment() instanceof SpriteListFragment) {
+						handleAddSpriteButton();
+					}
+		});
 	}
 
 	public void handleAddSceneButton() {
@@ -407,8 +412,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		alertDialog.show();
 	}
 
-	public void handlePlayButton(View view) {
-		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+	public void handlePlayButton() {
+		findViewById(R.id.button_play).setOnClickListener(v ->
+				StageActivity.handlePlayButton(ProjectManager.getInstance(), this));
 	}
 
 	private void showLegoSensorConfigInfo() {

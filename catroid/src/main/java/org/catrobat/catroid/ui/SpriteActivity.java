@@ -156,6 +156,8 @@ public class SpriteActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
 
+		handlePlayButton();
+
 		int fragmentPosition = FRAGMENT_SCRIPTS;
 
 		Bundle bundle = getIntent().getExtras();
@@ -837,21 +839,23 @@ public class SpriteActivity extends BaseActivity {
 		alertDialog.show();
 	}
 
-	public void handlePlayButton(View view) {
-		Fragment currentFragment = getCurrentFragment();
-		if (currentFragment instanceof ScriptFragment) {
-			if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
-				((ScriptFragment) currentFragment).cancelHighlighting();
+	public void handlePlayButton() {
+		findViewById(R.id.button_play).setOnClickListener(v -> {
+			Fragment currentFragment = getCurrentFragment();
+			if (currentFragment instanceof ScriptFragment) {
+				if (((ScriptFragment) currentFragment).isCurrentlyHighlighted()) {
+					((ScriptFragment) currentFragment).cancelHighlighting();
+				}
+				if (((ScriptFragment) currentFragment).isCurrentlyMoving()) {
+					((ScriptFragment) getCurrentFragment()).highlightMovingItem();
+					return;
+				}
 			}
-			if (((ScriptFragment) currentFragment).isCurrentlyMoving()) {
-				((ScriptFragment) getCurrentFragment()).highlightMovingItem();
-				return;
-			}
-		}
 
-		while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
-			getSupportFragmentManager().popBackStack();
-		}
-		StageActivity.handlePlayButton(projectManager, this);
+			while (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+				getSupportFragmentManager().popBackStack();
+			}
+			StageActivity.handlePlayButton(projectManager, this);
+		});
 	}
 }

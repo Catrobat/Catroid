@@ -69,7 +69,6 @@
         android:tint="@color/solid_white"
         android:theme="@style/Theme.AppCompat"
         app:backgroundTint="@color/orange"
-        app:elevation="10dp"
-        android:onClick="handleAddButton" />
+        app:elevation="10dp" />
 
 </RelativeLayout>

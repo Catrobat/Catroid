@@ -65,6 +65,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.UniqueStringTextWatcher;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -137,6 +138,8 @@ public class ScriptFragment extends ListFragment implements
 				actionMode.finish();
 				return false;
 		}
+
+		adapter.notifyDataSetChanged();
 		return true;
 	}
 
@@ -194,7 +197,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
 		setHasOptionsMenu(true);
@@ -216,6 +219,8 @@ public class ScriptFragment extends ListFragment implements
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(adapter);
 		listView.setOnItemLongClickListener(adapter);
+
+		//handleAddButton();
 	}
 
 	@Override
@@ -260,10 +265,10 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
+		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
-		super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -414,14 +419,16 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public void handleAddButton() {
-		if (listView.isCurrentlyHighlighted()) {
-			listView.cancelHighlighting();
-		}
-		if (listView.isCurrentlyMoving()) {
-			listView.highlightMovingItem();
-		} else {
-			showCategoryFragment();
-		}
+		getActivity().findViewById(R.id.button_add).setOnClickListener(v-> {
+			if (listView.isCurrentlyHighlighted()) {
+				listView.cancelHighlighting();
+			}
+			if (listView.isCurrentlyMoving()) {
+				listView.highlightMovingItem();
+			} else {
+				showCategoryFragment();
+			}
+		});
 	}
 
 	public void addBrick(Brick brick) {

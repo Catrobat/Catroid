@@ -25,22 +25,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include layout="@layout/toolbar" />
 
-    <RelativeLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?actionBarSize"
+        app:tabGravity="fill"
+        android:background="@color/toolbar_background"
+        app:tabIndicatorColor="@color/accent"
+        app:tabIndicatorHeight="4dp"
+        app:tabMode="fixed" />
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="wrap_content" />
 
-        <include layout="@layout/list_action_buttons" />
+    <include layout="@layout/list_action_buttons" />
 
-    </RelativeLayout>
+    </FrameLayout>
+
 </LinearLayout>

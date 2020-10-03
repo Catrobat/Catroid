@@ -26,14 +26,12 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import org.catrobat.catroid.BuildConfig;
+import com.google.android.material.tabs.TabLayout;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -41,36 +39,25 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
-import org.catrobat.catroid.ui.recyclerview.RVButton;
-import org.catrobat.catroid.ui.recyclerview.adapter.ButtonAdapter;
+import org.catrobat.catroid.ui.adapter.ViewPagerAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.List;
-
-import androidx.annotation.IntDef;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled;
 
-public class SpriteAttributesActivity extends BaseActivity implements ButtonAdapter.OnItemClickListener {
+public class SpriteAttributesActivity extends BaseActivity {
 
-	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({SCRIPTS, LOOKS, SOUNDS, NFC_TAGS})
-	@interface ButtonId {}
-	private static final int SCRIPTS = 0;
-	private static final int LOOKS = 1;
-	private static final int SOUNDS = 2;
-	private static final int NFC_TAGS = 3;
+	private static final int[] TAB_ICONS = {
+			R.drawable.ic_program_menu_scripts,
+			R.drawable.ic_program_menu_looks,
+			R.drawable.ic_program_menu_sounds
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -86,16 +73,23 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		RecyclerView recyclerView = findViewById(R.id.recycler_view);
-		List<RVButton> items = getItems();
-		ButtonAdapter adapter = new ButtonAdapter(items);
-		adapter.setOnItemClickListener(this);
-		recyclerView.setAdapter(adapter);
-		recyclerView.addItemDecoration(
-				new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+		setUpViewPagerWithTabLayout();
 
-		BottomBar.hideAddButton(this);
 		updateActionBarTitle();
+
+		handlePlayButton();
+	}
+
+	private void setUpViewPagerWithTabLayout() {
+		ViewPager viewPager = findViewById(R.id.view_pager);
+		TabLayout tabLayout = findViewById(R.id.tab_layout);
+		ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+		viewPager.setAdapter(viewPagerAdapter);
+		tabLayout.setupWithViewPager(viewPager);
+
+		for (int i = 0; i < tabLayout.getTabCount(); i++) {
+			tabLayout.getTabAt(i).setIcon(TAB_ICONS[i]);
+		}
 	}
 
 	@Override
@@ -134,32 +128,6 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		}
 	}
 
-	private List<RVButton> getItems() {
-		List<RVButton> items = new ArrayList<>();
-		items.add(new RVButton(SCRIPTS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_scripts),
-				getString(R.string.scripts)));
-
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
-		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
-					getString(R.string.backgrounds)));
-		} else {
-			items.add(new RVButton(LOOKS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_looks),
-					getString(R.string.looks)));
-		}
-		items.add(new RVButton(SOUNDS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_sounds),
-				getString(R.string.sounds)));
-
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
-			items.add(new RVButton(NFC_TAGS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_nfc),
-					getString(R.string.nfctags)));
-		}
-		return items;
-	}
-
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -174,13 +142,7 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
-		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
-			return super.onCreateOptionsMenu(menu);
-		}
-		getMenuInflater().inflate(R.menu.menu_program_menu, menu);
+		getMenuInflater().inflate(R.menu.menu_script_activity, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -212,31 +174,8 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		updateActionBarTitle();
 	}
 
-	@Override
-	public void onItemClick(@ButtonId int id) {
-		switch (id) {
-			case SCRIPTS:
-				startScriptActivity(SpriteActivity.FRAGMENT_SCRIPTS);
-				break;
-			case LOOKS:
-				startScriptActivity(SpriteActivity.FRAGMENT_LOOKS);
-				break;
-			case SOUNDS:
-				startScriptActivity(SpriteActivity.FRAGMENT_SOUNDS);
-				break;
-			case NFC_TAGS:
-				startScriptActivity(SpriteActivity.FRAGMENT_NFC_TAGS);
-				break;
-		}
-	}
-
-	private void startScriptActivity(int fragmentPosition) {
-		Intent intent = new Intent(this, SpriteActivity.class);
-		intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, fragmentPosition);
-		startActivity(intent);
-	}
-
-	public void handlePlayButton(View view) {
-		StageActivity.handlePlayButton(ProjectManager.getInstance(), this);
+	public void handlePlayButton() {
+		findViewById(R.id.button_play).setOnClickListener(v ->
+				StageActivity.handlePlayButton(ProjectManager.getInstance(), this));
 	}
 }

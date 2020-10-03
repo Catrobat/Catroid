@@ -39,8 +39,7 @@
         android:src="@drawable/ic_play"
         android:tint="@color/solid_white"
         app:backgroundTint="@color/orange"
-        app:elevation="10dp"
-        android:onClick="handlePlayButton" />
+        app:elevation="10dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_add"
@@ -53,7 +52,6 @@
         android:src="@drawable/ic_plus"
         android:tint="@color/solid_white"
         app:backgroundTint="@color/orange"
-        app:elevation="10dp"
-        android:onClick="handleAddButton" />
+        app:elevation="10dp" />
 
 </RelativeLayout>

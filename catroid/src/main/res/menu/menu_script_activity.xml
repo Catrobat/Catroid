@@ -26,6 +26,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_rename_sprite"
+        android:title="@string/rename_sprite_dialog"
+        app:showAsAction="withText" />
+
+    <item
         android:id="@+id/menu_undo"
         android:title="@string/undo"
         app:showAsAction="ifRoom"

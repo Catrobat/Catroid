@@ -26,7 +26,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.View;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
@@ -48,6 +47,7 @@ public class ProjectListActivity extends BaseCastActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		BottomBar.hidePlayButton(this);
+		findViewById(R.id.button_add).setOnClickListener(v -> handleAddButton());
 
 		Fragment projectListFragment = new ProjectListFragment();
 
@@ -87,7 +87,7 @@ public class ProjectListActivity extends BaseCastActivity {
 		}
 	}
 
-	public void handleAddButton(View view) {
+	public void handleAddButton() {
 		NewProjectDialogFragment dialog = new NewProjectDialogFragment();
 		dialog.show(getSupportFragmentManager(), NewProjectDialogFragment.TAG);
 	}
