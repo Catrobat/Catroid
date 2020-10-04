@@ -93,6 +93,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT = 2;
+	private static final int SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER = 3;
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
 	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
@@ -218,6 +219,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void updateFragmentAfterVisualPlacement() {
 		updateBrickView();
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT);
+	}
+
+	public void updateFragmentAfterColorPicker() {
+		updateBrickView();
+		setInputFormula(currentFormulaField, SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER);
 	}
 
 	private void onUserDismiss() {
@@ -529,6 +535,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 			case SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT:
+			case SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER:
 			case SET_FORMULA_ON_SWITCH_EDIT_TEXT:
 				Formula newFormula = formulaBrick.getFormulaWithBrickField(formulaField);
 				if (currentFormula == newFormula && formulaEditorEditText.hasChanges()) {
@@ -758,10 +765,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public String getSelectedFormulaText() {
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
-	}
-
-	public void setCurrentBrickField(Brick.FormulaField currentFormulaField) {
-		FormulaEditorFragment.currentFormulaField = currentFormulaField;
 	}
 
 	public FormulaBrick getFormulaBrick() {
