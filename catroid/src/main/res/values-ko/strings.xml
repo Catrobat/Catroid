@@ -308,9 +308,6 @@
     <plurals name="delete_scripts">
         <item quantity="other">이 스크립트를 삭제하시겠습니까?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">이 블록을 삭제하시겠습니까?</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">프로젝트 이름</string>

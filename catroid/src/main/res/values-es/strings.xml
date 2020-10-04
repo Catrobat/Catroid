@@ -335,10 +335,6 @@
         <item quantity="one">¿Eliminar este script?</item>
         <item quantity="other">¿Eliminar estos scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">¿Eliminar este bloque?</item>
-        <item quantity="other">¿Eliminar estos bloques?</item>
-    </plurals>
     <string name="delete_definition">¿Eliminar la definición de este bloque?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Nombre del proyecto</string>

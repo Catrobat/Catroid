@@ -349,11 +349,6 @@ Ako se ne osjecate ugodno kako bi to ucinili, mozete koristiti nase besplatne we
         <item quantity="few">Delete these scripts?</item>
         <item quantity="other">Delete these scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Izbriši ovaj blok?</item>
-        <item quantity="few">Delete these bricks?</item>
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Naziv projekta</string>

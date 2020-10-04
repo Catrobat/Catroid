@@ -328,10 +328,6 @@
         <item quantity="one">Delete this script?</item>
         <item quantity="other">Delete these scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Delete this brick?</item>
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>

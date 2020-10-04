@@ -336,10 +336,6 @@
         <item quantity="one">Dieses Skript löschen?</item>
         <item quantity="other">Diese Skripte löschen?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Diesen Baustein löschen?</item>
-        <item quantity="other">Diese Bausteine löschen?</item>
-    </plurals>
     <string name="delete_definition">Definition dieses Bausteins löschen?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Projektname</string>

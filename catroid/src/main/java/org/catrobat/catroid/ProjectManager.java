@@ -515,6 +515,21 @@ public final class ProjectManager {
 		currentSprite = sprite;
 	}
 
+	public boolean setCurrentSceneAndSprite(String sceneName, String spriteName) {
+		for (Scene scene : project.getSceneList()) {
+			if (scene.getName().equals(sceneName)) {
+				setCurrentlyEditedScene(scene);
+				for (Sprite sprite : scene.getSpriteList()) {
+					if (sprite.getName().equals(spriteName)) {
+						currentSprite = sprite;
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
 	public void setCurrentlyEditedScene(Scene scene) {
 		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;

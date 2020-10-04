@@ -348,11 +348,6 @@
         <item quantity="few">Obrisati ove skripte?</item>
         <item quantity="other">Obrisati ove skripte?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Obrisati ovaj blok?</item>
-        <item quantity="few">Obrisati ove blokove?</item>
-        <item quantity="other">Obrisati ove blokove?</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Naziv projekta</string>

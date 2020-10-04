@@ -379,14 +379,6 @@
         <item quantity="many">هل تريد حذف هذه النصوص البرمجية؟</item>
         <item quantity="other">هل تريد حذف هذه النصوص البرمجية؟</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="zero">هل تريد حذف هذه اللبّنة البرمجية؟</item>
-        <item quantity="one">هل تريد حذف هذه اللبّنة البرمجية؟</item>
-        <item quantity="two">هل تريد حذف هذين اللّبنتين البرمجيتين؟</item>
-        <item quantity="few">هل تريد حذف هذه اللّبنات البرمجية؟</item>
-        <item quantity="many">هل تريد حذف هذه اللّبنات البرمجية؟</item>
-        <item quantity="other">هل تريد حذف هذه اللّبنات البرمجية؟</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">اسم البرنامج</string>

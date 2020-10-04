@@ -324,10 +324,6 @@
         <item quantity="other">ลบสคริปต์นี้หรือไม่
 ลบสคริปต์เหล่านี้หรือไม่</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">ลบคำสั่งนี้หรือไม่
-ลบคำสั่งเหล่านี้หรือไม่</item>
-    </plurals>
     <string name="delete_definition">ลบคำจำกัดความของคำสั่งนี้หรือไม่</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">ชื่อโครงการ</string>
