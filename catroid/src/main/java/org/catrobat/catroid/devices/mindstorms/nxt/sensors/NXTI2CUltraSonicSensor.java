@@ -98,10 +98,7 @@ public class NXTI2CUltraSonicSensor extends NXTI2CSensor {
 	}
 
 	public boolean isSensorOff() throws MindstormsException {
-		if (getMode() == UltrasonicCommand.Off) {
-			return true;
-		}
-		return false;
+		return getMode() == UltrasonicCommand.Off;
 	}
 
 	public void reset() throws MindstormsException {
