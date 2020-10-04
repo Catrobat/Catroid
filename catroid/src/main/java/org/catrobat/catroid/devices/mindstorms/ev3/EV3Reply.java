@@ -35,10 +35,7 @@ public class EV3Reply extends MindstormsReply {
 
 	@Override
 	public boolean hasError() {
-		if (getStatusByte() == NO_ERROR) {
-			return false;
-		}
-		return true;
+		return getStatusByte() != NO_ERROR;
 	}
 
 	@Override
@@ -52,10 +49,7 @@ public class EV3Reply extends MindstormsReply {
 	}
 
 	public boolean isValid(int commandCounter) {
-		if (data[0] == (byte) (commandCounter & 0x00FF) && data[1] == ((commandCounter & 0xFF00) >> 8) && !hasError()) {
-			return true;
-		}
-		return false;
+		return data[0] == (byte) (commandCounter & 0x00FF) && data[1] == ((commandCounter & 0xFF00) >> 8) && !hasError();
 	}
 
 	public EV3Reply(byte[] data) throws MindstormsException {
