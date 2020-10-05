@@ -23,6 +23,9 @@
 package org.catrobat.catroid.common;
 
 import java.io.Serializable;
+import java.util.Objects;
+
+import androidx.annotation.Nullable;
 
 public class NfcTagData implements Cloneable, Comparable<NfcTagData>, Nameable, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -67,5 +70,19 @@ public class NfcTagData implements Cloneable, Comparable<NfcTagData>, Nameable, 
 	@Override
 	public String toString() {
 		return name;
+	}
+
+	@Override
+	public boolean equals(@Nullable Object obj) {
+		if (obj instanceof NfcTagData) {
+			NfcTagData nfcTagData = (NfcTagData) obj;
+			return uid.equals(nfcTagData.getNfcTagUid());
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(name, uid);
 	}
 }
