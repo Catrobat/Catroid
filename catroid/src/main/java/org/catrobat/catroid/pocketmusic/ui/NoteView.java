@@ -78,6 +78,14 @@ public class NoteView extends ImageView implements View.OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if (trackRowView.allowOnlySingleNote) {
+			trackRowView.alertNoteChanged();
+		} else {
+			toggle();
+		}
+	}
+
+	public void toggle() {
 		toggled = !toggled;
 		showNote();
 		updateGridRow();

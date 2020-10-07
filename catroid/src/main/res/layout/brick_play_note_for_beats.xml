@@ -37,21 +37,38 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_set_tempo_layout"
+        android:id="@+id/brick_play_note_for_beats_layout"
         style="@style/BrickContainer.Sound.Small">
 
         <include layout="@layout/icon_brick_category_sound" />
 
         <TextView
             style="@style/BrickText.Multiple"
-            android:text="@string/set_tempo_to">
+            android:text="@string/play_note">
         </TextView>
 
         <TextView
-            android:id="@+id/brick_set_tempo_edit_text"
+            android:id="@+id/brick_play_note_for_beats_note_edit_text"
             style="@style/BrickEditText"
             app:layout_inputType="number"
             app:layout_textField="true">
+        </TextView>
+		
+		<TextView
+            style="@style/BrickText.Multiple"
+            android:text="@string/for_string">
+        </TextView>
+		
+		<TextView
+            android:id="@+id/brick_play_note_for_beats_beats_edit_text"
+            style="@style/BrickEditText"
+            app:layout_inputType="number"
+            app:layout_textField="true">
+        </TextView>
+
+        <TextView
+            style="@style/BrickText.Multiple"
+            android:text="@string/beats">
         </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 

@@ -31,19 +31,25 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
-public class PauseForBeatsAction extends TemporalAction {
+public class PlayNoteForBeatsAction extends TemporalAction {
 
 	private Sprite sprite;
+	private Formula midiValue;
 	private Formula beats;
 
 	@Override
 	protected void begin() {
 		try {
-			float pausedBeats = 0;
-			if (beats != null) {
-				pausedBeats = beats.interpretFloat(sprite);
+			int playedMidiValue = 0;
+			if (midiValue != null) {
+				playedMidiValue = midiValue.interpretInteger(sprite);
 			}
-			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(pausedBeats) / 1000);
+			float playedBeats = 0;
+			if (beats != null) {
+				playedBeats = beats.interpretFloat(sprite);
+			}
+			MidiSoundManager.getInstance().playNoteForBeats(playedMidiValue, playedBeats);
+			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(playedBeats) / 1000);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
@@ -51,6 +57,10 @@ public class PauseForBeatsAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setMidiValue(Formula midiValue) {
+		this.midiValue = midiValue;
 	}
 
 	public void setBeats(Formula beats) {

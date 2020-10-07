@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,6 +20,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.catrobat.catroid.pocketmusic.ui;
 
 import android.content.Context;
@@ -38,30 +39,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TrackView extends TableLayout {
+public class NotePickerView extends TableLayout {
+	private NotePickerView.OnNoteChangedListener listener;
+	private int selectedNote;
+	private int initialNote;
 
 	public static final int ROW_COUNT = 13;
-	public static final int HIGHEST_MIDI = 130;
 	private List<TrackRowView> trackRowViews = new ArrayList<>(ROW_COUNT);
 	private TrackGrid trackGrid;
 	private int tactPosition = 0;
-	public static final int[] BLACK_KEY_INDICES = {
-			1, 3, 6, 8, 10
-	};
-	public static final int[] WHITE_KEY_INDICES = {
-			0, 2, 4, 5, 7, 9, 11, 12
-	};
 
-	public TrackView(Context context, AttributeSet attrs) {
+	public NotePickerView(Context context, AttributeSet attrs) {
 		this(context, attrs, new TrackGrid(MusicalKey.VIOLIN, MusicalInstrument.ACCORDION, MusicalBeat.BEAT_4_4, new
 				ArrayList<GridRow>()));
 	}
 
-	public TrackView(Context context, TrackGrid trackGrid) {
-		this(context, null, trackGrid);
-	}
-
-	public TrackView(Context context, AttributeSet attrs, TrackGrid trackGrid) {
+	public NotePickerView(Context context, AttributeSet attrs, TrackGrid trackGrid) {
 		super(context, attrs);
 		setStretchAllColumns(true);
 		setClickable(true);
@@ -75,30 +68,68 @@ public class TrackView extends TableLayout {
 			removeAllViews();
 			trackRowViews.clear();
 		}
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
+		TableLayout.LayoutParams params = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
-			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
+			boolean isBlackRow = Arrays.binarySearch(TrackView.BLACK_KEY_INDICES, i) > -1;
 			NoteName noteName = NoteName.getNoteNameFromMidiValue(TrackRowView.getMidiValueForRow(i));
-			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, noteName, this);
+			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow,
+					this, noteName, 1);
+			trackGrid.updateGridRowPosition(noteName, 0, NoteLength.QUARTER, 0, false);
 			trackRowView.setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
 			trackRowViews.add(trackRowView);
 			addView(trackRowViews.get(i), params);
 		}
 	}
 
-	public List<TrackRowView> getTrackRowViews() {
-		return trackRowViews;
-	}
-
-	public void updateDataForTactPosition(int tactPosition) {
-		this.tactPosition = tactPosition;
+	public void disableAllNotes() {
 		for (int i = 0; i < ROW_COUNT; i++) {
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(TrackRowView.getMidiValueForRow(i));
-			trackRowViews.get(i).setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
+			trackRowViews.get(i).disableOwnNotes();
 		}
 	}
 
 	public void updateGridRowPosition(NoteName noteName, int columnIndex, NoteLength noteLength, boolean toggled) {
 		trackGrid.updateGridRowPosition(noteName, columnIndex, noteLength, tactPosition, toggled);
+	}
+
+	public void setOnNoteChangedListener(NotePickerView.OnNoteChangedListener listener) {
+		this.listener = listener;
+	}
+
+	public interface OnNoteChangedListener {
+		void noteChanged(int color);
+	}
+
+	public void onNoteChanged() {
+		if (listener != null) {
+			listener.noteChanged(getSelectedNote());
+		}
+	}
+
+	public int getSelectedNote() {
+		return selectedNote;
+	}
+
+	public void setSelectedNote(int note) {
+		updateTrackRowViews(note);
+		selectedNote = note;
+	}
+
+	public void setInitialNote(int initialNote) {
+		updateTrackRowViews(initialNote);
+		this.initialNote = initialNote;
+	}
+
+	private void updateTrackRowViews(int noteToBeSet) {
+		for (int i = 0; i < ROW_COUNT; i++) {
+			int tempNote = TrackRowView.getMidiValueForRow(i);
+			if (tempNote == noteToBeSet) {
+				trackRowViews.get(i).getNoteViews().get(0).setNoteActive(true, true);
+				break;
+			}
+		}
+	}
+
+	public int getInitialNote() {
+		return initialNote;
 	}
 }

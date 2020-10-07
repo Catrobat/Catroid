@@ -40,14 +40,17 @@ import androidx.core.content.ContextCompat;
 
 public class TrackRowView extends TableRow {
 
-	public static final int QUARTER_COUNT = 4;
+	public static final int INITIAL_QUARTER_COUNT = 4;
+	public static int quarterCount;
 
 	private int tactPosition = 0;
 	private final MusicalBeat beat;
-	private List<NoteView> noteViews = new ArrayList<>(QUARTER_COUNT);
+	private List<NoteView> noteViews;
 	private boolean isBlackRow;
 	private GridRow gridRow;
-	private TrackView trackView;
+	private TrackView trackView = null;
+	private NotePickerView notePickerView = null;
+	public boolean allowOnlySingleNote = false;
 	private NoteName noteName;
 
 	public TrackRowView(Context context) {
@@ -59,9 +62,26 @@ public class TrackRowView extends TableRow {
 		this.beat = beat;
 		this.noteName = noteName;
 		this.trackView = trackView;
+		this.quarterCount = INITIAL_QUARTER_COUNT;
+		noteViews = new ArrayList<>(INITIAL_QUARTER_COUNT);
 		this.setBlackRow(isBlackRow);
 		initializeRow();
-		setWeightSum(QUARTER_COUNT);
+		setWeightSum(INITIAL_QUARTER_COUNT);
+		updateGridRow();
+	}
+
+	public TrackRowView(Context context, MusicalBeat beat, boolean isBlackRow,
+			NotePickerView notePickerView, NoteName noteName, int quarterCount) {
+		super(context);
+		this.beat = beat;
+		this.noteName = noteName;
+		this.notePickerView = notePickerView;
+		this.quarterCount = quarterCount;
+		noteViews = new ArrayList<>(quarterCount);
+		allowOnlySingleNote = true;
+		this.setBlackRow(isBlackRow);
+		initializeRow();
+		setWeightSum(quarterCount);
 		updateGridRow();
 	}
 
@@ -121,14 +141,18 @@ public class TrackRowView extends TableRow {
 		params.leftMargin = params.topMargin = params.rightMargin = params.bottomMargin = getResources()
 				.getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
 
-		for (int i = 0; i < QUARTER_COUNT; i++) {
+		for (int i = 0; i < quarterCount; i++) {
 			noteViews.add(new NoteView(getContext(), this, i));
 			addView(noteViews.get(i), params);
 		}
 	}
 
 	public void updateGridRowPosition(int columnIndex, NoteLength noteLength, boolean toggled) {
-		trackView.updateGridRowPosition(noteName, columnIndex, noteLength, toggled);
+		if (trackView != null) {
+			trackView.updateGridRowPosition(noteName, columnIndex, noteLength, toggled);
+		} else if (notePickerView != null) {
+			notePickerView.updateGridRowPosition(noteName, columnIndex, noteLength, toggled);
+		}
 	}
 
 	private List<GridRowPosition> getGridRowsForCurrentTact() {
@@ -140,10 +164,30 @@ public class TrackRowView extends TableRow {
 	}
 
 	public int getTactCount() {
-		return QUARTER_COUNT;
+		return quarterCount;
 	}
 
 	public void setBlackRow(boolean blackRow) {
 		isBlackRow = blackRow;
+	}
+
+	public void alertNoteChanged() {
+		if (notePickerView != null) {
+			notePickerView.disableAllNotes();
+			notePickerView.setSelectedNote(gridRow.getNoteName().getMidi());
+			notePickerView.onNoteChanged();
+		}
+	}
+
+	public void disableOwnNotes() {
+		for (NoteView noteview : noteViews) {
+			if (noteview.isToggled()) {
+				noteview.setNoteActive(false, true);
+			}
+		}
+	}
+
+	public static int getMidiValueForRow(int row) {
+		return row * TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT + TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT;
 	}
 }

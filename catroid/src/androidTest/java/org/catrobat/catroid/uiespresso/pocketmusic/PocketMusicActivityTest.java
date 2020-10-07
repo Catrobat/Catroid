@@ -104,8 +104,8 @@ public class PocketMusicActivityTest {
 
 	public static ViewAction toggleNoteViewAtPositionInTact(final int position) {
 
-		final int row = position / TrackRowView.QUARTER_COUNT;
-		final int col = position % TrackRowView.QUARTER_COUNT;
+		final int row = position / TrackRowView.INITIAL_QUARTER_COUNT;
+		final int col = position % TrackRowView.INITIAL_QUARTER_COUNT;
 
 		return new ViewAction() {
 			@Override
@@ -116,7 +116,7 @@ public class PocketMusicActivityTest {
 			@Override
 			public String getDescription() {
 				String description;
-				if (row < TrackView.ROW_COUNT && col < TrackRowView.QUARTER_COUNT) {
+				if (row < TrackView.ROW_COUNT && col < TrackRowView.INITIAL_QUARTER_COUNT) {
 					description = String.format(Locale.getDefault(), "Toggle note at row %d, and columnt %d", row, col);
 				} else {
 					description = "Do not toggle note because the index is out of bounds";
@@ -128,7 +128,7 @@ public class PocketMusicActivityTest {
 			public void perform(UiController uiController, View view) {
 				uiController.loopMainThreadUntilIdle();
 				TrackView trackView = ((TrackView) view);
-				if (row < TrackView.ROW_COUNT && col < TrackRowView.QUARTER_COUNT) {
+				if (row < TrackView.ROW_COUNT && col < TrackRowView.INITIAL_QUARTER_COUNT) {
 					trackView.getTrackRowViews().get(row).getNoteViews().get(col).performClick();
 				}
 			}
@@ -154,8 +154,8 @@ public class PocketMusicActivityTest {
 
 			@Override
 			protected boolean matchesSafely(TrackView item) {
-				int row = position / TrackRowView.QUARTER_COUNT;
-				int col = position % TrackRowView.QUARTER_COUNT;
+				int row = position / TrackRowView.INITIAL_QUARTER_COUNT;
+				int col = position % TrackRowView.INITIAL_QUARTER_COUNT;
 				return item.getTrackRowViews().get(row).getNoteViews().get(col).isToggled();
 			}
 		};
@@ -201,7 +201,7 @@ public class PocketMusicActivityTest {
 
 		Random random = new Random();
 		for (int i = 0; i < TACT_COUNT_TO_TOGGLE_RANDOM_NOTE_ON; i++) {
-			randomPosition[i] = random.nextInt(TrackRowView.QUARTER_COUNT * TrackView.ROW_COUNT);
+			randomPosition[i] = random.nextInt(TrackRowView.INITIAL_QUARTER_COUNT * TrackView.ROW_COUNT);
 
 			if (i == recyclerView.getAdapter().getItemCount() - 1) {
 				onView(withId(R.id.tact_scroller))

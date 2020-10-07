@@ -28,6 +28,7 @@ import android.os.SystemClock;
 import android.util.Log;
 
 import org.catrobat.catroid.pocketmusic.mididriver.MidiNotePlayer;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiPlayer;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiRunnable;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSignals;
 import org.catrobat.catroid.pocketmusic.note.MusicalBeat;
@@ -128,8 +129,10 @@ public class TrackGrid {
 						+ "and noteLength %s. ", noteName.name(), tactIndex, columnIndex, noteLength.toString()));
 				currentGridRowPositions.add(new GridRowPosition(columnIndex, noteLength));
 				long playLength = NoteLength.QUARTER.toMilliseconds(Project.DEFAULT_BEATS_PER_MINUTE);
-				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, noteName, playLength, handler,
-						midiDriver, null, (byte) 0));
+				int adjustedMidiValue = MidiPlayer.getAdjustedMidiValue(Project.DEFAULT_INSTRUMENT,
+						noteName.getMidi());
+				handler.post(new MidiRunnable(MidiSignals.NOTE_ON, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
+						playLength, handler, midiDriver, null, (byte) 0));
 			}
 		} else {
 			if (indexInList >= 0) {
@@ -177,11 +180,14 @@ public class TrackGrid {
 		for (GridRow row : gridRows) {
 			for (int i = 0; i < row.getGridRowPositions().size(); i++) {
 				int tactIndex = row.getGridRowPositions().keyAt(i);
-				long tactOffset = playLength * TrackRowView.QUARTER_COUNT * tactIndex;
+				long tactOffset = playLength * TrackRowView.quarterCount * tactIndex;
 				List<GridRowPosition> gridRowPositions = row.getGridRowPositions().get(tactIndex);
 				for (GridRowPosition position : gridRowPositions) {
-					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, row.getNoteName(), playLength - SOUND_OFFSET,
-							handler, midiDriver, pianoView, (byte) 0);
+					int adjustedMidiValue = MidiPlayer.getAdjustedMidiValue(Project.DEFAULT_INSTRUMENT,
+									row.getNoteName().getMidi());
+					MidiRunnable runnable = new MidiRunnable(MidiSignals.NOTE_ON, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
+							playLength - SOUND_OFFSET, handler, midiDriver, pianoView, (byte) 0,
+							row.getNoteName());
 
 					handler.postAtTime(runnable, currentTime + tactOffset + playLength
 							* position.getColumnStartIndex() + SOUND_OFFSET);
@@ -194,8 +200,10 @@ public class TrackGrid {
 	public void stopPlayback(PianoView pianoView) {
 		for (MidiRunnable r : playRunnables) {
 			handler.removeCallbacks(r);
-			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler,
-					midiDriver, pianoView, (byte) 0));
+			int adjustedMidiValue = MidiPlayer.getAdjustedMidiValue(Project.DEFAULT_INSTRUMENT,
+					r.getNoteName().getMidi());
+			handler.post(new MidiRunnable(MidiSignals.NOTE_OFF, NoteName.getNoteNameFromMidiValue(adjustedMidiValue), 0, handler,
+					midiDriver, pianoView, (byte) 0, r.getNoteName()));
 		}
 		playRunnables.clear();
 	}
