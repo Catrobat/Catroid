@@ -90,6 +90,7 @@ public class BrickAdapter extends BaseAdapter implements
 
 	public void setCheckBoxMode(int checkBoxMode) {
 		this.checkBoxMode = checkBoxMode;
+		notifyDataSetChanged();
 	}
 
 	public void updateItems(Sprite sprite) {
