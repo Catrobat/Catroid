@@ -53,9 +53,9 @@ import static org.mockito.Mockito.when;
 @PrepareForTest({XstreamSerializer.class, ProjectManager.class})
 public class LoadProjectsTest {
 
-	private static final float INVALID_LANGUAGE_VERSION = 0.1234f;
-	private static final float TOO_BIG_LANGUAGE_VERSION = 123.04f;
-	private static final float OLDEST_LANGUAGE_VERSION = 0.8f;
+	private static final double INVALID_LANGUAGE_VERSION = 0.1234;
+	private static final double TOO_BIG_LANGUAGE_VERSION = 123.04;
+	private static final double OLDEST_LANGUAGE_VERSION = 0.8;
 	private static final String RESTORE_PROJECT_STRING = "restorePreviousProject";
 	private ProjectManager projectManagerSpy;
 	private File fileMock;

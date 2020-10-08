@@ -82,7 +82,7 @@ public class ProjectMetaDataParser {
 			return xmlFile.getParentFile();
 		}
 
-		public float getLanguageVersion() {
+		public double getLanguageVersion() {
 			return header.catrobatLanguageVersion;
 		}
 
@@ -95,7 +95,7 @@ public class ProjectMetaDataParser {
 			private static final long serialVersionUID = 1L;
 
 			private String programName;
-			private float catrobatLanguageVersion;
+			private double catrobatLanguageVersion;
 			private boolean scenesEnabled = false;
 		}
 	}

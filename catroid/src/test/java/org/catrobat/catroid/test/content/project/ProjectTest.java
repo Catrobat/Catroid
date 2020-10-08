@@ -44,7 +44,7 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(JUnit4.class)
 public class ProjectTest {
 
-	private static final float OLD_LANGUAGE_VERSION = 0.8f;
+	private static final double OLD_LANGUAGE_VERSION = 0.8;
 	private static final String OLD_APPLICATION_NAME = "catty";
 	private static final String OLD_PLATFORM = "iOS";
 	private static final String OLD_PLATFORM_VERSION = "1.0.0 beta";
