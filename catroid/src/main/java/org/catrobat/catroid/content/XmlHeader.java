@@ -37,6 +37,7 @@ public class XmlHeader implements Serializable {
 
 	private String programName;
 	private String description;
+	private String notesAndCredits;
 
 	@XStreamAlias("screenWidth")
 	public int virtualScreenWidth = 0;
@@ -137,12 +138,20 @@ public class XmlHeader implements Serializable {
 		return description;
 	}
 
+	public String getNotesAndCredits() {
+		return notesAndCredits;
+	}
+
 	public String getUserHandle() {
 		return userHandle;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public void setNotesAndCredits(String notesAndCredits) {
+		this.notesAndCredits = notesAndCredits;
 	}
 
 	public double getCatrobatLanguageVersion() {

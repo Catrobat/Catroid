@@ -113,12 +113,16 @@ public class ProjectUploadRatingDialogTest {
 		onView(withId(R.id.next))
 				.perform(click());
 
+		onView(withId(R.id.next))
+				.perform(click());
+
 		onView(withText(R.string.next))
 				.perform(click());
 
 		projectUploadController = activityTestRule.getActivity().getProjectUploadController();
 
-		verify(projectUploadController, times(1)).startUpload(eq("ProjectUploadRatingDialogTest"), eq(""), any());
+		verify(projectUploadController, times(1)).startUpload(eq("ProjectUploadRatingDialogTest"),
+				eq(""), eq(""), any());
 	}
 
 	@Test
@@ -126,6 +130,9 @@ public class ProjectUploadRatingDialogTest {
 		sharedPreferences.edit()
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
 				.commit();
+
+		onView(withId(R.id.next))
+				.perform(click());
 
 		onView(withId(R.id.next))
 				.perform(click());
@@ -151,6 +158,9 @@ public class ProjectUploadRatingDialogTest {
 		onView(withId(R.id.next))
 				.perform(click());
 
+		onView(withId(R.id.next))
+				.perform(click());
+
 		onView(withText(R.string.next))
 				.perform(click());
 
@@ -172,6 +182,9 @@ public class ProjectUploadRatingDialogTest {
 		onView(withId(R.id.next))
 				.perform(click());
 
+		onView(withId(R.id.next))
+				.perform(click());
+
 		onView(withText(R.string.next))
 				.perform(click());
 
@@ -189,6 +202,9 @@ public class ProjectUploadRatingDialogTest {
 		sharedPreferences.edit()
 				.putInt(NUMBER_OF_UPLOADED_PROJECTS, 1)
 				.commit();
+
+		onView(withId(R.id.next))
+				.perform(click());
 
 		onView(withId(R.id.next))
 				.perform(click());
