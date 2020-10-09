@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.dialogs.regexassistant;
 import android.content.Context;
 import android.content.DialogInterface;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 
 import java.util.ArrayList;
