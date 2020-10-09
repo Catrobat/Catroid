@@ -79,7 +79,7 @@ public class RegularExpressionAssistantDialog {
 
 	private void createListOfFeatures() {
 		listOfFeatures = new ArrayList<>();
-	  listOfFeatures.add(new HtmlExtractorDialog(fragmentManager));
+		listOfFeatures.add(new HtmlExtractorDialog(fragmentManager));
 		listOfFeatures.add(new JsonExtractorDialog(fragmentManager));
 		listOfFeatures.add(new WikiWebPage());
 	}
