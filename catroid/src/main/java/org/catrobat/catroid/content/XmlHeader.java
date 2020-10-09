@@ -45,7 +45,7 @@ public class XmlHeader implements Serializable {
 
 	public ScreenModes screenMode = ScreenModes.STRETCH;
 
-	private float catrobatLanguageVersion;
+	private double catrobatLanguageVersion;
 	private boolean landscapeMode;
 	private boolean isCastProject = false;
 	@SuppressWarnings("unused")
@@ -145,11 +145,11 @@ public class XmlHeader implements Serializable {
 		this.description = description;
 	}
 
-	public float getCatrobatLanguageVersion() {
+	public double getCatrobatLanguageVersion() {
 		return catrobatLanguageVersion;
 	}
 
-	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+	public void setCatrobatLanguageVersion(double catrobatLanguageVersion) {
 		this.catrobatLanguageVersion = catrobatLanguageVersion;
 	}
 

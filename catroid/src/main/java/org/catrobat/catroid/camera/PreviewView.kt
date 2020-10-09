@@ -23,11 +23,13 @@
 package org.catrobat.catroid.camera
 
 import android.content.Context
+import android.os.Build
 import android.view.SurfaceView
 import android.widget.FrameLayout
 import androidx.camera.core.Preview.SurfaceProvider
 import androidx.core.util.Consumer
 import java.util.concurrent.Executors
+import kotlin.math.roundToInt
 
 class PreviewView(context: Context) : FrameLayout(context) {
     private val surfaceView = SurfaceView(context)
@@ -37,21 +39,39 @@ class PreviewView(context: Context) : FrameLayout(context) {
     }
 
     fun createSurfaceProvider() = SurfaceProvider { request ->
-        val screenAspectRatio = width.toFloat() / height
-
         with(request.resolution) {
             surfaceView.holder.setFixedSize(width, height)
-            val cameraAspectRatio = height.toFloat() / width
-            if (screenAspectRatio < 1) {
-                surfaceView.scaleX = cameraAspectRatio / screenAspectRatio
-            } else {
-                surfaceView.scaleY = cameraAspectRatio * screenAspectRatio
-            }
+            scaleView(width, height)
         }
         request.provideSurface(
             surfaceView.holder.surface,
             Executors.newSingleThreadExecutor(),
             Consumer { }
         )
+    }
+
+    private fun scaleView(imageWidth: Int, imageHeight: Int) {
+        val imageAspectRatio = imageHeight.toFloat() / imageWidth
+        val screenAspectRatio = this.width.toFloat() / this.height
+
+        if (screenAspectRatio < 1) { // portrait mode
+            val scalingFactor = imageAspectRatio / screenAspectRatio
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                val scaledWidth = (imageWidth * scalingFactor).roundToInt()
+                surfaceView.layoutParams = LayoutParams(scaledWidth, imageHeight)
+            } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+                surfaceView.layoutParams.width = (this.width * scalingFactor).roundToInt()
+            }
+            surfaceView.scaleX = scalingFactor
+        } else { // landscape mode
+            val scalingFactor = imageAspectRatio * screenAspectRatio
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                val scaledHeight = (imageHeight * scalingFactor).roundToInt()
+                surfaceView.layoutParams = LayoutParams(imageWidth, scaledHeight)
+            } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+                surfaceView.layoutParams.height = (this.height * scalingFactor).roundToInt()
+            }
+            surfaceView.scaleY = scalingFactor
+        }
     }
 }
