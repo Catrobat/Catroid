@@ -31,6 +31,6 @@ public class JsonRegexExtractor {
 		this.context = context;
 	}
 	public static String getJsonParserRegex(String keyword) {
-		return "[\\{,]\\s*\"" + keyword + "\": (?![\\[\\{])\"?(.*?)\"?\\s*[,\\}]";
+		return "[\\{,]\\s*\"" + keyword + "\"\\s*:\\s*(?![\\[\\{])\"?(.*?)\"?\\s*[,\\}]";
 	}
 }
