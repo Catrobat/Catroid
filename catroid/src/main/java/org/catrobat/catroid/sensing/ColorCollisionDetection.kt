@@ -28,6 +28,7 @@ import com.badlogic.gdx.graphics.Camera
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Pixmap
+import com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.FrameBuffer
 import com.badlogic.gdx.math.Matrix4
@@ -42,15 +43,27 @@ import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.common.Conversions.isValidHexColor
 import org.catrobat.catroid.stage.StageListener
+import kotlin.math.sqrt
+
+private const val MAX_PIXELS = 10_000f
 
 class ColorCollisionDetection(
     private val sprite: Sprite,
     private val currentProject: Project,
     private val stageListener: StageListener
 ) {
-    private val look = sprite.look
+    private val look: Look = Look(null)
     private val polygons = sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
+    private val scale = calculateBufferScale()
+    private val bufferWidth = (boundingRectangle.width * scale).toInt()
+    private val bufferHeight = (boundingRectangle.height * scale).toInt()
+
+    init {
+        look.lookData = sprite.look?.lookData?.clone()
+        sprite.look?.copyTo(look)
+        look.isLookVisible = true
+    }
 
     @Suppress("TooGenericExceptionCaught")
     fun tryInterpretFunctionTouchesColor(color: Any?): Boolean {
@@ -81,17 +94,19 @@ class ColorCollisionDetection(
     private fun interpretMatcherOnStage(matcher: ConditionMatcher): Boolean {
         val lookList: MutableList<Look> = getLooksOfOtherSprites()
         val batch = SpriteBatch()
+        val spriteBatch = SpriteBatch()
         val projectionMatrix = createProjectionMatrix(currentProject)
-        val stagePixmap = recreateStageOnCameraView(lookList, projectionMatrix, batch)
-        matcher.stagePixmap = stagePixmap
-        val lookData = look.lookData.clone()
-        matcher.spritePixmap = lookData.pixmap
+        matcher.stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        matcher.spritePixmap = createPicture(listOf(look), projectionMatrix, spriteBatch)
+
         try {
-            return ConditionMatcherRunner(matcher).matchAsync(boundingRectangle)
+            return ConditionMatcherRunner(matcher).match(bufferWidth, bufferHeight)
         } finally {
-            stagePixmap.dispose()
-            lookData.dispose()
+            matcher.stagePixmap?.dispose()
+            matcher.spritePixmap?.dispose()
             batch.dispose()
+            spriteBatch.dispose()
+            look.lookData.dispose()
         }
     }
 
@@ -106,8 +121,8 @@ class ColorCollisionDetection(
 
     private fun isLookInvalid(): Boolean = look.width <= Float.MIN_VALUE || look.height <= Float.MIN_VALUE
 
-    private fun recreateStageOnCameraView(lookList: List<Look>, projectionMatrix: Matrix4, batch: SpriteBatch): Pixmap {
-        val buffer = FrameBuffer(Pixmap.Format.RGBA8888, look.width.toInt(), look.height.toInt(), false)
+    private fun createPicture(lookList: List<Look>, projectionMatrix: Matrix4, batch: SpriteBatch): Pixmap {
+        val buffer = FrameBuffer(RGBA8888, bufferWidth, bufferHeight, false)
 
         batch.projectionMatrix = projectionMatrix
         buffer.begin()
@@ -122,14 +137,21 @@ class ColorCollisionDetection(
     }
 
     private fun drawSprites(lookList: List<Look>, batch: SpriteBatch) {
-        for (look in lookList) {
-            look.draw(batch, 1f)
+        lookList.forEach { it.draw(batch, 1f) }
+    }
+
+    private fun calculateBufferScale(): Float {
+        val scale = sqrt(MAX_PIXELS / (boundingRectangle.width * boundingRectangle.height))
+        return if (scale < 1) {
+            scale
+        } else {
+            1f
         }
     }
 
     private fun createProjectionMatrix(project: Project): Matrix4 {
-        val scaledWidth = look.width * look.scaleX
-        val scaledHeight = look.height * look.scaleY
+        val scaledWidth = boundingRectangle.width * look.scaleX
+        val scaledHeight = boundingRectangle.height * look.scaleY
         val camera = OrthographicCamera(scaledWidth, scaledHeight)
         val viewPort = createViewport(project, scaledWidth, scaledHeight, camera)
         viewPort.apply()
