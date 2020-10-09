@@ -355,7 +355,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	}
 
 	private void openRegularExpressionAssistant() {
-		new RegularExpressionAssistantDialog(getContext()).createAssistant();
+		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
 	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserList> projectUserList, List<UserList> spriteUserList,

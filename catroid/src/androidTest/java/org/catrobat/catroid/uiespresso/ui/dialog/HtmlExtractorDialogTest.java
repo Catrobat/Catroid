@@ -103,19 +103,30 @@ public class HtmlExtractorDialogTest {
 		onView(withText(R.string.formula_editor_function_regex_html_extractor_not_found)).inRoot(withDecorView(not(baseActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
 	}
 
-	@Test
-	public void testHtmlExtractorDialogFoundMessage() {
-		onView(withHint(R.string.keyword_label)).perform(typeText("Key"));
-		onView(withHint(R.string.html_label)).perform(typeText("Keyword was Found"));
-		onView(withText(R.string.ok)).perform(click());
-
-		onView(withText(R.string.formula_editor_function_regex_html_extractor_found)).inRoot(withDecorView(not(baseActivityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-	}
-
 	private void openHtmlExtractor() {
 		String regularExpressionAssistant =
 				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
 		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(regularExpressionAssistant);
 		onView(withText(R.string.formula_editor_regex_html_extractor_dialog_title)).perform(click()); //click on HTML Extractor
+	}
+
+	@Test
+	public void testInsertKeywordIntoEditor() {
+		String expectedText = "regular expression('(.*) ','I am a panda.')";
+
+		onView(withHint(R.string.keyword_label)).perform(typeText("Word"));
+		onView(withHint(R.string.html_label)).perform(typeText("Word Inserted"));
+		onView(withText(R.string.ok)).perform(click());
+
+		onFormulaEditor().checkShows(getSelectedFunctionString(expectedText));
+	}
+
+	private String getSelectedFunctionString(String functionString) {
+		return functionString
+				.replaceAll("^(.+?)\\(", "$1( ")
+				.replace(",", " , ")
+				.replace("-", "- ")
+				.replaceAll("\\)$", " )")
+				.concat(" ");
 	}
 }
