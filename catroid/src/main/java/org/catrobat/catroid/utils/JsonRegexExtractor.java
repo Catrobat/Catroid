@@ -34,8 +34,8 @@ public final class JsonRegexExtractor {
 				+ "\"?((?<=\")(\\\\\"|[^\"])*(?=\")" // string
 				+ "|(?<!\")([+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?" // number
 				+ "|(true|false|null)" // boolean
-				+ "|\\{[^{]*\\}" // un-nested object
-				+ "|\\[[^\\[]*\\])" // un-nested array
+				+ "|\\{[^{]*?\\}" // un-nested object
+				+ "|\\[[^\\[]*?\\])" // un-nested array
 				+ "(?!\"))\"?(?=\\s*[,\\]}])"; // correct json expression format
 	}
 }
