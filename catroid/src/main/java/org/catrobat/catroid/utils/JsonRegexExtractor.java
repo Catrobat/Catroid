@@ -23,7 +23,7 @@
 
 package org.catrobat.catroid.utils;
 
-public class JsonRegexExtractor {
+public final class JsonRegexExtractor {
 
 	private JsonRegexExtractor() {
 		throw new IllegalStateException("Utility class");

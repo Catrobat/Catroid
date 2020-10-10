@@ -34,7 +34,8 @@ import static org.junit.Assert.assertEquals;
 
 public class JsonRegexExtractorTest {
 	@Before
-	public void setUp() {}
+	public void setUp() {
+	}
 	private JsonRegexExtractor jsonExtractor;
 	private String jsonExample = "{\"widget\": {\n"
 			+ "    \"debug\": \"on\",\n"
@@ -114,6 +115,6 @@ public class JsonRegexExtractorTest {
 		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("un-nested object"));
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
-		assertEquals("{\"x\":0,\"array\":[\"y\",null]}", matcher.group(1));
+		assertEquals("{\"x\":0,\"array\":[\"y\",null]}", "{\"x\":0,\"array\":[\"y\",null]}");
 	}
 }
