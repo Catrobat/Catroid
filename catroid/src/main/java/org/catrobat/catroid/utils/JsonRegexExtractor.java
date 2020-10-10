@@ -31,17 +31,12 @@ public class JsonRegexExtractor {
 		this.context = context;
 	}
 	public static String getJsonParserRegex(String keyword) {
-		return "(?x) # with comments & spaces ignored\n"
-			+ "\"" + keyword + "\" \\s* : \\s* \"? # find keyword\n"
-			+ "( # start capturing, see https://www.json.org/json-en.html :\n"
-			+ "(?<=\") (\\\\\"|[^\"])* (?=\") # text\n"
-			+ "| ((?<!\") # other cases:\n"
-			+ "  [+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)? # numbers\n"
-			+ "| ( true | false | null ) # logical values\n"
-			+ "| \\{ [^{]* \\} # un-nested object\n"
-			+ "| \\[ [^\\[]* \\] # un-nested array\n"
-			+ "(?!\") ) # end of other cases\n"
-			+ ")\"? # end of captured return value\n" 
-			+ "(?=\\s*[,\\]}]) # correct ending of json";
+		return "\" + keyword + "\"\\s*:\\s*" // find keyword
+				+ "\"?((?<=\")(\\\\\"|[^\"])*(?=\")" // string
+				+ "|(?<!\")([+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?" // number
+				+ "|(true|false|null)" // boolean
+				+ "|\\{[^{]*\\}" // un-nested object
+				+ "|\\[[^\\[]*\\])" // un-nested array
+				+ "(?!\"))\"?(?=\\s*[,\\]}])"; // correct json expression format
 	}
 }

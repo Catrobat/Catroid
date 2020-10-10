@@ -122,8 +122,8 @@ public class JsonRegexExtractorTest {
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
 		assertEquals(
-			"{ \"number\": 0, \n"
-			+ "             \"some array\" : [ \"string\", null ]\n"
-			+ "            }", matcher.group(1));
+				"{ \"number\": 0, \n"
+				+ "             \"some array\" : [ \"string\", null ]\n"
+				+ "            }", matcher.group(1));
 	}
 }
