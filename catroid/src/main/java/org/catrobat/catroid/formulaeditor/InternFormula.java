@@ -1071,13 +1071,11 @@ public class InternFormula {
 					bracketCount += 1;
 				}
 
-				if (bracketCount == 1) {
-					if (i > 0) {
-						InternToken functionToken = internTokenFormulaList.get(i - 1);
-						if (functionToken.getInternTokenType() == InternTokenType.FUNCTION_NAME
-								&& functionToken.getTokenStringValue().equals(Functions.REGEX.name())) {
-							return i - 1;
-						}
+				if (bracketCount == 1 && i > 0) {
+					InternToken functionToken = internTokenFormulaList.get(i - 1);
+					if (functionToken.getInternTokenType() == InternTokenType.FUNCTION_NAME
+							&& functionToken.getTokenStringValue().equals(Functions.REGEX.name())) {
+						return i - 1;
 					}
 				}
 			}
