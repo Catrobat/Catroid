@@ -115,6 +115,6 @@ public class JsonRegexExtractorTest {
 		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("un-nested object"));
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
-		assertEquals({"\"x\":0,\"array\":[\"y\",null]}", matcher.group(1));
+		assertEquals("{\"x\":0,\"array\":[\"y\",null]}", matcher.group(1));
 	}
 }
