@@ -23,13 +23,7 @@
 
 package org.catrobat.catroid.utils;
 
-import android.content.Context;
-
 public class JsonRegexExtractor {
-	private Context context;
-	public JsonRegexExtractor(Context context) {
-		this.context = context;
-	}
 	public static String getJsonParserRegex(String keyword) {
 		return "\"" + keyword + "\"\\s*:\\s*" // find keyword
 				+ "\"?((?<=\")(\\\\\"|[^\"])*(?=\")" // string

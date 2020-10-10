@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.test.ui.regexassistant;
 
-import android.app.Activity;
-
 import org.catrobat.catroid.utils.JsonRegexExtractor;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,8 +35,7 @@ import static org.junit.Assert.assertEquals;
 public class JsonRegexExtractorTest {
 	@Before
 	public void setUp() {
-		Activity context = new Activity();
-		this.jsonExtractor = new JsonRegexExtractor(context);
+		this.jsonExtractor = new JsonRegexExtractor();
 	}
 	private JsonRegexExtractor jsonExtractor;
 	private String jsonExample = "{\"widget\": {\n"
@@ -122,8 +119,8 @@ public class JsonRegexExtractorTest {
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
 		assertEquals(
-				"{ \"number\": 0, \n"
+				"\{ \"number\": 0, \n"
 				+ "             \"some array\" : [ \"string\", null ]\n"
-				+ "            }", matcher.group(1));
+				+ "            \}", matcher.group(1));
 	}
 }
