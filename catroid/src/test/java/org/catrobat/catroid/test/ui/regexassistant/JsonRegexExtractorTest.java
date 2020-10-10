@@ -66,10 +66,7 @@ public class JsonRegexExtractorTest {
 			+ "    \"other recognized json expressions\": {\n"
 			+ "        \"logic\" :true ,\n"
 			+ "        \"un-nested array\" : [ 45, 17, \"string\", { \"some object\" : \"else\"}, null ] ,\n"
-			+ "        \"un-nested object\" : \n"
-			+ "            { \"number\": 0, \n"
-			+ "              \"some array\" : [ \"string\", null ]\n"
-			+ "            }\n"
+			+ "        \"un-nested object\":{\"x\":0,\"array\":[\"y\",null]}\n"
 			+ "    }\n"			
 			+ "}} ";
 
@@ -118,9 +115,6 @@ public class JsonRegexExtractorTest {
 		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("un-nested object"));
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
-		assertEquals(
-				"\{ \"number\": 0, \n"
-				+ "             \"some array\" : [ \"string\", null ]\n"
-				+ "            \}", matcher.group(1));
+		assertEquals({"\"x\":0,\"array\":[\"y\",null]}", matcher.group(1));
 	}
 }
