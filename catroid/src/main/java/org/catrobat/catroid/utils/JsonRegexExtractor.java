@@ -24,6 +24,11 @@
 package org.catrobat.catroid.utils;
 
 public class JsonRegexExtractor {
+
+	private JsonRegexExtractor() {
+		throw new IllegalStateException("Utility class");
+	}
+
 	public static String getJsonParserRegex(String keyword) {
 		return "\"" + keyword + "\"\\s*:\\s*" // find keyword
 				+ "\"?((?<=\")(\\\\\"|[^\"])*(?=\")" // string
