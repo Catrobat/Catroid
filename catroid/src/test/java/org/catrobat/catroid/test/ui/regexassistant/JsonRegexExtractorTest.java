@@ -66,7 +66,7 @@ public class JsonRegexExtractorTest {
 			+ "        \"logic\" :true ,\n"
 			+ "        \"un-nested array\" : [ 45, 17, \"string\", { \"some object\" : \"else\"}, null ] ,\n"
 			+ "        \"un-nested object\":{\"x\":0,\"array\":[\"y\",null]},\n"
-			+ "        \"escaped\" : \"\\"hello world\\"\"\n"
+			+ "        \"escaped\" : \"\\\"hello world\\\"\"\n"
 			+ "    }\n"			
 			+ "}} ";
 
