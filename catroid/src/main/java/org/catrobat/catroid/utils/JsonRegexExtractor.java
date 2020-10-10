@@ -31,7 +31,7 @@ public class JsonRegexExtractor {
 		this.context = context;
 	}
 	public static String getJsonParserRegex(String keyword) {
-		return "\" + keyword + "\"\\s*:\\s*" // find keyword
+		return "\"" + keyword + "\"\\s*:\\s*" // find keyword
 				+ "\"?((?<=\")(\\\\\"|[^\"])*(?=\")" // string
 				+ "|(?<!\")([+-]?(0|[1-9]\\d*)(\\.\\d+)?([eE][+-]?\\d+)?" // number
 				+ "|(true|false|null)" // boolean
