@@ -58,14 +58,22 @@ public class JsonRegexExtractorTest {
 			+ "    },\n"
 			+ "    \"text\": {\n"
 			+ "        \"data\": \"Click Here\",\n"
-			+ "        \"size\": 36,\n"
+			+ "        \"size\":-36.45e-45,\n"
 			+ "        \"style\": \"bold\",\n"
 			+ "        \"name\": \"text1\",\n"
-			+ "        \"hOffset\": 250,\n"
+			+ "        \"hOffset\": 251,\n"
 			+ "        \"vOffset\": 100,\n"
 			+ "        \"alignment\": \"center\",\n"
 			+ "        \"onMouseUp\": \"sun1.opacity = (sun1.opacity / 100) * 90;\"\n"
 			+ "    }\n"
+			+ "    \"other recognized json expressions\": {\n"
+			+ "        \"logic\" :true ,\n"
+			+ "        \"un-nested array\" : [ 45, 17, \"string\", { \"some object\" : \"else\"}, null ] ,\n"
+			+ "        \"un-nested object\" : \n"
+			+ "            { \"number\": 0, \n"
+			+ "              \"some array\" : [ \"string\", null ]\n"
+			+ "            }\n"
+			+ "    }\n"			
 			+ "}} ";
 
 	@Test
@@ -73,7 +81,7 @@ public class JsonRegexExtractorTest {
 		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("size"));
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
-		assertEquals("36", matcher.group(1));
+		assertEquals("-36.45e-45", matcher.group(1));
 	}
 
 	@Test
@@ -90,5 +98,32 @@ public class JsonRegexExtractorTest {
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
 		assertEquals("250", matcher.group(1));
+	}
+
+	@Test
+	public void testParserExpressionLogic() {
+		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("logic"));
+		Matcher matcher = regexPattern.matcher(jsonExample);
+		matcher.find();
+		assertEquals("true", matcher.group(1));
+	}
+
+	@Test
+	public void testParserExpressionArray() {
+		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("un-nested array"));
+		Matcher matcher = regexPattern.matcher(jsonExample);
+		matcher.find();
+		assertEquals("[ 45, 17, \"string\", { \"some object\" : \"else\"}, null ]", matcher.group(1));
+	}
+
+	@Test
+	public void testParserExpressionObject() {
+		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("un-nested object"));
+		Matcher matcher = regexPattern.matcher(jsonExample);
+		matcher.find();
+		assertEquals(
+			"{ \"number\": 0, \n"
+			+ "             \"some array\" : [ \"string\", null ]\n"
+			+ "            }", matcher.group(1));
 	}
 }
