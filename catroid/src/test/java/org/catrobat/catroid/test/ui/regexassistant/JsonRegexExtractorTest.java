@@ -123,6 +123,6 @@ public class JsonRegexExtractorTest {
 		Pattern regexPattern = Pattern.compile(jsonExtractor.getJsonParserRegex("escaped"));
 		Matcher matcher = regexPattern.matcher(jsonExample);
 		matcher.find();
-		assertEquals("\"hello world\"", matcher.group(1));
+		assertEquals("\\\"hello world\\\"", matcher.group(1));
 	}
 }
