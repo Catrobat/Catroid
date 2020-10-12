@@ -37,7 +37,6 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.sensing.CollisionInformation;
-import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.ImageEditing;
 
 import java.io.File;
@@ -179,7 +178,6 @@ public class LookData implements Cloneable, Nameable, Serializable {
 				}
 			} catch (NullPointerException nullPointerException) {
 				Log.e(TAG, Log.getStackTraceString(nullPointerException));
-				CrashReporter.logException(nullPointerException);
 			}
 		}
 		return pixmap;

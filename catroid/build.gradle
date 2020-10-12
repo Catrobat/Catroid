@@ -23,13 +23,8 @@
 
 buildscript {
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
         google()
         jcenter()
-    }
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.31.0'
-        classpath 'com.google.gms:google-services:4.3.2'
     }
 }
 
@@ -40,7 +35,6 @@ plugins {
 repositories {
     mavenLocal()
     maven { url "https://jitpack.io" }
-    maven { url 'https://maven.fabric.io/public' }
 }
 
 ext {
@@ -61,7 +55,6 @@ ext {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'io.fabric'
 apply plugin: 'jacoco-android'
 
 apply from: 'gradle/code_quality_tasks.gradle'
@@ -101,27 +94,6 @@ ext.useAndroidLocales = { ->
     rootProject.hasProperty('useAndroidLocales') ? 'true' : 'false'
 }
 
-ext.copyGoogleServicesFile = { flavorName, flavorId ->
-    copy {
-        from "google-services-template.json"
-        rename { "google-services.json" }
-        into "src/$flavorName"
-        filter { line ->
-            line.replaceAll('@appId@', flavorId)
-                .replaceAll('@apiKey@', getProperty('firebaseApiKey', '@apiKey@'))
-        }
-    }
-}
-
-copy {
-    from "fabric-template.properties"
-    rename { "fabric.properties" }
-    into "."
-    filter { line ->
-        line.replaceAll('@fabricApiKey@', getProperty('fabricApiKey', "0123456789012345678901234567890123456789"))
-            .replaceAll('@fabricApiSecret@', getProperty('fabricApiSecret', "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"))
-    }
-}
 
 jacoco.toolVersion = "0.8.1"
 
@@ -159,7 +131,6 @@ android {
         buildConfigField "String", "PROJECT_NAME", "\"No Standalone Project\""
         buildConfigField "String", "START_PROJECT", "\"No Starting Project\""
 
-        buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "true"
         buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", "false"
 
         buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "false"
@@ -256,7 +227,6 @@ android {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             resValue "string", "DEBUG_MODE", "true"
-            ext.enableCrashlytics = false
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
         }
@@ -310,7 +280,6 @@ android {
             buildConfigField "String", "START_PROJECT", "\"$projectId\""
             buildConfigField "String", "PROJECT_NAME", "\"$appName\""
             buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
-            buildConfigField "boolean", "CRASHLYTICS_CRASH_REPORT_ENABLED", "false"
         }
     }
 
@@ -336,9 +305,6 @@ android {
                 outputFileName = "catroid-${flavorName}-${versionName}-${buildType}.apk"
             }
         }
-    }
-    productFlavors.all { flavor ->
-        copyGoogleServicesFile(flavor.name, defaultConfig.applicationId + (flavor.applicationIdSuffix ?: ""))
     }
 }
 
@@ -437,10 +403,6 @@ dependencies {
     }
     androidTestImplementation "androidx.test.espresso:espresso-web:$espressoVersion"
 
-    implementation ('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true
-    }
-
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation 'org.hamcrest:hamcrest-library:1.3'
@@ -506,5 +468,3 @@ tasks.whenTaskAdded { packageTask ->
         packageTask.dependsOn 'copyAndroidNatives'
     }
 }
-
-apply plugin: 'com.google.gms.google-services'
