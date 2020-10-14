@@ -176,6 +176,7 @@ public class HtmlRegexExtractorTest {
 				+ "</div></div></div><div class='row'><p class=lk-block><a href='/weather/germany/hildesheim' "
 				+ "class=read-more>See weather overview</a></p></div>";
 		String feelsLike = "6 °C";
-		assertEquals("\\Q: \\E(.+?)\\Q<b\\E", htmlExtractor.htmlToRegexConverter(feelsLike, htmlTimeAndDateDotCom));
+		String foundHtmlFormattedKeyword = htmlExtractor.findKeyword(feelsLike, htmlTimeAndDateDotCom);
+		assertEquals("\\Q: \\E(.+?)\\Q<b\\E", htmlExtractor.htmlToRegexConverter(foundHtmlFormattedKeyword, htmlTimeAndDateDotCom));
 	}
 }
