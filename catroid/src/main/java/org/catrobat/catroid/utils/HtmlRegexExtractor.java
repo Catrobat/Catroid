@@ -81,14 +81,16 @@ public class HtmlRegexExtractor {
 			String regex;
 			if (!keyword.equals(html)) {
 				int distance = 0;
+				int beforeKeywordIndex;
+				int afterKeywordIndex;
 
 				do {
 					distance++;
 
-					int beforeKeywordIndex = Math.max(0, keywordIndex - distance);
+					beforeKeywordIndex = Math.max(0, keywordIndex - distance);
 					String beforeKeyword = Pattern.quote(html.substring(beforeKeywordIndex,keywordIndex));
 
-					int afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
+					afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
 					String afterKeyword = Pattern.quote(html.substring(keywordIndex + keyword.length(), afterKeywordIndex));
 
 					regex = beforeKeyword + "(.+?)" + afterKeyword;
