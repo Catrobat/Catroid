@@ -42,12 +42,17 @@ public class HtmlRegexExtractor {
 
 	public String searchKeyword(String keyword, String text) {
 		String keywordFound = findKeyword(keyword, text);
-		String regexFound = htmlToRegexConverter(keywordFound, text);
-		if (regexFound == null) {
+		if (keywordFound == null) {
 			showError();
 			return "";
 		} else {
-			return regexFound;
+			String regexFound = htmlToRegexConverter(keywordFound, text);
+			if (regexFound == null) {
+				showError();
+				return "";
+			} else {
+				return regexFound;
+			}
 		}
 	}
 
@@ -60,37 +65,29 @@ public class HtmlRegexExtractor {
 	public String findKeyword(String keyword, String text) {
 		if (keyword.equals("")) {
 			return null;
-		}
-		if (text.indexOf(keyword) >= 0) {
+		} else if (text.contains(keyword)) {
 			return keyword;
-		} else {
+		} else if (keyword.contains(" ")) {
 			return findKeywordWithHtmlBetweenWordsInText(keyword, text);
+		} else {
+			return null;
 		}
 	}
 
 	private String findKeywordWithHtmlBetweenWordsInText(String keyword, String text) {
 		String[] splittedKeyword = keyword.split(" ");
 		String regex = Pattern.quote(splittedKeyword[0]);
+		Matcher matcher;
 
 		for (int i = 1; i < splittedKeyword.length; i++) {
-			regex += ".*?" + Pattern.quote(splittedKeyword[i]);
+			regex = regex.concat(".*?").concat(Pattern.quote(splittedKeyword[i]));
 		}
-		return findShortestOccurrenceInText(regex, text);
-	}
-
-	private String findShortestOccurrenceInText(String regex, String text) {
-		Matcher m = Pattern.compile(regex).matcher(text);
-
-		String shortestOccurrence = null;
-		int lastIndex = -1;
-		while (m.find(lastIndex + 1)) {
-			String found = m.group();
-			if (shortestOccurrence == null || shortestOccurrence.length() > found.length()) {
-				shortestOccurrence = found;
-				lastIndex = m.start();
-			}
+		matcher = Pattern.compile(regex).matcher(text);
+		if (matcher.find()) {
+			return matcher.group());
+		} else {
+			return null;
 		}
-		return shortestOccurrence;
 	}
 
 	public String htmlToRegexConverter(String keyword, String htmlText) {
