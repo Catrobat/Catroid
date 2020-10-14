@@ -40,21 +40,15 @@ public class HtmlRegexExtractor {
 		this.context = context;
 	}
 
-	public String searchKeyword(String keyword, String text) {
-		String keywordFound = findKeyword(keyword, text);
-		String regexFound;
+	public String searchKeyword(String keyword, String html) {
+		String foundHtmlFormattedKeyword = findKeyword(keyword, html);
+		String regex = htmlToRegexConverter(foundHtmlFormattedKeyword, html);
 		
-		if (keywordFound == null) {
+		if (regex == null) {
 			showError();
 			return "";
 		} else {
-			regexFound = htmlToRegexConverter(keywordFound, text);
-			if (regexFound == null) {
-				showError();
-				return "";
-			} else {
-				return regexFound;
-			}
+			return regex;
 		}
 	}
 
@@ -64,15 +58,15 @@ public class HtmlRegexExtractor {
 	}
 
 	@VisibleForTesting
-	public String findKeyword(String keyword, String text) {
+	public String findKeyword(String keyword, String html) {
 		String regexWithHtmlBetweenWords; 
 		Matcher matcher;
 
-		if (!keyword.equals("") && (text.contains(keyword)) {
+		if (!keyword.equals("") && (html.contains(keyword)) {
 			return keyword;
 		} else if (keyword.contains(" ") || keyword.contains("\\n")) {
 			regexWithHtmlBetweenWords = "\\Q" + keyword.replaceAll("\\s+", "\\E(\\s|&nbsp;|<[^<]+>)+?\\Q") + "\\E";
-			matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(text);
+			matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(html);
 			if (matcher.find()) {
 				return matcher.group());
 			} 
@@ -80,16 +74,14 @@ public class HtmlRegexExtractor {
 		return null;
 	}
 
-	public String htmlToRegexConverter(String keyword, String htmlText) {
+	public String htmlToRegexConverter(String keyword, String html) {
 		int keywordIndex;
 		String regex;
 
 		if (keyword != null) {
-			keywordIndex = htmlText.indexOf(keyword);
-			if (keyword.equals(htmlText)) {
-				regex = "(.*?)"; //          ----------------- doppelt!!!!!!
-			} else {
-				regex = "(.*?)"; //          ----------------- doppelt!!!!!!
+			keywordIndex = html.indexOf(keyword);
+			regex = "(.*?)";
+			if (!keyword.equals(html)) {
 				int distance = 0;
 				do {
 					distance++;
@@ -97,33 +89,31 @@ public class HtmlRegexExtractor {
 					String beforeKeyword = "";
 					int beforeKeywordIndex = keywordIndex - distance;
 					if (beforeKeywordIndex >= 0) {
-						beforeKeyword = String.valueOf(htmlText.charAt(beforeKeywordIndex));
+						beforeKeyword = String.valueOf(html.charAt(beforeKeywordIndex));
 					}
 
 					String afterKeyword = "";
 					int afterKeywordIndex = keywordIndex + keyword.length() + distance - 1;
-					if (afterKeywordIndex < htmlText.length()) {
-						afterKeyword =
-								String.valueOf(htmlText.charAt(afterKeywordIndex));
+					if (afterKeywordIndex < html.length()) {
+						afterKeyword = String.valueOf(html.charAt(afterKeywordIndex));
 					}
 
 					regex = beforeKeyword + regex + afterKeyword;
-				} while (!matchesUniquely(regex, htmlText, keyword));
+				} while (!matchesFirst(regex, html, keyword) && (beforeKeyword != "" || afterKeyword != ""));
 			}
-		} else {
-			regex = null;
-		}
-		return regex;
+			return regex;
+		}	
+		regex = null;
 	}
-	private boolean matchesUniquely(String pattern, String text, String expectedMatch) {
-		int counter = 0;
-		Matcher matcher = Pattern.compile(pattern).matcher(text);
 
-		String matched = null;
-		while (matcher.find()) {
+	private boolean matchesFirst(String pattern, String html, String expectedMatch) {
+		int counter = 0;
+		Matcher matcher = Pattern.compile(pattern).matcher(html);
+
+		if (matcher.find()) {
 			matched = matcher.group(1);
-			counter++;
+			return expectedMatch.equals(matched);
 		}
-		return counter == 1 && expectedMatch.equals(matched);
+		return false;
 	}
 }
