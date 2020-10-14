@@ -78,7 +78,7 @@ public class HtmlRegexExtractor {
 
 		if (keyword != null) {
 			int keywordIndex = html.indexOf(keyword);
-			String regex = "(.*?)";
+			String regex = "(.+?)";
 			if (!keyword.equals(html)) {
 				int distance = 0;
 				do {
