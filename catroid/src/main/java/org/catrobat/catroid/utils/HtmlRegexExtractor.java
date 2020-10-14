@@ -57,7 +57,7 @@ public class HtmlRegexExtractor {
 				R.string.formula_editor_function_regex_html_extractor_not_found);
 	}
 
-	@VisibleForTesting
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
 	public String findKeyword(String keyword, String html) {
 		String regexWithHtmlBetweenWords; 
 
@@ -73,6 +73,7 @@ public class HtmlRegexExtractor {
 		return null;
 	}
 
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
 	public String htmlToRegexConverter(String keyword, String html) {
 
 		if (keyword != null) {
