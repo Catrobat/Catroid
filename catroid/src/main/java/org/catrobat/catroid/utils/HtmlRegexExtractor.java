@@ -59,17 +59,17 @@ public class HtmlRegexExtractor {
 
 	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
 	public String findKeyword(String keyword, String html) {
-		String regexWithHtmlBetweenWords; 
 
-		if (!keyword.equals("") && html.contains(keyword)) {
-			return keyword;
-		} else if (keyword.contains(" ") || keyword.contains("\n")) {
-			regexWithHtmlBetweenWords = "\\Q" + keyword.replaceAll("\\s+", "\\E(\\s|&nbsp;|<[^>]+>)+?\\Q") + "\\E";
-			Matcher matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(html);
-			if (matcher.find()) {
-				return matcher.group();
-			} 
+		String[] splittedKeyword = keyword.split("\\s+");
+		String regexWithHtmlBetweenWords = Pattern.quote(splittedKeyword[0]);
+
+		for (int i = 1; i < splittedKeyword.length; i++) {
+			regexWithHtmlBetweenWords += "(\\s|&nbsp;|<[^>]+>)+?" + Pattern.quote(splittedKeyword[i]);
 		}
+		Matcher matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(html);
+		if (matcher.find()) {
+			return matcher.group();
+		} 
 		return null;
 	}
 
@@ -88,7 +88,7 @@ public class HtmlRegexExtractor {
 					distance++;
 
 					beforeKeywordIndex = Math.max(0, keywordIndex - distance);
-					String beforeKeyword = html.substring(beforeKeywordIndex,keywordIndex);
+					String beforeKeyword = html.substring(beforeKeywordIndex, keywordIndex);
 
 					afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
 					String afterKeyword = html.substring(keywordIndex + keyword.length(), afterKeywordIndex);
