@@ -112,21 +112,12 @@ public class HtmlExtractorDialogTest {
 
 	@Test
 	public void testInsertKeywordIntoEditor() {
-		String expectedText = "regular expression('(.*) ','I am a panda.')";
+		String expectedText = "regular expression( '(.*) ' , 'I am a panda.' ) ";
 
 		onView(withHint(R.string.keyword_label)).perform(typeText("Word"));
 		onView(withHint(R.string.html_label)).perform(typeText("Word Inserted"));
 		onView(withText(R.string.ok)).perform(click());
 
-		onFormulaEditor().checkShows(getSelectedFunctionString(expectedText));
-	}
-
-	private String getSelectedFunctionString(String functionString) {
-		return functionString
-				.replaceAll("^(.+?)\\(", "$1( ")
-				.replace(",", " , ")
-				.replace("-", "- ")
-				.replaceAll("\\)$", " )")
-				.concat(" ");
+		onFormulaEditor().checkShows(expectedText);
 	}
 }
