@@ -78,7 +78,7 @@ public class HtmlRegexExtractor {
 
 		if (keyword != null) {
 			int keywordIndex = html.indexOf(keyword);
-			String regex;
+			String regex = "(.+)";
 			if (!keyword.equals(html)) {
 				int distance = 0;
 				int beforeKeywordIndex;
@@ -88,12 +88,12 @@ public class HtmlRegexExtractor {
 					distance++;
 
 					beforeKeywordIndex = Math.max(0, keywordIndex - distance);
-					String beforeKeyword = Pattern.quote(html.substring(beforeKeywordIndex,keywordIndex));
+					String beforeKeyword = html.substring(beforeKeywordIndex,keywordIndex);
 
 					afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
-					String afterKeyword = Pattern.quote(html.substring(keywordIndex + keyword.length(), afterKeywordIndex));
+					String afterKeyword = html.substring(keywordIndex + keyword.length(), afterKeywordIndex);
 
-					regex = beforeKeyword + "(.+?)" + afterKeyword;
+					regex = Pattern.quote(beforeKeyword) + "(.+?)" + Pattern.quote(afterKeyword);
 				} while (!matchesFirst(regex, html, keyword) && (beforeKeywordIndex > 0 || afterKeywordIndex < html.length()));
 			}
 			return regex;
