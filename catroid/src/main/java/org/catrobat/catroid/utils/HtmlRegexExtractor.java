@@ -42,11 +42,13 @@ public class HtmlRegexExtractor {
 
 	public String searchKeyword(String keyword, String text) {
 		String keywordFound = findKeyword(keyword, text);
+		String regexFound;
+		
 		if (keywordFound == null) {
 			showError();
 			return "";
 		} else {
-			String regexFound = htmlToRegexConverter(keywordFound, text);
+			regexFound = htmlToRegexConverter(keywordFound, text);
 			if (regexFound == null) {
 				showError();
 				return "";
@@ -63,31 +65,19 @@ public class HtmlRegexExtractor {
 
 	@VisibleForTesting
 	public String findKeyword(String keyword, String text) {
-		if (keyword.equals("")) {
-			return null;
-		} else if (text.contains(keyword)) {
-			return keyword;
-		} else if (keyword.contains(" ")) {
-			return findKeywordWithHtmlBetweenWordsInText(keyword, text);
-		} else {
-			return null;
-		}
-	}
-
-	private String findKeywordWithHtmlBetweenWordsInText(String keyword, String text) {
-		String[] splittedKeyword = keyword.split(" ");
-		String regex = Pattern.quote(splittedKeyword[0]);
+		String regexWithHtmlBetweenWords; 
 		Matcher matcher;
 
-		for (int i = 1; i < splittedKeyword.length; i++) {
-			regex = regex.concat(".*?").concat(Pattern.quote(splittedKeyword[i]));
+		if (!keyword.equals("") && (text.contains(keyword)) {
+			return keyword;
+		} else if (keyword.contains(" ") || keyword.contains("\\n")) {
+			regexWithHtmlBetweenWords = "\\Q" + keyword.replaceAll("\\s+", "\\E(\\s|&nbsp;|<[^<]+>)+?\\Q") + "\\E";
+			matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(text);
+			if (matcher.find()) {
+				return matcher.group());
+			} 
 		}
-		matcher = Pattern.compile(regex).matcher(text);
-		if (matcher.find()) {
-			return matcher.group());
-		} else {
-			return null;
-		}
+		return null;
 	}
 
 	public String htmlToRegexConverter(String keyword, String htmlText) {
@@ -97,9 +87,9 @@ public class HtmlRegexExtractor {
 		if (keyword != null) {
 			keywordIndex = htmlText.indexOf(keyword);
 			if (keyword.equals(htmlText)) {
-				regex = "(.*)";
+				regex = "(.*?)"; //          ----------------- doppelt!!!!!!
 			} else {
-				regex = "(.*)";
+				regex = "(.*?)"; //          ----------------- doppelt!!!!!!
 				int distance = 0;
 				do {
 					distance++;
