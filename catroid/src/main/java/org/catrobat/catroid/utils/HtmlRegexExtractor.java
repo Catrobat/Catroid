@@ -90,7 +90,6 @@ public class HtmlRegexExtractor {
 
 					int afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
 					String afterKeyword = Pattern.quote(html.substring(keywordIndex + keyword.length(), afterKeywordIndex));
-					}
 
 					regex = beforeKeyword + "(.+?)" + afterKeyword;
 				} while (!matchesFirst(regex, html, keyword) && (beforeKeywordIndex > 0 || afterKeywordIndex < html.length()));
