@@ -90,7 +90,7 @@ public class HtmlRegexExtractor {
 		if (keyword != null) {
 			int keywordIndex = html.indexOf(keyword);
 			String regex = "(.+)";
-			if (!keyword.equals(html) && keywordIndex > 0) {
+			if (!keyword.equals(html) && keywordIndex >= 0) {
 				int distance = 0;
 				int beforeKeywordIndex;
 				int afterKeywordIndex;
