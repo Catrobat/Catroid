@@ -58,15 +58,14 @@ public class HtmlRegexExtractorTest {
 
 	@Test
 	public void testFindKeywordInSentence() {
-		assertEquals("abc", htmlExtractor.findKeyword("abc", "Wer are looking for the abc "
+		assertEquals("abc", htmlExtractor.findKeyword("abc", "We are looking for the abc "
 				+ "statement in long text"));
 	}
 
 	@Test
 	public void testFindKeywordInSentenceWithSpaceInKeywordAndTextWithNBSP() {
-		assertEquals("ab&nbsp;c", htmlExtractor.findKeyword("ab c", "Wer are looking for "
-				+ "the "
-				+ "ab&nbsp;c statement in long text"));
+		assertEquals("ab&nbsp;c", htmlExtractor.findKeyword("ab c", "We are looking for "
+				+ "the ab&nbsp;c statement in long text"));
 	}
 
 	@Test
@@ -105,46 +104,41 @@ public class HtmlRegexExtractorTest {
 
 	@Test
 	public void testCreateRegexWithOneCharContext() {
-		assertEquals("b(.+?)e", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
+		assertEquals("\Qb\E(.+?)\Qe\E", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithKeywordAtStart() {
-		assertEquals("(.+?)c", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
-	}
-
-	@Test
-	public void testCreateRegexWithKeywordAtEnd() {
-		assertEquals("d(.+?)", htmlExtractor.htmlToRegexConverter("efg", "abcdefg"));
+		assertEquals("\Q\E(.+?)\Qc\E", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithDuplicateKeywordFirstOccurrence1CharContext() {
-		assertEquals("b(.+?)d", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
+		assertEquals("\Qb\E(.+?)\Qd\E", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWith2CharContext() {
-		assertEquals("yb(.+?)de", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
+		assertEquals("\Qyb\E(.+?)\Qde\E", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWhereKeywordEqualsHtmlText() {
-		assertEquals("(.+?)", htmlExtractor.htmlToRegexConverter("abcdefg", "abcdefg"));
+		assertEquals("(.+)", htmlExtractor.htmlToRegexConverter("abcdefg", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexPostfixInKeyword() {
-		assertEquals("(.+?)bd", htmlExtractor.htmlToRegexConverter("abc", "abcbd"));
+		assertEquals("\Q\E(.+?)\Qbd\E", htmlExtractor.htmlToRegexConverter("abc", "abcbd"));
 	}
 
 	@Test
 	public void testCreateRegexOutOfBoundsAfter2CharContext() {
-		assertEquals("b(.+?)ba", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
+		assertEquals("\Qb\E(.+?)\Qba\E", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
 	}
 	@Test
 	public void testFirstKeyBordersOnSecondKey() {
-		assertEquals("a(.+?)a", htmlExtractor.htmlToRegexConverter("KEY",
+		assertEquals("\Qa\E(.+?)\Qa\E", htmlExtractor.htmlToRegexConverter("KEY",
 				"baKEYaKEYaa"));
 	}
 	@Test
@@ -182,6 +176,6 @@ public class HtmlRegexExtractorTest {
 				+ "</div></div></div><div class='row'><p class=lk-block><a href='/weather/germany/hildesheim' "
 				+ "class=read-more>See weather overview</a></p></div>";
 		String feelsLike = "6 °C";
-		assertEquals(": (.+?)<b", htmlExtractor.htmlToRegexConverter(feelsLike, htmlTimeAndDateDotCom));
+		assertEquals("\Q: \E(.+?)\Q<b\E", htmlExtractor.htmlToRegexConverter(feelsLike, htmlTimeAndDateDotCom));
 	}
 }
