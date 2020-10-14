@@ -81,16 +81,19 @@ public class HtmlRegexExtractor {
 			String regex = "(.+?)";
 			if (!keyword.equals(html)) {
 				int distance = 0;
+				String beforeKeyword;
+				String afterKeyword;
+				
 				do {
 					distance++;
 
-					String beforeKeyword = "";
+					beforeKeyword = "";
 					int beforeKeywordIndex = keywordIndex - distance;
 					if (beforeKeywordIndex >= 0) {
 						beforeKeyword = String.valueOf(html.charAt(beforeKeywordIndex));
 					}
 
-					String afterKeyword = "";
+					afterKeyword = "";
 					int afterKeywordIndex = keywordIndex + keyword.length() + distance - 1;
 					if (afterKeywordIndex < html.length()) {
 						afterKeyword = String.valueOf(html.charAt(afterKeywordIndex));
@@ -101,7 +104,7 @@ public class HtmlRegexExtractor {
 			}
 			return regex;
 		}	
-		regex = null;
+		return null;
 	}
 
 	private boolean matchesFirst(String pattern, String html, String expectedMatch) {
