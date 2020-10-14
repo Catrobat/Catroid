@@ -61,13 +61,13 @@ public class HtmlRegexExtractor {
 	public String findKeyword(String keyword, String html) {
 		String regexWithHtmlBetweenWords; 
 
-		if (!keyword.equals("") && (html.contains(keyword)) {
+		if (!keyword.equals("") && html.contains(keyword)) {
 			return keyword;
 		} else if (keyword.contains(" ") || keyword.contains("\\n")) {
 			regexWithHtmlBetweenWords = "\\Q" + keyword.replaceAll("\\s+", "\\E(\\s|&nbsp;|<[^<]+>)+?\\Q") + "\\E";
 			Matcher matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(html);
 			if (matcher.find()) {
-				return matcher.group());
+				return matcher.group();
 			} 
 		}
 		return null;
