@@ -105,50 +105,84 @@ public class HtmlRegexExtractorTest {
 
 	@Test
 	public void testCreateRegexWithOneCharContext() {
-		assertEquals("b(.*)e", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
+		assertEquals("b(.+?)e", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithKeywordAtStart() {
-		assertEquals("(.*)c", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
+		assertEquals("(.+?)c", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithKeywordAtEnd() {
-		assertEquals("d(.*)", htmlExtractor.htmlToRegexConverter("efg", "abcdefg"));
+		assertEquals("d(.+?)", htmlExtractor.htmlToRegexConverter("efg", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithDuplicateKeywordFirstOccurrence1CharContext() {
-		assertEquals("ab(.*)defga", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
+		assertEquals("b(.+?)d", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWith2CharContext() {
-		assertEquals("yb(.*)de", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
+		assertEquals("yb(.+?)de", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWhereKeywordEqualsHtmlText() {
-		assertEquals("(.*)", htmlExtractor.htmlToRegexConverter("abcdefg", "abcdefg"));
+		assertEquals("(.+?)", htmlExtractor.htmlToRegexConverter("abcdefg", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexPostfixInKeyword() {
-		assertEquals("(.*)b", htmlExtractor.htmlToRegexConverter("abc", "abcbc"));
+		assertEquals("(.+?)bd", htmlExtractor.htmlToRegexConverter("abc", "abcbd"));
 	}
 
 	@Test
 	public void testCreateRegexOutOfBoundsAfter2CharContext() {
-		assertEquals("b(.*)ba", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
+		assertEquals("b(.+?)ba", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
 	}
 	@Test
 	public void testFirstKeyBordersOnSecondKey() {
-		assertEquals("baaaa(.*)aaaaK", htmlExtractor.htmlToRegexConverter("KEY",
-				"baaaaKEYaaaaKEYaaaa"));
+		assertEquals("a(.+?)a", htmlExtractor.htmlToRegexConverter("KEY",
+				"baKEYaKEYaa"));
 	}
 	@Test
-	public void testCreateRegexWhereTextOnlyKeywords() {
-		assertEquals("(.*)aa", htmlExtractor.htmlToRegexConverter("a", "aaa"));
+	public void testTemperatureTimeAndDateDotCom() {
+		String htmlTimeAndDateDotCom = 
+			"</script><nav class=nav-3><div class=fixed><a href='/weather/germany/hildesheim'"
+			+ "title='Shows a weather overview'>Weather</a><a href='/weather/germany/hildesheim/hourly' "
+			+ "title='Hour-by-hour weather'>Weather Hourly</a><a href='/weather/germany/hildesheim/ext' "
+			+ "class=active title='Extended forecast for the next two weeks'>14 Day Forecast</a><a "
+			+ "href='/weather/germany/hildesheim/historic' title='Past weather for yesterday'>"
+			+ "Yesterday Weather</a><a href='/weather/germany/hildesheim/climate' title='Weatherinformation'>"
+			+ "Climate</a></div></nav></section></header><main class='tpl-banner layout-grid layout-grid--sky'>"
+			+ "<article class='layout-grid__main'><section class=bk-focus><div id=qlook class=bk-focus>"
+			+ "<div class=h1>Now</div><img id=cur-weather class=mtt title='Partly cloudy.' "
+			+ "src='//c.tadst.com/gfx/w/svg/wt-4.svg' width=80 height=80><div class=h2>8&nbsp;°C</div>"
+			+ "<p>Partly cloudy.</p><br class=clear><p>Feels Like: 6&nbsp;°C<br><span "
+			+ "title='High and low forecasted temperature today'>Forecast: 12 / 4&nbsp;°C</span>"
+			+ "<br>Wind: 11 km/h <span class='comp sa8' title='Wind blowing from 280° West to East'>?</span>"
+			+ "from West</p></div><div class=bk-focus__info><table class='table'>"
+			+ "<tbody><tr><th>Location: </th><td>Braunschweig Wolfsburg</td></tr><tr><th>Current Time: </th>"
+			+ "<td id=wtct>12 Oct 2020, 07:52:24</td></tr><tr><th>Latest Report: </th><td>12 Oct 2020, 07:20"
+			+ "</td></tr><tr><th>Visibility: </th><td>N/A</td></tr><tr><th>Pressure</th><td>1018 mbar"
+			+ "</tr><tr><th>Humidity: </th><td>87%</td></tr><tr><th>Dew Point: </th><td>6&nbsp;°C</td>"
+			+ "</tr></tbody></table></div><div id=bk-map class=bk-focus__map><a href='/time/map/#!cities=1018'>"
+			+ "<img title='Map showing the location of Hildesheim. Click map to see the location.' "
+			+ "src='//c.tadst.com/gfx/citymap/de-10.png?9' alt='Location of Hildesheim' width=320 height=160>"
+			+ "<img id=map-mrk src='//c.tadst.com/gfx/n/icon/icon-map-pin.png' class=fadeInDown "
+			+ "style='left:112px;top:11px' alt=Location title='Location of Hildesheim' width=18 height=34>"
+			+ "</a></div></section><section class=fixed></section><h2 class=mgt0>Hildesheim Extended Forecast "
+			+ "with high and low temperatures</h2><div class=weather-graph><a href='/custom/site.html' id=set-f "
+			+ "title='Change Units' onclick='return modpop(&#39;type=weather&#39&#39;Change Units for Weather&#39;);'>"
+			+ "<i class='i-font i-settings'></i>°C</a><div id=weatherNav><div id=navLeft class=navleft></div>"
+			+ "<div class=navLeftUnder><a href='/weather/germany/hildesheim/historic'>Last 2 weeks of weather"
+			+ "</a></div><div id=navRight class=navright></div></div><div id=weatherContainer><div id=weather>"
+			+ "</div></div></div><div class='row'><p class=lk-block><a href='/weather/germany/hildesheim' "
+			+ "class=read-more>See weather overview</a></p></div>";
+		String feelsLike = "6 °C";
+		assertEquals(": (.+?)<b", htmlExtractor.htmlToRegexConverter(feelsLike, htmlTimeAndDateDotCom));
 	}
+
 }
