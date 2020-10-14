@@ -63,8 +63,8 @@ public class HtmlRegexExtractor {
 
 		if (!keyword.equals("") && html.contains(keyword)) {
 			return keyword;
-		} else if (keyword.contains(" ") || keyword.contains("\\n")) {
-			regexWithHtmlBetweenWords = "\\Q" + keyword.replaceAll("\\s+", "\\E(\\s|&nbsp;|<[^<]+>)+?\\Q") + "\\E";
+		} else if (keyword.contains(" ") || keyword.contains("\n")) {
+			regexWithHtmlBetweenWords = "\\Q" + keyword.replaceAll("\\s+", "\\E(\\s|&nbsp;|<[^>]+>)+?\\Q") + "\\E";
 			Matcher matcher = Pattern.compile(regexWithHtmlBetweenWords).matcher(html);
 			if (matcher.find()) {
 				return matcher.group();
@@ -78,29 +78,22 @@ public class HtmlRegexExtractor {
 
 		if (keyword != null) {
 			int keywordIndex = html.indexOf(keyword);
-			String regex = "(.+?)";
+			String regex;
 			if (!keyword.equals(html)) {
 				int distance = 0;
-				String beforeKeyword;
-				String afterKeyword;
 
 				do {
 					distance++;
 
-					beforeKeyword = "";
-					int beforeKeywordIndex = keywordIndex - distance;
-					if (beforeKeywordIndex >= 0) {
-						beforeKeyword = String.valueOf(html.charAt(beforeKeywordIndex));
+					int beforeKeywordIndex = Math.max(0, keywordIndex - distance);
+					String beforeKeyword = Pattern.quote(html.substring(beforeKeywordIndex,keywordIndex));
+
+					int afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
+					String afterKeyword = Pattern.quote(html.substring(keywordIndex + keyword.length(), afterKeywordIndex));
 					}
 
-					afterKeyword = "";
-					int afterKeywordIndex = keywordIndex + keyword.length() + distance - 1;
-					if (afterKeywordIndex < html.length()) {
-						afterKeyword = String.valueOf(html.charAt(afterKeywordIndex));
-					}
-
-					regex = beforeKeyword + regex + afterKeyword;
-				} while (!matchesFirst(regex, html, keyword) && (!beforeKeyword.equals("") || !afterKeyword.equals("")));
+					regex = beforeKeyword + "(.+?)" + afterKeyword;
+				} while (!matchesFirst(regex, html, keyword) && (beforeKeywordIndex > 0 || afterKeywordIndex < html.length()));
 			}
 			return regex;
 		}	
