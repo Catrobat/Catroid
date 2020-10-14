@@ -104,22 +104,22 @@ public class HtmlRegexExtractorTest {
 
 	@Test
 	public void testCreateRegexWithOneCharContext() {
-		assertEquals("\Qb\E(.+?)\Qe\E", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
+		assertEquals("\\Qb\\E(.+?)\\Qe\\E", htmlExtractor.htmlToRegexConverter("cd", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithKeywordAtStart() {
-		assertEquals("\Q\E(.+?)\Qc\E", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
+		assertEquals("\\Q\\E(.+?)\\Qc\\E", htmlExtractor.htmlToRegexConverter("ab", "abcdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWithDuplicateKeywordFirstOccurrence1CharContext() {
-		assertEquals("\Qb\E(.+?)\Qd\E", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
+		assertEquals("\\Qb\\E(.+?)\\Qd\\E", htmlExtractor.htmlToRegexConverter("KEY", "abKEYdefgadKEYdefg"));
 	}
 
 	@Test
 	public void testCreateRegexWith2CharContext() {
-		assertEquals("\Qyb\E(.+?)\Qde\E", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
+		assertEquals("\\Qyb\\E(.+?)\\Qde\\E", htmlExtractor.htmlToRegexConverter("KEY", "abcdefg ybKEYdefg"));
 	}
 
 	@Test
@@ -129,16 +129,16 @@ public class HtmlRegexExtractorTest {
 
 	@Test
 	public void testCreateRegexPostfixInKeyword() {
-		assertEquals("\Q\E(.+?)\Qbd\E", htmlExtractor.htmlToRegexConverter("abc", "abcbd"));
+		assertEquals("\\Q\\E(.+?)\\Qbd\\E", htmlExtractor.htmlToRegexConverter("abc", "abcbd"));
 	}
 
 	@Test
 	public void testCreateRegexOutOfBoundsAfter2CharContext() {
-		assertEquals("\Qb\E(.+?)\Qba\E", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
+		assertEquals("\\Qb\\E(.+?)\\Qba\\E", htmlExtractor.htmlToRegexConverter("abc", "babcbabcb"));
 	}
 	@Test
 	public void testFirstKeyBordersOnSecondKey() {
-		assertEquals("\Qa\E(.+?)\Qa\E", htmlExtractor.htmlToRegexConverter("KEY",
+		assertEquals("\\Qa\\E(.+?)\\Qa\\E", htmlExtractor.htmlToRegexConverter("KEY",
 				"baKEYaKEYaa"));
 	}
 	@Test
@@ -176,6 +176,6 @@ public class HtmlRegexExtractorTest {
 				+ "</div></div></div><div class='row'><p class=lk-block><a href='/weather/germany/hildesheim' "
 				+ "class=read-more>See weather overview</a></p></div>";
 		String feelsLike = "6 °C";
-		assertEquals("\Q: \E(.+?)\Q<b\E", htmlExtractor.htmlToRegexConverter(feelsLike, htmlTimeAndDateDotCom));
+		assertEquals("\\Q: \\E(.+?)\\Q<b\\E", htmlExtractor.htmlToRegexConverter(feelsLike, htmlTimeAndDateDotCom));
 	}
 }
