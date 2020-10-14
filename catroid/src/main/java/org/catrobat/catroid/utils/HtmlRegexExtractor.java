@@ -74,7 +74,7 @@ public class HtmlRegexExtractor {
 		String[] splittedKeywords = keywords.split("\\s+");
 		String keywordsWithHtmlBetweenWords = Pattern.quote(splittedKeywords[0]);
 
-		for (int i = 1; i < splittedKeyword.length; i++) {
+		for (int i = 1; i < splittedKeywords.length; i++) {
 			keywordsWithHtmlBetweenWords += "(\\s|&nbsp;|<[^>]+>)+?" + Pattern.quote(splittedKeywords[i]);
 		}
 		Matcher matcher = Pattern.compile(keywordsWithHtmlBetweenWords).matcher(html);
