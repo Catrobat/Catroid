@@ -43,7 +43,7 @@ public class HtmlRegexExtractor {
 	public String searchKeyword(String keyword, String html) {
 		String foundHtmlFormattedKeyword = findKeyword(keyword, html);
 		String regex = htmlToRegexConverter(foundHtmlFormattedKeyword, html);
-		
+
 		if (regex == null) {
 			showError();
 			return "";
@@ -83,7 +83,7 @@ public class HtmlRegexExtractor {
 				int distance = 0;
 				String beforeKeyword;
 				String afterKeyword;
-				
+
 				do {
 					distance++;
 
@@ -100,7 +100,7 @@ public class HtmlRegexExtractor {
 					}
 
 					regex = beforeKeyword + regex + afterKeyword;
-				} while (!matchesFirst(regex, html, keyword) && (beforeKeyword != "" || afterKeyword != ""));
+				} while (!matchesFirst(regex, html, keyword) && (!beforeKeyword.equals("") || !afterKeyword.equals("")));
 			}
 			return regex;
 		}	
