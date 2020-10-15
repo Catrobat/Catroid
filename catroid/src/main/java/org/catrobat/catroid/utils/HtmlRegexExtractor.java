@@ -40,14 +40,15 @@ public class HtmlRegexExtractor {
 		this.context = context;
 	}
 
-	public String searchKeyword(String keyword, String text) {
-		String keywordFound = findKeyword(keyword, text);
-		String regexFound = htmlToRegexConverter(keywordFound, text);
-		if (regexFound == null) {
+	public String searchKeyword(String keyword, String html) {
+		String foundHtmlFormattedKeyword = findKeyword(keyword, html);
+		String regex = htmlToRegexConverter(foundHtmlFormattedKeyword, html);
+
+		if (regex == null) {
 			showError();
 			return "";
 		} else {
-			return regexFound;
+			return regex;
 		}
 	}
 
@@ -56,87 +57,64 @@ public class HtmlRegexExtractor {
 				R.string.formula_editor_function_regex_html_extractor_not_found);
 	}
 
-	@VisibleForTesting
-	public String findKeyword(String keyword, String text) {
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public String findKeyword(String keyword, String html) {
 		if (keyword.equals("")) {
 			return null;
 		}
-		if (text.indexOf(keyword) >= 0) {
+		if (html.contains(keyword)) {
 			return keyword;
 		} else {
-			return findKeywordWithHtmlBetweenWordsInText(keyword, text);
+			return findKeywordWithHtmlBetweenWordsInText(keyword, html);
 		}
 	}
 
-	private String findKeywordWithHtmlBetweenWordsInText(String keyword, String text) {
-		String[] splittedKeyword = keyword.split(" ");
-		String regex = Pattern.quote(splittedKeyword[0]);
+	private String findKeywordWithHtmlBetweenWordsInText(String keywords, String html) {
 
-		for (int i = 1; i < splittedKeyword.length; i++) {
-			regex += ".*?" + Pattern.quote(splittedKeyword[i]);
+		String[] splittedKeywords = keywords.split("\\s+");
+		String keywordsWithHtmlBetweenWords = Pattern.quote(splittedKeywords[0]);
+
+		for (int i = 1; i < splittedKeywords.length; i++) {
+			keywordsWithHtmlBetweenWords += "(\\s|&nbsp;|<[^>]+>)+?" + Pattern.quote(splittedKeywords[i]);
 		}
-		return findShortestOccurrenceInText(regex, text);
+		Matcher matcher = Pattern.compile(keywordsWithHtmlBetweenWords).matcher(html);
+		if (matcher.find()) {
+			return matcher.group();
+		} 
+		return null;
 	}
 
-	private String findShortestOccurrenceInText(String regex, String text) {
-		Matcher m = Pattern.compile(regex).matcher(text);
-
-		String shortestOccurrence = null;
-		int lastIndex = -1;
-		while (m.find(lastIndex + 1)) {
-			String found = m.group();
-			if (shortestOccurrence == null || shortestOccurrence.length() > found.length()) {
-				shortestOccurrence = found;
-				lastIndex = m.start();
-			}
-		}
-		return shortestOccurrence;
-	}
-
-	public String htmlToRegexConverter(String keyword, String htmlText) {
-		int keywordIndex;
-		String regex;
+	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
+	public String htmlToRegexConverter(String keyword, String html) {
 
 		if (keyword != null) {
-			keywordIndex = htmlText.indexOf(keyword);
-			if (keyword.equals(htmlText)) {
-				regex = "(.*)";
-			} else {
-				regex = "(.*)";
+			int keywordIndex = html.indexOf(keyword);
+			String regex = "(.+)";
+			if (!keyword.equals(html) && keywordIndex >= 0) {
 				int distance = 0;
+				int beforeKeywordIndex;
+				int afterKeywordIndex;
+
 				do {
 					distance++;
 
-					String beforeKeyword = "";
-					int beforeKeywordIndex = keywordIndex - distance;
-					if (beforeKeywordIndex >= 0) {
-						beforeKeyword = String.valueOf(htmlText.charAt(beforeKeywordIndex));
-					}
+					beforeKeywordIndex = Math.max(0, keywordIndex - distance);
+					String beforeKeyword = html.substring(beforeKeywordIndex, keywordIndex);
 
-					String afterKeyword = "";
-					int afterKeywordIndex = keywordIndex + keyword.length() + distance - 1;
-					if (afterKeywordIndex < htmlText.length()) {
-						afterKeyword =
-								String.valueOf(htmlText.charAt(afterKeywordIndex));
-					}
+					afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
+					String afterKeyword = html.substring(keywordIndex + keyword.length(), afterKeywordIndex);
 
-					regex = beforeKeyword + regex + afterKeyword;
-				} while (!matchesUniquely(regex, htmlText, keyword));
+					regex = Pattern.quote(beforeKeyword) + "(.+?)" + Pattern.quote(afterKeyword);
+				} while (!matchesFirst(regex, html, keyword) && (beforeKeywordIndex > 0 || afterKeywordIndex < html.length()));
 			}
-		} else {
-			regex = null;
-		}
-		return regex;
+			return regex;
+		}	
+		return null;
 	}
-	private boolean matchesUniquely(String pattern, String text, String expectedMatch) {
-		int counter = 0;
-		Matcher matcher = Pattern.compile(pattern).matcher(text);
 
-		String matched = null;
-		while (matcher.find()) {
-			matched = matcher.group(1);
-			counter++;
-		}
-		return counter == 1 && expectedMatch.equals(matched);
+	private boolean matchesFirst(String pattern, String html, String expectedMatch) {
+		Matcher matcher = Pattern.compile(pattern).matcher(html);
+
+		return matcher.find() && expectedMatch.equals(matcher.group(1));
 	}
 }
