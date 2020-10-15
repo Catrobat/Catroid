@@ -100,8 +100,10 @@ public class ProjectUploadActivity extends BaseActivity implements
 	private NameInputTextWatcher nameInputTextWatcher = new NameInputTextWatcher();
 	private TextInputLayout nameInputLayout;
 	private TextInputLayout descriptionInputLayout;
+	private TextInputLayout notesAndCreditsInputLayout;
 
 	private boolean enableNextButton = true;
+	private boolean notesAndCreditsScreen = false;
 
 	private List<String> tags = new ArrayList<>();
 
@@ -115,6 +117,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.upload_project_dialog_title);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+		notesAndCreditsScreen = false;
 
 		setShowProgressBar(true);
 
@@ -159,9 +163,11 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 		nameInputLayout = findViewById(R.id.input_project_name);
 		descriptionInputLayout = findViewById(R.id.input_project_description);
+		notesAndCreditsInputLayout = findViewById(R.id.input_project_notes_and_credits);
 
 		nameInputLayout.getEditText().setText(project.getName());
 		descriptionInputLayout.getEditText().setText(project.getDescription());
+		notesAndCreditsInputLayout.getEditText().setText(project.getNotesAndCredits());
 
 		nameInputLayout.getEditText().addTextChangedListener(nameInputTextWatcher);
 
@@ -190,11 +196,28 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	@Override
+	public void onBackPressed() {
+		if (notesAndCreditsScreen) {
+			setScreen(notesAndCreditsScreen);
+			notesAndCreditsScreen = false;
+		} else {
+			super.onBackPressed();
+		}
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.next:
 				onNextButtonClick();
 				break;
+			case android.R.id.home:
+				if (notesAndCreditsScreen) {
+					setScreen(notesAndCreditsScreen);
+					notesAndCreditsScreen = false;
+					break;
+				}
+				return super.onOptionsItemSelected(item);
 			default:
 				return super.onOptionsItemSelected(item);
 		}
@@ -212,28 +235,32 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	private void onNextButtonClick() {
-		setNextButtonEnabled(false);
+		if (!notesAndCreditsScreen) {
+			String name = nameInputLayout.getEditText().getText().toString().trim();
+			String error = nameInputTextWatcher.validateName(name);
 
-		String name = nameInputLayout.getEditText().getText().toString().trim();
-		String error = nameInputTextWatcher.validateName(name);
+			if (error != null) {
+				nameInputLayout.setError(error);
+				return;
+			}
 
-		if (error != null) {
-			nameInputLayout.setError(error);
-			return;
+			if (Utils.isDefaultProject(project, this)) {
+				nameInputLayout.setError(getString(R.string.error_upload_default_project));
+				nameInputLayout.getEditText().removeTextChangedListener(nameInputTextWatcher);
+				nameInputLayout.setEnabled(false);
+				descriptionInputLayout.setEnabled(false);
+				setShowProgressBar(false);
+				return;
+			}
+
+			setScreen(notesAndCreditsScreen);
+			notesAndCreditsScreen = true;
+		} else {
+			setNextButtonEnabled(false);
+			setShowProgressBar(true);
+
+			showSelectTagsDialog();
 		}
-
-		setShowProgressBar(true);
-
-		if (Utils.isDefaultProject(project, this)) {
-			nameInputLayout.setError(getString(R.string.error_upload_default_project));
-			nameInputLayout.getEditText().removeTextChangedListener(nameInputTextWatcher);
-			nameInputLayout.setEnabled(false);
-			descriptionInputLayout.setEnabled(false);
-			setShowProgressBar(false);
-			return;
-		}
-
-		showSelectTagsDialog();
 	}
 
 	private void showSelectTagsDialog() {
@@ -255,7 +282,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 				})
 				.setPositiveButton(getText(R.string.next), (dialog, which) -> {
 					project.setTags(checkedTags);
-					projectUploadController.startUpload(getProjectName(), getProjectDescription(), project);
+					projectUploadController.startUpload(getProjectName(), getProjectDescription(),
+							getNotesAndCredits(), project);
 				})
 				.setNegativeButton(getText(R.string.cancel), (dialog, which) -> {
 					Utils.invalidateLoginTokenIfUserRestricted(this);
@@ -264,6 +292,16 @@ public class ProjectUploadActivity extends BaseActivity implements
 				})
 				.setCancelable(false)
 				.show();
+	}
+
+	private void setScreen(boolean screen) {
+		findViewById(R.id.project_image_view).setVisibility(screen ? View.VISIBLE : View.GONE);
+		findViewById(R.id.project_size).setVisibility(screen ? View.VISIBLE : View.GONE);
+		findViewById(R.id.project_size_view).setVisibility(screen ? View.VISIBLE : View.GONE);
+		nameInputLayout.setVisibility(screen ? View.VISIBLE : View.GONE);
+		descriptionInputLayout.setVisibility(screen ? View.VISIBLE : View.GONE);
+		findViewById(R.id.project_notes_and_credits_explanation).setVisibility(screen ? View.GONE : View.VISIBLE);
+		notesAndCreditsInputLayout.setVisibility(screen ? View.GONE : View.VISIBLE);
 	}
 
 	private String getProjectName() {
@@ -283,6 +321,10 @@ public class ProjectUploadActivity extends BaseActivity implements
 
 	private String getProjectDescription() {
 		return descriptionInputLayout.getEditText().getText().toString().trim();
+	}
+
+	private String getNotesAndCredits() {
+		return notesAndCreditsInputLayout.getEditText().getText().toString().trim();
 	}
 
 	public void showUploadDialog() {

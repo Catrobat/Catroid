@@ -289,6 +289,14 @@ public class Project implements Serializable {
 		xmlHeader.setDescription(description);
 	}
 
+	public String getNotesAndCredits() {
+		return xmlHeader.getNotesAndCredits();
+	}
+
+	public void setNotesAndCredits(String notesAndCredits) {
+		xmlHeader.setNotesAndCredits(notesAndCredits);
+	}
+
 	public ScreenModes getScreenMode() {
 		return xmlHeader.getScreenMode();
 	}
