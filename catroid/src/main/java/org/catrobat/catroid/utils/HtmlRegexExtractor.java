@@ -87,29 +87,30 @@ public class HtmlRegexExtractor {
 	@VisibleForTesting(otherwise = VisibleForTesting.PROTECTED)
 	public String htmlToRegexConverter(String keyword, String html) {
 
-		if (keyword != null) {
-			int keywordIndex = html.indexOf(keyword);
-			String regex = "(.+)";
-			if (!keyword.equals(html) && keywordIndex >= 0) {
-				int distance = 0;
-				int beforeKeywordIndex;
-				int afterKeywordIndex;
+		if (keyword == null) {
+			return null;
+		}
+		int keywordIndex = html.indexOf(keyword);
+		if (keyword.equals(html) || keywordIndex < 0) {
+			return "(.+)";
+		}
+		String regex;
+		int distance = 0;
+		int beforeKeywordIndex;
+		int afterKeywordIndex;
 
-				do {
-					distance++;
+		do {
+			distance++;
 
-					beforeKeywordIndex = Math.max(0, keywordIndex - distance);
-					String beforeKeyword = html.substring(beforeKeywordIndex, keywordIndex);
+			beforeKeywordIndex = Math.max(0, keywordIndex - distance);
+			String beforeKeyword = html.substring(beforeKeywordIndex, keywordIndex);
 
-					afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
-					String afterKeyword = html.substring(keywordIndex + keyword.length(), afterKeywordIndex);
+			afterKeywordIndex = Math.min(keywordIndex + keyword.length() + distance, html.length());
+			String afterKeyword = html.substring(keywordIndex + keyword.length(), afterKeywordIndex);
 
-					regex = Pattern.quote(beforeKeyword) + "(.+?)" + Pattern.quote(afterKeyword);
-				} while (!matchesFirst(regex, html, keyword) && (beforeKeywordIndex > 0 || afterKeywordIndex < html.length()));
-			}
-			return regex;
-		}	
-		return null;
+			regex = Pattern.quote(beforeKeyword) + "(.+?)" + Pattern.quote(afterKeyword);
+		} while (!matchesFirst(regex, html, keyword) && (beforeKeywordIndex > 0 || afterKeywordIndex < html.length()));
+		return regex;
 	}
 
 	private boolean matchesFirst(String pattern, String html, String expectedMatch) {
