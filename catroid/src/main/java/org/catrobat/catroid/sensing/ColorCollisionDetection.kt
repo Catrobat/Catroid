@@ -52,18 +52,12 @@ class ColorCollisionDetection(
     private val currentProject: Project,
     private val stageListener: StageListener
 ) {
-    private val look: Look = Look(null)
+    private val look: Look = sprite.look
     private val polygons = sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
     private val scale = calculateBufferScale()
     private val bufferWidth = (boundingRectangle.width * scale).toInt()
     private val bufferHeight = (boundingRectangle.height * scale).toInt()
-
-    init {
-        look.lookData = sprite.look?.lookData?.clone()
-        sprite.look?.copyTo(look)
-        look.isLookVisible = true
-    }
 
     @Suppress("TooGenericExceptionCaught")
     fun tryInterpretFunctionTouchesColor(color: Any?): Boolean {
@@ -97,7 +91,10 @@ class ColorCollisionDetection(
         val spriteBatch = SpriteBatch()
         val projectionMatrix = createProjectionMatrix(currentProject)
         matcher.stagePixmap = createPicture(lookList, projectionMatrix, batch)
+        val wasLookVisible = look.isLookVisible
+        look.isLookVisible = true
         matcher.spritePixmap = createPicture(listOf(look), projectionMatrix, spriteBatch)
+        look.isLookVisible = wasLookVisible
 
         try {
             return ConditionMatcherRunner(matcher).match(bufferWidth, bufferHeight)
@@ -106,7 +103,6 @@ class ColorCollisionDetection(
             matcher.spritePixmap?.dispose()
             batch.dispose()
             spriteBatch.dispose()
-            look.lookData.dispose()
         }
     }
 

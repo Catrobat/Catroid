@@ -334,11 +334,7 @@ public class Look extends Image {
 	}
 
 	private void adjustSimultaneousMovementXY(float x, float y) {
-		if (x != this.getX() && y != this.getY()) {
-			simultaneousMovementXY = true;
-		} else {
-			simultaneousMovementXY = false;
-		}
+		simultaneousMovementXY = x != this.getX() && y != this.getY();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {
