@@ -71,8 +71,10 @@ public class ProjectUploadController {
 		return intent;
 	}
 
-	public void startUpload(String projectName, String projectDescription, Project project) {
+	public void startUpload(String projectName, String projectDescription,
+			String projectNotesAndCredits, Project project) {
 		project.setDescription(projectDescription);
+		project.setNotesAndCredits(projectNotesAndCredits);
 		project.setDeviceData(context);
 		project.setListeningLanguageTag();
 		ProjectSaveTask.task(project, context);

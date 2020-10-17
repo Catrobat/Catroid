@@ -292,6 +292,7 @@
     <string name="mode">Mode:</string>
     <string name="remix_of">Remix of:</string>
     <string name="description_hint">Press to add description</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
 
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
@@ -537,6 +538,8 @@
     <string name="size">Size:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
@@ -765,6 +768,8 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
 
     <!-- Save Project to External Storage -->
@@ -1428,6 +1433,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>

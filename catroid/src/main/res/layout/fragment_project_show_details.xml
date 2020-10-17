@@ -79,6 +79,20 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/notes_and_credits_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/notes_and_credits_title"
+        android:textSize="?attr/large"
+        android:textColor="@color/accent" />
+
+    <TextView
+        android:id="@+id/notes_and_credits_value"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/notes_and_credits_hint" />
+
+    <TextView
         android:id="@+id/size_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
