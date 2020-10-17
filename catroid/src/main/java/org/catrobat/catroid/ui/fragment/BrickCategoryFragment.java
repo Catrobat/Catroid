@@ -56,14 +56,13 @@ public class BrickCategoryFragment extends ListFragment {
 
 	public static final String BRICK_CATEGORY_FRAGMENT_TAG = "brick_category_fragment";
 
-	private CharSequence previousActionBarTitle;
-	private OnCategorySelectedListener scriptFragment;
+	private OnCategorySelectedListener listener;
 	private BrickCategoryAdapter adapter;
 
 	private Lock viewSwitchLock = new ViewSwitchLock();
 
 	public void setOnCategorySelectedListener(OnCategorySelectedListener listener) {
-		scriptFragment = listener;
+		this.listener = listener;
 	}
 
 	private boolean onlyBeginnerBricks() {
@@ -71,22 +70,10 @@ public class BrickCategoryFragment extends ListFragment {
 	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		boolean isRestoringPreviouslyDestroyedActivity = savedInstanceState != null;
-		if (isRestoringPreviouslyDestroyedActivity) {
-			getFragmentManager().popBackStack(BRICK_CATEGORY_FRAGMENT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			return;
-		}
-		setHasOptionsMenu(true);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_brick_categories, container, false);
 
 		setUpActionBar();
-		BottomBar.hideBottomBar(getActivity());
 		setupBrickCategories();
 
 		return rootView;
@@ -96,60 +83,25 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onStart() {
 		super.onStart();
 
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!viewSwitchLock.tryLock()) {
-					return;
-				}
-
-				if (scriptFragment != null) {
-					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
-				}
+		getListView().setOnItemClickListener((parent, view, position, id) -> {
+			if (!viewSwitchLock.tryLock()) {
+				return;
 			}
+
+			if (listener != null) {
+				listener.onCategorySelected(adapter.getItem(position));
+				SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
+			}
+
+			String categoryName = adapter.getItem(position);
+
+
+
 		});
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		BottomBar.hideBottomBar(getActivity());
-		setupBrickCategories();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		BottomBar.showBottomBar(getActivity());
-		BottomBar.showPlayButton(getActivity());
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-		boolean isRestoringPreviouslyDestroyedActivity = actionBar == null;
-		if (!isRestoringPreviouslyDestroyedActivity) {
-			actionBar.setDisplayShowTitleEnabled(true);
-			actionBar.setTitle(previousActionBarTitle);
-			BottomBar.showBottomBar(getActivity());
-			BottomBar.showPlayButton(getActivity());
-		}
-	}
-
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-		super.onPrepareOptionsMenu(menu);
-		menu.findItem(R.id.delete).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.backpack).setVisible(false);
-		menu.findItem(R.id.comment_in_out).setVisible(false);
 	}
 
 	private void setUpActionBar() {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(true);
-		previousActionBarTitle = ((AppCompatActivity) getActivity()).getSupportActionBar().getTitle();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.categories);
 	}
 

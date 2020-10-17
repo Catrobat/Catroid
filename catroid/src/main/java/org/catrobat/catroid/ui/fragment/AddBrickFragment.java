@@ -154,6 +154,7 @@ public class AddBrickFragment extends ListFragment {
 
 		try {
 			brickToAdd = brickToAdd.clone();
+			// TODO get rid of scriptFragment usage, instead use onActivityResult
 			scriptFragment.addBrick(brickToAdd);
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

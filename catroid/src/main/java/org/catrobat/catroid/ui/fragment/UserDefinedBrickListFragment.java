@@ -117,6 +117,7 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 
 	@Override
 	public void onClick(View v) {
+		// TODO get rid of scriptFragment usage, instead use onActivityResult
 		AddUserDefinedBrickFragment addUserDefinedBrickFragment =
 				AddUserDefinedBrickFragment.newInstance(scriptFragment);
 

@@ -50,6 +50,7 @@ import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.ContentsActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
@@ -78,6 +79,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.ListFragment;
+
+import static org.catrobat.catroid.ui.ContentsActivity.FRAGMENT_TAG_EXTRA;
+import static org.catrobat.catroid.ui.fragment.BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
@@ -220,7 +224,7 @@ public class ScriptFragment extends ListFragment implements
 		listView.setOnItemClickListener(adapter);
 		listView.setOnItemLongClickListener(adapter);
 
-		//handleAddButton();
+		handleAddButton();
 	}
 
 	@Override
@@ -329,34 +333,25 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void showCategoryFragment() {
-		BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
+		Intent contentsActivityIntent = new Intent(getContext(), ContentsActivity.class);
+		contentsActivityIntent.putExtra(FRAGMENT_TAG_EXTRA, BRICK_CATEGORY_FRAGMENT_TAG);
+		getContext().startActivity(contentsActivityIntent);
+		// TODO handle setOnCategorySelectedListener
+
+		/*BrickCategoryFragment brickCategoryFragment = new BrickCategoryFragment();
 		brickCategoryFragment.setOnCategorySelectedListener(this);
 
 		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, brickCategoryFragment, BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
-				.addToBackStack(BrickCategoryFragment.BRICK_CATEGORY_FRAGMENT_TAG)
+				.add(R.id.fragment_container, brickCategoryFragment, BRICK_CATEGORY_FRAGMENT_TAG)
+				.addToBackStack(BRICK_CATEGORY_FRAGMENT_TAG)
 				.commit();
 
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_category);*/
 	}
 
 	@Override
 	public void onCategorySelected(String category) {
-		ListFragment addListFragment = null;
-		String tag = "";
 
-		if (category.equals(getContext().getString(R.string.category_user_bricks))) {
-			addListFragment = UserDefinedBrickListFragment.newInstance(this);
-			tag = UserDefinedBrickListFragment.USER_DEFINED_BRICK_LIST_FRAGMENT_TAG;
-		} else {
-			addListFragment = AddBrickFragment.newInstance(category, this);
-			tag = AddBrickFragment.ADD_BRICK_FRAGMENT_TAG;
-		}
-
-		getFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, addListFragment, tag)
-				.addToBackStack(null)
-				.commit();
 	}
 
 	protected void prepareActionMode(@ActionModeType int type) {
