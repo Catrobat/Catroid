@@ -331,7 +331,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		new AlertDialog.Builder(context)
 				.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 				.setMessage(R.string.formula_editor_discard_changes_dialog_message)
-				.setPositiveButton(R.string.save_button_text, this)
+				.setPositiveButton(R.string.save, this)
 				.setNegativeButton(R.string.cancel, this)
 				.setCancelable(true)
 				.show();
