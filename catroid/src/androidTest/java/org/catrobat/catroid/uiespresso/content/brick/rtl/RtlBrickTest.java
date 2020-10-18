@@ -102,6 +102,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -478,6 +479,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(FlashBrick.class, R.id.brick_flash_layout);
 
 		checkIfBrickISRtl(PhiroRGBLightBrick.class, R.id.brick_phiro_rgb_led_layout);
+
+		checkIfBrickISRtl(PaintNewLookBrick.class, R.id.brick_paint_new_look);
 
 		checkIfBrickISRtl(DeleteLookBrick.class, R.id.brick_delete_look_layout);
 	}

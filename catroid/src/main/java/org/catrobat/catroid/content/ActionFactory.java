@@ -108,6 +108,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
+import org.catrobat.catroid.content.actions.PaintNewLookAction;
 import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
 import org.catrobat.catroid.content.actions.PauseForBeatsAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
@@ -1468,6 +1469,15 @@ public class ActionFactory extends Actions {
 	public Action createSetListeningLanguageAction(String listeningLanguageTag) {
 		SetListeningLanguageAction action = action(SetListeningLanguageAction.class);
 		action.listeningLanguageTag = listeningLanguageTag;
+		return action;
+	}
+
+	public Action createPaintNewLookAction(Sprite sprite, Formula variableFormula,
+			SetNextLookAction nextLookAction) {
+		PaintNewLookAction action = action(PaintNewLookAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		action.nextLookAction(nextLookAction);
 		return action;
 	}
 }

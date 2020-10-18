@@ -122,6 +122,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
@@ -545,6 +546,8 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new PhiroRGBLightBrick(PhiroRGBLightBrick.Eye.BOTH,
 					BrickValues.PHIRO_VALUE_RED, BrickValues.PHIRO_VALUE_GREEN, BrickValues.PHIRO_VALUE_BLUE));
 		}
+
+		looksBrickList.add(new PaintNewLookBrick(context.getString(R.string.brick_paint_new_look_name)));
 
 		looksBrickList.add(new DeleteLookBrick());
 
