@@ -39,7 +39,6 @@ import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExten
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
-import org.catrobat.catroid.utils.CrashReporter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -115,7 +114,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 
 	private void checkIfCrashRecoveryAndFinishActivity(final Activity activity) {
 		if (isRecoveringFromCrash()) {
-			CrashReporter.logUnhandledException();
 			if (activity instanceof MainMenuActivity) {
 				PreferenceManager.getDefaultSharedPreferences(this).edit()
 						.putBoolean(RECOVERED_FROM_CRASH, false)

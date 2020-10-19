@@ -33,7 +33,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.mapper.Mapper;
 
 import org.catrobat.catroid.content.bricks.Brick;
-import org.catrobat.catroid.utils.CrashReporter;
 
 public class XStreamBrickConverter extends ReflectionConverter {
 
@@ -75,7 +74,6 @@ public class XStreamBrickConverter extends ReflectionConverter {
 		}
 
 		Log.e(TAG, "Brick " + type + " not found in packages");
-		CrashReporter.logException(new RuntimeException("Brick " + type + " not found in packages"));
 
 		return super.doUnmarshal(result, reader, context);
 	}
