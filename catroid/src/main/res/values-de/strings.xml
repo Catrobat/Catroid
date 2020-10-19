@@ -1035,7 +1035,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">und speichere Antwort in</string>
     <string name="web_request_warning_title">Erlaube Web Zugriff?</string>
-    <string name="web_request_warning_message">Seien Sie sehr vorsichtig, bevor Sie den Zugriff zulassen, da der Link Ihre persönlichen Daten offenlegen kann, z. B. Ihren genauen geografischen Standort oder Text. Sie haben böswillige andere oder die Öffentlichkeit betreten. Siehe unsere &lt;a href=%1s%gt;wiki%a&gt; Weitere Informationen, warum dies äußerst gefährlich sein kann.</string>
+    <string name="web_request_warning_message">Sei sehr vorsichtig, bevor du den Zugriff zulässt, da der Link anderen oder der Öffentlichkeit deine persönlichen Daten offenlegen kann, z.B. deinen genauen geografischen Standort oder Texte, die du eingegeben hast. Siehe unser &lt;a href=%1s&gt;wiki&lt;/a&gt; für weitere Informationen, warum dies äußerst gefährlich sein kann.</string>
     <string name="web_request_trust_domain_warning_title">Webzugriff immer zulassen?</string>
     <string name="web_request_trust_domain_warning_message">Wenn Sie den Zugriff immer zulassen, werden Sie nicht erneut aufgefordert, die Webadressen dieser Domain zu bestätigen. </string>
     <string name="trusted_domains_edit_hint">Wenn Sie diese Berechtigung später widerrufen möchten, können Sie den Eintrag in den Einstellungen dieser App aus der Liste der vertrauenswürdigen Domänen entfernen. </string>

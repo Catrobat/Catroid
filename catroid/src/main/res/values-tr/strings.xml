@@ -674,7 +674,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="error_session_expired">Oturumun süresi doldu, lütfen giriş yapın.</string>
     <string name="error_register_empty_username">Kullanıcı adı boş</string>
     <string name="error_register_username_as_email">E-posta adresi kullanıcı adı olarak kullanılamaz</string>
-    <string name="error_register_invalid_username">Kullanıcı adı yalnızca harf (a–z), rakam (0-9), tire (-), alt çizgi (_) ve nokta (.) İçermelidir.</string>
+    <string name="error_register_invalid_username">Kullanıcı adı yalnızca harf (a–z), rakam (0–9), tire (-), alt çizgi (_) ve nokta (.) İçermelidir.</string>
     <string name="error_register_username_start_with">Kullanıcı adı tire (-), alt çizgi (_) veya nokta (.) İle başlamamalıdır.</string>
     <string name="error_register_invalid_email_format">Geçersiz e-posta formatı</string>
     <string name="error_register_empty_password">Şifre alanı boş</string>
@@ -1135,8 +1135,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="notification_upload_rejected">Yüklenen program rededildi</string>
     <string name="notification_upload_retry">Yeniden deneyin</string>
     <string name="notification_open_play_store">Google play\'de aç</string>
-    <string name="notification_download_title_pending">"İndiriliyor... "</string>
-    <string name="notification_download_pending">İndirme devam ediyor...</string>
+    <string name="notification_download_title_pending">"İndiriliyor&#8230;"</string>
+    <string name="notification_download_pending">İndirme devam ediyor&#8230;</string>
     <string name="notification_download_finished">İndirme başarılı oldu</string>
     <string name="notification_title_open">"Açık "</string>
     <string name="notification_low_battery_with_value">Dikkat! Pil zayıf! Mevcut durum %d</string>
