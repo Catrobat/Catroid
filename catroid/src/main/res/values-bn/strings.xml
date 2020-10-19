@@ -37,6 +37,7 @@
     <string name="ok">সঠিক</string>
     <string name="done">করা হয়েছে</string>
     <string name="close">বন্ধ</string>
+    <string name="assistant">Assistant</string>
     <string name="yes">হ্যাঁ</string>
     <string name="no">না</string>
     <string name="once">Once</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">অনুসন্ধান</string>
     <string name="backpack_add">ব্যাকপ্যাক যোগ করুন</string>
     <string name="share_website_text">share.catrob.at</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">লগইন ডেটা পরীক্ষা করা হচ্ছে</string>
     <string name="loading_google_exchange_code">গুগল লগইন ডেটা বিনিময় করা</string>
@@ -234,6 +242,7 @@
     <string name="mode">ধরণ: </string>
     <string name="remix_of">রিমিক্স</string>
     <string name="description_hint">বর্ণনা যুক্ত করতে চাপুন</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">আপনি এই প্রকল্পটি %1$s আগে রূপান্তর করেছেন।</string>
     <plurals name="minutes">
@@ -331,6 +340,8 @@
     <string name="nfc_tag_name_label">এনএফসি ট্যাগ নাম</string>
     <string name="string_label">পাঠ্য</string>
     <string name="data_label">নাম</string>
+    <string name="keyword_label">Insert keyword</string>
+    <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">শেষ অ্যাক্সেস: %s, আকার: %s</string>
@@ -454,6 +465,8 @@
     <string name="size">আকার</string>
     <string name="description">বর্ণনা:</string>
     <string name="set_description">বর্ণনা করুন</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">আজ</string>
     <string name="import_project">প্রজেক্ট আমদানি করুন</string>
     <string name="error_import_project">প্রজেক্টসমূহ আমদানি করার সময় কিছু ভুল হয়েছে।</string>
@@ -495,6 +508,10 @@
     <string name="local_vars_headline">কেবল এই অভিনেতা এবং অবজেক্টের জন্য ভেরিয়েবল</string>
     <string name="global_lists_headline">সমস্ত অভিনেতা এবং অবজেক্টের জন্য তালিকা</string>
     <string name="local_lists_headline">কেবল এই অভিনেতা বা অবজেক্টের জন্য তালিকা</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">সমস্ত দৃশ্যে সমস্ত অভিনেতা, বস্তু এবং ক্লোনগুলির জন্য</string>
     <string name="new_data_for_this_sprite_only">এই অভিনেতা, অবজেক্ট, বা শুধুমাত্র এর ক্লোনগুলির একটির জন্য</string>
@@ -639,6 +656,8 @@
     <string name="upload_button">আপলোড করুন</string>
     <string name="upload_project_dialog_title">আপলোডকৃত প্রজেক্ট</string>
     <string name="upload_description">বর্ণনা:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">তিনটি বিভাগ পর্যন্ত নির্বাচন করুন</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">বাহ্যিক স্টোরেজে প্রজেক্টটি সংরক্ষণ করুন</string>
@@ -735,6 +754,7 @@
     <string name="prestage_text_to_speech_error">\u2022 পাঠ্য থেকে স্পিচ ইঞ্জিন \n</string>
     <string name="prestage_no_back_camera_available">\u2022 পেছনের ক্যামেরা \n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 জাম্পিং সুমো \n</string>
     <string name="prestage_no_front_camera_available">\u2022 সামনের ক্যামেরা \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -772,6 +792,7 @@
     <string name="category_event">ঘটনা</string>
     <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">তথ্য</string>
+    <string name="category_device">Device</string>
     <string name="category_lego_nxt">লেগো এনএক্সটি</string>
     <string name="category_lego_ev3">লেগো ইভি 3</string>
     <string name="category_drone">এআর.ড্রোন ২.০</string>
@@ -792,6 +813,7 @@
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
     <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"এ স্থান"</string>
@@ -900,6 +922,16 @@
     <string name="brick_speak">কথা বলুন</string>
     <string name="brick_speak_default_value">হ্যালো</string>
     <string name="brick_speak_and_wait">এবং অপেক্ষা করুন</string>
+    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="brick_set_listening_language">Set listening language to</string>
+    <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Set tempo to</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">সেলাই</string>
@@ -908,6 +940,8 @@
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">যখন দৃশ্য শুরু হয়</string>
@@ -941,6 +975,7 @@
     <string name="brick_think_say_for_text">জন্য</string>
     <string name="brick_forever">চিরতরে</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
     <string name="brick_loop_to">প্রতি</string>
     <string name="brick_repeat">পুনরাবৃত্তি</string>
@@ -954,6 +989,8 @@
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">অন্যান্য সমস্ত স্ক্রিপ্ট বন্ধ না হওয়া পর্যন্ত অপেক্ষা করুন</string>
     <string name="brick_tap_at">"একটি ট্যাপ করুন"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"জন্য"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1043,6 +1080,29 @@
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
     <string name="brick_store_csv_into_userlist_into">তালিকায়</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">আমার প্রথম প্রজেক্ট</string>
@@ -1180,9 +1240,13 @@
     <string name="error_drone_wrong_platform">আমরা আপনার ডিভাইসে একটি এআর.ড্রোন ২.০ প্রজেক্ট চালাতে পারি না।</string>
     <string name="error_rename_incompatible_project">একটি অসঙ্গত প্রকল্পের নামকরণ সম্ভব নয়।</string>
     <string name="error_embroidery_file_export">সূচিকর্ম ফাইলটি শেয়ার করার সময় কিছু ভুল হয়েছে।</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
     <string name="error_unknown_error">কিছু একটা ভুল হয়েছে</string>
     <string name="error_gps_not_available">জিওলোকেশন ডাটা পাওয়া যায়নি</string>
     <string name="error_set_description">নতুন বিবরণটি সংরক্ষণ করার সময় কিছু ভুল হয়েছে।</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">হোয়াটসঅ্যাপ ইনস্টল করা হয়নি</string>
     <string name="error_unsupported_bricks_chromecast">এই স্ক্রিপ্টটি কোনও ক্রোমকাস্ট প্রকল্পে যুক্ত করা যাবে না।</string>
     <!--  -->
@@ -1511,6 +1575,13 @@
     <string name="formula_editor_function_join_parameter">(\'ওহে বিশ্ব\')</string>
     <string name="formula_editor_function_regex">নিয়মিত অভিব্যক্তি</string>
     <string name="formula_editor_function_regex_parameter">(\'এ? ([^।]] +)\', \'আমি পান্ডা।\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">আরো তথ্য</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">আরডুইনো ডিজিটাল পিন</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">আরডুইনো এনালগ পিন</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">রাস্পবেরি পাই পিন</string>
@@ -1535,6 +1606,8 @@
     <string name="formula_editor_function_collision">অভিনেতা বা বস্তুকে স্পর্শ করে</string>
     <string name="formula_editor_function_collides_with_edge">প্রান্ত স্পর্শ</string>
     <string name="formula_editor_function_touched">আঙুল স্পর্শ করে</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
     <string name="formula_editor_sensor_x_acceleration">ত্বরণ x</string>
     <string name="formula_editor_sensor_y_acceleration">ত্বরণ y</string>
     <string name="formula_editor_sensor_z_acceleration">ত্বরণ z</string>
@@ -1543,6 +1616,7 @@
     <string name="formula_editor_sensor_longitude">দ্রাঘিমাংশ</string>
     <string name="formula_editor_sensor_location_accuracy">অবস্থান নির্ভুলতা</string>
     <string name="formula_editor_sensor_altitude">উচ্চতা</string>
+    <string name="formula_editor_sensor_user_language">user language</string>
     <string name="formula_editor_sensor_x_inclination">প্রবণতা x</string>
     <string name="formula_editor_sensor_y_inclination">প্রবণতা y</string>
     <string name="formula_editor_sensor_loudness">শব্দের মাত্রা</string>
@@ -1630,6 +1704,7 @@
     <string name="formula_editor_logic_comparison">তুলনা অপারেটর</string>
     <string name="formula_editor_object_general">সাধারণ বৈশিষ্ট্য</string>
     <string name="formula_editor_object_movement">গতি বৈশিষ্ট্য</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">তারিখ এবং সময়</string>
     <string name="formula_editor_device_touch_detection">স্পর্শ সনাক্তকরণ</string>
     <string name="formula_editor_device_lego_nxt">লেগো মাইন্ডস্টর্ম এনএক্সটি</string>
@@ -1658,16 +1733,24 @@
     <string name="formula_editor_image_button_description_delete">মুছুন</string>
     <string name="formula_editor_variable_dialog_title">নতুন ভেরিয়েবল</string>
     <string name="formula_editor_list_dialog_title">নতুন তালিকা</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
     <string name="formula_editor_discard_changes_dialog_message">আপনি কি আপনার পরিবর্তনগুলি সংরক্ষণ করতে চান?</string>
     <string name="formula_editor_discard_changes_dialog_title">পরিবর্তনগুলোর সংরক্ষন?</string>
     <string name="formula_editor_new_string_name">নতুন পাঠ্য</string>
     <string name="formula_editor_dialog_change_text">পাঠ্য পরিবর্তন করুন</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
     <string name="formula_editor_fragment_data_current_items">বর্তমান আইটেম</string>
     <string name="formula_editor_data_dialog_is_list">এটি একটি তালিকা তৈরি করুন</string>
     <string name="formula_editor_sensor_face_detected">চেহারা দৃশ্যমান হয়</string>
     <string name="formula_editor_sensor_face_size">মুখের আকার</string>
     <string name="formula_editor_sensor_face_x_position">মুখ x অবস্থান</string>
     <string name="formula_editor_sensor_face_y_position">মুখ y অবস্থান</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_intro_title_formula_editor">সূত্র সম্পাদক</string>
     <string name="formula_editor_intro_summary_formula_editor">সূত্র সম্পাদক সহ আপনি গাণিতিক এবং যৌক্তিক সূত্রগুলি তৈরি করতে পারেন যা আপনি নিজের ব্রিকগুলিতে ব্যবহার করতে পারেন। নীচের ডান কোণে \"Next\" বোতামটি আলতো চাপ দিয়ে আপনি এই সামান্য পরিচিতিটি চালিয়ে যেতে পারেন এবং নীচে বাম কোণে \"SKIP\" বোতামটি ক্লিক করে আপনি এড়িয়ে যেতে পারেন।</string>
     <string name="formula_editor_intro_title_input_field">ইনপুট ক্ষেত্র</string>
@@ -1686,6 +1769,10 @@
     <string name="formula_editor_intro_summary_device">\"সেন্সরগুলি\" তে আপনি এমন তথ্য খুঁজে পেতে পারেন যা আপনার ডিভাইস রেকর্ড করে। উদাহরণস্বরূপ, আপনার ডিভাইসের টিল্ট বা আপনার চারপাশের উচ্চতা।</string>
     <string name="formula_editor_intro_title_data">তথ্য</string>
     <string name="formula_editor_intro_summary_data">আপনার প্রকল্পে ব্যবহৃত ভেরিয়েবল এবং তালিকাগুলি এখানে পাওয়া যাবে। আপনি এগুলি কেবল আপনার সূত্রে সন্নিবেশ করতে পারেন বা একটি নতুন যুক্ত করতে পারেন।</string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">ভেরিয়েবল দেখান</string>

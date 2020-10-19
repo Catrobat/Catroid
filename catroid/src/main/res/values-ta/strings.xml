@@ -37,6 +37,7 @@
     <string name="ok">சரி</string>
     <string name="done">முடிந்தது</string>
     <string name="close">மூடு</string>
+    <string name="assistant">Assistant</string>
     <string name="yes">அமாம்</string>
     <string name="no">இல்லை</string>
     <string name="once">Once</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">தேடல்&#8230;</string>
     <string name="backpack_add">பையில் வை</string>
     <string name="share_website_text">share.catrob.at</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">உள்நுழைவு தரவைச் சரிபார்க்கிறது&#8230;</string>
     <string name="loading_google_exchange_code">கூகிள் உள்நுழைவு தரவைப் பரிமாறிக்கொள்கிறது&#8230;</string>
@@ -242,6 +250,7 @@
     <string name="mode">வகை:</string>
     <string name="remix_of">ரீமிக்ஸ்:</string>
     <string name="description_hint">செய்தி விளக்கம் சேர்க்க</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">இந்த திட்டத்தை %1$s க்கு முன்பு மாற்றியுள்ளீர்கள்.</string>
     <plurals name="minutes">
@@ -339,6 +348,8 @@
     <string name="nfc_tag_name_label">NFC குறிச்சொல் பெயர்</string>
     <string name="string_label">உரை</string>
     <string name="data_label">பெயர்</string>
+    <string name="keyword_label">Insert keyword</string>
+    <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">கடைசி அணுகல்: %s, அளவு: %s</string>
@@ -462,6 +473,8 @@
     <string name="size">அளவு:</string>
     <string name="description">விளக்கம்:</string>
     <string name="set_description">விளக்கத்தை அமைக்கவும்</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">இன்று</string>
     <string name="import_project">செயற்திட்டத்தை இறக்குமதி செய்</string>
     <string name="error_import_project">திட்டங்களை இறக்குமதி செய்யும் போது ஏதோ தவறு ஏற்பட்டது.</string>
@@ -503,6 +516,10 @@
     <string name="local_vars_headline">இந்த நடிகர் அல்லது பொருளுக்கு மட்டுமே மாறுபாடுகள்</string>
     <string name="global_lists_headline">அனைத்து நடிகர்கள் மற்றும் பொருள்களுக்கான பட்டியல்கள்</string>
     <string name="local_lists_headline">இந்த நடிகர் அல்லது பொருளுக்கு மட்டுமே பட்டியல்கள்</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">எல்லா காட்சிகளிலும் உள்ள அனைத்து நடிகர்கள், பொருள்கள் மற்றும் குளோன்களுக்கு</string>
     <string name="new_data_for_this_sprite_only">இந்த நடிகருக்கு, பொருள் அல்லது அதன் குளோன்களில் ஒன்று மட்டுமே</string>
@@ -654,6 +671,8 @@
     <string name="upload_button">பதிவேற்றவும்</string>
     <string name="upload_project_dialog_title">பதிவேற்றும் திட்டம்</string>
     <string name="upload_description">விளக்கம்:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">மூன்று வகைகள் வரை தேர்வு செய்யவும்</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">திட்டத்தை வெளிப்புற சேமிப்பகத்தில் சேமிக்கவும்</string>
@@ -754,6 +773,7 @@
     <string name="prestage_text_to_speech_error">உரை-க்கு-பேச்சு இயந்திரம்</string>
     <string name="prestage_no_back_camera_available">பின் கேமரா</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">ஜம்பிங் சுமோ</string>
     <string name="prestage_no_front_camera_available">முன் கேமரா</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -792,6 +812,7 @@
     <string name="category_event">நிகழ்வு</string>
     <string name="category_user_bricks">உங்கள் செங்கற்கள்</string>
     <string name="category_data">தகவல்கள்</string>
+    <string name="category_device">Device</string>
     <string name="category_lego_nxt">லெகோ NXT</string>
     <string name="category_lego_ev3">லெகோ EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -812,6 +833,7 @@
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
     <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"இடத்தில்"</string>
@@ -920,6 +942,16 @@
     <string name="brick_speak">பேசு</string>
     <string name="brick_speak_default_value">வணக்கம்!</string>
     <string name="brick_speak_and_wait">காத்திருங்கள்</string>
+    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="brick_set_listening_language">Set listening language to</string>
+    <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Set tempo to</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">தைத்து</string>
@@ -928,6 +960,8 @@
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">காட்சி தொடங்கும் போது</string>
@@ -961,6 +995,7 @@
     <string name="brick_think_say_for_text">ஆக</string>
     <string name="brick_forever">என்றென்றும்</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
     <string name="brick_loop_to">க்கு</string>
     <string name="brick_repeat">மீண்டும்</string>
@@ -974,6 +1009,8 @@
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">மற்ற எல்லா ஸ்கிரிப்டுகளும் நிறுத்தப்படும் வரை காத்திருங்கள்</string>
     <string name="brick_tap_at">"இல் ஒற்றை தட்டு"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"ஆக"</string>
     <string name="brick_finish_stage">நிலையை முடிக்க</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1063,6 +1100,29 @@
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
     <string name="brick_store_csv_into_userlist_into">பட்டியலில்</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">எனது முதல் திட்டம்</string>
@@ -1200,9 +1260,13 @@
     <string name="error_drone_wrong_platform">உங்கள் சாதனத்தில் AR.Drone 2.0 திட்டத்தை எங்களால் இயக்க முடியாது.</string>
     <string name="error_rename_incompatible_project">பொருந்தாத திட்டத்தை மறுபெயரிடுவது சாத்தியமில்லை.</string>
     <string name="error_embroidery_file_export">எம்பிராய்டரி கோப்பைப் பகிரும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
     <string name="error_unknown_error">ஏதோ தவறு நடைபெற்றிருக்கிறது.</string>
     <string name="error_gps_not_available">புவிஇருப்பிட தரவு கிடைக்கவில்லை.</string>
     <string name="error_set_description">புதிய விளக்கத்தைச் சேமிக்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">வாட்ஸ்அப் நிறுவப்படவில்லை</string>
     <string name="error_unsupported_bricks_chromecast">இந்த ஸ்கிரிப்டை Chromecast திட்டத்தில் சேர்க்க         முடியாது.</string>
     <!--  -->
@@ -1531,6 +1595,13 @@
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_regex">வழக்கமான வெளிப்பாடு</string>
     <string name="formula_editor_function_regex_parameter">(\'an? ([^.] +)\', \'நான் ஒரு பாண்டா.\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">மேற்கொண்ட தகவல்கள்</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino டிஜிட்டல் முள்</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino அனலாக் முள்</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">ராஸ்பெர்ரி பை முள்</string>
@@ -1555,6 +1626,8 @@
     <string name="formula_editor_function_collision">நடிகர் அல்லது பொருளைத் தொடும்</string>
     <string name="formula_editor_function_collides_with_edge">விளிம்பைத் தொடும்</string>
     <string name="formula_editor_function_touched">விரலைத் தொடும்</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
     <string name="formula_editor_sensor_x_acceleration">முடுக்கம் x</string>
     <string name="formula_editor_sensor_y_acceleration">முடுக்கம் y</string>
     <string name="formula_editor_sensor_z_acceleration">முடுக்கம் z</string>
@@ -1563,6 +1636,7 @@
     <string name="formula_editor_sensor_longitude">தீர்க்கரேகை</string>
     <string name="formula_editor_sensor_location_accuracy">இருப்பிட துல்லியம்</string>
     <string name="formula_editor_sensor_altitude">உயரம்</string>
+    <string name="formula_editor_sensor_user_language">user language</string>
     <string name="formula_editor_sensor_x_inclination">சாய்வு x</string>
     <string name="formula_editor_sensor_y_inclination">சாய்வு y</string>
     <string name="formula_editor_sensor_loudness">உரப்பு</string>
@@ -1650,6 +1724,7 @@
     <string name="formula_editor_logic_comparison">ஒப்பீட்டு ஆபரேட்டர்கள்</string>
     <string name="formula_editor_object_general">பொது பண்புகள்</string>
     <string name="formula_editor_object_movement">இயக்க பண்புகள்</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">தேதி மற்றும் நேரம்</string>
     <string name="formula_editor_device_touch_detection">தொடு கண்டறிதல்</string>
     <string name="formula_editor_device_lego_nxt">லெகோ மைண்ட்ஸ்டார்ம்ஸ் என்.எக்ஸ்.டி.</string>
@@ -1678,16 +1753,24 @@
     <string name="formula_editor_image_button_description_delete">அழித்துவிடு</string>
     <string name="formula_editor_variable_dialog_title">புதிய மாறி</string>
     <string name="formula_editor_list_dialog_title">புதிய பட்டியல்</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
     <string name="formula_editor_discard_changes_dialog_message">மாற்றங்களைச் சேமிக்க விரும்புகிறீர்களா?</string>
     <string name="formula_editor_discard_changes_dialog_title">மாற்றங்களை சேமிக்க வேண்டுமா?</string>
     <string name="formula_editor_new_string_name">புதிய உரை</string>
     <string name="formula_editor_dialog_change_text">பெரிய உரை</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
     <string name="formula_editor_fragment_data_current_items">தற்போதைய உருப்படிகள்</string>
     <string name="formula_editor_data_dialog_is_list">அதை ஒரு பட்டியலாக ஆக்குங்கள்</string>
     <string name="formula_editor_sensor_face_detected">முகம் தெரியும்</string>
     <string name="formula_editor_sensor_face_size">முகம் அளவு</string>
     <string name="formula_editor_sensor_face_x_position">முகம் x நிலை</string>
     <string name="formula_editor_sensor_face_y_position">முகம் y நிலை</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_intro_title_formula_editor">சூத்திரத் தொகுப்பி</string>
     <string name="formula_editor_intro_summary_formula_editor">ஃபார்முலா எடிட்டர் மூலம் நீங்கள் கணிதத்தை உருவாக்கலாம் மற்றும்
         உங்கள் செங்கற்களில் நீங்கள் பயன்படுத்தக்கூடிய தருக்க சூத்திரங்கள்.\n\nதட்டுவதன் மூலம் இந்த சிறிய அறிமுகத்தை நீங்கள் தொடரலாம்       கீழ் வலது மூலையில் உள்ள \"அடுத்து\" பொத்தானை, மேலும் \"ஸ்கிப்\" பொத்தானைக் கிளிக் செய்வதன் மூலம் அதைத் தவிர்க்கலாம்        கீழ் இடது மூலையில்.</string>
@@ -1709,6 +1792,10 @@
     <string name="formula_editor_intro_summary_device">\"சென்சார்கள்\" இல் உங்கள் சாதனம் பதிவுசெய்யும் தகவலைக் காணலாம். \n எடுத்துக்காட்டாக, உங்கள் சாதனத்தின் சாய்வு அல்லது உங்கள் சுற்றுப்புறங்களின் சத்தம்.</string>
     <string name="formula_editor_intro_title_data">தகவல்கள்</string>
     <string name="formula_editor_intro_summary_data">உங்கள் திட்டத்தில் பயன்படுத்தப்படும் மாறிகள் மற்றும் பட்டியல்களை இங்கே காணலாம். \n நீங்கள் இதை உங்கள் சூத்திரத்தில் செருகலாம் அல்லது புதியவற்றைச் சேர்க்கலாம்.</string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">மாறியை காட்டுக</string>
