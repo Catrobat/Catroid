@@ -37,11 +37,12 @@
     <string name="ok">Va bene</string>
     <string name="done">Fatto</string>
     <string name="close">Chiudere</string>
+    <string name="assistant">Assistente</string>
     <string name="yes">Si</string>
     <string name="no">No</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
+    <string name="once">Una sola vota</string>
+    <string name="always">Sempre</string>
+    <string name="deny">Nega</string>
     <string name="agree">Acconsento</string>
     <string name="disagree">Non sono d\'accordo</string>
     <string name="select_all">Seleziona tutto</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">Ricerca&#8230;</string>
     <string name="backpack_add">Aggiungi allo zaino</string>
     <string name="share_website_text">www.pocketcode.org</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">Il progetto che hai scaricato ascolta la tua voce
+        in background e invia i dati attraverso Internet. Questo può essere innocuo e necessario
+        per il suo funzionamento. Tuttavia, assicurati di non dire cose compromettenti mentre il progetto
+        è in esecuzione. In caso di dubbi sulla sua attendibilità, si prega di eliminare il progetto scaricato.
+        Ti chiediamo di segnalare il progetto sulla piattaforma della comunità di Catrobat nel caso in cui
+        sei sicuro che si comporti in maniera dannosa.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Verifica dati di login&#8230;</string>
     <string name="loading_google_exchange_code">Scambio dati con Google+&#8230;</string>
@@ -91,9 +99,9 @@
     <string name="preference_title">Impostazioni</string>
     <string name="preference_title_language">Lingua</string>
     <string name="preference_description_language">Imposta la lingua dell\'applicazione</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_title_web_access">Accesso Web</string>
+    <string name="preference_description_web_access">Modifica per aggiungere o rimuovere domini attendibili</string>
+    <string name="preference_screen_web_access_title">Modifica domini attendibili</string>
     <string name="preference_title_accessibility">Accessibilità</string>
     <string name="preference_description_accessibility">Modifica l\'aspetto dell\'app</string>
     <string name="preference_title_accessibility_profiles">Profili di accessibilità</string>
@@ -171,11 +179,11 @@
     <string name="preference_raspi_host">Raspberry Pi IP-/Host-Address</string>
     <string name="preference_raspi_port">Porta Raspberry Pi</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">Estensione multigiocatore</string>
+    <string name="preference_description_multiplayer_variables_enabled">Consenti all\'applicazione di utilizzare
+        variabili multigiocatore condivise via Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Estensione di prova</string>
+    <string name="preference_description_test_bricks">Consente di creare test</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Oops! Il programma pare essere scomparso
@@ -250,6 +258,7 @@
     <string name="mode">Modalità:</string>
     <string name="remix_of">Remix di:</string>
     <string name="description_hint">Premi per aggiungere una descrizione</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">Hai convertito questo programma %1$s giorni fa.</string>
     <plurals name="minutes">
@@ -290,8 +299,8 @@
     <string name="am_convert">Converti</string>
     <string name="am_merge">Unisci</string>
     <string name="dialog_confirm_delete">Non è possibile annullarlo!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
+    <string name="dialog_confirm_delete_definition">Questo rimuoverà il mattoncino anche in tutti gli
+        altri script in cui viene utilizzato.\nNon potrai annullare l\'operazione!</string>
     <string name="list_headline_sprites">Attori ed oggetti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Zaino</string>
@@ -336,7 +345,7 @@
         <item quantity="one">Elimina questo mattoncino?</item>
         <item quantity="other">Elimina questi mattoncini?</item>
     </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
+    <string name="delete_definition">Elimina la definizione di questo mattoncino?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Nome del programma</string>
     <string name="scene_name_label">Nome della scena</string>
@@ -348,7 +357,9 @@
     <string name="nfc_tag_name_label">Nome del Tag NFC</string>
     <string name="string_label">Testo</string>
     <string name="data_label">Nome</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="keyword_label">Inserisci la parola chiave</string>
+    <string name="html_label">Inserisci testo HTML</string>
+    <string name="Image_format_not_supported">Formato immagine non supportato</string>
     <!-- Details -->
     <string name="project_details">Ultimo accesso: %s, dimensione: %s</string>
     <string name="last_access_today">oggi, %s</string>
@@ -471,6 +482,8 @@
     <string name="size">Dimensione:</string>
     <string name="description">Descrizione:</string>
     <string name="set_description">Imposta descrizione</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Oggi</string>
     <string name="import_project">Importa progetto</string>
     <string name="error_import_project">Qualcosa è andato storto durante l\'importazione dei progetti.</string>
@@ -507,16 +520,20 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">Variabili per dispositivi connessi</string>
     <string name="global_vars_headline">Variabili per tutti gli oggetti</string>
     <string name="local_vars_headline">Variabili per solo questo oggetto</string>
     <string name="global_lists_headline">Liste per tutti gli oggetti</string>
     <string name="local_lists_headline">Lista per solo questo oggetto</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input per questo mattoncino</item>
+        <item quantity="other">Input per questi mattoncini</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Per tutti gli oggetti</string>
     <string name="new_data_for_this_sprite_only">Solo per questo oggetto</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_connected_devices">Per tutti gli attori, oggetti e cloni delle scene dei progetti
+        su dispositivi multiplayer connessi</string>
     <!-- Backpack -->
     <string name="backpack_title">Tuo zaino</string>
     <string name="pack">Impacchetta</string>
@@ -667,6 +684,8 @@
     <string name="upload_button">Carica</string>
     <string name="upload_project_dialog_title">Carica programma</string>
     <string name="upload_description">Descrizione:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Scegli fino a tre categorie</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Salva il progetto sulla memoria esterna</string>
@@ -683,17 +702,17 @@
     <string name="soundrecorder_text_view">Premere l\'icona qui sopra per avviare e interrompere la registrazione.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Move brick</string>
+    <string name="brick_context_dialog_move_brick">Sposta mattoncino</string>
     <string name="brick_context_dialog_move_script">Sposta script</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
+    <string name="brick_context_dialog_move_definition">Sposta questa definizione</string>
     <string name="brick_context_dialog_delete_brick">Elimina mattoncino</string>
     <string name="brick_context_dialog_copy_brick">Copia mattoncino</string>
     <string name="brick_context_dialog_copy_script">Copia script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
+    <string name="brick_context_dialog_formula_edit_brick">Modifica Formula</string>
     <string name="brick_context_dialog_delete_script">Cancella script</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
+    <string name="brick_context_dialog_delete_definition">Elimina questa definizione</string>
+    <string name="brick_context_dialog_comment_in">Abilita mattoncino</string>
+    <string name="brick_context_dialog_comment_out">Disabilita mattoncino</string>
     <string name="brick_context_dialog_highlight_brick_parts">Evidenzia parti mattoncino</string>
     <string name="brick_context_dialog_comment_in_script">Abilita script</string>
     <string name="brick_context_dialog_comment_out_script">Disabilita script</string>
@@ -729,7 +748,7 @@
     <string name="error_google_plus_sign_in">Errore di login su Google. Stato: %s</string>
     <string name="error_session_expired">Sessione scaduta, effettua nuovamente il login.</string>
     <string name="error_register_empty_username">Nome utente vuoto</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
+    <string name="error_register_username_as_email">Non si può usare l\'Indirizzo di e-mail come nome utente</string>
     <string name="error_register_invalid_username">Il nome utente deve contenere solo lettere (a-z), numeri (0-9), trattini (-),
         trattini bassi (_) e punti (.).</string>
     <string name="error_register_username_start_with">Il nome utente non deve iniziare con trattini (-), trattini bassi (_) o
@@ -759,18 +778,19 @@
         Non sono disponibili i seguenti componenti:\n\n</string>
     <string name="prestage_resource_in_use_text">Un altro dispositivo è connesso al Jumping Sumo. Assicurati
     di essere il solo a controllare il drone.</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibrazione\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore di Accelerazione\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensore di Inclinazione\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 Bussola\n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Motore di sintesi vocale\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Rileva volto\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Rileva testo\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_camera_available">\u2022 Fotocamera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Torcia\n</string>
     <string name="prestage_default_resource_not_available">\u2022 Componente sconosciuto\n</string>
     <string name="no_nfc_available">NFC non disponibile</string>
     <string name="nfc_not_activated">Attiva NFC, poi premi indietro per tornare all\'app!</string>
@@ -805,6 +825,7 @@
     <string name="category_event">Evento</string>
     <string name="category_user_bricks">I tuoi mattoncini</string>
     <string name="category_data">Dati</string>
+    <string name="category_device">Dispositivo</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -816,15 +837,16 @@
     <string name="category_assertions">Verifica</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_add_label">Aggiungi etichetta</string>
+    <string name="brick_user_defined_add_input">Aggiungi input</string>
+    <string name="brick_user_defined_add_input_description">Aggiungi input per questo mattoncino:</string>
+    <string name="brick_user_defined_add_label_description">Aggiungi etichetta per questo mattoncino:</string>
+    <string name="brick_user_defined_default_input_name">Nome input</string>
+    <string name="brick_user_defined_default_label">Testo etichetta</string>
+    <string name="brick_user_defined_already_exists">Un mattoncino con queste etichette esiste già. Aggiungere più etichette o input.</string>
+    <string name="brick_user_defined_script_define">Definisci</string>
+    <string name="brick_user_defined_script_as">come</string>
+    <string name="brick_user_defined_list_empty">Tocca \"+\" per aggiungere nuovi mattoncini.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Posiziona a "</string>
@@ -926,21 +948,33 @@
     <!-- Sound bricks -->
     <string name="brick_play_sound">Inizia suono</string>
     <string name="brick_play_sound_and_wait">Avvia suono e attendi</string>
-    <string name="brick_stop_sound">Stop sound</string>
+    <string name="brick_stop_sound">Ferma suono</string>
     <string name="brick_stop_all_sounds">Interrompi tutti i suoni</string>
     <string name="brick_set_volume_to">Imposta volume a</string>
     <string name="brick_change_volume_by">Modifica il volume di</string>
     <string name="brick_speak">Parla</string>
     <string name="brick_speak_default_value">Ciao!</string>
     <string name="brick_speak_and_wait">e aspetta</string>
+    <string name="brick_start_listening_to_voice">Inizia ad ascoltare la voce e memorizza le parole pronunciate in</string>
+    <string name="speech_recognition_not_available">Riconoscimento vocale non disponibile.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Dati offline mancanti</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Il riconoscimento vocale offline
+    per %s è mancante o deve essere aggiornato. Vuoi scaricarlo o aggiornarlo ora?</string>
+    <string name="brick_set_listening_language">Imposta la lingua di ascolto a</string>
+    <string name="set_instrument_to">Imposta strumento a</string>
+    <string name="set_tempo_to">Imposta tempo a</string>
+    <string name="pause_for">Metti in pausa per</string>
+    <string name="beats">battiti</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_running_stitch">Avvia \"punto continuo\" con lunghezza</string>
+    <string name="brick_zigzag_stitch">Avvia \"punto a zigzag\" con lunghezza</string>
+    <string name="brick_zigzag_stitch_width">e larghezza</string>
+    <string name="brick_triple_stitch">Avvia \"punto triplo\" con lunghezza</string>
+    <string name="brick_stop_stitch">Ferma il punto corrente</string>
+    <string name="brick_write_embroidery">Scrivi i dati del ricamo su file</string>
+    <string name="brick_default_embroidery_file">ricamo.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">Quando il programma inizia</string>
@@ -973,7 +1007,8 @@
     <string name="brick_say_bubble">Dire</string>
     <string name="brick_think_say_for_text">per</string>
     <string name="brick_forever">Per sempre</string>
-    <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_values_from">Per valori da</string>
+    <string name="brick_loop_for_each_value_from">Per ciascun valore da</string>
     <string name="brick_loop_in">in</string>
     <string name="brick_loop_to">a</string>
     <string name="brick_repeat">Ripeti</string>
@@ -983,28 +1018,30 @@
     <string name="brick_clone_this">me stesso</string>
     <string name="brick_when_cloned">Quando vengo clonato</string>
     <string name="brick_delete_this_clone">Elimina questo clone</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
+    <string name="brick_assert_that">Asserisci</string>
+    <string name="brick_is_equal_to">uguaglianza attesa</string>
     <string name="brick_wait_till_idle">Attendi che tutti gli altri script siano stati fermati</string>
     <string name="brick_tap_at">"Tocco singolo su"</string>
+    <string name="brick_touch_at">"Tocco a"</string>
+    <string name="brick_tap_for">"per"</string>
     <string name="brick_finish_stage">Stage finale</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_finish_tests">Termina test</string>
+    <string name="brick_assert_lists">Lista asserzioni</string>
+    <string name="brick_assert_actual">Attuale:</string>
+    <string name="brick_assert_expected">Atteso:</string>
+    <string name="brick_parameterized_assert">asserzione</string>
+    <string name="brick_parameterized_equals">è uguale all\'elemento</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">For each item of</item>
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="one">Per ogni elemento di</item>
+        <item quantity="other">Per ognuno degli elementi di</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">stored in variable with the same name</item>
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="one">memorizza in una variabile con lo stesso nome</item>
+        <item quantity="other">memorizza in variabili con gli stessi nomi</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="one">%d list selected</item>
-        <item quantity="other">%d lists selected</item>
+        <item quantity="one">%d lista selezionata</item>
+        <item quantity="other">%d liste selezionate</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="one">volta</item>
@@ -1019,15 +1056,15 @@
     <string name="brick_change_variable">Cambia variabile</string>
     <string name="brick_write_variable_on_device">Scrivi la variabile sul dispositivo</string>
     <string name="brick_read_variable_from_device">Leggi la variabile dal dispositivo</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
-    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_write_variable_to_file_top">Scrivi variabile</string>
+    <string name="brick_write_variable_to_file_bottom">sul file</string>
+    <string name="brick_write_variable_to_file_default_value">variabile.txt</string>
+    <string name="brick_write_variable_to_file_success">"Dati scritti correttamente su %1$s"</string>
+    <string name="brick_read_variable_from_file_top">Leggi variabile</string>
+    <string name="brick_read_variable_from_file_center">da file</string>
     <string name="brick_read_variable_from_file_bottom">AND</string>
-    <string name="brick_read_variable_from_file_keep">keep the file</string>
-    <string name="brick_read_variable_from_file_delete">delete the file</string>
+    <string name="brick_read_variable_from_file_keep">mantieni il file</string>
+    <string name="brick_read_variable_from_file_delete">elimina il file</string>
     <string name="brick_write_list_on_device">Scrivi la lista sul dispositivo</string>
     <string name="brick_read_list_from_device">Leggi la lista dal dispositivo</string>
     <string name="brick_note_default_value">aggiungi qui un commento&#8230;</string>
@@ -1036,7 +1073,7 @@
     <string name="brick_broadcast_default_value">"messaggio 1"</string>
     <string name="brick_add_item_to_userlist_add">Aggiungi</string>
     <string name="brick_add_item_to_userlist">alla lista</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
+    <string name="brick_clear_userlist">Elimina tutti gli elementi dalla lista</string>
     <string name="brick_delete_item_from_userlist_delete">Elimina l\'elemento dalla lista</string>
     <string name="brick_delete_item_from_userlist">alla posizione</string>
     <string name="brick_insert_item_into_userlist_insert_into">Inserire</string>
@@ -1048,34 +1085,57 @@
     <string name="brick_web_request">Invia richiesta web a</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">e memorizza la risposta in</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
+    <string name="web_request_warning_title">Consentire l\'accesso al web?</string>
+    <string name="web_request_warning_message">Fai molta attenzione prima di permettere l\'accesso, poiché il link
+        può esporre le tue informazioni personali, come la tua precisa posizione geografica o altro testo qualsiasi
+        che hai inserito o altro codice malevolo. Vedi il nostro
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; per maggiori informazioni perché questo può
+        essere estremamente pericoloso.
     </string>
-    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
+    <string name="web_request_trust_domain_warning_title">Consenti sempre l\'accesso al web?</string>
+    <string name="web_request_trust_domain_warning_message">Consentendo sempre l\'accesso,
+        non ti verrà chiesto di confermare gli indirizzi web da questo dominio.
     </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
+    <string name="trusted_domains_edit_hint">Se vuoi revocare questo permesso
+        più tardi, è possibile rimuovere la voce dalla lista di domini attendibili in
+        le impostazioni di questa app.
     </string>
-    <string name="brick_look_request">Get image from</string>
+    <string name="brick_look_request">Ottieni immagine da</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
+    <string name="brick_look_request_result">e usa come aspetto attuale</string>
+    <string name="brick_background_request_result">e usa come sfondo attuale</string>
+    <string name="look_request_http_error_message">"Recuperando l'immagine da %1$s ha restituito l'errore HTTP %2$s"</string>
+    <string name="look_request_type_error_message">"Impossibile ottenere l'immagine da %1$s in un formato di immagine riconosciuto"</string>
+    <string name="brick_store_csv_into_userlist_store">Memorizza colonna</string>
+    <string name="brick_store_csv_into_userlist_of">delle</string>
+    <string name="brick_store_csv_into_userlist_csv">valori separati da virgola</string>
     <string name="brick_store_csv_into_userlist_into">nella lista</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_store_csv_into_userlist_data">gattino,carino\ncucciolo,cattivo\npolpo,intelligente</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Piano Elettrico</string>
+    <string name="cello">Violoncello</string>
+    <string name="flute">Flauto</string>
+    <string name="vibraphone">Vibrafono</string>
+    <string name="organ">Organo</string>
+    <string name="guitar">Chitarra</string>
+    <string name="electric_guitar">Chitarra elettrica</string>
+    <string name="bass">Basso</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Coro</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Flauto Di Legno</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Sassofono</string>
+    <string name="bassoon">Fagotto</string>
+    <string name="clarinet">Clarinetto</string>
+    <string name="music_box">Box Musicale</string>
+    <string name="steel_drum">Tamburo d\'acciaio</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Il mio primo programma</string>
@@ -1090,11 +1150,11 @@
     <string name="default_project_sprites_tweet_1">Cinguettio1</string>
     <string name="default_project_sprites_tweet_2">Cinguettio2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">Ago</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">Ciclo Esterno</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">Ciclo Interno</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">Sfondo</string>
     <string name="default_cast_project_cloud_name">Nuvole</string>
@@ -1219,9 +1279,13 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="error_drone_wrong_platform">Impossibile eseguire il progetto AR.Drone 2.0 sul tuo dispositivo.</string>
     <string name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
     <string name="error_embroidery_file_export">Qualcosa è andato storto durante la condivisione del file.</string>
+    <string name="error_embroidery_file_write">C\'è stato un errore durante la condivisione del file.</string>
+    <string name="error_embroidery_data_not_found">Manca il ricamo.</string>
     <string name="error_unknown_error">Si è verificato un errore sconosciuto.</string>
     <string name="error_gps_not_available">Errore, GPS non disponibile.</string>
     <string name="error_set_description">Errore durante il salvataggio della nuova descrizione.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">WhatsApp non è installato</string>
     <string name="error_unsupported_bricks_chromecast">Questo script non può essere aggiunto ad un programma
         per Chromecast.</string>
@@ -1551,6 +1615,13 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_join_parameter">(\'ciao\', \'mondo\')</string>
     <string name="formula_editor_function_regex">espressione regolare</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Sono un panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Assistente per le
+        espressioni regolari</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Assistente
+        espressioni regolari</string>
+    <string name="formula_editor_dialog_wiki_button">Ulteriori informazioni</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">La parola chiave non è stata trovata.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">Estrattore JSON</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_pin_digitale</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_pin_analogico</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
@@ -1568,13 +1639,15 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_contains">contiene</string>
     <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item">indice dell\'elemento</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
     <string name="formula_editor_function_number_of_items">numero_di_elementi</string>
     <string name="formula_editor_function_number_of_items_parameter">(*nome _lista*)</string>
     <string name="formula_editor_function_collision">oggetti_toccati</string>
     <string name="formula_editor_function_collides_with_edge">bordi_toccati</string>
     <string name="formula_editor_function_touched">toccati_da_dito</string>
+    <string name="formula_editor_function_collides_with_color">colore toccato</string>
+    <string name="formula_editor_function_color_touches_color">colore tocca colore</string>
     <string name="formula_editor_sensor_x_acceleration">accelerazione_X</string>
     <string name="formula_editor_sensor_y_acceleration">accelerazione_y</string>
     <string name="formula_editor_sensor_z_acceleration">accelerazione_z</string>
@@ -1583,6 +1656,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_sensor_longitude">longitudine</string>
     <string name="formula_editor_sensor_location_accuracy">accuratezza_posizione</string>
     <string name="formula_editor_sensor_altitude">altitudine</string>
+    <string name="formula_editor_sensor_user_language">lingua utente</string>
     <string name="formula_editor_sensor_x_inclination">inclinazione_x</string>
     <string name="formula_editor_sensor_y_inclination">inclinazione_y</string>
     <string name="formula_editor_sensor_loudness">livello_sonoro</string>
@@ -1670,6 +1744,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_logic_comparison">operatori di confronto</string>
     <string name="formula_editor_object_general">proprietà generali</string>
     <string name="formula_editor_object_movement">proprietà del movimento</string>
+    <string name="formula_editor_device_visual_detection">Sensori visivi</string>
     <string name="formula_editor_device_date_and_time">Data e ora</string>
     <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1698,16 +1773,24 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_image_button_description_delete">elimina</string>
     <string name="formula_editor_variable_dialog_title">Nuova variabile</string>
     <string name="formula_editor_list_dialog_title">Nuovo elenco</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">Estrattore HTML</string>
     <string name="formula_editor_discard_changes_dialog_message">Si desidera salvare le modifiche?</string>
     <string name="formula_editor_discard_changes_dialog_title">Salvare le modifiche?</string>
     <string name="formula_editor_new_string_name">Nuovo testo</string>
     <string name="formula_editor_dialog_change_text">Cambia Testo</string>
+    <string name="formula_editor_dialog_change_regular_expression">Cambia espressione
+        regolare</string>
     <string name="formula_editor_fragment_data_current_items">elementi attuali</string>
     <string name="formula_editor_data_dialog_is_list">Crea un elenco</string>
     <string name="formula_editor_sensor_face_detected">volto_riconosciuto</string>
     <string name="formula_editor_sensor_face_size">dimensione_volto</string>
     <string name="formula_editor_sensor_face_x_position">posizione_x_volto</string>
     <string name="formula_editor_sensor_face_y_position">posizione_y_volto</string>
+    <string name="formula_editor_sensor_text_from_camera">testo dalla fotocamera</string>
+    <string name="formula_editor_sensor_text_blocks_number">numero blocchi di testo</string>
+    <string name="formula_editor_function_text_block_x">blocco di testo x dalla fotocamera</string>
+    <string name="formula_editor_function_text_block_y">blocco di testo y dalla fotocamera</string>
+    <string name="formula_editor_function_text_block_size">dimensione blocco testo dalla fotocamera</string>
     <string name="formula_editor_intro_title_formula_editor">Editor di formule</string>
     <string name="formula_editor_intro_summary_formula_editor">L\'editor di formule ti permette di creare formule matematiche e
     logiche che puoi usare all\'interno dei mattoncini.\n\nPuoi continuare questa piccola introduzione
@@ -1737,6 +1820,10 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
         il tablet o lo smartphone registra.\nPer esempio, l\'inclinazione del dispositivo o il rumore di fondo.</string>
     <string name="formula_editor_intro_title_data">Dati</string>
     <string name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo         programma possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
+    <string name="formula_editor_listening_language_sensor">lingua di ascolto</string>
+    <string name="formula_editor_speech_recognition">Riconoscimento vocale</string>
+    <string name="camera_error_text_detection">        Si è verificato un problema con il rilevamento del testo. Alcuni componenti potrebbero essere ancora in fase di download
+        . Assicurati di essere connesso a internet e controlla più tardi.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">Visualizza la variabile</string>
@@ -1757,11 +1844,10 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="brick_choose_camera">Usa la videocamera</string>
     <string name="choose_camera_front">anteriore</string>
     <string name="choose_camera_back">posteriore</string>
-    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    <string name="camera_error_generic">        Qualcosa è andato storto durante il tentativo di utilizzare la fotocamera.
     </string>
-    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
-        background. Please make sure you are connected to the internet and check back later.
-    </string>
+    <string name="camera_error_face_detection">        Si è verificato un problema con il rilevamento del volto. Alcuni componenti potrebbero essere ancora in fase di download
+        . Assicurati di essere connesso a internet e controlla più tardi.</string>
     <!-- -->
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>

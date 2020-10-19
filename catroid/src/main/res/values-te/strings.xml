@@ -37,6 +37,7 @@
     <string name="ok">సరే</string>
     <string name="done">పూర్తి</string>
     <string name="close">మూసివేయు</string>
+    <string name="assistant">Assistant</string>
     <string name="yes">అవును</string>
     <string name="no">కాదు</string>
     <string name="once">Once</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">శోధన&#8230;</string>
     <string name="backpack_add">తగిలించుకునే బ్యాగులో జోడించండి</string>
     <string name="share_website_text">share.catrob.at</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
@@ -250,6 +258,7 @@
     <string name="mode">Mode:</string>
     <string name="remix_of">Remix of:</string>
     <string name="description_hint">Press to add description</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
     <plurals name="minutes">
@@ -348,6 +357,8 @@
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
+    <string name="keyword_label">Insert keyword</string>
+    <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
@@ -471,6 +482,8 @@
     <string name="size">Size:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
@@ -512,6 +525,10 @@
     <string name="local_vars_headline">Variables for this actor or object only</string>
     <string name="global_lists_headline">Lists for all actors and objects</string>
     <string name="local_lists_headline">Lists for this actor or object only</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
     <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
@@ -669,6 +686,8 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Save project to external storage</string>
@@ -770,6 +789,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -808,6 +828,7 @@
     <string name="category_event">Event</string>
     <string name="category_user_bricks">Your bricks</string>
     <string name="category_data">Data</string>
+    <string name="category_device">Device</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -828,6 +849,7 @@
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
     <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Place at"</string>
@@ -936,6 +958,16 @@
     <string name="brick_speak">Speak</string>
     <string name="brick_speak_default_value">Hello!</string>
     <string name="brick_speak_and_wait">and wait</string>
+    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="brick_set_listening_language">Set listening language to</string>
+    <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Set tempo to</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -944,6 +976,8 @@
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
@@ -977,6 +1011,7 @@
     <string name="brick_think_say_for_text">for</string>
     <string name="brick_forever">Forever</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
     <string name="brick_loop_to">to</string>
     <string name="brick_repeat">Repeat</string>
@@ -990,6 +1025,8 @@
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"for"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1079,6 +1116,29 @@
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
     <string name="brick_store_csv_into_userlist_into">into list</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">My first project</string>
@@ -1222,9 +1282,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>
@@ -1560,6 +1624,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_regex">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">More information</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1584,6 +1655,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration z</string>
@@ -1592,6 +1665,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_longitude">longitude</string>
     <string name="formula_editor_sensor_location_accuracy">location accuracy</string>
     <string name="formula_editor_sensor_altitude">altitude</string>
+    <string name="formula_editor_sensor_user_language">user language</string>
     <string name="formula_editor_sensor_x_inclination">inclination x</string>
     <string name="formula_editor_sensor_y_inclination">inclination y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
@@ -1679,6 +1753,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_general">General properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1707,16 +1782,24 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_image_button_description_delete">delete</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
     <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
     <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
     <string name="formula_editor_new_string_name">New text</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
     <string name="formula_editor_sensor_face_detected">face is visible</string>
     <string name="formula_editor_sensor_face_size">face size</string>
     <string name="formula_editor_sensor_face_x_position">face x position</string>
     <string name="formula_editor_sensor_face_y_position">face y position</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
@@ -1747,6 +1830,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_title_data">Data</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
         \nYou can simply insert these in your formula, or add new ones.</string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">Show variable</string>
