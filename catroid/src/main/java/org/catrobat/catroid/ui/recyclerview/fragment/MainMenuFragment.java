@@ -26,7 +26,6 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +33,6 @@ import android.view.ViewGroup;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ProjectData;
-import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.ui.ProjectActivity;
@@ -53,12 +51,9 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.IntDef;
@@ -66,11 +61,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
-import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 
@@ -95,10 +90,10 @@ public class MainMenuFragment extends Fragment implements
 	private RecyclerView recyclerView;
 	private ButtonAdapter buttonAdapter;
 	private View.OnClickListener listener;
-	private List<ProjectData> myProjects;
 	private HorizontalProjectsAdapter projectsAdapter;
 	private RecyclerView projectsRecyclerView;
 	String currentProject;
+	ProjectsViewModel viewModel;
 
 	@Nullable
 	@Override
@@ -125,6 +120,9 @@ public class MainMenuFragment extends Fragment implements
 			}
 		};
 
+		viewModel =
+				new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(ProjectsViewModel.class);
+
 		buttonAdapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(buttonAdapter);
 
@@ -149,7 +147,11 @@ public class MainMenuFragment extends Fragment implements
 		projectsAdapter = new HorizontalProjectsAdapter(this);
 		projectsRecyclerView.setAdapter(projectsAdapter);
 
-		refreshData();
+		viewModel.getProjects().observe(getViewLifecycleOwner(), projectData -> {
+			setAndLoadCurrentProject(projectData);
+			updateRecyclerview(projectData);
+		});
+
 		setShowProgressBar(false);
 	}
 
@@ -175,7 +177,7 @@ public class MainMenuFragment extends Fragment implements
 		refreshData();
 	}
 
-	private void setAndLoadCurrentProject() {
+	private void setAndLoadCurrentProject(List<ProjectData> myProjects) {
 		if (myProjects.size() != 0) {
 			currentProject = myProjects.get(0).getName();
 		} else {
@@ -260,34 +262,6 @@ public class MainMenuFragment extends Fragment implements
 		}
 	}
 
-	private void updateMyProjects() {
-		myProjects = new ArrayList<>();
-
-		for (File projectDir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
-			File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
-			if (!xmlFile.exists()) {
-				continue;
-			}
-
-			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
-
-			try {
-				myProjects.add(metaDataParser.getProjectMetaData());
-			} catch (IOException e) {
-				Log.e(TAG, "Project not parseable", e);
-			}
-		}
-		if (myProjects.size() == 0) {
-			return;
-		}
-		Collections.sort(myProjects, new Comparator<ProjectData>() {
-			@Override
-			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.compare(project2.getLastUsed(), project1.getLastUsed());
-			}
-		});
-	}
-
 	private void loadProjectImage() {
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
@@ -299,22 +273,20 @@ public class MainMenuFragment extends Fragment implements
 				parent.findViewById(R.id.image_view));
 	}
 
-	private void updateRecyclerview() {
+	private void updateRecyclerview(List<ProjectData> myProjects) {
 		if (myProjects.size() < 2) {
 			projectsAdapter.setItems(null);
 		} else {
 			int projectsCount = Math.min(myProjects.size(), 10);
 			projectsAdapter.setItems(myProjects.subList(1, projectsCount));
 		}
-		projectsAdapter.notifyDataSetChanged();
 	}
 
 	@Override
-	public void onProjectClick(int position) {
+	public void onProjectClick(ProjectData projectData) {
 		setShowProgressBar(true);
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
-				.encodeSpecialCharsForFileSystem(myProjects.get(position + 1).getName()));
-		updateRecyclerview();
+				.encodeSpecialCharsForFileSystem(projectData.getName()));
 
 		new ProjectLoadTask(projectDir, getContext())
 				.setListener(this)
@@ -322,8 +294,6 @@ public class MainMenuFragment extends Fragment implements
 	}
 
 	public void refreshData() {
-		updateMyProjects();
-		setAndLoadCurrentProject();
-		updateRecyclerview();
+		viewModel.forceUpdate();
 	}
 }

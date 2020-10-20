@@ -23,8 +23,10 @@
 
 package org.catrobat.catroid.ui.recyclerview;
 
+import org.catrobat.catroid.common.ProjectData;
+
 public class ProjectListener {
 	public interface OnProjectListener {
-		void onProjectClick(int position);
+		void onProjectClick(ProjectData projectData);
 	}
 }
