@@ -37,6 +37,7 @@
     <string name="ok">ตกลง</string>
     <string name="done">เสร็จสิ้น</string>
     <string name="close">ปิด</string>
+    <string name="assistant">ผู้ช่วย</string>
     <string name="yes">ใช่</string>
     <string name="no">ไม่ใช่</string>
     <string name="once">ครั้งเดียว</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">ค้นหา&#8230;</string>
     <string name="backpack_add">เพิ่มไปยังชุดข้อมูล</string>
     <string name="share_website_text">แชร์เว็บไซต์</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">โครงการที่คุณดาวน์โหลดไว้ฟังเสียงของคุณ
+         อยู่เบื้องหลังและส่งข้อมูลไปยังอินเทอร์เน็ต สิ่งนี้อาจไม่เป็นอันตรายและจำเป็น
+         สำหรับพฤติกรรมที่ตั้งใจไว้ อย่างไรก็ตามโปรดตรวจสอบให้แน่ใจว่าสิ่งที่คุณกำลังพูดในขณะที่
+         โครงการกำลังดำเนินอยู่นั้นปลอดภัย ในกรณีที่มีข้อสงสัยโปรดลบโครงการที่ดาวน์โหลด
+         นอกจากนี้คุณยังสามารถรายงานโครงการบนหน้าของโครงการบนแพลตฟอร์มชุมชน Catrobat ได้ในกรณี
+         คุณมั่นใจว่ามันเป็นอันตราย</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">กำลังตรวจสอบข้อมูลการเข้าสู่ระบบ&#8230;</string>
     <string name="loading_google_exchange_code">กำลังแลกเปลี่ยนข้อมูลการลงชื่อเข้าใช้ Google&#8230;</string>
@@ -172,8 +180,8 @@
     <string name="preference_title_multiplayer_variables_enabled">ส่วนขยายผู้เล่นหลายคน</string>
     <string name="preference_description_multiplayer_variables_enabled">อนุญาตให้แอปใช้
          ตัวแปรหลายคนแชร์ผ่านบลูทู ธ</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_enable_test_bricks">ส่วนขยายการทดสอบ</string>
+    <string name="preference_description_test_bricks">อนุญาตให้สร้างการทดสอบ</string>
     <!-- Scratch Converter activity -->
     <string name="beta">เบต้า</string>
     <string name="error_scratch_program_not_accessible_any_more">อ๊ะ!  ดูเหมือนว่าโครงการจะหายไปหรือคุณอาจสูญเสียการเข้าถึง</string>
@@ -236,6 +244,7 @@
     <string name="mode">โหมด:</string>
     <string name="remix_of">เรียบเรียงจาก:</string>
     <string name="description_hint">กดเพื่อเพิ่มคำอธิบาย</string>
+    <string name="notes_and_credits_hint">กดเพื่อเพิ่มบันทึกและเครดิต</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">คุณแปลงโครงการนี้ %1$s ที่ผ่านมา</string>
     <plurals name="minutes">
@@ -274,8 +283,8 @@
     <string name="am_convert">แปลง</string>
     <string name="am_merge">รวม</string>
     <string name="dialog_confirm_delete">คุณไม่สามารถเลิกทำสิ่งนี้ได้!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
+    <string name="dialog_confirm_delete_definition">สิ่งนี้จะคำสั่งทั้งหมด
+         สคริปต์อื่น ๆ ที่ใช้งานอยู่ \n คุณไม่สามารถเลิกทำสิ่งนี้ได้!</string>
     <string name="list_headline_sprites">นักแสดงและวัตถุ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ชุดข้อมูล</string>
@@ -319,7 +328,7 @@
         <item quantity="other">ลบคำสั่งนี้หรือไม่
 ลบคำสั่งเหล่านี้หรือไม่</item>
     </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
+    <string name="delete_definition">ลบคำจำกัดความของคำสั่งนี้หรือไม่</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">ชื่อโครงการ</string>
     <string name="scene_name_label">ชื่อฉาก</string>
@@ -331,6 +340,8 @@
     <string name="nfc_tag_name_label">ชื่อแท็ก NFC</string>
     <string name="string_label">ข้อความ</string>
     <string name="data_label">ชื่อ</string>
+    <string name="keyword_label">แทรกคำหลัก</string>
+    <string name="html_label">แทรกข้อความ HTML</string>
     <string name="Image_format_not_supported">รูปแบบไฟล์ที่ไม่สนับสนุน</string>
     <!-- Details -->
     <string name="project_details">การเข้าถึงล่าสุด: %s ขนาด: %s</string>
@@ -432,6 +443,8 @@
     <string name="size">ขนาด:</string>
     <string name="description">คำอธิบาย:</string>
     <string name="set_description">กำหนดคำอธิบาย</string>
+    <string name="notes_and_credits_title">หมายเหตุและเครดิต:</string>
+    <string name="set_notes_and_credits">ตั้งค่าบันทึกและเครดิต</string>
     <string name="details_date_today">วันนี้</string>
     <string name="import_project">นำเข้าโครงการ</string>
     <string name="error_import_project">เกิดข้อผิดพลาดขณะนำเข้าโครงการ</string>
@@ -473,6 +486,10 @@
     <string name="local_vars_headline">ตัวแปรสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
     <string name="global_lists_headline">รายการสำหรับนักแสดงและวัตถุทั้งหมด</string>
     <string name="local_lists_headline">รายการสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="other">อินพุตสำหรับคำสั่งนี้
+อินพุตสำหรับคำสั่งนี้</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">สำหรับนักแสดงวัตถุและโคลนทุกฉาก</string>
     <string name="new_data_for_this_sprite_only">สำหรับนักแสดงวัตถุหรือหนึ่งในโคลนของมันเท่านั้น</string>
@@ -579,6 +596,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="upload_button">อัพโหลด</string>
     <string name="upload_project_dialog_title">อัพโหลดโปรแกรม</string>
     <string name="upload_description">คำอธิบาย:</string>
+    <string name="upload_notes_and_credits">หมายเหตุและเครดิต:</string>
+    <string name="upload_notes_and_credits_explanation">คุณสร้างโครงการนี้ได้อย่างไร คุณใช้ไอเดียสคริปต์หรืออาร์ตเวิร์คจากคนอื่นหรือไม่? ขอบคุณพวกเขาที่นี่</string>
     <string name="upload_tag_dialog_title">โปรดเลือกได้สูงสุดสามหมวด</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">บันทึกโครงการไปยังที่จัดเก็บข้อมูลภายนอก</string>
@@ -597,13 +616,13 @@ A-8010 กราซ, ออสเตรีย \n
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">ย้ายคำสั่ง</string>
     <string name="brick_context_dialog_move_script">ย้ายสคริปต์</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
+    <string name="brick_context_dialog_move_definition">ย้ายคำจำกัดความนี้</string>
     <string name="brick_context_dialog_delete_brick">ลบคำสั่ง</string>
     <string name="brick_context_dialog_copy_brick">คัดลอกคำสั่ง</string>
     <string name="brick_context_dialog_copy_script">คัดลอกสคริปต์</string>
     <string name="brick_context_dialog_formula_edit_brick">แก้ไขสูตร</string>
     <string name="brick_context_dialog_delete_script">ลบสคริปต์</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
+    <string name="brick_context_dialog_delete_definition">ลบคำจำกัดความนี้</string>
     <string name="brick_context_dialog_comment_in">เปิดใช้งาน คำสั้ง</string>
     <string name="brick_context_dialog_comment_out">ปิดการใช้งาน คำสั่ง</string>
     <string name="brick_context_dialog_highlight_brick_parts">เน้น คำสั้ง</string>
@@ -676,6 +695,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="prestage_text_to_speech_error">\u2022 เครื่องมือแปลงข้อความเป็นคำพูด \n</string>
     <string name="prestage_no_back_camera_available">\u2022 กล้องด้านหลัง \n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 การตรวจจับข้อความ \n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 กล้องด้านหน้า \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -713,6 +733,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="category_event">เหตุการณ์</string>
     <string name="category_user_bricks">คำสั่งของคุณ</string>
     <string name="category_data">ข้อมูล</string>
+    <string name="category_device">อุปกรณ์</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -733,6 +754,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">กำหนด</string>
     <string name="brick_user_defined_script_as">เช่นเดียวกับ</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"วางที่"</string>
@@ -839,6 +861,16 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_speak">พูด</string>
     <string name="brick_speak_default_value">สวัสดี!</string>
     <string name="brick_speak_and_wait">และรอ</string>
+    <string name="brick_start_listening_to_voice">เริ่มฟังเสียงและจัดเก็บคำพูดในรูปแบบ</string>
+    <string name="speech_recognition_not_available">ไม่สามารถใช้การจดจำเสียงได้</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">ไม่มีข้อมูลออฟไลน์</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">การรู้จำเสียงออฟไลน์
+     สำหรับ%s หายไปหรือจำเป็นต้องอัปเดต คุณต้องการดาวน์โหลดหรืออัปเดตเลยไหม</string>
+    <string name="brick_set_listening_language">ภาษาที่ใช้ในการฟัง</string>
+    <string name="set_instrument_to">ตั้งค่าเครื่องมือเป็น</string>
+    <string name="set_tempo_to">ตั้งเวลาเป็น</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ตะเข็บ</string>
@@ -847,6 +879,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_zigzag_stitch_width">และความกว้าง</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">เขียนข้อมูลการปักลงในไฟล์</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">เมื่อฉากเริ่ม</string>
@@ -879,6 +913,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_think_say_for_text">สำหรับ</string>
     <string name="brick_forever">ตลอดไป</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">สำหรับแต่ละค่าจาก</string>
     <string name="brick_loop_in">ใน</string>
     <string name="brick_loop_to">กำหนดความหมาย</string>
     <string name="brick_repeat">ทำซ้ำ</string>
@@ -888,25 +923,27 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_clone_this">ตัวเอง</string>
     <string name="brick_when_cloned">เมื่อเริ่มต้นเป็นโคลน</string>
     <string name="brick_delete_this_clone">ลบโคลนนี้</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
+    <string name="brick_assert_that">ยืนยัน</string>
+    <string name="brick_is_equal_to">เท่ากับที่คาดไว้</string>
     <string name="brick_wait_till_idle">รอจนกระทั่งสคริปต์อื่น ๆ หยุดทำงาน</string>
     <string name="brick_tap_at">"แตะครั้งเดียวที่"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"สำหรับ"</string>
     <string name="brick_finish_stage">เสร็จสิ้นขั้นตอน</string>
     <string name="brick_finish_tests">เสร็จสิ้นการทดสอบ</string>
     <string name="brick_assert_lists">ยืนยันรายการ</string>
     <string name="brick_assert_actual">จริง:</string>
     <string name="brick_assert_expected">คาดว่าจะ:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_parameterized_assert">ยืนยัน</string>
+    <string name="brick_parameterized_equals">เท่ากับรายการที่คาดหวังของ</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="other">สำหรับแต่ละรายการของ</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="other">เก็บไว้ในตัวแปรที่มีชื่อเดียวกัน</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="other">%d lists selected</item>
+        <item quantity="other">เลือก %d รายการ</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="other">ครั้ง</item>
@@ -975,6 +1012,29 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_store_csv_into_userlist_into">ลงในรายการ</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
+    <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">โปรแกรมแรกของฉัน</string>
     <string name="default_scene_name">ฉาก %1$d</string>
@@ -988,11 +1048,11 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="default_project_sprites_tweet_1">ทวีต 1</string>
     <string name="default_project_sprites_tweet_2">ทวีต 2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">เข็ม</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">วงรอบนอก</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">วงใน</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">พื้นหลัง</string>
     <string name="default_cast_project_cloud_name">เมฆ</string>
@@ -1110,9 +1170,13 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="error_drone_wrong_platform">เราไม่สามารถเรียกใช้โครงการ AR.Drone 2.0 บนอุปกรณ์ของคุณ</string>
     <string name="error_rename_incompatible_project">ไม่สามารถเปลี่ยนชื่อโครงการที่เข้ากันไม่ได้</string>
     <string name="error_embroidery_file_export">เกิดข้อผิดพลาดบางอย่างขณะแชร์ไฟล์การปัก</string>
+    <string name="error_embroidery_file_write">เกิดข้อผิดพลาดขณะเขียนไฟล์ปัก</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
     <string name="error_unknown_error">บางอย่างผิดพลาด.</string>
     <string name="error_gps_not_available">ไม่มีข้อมูลตำแหน่งทางภูมิศาสตร์</string>
     <string name="error_set_description">เกิดข้อผิดพลาดขณะบันทึกคำอธิบายใหม่</string>
+    <string name="error_set_notes_and_credits">เกิดข้อผิดพลาดขณะบันทึกโน้ตใหม่
+         และเครดิต</string>
     <string name="error_no_whatsapp">ไม่ได้ติดตั้ง WhatsApp</string>
     <string name="error_unsupported_bricks_chromecast">ไม่สามารถเพิ่มสคริปต์นี้ในโครงการ Chromecast</string>
     <!--  -->
@@ -1447,6 +1511,13 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_join_parameter">(\'สวัสดีชาวโลก\')</string>
     <string name="formula_editor_function_regex">การแสดงออกปกติ</string>
     <string name="formula_editor_function_regex_parameter">(\'an? ([^.] +)\', \'ฉันเป็นแพนด้า\')</string>
+    <string name="formula_editor_function_regex_assistant">ปกติ
+         ผู้ช่วย</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">ปกติ
+         ผู้ช่วยแสดงออก</string>
+    <string name="formula_editor_dialog_wiki_button">ข้อมูลมากกว่านี้</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">ไม่พบคีย์เวิร์ด</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino ขาดิจิตอล</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino ขาอะนาล็อก</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1471,6 +1542,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
+    <string name="formula_editor_function_collides_with_color">สัมผัสสี</string>
+    <string name="formula_editor_function_color_touches_color">สีสัมผัสสี</string>
     <string name="formula_editor_sensor_x_acceleration">ความเร่ง_x</string>
     <string name="formula_editor_sensor_y_acceleration">ความเร่ง_y</string>
     <string name="formula_editor_sensor_z_acceleration">ความเร่ง_z</string>
@@ -1479,6 +1552,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_sensor_longitude">longitude</string>
     <string name="formula_editor_sensor_location_accuracy">location accuracy</string>
     <string name="formula_editor_sensor_altitude">altitude</string>
+    <string name="formula_editor_sensor_user_language">ภาษาของผู้ใช้</string>
     <string name="formula_editor_sensor_x_inclination">ความลาดเอียง_x</string>
     <string name="formula_editor_sensor_y_inclination">ความลาดเอียง_y</string>
     <string name="formula_editor_sensor_loudness">ระดับความดัง</string>
@@ -1566,6 +1640,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_logic_comparison">ผู้ประกอบการเปรียบเทียบ</string>
     <string name="formula_editor_object_general">คุณสมบัติทั่วไป</string>
     <string name="formula_editor_object_movement">คุณสมบัติเคลื่อนที่</string>
+    <string name="formula_editor_device_visual_detection">เซ็นเซอร์ภาพ</string>
     <string name="formula_editor_device_date_and_time">วันและเวลา</string>
     <string name="formula_editor_device_touch_detection">ตรวจจับการสัมผัส</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
@@ -1594,16 +1669,24 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_image_button_description_delete">ลบ</string>
     <string name="formula_editor_variable_dialog_title">สร้างตัวแปรใหม่</string>
     <string name="formula_editor_list_dialog_title">สร้างรายการใหม่</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">ตัวแยก HTML</string>
     <string name="formula_editor_discard_changes_dialog_message">คุณต้องบันทึกการเปลี่ยนแปลงหรือไม่?</string>
     <string name="formula_editor_discard_changes_dialog_title">บันทึกการเปลี่ยนแปลงหรือไม่?</string>
     <string name="formula_editor_new_string_name">ข้อความใหม่</string>
     <string name="formula_editor_dialog_change_text">เปลี่ยนข้อความ</string>
+    <string name="formula_editor_dialog_change_regular_expression">เปลี่ยนปกติ
+         นิพจน์</string>
     <string name="formula_editor_fragment_data_current_items">รายการปัจจุบัน</string>
     <string name="formula_editor_data_dialog_is_list">ทำให้เป็นรายการ</string>
     <string name="formula_editor_sensor_face_detected">พบใบหน้า</string>
     <string name="formula_editor_sensor_face_size">ขนาดใบหน้า</string>
     <string name="formula_editor_sensor_face_x_position">ตำแหน่งใบหน้าแกน_x</string>
     <string name="formula_editor_sensor_face_y_position">ตำแหน่งใบหน้าแกน_y</string>
+    <string name="formula_editor_sensor_text_from_camera">ข้อความจากกล้อง</string>
+    <string name="formula_editor_sensor_text_blocks_number">จำนวนบล็อกข้อความ</string>
+    <string name="formula_editor_function_text_block_x">บล็อกข้อความ x จากกล้อง</string>
+    <string name="formula_editor_function_text_block_y">บล็อกข้อความ y จากกล้อง</string>
+    <string name="formula_editor_function_text_block_size">ขนาดบล็อกข้อความจากกล้อง</string>
     <string name="formula_editor_intro_title_formula_editor">ตัวแก้ไขสูตร</string>
     <string name="formula_editor_intro_summary_formula_editor">ด้วยตัวแก้ไขสูตรคุณสามารถสร้างสูตรทางคณิตศาสตร์และตรรกะที่คุณสามารถใช้ในคำสั่งของคุณ \n\n คุณสามารถดำเนินการผ่านบทนำเล็กน้อยนี้ได้โดยแตะปุ่ม \"ถัดไป\" ที่มุมล่างขวาและคุณสามารถข้ามได้โดยคลิกที่  ปุ่ม \"ข้าม\" ที่มุมล่างซ้าย</string>
     <string name="formula_editor_intro_title_input_field">ช่องป้อนข้อมูล</string>
@@ -1631,6 +1714,10 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_intro_title_data">ข้อมูล</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
         \nYou can simply insert these in your formula, or add new ones.</string>
+    <string name="formula_editor_listening_language_sensor">ภาษาที่ใช้ในการฟัง</string>
+    <string name="formula_editor_speech_recognition">การเรียนรู้จดจำเสียง</string>
+    <string name="camera_error_text_detection">        มีปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังดาวน์โหลดอยู่ในไฟล์
+         พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่ออินเทอร์เน็ตแล้วและกลับมาตรวจสอบในภายหลัง</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">Show variable</string>

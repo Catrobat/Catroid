@@ -30,18 +30,19 @@
     <string name="undo">Rückgängig</string>
     <string name="new_option">Neu&#8230;</string>
     <string name="confirm">Bestätigen</string>
-    <string name="ignore">Ignore</string>
+    <string name="ignore">Ignorieren </string>
     <string name="cancel">Abbrechen</string>
     <string name="next">Weiter</string>
     <string name="back">Zurück</string>
     <string name="ok">Ok</string>
     <string name="done">Fertig</string>
     <string name="close">Schließen</string>
+    <string name="assistant">Assistant</string>
     <string name="yes">Ja</string>
     <string name="no">Nein</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
+    <string name="once">Einmal</string>
+    <string name="always">Immer</string>
+    <string name="deny">Ablehnen</string>
     <string name="agree">Zustimmen</string>
     <string name="disagree">Ablehnen</string>
     <string name="select_all">Alle auswählen</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">Suche&#8230;</string>
     <string name="backpack_add">In den Rucksack packen</string>
     <string name="share_website_text">www.pocketcode.org</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Anmeldedaten werden überprüft&#8230;</string>
     <string name="loading_google_exchange_code">Tausche Google Login Daten aus&#8230;</string>
@@ -91,9 +99,9 @@
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_language">Sprache</string>
     <string name="preference_description_language">App-Sprache auswählen</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_title_web_access">Web zugriff</string>
+    <string name="preference_description_web_access">Bearbeiten, um vertrauenswürdige Domänen hinzuzufügen oder zu entfernen</string>
+    <string name="preference_screen_web_access_title">Bearbeiten Sie vertrauenswürdige Domänen</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
     <string name="preference_description_accessibility">Wähle ein Profil und konfiguriere deine eigenen Einstellungen für die Benutzeroberfläche der App.</string>
     <string name="preference_title_accessibility_profiles">Bediehnungshilfen</string>
@@ -172,10 +180,9 @@
     <string name="preference_raspi_port">Raspberry Pi Port</string>
     <!--  -->
     <string name="preference_title_multiplayer_variables_enabled">Mehrspieler-Erweiterung</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_description_multiplayer_variables_enabled">Ermöglichen Sie der App, über Bluetooth freigegebene Multiplayer-Variablen zu verwenden</string>
+    <string name="preference_title_enable_test_bricks">Erweiterung testen</string>
+    <string name="preference_description_test_bricks">Ermöglicht das Erstellen von Tests</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
     <string name="error_scratch_program_not_accessible_any_more">Hoppla! Das Projekt scheint
@@ -248,6 +255,7 @@
     <string name="mode">Modus:</string>
     <string name="remix_of">Remix von:</string>
     <string name="description_hint">Drücke um eine Beschreibung hinzuzufügen</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">Dieses Projekt wurde bereits vor %1$s konvertiert.</string>
     <plurals name="minutes">
@@ -287,8 +295,7 @@
     <string name="am_convert">Konvertieren</string>
     <string name="am_merge">Zusammenführen</string>
     <string name="dialog_confirm_delete">Du kannst das nicht rückgängig machen!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
+    <string name="dialog_confirm_delete_definition">Dadurch wird auch der Baustein in allen anderen Skripten entfernt, in denen er verwendet wird. \ NSie können dies nicht rückgängig machen!</string>
     <string name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string name="backpack">Rucksack</string>
@@ -333,7 +340,7 @@
         <item quantity="one">Diesen Baustein löschen?</item>
         <item quantity="other">Diese Bausteine löschen?</item>
     </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
+    <string name="delete_definition">Definition dieses Bausteins löschen?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Projektname</string>
     <string name="scene_name_label">Szenenname</string>
@@ -345,6 +352,8 @@
     <string name="nfc_tag_name_label">NFC-Tag-Name</string>
     <string name="string_label">Text</string>
     <string name="data_label">Name</string>
+    <string name="keyword_label">Schlüsselwort einfügen</string>
+    <string name="html_label">HTML-Text einfügen</string>
     <string name="Image_format_not_supported">Bildformat wird nicht unterstützt</string>
     <!-- Details -->
     <string name="project_details">Letzter Zugriff: %s, Größe: %s</string>
@@ -468,6 +477,8 @@
     <string name="size">Größe:</string>
     <string name="description">Beschreibung:</string>
     <string name="set_description">Beschreibung ändern</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Heute</string>
     <string name="import_project">Projekte importieren</string>
     <string name="error_import_project">Beim Importieren von Projekten ist etwas schief gelaufen.</string>
@@ -504,11 +515,15 @@
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">Variablen für verbundene Geräte</string>
     <string name="global_vars_headline">Variablen für alle Figuren und Objekte</string>
     <string name="local_vars_headline">Variablen nur für diese Figur oder dieses Objekt</string>
     <string name="global_lists_headline">Listen für alle Figuren und Objekte</string>
     <string name="local_lists_headline">Listen nur für diese Figur oder dieses Objekt</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Eingaben für diesen Baustein</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">Für alle Figuren, Objekte und Klone in allen Szenen</string>
     <string name="new_data_for_this_sprite_only">Nur für diese Figur, dieses Objekt oder für einen ihrer Klone</string>
@@ -623,6 +638,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="upload_button">Projekt hochladen</string>
     <string name="upload_project_dialog_title">Projekt hochladen</string>
     <string name="upload_description">Beschreibung:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Bitte wähle bis zu drei Kategorien</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Projekt im externen Speicher speichern</string>
@@ -641,13 +658,13 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Baustein verschieben</string>
     <string name="brick_context_dialog_move_script">Skript bewegen</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
+    <string name="brick_context_dialog_move_definition">Verschieben Sie diese Definition</string>
     <string name="brick_context_dialog_delete_brick">Baustein löschen</string>
     <string name="brick_context_dialog_copy_brick">Baustein kopieren</string>
     <string name="brick_context_dialog_copy_script">Skript kopieren</string>
     <string name="brick_context_dialog_formula_edit_brick">Formel bearbeiten</string>
     <string name="brick_context_dialog_delete_script">Skript löschen</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
+    <string name="brick_context_dialog_delete_definition">Löschen sie diese Definition</string>
     <string name="brick_context_dialog_comment_in">Baustein aktivieren</string>
     <string name="brick_context_dialog_comment_out">Baustein deaktivieren</string>
     <string name="brick_context_dialog_highlight_brick_parts">Zusammengehörende Block-Teile hervorheben</string>
@@ -719,11 +736,12 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-to-Speech Modul\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Hintere Kamera\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Gesichts erkennung\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Vordere Kamera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_camera_available">\u2022 Kamera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Taschenlampe\n</string>
     <string name="prestage_default_resource_not_available">\u2022 unbekannte Komponente\n</string>
     <string name="no_nfc_available">NFC nicht verfügbar</string>
     <string name="nfc_not_activated">Bitte aktiviere NFC und drücke dann zurück, um in die App zurückzukehren!</string>
@@ -757,6 +775,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="category_event">Event</string>
     <string name="category_user_bricks">Deine Bausteine</string>
     <string name="category_data">Daten</string>
+    <string name="category_device">Gerät</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">LEGO EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -775,15 +794,16 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_user_defined_default_input_name">Name der Eingabe</string>
     <string name="brick_user_defined_default_label">Beschriftung</string>
     <string name="brick_user_defined_already_exists">Ein Baustein mit diesen Labels existiert bereits. Bitte füge mehr Labels oder Eingaben hinzu.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_script_define">Definieren</string>
+    <string name="brick_user_defined_script_as">als wie</string>
+    <string name="brick_user_defined_list_empty">Tippen Sie auf \"+\", um Ihre eigenen neuen Steine ​​hinzuzufügen.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"Setze an Position "</string>
     <string name="brick_option_place_visually">Visuell platzieren</string>
     <string name="x_label">"x: "</string>
     <string name="y_label">"y: "</string>
-    <string name="brick_set_x">"Setze X auf"</string>
+    <string name="brick_set_x">"Setze x auf"</string>
     <string name="brick_set_y">"Setze y auf"</string>
     <string name="brick_change_x_by">"Ändere x um "</string>
     <string name="brick_change_y_by">"Ändere y um "</string>
@@ -878,13 +898,22 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <!-- Sound bricks -->
     <string name="brick_play_sound">Klang starten</string>
     <string name="brick_play_sound_and_wait">Starte Klang und warte</string>
-    <string name="brick_stop_sound">Stop sound</string>
+    <string name="brick_stop_sound">Stoppe Klang</string>
     <string name="brick_stop_all_sounds">Alle Klänge stoppen</string>
     <string name="brick_set_volume_to">Setze Lautstärke auf</string>
     <string name="brick_change_volume_by">Ändere Lautstärke um</string>
     <string name="brick_speak">Sprich</string>
     <string name="brick_speak_default_value">Hallo!</string>
     <string name="brick_speak_and_wait">und warte</string>
+    <string name="brick_start_listening_to_voice">Hören Sie sich die Stimme an und speichern Sie die gesprochenen Wörter in</string>
+    <string name="speech_recognition_not_available">Spracherkennung ist nicht verfügbar.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Fehlende Offline-Daten</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Die Offline-Spracherkennung für %s fehlt oder muss aktualisiert werden. Möchten Sie es jetzt herunterladen oder aktualisieren?</string>
+    <string name="brick_set_listening_language">Set listening language to</string>
+    <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Setze Tempo auf</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stich</string>
@@ -893,6 +922,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_zigzag_stitch_width">und Breite</string>
     <string name="brick_triple_stitch">Starte Dreifachstich mit Länge</string>
     <string name="brick_stop_stitch">Beende aktuellen Stich</string>
+    <string name="brick_write_embroidery">Schreiben Sie Stickdaten in die Datei</string>
+    <string name="brick_default_embroidery_file">Stickerei.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">Wenn Szene startet</string>
@@ -925,8 +956,9 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_say_bubble">Sage</string>
     <string name="brick_think_say_for_text">für</string>
     <string name="brick_forever">Wiederhole fortlaufend</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_for_values_from">Für Werte von</string>
+    <string name="brick_loop_for_each_value_from">Für jeden Wert von</string>
+    <string name="brick_loop_in">Im</string>
     <string name="brick_loop_to">auf</string>
     <string name="brick_repeat">Wiederhole</string>
     <string name="brick_repeat_until">Wiederholen bis</string>
@@ -935,28 +967,30 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_clone_this">mir</string>
     <string name="brick_when_cloned">Wenn ich als Klon entstehe</string>
     <string name="brick_delete_this_clone">Lösche diesen Klon</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
+    <string name="brick_assert_that">Behaupten</string>
+    <string name="brick_is_equal_to">entspricht erwartet</string>
     <string name="brick_wait_till_idle">Warten bis alle anderen Skripte gestoppt sind</string>
     <string name="brick_tap_at">"Einfaches tippen auf"</string>
+    <string name="brick_touch_at">"Berühre bei"</string>
+    <string name="brick_tap_for">"für"</string>
     <string name="brick_finish_stage">Stufe beenden</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_finish_tests">Beende tests</string>
+    <string name="brick_assert_lists">Listen bestätigen</string>
+    <string name="brick_assert_actual">Tatsächlich:</string>
+    <string name="brick_assert_expected">Erwartet:</string>
+    <string name="brick_parameterized_assert">Behaupten</string>
+    <string name="brick_parameterized_equals">entspricht dem erwarteten Element von</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For each item of</item>
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="other">Für jedes Tupel von Gegenständen von</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
         <item quantity="one">stored in variable with the same name</item>
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="other">in gleichnamigen Variablen gespeichert</item>
     </plurals>
     <plurals name="list_selection_plural">
         <item quantity="one">%d list selected</item>
-        <item quantity="other">%d lists selected</item>
+        <item quantity="other">%d Listen gewählt</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="one">mal</item>
@@ -971,15 +1005,15 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_change_variable">Ändere Variable</string>
     <string name="brick_write_variable_on_device">Variable auf Gerät schreiben</string>
     <string name="brick_read_variable_from_device">Variable von Gerät lesen</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
-    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
+    <string name="brick_write_variable_to_file_top">Schreibe Variable</string>
+    <string name="brick_write_variable_to_file_bottom">Zur Datei</string>
+    <string name="brick_write_variable_to_file_default_value">Variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Daten erfolgreich in %1$s geschrieben"</string>
+    <string name="brick_read_variable_from_file_top">Lese Variable</string>
+    <string name="brick_read_variable_from_file_center">Aus Datei</string>
     <string name="brick_read_variable_from_file_bottom">UND</string>
-    <string name="brick_read_variable_from_file_keep">keep the file</string>
-    <string name="brick_read_variable_from_file_delete">delete the file</string>
+    <string name="brick_read_variable_from_file_keep">Behalte die Datei</string>
+    <string name="brick_read_variable_from_file_delete">Lösche die Datei</string>
     <string name="brick_write_list_on_device">Liste auf Gerät speichern</string>
     <string name="brick_read_list_from_device">Liste von Gerät lesen</string>
     <string name="brick_note_default_value">Kommentar hier hinzufügen&#8230;</string>
@@ -1000,34 +1034,47 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_web_request">Webanfrage senden an</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">und speichere Antwort in</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
-    </string>
-    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
-    </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
-    </string>
-    <string name="brick_look_request">Get image from</string>
+    <string name="web_request_warning_title">Erlaube Web Zugriff?</string>
+    <string name="web_request_warning_message">Sei sehr vorsichtig, bevor du den Zugriff zulässt, da der Link anderen oder der Öffentlichkeit deine persönlichen Daten offenlegen kann, z.B. deinen genauen geografischen Standort oder Texte, die du eingegeben hast. Siehe unser &lt;a href=%1s&gt;wiki&lt;/a&gt; für weitere Informationen, warum dies äußerst gefährlich sein kann.</string>
+    <string name="web_request_trust_domain_warning_title">Webzugriff immer zulassen?</string>
+    <string name="web_request_trust_domain_warning_message">Wenn Sie den Zugriff immer zulassen, werden Sie nicht erneut aufgefordert, die Webadressen dieser Domain zu bestätigen. </string>
+    <string name="trusted_domains_edit_hint">Wenn Sie diese Berechtigung später widerrufen möchten, können Sie den Eintrag in den Einstellungen dieser App aus der Liste der vertrauenswürdigen Domänen entfernen. </string>
+    <string name="brick_look_request">Holen Sie sich Bild von</string>
     <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
     <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
     <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_look_request_result">und als aktuelles Aussehen verwenden</string>
+    <string name="brick_background_request_result">und als aktuellen Hintergrund verwenden</string>
+    <string name="look_request_http_error_message">"Bild von%1$s abrufen zurückgegebener HTTP-Fehler%2$s"</string>
+    <string name="look_request_type_error_message">"Bild von%1$s abrufen konnte kein erkanntes Bildformat abrufen"</string>
     <string name="brick_store_csv_into_userlist_store">Speichere Spalte</string>
     <string name="brick_store_csv_into_userlist_of">von den</string>
     <string name="brick_store_csv_into_userlist_csv">durch Kommas getrennten Werten</string>
     <string name="brick_store_csv_into_userlist_into">in Liste</string>
     <string name="brick_store_csv_into_userlist_data">Kätzchen,niedlich\nWelpe,Schlingel\nOktopus intelligent</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Mein erstes Projekt</string>
@@ -1042,7 +1089,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="default_project_sprites_tweet_1">Zwitscher1</string>
     <string name="default_project_sprites_tweet_2">Zwitscher2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">Nadel</string>
     <!--suppress UnusedResources -->
     <string name="default_project_outer_loop">Outer Loop</string>
     <!--suppress UnusedResources -->
@@ -1165,9 +1212,13 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="error_drone_wrong_platform">Leider können wir kein AR.Dronen Projekt auf deinem Gerät ausführen.</string>
     <string name="error_rename_incompatible_project">Es ist nicht möglich ein inkompatibles Projekt umzubenennen.</string>
     <string name="error_embroidery_file_export">Während dem Teilen der Stickdatei ist etwas schief gelaufen.</string>
+    <string name="error_embroidery_file_write">Beim Schreiben der Stickdatei ist ein Fehler aufgetreten.</string>
+    <string name="error_embroidery_data_not_found">Stickerei fehlt.</string>
     <string name="error_unknown_error">Ein unbekannter Fehler ist aufgetreten.</string>
     <string name="error_gps_not_available">Fehler, GPS ist nicht verfügbar.</string>
     <string name="error_set_description">Fehler beim Speichern der neuen Beschreibung.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">WhatsApp nicht installiert</string>
     <string name="error_unsupported_bricks_chromecast">Dieses Skript kann nicht  zu einem Chromecast Projekt hinzugefügt werden.</string>
     <!--  -->
@@ -1496,6 +1547,13 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_join_parameter">(\'Hallo\',\'Welt\')</string>
     <string name="formula_editor_function_regex">regulärer Ausdruck</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Ich bin ein Panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">Mehr Informationen</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">Das Schlüsselwort wurde nicht gefunden.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">Arduino Digital Pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">Arduino Analog Pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">Raspberry Pi Pin</string>
@@ -1520,6 +1578,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_collision">berührt Figur oder Objekt</string>
     <string name="formula_editor_function_collides_with_edge">berührt Rand</string>
     <string name="formula_editor_function_touched">berührt Finger</string>
+    <string name="formula_editor_function_collides_with_color">Berührt Farbe</string>
+    <string name="formula_editor_function_color_touches_color">Farbe berührt Farbe</string>
     <string name="formula_editor_sensor_x_acceleration">Beschleunigung x</string>
     <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
     <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -1528,6 +1588,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_sensor_longitude">Längengrad</string>
     <string name="formula_editor_sensor_location_accuracy">Standortgenauigkeit</string>
     <string name="formula_editor_sensor_altitude">Höhe</string>
+    <string name="formula_editor_sensor_user_language">Benutzersprache </string>
     <string name="formula_editor_sensor_x_inclination">Neigung x</string>
     <string name="formula_editor_sensor_y_inclination">Neigung y</string>
     <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
@@ -1615,6 +1676,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_logic_comparison">Vergleichsoperatoren</string>
     <string name="formula_editor_object_general">Allgemeine Eigenschaften</string>
     <string name="formula_editor_object_movement">Physikalische Eigenschaften</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Datum und Uhrzeit</string>
     <string name="formula_editor_device_touch_detection">Berührungserkennung</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
@@ -1643,16 +1705,24 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_image_button_description_delete">Löschen</string>
     <string name="formula_editor_variable_dialog_title">Neue Variable</string>
     <string name="formula_editor_list_dialog_title">Neue Liste</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML-Extraktor</string>
     <string name="formula_editor_discard_changes_dialog_message">Möchtest du deine Änderungen speichern?</string>
     <string name="formula_editor_discard_changes_dialog_title">Änderungen speichern?</string>
     <string name="formula_editor_new_string_name">Neuer Text</string>
     <string name="formula_editor_dialog_change_text">Text ändern</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
     <string name="formula_editor_fragment_data_current_items">aktuelle Elemente</string>
     <string name="formula_editor_data_dialog_is_list">Liste erstellen</string>
     <string name="formula_editor_sensor_face_detected">Gesicht erkannt</string>
     <string name="formula_editor_sensor_face_size">Gesichtsgröße</string>
     <string name="formula_editor_sensor_face_x_position">Gesichtsposition x</string>
     <string name="formula_editor_sensor_face_y_position">Gesichtsposition y</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_intro_title_formula_editor">Formel Editor</string>
     <string name="formula_editor_intro_summary_formula_editor">Mit dem Formel Editor kannst du mathematische und 
         logische Formeln erstellen, um diese dann in deinem Baustein einzutragen.\n\nDu kannst dieses kleine Tutorial 
@@ -1682,6 +1752,10 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
         Smartphone oder Tablet aufzeichnet.\nZum Beispiel die Neigung deines Geräts oder die Lautstärke in deiner Umgebung. </string>
     <string name="formula_editor_intro_title_data">Daten</string>
     <string name="formula_editor_intro_summary_data">Hier findest du Variablen und Listen, welche in deinem Projekt verwendet werden. \nDu kannst diese einfach in deine Formel einfügen. </string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">Zeige Variable</string>

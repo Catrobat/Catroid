@@ -37,6 +37,7 @@
     <string name="ok">확인</string>
     <string name="done">완료</string>
     <string name="close">닫기</string>
+    <string name="assistant">Assistant</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
     <string name="once">Once</string>
@@ -54,6 +55,13 @@
     <string name="search_hint">검색&#8230;</string>
     <string name="backpack_add">스크립트 모음에 추가</string>
     <string name="share_website_text">공유</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">로그인 데이터 확인&#8230;</string>
     <string name="loading_google_exchange_code">Google + 데이터 교환중&#8230;</string>
@@ -229,6 +237,7 @@
     <string name="mode">모드:</string>
     <string name="remix_of">리믹스:</string>
     <string name="description_hint">설명을 추가하려면 누르기</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">%1$s전에 프로젝트를 변환했었다.</string>
     <plurals name="minutes">
@@ -314,6 +323,8 @@
     <string name="nfc_tag_name_label">NFC 태그 이름</string>
     <string name="string_label">텍스트</string>
     <string name="data_label">이름</string>
+    <string name="keyword_label">Insert keyword</string>
+    <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">마지막 접근: %s, 크기: %s</string>
@@ -415,6 +426,8 @@
     <string name="size">프로젝트 크기 :</string>
     <string name="description">설명:</string>
     <string name="set_description">설명 설정</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">오늘</string>
     <string name="import_project">프로젝트 가져오기</string>
     <string name="error_import_project">프로젝트를 가져오는 동안 문제가 발생했습니다.</string>
@@ -456,6 +469,9 @@
     <string name="local_vars_headline">배우와 오브젝트만을 위한 변수</string>
     <string name="global_lists_headline">배우와 오브젝트를 위한 리스트</string>
     <string name="local_lists_headline">배우와 오브젝트만을 위한 리스트</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">모든 장면 배우, 오브젝트, 복사본</string>
     <string name="new_data_for_this_sprite_only">이 장면 배우, 오브젝트, 복사본</string>
@@ -603,6 +619,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="upload_button">업로드하기</string>
     <string name="upload_project_dialog_title">프로그램 업로드</string>
     <string name="upload_description">설명:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">최대 3개의 카테고리 선택</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">외부 저장장치에 저장</string>
@@ -700,6 +718,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 엔진\n</string>
     <string name="prestage_no_back_camera_available">\u2022 뒤 카메라 \n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 앞 카메라 \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -737,6 +756,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="category_event">이벤트</string>
     <string name="category_user_bricks">여러분의 블록</string>
     <string name="category_data">변수</string>
+    <string name="category_device">Device</string>
     <string name="category_lego_nxt">레고 NXT</string>
     <string name="category_lego_ev3">레고 EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -757,6 +777,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
     <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"위치 설정"</string>
@@ -863,6 +884,16 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_speak">소리내기</string>
     <string name="brick_speak_default_value">안녕하세요!</string>
     <string name="brick_speak_and_wait">그리고 대기</string>
+    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="brick_set_listening_language">Set listening language to</string>
+    <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Set tempo to</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">스티치</string>
@@ -871,6 +902,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">시작할 때</string>
@@ -903,6 +936,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_think_say_for_text">동안</string>
     <string name="brick_forever">계속 반복</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
     <string name="brick_loop_to">to</string>
     <string name="brick_repeat">반복</string>
@@ -916,6 +950,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">다른 스크립트가 정지할 때까지 기다리기</string>
     <string name="brick_tap_at">"한 번 누르기"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"동안"</string>
     <string name="brick_finish_stage">마지막 스테이지</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1001,6 +1037,29 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
     <string name="brick_store_csv_into_userlist_into">리스트로</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">내 첫 프로그램</string>
@@ -1137,9 +1196,13 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="error_drone_wrong_platform">이 장치에서 AR.Drone 2.0 프로그램을 실행할 수 없습니다.</string>
     <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
     <string name="error_embroidery_file_export">자수 파일을 공유하는데 문제가 생겼습니다.</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
     <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
     <string name="error_gps_not_available">위치 정보 사용 불가.</string>
     <string name="error_set_description">저장하는 중에 오류가 발생했습니다.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">설치되지 않은 앱</string>
     <string name="error_unsupported_bricks_chromecast">이 스크립트는 크롬캐스트에 추가할 수 없습니다.</string>
     <!--  -->
@@ -1468,6 +1531,13 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_regex">정규 표현</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">자세한 정보 보기</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">아두이노_디지털_핀</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">아두이노_아날로그_핀</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_핀번호</string>
@@ -1492,6 +1562,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_collision">오브젝트 터치</string>
     <string name="formula_editor_function_collides_with_edge">모서리 터치</string>
     <string name="formula_editor_function_touched">손가락 터치</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
     <string name="formula_editor_sensor_x_acceleration">x축방향 가속도</string>
     <string name="formula_editor_sensor_y_acceleration">y축방향 가속도</string>
     <string name="formula_editor_sensor_z_acceleration">z축방향 가속도</string>
@@ -1500,6 +1572,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_sensor_longitude">경도</string>
     <string name="formula_editor_sensor_location_accuracy">위치 정확도</string>
     <string name="formula_editor_sensor_altitude">고도</string>
+    <string name="formula_editor_sensor_user_language">user language</string>
     <string name="formula_editor_sensor_x_inclination">x축방향 기울기</string>
     <string name="formula_editor_sensor_y_inclination">y축방향 기울기</string>
     <string name="formula_editor_sensor_loudness">소리 크기</string>
@@ -1587,6 +1660,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_logic_comparison">비교 연산</string>
     <string name="formula_editor_object_general">일반 속성</string>
     <string name="formula_editor_object_movement">운동 속성</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">날짜와 시간</string>
     <string name="formula_editor_device_touch_detection">터치 감지</string>
     <string name="formula_editor_device_lego_nxt">레고 NXT</string>
@@ -1615,16 +1689,24 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_image_button_description_delete">삭제</string>
     <string name="formula_editor_variable_dialog_title">새 변수</string>
     <string name="formula_editor_list_dialog_title">새 리스트 만들기</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
     <string name="formula_editor_discard_changes_dialog_message">변경 내용을 저장 하시겠습니까?</string>
     <string name="formula_editor_discard_changes_dialog_title">변경사항을 저장하시겠습니까?</string>
     <string name="formula_editor_new_string_name">새로운 글자</string>
     <string name="formula_editor_dialog_change_text">텍스트 변경</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
     <string name="formula_editor_fragment_data_current_items">현재 항목</string>
     <string name="formula_editor_data_dialog_is_list">리스트 만들기</string>
     <string name="formula_editor_sensor_face_detected">얼굴이 인식되면</string>
     <string name="formula_editor_sensor_face_size">얼굴의 크기</string>
     <string name="formula_editor_sensor_face_x_position">얼굴의 x 좌표</string>
     <string name="formula_editor_sensor_face_y_position">얼굴의 y 좌표</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_intro_title_formula_editor">수식 편집기</string>
     <string name="formula_editor_intro_summary_formula_editor">수식 편집기로 블록에서 사용할 수학식을 만들 수 있습니다.\n\n 오른쪽 아래 \"다음\" 버튼을 터치하여 안내를 진행하고 \"건너뛰기\" 버튼으로 건너뛸 수 있습니다.</string>
     <string name="formula_editor_intro_title_input_field">입력 창</string>
@@ -1643,6 +1725,10 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_intro_summary_device">\"장치\"에서는 스마트폰이나 태블릿의 정보나 기록을 사용할 수 있다. \nFor 예를 들어 기울기 또는 주변 소리 크기를 알 수 있다.</string>
     <string name="formula_editor_intro_title_data">변수</string>
     <string name="formula_editor_intro_summary_data">변수 및 프로그램에서 사용되는 리스트를 보실 수 있습니다.  \nYou 단순히 수식에 삽입하거나 새로 추가할 수 있습니다.</string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">변수 보이기</string>
