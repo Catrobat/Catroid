@@ -126,11 +126,12 @@ public class PlaySoundBrickStageTest {
 
 		startScript.addBrick(new PlaySoundBrick());
 
+		File directory = new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME);
+		directory.mkdirs();
+
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
-				org.catrobat.catroid.test.R.raw.longsound,
-				new File(project.getDefaultScene().getDirectory(), SOUND_DIRECTORY_NAME),
-				"longsound.mp3");
+				org.catrobat.catroid.test.R.raw.longsound, directory, "longsound.mp3");
 
 		SoundInfo soundInfo = new SoundInfo();
 		soundInfo.setFile(soundFile);

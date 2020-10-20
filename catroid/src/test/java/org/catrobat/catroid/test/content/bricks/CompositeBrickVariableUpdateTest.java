@@ -102,6 +102,8 @@ public class CompositeBrickVariableUpdateTest {
 		script.addBrick(compositeBrick);
 		compositeBrick.getNestedBricks().add(formulaBrick);
 
+		project.addUserVariable(userVariable);
+		project.addUserList(userList);
 		ProjectManager.getInstance().setCurrentProject(project);
 	}
 

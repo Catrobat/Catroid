@@ -24,6 +24,7 @@ package org.catrobat.catroid.content;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
@@ -172,8 +173,12 @@ public class Scene implements Nameable, Serializable {
 	}
 
 	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
-		for (Sprite sprite : spriteList) {
-			sprite.updateUserDataReferences(oldName, newName, item);
+		if (ProjectManager.getInstance().getCurrentProject().isGlobalVariable(item)) {
+			for (Sprite sprite : spriteList) {
+				sprite.updateUserDataReferences(oldName, newName, item);
+			}
+		} else {
+			ProjectManager.getInstance().getCurrentSprite().updateUserDataReferences(oldName, newName, item);
 		}
 	}
 
@@ -181,5 +186,25 @@ public class Scene implements Nameable, Serializable {
 		for (Sprite sprite : spriteList) {
 			sprite.deselectElements(elements);
 		}
+	}
+
+	public void checkForInvisibleSprites() {
+		for (Sprite sprite : spriteList) {
+			if (sprite instanceof GroupItemSprite && isInvisibleSprite(spriteList.indexOf(sprite))) {
+				sprite.setConvertToSprite(true);
+				Sprite convertedSprite = sprite.convert();
+				spriteList.set(spriteList.indexOf(sprite), convertedSprite);
+			}
+		}
+	}
+
+	private boolean isInvisibleSprite(int index) {
+		for (int spriteIndex = index - 1; spriteIndex > 0; spriteIndex--) {
+			Sprite currentSprite = spriteList.get(spriteIndex);
+			if (!(currentSprite instanceof GroupItemSprite)) {
+				return !(currentSprite instanceof GroupSprite);
+			}
+		}
+		return true;
 	}
 }

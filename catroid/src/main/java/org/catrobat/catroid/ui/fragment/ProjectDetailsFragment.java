@@ -62,6 +62,7 @@ public class ProjectDetailsFragment extends Fragment {
 	private ProjectData projectData;
 	private Project project;
 	private TextView description;
+	private TextView notesAndCredits;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,6 +111,15 @@ public class ProjectDetailsFragment extends Fragment {
 			}
 		});
 
+		notesAndCredits = view.findViewById(R.id.notes_and_credits_value);
+		notesAndCredits.setText(header.getNotesAndCredits());
+		notesAndCredits.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				handleNotesAndCreditsPressed();
+			}
+		});
+
 		BottomBar.hideBottomBar(getActivity());
 		return view;
 	}
@@ -127,6 +137,23 @@ public class ProjectDetailsFragment extends Fragment {
 				});
 
 		builder.setTitle(R.string.set_description)
+				.setNegativeButton(R.string.cancel, null)
+				.show();
+	}
+
+	private void handleNotesAndCreditsPressed() {
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
+
+		builder.setHint(getString(R.string.notes_and_credits_title))
+				.setText(project.getNotesAndCredits())
+				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
+					@Override
+					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
+						setNotesAndCredits(textInput);
+					}
+				});
+
+		builder.setTitle(R.string.set_notes_and_credits)
 				.setNegativeButton(R.string.cancel, null)
 				.show();
 	}
@@ -174,6 +201,15 @@ public class ProjectDetailsFragment extends Fragment {
 			this.description.setText(description);
 		} else {
 			ToastUtil.showError(getActivity(), R.string.error_set_description);
+		}
+	}
+
+	public void setNotesAndCredits(String notesAndCredits) {
+		project.setNotesAndCredits(notesAndCredits);
+		if (XstreamSerializer.getInstance().saveProject(project)) {
+			this.notesAndCredits.setText(notesAndCredits);
+		} else {
+			ToastUtil.showError(getActivity(), R.string.error_set_notes_and_credits);
 		}
 	}
 }

@@ -43,7 +43,8 @@ import com.badlogic.gdx.utils.Array;
 import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ThreadScheduler;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.actions.ScriptSequenceActionWithWaiter;
 import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.sensing.CollisionInformation;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -66,6 +67,7 @@ public class Look extends Image {
 	public static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
+	private boolean simultaneousMovementXY = false;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
@@ -158,7 +160,7 @@ public class Look extends Image {
 
 		if (x >= 0 && x < getWidth() && y >= 0 && y < getHeight()
 				&& ((pixmap != null && ((pixmap.getPixel((int) x, (int) y) & 0x000000FF) > 10)))) {
-			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), EventWrapper.NO_WAIT);
+			EventWrapper event = new EventWrapper(new EventId(EventId.TAP), false);
 			sprite.look.fire(event);
 			return true;
 		}
@@ -200,9 +202,19 @@ public class Look extends Image {
 		}
 	}
 
-	public void startThread(EventThread threadToBeStarted) {
+	@Override
+	protected void positionChanged() {
+		if (sprite != null && sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()
+				&& !simultaneousMovementXY) {
+			float x = getXInUserInterfaceDimensionUnit();
+			float y = getYInUserInterfaceDimensionUnit();
+			sprite.penConfiguration.addPosition(new PointF(x, y));
+		}
+	}
+
+	public void startThread(ScriptSequenceAction sequenceAction) {
 		if (scheduler != null) {
-			scheduler.startThread(threadToBeStarted);
+			scheduler.startThread(sequenceAction);
 		}
 	}
 
@@ -315,8 +327,14 @@ public class Look extends Image {
 	}
 
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
+		adjustSimultaneousMovementXY(x, y);
 		setXInUserInterfaceDimensionUnit(x);
+		adjustSimultaneousMovementXY(this.getX(), y);
 		setYInUserInterfaceDimensionUnit(y);
+	}
+
+	private void adjustSimultaneousMovementXY(float x, float y) {
+		simultaneousMovementXY = x != this.getX() && y != this.getY();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {
@@ -641,8 +659,8 @@ public class Look extends Image {
 
 	void notifyAllWaiters() {
 		for (Action action : getActions()) {
-			if (action instanceof EventThread) {
-				((EventThread) action).notifyWaiter();
+			if (action instanceof ScriptSequenceActionWithWaiter) {
+				((ScriptSequenceActionWithWaiter) action).notifyWaiter();
 			}
 		}
 	}

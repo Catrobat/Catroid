@@ -26,7 +26,6 @@ package org.catrobat.catroid.uiespresso.ui.dialog;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
@@ -138,8 +137,8 @@ public class DeleteSpriteDialogTest {
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
-		Sprite firstSprite = new SingleSprite("firstSprite");
-		Sprite secondSprite = new SingleSprite(toBeDeletedSpriteName);
+		Sprite firstSprite = new Sprite("firstSprite");
+		Sprite secondSprite = new Sprite(toBeDeletedSpriteName);
 
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);

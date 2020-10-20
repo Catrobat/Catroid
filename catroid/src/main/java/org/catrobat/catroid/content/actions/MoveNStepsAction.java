@@ -42,6 +42,7 @@ public class MoveNStepsAction extends TemporalAction {
 			double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
 			sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
 			sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+			sprite.movedByStepsBrick = true;
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}

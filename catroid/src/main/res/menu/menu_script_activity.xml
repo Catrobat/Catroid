@@ -26,6 +26,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_undo"
+        android:title="@string/undo"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/icon_undo"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/backpack"
         android:visible="true"
         android:title="@string/backpack"

@@ -32,7 +32,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -69,11 +68,12 @@ public final class TestUtils {
 		}
 	}
 
-	public static Project createProjectWithLanguageVersion(float catrobatLanguageVersion, String projectName) {
+	public static Project createProjectWithLanguageVersion(double catrobatLanguageVersion,
+			String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		project.setCatrobatLanguageVersion(catrobatLanguageVersion);
 
-		Sprite firstSprite = new SingleSprite("cat");
+		Sprite firstSprite = new Sprite("cat");
 		Script testScript = new StartScript();
 		Brick testBrick = new HideBrick();
 		testScript.addBrick(testBrick);

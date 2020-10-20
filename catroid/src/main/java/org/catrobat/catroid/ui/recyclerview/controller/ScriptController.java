@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -65,13 +64,7 @@ public class ScriptController {
 			throws IOException, CloneNotSupportedException {
 
 		Script script;
-
-		if (!(scriptToCopy instanceof UserDefinedScript)) {
-			script = scriptToCopy.clone();
-		} else {
-			script = copyUserDefinedScript(scriptToCopy, dstSprite);
-		}
-		copyUserDefinedBricksOfScript(script, dstSprite);
+		script = scriptToCopy.clone();
 
 		List<Brick> scriptFlatBrickList = new ArrayList<>();
 		script.addToFlatList(scriptFlatBrickList);
@@ -263,31 +256,5 @@ public class ScriptController {
 		}
 
 		dstSprite.getScriptList().add(script);
-	}
-
-	private Script copyUserDefinedScript(Script scriptToCopy, Sprite dstSprite) throws CloneNotSupportedException {
-		UserDefinedReceiverBrick userDefinedReceiverBrickToCopy = (UserDefinedReceiverBrick) scriptToCopy.getScriptBrick();
-		UserDefinedBrick userDefinedBrickToCopy = userDefinedReceiverBrickToCopy.getUserDefinedBrick();
-		UserDefinedBrick copiedUserDefinedBrick = dstSprite.getUserDefinedBrickWithSameUserData(userDefinedBrickToCopy);
-		if (copiedUserDefinedBrick != null && userDefinedBrickToCopy.getUserDefinedBrickID() != copiedUserDefinedBrick.getUserDefinedBrickID()) {
-			userDefinedReceiverBrickToCopy = new UserDefinedReceiverBrick(copiedUserDefinedBrick);
-		}
-		for (Brick brick : scriptToCopy.getBrickList()) {
-			userDefinedReceiverBrickToCopy.getScript().addBrick(brick.clone());
-		}
-		return userDefinedReceiverBrickToCopy.getScript();
-	}
-
-	private void copyUserDefinedBricksOfScript(Script script, Sprite dstSprite) {
-		for (int brickIndex = 0; brickIndex < script.getBrickList().size(); brickIndex++) {
-			Brick brick = script.getBrickList().get(brickIndex);
-			if (brick instanceof UserDefinedBrick) {
-				UserDefinedBrick userDefinedBrickToCopy = (UserDefinedBrick) brick;
-				UserDefinedBrick copiedUserDefinedBrick = dstSprite.getUserDefinedBrickWithSameUserData(userDefinedBrickToCopy);
-				if (copiedUserDefinedBrick != null) {
-					script.getBrickList().set(brickIndex, copiedUserDefinedBrick);
-				}
-			}
-		}
 	}
 }

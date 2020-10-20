@@ -27,7 +27,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -135,7 +134,7 @@ public class ActionModeMergeTest {
 
 	private void createProject(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new SingleSprite("firstSprite");
+		Sprite sprite = new Sprite("firstSprite");
 
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));

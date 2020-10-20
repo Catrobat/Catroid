@@ -29,6 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.physics.PhysicsLook;
 
 public class PointInDirectionAction extends TemporalAction {
 
@@ -39,6 +40,9 @@ public class PointInDirectionAction extends TemporalAction {
 	protected void update(float percent) {
 		try {
 			Float degreeInterpretation = degrees == null ? Float.valueOf(0f) : degrees.interpretFloat(sprite);
+			if (sprite.look instanceof PhysicsLook) {
+				((PhysicsLook) sprite.look).setFlippedByDirection(degreeInterpretation);
+			}
 			sprite.look.setDirectionInUserInterfaceDimensionUnit(degreeInterpretation);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);

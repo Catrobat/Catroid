@@ -44,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.FaceDetector;
+import org.catrobat.catroid.camera.TextDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
@@ -55,6 +56,7 @@ import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import androidx.annotation.VisibleForTesting;
 
@@ -84,6 +86,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float faceSize = 0f;
 	private float facePositionX = 0f;
 	private float facePositionY = 0f;
+	private float textBlocksNumber = 0f;
+	private String textFromCamera = "0";
 
 	private boolean compassAvailable = true;
 	private boolean accelerationAvailable = true;
@@ -97,8 +101,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private double longitude = 0d;
 	private float locationAccuracy = 0f;
 	private double altitude = 0d;
+	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
+
+	private static String listeningLanguageSensor;
 
 	private SensorLoudness sensorLoudness = null;
+
+	public static void setUserLocaleTag(String userLocale) {
+		userLocaleTag = userLocale;
+	}
 
 	private SensorHandler(Context context) {
 		sensorManager = new SensorManager(
@@ -194,6 +205,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		SensorHandler.registerListener(instance);
 
 		FaceDetector.addListener(instance);
+		TextDetector.addListener(instance);
 
 		if (instance.sensorLoudness != null) {
 			instance.sensorLoudness.registerListener(instance);
@@ -265,6 +277,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		}
 
 		FaceDetector.removeListener(instance);
+		TextDetector.removeListener(instance);
 	}
 
 	public static Object getSensorValue(Sensors sensor) {
@@ -326,6 +339,9 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case ALTITUDE:
 				return instance.altitude;
+
+			case USER_LANGUAGE:
+				return userLocaleTag;
 
 			case X_INCLINATION:
 				if (instance.useRotationVectorFallback) {
@@ -444,6 +460,10 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				} else {
 					return (double) instance.facePositionY;
 				}
+			case TEXT_FROM_CAMERA:
+				return instance.textFromCamera;
+			case TEXT_BLOCKS_NUMBER:
+				return (double) instance.textBlocksNumber;
 			case LOUDNESS:
 				return (double) instance.loudness;
 			case DATE_YEAR:
@@ -569,8 +589,19 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 			case NFC_TAG_ID:
 				return String.valueOf(NfcHandler.getLastNfcTagId());
+			case SPEECH_RECOGNITION_LANGUAGE:
+				return listeningLanguageSensor;
 		}
 		return 0d;
+	}
+
+	public static String getListeningLanguageSensor() {
+		return listeningLanguageSensor;
+	}
+
+	public static void setListeningLanguageSensor(String listeningLanguageTag) {
+		listeningLanguageSensor = listeningLanguageTag;
+		Log.d(TAG, "listening language sensor changed to: " + listeningLanguageSensor);
 	}
 
 	public static void clearFaceDetectionValues() {
@@ -579,6 +610,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.faceSize = 0f;
 			instance.facePositionX = 0f;
 			instance.facePositionY = 0f;
+			instance.textFromCamera = "0";
+			instance.textBlocksNumber = 0f;
 		}
 	}
 
@@ -668,6 +701,12 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				break;
 			case FACE_Y_POSITION:
 				instance.facePositionY = event.values[0];
+				break;
+			case TEXT_BLOCKS_NUMBER:
+				instance.textBlocksNumber = event.values[0];
+				break;
+			case TEXT_FROM_CAMERA:
+				instance.textFromCamera = event.valuesString[0];
 				break;
 			default:
 				Log.v(TAG, "Unhandled sensor: " + event.sensor);

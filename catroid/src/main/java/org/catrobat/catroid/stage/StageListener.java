@@ -417,6 +417,7 @@ public class StageListener implements ApplicationListener {
 		ProjectManager.getInstance().setCurrentlyPlayingScene(scene);
 
 		SoundManager.getInstance().clear();
+		SpeechRecognitionHolder.Companion.getInstance().destroy();
 		stageBackupMap.remove(sceneName);
 
 		Gdx.input.setInputProcessor(stage);
@@ -480,15 +481,8 @@ public class StageListener implements ApplicationListener {
 	@Override
 	public void render() {
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
-		boolean cameraVisible = cameraManager != null && cameraManager.getPreviewVisible();
-		boolean hasBackground = ProjectManager.getInstance().getCurrentlyPlayingScene()
-				.getBackgroundSprite().getLookList().size() > 0;
-
-		if (hasBackground || cameraVisible) {
-			Gdx.gl20.glClearColor(0f, 0f, 0f, 0f);
-		} else {
-			Gdx.gl20.glClearColor(1f, 1f, 1f, 1f);
-		}
+		float color = cameraManager != null && cameraManager.getPreviewVisible() ? 0f : 1f;
+		Gdx.gl20.glClearColor(color, color, color, 0f);
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		if (reloadProject) {
@@ -766,7 +760,7 @@ public class StageListener implements ApplicationListener {
 
 	public void gamepadPressed(String buttonType) {
 		EventId eventId = new GamepadEventId(buttonType);
-		EventWrapper gamepadEvent = new EventWrapper(eventId, EventWrapper.NO_WAIT);
+		EventWrapper gamepadEvent = new EventWrapper(eventId, false);
 		project.fireToAllSprites(gamepadEvent);
 	}
 
@@ -793,6 +787,7 @@ public class StageListener implements ApplicationListener {
 	}
 
 	public void removeBubbleActorForSprite(Sprite sprite) {
+		getBubbleActorForSprite(sprite).close();
 		getStage().getActors().removeValue(getBubbleActorForSprite(sprite), true);
 		bubbleActorMap.remove(sprite);
 	}

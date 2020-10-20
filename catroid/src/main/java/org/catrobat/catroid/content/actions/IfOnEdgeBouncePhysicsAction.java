@@ -27,49 +27,99 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.physics.PhysicalCollision;
 import org.catrobat.catroid.physics.PhysicsBoundaryBox;
+import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 
 public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 
+	enum Side{
+		TOP,
+		BOTTOM,
+		LEFT,
+		RIGHT
+	}
+
 	public static final float THRESHOLD_VELOCITY_TO_ACTIVATE_BOUNCE = 10.0f;
 	private static final float COLLISION_OVERLAP_RANGE_FACTOR = 0.9f;
+	private final int vsWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
+	private final int vsHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
 
 	private Sprite sprite;
 	private PhysicsWorld physicsWorld;
 
-	private void performVerticalRepositioning(float bbLookOffsetX, boolean velocityHighEnoughToCollideAfterRepositioning, boolean correctGravityPresent) {
-		sprite.look.setXInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit() + bbLookOffsetX);
-		checkBounceActivation(correctGravityPresent, velocityHighEnoughToCollideAfterRepositioning, sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier.BBI_VERTICAL);
-	}
+	private float bbWidth = 0.0f;
+	private float bbHeight = 0.0f;
+	private float bbCenterX = 0.0f;
+	private float bbCenterY = 0.0f;
 
-	private void performHorizontalRepositioning(float bbLookOffsetY, boolean velocityHighEnoughToCollideAfterRepositioning, boolean correctGravityPresent) {
-		sprite.look.setYInUserInterfaceDimensionUnit(sprite.look.getYInUserInterfaceDimensionUnit() + bbLookOffsetY);
-		checkBounceActivation(correctGravityPresent, velocityHighEnoughToCollideAfterRepositioning, sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier.BBI_HORIZONTAL);
+	private void performRepositioning(float bbLookOffset, boolean velocityHighEnoughToCollideAfterRepositioning, boolean correctGravityPresent, Side side) {
+		if (side == Side.LEFT || side == Side.RIGHT) {
+			sprite.look.setXInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit() + bbLookOffset);
+			changeDirectionOnStepsTaken(side);
+			checkBounceActivation(correctGravityPresent, velocityHighEnoughToCollideAfterRepositioning, sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier.BBI_VERTICAL);
+		} else {
+			sprite.look.setYInUserInterfaceDimensionUnit(sprite.look.getYInUserInterfaceDimensionUnit() + bbLookOffset);
+			changeDirectionOnStepsTaken(side);
+			checkBounceActivation(correctGravityPresent, velocityHighEnoughToCollideAfterRepositioning, sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier.BBI_HORIZONTAL);
+		}
 	}
 
 	private void checkBounceActivation(boolean correctGravityPresent, boolean velocityHighEnoughToCollideAfterRepositioning, Sprite sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier boundaryBoxIdentifier) {
-		if ((velocityHighEnoughToCollideAfterRepositioning || correctGravityPresent)) {
+		if (velocityHighEnoughToCollideAfterRepositioning || correctGravityPresent) {
 			physicsWorld.setBounceOnce(sprite, boundaryBoxIdentifier);
 		}
+	}
+
+	private void changeDirectionOnStepsTaken(Side side) {
+		if (sprite.movedByStepsBrick) {
+			PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
+			float realRotation = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+			if (side == Side.LEFT || side == Side.RIGHT) {
+				sprite.look.setDirectionInUserInterfaceDimensionUnit((-realRotation));
+				calculateBBDimensions(physicsObject);
+				((PhysicsLook) sprite.look).updateFlippedByAction();
+			} else if (side == Side.TOP || side == Side.BOTTOM) {
+				sprite.look.setDirectionInUserInterfaceDimensionUnit((180.0f - realRotation));
+				calculateBBDimensions(physicsObject);
+			}
+			switch (side) {
+				case LEFT:
+					sprite.look.setXInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit() + calculateLeftCollisionOffset());
+					break;
+				case RIGHT:
+					sprite.look.setXInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit() - calculateRightCollisionOffset());
+					break;
+				case TOP:
+					sprite.look.setYInUserInterfaceDimensionUnit(sprite.look.getYInUserInterfaceDimensionUnit() - calculateTopCollisionOffset());
+					break;
+				case BOTTOM:
+					sprite.look.setYInUserInterfaceDimensionUnit(sprite.look.getYInUserInterfaceDimensionUnit() + calculateBottomCollisionOffset());
+					break;
+				default:
+					throw new IllegalArgumentException("invalid side");
+			}
+			PhysicalCollision.fireBounceOffEvent(sprite, null);
+		}
+	}
+
+	private void calculateBBDimensions(PhysicsObject physicsObject) {
+		Vector2 bbLowerEdge = new Vector2();
+		Vector2 bbUpperEdge = new Vector2();
+		physicsObject.getBoundaryBox(bbLowerEdge, bbUpperEdge);
+		bbWidth = bbUpperEdge.x - bbLowerEdge.x;
+		bbHeight = bbUpperEdge.y - bbLowerEdge.y;
+		bbCenterX = bbLowerEdge.x + bbWidth / 2;
+		bbCenterY = bbLowerEdge.y + bbHeight / 2;
 	}
 
 	@Override
 	protected void update(float percent) {
 		// AABB ... AXIS-ALIGNED-BOUNDING-BOX
-		Vector2 bbLowerEdge = new Vector2();
-		Vector2 bbUpperEdge = new Vector2();
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		physicsObject.getBoundaryBox(bbLowerEdge, bbUpperEdge);
-
-		float bbWidth = bbUpperEdge.x - bbLowerEdge.x;
-		float bbHeight = bbUpperEdge.y - bbLowerEdge.y;
-		float bbCenterX = bbLowerEdge.x + bbWidth / 2;
-		float bbCenterY = bbLowerEdge.y + bbHeight / 2;
-
-		int vsWidth = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenWidth;
-		int vsHeight = ProjectManager.getInstance().getCurrentProject().getXmlHeader().virtualScreenHeight;
+		calculateBBDimensions(physicsObject);
 
 		float leftCollisionAreaInnerBorder = (-vsWidth / 2.0f) + (bbWidth / 2.0f);
 		float leftCollisionAreaOuterBorder = leftCollisionAreaInnerBorder + COLLISION_OVERLAP_RANGE_FACTOR * (-bbWidth);
@@ -82,11 +132,9 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 		boolean rightGravityPresent = physicsWorld.getGravity().x > 0;
 
 		if (leftCollisionAreaOuterBorder < bbCenterX && bbCenterX < leftCollisionAreaInnerBorder) {
-			float bbLookOffsetX = Math.abs(bbCenterX - (bbWidth / 2.0f) + (vsWidth / 2.0f));
-			performVerticalRepositioning(bbLookOffsetX, leftVelocityHighEnoughToCollideAfterRepositioning, leftGravityPresent);
+			performRepositioning(calculateLeftCollisionOffset(), leftVelocityHighEnoughToCollideAfterRepositioning, leftGravityPresent, Side.LEFT);
 		} else if (rightCollisionAreaOuterBorder > bbCenterX && bbCenterX > rightCollisionAreaInnerBorder) {
-			float bbLookOffsetX = Math.abs(bbCenterX + (bbWidth / 2.0f) - (vsWidth / 2.0f));
-			performVerticalRepositioning(-bbLookOffsetX, rightVelocityHighEnoughToCollideAfterRepositioning, rightGravityPresent);
+			performRepositioning(-calculateRightCollisionOffset(), rightVelocityHighEnoughToCollideAfterRepositioning, rightGravityPresent, Side.RIGHT);
 		}
 
 		float bottomCollisionAreaInnerBorder = (-vsHeight / 2.0f) + (bbHeight / 2.0f);
@@ -100,12 +148,27 @@ public class IfOnEdgeBouncePhysicsAction extends TemporalAction {
 		boolean topGravityPresent = physicsWorld.getGravity().y > 0;
 
 		if (bottomCollisionAreaOuterBorder < bbCenterY && bbCenterY < bottomCollisionAreaInnerBorder) {
-			float bbLookOffsetY = Math.abs(bbCenterY - (bbHeight / 2.0f) + (vsHeight / 2.0f));
-			performHorizontalRepositioning(bbLookOffsetY, bottomVelocityHighEnoughToCollideAfterRepositioning, bottomGravityPresent);
+			performRepositioning(calculateBottomCollisionOffset(), bottomVelocityHighEnoughToCollideAfterRepositioning, bottomGravityPresent, Side.BOTTOM);
 		} else if (topCollisionAreaOuterBorder > bbCenterY && bbCenterY > topCollisionAreaInnerBorder) {
-			float bbLookOffsetY = Math.abs(bbCenterY + (bbHeight / 2.0f) - (vsHeight / 2.0f));
-			performHorizontalRepositioning(-bbLookOffsetY, topVelocityHighEnoughToCollideAfterRepositioning, topGravityPresent);
+			performRepositioning(-calculateTopCollisionOffset(), topVelocityHighEnoughToCollideAfterRepositioning, topGravityPresent, Side.TOP);
 		}
+		sprite.movedByStepsBrick = false;
+	}
+
+	private float calculateLeftCollisionOffset() {
+		return Math.abs(bbCenterX - (bbWidth / 2.0f) + (vsWidth / 2.0f));
+	}
+
+	private float calculateRightCollisionOffset() {
+		return Math.abs(bbCenterX + (bbWidth / 2.0f) - (vsWidth / 2.0f));
+	}
+
+	private float calculateBottomCollisionOffset() {
+		return Math.abs(bbCenterY - (bbHeight / 2.0f) + (vsHeight / 2.0f));
+	}
+
+	private float calculateTopCollisionOffset() {
+		return Math.abs(bbCenterY + (bbHeight / 2.0f) - (vsHeight / 2.0f));
 	}
 
 	public void setSprite(Sprite sprite) {

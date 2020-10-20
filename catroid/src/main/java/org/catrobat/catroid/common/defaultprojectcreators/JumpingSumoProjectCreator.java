@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenScript;
@@ -125,7 +124,7 @@ public class JumpingSumoProjectCreator extends ProjectCreator {
 				imageFileName,
 				backgroundImageScaleFactor);
 
-		Sprite sprite = spriteFactory.newInstance(SingleSprite.class.getSimpleName(), backgroundName);
+		Sprite sprite = spriteFactory.newInstance(Sprite.class.getSimpleName(), backgroundName);
 
 		LookData backgroundLookData = new LookData(backgroundName, backgroundFile);
 		sprite.getLookList().add(backgroundLookData);

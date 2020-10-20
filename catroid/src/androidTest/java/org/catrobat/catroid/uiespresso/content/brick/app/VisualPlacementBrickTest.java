@@ -141,8 +141,8 @@ public class VisualPlacementBrickTest {
 	@Test
 	public void testVisualPlacementAfterFormulaNotANumber() {
 		openFormulaEditorFragmentFromEditTextX();
-		enterFormulaInFormulaEditor("1+2");
-		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getXEditTextId());
+		onFormulaEditor().performEnterFormula("1+2");
+		isFormulaEditorShownImmediatelyWithTapOnEditText(brick.getYEditTextId());
 	}
 
 	@Test
@@ -250,5 +250,6 @@ public class VisualPlacementBrickTest {
 				.check(matches(isDisplayed()));
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.check(matches(isDisplayed()));
+		pressBack();
 	}
 }

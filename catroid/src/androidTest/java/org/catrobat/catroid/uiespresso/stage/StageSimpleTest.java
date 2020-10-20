@@ -26,7 +26,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
@@ -91,7 +90,7 @@ public class StageSimpleTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
 		// blue Sprite
-		Sprite blueSprite = new SingleSprite("blueSprite");
+		Sprite blueSprite = new Sprite("blueSprite");
 		StartScript blueStartScript = new StartScript();
 		LookData blueLookData = new LookData();
 		String blueImageName = "blue_image.bmp";

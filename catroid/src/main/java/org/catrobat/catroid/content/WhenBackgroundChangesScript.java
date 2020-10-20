@@ -27,7 +27,7 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.eventids.EventId;
-import org.catrobat.catroid.content.eventids.SetBackgroundEventId;
+import org.catrobat.catroid.content.eventids.SetLookEventId;
 
 public class WhenBackgroundChangesScript extends Script {
 
@@ -54,6 +54,6 @@ public class WhenBackgroundChangesScript extends Script {
 	@Override
 	public EventId createEventId(Sprite sprite) {
 		Sprite background = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite();
-		return new SetBackgroundEventId(background, look);
+		return new SetLookEventId(background, look);
 	}
 }

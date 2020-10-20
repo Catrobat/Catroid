@@ -32,7 +32,6 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.mapper.Mapper;
 
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 
 public class XStreamSpriteConverter extends ReflectionConverter {
@@ -61,6 +60,9 @@ public class XStreamSpriteConverter extends ReflectionConverter {
 		String type = reader.getAttribute(TYPE);
 		if (type != null) {
 			try {
+				if (type.equals("SingleSprite")) {
+					type = "Sprite";
+				}
 				Class cls = Class.forName(SPRITES_PACKAGE_NAME + "." + type);
 				Sprite sprite = (Sprite) reflectionProvider.newInstance(cls);
 				return super.doUnmarshal(sprite, reader, context);
@@ -68,7 +70,7 @@ public class XStreamSpriteConverter extends ReflectionConverter {
 				Log.e(TAG, "Sprite class not found : " + result.toString(), exception);
 			}
 		} else {
-			Sprite sprite = (Sprite) reflectionProvider.newInstance(SingleSprite.class);
+			Sprite sprite = (Sprite) reflectionProvider.newInstance(Sprite.class);
 			return super.doUnmarshal(sprite, reader, context);
 		}
 		return super.doUnmarshal(result, reader, context);

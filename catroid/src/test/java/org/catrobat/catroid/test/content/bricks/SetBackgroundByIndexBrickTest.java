@@ -50,7 +50,6 @@ import static junit.framework.Assert.assertEquals;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(GdxNativesLoader.class)
 public class SetBackgroundByIndexBrickTest {
-
 	private Sprite sprite;
 	private final double backgroundIndex = 2.0;
 	private String localUserVariableBackgroundIndex = "BGI";
@@ -84,7 +83,11 @@ public class SetBackgroundByIndexBrickTest {
 	@Test
 	public void testSetBackgroundByIndex() {
 		ActionFactory actionFactory = new ActionFactory();
-		actionFactory.createSetBackgroundLookByIndexAction(sprite, createFormulaWithVariable(localUserVariableBackgroundIndex), 0).act(1f);
+		actionFactory.createSetBackgroundByIndexAction(
+				sprite,
+				createFormulaWithVariable(localUserVariableBackgroundIndex),
+				true
+		).act(1f);
 
 		LookData backgroundLookData = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().look.getLookData();
 		List<LookData> backgroundLookDataList = ProjectManager.getInstance().getCurrentlyPlayingScene().getBackgroundSprite().getLookList();

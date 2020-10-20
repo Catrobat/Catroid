@@ -25,7 +25,6 @@ package org.catrobat.catroid.test.content.script;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -54,7 +53,7 @@ public class WhenConditionScriptTest {
 
 	@Before
 	public void setUp() {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 		createProjectWithSprite(sprite);
 

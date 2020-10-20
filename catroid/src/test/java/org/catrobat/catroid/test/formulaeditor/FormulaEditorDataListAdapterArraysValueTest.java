@@ -28,7 +28,6 @@ import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -96,7 +95,7 @@ public class FormulaEditorDataListAdapterArraysValueTest {
 	private void createProject() {
 		project = new Project(MockUtil.mockContextForProject(), "Pro");
 
-		Sprite firstSprite = new SingleSprite("firstSprite");
+		Sprite firstSprite = new Sprite("firstSprite");
 
 		Script firstScript = new StartScript();
 		firstScript.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));

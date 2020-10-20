@@ -19,11 +19,6 @@
 #   public *;
 #}
 
-
-# The official support library.
--keep class android.support.v4.app.** { *; }
--keep interface android.support.v4.app.** { *; }
-
 # Library JARs
 -keep class com.thoughtworks.xstream.** { *; }
 -keep interface com.thoughtworks.xstream.** { *; }

@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.widget.Spinner;
 
@@ -81,6 +82,7 @@ import org.mockito.Mockito;
 import org.robolectric.ParameterizedRobolectricTestRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
+import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -99,6 +101,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
+@Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSpinnerTest {
 
 	private SpriteActivity activity;

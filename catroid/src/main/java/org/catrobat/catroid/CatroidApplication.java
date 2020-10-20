@@ -36,7 +36,7 @@ import com.google.android.gms.analytics.Tracker;
 import org.catrobat.catroid.dagger.AppComponent;
 import org.catrobat.catroid.dagger.CatroidModule;
 import org.catrobat.catroid.dagger.DaggerAppComponent;
-import org.catrobat.catroid.utils.CrashReporter;
+import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
 
@@ -65,7 +65,7 @@ public class CatroidApplication extends Application implements HasActivityInject
 	DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
 	protected AppComponent appComponents;
 
-	@TargetApi(28)
+	@TargetApi(29)
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -79,7 +79,7 @@ public class CatroidApplication extends Application implements HasActivityInject
 					.build());
 		}
 
-		CrashReporter.initialize(this);
+		Utils.fetchSpeechRecognitionSupportedLanguages(this);
 
 		context = getApplicationContext();
 
@@ -87,7 +87,7 @@ public class CatroidApplication extends Application implements HasActivityInject
 		appComponents.initializeEagerSingletons();
 		appComponents.inject(this);
 
-		defaultSystemLanguage = Locale.getDefault().getLanguage();
+		defaultSystemLanguage = Locale.getDefault().toLanguageTag();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);

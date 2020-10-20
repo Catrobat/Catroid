@@ -34,7 +34,7 @@
 
         <Button
             android:id="@+id/formula_editor_keyboard_compute"
-            style="@style/FormulaEditorMetaButton"
+            style="@style/FormulaEditorComputeButton"
             android:layout_marginTop="@dimen/key_margin"
             android:layout_marginStart="@dimen/key_margin"
             android:text="@string/formula_editor_compute"
@@ -56,7 +56,7 @@
 
         <ImageButton
             android:id="@+id/formula_editor_keyboard_delete"
-            style="@style/FormulaEditorMetaButton"
+            style="@style/FormulaEditorDeleteButton"
             android:layout_marginTop="@dimen/key_margin"
             android:contentDescription="@string/formula_editor_image_button_description_delete"
             android:src="@drawable/ic_input_delete"

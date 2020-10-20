@@ -27,7 +27,6 @@ import com.badlogic.gdx.math.Vector2;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -77,7 +76,7 @@ public class PhysicsSpriteCloneTest {
 		project = new Project(MockUtil.mockContextForProject(), getClass().getSimpleName());
 		ProjectManager.getInstance().setCurrentProject(project);
 
-		sprite = new SingleSprite("TestSprite");
+		sprite = new Sprite("TestSprite");
 		project.getDefaultScene().addSprite(sprite);
 	}
 

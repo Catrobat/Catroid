@@ -34,12 +34,9 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.VisibleForTesting;
-
 public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
-
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public RepeatUntilBrick() {
@@ -49,11 +46,6 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 	public RepeatUntilBrick(Formula condition) {
 		this();
 		setFormulaWithBrickField(BrickField.REPEAT_UNTIL_CONDITION, condition);
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
 	}
 
 	@Override
@@ -81,7 +73,6 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 		for (Brick brick : loopBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -150,7 +141,7 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -177,6 +168,11 @@ public class RepeatUntilBrick extends FormulaBrick implements CompositeBrick {
 
 		EndBrick(RepeatUntilBrick parent) {
 			this.parent = parent;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

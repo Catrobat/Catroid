@@ -51,32 +51,45 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+		Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+		if (currentFragment instanceof FormulaEditorFragment) {
+			super.showFormulaEditorToEditFormula(view);
+			if (isCorrectTextField(view) && areAllBrickFieldsNumbers()) {
+				showDialog(view, currentFragment);
+			}
+		} else if (currentFragment instanceof ScriptFragment) {
+			if (isCorrectTextField(view) && areAllBrickFieldsNumbers()) {
+				showDialog(view, currentFragment);
+			} else {
+				super.showFormulaEditorToEditFormula(view);
+			}
+		}
+	}
+
+	private void showDialog(View view, Fragment currentFragment) {
 		Context context = view.getContext();
 
-		Fragment currentFragment = UiUtils.getActivityFromView(view).getSupportFragmentManager()
-				.findFragmentById(R.id.fragment_container);
+		String[] optionStrings = {
+				context.getString(R.string.brick_option_place_visually),
+				context.getString(R.string.brick_context_dialog_formula_edit_brick)};
 
-		if (isCorrectFragment(currentFragment) && isCorrectTextField(view) && areAllBrickFieldsNumbers()) {
-			String[] optionStrings = {
-					context.getString(R.string.brick_option_place_visually),
-					context.getString(R.string.brick_context_dialog_formula_edit_brick)};
-
-			new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
-				switch (which) {
-					case 0:
-						if (currentFragment instanceof FormulaEditorFragment) {
-							((FormulaEditorFragment) currentFragment).setCurrentBrickField(getBrickFieldFromTextViewId(view.getId()));
-						}
-						placeVisually(getXBrickField(), getYBrickField());
-						break;
-					case 1:
+		new AlertDialog.Builder(context).setItems(optionStrings, (dialog, which) -> {
+			switch (which) {
+				case 0:
+					placeVisually(getXBrickField(), getYBrickField());
+					break;
+				case 1:
+					if (currentFragment instanceof ScriptFragment) {
 						super.showFormulaEditorToEditFormula(view);
-						break;
-				}
-			}).show();
-		} else {
-			super.showFormulaEditorToEditFormula(view);
-		}
+					}
+					break;
+			}
+		}).show();
 	}
 
 	public void placeVisually(BrickField brickFieldX, BrickField brickFieldY) {
@@ -112,10 +125,6 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	public boolean areAllBrickFieldsNumbers() {
 		return isBrickFieldANumber(getXBrickField())
 				&& isBrickFieldANumber(getYBrickField());
-	}
-
-	private boolean isCorrectFragment(Fragment currentFragment) {
-		return currentFragment instanceof ScriptFragment || currentFragment instanceof FormulaEditorFragment;
 	}
 
 	private boolean isCorrectTextField(View view) {

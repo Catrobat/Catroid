@@ -1,15 +1,15 @@
 # Catroid #
 
-Catroid, also known as **Pocket Code**, is an on-device visual programming system for Android devices.
+**Catroid** is a visual coding IDE and interpreter for Android for the Catrobat programming language.
 
 **Catrobat** is a visual programming language and a set of creativity tools for smartphones. 
-Catrobat programs can be written by using Catrobat's Android and iOS apps.
+Catrobat projects can be created using Catrobat's Android apps available on [Google Play](https://catrob.at/gp) and iPhone apps available on [Apple's app store](https://catrob.at/ca).
 
-For more information [oriented towards developers], check out our [developers page](https://developer.catrobat.org/).
+For more information oriented towards developers, check out our [developers page](https://developer.catrobat.org/).
 
 # Issues #
 
-For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=10402&issuetype=1). Before that, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CAT+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).
+For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=11800&issuetype=1). Before that, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CATROID+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).
 
 
 # Contributing #
@@ -27,12 +27,9 @@ Also make sure to read our guidelines for [creating a pull request](https://gith
 # Resources and links #
 * [Google Play Store Download](https://catrob.at/gp)
 * [Community website with sample programs](https://share.catrob.at/)
-* [Installation Instructions](https://github.com/Catrobat/Catroid/wiki/Installation-Instructions)
-* [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions)
-* [Credits](https://developer.catrobat.org/credits)
+* [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions-(Developers))
+* [Credits](https://catrob.at/credits)
 * [Statistics on OpenHub](https://www.openhub.net/p/catrobat/)
-* [Twitter](https://twitter.com/Catroid)
-* [Google+](https://plus.google.com/u/0/+CatrobatOrgAdmin/posts)
 * [Our Google group](https://groups.google.com/forum/?fromgroups#!forum/catrobat)
 
 # License #

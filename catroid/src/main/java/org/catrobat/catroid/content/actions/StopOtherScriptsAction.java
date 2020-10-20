@@ -28,18 +28,21 @@ import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
 
 import java.util.Iterator;
 
 public class StopOtherScriptsAction extends Action {
 
 	private Script currentScript;
+	private Sprite sprite;
 
 	@Override
 	public boolean act(float delta) {
 		if (!(actor instanceof Look) || actor.getActions() == null) {
 			return true;
 		}
+		sprite.releaseAllPointers();
 		Look look = (Look) actor;
 		look.stopThreads(getOtherThreads(look));
 		return true;
@@ -59,5 +62,9 @@ public class StopOtherScriptsAction extends Action {
 
 	public void setCurrentScript(Script currentScript) {
 		this.currentScript = currentScript;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }

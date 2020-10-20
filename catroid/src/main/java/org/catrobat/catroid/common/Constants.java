@@ -39,7 +39,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final float CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999999f;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99999991;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -116,14 +116,14 @@ public final class Constants {
 	// Default "flavor" in the web which equals "pocketcode"
 	public static final String BASE_APP_URL_HTTPS = MAIN_URL_HTTPS + "/app/";
 
-	public static final String SHARE_PROGRAM_URL = BASE_URL_HTTPS + "/program/";
+	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
-	public static final String CATROBAT_HELP_URL = BASE_URL_HTTPS + "help";
+	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 
@@ -276,6 +276,8 @@ public final class Constants {
 
 	public static final int UPLOAD_IMAGE_SCALE_WIDTH = 480;
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
+
+	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
 
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;

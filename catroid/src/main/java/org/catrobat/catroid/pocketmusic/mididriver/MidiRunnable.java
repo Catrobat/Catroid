@@ -35,26 +35,44 @@ public class MidiRunnable implements Runnable {
 	private final Handler handler;
 	private final MidiNotePlayer midiNotePlayer;
 	private final PianoView pianoView;
+	private final byte channel;
+	private long scheduledTime = 0;
+	private boolean manualNoteOff = false;
 
 	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler,
-			MidiNotePlayer midiNotePlayer, PianoView pianoView) {
+			MidiNotePlayer midiNotePlayer, PianoView pianoView, byte channel) {
 		this.signal = signal;
 		this.noteName = noteName;
 		this.duration = duration;
 		this.handler = handler;
 		this.midiNotePlayer = midiNotePlayer;
 		this.pianoView = pianoView;
+		this.channel = channel;
+	}
+
+	void setManualNoteOff(boolean manual) {
+		manualNoteOff = manual;
+	}
+
+	void setScheduledTime(long time) {
+		scheduledTime = time;
+	}
+
+	long getScheduledTime() {
+		return scheduledTime;
 	}
 
 	@Override
 	public void run() {
-		midiNotePlayer.sendMidi(signal.getSignalByte(), noteName.getMidi(), 127);
+		byte status = signal.getSignalByte();
+		status |= channel;
+		midiNotePlayer.sendMidi(status, noteName.getMidi(), 127);
 		if (pianoView != null) {
 			pianoView.setButtonColor(noteName, MidiSignals.NOTE_ON.equals(signal));
 		}
-		if (signal.equals(MidiSignals.NOTE_ON)) {
+		if (signal.equals(MidiSignals.NOTE_ON) && !manualNoteOff) {
 			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer,
-					pianoView), duration);
+					pianoView, channel), duration);
 		}
 	}
 

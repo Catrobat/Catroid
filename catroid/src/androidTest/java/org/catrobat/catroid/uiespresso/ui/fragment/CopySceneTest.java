@@ -33,7 +33,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -126,7 +125,7 @@ public class CopySceneTest {
 	private void createProject(Context context, String projectName) throws Exception {
 
 		Project project = new Project(context, projectName);
-		Sprite sprite = new SingleSprite("firstSprite");
+		Sprite sprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(sprite);
 		Scene scene2 = new Scene("Scene 2", project);
 		project.addScene(scene2);

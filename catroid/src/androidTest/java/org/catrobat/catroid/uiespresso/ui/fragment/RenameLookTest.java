@@ -29,7 +29,6 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
@@ -187,7 +186,7 @@ public class RenameLookTest {
 		String projectName = "renameLookFragmentTest";
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 
-		Sprite sprite = new SingleSprite("testSprite");
+		Sprite sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
 		ProjectManager.getInstance().setCurrentProject(project);

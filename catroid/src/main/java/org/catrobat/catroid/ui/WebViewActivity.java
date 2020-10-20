@@ -48,6 +48,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.utils.MediaDownloader;
+import org.catrobat.catroid.utils.ProjectDownloadUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 import org.catrobat.catroid.web.Cookie;
@@ -109,7 +110,8 @@ public class WebViewActivity extends AppCompatActivity {
 		webView.setDownloadListener((downloadUrl, userAgent, contentDisposition, mimetype, contentLength) -> {
 
 			if (getExtensionFromContentDisposition(contentDisposition).contains(Constants.CATROBAT_EXTENSION)) {
-				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl, null).download(this);
+				new ProjectDownloader(GlobalProjectDownloadQueue.INSTANCE.getQueue(), downloadUrl,
+						ProjectDownloadUtil.INSTANCE).download(this);
 			} else if (downloadUrl.contains(LIBRARY_BASE_URL)) {
 				String fileName = URLUtil.guessFileName(downloadUrl, contentDisposition, mimetype);
 

@@ -132,7 +132,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         val repeatSequence =
-            ActionFactory.eventSequence(sequence.script) as ScriptSequenceAction
+            ActionFactory.createScriptSequenceAction(sequence.script) as ScriptSequenceAction
         loopBricks.filterNot { brick -> brick.isCommentedOut }.forEach {
             it.addActionToSequence(sprite, repeatSequence)
         }

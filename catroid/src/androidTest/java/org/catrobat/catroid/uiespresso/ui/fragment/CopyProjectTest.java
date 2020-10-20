@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.SetXBrick;
@@ -107,7 +106,7 @@ public class CopyProjectTest {
 
 	private void createProject() throws IOException {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), toBeCopiedProjectName);
-		Sprite sprite = new SingleSprite("firstSprite");
+		Sprite sprite = new Sprite("firstSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));
 		sprite.addScript(script);

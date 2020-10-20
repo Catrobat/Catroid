@@ -37,9 +37,9 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_nfc_layout"
-        style="@style/BrickContainer.Event.MediumWhen">
+        style="@style/BrickContainer.Device.MediumWhen">
 
-        <include layout="@layout/icon_brick_category_event" />
+        <include layout="@layout/icon_brick_category_device" />
 
         <TextView
             android:id="@+id/brick_when_nfc_label"

@@ -175,8 +175,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.updateVariableReferences(oldName, newName, this.context);
 		history.push(new UndoState(internFormula.getInternFormulaState(),
 				formulaEditorFragment.getCurrentBrickField()));
-		Map<Brick.BrickField, InternFormulaState> initialState = history.initialStates;
-		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialState.entrySet()) {
+		Map<Brick.FormulaField, InternFormulaState> initialState = history.initialStates;
+		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialState.entrySet()) {
 			state.getValue().updateUserDataTokens(InternTokenType.USER_VARIABLE, oldName, newName);
 		}
 		String resultingText = updateTextAndCursorFromInternFormula();
@@ -191,8 +191,8 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 		internFormula.updateListReferences(oldName, newName, this.context);
 		history.push(new UndoState(internFormula.getInternFormulaState(),
 				formulaEditorFragment.getCurrentBrickField()));
-		Map<Brick.BrickField, InternFormulaState> initialState = history.initialStates;
-		for (Map.Entry<Brick.BrickField, InternFormulaState> state : initialState.entrySet()) {
+		Map<Brick.FormulaField, InternFormulaState> initialState = history.initialStates;
+		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialState.entrySet()) {
 			state.getValue().updateUserDataTokens(InternTokenType.USER_LIST, oldName, newName);
 		}
 		String resultingText = updateTextAndCursorFromInternFormula();
@@ -271,6 +271,10 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public String getSelectedTextFromInternFormula() {
 		return internFormula.getSelectedText();
+	}
+
+	public boolean isSelectedTokenFirstParamOfRegularExpression() {
+		return internFormula.isSelectedTokenFirstParamOfRegularExpression();
 	}
 
 	public void overrideSelectedText(String string) {
@@ -369,5 +373,14 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 
 	public boolean isThereSomethingToDelete() {
 		return internFormula.isThereSomethingToDelete();
+	}
+
+	public int getIndexOfCorrespondingRegularExpression() {
+		return internFormula.getIndexOfCorrespondingRegularExpression();
+	}
+
+	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
+		internFormula.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+		highlightSelection();
 	}
 }

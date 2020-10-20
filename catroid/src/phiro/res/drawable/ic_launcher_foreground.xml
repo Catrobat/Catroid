@@ -1,0 +1,70 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2020 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group android:scaleX="0.04125"
+      android:scaleY="0.04125"
+      android:translateX="24.3"
+      android:translateY="24.3">
+    <path
+        android:pathData="M538,1326c-198,-68 -344,-231 -393,-438 -68,-287 105,-589 394,-687 163,-56 346,-33 498,61 59,37 183,158 183,178 0,6 5,10 10,10 14,0 13,-263 -1,-277 -6,-6 -9,-23 -7,-39 4,-34 47,-55 76,-38 22,14 27,61 9,82 -11,14 -13,43 -6,167 4,83 9,233 11,335 2,183 2,186 -28,270 -67,190 -200,320 -388,381 -88,29 -268,26 -358,-5z"
+        android:fillColor="#132d13"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M576,1315c-157,-43 -293,-158 -364,-305 -60,-128 -74,-235 -47,-365 39,-184 168,-341 340,-412 253,-105 550,-11 701,222l39,60 7,-45c3,-25 7,-95 7,-157 1,-61 5,-114 10,-117 8,-5 28,474 24,589 -9,241 -167,447 -398,521 -88,28 -235,32 -319,9zM846,1282c109,-29 182,-70 255,-143 156,-155 201,-380 117,-584 -45,-111 -146,-219 -253,-273 -118,-59 -292,-71 -409,-28 -145,52 -246,140 -311,268 -45,92 -59,162 -52,278 9,144 63,258 167,352 75,69 146,107 235,129 92,23 166,23 251,1z"
+        android:fillColor="#07a007"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M589,721c-33,-33 -39,-45 -39,-81 0,-36 6,-48 39,-81 50,-50 86,-51 191,-4 105,47 124,50 200,26 36,-12 75,-21 88,-21 29,0 82,51 82,80 0,29 -53,80 -82,80 -14,0 -46,-7 -72,-16 -64,-22 -133,-14 -218,25 -96,44 -139,42 -189,-8z"
+        android:fillColor="#07a007"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M1250,165c-19,-23 -8,-50 20,-50 28,0 39,27 20,50 -16,19 -24,19 -40,0z"
+        android:fillColor="#07a007"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M583,1310c-158,-41 -282,-139 -357,-281 -46,-86 -66,-165 -66,-260 0,-105 14,-169 55,-256 64,-132 182,-235 332,-290 90,-32 246,-34 343,-4 129,41 239,125 310,237 22,35 45,62 50,59 6,-4 10,-61 10,-127 0,-67 3,-119 6,-116 3,3 10,122 16,264 12,300 6,357 -50,474 -45,95 -158,211 -247,254 -134,66 -269,81 -402,46zM895,1275c146,-50 266,-164 328,-308 26,-60 32,-88 35,-173 5,-119 -7,-182 -50,-273 -39,-82 -148,-193 -233,-238 -304,-159 -658,-9 -771,327 -26,75 -25,234 0,309 62,181 211,322 389,367 70,18 236,12 302,-11z"
+        android:fillColor="#06f806"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M636,1269c-32,-5 -96,-26 -141,-48 -356,-173 -385,-677 -51,-893 122,-78 296,-103 433,-60 118,37 253,149 309,257 30,59 52,157 52,235 0,319 -281,557 -602,509zM743,765c126,-57 186,-67 252,-39 82,34 170,-9 169,-83 0,-79 -90,-126 -165,-87 -55,28 -114,26 -184,-7 -33,-15 -69,-31 -80,-35 -69,-25 -133,-8 -179,47 -35,42 -36,114 -3,153 54,63 125,82 190,51z"
+        android:fillColor="#06f806"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M620,742c-111,-59 -73,-212 53,-212 31,0 68,11 118,35 85,41 129,44 211,15 61,-21 80,-19 116,13 39,36 24,95 -31,116 -21,8 -42,6 -93,-10 -79,-24 -104,-21 -220,27 -96,39 -107,40 -154,16z"
+        android:fillColor="#06f806"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M1250,155c-11,-13 -11,-18 2,-31 20,-20 50,-7 46,20 -4,26 -30,32 -48,11z"
+        android:fillColor="#06f806"
+        android:strokeColor="#00000000"/>
+    <path
+        android:pathData="M636,1269c-32,-5 -96,-26 -141,-48 -356,-173 -385,-677 -51,-893 122,-78 296,-103 433,-60 169,53 307,202 348,374 84,358 -221,683 -589,627zM794,745c93,-38 144,-43 199,-20 57,24 102,19 139,-14 42,-37 46,-96 9,-135 -35,-38 -80,-42 -158,-17 -77,25 -94,23 -198,-25 -109,-50 -170,-43 -229,26 -70,83 3,220 116,220 21,0 76,-16 122,-35z"
+        android:fillColor="#fefefe"
+        android:strokeColor="#00000000"/>
+  </group>
+</vector>

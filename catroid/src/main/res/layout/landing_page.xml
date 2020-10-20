@@ -26,80 +26,108 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="@dimen/view_holder_height"
+    android:background="@color/button_background"
     android:layout_marginTop="?attr/element_spacing"
-    android:layout_marginBottom="?attr/element_spacing"
-    android:orientation="vertical"
-    android:background="@drawable/button_background_selector">
-
+    android:layout_marginBottom="?attr/element_spacing">
     <include layout="@layout/progress_bar" />
 
-    <LinearLayout
-        android:id="@+id/current_project"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingStart="28dp"
-        android:paddingEnd="@dimen/view_holder_padding"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="10dp">
-
-            <ImageView
-                android:id="@+id/image_view"
-                android:contentDescription="@string/main_menu_continue"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:cropToPadding="true"
-                android:scaleType="centerCrop" />
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="24dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/project_title"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/vh_item_title"
-                android:textSize="?attr/x_large"/>
+                android:orientation="vertical">
 
-            <TextView
-                android:text="@string/main_menu_continue"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/vh_item_details"
-                android:textSize="?attr/small"/>
 
-        </LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/current_project"
+                    android:layout_width="match_parent"
+                    android:layout_height="280dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/image_view"
+                        android:contentDescription="@string/main_menu_continue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:cropToPadding="true"
+                        android:scaleType="centerCrop" />
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
-        android:paddingStart="16dp"
-        android:paddingEnd="0dp"
-        android:id="@+id/recycler_view"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="48dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        app:layoutManager="LinearLayoutManager">
-    </androidx.recyclerview.widget.RecyclerView>
+                    <ImageView
+                        android:id="@+id/shadow"
+                        android:contentDescription="@string/main_menu_continue"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#1a000000" />
+                    
+                    <ImageView
+                        android:contentDescription="@string/main_menu_continue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/edit_button"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_edit_circle" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    <ImageView
+                        android:id="@+id/upload_button"
+                        android:contentDescription="@string/main_menu_upload"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:src="@drawable/ic_publish_circle" />
+
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/my_projects"
+                    android:text="@string/main_menu_programs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="32dp"
+                    android:textColor="@color/landing_page_icons"
+                    android:drawableEnd="@drawable/ic_arrow_forward_vector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:textSize="?attr/x_large"
+                    android:background="@drawable/button_background_selector" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/my_projects_recyclerview"
+                    android:paddingStart="14dp"
+                    android:paddingEnd="0dp"
+                    android:clipToPadding ="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layoutManager="LinearLayoutManager"
+                    android:orientation="horizontal" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:overScrollMode="never"
+                    app:layoutManager="LinearLayoutManager">
+                    </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floating_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -112,7 +140,6 @@
         android:theme="@style/Theme.AppCompat"
         app:backgroundTint="@color/orange"
         app:elevation="10dp" />
+
     </RelativeLayout>
-
 </LinearLayout>
-

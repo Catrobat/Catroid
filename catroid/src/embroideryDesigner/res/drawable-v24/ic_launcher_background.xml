@@ -1,0 +1,63 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2020 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+  <group android:scaleX="0.21515626"
+      android:scaleY="0.21515626"
+      android:translateX="-1.08"
+      android:translateY="-1.08">
+    <path
+        android:strokeWidth="1"
+        android:pathData="M0,0h512v512h-512z"
+        android:strokeColor="#000000">
+      <aapt:attr name="android:fillColor">
+        <gradient 
+            android:startY="99.6826"
+            android:startX="-50.7905"
+            android:endY="412.3181"
+            android:endX="562.791"
+            android:type="linear">
+          <item android:offset="0" android:color="#FF0EEBD7"/>
+          <item android:offset="0.1675" android:color="#FF23B9C3"/>
+          <item android:offset="0.3809" android:color="#FF3A80AC"/>
+          <item android:offset="0.5785" android:color="#FF4D539A"/>
+          <item android:offset="0.7538" android:color="#FF5A338D"/>
+          <item android:offset="0.9003" android:color="#FF621F85"/>
+          <item android:offset="1" android:color="#FF651882"/>
+        </gradient>
+      </aapt:attr>
+    </path>
+    <path
+        android:strokeWidth="1"
+        android:pathData="M0,0h512v512h-512z"
+        android:strokeAlpha="0.3"
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#000000"
+        android:fillAlpha="0.3"/>
+  </group>
+</vector>

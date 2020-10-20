@@ -26,7 +26,6 @@ package org.catrobat.catroid.test.content.bricks;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.EventThread;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BrickBaseType;
@@ -197,7 +196,7 @@ public class CompositeBrickTest {
 	public void testCommentOutBrickInCompositeBrick() {
 		Sprite sprite = new Sprite();
 
-		EventThread sequence = (EventThread) ActionFactory.createEventThread(mock(Script.class));
+		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(mock(Script.class));
 
 		Brick brickToCommentOut = spy(new BrickStub());
 		Brick otherNestedBrick = spy(new BrickStub());

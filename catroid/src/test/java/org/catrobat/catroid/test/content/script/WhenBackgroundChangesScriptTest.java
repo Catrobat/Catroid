@@ -31,7 +31,6 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.WhenBackgroundChangesScript;
@@ -68,7 +67,7 @@ public class WhenBackgroundChangesScriptTest {
 
 		Project project = new Project(MockUtil.mockContextForProject(), "TestProject");
 		ProjectManager.getInstance().setCurrentProject(project);
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		project.getDefaultScene().addSprite(sprite);
 
 		initBackground(project.getDefaultScene());

@@ -241,7 +241,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 			objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();
 			spriteBitmap = BitmapFactory.decodeFile(objectLookPath, options);
 		} else {
-			spriteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+			spriteBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pc_toolbar_icon);
 		}
 
 		imageView = new ImageView(this);

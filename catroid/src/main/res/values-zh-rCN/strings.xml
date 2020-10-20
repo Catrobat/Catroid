@@ -1576,7 +1576,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">比较运算符</string>
     <string name="formula_editor_object_general">常用属性</string>
     <string name="formula_editor_object_movement">运动属性</string>
-    <string name="formula_editor_device_face_detection">人脸检测</string>
     <string name="formula_editor_device_date_and_time">日期与时间</string>
     <string name="formula_editor_device_touch_detection">触碰检测</string>
     <string name="formula_editor_device_lego_nxt">乐高NXT</string>

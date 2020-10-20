@@ -51,8 +51,8 @@ public class WaitTillIdleAction extends Action {
 				actorsWithNoEventThreads++;
 			}
 			if (actions.size == 1) {
-				EventThread eventThread = (EventThread) actions.get(0);
-				if (eventThread.getActions().contains(this, true)) {
+				ScriptSequenceAction sequenceAction = (ScriptSequenceAction) actions.get(0);
+				if (sequenceAction.getActions().contains(this, true)) {
 					actorWithOnlyThisEventThread++;
 				}
 			}

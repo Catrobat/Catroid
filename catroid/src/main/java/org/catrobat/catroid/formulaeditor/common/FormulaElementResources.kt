@@ -92,6 +92,9 @@ object FormulaElementResources {
 
             Sensors.LOUDNESS -> Brick.MICROPHONE
 
+            Sensors.TEXT_FROM_CAMERA,
+            Sensors.TEXT_BLOCKS_NUMBER -> Brick.TEXT_DETECTION
+
             else -> return
         }.let { resources.add(it) }
     }

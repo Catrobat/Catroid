@@ -24,7 +24,7 @@
 package org.catrobat.catroid.test.content.sprite;
 
 import org.catrobat.catroid.content.Look;
-import org.catrobat.catroid.content.SingleSprite;
+import org.catrobat.catroid.content.Sprite;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -64,7 +64,7 @@ public class LookDirectionTest {
 
 	@Test
 	public void testDirection() {
-		Look look = new Look(new SingleSprite("testsprite"));
+		Look look = new Look(new Sprite("testsprite"));
 		look.setDirectionInUserInterfaceDimensionUnit(degreesInUserInterfaceDimensionUnit);
 		assertEquals(degreesInUserInterfaceDimensionUnit, look.getDirectionInUserInterfaceDimensionUnit());
 		assertEquals(degrees, look.getRotation());

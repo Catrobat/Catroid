@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.robolectric.bricks;
 
 import android.app.Activity;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -107,7 +108,6 @@ import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
-import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
@@ -143,7 +143,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 @RunWith(ParameterizedRobolectricTestRunner.class)
-@Config(sdk = {25})
+@Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSingleFormulaFieldTest {
 
 	private SpriteActivity activity;
@@ -189,8 +189,7 @@ public class BrickSingleFormulaFieldTest {
 				{SetColorBrick.class.getSimpleName(), new SetColorBrick(), R.id.brick_set_color_edit_text},
 				{ChangeColorByNBrick.class.getSimpleName(), new ChangeColorByNBrick(), R.id.brick_change_color_by_edit_text},
 				{SetBackgroundByIndexBrick.class.getSimpleName(), new SetBackgroundByIndexBrick(), R.id.brick_set_background_by_index_edit_text},
-				{SetBackgroundByIndexAndWaitBrick.class.getSimpleName(), new SetBackgroundByIndexAndWaitBrick(), R.id.brick_set_background_by_index_edit_text},
-				{SetBackgroundByIndexAndWaitBrick.class.getSimpleName(), new SetBackgroundByIndexAndWaitBrick(), R.id.brick_set_background_by_index_edit_text},
+				{SetBackgroundByIndexAndWaitBrick.class.getSimpleName(), new SetBackgroundByIndexAndWaitBrick(), R.id.brick_set_background_by_index_wait_edit_text},
 				{SetPenSizeBrick.class.getSimpleName(), new SetPenSizeBrick(), R.id.brick_set_pen_size_edit_text},
 				{SetVariableBrick.class.getSimpleName(), new SetVariableBrick(), R.id.brick_set_variable_edit_text},
 				{ChangeVariableBrick.class.getSimpleName(), new ChangeVariableBrick(), R.id.brick_change_variable_edit_text},
@@ -280,8 +279,6 @@ public class BrickSingleFormulaFieldTest {
 				{RaspiIfLogicBeginBrick.class.getSimpleName(), new RaspiIfLogicBeginBrick(), R.id.brick_if_begin_edit_text},
 
 				//Testing bricks
-				{TapAtBrick.class.getSimpleName() + " x", new TapAtBrick(), R.id.brick_tap_at_edit_text_x},
-				{TapAtBrick.class.getSimpleName() + " y", new TapAtBrick(), R.id.brick_tap_at_edit_text_y},
 				{AssertEqualsBrick.class.getSimpleName() + " actual", new AssertEqualsBrick(), R.id.brick_assert_actual},
 				{AssertEqualsBrick.class.getSimpleName() + " expected", new AssertEqualsBrick(), R.id.brick_assert_expected},
 		});

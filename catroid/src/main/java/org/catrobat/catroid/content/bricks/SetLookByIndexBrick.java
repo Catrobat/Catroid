@@ -24,19 +24,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 
-import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
-
 public class SetLookByIndexBrick extends FormulaBrick {
-
 	private static final long serialVersionUID = 1L;
-
-	@EventWrapper.WaitMode
-	protected transient int wait = NO_WAIT;
 
 	public SetLookByIndexBrick() {
 		addAllowedBrickField(BrickField.LOOK_INDEX, R.id.brick_set_look_by_index_edit_text);
@@ -53,14 +46,12 @@ public class SetLookByIndexBrick extends FormulaBrick {
 
 	@Override
 	public int getViewResource() {
-		return wait == EventWrapper.WAIT
-				? R.layout.brick_set_look_by_index_and_wait
-				: R.layout.brick_set_look_by_index;
+		return R.layout.brick_set_look_by_index;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX), wait));
+				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX)));
 	}
 }

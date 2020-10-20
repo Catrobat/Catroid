@@ -34,7 +34,7 @@ import org.catrobat.catroid.io.DeviceUserDataAccessor;
 import java.io.File;
 import java.io.IOException;
 
-public class WriteListOnDeviceAction extends EventAction {
+public class WriteListOnDeviceAction extends AsynchronousAction {
 	private static final String TAG = WriteVariableOnDeviceAction.class.getSimpleName();
 	private UserList userList;
 	private boolean writeActionFinished;
@@ -44,13 +44,17 @@ public class WriteListOnDeviceAction extends EventAction {
 		if (userList == null) {
 			return true;
 		}
+		return super.act(delta);
+	}
 
-		if (firstStart) {
-			firstStart = false;
-			writeActionFinished = false;
-			new WriteTask().execute(userList);
-		}
+	@Override
+	public void initialize() {
+		writeActionFinished = false;
+		new WriteTask().execute(userList);
+	}
 
+	@Override
+	public boolean isFinished() {
 		return writeActionFinished;
 	}
 

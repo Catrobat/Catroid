@@ -25,15 +25,18 @@ package org.catrobat.catroid.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class SceneTransitionAction extends TemporalAction {
 
 	private String sceneName;
+	private Sprite sprite;
 
 	@Override
 	protected void update(float percent) {
 		if (sceneName != null && !ProjectManager.getInstance().getCurrentlyPlayingScene().getName().equals(sceneName)) {
+			sprite.releaseAllPointers();
 			StageActivity.stageListener.transitionToScene(sceneName);
 		}
 	}
@@ -46,5 +49,9 @@ public class SceneTransitionAction extends TemporalAction {
 
 	public void setScene(String sceneName) {
 		this.sceneName = sceneName;
+	}
+
+	public void setSprite(Sprite sprite) {
+		this.sprite = sprite;
 	}
 }

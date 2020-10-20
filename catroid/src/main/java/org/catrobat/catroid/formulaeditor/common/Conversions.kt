@@ -24,10 +24,12 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
+import java.util.regex.Pattern
 
 object Conversions {
     const val TRUE = 1.0
     const val FALSE = 0.0
+    private val colorPattern = Pattern.compile("#\\p{XDigit}{6}")
 
     private fun tryParseDouble(argument: String): Double? {
         return try {
@@ -37,17 +39,18 @@ object Conversions {
         }
     }
 
-    @Suppress("MagicNumber")
     @ColorInt
     @JvmStatic
     @JvmOverloads
     fun tryParseColor(string: String?, defaultValue: Int = Color.BLACK): Int {
-        return if (string != null && string.length == 7 && string.matches("^#[0-9a-fA-F]+$".toRegex())) {
+        return if (string.isValidHexColor()) {
             Color.parseColor(string)
         } else {
             defaultValue
         }
     }
+
+    fun String?.isValidHexColor() = this != null && colorPattern.matcher(this).matches()
 
     @JvmStatic
     fun convertArgumentToDouble(argument: Any?): Double? {

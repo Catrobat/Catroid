@@ -38,14 +38,12 @@ import android.preference.PreferenceScreen;
 import android.util.DisplayMetrics;
 
 import org.catrobat.catroid.BuildConfig;
-import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.DroneConfigPreference;
-import org.catrobat.catroid.common.SharedPreferenceKeys;
 import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -58,7 +56,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_CODE;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 
 public class SettingsFragment extends PreferenceFragment {
@@ -121,7 +119,6 @@ public class SettingsFragment extends PreferenceFragment {
 		setToChosenLanguage(getActivity());
 
 		addPreferencesFromResource(R.xml.preferences);
-		setAnonymousCrashReportPreference();
 		setHintPreferences();
 		setLanguage();
 
@@ -155,6 +152,12 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(arduinoPreference);
 		}
 
+		if (!BuildConfig.FEATURE_RASPI_ENABLED) {
+			CheckBoxPreference raspiPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_RASPI_BRICKS);
+			raspiPreference.setEnabled(false);
+			screen.removePreference(raspiPreference);
+		}
+
 		if (!BuildConfig.FEATURE_CAST_ENABLED) {
 			CheckBoxPreference globalCastPreference = (CheckBoxPreference) findPreference(SETTINGS_CAST_GLOBALLY_ENABLED);
 			globalCastPreference.setEnabled(false);
@@ -165,12 +168,6 @@ public class SettingsFragment extends PreferenceFragment {
 			CheckBoxPreference nfcPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_NFC_BRICKS);
 			nfcPreference.setEnabled(false);
 			screen.removePreference(nfcPreference);
-		}
-
-		if (!BuildConfig.CRASHLYTICS_CRASH_REPORT_ENABLED) {
-			CheckBoxPreference crashlyticsPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
-			crashlyticsPreference.setEnabled(false);
-			screen.removePreference(crashlyticsPreference);
 		}
 
 		if (!BuildConfig.FEATURE_MULTIPLAYER_VARIABLES_ENABLED) {
@@ -192,18 +189,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public void onResume() {
 		super.onResume();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.preference_title);
-	}
-
-	@SuppressWarnings("deprecation")
-	private void setAnonymousCrashReportPreference() {
-		CheckBoxPreference reportCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
-		reportCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object isChecked) {
-				setAutoCrashReportingEnabled(getActivity().getApplicationContext(), (Boolean) isChecked);
-				return true;
-			}
-		});
 	}
 
 	@Override
@@ -303,8 +288,18 @@ public class SettingsFragment extends PreferenceFragment {
 				.apply();
 	}
 
+	public static void setRaspiSharedPreferenceEnabled(Context context, boolean value) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_SHOW_RASPI_BRICKS, value)
+				.apply();
+	}
+
 	public static boolean isArduinoSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(false, SETTINGS_SHOW_ARDUINO_BRICKS, context);
+	}
+
+	public static boolean isRaspiSharedPreferenceEnabled(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_SHOW_RASPI_BRICKS, context);
 	}
 
 	public static boolean isNfcSharedPreferenceEnabled(Context context) {
@@ -313,15 +308,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isTestSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(BuildConfig.DEBUG, SETTINGS_TEST_BRICKS, context);
-	}
-
-	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {
-		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled)
-				.apply();
-		if (isEnabled) {
-			CrashReporter.initialize(context);
-		}
 	}
 
 	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
@@ -439,22 +425,12 @@ public class SettingsFragment extends PreferenceFragment {
 
 	private void setLanguage() {
 		final List<String> languagesNames = new ArrayList<>();
-		for (String aLanguageCode : LANGUAGE_CODE) {
-			switch (aLanguageCode) {
-				case "sd":
-					languagesNames.add("سنڌي");
-					break;
-				case DEVICE_LANGUAGE:
-					languagesNames.add(getResources().getString(R.string.device_language));
-					break;
-				default:
-					if (aLanguageCode.length() == 2) {
-						languagesNames.add(new Locale(aLanguageCode).getDisplayName(new Locale(aLanguageCode)));
-					} else {
-						String language = aLanguageCode.substring(0, 2);
-						String country = aLanguageCode.substring(4);
-						languagesNames.add(new Locale(language, country).getDisplayName(new Locale(language, country)));
-					}
+		for (String languageTag : LANGUAGE_TAGS) {
+			if (DEVICE_LANGUAGE.equals(languageTag)) {
+				languagesNames.add(getResources().getString(R.string.device_language));
+			} else {
+				Locale mLocale = Locale.forLanguageTag(languageTag);
+				languagesNames.add(mLocale.getDisplayName(mLocale));
 			}
 		}
 
@@ -463,29 +439,32 @@ public class SettingsFragment extends PreferenceFragment {
 
 		final ListPreference listPreference = (ListPreference) findPreference(SETTINGS_MULTILINGUAL);
 		listPreference.setEntries(languages);
-		listPreference.setEntryValues(LANGUAGE_CODE);
-		listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				String selectedLanguageCode = newValue.toString();
-				setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageCode);
-				startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
-				getActivity().finishAffinity();
-				return true;
-			}
+		listPreference.setEntryValues(LANGUAGE_TAGS);
+		listPreference.setOnPreferenceChangeListener((preference, languageTag) -> {
+			String selectedLanguageTag = languageTag.toString();
+			setLanguageSharedPreference(getActivity().getBaseContext(), selectedLanguageTag);
+			startActivity(new Intent(getActivity().getBaseContext(), MainMenuActivity.class));
+			getActivity().finishAffinity();
+			return true;
 		});
 	}
 
 	public static void setToChosenLanguage(Activity activity) {
 		SharedPreferences sharedPreferences = getSharedPreferences(activity.getApplicationContext());
 		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
-		Locale mLocale = Arrays.asList(LANGUAGE_CODE).contains(languageTag)
-				? getLocaleFromLanguageTag(languageTag)
-				: new Locale(CatroidApplication.defaultSystemLanguage);
+		Locale mLocale;
+		if (languageTag.equals(DEVICE_LANGUAGE)) {
+			mLocale = Locale.forLanguageTag(defaultSystemLanguage);
+		} else {
+			mLocale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
+					? Locale.forLanguageTag(languageTag)
+					: Locale.forLanguageTag(defaultSystemLanguage);
+		}
 
 		Locale.setDefault(mLocale);
 		updateLocale(activity, mLocale);
 		updateLocale(activity.getApplicationContext(), mLocale);
+		SensorHandler.setUserLocaleTag(mLocale.toLanguageTag());
 	}
 
 	public static void updateLocale(Context context, Locale locale) {
@@ -494,17 +473,6 @@ public class SettingsFragment extends PreferenceFragment {
 		Configuration conf = resources.getConfiguration();
 		conf.setLocale(locale);
 		resources.updateConfiguration(conf, displayMetrics);
-	}
-
-	private static Locale getLocaleFromLanguageTag(String languageTag) {
-		if (languageTag.contains("-r")) {
-			String[] tags = languageTag.split("-r");
-			return new Locale(tags[0], tags[1]);
-		} else if (languageTag.equals(SharedPreferenceKeys.DEVICE_LANGUAGE)) {
-			return new Locale(defaultSystemLanguage);
-		} else {
-			return new Locale(languageTag);
-		}
 	}
 
 	public static void setLanguageSharedPreference(Context context, String value) {

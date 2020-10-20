@@ -31,7 +31,6 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Setting;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -113,10 +112,10 @@ public class XstreamSerializerTest {
 		final float size = 0.8f;
 
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite firstSprite = new SingleSprite("first");
-		Sprite secondSprite = new SingleSprite("second");
-		Sprite thirdSprite = new SingleSprite("third");
-		Sprite fourthSprite = new SingleSprite("fourth");
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Sprite thirdSprite = new Sprite("third");
+		Sprite fourthSprite = new Sprite("fourth");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -183,10 +182,10 @@ public class XstreamSerializerTest {
 		final float size = 0.8f;
 
 		final Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite firstSprite = new SingleSprite("first");
-		Sprite secondSprite = new SingleSprite("second");
-		Sprite thirdSprite = new SingleSprite("third");
-		Sprite fourthSprite = new SingleSprite("fourth");
+		Sprite firstSprite = new Sprite("first");
+		Sprite secondSprite = new Sprite("second");
+		Sprite thirdSprite = new Sprite("third");
+		Sprite fourthSprite = new Sprite("fourth");
 		Script testScript = new StartScript();
 		Script otherScript = new StartScript();
 		HideBrick hideBrick = new HideBrick();
@@ -343,7 +342,7 @@ public class XstreamSerializerTest {
 				DEFAULT_MOVE_TIME_IN_MILLISECONDS,
 				DEFAULT_MOVE_POWER_IN_PERCENT);
 
-		Sprite firstSprite = new SingleSprite("first");
+		Sprite firstSprite = new Sprite("first");
 		Script testScript = new StartScript();
 		testScript.addBrick(new HideBrick());
 		testScript.addBrick(new ShowBrick());
@@ -351,7 +350,7 @@ public class XstreamSerializerTest {
 		testScript.addBrick(motorBrick);
 		firstSprite.addScript(testScript);
 
-		Sprite secondSprite = new SingleSprite("second");
+		Sprite secondSprite = new Sprite("second");
 		Script otherScript = new StartScript();
 		otherScript.addBrick(setSizeToBrick);
 		otherScript.addBrick(moveBrick);

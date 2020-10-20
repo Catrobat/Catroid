@@ -108,7 +108,7 @@ public final class StageLifeCycleController {
 		if (stageActivity.getGdxGraphics().getView() instanceof SurfaceView) {
 			SurfaceView glView = (SurfaceView) stageActivity.getGdxGraphics().getView();
 			glView.getHolder().setFormat(PixelFormat.TRANSLUCENT);
-			glView.setZOrderOnTop(true);
+			glView.setZOrderMediaOverlay(true);
 		}
 		stageActivity.stageAudioFocus = new StageAudioFocus(stageActivity);
 		stageActivity.stageResourceHolder = new StageResourceHolder(stageActivity);
@@ -134,6 +134,7 @@ public final class StageLifeCycleController {
 					Log.e(TAG, "Disabling NFC foreground dispatching went wrong!", illegalStateException);
 				}
 			}
+			SpeechRecognitionHolder.Companion.getInstance().destroy();
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();

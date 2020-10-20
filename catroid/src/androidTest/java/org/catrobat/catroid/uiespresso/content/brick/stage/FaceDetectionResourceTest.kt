@@ -22,9 +22,11 @@
  */
 package org.catrobat.catroid.uiespresso.content.brick.stage
 
+import android.Manifest
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.rule.GrantPermissionRule
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.formulaeditor.Formula
@@ -47,6 +49,8 @@ import org.junit.experimental.categories.Category
 class FaceDetectionResourceTest {
     private lateinit var formula: Formula
     private lateinit var lastBrickInScript: ScriptEvaluationGateBrick
+
+    @get:Rule var runtimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(Manifest.permission.CAMERA)
 
     @get:Rule
     val baseActivityTestRule = FragmentActivityTestRule(

@@ -27,7 +27,6 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenScript;
 import org.catrobat.catroid.content.bricks.Brick;
@@ -100,7 +99,7 @@ public class DefaultProjectComparatorTest {
 	}
 
 	private void addSpriteAndCompareToDefaultProject() {
-		Sprite sprite = new SingleSprite("TestSprite");
+		Sprite sprite = new Sprite("TestSprite");
 		defaultProject.getDefaultScene().addSprite(sprite);
 		assertFalse(Utils.isDefaultProject(defaultProject, ApplicationProvider.getApplicationContext()));
 		defaultProject.getDefaultScene().removeSprite(sprite);

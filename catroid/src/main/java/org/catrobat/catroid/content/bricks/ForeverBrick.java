@@ -33,8 +33,6 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.VisibleForTesting;
-
 public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 
 	private transient EndBrick endBrick = new EndBrick(this);
@@ -42,11 +40,6 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 	private List<Brick> loopBricks = new ArrayList<>();
 
 	public ForeverBrick() {
-	}
-
-	@VisibleForTesting
-	public EndBrick getEndBrick() {
-		return endBrick;
 	}
 
 	@Override
@@ -74,7 +67,6 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 		for (Brick brick : loopBricks) {
 			brick.setCommentedOut(commentedOut);
 		}
-		endBrick.setCommentedOut(commentedOut);
 	}
 
 	@Override
@@ -143,7 +135,7 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.eventSequence(sequence.getScript());
+		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -168,6 +160,11 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 
 		EndBrick(ForeverBrick parent) {
 			this.parent = parent;
+		}
+
+		@Override
+		public boolean isCommentedOut() {
+			return parent.isCommentedOut();
 		}
 
 		@Override

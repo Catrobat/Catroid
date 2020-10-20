@@ -30,8 +30,6 @@ import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
 
-import static org.catrobat.catroid.content.EventWrapper.NO_WAIT;
-
 public class PhysicalCollision {
 
 	private int contactCounter = 0;
@@ -71,9 +69,9 @@ public class PhysicalCollision {
 		fireBounceOffEvent(spriteBouncingOff, null);
 	}
 
-	static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
+	public static void fireBounceOffEvent(Sprite bouncingSprite, Sprite staticSprite) {
 		BounceOffEventId identifier = new BounceOffEventId(bouncingSprite, staticSprite);
-		EventWrapper event = new EventWrapper(identifier, NO_WAIT);
+		EventWrapper event = new EventWrapper(identifier, false);
 		ProjectManager.getInstance().getCurrentProject().fireToAllSprites(event);
 	}
 

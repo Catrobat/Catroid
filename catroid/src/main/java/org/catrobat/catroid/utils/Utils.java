@@ -22,7 +22,10 @@
  */
 package org.catrobat.catroid.utils;
 
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -30,6 +33,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -42,6 +46,7 @@ import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.ScratchProgramData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.XmlHeader;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
@@ -70,6 +75,10 @@ import java.util.regex.Pattern;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.Response;
 
+import static android.speech.RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS;
+import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE;
+import static android.speech.RecognizerIntent.EXTRA_SUPPORTED_LANGUAGES;
+
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -85,6 +94,9 @@ public final class Utils {
 	}
 
 	public static final int TRANSLATION_PLURAL_OTHER_INTEGER = 767676;
+	// IETF representation like "en-US".
+	// if you need it in ISO representation, just replace '-' with '_'
+	public static final ArrayList<String> SPEECH_RECOGNITION_SUPPORTED_LANGUAGES = new ArrayList<>();
 
 	private Utils() {
 		throw new AssertionError();
@@ -495,5 +507,38 @@ public final class Utils {
 			return (number >> index) & 0x1;
 		}
 		return 0;
+	}
+
+	public static void fetchSpeechRecognitionSupportedLanguages(Context context) {
+		if (!SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.isEmpty()) {
+			return;
+		}
+
+		final Intent srIntent = new Intent(ACTION_GET_LANGUAGE_DETAILS);
+		srIntent.setPackage("com.google.android.googlequicksearchbox");
+
+		context.sendOrderedBroadcast(srIntent, null, new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				final Bundle bundle = getResultExtras(true);
+
+				if (bundle != null) {
+					String defaultLanguage = bundle.getString(EXTRA_LANGUAGE_PREFERENCE);
+					SensorHandler.setListeningLanguageSensor(defaultLanguage);
+					List<String> supportedLanguages = bundle
+							.getStringArrayList(EXTRA_SUPPORTED_LANGUAGES);
+					if (supportedLanguages != null) {
+						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.clear();
+						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.addAll(supportedLanguages);
+						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.remove(defaultLanguage);
+						SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.add(0, defaultLanguage);
+					} else {
+						Log.w(TAG, "onReceive: EXTRA_SUPPORTED_LANGUAGES is null");
+					}
+				} else {
+					Log.w(TAG, "onReceive: Bundle is null");
+				}
+			}
+		}, null, Activity.RESULT_OK, null, null);
 	}
 }

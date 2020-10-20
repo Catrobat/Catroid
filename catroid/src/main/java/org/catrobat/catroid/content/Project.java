@@ -51,6 +51,7 @@ import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.utils.Utils.SPEECH_RECOGNITION_SUPPORTED_LANGUAGES;
 
 @XStreamAlias("program")
 @XStreamFieldKeyOrder({
@@ -288,6 +289,14 @@ public class Project implements Serializable {
 		xmlHeader.setDescription(description);
 	}
 
+	public String getNotesAndCredits() {
+		return xmlHeader.getNotesAndCredits();
+	}
+
+	public void setNotesAndCredits(String notesAndCredits) {
+		xmlHeader.setNotesAndCredits(notesAndCredits);
+	}
+
 	public ScreenModes getScreenMode() {
 		return xmlHeader.getScreenMode();
 	}
@@ -296,7 +305,7 @@ public class Project implements Serializable {
 		xmlHeader.setScreenMode(screenMode);
 	}
 
-	public float getCatrobatLanguageVersion() {
+	public double getCatrobatLanguageVersion() {
 		return xmlHeader.getCatrobatLanguageVersion();
 	}
 
@@ -333,7 +342,7 @@ public class Project implements Serializable {
 		return resourcesSet;
 	}
 
-	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+	public void setCatrobatLanguageVersion(double catrobatLanguageVersion) {
 		xmlHeader.setCatrobatLanguageVersion(catrobatLanguageVersion);
 	}
 
@@ -393,6 +402,25 @@ public class Project implements Serializable {
 	public void deselectElements(List<UserData<?>> elements) {
 		for (Scene scene : sceneList) {
 			scene.deselectElements(elements);
+		}
+	}
+
+	public void setListeningLanguageTag() {
+		if (xmlHeader.getListeningLanguageTag().isEmpty()
+				&& !SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.isEmpty()) {
+			// first item represents the default speech recognition language
+			xmlHeader.setListeningLanguageTag(SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.get(0));
+		}
+	}
+
+	public boolean isGlobalVariable(UserData<?> item) {
+		return getUserVariables().contains(item) || getUserLists().contains(item)
+				|| getMultiplayerVariables().contains(item);
+	}
+
+	public void checkForInvisibleSprites() {
+		for (Scene scene : sceneList) {
+			scene.checkForInvisibleSprites();
 		}
 	}
 }

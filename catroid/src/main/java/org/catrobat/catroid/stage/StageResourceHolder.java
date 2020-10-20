@@ -33,6 +33,7 @@ import android.nfc.NfcAdapter;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.speech.SpeechRecognizer;
 import android.text.Html;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
@@ -313,7 +314,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
 			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
 			if (vibration != null) {
-				VibrationUtil.setContext(stageActivity);
+				VibrationUtil.setVibration(vibration);
 				VibrationUtil.activateVibrationThread();
 				resourceInitialized();
 			} else {
@@ -343,6 +344,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.FACE_DETECTION);
+			}
+		}
+
+		if (requiredResourcesSet.contains(Brick.TEXT_DETECTION)) {
+			if (getCameraManager().startTextDetection()) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.TEXT_DETECTION);
 			}
 		}
 
@@ -406,6 +415,14 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			resourceInitialized();
 		}
 
+		if (requiredResourcesSet.contains(Brick.SPEECH_RECOGNITION)) {
+			if (SpeechRecognizer.isRecognitionAvailable(stageActivity)) {
+				resourceInitialized();
+			} else {
+				resourceFailed(Brick.SPEECH_RECOGNITION);
+			}
+		}
+
 		if (initFinished()) {
 			initFinishedRunStage();
 		}
@@ -422,6 +439,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 			Log.e(TAG, e.getMessage());
 		}
 		stageActivity.setupAskHandler();
+		SpeechRecognitionHolder.Companion.getInstance().initSpeechRecognition(stageActivity, this);
 		stageActivity.pendingIntent = PendingIntent.getActivity(stageActivity, 0,
 				new Intent(stageActivity, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
 		stageActivity.jumpingSumoDeviceController = JumpingSumoDeviceController.getInstance();
@@ -516,6 +534,15 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 				case Brick.JUMPING_SUMO:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
 							.prestage_no_jumping_sumo_available);
+					break;
+
+				case Brick.SPEECH_RECOGNITION:
+					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
+							.speech_recognition_not_available);
+					break;
+				case Brick.TEXT_DETECTION:
+					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string
+							.prestage_no_text_detection_available);
 					break;
 				default:
 					failedResourcesMessage = failedResourcesMessage + stageActivity.getString(R.string

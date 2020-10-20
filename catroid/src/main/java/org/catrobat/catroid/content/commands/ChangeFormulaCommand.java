@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.content.commands;
 
-import org.catrobat.catroid.content.bricks.Brick.BrickField;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ConcurrentFormulaHashMap;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -38,7 +38,7 @@ public class ChangeFormulaCommand implements Command {
 		this.newFormulaMap = newFormulaMap;
 
 		previousFormulaMap = new ConcurrentFormulaHashMap();
-		for (BrickField key : newFormulaMap.keySet()) {
+		for (Brick.FormulaField key : newFormulaMap.keySet()) {
 			Formula formula = formulaBrick.getFormulaWithBrickField(key);
 			previousFormulaMap.putIfAbsent(key, formula.clone());
 		}
@@ -47,7 +47,7 @@ public class ChangeFormulaCommand implements Command {
 	@Override
 	public void execute() {
 		if (newFormulaMap != null) {
-			for (BrickField key : newFormulaMap.keySet()) {
+			for (Brick.FormulaField key : newFormulaMap.keySet()) {
 				formulaBrick.setFormulaWithBrickField(key, newFormulaMap.get(key));
 			}
 		}
@@ -56,7 +56,7 @@ public class ChangeFormulaCommand implements Command {
 	@Override
 	public void undo() {
 		if (previousFormulaMap != null) {
-			for (BrickField key : previousFormulaMap.keySet()) {
+			for (Brick.FormulaField key : previousFormulaMap.keySet()) {
 				formulaBrick.setFormulaWithBrickField(key, previousFormulaMap.get(key));
 			}
 		}

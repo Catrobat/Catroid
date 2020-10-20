@@ -27,10 +27,9 @@ import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
-import org.catrobat.catroid.content.actions.EventThread;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
@@ -61,7 +60,7 @@ public class SpriteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		sprite = new SingleSprite("testSprite");
+		sprite = new Sprite("testSprite");
 		project = new Project(ApplicationProvider.getApplicationContext(), TestUtils.DEFAULT_TEST_PROJECT_NAME);
 		project.getDefaultScene().addSprite(sprite);
 		sprite.addUserVariable(new UserVariable(LOCAL_VARIABLE_NAME));
@@ -84,7 +83,7 @@ public class SpriteTest {
 
 		Scene secondScene = new Scene("scene 2", project);
 		secondScene.addSprite(new Sprite("Background"));
-		Sprite sprite2 = new SingleSprite("testSprite2");
+		Sprite sprite2 = new Sprite("testSprite2");
 		Script secondScript = new StartScript();
 		Brick textBrick = new ShowTextBrick(10, 10);
 		secondScript.addBrick(textBrick);
@@ -95,7 +94,7 @@ public class SpriteTest {
 		userVariable.setVisible(false);
 		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
 
-		EventThread thread = (EventThread) ActionFactory.createEventThread(new StartScript());
+		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
 		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
 				new Formula(10), userVariable));
 		secondScript.run(sprite2, thread);

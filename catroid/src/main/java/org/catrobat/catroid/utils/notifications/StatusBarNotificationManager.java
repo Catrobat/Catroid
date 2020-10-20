@@ -186,7 +186,7 @@ public final class StatusBarNotificationManager {
 						.putExtra("notificationId", NOTIFICATION_PENDING_INTENT_REQUEST_CODE);
 				PendingIntent actionPendingIntentUpdatePocketCodeVersion = PendingIntent.getService(context, NOTIFICATION_PENDING_INTENT_REQUEST_CODE,
 						actionIntentUpdatePocketCodeVersion, PendingIntent.FLAG_ONE_SHOT);
-				builder.addAction(new NotificationCompat.Action(R.drawable.ic_launcher,
+				builder.addAction(new NotificationCompat.Action(R.drawable.pc_toolbar_icon,
 						context.getResources().getString(R.string.notification_open_play_store), actionPendingIntentUpdatePocketCodeVersion));
 				break;
 

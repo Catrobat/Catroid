@@ -24,7 +24,6 @@ package org.catrobat.catroid.test.content.actions;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -48,7 +47,7 @@ public class SetVariableActionTest {
 
 	@Before
 	public void setUp() throws Exception {
-		testSprite = new SingleSprite("testSprite");
+		testSprite = new Sprite("testSprite");
 		project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
 		userVariable = new UserVariable(TEST_USERVARIABLE);

@@ -73,7 +73,7 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
 		UserDefinedReceiverBrick clone = (UserDefinedReceiverBrick) super.clone();
 		clone.userDefinedScript = (UserDefinedScript) userDefinedScript.clone();
 		clone.userDefinedScript.setScriptBrick(clone);
-		if (clone.userDefinedBrick != null) {
+		if (this.userDefinedBrick != null) {
 			clone.userDefinedBrick = this.userDefinedBrick.clone();
 		}
 		return clone;

@@ -23,5 +23,22 @@
 
 package org.catrobat.catroid.userbrick;
 
-public class UserDefinedBrickData {
+public abstract class UserDefinedBrickData {
+	public enum UserDefinedBrickDataType {
+		INPUT,
+		LABEL
+	}
+
+	UserDefinedBrickDataType type;
+
+	public boolean isInput() {
+		return type == UserDefinedBrickDataType.INPUT;
+	}
+	public boolean isLabel() {
+		return type == UserDefinedBrickDataType.LABEL;
+	}
+	public UserDefinedBrickDataType getType() {
+		return type;
+	}
+	public abstract String getName();
 }

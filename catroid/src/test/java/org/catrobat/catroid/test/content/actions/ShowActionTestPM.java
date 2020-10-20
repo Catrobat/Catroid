@@ -26,7 +26,6 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.content.ActionFactory;
-import org.catrobat.catroid.content.SingleSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +48,7 @@ public class ShowActionTestPM {
 
 	@Test
 	public void testShow() {
-		Sprite sprite = new SingleSprite("new SingleSprite");
+		Sprite sprite = new Sprite("new Sprite");
 		sprite.look.setLookVisible(false);
 		assertFalse(sprite.look.isLookVisible());
 
