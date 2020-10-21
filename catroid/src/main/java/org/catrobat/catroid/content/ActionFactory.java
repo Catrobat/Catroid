@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ClearUserListAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
+import org.catrobat.catroid.content.actions.CopyLookAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
@@ -1484,6 +1485,15 @@ public class ActionFactory extends Actions {
 	public Action createPaintNewLookAction(Sprite sprite, Formula variableFormula,
 			SetNextLookAction nextLookAction) {
 		PaintNewLookAction action = action(PaintNewLookAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		action.nextLookAction(nextLookAction);
+		return action;
+	}
+
+	public Action createCopyLookAction(Sprite sprite, Formula variableFormula,
+			SetNextLookAction nextLookAction) {
+		CopyLookAction action = action(CopyLookAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
 		action.nextLookAction(nextLookAction);

@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -550,7 +551,7 @@ public class CategoryBricksFactory {
 		}
 
 		looksBrickList.add(new PaintNewLookBrick(context.getString(R.string.brick_paint_new_look_name)));
-
+		looksBrickList.add(new CopyLookBrick(context.getString(R.string.brick_copy_look_name)));
 		looksBrickList.add(new DeleteLookBrick());
 
 		return looksBrickList;

@@ -117,11 +117,16 @@ class PaintNewLookAction : Action(), StageActivity.IntentListener {
     @VisibleForTesting
     fun addLookFromFile(file: File) {
         val sprite = sprite ?: return
+        val look = sprite.look ?: return
         val formula = formula ?: return
         var lookDataName = formula.interpretObject(sprite).toString()
         lookDataName = UniqueNameProvider().getUniqueNameInNameables(lookDataName, sprite.lookList)
         val lookData = LookData(lookDataName, file)
-        val lookDataIndex = sprite.lookList.indexOf(sprite.look.lookData)
+        val lookDataIndex = if (look.lookListIndexBeforeLookRequest > -1) {
+            look.lookListIndexBeforeLookRequest
+        } else {
+            sprite.lookList.indexOf(sprite.look.lookData)
+        }
         sprite.lookList.add(lookDataIndex + 1, lookData)
         lookData.collisionInformation.calculate()
         nextLookAction?.change = 1

@@ -54,6 +54,7 @@ import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -486,6 +487,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(PaintNewLookBrick.class, R.id.brick_paint_new_look);
 
 		checkIfBrickISRtl(DeleteLookBrick.class, R.id.brick_delete_look_layout);
+
+		checkIfBrickISRtl(CopyLookBrick.class, R.id.brick_copy_look);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
