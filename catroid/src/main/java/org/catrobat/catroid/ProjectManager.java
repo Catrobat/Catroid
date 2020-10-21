@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
-import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -66,7 +65,7 @@ import androidx.annotation.VisibleForTesting;
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
-public final class ProjectManager implements EagerSingleton {
+public final class ProjectManager {
 
 	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
@@ -98,6 +97,10 @@ public final class ProjectManager implements EagerSingleton {
 	 */
 	@Deprecated
 	public static ProjectManager getInstance() {
+		// FIXME: this will fixed be in second commit, once koin is implemented
+		if (instance == null) {
+			instance = new ProjectManager(CatroidApplication.getAppContext());
+		}
 		return instance;
 	}
 

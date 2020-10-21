@@ -64,7 +64,6 @@ import java.io.InputStream;
 import javax.inject.Inject;
 
 import androidx.appcompat.app.AlertDialog;
-import dagger.android.AndroidInjection;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
@@ -72,15 +71,16 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
-	@Inject
-	ProjectManager projectManager;
+	//@Inject
+
+	// FIXME: this will be fixed in second commit, once koin is implemented
+	ProjectManager projectManager = ProjectManager.getInstance();
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AndroidInjection.inject(this);
 
 		SettingsFragment.setToChosenLanguage(this);
 
