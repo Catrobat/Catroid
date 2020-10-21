@@ -24,41 +24,15 @@
 package org.catrobat.catroid.test.robolectric
 
 import org.catrobat.catroid.CatroidApplication
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.dagger.CatroidModule
-import org.catrobat.catroid.dagger.DaggerAppComponent
+import org.koin.core.context.stopKoin
 import org.robolectric.TestLifecycleApplication
 import java.lang.reflect.Method
 
 class TestCatroidApplication : CatroidApplication(), TestLifecycleApplication {
 
-    companion object {
-        lateinit var projectManager: ProjectManager
-
-        fun isProjectManagerInitialized(): Boolean = ::projectManager.isInitialized
-    }
-
-    override fun createApplicationComponents() {
-        val testCatroidModule = TestCatroidModule(this)
-        appComponents = DaggerAppComponent.builder()
-            .catroidModule(testCatroidModule)
-            .build()
-    }
-
     override fun beforeTest(method: Method?) = Unit
 
     override fun prepareTest(test: Any?) = Unit
 
-    override fun afterTest(method: Method?) = Unit
-}
-
-class TestCatroidModule(application: CatroidApplication) :
-    CatroidModule(application = application) {
-
-    override fun provideProjectManager(): ProjectManager {
-        if (!TestCatroidApplication.isProjectManagerInitialized()) {
-            TestCatroidApplication.projectManager = super.provideProjectManager()
-        }
-        return TestCatroidApplication.projectManager
-    }
+    override fun afterTest(method: Method?) = stopKoin()
 }
