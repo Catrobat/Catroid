@@ -129,6 +129,7 @@ import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatParameterizedAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
@@ -817,6 +818,10 @@ public class ActionFactory extends Actions {
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
 		action.setUserList(userList);
 		return action;
+	}
+
+	public Action createResetTimerAction() {
+		return Actions.action(ResetTimerAction.class);
 	}
 
 	public Action createThinkSayBubbleAction(Sprite sprite, Formula text, int type) {

@@ -1097,6 +1097,9 @@
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
 
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
     <string name="brick_when">When tapped</string>
@@ -1852,6 +1855,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_x_inclination">inclination x</string>
     <string name="formula_editor_sensor_y_inclination">inclination y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">year</string>
     <string name="formula_editor_sensor_date_month">month</string>
     <string name="formula_editor_sensor_date_day">day</string>

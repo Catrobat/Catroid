@@ -115,6 +115,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -275,6 +276,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo = new BrickInfo(ChangeYByNBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("yMovement", BrickField.Y_POSITION_CHANGE);
 		brickInfoMap.put("changeYByNBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ResetTimerBrick.class.getSimpleName());
+		brickInfoMap.put("resetTimerBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ClearGraphicEffectBrick.class.getSimpleName());
 		brickInfoMap.put("clearGraphicEffectBrick", brickInfo);

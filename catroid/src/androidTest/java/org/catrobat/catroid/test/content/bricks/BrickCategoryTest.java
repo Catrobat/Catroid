@@ -136,6 +136,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -369,7 +370,8 @@ public class BrickCategoryTest {
 						AskBrick.class,
 						AskSpeechBrick.class,
 						StartListeningBrick.class)},
-				{"Device", Arrays.asList(WhenBrick.class,
+				{"Device", Arrays.asList(ResetTimerBrick.class,
+						WhenBrick.class,
 						WhenTouchDownBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
@@ -386,8 +388,7 @@ public class BrickCategoryTest {
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)
-				},
+						TapForBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,

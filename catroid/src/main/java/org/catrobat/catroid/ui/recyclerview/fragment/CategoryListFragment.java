@@ -170,10 +170,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_text_block_x,
 			R.string.formula_editor_function_text_block_y,
 			R.string.formula_editor_function_text_block_size);
-	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_date_year,
-			R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day,
-			R.string.formula_editor_sensor_date_weekday, R.string.formula_editor_sensor_time_hour,
-			R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second);
+	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_timer,
+			R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,
+			R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
+			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute,
+			R.string.formula_editor_sensor_time_second);
 	private static final List<Integer> SENSORS_NXT = asList(R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active,

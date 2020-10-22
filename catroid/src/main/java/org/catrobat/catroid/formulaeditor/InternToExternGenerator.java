@@ -166,6 +166,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NFC_TAG_ID.name(), R.string.formula_editor_nfc_tag_id);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.NFC_TAG_MESSAGE.name(), R.string.formula_editor_nfc_tag_message);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOUDNESS.name(), R.string.formula_editor_sensor_loudness);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TIMER.name(), R.string.formula_editor_sensor_timer);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_YEAR.name(), R.string.formula_editor_sensor_date_year);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_MONTH.name(), R.string.formula_editor_sensor_date_month);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.DATE_DAY.name(), R.string.formula_editor_sensor_date_day);
