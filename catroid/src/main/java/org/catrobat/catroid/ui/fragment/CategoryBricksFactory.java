@@ -481,7 +481,7 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new SetTempoBrick(100));
-		soundBrickList.add(new ChangeTempoByNBrick(0));
+		soundBrickList.add(new ChangeTempoByNBrick(10));
 		soundBrickList.add(new PauseForBeatsBrick(1));
 
 		return soundBrickList;
