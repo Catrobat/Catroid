@@ -59,6 +59,7 @@ import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -305,7 +306,8 @@ public class BrickCategoryTest {
 						CameraBrick.class,
 						ChooseCameraBrick.class,
 						FlashBrick.class,
-						LookRequestBrick.class)},
+						LookRequestBrick.class,
+						DeleteLookBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,

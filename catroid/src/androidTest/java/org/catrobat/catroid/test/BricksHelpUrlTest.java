@@ -432,6 +432,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetListeningLanguageBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PauseForBeatsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PauseForBeatsBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteLookBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DeleteLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ResetTimerBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ResetTimerBrick");
 	}

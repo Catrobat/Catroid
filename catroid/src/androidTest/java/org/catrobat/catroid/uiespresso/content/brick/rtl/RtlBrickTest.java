@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -477,6 +478,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(FlashBrick.class, R.id.brick_flash_layout);
 
 		checkIfBrickISRtl(PhiroRGBLightBrick.class, R.id.brick_phiro_rgb_led_layout);
+
+		checkIfBrickISRtl(DeleteLookBrick.class, R.id.brick_delete_look_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
