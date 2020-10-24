@@ -244,6 +244,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
+			case R.string.formula_editor_sensor_timer:
+				return buildSensor(Sensors.TIMER);
 			case R.string.formula_editor_sensor_date_year:
 				return buildSensor(Sensors.DATE_YEAR);
 			case R.string.formula_editor_sensor_date_month:

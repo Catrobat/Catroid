@@ -46,6 +46,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -137,6 +138,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -325,6 +327,7 @@ public class BrickCategoryTest {
 						SetListeningLanguageBrick.class,
 						SetInstrumentBrick.class,
 						SetTempoBrick.class,
+						ChangeTempoByNBrick.class,
 						PauseForBeatsBrick.class)},
 				{"Control", Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
@@ -371,7 +374,8 @@ public class BrickCategoryTest {
 						AskBrick.class,
 						AskSpeechBrick.class,
 						StartListeningBrick.class)},
-				{"Device", Arrays.asList(WhenBrick.class,
+				{"Device", Arrays.asList(ResetTimerBrick.class,
+						WhenBrick.class,
 						WhenTouchDownBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
@@ -388,8 +392,7 @@ public class BrickCategoryTest {
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)
-				},
+						TapForBrick.class)},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,

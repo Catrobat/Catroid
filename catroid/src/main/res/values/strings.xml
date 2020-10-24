@@ -292,6 +292,7 @@
     <string name="mode">Mode:</string>
     <string name="remix_of">Remix of:</string>
     <string name="description_hint">Press to add description</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
 
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
@@ -537,6 +538,8 @@
     <string name="size">Size:</string>
     <string name="description">Description:</string>
     <string name="set_description">Set description</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
     <string name="details_date_today">Today</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
@@ -765,6 +768,8 @@
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
 
     <!-- Save Project to External Storage -->
@@ -1079,6 +1084,7 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
     <string name="beats">beats</string>
     <!--  -->
@@ -1093,6 +1099,9 @@
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
+
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
 
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
@@ -1430,6 +1439,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>
@@ -1806,8 +1817,6 @@ needs read and write access to it. You can always change permissions through you
         expression assistant</string>
     <string name="formula_editor_dialog_wiki_button">More information</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string name="formula_editor_function_regex_html_extractor_found">Search was successful
-        .</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
@@ -1849,6 +1858,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_x_inclination">inclination x</string>
     <string name="formula_editor_sensor_y_inclination">inclination y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">year</string>
     <string name="formula_editor_sensor_date_month">month</string>
     <string name="formula_editor_sensor_date_day">day</string>

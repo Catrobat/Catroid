@@ -23,22 +23,23 @@
   -->
 <resources>
     <!-- General terms -->
-    <string name="stage">Stage</string>
-    <string name="play">Play</string>
-    <string name="settings">Settings</string>
-    <string name="redo">Redo</string>
-    <string name="undo">Undo</string>
-    <string name="new_option">new&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="stage">صحنه</string>
+    <string name="play">اجرا</string>
+    <string name="settings">تنظیمات</string>
+    <string name="redo">انجام دوباره</string>
+    <string name="undo">تصحیح عمل قبلی</string>
+    <string name="new_option">جدید&#8230;</string>
+    <string name="confirm">تایید</string>
     <string name="ignore">Ignore</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">انصراف</string>
     <string name="next">Next</string>
-    <string name="back">Back</string>
-    <string name="ok">OK</string>
-    <string name="done">Done</string>
-    <string name="close">Close</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="back">برگشت</string>
+    <string name="ok">تایید</string>
+    <string name="done">ﺍﻧﺠﺎﻡ شد</string>
+    <string name="close">بستن</string>
+    <string name="assistant">Assistant</string>
+    <string name="yes">بله</string>
+    <string name="no">خیر</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
@@ -48,12 +49,19 @@
     <string name="deselect_all">Deselect all</string>
     <string name="skip">skip</string>
     <string name="warning">Warning</string>
-    <string name="error">Error</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="please_wait">Please wait</string>
+    <string name="error">خطا</string>
+    <string name="loading">در حال بارگذاری&#8230;</string>
+    <string name="please_wait">لطفا صبر کن</string>
     <string name="search_hint">Search&#8230;</string>
     <string name="backpack_add">Add to backpack</string>
     <string name="share_website_text">share.catrob.at</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
@@ -61,7 +69,7 @@
     <string name="delete_account">Delete my account</string>
     <string name="logout_successful">Logout successful</string>
     <string name="degrees">degrees</string>
-    <string name="background">Background</string>
+    <string name="background">پس زمینه</string>
     <string name="landscape">landscape</string>
     <string name="portrait">portrait</string>
     <string name="unknown">unknown</string>
@@ -70,16 +78,16 @@
     <!-- Main Menu -->
     <string name="main_menu_continue">Continue project</string>
     <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help">Help</string>
+    <string name="main_menu_programs">برنامه ها</string>
+    <string name="main_menu_help">راهنما</string>
     <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
+    <string name="main_menu_upload">آپلود کردن برنامه</string>
+    <string name="main_menu_rate_app">امتیاز بده!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
+    <string name="main_menu_privacy_policy">حریم خصوصی</string>
     <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
+    <string name="main_menu_login">ورود به سیستم</string>
+    <string name="main_menu_logout">خروج</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
     <!--  -->
@@ -88,7 +96,7 @@
     <string name="marketing_app_details">Details about this app</string>
     <string name="marketing_more_on_google_play">More apps on App store</string>
     <!-- Settings activity -->
-    <string name="preference_title">Settings</string>
+    <string name="preference_title">تنظیمات</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Set the app\'s language</string>
     <string name="preference_title_web_access">Web access</string>
@@ -199,6 +207,8 @@
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
         an old Scratch project from before %2$s. Please try another one.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
+        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
+            running conversions to finish first.</item>
         <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
             running conversions to finish first.</item>
     </plurals>
@@ -210,6 +220,7 @@
     <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
         contact the Catrobat team.</string>
     <plurals name="scratch_conversion_scheduled_x">
+        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
@@ -220,9 +231,11 @@
     <string name="status_started">Started&#8230;</string>
     <string name="status_conversion_finished">Conversion finished</string>
     <plurals name="status_in_progress_x_jobs">
+        <item quantity="one">In progress: %d job</item>
         <item quantity="other">In progress: %d jobs</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
+        <item quantity="one">Completed: %d job</item>
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
     <string name="status_conversion_failed">Conversion failed!</string>
@@ -245,15 +258,19 @@
     <string name="mode">Mode:</string>
     <string name="remix_of">Remix of:</string>
     <string name="description_hint">Press to add description</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
     <plurals name="minutes">
+        <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="hours">
+        <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
     <plurals name="days">
+        <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
     <string name="reconvert_dialog_download">Download the project again</string>
@@ -276,9 +293,9 @@
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
-    <string name="am_delete">Delete</string>
-    <string name="am_rename">Rename</string>
+    <string name="am_copy">کپی کردن</string>
+    <string name="am_delete">حذف</string>
+    <string name="am_rename">تغییر نام</string>
     <string name="am_convert">Convert</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
@@ -286,10 +303,10 @@
         other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
-    <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
+    <string name="backpack">کوله پشتی</string>
+    <string name="copy">کپی کردن</string>
+    <string name="delete">حذف</string>
+    <string name="rename">تغییر نام</string>
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
@@ -297,27 +314,35 @@
     <string name="new_scene_dialog">New scene</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
+        <item quantity="one">Delete this project?</item>
         <item quantity="other">Delete these projects?</item>
     </plurals>
     <plurals name="delete_scenes">
+        <item quantity="one">Delete this scene?</item>
         <item quantity="other">Delete these scenes?</item>
     </plurals>
     <plurals name="delete_sprites">
+        <item quantity="one">Delete this actor or object?</item>
         <item quantity="other">Delete these actors or objects?</item>
     </plurals>
     <plurals name="delete_looks">
+        <item quantity="one">Delete this look?</item>
         <item quantity="other">Delete these looks?</item>
     </plurals>
     <plurals name="delete_sounds">
+        <item quantity="one">Delete this sound?</item>
         <item quantity="other">Delete these sounds?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
+        <item quantity="one">Delete this tag?</item>
         <item quantity="other">Delete these tags?</item>
     </plurals>
     <plurals name="delete_scripts">
+        <item quantity="one">Delete this script?</item>
         <item quantity="other">Delete these scripts?</item>
     </plurals>
     <plurals name="delete_bricks">
+        <item quantity="one">Delete this brick?</item>
         <item quantity="other">Delete these bricks?</item>
     </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
@@ -328,10 +353,12 @@
     <string name="sprite_group_name_label">Group name</string>
     <string name="script_group_label">Script group name</string>
     <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
+    <string name="sound_name_label">نام صدا</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
+    <string name="string_label">متن</string>
+    <string name="data_label">نام</string>
+    <string name="keyword_label">Insert keyword</string>
+    <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
@@ -343,13 +370,13 @@
     <string name="sound_details">Duration: %s, size: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
+    <string name="rename_project">تغییر نام برنامه</string>
     <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
+    <string name="rename_sprite_dialog">تغییر نام شی</string>
+    <string name="rename_look_dialog">تغییر نام شکل</string>
+    <string name="rename_sound_dialog">تغییر نام صدا</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_data_dialog">تغییر نام</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
     <!-- New Scene Menu -->
@@ -357,100 +384,124 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
+        <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
     </plurals>
     <plurals name="packed_sprites">
+        <item quantity="one">Backpacked %d actor or object.</item>
         <item quantity="other">Backpacked %d actors or objects.</item>
     </plurals>
     <plurals name="packed_looks">
+        <item quantity="one">Backpacked %d look.</item>
         <item quantity="other">Backpacked %d looks.</item>
     </plurals>
     <plurals name="packed_sounds">
+        <item quantity="one">Backpacked %d sound.</item>
         <item quantity="other">Backpacked %d sounds.</item>
     </plurals>
     <string name="packed_script_group">Backpacked one script group.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
+        <item quantity="one">Unpacked %d scene.</item>
         <item quantity="other">Unpacked %d scenes.</item>
     </plurals>
     <plurals name="unpacked_sprites">
+        <item quantity="one">Unpacked %d actor or object.</item>
         <item quantity="other">Unpacked %d actors or objects.</item>
     </plurals>
     <plurals name="unpacked_looks">
+        <item quantity="one">Unpacked %d look.</item>
         <item quantity="other">Unpacked %d looks.</item>
     </plurals>
     <plurals name="unpacked_sounds">
+        <item quantity="one">Unpacked %d sound.</item>
         <item quantity="other">Unpacked %d sounds.</item>
     </plurals>
     <plurals name="unpacked_scripts">
+        <item quantity="one">Unpacked %d script.</item>
         <item quantity="other">Unpacked %d scripts.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
+        <item quantity="one">Copied %d scene.</item>
         <item quantity="other">Copied %d scenes.</item>
     </plurals>
     <plurals name="copied_sprites">
+        <item quantity="one">Copied %d actor or object.</item>
         <item quantity="other">Copied %d actors or objects.</item>
     </plurals>
     <plurals name="copied_looks">
+        <item quantity="one">Copied %d look.</item>
         <item quantity="other">Copied %d looks.</item>
     </plurals>
     <plurals name="copied_sounds">
+        <item quantity="one">Copied %d sound.</item>
         <item quantity="other">Copied %d sounds.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
+        <item quantity="one">Copied %d NFC tag.</item>
         <item quantity="other">Copied %d NFC tags.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
+        <item quantity="one">Deleted %d project.</item>
         <item quantity="other">Deleted %d projects.</item>
     </plurals>
     <plurals name="deleted_scenes">
+        <item quantity="one">Deleted %d scene.</item>
         <item quantity="other">Deleted %d scenes.</item>
     </plurals>
     <plurals name="deleted_sprites">
+        <item quantity="one">Deleted %d sprite.</item>
         <item quantity="other">Deleted %d sprites.</item>
     </plurals>
     <plurals name="deleted_looks">
+        <item quantity="one">Deleted %d look.</item>
         <item quantity="other">Deleted %d looks.</item>
     </plurals>
     <plurals name="deleted_sounds">
+        <item quantity="one">Deleted %d sound.</item>
         <item quantity="other">Deleted %d sounds.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
+        <item quantity="one">Deleted %d NFC tag.</item>
         <item quantity="other">Deleted %d NFC tags.</item>
     </plurals>
     <plurals name="deleted_scripts">
+        <item quantity="one">Deleted %d script.</item>
         <item quantity="other">Deleted %d scripts.</item>
     </plurals>
     <plurals name="deleted_Items">
+        <item quantity="one">Deleted %d item.</item>
         <item quantity="other">Deleted %d items.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="details_date_today">Today</string>
+    <string name="project_list_title">برنامه ها</string>
+    <string name="last_used">آخرین دسترسی:</string>
+    <string name="size">اندازه:</string>
+    <string name="description">توضیح:</string>
+    <string name="set_description">قرار دادن توضیح</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="details_date_today">امروز</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <string name="error_no_files_found">No project files found.</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">برای اضافه کردن اسکریپت ها روی \"+\" ضربه بزن</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
     <string name="default_sprite_name">My actor or object</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_look_text_description">برای اضافه کردن شکل ها روی \"+\" ضربه بزن</string>
+    <string name="select_look_from_gallery">انتخاب تصویر</string>
+    <string name="select_look_from_camera">انتخاب عکس</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
+    <string name="fragment_sound_text_description">برای اضافه کردن صدا روی \"+\" ضربه بزن</string>
     <string name="sound_select_source">Select a sound</string>
     <!--  -->
     <!-- NfcTagListFragment -->
@@ -461,12 +512,12 @@
     <string name="default_tag_name">NFC tag</string>
     <string name="tnf_empty">Empty</string>
     <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="tnf_mime_media">متن</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="tnf_well_known_mailto">ایمیل</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="multiplayer_vars_headline">Variables for connected devices</string>
@@ -474,6 +525,10 @@
     <string name="local_vars_headline">Variables for this actor or object only</string>
     <string name="global_lists_headline">Lists for all actors and objects</string>
     <string name="local_lists_headline">Lists for this actor or object only</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
     <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
@@ -485,13 +540,13 @@
     <string name="unpack">Unpack</string>
     <!--  -->
     <!-- Sprite Attribute Activity -->
-    <string name="scripts">Scripts</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="looks">Looks</string>
-    <string name="sounds">Sounds</string>
+    <string name="scripts">اسکریپت ها</string>
+    <string name="backgrounds">پس‌زمینه‌ها</string>
+    <string name="looks">شکل ها</string>
+    <string name="sounds">صداها</string>
     <string name="nfctags">NFC Tags</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">New project</string>
+    <string name="new_project_dialog_title">برنامه جدید</string>
     <string name="new_project_empty">Create an empty project</string>
     <string name="new_project_default">Create an example project</string>
     <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
@@ -504,18 +559,18 @@
     <string name="merging_project_text">These two projects cannot yet be merged</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">New actor or object</string>
+    <string name="new_sprite_dialog_title">شی جدید</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Add look</string>
+    <string name="new_look_dialog_title">اضافه کردن شکل</string>
     <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
+    <string name="add_look_draw_new_image">کشیدن تصویر</string>
+    <string name="add_look_choose_image">انتخاب تصویر</string>
     <string name="add_look_media_library">Media library</string>
     <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Add sound</string>
+    <string name="new_sound_dialog_title">اضافه کردن صدا</string>
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
@@ -623,14 +678,16 @@
         The source code of this app is mainly licensed under the GNU AGPL v3 license.
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_catrobat_link_text">درباره \"کت ربات\"</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">Upload</string>
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
+    <string name="upload_button">آپلود</string>
+    <string name="upload_project_dialog_title">آپلود کردن برنامه</string>
+    <string name="upload_description">توضیح:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Save project to external storage</string>
@@ -641,10 +698,10 @@
     <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Sound recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">recording</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name">ضبط صوت پاکت کد</string>
+    <string name="soundrecorder_error">ضبط صدا انجام نشد</string>
+    <string name="soundrecorder_recorded_filename">ضبط کردن</string>
+    <string name="soundrecorder_text_view">برای شروع و توقف ضبط روی این آیکون ضربه بزن.</string>
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
@@ -661,7 +718,7 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
+    <string name="brick_context_dialog_help">راهنما</string>
     <string name="comment_in_out">Disable/enable</string>
     <!--  -->
     <!-- Play scene dialog -->
@@ -671,18 +728,18 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="username">نام کاربری</string>
+    <string name="password">رمز عبور</string>
     <string name="password_forgotten">Forgot your password?</string>
-    <string name="new_user_registered">New account created</string>
-    <string name="user_logged_in">Login successful</string>
+    <string name="new_user_registered">حساب جدید ایجاد شد</string>
+    <string name="user_logged_in">ورود موفقیت‌آمیز</string>
     <string name="register_error">Login invalid</string>
-    <string name="register_terms">By registering you agree to our</string>
+    <string name="register_terms">با ثبت نام، تو با ما توافق کردی که</string>
     <string name="register_code_terms_of_use_text">Terms of use and service</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="login">ورود به سیستم</string>
+    <string name="register">ثبت نام</string>
     <string name="password_confirm">Confirm password</string>
-    <string name="accountName">E-Mail</string>
+    <string name="accountName">ایمیل</string>
     <string name="signin_thanks">Thank you for signing up!</string>
     <string name="signin_choose_username">Please choose your username:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>
@@ -701,7 +758,7 @@
     <string name="error_register_invalid_email_format">Invalid email format</string>
     <string name="error_register_empty_password">Password field is empty</string>
     <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
+    <string name="error_register_passwords_mismatch">رمزهای عبور مطابقت ندارند</string>
     <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
     <string name="error_register_username_already_exists">Username already exists</string>
     <string name="error_register_email_exists">Email address already exists</string>
@@ -732,6 +789,7 @@
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
@@ -743,34 +801,35 @@
         issues.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
+    <string name="stage_dialog_back">برگشت</string>
+    <string name="stage_dialog_resume">ادامه</string>
+    <string name="stage_dialog_restart">شروع مجدد</string>
     <string name="stage_dialog_axes_on">Axes on</string>
     <string name="stage_dialog_axes_off">Axes off</string>
-    <string name="stage_dialog_maximize">Maximize/\nstretch</string>
+    <string name="stage_dialog_maximize">بیشینه کردنn\/کشیدن</string>
     <string name="stage_dialog_screenshot">Preview</string>
     <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_new_broadcast_message_name">message:</string>
+    <string name="dialog_new_broadcast_message_title">پیام جدید</string>
+    <string name="dialog_new_broadcast_message_name">پیام:</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">Categories</string>
+    <string name="categories">دسته ها</string>
     <string name="category_embroidery">Embroidery</string>
-    <string name="category_motion">Motion</string>
-    <string name="category_looks">Looks</string>
+    <string name="category_motion">حرکت</string>
+    <string name="category_looks">شکل ها</string>
     <string name="category_pen">Pen</string>
-    <string name="category_sound">Sound</string>
-    <string name="category_control">Control</string>
-    <string name="category_event">Event</string>
+    <string name="category_sound">صدا</string>
+    <string name="category_control">کنترل</string>
+    <string name="category_event">رویداد</string>
     <string name="category_user_bricks">Your bricks</string>
-    <string name="category_data">Data</string>
-    <string name="category_lego_nxt">Lego NXT</string>
+    <string name="category_data">داده‌</string>
+    <string name="category_device">Device</string>
+    <string name="category_lego_nxt">لگوی NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
     <string name="category_jumping_sumo">Jumping Sumo</string>
@@ -790,36 +849,39 @@
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
     <string name="brick_user_defined_script_define">Define</string>
     <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Place at"</string>
+    <string name="brick_place_at">"موقعیت در"</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"x:"</string>
-    <string name="y_label">"y:"</string>
-    <string name="brick_set_x">"Set x to"</string>
-    <string name="brick_set_y">"Set y to"</string>
-    <string name="brick_change_x_by">"Change x by"</string>
-    <string name="brick_change_y_by">"Change y by"</string>
-    <string name="brick_go_back">Go back</string>
+    <string name="x_label">"X: "</string>
+    <string name="y_label">"Y: "</string>
+    <string name="brick_set_x">"قرار بده X را به"</string>
+    <string name="brick_set_y">"قرار بده Y را به "</string>
+    <string name="brick_change_x_by">"تغییر بده X را توسط "</string>
+    <string name="brick_change_y_by">"تغییر بده Yرا توسط "</string>
+    <string name="brick_go_back">برگرد</string>
     <string name="brick_set_rotation_style">"Set rotation style"</string>
     <string name="brick_set_rotation_style_lr">left-right only</string>
     <string name="brick_set_rotation_style_normal">all-around</string>
     <string name="brick_set_rotation_style_no">don\'t rotate</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="other">layers</item>
+        <item quantity="one">لایه</item>
+        <item quantity="other">لایه</item>
     </plurals>
-    <string name="brick_come_to_front">Go to front</string>
-    <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
-    <string name="brick_move">Move</string>
+    <string name="brick_come_to_front">برو به جلو</string>
+    <string name="brick_if_on_edge_bounce">اگر در لبه  است، بپر</string>
+    <string name="brick_move">انتقال</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="other">steps</item>
+        <item quantity="one">مرحله</item>
+        <item quantity="other">مرحله</item>
     </plurals>
-    <string name="brick_turn_left">Turn left</string>
-    <string name="brick_turn_right">Turn right</string>
-    <string name="brick_point_in_direction">Point in direction</string>
-    <string name="brick_point_to">Point towards</string>
-    <string name="brick_glide">Glide</string>
-    <string name="brick_glide_to_x">to x:</string>
+    <string name="brick_turn_left">بپیچ به چپ</string>
+    <string name="brick_turn_right">بپیچ به راست</string>
+    <string name="brick_point_in_direction">اشاره کن در جهت</string>
+    <string name="brick_point_to">اشاره کن به طرف</string>
+    <string name="brick_glide">سر بخور</string>
+    <string name="brick_glide_to_x">به x:</string>
     <string name="brick_go_to">Go to</string>
     <string name="brick_go_to_touch_position">touch position</string>
     <string name="brick_go_to_random_position">random position</string>
@@ -841,34 +903,34 @@
     <string name="brick_rotate_left">"Spin left"</string>
     <string name="brick_rotate_right">"Spin right"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Switch to look</string>
+    <string name="brick_set_look">تغییر شکل بده</string>
     <string name="brick_set_look_by_index">Switch to look with number</string>
     <string name="brick_and_wait">and wait</string>
-    <string name="brick_set_background">Set background</string>
+    <string name="brick_set_background">قرار دادن پس زمینه</string>
     <string name="brick_set_background_and_wait">Set background and wait</string>
     <string name="brick_set_background_by_index">Set background to number</string>
     <string name="brick_when_background">When background changes to</string>
-    <string name="brick_set_size_to">Set size to</string>
-    <string name="brick_change_size_by">Change size by</string>
-    <string name="brick_hide">Hide</string>
-    <string name="brick_show">Show</string>
-    <string name="brick_set_transparency">"Set transparency"</string>
-    <string name="brick_change_ghost_effect">"Change transparency"</string>
-    <string name="brick_set_brightness">"Set brightness"</string>
-    <string name="brick_change_brightness">"Change brightness"</string>
+    <string name="brick_set_size_to">تنظیم اندازه به</string>
+    <string name="brick_change_size_by">تغییر اندازه از</string>
+    <string name="brick_hide">پنهان کردن</string>
+    <string name="brick_show">نمایش دادن</string>
+    <string name="brick_set_transparency">"تنظیم شفافیت "</string>
+    <string name="brick_change_ghost_effect">"تغییر شفافیت "</string>
+    <string name="brick_set_brightness">"تنظیم روشنایی "</string>
+    <string name="brick_change_brightness">"تغییر روشنایی "</string>
     <string name="brick_set_color">"Set color"</string>
     <string name="brick_change_color">"Change color"</string>
-    <string name="by_label">by</string>
-    <string name="to_label">to</string>
-    <string name="brick_clear_graphic_effect">Clear graphic effects</string>
-    <string name="brick_next_look">Next look</string>
-    <string name="brick_next_background">Next background</string>
+    <string name="by_label">به وسیله</string>
+    <string name="to_label">به</string>
+    <string name="brick_clear_graphic_effect">پاک کردن اثر گرافیکی</string>
+    <string name="brick_next_look">شکل بعدی</string>
+    <string name="brick_next_background">پس زمینه بعدی</string>
     <string name="brick_previous_look">Previous look</string>
     <string name="brick_previous_background">Previous background</string>
     <string name="brick_flash">Turn flashlight</string>
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>
-    <string name="brick_vibration">Vibrate for</string>
+    <string name="brick_vibration">لرزیدن برای</string>
     <string name="brick_ask_label">Ask</string>
     <string name="brick_ask_store">and store written answer in</string>
     <string name="brick_ask_default_question">What\'s your name?</string>
@@ -884,18 +946,28 @@
     <string name="brick_pen_size">Set pen size to</string>
     <string name="brick_pen_color">Set pen color to</string>
     <string name="brick_clear_background">Clear</string>
-    <string name="brick_stamp">Stamp</string>
+    <string name="brick_stamp">تمبر</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">Start sound</string>
+    <string name="brick_play_sound">شروع  صدا</string>
     <string name="brick_play_sound_and_wait">Start sound and wait</string>
     <string name="brick_stop_sound">Stop sound</string>
-    <string name="brick_stop_all_sounds">Stop all sounds</string>
-    <string name="brick_set_volume_to">Set volume to</string>
-    <string name="brick_change_volume_by">Change volume by</string>
-    <string name="brick_speak">Speak</string>
-    <string name="brick_speak_default_value">Hello!</string>
+    <string name="brick_stop_all_sounds">توقف همه صداها</string>
+    <string name="brick_set_volume_to">میزان حجم صدا را قرار بده تا</string>
+    <string name="brick_change_volume_by">حجم صدا را تغییر بده با</string>
+    <string name="brick_speak">بگو</string>
+    <string name="brick_speak_default_value">سلام!</string>
     <string name="brick_speak_and_wait">and wait</string>
+    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="brick_set_listening_language">Set listening language to</string>
+    <string name="set_instrument_to">Set instrument to</string>
+    <string name="set_tempo_to">Set tempo to</string>
+    <string name="pause_for">Pause for</string>
+    <string name="beats">beats</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -904,13 +976,15 @@
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
     <!--  -->
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
-    <string name="brick_when">When tapped</string>
+    <string name="brick_when">وقتی که ضربه زده شد</string>
     <string name="brick_when_condition_when">When</string>
     <string name="brick_when_becomes_true">becomes true</string>
-    <string name="brick_wait">Wait</string>
+    <string name="brick_wait">صبر کن</string>
     <string name="brick_wait_until">Wait until</string>
     <string name="brick_wait_until_second_part">is true</string>
     <string name="brick_when_gamepad_button">When gamepad button</string>
@@ -921,24 +995,26 @@
     <string name="brick_stop_all_scripts">all scripts</string>
     <string name="brick_stop_other_scripts">other scripts of this actor or object</string>
     <plurals name="second_plural">
-        <item quantity="other">"seconds"</item>
+        <item quantity="one">"ثانیه "</item>
+        <item quantity="other">"ثانیه "</item>
     </plurals>
     <string name="brick_collision_receive">When you bounce off</string>
     <string name="collision_with_anything">any edge, actor, or object</string>
     <string name="brick_broadcast_receive">When you receive</string>
-    <string name="brick_broadcast">Broadcast</string>
-    <string name="brick_broadcast_wait">Broadcast and wait</string>
+    <string name="brick_broadcast">انتشار</string>
+    <string name="brick_broadcast_wait">انتشار و صبر</string>
     <string name="brick_scene_transition">Continue scene</string>
     <string name="brick_scene_start">Start scene</string>
-    <string name="brick_note">Note</string>
+    <string name="brick_note">یادداشت</string>
     <string name="brick_think_bubble">Think</string>
     <string name="brick_say_bubble">Say</string>
     <string name="brick_think_say_for_text">for</string>
-    <string name="brick_forever">Forever</string>
+    <string name="brick_forever">برای همیشه</string>
     <string name="brick_loop_for_values_from">For values from</string>
+    <string name="brick_loop_for_each_value_from">For each value from</string>
     <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">to</string>
-    <string name="brick_repeat">Repeat</string>
+    <string name="brick_loop_to">به</string>
+    <string name="brick_repeat">تکرار کن</string>
     <string name="brick_repeat_until">Repeat until</string>
     <string name="brick_when_touched">When stage is tapped</string>
     <string name="brick_clone">Create clone of</string>
@@ -949,6 +1025,8 @@
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at">"Single tap at"</string>
+    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_tap_for">"for"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -957,24 +1035,28 @@
     <string name="brick_parameterized_assert">assert</string>
     <string name="brick_parameterized_equals">equals to expected item of</string>
     <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
         <item quantity="other">For each tuple of items of</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
         <item quantity="other">stored in variables with the same names</item>
     </plurals>
     <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
         <item quantity="other">%d lists selected</item>
     </plurals>
     <plurals name="time_plural">
-        <item quantity="other">times</item>
+        <item quantity="one">بار</item>
+        <item quantity="other">بار</item>
     </plurals>
-    <string name="brick_loop_end">End of loop</string>
-    <string name="brick_if_begin">If</string>
-    <string name="brick_if_begin_second_part">is true then</string>
-    <string name="brick_if_else">Else</string>
-    <string name="brick_if_end">End if</string>
-    <string name="brick_set_variable">Set variable</string>
-    <string name="brick_change_variable">Change variable</string>
+    <string name="brick_loop_end">انتهای حلقه</string>
+    <string name="brick_if_begin">اگر</string>
+    <string name="brick_if_begin_second_part">درست است سپس</string>
+    <string name="brick_if_else">وگرنه</string>
+    <string name="brick_if_end">پایان اگر</string>
+    <string name="brick_set_variable">قرار دادن متغیر</string>
+    <string name="brick_change_variable">تغییر متغیر</string>
     <string name="brick_write_variable_on_device">Write variable on device</string>
     <string name="brick_read_variable_from_device">Read variable from device</string>
     <string name="brick_write_variable_to_file_top">Write variable</string>
@@ -983,26 +1065,26 @@
     <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
     <string name="brick_read_variable_from_file_top">Read variable</string>
     <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">and</string>
+    <string name="brick_read_variable_from_file_bottom">و</string>
     <string name="brick_read_variable_from_file_keep">keep the file</string>
     <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device">Write list on device</string>
     <string name="brick_read_list_from_device">Read list from device</string>
-    <string name="brick_note_default_value">add comment here&#8230;</string>
+    <string name="brick_note_default_value">نظرت را اینجا اضافه کن&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
-    <string name="brick_say_bubble_default_value">Hello!</string>
-    <string name="brick_broadcast_default_value">"new message"</string>
-    <string name="brick_add_item_to_userlist_add">Add</string>
-    <string name="brick_add_item_to_userlist">to list</string>
+    <string name="brick_say_bubble_default_value">سلام!</string>
+    <string name="brick_broadcast_default_value">"پیام 1"</string>
+    <string name="brick_add_item_to_userlist_add">اضافه کن</string>
+    <string name="brick_add_item_to_userlist">به لیست</string>
     <string name="brick_clear_userlist">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete">Delete item from list</string>
-    <string name="brick_delete_item_from_userlist">at position</string>
-    <string name="brick_insert_item_into_userlist_insert_into">Insert</string>
-    <string name="brick_insert_item_into_userlist_into_list">into list</string>
-    <string name="brick_insert_item_into_userlist_at_position">at position</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">Replace item in list</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">at position</string>
-    <string name="brick_replace_item_in_userlist_with_value">with</string>
+    <string name="brick_delete_item_from_userlist_delete">حذف مورد از لیست</string>
+    <string name="brick_delete_item_from_userlist">در موقعیت</string>
+    <string name="brick_insert_item_into_userlist_insert_into">وارد کن</string>
+    <string name="brick_insert_item_into_userlist_into_list">به لیست</string>
+    <string name="brick_insert_item_into_userlist_at_position">در موقعیت</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list">مورد را در لیست جایگزین کن</string>
+    <string name="brick_replace_item_in_userlist_item_at_index">در موقعیت</string>
+    <string name="brick_replace_item_in_userlist_with_value">با</string>
     <string name="brick_web_request">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result">and store answer in</string>
@@ -1032,13 +1114,36 @@
     <string name="brick_store_csv_into_userlist_store">Store column</string>
     <string name="brick_store_csv_into_userlist_of">of the</string>
     <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into">into list</string>
+    <string name="brick_store_csv_into_userlist_into">به لیست</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
+    <!--Instruments-->
+    <string name="piano">Piano</string>
+    <string name="electric_piano">Electric Piano</string>
+    <string name="cello">Cello</string>
+    <string name="flute">Flute</string>
+    <string name="vibraphone">Vibraphone</string>
+    <string name="organ">Organ</string>
+    <string name="guitar">Guitar</string>
+    <string name="electric_guitar">Electric Guitar</string>
+    <string name="bass">Bass</string>
+    <string name="pizzicato">Pizzicato</string>
+    <string name="synth_pad">Synth Pad</string>
+    <string name="choir">Choir</string>
+    <string name="synth_lead">Synth Lead</string>
+    <string name="wooden_flute">Wooden Flute</string>
+    <string name="trombone">Trombone</string>
+    <string name="saxophone">Saxophone</string>
+    <string name="bassoon">Bassoon</string>
+    <string name="clarinet">Clarinet</string>
+    <string name="music_box">Music Box</string>
+    <string name="steel_drum">Steel Drum</string>
+    <string name="marimba">Marimba</string>
+    <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My first project</string>
+    <string name="default_project_name">اولین برنامه من</string>
     <string name="default_scene_name">Scene %1$d</string>
-    <string name="default_project_background_name">Background</string>
+    <string name="default_project_background_name">پس زمینه</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
     <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -1054,7 +1159,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_background_name">پس زمینه</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
     <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
     <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -1065,22 +1170,22 @@
     <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
     <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
     <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
-    <string name="default_cast_project_var_direction">direction</string>
+    <string name="default_cast_project_var_direction">جهت</string>
     <string name="default_cast_project_name">My first Chromecast project</string>
     <!-- Default Drone Values -->
     <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">Take off</string>
-    <string name="default_drone_project_sprites_flip">Flip</string>
-    <string name="default_drone_project_sprites_up">Up</string>
-    <string name="default_drone_project_sprites_down">Down</string>
-    <string name="default_drone_project_sprites_left">Left</string>
-    <string name="default_drone_project_sprites_right">Right</string>
-    <string name="default_drone_project_sprites_forward">Forward</string>
-    <string name="default_drone_project_sprites_back">Back</string>
-    <string name="default_drone_project_sprites_turn_left">Turn left</string>
-    <string name="default_drone_project_sprites_turn_right">Turn right</string>
+    <string name="default_drone_project_sprites_takeoff">بلند شدن</string>
+    <string name="default_drone_project_sprites_flip">تلنگر</string>
+    <string name="default_drone_project_sprites_up">پرواز به بالا</string>
+    <string name="default_drone_project_sprites_down">پرواز به پایین</string>
+    <string name="default_drone_project_sprites_left">پرواز به چپ</string>
+    <string name="default_drone_project_sprites_right">پرواز به راست</string>
+    <string name="default_drone_project_sprites_forward">به سمت جلو پرواز کن</string>
+    <string name="default_drone_project_sprites_back">به سمت عقب پرواز کن</string>
+    <string name="default_drone_project_sprites_turn_left">بپیچ به چپ</string>
+    <string name="default_drone_project_sprites_turn_right">بپیچ به راست</string>
     <string name="default_drone_project_sprites_emergency">Emergency</string>
-    <string name="drone_brick_set_text">Text</string>
+    <string name="drone_brick_set_text">متن</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
@@ -1115,19 +1220,19 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Uploading"</string>
-    <string name="notification_upload_title_finished">"Look at"</string>
-    <string name="notification_upload_pending">Upload in progress</string>
-    <string name="notification_upload_finished">Upload successful</string>
-    <string name="notification_upload_rejected">Uploaded project rejected</string>
-    <string name="notification_upload_retry">Retry</string>
+    <string name="notification_upload_title_pending">"در حال بارگزاري"</string>
+    <string name="notification_upload_title_finished">"نگاه کن به "</string>
+    <string name="notification_upload_pending">آپلود در جریان است</string>
+    <string name="notification_upload_finished">آپلود با موفقیت انجام شد</string>
+    <string name="notification_upload_rejected">برنامه آپلود شده رد شده</string>
+    <string name="notification_upload_retry">دوباره امتحان کن</string>
     <string name="notification_open_play_store">Open App store</string>
-    <string name="notification_download_title_pending">"Downloading"</string>
-    <string name="notification_download_pending">Download in progress</string>
-    <string name="notification_download_finished">Download successful</string>
-    <string name="notification_title_open">"Open"</string>
+    <string name="notification_download_title_pending">"در حال دانلود "</string>
+    <string name="notification_download_pending">دانلود در جریان است</string>
+    <string name="notification_download_finished">بارگيري با موفقیت انجام شد</string>
+    <string name="notification_title_open">"باز کن"</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
-    <string name="size_of_project">Size:</string>
+    <string name="size_of_project">اندازه:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
@@ -1145,68 +1250,72 @@ Camera brick needs access to the device\'s camera, the \"location\" formula elem
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Something went wrong while uploading the project.</string>
-    <string name="error_project_download">Something went wrong while downloading the project.</string>
+    <string name="error_project_upload">خطایی هنگام آپلود برنامه رخ داده است.</string>
+    <string name="error_project_download">خطایی هنگام دانلود برنامه رخ داده است.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be
         started, seems there is a problem with our server."</string>
-    <string name="error_new_project">Something went wrong while creating a new project.</string>
+    <string name="error_new_project">خطایی هنگام ساختن برنامه ی جدید رخ داده است.</string>
     <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
-    <string name="error_load_project">Something went wrong while loading the project.</string>
+    <string name="error_load_project">خطایی هنگام بارگیری برنامه رخ داده است.</string>
     <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
-    <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
+    <string name="error_internet_connection">یک خطای نامعلوم رخ داده. برسی کن که به اینترنت وصلی یا نه.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
     <string name="error_outdated_version">This app version is outdated. Update now?</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
         Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>
-    <string name="error_adding_brick">Something went wrong while adding this brick.</string>
-    <string name="error_copying_brick">Something went wrong while copying this brick.</string>
+    <string name="error_adding_brick">هنگام اضافه کردن این آجر خطایی رخ داده است</string>
+    <string name="error_copying_brick">هنگام کپی کردن این آجر خطایی رخ داده است</string>
     <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
     <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
     <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
-    <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
+    <string name="error_drone_low_battery">یک باتری پر وارد کن و دوباره امتحان کن.</string>
     <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
     <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
     <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
     <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
-    <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_battery">یک باتری پر وارد کن و دوباره امتحان کن.</string>
     <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
     <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
     <string name="error_unknown_error">Something went wrong.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
     <string name="error_set_description">Something went wrong while saving the new description.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
     <string name="error_no_whatsapp">WhatsApp not installed</string>
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
-    <string name="title_paired_devices">Paired devices</string>
-    <string name="title_other_devices">New devices</string>
+    <string name="title_paired_devices">دستگاه های متصل شده</string>
+    <string name="title_other_devices">دستگاه های جدید</string>
     <string name="searching_devices">Looking for devices&#8230;</string>
-    <string name="button_scan">Search Bluetooth devices</string>
+    <string name="button_scan">جستجوی دستگاه های بلوتوث</string>
     <string name="select_device">Select device:</string>
-    <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
+    <string name="connecting_please_wait">در حال اتصال به دستگاه.\nلطفا صبر کن&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
-    <string name="bt_connection_failed">Connection to device failed!</string>
-    <string name="none_found">No unpaired devices found</string>
-    <string name="none_paired">No paired devices found</string>
+    <string name="bt_connection_failed">عدم موفقیت در اتصال به دستگاه!</string>
+    <string name="none_found">هیچ دستگاه جفت نشده ای یافت نشد</string>
+    <string name="none_paired">هیچ دستگاهی یافت نشد</string>
     <!--  -->
     <!-- Arduino Bricks -->
     <string name="brick_arduino_select_digital_value">Set Arduino digital pin</string>
     <string name="brick_arduino_select_analog_value">Set Arduino PWM~ pin</string>
-    <string name="brick_arduino_set_pin_value_to">to</string>
+    <string name="brick_arduino_set_pin_value_to">به</string>
     <!--  -->
     <!-- Raspi Bricks -->
     <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
-    <string name="brick_raspi_set_pin_value_to">to</string>
+    <string name="brick_raspi_set_pin_value_to">به</string>
     <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-    <string name="brick_raspi_if_begin_second_part">is true then</string>
+    <string name="brick_raspi_if_begin_second_part">درست است سپس</string>
     <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
     <string name="brick_raspi_when_equals">changes to</string>
     <string name="brick_raspi_pressed_text">high</string>
@@ -1220,20 +1329,20 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
     <!-- Lego Mindstorms Strings -->
     <string name="nxt_brick_motor_move">Set NXT motor</string>
-    <string name="nxt_motor_speed_to">to</string>
+    <string name="nxt_motor_speed_to">به</string>
     <string name="nxt_motor_speed">speed</string>
     <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
-    <string name="nxt_motor_move_by">by</string>
+    <string name="nxt_motor_move_by">به وسیله</string>
     <string name="nxt_motor_stop">Stop NXT motor</string>
     <string name="nxt_play_tone">Play NXT tone</string>
     <string name="nxt_tone_duration">Duration</string>
-    <string name="nxt_tone_frequency">Frequency</string>
-    <string name="nxt_tone_hundred_hz">×100Hz</string>
-    <string name="nxt_motor_a">A</string>
-    <string name="nxt_motor_b">B</string>
-    <string name="nxt_motor_c">C</string>
+    <string name="nxt_tone_frequency">تناوب</string>
+    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_motor_a">آ</string>
+    <string name="nxt_motor_b">ب</string>
+    <string name="nxt_motor_c">ث</string>
     <string name="nxt_motor_b_and_c">B+C</string>
-    <string name="nxt_motor_all">All</string>
+    <string name="nxt_motor_all">همه</string>
     <string name="nxt_choose_sensor_1">Sensor connected on port 1</string>
     <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
     <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
@@ -1283,12 +1392,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_sensor_nxt_light_active">NXT light sensor active</string>
     <string name="ev3_sensor_nxt_sound">NXT sound sensor</string>
     <string name="ev3_sensor_nxt_ultrasonic">NXT ultrasonic sensor</string>
-    <string name="ev3_motor_a">A</string>
-    <string name="ev3_motor_b">B</string>
-    <string name="ev3_motor_c">C</string>
+    <string name="ev3_motor_a">آ</string>
+    <string name="ev3_motor_b">ب</string>
+    <string name="ev3_motor_c">ث</string>
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
-    <string name="ev3_motor_all">All</string>
+    <string name="ev3_motor_all">همه</string>
     <string name="ev3_play_tone">Play EV3 tone</string>
     <string name="ev3_tone_duration_for">for</string>
     <string name="ev3_tone_volume">Volume</string>
@@ -1296,11 +1405,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_stop">Stop EV3 motor</string>
     <string name="ev3_motor_move">Set EV3 motor</string>
     <string name="ev3_brick_motor_turn_angle">Turn EV3 motor</string>
-    <string name="ev3_motor_move_by">by</string>
+    <string name="ev3_motor_move_by">به وسیله</string>
     <string name="ev3_set_led_status">Set EV3 LED status</string>
     <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Green</string>
-    <string name="ev3_led_status_red">Red</string>
+    <string name="ev3_led_status_green">سبز</string>
+    <string name="ev3_led_status_red">قرمز</string>
     <string name="ev3_led_status_orange">Orange</string>
     <string name="ev3_led_status_green_flashing">Green flashing</string>
     <string name="ev3_led_status_red_flashing">Red flashing</string>
@@ -1328,7 +1437,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
     <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with.">with</string>
+    <string name="brick_drone_with.">با</string>
     <string name="brick_drone_power">power</string>
     <!--  -->
     <!-- Drone play led animation strings -->
@@ -1339,8 +1448,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_snakegreenred">Snake green red</string>
     <string name="drone_animation_fire">Fire</string>
     <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Red</string>
-    <string name="drone_animation_green">Green</string>
+    <string name="drone_animation_red">قرمز</string>
+    <string name="drone_animation_green">سبز</string>
     <string name="drone_animation_redsnake">Red snake</string>
     <string name="drone_animation_blank">Blank</string>
     <string name="drone_animation_rightmissile">Right missile</string>
@@ -1369,16 +1478,16 @@ needs read and write access to it. You can always change permissions through you
     <!-- defaultJumpingSumoValues -->
     <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
     <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
+    <string name="default_jumping_sumo_project_sprites_forward">به سمت جلو پرواز کن</string>
     <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
-    <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_animation">انیمیشن</string>
+    <string name="default_jumping_sumo_project_sprites_sound">صدا</string>
     <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
     <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
     <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
+    <string name="default_jumping_sumo_project_sprites_turn_left">بپیچ به چپ</string>
+    <string name="default_jumping_sumo_project_sprites_turn_right">بپیچ به راست</string>
+    <string name="default_jumping_sumo_project_sprites_flip">تلنگر</string>
     <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
@@ -1413,9 +1522,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_seconds">seconds</string>
     <!-- light -->
     <string name="brick_phiro_rgb_led_action">Set Phiro light</string>
-    <string name="phiro_rgb_led_red">Red</string>
-    <string name="phiro_rgb_led_green">Green</string>
-    <string name="phiro_rgb_led_blue">Blue</string>
+    <string name="phiro_rgb_led_red">قرمز</string>
+    <string name="phiro_rgb_led_green">سبز</string>
+    <string name="phiro_rgb_led_blue">آبی</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1427,13 +1536,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_tone_ti">Ti</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Left</string>
-    <string name="phiro_motor_right">Right</string>
+    <string name="phiro_motor_left">پرواز به چپ</string>
+    <string name="phiro_motor_right">پرواز به راست</string>
     <string name="phiro_motor_both">Both</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string name="phiro_light_left">Left</string>
-    <string name="phiro_light_right">Right</string>
+    <string name="phiro_light_left">پرواز به چپ</string>
+    <string name="phiro_light_right">پرواز به راست</string>
     <string name="phiro_light_both">Both</string>
     <!--  -->
     <!-- Phiro sensor strings -->
@@ -1449,72 +1558,79 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_blue">blue</string>
     <!-- -->
     <!-- Formula editor strings -->
-    <string name="formula_editor_data">Data</string>
-    <string name="formula_editor_true">true</string>
-    <string name="formula_editor_false">false</string>
+    <string name="formula_editor_data">داده‌</string>
+    <string name="formula_editor_true">درست</string>
+    <string name="formula_editor_false">غلط</string>
     <string name="formula_editor_decimal_mark">.</string>
-    <string name="formula_editor_title">Formula editor</string>
-    <string name="formula_editor_changes_saved">Changes saved.</string>
-    <string name="formula_editor_changes_discarded">Changes discarded!</string>
+    <string name="formula_editor_title">ویرایشگر فرمول</string>
+    <string name="formula_editor_changes_saved">تغییرات ذخیره شد!</string>
+    <string name="formula_editor_changes_discarded">تغییرات از بین رفت!</string>
     <string name="formula_editor_parse_fail">Formula is not valid!</string>
-    <string name="formula_nothing_selected">Define input value</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
-    <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
+    <string name="formula_nothing_selected">تعریف متغیر ورودی</string>
+    <string name="formula_editor_parse_fail_formula_too_long">فرمول بسیار طولانی است!</string>
+    <string name="formula_editor_choose_object_variable">ويژگيهای این شی</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
     <string name="formula_editor_function_cos">cosine</string>
-    <string name="formula_editor_function_cos_parameter">(360)</string>
+    <string name="formula_editor_function_cos_parameter">(۰)</string>
     <string name="formula_editor_function_tan">tangent</string>
-    <string name="formula_editor_function_tan_parameter">(45)</string>
+    <string name="formula_editor_function_tan_parameter">(۰)</string>
     <string name="formula_editor_function_ln">natural logarithm</string>
-    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
+    <string name="formula_editor_function_ln_parameter">(۰)</string>
     <string name="formula_editor_function_log">decimal logarithm</string>
-    <string name="formula_editor_function_log_parameter">(10)</string>
+    <string name="formula_editor_function_log_parameter">(۰)</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
     <string name="formula_editor_object_color">color</string>
-    <string name="formula_editor_function_sqrt">square root</string>
-    <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">random value from to</string>
+    <string name="formula_editor_function_sqrt">جذر</string>
+    <string name="formula_editor_function_sqrt_parameter">(۰)</string>
+    <string name="formula_editor_function_rand">تصادفی</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
     <string name="formula_editor_function_abs">absolute value</string>
-    <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round">round</string>
-    <string name="formula_editor_function_round_parameter">(1.6)</string>
+    <string name="formula_editor_function_abs_parameter">(۰)</string>
+    <string name="formula_editor_function_round">گرد کردن عدد</string>
+    <string name="formula_editor_function_round_parameter">(۰)</string>
     <string name="formula_editor_function_mod">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
     <string name="formula_editor_function_arcsin">arcsine</string>
-    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
+    <string name="formula_editor_function_arcsin_parameter">(۰)</string>
     <string name="formula_editor_function_arccos">arccosine</string>
-    <string name="formula_editor_function_arccos_parameter">(0)</string>
+    <string name="formula_editor_function_arccos_parameter">(۰)</string>
     <string name="formula_editor_function_arctan">arctangent</string>
-    <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan_parameter">(۰)</string>
     <string name="formula_editor_function_arctan2">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">exponent</string>
-    <string name="formula_editor_function_exp_parameter">(1)</string>
+    <string name="formula_editor_function_exp_parameter">(۰)</string>
     <string name="formula_editor_function_power">power</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
     <string name="formula_editor_function_floor">floor</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
     <string name="formula_editor_function_ceil">ceiling</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">maximum of</string>
-    <string name="formula_editor_function_max_parameter">(5,4)</string>
-    <string name="formula_editor_function_min">minimum of</string>
-    <string name="formula_editor_function_min_parameter">(7,2)</string>
-    <string name="formula_editor_function_true">true</string>
-    <string name="formula_editor_function_false">false</string>
-    <string name="formula_editor_function_length">length</string>
-    <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
-    <string name="formula_editor_function_letter">letter</string>
-    <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
-    <string name="formula_editor_function_join">join</string>
+    <string name="formula_editor_function_max">بیشینه</string>
+    <string name="formula_editor_function_max_parameter">(۰،۱)</string>
+    <string name="formula_editor_function_min">کمینه</string>
+    <string name="formula_editor_function_min_parameter">(۰،۱)</string>
+    <string name="formula_editor_function_true">درست</string>
+    <string name="formula_editor_function_false">غلط</string>
+    <string name="formula_editor_function_length">طول</string>
+    <string name="formula_editor_function_length_parameter">(\'سلام جهان\')</string>
+    <string name="formula_editor_function_letter">نامه</string>
+    <string name="formula_editor_function_letter_parameter">(1، \'سلام جهان\')</string>
+    <string name="formula_editor_function_join">عضویت</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_regex">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">More information</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
     <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
     <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
@@ -1527,29 +1643,32 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_is_multi_finger_touching">stage is touched</string>
     <string name="formula_editor_function_index_of_last_finger">last stage touch index</string>
     <string name="formula_editor_function_no_parameter"></string>
-    <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item">item</string>
-    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
-    <string name="formula_editor_function_contains">contains</string>
-    <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+    <string name="formula_editor_function_touch_parameter">(۰)</string>
+    <string name="formula_editor_function_list_item">عنصر</string>
+    <string name="formula_editor_function_list_item_parameter">(* نام لیست*، 1)</string>
+    <string name="formula_editor_function_contains">شامل</string>
+    <string name="formula_editor_function_contains_parameter">(1، *نام لیست*)</string>
     <string name="formula_editor_function_index_of_item">item\'s index</string>
-    <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
-    <string name="formula_editor_function_number_of_items">number of items</string>
-    <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
+    <string name="formula_editor_function_index_of_item_parameter">(* نام لیست*، 1)</string>
+    <string name="formula_editor_function_number_of_items">تعداد عناصر</string>
+    <string name="formula_editor_function_number_of_items_parameter">(*نام لیست*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge">touches edge</string>
     <string name="formula_editor_function_touched">touches finger</string>
-    <string name="formula_editor_sensor_x_acceleration">acceleration x</string>
-    <string name="formula_editor_sensor_y_acceleration">acceleration y</string>
-    <string name="formula_editor_sensor_z_acceleration">acceleration z</string>
-    <string name="formula_editor_sensor_compass_direction">compass direction</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_x_acceleration">شتاب x</string>
+    <string name="formula_editor_sensor_y_acceleration">شتاب y</string>
+    <string name="formula_editor_sensor_z_acceleration">شتاب z</string>
+    <string name="formula_editor_sensor_compass_direction">جهت قطب نما</string>
     <string name="formula_editor_sensor_latitude">latitude</string>
     <string name="formula_editor_sensor_longitude">longitude</string>
     <string name="formula_editor_sensor_location_accuracy">location accuracy</string>
     <string name="formula_editor_sensor_altitude">altitude</string>
-    <string name="formula_editor_sensor_x_inclination">inclination x</string>
-    <string name="formula_editor_sensor_y_inclination">inclination y</string>
-    <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_user_language">user language</string>
+    <string name="formula_editor_sensor_x_inclination">زاويه ميل x</string>
+    <string name="formula_editor_sensor_y_inclination">زاويه ميل y</string>
+    <string name="formula_editor_sensor_loudness">بلندی صدای محیط</string>
     <string name="formula_editor_sensor_date_year">year</string>
     <string name="formula_editor_sensor_date_month">month</string>
     <string name="formula_editor_sensor_date_day">day</string>
@@ -1606,13 +1725,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_phiro_sensor_bottom_right">phiro bottom right sensor</string>
     <string name="formula_editor_nfc_tag_id">nfc tag id</string>
     <string name="formula_editor_nfc_tag_message">nfc tag message</string>
-    <string name="formula_editor_object_x">position x</string>
-    <string name="formula_editor_object_y">position y</string>
-    <string name="formula_editor_object_transparency">transparency</string>
-    <string name="formula_editor_object_brightness">brightness</string>
-    <string name="formula_editor_object_size">size</string>
-    <string name="formula_editor_object_rotation">direction</string>
-    <string name="formula_editor_object_layer">layer</string>
+    <string name="formula_editor_object_x">موقعیت x</string>
+    <string name="formula_editor_object_y">موقعیت y</string>
+    <string name="formula_editor_object_transparency">شفافیت</string>
+    <string name="formula_editor_object_brightness">روشنایی</string>
+    <string name="formula_editor_object_size">اندازه</string>
+    <string name="formula_editor_object_rotation">جهت</string>
+    <string name="formula_editor_object_layer">لایه</string>
     <string name="formula_editor_object_x_velocity">x velocity</string>
     <string name="formula_editor_object_y_velocity">y velocity</string>
     <string name="formula_editor_object_angular_velocity">angular velocity</string>
@@ -1621,22 +1740,23 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_background_number">background number</string>
     <string name="formula_editor_object_background_name">background name</string>
     <string name="formula_editor_object_distance_to">distance to touch position</string>
-    <string name="formula_editor_compute">Compute</string>
-    <string name="formula_editor_object">Properties</string>
+    <string name="formula_editor_compute">محاسبه</string>
+    <string name="formula_editor_object">شی</string>
     <string name="formula_editor_functions">Functions</string>
-    <string name="formula_editor_logic">Logic</string>
-    <string name="formula_editor_device">Sensors</string>
+    <string name="formula_editor_logic">منطق</string>
+    <string name="formula_editor_device">سنسورها</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Text</string>
-    <string name="formula_editor_functions_lists">Lists</string>
+    <string name="formula_editor_functions_strings">متن</string>
+    <string name="formula_editor_functions_lists">لیست ها</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_object_general">General properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
     <string name="formula_editor_device_touch_detection">Touch detection</string>
-    <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
+    <string name="formula_editor_device_lego_nxt">لگوی NXT</string>
     <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
@@ -1644,13 +1764,13 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_drone">Drone</string>
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
-    <string name="formula_editor_string">Abc</string>
+    <string name="formula_editor_string">الفبا</string>
     <string name="formula_editor_logic_notequal">≠</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">and</string>
-    <string name="formula_editor_logic_or">or</string>
-    <string name="formula_editor_logic_not">not</string>
+    <string name="formula_editor_logic_and">و</string>
+    <string name="formula_editor_logic_or">یا</string>
+    <string name="formula_editor_logic_not">نه</string>
     <string name="formula_editor_logic_greaterequal">≥</string>
     <string name="formula_editor_logic_leserequal">≤</string>
     <string name="formula_editor_logic_equal">=</string>
@@ -1659,20 +1779,28 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_minus">-</string>
     <string name="formula_editor_operator_divide">÷</string>
     <string name="formula_editor_operator_power">^</string>
-    <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_variable_dialog_title">New variable</string>
-    <string name="formula_editor_list_dialog_title">New list</string>
-    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    <string name="formula_editor_new_string_name">New text</string>
+    <string name="formula_editor_image_button_description_delete">حذف</string>
+    <string name="formula_editor_variable_dialog_title">متغير جديد</string>
+    <string name="formula_editor_list_dialog_title">لیست جدید</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_discard_changes_dialog_message">آیا مایلی تغییرات را ذخیره کنی؟</string>
+    <string name="formula_editor_discard_changes_dialog_title">ذخیره‌ی تغییرات؟</string>
+    <string name="formula_editor_new_string_name">متن جدید</string>
     <string name="formula_editor_dialog_change_text">Change text</string>
-    <string name="formula_editor_fragment_data_current_items">current items</string>
-    <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected">face is visible</string>
-    <string name="formula_editor_sensor_face_size">face size</string>
-    <string name="formula_editor_sensor_face_x_position">face x position</string>
-    <string name="formula_editor_sensor_face_y_position">face y position</string>
-    <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
+    <string name="formula_editor_fragment_data_current_items">موارد جاری</string>
+    <string name="formula_editor_data_dialog_is_list">به لیست تبدیل کن</string>
+    <string name="formula_editor_sensor_face_detected">صورت شناخته شد</string>
+    <string name="formula_editor_sensor_face_size">اندازه صورت</string>
+    <string name="formula_editor_sensor_face_x_position">موقعیت صورت x</string>
+    <string name="formula_editor_sensor_face_y_position">موقعیت صورت y</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_intro_title_formula_editor">ویرایشگر فرمول</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
         the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
@@ -1682,29 +1810,33 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_title_keyboard">Keyboard</string>
     <string name="formula_editor_intro_summary_keyboard">This is where you can create
         your formula, just like on a calculator.</string>
-    <string name="formula_editor_intro_title_compute">Compute</string>
+    <string name="formula_editor_intro_title_compute">محاسبه</string>
     <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
         use \"Compute\".</string>
-    <string name="formula_editor_intro_title_object">Properties</string>
+    <string name="formula_editor_intro_title_object">شی</string>
     <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
         current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
     <string name="formula_editor_intro_title_functions">Functions</string>
     <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
         many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
         a random number generator, and text and list functions.</string>
-    <string name="formula_editor_intro_title_logic">Logic</string>
+    <string name="formula_editor_intro_title_logic">منطق</string>
     <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
         compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
         logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string name="formula_editor_intro_title_device">Sensors</string>
+    <string name="formula_editor_intro_title_device">سنسورها</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
-    <string name="formula_editor_intro_title_data">Data</string>
+    <string name="formula_editor_intro_title_data">داده‌</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
         \nYou can simply insert these in your formula, or add new ones.</string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">Show variable</string>
+    <string name="brick_show_variable">نشان دادن متغیر</string>
     <string name="brick_hide_variable">Hide variable</string>
     <string name="brick_show_variable_position">at</string>
     <string name="brick_show_variable_size">size:</string>
@@ -1729,8 +1861,8 @@ needs read and write access to it. You can always change permissions through you
     </string>
     <!-- -->
     <!-- Cast strings -->
-    <string name="cast_gamepad_A">A</string>
-    <string name="cast_gamepad_B">B</string>
+    <string name="cast_gamepad_A">آ</string>
+    <string name="cast_gamepad_B">ب</string>
     <string name="cast_gamepad_up">up</string>
     <string name="cast_gamepad_down">down</string>
     <string name="cast_gamepad_left">left</string>

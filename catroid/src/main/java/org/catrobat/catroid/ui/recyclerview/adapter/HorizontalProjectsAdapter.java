@@ -50,6 +50,7 @@ public class HorizontalProjectsAdapter extends RecyclerView.Adapter<HorizontalPr
 
 	public void setItems(List<ProjectData> items) {
 		this.items = items;
+		notifyDataSetChanged();
 	}
 
 	@NonNull
@@ -92,7 +93,7 @@ public class HorizontalProjectsAdapter extends RecyclerView.Adapter<HorizontalPr
 
 		@Override
 		public void onClick(View view) {
-			listener.onProjectClick(getAdapterPosition());
+			listener.onProjectClick(items.get(getAdapterPosition()));
 		}
 	}
 }

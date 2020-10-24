@@ -170,10 +170,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_text_block_x,
 			R.string.formula_editor_function_text_block_y,
 			R.string.formula_editor_function_text_block_size);
-	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_date_year,
-			R.string.formula_editor_sensor_date_month, R.string.formula_editor_sensor_date_day,
-			R.string.formula_editor_sensor_date_weekday, R.string.formula_editor_sensor_time_hour,
-			R.string.formula_editor_sensor_time_minute, R.string.formula_editor_sensor_time_second);
+	private static final List<Integer> SENSORS_DATE_TIME = asList(R.string.formula_editor_sensor_timer,
+			R.string.formula_editor_sensor_date_year, R.string.formula_editor_sensor_date_month,
+			R.string.formula_editor_sensor_date_day, R.string.formula_editor_sensor_date_weekday,
+			R.string.formula_editor_sensor_time_hour, R.string.formula_editor_sensor_time_minute,
+			R.string.formula_editor_sensor_time_second);
 	private static final List<Integer> SENSORS_NXT = asList(R.string.formula_editor_sensor_lego_nxt_touch,
 			R.string.formula_editor_sensor_lego_nxt_sound, R.string.formula_editor_sensor_lego_nxt_light,
 			R.string.formula_editor_sensor_lego_nxt_light_active,
@@ -284,9 +285,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				if (LIST_FUNCTIONS.contains(item.nameResId)) {
 					onUserListFunctionSelected(item);
 				} else if (R.string.formula_editor_function_regex_assistant == item.nameResId) {
-					addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem());
-					getActivity().onBackPressed();
-					openRegularExpressionAssistant();
+					regularExpressionAssistantActivityOnButtonClick();
 				} else {
 					addResourceToActiveFormulaInFormulaEditor(item);
 					getActivity().onBackPressed();
@@ -354,8 +353,35 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return regexItem;
 	}
 
+	private void regularExpressionAssistantActivityOnButtonClick() {
+		int indexOfCorrespondingRegularExpression = 0;
+		FormulaEditorFragment formulaEditorFragment = getFormulaEditorFragment();
+
+		if (formulaEditorFragment != null) {
+			indexOfCorrespondingRegularExpression =
+					formulaEditorFragment.getIndexOfCorrespondingRegularExpression();
+
+			if (indexOfCorrespondingRegularExpression >= 0) {
+				formulaEditorFragment.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfCorrespondingRegularExpression);
+			} else {
+				addResourceToActiveFormulaInFormulaEditor(getRegularExpressionItem());
+			}
+
+			getActivity().onBackPressed();
+			openRegularExpressionAssistant();
+		}
+	}
+
+	private FormulaEditorFragment getFormulaEditorFragment() {
+		if (getFragmentManager() != null) {
+			return ((FormulaEditorFragment) getFragmentManager()
+					.findFragmentByTag(FormulaEditorFragment.FORMULA_EDITOR_FRAGMENT_TAG));
+		}
+		return null;
+	}
+
 	private void openRegularExpressionAssistant() {
-		new RegularExpressionAssistantDialog(getContext()).createAssistant();
+		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
 	private void showNewUserListDialog(CategoryListItem categoryListItem, List<UserList> projectUserList, List<UserList> spriteUserList,

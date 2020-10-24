@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -402,6 +403,8 @@ public class RtlBrickTest {
 
 		checkIfBrickISRtl(SetTempoBrick.class, R.id.brick_set_tempo_layout);
 
+		checkIfBrickISRtl(ChangeTempoByNBrick.class, R.id.brick_change_tempo_by_layout);
+
 		checkIfBrickISRtl(StopAllSoundsBrick.class, R.id.brick_stop_all_sounds_layout);
 
 		checkIfBrickISRtl(SetVolumeToBrick.class, R.id.brick_set_volume_to_layout);
@@ -464,7 +467,7 @@ public class RtlBrickTest {
 
 		checkIfBrickAtPositionIsRtl(SetBackgroundAndWaitBrick.class, 0, R.id.brick_set_background_layout);
 
-		checkIfBrickAtPositionIsRtl(SetBackgroundByIndexBrick.class, 1, R.id.brick_set_background_by_index_layout);
+		checkIfBrickAtPositionIsRtl(SetBackgroundByIndexBrick.class, 0, R.id.brick_set_background_by_index_layout);
 
 		checkIfBrickISRtl(SetBackgroundByIndexAndWaitBrick.class, R.id.brick_set_background_by_index_layout);
 

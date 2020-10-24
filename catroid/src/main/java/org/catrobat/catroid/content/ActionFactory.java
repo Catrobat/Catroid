@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.actions.CameraBrickAction;
 import org.catrobat.catroid.content.actions.ChangeBrightnessByNAction;
 import org.catrobat.catroid.content.actions.ChangeColorByNAction;
 import org.catrobat.catroid.content.actions.ChangeSizeByNAction;
+import org.catrobat.catroid.content.actions.ChangeTempoByAction;
 import org.catrobat.catroid.content.actions.ChangeTransparencyByNAction;
 import org.catrobat.catroid.content.actions.ChangeVariableAction;
 import org.catrobat.catroid.content.actions.ChangeVolumeByNAction;
@@ -130,6 +131,7 @@ import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatParameterizedAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
@@ -728,6 +730,13 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createChangeTempoAction(Sprite sprite, Formula tempo) {
+		ChangeTempoByAction action = action(ChangeTempoByAction.class);
+		action.setSprite(sprite);
+		action.setTempo(tempo);
+		return action;
+	}
+
 	public Action createTurnLeftAction(Sprite sprite, Formula degrees) {
 		TurnLeftAction action = Actions.action(TurnLeftAction.class);
 		action.setSprite(sprite);
@@ -824,6 +833,10 @@ public class ActionFactory extends Actions {
 		action.setFormulaItemToInsert(userListFormulaItemToInsert);
 		action.setUserList(userList);
 		return action;
+	}
+
+	public Action createResetTimerAction() {
+		return Actions.action(ResetTimerAction.class);
 	}
 
 	public Action createThinkSayBubbleAction(Sprite sprite, Formula text, int type) {

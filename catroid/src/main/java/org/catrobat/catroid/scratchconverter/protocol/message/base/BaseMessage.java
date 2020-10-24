@@ -86,7 +86,7 @@ public abstract class BaseMessage extends Message {
 						jobList.add(Job.fromJson(jobsInfo.getJSONObject(i)));
 					}
 				}
-				return (T) new InfoMessage((float) catrobatLangVersion, jobList.toArray(new Job[jobList.size()]));
+				return (T) new InfoMessage(catrobatLangVersion, jobList.toArray(new Job[jobList.size()]));
 
 			default:
 				return null;

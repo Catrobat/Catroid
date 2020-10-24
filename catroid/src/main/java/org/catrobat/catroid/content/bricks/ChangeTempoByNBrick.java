@@ -20,29 +20,45 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-package org.catrobat.catroid.utils;
+package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.view.View;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-import org.catrobat.catroid.BuildConfig;
+public class ChangeTempoByNBrick extends FormulaBrick {
 
-import io.fabric.sdk.android.Fabric;
-
-class CrashlyticsCrashReporter implements CrashReporterInterface {
-
-	public void initialize(Context context) {
-
-		Crashlytics crashlyticsKit = new Crashlytics.Builder()
-				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
-				.build();
-		Fabric.with(context, crashlyticsKit);
+	public ChangeTempoByNBrick() {
+		addAllowedBrickField(BrickField.TEMPO_CHANGE, R.id.brick_change_tempo_edit_text);
 	}
 
-	public void logException(Throwable exception) {
-		Crashlytics.logException(exception);
+	public ChangeTempoByNBrick(int changeTempoValue) {
+		this(new Formula(changeTempoValue));
+	}
+
+	public ChangeTempoByNBrick(Formula formula) {
+		this();
+		setFormulaWithBrickField(BrickField.TEMPO_CHANGE, formula);
+	}
+
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_change_tempo;
+	}
+
+	@Override
+	public View getView(Context context) {
+		super.getView(context);
+		return view;
+	}
+
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory()
+				.createChangeTempoAction(sprite, getFormulaWithBrickField(BrickField.TEMPO_CHANGE)));
 	}
 }

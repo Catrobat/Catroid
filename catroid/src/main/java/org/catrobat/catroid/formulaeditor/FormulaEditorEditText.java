@@ -374,4 +374,13 @@ public class FormulaEditorEditText extends EditText implements OnTouchListener {
 	public boolean isThereSomethingToDelete() {
 		return internFormula.isThereSomethingToDelete();
 	}
+
+	public int getIndexOfCorrespondingRegularExpression() {
+		return internFormula.getIndexOfCorrespondingRegularExpression();
+	}
+
+	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
+		internFormula.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+		highlightSelection();
+	}
 }

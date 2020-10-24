@@ -36,7 +36,6 @@ import com.google.android.gms.analytics.Tracker;
 import org.catrobat.catroid.dagger.AppComponent;
 import org.catrobat.catroid.dagger.CatroidModule;
 import org.catrobat.catroid.dagger.DaggerAppComponent;
-import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
@@ -79,8 +78,6 @@ public class CatroidApplication extends Application implements HasActivityInject
 					.penaltyLog()
 					.build());
 		}
-
-		CrashReporter.initialize(this);
 
 		Utils.fetchSpeechRecognitionSupportedLanguages(this);
 

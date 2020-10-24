@@ -37,6 +37,7 @@ public class XmlHeader implements Serializable {
 
 	private String programName;
 	private String description;
+	private String notesAndCredits;
 
 	@XStreamAlias("screenWidth")
 	public int virtualScreenWidth = 0;
@@ -45,7 +46,7 @@ public class XmlHeader implements Serializable {
 
 	public ScreenModes screenMode = ScreenModes.STRETCH;
 
-	private float catrobatLanguageVersion;
+	private double catrobatLanguageVersion;
 	private boolean landscapeMode;
 	private boolean isCastProject = false;
 	@SuppressWarnings("unused")
@@ -137,6 +138,10 @@ public class XmlHeader implements Serializable {
 		return description;
 	}
 
+	public String getNotesAndCredits() {
+		return notesAndCredits;
+	}
+
 	public String getUserHandle() {
 		return userHandle;
 	}
@@ -145,11 +150,15 @@ public class XmlHeader implements Serializable {
 		this.description = description;
 	}
 
-	public float getCatrobatLanguageVersion() {
+	public void setNotesAndCredits(String notesAndCredits) {
+		this.notesAndCredits = notesAndCredits;
+	}
+
+	public double getCatrobatLanguageVersion() {
 		return catrobatLanguageVersion;
 	}
 
-	public void setCatrobatLanguageVersion(float catrobatLanguageVersion) {
+	public void setCatrobatLanguageVersion(double catrobatLanguageVersion) {
 		this.catrobatLanguageVersion = catrobatLanguageVersion;
 	}
 

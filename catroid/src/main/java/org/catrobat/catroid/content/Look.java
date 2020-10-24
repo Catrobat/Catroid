@@ -204,7 +204,8 @@ public class Look extends Image {
 
 	@Override
 	protected void positionChanged() {
-		if (sprite != null && sprite.penConfiguration.isPenDown() && !simultaneousMovementXY) {
+		if (sprite != null && sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()
+				&& !simultaneousMovementXY) {
 			float x = getXInUserInterfaceDimensionUnit();
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
@@ -333,11 +334,7 @@ public class Look extends Image {
 	}
 
 	private void adjustSimultaneousMovementXY(float x, float y) {
-		if (x != this.getX() && y != this.getY()) {
-			simultaneousMovementXY = true;
-		} else {
-			simultaneousMovementXY = false;
-		}
+		simultaneousMovementXY = x != this.getX() && y != this.getY();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {

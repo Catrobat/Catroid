@@ -396,7 +396,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void openAssistantDialog() {
-		new RegularExpressionAssistantDialog(getContext()).createAssistant();
+		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
 	private void showNewStringDialog() {
@@ -809,5 +809,13 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			formulaBrick.setFormulaWithBrickField(state.getKey(),
 					new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		}
+	}
+
+	public int getIndexOfCorrespondingRegularExpression() {
+		return formulaEditorEditText.getIndexOfCorrespondingRegularExpression();
+	}
+
+	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
+		formulaEditorEditText.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
 	}
 }

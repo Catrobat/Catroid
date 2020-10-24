@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -147,6 +148,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -481,6 +483,7 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new SetTempoBrick(100));
+		soundBrickList.add(new ChangeTempoByNBrick(10));
 		soundBrickList.add(new PauseForBeatsBrick(1));
 
 		return soundBrickList;
@@ -617,6 +620,7 @@ public class CategoryBricksFactory {
 	protected List<Brick> setupDeviceCategoryList(Context context, boolean isBackgroundSprite) {
 		List<Brick> deviceBrickList = new ArrayList<>();
 
+		deviceBrickList.add(new ResetTimerBrick());
 		deviceBrickList.add(new WhenBrick());
 		deviceBrickList.add(new WhenTouchDownBrick());
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
