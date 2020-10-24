@@ -51,6 +51,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -435,6 +436,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(SetTempoBrick.class.getSimpleName());
 		brickInfoMap.put("setTempoBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ChangeTempoByNBrick.class.getSimpleName());
+		brickInfoMap.put("changeTempoByNBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);

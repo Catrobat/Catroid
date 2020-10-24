@@ -55,6 +55,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -481,6 +482,7 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new SetTempoBrick(100));
+		soundBrickList.add(new ChangeTempoByNBrick(10));
 		soundBrickList.add(new PauseForBeatsBrick(1));
 
 		return soundBrickList;

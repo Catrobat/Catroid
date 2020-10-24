@@ -1082,6 +1082,7 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
     <string name="beats">beats</string>
     <!--  -->
