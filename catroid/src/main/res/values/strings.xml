@@ -1801,6 +1801,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">minimum of</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">true</string>
     <string name="formula_editor_function_false">false</string>
     <string name="formula_editor_function_length">length</string>
