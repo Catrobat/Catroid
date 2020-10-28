@@ -117,4 +117,8 @@ public final class TouchUtil {
 		}
 		return points;
 	}
+
+	public static int getNumberOfCurrentTouches() {
+		return currentlyTouchingPointersToTouchIndex.size();
+	}
 }

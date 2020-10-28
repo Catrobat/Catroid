@@ -204,6 +204,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, NUMBER, "1");
 			case R.string.formula_editor_function_index_of_last_finger:
 				return buildSensor(Sensors.LAST_FINGER_INDEX);
+			case R.string.formula_editor_function_number_of_current_touches:
+				return buildSensor(Sensors.NUMBER_CURRENT_TOUCHES);
 
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
