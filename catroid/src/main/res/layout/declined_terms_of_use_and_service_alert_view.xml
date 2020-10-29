@@ -31,7 +31,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/declined_privacy_agreement_alert"/>
+        android:text="@string/declined_terms_of_use_and_service_alert"/>
 
     <TextView
         android:id="@+id/share_website_view"

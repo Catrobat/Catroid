@@ -27,8 +27,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -84,16 +84,14 @@ public class PrivacyPolicyDisclaimerTest {
 
 		baseActivityTestRule.launchActivity(null);
 
-		onView(withId(R.id.header)).check(matches(isDisplayed()));
+		onView(withId(R.id.welcome)).check(matches(isDisplayed()));
 	}
 
 	@Test
 	public void testHidePrivacyPolicyDisclaimer() {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
-						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
-						.hashCode())
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.commit();
 
 		baseActivityTestRule.launchActivity(null);

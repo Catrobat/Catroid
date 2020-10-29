@@ -30,8 +30,10 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,39 +89,83 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		int oldPrivacyPolicyHash = PreferenceManager.getDefaultSharedPreferences(this)
+		int oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
 						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
-		int currentPrivacyPolicyHash = getResources().getString(R.string.dialog_privacy_policy_text)
-						.hashCode();
-		if (oldPrivacyPolicyHash == currentPrivacyPolicyHash) {
+
+		if (oldPrivacyPolicy == Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			loadContent();
 		} else {
-			setContentView(R.layout.privacy_policy_view);
+			showTermsOfUseDialog();
 		}
 	}
 
-	public void handleAgreedToPrivacyPolicyButton(View view) {
+	private void showTermsOfUseDialog() {
+		View view = View.inflate(this, R.layout.privacy_policy_view, null);
+
+		TextView termsOfUseUrlTextView = view.findViewById(R.id.dialog_privacy_policy_text_view_url);
+
+		termsOfUseUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		String termsOfUseUrlStringText = getString(R.string.main_menu_terms_of_use);
+
+		String termsOfUseUrl = getString(R.string.terms_of_use_link_template, Constants.CATROBAT_TERMS_OF_USE_URL
+						+ Constants.CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL + BuildConfig.FLAVOR
+						+ Constants.CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL + BuildConfig.VERSION_CODE,
+				termsOfUseUrlStringText);
+
+		termsOfUseUrlTextView.setText(Html.fromHtml(termsOfUseUrl));
+
+		new AlertDialog.Builder(this)
+				.setNegativeButton(R.string.decline, (dialog, which) -> {
+					handleDeclinedPrivacyPolicyButton();
+				})
+				.setPositiveButton(R.string.accept, (dialog, which) -> {
+					handleAgreedToPrivacyPolicyButton();
+				})
+				.setCancelable(false)
+				.setOnKeyListener((dialog, keyCode, event) -> {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						finish();
+					}
+					return true;
+				})
+				.setView(view)
+				.show();
+	}
+
+	public void handleAgreedToPrivacyPolicyButton() {
 		PreferenceManager.getDefaultSharedPreferences(this)
 				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, getResources()
-						.getString(R.string.dialog_privacy_policy_text)
-						.hashCode())
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
 		loadContent();
 	}
 
-	public void handleDeclinedPrivacyPolicyButton(View view) {
-		View dialogView = View.inflate(this, R.layout.declined_privacy_agreement_alert_view, null);
+	public void handleDeclinedPrivacyPolicyButton() {
+		View dialogView = View.inflate(this,
+				R.layout.declined_terms_of_use_and_service_alert_view, null);
 
 		String linkString = getString(R.string.about_link_template,
-				Constants.CATROBAT_ABOUT_URL,
+				Constants.BASE_APP_URL_HTTPS,
 				getString(R.string.share_website_text));
+
 		TextView linkTextView = dialogView.findViewById(R.id.share_website_view);
+		linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		linkTextView.setText(Html.fromHtml(linkString));
 
 		new AlertDialog.Builder(this)
 				.setView(dialogView)
-				.setNeutralButton(R.string.ok, null)
+				.setPositiveButton(R.string.ok, (dialog, which) -> {
+					showTermsOfUseDialog();
+				})
+				.setCancelable(false)
+				.setOnKeyListener((dialog, keyCode, event) -> {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						dialog.cancel();
+						showTermsOfUseDialog();
+					}
+					return true;
+				})
 				.show();
 	}
 
