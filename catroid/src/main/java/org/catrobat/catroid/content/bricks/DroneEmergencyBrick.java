@@ -40,12 +40,5 @@ public class DroneEmergencyBrick extends BrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDroneGoEmergencyAction());
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(ARDRONE_SUPPORT);
 	}
 }
-

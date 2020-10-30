@@ -42,14 +42,6 @@ public abstract class DroneConfigPreference {
 			return valueStrings;
 		}
 
-		public String getPreferenceCode() {
-			return getPreferenceCode(this);
-		}
-
-		public static String getPreferenceCode(DroneConfigPreference.Preferences preference) {
-			return preference.name();
-		}
-
 		public static DroneConfigPreference.Preferences getPreferenceFromPreferenceCode(String preferenceCode) {
 			Preferences preferences = EnumUtils.getEnum(Preferences.class, preferenceCode);
 			return preferences != null ? preferences : Preferences.FIRST;

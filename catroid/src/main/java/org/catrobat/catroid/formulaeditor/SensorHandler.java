@@ -37,8 +37,6 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.parrot.freeflight.service.DroneControlService;
-
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
@@ -51,7 +49,6 @@ import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -286,7 +283,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
-		DroneControlService dcs = DroneServiceWrapper.getDroneService();
 		Double sensorValue;
 		float[] rotationMatrixOut = new float[16];
 		int rotate;
@@ -538,61 +534,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return Double.valueOf(TouchUtil.getNumberOfCurrentTouches());
 
 			case DRONE_BATTERY_STATUS:
-				return (double) dcs.getDroneNavData().batteryStatus;
-
 			case DRONE_EMERGENCY_STATE:
-				return (double) dcs.getDroneNavData().emergencyState;
-
 			case DRONE_USB_REMAINING_TIME:
-				return (double) dcs.getDroneNavData().usbRemainingTime;
-
 			case DRONE_NUM_FRAMES:
-				return (double) dcs.getDroneNavData().numFrames;
-
 			case DRONE_RECORDING:
-				if (dcs.getDroneNavData().recording) {
-					return 1d;
-				} else {
-					return 0d;
-				}
-
 			case DRONE_FLYING:
-				if (dcs.getDroneNavData().flying) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_INITIALIZED:
-				if (dcs.getDroneNavData().initialized) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_USB_ACTIVE:
-				if (dcs.getDroneNavData().usbActive) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_CAMERA_READY:
-				if (dcs.getDroneNavData().cameraReady) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_RECORD_READY:
-				if (dcs.getDroneNavData().recordReady) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
+				return 0d;
 			case NFC_TAG_MESSAGE:
 				return String.valueOf(NfcHandler.getLastNfcTagMessage());
-
 			case NFC_TAG_ID:
 				return String.valueOf(NfcHandler.getLastNfcTagId());
 			case SPEECH_RECOGNITION_LANGUAGE:

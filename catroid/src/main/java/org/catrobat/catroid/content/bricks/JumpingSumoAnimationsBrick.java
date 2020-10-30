@@ -82,13 +82,6 @@ public class JumpingSumoAnimationsBrick extends BrickBaseType {
 	}
 
 	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(JUMPING_SUMO);
-	}
-
-	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createJumpingSumoAnimationAction(Animation.valueOf(animationName)));
 	}
 }
