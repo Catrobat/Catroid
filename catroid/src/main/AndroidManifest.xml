@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -41,20 +41,11 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.GET_TASKS" tools:node="remove" />
 
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="false" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- drone -->
-    <uses-feature
-        android:name="android.hardware.wifi"
-        android:required="false" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <!-- bluetooth -->
     <uses-feature
@@ -236,7 +227,6 @@
         <service android:name=".transfers.project.ProjectUploadService" />
         <service android:name=".transfers.project.ProjectDownloadService" />
         <service android:name=".transfers.MediaDownloadService" />
-        <service android:name="com.parrot.freeflight.service.DroneControlService" />
         <service android:name=".utils.notifications.StatusBarNotificationManager$NotificationActionService" />
         <service android:name=".cast.CastService" android:exported="false"/>
 

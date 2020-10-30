@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,10 +46,6 @@ public class CatroidApplication extends Application {
 	private static Context context;
 	public static String defaultSystemLanguage;
 
-	public static final String OS_ARCH = System.getProperty("os.arch");
-	public static boolean parrotLibrariesLoaded = false;
-	public static boolean parrotJSLibrariesLoaded = false;
-
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
 
@@ -91,71 +87,6 @@ public class CatroidApplication extends Application {
 		}
 
 		return googleTracker;
-	}
-
-	@SuppressWarnings("PMD.AvoidUsingNativeCode")
-	public static synchronized boolean loadNativeLibs() {
-		if (parrotLibrariesLoaded) {
-			return true;
-		}
-
-		try {
-			System.loadLibrary("avutil");
-			System.loadLibrary("swscale");
-			System.loadLibrary("avcodec");
-			System.loadLibrary("avfilter");
-			System.loadLibrary("avformat");
-			System.loadLibrary("avdevice");
-			System.loadLibrary("adfreeflight");
-			parrotLibrariesLoaded = true;
-		} catch (UnsatisfiedLinkError e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-			parrotLibrariesLoaded = false;
-		}
-		return parrotLibrariesLoaded;
-	}
-
-	@SuppressWarnings("PMD.AvoidUsingNativeCode")
-	public static synchronized boolean loadJumpingSumoSDKLib() {
-		if (parrotJSLibrariesLoaded) {
-			return true;
-		}
-
-		try {
-			System.loadLibrary("curl");
-			System.loadLibrary("json");
-			System.loadLibrary("arsal");
-			System.loadLibrary("arsal_android");
-			System.loadLibrary("arnetworkal");
-			System.loadLibrary("arnetworkal_android");
-			System.loadLibrary("arnetwork");
-			System.loadLibrary("arnetwork_android");
-			System.loadLibrary("arcommands");
-			System.loadLibrary("arcommands_android");
-			System.loadLibrary("arstream");
-			System.loadLibrary("arstream_android");
-			System.loadLibrary("arstream2");
-			System.loadLibrary("arstream2_android");
-			System.loadLibrary("ardiscovery");
-			System.loadLibrary("ardiscovery_android");
-			System.loadLibrary("arutils");
-			System.loadLibrary("arutils_android");
-			System.loadLibrary("ardatatransfer");
-			System.loadLibrary("ardatatransfer_android");
-			System.loadLibrary("armedia");
-			System.loadLibrary("armedia_android");
-			System.loadLibrary("arupdater");
-			System.loadLibrary("arupdater_android");
-			System.loadLibrary("armavlink");
-			System.loadLibrary("armavlink_android");
-			System.loadLibrary("arcontroller");
-			System.loadLibrary("arcontroller_android");
-			parrotJSLibrariesLoaded = true;
-		} catch (UnsatisfiedLinkError e) {
-			Log.e(TAG, Log.getStackTraceString(e));
-			parrotJSLibrariesLoaded = false;
-		}
-		return parrotJSLibrariesLoaded;
 	}
 
 	public static Context getAppContext() {

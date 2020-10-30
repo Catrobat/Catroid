@@ -203,7 +203,6 @@ android {
         exclude 'LICENSE.txt'
         exclude 'META-INF/maven/com.google.guava/guava/pom.properties'
         exclude 'META-INF/maven/com.google.guava/guava/pom.xml'
-        exclude 'META-INF/INDEX.LIST'  //compile problem with parrot arsdk
         exclude 'lib/mips/*'    // Mips devices are deprecated
         exclude 'lib/armeabi/*' // armeabiv5 & v6 are deprecated
     }
@@ -329,7 +328,6 @@ android {
 }
 
 configurations {
-    implementation.exclude group: 'org.apache.sanselan' //compile problem with parrot arsdk
     implementation.exclude group: 'xpp3' //compile problem with xstream
     natives
 }
@@ -376,9 +374,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-
-    // Drone
-    implementation 'com.parrot:arsdk:3.12.6'
 
     // CAST
     implementation "com.google.android.gms:play-services-cast:$playServicesVersion"

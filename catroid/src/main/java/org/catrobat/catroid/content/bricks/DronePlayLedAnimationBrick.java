@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,39 +23,26 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
-
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class DronePlayLedAnimationBrick extends BrickBaseType {
 
 	private static final long serialVersionUID = 1L;
 
-	private String ledAnimationName;
-	private transient ARDRONE_LED_ANIMATION ledAnimation;
+	private String ledAnimationName = "";
 
 	public DronePlayLedAnimationBrick() {
-		ledAnimation = ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN;
-		ledAnimationName = ledAnimation.name();
-	}
-
-	public DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION ledAnimation) {
-		this.ledAnimation = ledAnimation;
-		this.ledAnimationName = ledAnimation.name();
-	}
-
-	protected Object readResolve() {
-		if (ledAnimationName != null) {
-			ledAnimation = ARDRONE_LED_ANIMATION.valueOf(ledAnimationName);
-		}
-		return this;
 	}
 
 	@Override
@@ -70,37 +57,33 @@ public class DronePlayLedAnimationBrick extends BrickBaseType {
 				R.array.brick_drone_play_led_animation_spinner, android.R.layout.simple_spinner_item);
 		animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		Spinner animationSpinner = view.findViewById(R.id.brick_drone_play_led_animation_spinner);
-
 		animationSpinner.setAdapter(animationAdapter);
 		animationSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1, int position, long arg3) {
-				ledAnimation = ARDRONE_LED_ANIMATION.values()[position];
-				ledAnimationName = ledAnimation.name();
+				ledAnimationName = context.getResources().getStringArray(
+						R.array.brick_drone_play_led_animation_spinner)[position];
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		});
-		if (ledAnimation == null) {
-			readResolve();
-		}
 
-		animationSpinner.setSelection(ledAnimation.ordinal());
+		if (TextUtils.isEmpty(ledAnimationName)) {
+			animationSpinner.setSelection(1);
+		} else {
+			List<String> spinnerArray = Arrays.asList(context.getResources().getStringArray(
+					R.array.brick_drone_play_led_animation_spinner));
+			animationSpinner.setSelection(spinnerArray.indexOf(ledAnimationName));
+		}
 
 		return view;
 	}
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createDronePlayLedAnimationAction(ledAnimation));
-	}
-
-	@Override
-	public void addRequiredResources(final ResourcesSet requiredResourcesSet) {
-		requiredResourcesSet.add(ARDRONE_SUPPORT);
 	}
 }
 

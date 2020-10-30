@@ -61,8 +61,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
-import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
@@ -112,7 +110,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
-	JumpingSumoDeviceController jumpingSumoDeviceController;
 	CameraManager cameraManager;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
@@ -288,15 +285,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		}
 
 		RaspberryPiService.getInstance().disconnect();
-	}
-
-	public boolean jumpingSumoDisconnect() {
-		boolean success;
-		if (jumpingSumoDeviceController != null && !jumpingSumoDeviceController.isConnected()) {
-			return true;
-		}
-		success = JumpingSumoInitializer.getInstance().disconnect();
-		return success;
 	}
 
 	public static CameraManager getActiveCameraManager() {

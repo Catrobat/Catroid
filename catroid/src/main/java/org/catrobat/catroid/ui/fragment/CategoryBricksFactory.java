@@ -26,8 +26,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import com.parrot.freeflight.drone.DroneProxy.ARDRONE_LED_ANIMATION;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -770,7 +768,7 @@ public class CategoryBricksFactory {
 		droneBrickList.add(new DroneTurnRightBrick(BrickValues.DRONE_MOVE_BRICK_DEFAULT_TIME_MILLISECONDS,
 				BrickValues.DRONE_MOVE_BRICK_DEFAULT_POWER_PERCENT));
 		droneBrickList.add(new DroneFlipBrick());
-		droneBrickList.add(new DronePlayLedAnimationBrick(ARDRONE_LED_ANIMATION.ARDRONE_LED_ANIMATION_BLINK_GREEN_RED));
+		droneBrickList.add(new DronePlayLedAnimationBrick());
 		droneBrickList.add(new DroneSwitchCameraBrick());
 
 		return droneBrickList;
