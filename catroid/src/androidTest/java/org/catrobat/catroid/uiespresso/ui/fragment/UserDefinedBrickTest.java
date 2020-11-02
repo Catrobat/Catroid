@@ -154,7 +154,7 @@ public class UserDefinedBrickTest {
 	}
 
 	@Test
-	public void testAddUserDefinedBrickToScriptFragment() throws InterruptedException {
+	public void testAddUserDefinedBrickToScriptFragment() {
 		clickOnAddInputToUserBrick();
 		onView(withId(R.id.next))
 				.perform(click());

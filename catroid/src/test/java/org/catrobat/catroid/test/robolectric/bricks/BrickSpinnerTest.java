@@ -86,9 +86,7 @@ import org.robolectric.annotation.Config;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import androidx.annotation.IdRes;
@@ -101,6 +99,8 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import static java.util.Arrays.asList;
+
 @RunWith(ParameterizedRobolectricTestRunner.class)
 @Config(sdk = {Build.VERSION_CODES.P})
 public class BrickSpinnerTest {
@@ -111,37 +111,37 @@ public class BrickSpinnerTest {
 
 	@ParameterizedRobolectricTestRunner.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
-		return Arrays.asList(new Object[][] {
-				{SceneTransitionBrick.class.getSimpleName(), new SceneTransitionBrick(""), R.id.brick_scene_transition_spinner, "Scene 2", Arrays.asList("new…", "Scene 2")},
-				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene 1", Arrays.asList("new…", "Scene 1", "Scene 2")},
-				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", Arrays.asList("yourself", "otherTestSprite")},
-				{SetNfcTagBrick.class.getSimpleName(), new SetNfcTagBrick(), R.id.brick_set_nfc_tag_ndef_record_spinner, "HTTPS", Arrays.asList("Text", "HTTP", "HTTPS", "SMS", "Phone number", "E-Mail", "External type", "Empty")},
-				{GoToBrick.class.getSimpleName(), new GoToBrick(), R.id.brick_go_to_spinner, "touch position", Arrays.asList("touch position", "random position", "otherTestSprite")},
-				{PointToBrick.class.getSimpleName(), new PointToBrick(), R.id.brick_point_to_spinner, "otherTestSprite", Arrays.asList("new…", "otherTestSprite")},
-				{SetRotationStyleBrick.class.getSimpleName(), new SetRotationStyleBrick(), R.id.brick_set_rotation_style_spinner, "left-right only", Arrays.asList("left-right only", "all-around", "don't rotate")},
-				{PlaySoundBrick.class.getSimpleName(), new PlaySoundBrick(), R.id.brick_play_sound_spinner, "someSound", Arrays.asList("new…", "someSound")},
-				{PlaySoundAndWaitBrick.class.getSimpleName(), new PlaySoundAndWaitBrick(), R.id.brick_play_sound_spinner, "someSound", Arrays.asList("new…", "someSound")},
-				{AskSpeechBrick.class.getSimpleName(), new AskSpeechBrick(), R.id.brick_ask_speech_spinner, "someVariable", Arrays.asList("new…", "someVariable")},
-				{SetLookBrick.class.getSimpleName(), new SetLookBrick(), R.id.brick_set_look_spinner, "someLook", Arrays.asList("new…", "someLook")},
-				{SetBackgroundBrick.class.getSimpleName(), new SetBackgroundBrick(), R.id.brick_set_background_spinner, "someBackground", Arrays.asList("new…", "someBackground")},
-				{SetBackgroundAndWaitBrick.class.getSimpleName(), new SetBackgroundAndWaitBrick(), R.id.brick_set_background_spinner, "someBackground", Arrays.asList("new…", "someBackground")},
-				{SetVariableBrick.class.getSimpleName(), new SetVariableBrick(), R.id.set_variable_spinner, "someVariable", Arrays.asList("new…", "someVariable")},
-				{ChangeVariableBrick.class.getSimpleName(), new ChangeVariableBrick(), R.id.change_variable_spinner, "someVariable", Arrays.asList("new…", "someVariable")},
-				{ShowTextBrick.class.getSimpleName(), new ShowTextBrick(), R.id.show_variable_spinner, "someVariable", Arrays.asList("new…", "someVariable")},
-				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " variable", new ShowTextColorSizeAlignmentBrick(), R.id.show_variable_color_size_spinner, "someVariable", Arrays.asList("new…", "someVariable")},
-				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " alignment", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_align_spinner, "centered", Arrays.asList("left", "centered", "right")},
-				{HideTextBrick.class.getSimpleName(), new HideTextBrick(), R.id.hide_variable_spinner, "someVariable", Arrays.asList("new…", "someVariable")},
-				{AddItemToUserListBrick.class.getSimpleName(), new AddItemToUserListBrick(), R.id.add_item_to_userlist_spinner, "someList", Arrays.asList("new…", "someList")},
-				{DeleteItemOfUserListBrick.class.getSimpleName(), new DeleteItemOfUserListBrick(), R.id.delete_item_of_userlist_spinner, "someList", Arrays.asList("new…", "someList")},
-				{InsertItemIntoUserListBrick.class.getSimpleName(), new InsertItemIntoUserListBrick(), R.id.insert_item_into_userlist_spinner, "someList", Arrays.asList("new…", "someList")},
-				{ReplaceItemInUserListBrick.class.getSimpleName(), new ReplaceItemInUserListBrick(), R.id.replace_item_in_userlist_spinner, "someList", Arrays.asList("new…", "someList")},
-				{BroadcastReceiverBrick.class.getSimpleName(), new BroadcastReceiverBrick(new BroadcastScript("initialMessage")), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
-				{BroadcastBrick.class.getSimpleName(), new BroadcastBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
-				{BroadcastWaitBrick.class.getSimpleName(), new BroadcastWaitBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", Arrays.asList("new…", "initialMessage")},
-				{WhenBackgroundChangesBrick.class.getSimpleName(), new WhenBackgroundChangesBrick(), R.id.brick_when_background_spinner, "someBackground", Arrays.asList("new…", "someBackground")},
-				{WhenBounceOffBrick.class.getSimpleName(), new WhenBounceOffBrick(new WhenBounceOffScript(null)), R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0", Arrays.asList("\0any edge, actor, or object\0", "Background", "testSprite", "otherTestSprite")},
-				{WhenNfcBrick.class.getSimpleName(), new WhenNfcBrick(), R.id.brick_when_nfc_spinner, "all", Collections.singletonList("all")},
-				{WhenGamepadButtonBrick.class.getSimpleName(), new WhenGamepadButtonBrick(new WhenGamepadButtonScript("")), R.id.brick_when_gamepad_button_spinner, "A", Arrays.asList("A", "B", "up", "down", "left", "right")},
+		return asList(new Object[][] {
+				{SceneTransitionBrick.class.getSimpleName(), new SceneTransitionBrick(""), R.id.brick_scene_transition_spinner, "Scene 2", asList("new…", "Scene 2")},
+				{SceneStartBrick.class.getSimpleName(), new SceneStartBrick(""), R.id.brick_scene_start_spinner, "Scene 1", asList("new…", "Scene 1", "Scene 2")},
+				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", asList("yourself", "otherTestSprite")},
+				{SetNfcTagBrick.class.getSimpleName(), new SetNfcTagBrick(), R.id.brick_set_nfc_tag_ndef_record_spinner, "HTTPS", asList("Text", "HTTP", "HTTPS", "SMS", "Phone number", "E-Mail", "External type", "Empty")},
+				{GoToBrick.class.getSimpleName(), new GoToBrick(), R.id.brick_go_to_spinner, "touch position", asList("touch position", "random position", "otherTestSprite")},
+				{PointToBrick.class.getSimpleName(), new PointToBrick(), R.id.brick_point_to_spinner, "otherTestSprite", asList("new…", "otherTestSprite")},
+				{SetRotationStyleBrick.class.getSimpleName(), new SetRotationStyleBrick(), R.id.brick_set_rotation_style_spinner, "left-right only", asList("left-right only", "all-around", "don't rotate")},
+				{PlaySoundBrick.class.getSimpleName(), new PlaySoundBrick(), R.id.brick_play_sound_spinner, "someSound", asList("new…", "someSound")},
+				{PlaySoundAndWaitBrick.class.getSimpleName(), new PlaySoundAndWaitBrick(), R.id.brick_play_sound_spinner, "someSound", asList("new…", "someSound")},
+				{AskSpeechBrick.class.getSimpleName(), new AskSpeechBrick(), R.id.brick_ask_speech_spinner, "someVariable", asList("new…", "someVariable")},
+				{SetLookBrick.class.getSimpleName(), new SetLookBrick(), R.id.brick_set_look_spinner, "someLook", asList("new…", "someLook")},
+				{SetBackgroundBrick.class.getSimpleName(), new SetBackgroundBrick(), R.id.brick_set_background_spinner, "someBackground", asList("new…", "someBackground")},
+				{SetBackgroundAndWaitBrick.class.getSimpleName(), new SetBackgroundAndWaitBrick(), R.id.brick_set_background_spinner, "someBackground", asList("new…", "someBackground")},
+				{SetVariableBrick.class.getSimpleName(), new SetVariableBrick(), R.id.set_variable_spinner, "someVariable", asList("new…", "someVariable")},
+				{ChangeVariableBrick.class.getSimpleName(), new ChangeVariableBrick(), R.id.change_variable_spinner, "someVariable", asList("new…", "someVariable")},
+				{ShowTextBrick.class.getSimpleName(), new ShowTextBrick(), R.id.show_variable_spinner, "someVariable", asList("new…", "someVariable")},
+				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " variable", new ShowTextColorSizeAlignmentBrick(), R.id.show_variable_color_size_spinner, "someVariable", asList("new…", "someVariable")},
+				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " alignment", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_align_spinner, "centered", asList("left", "centered", "right")},
+				{HideTextBrick.class.getSimpleName(), new HideTextBrick(), R.id.hide_variable_spinner, "someVariable", asList("new…", "someVariable")},
+				{AddItemToUserListBrick.class.getSimpleName(), new AddItemToUserListBrick(), R.id.add_item_to_userlist_spinner, "someList", asList("new…", "someList")},
+				{DeleteItemOfUserListBrick.class.getSimpleName(), new DeleteItemOfUserListBrick(), R.id.delete_item_of_userlist_spinner, "someList", asList("new…", "someList")},
+				{InsertItemIntoUserListBrick.class.getSimpleName(), new InsertItemIntoUserListBrick(), R.id.insert_item_into_userlist_spinner, "someList", asList("new…", "someList")},
+				{ReplaceItemInUserListBrick.class.getSimpleName(), new ReplaceItemInUserListBrick(), R.id.replace_item_in_userlist_spinner, "someList", asList("new…", "someList")},
+				{BroadcastReceiverBrick.class.getSimpleName(), new BroadcastReceiverBrick(new BroadcastScript("initialMessage")), R.id.brick_broadcast_spinner, "initialMessage", asList("new…", "initialMessage")},
+				{BroadcastBrick.class.getSimpleName(), new BroadcastBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", asList("new…", "initialMessage")},
+				{BroadcastWaitBrick.class.getSimpleName(), new BroadcastWaitBrick("initialMessage"), R.id.brick_broadcast_spinner, "initialMessage", asList("new…", "initialMessage")},
+				{WhenBackgroundChangesBrick.class.getSimpleName(), new WhenBackgroundChangesBrick(), R.id.brick_when_background_spinner, "someBackground", asList("new…", "someBackground")},
+				{WhenBounceOffBrick.class.getSimpleName(), new WhenBounceOffBrick(new WhenBounceOffScript(null)), R.id.brick_when_bounce_off_spinner, "\0any edge, actor, or object\0", asList("\0any edge, actor, or object\0", "Background", "testSprite", "otherTestSprite")},
+				{WhenNfcBrick.class.getSimpleName(), new WhenNfcBrick(), R.id.brick_when_nfc_spinner, "all", asList("Edit list of NFC tags", "all")},
+				{WhenGamepadButtonBrick.class.getSimpleName(), new WhenGamepadButtonBrick(new WhenGamepadButtonScript("")), R.id.brick_when_gamepad_button_spinner, "A", asList("A", "B", "up", "down", "left", "right")},
 		});
 	}
 
