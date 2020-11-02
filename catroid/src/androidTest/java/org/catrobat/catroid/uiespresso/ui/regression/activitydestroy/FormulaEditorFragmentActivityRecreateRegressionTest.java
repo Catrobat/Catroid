@@ -82,12 +82,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateFormulaEditorFragment() {
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
 		onBrickAtPosition(0)
@@ -116,12 +111,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	public void testActivityRecreateDataFragment() {
 		onFormulaEditor().performOpenDataFragment();
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 
 		onBrickAtPosition(0)
@@ -150,12 +140,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 	public void testActivityRecreateCategoryFragment() {
 		onFormulaEditor().performOpenFunctions();
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -187,12 +172,7 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 		onView(withText(R.string.formula_editor_new_string_name)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.Quarantine.class})
@@ -202,11 +182,6 @@ public class FormulaEditorFragmentActivityRecreateRegressionTest {
 		onFormulaEditor().performCompute();
 		onView(withId(R.id.formula_editor_compute_dialog_textview)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 	}
 }

@@ -125,12 +125,7 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 		onView(withId(R.id.input_edit_text)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}

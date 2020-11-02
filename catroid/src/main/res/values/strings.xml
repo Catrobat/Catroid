@@ -117,6 +117,9 @@
     <string name="marketing_app_details">Details about this app</string>
     <string name="marketing_more_on_google_play">More apps on App store</string>
 
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
+
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
@@ -606,13 +609,6 @@
     <string name="pack">Pack</string>
     <string name="unpack">Unpack</string>
     <!--  -->
-
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">Scripts</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="looks">Looks</string>
-    <string name="sounds">Sounds</string>
-
 
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_example_project">Example project</string>
