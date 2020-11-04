@@ -112,18 +112,6 @@
     </issue>
 
     <issue
-        id="OutdatedLibrary"
-        message="This version is deprecated. Details: The Fabric Crashlytics SDK is now deprecated and will continue reporting your app&apos;s crashes only until November 15, 2020. To continue getting crash reports in the Firebase console, make sure you upgrade to the Firebase Crashlytics SDK version 17.0.0+.
-&#xA;For more information, visit https://firebase.google.com/docs/crashlytics/upgrade-sdk. Consider switching to recommended version 17.2.2."
-        errorLine1="    implementation (&apos;com.crashlytics.sdk.android:crashlytics:2.6.8@aar&apos;) {"
-        errorLine2="    ^">
-        <location
-            file="build.gradle"
-            line="442"
-            column="5"/>
-    </issue>
-
-    <issue
         id="StaticFieldLeak"
         message="Do not place Android context classes in static fields (static reference to `CastManager` which has field `remoteLayout` pointing to `RelativeLayout`); this is a memory leak"
         errorLine1=" private static final CastManager INSTANCE = new CastManager();"
