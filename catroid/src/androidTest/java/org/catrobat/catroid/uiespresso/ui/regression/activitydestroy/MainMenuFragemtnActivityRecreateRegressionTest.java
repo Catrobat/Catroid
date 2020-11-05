@@ -96,16 +96,14 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateOrientation() {
-		onView(withText(R.string.main_menu_new))
+		onView(withId(R.id.floating_action_button))
 				.perform(click());
-		onView(withText(R.string.new_project_dialog_title))
+		onView(withId(R.id.input_edit_text))
 				.check(matches(isDisplayed()));
-		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
+		onView(withClassName(is("com.google.android.material.textfield.TextInputEditText")))
 				.perform(typeText("TestProject"), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
-		onView(withText(R.string.project_orientation_title)).inRoot(isDialog())
-				.check(matches(isDisplayed()));
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
 			@Override
@@ -121,10 +119,10 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewProgramDialog() {
-		onView(withText(R.string.main_menu_new))
+		onView(withId(R.id.floating_action_button))
 				.perform(click());
 
-		onView(withText(R.string.new_project_dialog_title)).inRoot(isDialog())
+		onView(withId(R.id.input_edit_text)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
