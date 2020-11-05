@@ -1800,6 +1800,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_multi_finger_y">stage touch y</string>
     <string name="formula_editor_function_is_multi_finger_touching">stage is touched</string>
     <string name="formula_editor_function_index_of_last_finger">last stage touch index</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">item</string>
