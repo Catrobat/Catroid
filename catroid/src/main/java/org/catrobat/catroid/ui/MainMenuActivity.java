@@ -49,7 +49,6 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -72,10 +71,9 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
+	public static final String TAG = MainMenuActivity.class.getSimpleName();
 	@Inject
 	ProjectManager projectManager;
-
-	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +86,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
 		int oldPrivacyPolicyHash = PreferenceManager.getDefaultSharedPreferences(this)
-						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 		int currentPrivacyPolicyHash = getResources().getString(R.string.dialog_privacy_policy_text)
-						.hashCode();
+				.hashCode();
 		if (oldPrivacyPolicyHash == currentPrivacyPolicyHash) {
 			loadContent();
 		} else {
@@ -225,7 +223,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
 				break;
 			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment().show(getSupportFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://catrob.at/privacypolicy"));
+				startActivity(browserIntent);
 				break;
 			case R.id.menu_about:
 				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
