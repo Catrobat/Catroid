@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!--
+<?xml version="1.0" encoding="utf-8" standalone="no"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -24,116 +23,304 @@
 <resources>
 
     <!-- General terms -->
+    <plurals name="error_cannot_convert_more_than_x_programs">
+        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
+            running conversions to finish first.</item>
+        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
+            running conversions to finish first.</item>
+    </plurals>
+    <plurals name="scratch_conversion_scheduled_x">
+        <item quantity="zero">No Scratch projects scheduled.</item>
+        <item quantity="one">Added %d Scratch project to the queue…</item>
+        <item quantity="other">Added %d Scratch projects to the queue…</item>
+    </plurals>
+    <plurals name="status_in_progress_x_jobs">
+        <item quantity="one">In progress: %d job</item>
+        <item quantity="other">In progress: %d jobs</item>
+    </plurals>
+    <plurals name="status_completed_x_jobs">
+        <item quantity="one">Completed: %d job</item>
+        <item quantity="other">Completed: %d jobs</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="zero">less than a minute</item>
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+
+    <plurals name="hours">
+        <item quantity="zero">less than an hour</item>
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+
+    <plurals name="days">
+        <item quantity="zero">less than a day</item>
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="delete_projects">
+        <item quantity="one">Delete this project?</item>
+        <item quantity="other">Delete these projects?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">Delete this scene?</item>
+        <item quantity="other">Delete these scenes?</item>
+    </plurals>
+
+    <plurals name="delete_sprites">
+        <item quantity="one">Delete this actor or object?</item>
+        <item quantity="other">Delete these actors or objects?</item>
+    </plurals>
+
+    <plurals name="delete_looks">
+        <item quantity="one">Delete this look?</item>
+        <item quantity="other">Delete these looks?</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">Delete this sound?</item>
+        <item quantity="other">Delete these sounds?</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">Delete this tag?</item>
+        <item quantity="other">Delete these tags?</item>
+    </plurals>
+
+    <plurals name="delete_scripts">
+        <item quantity="one">Delete this script?</item>
+        <item quantity="other">Delete these scripts?</item>
+    </plurals>
+
+    <plurals name="delete_bricks">
+        <item quantity="one">Delete this brick?</item>
+        <item quantity="other">Delete these bricks?</item>
+    </plurals>
+    <plurals name="packed_scenes">
+        <item quantity="one">Backpacked %d scene.</item>
+        <item quantity="other">Backpacked %d scenes.</item>
+    </plurals>
+
+    <plurals name="packed_sprites">
+        <item quantity="one">Backpacked %d actor or object.</item>
+        <item quantity="other">Backpacked %d actors or objects.</item>
+    </plurals>
+    <plurals name="packed_looks">
+        <item quantity="one">Backpacked %d look.</item>
+        <item quantity="other">Backpacked %d looks.</item>
+    </plurals>
+    <plurals name="packed_sounds">
+        <item quantity="one">Backpacked %d sound.</item>
+        <item quantity="other">Backpacked %d sounds.</item>
+    </plurals>
+
+    <plurals name="unpacked_scenes">
+        <item quantity="one">Unpacked %d scene.</item>
+        <item quantity="other">Unpacked %d scenes.</item>
+    </plurals>
+    <plurals name="unpacked_sprites">
+        <item quantity="one">Unpacked %d actor or object.</item>
+        <item quantity="other">Unpacked %d actors or objects.</item>
+    </plurals>
+    
+    <plurals name="unpacked_looks">
+        <item quantity="one">Unpacked %d look.</item>
+        <item quantity="other">Unpacked %d looks.</item>
+    </plurals>
+    <plurals name="unpacked_sounds">
+        <item quantity="one">Unpacked %d sound.</item>
+        <item quantity="other">Unpacked %d sounds.</item>
+    </plurals>
+
+    <plurals name="unpacked_scripts">
+        <item quantity="one">Unpacked %d script.</item>
+        <item quantity="other">Unpacked %d scripts.</item>
+    </plurals>
+    <plurals name="copied_scenes">
+        <item quantity="one">Copied %d scene.</item>
+        <item quantity="other">Copied %d scenes.</item>
+    </plurals>
+    <plurals name="copied_sprites">
+        <item quantity="one">Copied %d actor or object.</item>
+        <item quantity="other">Copied %d actors or objects.</item>
+    </plurals>
+
+    <plurals name="copied_looks">
+        <item quantity="one">Copied %d look.</item>
+        <item quantity="other">Copied %d looks.</item>
+    </plurals>
+    <plurals name="copied_sounds">
+        <item quantity="one">Copied %d sound.</item>
+        <item quantity="other">Copied %d sounds.</item>
+    </plurals>
+    <plurals name="copied_nfc_tags">
+        <item quantity="one">Copied %d NFC tag.</item>
+        <item quantity="other">Copied %d NFC tags.</item>
+    </plurals>
+
+    <plurals name="deleted_projects">
+        <item quantity="one">Deleted %d project.</item>
+        <item quantity="other">Deleted %d projects.</item>
+    </plurals>
+
+    <plurals name="deleted_scenes">
+        <item quantity="one">Deleted %d scene.</item>
+        <item quantity="other">Deleted %d scenes.</item>
+    </plurals>
+
+    <!-- Security warning dialog -->
+    <plurals name="deleted_sprites">
+        <item quantity="one">Deleted %d sprite.</item>
+        <item quantity="other">Deleted %d sprites.</item>
+    </plurals>
+
+    <!-- Login/Logout Mechanism -->
+    <plurals name="deleted_looks">
+        <item quantity="one">Deleted %d look.</item>
+        <item quantity="other">Deleted %d looks.</item>
+    </plurals>
+    <plurals name="deleted_sounds">
+        <item quantity="one">Deleted %d sound.</item>
+        <item quantity="other">Deleted %d sounds.</item>
+    </plurals>
+    <plurals name="deleted_nfc_tags">
+        <item quantity="one">Deleted %d NFC tag.</item>
+        <item quantity="other">Deleted %d NFC tags.</item>
+    </plurals>
+
+    <plurals name="deleted_scripts">
+        <item quantity="one">Deleted %d script.</item>
+        <item quantity="other">Deleted %d scripts.</item>
+    </plurals>
+
+    <plurals name="deleted_Items">
+        <item quantity="one">Deleted %d item.</item>
+        <item quantity="other">Deleted %d items.</item>
+    </plurals>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">layer</item>
+        <item quantity="other">layers</item>
+    </plurals>
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">step</item>
+        <item quantity="other">steps</item>
+    </plurals>
+    <plurals name="second_plural">
+        <item quantity="one">"second"</item>
+        <item quantity="other">"seconds"</item>
+    </plurals>
+    <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
+        <item quantity="other">For each tuple of items of</item>
+    </plurals>
+    <!--  -->
+
+    <!-- Main Menu -->
+    <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="other">stored in variables with the same names</item>
+    </plurals>
+    <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
+        <item quantity="other">%d lists selected</item>
+    </plurals>
+    <plurals name="time_plural">
+        <item quantity="one">time</item>
+        <item quantity="other">times</item>
+    </plurals>
     <string name="stage">Stage</string>
     <string name="play">Play</string>
     <string name="settings">Settings</string>
+
     <string name="redo">Redo</string>
     <string name="undo">Undo</string>
-
     <string name="new_option">new…</string>
-
     <string name="confirm">Confirm</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">Cancel</string>
-
     <string name="next">Next</string>
-
     <string name="ok">OK</string>
+    <!--  -->
+
+    <!-- Marketing activity -->
     <string name="done">Done</string>
     <string name="close">Close</string>
+    <string name="assistant">Assistant</string>
 
-    <string name= "assistant">Assistant</string>
-
+    <!-- Settings activity -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
     <string name="once">Once</string>
+
     <string name="always">Always</string>
     <string name="deny">Deny</string>
-
     <string name="agree">Agree</string>
+
     <string name="disagree">Disagree</string>
-    
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
-
     <string name="skip">skip</string>
     <string name="warning">Warning</string>
     <string name="error">Error</string>
 
     <string name="loading">Loading…</string>
+
     <string name="please_wait">Please wait</string>
     <string name="search_hint">Search…</string>
-
     <string name="backpack_add">Add to backpack</string>
-
     <string name="share_website_text">share.catrob.at</string>
-
-    <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
         in the background and also sends data to the internet. This may be harmless, and necessary
         for its intended behavior. However, please make sure that what you are saying while the
         project is running is safe. In case of doubt, please delete the downloaded project.
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
-
-    <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data…</string>
     <string name="loading_google_exchange_code">Exchanging Google login data…</string>
     <string name="loading_google_login">Google login on our server is complete…</string>
-
-    <string name="delete_account">Delete my account</string>
     <string name="logout_successful">Logout successful</string>
-
     <string name="degrees">degrees</string>
     <string name="background">Background</string>
     <string name="landscape">landscape</string>
     <string name="portrait">portrait</string>
     <string name="unknown">unknown</string>
     <string name="disconnect">Disconnect</string>
-    <!--  -->
-
-    <!-- Main Menu -->
     <string name="main_menu_continue">Continue project</string>
     <string name="main_menu_new">New project</string>
     <string name="main_menu_programs">Projects on device</string>
     <string name="main_menu_help">Help</string>
     <string name="main_menu_web">Catrobat community</string>
     <string name="main_menu_upload">Upload project</string>
-
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
+
     <string name="main_menu_privacy_policy">Privacy Policy</string>
     <string name="main_menu_about">About this app</string>
     <string name="main_menu_login">Login</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
-    <!--  -->
-
-    <!-- Marketing activity -->
     <string name="marketing_created_with">Created with</string>
     <string name="marketing_app_details">Details about this app</string>
     <string name="marketing_more_on_google_play">More apps on App store</string>
-
-    <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
     <string name="preference_description_language">Set the app\'s language</string>
 
+    <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string name="preference_screen_web_access_title">Edit trusted domains</string>
-
     <string name="preference_title_accessibility">Accessibility</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
     <string name="preference_title_accessibility_profile">Predefined profiles</string>
     <string name="preference_title_accessibility_profile_headline">Profiles</string>
     <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-
     <string name="preference_title_accessibility_text_appearance">Text appearance</string>
     <string name="preference_title_accessibility_handling">Handling</string>
     <string name="preference_title_accessibility_category_icons_big">Large icons</string>
@@ -143,10 +330,12 @@
     <string name="preference_title_accessibility_category_icons">Show icons</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
     <string name="preference_title_accessibility_high_contrast">High contrast</string>
+
     <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
     <string name="preference_description_accessibility_large_text">Increase the text size.</string>
     <string name="preference_title_accessibility_large_text">Large text</string>
     <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
+    <!-- -->
     <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
     <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
@@ -154,11 +343,15 @@
     <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
     <string name="preference_title_accessibility_font_style">Choose a text type</string>
     <string name="accessibility_font_regular">Regular</string>
+    <!--  -->
+
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
 
+    <string name="accessibility_settings_applied">Changes applied</string>
     <string name="preference_access_title_profile_default">Default</string>
+
+    <!-- Scratch Converter activity -->
     <string name="preference_access_summary_profile_default">Default settings</string>
     <string name="preference_access_title_profile_custom">My custom profile</string>
     <string name="preference_access_summary_profile_custom">My personal settings</string>
@@ -172,8 +365,6 @@
        delay</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Beginner mode</string>
-
-    <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
     <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
@@ -193,30 +384,27 @@
     <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
     <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
     <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-
     <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
     <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
     <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
     <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
-    <!-- -->
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
     <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
     <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
     <string name="preference_raspi_help">Help / getting started</string>
     <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
     <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
     <!--  -->
 
+    <string name="preference_raspi_port">Raspberry Pi port</string>
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
         multiplayer variables shared via Bluetooth</string>
-
     <string name="preference_title_enable_test_bricks">Testing extension</string>
     <string name="preference_description_test_bricks">Allows to create tests</string>
-
-    <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
+
+    <!-- ScratchReconvertDialog Strings -->
     <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
         or you might have lost access to it.</string>
     <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
@@ -228,33 +416,35 @@
         again later.</string>
     <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
         converter only works on the latest version. Please update the app.</string>
+    <!--  -->
+
+
+    <!-- ERRORS -->
+
+    <!-- Privacy Policy Error -->
     <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
         have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
         meanwhile.</string>
+
     <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
         Please wait until it is downloaded.</string>
+
+    <!-- Project Handling Errors -->
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
         Please download it first and then open it.</string>
+
+    <!-- Dialog Errors -->
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
         an old Scratch project from before %2$s. Please try another one.</string>
-    <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
-    </plurals>
     <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
         converted correctly. Please try to convert it again.</string>
     <string name="search_failed">Nothing found, please retry later.</string>
+
+    <!-- Recycler View -->
     <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
     <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
     <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
         contact the Catrobat team.</string>
-    <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="zero">No Scratch projects scheduled.</item>
-        <item quantity="one">Added %d Scratch project to the queue…</item>
-        <item quantity="other">Added %d Scratch projects to the queue…</item>
-    </plurals>
     <string name="scratch_conversion_started">Started to convert Scratch project…</string>
     <string name="convert">Convert</string>
     <string name="converting">Converting…</string>
@@ -262,16 +452,11 @@
     <string name="status_waiting_for_worker">Looking for a free worker… Please wait…</string>
     <string name="status_started">Started…</string>
     <string name="status_conversion_finished">Conversion finished</string>
-    <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
-    </plurals>
-    <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
-        <item quantity="other">Completed: %d jobs</item>
-    </plurals>
     <string name="status_conversion_failed">Conversion failed!</string>
+
     <string name="status_downloading">Downloading…</string>
+
+    <!-- Options Menu Options -->
     <string name="status_download_finished">Download finished.</string>
     <string name="status_download_canceled">Download canceled!</string>
     <string name="scratch_programs_in_progress_title">In progress</string>
@@ -280,12 +465,14 @@
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
         convert it but it might not work.</string>
     <string name="instructions">Instructions</string>
+
+    <!-- New Dialog Titles -->
     <string name="notes_and_credits">Notes and Credits</string>
+
+    <!-- Delete Dialog Titles -->
     <string name="shared_at_x">Shared: %1$s</string>
     <string name="modified_at_x">Modified: %1$s</string>
     <string name="remixes">Remixes</string>
-    <!--  -->
-
     <string name="author">Author:</string>
     <string name="screen_size">Stage size:</string>
     <string name="mode">Mode:</string>
@@ -293,50 +480,23 @@
     <string name="description_hint">Press to add description</string>
     <string name="notes_and_credits_hint">Press to add notes and credits</string>
 
-    <!-- ScratchReconvertDialog Strings -->
+    <!-- Dialog Labels -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
-    <plurals name="minutes">
-        <item quantity="zero">less than a minute</item>
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
-    </plurals>
-    <plurals name="hours">
-        <item quantity="zero">less than an hour</item>
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
-    </plurals>
-    <plurals name="days">
-        <item quantity="zero">less than a day</item>
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
     <string name="reconvert_dialog_download">Download the project again</string>
     <string name="reconvert_dialog_reconvert">Convert this project again</string>
-    <!--  -->
-
-
-    <!-- ERRORS -->
-
-    <!-- Privacy Policy Error -->
     <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
         However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-
     <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
-
-    <!-- Project Handling Errors -->
     <string name="error_copy_project">An error occurred while copying project</string>
-
-    <!-- Dialog Errors -->
     <string name="name_already_exists">This name is already in use, please choose another one.</string>
     <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
         using letters, numbers or other special characters.</string>
     <string name="name_empty">Please enter a text</string>
-
-    <!-- Recycler View -->
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
+    <!-- Details -->
     <string name="am_copy">Copy</string>
     <string name="am_delete">Delete</string>
     <string name="am_rename">Rename</string>
@@ -345,355 +505,229 @@
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="dialog_confirm_delete_definition">This will also remove the brick in all
         other scripts in which it is being used.\nYou cannot undo this!</string>
+    <!--  -->
 
+    <!-- Rename Dialog Titles -->
     <string name="list_headline_sprites">Actors and objects</string>
-
-    <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
     <string name="copy">Copy</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
+
+    <!-- New Script Group Dialog -->
     <string name="hide_details">Hide details</string>
 
-    <!-- New Dialog Titles -->
+    <!-- New Scene Menu -->
     <string name="new_scene_dialog">New scene</string>
 
-    <!-- Delete Dialog Titles -->
-    <plurals name="delete_projects">
-        <item quantity="one">Delete this project?</item>
-        <item quantity="other">Delete these projects?</item>
-    </plurals>
-    <plurals name="delete_scenes">
-        <item quantity="one">Delete this scene?</item>
-        <item quantity="other">Delete these scenes?</item>
-    </plurals>
-    <plurals name="delete_sprites">
-        <item quantity="one">Delete this actor or object?</item>
-        <item quantity="other">Delete these actors or objects?</item>
-    </plurals>
-    <plurals name="delete_looks">
-        <item quantity="one">Delete this look?</item>
-        <item quantity="other">Delete these looks?</item>
-    </plurals>
-    <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
-        <item quantity="other">Delete these sounds?</item>
-    </plurals>
-    <plurals name="delete_nfc_tags">
-        <item quantity="one">Delete this tag?</item>
-        <item quantity="other">Delete these tags?</item>
-    </plurals>
-    <plurals name="delete_scripts">
-        <item quantity="one">Delete this script?</item>
-        <item quantity="other">Delete these scripts?</item>
-    </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Delete this brick?</item>
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
+    <!-- Action Toasts -->
+    <!-- Backpack -->
     <string name="delete_definition">Delete the definition of this brick?</string>
-
-    <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>
     <string name="sprite_name_label">Actor or object name</string>
+
     <string name="sprite_group_name_label">Group name</string>
+    <!-- Unpack -->
     <string name="script_group_label">Script group name</string>
     <string name="look_name_label">Look name</string>
     <string name="sound_name_label">Sound name</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
     <string name="string_label">Text</string>
+    <!-- Copy -->
     <string name="data_label">Name</string>
     <string name="keyword_label">Insert keyword</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
-    <!-- Details -->
     <string name="project_details">Last access: %s, size: %s</string>
+    <!-- Delete -->
     <string name="last_access_today">today, %s</string>
     <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
     <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
     <string name="look_details">Resolution: %s, size: %s</string>
     <string name="sound_duration">Duration: %s</string>
     <string name="sound_details">Duration: %s, size: %s</string>
-    <!--  -->
-
-    <!-- Rename Dialog Titles -->
     <string name="rename_project">Rename project</string>
     <string name="rename_scene_dialog">Rename scene</string>
+    <!--  -->
+
+    <!-- ProjectListActivity and ProjectListFragment -->
     <string name="rename_sprite_dialog">Rename actor or object</string>
     <string name="rename_look_dialog">Rename look</string>
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
     <string name="rename_data_dialog">Rename</string>
-
-    <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
-
-    <!-- New Scene Menu -->
     <string name="new_scene">New scene</string>
-
-    <!-- Action Toasts -->
-    <!-- Backpack -->
-    <plurals name="packed_scenes">
-        <item quantity="one">Backpacked %d scene.</item>
-        <item quantity="other">Backpacked %d scenes.</item>
-    </plurals>
-    <plurals name="packed_sprites">
-        <item quantity="one">Backpacked %d actor or object.</item>
-        <item quantity="other">Backpacked %d actors or objects.</item>
-    </plurals>
-    <plurals name="packed_looks">
-        <item quantity="one">Backpacked %d look.</item>
-        <item quantity="other">Backpacked %d looks.</item>
-    </plurals>
-    <plurals name="packed_sounds">
-        <item quantity="one">Backpacked %d sound.</item>
-        <item quantity="other">Backpacked %d sounds.</item>
-    </plurals>
-
     <string name="packed_script_group">Backpacked one script group.</string>
-    <!-- Unpack -->
-    <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
-        <item quantity="other">Unpacked %d scenes.</item>
-    </plurals>
-    <plurals name="unpacked_sprites">
-        <item quantity="one">Unpacked %d actor or object.</item>
-        <item quantity="other">Unpacked %d actors or objects.</item>
-    </plurals>
-    <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
-        <item quantity="other">Unpacked %d looks.</item>
-    </plurals>
-    <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
-        <item quantity="other">Unpacked %d sounds.</item>
-    </plurals>
-    <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
-        <item quantity="other">Unpacked %d scripts.</item>
-    </plurals>
-    <!-- Copy -->
-    <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
-        <item quantity="other">Copied %d scenes.</item>
-    </plurals>
-    <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
-        <item quantity="other">Copied %d actors or objects.</item>
-    </plurals>
-    <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
-        <item quantity="other">Copied %d looks.</item>
-    </plurals>
-    <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
-        <item quantity="other">Copied %d sounds.</item>
-    </plurals>
-    <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
-        <item quantity="other">Copied %d NFC tags.</item>
-    </plurals>
-    <!-- Delete -->
-    <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
-        <item quantity="other">Deleted %d projects.</item>
-    </plurals>
-    <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
-        <item quantity="other">Deleted %d scenes.</item>
-    </plurals>
-    <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
-        <item quantity="other">Deleted %d sprites.</item>
-    </plurals>
-    <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
-        <item quantity="other">Deleted %d looks.</item>
-    </plurals>
-    <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
-        <item quantity="other">Deleted %d sounds.</item>
-    </plurals>
-    <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
-        <item quantity="other">Deleted %d NFC tags.</item>
-    </plurals>
-    <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
-        <item quantity="other">Deleted %d scripts.</item>
-    </plurals>
-    <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
-        <item quantity="other">Deleted %d items.</item>
-    </plurals>
-    <!--  -->
-
-    <!-- ProjectListActivity and ProjectListFragment -->
     <string name="project_list_title">Projects</string>
     <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Today</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
 
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="size">Size:</string>
 
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="description">Description:</string>
     <!--  -->
 
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="set_description">Set description</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
     <!--  -->
 
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="details_date_today">Today</string>
+    <string name="import_project">Import project</string>
     <!--  -->
 
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="error_import_project">Something went wrong while importing projects.</string>
+    <string name="error_no_files_found">No project files found.</string>
     <!--  -->
 
     <!-- NfcTagListFragment -->
+    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
+    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+    <string name="select_look_from_gallery">Select image</string>
+    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
+    <string name="sound_select_source">Select a sound</string>
     <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
     <string name="ndef_record_label">as record type</string>
     <string name="brick_set_nfc_tag">Wait for next NFC tag to write</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC tag</string>
+    <!--  -->
+
+    <!-- DataListFragment -->
     <string name="tnf_empty">Empty</string>
     <string name="tnf_external_type">External type</string>
     <string name="tnf_mime_media">Text</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
-    <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
-    <!--  -->
-
-    <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
-    <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Input for this brick</item>
-        <item quantity="other">Inputs for this brick</item>
-    </plurals>
 
 
     <!-- NewDataDialog -->
+    <string name="tnf_well_known_sms">SMS</string>
+    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+
+
+    <!-- Backpack -->
+    <string name="global_vars_headline">Variables for all actors and objects</string>
+    <string name="local_vars_headline">Variables for this actor or object only</string>
+    <string name="global_lists_headline">Lists for all actors and objects</string>
+    <!--  -->
+
+    <!-- Sprite Attribute Activity -->
+    <string name="local_lists_headline">Lists for this actor or object only</string>
     <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
     <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
     <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
         on connected multiplayer devices</string>
-
-
-    <!-- Backpack -->
     <string name="backpack_title">Your backpack</string>
+
+
+    <!-- NewProjectDialog -->
     <string name="pack">Pack</string>
     <string name="unpack">Unpack</string>
-    <!--  -->
-
-    <!-- Sprite Attribute Activity -->
     <string name="scripts">Scripts</string>
     <string name="backgrounds">Backgrounds</string>
     <string name="looks">Looks</string>
     <string name="sounds">Sounds</string>
     <string name="nfctags">NFC Tags</string>
+    <!--  -->
 
-
-    <!-- NewProjectDialog -->
+    <!-- NewMergedProjectDialog -->
     <string name="new_project_dialog_title">New project</string>
     <string name="new_project_empty">Create an empty project</string>
+    <!--  -->
+
+    <!-- NewSpriteDialog -->
     <string name="new_project_default">Create an example project</string>
+    <!--  -->
+
+    <!-- NewLookDialog -->
     <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
     <string name="new_project_default_jumping_sumo">Create an example Jumping Sumo project</string>
     <string name="project_orientation_title">Orientation:</string>
     <string name="project_select_screen_title">Screen:</string>
-    <!--  -->
-
-    <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Merged project</string>
     <string name="merging_project_text">These two projects cannot yet be merged</string>
     <!--  -->
 
-    <!-- NewSpriteDialog -->
+    <!-- NewSoundDialog -->
     <string name="new_sprite_dialog_title">New actor or object</string>
-    <!--  -->
-
-    <!-- NewLookDialog -->
     <string name="new_look_dialog_title">Add look</string>
     <string name="add_look_from_camera">Take picture</string>
     <string name="add_look_draw_new_image">Draw image</string>
+
+    <!-- Rating Dialog -->
     <string name="add_look_choose_image">Select image</string>
     <string name="add_look_media_library">Media library</string>
     <string name="add_look_drone_video">AR.Drone 2.0 video</string>
-    <!--  -->
-
-    <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Add sound</string>
     <string name="add_sound_from_recorder">Record sound</string>
-    <string name="add_sound_choose_file">Select file</string>
-    <string name="add_sound_music">Music composer</string>
-
-    <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
-    <string name="rating_dialog_rate_now">Now</string>
-    <string name="rating_dialog_rate_later">Later</string>
-    <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
 
     <!-- Terms of Use Dialog -->
+    <string name="add_sound_choose_file">Select file</string>
+    <string name="add_sound_music">Music composer</string>
+    <string name="rating_dialog_title">Rate App</string>
+    <!--  -->
+
+    <!-- Terms of Use Dialog Parrot ARDrone-->
+    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
+    <string name="rating_dialog_rate_now">Now</string>
+    <string name="rating_dialog_rate_later">Later</string>
+    <!--  -->
+
+    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+    <string name="rating_dialog_rate_never">Never</string>
+    <!--  -->
+
+    <!-- Privacy Policy -->
     <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
     <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
-    <!--  -->
+    <!-- -->
 
-    <!-- Terms of Use Dialog Parrot ARDrone-->
+    <!-- About Dialog -->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
-    <!--  -->
-
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
         Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
         Services.</string>
     <!--  -->
 
-    <!-- Privacy Policy -->
+    <!-- NetworkAlertDialog -->
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
+
+    <!-- UploadProjectDialog -->
     <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
         Policy to use the app:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
         &#8226; To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
+            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA),
             as well as Dynatrace by Dynatrace LLC (USA) to get
             metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
             usage of our apps and services, used operating system, and information about the network provider. This
             analysis and the collected data is not linked to your profile and does not contain any personal
             information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
-            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
+            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA).
+            Data processing is based on agreements with Google LLC and Dynatrace LLC.
             This relationship to the service provider conforms to the European Union\'s General Data
             Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
         &#8226; To create and use an account in our systems, and to inform you about necessary changes about your
@@ -743,9 +777,6 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <!-- -->
-
-    <!-- About Dialog -->
     <string name="dialog_about_title">About this App</string>
     <string name="dialog_about_license_info">This app offers a coding
         environment and interpreter for the visual programming language Catrobat.\n
@@ -753,36 +784,31 @@
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source code license</string>
     <string name="dialog_about_catrobat_link_text">About Catrobat</string>
-    <!--  -->
 
-    <!-- NetworkAlertDialog -->
+    <!-- Save Project to External Storage -->
     <string name="error_no_network_title">No network</string>
-
-    <!-- UploadProjectDialog -->
     <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
-
-    <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
-    <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
-    <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <!--  -->
 
     <!-- SoundRecorderActivity -->
+    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="notification_save_project_to_external_storage_title_pending">" "</string>
+    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <!--  -->
+
+    <!-- Brick context dialog -->
+    <string name="notification_save_project_to_external_storage_title_open">" "</string>
+    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
+    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <string name="soundrecorder_name">Sound recorder</string>
     <string name="soundrecorder_error">Sound recording failed</string>
     <string name="soundrecorder_recorded_filename">recording</string>
     <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
-    <!--  -->
-
-    <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Move script</string>
     <string name="brick_context_dialog_move_definition">Move this definition</string>
@@ -792,24 +818,24 @@
     <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
     <string name="brick_context_dialog_delete_script">Delete script</string>
     <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
-    <string name="comment_in_out">Disable/enable</string>
     <!--  -->
 
 
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Play scene:</string>
-    <string name="play_scene_dialog_default">First scene (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="brick_context_dialog_comment_in">Enable brick</string>
+    <string name="brick_context_dialog_comment_out">Disable brick</string>
+    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <!--  -->
 
 
     <!-- Sign In dialogs -->
+    <string name="brick_context_dialog_comment_in_script">Enable script</string>
+    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_help">Help</string>
+    <string name="comment_in_out">Disable/enable</string>
+    <string name="play_scene_dialog_title">Play scene:</string>
+    <string name="play_scene_dialog_default">First scene (%1$s)</string>
+    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
     <string name="sign_in_dialog_title">Sign in</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -838,31 +864,31 @@
         dashes (-), underscores (_), and periods (.).</string>
     <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
         periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
     <!--  -->
 
 
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
-    <string name="overwrite_rename">Choose a new name</string>
+    <string name="error_register_invalid_email_format">Invalid email format</string>
+    <string name="error_register_empty_password">Password field is empty</string>
+    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+    <string name="error_register_passwords_mismatch">Passwords do not match</string>
     <!--  -->
 
 
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
+    <string name="error_register_username_already_exists">Username already exists</string>
     <!--  -->
 
 
     <!-- Resource initialization fka PrestageActivity -->
+    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="overwrite_title">Project exists.</string>
+    <string name="overwrite_text">A project with this name already exists.</string>
+    <string name="overwrite_replace">Overwrite project</string>
+    <string name="overwrite_rename">Choose a new name</string>
+    <string name="pocket_music_default_project_name">Untitled song</string>
+    <string name="pocket_music_default_track_name">Track 1</string>
     <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
         install it?</string>
     <string name="prestage_resource_not_available_title">Component not available</string>
@@ -880,6 +906,9 @@
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
+    <!--  -->
+
+    <!-- Stage menu dialog -->
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -888,29 +917,26 @@
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
     <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
         issues.</string>
+    <string name="stage_dialog_back">Back</string>
     <!--  -->
 
-    <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
+    <!-- Broadcast spinner -->
     <string name="stage_dialog_resume">Resume</string>
     <string name="stage_dialog_restart">Restart</string>
+    <!--  -->
+
+    <!-- NFC spinner -->
     <string name="stage_dialog_axes_on">Axes on</string>
+    <!-- -->
+
+    <!-- Brick categories -->
     <string name="stage_dialog_axes_off">Axes off</string>
     <string name="stage_dialog_maximize">Maximize/\nstretch</string>
     <string name="stage_dialog_screenshot">Preview</string>
     <string name="stage_dialog_embroidery">Embroidery</string>
-    <!--  -->
-
-    <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">New message</string>
     <string name="dialog_new_broadcast_message_name">message:</string>
-    <!--  -->
-
-    <!-- NFC spinner -->
     <string name="brick_when_nfc_default_all">all</string>
-    <!-- -->
-
-    <!-- Brick categories -->
     <string name="categories">Categories</string>
     <string name="category_embroidery">Embroidery</string>
     <string name="category_motion">Motion</string>
@@ -924,74 +950,66 @@
     <string name="category_device">Device</string>
     <string name="category_lego_nxt">Lego NXT</string>
     <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">Arduino</string>
-    <string name="category_cast">Chromecast</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
     <!--  -->
 
     <!-- User Defined Bricks -->
+    <string name="category_drone">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo">Jumping Sumo</string>
+
+    <string name="category_phiro">Phiro</string>
+    <string name="category_arduino">Arduino</string>
+
+    <string name="category_cast">Chromecast</string>
+    <string name="category_raspi">Raspberry Pi</string>
+
+    <string name="category_assertions">Testing</string>
+
     <string name="brick_user_defined_add_label">Add label</string>
     <string name="brick_user_defined_add_input">Add input</string>
 
     <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
-
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <!--  -->
 
     <!-- Motion bricks -->
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_default_input_name">Name of input</string>
+    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define">Define</string>
+    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
     <string name="brick_place_at">"Place at"</string>
     <string name="brick_option_place_visually">Place visually</string>
     <string name="x_label">"x:"</string>
     <string name="y_label">"y:"</string>
     <string name="brick_set_x">"Set x to"</string>
     <string name="brick_set_y">"Set y to"</string>
+
     <string name="brick_change_x_by">"Change x by"</string>
+
     <string name="brick_change_y_by">"Change y by"</string>
     <string name="brick_go_back">Go back</string>
     <string name="brick_set_rotation_style">"Set rotation style"</string>
+
     <string name="brick_set_rotation_style_lr">left-right only</string>
+
     <string name="brick_set_rotation_style_normal">all-around</string>
     <string name="brick_set_rotation_style_no">don\'t rotate</string>
-
-    <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">layer</item>
-        <item quantity="other">layers</item>
-    </plurals>
-
     <string name="brick_come_to_front">Go to front</string>
     <string name="brick_if_on_edge_bounce">If on edge, bounce</string>
     <string name="brick_move">Move</string>
-
-    <plurals name="brick_move_n_step_plural">
-        <item quantity="one">step</item>
-        <item quantity="other">steps</item>
-    </plurals>
-
     <string name="brick_turn_left">Turn left</string>
     <string name="brick_turn_right">Turn right</string>
     <string name="brick_point_in_direction">Point in direction</string>
     <string name="brick_point_to">Point towards</string>
+    <!--  -->
+
+    <!-- Physics -->
     <string name="brick_glide">Glide</string>
     <string name="brick_glide_to_x">to x:</string>
     <string name="brick_go_to">Go to</string>
     <string name="brick_go_to_touch_position">touch position</string>
     <string name="brick_go_to_random_position">random position</string>
-    <!--  -->
-
-    <!-- Physics -->
     <string name="brick_set_physics_object_type">Set your motion type to</string>
     <string name="brick_set_physics_object_type_dynamic">moving and bouncing under gravity</string>
     <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
@@ -1002,13 +1020,13 @@
     <string name="brick_set_gravity_unit">steps/second²</string>
     <string name="brick_set_velocity_to">"Set velocity to"</string>
     <string name="brick_set_velocity_unit">steps/second</string>
+
+    <!-- Look bricks -->
     <string name="brick_turn_speed_unit">degrees/second</string>
     <string name="brick_set_friction">"Set friction to"</string>
     <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
     <string name="brick_rotate_left">"Spin left"</string>
     <string name="brick_rotate_right">"Spin right"</string>
-
-    <!-- Look bricks -->
     <string name="brick_set_look">Switch to look</string>
     <string name="brick_set_look_by_index">Switch to look with number</string>
     <string name="brick_and_wait">and wait</string>
@@ -1040,25 +1058,25 @@
     <string name="brick_ask_label">Ask</string>
     <string name="brick_ask_store">and store written answer in</string>
     <string name="brick_ask_default_question">What\'s your name?</string>
+    <!--  -->
+
+
+    <!-- Pen bricks -->
     <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
     <string name="brick_ask_dialog_submit">Submit answer</string>
     <string name="brick_ask_speech_label">Ask</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
     <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_pen_down">Pen down</string>
     <!--  -->
 
 
-    <!-- Pen bricks -->
-    <string name="brick_pen_down">Pen down</string>
+    <!-- Sound bricks -->
     <string name="brick_pen_up">Pen up</string>
     <string name="brick_pen_size">Set pen size to</string>
     <string name="brick_pen_color">Set pen color to</string>
     <string name="brick_clear_background">Clear</string>
     <string name="brick_stamp">Stamp</string>
-    <!--  -->
-
-
-    <!-- Sound bricks -->
     <string name="brick_play_sound">Start sound</string>
     <string name="brick_play_sound_and_wait">Start sound and wait</string>
     <string name="brick_stop_sound">Stop sound</string>
@@ -1073,25 +1091,25 @@
     <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
     for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <!--  -->
+
+    <!-- Embroidery bricks -->
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
     <string name="pause_for">Pause for</string>
     <string name="beats">beats</string>
-    <!--  -->
-
-    <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
     <string name="brick_running_stitch">Start running stitch with length</string>
     <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
+    <!--  -->
+
+    <!-- Control bricks -->
     <string name="brick_zigzag_stitch_width">and width</string>
     <string name="brick_triple_stitch">Start triple stitch with length</string>
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <!--  -->
-
-    <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
     <string name="brick_when">When tapped</string>
     <string name="brick_when_condition_when">When</string>
@@ -1101,21 +1119,17 @@
     <string name="brick_wait_until_second_part">is true</string>
     <string name="brick_when_gamepad_button">When gamepad button</string>
     <string name="brick_when_gamepad_button_tapped">tapped</string>
+
+
     <string name="brick_when_nfc">When NFC</string>
+
     <string name="brick_stop_script">Stop</string>
     <string name="brick_stop_this_script">this script</string>
+
     <string name="brick_stop_all_scripts">all scripts</string>
     <string name="brick_stop_other_scripts">other scripts of this actor or object</string>
-
-
-    <plurals name="second_plural">
-        <item quantity="one">"second"</item>
-        <item quantity="other">"seconds"</item>
-    </plurals>
-
     <string name="brick_collision_receive">When you bounce off</string>
     <string name="collision_with_anything">any edge, actor, or object</string>
-
     <string name="brick_broadcast_receive">When you receive</string>
     <string name="brick_broadcast">Broadcast</string>
     <string name="brick_broadcast_wait">Broadcast and wait</string>
@@ -1133,11 +1147,11 @@
     <string name="brick_repeat">Repeat</string>
     <string name="brick_repeat_until">Repeat until</string>
     <string name="brick_when_touched">When stage is tapped</string>
+
     <string name="brick_clone">Create clone of</string>
     <string name="brick_clone_this">yourself</string>
     <string name="brick_when_cloned">When you start as a clone</string>
     <string name="brick_delete_this_clone">Delete this clone</string>
-
     <string name="brick_assert_that">Assert</string>
     <string name="brick_is_equal_to">equals expected</string>
     <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
@@ -1147,30 +1161,14 @@
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
+
     <string name="brick_assert_actual">Actual:</string>
+
     <string name="brick_assert_expected">Expected:</string>
+
     <string name="brick_parameterized_assert">assert</string>
+
     <string name="brick_parameterized_equals">equals to expected item of</string>
-
-    <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">For each item of</item>
-        <item quantity="other">For each tuple of items of</item>
-    </plurals>
-
-    <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">stored in variable with the same name</item>
-        <item quantity="other">stored in variables with the same names</item>
-    </plurals>
-
-    <plurals name="list_selection_plural">
-        <item quantity="one">%d list selected</item>
-        <item quantity="other">%d lists selected</item>
-    </plurals>
-
-    <plurals name="time_plural">
-        <item quantity="one">time</item>
-        <item quantity="other">times</item>
-    </plurals>
 
     <string name="brick_loop_end">End of loop</string>
     <string name="brick_if_begin">If</string>
@@ -2106,6 +2104,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="hertz_symbol">㎐</string>
 
     <string name="sans_serif_font" translatable="false">sans_serif</string>
-    <string name="serif_font" translatable="false">serif</string><string name="privacy_policy_url">https://catrob.at/privacypolicy</string>
+    <string name="serif_font" translatable="false">serif</string>
 
+    <!-- Privacy Policy URL -->
+    <string name="privacy_policy_url">https://catrob.at/privacypolicy</string>
 </resources>

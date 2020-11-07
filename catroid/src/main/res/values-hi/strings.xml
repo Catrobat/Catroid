@@ -67,7 +67,6 @@
     <string name="loading_check_oauth_token">लॉगिन डेटा की जांच हो रही है&#8230;</string>
     <string name="loading_google_exchange_code">गूगल + डेटा का आदान-प्रदान</string>
     <string name="loading_google_login">गूगल+ हमारे सर्वर पर लॉगिन पूरा हो गया है</string>
-    <string name="delete_account">खाता_हटाए</string>
     <string name="logout_successful">लॉगआउट सफल हुआ</string>
     <string name="degrees">अंश</string>
     <string name="background">पृष्ठभूमि</string>

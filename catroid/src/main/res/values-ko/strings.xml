@@ -65,7 +65,6 @@
     <string name="loading_check_oauth_token">로그인 데이터 확인&#8230;</string>
     <string name="loading_google_exchange_code">Google + 데이터 교환중&#8230;</string>
     <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
-    <string name="delete_account">내 계정 삭제</string>
     <string name="logout_successful">로그아웃 성공</string>
     <string name="degrees">도</string>
     <string name="background">배경</string>

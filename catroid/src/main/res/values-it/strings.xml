@@ -65,7 +65,6 @@
     <string name="loading_check_oauth_token">Verifica dati di login&#8230;</string>
     <string name="loading_google_exchange_code">Scambio dati con Google+&#8230;</string>
     <string name="loading_google_login">Login completo con dati da Google+&#8230;</string>
-    <string name="delete_account">Elimina il mio account</string>
     <string name="logout_successful">Logout effettuato</string>
     <string name="degrees">gradi</string>
     <string name="background">Sfondo</string>

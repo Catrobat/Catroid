@@ -65,7 +65,6 @@
     <string name="loading_check_oauth_token">লগইন ডেটা পরীক্ষা করা হচ্ছে</string>
     <string name="loading_google_exchange_code">গুগল লগইন ডেটা বিনিময় করা</string>
     <string name="loading_google_login">আমাদের সার্ভারে গুগল লগইন সম্পূর্ণ</string>
-    <string name="delete_account">অ্যাকাউন্ট মুছে ফেলুন</string>
     <string name="logout_successful">লগআউট সফল</string>
     <string name="degrees">ডিগ্রী</string>
     <string name="background">ব্যাকগ্রাউন্ড</string>
