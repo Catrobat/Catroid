@@ -21,19 +21,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.dagger
+package org.catrobat.catroid.formulaeditor.function;
 
-import dagger.Binds
-import dagger.Module
-import dagger.multibindings.IntoSet
-import org.catrobat.catroid.ProjectManager
-
-interface EagerSingleton
-
-@Module
-abstract class EagerSingletonsModule {
-
-    @Binds
-    @IntoSet
-    internal abstract fun eagerInitProjectManager(projectManager: ProjectManager): EagerSingleton
+public interface TernaryFunctionAction {
+	Double execute(Double firstArgument, Double secondArgument, Double thirdArgument);
 }

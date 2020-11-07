@@ -762,6 +762,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="dialog_new_broadcast_message_name">Nachricht:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Bearbeite die Liste der NFC Tags</string>
     <string name="brick_when_nfc_default_all">Alle</string>
     <!-- -->
     <!-- Brick categories -->

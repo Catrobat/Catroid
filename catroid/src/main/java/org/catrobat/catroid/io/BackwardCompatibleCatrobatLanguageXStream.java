@@ -51,6 +51,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -115,6 +116,7 @@ import org.catrobat.catroid.content.bricks.RaspiIfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.RaspiPwmBrick;
 import org.catrobat.catroid.content.bricks.RaspiSendDigitalValueBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
+import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
 import org.catrobat.catroid.content.bricks.SceneStartBrick;
@@ -276,6 +278,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 		brickInfo.addBrickFieldToMap("yMovement", BrickField.Y_POSITION_CHANGE);
 		brickInfoMap.put("changeYByNBrick", brickInfo);
 
+		brickInfo = new BrickInfo(ResetTimerBrick.class.getSimpleName());
+		brickInfoMap.put("resetTimerBrick", brickInfo);
+
 		brickInfo = new BrickInfo(ClearGraphicEffectBrick.class.getSimpleName());
 		brickInfoMap.put("clearGraphicEffectBrick", brickInfo);
 
@@ -431,6 +436,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(SetTempoBrick.class.getSimpleName());
 		brickInfoMap.put("setTempoBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ChangeTempoByNBrick.class.getSimpleName());
+		brickInfoMap.put("changeTempoByNBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);
