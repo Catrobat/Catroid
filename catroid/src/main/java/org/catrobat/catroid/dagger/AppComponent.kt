@@ -21,34 +21,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.bricks
+package org.catrobat.catroid.dagger
 
-import android.content.Context
-import android.view.View
-import android.widget.TextView
-import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.R
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.content.actions.ScriptSequenceAction
+import dagger.Component
+import dagger.android.AndroidInjectionModule
+import org.catrobat.catroid.CatroidApplication
+import javax.inject.Singleton
 
-class DeleteLookBrick : BrickBaseType() {
+@Singleton
+@Component(
+    modules = [
+        AndroidInjectionModule::class,
+        ActivityBindingModule::class,
+        CatroidModule::class,
+        EagerSingletonsModule::class
+    ]
+)
+interface AppComponent {
+    fun initializeEagerSingletons(): Set<EagerSingleton>
 
-    companion object {
-        private const val serialVersionUID = 1L
-    }
-
-    override fun getViewResource(): Int = R.layout.brick_delete_look
-
-    override fun getView(context: Context): View {
-        super.getView(context)
-        if (ProjectManager.getInstance().currentSprite.isBackgroundSprite(context)) {
-            view.findViewById<TextView>(R.id.brick_delete_look_text_view)
-                .setText(R.string.brick_delete_background)
-        }
-        return view
-    }
-
-    override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.createDeleteLookAction(sprite))
-    }
+    fun inject(app: CatroidApplication)
 }

@@ -199,10 +199,6 @@ public class MidiSoundManager {
 		}
 	}
 
-	public void reset() {
-		setTempo(100);
-	}
-
 	public float getVolume() {
 		return volume;
 	}

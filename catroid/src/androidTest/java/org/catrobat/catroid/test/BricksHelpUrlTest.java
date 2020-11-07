@@ -384,8 +384,6 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetInstrumentBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetTempoBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetTempoBrick");
-		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeTempoByNBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeTempoByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ThinkBubbleBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ThinkBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AskBrick",
@@ -432,10 +430,6 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetListeningLanguageBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PauseForBeatsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PauseForBeatsBrick");
-		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteLookBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DeleteLookBrick");
-		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ResetTimerBrick",
-				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ResetTimerBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

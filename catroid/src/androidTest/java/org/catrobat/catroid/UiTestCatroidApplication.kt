@@ -23,7 +23,8 @@
 
 package org.catrobat.catroid
 
-import org.koin.java.KoinJavaComponent.inject
+import org.catrobat.catroid.dagger.CatroidModule
+import org.catrobat.catroid.dagger.DaggerAppComponent
 
 class UiTestCatroidApplication : CatroidApplication() {
 
@@ -31,9 +32,20 @@ class UiTestCatroidApplication : CatroidApplication() {
         lateinit var projectManager: ProjectManager
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        val pm = inject(ProjectManager::class.java)
-        projectManager = pm.value
+    override fun createApplicationComponents() {
+        val uiTestCatroidModule = UiTestCatroidModule(this)
+        appComponents = DaggerAppComponent.builder()
+            .catroidModule(uiTestCatroidModule)
+            .build()
+    }
+}
+
+class UiTestCatroidModule(application: CatroidApplication) :
+    CatroidModule(application = application) {
+
+    override fun provideProjectManager(): ProjectManager {
+        val projectManager = super.provideProjectManager()
+        UiTestCatroidApplication.projectManager = projectManager
+        return projectManager
     }
 }

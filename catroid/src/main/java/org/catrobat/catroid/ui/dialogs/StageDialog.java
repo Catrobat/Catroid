@@ -25,7 +25,6 @@ package org.catrobat.catroid.ui.dialogs;
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager.LayoutParams;
@@ -39,7 +38,6 @@ import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTFileGenerator;
-import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageLifeCycleController;
 import org.catrobat.catroid.stage.StageListener;
@@ -164,17 +162,18 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	}
 
 	public void onContinuePressed() {
+
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
 			return;
 		}
 		dismiss();
-		SensorHandler.timerReferenceValue += SystemClock.uptimeMillis() - SensorHandler.timerPauseValue;
 		StageLifeCycleController.stageResume(stageActivity);
 	}
 
 	public void onRestartPressed() {
+
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));
@@ -183,11 +182,11 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 
 		clearBroadcastMaps();
 		dismiss();
-		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
 		restartProject();
 	}
 
 	private void makeScreenshot() {
+
 		if (ProjectManager.getInstance().getCurrentProject().isCastProject()
 				&& !CastManager.getInstance().isConnected()) {
 			ToastUtil.showError(getContext(), stageActivity.getResources().getString(R.string.cast_error_not_connected_msg));

@@ -27,10 +27,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoServiceWrapper;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
@@ -40,92 +40,79 @@ import java.io.IOException;
 
 import androidx.fragment.app.DialogFragment;
 
-import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT;
-import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_CAST;
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DRONE;
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_JUMPING_SUMO;
 
 public class NewProjectDialogFragment extends DialogFragment {
 
 	public static final String TAG = NewProjectDialogFragment.class.getSimpleName();
-
-	private boolean exampleProject;
-	private boolean castProject;
-	private boolean landscape;
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.dialog_new_project, null);
 
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
-		final Switch exampleProjectSwitch = view.findViewById(R.id.example_project_switch);
 
-		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
-			view.findViewById(R.id.cast_radio_button).setVisibility(View.VISIBLE);
+		if (SettingsFragment.isDroneSharedPreferenceEnabled(getContext())) {
+			view.findViewById(R.id.project_default_drone_radio_button).setVisibility(View.VISIBLE);
+		}
+
+		if (JumpingSumoServiceWrapper.isJumpingSumoSharedPreferenceEnabled()) {
+			view.findViewById(R.id.project_default_jumping_sumo_radio_button).setVisibility(View.VISIBLE);
 		}
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setHint(getString(R.string.project_name_label))
-				.setText(getUniqueDefaultProjectName())
 				.setTextWatcher(new NewProjectNameTextWatcher<>())
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
-					exampleProject = exampleProjectSwitch.isChecked();
-
 					switch (radioGroup.getCheckedRadioButtonId()) {
-						case R.id.portrait_radio_button:
-							landscape = false;
+						case R.id.project_empty_radio_button:
+							showOrientationDialog(textInput, true);
 							break;
-						case R.id.landscape_mode_radio_button:
-							landscape = true;
+						case R.id.project_default_radio_button:
+							showOrientationDialog(textInput, false);
 							break;
-						case R.id.cast_radio_button:
-							castProject = true;
+						case R.id.project_default_drone_radio_button:
+							createARDroneProject(textInput);
+							break;
+						case R.id.project_default_jumping_sumo_radio_button:
+							createJumpingSumoProject(textInput);
 							break;
 						default:
 							throw new IllegalStateException(TAG + ": No radio button id match, check layout?");
 					}
-
-					createProject(textInput, landscape, exampleProject, castProject);
 				});
 
 		return builder
+				.setTitle(R.string.new_project_dialog_title)
 				.setView(view)
 				.setNegativeButton(R.string.cancel, null)
 				.create();
 	}
 
-	public String getUniqueDefaultProjectName() {
-
-		for (int i = 1; i < Integer.MAX_VALUE; i++) {
-			String name = getString(R.string.default_project_name) + " " + Integer.toString(i);
-
-			if (!ReplaceExistingProjectDialogFragment.projectExistsInDirectory(name)) {
-				return name;
-			}
-		}
-
-		throw new IllegalStateException("Could not find new project name.");
+	void showOrientationDialog(String projectName, boolean createEmptyProject) {
+		OrientationDialogFragment
+				.newInstance(projectName, createEmptyProject)
+				.show(getFragmentManager(), OrientationDialogFragment.TAG);
 	}
 
-	void createProject(String projectName, boolean landscape, boolean exampleProject,
-			boolean castProject) {
+	void createARDroneProject(String name) {
 		try {
-			if (exampleProject) {
-				if (castProject) {
-					ProjectManager.getInstance()
-							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_CAST, false);
-				} else {
-					ProjectManager.getInstance()
-							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_DEFAULT, landscape);
-				}
-			} else {
-				if (castProject) {
-					ProjectManager.getInstance()
-							.createNewEmptyProject(projectName, getContext(), false, true);
-				} else {
-					ProjectManager.getInstance()
-							.createNewEmptyProject(projectName, getContext(), landscape, false);
-				}
-			}
-			getActivity().startActivity(new Intent(getActivity(), ProjectActivity.class));
+			ProjectManager.getInstance()
+					.createNewExampleProject(name, getContext(), PROJECT_CREATOR_DRONE, false);
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			startActivity(intent);
+		} catch (IOException e) {
+			ToastUtil.showError(getActivity(), R.string.error_new_project);
+		}
+	}
+
+	void createJumpingSumoProject(String name) {
+		try {
+			ProjectManager.getInstance()
+					.createNewExampleProject(name, getContext(), PROJECT_CREATOR_JUMPING_SUMO, false);
+			Intent intent = new Intent(getActivity(), ProjectActivity.class);
+			startActivity(intent);
 		} catch (IOException e) {
 			ToastUtil.showError(getActivity(), R.string.error_new_project);
 		}

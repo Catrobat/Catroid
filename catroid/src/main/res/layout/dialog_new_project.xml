@@ -53,45 +53,33 @@
             android:id="@+id/radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checkedButton="@+id/portrait_radio_button"
-            android:paddingTop="@dimen/material_design_spacing_large"
-            android:paddingBottom="@dimen/material_design_spacing_large"
-            android:orientation="horizontal">
+            android:checkedButton="@+id/project_empty_radio_button">
 
             <RadioButton
-                android:id="@+id/portrait_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:drawableStart="@drawable/dialog_orientation_portrait"
-                android:paddingStart="@dimen/material_design_spacing_large"/>
+                android:id="@+id/project_empty_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_project_empty" />
 
             <RadioButton
-                android:id="@+id/landscape_mode_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:drawableStart="@drawable/dialog_orientation_landscape"
-                android:paddingStart="@dimen/material_design_spacing_large"/>
+                android:id="@+id/project_default_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_project_default" />
 
             <RadioButton
-                android:id="@+id/cast_radio_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0.33"
-                android:drawableStart="@drawable/ic_tv_black_24dp"
-                android:visibility="gone"
-                android:paddingStart="@dimen/material_design_spacing_large"/>
+                android:id="@+id/project_default_drone_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_project_default_drone"
+                android:visibility="gone" />
 
+            <RadioButton
+                android:id="@+id/project_default_jumping_sumo_radio_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/new_project_default_jumping_sumo"
+                android:visibility="gone" />
         </RadioGroup>
-
-        <Switch
-            android:id="@+id/example_project_switch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/material_design_spacing_large"
-            android:paddingBottom="@dimen/material_design_spacing_large"
-            android:text="@string/new_project_dialog_example_project" />
-
     </LinearLayout>
 </ScrollView>

@@ -148,11 +148,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.MIN,
 						NUMBER, "7",
 						NUMBER, "2");
-			case R.string.formula_editor_function_if_then_else:
-				return buildTripleParameterFunction(Functions.IF_THEN_ELSE,
-						FUNCTION_NAME, Functions.getFunctionByValue("FALSE").toString(),
-						NUMBER, "2",
-						NUMBER, "3");
 			case R.string.formula_editor_function_true:
 				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
 			case R.string.formula_editor_function_false:
@@ -204,8 +199,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, NUMBER, "1");
 			case R.string.formula_editor_function_index_of_last_finger:
 				return buildSensor(Sensors.LAST_FINGER_INDEX);
-			case R.string.formula_editor_function_number_of_current_touches:
-				return buildSensor(Sensors.NUMBER_CURRENT_TOUCHES);
 
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
@@ -251,8 +244,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
-			case R.string.formula_editor_sensor_timer:
-				return buildSensor(Sensors.TIMER);
 			case R.string.formula_editor_sensor_date_year:
 				return buildSensor(Sensors.DATE_YEAR);
 			case R.string.formula_editor_sensor_date_month:
@@ -486,21 +477,6 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildSensor(Sensors sensor) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(SENSOR, sensor.name()));
-		return returnList;
-	}
-
-	private List<InternToken> buildTripleParameterFunction(Functions function, InternTokenType firstParameter,
-			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue,
-			InternTokenType thirdParameter, String thirdParameterNumberValue) {
-		List<InternToken> returnList = new LinkedList<InternToken>();
-		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
-		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
-		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
-		returnList.add(new InternToken(FUNCTION_PARAMETER_DELIMITER));
-		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
-		returnList.add(new InternToken(FUNCTION_PARAMETER_DELIMITER));
-		returnList.add(new InternToken(thirdParameter, thirdParameterNumberValue));
-		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return returnList;
 	}
 

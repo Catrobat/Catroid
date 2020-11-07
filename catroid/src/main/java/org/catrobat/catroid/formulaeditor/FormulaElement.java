@@ -33,7 +33,6 @@ import org.catrobat.catroid.formulaeditor.function.FormulaFunction;
 import org.catrobat.catroid.formulaeditor.function.FunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.MathFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.RaspiFunctionProvider;
-import org.catrobat.catroid.formulaeditor.function.TernaryFunction;
 import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
@@ -43,7 +42,6 @@ import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.LinkedList;
@@ -99,7 +97,6 @@ public class FormulaElement implements Serializable {
 	private String value;
 	private FormulaElement leftChild = null;
 	private FormulaElement rightChild = null;
-	public List<FormulaElement> additionalChildren;
 	private transient FormulaElement parent;
 	private transient Map<Functions, FormulaFunction> formulaFunctions;
 
@@ -109,7 +106,6 @@ public class FormulaElement implements Serializable {
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);
-		additionalChildren = new ArrayList<>();
 	}
 
 	public FormulaElement(ElementType type, String value, FormulaElement parent) {
@@ -133,21 +129,12 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public FormulaElement(ElementType type, String value, FormulaElement parent, FormulaElement leftChild,
-			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
-		this(type, value, parent, leftChild, rightChild);
-		for (FormulaElement child : additionalChildren) {
-			addAdditionalChild(child);
-		}
-	}
-
 	private void initFunctionMap(List<FunctionProvider> functionProviders, Map<Functions, FormulaFunction> formulaFunctions) {
 		for (FunctionProvider functionProvider : functionProviders) {
 			functionProvider.addFunctionsToMap(formulaFunctions);
 		}
 
 		formulaFunctions.put(Functions.RAND, new BinaryFunction(this::interpretFunctionRand));
-		formulaFunctions.put(Functions.IF_THEN_ELSE, new TernaryFunction(this::interpretFunctionIfThenElse));
 	}
 
 	public ElementType getElementType() {
@@ -228,12 +215,6 @@ public class FormulaElement implements Serializable {
 			addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
 			tokens.addAll(rightChild.getInternTokenList());
 		}
-		for (FormulaElement child : additionalChildren) {
-			if (child != null) {
-				addToken(tokens, FUNCTION_PARAMETER_DELIMITER);
-				tokens.addAll(child.getInternTokenList());
-			}
-		}
 		if (functionHasParameters) {
 			addToken(tokens, FUNCTION_PARAMETERS_BRACKET_CLOSE);
 		}
@@ -256,11 +237,6 @@ public class FormulaElement implements Serializable {
 	public void updateVariableReferences(String oldName, String newName) {
 		tryUpdateVariableReference(leftChild, oldName, newName);
 		tryUpdateVariableReference(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateVariableReference(child, oldName, newName);
-		}
-
 		if (matchesTypeAndName(ElementType.USER_VARIABLE, oldName)) {
 			value = newName;
 		}
@@ -269,11 +245,6 @@ public class FormulaElement implements Serializable {
 	public void updateListName(String oldName, String newName) {
 		tryUpdateVariableReference(leftChild, oldName, newName);
 		tryUpdateVariableReference(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateVariableReference(child, oldName, newName);
-		}
-
 		if (matchesTypeAndName(ElementType.USER_LIST, oldName)) {
 			value = newName;
 		}
@@ -286,15 +257,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public final boolean containsSpriteInCollision(String name) {
-		if (containsSpriteInCollision(leftChild, name) || containsSpriteInCollision(rightChild, name)) {
-			return true;
-		}
-		for (FormulaElement child : additionalChildren) {
-			if (containsSpriteInCollision(child, name)) {
-				return true;
-			}
-		}
-		return matchesTypeAndName(ElementType.COLLISION_FORMULA, name);
+		return containsSpriteInCollision(leftChild, name)
+				|| containsSpriteInCollision(rightChild, name)
+				|| matchesTypeAndName(ElementType.COLLISION_FORMULA, name);
 	}
 
 	private boolean containsSpriteInCollision(FormulaElement element, String name) {
@@ -304,11 +269,6 @@ public class FormulaElement implements Serializable {
 	public final void updateCollisionFormula(String oldName, String newName) {
 		tryUpdateCollisionFormula(leftChild, oldName, newName);
 		tryUpdateCollisionFormula(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateCollisionFormula(child, oldName, newName);
-		}
-
 		if (matchesTypeAndName(ElementType.COLLISION_FORMULA, oldName)) {
 			value = newName;
 		}
@@ -327,9 +287,6 @@ public class FormulaElement implements Serializable {
 	public void updateCollisionFormulaToVersion(Project currentProject) {
 		tryUpdateCollisionFormulaToVersion(leftChild, currentProject);
 		tryUpdateCollisionFormulaToVersion(rightChild, currentProject);
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateCollisionFormulaToVersion(child, currentProject);
-		}
 		if (type == ElementType.COLLISION_FORMULA) {
 			String secondSpriteName = CollisionDetection.getSecondSpriteNameFromCollisionFormulaString(value, currentProject);
 			if (secondSpriteName != null) {
@@ -357,9 +314,6 @@ public class FormulaElement implements Serializable {
 
 		switch (type) {
 			case BRACKET:
-				if (additionalChildren.size() != 0) {
-					return additionalChildren.get(additionalChildren.size() - 1).interpretRecursive(sprite);
-				}
 				return rightChild.interpretRecursive(sprite);
 			case NUMBER:
 			case STRING:
@@ -394,39 +348,36 @@ public class FormulaElement implements Serializable {
 	}
 
 	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject) {
-		List<Object> arguments = new ArrayList<>();
-		arguments.add(tryInterpretRecursive(leftChild, sprite));
-		arguments.add(tryInterpretRecursive(rightChild, sprite));
-
-		for (FormulaElement child : additionalChildren) {
-			arguments.add(tryInterpretRecursive(child, sprite));
-		}
+		Object firstArgument = tryInterpretRecursive(leftChild, sprite);
+		Object secondArgument = tryInterpretRecursive(rightChild, sprite);
 
 		switch (function) {
 			case LETTER:
-				return interpretFunctionLetter(arguments.get(0), arguments.get(1));
+				return interpretFunctionLetter(firstArgument, secondArgument);
 			case LENGTH:
-				return interpretFunctionLength(arguments.get(0), sprite, currentProject);
+				return interpretFunctionLength(firstArgument, sprite, currentProject);
 			case JOIN:
 				return interpretFunctionJoin(sprite, leftChild, rightChild);
 			case REGEX:
 				return tryInterpretFunctionRegex(sprite, leftChild, rightChild);
 			case LIST_ITEM:
-				return interpretFunctionListItem(arguments.get(0), sprite, currentProject);
+				return interpretFunctionListItem(firstArgument, sprite, currentProject);
 			case CONTAINS:
-				return interpretFunctionContains(arguments.get(1), sprite, currentProject);
+				return interpretFunctionContains(secondArgument, sprite, currentProject);
 			case NUMBER_OF_ITEMS:
-				return interpretFunctionNumberOfItems(arguments.get(0), sprite, currentProject);
+				return interpretFunctionNumberOfItems(firstArgument, sprite, currentProject);
 			case INDEX_OF_ITEM:
-				return interpretFunctionIndexOfItem(arguments.get(0), sprite, currentProject);
+				return interpretFunctionIndexOfItem(firstArgument, sprite, currentProject);
 			case COLLIDES_WITH_COLOR:
 				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
-						.tryInterpretFunctionTouchesColor(arguments.get(0)));
+								.tryInterpretFunctionTouchesColor(firstArgument));
 			case COLOR_TOUCHES_COLOR:
 				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
-						.tryInterpretFunctionColorTouchesColor(arguments.get(0), arguments.get(1)));
+						.tryInterpretFunctionColorTouchesColor(firstArgument, secondArgument));
 			default:
-				return interpretFormulaFunction(function, arguments);
+				Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
+				Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
+				return interpretFormulaFunction(function, firstArgumentDouble, secondArgumentDouble);
 		}
 	}
 
@@ -438,19 +389,14 @@ public class FormulaElement implements Serializable {
 		return element.interpretRecursive(sprite);
 	}
 
-	private Object interpretFormulaFunction(Functions function, List<Object> arguments) {
-		List<Double> argumentsDouble = new ArrayList<>();
-		for (Object argument : arguments) {
-			argumentsDouble.add(convertArgumentToDouble(argument));
-		}
+	private Object interpretFormulaFunction(Functions function, Object firstArgument, Object secondArgument) {
+		Double firstArgumentDouble = convertArgumentToDouble(firstArgument);
+		Double secondArgumentDouble = convertArgumentToDouble(secondArgument);
 		FormulaFunction formulaFunction = formulaFunctions.get(function);
 		if (formulaFunction == null) {
 			return FALSE;
 		}
-		if (argumentsDouble.size() == 2) {
-			return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1));
-		}
-		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
+		return formulaFunction.execute(firstArgumentDouble, secondArgumentDouble);
 	}
 
 	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite, Project currentProject) {
@@ -651,16 +597,6 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private double interpretFunctionIfThenElse(double condition, double thenValue, double elseValue) {
-		if (Double.isNaN(condition)) {
-			return Double.NaN;
-		}
-		if (condition != 0) {
-			return thenValue;
-		}
-		return elseValue;
-	}
-
 	private static boolean isNumberWithDecimalPoint(FormulaElement element) {
 		return element.type == ElementType.NUMBER && element.value.contains(".");
 	}
@@ -739,22 +675,10 @@ public class FormulaElement implements Serializable {
 		this.leftChild.parent = this;
 	}
 
-	public void addAdditionalChild(FormulaElement child) {
-		additionalChildren.add(child);
-		child.parent = this;
-	}
-
 	public void replaceElement(FormulaElement current) {
 		parent = current.parent;
 		leftChild = current.leftChild;
 		rightChild = current.rightChild;
-		for (int index = 0; index < current.additionalChildren.size(); index++) {
-			if (index < additionalChildren.size()) {
-				additionalChildren.set(index, current.additionalChildren.get(index));
-			} else {
-				additionalChildren.add(current.additionalChildren.get(index));
-			}
-		}
 		value = current.value;
 		type = current.type;
 
@@ -764,11 +688,6 @@ public class FormulaElement implements Serializable {
 		if (rightChild != null) {
 			rightChild.parent = this;
 		}
-		for (FormulaElement child : additionalChildren) {
-			if (child != null) {
-				child.parent = this;
-			}
-		}
 	}
 
 	public void replaceElement(ElementType type, String value) {
@@ -777,6 +696,7 @@ public class FormulaElement implements Serializable {
 	}
 
 	public void replaceWithSubElement(String operator, FormulaElement rightChild) {
+
 		FormulaElement cloneThis = new FormulaElement(ElementType.OPERATOR, operator, this.getParent(), this,
 				rightChild);
 
@@ -788,17 +708,9 @@ public class FormulaElement implements Serializable {
 	}
 
 	public boolean containsElement(ElementType elementType) {
-		if (type.equals(elementType)
+		return (type.equals(elementType)
 				|| (leftChild != null && leftChild.containsElement(elementType))
-				|| (rightChild != null && rightChild.containsElement(elementType))) {
-			return true;
-		}
-		for (FormulaElement child : additionalChildren) {
-			if (child != null && child.containsElement(elementType)) {
-				return true;
-			}
-		}
-		return false;
+				|| (rightChild != null && rightChild.containsElement(elementType)));
 	}
 
 	public boolean isNumber() {
@@ -813,13 +725,8 @@ public class FormulaElement implements Serializable {
 	public FormulaElement clone() {
 		FormulaElement leftChildClone = tryCloneElement(leftChild);
 		FormulaElement rightChildClone = tryCloneElement(rightChild);
-		List<FormulaElement> additionalChildrenClones = new ArrayList<>();
-		for (FormulaElement child : additionalChildren) {
-			additionalChildrenClones.add(tryCloneElement(child));
-		}
 		String valueClone = value == null ? "" : value;
-		return new FormulaElement(type, valueClone, null, leftChildClone, rightChildClone,
-				additionalChildrenClones);
+		return new FormulaElement(type, valueClone, null, leftChildClone, rightChildClone);
 	}
 
 	private FormulaElement tryCloneElement(FormulaElement element) {
@@ -829,10 +736,6 @@ public class FormulaElement implements Serializable {
 	public void addRequiredResources(final Set<Integer> requiredResourcesSet) {
 		tryAddRequiredResources(requiredResourcesSet, leftChild);
 		tryAddRequiredResources(requiredResourcesSet, rightChild);
-
-		for (FormulaElement child : additionalChildren) {
-			tryAddRequiredResources(requiredResourcesSet, child);
-		}
 
 		switch (type) {
 			case FUNCTION:

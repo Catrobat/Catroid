@@ -335,10 +335,6 @@ public class InternFormulaParser {
 			if (currentToken.isFunctionParameterDelimiter()) {
 				getNextToken();
 				functionTree.setRightChild(termList());
-				while (currentToken.isFunctionParameterDelimiter()) {
-					getNextToken();
-					functionTree.addAdditionalChild(termList());
-				}
 			}
 			if (!currentToken.isFunctionParameterBracketClose()) {
 				throw new InternFormulaParserException("Parse Error");

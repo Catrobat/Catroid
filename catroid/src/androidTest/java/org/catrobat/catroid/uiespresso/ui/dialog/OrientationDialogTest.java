@@ -47,6 +47,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.IsNot.not;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -55,7 +56,6 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -106,21 +106,21 @@ public class OrientationDialogTest {
 	public void testCreateNewCastProject() {
 		onView(withId(R.id.floating_action_button))
 				.perform(click());
-		onView(withId(R.id.input_edit_text))
+		onView(withText(R.string.new_project_dialog_title))
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-				.check(matches(allOf(isDisplayed(), isEnabled())));
+				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
 
 		onView(allOf(withId(R.id.input_edit_text), isDisplayed()))
 				.perform(replaceText("TestCastProject"), closeSoftKeyboard());
 
-		onView(withId(R.id.cast_radio_button))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
-
-		onView(withId(R.id.example_project_switch))
-				.check(matches(allOf(isDisplayed(), isNotChecked())));
-
+		onView(withText(R.string.project_select_screen_title))
+				.check(matches(isDisplayed()));
+		onView(withId(R.id.cast))
+				.perform(click());
 		onView(withText(R.string.ok))
 				.perform(click());
 

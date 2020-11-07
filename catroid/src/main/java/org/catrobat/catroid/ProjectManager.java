@@ -42,6 +42,7 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
+import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -65,7 +66,7 @@ import androidx.annotation.VisibleForTesting;
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
-public final class ProjectManager {
+public final class ProjectManager implements EagerSingleton {
 
 	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
@@ -83,16 +84,17 @@ public final class ProjectManager {
 	}
 
 	public ProjectManager(Context applicationContext) {
-		this.applicationContext = applicationContext;
-		if (instance == null) {
-			instance = this;
+		if (instance != null) {
+			throw new RuntimeException("ProjectManager should be instantiated only once");
 		}
+		this.applicationContext = applicationContext;
+		instance = this;
 	}
 
 	/**
 	 * Replaced with dependency injection
 	 *
-	 * @deprecated use dependency injection with koin instead.
+	 * @deprecated use dependency injection with Dagger instead.
 	 */
 	@Deprecated
 	public static ProjectManager getInstance() {

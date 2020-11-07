@@ -116,10 +116,12 @@ public class ProjectListActivityRecreateRegressionTest {
 				.check(matches(withText(projectName)));
 		onView(withId(R.id.button_add))
 				.perform(click());
-		onView(withClassName(is("com.google.android.material.textfield.TextInputEditText")))
+		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
 				.perform(typeText("TestProject0815"), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
+		onView(withText(R.string.project_orientation_title)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
 			@Override

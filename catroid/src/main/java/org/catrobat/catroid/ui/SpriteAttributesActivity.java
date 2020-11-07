@@ -26,11 +26,14 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -149,6 +152,11 @@ public class SpriteAttributesActivity extends BaseActivity implements ButtonAdap
 		items.add(new RVButton(SOUNDS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_sounds),
 				getString(R.string.sounds)));
 
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
+			items.add(new RVButton(NFC_TAGS, ContextCompat.getDrawable(this, R.drawable.ic_program_menu_nfc),
+					getString(R.string.nfctags)));
+		}
 		return items;
 	}
 

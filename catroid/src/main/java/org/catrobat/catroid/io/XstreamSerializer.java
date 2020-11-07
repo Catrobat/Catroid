@@ -78,7 +78,6 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
-import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -91,7 +90,6 @@ import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
-import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -176,7 +174,6 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
-import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
 import org.catrobat.catroid.content.bricks.SayForBubbleBrick;
@@ -397,7 +394,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", ChangeTransparencyByNBrick.class);
 		xstream.alias("brick", ChangeSizeByNBrick.class);
 		xstream.alias("brick", ChangeVariableBrick.class);
-		xstream.alias("brick", ChangeTempoByNBrick.class);
 		xstream.alias("brick", ChangeVolumeByNBrick.class);
 		xstream.alias("brick", ChangeXByNBrick.class);
 		xstream.alias("brick", ChangeYByNBrick.class);
@@ -434,7 +430,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", LoopEndBrick.class);
 		xstream.alias("brick", LoopEndlessBrick.class);
 		xstream.alias("brick", LookRequestBrick.class);
-		xstream.alias("brick", DeleteLookBrick.class);
 		xstream.alias("brick", BackgroundRequestBrick.class);
 		xstream.alias("brick", MoveNStepsBrick.class);
 		xstream.alias("brick", NextLookBrick.class);
@@ -507,7 +502,6 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopScriptBrick.class);
 		xstream.alias("brick", WebRequestBrick.class);
 		xstream.alias("brick", StoreCSVIntoUserListBrick.class);
-		xstream.alias("brick", ResetTimerBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
 		xstream.alias("brick", SetNfcTagBrick.class);

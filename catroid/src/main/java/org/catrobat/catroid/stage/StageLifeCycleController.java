@@ -25,7 +25,6 @@ package org.catrobat.catroid.stage;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -47,7 +46,6 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StageAudioFocus;
-import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.VibrationUtil;
@@ -114,7 +112,6 @@ public final class StageLifeCycleController {
 		}
 		stageActivity.stageAudioFocus = new StageAudioFocus(stageActivity);
 		stageActivity.stageResourceHolder = new StageResourceHolder(stageActivity);
-		MidiSoundManager.getInstance().reset();
 
 		List<String> requiredPermissions = getProjectsRuntimePermissionList();
 		if (requiredPermissions.isEmpty()) {
@@ -138,9 +135,6 @@ public final class StageLifeCycleController {
 				}
 			}
 			SpeechRecognitionHolder.Companion.getInstance().destroy();
-
-			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
-
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();

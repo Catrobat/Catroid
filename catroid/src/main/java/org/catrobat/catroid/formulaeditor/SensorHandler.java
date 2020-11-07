@@ -102,8 +102,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float locationAccuracy = 0f;
 	private double altitude = 0d;
 	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
-	public static double timerReferenceValue = 0d;
-	public static double timerPauseValue = 0d;
 
 	private static String listeningLanguageSensor;
 
@@ -468,8 +466,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return (double) instance.textBlocksNumber;
 			case LOUDNESS:
 				return (double) instance.loudness;
-			case TIMER:
-				return (SystemClock.uptimeMillis() - timerReferenceValue) / 1000d;
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
@@ -534,8 +530,6 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
 			case FINGER_Y:
 				return Double.valueOf(TouchUtil.getY(TouchUtil.getLastTouchIndex()));
-			case NUMBER_CURRENT_TOUCHES:
-				return Double.valueOf(TouchUtil.getNumberOfCurrentTouches());
 
 			case DRONE_BATTERY_STATUS:
 				return (double) dcs.getDroneNavData().batteryStatus;

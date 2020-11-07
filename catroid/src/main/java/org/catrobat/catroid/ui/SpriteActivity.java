@@ -173,7 +173,7 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	public void loadFragment(int fragmentPosition) {
+	private void loadFragment(int fragmentPosition) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {
@@ -265,9 +265,6 @@ public class SpriteActivity extends BaseActivity {
 			}
 		} else if (currentFragment instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) currentFragment).promptSave();
-			return;
-		} else if (currentFragment instanceof NfcTagListFragment) {
-			loadFragment(FRAGMENT_SCRIPTS);
 			return;
 		}
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
