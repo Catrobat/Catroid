@@ -21,19 +21,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid
+package org.catrobat.catroid.formulaeditor.function;
 
-import org.koin.java.KoinJavaComponent.inject
+public class TernaryFunction implements FormulaFunction, TernaryFunctionAction {
+	private final TernaryFunctionAction action;
 
-class UiTestCatroidApplication : CatroidApplication() {
+	public TernaryFunction(TernaryFunctionAction action) {
+		this.action = action;
+	}
 
-    companion object {
-        lateinit var projectManager: ProjectManager
-    }
+	@Override
+	public Double execute(Double firstArgument, Double secondArgument, Double thirdArgument) {
+		if (firstArgument == null || secondArgument == null || thirdArgument == null) {
+			return 0d;
+		} else {
+			return action.execute(firstArgument, secondArgument, thirdArgument);
+		}
+	}
 
-    override fun onCreate() {
-        super.onCreate()
-        val pm = inject(ProjectManager::class.java)
-        projectManager = pm.value
-    }
+	@Override
+	public Double execute(Double... args) {
+		if (args == null || args.length < 3) {
+			return 0d;
+		} else {
+			return execute(args[0], args[1], args[2]);
+		}
+	}
 }
