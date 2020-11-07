@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">取消</string>
     <string name="next">下一步</string>
-    <string name="back">后退</string>
     <string name="ok">确定</string>
     <string name="done">已完成</string>
     <string name="close">关闭</string>
@@ -58,7 +57,6 @@
     <string name="loading_check_oauth_token">正在检查登录数据..。</string>
     <string name="loading_google_exchange_code">交换 google + 数据..。</string>
     <string name="loading_google_login">谷歌 + 登录我们的服务器是完整的..。</string>
-    <string name="delete_account">删除帐户</string>
     <string name="logout_successful">成功登出</string>
     <string name="degrees">度</string>
     <string name="background">背景</string>
@@ -527,7 +525,6 @@
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">您即将使用这个应用程序与Parrot Jumping Sumo。 我们强烈提醒您遵守Parrot和Catrobat的使用条款和服务。</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">隐私策略</string>
     <string name="disclaimer_privacy_police_header_headline">欢迎!</string>
     <string name="disclaimer_privacy_policy_header">在您开始编码之前，请阅读并接受我们的隐私 策略来使用应用程序：</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -591,7 +588,6 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <string name="dialog_privacy_policy_declined_text">必须同意隐私政策才能注册或继续使用您的帐户。 如果您不希望我们收集此数据，则可以删除您的账号通过我们的https://share.catrob.at/网站。    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">关于本应用</string>

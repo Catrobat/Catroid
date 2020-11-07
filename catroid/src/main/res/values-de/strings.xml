@@ -33,7 +33,6 @@
     <string name="ignore">Ignorieren </string>
     <string name="cancel">Abbrechen</string>
     <string name="next">Weiter</string>
-    <string name="back">Zurück</string>
     <string name="ok">Ok</string>
     <string name="done">Fertig</string>
     <string name="close">Schließen</string>
@@ -66,7 +65,6 @@
     <string name="loading_check_oauth_token">Anmeldedaten werden überprüft&#8230;</string>
     <string name="loading_google_exchange_code">Tausche Google Login Daten aus&#8230;</string>
     <string name="loading_google_login">Google Login am Server abgeschlossen&#8230;</string>
-    <string name="delete_account">Meinen Account löschen</string>
     <string name="logout_successful">Abmeldung erfolgreich</string>
     <string name="degrees">Grad</string>
     <string name="background">Hintergrund</string>
@@ -595,7 +593,6 @@
       Jumping Sumo. Wir möchten dich daran erinnern, die Nutzungsbedingungen und Dienstleistungen von Parrot und Catrobat einzuhalten.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Datenschutz-Vereinbarung</string>
     <string name="disclaimer_privacy_police_header_headline">Willkommen!</string>
     <string name="disclaimer_privacy_policy_header">Bevor du mit der App loslegen kannst, lese und akzeptiere bitte unsere Datenschutzvereinbarung:</string>
     <string name="dialog_privacy_policy_text">Um Ihnen alle Vorteile unserer Services und dem damit verbundenen Konto anbieten zu können, ist es notwendig, bestimmte Daten von Ihnen zu erfassen.\n\n
@@ -620,7 +617,6 @@ Die offizielle englischsprachige Datenschutzerklärung von Catrobat ist im Inter
 Version 2.2, 17 Oktober 2019\n\n
 
 Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden Sie hier: http://developer.catrobat.org/privacy_policy_2-0    </string>
-    <string name="dialog_privacy_policy_declined_text">Es ist notwendig unserer Datenschutzvereinbarung zuzustimmen um ein Benutzerkonto anzulegen oder weiter zu benutzen. Falls du damit nicht einverstanden bist, kannst du dein Konto jederzeit über deine Profilseite auf unserer Webseite löschen. Danach kannst du weiterhin alle Funktionen nutzen für die kein Benutzerkonto notwendig ist.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">Über die App</string>

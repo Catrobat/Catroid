@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">취소</string>
     <string name="next">다음</string>
-    <string name="back">돌아가기</string>
     <string name="ok">확인</string>
     <string name="done">완료</string>
     <string name="close">닫기</string>
@@ -66,7 +65,6 @@
     <string name="loading_check_oauth_token">로그인 데이터 확인&#8230;</string>
     <string name="loading_google_exchange_code">Google + 데이터 교환중&#8230;</string>
     <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
-    <string name="delete_account">내 계정 삭제</string>
     <string name="logout_successful">로그아웃 성공</string>
     <string name="degrees">도</string>
     <string name="background">배경</string>
@@ -538,7 +536,6 @@
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">이 앱을 Parrot\'s  AR.Drone2.0과 함께 사용해 보십시오. 우리는 당신이 Parrot의 사용 약관과 드론을 위한 서비스, 그리고 Catrobat의 사용 약관을 준수하도록 권고합니다.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">개인 정보 보호 정책</string>
     <string name="disclaimer_privacy_police_header_headline">환영합니다!</string>
     <string name="disclaimer_privacy_policy_header">코딩을 시작하기전에 앱 사용 정책을 보아 주세요:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -602,9 +599,6 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <string name="dialog_privacy_policy_declined_text">계정을 계속 사용하거나 등록하려면 개인 정보 보호 정책에 동의 해야 합니다.
-정보 수집에 동의하지 않으면 
-https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 수 있습니다.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">앱 소개</string>

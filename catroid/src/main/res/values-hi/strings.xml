@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">रद्द करें</string>
     <string name="next">अगला</string>
-    <string name="back">पीछे जाए</string>
     <string name="ok">ठीक है।</string>
     <string name="done">पूर्ण</string>
     <string name="close">बंद करें</string>
@@ -68,7 +67,6 @@
     <string name="loading_check_oauth_token">लॉगिन डेटा की जांच हो रही है&#8230;</string>
     <string name="loading_google_exchange_code">गूगल + डेटा का आदान-प्रदान</string>
     <string name="loading_google_login">गूगल+ हमारे सर्वर पर लॉगिन पूरा हो गया है</string>
-    <string name="delete_account">खाता_हटाए</string>
     <string name="logout_successful">लॉगआउट सफल हुआ</string>
     <string name="degrees">अंश</string>
     <string name="background">पृष्ठभूमि</string>
@@ -600,7 +598,6 @@
         Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">गोपनीयता नीति</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
     <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
         Policy to use the app:</string>
@@ -664,10 +661,6 @@
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
     </string>
     <!-- -->
     <!-- About Dialog -->
