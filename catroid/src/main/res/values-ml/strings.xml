@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">വേണ്ടെന്നു വയ്ക്കുക</string>
     <string name="next">അടുത്തത്</string>
-    <string name="back">തിരികെ</string>
     <string name="ok">ശരി</string>
     <string name="done">പൂർത്തിയായി</string>
     <string name="close">അടയ്‌ക്കുക</string>
@@ -601,7 +600,6 @@
         Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Privacy policy</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
     <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
         Policy to use the app:</string>
@@ -665,10 +663,6 @@
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
     </string>
     <!-- -->
     <!-- About Dialog -->

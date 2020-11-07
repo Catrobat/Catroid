@@ -49,7 +49,6 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -225,7 +224,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
 				break;
 			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment().show(getSupportFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+						Uri.parse(getString(R.string.privacy_policy_url)));
+				startActivity(browserIntent);
 				break;
 			case R.id.menu_about:
 				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);

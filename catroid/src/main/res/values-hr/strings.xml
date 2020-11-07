@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">Odustani</string>
     <string name="next">Dalje</string>
-    <string name="back">Natrag</string>
     <string name="ok">OK</string>
     <string name="done">Izvršeno</string>
     <string name="close">Zatvoriti</string>
@@ -633,7 +632,6 @@ Ako se ne osjecate ugodno kako bi to ucinili, mozete koristiti nase besplatne we
         Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Pravila privatnosti</string>
     <string name="disclaimer_privacy_police_header_headline">Dobrodošli!</string>
     <string name="disclaimer_privacy_policy_header">Prije nego pocnete programirati, molimo procitajte i prihvatite nasa Pravila Privatnosti kako bi koristili aplikaciju:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -696,10 +694,6 @@ Ako se ne osjecate ugodno kako bi to ucinili, mozete koristiti nase besplatne we
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
     </string>
     <!-- -->
     <!-- About Dialog -->

@@ -37,7 +37,6 @@
     <string name="cancel">Cancel</string>
 
     <string name="next">Next</string>
-    <string name="back">Back</string>
 
     <string name="ok">OK</string>
     <string name="done">Done</string>
@@ -680,7 +679,6 @@
     <!--  -->
 
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Privacy policy</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
     <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
         Policy to use the app:</string>
@@ -744,10 +742,6 @@
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
     </string>
     <!-- -->
 
@@ -2112,6 +2106,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="hertz_symbol">㎐</string>
 
     <string name="sans_serif_font" translatable="false">sans_serif</string>
-    <string name="serif_font" translatable="false">serif</string>
+    <string name="serif_font" translatable="false">serif</string><string name="privacy_policy_url">https://catrob.at/privacypolicy</string>
 
 </resources>

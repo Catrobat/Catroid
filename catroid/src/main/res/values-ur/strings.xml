@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">منسوخ کریں</string>
     <string name="next">اگلا</string>
-    <string name="back">پیچھے</string>
     <string name="ok">ٹھيک ہے</string>
     <string name="done">مکمل</string>
     <string name="close">بند کریں</string>
@@ -617,7 +616,6 @@
          خدمات</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">رازداری کا طریقہ کار</string>
     <string name="disclaimer_privacy_police_header_headline">خوش آمدید</string>
     <string name="disclaimer_privacy_policy_header">کوڈنگ شروع کرنے سے پہلے، براہ کرم ہماری رازداری کو پڑھ اور قبول کریں
          اے پی پی استعمال کرنے کی پالیسی:</string>
@@ -682,8 +680,6 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <string name="dialog_privacy_policy_declined_text">رجسٹریشن کرنے کے لئے یا آپ کے اکاؤنٹ کو استعمال کرنے کے لئے پرائیویسی پالیسی سے اتفاق کرنے کے لئے ضروری ہے. اگر آپ اس ڈیٹا کو جمع کرنے کے لئے نہیں چاہتے ہیں، تو آپ اپنا حذف کرسکتے ہیں
-         اپنے https://share.catrob.at/ ویب سائٹ پر اپنے پروفائل کے ذریعے اکاؤنٹ.</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">اس ایپ کے بارے میں</string>

@@ -33,7 +33,6 @@
     <string name="ignore">Zignoruj</string>
     <string name="cancel">Anuluj</string>
     <string name="next">Dalej</string>
-    <string name="back">Wstecz</string>
     <string name="ok">OK</string>
     <string name="done">Zrobione</string>
     <string name="close">Zamknij</string>
@@ -652,7 +651,6 @@
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Za chwilę będziesz używać tej aplikacji razem z Jumping Sumo firmy Parrot. Zdecydowanie zalecamy przestrzeganie Warunków użytkowania i usług zarówno Catrobat, jak i Parrot.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Polityka prywatności</string>
     <string name="disclaimer_privacy_police_header_headline">Witaj!</string>
     <string name="disclaimer_privacy_policy_header">Zanim zaczniesz kodować, przeczytaj i zaakceptuj naszą Politykę prywatności, aby korzystać z aplikacji:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -716,7 +714,6 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <string name="dialog_privacy_policy_declined_text">Konieczne jest zaakceptowanie Polityki prywatności w celu rejestracji lub dalszego korzystania z konta. Jeśli nie chcesz, abyśmy gromadzili te dane, możesz usunąć swoje konto za pośrednictwem strony profilu w naszym interfejsie internetowym. Wtedy nadal będziesz mógł korzystać ze wszystkich usług, które nie wymagają konta.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">O aplikacji</string>

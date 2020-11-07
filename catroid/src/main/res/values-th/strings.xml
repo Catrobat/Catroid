@@ -33,7 +33,6 @@
     <string name="ignore">เพิกเฉย</string>
     <string name="cancel">ยกเลิก</string>
     <string name="next">ถัดไป</string>
-    <string name="back">ย้อนกลับ</string>
     <string name="ok">ตกลง</string>
     <string name="done">เสร็จสิ้น</string>
     <string name="close">ปิด</string>
@@ -558,7 +557,6 @@
         Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">นโยบายความเป็นส่วนตัว</string>
     <string name="disclaimer_privacy_police_header_headline">ยินดีต้อนรับ!</string>
     <string name="disclaimer_privacy_policy_header">ก่อนที่คุณจะเริ่มการเข้ารหัสโปรดอ่านและยอมรับนโยบายความเป็นส่วนตัวของเราเพื่อใช้แอพ:</string>
     <string name="dialog_privacy_policy_text">เพื่อให้คุณได้รับประโยชน์ทั้งหมดจากบริการของเราและบัญชีที่เกี่ยวข้องคุณจำเป็นต้องรวบรวมข้อมูลบางอย่างจากคุณ \n\n
@@ -579,7 +577,6 @@ A-8010 กราซ, ออสเตรีย \n
 นโยบายความเป็นส่วนตัวภาษาอังกฤษอย่างเป็นทางการของ Catrobat มีอยู่บนเว็บภายใต้ https://catrob.at/privacypolicy.\n\n
 เวอร์ชั่น 2.2, 17  ตุลาคม 2019 \ n\n
 ค้นหานโยบายส่วนบุคคลรุ่นก่อนหน้าล้าสมัย (2.0) ที่นี่: http://developer.catrobat.org/privacy_policy_2-0    </string>
-    <string name="dialog_privacy_policy_declined_text">จำเป็นต้องยอมรับนโยบายความเป็นส่วนตัวเพื่อลงทะเบียนหรือใช้งานบัญชีของคุณต่อไป  หากคุณไม่ต้องการให้เรารวบรวมข้อมูลนี้คุณสามารถลบบัญชีของคุณผ่านหน้าโปรไฟล์ของคุณในเว็บไซต์ https://share.catrob.at/ ของเรา    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">เกี่ยวกับ App นี้</string>

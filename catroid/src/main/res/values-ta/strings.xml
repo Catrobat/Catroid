@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">தவிர்</string>
     <string name="next">அடுத்து</string>
-    <string name="back">பின்செல்</string>
     <string name="ok">சரி</string>
     <string name="done">முடிந்தது</string>
     <string name="close">மூடு</string>
@@ -590,7 +589,6 @@
 கிளியின் ஜம்பிங் சுமோ. கிளி மற்றும் கேட்ரோபாட்டின் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவைகள் இரண்டையும் பின்பற்றுமாறு நாங்கள் உங்களுக்கு கடுமையாக நினைவூட்டுகிறோம்.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">தனிமனித உரிமை கொள்கை</string>
     <string name="disclaimer_privacy_police_header_headline">வருக!</string>
     <string name="disclaimer_privacy_policy_header">நீங்கள் குறியீட்டைத் தொடங்குவதற்கு முன், தயவுசெய்து எங்கள் தனியுரிமையைப் படித்து ஏற்றுக்கொள்ளுங்கள்      பயன்பாட்டைப் பயன்படுத்துவதற்கான கொள்கை:</string>
     <string name="dialog_privacy_policy_text">எங்கள் சேவைகள் மற்றும் அதனுடன் தொடர்புடைய கணக்கின் அனைத்து நன்மைகளையும் உங்களுக்கு வழங்க,
@@ -652,9 +650,6 @@
 
          எங்கள் தனியுரிமைக் கொள்கையின் (2.0) முந்தைய, காலாவதியான, பதிப்பை இங்கே காணலாம்:
          http://developer.catrobat.org/privacy_policy_2-0    </string>
-    <string name="dialog_privacy_policy_declined_text">பதிவு செய்ய அல்லது தனியுரிமைக் கொள்கையை ஒப்புக்கொள்வது அவசியம்
-        உங்கள் கணக்கைப் பயன்படுத்துவதைத் தொடரவும். இந்தத் தரவை நாங்கள் சேகரிக்க விரும்பவில்லை என்றால், நீங்கள் நீக்கலாம்
-        எங்கள் https://share.catrob.at/ இணையதளத்தில் உங்கள் சுயவிவரப் பக்கத்தின் வழியாக கணக்கு.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">இந்த பயன்பாட்டை பற்றி</string>

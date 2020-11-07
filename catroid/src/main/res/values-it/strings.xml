@@ -33,7 +33,6 @@
     <string name="ignore">Ignora</string>
     <string name="cancel">Annulla</string>
     <string name="next">Avanti</string>
-    <string name="back">Indietro</string>
     <string name="ok">Va bene</string>
     <string name="done">Fatto</string>
     <string name="close">Chiudere</string>
@@ -599,7 +598,6 @@
         della Parrot. Ti ricordiamo che sei tenuto a rispettare le Condizioni d\'uso e dei servizi sia di Parrot che di Catrobat.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Informativa sulla privacy</string>
     <string name="disclaimer_privacy_police_header_headline">Benvenuto!</string>
     <string name="disclaimer_privacy_policy_header">Prima si può iniziare a scrivere programmi, leggi e accetta la nostra informativa 
         sulla privacy per utilizzare l\'app:</string>
@@ -661,11 +659,6 @@
 
         Puoi trovare la policy precedente (2.0), ormai obsoleta,  (2.0) a questa pagina:
         http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">È necessario accettare l\'informativa sulla privacy per registrarsi o per
-        continuare a utilizzare il tuo account. Se non desideri che raccogliamo dati, è possibile eliminare il tuo account
-        tramite la pagina di profilo sul sito web. Sarai ancora in grado di utilizzare tutti i servizi che non richiedono
-        l\'uso di un account.
     </string>
     <!-- -->
     <!-- About Dialog -->

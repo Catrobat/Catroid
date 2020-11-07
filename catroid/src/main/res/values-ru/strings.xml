@@ -33,7 +33,6 @@
     <string name="ignore">Игнорировать</string>
     <string name="cancel">Отменить</string>
     <string name="next">Далее</string>
-    <string name="back">Назад</string>
     <string name="ok">ОК</string>
     <string name="done">Готово</string>
     <string name="close">Закрыть</string>
@@ -676,7 +675,6 @@
         Условий использования Parrot и Catrobat.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Политика конфиденциальности</string>
     <string name="disclaimer_privacy_police_header_headline">Добро пожаловать!</string>
     <string name="disclaimer_privacy_policy_header">Перед тем как вы начнете программировать, пожалуйста прочтите и примите
         нашу Политику конфиденциальности для использования приложения:</string>
@@ -740,10 +738,6 @@
 
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">Необходимо согласиться с политикой конфиденциальности, чтобы зарегестрироваться
-        или продолжить использование аккаунта. Если вы не хотите, чтобы мы собирали эту информацию, вы можете
-        удалить ваш аккаунт через страницу профиля на https://share.catrob.at/.
     </string>
     <!-- -->
     <!-- About Dialog -->

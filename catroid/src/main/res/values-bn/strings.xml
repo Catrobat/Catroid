@@ -33,7 +33,6 @@
     <string name="ignore">Ignore</string>
     <string name="cancel">বাতিল</string>
     <string name="next">পরবর্তী</string>
-    <string name="back">পিছনে</string>
     <string name="ok">সঠিক</string>
     <string name="done">করা হয়েছে</string>
     <string name="close">বন্ধ</string>
@@ -578,7 +577,6 @@
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">আপনি পারত জাম্পিং সুমো এর সাথে একত্রে এই অ্যাপ্লিকেশনটি ব্যবহার করতে চলেছেন। আমরা আপনাকে প্রবলভাবে স্মরণ করিয়ে দিচ্ছি যে পারত এবং ক্যাট্রোব্যাট উভয় ব্যবহারের শর্তাদি এবং পরিষেবাদি মেনে চলুন।</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">গোপনীয়তার নীতিমালা</string>
     <string name="disclaimer_privacy_police_header_headline">স্বাগতম</string>
     <string name="disclaimer_privacy_policy_header">আপনি কোডিং শুরু করার আগে দয়া করে অ্যাপটি ব্যবহার করতে আমাদের গোপনীয়তা নীতিটি পড়ুন এবং গ্রহণ করুন:</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
@@ -642,7 +640,6 @@
         Find the previous, outdated, version of our privacy policy (2.0) here:
         http://developer.catrobat.org/privacy_policy_2-0
     </string>
-    <string name="dialog_privacy_policy_declined_text">নিবন্ধকরণ করতে বা আপনার অ্যাকাউন্ট ব্যবহার করা চালিয়ে যাওয়ার জন্য গোপনীয়তা নীতিতে সম্মত হওয়া প্রয়োজন। আপনি যদি আমাদের এই ডেটা সংগ্রহ করতে না চান তবে আপনি আমাদের https://share.catrob.at/ ওয়েবসাইটে আপনার প্রোফাইল পৃষ্ঠার মাধ্যমে আপনার অ্যাকাউন্টটি মুছতে পারেন।</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">অ্যাপ সম্পর্কে</string>
