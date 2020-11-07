@@ -23,7 +23,6 @@
 package org.catrobat.catroid;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Build;
@@ -33,21 +32,14 @@ import android.util.Log;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
-import org.catrobat.catroid.dagger.AppComponent;
-import org.catrobat.catroid.dagger.CatroidModule;
-import org.catrobat.catroid.dagger.DaggerAppComponent;
+import org.catrobat.catroid.koin.CatroidKoinHelperKt;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
 
-import javax.inject.Inject;
-
 import androidx.multidex.MultiDex;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
 
-public class CatroidApplication extends Application implements HasActivityInjector {
+public class CatroidApplication extends Application {
 
 	private static final String TAG = CatroidApplication.class.getSimpleName();
 
@@ -60,10 +52,6 @@ public class CatroidApplication extends Application implements HasActivityInject
 
 	private static GoogleAnalytics googleAnalytics;
 	private static Tracker googleTracker;
-
-	@Inject
-	DispatchingAndroidInjector<Activity> dispatchingActivityInjector;
-	protected AppComponent appComponents;
 
 	@TargetApi(29)
 	@Override
@@ -83,25 +71,12 @@ public class CatroidApplication extends Application implements HasActivityInject
 
 		context = getApplicationContext();
 
-		createApplicationComponents();
-		appComponents.initializeEagerSingletons();
-		appComponents.inject(this);
+		CatroidKoinHelperKt.start(this, CatroidKoinHelperKt.getMyModules());
 
 		defaultSystemLanguage = Locale.getDefault().toLanguageTag();
 
 		googleAnalytics = GoogleAnalytics.getInstance(this);
 		googleAnalytics.setDryRun(BuildConfig.DEBUG);
-	}
-
-	protected void createApplicationComponents() {
-		appComponents = DaggerAppComponent.builder()
-				.catroidModule(new CatroidModule(this))
-				.build();
-	}
-
-	@Override
-	public AndroidInjector<Activity> activityInjector() {
-		return dispatchingActivityInjector;
 	}
 
 	@Override

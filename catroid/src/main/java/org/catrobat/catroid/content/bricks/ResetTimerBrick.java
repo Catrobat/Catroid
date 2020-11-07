@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,20 +20,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.bricks;
 
-package org.catrobat.catroid
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 
-import org.koin.java.KoinJavaComponent.inject
+public class ResetTimerBrick extends BrickBaseType {
 
-class UiTestCatroidApplication : CatroidApplication() {
+	public ResetTimerBrick() {
+	}
 
-    companion object {
-        lateinit var projectManager: ProjectManager
-    }
+	@Override
+	public int getViewResource() {
+		return R.layout.brick_reset_timer;
+	}
 
-    override fun onCreate() {
-        super.onCreate()
-        val pm = inject(ProjectManager::class.java)
-        projectManager = pm.value
-    }
+	@Override
+	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		sequence.addAction(sprite.getActionFactory().createResetTimerAction());
+	}
 }

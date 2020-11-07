@@ -173,7 +173,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     private fun showDeleteAlert(selectedItems: List<UserData<*>>) {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.deletion_alert_title)
             .setMessage(R.string.deletion_alert_text)
             .setPositiveButton(R.string.deletion_alert_yes) { _, _ ->
@@ -188,7 +188,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
         val item = selectedItems[0]
-        val builder = TextInputDialog.Builder(context!!)
+        val builder = TextInputDialog.Builder(requireContext())
 
         builder.setHint(getString(R.string.data_label))
             .setText(item.name)
@@ -241,7 +241,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
 
     override fun onItemLongClick(item: UserData<*>, holder: CheckableVH) {
         val items = arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        AlertDialog.Builder(activity!!)
+        AlertDialog.Builder(requireActivity())
             .setItems(items) { dialog, which ->
                 when (which) {
                     0 -> showDeleteAlert(listOf(item))
