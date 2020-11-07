@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2018 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,8 +34,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 
-import com.google.android.material.tabs.TabLayout;
-
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -57,13 +55,13 @@ import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
-import org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListener;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -101,6 +99,7 @@ public class SpriteActivity extends BaseActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
+	public static final int FRAGMENT_NFC_TAGS = 3;
 
 	public static final int SPRITE_POCKET_PAINT = 0;
 	public static final int SPRITE_LIBRARY = 1;
@@ -152,7 +151,7 @@ public class SpriteActivity extends BaseActivity {
 		currentSprite = projectManager.getCurrentSprite();
 		currentScene = projectManager.getCurrentlyEditedScene();
 
-		setContentView(R.layout.activity_sprite);
+		setContentView(R.layout.activity_recycler);
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
@@ -164,12 +163,6 @@ public class SpriteActivity extends BaseActivity {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 		}
 		loadFragment(fragmentPosition);
-		initTabLayout();
-	}
-
-	private void initTabLayout() {
-		TabLayout tabLayout = findViewById(R.id.tab_layout);
-		tabLayout.addOnTabSelectedListener(new SpriteActivityOnTabSelectedListener(this::loadFragment));
 	}
 
 	private String createActionBarTitle() {
@@ -180,7 +173,7 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	private Void loadFragment(int fragmentPosition) {
+	public void loadFragment(int fragmentPosition) {
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
 		switch (fragmentPosition) {
@@ -193,16 +186,27 @@ public class SpriteActivity extends BaseActivity {
 			case FRAGMENT_SOUNDS:
 				fragmentTransaction.replace(R.id.fragment_container, new SoundListFragment(), SoundListFragment.TAG);
 				break;
+			case FRAGMENT_NFC_TAGS:
+				fragmentTransaction.replace(R.id.fragment_container, new NfcTagListFragment(), NfcTagListFragment.TAG);
+				break;
 			default:
 				throw new IllegalArgumentException("Invalid fragmentPosition in Activity.");
 		}
 
 		fragmentTransaction.commit();
-		return null;
 	}
 
 	private Fragment getCurrentFragment() {
 		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+
+		if (getCurrentFragment() instanceof NfcTagListFragment) {
+			((NfcTagListFragment) getCurrentFragment()).onNewIntent(intent);
+		}
 	}
 
 	@Override
@@ -262,7 +266,11 @@ public class SpriteActivity extends BaseActivity {
 		} else if (currentFragment instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) currentFragment).promptSave();
 			return;
-		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+		} else if (currentFragment instanceof NfcTagListFragment) {
+			loadFragment(FRAGMENT_SCRIPTS);
+			return;
+		}
+		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 			return;
 		}

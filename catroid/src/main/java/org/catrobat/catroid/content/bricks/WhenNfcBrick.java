@@ -23,9 +23,11 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.View;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
@@ -37,13 +39,17 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
-import org.catrobat.catroid.ui.NfcTagsActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_NFC_TAGS;
 
 public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<NfcTagData> {
 
@@ -85,7 +91,10 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
-		items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+		if (sharedPreferences.getBoolean("setting_nfc_bricks", false) && BuildConfig.FEATURE_NFC_ENABLED) {
+			items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));
+		}
 		items.add(new StringOption(context.getString(R.string.brick_when_nfc_default_all)));
 		items.addAll(currentSprite.getNfcTagList());
 		BrickSpinner<NfcTagData> spinner = new BrickSpinner<>(R.id.brick_when_nfc_spinner, view, items);
@@ -97,13 +106,11 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 
 	@Override
 	public void onNewOptionSelected(Integer spinnerId) {
-		if (view == null) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
-		Context context = view.getContext();
-		if (context != null) {
-			context.startActivity(new Intent(context, NfcTagsActivity.class));
-		}
+		((SpriteActivity) activity).loadFragment(FRAGMENT_NFC_TAGS);
 	}
 
 	@Override
