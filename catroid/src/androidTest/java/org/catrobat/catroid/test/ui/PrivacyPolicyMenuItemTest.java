@@ -59,7 +59,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 public class PrivacyPolicyMenuItemTest {
 
 	@Rule
-	public ActivityTestRule<MainMenuActivity> mActivityTestRule =
+	public ActivityTestRule<MainMenuActivity> activityTestRule =
 			new ActivityTestRule<>(MainMenuActivity.class, true, false);
 
 	private int bufferedPreferenceSetting;
@@ -92,7 +92,7 @@ public class PrivacyPolicyMenuItemTest {
 
 	@Test
 	public void mainMenuActivityTest() {
-		mActivityTestRule.launchActivity(new Intent());
+		activityTestRule.launchActivity(new Intent());
 		Intents.init();
 		openActionBarOverflowOrOptionsMenu(ApplicationProvider.getApplicationContext());
 		onView(withText(R.string.main_menu_privacy_policy)).perform(click());

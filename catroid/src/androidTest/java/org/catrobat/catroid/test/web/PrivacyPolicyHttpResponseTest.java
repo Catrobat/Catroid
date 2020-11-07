@@ -50,8 +50,8 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 @RunWith(AndroidJUnit4.class)
 public class PrivacyPolicyHttpResponseTest implements WebConnection.WebRequestListener {
 
-	private final String HTML_RESPONSE_START = "<!doctype html>";
-	private final String HTML_RESPONSE_END = "</html>";
+	private static final String HTML_RESPONSE_START = "<!doctype html>";
+	private static final String HTML_RESPONSE_END = "</html>";
 	OkHttpClient okHttpClient = new OkHttpClient();
 	private CompletableFuture<String> response;
 
