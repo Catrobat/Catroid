@@ -108,6 +108,9 @@ object FormulaElementOperations {
     fun getLookName(lookData: LookData?) = lookData?.name ?: ""
 
     @JvmStatic
+    fun getNumberOfLooks(lookDataList: List<LookData>) = lookDataList.count()
+
+    @JvmStatic
     fun tryCalculateCollidesWithEdge(
         look: Look,
         stageListener: StageListener?,
@@ -158,6 +161,8 @@ object FormulaElementOperations {
             Sensors.OBJECT_BACKGROUND_NUMBER -> tryGetLookNumber(lookData, lookDataList)
             Sensors.OBJECT_LOOK_NAME,
             Sensors.OBJECT_BACKGROUND_NAME -> getLookName(lookData)
+            Sensors.OBJECT_NUMBER_OF_LOOKS,
+            Sensors.OBJECT_NUMBER_OF_BACKGROUNDS -> getNumberOfLooks(lookDataList).toDouble()
             Sensors.NFC_TAG_MESSAGE -> NfcHandler.getLastNfcTagMessage()
             Sensors.NFC_TAG_ID -> NfcHandler.getLastNfcTagId()
             Sensors.COLLIDES_WITH_EDGE -> tryCalculateCollidesWithEdge(
