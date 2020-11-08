@@ -190,6 +190,10 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		}
 	}
 
+	public boolean isNewOptionSelected() {
+		return spinner.getSelectedItemId() == 0;
+	}
+
 	@VisibleForTesting
 	public class BrickSpinnerAdapter extends ArrayAdapter<Nameable> {
 

@@ -23,9 +23,11 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Nameable;
@@ -37,6 +39,7 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
+import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
 import org.catrobat.catroid.ui.UiUtils;
@@ -47,13 +50,17 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormula {
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_ALIGNMENT;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_COLOR;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_SIZE;
+import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_CENTERED;
+import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_LEFT;
+import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
+import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
+
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final int ALIGNMENT_STYLE_LEFT = 0;
-	public static final int ALIGNMENT_STYLE_CENTERED = 1;
-	public static final int ALIGNMENT_STYLE_RIGHT = 2;
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
@@ -112,12 +119,9 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 	public View getView(Context context) {
 		super.getView(context);
 		List<Nameable> items = new ArrayList<>();
-		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_left),
-				ALIGNMENT_STYLE_LEFT));
-		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered),
-				ALIGNMENT_STYLE_CENTERED));
-		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right),
-				ALIGNMENT_STYLE_RIGHT));
+		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_left), ALIGNMENT_STYLE_LEFT));
+		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered), ALIGNMENT_STYLE_CENTERED));
+		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right), ALIGNMENT_STYLE_RIGHT));
 		BrickSpinner<AlignmentStyle> spinner =
 				new BrickSpinner<>(R.id.brick_show_variable_color_size_align_spinner, view, items);
 		spinner.setSelection(alignmentSelection);
@@ -153,6 +157,42 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
 				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));
+	}
+
+	private String getColor() {
+		return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
+	}
+
+	private float getRelativeTextSize() {
+		try {
+			return getFormulaWithBrickField(BrickField.SIZE).interpretFloat(ProjectManager.getInstance().getCurrentSprite()) / 100;
+		} catch (InterpretationException e) {
+			return 0.f;
+		}
+	}
+
+	@Override
+	public int getXEditTextId() {
+		return R.id.brick_show_variable_color_size_edit_text_x;
+	}
+
+	@Override
+	public int getYEditTextId() {
+		return R.id.brick_show_variable_color_size_edit_text_y;
+	}
+
+	@Override
+	public boolean visualPlacementConditionsSatisfied() {
+		return super.visualPlacementConditionsSatisfied() && getRelativeTextSize() > 0.f;
+	}
+
+	@Override
+	public Intent generateIntentForVisualPlacement(BrickField brickFieldX, BrickField brickFieldY) {
+		Intent intent = super.generateIntentForVisualPlacement(brickFieldX, brickFieldY);
+		intent.putExtra(EXTRA_TEXT_COLOR, getColor());
+		intent.putExtra(EXTRA_TEXT_SIZE, getRelativeTextSize());
+		intent.putExtra(EXTRA_TEXT_ALIGNMENT, alignmentSelection);
+		return intent;
 	}
 
 	private static class AlignmentStyle implements Nameable {
@@ -194,10 +234,6 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 
 			AppCompatActivity activity = UiUtils.getActivityFromView(view);
 			notifyDataSetChanged(activity);
-		}
-
-		private String convertColorToString(int color) {
-			return String.format("#%02X%02X%02X", Color.red(color), Color.green(color), Color.blue(color));
 		}
 
 		@Override
