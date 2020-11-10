@@ -226,7 +226,7 @@ public class VisualPlacementBrickTest {
 		openVisualPlacementActivityFromEditTextX();
 		intended(hasComponent(VisualPlacementActivity.class.getName()));
 		pressBack();
-		onView(withText(R.string.yes))
+		onView(withText(R.string.save))
 				.perform(click());
 		onFormulaEditor()
 				.check(matches(isDisplayed()));
