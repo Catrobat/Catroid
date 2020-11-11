@@ -85,8 +85,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
@@ -249,13 +247,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_CREATE_VIEW);
 
 		formulaEditorEditText.init(this);
-		AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-		if (activity != null && activity.getSupportActionBar() != null) {
-			activity.getSupportActionBar().setTitle(R.string.formula_editor_title);
-			removeTabLayout(activity);
-		}
-
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
 		return fragmentView;
 	}
 
@@ -376,12 +369,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onStop() {
 		super.onStop();
-		AppCompatActivity activity = (AppCompatActivity) getActivity();
-		if (activity == null || activity.getSupportActionBar() == null) {
-			return;
-		}
-		activity.getSupportActionBar().setTitle(actionBarTitleBuffer);
-		addTabLayout(activity);
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitleBuffer);
 	}
 
 	private boolean isSelectedTextFirstParamOfRegularExpression() {
