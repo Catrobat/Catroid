@@ -61,13 +61,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.koin.androidx.viewmodel.compat.ViewModelCompat.viewModel;
 
 public class MainMenuFragment extends Fragment implements
 		ProjectListener.OnProjectListener,
@@ -93,7 +94,8 @@ public class MainMenuFragment extends Fragment implements
 	private HorizontalProjectsAdapter projectsAdapter;
 	private RecyclerView projectsRecyclerView;
 	String currentProject;
-	ProjectsViewModel viewModel;
+
+	private final Lazy<ProjectsViewModel> lazyVM = viewModel(this, ProjectsViewModel.class);
 
 	@Nullable
 	@Override
@@ -120,9 +122,6 @@ public class MainMenuFragment extends Fragment implements
 			}
 		};
 
-		viewModel =
-				new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(ProjectsViewModel.class);
-
 		buttonAdapter.setOnItemClickListener(this);
 		recyclerView.setAdapter(buttonAdapter);
 
@@ -147,7 +146,7 @@ public class MainMenuFragment extends Fragment implements
 		projectsAdapter = new HorizontalProjectsAdapter(this);
 		projectsRecyclerView.setAdapter(projectsAdapter);
 
-		viewModel.getProjects().observe(getViewLifecycleOwner(), projectData -> {
+		lazyVM.getValue().getProjects().observe(getViewLifecycleOwner(), projectData -> {
 			setAndLoadCurrentProject(projectData);
 			updateRecyclerview(projectData);
 		});
@@ -294,6 +293,6 @@ public class MainMenuFragment extends Fragment implements
 	}
 
 	public void refreshData() {
-		viewModel.forceUpdate();
+		lazyVM.getValue().forceUpdate();
 	}
 }

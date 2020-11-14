@@ -28,8 +28,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -50,6 +48,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
+import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class BrickCategoryFragment extends ListFragment {
@@ -96,19 +96,23 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onStart() {
 		super.onStart();
 
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!viewSwitchLock.tryLock()) {
-					return;
-				}
+		getListView().setOnItemClickListener((parent, view, position, id) -> {
+			if (!viewSwitchLock.tryLock()) {
+				return;
+			}
 
-				if (scriptFragment != null) {
-					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
-				}
+			if (scriptFragment != null) {
+				scriptFragment.onCategorySelected(adapter.getItem(position));
+				SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
 			}
 		});
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		addTabLayout(getActivity());
 	}
 
 	@Override

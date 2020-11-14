@@ -535,7 +535,7 @@ public class ScriptFragment extends ListFragment implements
 			items.add(brick.isCommentedOut()
 					? R.string.brick_context_dialog_comment_in
 					: R.string.brick_context_dialog_comment_out);
-			if (brick instanceof VisualPlacementBrick) {
+			if (brick instanceof VisualPlacementBrick && ((VisualPlacementBrick) brick).visualPlacementConditionsSatisfied()) {
 				items.add(R.string.brick_option_place_visually);
 			}
 			if (brick instanceof FormulaBrick) {

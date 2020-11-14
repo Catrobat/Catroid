@@ -35,6 +35,7 @@
     <string name="confirm">Confirm</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 
     <string name="next">Next</string>
     <string name="back">Back</string>
@@ -116,6 +117,9 @@
     <string name="marketing_created_with">Created with</string>
     <string name="marketing_app_details">Details about this app</string>
     <string name="marketing_more_on_google_play">More apps on App store</string>
+
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
 
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
@@ -607,22 +611,8 @@
     <string name="unpack">Unpack</string>
     <!--  -->
 
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">Scripts</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="looks">Looks</string>
-    <string name="sounds">Sounds</string>
-    <string name="nfctags">NFC Tags</string>
-
-
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">New project</string>
-    <string name="new_project_empty">Create an empty project</string>
-    <string name="new_project_default">Create an example project</string>
-    <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
-    <string name="new_project_default_jumping_sumo">Create an example Jumping Sumo project</string>
-    <string name="project_orientation_title">Orientation:</string>
-    <string name="project_select_screen_title">Screen:</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
 
     <!-- NewMergedProjectDialog -->
@@ -640,7 +630,6 @@
     <string name="add_look_draw_new_image">Draw image</string>
     <string name="add_look_choose_image">Select image</string>
     <string name="add_look_media_library">Media library</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
 
     <!-- NewSoundDialog -->
@@ -915,6 +904,7 @@
     <!--  -->
 
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
 
@@ -1282,7 +1272,7 @@
     <!--  -->
 
     <!-- Default Values -->
-    <string name="default_project_name">My first project</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">Scene %1$d</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
@@ -1317,18 +1307,6 @@
 
 
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">Take off</string>
-    <string name="default_drone_project_sprites_flip">Flip</string>
-    <string name="default_drone_project_sprites_up">Up</string>
-    <string name="default_drone_project_sprites_down">Down</string>n
-    <string name="default_drone_project_sprites_left">Left</string>
-    <string name="default_drone_project_sprites_right">Right</string>
-    <string name="default_drone_project_sprites_forward">Forward</string>
-    <string name="default_drone_project_sprites_back">Back</string>
-    <string name="default_drone_project_sprites_turn_left">Turn left</string>
-    <string name="default_drone_project_sprites_turn_right">Turn right</string>
-    <string name="default_drone_project_sprites_emergency">Emergency</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1653,19 +1631,7 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
 
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
     <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
 
     <!-- Jumping Sumo animation strings -->
@@ -1803,6 +1769,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">minimum of</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">true</string>
     <string name="formula_editor_function_false">false</string>
     <string name="formula_editor_function_length">length</string>
@@ -1831,6 +1799,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_multi_finger_y">stage touch y</string>
     <string name="formula_editor_function_is_multi_finger_touching">stage is touched</string>
     <string name="formula_editor_function_index_of_last_finger">last stage touch index</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">item</string>

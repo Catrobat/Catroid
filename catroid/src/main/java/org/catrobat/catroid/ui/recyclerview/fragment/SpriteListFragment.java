@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.ui.SpriteAttributesActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.MultiViewSpriteAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperAdapterInterface;
@@ -293,7 +293,9 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			adapter.notifyDataSetChanged();
 		} else if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentSprite(item);
-			Intent intent = new Intent(getActivity(), SpriteAttributesActivity.class);
+			Intent intent = new Intent(getActivity(), SpriteActivity.class);
+			intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+
 			startActivity(intent);
 		}
 	}
