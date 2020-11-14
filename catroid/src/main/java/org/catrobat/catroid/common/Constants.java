@@ -39,7 +39,6 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99999994;
 	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99999996;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
