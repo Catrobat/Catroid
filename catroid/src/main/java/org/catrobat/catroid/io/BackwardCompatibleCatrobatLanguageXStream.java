@@ -145,6 +145,7 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SewUpBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
@@ -711,6 +712,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(WhenGamepadButtonBrick.class.getSimpleName());
 		brickInfoMap.put("whenGamepadButtonBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SewUpBrick.class.getSimpleName());
+		brickInfoMap.put("sewUpBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {

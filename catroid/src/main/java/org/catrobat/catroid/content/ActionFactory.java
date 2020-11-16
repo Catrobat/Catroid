@@ -157,6 +157,7 @@ import org.catrobat.catroid.content.actions.SetVisibleAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
+import org.catrobat.catroid.content.actions.SewUpAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
@@ -974,6 +975,12 @@ public class ActionFactory extends Actions {
 		action.setSprite(sprite);
 		action.setFormula(fileName);
 
+		return action;
+	}
+
+	public Action createSewUpAction(Sprite sprite) {
+		SewUpAction action = Actions.action(SewUpAction.class);
+		action.setSprite(sprite);
 		return action;
 	}
 
