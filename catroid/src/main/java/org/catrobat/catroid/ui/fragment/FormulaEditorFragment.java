@@ -85,8 +85,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
@@ -253,7 +254,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		if (activity != null && activity.getSupportActionBar() != null) {
 			activity.getSupportActionBar().setTitle(R.string.formula_editor_title);
-			removeTabLayout(activity);
 		}
 
 		return fragmentView;
@@ -381,7 +381,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			return;
 		}
 		activity.getSupportActionBar().setTitle(actionBarTitleBuffer);
-		addTabLayout(activity);
 	}
 
 	private boolean isSelectedTextFirstParamOfRegularExpression() {
@@ -829,5 +828,17 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
 		formulaEditorEditText.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onDetach() {
+		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
+		super.onDetach();
 	}
 }

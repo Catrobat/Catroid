@@ -21,25 +21,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.listener
+package org.catrobat.catroid.ui
 
 import android.app.Activity
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
 import org.catrobat.catroid.R
-import org.catrobat.catroid.ui.SpriteActivity
+import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS
+import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment
 import kotlin.reflect.KFunction1
 
 @SuppressWarnings("EmptyFunctionBlock")
-class SpriteActivityOnTabSelectedListener(val loadFragment: KFunction1<Int, Unit>) :
+private class SpriteActivityOnTabSelectedListener(val loadFragment: KFunction1<Int, Unit>) :
     OnTabSelectedListener {
     override fun onTabReselected(tab: Tab?) {}
 
@@ -58,23 +60,43 @@ fun Activity?.removeTabLayout() {
     }
 }
 
-fun Activity?.addTabLayout() {
+fun Activity?.addTabLayout(selectedTabPosition: Int) {
     if (this is SpriteActivity) {
         val tabLayoutView = layoutInflater.inflate(R.layout.layout_tabs_sprite_activity, null)
         val gv = findViewById<ViewGroup?>(R.id.activity_sprite)
         gv?.addView(tabLayoutView, 1)
         val tabLayout = findViewById<TabLayout?>(R.id.tab_layout)
+        tabLayout?.getTabAt(selectedTabPosition)?.select()
         tabLayout?.addOnTabSelectedListener(SpriteActivityOnTabSelectedListener(this::loadFragment))
     }
 }
 
 fun SpriteActivity.loadFragment(fragmentPosition: Int) {
     val fragmentTransaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+    if (unableToSelectNewFragmentFromCurrent(currentFragment)) {
+        setTabSelection(currentFragment)
+        return
+    }
+
     when (fragmentPosition) {
         FRAGMENT_SCRIPTS -> fragmentTransaction.replace(R.id.fragment_container, ScriptFragment(), ScriptFragment.TAG)
-        SpriteActivity.FRAGMENT_LOOKS -> fragmentTransaction.replace(R.id.fragment_container, LookListFragment(), LookListFragment.TAG)
-        SpriteActivity.FRAGMENT_SOUNDS -> fragmentTransaction.replace(R.id.fragment_container, SoundListFragment(), SoundListFragment.TAG)
+        FRAGMENT_LOOKS -> fragmentTransaction.replace(R.id.fragment_container, LookListFragment(), LookListFragment.TAG)
+        FRAGMENT_SOUNDS -> fragmentTransaction.replace(R.id.fragment_container, SoundListFragment(), SoundListFragment.TAG)
         else -> throw IllegalArgumentException("Invalid fragmentPosition in Activity.")
     }
     fragmentTransaction.commit()
+}
+
+fun Fragment?.getTabPositionInSpriteActivity(): Int = when (this) {
+    is ScriptFragment -> FRAGMENT_SCRIPTS
+    is LookListFragment -> FRAGMENT_LOOKS
+    is SoundListFragment -> FRAGMENT_SOUNDS
+    else -> FRAGMENT_SCRIPTS
+}
+
+private fun unableToSelectNewFragmentFromCurrent(fragment: Fragment?) = fragment is ScriptFragment && fragment.isCurrentlyMoving
+
+private fun SpriteActivity?.setTabSelection(fragment: Fragment?) {
+    val tabLayout = this?.findViewById<TabLayout?>(R.id.tab_layout)
+    tabLayout?.getTabAt(fragment.getTabPositionInSpriteActivity())?.select()
 }
