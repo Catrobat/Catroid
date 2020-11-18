@@ -186,6 +186,89 @@ public class ParserTestStringFunctions {
 	}
 
 	@Test
+	public void testJoin3() {
+		String firstParameter = "first";
+		String secondParameter = "second";
+		String thirdParameter = "third";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING,
+				firstParameter,
+				InternTokenType.STRING, secondParameter,
+				InternTokenType.STRING, thirdParameter,
+				firstParameter + secondParameter + thirdParameter,
+				testSprite);
+
+		firstParameter = "";
+		secondParameter = "second";
+		thirdParameter = "third";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING,
+				firstParameter,
+				InternTokenType.STRING, secondParameter,
+				InternTokenType.STRING, thirdParameter,
+				firstParameter + secondParameter + thirdParameter,
+				testSprite);
+
+		firstParameter = "first";
+		secondParameter = "";
+		thirdParameter = "third";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING,
+				firstParameter,
+				InternTokenType.STRING, secondParameter,
+				InternTokenType.STRING, thirdParameter,
+				firstParameter + secondParameter + thirdParameter,
+				testSprite);
+
+		firstParameter = "first";
+		secondParameter = "";
+		thirdParameter = "";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING,
+				firstParameter,
+				InternTokenType.STRING, secondParameter,
+				InternTokenType.STRING, thirdParameter,
+				firstParameter + secondParameter + thirdParameter,
+				testSprite);
+
+		firstParameter = "33";
+		secondParameter = "44";
+		thirdParameter = "55";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.NUMBER,
+				firstParameter,
+				InternTokenType.NUMBER, secondParameter,
+				InternTokenType.NUMBER, thirdParameter,
+				firstParameter + secondParameter + thirdParameter,
+				testSprite);
+
+		firstParameter = "5*3-6+(8*random(1,2))";
+		secondParameter = "string'**##!§\"$\'§%%/&%(())??";
+		thirdParameter = "blubb";
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING, firstParameter,
+				InternTokenType.STRING, secondParameter, InternTokenType.STRING, thirdParameter,
+				firstParameter + secondParameter + thirdParameter,
+				testSprite);
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING,
+				firstParameter,
+				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, InternTokenType.STRING,
+				thirdParameter,
+				firstParameter + USER_VARIABLE_2_VALUE_TYPE_STRING + thirdParameter, testSprite);
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3,
+				InternTokenType.STRING, firstParameter, InternTokenType.STRING, secondParameter, InternTokenType.USER_VARIABLE,
+				PROJECT_USER_VARIABLE_NAME,
+				firstParameter + secondParameter + USER_VARIABLE_1_VALUE_TYPE_DOUBLE, testSprite);
+
+		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
+				InternTokenType.STRING, "datString");
+		List<InternToken> secondParameterList =
+				FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "7",
+						Operators.MULT,
+						InternTokenType.STRING, "anotherString");
+		List<InternToken> thirdParameterList =
+				FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "9", Operators.MULT,
+						InternTokenType.STRING, "thisString");
+		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, firstParameterList,
+				secondParameterList, thirdParameterList, ""
+						+ Double.NaN + Double.NaN + Double.NaN, testSprite);
+	}
+
+	@Test
 	public void testRegex() {
 		String firstParameter = " an? ([^ .]+)";
 		String secondParameter = "I am a penguin.";
