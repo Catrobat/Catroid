@@ -51,8 +51,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class SpriteActivityTabsTest {
 
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
-			SpriteActivity.FRAGMENT_SCRIPTS);
+			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 
 	@Before
 	public void setUp() {

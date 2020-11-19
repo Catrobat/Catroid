@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
+import com.google.android.material.tabs.TabLayout;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -35,12 +37,15 @@ import org.junit.runner.RunWith;
 import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_FRAGMENT_POSITION;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -59,25 +64,27 @@ public class RemoveTabsTest {
 
 	@Test
 	public void testRemoveTabsInCategoryFragmentTest() {
-		assertTabLayoutIsShown();
+		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 		onView(withId(R.id.button_add)).perform(click());
 		assertTabLayoutIsNotShown();
 		Espresso.pressBack();
-		assertTabLayoutIsShown();
+		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 	}
 
 	@Test
 	public void testRemoveTabsInFormulaEditorFragmentTest() {
-		assertTabLayoutIsShown();
+		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 		assertTabLayoutIsNotShown();
 		Espresso.pressBack();
-		assertTabLayoutIsShown();
+		assertTabLayoutIsShown(FRAGMENT_SCRIPTS);
 	}
 
-	private void assertTabLayoutIsShown() {
-		Espresso.onIdle();
-		assertNotNull(baseActivityTestRule.getActivity().findViewById(R.id.tab_layout));
+	private void assertTabLayoutIsShown(int tabSelected) {
+		onIdle();
+		TabLayout tabLayout = baseActivityTestRule.getActivity().findViewById(tab_layout);
+		assertNotNull(tabLayout);
+		assertEquals(tabSelected, tabLayout.getSelectedTabPosition());
 	}
 
 	private void assertTabLayoutIsNotShown() {
