@@ -105,6 +105,10 @@ public abstract class UserVariableBrick extends BrickBaseType implements UserVar
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

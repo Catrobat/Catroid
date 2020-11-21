@@ -172,6 +172,29 @@ public class Scene implements Nameable, Serializable {
 		return messagesInUse;
 	}
 
+	public void editBroadcastMessagesInUse(String oldMessage, String newMessage) {
+		for (Sprite currentSprite : spriteList) {
+			for (Script currentScript : currentSprite.getScriptList()) {
+				if (currentScript instanceof BroadcastScript) {
+					BroadcastScript broadcastScript = (BroadcastScript) currentScript;
+					if (broadcastScript.getBroadcastMessage().equals(oldMessage)) {
+						broadcastScript.setBroadcastMessage(newMessage);
+					}
+				}
+				List<Brick> flatList = new ArrayList();
+				currentScript.addToFlatList(flatList);
+				for (Brick currentBrick : flatList) {
+					if (currentBrick instanceof BroadcastMessageBrick) {
+						BroadcastMessageBrick broadcastMessageBrick = (BroadcastMessageBrick) currentBrick;
+						if (broadcastMessageBrick.getBroadcastMessage().equals(oldMessage)) {
+							broadcastMessageBrick.setBroadcastMessage(newMessage);
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public void updateUserDataReferences(String oldName, String newName, UserData<?> item) {
 		if (ProjectManager.getInstance().getCurrentProject().isGlobalVariable(item)) {
 			for (Sprite sprite : spriteList) {

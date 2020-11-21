@@ -116,6 +116,10 @@ public abstract class UserVariableBrickWithVisualPlacement extends VisualPlaceme
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

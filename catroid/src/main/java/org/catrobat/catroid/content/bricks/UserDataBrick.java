@@ -228,6 +228,10 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

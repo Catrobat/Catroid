@@ -51,15 +51,16 @@ import static java.util.Collections.singletonList;
 public class BroadcastMessageBrickTest {
 
 	private static String defaultValueString = "defaultString";
-	private static String newOptionString = "newOption";
+	private static String newOptionString = "new...";
+	private static String editOptionString = "edit...";
 	private Context context;
 
 	@Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return asList(new Object[][] {
-				{"MultipleCharsWithDifferentCase", asList("a", "R", "x"), asList(newOptionString, "a", "R", "x")},
-				{"MultipleNumbers", asList("50", "3", "12"), asList(newOptionString, "12", "3", "50")},
-				{"WithSpecialCharacters", asList(".", "a", ":", "_b", "c"), asList(newOptionString, ".", ":", "_b", "a", "c")},
+				{"MultipleCharsWithDifferentCase", asList("a", "R", "x"), asList(newOptionString, editOptionString, "a", "R", "x")},
+				{"MultipleNumbers", asList("50", "3", "12"), asList(newOptionString, editOptionString, "12", "3", "50")},
+				{"WithSpecialCharacters", asList(".", "a", ":", "_b", "c"), asList(newOptionString, editOptionString, ".", ":", "_b", "a", "c")},
 				{"NoMessage", new ArrayList<>(), singletonList(defaultValueString)},
 		});
 	}
@@ -78,6 +79,7 @@ public class BroadcastMessageBrickTest {
 		context = Mockito.mock(Context.class);
 		Mockito.when(context.getString(eq(R.string.brick_broadcast_default_value))).thenReturn(defaultValueString);
 		Mockito.when(context.getString(eq(R.string.new_option))).thenReturn(newOptionString);
+		Mockito.when(context.getString(eq(R.string.edit_option))).thenReturn(editOptionString);
 	}
 
 	@Test

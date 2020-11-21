@@ -129,6 +129,10 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

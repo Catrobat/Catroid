@@ -105,6 +105,10 @@ public abstract class UserVariableBrickWithFormula extends FormulaBrick implemen
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

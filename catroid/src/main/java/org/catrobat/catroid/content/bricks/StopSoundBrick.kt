@@ -66,6 +66,8 @@ class StopSoundBrick : BrickBaseType(),
         }
     }
 
+    override fun onEditOptionSelected(spinnerId: Int) = Unit
+
     override fun addItem(item: SoundInfo) {
         spinner.add(item)
         spinner.setSelection(item)

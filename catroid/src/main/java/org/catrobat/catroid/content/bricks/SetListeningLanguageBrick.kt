@@ -82,6 +82,8 @@ class SetListeningLanguageBrick : BrickBaseType(),
 
     override fun onNewOptionSelected(spinnerId: Int?) = Unit
 
+    override fun onEditOptionSelected(spinnerId: Int?) = Unit
+
     override fun onStringOptionSelected(spinnerId: Int?, string: String?) = Unit
 
     override fun onItemSelected(spinnerId: Int?, item: LanguageObject?) {

@@ -140,6 +140,10 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 			}
 
 			@Override
+			public void onEditOptionSelected(Integer spinnerId) {
+			}
+
+			@Override
 			public void onNewOptionSelected(Integer spinnerId) {
 			}
 		});

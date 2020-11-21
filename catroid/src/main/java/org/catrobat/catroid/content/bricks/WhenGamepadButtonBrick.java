@@ -92,6 +92,10 @@ public class WhenGamepadButtonBrick extends ScriptBrickBaseType implements Brick
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 		script.setAction(string);
 	}

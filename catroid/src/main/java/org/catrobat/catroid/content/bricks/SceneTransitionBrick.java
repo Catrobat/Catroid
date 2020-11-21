@@ -130,6 +130,10 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 
