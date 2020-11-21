@@ -638,6 +638,10 @@
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
 
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
+
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Rate App</string>
     <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
@@ -1081,6 +1085,8 @@
     <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">for</string>
     <!--  -->
 
     <!-- Embroidery bricks -->
@@ -2012,6 +2018,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
 
 

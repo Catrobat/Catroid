@@ -28,7 +28,6 @@ import android.util.Log;
 import org.catrobat.catroid.content.SoundFilePathWithSprite;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
-import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 
@@ -41,7 +40,7 @@ import androidx.annotation.VisibleForTesting;
 
 public class MidiSoundManager {
 	private MusicalInstrument instrument = Project.DEFAULT_INSTRUMENT;
-	private float tempo = 100.0f;
+	private float tempo = 60.0f;
 	private float volume = 70.0f;
 
 	public static final int MAX_MIDI_PLAYERS = 15;
@@ -143,15 +142,18 @@ public class MidiSoundManager {
 		}
 	}
 
-	public void pauseForBeats(int beats) {
-		for (MidiPlayer midiPlayer : midiPlayers) {
-			if (midiPlayer.isPlaying()) {
-				midiPlayer.pauseForBeats(beats);
-			}
+	public void playNoteForBeats(int midiValue, float beats) {
+		MidiPlayer midiPlayer = getAvailableMidiPlayer();
+		if (midiPlayer != null) {
+			midiPlayer.setInstrument(instrument);
+			midiPlayer.setTempo(tempo);
+			midiPlayer.setVolume(this.volume * 127 / 100);
+			midiPlayer.playNoteForBeats(midiValue, beats);
 		}
-		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		playLength /= tempo / 100;
-		pausedUntil = System.currentTimeMillis() + (playLength * beats);
+	}
+
+	public long getDurationForBeats(float beats) {
+		return (long) (60000 / tempo * beats);
 	}
 
 	public boolean isSoundInSpritePlaying(Sprite sprite, String soundFilePath) {
@@ -200,7 +202,7 @@ public class MidiSoundManager {
 	}
 
 	public void reset() {
-		setTempo(100);
+		setTempo(60);
 	}
 
 	public float getVolume() {

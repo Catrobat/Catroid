@@ -65,7 +65,7 @@ public class ScrollController {
 			public void updateCallback(int tactCount, int measuredWidth) {
 				final long singleButtonDuration = NoteLength.QUARTER.toMilliseconds(beatsPerMinute);
 				final int singleButtonWidth = measuredWidth / scrollingView.getNotesPerScreen();
-				final int buttonsInTrack = tactCount * TrackRowView.QUARTER_COUNT;
+				final int buttonsInTrack = tactCount * TrackRowView.INITIAL_QUARTER_COUNT;
 				scrollingAnimator.setIntValues(singleButtonWidth * buttonsInTrack);
 				scrollingAnimator.setDuration(singleButtonDuration * buttonsInTrack);
 			}

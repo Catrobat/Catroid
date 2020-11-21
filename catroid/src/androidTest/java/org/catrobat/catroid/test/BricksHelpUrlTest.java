@@ -438,6 +438,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ResetTimerBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PaintNewLookBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PaintNewLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayNoteForBeats",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayNoteForBeats");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

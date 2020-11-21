@@ -163,6 +163,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -448,6 +449,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", PlaySoundBrick.class);
 		xstream.alias("brick", PlaySoundAndWaitBrick.class);
 		xstream.alias("brick", PauseForBeatsBrick.class);
+		xstream.alias("brick", PlayNoteForBeatsBrick.class);
 		xstream.alias("brick", PointInDirectionBrick.class);
 		xstream.alias("brick", PointToBrick.class);
 		xstream.alias("brick", PreviousLookBrick.class);

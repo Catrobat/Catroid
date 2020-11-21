@@ -119,6 +119,7 @@ import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
 import org.catrobat.catroid.content.actions.PhiroPlayToneAction;
 import org.catrobat.catroid.content.actions.PhiroRGBLightAction;
 import org.catrobat.catroid.content.actions.PhiroSensorAction;
+import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
@@ -714,6 +715,14 @@ public class ActionFactory extends Actions {
 	public Action createPauseForBeatsAction(Sprite sprite, Formula beats) {
 		PauseForBeatsAction action = action(PauseForBeatsAction.class);
 		action.setSprite(sprite);
+		action.setBeats(beats);
+		return action;
+	}
+
+	public Action createPlayNoteForBeatsAction(Sprite sprite, Formula note, Formula beats) {
+		PlayNoteForBeatsAction action = action(PlayNoteForBeatsAction.class);
+		action.setSprite(sprite);
+		action.setMidiValue(note);
 		action.setBeats(beats);
 		return action;
 	}
