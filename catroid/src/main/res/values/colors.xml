@@ -48,6 +48,7 @@
     <color name="image_view_border">@color/accent</color>
     <color name="snackbar">#FF33B5E5</color>
     <color name="separator">#51656C</color>
+    <color name="action_button">#ffab08</color>
 
     <!-- Formula Editor Colors -->
     <color name="formula_editor_compute_button">#005D7F</color>
