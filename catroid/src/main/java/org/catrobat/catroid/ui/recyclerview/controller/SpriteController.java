@@ -143,6 +143,12 @@ public class SpriteController {
 			sprite.look.setLookData(sprite.getLookList().get(currentLookDataIndex));
 		}
 		spriteToCopy.look.copyTo(sprite.look);
+
+		if (spriteToCopy.penConfiguration.isPenDown()) {
+			sprite.penConfiguration.setPenDown(true);
+			sprite.penConfiguration.addQueue();
+		}
+
 		return sprite;
 	}
 
