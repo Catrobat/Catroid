@@ -150,6 +150,7 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
@@ -434,6 +435,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", LoopEndBrick.class);
 		xstream.alias("brick", LoopEndlessBrick.class);
 		xstream.alias("brick", LookRequestBrick.class);
+		xstream.alias("brick", PaintNewLookBrick.class);
 		xstream.alias("brick", DeleteLookBrick.class);
 		xstream.alias("brick", BackgroundRequestBrick.class);
 		xstream.alias("brick", MoveNStepsBrick.class);

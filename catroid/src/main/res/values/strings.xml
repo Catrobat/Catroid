@@ -1043,6 +1043,10 @@
     <string name="brick_ask_speech_label">Ask</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
     <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+
     <!--  -->
 
 

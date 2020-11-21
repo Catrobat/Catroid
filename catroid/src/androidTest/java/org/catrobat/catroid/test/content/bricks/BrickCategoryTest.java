@@ -113,6 +113,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
@@ -307,6 +308,7 @@ public class BrickCategoryTest {
 						ChooseCameraBrick.class,
 						FlashBrick.class,
 						LookRequestBrick.class,
+						PaintNewLookBrick.class,
 						DeleteLookBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,

@@ -26,7 +26,7 @@ import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.formulaeditor.Formula
 
 abstract class SetRelativeLookAction : SetLookByIndexAction() {
-    abstract val change: Int
+    abstract var change: Int
 
     override fun getEventId(): EventId? {
         val lookList = sprite?.lookList
@@ -34,7 +34,7 @@ abstract class SetRelativeLookAction : SetLookByIndexAction() {
         val newIndex =
             if (currentLookData != null && lookList?.contains(currentLookData) == true) {
                 (lookList.indexOf(currentLookData) + change + lookList.size) % lookList.size
-            } else -1
+            } else 0
         formula = Formula(newIndex + 1)
         return super.getEventId()
     }
