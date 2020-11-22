@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.CompositeBrick;
@@ -35,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Script implements Serializable, Cloneable {
 
@@ -42,6 +45,13 @@ public abstract class Script implements Serializable, Cloneable {
 
 	protected List<Brick> brickList = new ArrayList<>();
 	protected boolean commentedOut = false;
+
+	@XStreamAsAttribute
+	protected float posX;
+	@XStreamAsAttribute
+	protected float posY;
+
+	protected UUID scriptId = UUID.randomUUID();
 
 	protected transient ScriptBrick scriptBrick;
 
@@ -62,7 +72,30 @@ public abstract class Script implements Serializable, Cloneable {
 
 		clone.commentedOut = commentedOut;
 		clone.scriptBrick = null;
+		clone.posX = posX;
+		clone.posY = posY;
+		clone.scriptId = UUID.randomUUID();
 		return clone;
+	}
+
+	public float getPosX() {
+		return posX;
+	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public UUID getScriptId() {
+		return scriptId;
 	}
 
 	public boolean isCommentedOut() {

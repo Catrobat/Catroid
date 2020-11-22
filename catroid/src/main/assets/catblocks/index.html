@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Android Release</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.15.0/css/mdb.min.css" rel="stylesheet" />
+  <link href="main.css?a54aa1ae5714dedd3117" rel="stylesheet"></head>
+
+  <body>
+    <div id="catblocks-program-container"></div>
+    <script>
+      window.onload = function () {
+        CatBlocks.init({
+          container: 'catblocks-program-container',
+          renderSize: 0.75,
+          language: Android.getCurrentLanguage(),
+          rtl: Android.isRTL(),
+          shareRoot: 'https://appassets.androidplatform.net/assets/catblocks',
+          media: 'https://appassets.androidplatform.net/assets/catblocks/media',
+          i18n: 'https://appassets.androidplatform.net/assets/catblocks/i18n',
+          noImageFound: 'No_Image_Available.jpg',
+          renderLooks: false,
+          renderSounds: false,
+          readOnly: false
+        }).then(() => {
+          const programXML = Android.getCurrentProject();
+          console.log(programXML);
+          const scene = Android.getSceneNameToDisplay();
+          const object = Android.getSpriteNameToDisplay();
+          const script = Android.getScriptIndexToDisplay();
+          CatBlocks.renderForAndroid(programXML, 'share', scene, object, script);
+        });
+      };
+    </script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+  <script type="text/javascript"
+          src="https://appassets.androidplatform.net/assets/catblocks/CatBlocks.js?a54aa1ae5714dedd3117"></script></body>
+</html>
