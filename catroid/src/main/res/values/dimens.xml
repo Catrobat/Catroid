@@ -43,7 +43,6 @@
     <dimen name="brick_height_medium" >96dp</dimen >
     <dimen name="brick_height_big" >120dp</dimen >
     <dimen name="key_margin" >1dip</dimen >
-    <dimen name="text_size_xxlarge" >24sp</dimen >
     <dimen name="brick_category_height" >90dp</dimen >
 
     <!-- Dialog -->
@@ -83,7 +82,6 @@
 
     <!-- Activity -->
     <dimen name="activity_text_view_margin_large" >35dp</dimen >
-    <dimen name="activity_bottom_bar_height" >48dip</dimen >
 
     <!-- Device -->
     <dimen name="device_text_view_margin_small" >10dp</dimen >

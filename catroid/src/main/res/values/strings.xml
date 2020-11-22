@@ -53,8 +53,10 @@
     <string name="always">Always</string>
     <string name="deny">Deny</string>
 
-    <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
+
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
@@ -322,8 +324,8 @@
 
     <!-- ERRORS -->
 
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
         However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
 
     <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
@@ -675,8 +677,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Privacy policy</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
