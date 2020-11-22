@@ -43,12 +43,14 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_ALIGNMENT;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_COLOR;
@@ -57,6 +59,7 @@ import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_CENTERED;
 import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_LEFT;
 import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
 import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
+import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
 
 public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement {
 
@@ -93,7 +96,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (view.getId() == R.id.brick_show_variable_color_size_edit_color) {
+		if (view.getId() == R.id.brick_show_variable_color_size_edit_color && isValidColorString(getColor())) {
 			ShowFormulaEditorStrategy.Callback callback = new ShowTextColorSizeAlignmentBrickCallback(view);
 			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
 		} else {
@@ -233,7 +236,12 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 			setFormulaWithBrickField(BrickField.COLOR, new Formula(colorString));
 
 			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 			notifyDataSetChanged(activity);
+
+			if (currentFragment instanceof FormulaEditorFragment) {
+				((FormulaEditorFragment) currentFragment).updateFragmentAfterColorPicker();
+			}
 		}
 
 		@Override
