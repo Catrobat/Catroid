@@ -86,12 +86,12 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
+		loadContent();
+
 		int oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
 						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		if (oldPrivacyPolicy == Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
-			loadContent();
-		} else {
+		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			showTermsOfUseDialog();
 		}
 	}
@@ -123,8 +123,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.setOnKeyListener((dialog, keyCode, event) -> {
 					if (keyCode == KeyEvent.KEYCODE_BACK) {
 						finish();
+						return true;
 					}
-					return true;
+					return false;
 				})
 				.setView(view)
 				.show();
@@ -135,7 +136,6 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
-		loadContent();
 	}
 
 	public void handleDeclinedPrivacyPolicyButton() {
@@ -160,8 +160,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 					if (keyCode == KeyEvent.KEYCODE_BACK) {
 						dialog.cancel();
 						showTermsOfUseDialog();
+						return true;
 					}
-					return true;
+					return false;
 				})
 				.show();
 	}
