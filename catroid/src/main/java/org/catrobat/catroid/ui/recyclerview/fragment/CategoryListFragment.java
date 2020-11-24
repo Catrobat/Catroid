@@ -169,12 +169,13 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_multi_finger_x, R.string.formula_editor_function_multi_finger_y,
 			R.string.formula_editor_function_is_multi_finger_touching,
 			R.string.formula_editor_function_index_of_last_finger,
-			R.string.formula_editor_function_number_of_current_touches);
+			R.string.formula_editor_function_number_of_current_touches,
+			R.string.formula_editor_function_index_of_current_touch);
 	private static final List<Integer> SENSORS_TOUCH_PARAMS = asList(R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter);
+			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter);
 	private static final List<Integer> SENSORS_VISUAL_DETECTION = asList(R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position,

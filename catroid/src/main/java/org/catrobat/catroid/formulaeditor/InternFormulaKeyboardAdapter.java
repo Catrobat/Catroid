@@ -209,6 +209,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.LAST_FINGER_INDEX);
 			case R.string.formula_editor_function_number_of_current_touches:
 				return buildSensor(Sensors.NUMBER_CURRENT_TOUCHES);
+			case R.string.formula_editor_function_index_of_current_touch:
+				return buildSingleParameterFunction(Functions.INDEX_CURRENT_TOUCH, NUMBER, "1");
 			case R.string.formula_editor_sensor_color_at_x_y:
 				return buildDoubleParameterFunction(Functions.COLOR_AT_XY, NUMBER, "100", NUMBER, "200");
 			case R.string.formula_editor_sensor_x_acceleration:

@@ -34,6 +34,7 @@ public class TouchFunctionProvider implements FunctionProvider {
 		formulaFunctions.put(Functions.MULTI_FINGER_TOUCHED, new UnaryFunction(this::interpretFunctionFingerTouched));
 		formulaFunctions.put(Functions.MULTI_FINGER_X, new UnaryFunction(this::interpretFunctionMultiFingerX));
 		formulaFunctions.put(Functions.MULTI_FINGER_Y, new UnaryFunction(this::interpretFunctionMultiFingerY));
+		formulaFunctions.put(Functions.INDEX_CURRENT_TOUCH, new UnaryFunction(this::interpretFunctionIndexCurrentTouch));
 	}
 
 	private double interpretFunctionMultiFingerY(double argument) {
@@ -46,6 +47,10 @@ public class TouchFunctionProvider implements FunctionProvider {
 
 	private double interpretFunctionFingerTouched(double argument) {
 		return booleanToDouble(TouchUtil.isFingerTouching((int) argument));
+	}
+
+	private double interpretFunctionIndexCurrentTouch(double argument) {
+		return TouchUtil.getIndexOfCurrentTouch((int) argument);
 	}
 
 	private double booleanToDouble(boolean value) {
