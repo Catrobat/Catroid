@@ -49,7 +49,6 @@ import java.io.File;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({File.class, SpeakAction.class, Constants.class, FlavoredConstants.class, CatroidApplication.class})
@@ -91,19 +90,6 @@ public class SpeakActionTest {
 
 		assertEquals(text2, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 		assertEquals(text, textAfterExecution);
-	}
-
-	@Test
-	public void testNullSprite() {
-		SpeakBrick speakBrick = new SpeakBrick(text);
-		Action action = factory.createSpeakAction(sprite, text);
-
-		try {
-			action.act(1.0f);
-			fail("Execution of ShowBrick with null Sprite did not cause a NullPointerException to be thrown");
-		} catch (NullPointerException expected) {
-		}
-		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 	}
 
 	@Test
