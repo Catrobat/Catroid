@@ -30,22 +30,48 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
 
-class TapForBrick() : VisualPlacementBrick() {
-    constructor(xPositionValue: Int, yPositionValue: Int, durationInSecondsValue: Double) : this(
+class TouchAndSlideBrick() : VisualPlacementBrick() {
+    init {
+        addAllowedBrickField(BrickField.X_POSITION, R.id.brick_touch_slide_edit_from_x)
+        addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_touch_slide_edit_from_y)
+        addAllowedBrickField(BrickField.X_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_x)
+        addAllowedBrickField(BrickField.Y_POSITION_CHANGE, R.id.brick_touch_slide_edit_to_y)
+        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration)
+    }
+
+    constructor(
+        xPositionValue: Int,
+        yPositionValue: Int,
+        xChangeValue: Int,
+        yChangeValue: Int,
+        durationInSecondsValue: Double
+    ) : this(
         Formula(xPositionValue),
         Formula(yPositionValue),
+        Formula(xChangeValue),
+        Formula(yChangeValue),
         Formula(durationInSecondsValue)
     )
 
-    constructor(xPosition: Formula?, yPosition: Formula?, durationInSeconds: Formula?) : this() {
+    constructor(
+        xPosition: Formula?,
+        yPosition: Formula?,
+        xChange: Formula?,
+        yChange: Formula?,
+        durationInSeconds: Formula?
+    ) : this() {
         setFormulaWithBrickField(BrickField.X_POSITION, xPosition)
         setFormulaWithBrickField(BrickField.Y_POSITION, yPosition)
+        setFormulaWithBrickField(BrickField.X_POSITION_CHANGE, xChange)
+        setFormulaWithBrickField(BrickField.Y_POSITION_CHANGE, yChange)
         setFormulaWithBrickField(BrickField.DURATION_IN_SECONDS, durationInSeconds)
     }
 
+    private var startCoordinates: Boolean = true
+
     override fun getDefaultBrickField(): BrickField = BrickField.X_POSITION
 
-    override fun getViewResource(): Int = R.layout.brick_tap_for
+    override fun getViewResource(): Int = R.layout.brick_touch_slide
 
     override fun getView(context: Context): View {
         super.getView(context)
@@ -58,30 +84,36 @@ class TapForBrick() : VisualPlacementBrick() {
         sequence: ScriptSequenceAction
     ) {
         sequence.addAction(
-            sprite.actionFactory.createTapForAction(
+            sprite.actionFactory.createTouchAndSlideAction(
                 sprite,
                 getFormulaWithBrickField(BrickField.X_POSITION),
                 getFormulaWithBrickField(BrickField.Y_POSITION),
+                getFormulaWithBrickField(BrickField.X_POSITION_CHANGE),
+                getFormulaWithBrickField(BrickField.Y_POSITION_CHANGE),
                 getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
             )
         )
     }
 
-    override fun getXBrickField(): BrickField? = BrickField.X_POSITION
+    override fun showFormulaEditorToEditFormula(view: View?) {
+        startCoordinates =
+            view?.id == R.id.brick_touch_slide_edit_from_x || view?.id == R.id.brick_touch_slide_edit_from_y
+        super.showFormulaEditorToEditFormula(view)
+    }
 
-    override fun getYBrickField(): BrickField? = BrickField.Y_POSITION
+    override fun getXBrickField(): BrickField? =
+        if (startCoordinates) BrickField.X_POSITION else BrickField.X_POSITION_CHANGE
 
-    override fun getXEditTextId(): Int = R.id.brick_tap_for_edit_x
+    override fun getYBrickField(): BrickField? =
+        if (startCoordinates) BrickField.Y_POSITION else BrickField.Y_POSITION_CHANGE
 
-    override fun getYEditTextId(): Int = R.id.brick_tap_for_edit_y
+    override fun getXEditTextId(): Int =
+        if (startCoordinates) R.id.brick_touch_slide_edit_from_x else R.id.brick_touch_slide_edit_to_x
+
+    override fun getYEditTextId(): Int =
+        if (startCoordinates) R.id.brick_touch_slide_edit_from_y else R.id.brick_touch_slide_edit_to_y
 
     companion object {
         private const val serialVersionUID = 1L
-    }
-
-    init {
-        addAllowedBrickField(BrickField.X_POSITION, R.id.brick_tap_for_edit_x)
-        addAllowedBrickField(BrickField.Y_POSITION, R.id.brick_tap_for_edit_y)
-        addAllowedBrickField(BrickField.DURATION_IN_SECONDS, R.id.brick_tap_for_edit_duration)
     }
 }
