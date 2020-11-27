@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -439,6 +440,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", LookRequestBrick.class);
 		xstream.alias("brick", PaintNewLookBrick.class);
 		xstream.alias("brick", DeleteLookBrick.class);
+		xstream.alias("brick", CopyLookBrick.class);
 		xstream.alias("brick", BackgroundRequestBrick.class);
 		xstream.alias("brick", MoveNStepsBrick.class);
 		xstream.alias("brick", NextLookBrick.class);

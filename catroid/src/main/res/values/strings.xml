@@ -1051,7 +1051,9 @@
     <string name="brick_paint_new_look">Paint new look</string>
     <string name="brick_paint_new_background">Paint new background</string>
     <string name="brick_paint_new_look_name">"name of new look"</string>
-
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
 
 
