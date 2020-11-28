@@ -165,6 +165,8 @@ android {
         buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "false"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
@@ -241,6 +243,8 @@ android {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             resValue "string", "DEBUG_MODE", "true"
+            buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
         }
@@ -383,6 +387,9 @@ dependencies {
     implementation ('com.thoughtworks.xstream:xstream:1.4.11.1') {
         exclude group: 'xmlpull'
     }
+
+    // Catblocks
+    implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'

@@ -27,6 +27,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -63,6 +64,14 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		adapter = new LookAdapter(items);
 		emptyView.setText(R.string.fragment_look_text_description);
 		onAdapterReady();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
 	}
 
 	@Override
