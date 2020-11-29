@@ -1036,6 +1036,8 @@
     <string name="brick_next_background">Next background</string>
     <string name="brick_previous_look">Previous look</string>
     <string name="brick_previous_background">Previous background</string>
+    <string name="brick_edit_look">Edit look</string>
+    <string name="brick_edit_background">Edit background</string>
     <string name="brick_delete_look">Delete look</string>
     <string name="brick_delete_background">Delete background</string>
     <string name="brick_flash">Turn flashlight</string>

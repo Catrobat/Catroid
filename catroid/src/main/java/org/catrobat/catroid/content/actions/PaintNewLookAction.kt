@@ -30,26 +30,16 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import androidx.annotation.VisibleForTesting
-import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
-import org.catrobat.catroid.content.Sprite
-import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.StorageOperations
-import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider
 import java.io.File
 import java.io.IOException
 
-class PaintNewLookAction : Action(), StageActivity.IntentListener {
-    var formula: Formula? = null
-    var sprite: Sprite? = null
-    var nextLookAction: SetNextLookAction? = null
-    private var responseReceived = false
-    private var questionAsked = false
-    private var xstreamSerializer: XstreamSerializer = XstreamSerializer.getInstance()
+class PaintNewLookAction : PocketPaintAction() {
     companion object {
         private const val TAG = "PaintNewLookAction"
     }
@@ -60,16 +50,6 @@ class PaintNewLookAction : Action(), StageActivity.IntentListener {
             questionAsked = true
         }
         return responseReceived
-    }
-
-    override fun restart() {
-        super.restart()
-        responseReceived = false
-        questionAsked = false
-    }
-
-    fun nextLookAction(nextLookAction: SetNextLookAction) {
-        this.nextLookAction = nextLookAction
     }
 
     override fun getTargetIntent(): Intent? {
@@ -133,14 +113,14 @@ class PaintNewLookAction : Action(), StageActivity.IntentListener {
     }
 }
 
-private object LookRequester {
+object LookRequester {
     var anyAsked = false
     @Synchronized
-    fun requestNewLook(paintNewLookAction: PaintNewLookAction): Boolean {
+    fun requestNewLook(pocketPaintAction: PocketPaintAction): Boolean {
         if (anyAsked) {
             return false
         }
-        StageActivity.messageHandler?.obtainMessage(StageActivity.REGISTER_INTENT, arrayListOf(paintNewLookAction)
+        StageActivity.messageHandler?.obtainMessage(StageActivity.REGISTER_INTENT, arrayListOf(pocketPaintAction)
         )?.sendToTarget()
         anyAsked = true
         return true
