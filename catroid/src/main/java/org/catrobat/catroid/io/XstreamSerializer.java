@@ -213,6 +213,7 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SewUpBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
@@ -584,6 +585,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopRunningStitchBrick.class);
 		xstream.alias("brick", ZigZagStitchBrick.class);
 		xstream.alias("brick", TripleStitchBrick.class);
+		xstream.alias("brick", SewUpBrick.class);
 		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);
