@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,6 +73,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -86,9 +88,11 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.loadFragment;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
@@ -166,7 +170,7 @@ public class SpriteActivity extends BaseActivity {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 		}
 		loadFragment(this, fragmentPosition);
-		addTabLayout(this);
+		addTabLayout(this, fragmentPosition);
 	}
 
 	private String createActionBarTitle() {
@@ -177,7 +181,7 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	private Fragment getCurrentFragment() {
+	Fragment getCurrentFragment() {
 		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 	}
 
@@ -824,5 +828,18 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 		}
 		StageActivity.handlePlayButton(projectManager, this);
+	}
+
+	@Nullable
+	@Override
+	public ActionMode startActionMode(ActionMode.Callback callback) {
+		removeTabLayout(this);
+		return super.startActionMode(callback);
+	}
+
+	@Override
+	public void onActionModeFinished(ActionMode mode) {
+		addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
+		super.onActionModeFinished(mode);
 	}
 }

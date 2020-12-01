@@ -33,7 +33,7 @@ public class PauseForBeatsBrick extends FormulaBrick {
 		addAllowedBrickField(BrickField.BEATS_TO_PAUSE, R.id.brick_pause_for_beats_edit_text);
 	}
 
-	public PauseForBeatsBrick(int pausedBeats) {
+	public PauseForBeatsBrick(float pausedBeats) {
 		this(new Formula(pausedBeats));
 	}
 

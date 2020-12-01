@@ -107,6 +107,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -440,6 +441,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(ChangeTempoByNBrick.class.getSimpleName());
 		brickInfoMap.put("changeTempoByNBrick", brickInfo);
+
+		brickInfo = new BrickInfo(PlayNoteForBeatsBrick.class.getSimpleName());
+		brickInfoMap.put("playNoteForBeatsBrick", brickInfo);
 
 		brickInfo = new BrickInfo(PointInDirectionBrick.class.getSimpleName());
 		brickInfo.addBrickFieldToMap("degrees", BrickField.DEGREES);

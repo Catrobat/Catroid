@@ -27,6 +27,7 @@ import android.view.View;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
@@ -43,14 +44,14 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view, Callback callback) {
-		if (isViewInScriptFragment(view)) {
+		if (isInCorrectFragment(view, callback)) {
 			showSelectEditDialog(view, callback);
 		} else {
 			callback.showFormulaEditor(view);
 		}
 	}
 
-	private boolean isViewInScriptFragment(View view) {
+	private boolean isInCorrectFragment(View view, Callback callback) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return false;
@@ -59,7 +60,11 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 		FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
 		Fragment currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container);
 
-		return currentFragment instanceof ScriptFragment;
+		if (currentFragment instanceof FormulaEditorFragment) {
+			callback.showFormulaEditor(view);
+		}
+
+		return currentFragment instanceof ScriptFragment || currentFragment instanceof FormulaEditorFragment;
 	}
 
 	private void showSelectEditDialog(View view, Callback callback) {

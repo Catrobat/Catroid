@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.Menu;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -61,6 +62,14 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 		adapter = new SoundAdapter(items);
 		emptyView.setText(R.string.fragment_sound_text_description);
 		onAdapterReady();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
 	}
 
 	@Override

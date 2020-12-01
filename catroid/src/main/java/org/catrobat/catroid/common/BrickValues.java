@@ -181,6 +181,13 @@ public final class BrickValues {
 	public static final int ZIGZAG_STITCH_LENGTH = 2;
 	public static final int ZIGZAG_STITCH_WIDTH = 10;
 
+	//Constants Device
+	public static final double TOUCH_DURATION = 0.3;
+	public static final int TOUCH_X_START = -100;
+	public static final int TOUCH_Y_START = -200;
+	public static final int TOUCH_X_GOAL = 100;
+	public static final int TOUCH_Y_GOAL = 200;
+
 	private BrickValues() {
 		throw new AssertionError("No.");
 	}

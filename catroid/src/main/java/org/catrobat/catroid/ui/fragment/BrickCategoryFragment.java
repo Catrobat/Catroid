@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -43,13 +44,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
-import static org.catrobat.catroid.ui.listener.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class BrickCategoryFragment extends ListFragment {
@@ -106,13 +109,6 @@ public class BrickCategoryFragment extends ListFragment {
 				SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
 			}
 		});
-		removeTabLayout(getActivity());
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		addTabLayout(getActivity());
 	}
 
 	@Override
@@ -217,6 +213,18 @@ public class BrickCategoryFragment extends ListFragment {
 
 		adapter = new BrickCategoryAdapter(categories);
 		setListAdapter(adapter);
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onDetach() {
+		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
+		super.onDetach();
 	}
 
 	public interface OnCategorySelectedListener {

@@ -50,6 +50,7 @@ import java.util.Random;
 
 import androidx.appcompat.widget.Toolbar;
 
+import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.pocketmusic.note.midi.ProjectToMidiConverter.midiFolder;
 
 public class PocketMusicActivity extends BaseActivity {
@@ -68,7 +69,8 @@ public class PocketMusicActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		midiFolder = new File(getApplicationContext().getFilesDir().getPath(), "musicdroid");
+		midiFolder = new File(ProjectManager.getInstance().getCurrentlyEditedScene().getDirectory(),
+				SOUND_DIRECTORY_NAME);
 
 		midiDriver = new MidiNotePlayer();
 

@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ClearUserListAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
+import org.catrobat.catroid.content.actions.CopyLookAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
@@ -108,6 +109,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
+import org.catrobat.catroid.content.actions.PaintNewLookAction;
 import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
 import org.catrobat.catroid.content.actions.PauseForBeatsAction;
 import org.catrobat.catroid.content.actions.PenDownAction;
@@ -118,6 +120,7 @@ import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
 import org.catrobat.catroid.content.actions.PhiroPlayToneAction;
 import org.catrobat.catroid.content.actions.PhiroRGBLightAction;
 import org.catrobat.catroid.content.actions.PhiroSensorAction;
+import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
 import org.catrobat.catroid.content.actions.PointToAction;
@@ -714,6 +717,14 @@ public class ActionFactory extends Actions {
 	public Action createPauseForBeatsAction(Sprite sprite, Formula beats) {
 		PauseForBeatsAction action = action(PauseForBeatsAction.class);
 		action.setSprite(sprite);
+		action.setBeats(beats);
+		return action;
+	}
+
+	public Action createPlayNoteForBeatsAction(Sprite sprite, Formula note, Formula beats) {
+		PlayNoteForBeatsAction action = action(PlayNoteForBeatsAction.class);
+		action.setSprite(sprite);
+		action.setMidiValue(note);
 		action.setBeats(beats);
 		return action;
 	}
@@ -1399,6 +1410,18 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createTouchAndSlideAction(Sprite sprite, Formula x, Formula y,
+			Formula xChange, Formula yChange, Formula duration) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setSprite(sprite);
+		action.setDurationFormula(duration);
+		action.setStartX(x);
+		action.setStartY(y);
+		action.setChangeX(xChange);
+		action.setChangeY(yChange);
+		return action;
+	}
+
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
 		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
 		action.setUserVariable(userVariable);
@@ -1475,6 +1498,24 @@ public class ActionFactory extends Actions {
 	public Action createSetListeningLanguageAction(String listeningLanguageTag) {
 		SetListeningLanguageAction action = action(SetListeningLanguageAction.class);
 		action.listeningLanguageTag = listeningLanguageTag;
+		return action;
+	}
+
+	public Action createPaintNewLookAction(Sprite sprite, Formula variableFormula,
+			SetNextLookAction nextLookAction) {
+		PaintNewLookAction action = action(PaintNewLookAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		action.nextLookAction(nextLookAction);
+		return action;
+	}
+
+	public Action createCopyLookAction(Sprite sprite, Formula variableFormula,
+			SetNextLookAction nextLookAction) {
+		CopyLookAction action = action(CopyLookAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		action.nextLookAction(nextLookAction);
 		return action;
 	}
 }

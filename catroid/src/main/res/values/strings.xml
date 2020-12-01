@@ -53,8 +53,10 @@
     <string name="always">Always</string>
     <string name="deny">Deny</string>
 
-    <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
+
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
@@ -322,8 +324,8 @@
 
     <!-- ERRORS -->
 
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
         However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
 
     <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
@@ -638,6 +640,10 @@
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
 
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
+
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Rate App</string>
     <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
@@ -671,8 +677,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Privacy policy</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -794,6 +799,8 @@
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
     <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/enable</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
 
 
@@ -1043,6 +1050,12 @@
     <string name="brick_ask_speech_label">Ask</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
     <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
 
 
@@ -1077,6 +1090,8 @@
     <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">for</string>
     <!--  -->
 
     <!-- Embroidery bricks -->
@@ -1147,6 +1162,8 @@
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"for"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -2009,6 +2026,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
 
 

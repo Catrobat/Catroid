@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -113,6 +114,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
@@ -124,6 +126,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -188,6 +191,7 @@ import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
@@ -309,6 +313,8 @@ public class BrickCategoryTest {
 						ChooseCameraBrick.class,
 						FlashBrick.class,
 						LookRequestBrick.class,
+						PaintNewLookBrick.class,
+						CopyLookBrick.class,
 						DeleteLookBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
@@ -328,6 +334,7 @@ public class BrickCategoryTest {
 						StartListeningBrick.class,
 						SetListeningLanguageBrick.class,
 						SetInstrumentBrick.class,
+						PlayNoteForBeatsBrick.class,
 						SetTempoBrick.class,
 						ChangeTempoByNBrick.class,
 						PauseForBeatsBrick.class)},
@@ -353,7 +360,8 @@ public class BrickCategoryTest {
 						BroadcastBrick.class,
 						BroadcastWaitBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)},
+						TapForBrick.class,
+						TouchAndSlideBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -394,7 +402,9 @@ public class BrickCategoryTest {
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)},
+						TapForBrick.class,
+						TouchAndSlideBrick.class)
+				},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -453,6 +463,7 @@ public class BrickCategoryTest {
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						TapForBrick.class,
+						TouchAndSlideBrick.class,
 						FinishStageBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},

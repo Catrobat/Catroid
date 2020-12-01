@@ -53,11 +53,6 @@
             app:layout_inputType="number"
             app:layout_textField="true">
         </TextView>
-
-        <TextView
-            style="@style/BrickText.Multiple"
-            android:text="@string/percent_symbol">
-        </TextView>
     </org.catrobat.catroid.ui.BrickLayout>
 
 </LinearLayout>

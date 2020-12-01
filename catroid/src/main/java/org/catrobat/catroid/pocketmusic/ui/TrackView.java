@@ -41,11 +41,15 @@ import java.util.List;
 public class TrackView extends TableLayout {
 
 	public static final int ROW_COUNT = 13;
+	public static final int HIGHEST_MIDI = 130;
 	private List<TrackRowView> trackRowViews = new ArrayList<>(ROW_COUNT);
 	private TrackGrid trackGrid;
 	private int tactPosition = 0;
-	private static final int[] BLACK_KEY_INDICES = {
+	public static final int[] BLACK_KEY_INDICES = {
 			1, 3, 6, 8, 10
+	};
+	public static final int[] WHITE_KEY_INDICES = {
+			0, 2, 4, 5, 7, 9, 11, 12
 	};
 
 	public TrackView(Context context, AttributeSet attrs) {
@@ -74,7 +78,7 @@ public class TrackView extends TableLayout {
 		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, 0, 1.0f);
 		for (int i = 0; i < ROW_COUNT; i++) {
 			boolean isBlackRow = Arrays.binarySearch(BLACK_KEY_INDICES, i) > -1;
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.DEFAULT_NOTE_NAME.getMidi() + i);
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(TrackRowView.getMidiValueForRow(i));
 			TrackRowView trackRowView = new TrackRowView(getContext(), trackGrid.getBeat(), isBlackRow, noteName, this);
 			trackRowView.setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
 			trackRowViews.add(trackRowView);
@@ -89,7 +93,7 @@ public class TrackView extends TableLayout {
 	public void updateDataForTactPosition(int tactPosition) {
 		this.tactPosition = tactPosition;
 		for (int i = 0; i < ROW_COUNT; i++) {
-			NoteName noteName = NoteName.getNoteNameFromMidiValue(NoteName.C1.getMidi() + i);
+			NoteName noteName = NoteName.getNoteNameFromMidiValue(TrackRowView.getMidiValueForRow(i));
 			trackRowViews.get(i).setTactPosition(tactPosition, trackGrid.getGridRowForNoteName(noteName));
 		}
 	}

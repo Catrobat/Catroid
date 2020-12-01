@@ -31,7 +31,7 @@ import org.catrobat.catroid.content.bricks.Brick.BrickField
 import org.catrobat.catroid.formulaeditor.Formula
 
 class TapForBrick() : VisualPlacementBrick() {
-    constructor(xPositionValue: Int, yPositionValue: Int, durationInSecondsValue: Int) : this(
+    constructor(xPositionValue: Int, yPositionValue: Int, durationInSecondsValue: Double) : this(
         Formula(xPositionValue),
         Formula(yPositionValue),
         Formula(durationInSecondsValue)
