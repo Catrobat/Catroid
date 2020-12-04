@@ -1,8 +1,9 @@
 # Catroid #
 
-**Catroid** is a visual coding IDE and interpreter for Android for the Catrobat programming language.
+**Catroid** is a visual coding IDE and interpreter for Android Development for the Catrobat programming language.
 
-**Catrobat** is a visual programming language and a set of creativity tools for smartphones. 
+**Catrobat** is a visual programming language and a set of creativity tools for smartphones Android apps available on Google Play and iPhone apps available on Apple's app store.
+ 
 Catrobat projects can be created using Catrobat's Android apps available on [Google Play](https://catrob.at/gp) and iPhone apps available on [Apple's app store](https://catrob.at/ca).
 
 For more information oriented towards developers, check out our [developers page](https://developer.catrobat.org/).
@@ -10,6 +11,12 @@ For more information oriented towards developers, check out our [developers page
 # Issues #
 
 For reporting issues use our [JIRA Bugtracking System](https://jira.catrob.at/secure/CreateIssue.jspa?pid=11800&issuetype=1). Before that, please browse our currently open issues [here](https://jira.catrob.at/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+CATROID+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC%2C+key+DESC&mode=hide).
+
+
+# First steps into Catrobat # 
+
+If you are a new here and you do not have any idea where to start with then please check out this link 
+(http://developer.catrobat.org/first_steps)
 
 
 # Contributing #
@@ -25,6 +32,7 @@ Also make sure to read our guidelines for [creating a pull request](https://gith
 
 
 # Resources and links #
+* [Home Catrobat](https://catrobat.org/)
 * [Google Play Store Download](https://catrob.at/gp)
 * [Community website with sample programs](https://share.catrob.at/)
 * [Frequently Asked Questions](https://github.com/Catrobat/Catroid/wiki/Frequently-Asked-Questions-(Developers))
