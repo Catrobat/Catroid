@@ -1,4 +1,4 @@
-# does all of this for you:
+# This is done all for you:
 # https://confluence.catrob.at/display/KNOWHOW/How+to+create+a+release+standalone+Pocket+Code+apk-file
 # plus generates the apk and copies it to this folder
 import shutil
