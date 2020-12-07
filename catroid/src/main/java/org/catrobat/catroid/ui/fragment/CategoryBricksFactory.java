@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -183,6 +184,7 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SewUpBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
@@ -200,6 +202,7 @@ import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
@@ -388,9 +391,12 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new BroadcastBrick(broadcastMessage));
 		controlBrickList.add(new BroadcastWaitBrick(broadcastMessage));
 
-		controlBrickList.add(new TapAtBrick());
-		controlBrickList.add(new TapForBrick());
-
+		controlBrickList.add(new TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START));
+		controlBrickList.add(new TapForBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START,
+				BrickValues.TOUCH_DURATION));
+		controlBrickList.add(new TouchAndSlideBrick(BrickValues.TOUCH_X_START,
+				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
+				BrickValues.TOUCH_DURATION));
 		return controlBrickList;
 	}
 
@@ -550,7 +556,7 @@ public class CategoryBricksFactory {
 		}
 
 		looksBrickList.add(new PaintNewLookBrick(context.getString(R.string.brick_paint_new_look_name)));
-
+		looksBrickList.add(new CopyLookBrick(context.getString(R.string.brick_copy_look_name)));
 		looksBrickList.add(new DeleteLookBrick());
 
 		return looksBrickList;
@@ -661,8 +667,12 @@ public class CategoryBricksFactory {
 		deviceBrickList.add(new ReadVariableFromDeviceBrick());
 		deviceBrickList.add(new WriteListOnDeviceBrick());
 		deviceBrickList.add(new ReadListFromDeviceBrick());
-		deviceBrickList.add(new TapAtBrick());
-		deviceBrickList.add(new TapForBrick());
+		deviceBrickList.add(new TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START));
+		deviceBrickList.add(new TapForBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START,
+				BrickValues.TOUCH_DURATION));
+		deviceBrickList.add(new TouchAndSlideBrick(BrickValues.TOUCH_X_START,
+				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
+				BrickValues.TOUCH_DURATION));
 
 		if (SettingsFragment.isCastSharedPreferenceEnabled(context)) {
 			deviceBrickList.addAll(setupChromecastCategoryList(context));
@@ -824,6 +834,7 @@ public class CategoryBricksFactory {
 		embroideryBrickList.add(new ZigZagStitchBrick(new Formula(BrickValues.ZIGZAG_STITCH_LENGTH),
 				new Formula(BrickValues.ZIGZAG_STITCH_WIDTH)));
 		embroideryBrickList.add(new TripleStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
+		embroideryBrickList.add(new SewUpBrick());
 		embroideryBrickList.add(new StopRunningStitchBrick());
 		embroideryBrickList.add(new WriteEmbroideryToFileBrick(
 				context.getString(R.string.brick_default_embroidery_file)));
@@ -837,8 +848,12 @@ public class CategoryBricksFactory {
 		assertionsBrickList.add(new AssertUserListsBrick());
 		assertionsBrickList.add(new ParameterizedBrick());
 		assertionsBrickList.add(new WaitTillIdleBrick());
-		assertionsBrickList.add(new TapAtBrick());
-		assertionsBrickList.add(new TapForBrick());
+		assertionsBrickList.add(new TapAtBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START));
+		assertionsBrickList.add(new TapForBrick(BrickValues.TOUCH_X_START, BrickValues.TOUCH_Y_START,
+				BrickValues.TOUCH_DURATION));
+		assertionsBrickList.add(new TouchAndSlideBrick(BrickValues.TOUCH_X_START,
+				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
+				BrickValues.TOUCH_DURATION));
 		assertionsBrickList.add(new FinishStageBrick());
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));

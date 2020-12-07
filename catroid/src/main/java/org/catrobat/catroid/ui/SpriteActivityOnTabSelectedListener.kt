@@ -31,13 +31,18 @@ import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.google.android.material.tabs.TabLayout.Tab
+import org.catrobat.catroid.BuildConfig
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS
 import org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS
+import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment
+import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment.Companion.TAG
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment
 import kotlin.reflect.KFunction1
 
 @SuppressWarnings("EmptyFunctionBlock")
@@ -79,14 +84,45 @@ fun SpriteActivity.loadFragment(fragmentPosition: Int) {
     }
 
     when (fragmentPosition) {
-        FRAGMENT_SCRIPTS -> fragmentTransaction.replace(R.id.fragment_container, ScriptFragment(), ScriptFragment.TAG)
-        FRAGMENT_LOOKS -> fragmentTransaction.replace(R.id.fragment_container, LookListFragment(), LookListFragment.TAG)
-        FRAGMENT_SOUNDS -> fragmentTransaction.replace(R.id.fragment_container, SoundListFragment(), SoundListFragment.TAG)
+        FRAGMENT_SCRIPTS -> showScripts(fragmentTransaction)
+        FRAGMENT_LOOKS -> fragmentTransaction.replace(
+            R.id.fragment_container,
+            LookListFragment(),
+            LookListFragment.TAG
+        )
+        FRAGMENT_SOUNDS -> fragmentTransaction.replace(
+            R.id.fragment_container,
+            SoundListFragment(),
+            SoundListFragment.TAG
+        )
         else -> throw IllegalArgumentException("Invalid fragmentPosition in Activity.")
     }
+
     fragmentTransaction.commit()
 }
 
+private fun SpriteActivity.showScripts(fragmentTransaction: FragmentTransaction) {
+    val currentProject = ProjectManager.getInstance().currentProject
+    if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED || !SettingsFragment.useCatBlocks(this)) {
+        // Classic 1D view
+        fragmentTransaction.replace(
+            R.id.fragment_container, ScriptFragment(currentProject),
+            ScriptFragment.TAG
+        )
+    } else {
+        // start with 2D view
+        val currentSprite = ProjectManager.getInstance().currentSprite
+        val currentScene = ProjectManager.getInstance().currentlyEditedScene
+        fragmentTransaction.replace(
+            R.id.fragment_container,
+            CatblocksScriptFragment(
+                currentProject, currentScene,
+                currentSprite, 0
+            ),
+            TAG
+        )
+    }
+}
 fun Fragment?.getTabPositionInSpriteActivity(): Int = when (this) {
     is ScriptFragment -> FRAGMENT_SCRIPTS
     is LookListFragment -> FRAGMENT_LOOKS

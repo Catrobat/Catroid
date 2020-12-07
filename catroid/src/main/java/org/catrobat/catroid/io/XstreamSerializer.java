@@ -90,6 +90,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -212,6 +213,7 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SewUpBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
@@ -229,6 +231,7 @@ import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
@@ -438,6 +441,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", LookRequestBrick.class);
 		xstream.alias("brick", PaintNewLookBrick.class);
 		xstream.alias("brick", DeleteLookBrick.class);
+		xstream.alias("brick", CopyLookBrick.class);
 		xstream.alias("brick", BackgroundRequestBrick.class);
 		xstream.alias("brick", MoveNStepsBrick.class);
 		xstream.alias("brick", NextLookBrick.class);
@@ -560,6 +564,7 @@ public final class XstreamSerializer {
 
 		xstream.alias("brick", TapAtBrick.class);
 		xstream.alias("brick", TapForBrick.class);
+		xstream.alias("brick", TouchAndSlideBrick.class);
 		xstream.alias("brick", DroneFlipBrick.class);
 		xstream.alias("brick", JumpingSumoAnimationsBrick.class);
 		xstream.alias("brick", JumpingSumoJumpHighBrick.class);
@@ -580,6 +585,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopRunningStitchBrick.class);
 		xstream.alias("brick", ZigZagStitchBrick.class);
 		xstream.alias("brick", TripleStitchBrick.class);
+		xstream.alias("brick", SewUpBrick.class);
 		xstream.alias("brick", WriteEmbroideryToFileBrick.class);
 		xstream.alias("brick", WaitTillIdleBrick.class);
 		xstream.alias("brick", WhenRaspiPinChangedBrick.class);

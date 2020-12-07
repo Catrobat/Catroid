@@ -43,6 +43,11 @@ object BottomBar {
     }
 
     @JvmStatic
+    fun hideAddButton(activity: Activity?) {
+        activity?.findViewById<View?>(R.id.button_add)?.visibility = View.GONE
+    }
+
+    @JvmStatic
     fun showPlayButton(activity: Activity?) {
         activity?.findViewById<View?>(R.id.button_play)?.visibility = View.VISIBLE
     }

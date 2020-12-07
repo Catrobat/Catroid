@@ -58,6 +58,7 @@ import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.ClearUserListBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.content.bricks.ComeToFrontBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
@@ -172,6 +173,7 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.SewUpBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
@@ -189,6 +191,7 @@ import org.catrobat.catroid.content.bricks.TapAtBrick;
 import org.catrobat.catroid.content.bricks.TapForBrick;
 import org.catrobat.catroid.content.bricks.ThinkBubbleBrick;
 import org.catrobat.catroid.content.bricks.ThinkForBubbleBrick;
+import org.catrobat.catroid.content.bricks.TouchAndSlideBrick;
 import org.catrobat.catroid.content.bricks.TripleStitchBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftBrick;
 import org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick;
@@ -264,6 +267,7 @@ public class BrickCategoryTest {
 						RunningStitchBrick.class,
 						ZigZagStitchBrick.class,
 						TripleStitchBrick.class,
+						SewUpBrick.class,
 						StopRunningStitchBrick.class,
 						WriteEmbroideryToFileBrick.class)},
 				{"Event", Arrays.asList(WhenStartedBrick.class,
@@ -310,6 +314,7 @@ public class BrickCategoryTest {
 						FlashBrick.class,
 						LookRequestBrick.class,
 						PaintNewLookBrick.class,
+						CopyLookBrick.class,
 						DeleteLookBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
@@ -355,7 +360,8 @@ public class BrickCategoryTest {
 						BroadcastBrick.class,
 						BroadcastWaitBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)},
+						TapForBrick.class,
+						TouchAndSlideBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -396,7 +402,9 @@ public class BrickCategoryTest {
 						WriteListOnDeviceBrick.class,
 						ReadListFromDeviceBrick.class,
 						TapAtBrick.class,
-						TapForBrick.class)},
+						TapForBrick.class,
+						TouchAndSlideBrick.class)
+				},
 				{"Lego NXT", Arrays.asList(LegoNxtMotorTurnAngleBrick.class,
 						LegoNxtMotorStopBrick.class,
 						LegoNxtMotorMoveBrick.class,
@@ -455,6 +463,7 @@ public class BrickCategoryTest {
 						WaitTillIdleBrick.class,
 						TapAtBrick.class,
 						TapForBrick.class,
+						TouchAndSlideBrick.class,
 						FinishStageBrick.class,
 						StoreCSVIntoUserListBrick.class,
 						WebRequestBrick.class)},

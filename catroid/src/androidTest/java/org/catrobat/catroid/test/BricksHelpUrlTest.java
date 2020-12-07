@@ -408,6 +408,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ZigZagStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TripleStitchBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TripleStitchBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SewUpBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SewUpBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WriteEmbroideryToFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
@@ -426,6 +428,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParameterizedEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapForBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TapForBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TouchAndSlideBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TouchAndSlideBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartListeningBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartListeningBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetListeningLanguageBrick",
@@ -440,6 +444,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PaintNewLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayNoteForBeatsBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.CopyLookBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CopyLookBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

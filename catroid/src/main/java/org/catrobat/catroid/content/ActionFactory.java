@@ -56,6 +56,7 @@ import org.catrobat.catroid.content.actions.ClearGraphicEffectAction;
 import org.catrobat.catroid.content.actions.ClearUserListAction;
 import org.catrobat.catroid.content.actions.CloneAction;
 import org.catrobat.catroid.content.actions.ComeToFrontAction;
+import org.catrobat.catroid.content.actions.CopyLookAction;
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction;
 import org.catrobat.catroid.content.actions.DeleteLookAction;
 import org.catrobat.catroid.content.actions.DeleteThisCloneAction;
@@ -159,6 +160,7 @@ import org.catrobat.catroid.content.actions.SetVisibleAction;
 import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
+import org.catrobat.catroid.content.actions.SewUpAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
@@ -987,6 +989,12 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createSewUpAction(Sprite sprite) {
+		SewUpAction action = Actions.action(SewUpAction.class);
+		action.setSprite(sprite);
+		return action;
+	}
+
 	public static Action createScriptSequenceAction(Script script) {
 		return new ScriptSequenceAction(script);
 	}
@@ -1402,6 +1410,18 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
+	public Action createTouchAndSlideAction(Sprite sprite, Formula x, Formula y,
+			Formula xChange, Formula yChange, Formula duration) {
+		TapAtAction action = Actions.action(TapAtAction.class);
+		action.setSprite(sprite);
+		action.setDurationFormula(duration);
+		action.setStartX(x);
+		action.setStartY(y);
+		action.setChangeX(xChange);
+		action.setChangeY(yChange);
+		return action;
+	}
+
 	public Action createWriteVariableOnDeviceAction(UserVariable userVariable) {
 		WriteVariableOnDeviceAction action = Actions.action(WriteVariableOnDeviceAction.class);
 		action.setUserVariable(userVariable);
@@ -1484,6 +1504,15 @@ public class ActionFactory extends Actions {
 	public Action createPaintNewLookAction(Sprite sprite, Formula variableFormula,
 			SetNextLookAction nextLookAction) {
 		PaintNewLookAction action = action(PaintNewLookAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		action.nextLookAction(nextLookAction);
+		return action;
+	}
+
+	public Action createCopyLookAction(Sprite sprite, Formula variableFormula,
+			SetNextLookAction nextLookAction) {
+		CopyLookAction action = action(CopyLookAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
 		action.nextLookAction(nextLookAction);
