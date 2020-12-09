@@ -114,6 +114,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -429,6 +430,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(PauseForBeatsBrick.class, R.id.brick_pause_for_beats_layout);
 
 		checkIfBrickISRtl(PlayNoteForBeatsBrick.class, R.id.brick_play_note_for_beats_layout);
+
+		checkIfBrickISRtl(PlayDrumForBeatsBrick.class, R.id.brick_play_drum_for_beats_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

@@ -136,6 +136,7 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
@@ -494,6 +495,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new SetTempoBrick(60));
 		soundBrickList.add(new ChangeTempoByNBrick(10));
 		soundBrickList.add(new PauseForBeatsBrick(1));
+		soundBrickList.add(new PlayDrumForBeatsBrick(1));
 
 		return soundBrickList;
 	}

@@ -1089,6 +1089,7 @@
     <string name="set_tempo_to">Set tempo to</string>
     <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
     <string name="play_note">Play note</string>
     <string name="for_string">for</string>
@@ -1264,27 +1265,48 @@
     <!--  -->
 
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-     <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-     <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-     <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
 
     <!-- Default Values -->

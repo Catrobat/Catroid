@@ -386,6 +386,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetTempoBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeTempoByNBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeTempoByNBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayDrumForBeatsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ThinkBubbleBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ThinkBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AskBrick",
