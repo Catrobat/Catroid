@@ -492,10 +492,10 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new PlayNoteForBeatsBrick(70, 1));
+		soundBrickList.add(new PlayDrumForBeatsBrick(1));
 		soundBrickList.add(new SetTempoBrick(60));
 		soundBrickList.add(new ChangeTempoByNBrick(10));
 		soundBrickList.add(new PauseForBeatsBrick(1));
-		soundBrickList.add(new PlayDrumForBeatsBrick(1));
 
 		return soundBrickList;
 	}
