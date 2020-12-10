@@ -31,6 +31,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
@@ -143,8 +144,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_touched);
 	private static final List<Integer> OBJECT_COLOR_COLLISION =
 			asList(R.string.formula_editor_function_collides_with_color, R.string.formula_editor_function_color_touches_color);
-	private static final List<Integer> SENSORS_COLOR_PARAMS =
+	private static final List<Integer> OBJECT_COLOR_PARAMS =
 			asList(R.string.formula_editor_function_collides_with_color_parameter, R.string.formula_editor_function_color_touches_color_parameter);
+
+	private static final List<Integer> SENSORS_COLOR_AT_XY = asList(R.string.formula_editor_sensor_color_at_x_y);
+	private static final List<Integer> SENSORS_COLOR_AT_XY_PARAMS = asList(R.string.formula_editor_sensor_color_at_x_y_parameter);
+
 	private static final List<Integer> SENSORS_ACCELERATION = asList(R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration);
 	private static final List<Integer> SENSORS_INCLINATION = asList(R.string.formula_editor_sensor_x_inclination,
@@ -593,13 +598,17 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		List<CategoryListItem> result = toCategoryListItems(OBJECT_PHYSICAL_1);
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_COLLISION, CategoryListRVAdapter.COLLISION));
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_2));
-		result.addAll(toCategoryListItems(OBJECT_COLOR_COLLISION, SENSORS_COLOR_PARAMS));
+		result.addAll(toCategoryListItems(OBJECT_COLOR_COLLISION, OBJECT_COLOR_PARAMS));
 		return addHeader(result, getString(R.string.formula_editor_object_movement));
 	}
 
 	private List<CategoryListItem> getDeviceSensorItems() {
 		List<CategoryListItem> deviceSensorItems = new ArrayList<>(toCategoryListItems(SENSORS_DEFAULT));
 		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
+		if (BuildConfig.DEBUG) {
+			deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
+		}
+
 		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
 				: Collections.emptyList());
 		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
