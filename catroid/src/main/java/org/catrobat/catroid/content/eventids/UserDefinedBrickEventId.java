@@ -21,31 +21,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.content.actions
+package org.catrobat.catroid.content.eventids;
 
-import org.catrobat.catroid.content.EventWrapper
-import org.catrobat.catroid.content.Sprite
+import java.util.UUID;
 
-class ScriptSequenceActionWithWaiter(
-    thread: ScriptSequenceAction,
-    event: EventWrapper,
-    sprite: Sprite
-) : ScriptSequenceAction(thread.script) {
+public class UserDefinedBrickEventId extends EventId {
+	public final UUID userDefinedBrickID;
 
-    private data class Waiter(val event: EventWrapper, val sprite: Sprite)
-    private val waiter = Waiter(event, sprite)
+	public UserDefinedBrickEventId(UUID userDefinedBrickID) {
+		this.userDefinedBrickID = userDefinedBrickID;
+	}
 
-    init {
-        thread.actions.forEach { action ->
-            addAction(action)
-        }
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof UserDefinedBrickEventId)) {
+			return false;
+		}
 
-    fun notifyWaiter() = waiter.event.notify(waiter.sprite)
+		UserDefinedBrickEventId that = (UserDefinedBrickEventId) o;
 
-    override fun act(delta: Float) = super.act(delta).also { finished ->
-        if (finished) {
-            notifyWaiter()
-        }
-    }
+		return userDefinedBrickID.equals(that.userDefinedBrickID);
+	}
+
+	public int hashCode() {
+		return (userDefinedBrickID != null ? userDefinedBrickID.hashCode() : 0);
+	}
 }

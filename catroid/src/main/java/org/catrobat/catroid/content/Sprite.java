@@ -348,7 +348,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	private ScriptSequenceAction createSequenceAction(Script script) {
 		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
-		script.run(this, sequence);
+		if (!script.getClass().equals(UserDefinedScript.class)) {
+			script.run(this, sequence);
+		}
 		return sequence;
 	}
 

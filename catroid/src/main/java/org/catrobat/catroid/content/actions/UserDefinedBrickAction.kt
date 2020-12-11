@@ -23,29 +23,16 @@
 
 package org.catrobat.catroid.content.actions
 
-import org.catrobat.catroid.content.EventWrapper
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId
+import org.catrobat.catroid.userbrick.UserDefinedBrickData
+import java.util.UUID
 
-class ScriptSequenceActionWithWaiter(
-    thread: ScriptSequenceAction,
-    event: EventWrapper,
-    sprite: Sprite
-) : ScriptSequenceAction(thread.script) {
+class UserDefinedBrickAction : SpriteEventAction() {
+    var userDefinedBrickID: UUID? = null
+    var userDefinedBrickDataList: MutableList<UserDefinedBrickData?>? = null
 
-    private data class Waiter(val event: EventWrapper, val sprite: Sprite)
-    private val waiter = Waiter(event, sprite)
-
-    init {
-        thread.actions.forEach { action ->
-            addAction(action)
+    override fun getEventId() =
+        userDefinedBrickID?.let { id ->
+            UserDefinedBrickEventId(id)
         }
-    }
-
-    fun notifyWaiter() = waiter.event.notify(waiter.sprite)
-
-    override fun act(delta: Float) = super.act(delta).also { finished ->
-        if (finished) {
-            notifyWaiter()
-        }
-    }
 }
