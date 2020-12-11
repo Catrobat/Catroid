@@ -109,6 +109,7 @@ import org.catrobat.catroid.content.actions.LegoNxtMotorTurnAngleAction;
 import org.catrobat.catroid.content.actions.LegoNxtPlayToneAction;
 import org.catrobat.catroid.content.actions.LookRequestAction;
 import org.catrobat.catroid.content.actions.MoveNStepsAction;
+import org.catrobat.catroid.content.actions.OpenUrlAction;
 import org.catrobat.catroid.content.actions.PaintNewLookAction;
 import org.catrobat.catroid.content.actions.ParameterizedAssertAction;
 import org.catrobat.catroid.content.actions.PauseForBeatsAction;
@@ -1494,6 +1495,13 @@ public class ActionFactory extends Actions {
 
 	public Action createLookRequestAction(Sprite sprite, Formula variableFormula) {
 		LookRequestAction action = action(LookRequestAction.class);
+		action.setSprite(sprite);
+		action.setFormula(variableFormula);
+		return action;
+	}
+
+	public Action createOpenUrlAction(Sprite sprite, Formula variableFormula) {
+		OpenUrlAction action = action(OpenUrlAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
 		return action;

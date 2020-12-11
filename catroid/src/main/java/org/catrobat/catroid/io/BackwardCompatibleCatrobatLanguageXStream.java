@@ -98,6 +98,7 @@ import org.catrobat.catroid.content.bricks.LoopEndlessBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick;
@@ -283,6 +284,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(ResetTimerBrick.class.getSimpleName());
 		brickInfoMap.put("resetTimerBrick", brickInfo);
+
+		brickInfo = new BrickInfo(OpenUrlBrick.class.getSimpleName());
+		brickInfoMap.put("OpenUrlBrick", brickInfo);
 
 		brickInfo = new BrickInfo(ClearGraphicEffectBrick.class.getSimpleName());
 		brickInfoMap.put("clearGraphicEffectBrick", brickInfo);

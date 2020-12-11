@@ -103,6 +103,7 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
@@ -338,6 +339,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(WhenClonedBrick.class, R.id.brick_when_cloned_layout);
 
 		checkIfBrickISRtl(SetNfcTagBrick.class, R.id.brick_set_nfc_tag_layout);
+
+		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -492,6 +495,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(DeleteLookBrick.class, R.id.brick_delete_look_layout);
 
 		checkIfBrickISRtl(CopyLookBrick.class, R.id.brick_copy_look);
+
+		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

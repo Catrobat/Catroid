@@ -114,6 +114,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
@@ -316,7 +317,8 @@ public class BrickCategoryTest {
 						LookRequestBrick.class,
 						PaintNewLookBrick.class,
 						CopyLookBrick.class,
-						DeleteLookBrick.class)},
+						DeleteLookBrick.class,
+						OpenUrlBrick.class)},
 				{"Pen", Arrays.asList(PenDownBrick.class,
 						PenUpBrick.class,
 						SetPenSizeBrick.class,
@@ -363,7 +365,8 @@ public class BrickCategoryTest {
 						BroadcastWaitBrick.class,
 						TapAtBrick.class,
 						TapForBrick.class,
-						TouchAndSlideBrick.class)},
+						TouchAndSlideBrick.class,
+						OpenUrlBrick.class)},
 				{"Data", Arrays.asList(SetVariableBrick.class,
 						ChangeVariableBrick.class,
 						ShowTextBrick.class,
@@ -391,6 +394,7 @@ public class BrickCategoryTest {
 						WhenTouchDownBrick.class,
 						WebRequestBrick.class,
 						LookRequestBrick.class,
+						OpenUrlBrick.class,
 						VibrationBrick.class,
 						SpeakBrick.class,
 						SpeakAndWaitBrick.class,
