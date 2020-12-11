@@ -95,6 +95,8 @@ public class UserDefinedBrick extends FormulaBrick {
 	public Brick clone() throws CloneNotSupportedException {
 		UserDefinedBrick clone = (UserDefinedBrick) super.clone();
 		clone.copyUserDefinedDataList(this);
+		clone.formulaFieldToTextViewMap = HashBiMap.create();
+		clone.formulaMap = new ConcurrentFormulaHashMap();
 		clone.userDefinedBrickID = this.getUserDefinedBrickID();
 		clone.isCallingBrick = this.isCallingBrick;
 		return clone;
