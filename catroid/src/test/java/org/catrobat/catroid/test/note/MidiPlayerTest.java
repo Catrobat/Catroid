@@ -61,7 +61,7 @@ public class MidiPlayerTest {
 		MidiPlayer.resetChannelCounter();
 		for (int i = 0; i < MidiPlayer.MAX_CHANNELS; i++) {
 			MidiPlayer player = new MidiPlayer();
-			if (i < 10) {
+			if (i < MidiPlayer.DRUM_CHANNEL) {
 				assertEquals(i, player.getChannel());
 			} else {
 				assertEquals(i + 1, player.getChannel());

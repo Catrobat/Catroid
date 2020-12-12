@@ -25,6 +25,7 @@ package org.catrobat.catroid.userbrick;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserData;
 
 import java.io.Serializable;
@@ -34,27 +35,27 @@ import static org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBri
 
 @XStreamAlias("userDefinedBrickInput")
 public class UserDefinedBrickInput extends UserDefinedBrickData implements Serializable,
-		UserData<Object> {
+		UserData<Formula> {
 
 	@XStreamAlias("input")
-	private InputFormulaField input;
-	private transient Object value;
+	private InputFormulaField name;
+	private transient Formula value;
 
 	public UserDefinedBrickInput(String input) {
-		this.input = new InputFormulaField(input);
+		this.name = new InputFormulaField(input);
 		this.type = INPUT;
-		this.value = 0d;
+		this.value = new Formula(0);
 	}
 
 	public UserDefinedBrickInput(UserDefinedBrickInput userDefinedBrickInput) {
-		this.input = userDefinedBrickInput.input;
+		this.name = userDefinedBrickInput.name;
 		this.type = INPUT;
 		this.value = userDefinedBrickInput.value;
 	}
 
 	@Override
 	public String getName() {
-		return this.input.toString();
+		return this.name.toString();
 	}
 
 	@Override
@@ -62,30 +63,30 @@ public class UserDefinedBrickInput extends UserDefinedBrickData implements Seria
 	}
 
 	public InputFormulaField getInputFormulaField() {
-		return this.input;
+		return this.name;
 	}
 
 	@Override
-	public Object getValue() {
+	public Formula getValue() {
 		if (this.value == null) {
-			this.value = 0d;
+			this.value = new Formula(0);
 		}
 		return this.value;
 	}
 
 	@Override
-	public void setValue(Object value) {
+	public void setValue(Formula value) {
 		this.value = value;
 	}
 
 	@Override
 	public void reset() {
-		this.value = 0d;
+		this.value = new Formula(0);
 	}
 
 	@Override
 	public UUID getDeviceKey() {
-		return UUID.nameUUIDFromBytes(this.input.toString().getBytes());
+		return UUID.nameUUIDFromBytes(this.name.toString().getBytes());
 	}
 }
 

@@ -120,6 +120,7 @@ import org.catrobat.catroid.content.actions.PhiroMotorStopAction;
 import org.catrobat.catroid.content.actions.PhiroPlayToneAction;
 import org.catrobat.catroid.content.actions.PhiroRGBLightAction;
 import org.catrobat.catroid.content.actions.PhiroSensorAction;
+import org.catrobat.catroid.content.actions.PlayDrumForBeatsAction;
 import org.catrobat.catroid.content.actions.PlayNoteForBeatsAction;
 import org.catrobat.catroid.content.actions.PlaySoundAction;
 import org.catrobat.catroid.content.actions.PointInDirectionAction;
@@ -179,6 +180,7 @@ import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.content.actions.TripleStitchAction;
 import org.catrobat.catroid.content.actions.TurnLeftAction;
 import org.catrobat.catroid.content.actions.TurnRightAction;
+import org.catrobat.catroid.content.actions.UserDefinedBrickAction;
 import org.catrobat.catroid.content.actions.VibrateAction;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.content.actions.WaitForBubbleBrickAction;
@@ -207,17 +209,30 @@ import org.catrobat.catroid.content.bricks.PhiroMotorMoveForwardBrick;
 import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
+import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrument;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.physics.PhysicsObject;
+import org.catrobat.catroid.userbrick.UserDefinedBrickData;
 
 import java.util.List;
+import java.util.UUID;
 
 import kotlin.Pair;
 
 public class ActionFactory extends Actions {
+
+	public EventAction createUserBrickAction(List<UserDefinedBrickData> userDefinedBrickDataList,
+											UUID userDefinedBrickID, Sprite sprite) {
+		UserDefinedBrickAction action = action(UserDefinedBrickAction.class);
+		action.setUserDefinedBrickDataList(userDefinedBrickDataList);
+		action.setUserDefinedBrickID(userDefinedBrickID);
+		action.setSprite(sprite);
+		action.setWait(true);
+		return action;
+	}
 
 	public EventAction createBroadcastAction(String broadcastMessage, boolean wait) {
 		BroadcastAction action = action(BroadcastAction.class);
@@ -746,6 +761,14 @@ public class ActionFactory extends Actions {
 		ChangeTempoByAction action = action(ChangeTempoByAction.class);
 		action.setSprite(sprite);
 		action.setTempo(tempo);
+		return action;
+	}
+
+	public Action createPlayDrumForBeatsAction(Sprite sprite, Formula beats, PickableDrum drum) {
+		PlayDrumForBeatsAction action = action(PlayDrumForBeatsAction.class);
+		action.setSprite(sprite);
+		action.setBeats(beats);
+		action.setDrum(drum);
 		return action;
 	}
 

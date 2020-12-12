@@ -27,6 +27,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.pocketmusic.note.Drum;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
@@ -47,6 +48,7 @@ import androidx.annotation.VisibleForTesting;
 public class MidiPlayer {
 	private static MidiNotePlayer notePlayer = new MidiNotePlayer();
 	public static final byte MAX_CHANNELS = 15;
+	public static final byte DRUM_CHANNEL = 9;
 	private static byte channelCounter = 0;
 
 	private Handler handler;
@@ -69,7 +71,7 @@ public class MidiPlayer {
 		if (channelCounter > MAX_CHANNELS) {
 			throw new MidiException("Number of midi channels exceeded");
 		}
-		if (channelCounter == 10) {
+		if (channelCounter == DRUM_CHANNEL) {
 			channelCounter++;
 		}
 
@@ -161,6 +163,31 @@ public class MidiPlayer {
 		return true;
 	}
 
+	void playDrumForBeats(Drum drum, float beats) {
+		stopPlaying();
+
+		if (!MidiNotePlayer.isInitialized()) {
+			notePlayer.start();
+		}
+		notePlayer.setVolume(DRUM_CHANNEL, (int) volume);
+		long playLength = getPlayLengthInMilliseconds();
+
+		startTime = System.currentTimeMillis();
+
+		MidiRunnable runnableOn = new MidiRunnable(MidiSignals.NOTE_ON, NoteName.getNoteNameFromMidiValue(drum.getProgram()),
+				0, handler, notePlayer, null, DRUM_CHANNEL);
+		runnableOn.setManualNoteOff(true);
+		runnableOn.setScheduledTime(startTime);
+		handler.post(runnableOn);
+		playRunnables.add(runnableOn);
+
+		MidiRunnable runnableOff = new MidiRunnable(MidiSignals.NOTE_OFF, NoteName.getNoteNameFromMidiValue(drum.getProgram()),
+				0, handler, notePlayer, null, DRUM_CHANNEL);
+		runnableOff.setScheduledTime(startTime + (long) (beats * playLength));
+		handler.postDelayed(runnableOff, (long) (beats * playLength));
+		playRunnables.add(runnableOff);
+	}
+
 	public void stopPlaying() {
 		for (MidiRunnable r : playRunnables) {
 			handler.removeCallbacks(r);
@@ -171,7 +198,8 @@ public class MidiPlayer {
 
 	public void pause() {
 		long currentTime = System.currentTimeMillis();
-		for (MidiRunnable r : playRunnables) {
+		List<MidiRunnable> playRunnablesCopy = new ArrayList<>(playRunnables);
+		for (MidiRunnable r : playRunnablesCopy) {
 			if (r.getScheduledTime() > currentTime) {
 				handler.removeCallbacks(r);
 			} else {

@@ -27,6 +27,7 @@ import android.util.Log;
 
 import org.catrobat.catroid.content.SoundFilePathWithSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.pocketmusic.note.Drum;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
@@ -88,6 +89,20 @@ public class MidiSoundManager {
 				Log.e(TAG, "Couldn't play sound file '" + soundFilePath + "'", exception);
 			}
 			startedSoundfilePaths.add(new SoundFilePathWithSprite(soundFilePath, sprite));
+		}
+	}
+
+	public void playDrumForBeats(Drum drum, float beats, Sprite sprite) {
+		MidiPlayer midiPlayer = getAvailableMidiPlayer();
+		if (midiPlayer != null) {
+			try {
+				midiPlayer.setStartedBySprite(sprite);
+				midiPlayer.setTempo(tempo);
+				midiPlayer.setVolume(this.volume * 127 / 100);
+				midiPlayer.playDrumForBeats(drum, beats);
+			} catch (Exception exception) {
+				Log.e(TAG, "Couldn't play drums", exception);
+			}
 		}
 	}
 
@@ -154,6 +169,14 @@ public class MidiSoundManager {
 
 	public long getDurationForBeats(float beats) {
 		return (long) (60000 / tempo * beats);
+	}
+
+	public void resume() {
+		for (MidiPlayer midiPlayer : midiPlayers) {
+			if (!midiPlayer.isPlaying()) {
+				midiPlayer.resume();
+			}
+		}
 	}
 
 	public boolean isSoundInSpritePlaying(Sprite sprite, String soundFilePath) {
