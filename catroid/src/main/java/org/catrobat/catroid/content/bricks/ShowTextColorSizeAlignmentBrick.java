@@ -27,7 +27,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Nameable;
@@ -39,7 +38,6 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
-import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
 import org.catrobat.catroid.ui.UiUtils;
@@ -166,12 +164,18 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
 	}
 
-	private float getRelativeTextSize() {
-		try {
-			return getFormulaWithBrickField(BrickField.SIZE).interpretFloat(ProjectManager.getInstance().getCurrentSprite()) / 100;
-		} catch (InterpretationException e) {
-			return 0.f;
+	private float sanitizeTextSize() {
+		Formula sizeFormula = getFormulaWithBrickField(BrickField.SIZE);
+		float size = 1.0f;
+
+		if (sizeFormula.getRoot().getElementType() == ElementType.NUMBER) {
+			size = Float.parseFloat(sizeFormula.getRoot().getValue()) / 100.f;
 		}
+		if (size < 0.1f) {
+			size = 1.0f;
+		}
+
+		return size;
 	}
 
 	@Override
@@ -185,15 +189,10 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	}
 
 	@Override
-	public boolean visualPlacementConditionsSatisfied() {
-		return super.visualPlacementConditionsSatisfied() && getRelativeTextSize() > 0.f;
-	}
-
-	@Override
 	public Intent generateIntentForVisualPlacement(BrickField brickFieldX, BrickField brickFieldY) {
 		Intent intent = super.generateIntentForVisualPlacement(brickFieldX, brickFieldY);
 		intent.putExtra(EXTRA_TEXT_COLOR, getColor());
-		intent.putExtra(EXTRA_TEXT_SIZE, getRelativeTextSize());
+		intent.putExtra(EXTRA_TEXT_SIZE, sanitizeTextSize());
 		intent.putExtra(EXTRA_TEXT_ALIGNMENT, alignmentSelection);
 		return intent;
 	}
