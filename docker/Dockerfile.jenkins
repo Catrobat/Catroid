@@ -58,12 +58,13 @@ RUN apt-get install -y --no-install-recommends \
         less \
         git \
     && rm -rf /var/lib/apt/lists/* \
-    && gem update --system \
-    && gem install fastlane -NV \
-    && apt-get purge -y --auto-remove \
-        ruby-dev \
-        g++ \
-        make
+    #&& gem update --system \
+    && gem install rake \
+    && gem install fastlane -NV
+    #&& apt-get purge -y --auto-remove \
+    #    ruby-dev \
+    #    g++ \
+    #    make
 # User Management
 # ---------------
 #
