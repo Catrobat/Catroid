@@ -238,7 +238,7 @@ public class ParserTestStringFunctions {
 				testSprite);
 
 		firstParameter = "5*3-6+(8*random(1,2))";
-		secondParameter = "string'**##!§\"$\'§%%/&%(())??";
+		secondParameter = "string'**##!§\"$\'§%\"%/&%(())??";
 		thirdParameter = "blubb";
 		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING, firstParameter,
 				InternTokenType.STRING, secondParameter, InternTokenType.STRING, thirdParameter,
