@@ -1,6 +1,6 @@
  /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.fragment
+package org.catrobat.catroid.ui.recyclerview.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -49,7 +49,7 @@ class ProjectsViewModel : ViewModel() {
                 try {
                     myProjects.add(metaDataParser.projectMetaData)
                 } catch (e: IOException) {
-                    Log.e(MainMenuFragment.TAG, "Project not parseable", e)
+                    Log.e(javaClass.simpleName, "Project not parsable", e)
                 }
             }
         }

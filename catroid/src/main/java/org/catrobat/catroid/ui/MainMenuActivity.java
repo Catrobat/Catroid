@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -190,7 +190,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	private void loadFragment() {
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.replace(R.id.fragment_container, new MainMenuFragment(),
+						MainMenuFragment.Companion.getTAG())
 				.commit();
 		setShowProgressBar(false);
 
@@ -290,6 +291,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
 				ToastUtil.showSuccess(this, R.string.logout_successful);
+				break;
+			case R.id.menu_help:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL)));
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

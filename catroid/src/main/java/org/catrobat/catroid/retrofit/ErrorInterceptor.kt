@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview;
+package org.catrobat.catroid.retrofit
 
-import android.graphics.drawable.Drawable;
+import okhttp3.Interceptor
+import okhttp3.Response
+import okhttp3.ResponseBody
 
-import androidx.annotation.Nullable;
+class ErrorInterceptor : Interceptor {
+    companion object {
+        private const val RESPONSE_OK = 200
+    }
 
-public class RVButton {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response = chain.proceed(chain.request())
 
-	public int id;
-	public Drawable drawable;
-	public String title;
-	@Nullable
-	public String subtitle;
+        if (response.isSuccessful.not() and response.isRedirect.not()) {
+            val contentType = response.body()?.contentType()
+            val body = response.body()?.toString() ?: ""
+            val responseCode = if (contentType?.equals("application/json")!!) {
+                RESPONSE_OK
+            } else {
+                response.code()
+            }
 
-	public RVButton(int id, Drawable drawable, String name) {
-		this.id = id;
-		this.drawable = drawable;
-		this.title = name;
-	}
-
-	public RVButton(int id, Drawable drawable, String name, @Nullable String subtitle) {
-		this.id = id;
-		this.drawable = drawable;
-		this.title = name;
-		this.subtitle = subtitle;
-	}
+            return response.newBuilder()
+                .body(ResponseBody.create(contentType, body))
+                .code(responseCode)
+                .build()
+        }
+        return response
+    }
 }
