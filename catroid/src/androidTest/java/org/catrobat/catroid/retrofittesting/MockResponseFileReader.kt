@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview;
+package org.catrobat.catroid.retrofittesting
 
-import android.graphics.drawable.Drawable;
+import android.content.Context
 
-import androidx.annotation.Nullable;
+data class MockResponseFileReader(private val context: Context, val path: String) {
 
-public class RVButton {
+    val content: String
 
-	public int id;
-	public Drawable drawable;
-	public String title;
-	@Nullable
-	public String subtitle;
-
-	public RVButton(int id, Drawable drawable, String name) {
-		this.id = id;
-		this.drawable = drawable;
-		this.title = name;
-	}
-
-	public RVButton(int id, Drawable drawable, String name, @Nullable String subtitle) {
-		this.id = id;
-		this.drawable = drawable;
-		this.title = name;
-		this.subtitle = subtitle;
-	}
+    init {
+        val reader = context.assets.open(path).reader()
+        content = reader.readText()
+        reader.close()
+    }
 }

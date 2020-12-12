@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview;
+package org.catrobat.catroid.retrofit.models
 
-import org.catrobat.catroid.common.ProjectData;
-
-public class ProjectListener {
-	public interface OnProjectListener {
-		void onProjectClick(ProjectData projectData);
-	}
-}
+@SuppressWarnings("ConstructorParameterNaming")
+data class FeaturedProject(
+    val id: String,
+    val project_id: String,
+    val project_url: String,
+    val name: String,
+    val author: String,
+    val featured_image: String
+)

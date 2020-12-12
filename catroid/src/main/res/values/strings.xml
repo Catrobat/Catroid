@@ -2106,6 +2106,9 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="sans_serif_font" translatable="false">sans_serif</string>
     <string name="serif_font" translatable="false">serif</string>
+
+    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
+    data is turned on.</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
 

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,10 +41,10 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HorizontalProjectsAdapter extends RecyclerView.Adapter<HorizontalProjectsAdapter.ViewHolder> {
 
 	private List<ProjectData> items;
-	private ProjectListener.OnProjectListener listener;
+	private ProjectListener listener;
 	private static final int THUMBNAIL_SIZE = 150;
 
-	public HorizontalProjectsAdapter(ProjectListener.OnProjectListener listener) {
+	public HorizontalProjectsAdapter(ProjectListener listener) {
 		this.listener = listener;
 	}
 
