@@ -167,6 +167,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_join:
 				return buildDoubleParameterFunction(Functions.JOIN, STRING, "hello",
 						STRING, " world");
+			case R.string.formula_editor_function_join3:
+				return buildTripleParameterFunction(Functions.JOIN3, STRING, "hello",
+						STRING, " world", STRING, "!");
 			case R.string.formula_editor_function_regex:
 				return buildDoubleParameterFunction(Functions.REGEX, STRING, " an? ([^ .]+)",
 						STRING, "I am a panda.");
