@@ -410,6 +410,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionLength(arguments.get(0), sprite, currentProject);
 			case JOIN:
 				return interpretFunctionJoin(sprite, leftChild, rightChild);
+			case JOIN3:
+				return interpretFunctionJoin3(sprite, leftChild, rightChild, additionalChildren);
 			case REGEX:
 				return tryInterpretFunctionRegex(sprite, leftChild, rightChild);
 			case LIST_ITEM:
@@ -524,6 +526,12 @@ public class FormulaElement implements Serializable {
 
 	private static String interpretFunctionJoin(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
 		return interpretFunctionString(leftChild, sprite) + interpretFunctionString(rightChild, sprite);
+	}
+
+	private static String interpretFunctionJoin3(Sprite sprite, FormulaElement leftChild,
+			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
+		return interpretFunctionString(leftChild, sprite) + interpretFunctionString(rightChild,
+				sprite) + interpretFunctionString(additionalChildren.get(0), sprite);
 	}
 
 	private static String tryInterpretFunctionRegex(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
