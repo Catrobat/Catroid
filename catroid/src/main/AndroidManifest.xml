@@ -77,9 +77,6 @@
         android:required="false" />
     <uses-permission android:name="android.permission.NFC" />
 
-    <!-- Prevent manifest merger from automatically added phone permission -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" tools:node="remove"/>
-
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
