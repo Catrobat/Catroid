@@ -446,6 +446,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PaintNewLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayNoteForBeatsBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.OpenUrlBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/OpenUrlBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.CopyLookBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CopyLookBrick");
 	}

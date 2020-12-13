@@ -32,6 +32,7 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -123,6 +124,7 @@ import org.catrobat.catroid.content.bricks.LookRequestBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedBrick;
 import org.catrobat.catroid.content.bricks.ParameterizedEndBrick;
@@ -398,6 +400,8 @@ public class CategoryBricksFactory {
 		controlBrickList.add(new TouchAndSlideBrick(BrickValues.TOUCH_X_START,
 				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
 				BrickValues.TOUCH_DURATION));
+
+		controlBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
 		return controlBrickList;
 	}
 
@@ -561,6 +565,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new CopyLookBrick(context.getString(R.string.brick_copy_look_name)));
 		looksBrickList.add(new DeleteLookBrick());
 
+		looksBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
 		return looksBrickList;
 	}
 
@@ -652,6 +657,7 @@ public class CategoryBricksFactory {
 			}
 		}
 
+		deviceBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
 		deviceBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 		deviceBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));

@@ -1109,6 +1109,8 @@
 
     <!-- Device bricks -->
     <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">Open</string>
+    <string name="brick_in_browser">in browser</string>
 
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
