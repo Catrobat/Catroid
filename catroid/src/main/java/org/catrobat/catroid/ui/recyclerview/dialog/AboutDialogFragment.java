@@ -64,6 +64,11 @@ public class AboutDialogFragment extends DialogFragment {
 		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
 
+		TextView aboutCatrobatVersionTextView = view.findViewById(R.id.dialog_about_text_view_catrobat_version_name);
+		double catrobatVersion = Constants.SION;
+		String catrobatVersionName="Catro."+ Double.toString(catrobatVersion);
+		aboutCatrobatVersionTextView.setText(catrobatVersionName);
+
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.dialog_about_title)
 				.setView(view)
