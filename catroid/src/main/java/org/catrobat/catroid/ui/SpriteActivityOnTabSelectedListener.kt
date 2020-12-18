@@ -123,6 +123,9 @@ private fun SpriteActivity.showScripts(fragmentTransaction: FragmentTransaction)
         )
     }
 }
+
+fun Fragment?.isFragmentWithTablayout() = this is ScriptFragment || this is LookListFragment || this is SoundListFragment
+
 fun Fragment?.getTabPositionInSpriteActivity(): Int = when (this) {
     is ScriptFragment -> FRAGMENT_SCRIPTS
     is LookListFragment -> FRAGMENT_LOOKS

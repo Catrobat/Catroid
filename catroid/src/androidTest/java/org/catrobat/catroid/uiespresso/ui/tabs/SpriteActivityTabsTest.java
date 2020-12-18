@@ -23,6 +23,11 @@
 
 package org.catrobat.catroid.uiespresso.ui.tabs;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.bricks.SetVariableBrick;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
@@ -35,17 +40,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.fragment.app.Fragment;
-import androidx.test.espresso.Espresso;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.R.id.brick_set_variable_edit_text;
 import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_LOOKS;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SOUNDS;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
+import static org.junit.Assert.assertNull;
 
+import static androidx.test.espresso.Espresso.onIdle;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class SpriteActivityTabsTest {
@@ -55,7 +66,9 @@ public class SpriteActivityTabsTest {
 
 	@Before
 	public void setUp() {
-		BrickTestUtils.createProjectAndGetStartScript("SpriteActivityTasTest");
+		Script script = BrickTestUtils.createProjectAndGetStartScript("SpriteActivityTabsTest");
+		ProjectManager.getInstance().getCurrentProject().addUserVariable(new UserVariable("X"));
+		script.addBrick(new SetVariableBrick());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -77,8 +90,20 @@ public class SpriteActivityTabsTest {
 		assertFragmentIsShown(SoundListFragment.TAG);
 	}
 
+	@Test
+	public void testDeleteVariable() {
+		onView(withId(tab_layout)).perform(selectTabAtPosition(FRAGMENT_SCRIPTS));
+		onView(withId(brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_data)).perform(click());
+		openActionBarOverflowOrOptionsMenu(baseActivityTestRule.getActivity());
+		onView(withText(R.string.delete)).perform(click());
+		assertTabLayoutIsNotShown();
+		pressBack();
+		assertTabLayoutIsNotShown();
+	}
+
 	private void assertFragmentIsShown(String tag) {
-		Espresso.onIdle();
+		onIdle();
 		Fragment fragment = baseActivityTestRule
 				.getActivity()
 				.getSupportFragmentManager()
@@ -86,5 +111,10 @@ public class SpriteActivityTabsTest {
 
 		Assert.assertNotNull(fragment);
 		Assert.assertTrue(fragment.isVisible());
+	}
+
+	private void assertTabLayoutIsNotShown() {
+		onIdle();
+		assertNull(baseActivityTestRule.getActivity().findViewById(tab_layout));
 	}
 }
