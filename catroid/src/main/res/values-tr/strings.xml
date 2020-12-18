@@ -322,10 +322,6 @@
         <item quantity="one">Bu komut dosyası silinsin mi?</item>
         <item quantity="other">Bu komut dosyaları silinsin mi?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Bu tuğla silinsin mi?</item>
-        <item quantity="other">Bu tuğlalar silinsin mi?</item>
-    </plurals>
     <string name="delete_definition">Bu tuğlanın tanımı silinsin mi?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Proje ismi</string>

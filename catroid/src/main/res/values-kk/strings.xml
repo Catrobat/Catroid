@@ -320,10 +320,6 @@
         <item quantity="one">Осы скриптті жою керек пе?</item>
         <item quantity="other">Осы скриптілерді жою керек пе?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Осы блокты жою керек пе?</item>
-        <item quantity="other">Осы блоктарды жою керек пе?</item>
-    </plurals>
     <string name="delete_definition">Осы блоктың анықтамасын жою керек пе?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Жоба атауы</string>

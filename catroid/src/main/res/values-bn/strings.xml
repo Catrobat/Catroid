@@ -324,10 +324,6 @@
         <item quantity="one">এই স্ক্রিপ্ট মুছবেন?</item>
         <item quantity="other">এই স্ক্রিপ্টগুলি মুছবেন?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">এই ব্রিকটি মুছবেন?</item>
-        <item quantity="other">এই ব্রিকগুলি মুছবেন?</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">প্রজেক্টের নাম</string>

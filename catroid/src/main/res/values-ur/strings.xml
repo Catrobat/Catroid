@@ -338,10 +338,6 @@
         <item quantity="one">ان سکرپٹ کو  ختم کریں؟</item>
         <item quantity="other">ان سکرپٹ کو ختم کریں؟</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">ان اینٹوں کو  ختم کریں؟</item>
-        <item quantity="other">ان اینٹوں کو ختم کریں؟</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">نام پروجیکٹ</string>

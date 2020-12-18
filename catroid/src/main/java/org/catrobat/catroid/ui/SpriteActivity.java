@@ -192,7 +192,7 @@ public class SpriteActivity extends BaseActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	public void showUndoSpinnerSelection(boolean visible) {
+	public void showUndo(boolean visible) {
 		if (currentMenu != null) {
 			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
 		}

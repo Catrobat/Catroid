@@ -313,9 +313,6 @@
     <plurals name="delete_scripts">
         <item quantity="other">Delete these scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>

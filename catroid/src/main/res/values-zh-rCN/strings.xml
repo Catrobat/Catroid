@@ -302,9 +302,6 @@
     <plurals name="delete_scripts">
         <item quantity="other">删除这些脚本？</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">删除这些积木吗？</item>
-    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">项目名称</string>
     <string name="scene_name_label">场景名称</string>

@@ -340,10 +340,6 @@
         <item quantity="one">Excluir esse script?</item>
         <item quantity="other">Excluir esses scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Excluir esse bloco?</item>
-        <item quantity="other">Excluir esses blocos?</item>
-    </plurals>
     <string name="delete_definition">Deletar definição desse bloco?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Nome do projeto</string>

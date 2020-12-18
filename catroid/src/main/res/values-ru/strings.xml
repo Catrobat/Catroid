@@ -368,12 +368,6 @@
         <item quantity="many">Удалить эти скрипты?</item>
         <item quantity="other">Удалить эти скрипты?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Удалить этот блок?</item>
-        <item quantity="few">Удалить эти блоки?</item>
-        <item quantity="many">Удалить эти блоки?</item>
-        <item quantity="other">Удалить эти блоки?</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Название проекта</string>

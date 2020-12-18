@@ -48,9 +48,12 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
-import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
@@ -68,6 +71,8 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -78,13 +83,18 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
+
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
 		BrickAdapter.OnItemClickListener,
-		BrickAdapter.SelectionListener, OnCategorySelectedListener {
+		BrickAdapter.SelectionListener, OnCategorySelectedListener,
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
@@ -112,7 +122,9 @@ public class ScriptFragment extends ListFragment implements
 	private ActionMode actionMode;
 	private BrickAdapter adapter;
 	private BrickListView listView;
-	private BrickSpinner currentSpinner;
+	private String currentSceneName;
+	private String currentSpriteName;
+	private int undoBrickPosition;
 
 	private ScriptController scriptController = new ScriptController();
 	private BrickController brickController = new BrickController();
@@ -189,7 +201,7 @@ public class ScriptFragment extends ListFragment implements
 				copy(adapter.getSelectedItems());
 				break;
 			case DELETE:
-				showDeleteAlert(adapter.getSelectedItems(), false);
+				showDeleteAlert(adapter.getSelectedItems());
 				break;
 			case COMMENT:
 				toggleComments(adapter.getSelectedItems());
@@ -295,7 +307,7 @@ public class ScriptFragment extends ListFragment implements
 		}
 		switch (item.getItemId()) {
 			case R.id.menu_undo:
-				currentSpinner.undoSelection();
+				loadProjectAfterUndoOption();
 				break;
 			case R.id.backpack:
 				prepareActionMode(BACKPACK);
@@ -428,10 +440,6 @@ public class ScriptFragment extends ListFragment implements
 		}
 	}
 
-	public void setCurrentSpinner(BrickSpinner currentSpinner) {
-		this.currentSpinner = currentSpinner;
-	}
-
 	public Brick findBrickByHash(int hashCode) {
 		return adapter.findByHash(hashCode);
 	}
@@ -550,6 +558,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
+		showUndo(false);
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
@@ -569,10 +578,10 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
-				showDeleteAlert(brick.getAllParts(), false);
+				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_delete_definition:
-				showDeleteAlert(brick.getAllParts(), true);
+				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
@@ -628,6 +637,7 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public boolean onItemLongClick(Brick brick, int position) {
+		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
@@ -721,21 +731,12 @@ public class ScriptFragment extends ListFragment implements
 		finishActionMode();
 	}
 
-	private void showDeleteAlert(List<Brick> selectedBricks, boolean isUserDefinedReceiverBrick) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-		if (isUserDefinedReceiverBrick) {
-			builder.setTitle(R.string.delete_definition)
-					.setMessage(R.string.dialog_confirm_delete_definition);
-		} else {
-			builder.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, selectedBricks.size()))
-					.setMessage(R.string.dialog_confirm_delete);
+	private void showDeleteAlert(List<Brick> selectedBricks) {
+		if (copyProjectForUndoOption()) {
+			showUndo(true);
+			undoBrickPosition = adapter.getPosition(selectedBricks.get(0));
 		}
-
-		builder.setPositiveButton(R.string.yes, (dialog, id) -> delete(selectedBricks))
-				.setNegativeButton(R.string.no, null)
-				.setCancelable(false)
-				.show();
+		delete(selectedBricks);
 	}
 
 	private void delete(List<Brick> selectedItems) {
@@ -750,5 +751,66 @@ public class ScriptFragment extends ListFragment implements
 			brick.setCommentedOut(selectedBricks.contains(brick));
 		}
 		finishActionMode();
+	}
+
+	public void setUndoBrickPosition() {
+		undoBrickPosition = listView.getFirstVisiblePosition() + 1;
+	}
+
+	public boolean copyProjectForUndoOption() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		currentSpriteName = projectManager.getCurrentSprite().getName();
+		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
+		Project project = projectManager.getCurrentProject();
+		XstreamSerializer.getInstance().saveProject(project);
+		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		if (currentCodeFile.exists()) {
+			try {
+				StorageOperations.transferData(currentCodeFile, undoCodeFile);
+				return true;
+			} catch (IOException exception) {
+				Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
+			}
+		}
+		return false;
+	}
+
+	public void loadProjectAfterUndoOption() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		if (currentCodeFile.exists()) {
+			try {
+				StorageOperations.transferData(undoCodeFile, currentCodeFile);
+				new ProjectLoadTask(project.getDirectory(), getContext()).setListener(this).execute();
+			} catch (IOException exception) {
+				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
+			}
+		}
+	}
+
+	@Override
+	public void onLoadFinished(boolean success) {
+		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		refreshFragmentAfterUndo();
+	}
+
+	private void refreshFragmentAfterUndo() {
+		Fragment scriptFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
+		final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.detach(scriptFragment);
+		fragmentTransaction.attach(scriptFragment);
+		fragmentTransaction.commit();
+		listView.post(() -> listView.setSelection(undoBrickPosition));
+	}
+
+	public void showUndo(boolean visible) {
+		SpriteActivity activity = (SpriteActivity) getActivity();
+		if (activity != null) {
+			((SpriteActivity) getActivity()).showUndo(visible);
+		}
 	}
 }

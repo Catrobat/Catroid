@@ -350,12 +350,6 @@
         <item quantity="many">Usunąć te skrypty?</item>
         <item quantity="other">Usunąć te skrypty?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Usunąć ten bloczek?</item>
-        <item quantity="few">Usunąć te bloczki?</item>
-        <item quantity="many">Usunąć te bloczki?</item>
-        <item quantity="other">Usunąć te bloczki?</item>
-    </plurals>
     <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Nazwa programu</string>
