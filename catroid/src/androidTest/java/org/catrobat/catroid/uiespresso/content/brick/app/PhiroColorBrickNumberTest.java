@@ -125,7 +125,7 @@ public class PhiroColorBrickNumberTest {
 				.perform(click());
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
-		onView(withId(R.id.color_picker_button_ok))
+		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 		onView(withId(R.id.brick_phiro_rgb_led_action_red_edit_text))
 				.check(matches(withText(containsString("0"))));
@@ -144,7 +144,7 @@ public class PhiroColorBrickNumberTest {
 				.perform(click());
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
-		onView(withId(R.id.color_picker_button_cancel))
+		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
 		onBrickAtPosition(phiroRGBLightBrickPosition).onFormulaTextField(R.id.brick_phiro_rgb_led_action_red_edit_text)
 				.checkShowsNumber((Integer) red);
