@@ -2088,8 +2088,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
 
-    <string name="deletion_alert_title">Warning!</string>
-    <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous. Are you sure?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">Yes, delete anyway!</string>
 
     <!-- Upload progress dialog -->
