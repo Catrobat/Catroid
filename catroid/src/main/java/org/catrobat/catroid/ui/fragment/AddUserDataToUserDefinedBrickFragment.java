@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,6 +44,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType;
 import org.jetbrains.annotations.NotNull;
 
@@ -95,8 +95,23 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 		TextView addUserDataUserBrickTextView = view.findViewById(R.id.brick_user_defined_add_user_data_description);
 
 		addUserDataUserBrickEditText.setText(userBrickTextView.getText());
+		InputWatcher.TextWatcher textWatcher = new InputWatcher.TextWatcher() {
+			@Override
+			public void afterTextChanged(Editable editable) {
+				userBrickTextView.setText(editable.toString());
+				if (dataTypeToAdd == INPUT) {
+					String error = validateInput(editable.toString(), getContext());
+					if (error != null) {
+						scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+					}
+					addUserDataUserBrickTextLayout.setError(error);
+					setNextItemEnabled(error == null);
+				}
+			}
+		};
 		if (getContext() != null) {
-			addUserDataUserBrickEditText.addTextChangedListener(new UserDataTextWatcher());
+			textWatcher.setScope(userDefinedBrick.getUserDataListAsStrings(INPUT));
+			addUserDataUserBrickEditText.addTextChangedListener(textWatcher);
 			if (dataTypeToAdd == INPUT) {
 				addUserDataUserBrickTextView.setText(getContext().getResources().getString(R.string.brick_user_defined_add_input_description));
 			} else {
@@ -186,57 +201,6 @@ public class AddUserDataToUserDefinedBrickFragment extends Fragment {
 			View focusedView = activity.getCurrentFocus();
 			if (focusedView != null) {
 				inputMethodManager.hideSoftInputFromWindow(focusedView.getWindowToken(), 0);
-			}
-		}
-	}
-
-	private class UserDataTextWatcher implements TextWatcher {
-
-		private boolean isNameUnique(String name) {
-			for (String item : userDefinedBrick.getUserDataListAsStrings(INPUT)) {
-				if (item.equals(name)) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		String validateName(String name) {
-			if (name.isEmpty()) {
-				return getString(R.string.name_empty);
-			}
-
-			name = name.trim();
-
-			if (name.isEmpty()) {
-				return getString(R.string.name_consists_of_spaces_only);
-			}
-
-			if (!isNameUnique(name)) {
-				return getString(R.string.name_already_exists);
-			}
-
-			return null;
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		}
-
-		@Override
-		public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-		}
-
-		@Override
-		public void afterTextChanged(Editable editable) {
-			userBrickTextView.setText(editable.toString());
-			if (dataTypeToAdd == INPUT) {
-				String error = validateName(editable.toString());
-				if (error != null) {
-					scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
-				}
-				addUserDataUserBrickTextLayout.setError(error);
-				setNextItemEnabled(error == null);
 			}
 		}
 	}

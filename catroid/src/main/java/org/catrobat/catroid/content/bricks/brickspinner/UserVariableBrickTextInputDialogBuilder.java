@@ -32,7 +32,7 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
@@ -53,7 +53,7 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 		setView(dialogView);
 
 		setHint(activity.getString(R.string.data_label))
-				.setTextWatcher(new NewItemTextWatcher<>(spinner.getItems()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(spinner.getItems()))
 				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					UserVariable userVariable = new UserVariable(textInput);
 

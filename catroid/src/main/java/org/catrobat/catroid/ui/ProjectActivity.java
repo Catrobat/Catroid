@@ -49,7 +49,7 @@ import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
@@ -298,7 +298,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
 		builder.setHint(getString(R.string.sprite_name_label))
 				.setText(lookDataName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Sprite sprite = new Sprite(textInput);
 					currentScene.addSprite(sprite);
@@ -354,7 +354,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		builder.setHint(getString(R.string.scene_name_label))
 				.setText(defaultSceneName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentProject.getSceneList()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(currentProject.getSceneList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Scene scene = SceneController
 							.newSceneWithBackgroundSprite(textInput, getString(R.string.background), currentProject);

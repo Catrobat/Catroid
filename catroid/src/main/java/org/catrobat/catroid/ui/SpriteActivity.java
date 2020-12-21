@@ -58,7 +58,7 @@ import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
@@ -402,7 +402,7 @@ public class SpriteActivity extends BaseActivity {
 
 		builder.setHint(getString(R.string.sprite_name_label))
 				.setText(lookDataName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Sprite sprite = new Sprite(textInput);
 					currentScene.addSprite(sprite);
@@ -729,7 +729,7 @@ public class SpriteActivity extends BaseActivity {
 		lists.addAll(currentProject.getUserLists());
 		lists.addAll(currentSprite.getUserLists());
 
-		NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(variables);
+		DuplicateInputTextWatcher<UserData> textWatcher = new DuplicateInputTextWatcher(variables);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this)
 				.setTextWatcher(textWatcher)
@@ -767,10 +767,10 @@ public class SpriteActivity extends BaseActivity {
 		makeListCheckBox.setOnCheckedChangeListener((compoundButton, checked) -> {
 			if (checked) {
 				alertDialog.setTitle(getString(R.string.formula_editor_list_dialog_title));
-				textWatcher.setScope(lists);
+				textWatcher.setOriginalScope(lists);
 			} else {
 				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
-				textWatcher.setScope(variables);
+				textWatcher.setOriginalScope(variables);
 			}
 			multiplayerRadioButton.setEnabled(!checked);
 		});
@@ -786,7 +786,7 @@ public class SpriteActivity extends BaseActivity {
 		lists.addAll(currentProject.getUserLists());
 		lists.addAll(currentSprite.getUserLists());
 
-		NewItemTextWatcher<UserData> textWatcher = new NewItemTextWatcher<>(lists);
+		DuplicateInputTextWatcher<UserData> textWatcher = new DuplicateInputTextWatcher<>(lists);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this)
 				.setTextWatcher(textWatcher)

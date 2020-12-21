@@ -34,6 +34,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
 import org.catrobat.catroid.web.ProjectDownloader;
@@ -42,7 +43,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 import androidx.annotation.IdRes;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -82,26 +82,11 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 		final TextInputLayout inputLayout = view.findViewById(R.id.input);
 		final RadioGroup radioGroup = view.findViewById(R.id.radio_group);
 
-		final TextInputDialog.TextWatcher textWatcher = new TextInputDialog.TextWatcher() {
+		final InputWatcher.TextWatcher textWatcher = new InputWatcher.TextWatcher() {
 
-			@Nullable
 			@Override
-			public String validateInput(String input, Context context) {
-				String error = null;
-
-				if (input.isEmpty()) {
-					return context.getString(R.string.name_empty);
-				}
-
-				input = input.trim();
-
-				if (input.isEmpty()) {
-					error = context.getString(R.string.name_consists_of_spaces_only);
-				} else if (projectExistsInDirectory(input) || GlobalProjectDownloadQueue.INSTANCE.getQueue().alreadyInQueue(input)) {
-					error = context.getString(R.string.name_already_exists);
-				}
-
-				return error;
+			protected boolean isNameUnique(String name) {
+				return projectExistsInDirectory(name) || GlobalProjectDownloadQueue.INSTANCE.getQueue().alreadyInQueue(name);
 			}
 		};
 

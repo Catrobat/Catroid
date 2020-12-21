@@ -43,7 +43,6 @@ import org.catrobat.catroid.ui.UiUtils
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.utils.ToastUtil
 
@@ -53,6 +52,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.utils.UserDataUtil
 
 class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
@@ -189,13 +189,12 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
         val item = selectedItems[0]
         val builder = TextInputDialog.Builder(requireContext())
-
+        val items = adapter!!.items
         builder.setHint(getString(R.string.data_label))
             .setText(item.name)
             .setTextWatcher(
-                RenameItemTextWatcher(
-                    item,
-                    adapter!!.items
+                DuplicateInputTextWatcher(
+                    items
                 )
             )
             .setPositiveButton(

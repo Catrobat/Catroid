@@ -31,6 +31,7 @@ import android.text.Editable;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,7 +50,7 @@ public final class TextInputDialog extends AlertDialog {
 		@Nullable
 		private String text;
 		@Nullable
-		private TextWatcher textWatcher;
+		private InputWatcher.TextWatcher textWatcher;
 
 		public Builder(@NonNull Context context) {
 			super(context);
@@ -66,7 +67,7 @@ public final class TextInputDialog extends AlertDialog {
 			return this;
 		}
 
-		public Builder setTextWatcher(TextWatcher textWatcher) {
+		public Builder setTextWatcher(InputWatcher.TextWatcher textWatcher) {
 			this.textWatcher = textWatcher;
 			return this;
 		}
@@ -98,11 +99,8 @@ public final class TextInputDialog extends AlertDialog {
 					if (textWatcher != null) {
 						textInputLayout.getEditText().addTextChangedListener(textWatcher);
 						textWatcher.setInputLayout(textInputLayout);
-						textWatcher.setAlertDialog(alertDialog);
-						String error = textWatcher
-								.validateInput(textInputLayout.getEditText().getText().toString(), getContext());
-
-						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(error == null);
+						textWatcher.setButton(alertDialog.getButton(AlertDialog.BUTTON_POSITIVE));
+						textWatcher.setContext(getContext());
 					}
 				}
 			});

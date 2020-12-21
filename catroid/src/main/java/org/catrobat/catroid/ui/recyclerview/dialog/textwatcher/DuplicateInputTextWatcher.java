@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,40 +23,27 @@
 
 package org.catrobat.catroid.ui.recyclerview.dialog.textwatcher;
 
-import android.content.Context;
-
-import org.catrobat.catroid.R;
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.common.Nameable;
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
+public class DuplicateInputTextWatcher<T extends Nameable> extends InputWatcher.TextWatcher {
 
-public class UniqueStringTextWatcher extends TextInputDialog.TextWatcher {
+	private List<T> originalScope;
 
-	private List<String> scope;
-
-	public UniqueStringTextWatcher(List<String> scope) {
-		this.scope = scope;
+	public DuplicateInputTextWatcher(List<T> originalScope) {
+		this.originalScope = originalScope;
+		getScopeFromOriginalScope();
 	}
-
-	@Nullable
-	@Override
-	public String validateInput(String input, Context context) {
-		String error = null;
-
-		if (input.isEmpty()) {
-			return context.getString(R.string.name_empty);
+	public void setOriginalScope(List<T> scope) {
+		this.originalScope = scope;
+		getScopeFromOriginalScope();
+	}
+	private void getScopeFromOriginalScope() {
+		if (originalScope != null) {
+			for (Nameable item : this.originalScope) {
+				scope.add(item.getName());
+			}
 		}
-
-		input = input.trim();
-
-		if (input.isEmpty()) {
-			error = context.getString(R.string.name_consists_of_spaces_only);
-		} else if (scope.contains(input)) {
-			error = context.getString(R.string.name_already_exists);
-		}
-
-		return error;
 	}
 }

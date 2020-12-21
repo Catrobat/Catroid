@@ -32,6 +32,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.utils.JsonRegexExtractor;
 
 import androidx.annotation.Nullable;
@@ -54,7 +55,7 @@ public class JsonExtractorDialog extends RegularExpressionFeature {
 		builder.setTitle(R.string.formula_editor_function_regex_json_extractor_title);
 		builder.setNegativeButton(R.string.cancel, null);
 		builder.setHint(context.getString(R.string.keyword_label));
-		builder.setTextWatcher(new TextInputDialog.TextWatcher() {
+		builder.setTextWatcher(new InputWatcher.TextWatcher() {
 			@Nullable
 			@Override
 			public String validateInput(String input, Context context) {
