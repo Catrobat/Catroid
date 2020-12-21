@@ -36,6 +36,7 @@ class RepeatAction : RepeatAction() {
     private var currentTime = 0f
     lateinit var sprite: Sprite
     var isForeverRepeat = false
+    var isLoopDelay = false
     var repeatCount: Formula? = null
 
     public override fun delegate(delta: Float): Boolean {
@@ -54,7 +55,7 @@ class RepeatAction : RepeatAction() {
         if (executedCount >= repeatCountValue && !isForeverRepeat) {
             return true
         }
-        if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
+        if (action != null && action.act(delta) && noLoopDelayNeeded()) {
             executedCount++
             if (executedCount >= repeatCountValue && !isForeverRepeat) {
                 return true
@@ -71,6 +72,8 @@ class RepeatAction : RepeatAction() {
         executedCount = 0
         super.restart()
     }
+
+    private fun noLoopDelayNeeded(): Boolean = currentTime >= LOOP_DELAY || !isLoopDelay
 
     private fun interpretRepeatCount() {
         repeatCountValue = try {

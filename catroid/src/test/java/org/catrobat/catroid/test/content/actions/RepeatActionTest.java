@@ -52,32 +52,6 @@ public class RepeatActionTest {
 	private int delta = 5;
 
 	@Test
-	public void testLoopDelay() {
-		final int deltaY = -10;
-		final float delta = 0.005f;
-		final float delayByContract = 0.020f;
-
-		Sprite sprite = new Sprite("testSprite");
-		Script script = new StartScript();
-
-		RepeatBrick repeatBrick = new RepeatBrick(new Formula(REPEAT_TIMES));
-		repeatBrick.addBrick(new ChangeYByNBrick(deltaY));
-		script.addBrick(repeatBrick);
-		script.addBrick(new ChangeYByNBrick(150));
-
-		sprite.addScript(script);
-		sprite.initializeEventThreads(EventId.START);
-
-		for (int index = 0; index < REPEAT_TIMES; index++) {
-			for (double time = 0f; time < delayByContract; time += delta) {
-				sprite.look.act(delta);
-			}
-		}
-
-		assertEquals(deltaY * REPEAT_TIMES, (int) sprite.look.getYInUserInterfaceDimensionUnit());
-	}
-
-	@Test
 	public void testRepeatBrick() {
 		final int deltaY = -10;
 
@@ -179,7 +153,9 @@ public class RepeatActionTest {
 		Sprite sprite = new Sprite("testSprite");
 
 		Action repeatAction = sprite.getActionFactory()
-				.createRepeatAction(sprite, new Formula(0), sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(decoyDeltaY)));
+				.createRepeatAction(sprite, new Formula(0),
+						sprite.getActionFactory().createChangeYByNAction(sprite,
+								new Formula(decoyDeltaY)), false);
 
 		repeatAction.act(1f);
 
@@ -210,7 +186,8 @@ public class RepeatActionTest {
 	public void testNullFormula() throws Exception {
 		Sprite testSprite = new Sprite("testSprite");
 		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
-		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
+		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null,
+				repeatedAction, true);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
 		assertEquals(0, repeatCountValue);

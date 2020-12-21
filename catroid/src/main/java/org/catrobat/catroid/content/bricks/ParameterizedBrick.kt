@@ -133,7 +133,11 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         val repeatSequence =
             ActionFactory.createScriptSequenceAction(sequence.script) as ScriptSequenceAction
+        var isLoopDelayBrick = false
+        var isStitchBrick = false
         loopBricks.filterNot { brick -> brick.isCommentedOut }.forEach {
+            isLoopDelayBrick = isLoopDelayBrick || checkForLoopDelayBrick(it)
+            isStitchBrick = isStitchBrick || checkForStitchBrick(it)
             it.addActionToSequence(sprite, repeatSequence)
         }
         endBrick.addActionToSequence(sprite, repeatSequence)
@@ -141,10 +145,57 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
 
         sequence.addAction(
             sprite.actionFactory.createRepeatParameterizedAction(
-                sprite, parameterizedData,
-                createLinkedPair(), positionInformation, repeatSequence
+                sprite, parameterizedData, createLinkedPair(),
+                positionInformation, repeatSequence, !isStitchBrick && isLoopDelayBrick
             )
         )
+    }
+
+    private fun checkForLoopDelayBrick(innerBrick: Brick): Boolean {
+        var isLoopDelayNestedBricks = false
+        if (innerBrick is IfThenLogicBeginBrick || innerBrick is IfLogicBeginBrick ||
+            innerBrick is PhiroIfLogicBeginBrick) {
+            val allNestedBricks: MutableList<Brick> =
+                (innerBrick as CompositeBrick).nestedBricks.toMutableList()
+            if (innerBrick.hasSecondaryList()) {
+                allNestedBricks.addAll(innerBrick.secondaryNestedBricks)
+            }
+            for (brick in allNestedBricks) {
+                if (!brick.isCommentedOut) {
+                    isLoopDelayNestedBricks = isLoopDelayNestedBricks || checkForLoopDelayBrick(brick)
+                }
+            }
+        }
+        return isLoopDelayNestedBricks || innerBrick is PlaceAtBrick || innerBrick is SetXBrick ||
+            innerBrick is SetYBrick || innerBrick is ChangeXByNBrick ||
+            innerBrick is ChangeYByNBrick || innerBrick is GoToBrick ||
+            innerBrick is IfOnEdgeBounceBrick || innerBrick is MoveNStepsBrick ||
+            innerBrick is TurnLeftBrick || innerBrick is TurnRightBrick ||
+            innerBrick is PointInDirectionBrick || innerBrick is PointToBrick ||
+            innerBrick is SetLookBrick || innerBrick is SetLookByIndexBrick ||
+            innerBrick is NextLookBrick || innerBrick is PreviousLookBrick ||
+            innerBrick is SetSizeToBrick || innerBrick is ChangeSizeByNBrick ||
+            innerBrick is SetTransparencyBrick || innerBrick is ChangeTransparencyByNBrick ||
+            innerBrick is SetBrightnessBrick || innerBrick is ChangeBrightnessByNBrick ||
+            innerBrick is SetColorBrick || innerBrick is ChangeColorByNBrick ||
+            innerBrick is SetBackgroundBrick || innerBrick is SetBackgroundByIndexBrick
+    }
+
+    private fun checkForStitchBrick(innerBrick: Brick): Boolean {
+        var isStitchBrickInNestedBricks = false
+        if (innerBrick is IfThenLogicBeginBrick || innerBrick is IfLogicBeginBrick ||
+            innerBrick is PhiroIfLogicBeginBrick) {
+            val allNestedBricks = (innerBrick as CompositeBrick).nestedBricks
+            if (innerBrick.hasSecondaryList()) {
+                allNestedBricks.addAll(innerBrick.secondaryNestedBricks)
+            }
+            for (brick in allNestedBricks) {
+                if (!brick.isCommentedOut) {
+                    isStitchBrickInNestedBricks = isStitchBrickInNestedBricks || checkForStitchBrick(brick)
+                }
+            }
+        }
+        return isStitchBrickInNestedBricks || innerBrick is StitchBrick
     }
 
     override fun addRequiredResources(requiredResourcesSet: ResourcesSet) {

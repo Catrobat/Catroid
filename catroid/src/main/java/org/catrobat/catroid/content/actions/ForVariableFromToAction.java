@@ -44,6 +44,7 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 	private float currentTime = 0f;
 	private int executedCount = 0;
 	private int step = 1;
+	private boolean isLoopDelay = false;
 
 	@Override
 	public boolean delegate(float delta) {
@@ -60,7 +61,7 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 		setControlVariable(fromValue + step * executedCount);
 		currentTime += delta;
 
-		if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
+		if (action != null && action.act(delta) && noLoopDelayNeeded()) {
 			executedCount++;
 
 			if (Math.abs(step * executedCount) > Math.abs(toValue - fromValue)) {
@@ -71,6 +72,10 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 			action.restart();
 		}
 		return false;
+	}
+
+	private boolean noLoopDelayNeeded() {
+		return currentTime >= LOOP_DELAY || !isLoopDelay;
 	}
 
 	@Override
@@ -88,6 +93,10 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 	public void setRange(Formula from, Formula to) {
 		this.from = from;
 		this.to = to;
+	}
+
+	public void setLoopDelay(boolean isLoopDelay) {
+		this.isLoopDelay = isLoopDelay;
 	}
 
 	public void setControlVariable(UserVariable variable) {

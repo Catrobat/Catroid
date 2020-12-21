@@ -39,7 +39,7 @@ public class ForeverActionTest {
 	private static final int REPEAT_TIMES = 4;
 
 	@Test
-	public void testLoopDelay() {
+	public void testForeverBrick() {
 		int deltaY = -10;
 
 		Sprite sprite = new Sprite("testSprite");

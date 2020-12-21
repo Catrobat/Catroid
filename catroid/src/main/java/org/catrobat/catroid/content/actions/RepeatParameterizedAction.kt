@@ -38,6 +38,7 @@ class RepeatParameterizedAction : RepeatAction() {
     var sprite: Sprite? = null
     var parameterizedData: ParameterizedData? = null
     var parameters: List<Pair<UserList, UserVariable>> = emptyList()
+    var isLoopDelay = false
 
     override fun delegate(delta: Float): Boolean {
         if (parameters.isNullOrEmpty()) {
@@ -58,7 +59,7 @@ class RepeatParameterizedAction : RepeatAction() {
         }
 
         currentTime += delta
-        if (action.act(delta) && currentTime >= loopDelay) {
+        if (action.act(delta) && noLoopDelayNeeded()) {
             if (parameterizedData?.currentPosition ?: 1 >= parameterizedData?.listSize ?: 0) {
                 return true
             }
@@ -68,6 +69,8 @@ class RepeatParameterizedAction : RepeatAction() {
         }
         return false
     }
+
+    private fun noLoopDelayNeeded(): Boolean = currentTime >= LOOP_DELAY || !isLoopDelay
 
     override fun restart() {
         isCurrentLoopInitialized = false
@@ -108,6 +111,6 @@ class RepeatParameterizedAction : RepeatAction() {
     private fun formattedPosition(): String = "on sprite ${sprite?.name}\n$position"
 
     companion object {
-        private const val loopDelay = 0.02f
+        private const val LOOP_DELAY = 0.02f
     }
 }

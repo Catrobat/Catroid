@@ -166,9 +166,13 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		}
 
 		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		boolean isLoopDelayBrick = false;
+		boolean isStitchBrick = false;
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
+				isLoopDelayBrick = isLoopDelayBrick || checkForLoopDelayBrick(brick);
+				isStitchBrick = isStitchBrick || checkForStitchBrick(brick);
 				brick.addActionToSequence(sprite, repeatSequence);
 			}
 		}
@@ -176,9 +180,57 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		Action action = sprite.getActionFactory()
 				.createForVariableFromToAction(sprite, userVariable,
 						getFormulaWithBrickField(BrickField.FOR_LOOP_FROM),
-						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence);
+						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence,
+						!isStitchBrick && isLoopDelayBrick);
 
 		sequence.addAction(action);
+	}
+
+	private boolean checkForLoopDelayBrick(Brick innerBrick) {
+		boolean isLoopDelayNestedBricks = false;
+		if (innerBrick instanceof IfThenLogicBeginBrick || innerBrick instanceof IfLogicBeginBrick
+				|| innerBrick instanceof PhiroIfLogicBeginBrick) {
+			List<Brick> allNestedBricks = new ArrayList<>(((CompositeBrick) innerBrick).getNestedBricks());
+			if (((CompositeBrick) innerBrick).hasSecondaryList()) {
+				allNestedBricks.addAll(((CompositeBrick) innerBrick).getSecondaryNestedBricks());
+			}
+			for (Brick brick : allNestedBricks) {
+				if (!brick.isCommentedOut()) {
+					isLoopDelayNestedBricks = isLoopDelayNestedBricks || checkForLoopDelayBrick(brick);
+				}
+			}
+		}
+		return isLoopDelayNestedBricks || innerBrick instanceof PlaceAtBrick
+				|| innerBrick instanceof SetXBrick || innerBrick instanceof SetYBrick
+				|| innerBrick instanceof ChangeXByNBrick || innerBrick instanceof ChangeYByNBrick
+				|| innerBrick instanceof GoToBrick || innerBrick instanceof IfOnEdgeBounceBrick
+				|| innerBrick instanceof MoveNStepsBrick || innerBrick instanceof TurnLeftBrick
+				|| innerBrick instanceof TurnRightBrick || innerBrick instanceof PointInDirectionBrick
+				|| innerBrick instanceof PointToBrick || innerBrick instanceof SetLookBrick
+				|| innerBrick instanceof SetLookByIndexBrick || innerBrick instanceof NextLookBrick
+				|| innerBrick instanceof PreviousLookBrick || innerBrick instanceof SetSizeToBrick
+				|| innerBrick instanceof ChangeSizeByNBrick || innerBrick instanceof SetTransparencyBrick
+				|| innerBrick instanceof ChangeTransparencyByNBrick || innerBrick instanceof SetBrightnessBrick
+				|| innerBrick instanceof ChangeBrightnessByNBrick || innerBrick instanceof SetColorBrick
+				|| innerBrick instanceof ChangeColorByNBrick || innerBrick instanceof SetBackgroundBrick
+				|| innerBrick instanceof SetBackgroundByIndexBrick;
+	}
+
+	private boolean checkForStitchBrick(Brick innerBrick) {
+		boolean isStitchBrickInNestedBricks = false;
+		if (innerBrick instanceof IfThenLogicBeginBrick || innerBrick instanceof IfLogicBeginBrick
+				|| innerBrick instanceof PhiroIfLogicBeginBrick) {
+			List<Brick> allNestedBricks = new ArrayList<>(((CompositeBrick) innerBrick).getNestedBricks());
+			if (((CompositeBrick) innerBrick).hasSecondaryList()) {
+				allNestedBricks.addAll(((CompositeBrick) innerBrick).getSecondaryNestedBricks());
+			}
+			for (Brick brick : allNestedBricks) {
+				if (!brick.isCommentedOut()) {
+					isStitchBrickInNestedBricks = isStitchBrickInNestedBricks || checkForStitchBrick(brick);
+				}
+			}
+		}
+		return isStitchBrickInNestedBricks || innerBrick instanceof StitchBrick;
 	}
 
 	private static class EndBrick extends BrickBaseType {

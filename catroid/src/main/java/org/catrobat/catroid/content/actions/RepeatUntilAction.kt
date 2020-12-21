@@ -35,6 +35,7 @@ class RepeatUntilAction : RepeatAction() {
     var repeatCondition: Formula? = null
     private var isCurrentLoopInitialized = false
     private var currentTime = 0f
+    var isLoopDelay = false
 
     private fun isValidConditionFormula(): Boolean {
         try {
@@ -71,7 +72,7 @@ class RepeatUntilAction : RepeatAction() {
             isCurrentLoopInitialized = true
         }
         currentTime += delta
-        if (action.act(delta) && currentTime >= LOOP_DELAY) {
+        if (action.act(delta) && noLoopDelayNeeded()) {
             executedCount++
             if (isConditionTrue()) {
                 return true
@@ -81,6 +82,8 @@ class RepeatUntilAction : RepeatAction() {
         }
         return false
     }
+
+    private fun noLoopDelayNeeded(): Boolean = currentTime >= LOOP_DELAY || !isLoopDelay
 
     override fun restart() {
         isCurrentLoopInitialized = false

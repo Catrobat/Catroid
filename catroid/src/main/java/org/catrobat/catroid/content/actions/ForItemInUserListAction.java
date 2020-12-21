@@ -36,6 +36,7 @@ public class ForItemInUserListAction extends com.badlogic.gdx.scenes.scene2d.act
 	private static final float LOOP_DELAY = 0.02f;
 	private float currentTime = 0f;
 	private int index = 0;
+	private boolean isLoopDelay = false;
 
 	@Override
 	public boolean delegate(float delta) {
@@ -52,13 +53,17 @@ public class ForItemInUserListAction extends com.badlogic.gdx.scenes.scene2d.act
 		setCurrentItemVariable(list.get(index));
 		currentTime += delta;
 
-		if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
+		if (action != null && action.act(delta) && noLoopDelayNeeded()) {
 			index++;
 
 			isCurrentLoopInitialized = false;
 			action.restart();
 		}
 		return false;
+	}
+
+	private boolean noLoopDelayNeeded() {
+		return currentTime >= LOOP_DELAY || !isLoopDelay;
 	}
 
 	@Override
@@ -78,5 +83,9 @@ public class ForItemInUserListAction extends com.badlogic.gdx.scenes.scene2d.act
 
 	private void setCurrentItemVariable(Object listItem) {
 		this.currentItemVariable.setValue(listItem);
+	}
+
+	public void setLoopDelay(boolean isLoopDelay) {
+		this.isLoopDelay = isLoopDelay;
 	}
 }
