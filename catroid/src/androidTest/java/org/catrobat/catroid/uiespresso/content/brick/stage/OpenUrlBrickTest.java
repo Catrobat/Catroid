@@ -52,30 +52,4 @@ import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
 public class OpenUrlBrickTest {
-
-	private int openUrlBrickPosition;
-	private final String url = Constants.MAIN_URL_HTTPS;
-
-	@Rule
-	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-
-	@Before
-	public void setUp() {
-		openUrlBrickPosition = 1;
-		Script script = createProjectAndGetStartScript("openUrlBrickTest");
-		script.addBrick(new OpenUrlBrick());
-		baseActivityTestRule.launchActivity(new Intent());
-	}
-
-	@Test
-	public void testOpenUrlIntent() {
-		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
-		Intents.init();
-		onView(withId(R.id.button_play)).perform(click());
-		onView(isRoot()).perform(CustomActions.wait(2000));
-		Matcher expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData(url));
-		intended(expectedIntent);
-		Intents.release();
-	}
 }
