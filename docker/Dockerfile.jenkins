@@ -7,7 +7,7 @@ FROM debian:buster
 ARG ANDROID_SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
 # No Android NDK needed
 ARG ANDROID_NDK_URL
-ARG SDKMANAGER_PACKAGES="build-tools;27.0.3 emulator platform-tools platforms;android-26 system-images;android-19;default;x86 system-images;android-24;default;x86_64 system-images;android-28;default;x86_64"
+ARG SDKMANAGER_PACKAGES="build-tools;30.0.3 emulator platform-tools platforms;android-28 system-images;android-28;default;x86_64"
 # Arguments, Environment
 # ----------------------
 #
