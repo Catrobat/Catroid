@@ -77,6 +77,8 @@ RUN useradd -m -u $USER_ID -g $GROUP_ID -G $KVM_GROUP_ID -d $USER_HOME -s /usr/s
 # Run all other commands as user
 USER user
 RUN mkdir -p $ANDROID_AVD_HOME
+RUN mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/html
+RUN mkdir -p catroid/build/reports/coverage/catroid/debug/
 # Android SDK
 # ------------------
 #
