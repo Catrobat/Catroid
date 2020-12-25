@@ -52,12 +52,11 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.ui.BaseCastActivity;
+import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.catroid.utils.ToastUtil;
 
-import java.io.File;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
@@ -68,9 +67,6 @@ import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
-import static org.catrobat.catroid.common.Constants.SCREENSHOT_MANUAL_FILE_NAME;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.content.Look.DEGREE_UI_OFFSET;
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_ALL_AROUND;
 import static org.catrobat.catroid.content.Look.ROTATION_STYLE_LEFT_RIGHT_ONLY;
@@ -247,27 +243,8 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 	}
 
 	private void setBackground() {
-		Project currentProject = projectManager.getCurrentProject();
-		Scene currentlyEditedScene = projectManager.getCurrentlyEditedScene();
-		Scene currentlyPlayingScene = projectManager.getCurrentlyPlayingScene();
-
-		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, currentProject.getName());
-		File sceneDir = new File(projectDir, currentlyPlayingScene.getName());
-		File automaticScreenshot = new File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME);
-		File manualScreenshot = new File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME);
-
 		try {
-			String backgroundBitmapPath;
-			if (automaticScreenshot.exists()) {
-				backgroundBitmapPath = automaticScreenshot.getPath();
-			} else if (manualScreenshot.exists()) {
-				backgroundBitmapPath = manualScreenshot.getPath();
-			} else {
-				backgroundBitmapPath = currentlyEditedScene
-						.getBackgroundSprite().getLookList().get(0).getFile().getAbsolutePath();
-			}
-
-			Bitmap backgroundBitmap = BitmapFactory.decodeFile(backgroundBitmapPath, bitmapOptions);
+			Bitmap backgroundBitmap = ProjectManagerExtensionsKt.getProjectBitmap(projectManager);
 			Bitmap scaledBackgroundBitmap = Bitmap.createScaledBitmap(backgroundBitmap,
 					(int) (backgroundBitmap.getWidth() * layoutWidthRatio),
 					(int) (backgroundBitmap.getHeight() * layoutHeightRatio), true);

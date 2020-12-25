@@ -92,7 +92,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
-		onView(withId(R.id.color_picker_button_ok))
+		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
 				.check(matches(withText(containsString("'#0074CD'"))));
@@ -107,7 +107,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
-		onView(withId(R.id.color_picker_button_cancel))
+		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
 				.check(matches(withText(containsString("0"))));

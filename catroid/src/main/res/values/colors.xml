@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Toolbar and Bottombar Colors -->
     <color name="toolbar_background">#002B3B</color>
@@ -99,5 +99,10 @@
     <color name="landing_page_icons">@color/accent</color>
     <color name="project_icons">@color/accent</color>
     <color name="stage_icons_pressed">#e3f9fd</color>
+
+    <color name="seekBarBackgroundTint">#FFA3A3A3</color>
+    <!-- override the color of ColorPickerPreviewActivity toolbar -->
+    <color name="pocketpaint_color_picker_actionbar_color"
+        tools:ignore="UnusedResources">@color/toolbar_background</color>
 
 </resources>
