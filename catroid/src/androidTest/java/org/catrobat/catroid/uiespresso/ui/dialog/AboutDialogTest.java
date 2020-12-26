@@ -49,6 +49,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -103,6 +104,9 @@ public class AboutDialogTest {
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.dialog_about_catrobat_link_text))
+				.check(matches(isDisplayed()));
+
+		onView(withId(R.id.dialog_about_text_view_catrobat_version_name))
 				.check(matches(isDisplayed()));
 
 		onView(withText(R.string.ok))

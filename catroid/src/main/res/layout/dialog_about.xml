@@ -57,5 +57,13 @@
             android:textSize="8sp"
             tools:ignore="SmallSp" />
 
+            <TextView
+                android:id = "@+id/dialog_about_text_view_catrobat_version_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="8sp"
+                tools:ignore ="SmallSp"/>
+
     </LinearLayout>
 </ScrollView>
