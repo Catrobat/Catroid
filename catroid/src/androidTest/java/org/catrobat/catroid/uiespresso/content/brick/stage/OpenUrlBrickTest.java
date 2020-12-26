@@ -23,22 +23,31 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.stage;
 
+import android.app.Activity;
+import android.app.Instrumentation;
 import android.content.Intent;
+import android.util.Log;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
+import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+
 import androidx.test.espresso.intent.Intents;
 
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
 import static org.hamcrest.Matchers.allOf;
@@ -46,6 +55,7 @@ import static org.hamcrest.Matchers.allOf;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
@@ -55,6 +65,8 @@ public class OpenUrlBrickTest {
 
 	private int openUrlBrickPosition;
 	private final String url = Constants.MAIN_URL_HTTPS;
+	private Matcher expectedIntent;
+	private final String projectName = "openUrlBrickTest";
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -63,19 +75,33 @@ public class OpenUrlBrickTest {
 	@Before
 	public void setUp() {
 		openUrlBrickPosition = 1;
-		Script script = createProjectAndGetStartScript("openUrlBrickTest");
+		Script script = createProjectAndGetStartScript(projectName);
 		script.addBrick(new OpenUrlBrick());
 		baseActivityTestRule.launchActivity(new Intent());
+		Intents.init();
+
+		expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData(url));
+
+		Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, null);
+		intending(expectedIntent).respondWith(result);
 	}
 
 	@Test
 	public void testOpenUrlIntent() {
 		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
-		Intents.init();
 		onView(withId(R.id.button_play)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
-		Matcher expectedIntent = allOf(hasAction(Intent.ACTION_VIEW), hasData(url));
 		intended(expectedIntent);
+	}
+
+	@After
+	public void tearDown() {
 		Intents.release();
+		baseActivityTestRule.finishActivity();
+		try {
+			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
+		} catch (IOException e) {
+			Log.d(getClass().getSimpleName(), "Cannot delete test project in tear down.");
+		}
 	}
 }
