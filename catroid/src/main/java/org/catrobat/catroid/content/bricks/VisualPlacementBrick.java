@@ -133,11 +133,7 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	}
 
 	public boolean isVisualPlacement(View view) {
-		return isCorrectTextField(view) && visualPlacementConditionsSatisfied();
-	}
-
-	public boolean visualPlacementConditionsSatisfied() {
-		return areAllBrickFieldsNumbers();
+		return isCorrectTextField(view) && areAllBrickFieldsNumbers();
 	}
 
 	public boolean areAllBrickFieldsNumbers() {
