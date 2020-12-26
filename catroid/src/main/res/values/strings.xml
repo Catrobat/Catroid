@@ -753,7 +753,7 @@
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Source code license</string>
     <string name="dialog_about_catrobat_link_text">About Catrobat</string>
-    <string name="dialog_about_catrobat_language_version" translatable="false">Catrobat language version: </string>
+    <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
     <!--  -->
 
     <!-- NetworkAlertDialog -->

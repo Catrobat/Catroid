@@ -67,7 +67,7 @@ public class AboutDialogFragment extends DialogFragment {
 		TextView aboutCatrobatVersionTextView = view.findViewById(R.id.dialog_about_text_view_catrobat_version_name);
 		double catrobatVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 		String catrobatVersionName =
-				getString(R.string.dialog_about_catrobat_language_version) + catrobatVersion;
+				getString(R.string.dialog_about_catrobat_language_version) + ": " + catrobatVersion;
 		aboutCatrobatVersionTextView.setText(catrobatVersionName);
 
 		return new AlertDialog.Builder(getActivity())
