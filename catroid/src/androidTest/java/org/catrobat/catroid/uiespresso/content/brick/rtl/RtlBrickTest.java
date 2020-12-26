@@ -71,6 +71,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -497,6 +498,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(CopyLookBrick.class, R.id.brick_copy_look);
 
 		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
+
+		checkIfBrickISRtl(EditLookBrick.class, R.id.brick_edit_look_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

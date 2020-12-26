@@ -75,6 +75,7 @@ import org.catrobat.catroid.content.actions.DroneTurnLeftAction;
 import org.catrobat.catroid.content.actions.DroneTurnLeftWithMagnetometerAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightAction;
 import org.catrobat.catroid.content.actions.DroneTurnRightWithMagnetometerAction;
+import org.catrobat.catroid.content.actions.EditLookAction;
 import org.catrobat.catroid.content.actions.EventAction;
 import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
@@ -1546,6 +1547,13 @@ public class ActionFactory extends Actions {
 		CopyLookAction action = action(CopyLookAction.class);
 		action.setSprite(sprite);
 		action.setFormula(variableFormula);
+		action.nextLookAction(nextLookAction);
+		return action;
+	}
+
+	public Action createEditLookAction(Sprite sprite, SetNextLookAction nextLookAction) {
+		EditLookAction action = action(EditLookAction.class);
+		action.setSprite(sprite);
 		action.nextLookAction(nextLookAction);
 		return action;
 	}

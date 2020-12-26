@@ -107,6 +107,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
@@ -442,6 +443,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", LoopEndlessBrick.class);
 		xstream.alias("brick", LookRequestBrick.class);
 		xstream.alias("brick", PaintNewLookBrick.class);
+		xstream.alias("brick", EditLookBrick.class);
 		xstream.alias("brick", DeleteLookBrick.class);
 		xstream.alias("brick", CopyLookBrick.class);
 		xstream.alias("brick", BackgroundRequestBrick.class);
