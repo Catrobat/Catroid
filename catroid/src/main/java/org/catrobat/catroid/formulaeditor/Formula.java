@@ -236,7 +236,7 @@ public class Formula implements Serializable {
 
 	private boolean isInterpretableFunction(String formulaValue) {
 		Functions function = EnumUtils.getEnum(Functions.class, formulaValue);
-		return function == Functions.LETTER || function == Functions.JOIN || function == Functions.REGEX;
+		return function == Functions.LETTER || function == Functions.JOIN || function == Functions.JOIN3 || function == Functions.REGEX;
 	}
 
 	private boolean isVariableWithTypeString(Sprite sprite, Project currentProject) {

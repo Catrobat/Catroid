@@ -162,7 +162,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
-			TextToSpeechHolder.getInstance().initTextToSpeech(stageActivity, this);
+			TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
 		}
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {
@@ -314,7 +314,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		if (requiredResourcesSet.contains(Brick.VIBRATION)) {
 			Vibrator vibration = (Vibrator) stageActivity.getSystemService(VIBRATOR_SERVICE);
 			if (vibration != null) {
-				VibrationUtil.setContext(stageActivity);
+				VibrationUtil.setVibration(vibration);
 				VibrationUtil.activateVibrationThread();
 				resourceInitialized();
 			} else {

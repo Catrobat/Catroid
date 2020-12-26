@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.xmlformat;
 
+import com.thoughtworks.xstream.converters.basic.FloatConverter;
+
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.junit.Test;
@@ -68,7 +70,12 @@ public class ScriptsXmlSerializerTest {
 	public void testScriptAlias() throws IllegalAccessException, InstantiationException {
 		Script script = (Script) scriptClass.newInstance();
 		String xml = XstreamSerializer.getInstance().getXstream().toXML(script);
-		assertThat(xml, startsWith("<script type=\"" + scriptClass.getSimpleName() + "\">"));
+		FloatConverter floatConverter = new FloatConverter();
+		String strPosX = floatConverter.toString(script.getPosX());
+		String strPosY = floatConverter.toString(script.getPosY());
+		assertThat(xml,
+				startsWith(String.format("<script type=\"%s\" posX=\"%s\" posY=\"%s\">",
+						scriptClass.getSimpleName(), strPosX, strPosY)));
 	}
 
 	@Test

@@ -53,6 +53,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -138,8 +139,6 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withText(R.string.brick_place_at)).perform(click());
-		onView(withText(R.string.brick_option_place_visually)).perform(click());
-		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, 0)));
-		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, 0)));
+		onView(withId(R.string.brick_option_place_visually)).check(doesNotExist());
 	}
 }

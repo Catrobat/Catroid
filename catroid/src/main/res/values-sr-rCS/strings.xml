@@ -343,11 +343,6 @@
         <item quantity="few">Obriši ove skripte?</item>
         <item quantity="other">Obriši ove skripte?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Obriši ovu kocku?</item>
-        <item quantity="few">Obriši ove kocke?</item>
-        <item quantity="other">Obriši ove kocke?</item>
-    </plurals>
     <!-- Dialog Labels -->
     <string name="project_name_label">Naziv projekta</string>
     <string name="scene_name_label">Ime scene</string>

@@ -59,11 +59,11 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 
 		if (currentFragment instanceof FormulaEditorFragment) {
 			super.showFormulaEditorToEditFormula(view);
-			if (isCorrectTextField(view) && areAllBrickFieldsNumbers()) {
+			if (isVisualPlacement(view)) {
 				showDialog(view, currentFragment);
 			}
 		} else if (currentFragment instanceof ScriptFragment) {
-			if (isCorrectTextField(view) && areAllBrickFieldsNumbers()) {
+			if (isVisualPlacement(view)) {
 				showDialog(view, currentFragment);
 			} else {
 				super.showFormulaEditorToEditFormula(view);
@@ -93,10 +93,11 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	}
 
 	public void placeVisually(BrickField brickFieldX, BrickField brickFieldY) {
-		AppCompatActivity activity = UiUtils.getActivityFromView(view);
-		if (!(activity instanceof SpriteActivity)) {
-			return;
-		}
+		Intent intent = generateIntentForVisualPlacement(brickFieldX, brickFieldY);
+		startVisualPlacementActivity(intent);
+	}
+
+	public Intent generateIntentForVisualPlacement(BrickField brickFieldX, BrickField brickFieldY) {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		Formula formulax = getFormulaWithBrickField(brickFieldX);
@@ -114,12 +115,25 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 		}
 		intent.putExtra(EXTRA_X_TRANSFORM, xValue);
 		intent.putExtra(EXTRA_Y_TRANSFORM, yValue);
+
+		return intent;
+	}
+
+	private void startVisualPlacementActivity(Intent intent) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
+			return;
+		}
 		activity.startActivityForResult(intent, REQUEST_CODE_VISUAL_PLACEMENT);
 	}
 
 	public void setCoordinates(int x, int y) {
 		setFormulaWithBrickField(getXBrickField(), new Formula(x));
 		setFormulaWithBrickField(getYBrickField(), new Formula(y));
+	}
+
+	public boolean isVisualPlacement(View view) {
+		return isCorrectTextField(view) && areAllBrickFieldsNumbers();
 	}
 
 	public boolean areAllBrickFieldsNumbers() {

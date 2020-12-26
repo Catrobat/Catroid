@@ -36,10 +36,10 @@ public class ProjectData implements Nameable, Serializable {
 
 	private String name;
 	private File directory;
-	private float languageVersion;
+	private double languageVersion;
 	private boolean hasScenes;
 
-	public ProjectData(String name, File directory, float languageVersion, boolean hasScenes) {
+	public ProjectData(String name, File directory, double languageVersion, boolean hasScenes) {
 		this.name = name;
 		this.directory = directory;
 		this.languageVersion = languageVersion;
@@ -54,7 +54,7 @@ public class ProjectData implements Nameable, Serializable {
 		throw new RuntimeException("Do not set the project name through this. TODO: refactor nameable interface.");
 	}
 
-	public float getLanguageVersion() {
+	public double getLanguageVersion() {
 		return languageVersion;
 	}
 

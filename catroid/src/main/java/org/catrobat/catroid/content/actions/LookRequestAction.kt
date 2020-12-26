@@ -48,11 +48,20 @@ open class LookRequestAction : WebAction() {
     }
 
     override fun handleResponse() {
-        val look = getLookFromResponse()
-        look?.apply {
-            sprite!!.look?.lookData = this
+        val lookData = getLookFromResponse()
+        lookData?.apply {
+            updateLookListIndex()
+            sprite?.look?.lookData = this
             collisionInformation?.collisionPolygonCalculationThread?.join()
             file?.delete()
+        }
+    }
+
+    private fun updateLookListIndex() {
+        val currentLook = sprite?.look
+        if (!(currentLook != null && currentLook.lookListIndexBeforeLookRequest > -1)) {
+            sprite?.look?.lookListIndexBeforeLookRequest =
+                sprite?.lookList?.indexOf(sprite?.look?.lookData) ?: -1
         }
     }
 

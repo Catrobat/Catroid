@@ -44,7 +44,6 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.utils.CrashReporter;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -113,6 +112,8 @@ public class SettingsFragment extends PreferenceFragment {
 	public static final String SETTINGS_CRASH_REPORTS = "setting_enable_crash_reports";
 	public static final String TAG = SettingsFragment.class.getSimpleName();
 
+	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,6 @@ public class SettingsFragment extends PreferenceFragment {
 		setToChosenLanguage(getActivity());
 
 		addPreferencesFromResource(R.xml.preferences);
-		setAnonymousCrashReportPreference();
 		setHintPreferences();
 		setLanguage();
 
@@ -172,12 +172,6 @@ public class SettingsFragment extends PreferenceFragment {
 			screen.removePreference(nfcPreference);
 		}
 
-		if (!BuildConfig.CRASHLYTICS_CRASH_REPORT_ENABLED) {
-			CheckBoxPreference crashlyticsPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
-			crashlyticsPreference.setEnabled(false);
-			screen.removePreference(crashlyticsPreference);
-		}
-
 		if (!BuildConfig.FEATURE_MULTIPLAYER_VARIABLES_ENABLED) {
 			CheckBoxPreference multiplayerPreference =
 					(CheckBoxPreference) findPreference(SETTINGS_MULTIPLAYER_VARIABLES_ENABLED);
@@ -197,18 +191,6 @@ public class SettingsFragment extends PreferenceFragment {
 	public void onResume() {
 		super.onResume();
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.preference_title);
-	}
-
-	@SuppressWarnings("deprecation")
-	private void setAnonymousCrashReportPreference() {
-		CheckBoxPreference reportCheckBoxPreference = (CheckBoxPreference) findPreference(SETTINGS_CRASH_REPORTS);
-		reportCheckBoxPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-			@Override
-			public boolean onPreferenceChange(Preference preference, Object isChecked) {
-				setAutoCrashReportingEnabled(getActivity().getApplicationContext(), (Boolean) isChecked);
-				return true;
-			}
-		});
 	}
 
 	@Override
@@ -328,15 +310,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static boolean isTestSharedPreferenceEnabled(Context context) {
 		return getBooleanSharedPreference(BuildConfig.DEBUG, SETTINGS_TEST_BRICKS, context);
-	}
-
-	public static void setAutoCrashReportingEnabled(Context context, boolean isEnabled) {
-		getSharedPreferences(context).edit()
-				.putBoolean(SETTINGS_CRASH_REPORTS, isEnabled)
-				.apply();
-		if (isEnabled) {
-			CrashReporter.initialize(context);
-		}
 	}
 
 	private static boolean getBooleanSharedPreference(boolean defaultValue, String settingsString, Context context) {
@@ -513,6 +486,16 @@ public class SettingsFragment extends PreferenceFragment {
 	public static void removeLanguageSharedPreference(Context context) {
 		getSharedPreferences(context).edit()
 				.remove(LANGUAGE_TAG_KEY)
+				.apply();
+	}
+
+	public static boolean useCatBlocks(Context context) {
+		return getBooleanSharedPreference(false, SETTINGS_USE_CATBLOCKS, context);
+	}
+
+	public static void setUseCatBlocks(Context context, boolean useCatBlocks) {
+		getSharedPreferences(context).edit()
+				.putBoolean(SETTINGS_USE_CATBLOCKS, useCatBlocks)
 				.apply();
 	}
 }

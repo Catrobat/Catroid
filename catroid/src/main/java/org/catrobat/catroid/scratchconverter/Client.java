@@ -59,7 +59,7 @@ public interface Client {
 	}
 
 	interface ConvertCallback {
-		void onInfo(float supportedCatrobatLanguageVersion, Job[] jobs);
+		void onInfo(double supportedCatrobatLanguageVersion, Job[] jobs);
 		void onJobScheduled(Job job);
 		void onConversionReady(Job job);
 		void onConversionStart(Job job);

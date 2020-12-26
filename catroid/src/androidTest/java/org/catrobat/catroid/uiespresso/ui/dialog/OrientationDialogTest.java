@@ -27,11 +27,11 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -47,7 +47,6 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_CAST_GLOBALLY_ENABLED;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.assertCurrentActivityIsInstanceOf;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.IsNot.not;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -56,6 +55,7 @@ import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
+import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -83,9 +83,7 @@ public class OrientationDialogTest {
 		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.edit()
 				.putBoolean(SETTINGS_CAST_GLOBALLY_ENABLED, true)
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
-						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
-						.hashCode())
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.commit();
 
 		baseActivityTestRule.launchActivity(null);
@@ -106,21 +104,21 @@ public class OrientationDialogTest {
 	public void testCreateNewCastProject() {
 		onView(withId(R.id.floating_action_button))
 				.perform(click());
-		onView(withText(R.string.new_project_dialog_title))
+		onView(withId(R.id.input_edit_text))
 				.check(matches(isDisplayed()));
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
-				.check(matches(allOf(isDisplayed(), not(isEnabled()))));
+				.check(matches(allOf(isDisplayed(), isEnabled())));
 
 		onView(allOf(withId(R.id.input_edit_text), isDisplayed()))
 				.perform(replaceText("TestCastProject"), closeSoftKeyboard());
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
+		onView(withId(R.id.cast_radio_button))
 				.perform(click());
-		onView(withText(R.string.project_select_screen_title))
-				.check(matches(isDisplayed()));
-		onView(withId(R.id.cast))
-				.perform(click());
+
+		onView(withId(R.id.example_project_switch))
+				.check(matches(allOf(isDisplayed(), isNotChecked())));
+
 		onView(withText(R.string.ok))
 				.perform(click());
 

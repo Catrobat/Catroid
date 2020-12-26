@@ -37,13 +37,13 @@ public class PauseForBeatsAction extends TemporalAction {
 	private Formula beats;
 
 	@Override
-	protected void update(float percent) {
+	protected void begin() {
 		try {
-			int pausedBeats = 0;
+			float pausedBeats = 0;
 			if (beats != null) {
-				pausedBeats = beats.interpretInteger(sprite);
+				pausedBeats = beats.interpretFloat(sprite);
 			}
-			MidiSoundManager.getInstance().pauseForBeats(pausedBeats);
+			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(pausedBeats) / 1000);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
@@ -55,5 +55,9 @@ public class PauseForBeatsAction extends TemporalAction {
 
 	public void setBeats(Formula beats) {
 		this.beats = beats;
+	}
+
+	@Override
+	protected void update(float percent) {
 	}
 }

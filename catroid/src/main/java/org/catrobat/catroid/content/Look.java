@@ -68,6 +68,7 @@ public class Look extends Image {
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
 	private boolean simultaneousMovementXY = false;
+	private int lookListIndexBeforeLookRequest = -1;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
@@ -117,6 +118,14 @@ public class Look extends Image {
 
 	public synchronized void setLookVisible(boolean lookVisible) {
 		this.lookVisible = lookVisible;
+	}
+
+	public synchronized int getLookListIndexBeforeLookRequest() {
+		return lookListIndexBeforeLookRequest;
+	}
+
+	public synchronized void setLookListIndexBeforeLookRequest(int lookListIndexBeforeLookRequest) {
+		this.lookListIndexBeforeLookRequest = lookListIndexBeforeLookRequest;
 	}
 
 	@Override
@@ -204,7 +213,8 @@ public class Look extends Image {
 
 	@Override
 	protected void positionChanged() {
-		if (sprite != null && sprite.penConfiguration.isPenDown() && !simultaneousMovementXY) {
+		if (sprite != null && sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()
+				&& !simultaneousMovementXY) {
 			float x = getXInUserInterfaceDimensionUnit();
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
@@ -333,11 +343,7 @@ public class Look extends Image {
 	}
 
 	private void adjustSimultaneousMovementXY(float x, float y) {
-		if (x != this.getX() && y != this.getY()) {
-			simultaneousMovementXY = true;
-		} else {
-			simultaneousMovementXY = false;
-		}
+		simultaneousMovementXY = x != this.getX() && y != this.getY();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {

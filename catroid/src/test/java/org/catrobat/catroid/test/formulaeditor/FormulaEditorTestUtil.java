@@ -151,6 +151,86 @@ public final class FormulaEditorTestUtil {
 		assertThat(result, closeTo(median, error));
 	}
 
+	public static List<InternToken> buildTripleParameterFunction(Functions function,
+			List<InternToken> firstInternTokenList, List<InternToken> secondInternTokenList,
+			List<InternToken> thirdInternTokenList) {
+		List<InternToken> tokenList = new LinkedList<>();
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		tokenList.addAll(firstInternTokenList);
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		tokenList.addAll(secondInternTokenList);
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		tokenList.addAll(thirdInternTokenList);
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		return tokenList;
+	}
+
+	public static void testTripleParameterFunction(Functions function,
+			List<InternToken> firstInternTokenList,
+			List<InternToken> secondInternTokenList,
+			List<InternToken> thirdInternTokenList, Object expected, Sprite testSprite) {
+
+		List<InternToken> internTokenList = buildTripleParameterFunction(function,
+				firstInternTokenList,
+				secondInternTokenList, thirdInternTokenList);
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
+	}
+
+	public static List<InternToken> buildTripleParameterFunction(Functions function,
+			InternTokenType firstParameter,
+			String firstParameterNumberValue, InternTokenType secondParameter,
+			String secondParameterNumberValue, InternTokenType thirdParameter,
+			String thirdParameterNumberValue)
+			throws NumberFormatException {
+		List<InternToken> tokenList = new LinkedList<>();
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, function.name()));
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_OPEN));
+		if (isParsableDouble(firstParameterNumberValue) && Double.valueOf(firstParameterNumberValue) < 0) {
+			tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+			firstParameterNumberValue = String.valueOf(Math.abs(Double.valueOf(firstParameterNumberValue)));
+		}
+
+		tokenList.add(new InternToken(firstParameter, firstParameterNumberValue));
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		if (isParsableDouble(secondParameterNumberValue) && Double.valueOf(secondParameterNumberValue) < 0) {
+			tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+			secondParameterNumberValue = String.valueOf(Math.abs(Double.valueOf(secondParameterNumberValue)));
+		}
+
+		tokenList.add(new InternToken(secondParameter, secondParameterNumberValue));
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER));
+		if (isParsableDouble(thirdParameterNumberValue) && Double.valueOf(thirdParameterNumberValue) < 0) {
+			tokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
+			thirdParameterNumberValue =
+					String.valueOf(Math.abs(Double.valueOf(thirdParameterNumberValue)));
+		}
+
+		tokenList.add(new InternToken(thirdParameter, thirdParameterNumberValue));
+		tokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
+		return tokenList;
+	}
+
+	public static void testTripleParameterFunction(Functions function,
+			InternTokenType firstInternTokenType,
+			String firstParameter, InternTokenType secondInternTokenType, String secondParameter,
+			InternTokenType thirdInternTokenType,
+			String thirdParameter, Object expected,
+			Sprite testSprite) {
+
+		List<InternToken> internTokenList = buildTripleParameterFunction(function,
+				firstInternTokenType,
+				firstParameter, secondInternTokenType, secondParameter, thirdInternTokenType,
+				thirdParameter);
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+
+		assertNotNull(parseTree);
+		assertEquals(expected, parseTree.interpretRecursive(testSprite));
+	}
+
 	public static void testBinaryOperator(InternTokenType firstInternTokenType, String firstOperand,
 			Operators operatorType, InternTokenType secondInternTokenType, String secondOperand, Object expected,
 			Sprite testSprite) {

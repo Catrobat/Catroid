@@ -175,7 +175,7 @@ public class WebSocketMessageListenerTest {
 
 	@Test
 	public void testReceivingInfoMessage() {
-		final float expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+		final double expectedCatrobatLanguageVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 		final String expectedProgramImageURL = "https://cdn2.scratch.mit.edu/get_image/project/11656680_480x360.png";
 		final WebImage expectedProgramImage = new WebImage(Uri.parse(expectedProgramImageURL));
 		final Job expectedFirstJob = new Job(1, "Program 1", expectedProgramImage);

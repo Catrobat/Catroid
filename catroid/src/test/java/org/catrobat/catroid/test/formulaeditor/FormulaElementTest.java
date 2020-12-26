@@ -150,4 +150,35 @@ public class FormulaElementTest {
 
 		assertEqualsTokenLists(internTokenList, internTokenListAfterClone);
 	}
+
+	@Test
+	public void testCorrectDecimals() {
+		FormulaElement formulaElementAddition = new FormulaElement(ElementType.OPERATOR,
+				Operators.PLUS.name(), null,
+				new FormulaElement(ElementType.NUMBER, "1.1", null),
+				new FormulaElement(ElementType.NUMBER, "0.1", null));
+
+		assertEquals(1.2, formulaElementAddition.interpretRecursive(null));
+
+		FormulaElement formulaElementSubtraction = new FormulaElement(ElementType.OPERATOR,
+				Operators.MINUS.name(), null,
+				new FormulaElement(ElementType.NUMBER, "15.3", null),
+				new FormulaElement(ElementType.NUMBER, "3.2", null));
+
+		assertEquals(12.1, formulaElementSubtraction.interpretRecursive(null));
+
+		FormulaElement formulaElementMultiplication = new FormulaElement(ElementType.OPERATOR,
+				Operators.MULT.name(), null,
+				new FormulaElement(ElementType.NUMBER, "3.5", null),
+				new FormulaElement(ElementType.NUMBER, "3.2", null));
+
+		assertEquals(11.2, formulaElementMultiplication.interpretRecursive(null));
+
+		FormulaElement formulaElementDivision = new FormulaElement(ElementType.OPERATOR,
+				Operators.DIVIDE.name(), null,
+				new FormulaElement(ElementType.NUMBER, "1.1", null),
+				new FormulaElement(ElementType.NUMBER, "5", null));
+
+		assertEquals(0.22, formulaElementDivision.interpretRecursive(null));
+	}
 }

@@ -25,34 +25,19 @@ package org.catrobat.catroid.sensing
 
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Pixmap
-import com.badlogic.gdx.math.Intersector
 import com.badlogic.gdx.math.Polygon
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import org.catrobat.catroid.BuildConfig
 import kotlin.math.absoluteValue
 
 private const val EPSILON = 8 / 256F
+private val clearColor = Color(1f, 1f, 1f, 0f)
 
 private fun Int.isOdd(): Boolean = this % 2 == 1
 
 private fun Color.equalsColor(color: Color): Boolean {
     return this.r.absDiff(color.r) < EPSILON &&
         this.g.absDiff(color.g) < EPSILON &&
-        this.b.absDiff(color.b) < EPSILON
-}
-
-@Suppress("MagicNumber")
-private fun isPointInSprite(polygons: Array<Polygon>, x: Int, y: Int): Boolean {
-    var inPolygonCounter = 0
-    for (polygon in polygons) {
-        val vertices = polygon.vertices
-        if (Intersector.isPointInPolygon(vertices, 0, vertices.size, x + 0.5F, y + 0.5F)) {
-            inPolygonCounter++
-        }
-    }
-    return inPolygonCounter.isOdd()
+        this.b.absDiff(color.b) < EPSILON &&
+        this != clearColor
 }
 
 private fun Float.absDiff(f: Float): Float = (this - f).absoluteValue
@@ -64,77 +49,45 @@ class BoundingRectangle(vertices: List<Float>) {
     val bottom = vertices.getYVertices().max()?.toInt() ?: 0
     val left = vertices.getXVertices().min()?.toInt() ?: 0
     val right = vertices.getXVertices().max()?.toInt() ?: 0
+    val width = right - left
+    val height = bottom - top
 
     private fun List<Float>.getYVertices() = this.filterIndexed { i, _ -> i.isOdd() }
     private fun List<Float>.getXVertices() = this.filterIndexed { i, _ -> !i.isOdd() }
-
-    private fun Pixmap.validXIndex(x: Int) = x >= 0 && x <= this.width
-    private fun Pixmap.validYIndex(y: Int) = y >= 0 && y <= this.height
-
-    fun hasValidBoundaries(pixmap: Pixmap?) = pixmap?.run {
-        validXIndex(left) && validXIndex(right) && validYIndex(top) && validYIndex(bottom)
-    } ?: false
 }
 
-interface ConditionMatcher {
-    fun matches(x: Int, y: Int): Boolean
-    fun validRange(boundingRectangle: BoundingRectangle): Boolean
-    fun setStagePixmap(pixmap: Pixmap)
+abstract class ConditionMatcher {
+    var stagePixmap: Pixmap? = null
+    var spritePixmap: Pixmap? = null
+
+    abstract fun matches(x: Int, y: Int): Boolean
 }
 
-class TouchesColorMatcher(color: String, private val polygons: Array<Polygon>) : ConditionMatcher {
-    private var pixmap: Pixmap? = null
+class TouchesColorMatcher(color: String) : ConditionMatcher() {
     private val color = Color.valueOf(color)
     override fun matches(x: Int, y: Int): Boolean {
-        val pixel = pixmap?.getPixel(x, y) ?: return false
-        val pixmapColor = Color(pixel)
+        val stagePixel = stagePixmap?.getPixel(x, y) ?: return false
+        val spritePixel = spritePixmap?.getPixel(x, y) ?: return false
 
-        return pixmapColor.equalsColor(color) && isPointInSprite(polygons, x, y)
-    }
-
-    override fun validRange(boundingRectangle: BoundingRectangle) = boundingRectangle.hasValidBoundaries(pixmap)
-    override fun setStagePixmap(pixmap: Pixmap) {
-        this.pixmap = pixmap
+        return Color(stagePixel).equalsColor(color) && Color(spritePixel) != clearColor
     }
 }
 
-class ColorTouchesColorMatcher(
-    private val spritePixmap: Pixmap,
-    spriteColor: String,
-    stageColor: String
-) : ConditionMatcher {
-    private var stagePixmap: Pixmap? = null
+class ColorTouchesColorMatcher(spriteColor: String, stageColor: String) : ConditionMatcher() {
     private val spriteColor = Color.valueOf(spriteColor)
     private val stageColor = Color.valueOf(stageColor)
     override fun matches(x: Int, y: Int): Boolean {
-        val stagePixel = Color(stagePixmap?.getPixel(x, y) ?: return false)
-        val spritePixel = Color(spritePixmap.getPixel(x, spritePixmap.height - y))
-        if (stagePixel.a == 0f || spritePixel.a == 0f) {
-            return false
-        }
-        return stagePixel.equalsColor(stageColor) && spritePixel.equalsColor(spriteColor)
-    }
+        val stagePixel = stagePixmap?.getPixel(x, y) ?: return false
+        val spritePixel = spritePixmap?.getPixel(x, y) ?: return false
 
-    override fun validRange(boundingRectangle: BoundingRectangle) = boundingRectangle.hasValidBoundaries(stagePixmap)
-    override fun setStagePixmap(pixmap: Pixmap) {
-        stagePixmap = pixmap
+        return Color(stagePixel).equalsColor(stageColor) && Color(spritePixel).equalsColor(spriteColor)
     }
 }
 
 class ConditionMatcherRunner(val matcher: ConditionMatcher) {
-    fun matchAsync(boundingRectangle: BoundingRectangle): Boolean = runBlocking {
-        if (BuildConfig.DEBUG && !matcher.validRange(boundingRectangle)) {
-            error("Wrong projection matrix or rotation")
-        }
-        val matchesColorCoroutine = GlobalScope.async {
-            matchInBoundingRectangle(boundingRectangle)
-        }
-        return@runBlocking matchesColorCoroutine.await()
-    }
-
-    private fun matchInBoundingRectangle(boundingRectangle: BoundingRectangle): Boolean {
-        for (x in boundingRectangle.left until boundingRectangle.right) {
-            for (y in boundingRectangle.top until boundingRectangle.bottom) {
+    fun match(width: Int, height: Int): Boolean {
+        for (x in 0 until width) {
+            for (y in 0 until height) {
                 if (matcher.matches(x, y)) {
                     return true
                 }

@@ -27,9 +27,9 @@ import android.os.Handler;
 import android.os.Looper;
 
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.pocketmusic.note.Drum;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
 import org.catrobat.catroid.pocketmusic.note.NoteEvent;
-import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.Track;
@@ -48,6 +48,7 @@ import androidx.annotation.VisibleForTesting;
 public class MidiPlayer {
 	private static MidiNotePlayer notePlayer = new MidiNotePlayer();
 	public static final byte MAX_CHANNELS = 15;
+	public static final byte DRUM_CHANNEL = 9;
 	private static byte channelCounter = 0;
 
 	private Handler handler;
@@ -70,7 +71,7 @@ public class MidiPlayer {
 		if (channelCounter > MAX_CHANNELS) {
 			throw new MidiException("Number of midi channels exceeded");
 		}
-		if (channelCounter == 10) {
+		if (channelCounter == DRUM_CHANNEL) {
 			channelCounter++;
 		}
 
@@ -129,8 +130,7 @@ public class MidiPlayer {
 		notePlayer.setInstrument(channel, instrument);
 		notePlayer.setVolume(channel, (int) volume);
 
-		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		playLength /= tempo / 100f;
+		long playLength = getPlayLengthInMilliseconds();
 
 		startTime = System.currentTimeMillis();
 
@@ -154,13 +154,38 @@ public class MidiPlayer {
 						runnable = new MidiRunnable(MidiSignals.NOTE_OFF, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
 								playLength, handler, notePlayer, null, channel);
 					}
-					runnable.setScheduledTime(startTime + (long) (tick / (tempo / 100)));
-					handler.postDelayed(runnable, (long) (tick / (tempo / 100)));
+					runnable.setScheduledTime(startTime + (long) (tick / (tempo / 60)));
+					handler.postDelayed(runnable, (long) (tick / (tempo / 60)));
 					playRunnables.add(runnable);
 				}
 			}
 		}
 		return true;
+	}
+
+	void playDrumForBeats(Drum drum, float beats) {
+		stopPlaying();
+
+		if (!MidiNotePlayer.isInitialized()) {
+			notePlayer.start();
+		}
+		notePlayer.setVolume(DRUM_CHANNEL, (int) volume);
+		long playLength = getPlayLengthInMilliseconds();
+
+		startTime = System.currentTimeMillis();
+
+		MidiRunnable runnableOn = new MidiRunnable(MidiSignals.NOTE_ON, NoteName.getNoteNameFromMidiValue(drum.getProgram()),
+				0, handler, notePlayer, null, DRUM_CHANNEL);
+		runnableOn.setManualNoteOff(true);
+		runnableOn.setScheduledTime(startTime);
+		handler.post(runnableOn);
+		playRunnables.add(runnableOn);
+
+		MidiRunnable runnableOff = new MidiRunnable(MidiSignals.NOTE_OFF, NoteName.getNoteNameFromMidiValue(drum.getProgram()),
+				0, handler, notePlayer, null, DRUM_CHANNEL);
+		runnableOff.setScheduledTime(startTime + (long) (beats * playLength));
+		handler.postDelayed(runnableOff, (long) (beats * playLength));
+		playRunnables.add(runnableOff);
 	}
 
 	public void stopPlaying() {
@@ -173,7 +198,8 @@ public class MidiPlayer {
 
 	public void pause() {
 		long currentTime = System.currentTimeMillis();
-		for (MidiRunnable r : playRunnables) {
+		List<MidiRunnable> playRunnablesCopy = new ArrayList<>(playRunnables);
+		for (MidiRunnable r : playRunnablesCopy) {
 			if (r.getScheduledTime() > currentTime) {
 				handler.removeCallbacks(r);
 			} else {
@@ -185,33 +211,54 @@ public class MidiPlayer {
 		paused = true;
 	}
 
-	public void pauseForBeats(int beats) {
-		long currentTime = System.currentTimeMillis();
+	public void playNoteForBeats(int midiValue, float beats) {
+		stopPlaying();
 
-		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		playLength /= tempo / 100;
-
-		List<MidiRunnable> playRunnablesCopy = new ArrayList<>(playRunnables);
-		for (MidiRunnable r : playRunnablesCopy) {
-			if (r.getScheduledTime() > currentTime && r.getScheduledTime() < currentTime + (playLength * beats) + playLength / 2) {
-				handler.removeCallbacks(r);
-				handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, r.getNoteName(), 0, handler,
-						notePlayer, null, channel), playLength - (currentTime - r.getScheduledTime()));
-				playRunnables.remove(r);
-			}
+		if (!MidiNotePlayer.isInitialized()) {
+			notePlayer.start();
 		}
+		notePlayer.setInstrument(channel, instrument);
+		notePlayer.setVolume(channel, (int) volume);
+		long playLength = getPlayLengthInMilliseconds();
+
+		startTime = System.currentTimeMillis();
+
+		int adjustedMidiValue = getAdjustedMidiValue(instrument, midiValue);
+
+		MidiRunnable runnableOn = new MidiRunnable(MidiSignals.NOTE_ON, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
+				0, handler, notePlayer, null, channel);
+		runnableOn.setManualNoteOff(true);
+		runnableOn.setScheduledTime(startTime);
+		handler.post(runnableOn);
+		playRunnables.add(runnableOn);
+
+		MidiRunnable runnableOff = new MidiRunnable(MidiSignals.NOTE_OFF, NoteName.getNoteNameFromMidiValue(adjustedMidiValue),
+				0, handler, notePlayer, null, channel);
+		runnableOff.setScheduledTime(startTime + (long) (beats * playLength));
+		handler.postDelayed(runnableOff, (long) (beats * playLength));
+		playRunnables.add(runnableOff);
 	}
 
-	private int getAdjustedMidiValue(MusicalInstrument instrument, int originalMidiValue) {
-		float preparedMidiValue = originalMidiValue - NoteName.DEFAULT_NOTE_NAME.getMidi();
-		int instrumentRange = instrument.getHighEnd() - instrument.getLowEnd();
-		int start = instrument.getLowEnd() + instrumentRange / 4;
-		int end = instrument.getHighEnd() - instrumentRange / 4;
-		float adjustedInstrumentRange = end - start;
+	public static int getAdjustedMidiValue(MusicalInstrument instrument, int originalMidiValue) {
+		float preparedMidiValue = 0;
+		if (originalMidiValue < TrackView.HIGHEST_MIDI && originalMidiValue > 0) {
+			preparedMidiValue = (float) TrackView.HIGHEST_MIDI / originalMidiValue;
+		} else if (originalMidiValue >= TrackView.HIGHEST_MIDI) {
+			preparedMidiValue = 1;
+		}
 
-		float proportion = preparedMidiValue / TrackView.ROW_COUNT;
+		int start = instrument.getLowEnd();
+		int end = instrument.getHighEnd();
+		float instrumentRange = end - start;
 
-		int adjustedMidiValue = start + (int) (proportion * adjustedInstrumentRange);
+		float proportion = 1 / preparedMidiValue;
+
+		int adjustedMidiValue = start + (int) (proportion * instrumentRange);
+		if (adjustedMidiValue < start) {
+			adjustedMidiValue = start;
+		} else if (adjustedMidiValue > end) {
+			adjustedMidiValue = end;
+		}
 
 		return adjustedMidiValue;
 	}
@@ -287,6 +334,10 @@ public class MidiPlayer {
 
 	public byte getChannel() {
 		return channel;
+	}
+
+	public long getPlayLengthInMilliseconds() {
+		return (long) (60000 / tempo);
 	}
 
 	@VisibleForTesting

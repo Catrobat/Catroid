@@ -22,14 +22,13 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -45,11 +44,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class BrickCategoryFragment extends ListFragment {
@@ -96,17 +99,14 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onStart() {
 		super.onStart();
 
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!viewSwitchLock.tryLock()) {
-					return;
-				}
+		getListView().setOnItemClickListener((parent, view, position, id) -> {
+			if (!viewSwitchLock.tryLock()) {
+				return;
+			}
 
-				if (scriptFragment != null) {
-					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
-				}
+			if (scriptFragment != null) {
+				scriptFragment.onCategorySelected(adapter.getItem(position));
+				SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
 			}
 		});
 	}
@@ -213,6 +213,18 @@ public class BrickCategoryFragment extends ListFragment {
 
 		adapter = new BrickCategoryAdapter(categories);
 		setListAdapter(adapter);
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onDetach() {
+		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
+		super.onDetach();
 	}
 
 	public interface OnCategorySelectedListener {

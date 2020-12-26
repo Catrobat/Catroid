@@ -85,6 +85,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
@@ -93,6 +96,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT = 2;
+	private static final int SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER = 3;
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
 	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
@@ -220,6 +224,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT);
 	}
 
+	public void updateFragmentAfterColorPicker() {
+		updateBrickView();
+		setInputFormula(currentFormulaField, SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER);
+	}
+
 	private void onUserDismiss() {
 		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
 		formulaEditorEditText.endEdit();
@@ -247,8 +256,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_CREATE_VIEW);
 
 		formulaEditorEditText.init(this);
+		AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
+		if (activity != null && activity.getSupportActionBar() != null) {
+			activity.getSupportActionBar().setTitle(R.string.formula_editor_title);
+		}
+
 		return fragmentView;
 	}
 
@@ -369,7 +382,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onStop() {
 		super.onStop();
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitleBuffer);
+		AppCompatActivity activity = (AppCompatActivity) getActivity();
+		if (activity == null || activity.getSupportActionBar() == null) {
+			return;
+		}
+		activity.getSupportActionBar().setTitle(actionBarTitleBuffer);
 	}
 
 	private boolean isSelectedTextFirstParamOfRegularExpression() {
@@ -396,7 +413,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	}
 
 	private void openAssistantDialog() {
-		new RegularExpressionAssistantDialog(getContext()).createAssistant();
+		new RegularExpressionAssistantDialog(getContext(), getFragmentManager()).createAssistant();
 	}
 
 	private void showNewStringDialog() {
@@ -529,6 +546,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 			case SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT:
+			case SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER:
 			case SET_FORMULA_ON_SWITCH_EDIT_TEXT:
 				Formula newFormula = formulaBrick.getFormulaWithBrickField(formulaField);
 				if (currentFormula == newFormula && formulaEditorEditText.hasChanges()) {
@@ -760,10 +778,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
 	}
 
-	public void setCurrentBrickField(Brick.FormulaField currentFormulaField) {
-		FormulaEditorFragment.currentFormulaField = currentFormulaField;
-	}
-
 	public FormulaBrick getFormulaBrick() {
 		return formulaBrick;
 	}
@@ -809,5 +823,25 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			formulaBrick.setFormulaWithBrickField(state.getKey(),
 					new Formula(internFormula.getInternFormulaParser().parseFormula()));
 		}
+	}
+
+	public int getIndexOfCorrespondingRegularExpression() {
+		return formulaEditorEditText.getIndexOfCorrespondingRegularExpression();
+	}
+
+	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
+		formulaEditorEditText.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onDetach() {
+		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
+		super.onDetach();
 	}
 }

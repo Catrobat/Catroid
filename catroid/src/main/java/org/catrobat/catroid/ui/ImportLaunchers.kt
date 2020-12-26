@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui
 
 import android.Manifest.permission.CAMERA
+import android.app.Activity
 import android.content.ComponentName
 import android.content.Intent
 import android.graphics.Bitmap
@@ -53,7 +54,7 @@ interface ImportLauncher {
     fun startActivityForResult(requestCode: Int)
 }
 
-class ImportFromPocketPaintLauncher(private val activity: AppCompatActivity) : ImportLauncher {
+class ImportFromPocketPaintLauncher(private val activity: Activity) : ImportLauncher {
 
     private val pocketPaintImageFileName = TMP_IMAGE_FILE_NAME + DEFAULT_IMAGE_EXTENSION
 

@@ -61,7 +61,7 @@ public class MidiPlayerTest {
 		MidiPlayer.resetChannelCounter();
 		for (int i = 0; i < MidiPlayer.MAX_CHANNELS; i++) {
 			MidiPlayer player = new MidiPlayer();
-			if (i < 10) {
+			if (i < MidiPlayer.DRUM_CHANNEL) {
 				assertEquals(i, player.getChannel());
 			} else {
 				assertEquals(i + 1, player.getChannel());
@@ -96,21 +96,5 @@ public class MidiPlayerTest {
 		player.setProject(project);
 		player.start();
 		assertEquals(track.size(), player.getPlayRunnables().size());
-	}
-
-	@Test
-	public void testPauseForBeats() throws MidiException, IOException {
-		MidiPlayer.resetChannelCounter();
-
-		Project project = new Project("testProject", MusicalBeat.BEAT_4_4, Project.DEFAULT_BEATS_PER_MINUTE);
-		Track track = TrackTestDataFactory.createSimpleTrackWithoutOffEvents();
-		project.putTrack("testTrack", track);
-
-		MidiPlayer player = new MidiPlayer();
-		player.setProject(project);
-		player.start();
-		int beatsToPause = 2;
-		player.pauseForBeats(beatsToPause);
-		assertEquals(track.size() - beatsToPause, player.getPlayRunnables().size());
 	}
 }

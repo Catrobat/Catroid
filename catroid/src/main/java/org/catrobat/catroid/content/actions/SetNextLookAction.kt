@@ -23,5 +23,5 @@
 package org.catrobat.catroid.content.actions
 
 class SetNextLookAction : SetRelativeLookAction() {
-    override val change = 1
+    override var change = 1
 }

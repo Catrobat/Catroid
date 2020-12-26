@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +62,6 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatche
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
-import org.catrobat.catroid.ui.recyclerview.fragment.NfcTagListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
@@ -73,9 +73,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
@@ -88,6 +88,11 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.isFragmentWithTablayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
@@ -99,7 +104,6 @@ public class SpriteActivity extends BaseActivity {
 	public static final int FRAGMENT_SCRIPTS = 0;
 	public static final int FRAGMENT_LOOKS = 1;
 	public static final int FRAGMENT_SOUNDS = 2;
-	public static final int FRAGMENT_NFC_TAGS = 3;
 
 	public static final int SPRITE_POCKET_PAINT = 0;
 	public static final int SPRITE_LIBRARY = 1;
@@ -127,6 +131,10 @@ public class SpriteActivity extends BaseActivity {
 
 	public static final String EXTRA_X_TRANSFORM = "X";
 	public static final String EXTRA_Y_TRANSFORM = "Y";
+	public static final String EXTRA_TEXT = "TEXT";
+	public static final String EXTRA_TEXT_COLOR = "TEXT_COLOR";
+	public static final String EXTRA_TEXT_SIZE = "TEXT_SIZE";
+	public static final String EXTRA_TEXT_ALIGNMENT = "TEXT_ALIGNMENT";
 
 	private NewItemInterface<Sprite> onNewSpriteListener;
 	private NewItemInterface<LookData> onNewLookListener;
@@ -151,7 +159,7 @@ public class SpriteActivity extends BaseActivity {
 		currentSprite = projectManager.getCurrentSprite();
 		currentScene = projectManager.getCurrentlyEditedScene();
 
-		setContentView(R.layout.activity_recycler);
+		setContentView(R.layout.activity_sprite);
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
@@ -162,7 +170,8 @@ public class SpriteActivity extends BaseActivity {
 		if (bundle != null) {
 			fragmentPosition = bundle.getInt(EXTRA_FRAGMENT_POSITION, FRAGMENT_SCRIPTS);
 		}
-		loadFragment(fragmentPosition);
+		loadFragment(this, fragmentPosition);
+		addTabLayout(this, fragmentPosition);
 	}
 
 	private String createActionBarTitle() {
@@ -173,40 +182,8 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	private void loadFragment(int fragmentPosition) {
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-		switch (fragmentPosition) {
-			case FRAGMENT_SCRIPTS:
-				fragmentTransaction.replace(R.id.fragment_container, new ScriptFragment(), ScriptFragment.TAG);
-				break;
-			case FRAGMENT_LOOKS:
-				fragmentTransaction.replace(R.id.fragment_container, new LookListFragment(), LookListFragment.TAG);
-				break;
-			case FRAGMENT_SOUNDS:
-				fragmentTransaction.replace(R.id.fragment_container, new SoundListFragment(), SoundListFragment.TAG);
-				break;
-			case FRAGMENT_NFC_TAGS:
-				fragmentTransaction.replace(R.id.fragment_container, new NfcTagListFragment(), NfcTagListFragment.TAG);
-				break;
-			default:
-				throw new IllegalArgumentException("Invalid fragmentPosition in Activity.");
-		}
-
-		fragmentTransaction.commit();
-	}
-
-	private Fragment getCurrentFragment() {
+	Fragment getCurrentFragment() {
 		return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		if (getCurrentFragment() instanceof NfcTagListFragment) {
-			((NfcTagListFragment) getCurrentFragment()).onNewIntent(intent);
-		}
 	}
 
 	@Override
@@ -216,7 +193,7 @@ public class SpriteActivity extends BaseActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	public void showUndoSpinnerSelection(boolean visible) {
+	public void showUndo(boolean visible) {
 		if (currentMenu != null) {
 			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
 		}
@@ -266,8 +243,7 @@ public class SpriteActivity extends BaseActivity {
 		} else if (currentFragment instanceof FormulaEditorFragment) {
 			((FormulaEditorFragment) currentFragment).promptSave();
 			return;
-		}
-		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
 			return;
 		}
@@ -853,5 +829,24 @@ public class SpriteActivity extends BaseActivity {
 			getSupportFragmentManager().popBackStack();
 		}
 		StageActivity.handlePlayButton(projectManager, this);
+	}
+
+	@Nullable
+	@Override
+	public ActionMode startActionMode(ActionMode.Callback callback) {
+		Fragment fragment = getCurrentFragment();
+		if (isFragmentWithTablayout(fragment)) {
+			removeTabLayout(this);
+		}
+		return super.startActionMode(callback);
+	}
+
+	@Override
+	public void onActionModeFinished(ActionMode mode) {
+		Fragment fragment = getCurrentFragment();
+		if (isFragmentWithTablayout(fragment)) {
+			addTabLayout(this, getTabPositionInSpriteActivity(getCurrentFragment()));
+		}
+		super.onActionModeFinished(mode);
 	}
 }
