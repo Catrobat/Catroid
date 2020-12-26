@@ -51,7 +51,6 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -67,6 +66,7 @@ import androidx.appcompat.app.AlertDialog;
 import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.PRIVACY_POLICY_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
 import static org.koin.java.KoinJavaComponent.inject;
 
@@ -89,7 +89,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 		loadContent();
 
 		int oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
-						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
 		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			showTermsOfUseDialog();
@@ -269,7 +269,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
 				break;
 			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment().show(getSupportFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+						Uri.parse(PRIVACY_POLICY_URL));
+				startActivity(browserIntent);
 				break;
 			case R.id.menu_about:
 				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
