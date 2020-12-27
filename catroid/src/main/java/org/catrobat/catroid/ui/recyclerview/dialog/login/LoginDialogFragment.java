@@ -89,6 +89,8 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 				.setView(view)
 				.setPositiveButton(R.string.login, null)
 				.setNeutralButton(R.string.password_forgotten, null)
+				.setNegativeButton(R.string.cancel, null)
+				.setCancelable(true)
 				.create();
 
 		usernameEditText.addTextChangedListener(new TextWatcher() {
