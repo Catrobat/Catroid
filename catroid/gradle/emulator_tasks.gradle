@@ -29,10 +29,10 @@ emulators {
     emulatorTemplate 'template1', {
         avd {
             systemImage = 'system-images;android-24;default;x86_64'
-            sdcardSizeMb = 200
-            hardwareProperties += ['hw.camera': 'yes', 'hw.ramSize': 800, 'hw.gpu.enabled': 'yes',
+            sdcardSizeMb = 2048
+            hardwareProperties += ['hw.camera': 'yes', 'hw.ramSize': 4096, 'hw.gpu.enabled': 'yes',
                                    'hw.camera.front': 'emulated', 'hw.camera.back': 'emulated', 'hw.gps': 'yes',
-                                   'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'vm.heapSize': 128]
+                                   'hw.mainKeys': 'no', 'hw.keyboard': 'yes', 'vm.heapSize': 1024]
             screenDensity = 'xhdpi'
         }
 
@@ -40,12 +40,6 @@ emulators {
             resolution = '768x1280'
             language = 'en'
             country = 'US'
-        }
-    }
-
-    emulator 'android24', 'template1', {
-        avd {
-            systemImage = 'system-images;android-24;default;x86_64'
         }
     }
 

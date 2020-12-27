@@ -7,7 +7,7 @@ FROM debian:buster
 ARG ANDROID_SDK_URL="https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip"
 # No Android NDK needed
 ARG ANDROID_NDK_URL
-ARG SDKMANAGER_PACKAGES="build-tools;27.0.3 emulator platform-tools platforms;android-26 system-images;android-19;default;x86 system-images;android-24;default;x86_64 system-images;android-28;default;x86_64"
+ARG SDKMANAGER_PACKAGES="build-tools;30.0.3 emulator platform-tools platforms;android-28 system-images;android-28;default;x86_64"
 # Arguments, Environment
 # ----------------------
 #
@@ -72,6 +72,8 @@ RUN apt-get install -y --no-install-recommends \
 # Add group of the user used by Jenkins during building.
 RUN if [ ! $(getent group $GROUP_ID) ]; then groupadd -g $GROUP_ID user; fi
 RUN groupadd -g $KVM_GROUP_ID kvm
+RUN mkdir -p catroid/build/reports/jacoco/jacocoTestCatroidDebugUnitTestReport/html
+RUN mkdir -p catroid/build/reports/coverage/catroid/debug/
 # Add the user used by Jenkins during building.
 RUN useradd -m -u $USER_ID -g $GROUP_ID -G $KVM_GROUP_ID -d $USER_HOME -s /usr/sbin/nologin user
 # Run all other commands as user
