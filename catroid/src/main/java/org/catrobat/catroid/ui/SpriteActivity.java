@@ -125,6 +125,7 @@ public class SpriteActivity extends BaseActivity {
 	public static final int SOUND_FILE = 14;
 
 	public static final int REQUEST_CODE_VISUAL_PLACEMENT = 2019;
+	public static final int EDIT_LOOK = 2020;
 
 	public static final String EXTRA_FRAGMENT_POSITION = "fragmentPosition";
 	public static final String EXTRA_BRICK_HASH = "BRICK_HASH";
@@ -145,6 +146,9 @@ public class SpriteActivity extends BaseActivity {
 	private Sprite currentSprite;
 	private Scene currentScene;
 	private Menu currentMenu;
+	private LookData currentLookData;
+
+	private boolean isUndoMenuItemVisible = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -199,10 +203,22 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
+	public void showUndoMenuItem(boolean visible) {
+		if (currentMenu != null) {
+			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+		}
+	}
+
+	public void setUndoMenuItemVisibility(boolean isVisible) {
+		isUndoMenuItemVisible = isVisible;
+	}
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
+		} else if (getCurrentFragment() instanceof LookListFragment) {
+			showUndoMenuItem(isUndoMenuItemVisible);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -214,6 +230,18 @@ public class SpriteActivity extends BaseActivity {
 
 		if (item.getItemId() == android.R.id.home && isDragAndDropActiveInFragment) {
 			((ScriptFragment) getCurrentFragment()).highlightMovingItem();
+			return true;
+		}
+
+		if (item.getItemId() == R.id.menu_undo && getCurrentFragment() instanceof LookListFragment) {
+			setUndoMenuItemVisibility(false);
+			showUndoMenuItem(isUndoMenuItemVisible);
+			Fragment fragment = getCurrentFragment();
+			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo()) {
+				((LookListFragment) fragment).deleteItem(currentLookData);
+				currentLookData.dispose();
+				currentLookData = null;
+			}
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -317,18 +345,22 @@ public class SpriteActivity extends BaseActivity {
 			case LOOK_POCKET_PAINT:
 				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
 				addLookFromUri(uri);
+				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_LIBRARY:
 				uri = Uri.fromFile(new File(data.getStringExtra(MEDIA_FILE_PATH)));
 				addLookFromUri(uri);
+				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_FILE:
 				uri = data.getData();
 				addLookFromUri(uri);
+				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
 				addLookFromUri(uri);
+				setUndoMenuItemVisibility(true);
 				break;
 			case SOUND_RECORD:
 			case SOUND_FILE:
@@ -493,6 +525,7 @@ public class SpriteActivity extends BaseActivity {
 			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
+			this.currentLookData = look;
 			currentSprite.getLookList().add(look);
 			look.getCollisionInformation().calculate();
 			if (onNewLookListener != null) {
