@@ -46,7 +46,7 @@ import java.util.concurrent.Executors
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
     private val lifecycle = LifecycleRegistry(this)
-    private val previewView = PreviewView(stageActivity).apply {
+    val previewView = PreviewView(stageActivity).apply {
         visibility = View.INVISIBLE
     }
 
