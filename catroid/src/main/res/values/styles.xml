@@ -557,14 +557,13 @@
         <item name="android:textColor">@color/formula_editor_category_text</item>
     </style>
 
+    <style name="FormulaEditorToggleFunctionsButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_toggle_functions_button</item>
+    </style>
+
     <style name="FormulaEditorKeyboardButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
         <item name="android:textColor">@color/formula_editor_symbol_text</item>
-    </style>
-
-    <style name="FormulaEditorOkButton" parent="@style/FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_ok_button</item>
-        <item name="android:textColor">@color/formula_editor_ok_text</item>
     </style>
 
     <style name="BrickCategory">

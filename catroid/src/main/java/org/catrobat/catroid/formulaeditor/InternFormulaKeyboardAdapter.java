@@ -343,9 +343,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildOperator(Operators.DIVIDE);
 			case R.string.formula_editor_operator_power:
 				return buildOperator(Operators.POW);
-			case R.id.formula_editor_keyboard_equal:
-			case R.string.formula_editor_logic_equal:
-				return buildOperator(Operators.EQUAL);
 			case R.string.formula_editor_logic_notequal:
 				return buildOperator(Operators.NOT_EQUAL);
 			case R.string.formula_editor_logic_lesserthan:

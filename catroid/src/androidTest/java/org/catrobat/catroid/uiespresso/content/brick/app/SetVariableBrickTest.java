@@ -41,6 +41,7 @@ import java.util.Arrays;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.OK;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
@@ -116,7 +117,7 @@ public class SetVariableBrickTest {
 
 		addNewVariableViaFormulaEditor(1, userVariableName);
 
-		onView(withId(R.id.formula_editor_keyboard_ok))
+		onView(OK)
 				.perform(click());
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(userVariableNameTwo);

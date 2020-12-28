@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
@@ -21,25 +20,12 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menu_undo"
-        android:title="@string/undo"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/icon_undo" />
-
-    <item
-        android:id="@+id/menu_redo"
-        android:title="@string/redo"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/icon_redo" />
-        
-    <item
-        android:id="@+id/menu_ok"
-        android:title="@string/ok"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/done_white" />
-
-</menu>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:height="24dp"
+    android:width="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path android:fillColor="@color/formula_editor_toggle_functions_icon"
+        android:pathData="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z" />
+</vector>
