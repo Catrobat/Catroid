@@ -113,6 +113,11 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 					((TextView) holder.itemView.findViewById(R.id.headline)).setText(R.string.global_vars_headline);
 				}
 			}
+
+			@Override
+			protected void onCheckBoxClick(int position) {
+				super.onCheckBoxClick(getRelativeItemPosition(position, VAR_GLOBAL));
+			}
 		};
 		globalVarAdapter.setSelectionListener(this);
 
