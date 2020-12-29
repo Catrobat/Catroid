@@ -88,4 +88,19 @@ public class FormulaEditorAddVariableTest {
 		onDataList()
 				.onListAtPosition(0).checkHasName(listName);
 	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void cancelAddVariableTest() {
+		final String varName1 = "canceled";
+		final String varName2 = "variable";
+		onDataList()
+				.performCancel(varName1);
+
+		onDataList()
+				.performAdd(varName2);
+
+		onDataList().onVariableAtPosition(0)
+				.checkHasName(varName2);
+	}
 }

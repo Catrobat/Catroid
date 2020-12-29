@@ -796,6 +796,7 @@ public class SpriteActivity extends BaseActivity {
 
 		final AlertDialog alertDialog = builder.setTitle(R.string.formula_editor_variable_dialog_title)
 				.setView(view)
+				.setNegativeButton(getString(R.string.cancel),null)
 				.create();
 
 		makeListCheckBox.setOnCheckedChangeListener((compoundButton, checked) -> {
