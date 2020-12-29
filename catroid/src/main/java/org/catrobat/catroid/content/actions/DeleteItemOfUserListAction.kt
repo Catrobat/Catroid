@@ -41,7 +41,7 @@ class DeleteItemOfUserListAction : TemporalAction() {
             formulaIndexToDelete?.interpretInteger(sprite)?.minus(1) ?: 0
         } catch (exception: InterpretationException) {
             Log.e(javaClass.simpleName, "Interpreting formula as integer failed", exception)
-            0
+            -1
         }
 
         if (indexToDelete in 0 until listSize) {
