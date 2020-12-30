@@ -130,8 +130,18 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_DETECTED.name(),
 				R.string.formula_editor_sensor_face_detected);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_SIZE.name(), R.string.formula_editor_sensor_face_size);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_X_POSITION.name(), R.string.formula_editor_sensor_face_x_position);
-		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_Y_POSITION.name(), R.string.formula_editor_sensor_face_y_position);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_X_POSITION.name(),
+				R.string.formula_editor_sensor_face_x_position);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.FACE_Y_POSITION.name(),
+				R.string.formula_editor_sensor_face_y_position);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SECOND_FACE_DETECTED.name(),
+				R.string.formula_editor_sensor_second_face_detected);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SECOND_FACE_SIZE.name(),
+				R.string.formula_editor_sensor_second_face_size);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SECOND_FACE_X_POSITION.name(),
+				R.string.formula_editor_sensor_second_face_x_position);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SECOND_FACE_Y_POSITION.name(),
+				R.string.formula_editor_sensor_second_face_y_position);
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TEXT_FROM_CAMERA.name(),
 				R.string.formula_editor_sensor_text_from_camera);

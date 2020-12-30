@@ -47,7 +47,11 @@ import kotlin.math.roundToInt
 
 object FaceDetector : ImageAnalysis.Analyzer {
     private const val MAX_FACE_SIZE = 100
+    private const val FACE_SENSORS = 2
     private val sensorListeners = mutableSetOf<SensorCustomEventListener>()
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    var facesForSensors: Array<Face?> = Array(FACE_SENSORS) { _ -> null }
+    private var faceIds: IntArray = IntArray(FACE_SENSORS) { _ -> -1 }
     private val detectionClient by lazy {
         FaceDetection.getClient(
             FaceDetectorOptions.Builder()
@@ -81,7 +85,7 @@ object FaceDetector : ImageAnalysis.Analyzer {
                     imageProxy.close()
                 }
                 .addOnFailureListener { e ->
-                    updateDetectionStatus(false)
+                    updateDetectionStatus()
                     val context = CatroidApplication.getAppContext()
                     StageActivity.messageHandler.obtainMessage(
                         StageActivity.SHOW_TOAST,
@@ -93,15 +97,39 @@ object FaceDetector : ImageAnalysis.Analyzer {
     }
 
     private fun updateSensorValues(faces: List<Face>, imageWidth: Int, imageHeight: Int) {
-        val detected = faces.isNotEmpty()
+        handleAlreadyExistingFaces(faces)
+        facesForSensors.forEachIndexed { index, face ->
+            if (face == null) {
+                attachNewFaceIfExisting(faces, index)
+            }
+        }
+        updateDetectionStatus()
+        facesForSensors.forEachIndexed { index, face ->
+            face?.let { translateFaceToSensorValues(face, index, imageWidth, imageHeight) }
+        }
+        facesForSensors.fill(null)
+    }
 
-        updateDetectionStatus(detected)
-        if (detected) {
-            translateFaceToSensorValues(faces[0], imageWidth, imageHeight)
+    private fun handleAlreadyExistingFaces(faces: List<Face>) {
+        for (face in faces) {
+            when (face.trackingId) {
+                faceIds[0] -> facesForSensors[0] = face
+                faceIds[1] -> facesForSensors[1] = face
+            }
         }
     }
 
-    private fun translateFaceToSensorValues(face: Face, imageWidth: Int, imageHeight: Int) {
+    private fun attachNewFaceIfExisting(faces: List<Face>, index: Int) {
+        for (face in faces) {
+            if (face.trackingId?.let { faceIds.contains(it) } == false) {
+                faceIds[index] = face.trackingId ?: -1
+                facesForSensors[index] = face
+                break
+            }
+        }
+    }
+
+    private fun translateFaceToSensorValues(face: Face, faceNumber: Int, imageWidth: Int, imageHeight: Int) {
         val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
         val oldAPI = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
         val aspectRatio = imageWidth.toFloat() / imageHeight
@@ -128,7 +156,7 @@ object FaceDetector : ImageAnalysis.Analyzer {
 
         val relativeFaceSize = (faceBounds.height().toFloat() / imageHeight).coerceAtMost(1f)
         val faceSize = (MAX_FACE_SIZE * relativeFaceSize).roundToInt()
-        onFaceDetected(facePosition, faceSize)
+        onFaceDetected(facePosition, faceSize, faceNumber)
     }
 
     private fun coordinatesFromRelativePosition(
@@ -142,23 +170,35 @@ object FaceDetector : ImageAnalysis.Analyzer {
         )
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun updateDetectionStatus(faceDetected: Boolean) {
-        val sensorValue = if (faceDetected) 1f else 0f
+    fun updateDetectionStatus() {
+        val firstSensorValue = if (facesForSensors[0] != null) 1f else 0f
+        val secondSensorValue = if (facesForSensors[1] != null) 1f else 0f
         sensorListeners.forEach {
             it.onCustomSensorChanged(
-                SensorCustomEvent(Sensors.FACE_DETECTED, floatArrayOf(sensorValue)))
+                SensorCustomEvent(Sensors.FACE_DETECTED, floatArrayOf(firstSensorValue)))
+            it.onCustomSensorChanged(
+                SensorCustomEvent(Sensors.SECOND_FACE_DETECTED, floatArrayOf(secondSensorValue)))
         }
     }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun onFaceDetected(position: Point, size: Int) {
+    fun onFaceDetected(position: Point, size: Int, faceNumber: Int) {
         sensorListeners.forEach {
-            it.onCustomSensorChanged(
-                SensorCustomEvent(Sensors.FACE_X_POSITION, floatArrayOf(position.x.toFloat())))
-            it.onCustomSensorChanged(
-                SensorCustomEvent(Sensors.FACE_Y_POSITION, floatArrayOf(position.y.toFloat())))
-            it.onCustomSensorChanged(
-                SensorCustomEvent(Sensors.FACE_SIZE, floatArrayOf(size.toFloat())))
+            if (faceNumber == 0) {
+                it.onCustomSensorChanged(
+                    SensorCustomEvent(Sensors.FACE_X_POSITION, floatArrayOf(position.x.toFloat())))
+                it.onCustomSensorChanged(
+                    SensorCustomEvent(Sensors.FACE_Y_POSITION, floatArrayOf(position.y.toFloat())))
+                it.onCustomSensorChanged(
+                    SensorCustomEvent(Sensors.FACE_SIZE, floatArrayOf(size.toFloat())))
+            } else if (faceNumber == 1) {
+                it.onCustomSensorChanged(SensorCustomEvent(
+                    Sensors.SECOND_FACE_X_POSITION, floatArrayOf(position.x.toFloat())))
+                it.onCustomSensorChanged(SensorCustomEvent(
+                    Sensors.SECOND_FACE_Y_POSITION, floatArrayOf(position.y.toFloat())))
+                it.onCustomSensorChanged(SensorCustomEvent(
+                    Sensors.SECOND_FACE_SIZE, floatArrayOf(size.toFloat())))
+            }
         }
     }
 }
