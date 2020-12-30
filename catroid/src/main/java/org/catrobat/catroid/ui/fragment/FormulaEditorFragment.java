@@ -25,6 +25,8 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -47,6 +49,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -71,8 +74,10 @@ import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermiss
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
 import java.util.List;
 import java.util.Map;
@@ -82,6 +87,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -89,6 +95,8 @@ import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
+
+import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
 		DataListFragment.FormulaEditorDataInterface {
@@ -338,8 +346,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_data:
 							showDataFragment();
 							return true;
-						case R.id.formula_editor_keyboard_ok:
-							endFormulaEditor();
+						case R.id.formula_editor_keyboard_functional_button_toggle:
+							toggleFunctionalButtons();
 							return true;
 						case R.id.formula_editor_keyboard_string:
 							if (isSelectedTextFirstParamOfRegularExpression()) {
@@ -351,6 +359,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_delete:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return handleLongClick(view, event);
+						case R.id.formula_editor_keyboard_color_picker:
+							showColorPickerDialog(view);
+							return true;
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;
@@ -372,6 +383,60 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
 		super.onStart();
+	}
+
+	private void showColorPicker(ShowFormulaEditorStrategy.Callback callback,
+			FragmentManager fragmentManager) {
+		int currentColor = callback.getValue();
+		ColorPickerDialog dialog = ColorPickerDialog.newInstance(currentColor);
+		Bitmap projectBitmap = ProjectManagerExtensionsKt
+				.getProjectBitmap(ProjectManager.getInstance());
+		dialog.setBitmap(projectBitmap);
+		dialog.addOnColorPickedListener(callback::setValue);
+		dialog.setStyle(STYLE_NORMAL, R.style.AlertDialogWithTitle);
+		dialog.show(fragmentManager, null);
+	}
+
+	private void showColorPickerDialog(View view) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		if (fragmentManager.isStateSaved()) {
+			return;
+		}
+		showColorPicker(new ShowFormulaEditorStrategy.Callback() {
+			@Override
+			public void showFormulaEditor(View view) {
+			}
+
+			@Override
+			public void setValue(int value) {
+				addString(String.format("#%06X", (0xFFFFFF & value)));
+			}
+
+			@Override
+			public int getValue() {
+				String currentValue = getSelectedFormulaText();
+				if (currentValue != null && currentValue.matches("^#[0-9A-F]{6}$")) {
+					return Color.parseColor(currentValue);
+				} else {
+					return 0;
+				}
+			}
+		}, fragmentManager);
+	}
+
+	public void toggleFunctionalButtons() {
+		View row1 = getActivity().findViewById(R.id.tableRow11);
+		View row2 = getActivity().findViewById(R.id.tableRow12);
+		ImageButton toggleButton = getActivity().findViewById(R.id.formula_editor_keyboard_functional_button_toggle);
+
+		boolean isVisible = row1.getVisibility() == View.VISIBLE;
+		row1.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+		row2.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible ? R.drawable.ic_keyboard_toggle_caret_up : R.drawable.ic_keyboard_toggle_caret_down));
 	}
 
 	@VisibleForTesting
@@ -513,6 +578,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 		menu.findItem(R.id.menu_undo).setVisible(true);
 		menu.findItem(R.id.menu_redo).setVisible(true);
+		menu.findItem(R.id.menu_ok).setVisible(true);
 
 		super.onPrepareOptionsMenu(menu);
 	}
@@ -531,6 +597,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				break;
 			case R.id.menu_redo:
 				formulaEditorEditText.redo();
+				break;
+			case R.id.menu_ok:
+				endFormulaEditor();
 				break;
 		}
 		updateButtonsOnKeyboardAndInvalidateOptionsMenu();
