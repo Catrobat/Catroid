@@ -747,7 +747,12 @@ public final class XstreamSerializer {
 		}
 
 		loadSaveLock.lock();
-		project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
+		if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.BUILD_TYPE.equals("beta")) {
+			project.getXmlHeader().setApplicationBuildType("debug");
+		} else {
+			project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
+		}
+
 		try {
 			String currentXml = XML_HEADER.concat(xstream.toXML(project));
 			File tmpCodeFile = new File(project.getDirectory(), TMP_CODE_XML_FILE_NAME);
