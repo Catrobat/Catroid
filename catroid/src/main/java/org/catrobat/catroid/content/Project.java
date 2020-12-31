@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.ui.ProjectUtils;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
@@ -510,6 +511,10 @@ public class Project implements Serializable {
 			// first item represents the default speech recognition language
 			xmlHeader.setListeningLanguageTag(SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.get(0));
 		}
+	}
+
+	public void setHasAdvertisement() {
+		xmlHeader.setHasAdvertisement(ProjectUtils.hasAdvertisementBricks(this));
 	}
 
 	public boolean isGlobalVariable(UserData<?> item) {

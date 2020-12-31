@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -20,43 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.content.actions
 
-package org.catrobat.catroid.content.bricks.brickspinner;
+import com.badlogic.gdx.scenes.scene2d.Action
+import org.catrobat.catroid.ads.AdsBanner
+import org.catrobat.catroid.stage.StageActivity
 
-import org.catrobat.catroid.common.Nameable;
+class HideAdsBannerAction : Action() {
+    override fun act(delta: Float): Boolean {
+        hideAdMobBanner()
+        return true
+    }
 
-import java.io.Serializable;
-
-import androidx.annotation.Nullable;
-
-public final class StringOption implements Nameable, Serializable {
-
-	private String name;
-
-	public StringOption(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getName() {
-		return name;
-	}
-
-	@Override
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public boolean equals(@Nullable Object other) {
-		if (other instanceof StringOption) {
-			return this.getName().equals(((StringOption) other).getName());
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return this.getName().hashCode();
-	}
+    private fun hideAdMobBanner() {
+        StageActivity.adsHandler.obtainMessage(AdsBanner.ADS_HIDE_BANNER).sendToTarget()
+    }
 }

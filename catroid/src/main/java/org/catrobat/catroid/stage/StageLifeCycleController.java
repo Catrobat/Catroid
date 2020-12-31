@@ -25,22 +25,29 @@ package org.catrobat.catroid.stage;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.RelativeLayout;
 
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.badlogic.gdx.backends.android.surfaceview.GLSurfaceView20;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ads.AdsBanner;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.AdsBannerSizeEnum;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.mindstorms.MindstormsException;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
@@ -51,9 +58,17 @@ import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.VibrationUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static org.catrobat.catroid.ads.AdsBanner.ADS_BANNER_BOTTOM;
+import static org.catrobat.catroid.ads.AdsBanner.ADS_BANNER_TOP;
+import static org.catrobat.catroid.ads.AdsBanner.ADS_HIDE_BANNER;
+import static org.catrobat.catroid.ads.AdsBanner.ADS_LARGE_BANNER_BOTTOM;
+import static org.catrobat.catroid.ads.AdsBanner.ADS_LARGE_BANNER_TOP;
+import static org.catrobat.catroid.ads.AdsBanner.ADS_SMART_BANNER_BOTTOM;
+import static org.catrobat.catroid.ads.AdsBanner.ADS_SMART_BANNER_TOP;
 import static org.catrobat.catroid.stage.StageResourceHolder.getProjectsRuntimePermissionList;
 import static org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask.checkPermission;
 
@@ -61,6 +76,7 @@ public final class StageLifeCycleController {
 	public static final String TAG = StageLifeCycleController.class.getSimpleName();
 
 	private static final int REQUEST_PERMISSIONS_STAGE_RESOURCE_CREATE = 601;
+	private static final int ADS_VIEW_POSITION = 1;
 
 	private StageLifeCycleController() {
 		throw new AssertionError("no.");
@@ -103,7 +119,11 @@ public final class StageLifeCycleController {
 			CastManager.getInstance()
 					.addStageViewToLayout((GLSurfaceView20) stageActivity.initializeForView(StageActivity.stageListener, stageActivity.configuration));
 		} else {
-			stageActivity.initialize(StageActivity.stageListener, stageActivity.configuration);
+			View stageView = stageActivity.initializeForView(StageActivity.stageListener, stageActivity.configuration);
+			RelativeLayout stageLayout = new RelativeLayout(stageActivity);
+			stageLayout.addView(stageView, 0);
+			setupAdMobBannerHandler(stageActivity, stageLayout);
+			stageActivity.setContentView(stageLayout);
 		}
 
 		//CATROID-105 - TODO: does this make any difference? probably necessary for cast:
@@ -126,6 +146,76 @@ public final class StageLifeCycleController {
 				}
 			}.execute(stageActivity);
 		}
+	}
+
+	private static void setupAdMobBannerHandler(StageActivity stageActivity, RelativeLayout stageLayout) {
+		stageActivity.adsBanner = new AdsBanner(stageActivity);
+		StageActivity.adsHandler = new Handler(Looper.getMainLooper()) {
+			@Override
+			public void handleMessage(@NotNull Message msg) {
+				super.handleMessage(msg);
+				switch (msg.what) {
+					case ADS_BANNER_TOP:
+						showAdsBannerOnStage(stageActivity,
+								stageLayout,
+								AdsBannerSizeEnum.BANNER,
+								RelativeLayout.ALIGN_PARENT_TOP);
+						break;
+					case ADS_SMART_BANNER_TOP:
+						showAdsBannerOnStage(stageActivity,
+								stageLayout,
+								AdsBannerSizeEnum.SMART_BANNER,
+								RelativeLayout.ALIGN_PARENT_TOP);
+						break;
+					case ADS_LARGE_BANNER_TOP:
+						showAdsBannerOnStage(stageActivity,
+								stageLayout,
+								AdsBannerSizeEnum.LARGE_BANNER,
+								RelativeLayout.ALIGN_PARENT_TOP);
+						break;
+					case ADS_BANNER_BOTTOM:
+						showAdsBannerOnStage(stageActivity,
+								stageLayout,
+								AdsBannerSizeEnum.BANNER,
+								RelativeLayout.ALIGN_PARENT_BOTTOM);
+						break;
+					case ADS_SMART_BANNER_BOTTOM:
+						showAdsBannerOnStage(stageActivity,
+								stageLayout,
+								AdsBannerSizeEnum.SMART_BANNER,
+								RelativeLayout.ALIGN_PARENT_BOTTOM);
+						break;
+					case ADS_LARGE_BANNER_BOTTOM:
+						showAdsBannerOnStage(stageActivity,
+								stageLayout,
+								AdsBannerSizeEnum.LARGE_BANNER,
+								RelativeLayout.ALIGN_PARENT_BOTTOM);
+						break;
+					case ADS_HIDE_BANNER:
+						hideAdsBannerIfExists(stageActivity, stageLayout);
+						break;
+					default:
+						Log.e(TAG, "Unhandled message in adMobBannerHandler, case " + msg.what);
+						break;
+				}
+			}
+		};
+	}
+
+	private static void hideAdsBannerIfExists(StageActivity stageActivity,
+			RelativeLayout stageLayout) {
+		if (stageLayout.getChildAt(ADS_VIEW_POSITION) != null) {
+			stageLayout.removeViewAt(ADS_VIEW_POSITION);
+			stageActivity.adsBanner.hide();
+		}
+	}
+
+	private static void showAdsBannerOnStage(StageActivity stageActivity, RelativeLayout stageLayout, AdsBannerSizeEnum adSize, int position) {
+		hideAdsBannerIfExists(stageActivity, stageLayout);
+		stageActivity.adsBanner = new AdsBanner(stageActivity);
+		stageActivity.adsBanner.createNew(adSize, position);
+		stageActivity.adsBanner.show();
+		stageLayout.addView(stageActivity.adsBanner.getAdView(), ADS_VIEW_POSITION);
 	}
 
 	static void stagePause(final StageActivity stageActivity) {
@@ -160,6 +250,7 @@ public final class StageLifeCycleController {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
 			}
 		}
+		stageActivity.adsBanner.pause();
 	}
 
 	public static void stageResume(final StageActivity stageActivity) {
@@ -217,6 +308,7 @@ public final class StageLifeCycleController {
 				StageActivity.stageListener.menuResume();
 			}
 		}
+		stageActivity.adsBanner.resume();
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {

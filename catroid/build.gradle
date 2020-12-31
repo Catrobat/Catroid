@@ -50,7 +50,10 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    playServicesVersion = "17.0.0"
+    paintroidVersion = '2.7.3'
+    playServicesAnalyticsVersion = "17.0.0"
+    playServicesVersion = "19.0.0"
+    googleMobileAdsVersion = '19.6.0'
     cameraXVersion = "1.0.0-beta07"
 }
 
@@ -121,7 +124,8 @@ android {
                                  appIcon: manifestAppIcon,
                                  intentFilterScheme: "https",
                                  intentFilterHost: "share.catrob.at",
-                                 intentFilterPathPattern: "/.*/project/.*"]
+                                 intentFilterPathPattern: "/.*/project/.*",
+                                 adsApplicationId: "${(String) getAdsAppID()}"]
 
         buildConfigField "String", "GIT_COMMIT_INFO", "\"${getGitCommitInfo()}\""
         buildConfigField "String", "WEB_TEST_URL", "\"" + project.getProperties().get('webTestUrl') + "\""
@@ -153,6 +157,9 @@ android {
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "false"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
+        buildConfigField "boolean", "FEATURE_ADS_ENABLED", "true"
+        buildConfigField "String", "ADS_BANNER_UNIT_ID", "\"${(String) getAdsUnitID()}\""
+
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_MINDSTORMS_PREFERENCES_ENABLED", "false"
@@ -241,6 +248,7 @@ android {
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_ADS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig signingConfigs.debug
         }
@@ -288,6 +296,18 @@ android {
         standalone {
             if (!project.hasProperty('packageName')) {
                 applicationIdSuffix '.standalone'
+            }
+            versionCode 1
+            versionName '1.0'
+
+            buildConfigField "String", "START_PROJECT", "\"$projectId\""
+            buildConfigField "String", "PROJECT_NAME", "\"$appName\""
+            buildConfigField "boolean", "FEATURE_APK_GENERATOR_ENABLED", "true"
+        }
+
+        standaloneWithAds {
+            if (!project.hasProperty('packageName')) {
+                applicationIdSuffix '.standalonewithads'
             }
             versionCode 1
             versionName '1.0'
@@ -387,7 +407,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-cast:$playServicesVersion"
 
     // Analytics
-    implementation "com.google.android.gms:play-services-analytics:$playServicesVersion"
+    implementation "com.google.android.gms:play-services-analytics:$playServicesAnalyticsVersion"
+
+    standaloneWithAdsImplementation "com.google.android.gms:play-services-ads:$googleMobileAdsVersion"
 
     implementation 'com.google.guava:guava:28.2-android'
     implementation 'com.google.code.gson:gson:2.8.0'

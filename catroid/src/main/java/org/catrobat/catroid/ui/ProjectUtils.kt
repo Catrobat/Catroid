@@ -43,6 +43,7 @@ import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.ForItemInUserListBrick
 import org.catrobat.catroid.content.bricks.ForVariableFromToBrick
 import org.catrobat.catroid.content.bricks.ForeverBrick
+import org.catrobat.catroid.content.bricks.HideAdsBannerBrick
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.IfThenLogicBeginBrick
 import org.catrobat.catroid.content.bricks.LookRequestBrick
@@ -50,6 +51,7 @@ import org.catrobat.catroid.content.bricks.ParameterizedBrick
 import org.catrobat.catroid.content.bricks.PhiroIfLogicBeginBrick
 import org.catrobat.catroid.content.bricks.RepeatBrick
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick
+import org.catrobat.catroid.content.bricks.ShowAdsBannerBrick
 import org.catrobat.catroid.content.bricks.StartListeningBrick
 import org.catrobat.catroid.content.bricks.WebRequestBrick
 
@@ -71,7 +73,7 @@ private fun List<Brick>.containsSuspiciousBricks(): Boolean {
  * extension function for Sprite data type.
  * get list of all bricks and its nested bricks if exists
  * */
-public fun Sprite.getListAllBricks(): List<Brick> {
+fun Sprite.getListAllBricks(): List<Brick> {
     val bricks = arrayListOf<Brick>()
     allBricks.forEach { brick ->
         bricks.add(brick)
@@ -114,7 +116,10 @@ public fun Sprite.getListAllBricks(): List<Brick> {
  * extension boolean function for Project data type.
  * check if the project contains suspicious bricks
  * */
-private fun Project.shouldDisplaySuspiciousBricksWarning(): Boolean {
+private fun Project.shouldDisplaySuspiciousBricksWarning() =
+    getListAllBricks().containsSuspiciousBricks()
+
+fun Project.getListAllBricks(): List<Brick> {
     val brickList = arrayListOf<Brick>()
     sceneList.forEach { scene ->
         brickList.run {
@@ -123,7 +128,15 @@ private fun Project.shouldDisplaySuspiciousBricksWarning(): Boolean {
             }
         }
     }
-    return brickList.containsSuspiciousBricks()
+    return brickList
+}
+
+fun Project.hasAdvertisementBricks() = getListAllBricks().containsAdvertisementBricks()
+
+private fun List<Brick>.containsAdvertisementBricks(): Boolean {
+    return any { brick ->
+        brick is ShowAdsBannerBrick || brick is HideAdsBannerBrick
+    }
 }
 
 fun showWarningForSuspiciousBricksOnce(context: Context) {

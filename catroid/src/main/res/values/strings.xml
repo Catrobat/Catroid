@@ -900,6 +900,17 @@
     <string name="category_assertions">Testing</string>
     <!--  -->
 
+    <!-- Ads Bricks Strings -->
+    <string name="brick_hide_ads_banner">Hide Ad banner</string>
+    <string name="brick_show_ads_banner">Show Ad banner at</string>
+    <string name="brick_show_ads_banner_size">with size</string>
+    <string name="brick_ads_position_top">top</string>
+    <string name="brick_ads_position_bottom">bottom</string>
+    <string name="brick_ads_size_banner">standard</string>
+    <string name="brick_ads_size_smart_banner">smart</string>
+    <string name="brick_ads_size_large_banner">large</string>
+    <!-- -->
+
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Add label</string>
     <string name="brick_user_defined_add_input">Add input</string>
@@ -2133,6 +2144,7 @@ needs read and write access to it. You can always change permissions through you
 
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
+    <string name="ads_test">Test</string>
 
     <string name="find">Find</string>
     <string name="no_results_found">No results found</string>

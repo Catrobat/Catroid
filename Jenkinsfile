@@ -43,6 +43,10 @@ def webTestUrlParameter() {
     return env.WEB_TEST_URL?.isEmpty() ? '' : "-PwebTestUrl='${params.WEB_TEST_URL}'"
 }
 
+def adsParameters() {
+    return "-PadMobBannerAppId='${env.ADMOB_BANNER_APP_ID}' -PadMobBannerUnitId='${env.ADMOB_BANNER_UNIT_ID}'"
+}
+
 def allFlavoursParameters() {
     return env.BUILD_ALL_FLAVOURS?.toBoolean() ? 'assembleCreateAtSchoolDebug ' +
             'assembleLunaAndCatDebug assemblePhiroDebug assembleEmbroideryDesignerDebug ' +
@@ -73,6 +77,8 @@ pipeline {
         booleanParam name: 'INCLUDE_HUAWEI_FILES', defaultValue: false, description: 'Embed any huawei files that are needed'
         string name: 'DEBUG_LABEL', defaultValue: '', description: 'For debugging when entered will be used as label to decide on which slaves the jobs will run.'
         string name: 'DOCKER_LABEL', defaultValue: '', description: 'When entered will be used as label for docker catrobat/catroid-android image to build'
+        string name: 'ADS_BANNER_APP_ID', defaultValue:'ca-app-pub-5619801003513533~9206664779', description: 'Ads banner App id'
+        string name: 'ADS_BANNER_UNIT_ID', defaultValue:'ca-app-pub-5619801003513533/1184704529', description: 'Ads banner unit id'
     }
 
     options {
@@ -127,6 +133,10 @@ pipeline {
 
                                     // Build the flavors so that they can be installed next independently of older versions.
                                     sh "./gradlew ${webTestUrlParameter()} -Pindependent='#$env.BUILD_NUMBER $env.BRANCH_NAME' assembleCatroidDebug ${allFlavoursParameters()}"
+
+                                    // build with AdMob
+                                    sh """./gradlew copyAndroidNatives assembleStandaloneWithAdsDebug ${adsParameters()} -Papk_generator_enabled=true -Psuffix=generated35873.catrobat \
+                                                -Pdownload='https://share.catrob.at/pocketcode/download/35873.catrobat'"""
 
                                     renameApks("${env.BRANCH_NAME}-${env.BUILD_NUMBER}")
                                     archiveArtifacts '**/*.apk'

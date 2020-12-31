@@ -76,6 +76,7 @@ import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
+import org.catrobat.catroid.content.bricks.HideAdsBannerBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -156,6 +157,7 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
+import org.catrobat.catroid.content.bricks.ShowAdsBannerBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
@@ -507,6 +509,10 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
 
 		checkIfBrickISRtl(EditLookBrick.class, R.id.brick_edit_look_layout);
+
+		checkIfBrickISRtl(ShowAdsBannerBrick.class, R.id.brick_show_ads_banner_layout);
+
+		checkIfBrickISRtl(HideAdsBannerBrick.class, R.id.brick_hide_ads_banner_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

@@ -284,4 +284,17 @@
         <item>dyslexic</item>
     </string-array>
 
+    <!-- Ads Banner brick -->
+    <string-array name="brick_ads_banner_position">
+        <item>@string/brick_ads_position_top</item>
+        <item>@string/brick_ads_position_bottom</item>
+    </string-array>
+
+    <string-array name="brick_ads_banner_size">
+        <item>@string/brick_ads_size_banner</item>
+        <item>@string/brick_ads_size_smart_banner</item>
+        <item>@string/brick_ads_size_large_banner</item>
+    </string-array>
+    <!-- -->
+
 </resources>

@@ -82,6 +82,7 @@ import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
 import org.catrobat.catroid.content.bricks.GoToBrick;
+import org.catrobat.catroid.content.bricks.HideAdsBannerBrick;
 import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.content.bricks.HideTextBrick;
 import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
@@ -152,6 +153,7 @@ import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
 import org.catrobat.catroid.content.bricks.SewUpBrick;
+import org.catrobat.catroid.content.bricks.ShowAdsBannerBrick;
 import org.catrobat.catroid.content.bricks.ShowBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
@@ -739,6 +741,12 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(SetThreadColorBrick.class.getSimpleName());
 		brickInfoMap.put("setThreadColorBrick", brickInfo);
+
+		brickInfo = new BrickInfo(ShowAdsBannerBrick.class.getSimpleName());
+		brickInfoMap.put("showAdsBannerBrick", brickInfo);
+
+		brickInfo = new BrickInfo(HideAdsBannerBrick.class.getSimpleName());
+		brickInfoMap.put("hideAdsBannerBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {

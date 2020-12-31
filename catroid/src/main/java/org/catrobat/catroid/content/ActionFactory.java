@@ -70,6 +70,7 @@ import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
 import org.catrobat.catroid.content.actions.GoToTouchPositionAction;
+import org.catrobat.catroid.content.actions.HideAdsBannerAction;
 import org.catrobat.catroid.content.actions.HideTextAction;
 import org.catrobat.catroid.content.actions.IfLogicAction;
 import org.catrobat.catroid.content.actions.InsertItemIntoUserListAction;
@@ -140,6 +141,7 @@ import org.catrobat.catroid.content.actions.SetVolumeToAction;
 import org.catrobat.catroid.content.actions.SetXAction;
 import org.catrobat.catroid.content.actions.SetYAction;
 import org.catrobat.catroid.content.actions.SewUpAction;
+import org.catrobat.catroid.content.actions.ShowAdsBannerAction;
 import org.catrobat.catroid.content.actions.ShowTextAction;
 import org.catrobat.catroid.content.actions.ShowTextColorSizeAlignmentAction;
 import org.catrobat.catroid.content.actions.SpeakAction;
@@ -172,6 +174,8 @@ import org.catrobat.catroid.content.actions.WriteVariableToFileAction;
 import org.catrobat.catroid.content.actions.ZigZagStitchAction;
 import org.catrobat.catroid.content.actions.conditional.GlideToAction;
 import org.catrobat.catroid.content.actions.conditional.IfOnEdgeBounceAction;
+import org.catrobat.catroid.content.bricks.AdsBannerPositionEnum;
+import org.catrobat.catroid.content.bricks.AdsBannerSizeEnum;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorStopBrick;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
@@ -1550,5 +1554,17 @@ public class ActionFactory extends Actions {
 		action.setScope(scope);
 		action.nextLookAction(nextLookAction);
 		return action;
+	}
+
+	public Action createHideAdsBannerAction() {
+		return Actions.action(HideAdsBannerAction.class);
+	}
+
+	public Action createShowAdsBannerAction(AdsBannerPositionEnum bannerPosition,
+			AdsBannerSizeEnum bannerSize) {
+		ShowAdsBannerAction showBannerAction = Actions.action(ShowAdsBannerAction.class);
+		showBannerAction.setAdMobPosition(bannerPosition);
+		showBannerAction.setMobSize(bannerSize);
+		return showBannerAction;
 	}
 }

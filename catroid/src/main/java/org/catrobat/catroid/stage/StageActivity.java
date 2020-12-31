@@ -51,6 +51,7 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ads.AdsBanner;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.camera.CameraManager;
 import org.catrobat.catroid.common.CatroidService;
@@ -110,6 +111,8 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
+	public static Handler adsHandler;
+	public AdsBanner adsBanner;
 	CameraManager cameraManager;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
@@ -125,6 +128,7 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		new AdsBanner(this).initializeMobileAds();
 		StageLifeCycleController.stageCreate(this);
 		activeStageActivity = new WeakReference<>(this);
 	}

@@ -52,6 +52,7 @@ public class XmlHeader implements Serializable {
 	private boolean isCastProject = false;
 	@SuppressWarnings("unused")
 	public boolean scenesEnabled = true;
+	public boolean hasAdvertisement = false;
 	private String listeningLanguageTag = "";
 
 	//==============================================================================================
@@ -272,5 +273,9 @@ public class XmlHeader implements Serializable {
 
 	public void setListeningLanguageTag(String listeningLanguageTag) {
 		this.listeningLanguageTag = listeningLanguageTag;
+	}
+
+	public void setHasAdvertisement(boolean hasAdvertisement) {
+		this.hasAdvertisement = hasAdvertisement;
 	}
 }

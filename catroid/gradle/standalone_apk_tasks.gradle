@@ -224,10 +224,27 @@ def messUpIntentFilters() {
 */
 
 tasks.whenTaskAdded { task ->
-    if (task.name == 'preStandaloneDebugBuild' || task.name == 'preStandaloneSignedReleaseBuild') {
+    if (task.name == 'preStandaloneDebugBuild' || task.name == 'preStandaloneSignedReleaseBuild' ||
+            task.name == 'preStandaloneWithAdsDebugBuild') {
         task.dependsOn 'standalonePreparation'
-    } else if (task.name == 'assembleStandaloneDebug') {
+    } else if (task.name == 'assembleStandaloneDebug' ||
+            task.name == 'assembleStandaloneWithAdsDebug') {
         task.finalizedBy 'standaloneCleanup'
     }
 }
 
+ext.getAdsAppID = { ->
+    if (project.hasProperty('adsBannerAppId')) {
+        return project['adsBannerAppId']
+    } else {
+        return "ca-app-pub-5619801003513533~9206664779"
+    }
+}
+
+ext.getAdsUnitID = { ->
+    if (project.hasProperty('adsBannerUnitId')) {
+        return project['adsBannerUnitId']
+    } else {
+        return "ca-app-pub-5619801003513533/1184704529"
+    }
+}

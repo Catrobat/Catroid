@@ -458,6 +458,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EditLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmptyEventBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ShowAdsBannerBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ShowAdsBannerBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.HideAdsBannerBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/HideAdsBannerBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

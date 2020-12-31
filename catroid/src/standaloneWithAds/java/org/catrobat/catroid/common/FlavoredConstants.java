@@ -33,15 +33,15 @@ import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 
 public final class FlavoredConstants {
 	// Web:
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/mindstorms/";
+	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 
-	public static final String CATROBAT_HELP_URL = "https://catrob.at/MindstormsFlavorDocumentation";
+	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
 
 	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
 
-	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Mindstorms Code EV3 NXT";
+	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
 
-	public static final String FLAVOR_NAME = "mindstorms";
+	public static final String FLAVOR_NAME = "pocketcode";
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
 
