@@ -747,7 +747,7 @@ public final class XstreamSerializer {
 		}
 
 		loadSaveLock.lock();
-		if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.BUILD_TYPE.equals("beta")) {
+		if (BuildConfig.BUILD_TYPE.equals("debug") || BuildConfig.BETA_RELEASE) {
 			project.getXmlHeader().setApplicationBuildType("debug");
 		} else {
 			project.getXmlHeader().setApplicationBuildType(BuildConfig.BUILD_TYPE);
