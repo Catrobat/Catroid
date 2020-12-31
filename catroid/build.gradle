@@ -82,7 +82,7 @@ if (rootProject.hasProperty('independent')) {
 if (rootProject.hasProperty('playground') && rootProject.property('playground').toBoolean()) {
     println "Playground build"
     appId = 'org.catrobat.catroid.test'
-    appName = 'Catrobat Playground'
+    appName = 'Pocket Code beta'
     manifestAppName = appName
 }
 
@@ -259,6 +259,11 @@ android {
         }
 
         signedRelease {
+            initWith buildTypes.release
+            signingConfig signingConfigs.signedRelease
+        }
+
+        beta {
             initWith buildTypes.release
             signingConfig signingConfigs.signedRelease
         }
