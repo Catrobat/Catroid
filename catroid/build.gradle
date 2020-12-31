@@ -171,6 +171,7 @@ android {
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
         resValue "string", "DEBUG_MODE", "false"
+        buildConfigField "boolean", "BETA_RELEASE", "false"
     }
 
     lintOptions {
@@ -255,15 +256,15 @@ android {
             buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
+
+            if (rootProject.hasProperty('playground') && rootProject.property('playground').toBoolean()) {
+                buildConfigField "boolean", "BETA_RELEASE", "true"
+            }
+
             signingConfig signingConfigs.debug
         }
 
         signedRelease {
-            initWith buildTypes.release
-            signingConfig signingConfigs.signedRelease
-        }
-
-        beta {
             initWith buildTypes.release
             signingConfig signingConfigs.signedRelease
         }
