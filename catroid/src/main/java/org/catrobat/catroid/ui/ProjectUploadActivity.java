@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -81,6 +81,7 @@ import androidx.appcompat.app.AlertDialog;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_ID;
+import static org.catrobat.catroid.common.Constants.MAX_NUMBER_OF_CHECKED_TAGS;
 import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
 import static org.catrobat.catroid.common.Constants.SHARE_PROJECT_URL;
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
@@ -99,7 +100,6 @@ public class ProjectUploadActivity extends BaseActivity implements
 	public static final String PROJECT_DIR = "projectDir";
 	public static final int SIGN_IN_CODE = 42;
 
-	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
 	private static final String WEB_REQUEST_BRICK = "WebRequestBrick";
 	private static final String BACKGROUND_REQUEST_BRICK = "BackgroundRequestBrick";
@@ -390,7 +390,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 				.setTitle(R.string.upload_tag_dialog_title)
 				.setMultiChoiceItems(availableTags, null, (dialog, indexSelected, isChecked) -> {
 					if (isChecked) {
-						if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
+						if (checkedTags.size() >= MAX_NUMBER_OF_CHECKED_TAGS) {
+							ToastUtil.showError(getContext(), R.string.upload_tags_maximum_error);
 							((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
 						} else {
 							checkedTags.add(availableTags[indexSelected]);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,7 @@
     <color name="solid_white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="orange">#E68B00</color>
+    <color name="red">#D50000</color>
     <color name="dark_blue">#32529D</color>
 
     <!-- Misc Text Colors -->
