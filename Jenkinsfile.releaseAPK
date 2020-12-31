@@ -41,7 +41,7 @@ pipeline {
                         } else if (env.flavor == 'Playground') {
                             sh '''
                                 set +x
-                                ./gradlew copyAndroidNatives assembleCatroidBeta \
+                                ./gradlew copyAndroidNatives assemblePlaygroundSignedRelease \
                                 -PsigningKeystore=${SIGNING_KEYSTORE} \
                                 -PsigningKeystorePassword=$signingKeystorePassword \
                                 -PsigningKeyAlias=$signingKeyAlias \
