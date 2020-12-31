@@ -285,6 +285,8 @@ public final class Constants {
 
 	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
 
+	public static final int MAX_NUMBER_OF_CHECKED_TAGS = 3;
+
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;
 	public static final int UPDATE_DOWNLOAD_ERROR = 105;

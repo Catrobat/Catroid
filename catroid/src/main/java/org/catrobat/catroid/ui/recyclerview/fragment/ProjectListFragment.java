@@ -23,8 +23,6 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,25 +32,24 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.ProjectData;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
+import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectCopyTask;
-import org.catrobat.catroid.io.asynctask.ProjectExportTask;
 import org.catrobat.catroid.io.asynctask.ProjectImportTask;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
 import org.catrobat.catroid.io.asynctask.ProjectUnzipAndImportTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.ui.ProjectUploadActivity;
 import org.catrobat.catroid.ui.filepicker.FilePickerActivity;
-import org.catrobat.catroid.ui.fragment.ProjectDetailsFragment;
+import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment;
 import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.ToastUtil;
-import org.catrobat.catroid.utils.notifications.NotificationData;
-import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,9 +61,9 @@ import java.util.List;
 
 import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 
 import static org.catrobat.catroid.common.Constants.CACHED_PROJECT_ZIP_FILE_NAME;
@@ -83,7 +80,6 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	public static final String TAG = ProjectListFragment.class.getSimpleName();
 
 	private static final int PERMISSIONS_REQUEST_IMPORT_FROM_EXTERNAL_STORAGE = 801;
-	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802;
 
 	private static final int REQUEST_IMPORT_PROJECT = 7;
 
@@ -121,8 +117,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onResume() {
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.project_list_title);
 		ProjectManager.getInstance().setCurrentProject(null);
 		adapter.setItems(getItemList());
+		checkForEmptyList();
 		BottomBar.showBottomBar(getActivity());
 		super.onResume();
 	}
@@ -295,6 +293,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 		adapter.setItems(getItemList());
 
+		checkForEmptyList();
+	}
+
+	void checkForEmptyList() {
 		if (adapter.getItems().isEmpty()) {
 			setShowProgressBar(true);
 
@@ -384,71 +386,34 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[] {
 				getString(R.string.copy),
-				getString(R.string.delete),
-				getString(R.string.rename),
-				getString(R.string.show_details),
-				getString(R.string.upload_button),
-				getString(R.string.save_to_external_storage_button)
+				getString(R.string.project_options),
 		};
 		new AlertDialog.Builder(getContext())
 				.setTitle(item.getName())
-				.setItems(items, new DialogInterface.OnClickListener() {
+				.setItems(items, (dialog, which) -> {
+					switch (which) {
+						case 0:
+							copyItems(new ArrayList<>(Collections.singletonList(item)));
+							break;
+						case 1:
+							try {
+								Project project = XstreamSerializer.getInstance().loadProject(item.getDirectory(), getActivity());
+								ProjectManager.getInstance().setCurrentProject(project);
+							} catch (IOException | LoadingProjectException e) {
+								ToastUtil.showError(getActivity(), R.string.error_load_project);
+								Log.e(TAG, Log.getStackTraceString(e));
+								break;
+							}
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						switch (which) {
-							case 0:
-								copyItems(new ArrayList<>(Collections.singletonList(item)));
-								break;
-							case 1:
-								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
-								break;
-							case 2:
-								showRenameDialog(item);
-								break;
-							case 3:
-								ProjectDetailsFragment fragment = new ProjectDetailsFragment();
-								Bundle args = new Bundle();
-								args.putSerializable(ProjectDetailsFragment.SELECTED_PROJECT_KEY, item);
-								fragment.setArguments(args);
-								getFragmentManager().beginTransaction()
-										.replace(R.id.fragment_container, fragment, ProjectDetailsFragment.TAG)
-										.addToBackStack(ProjectDetailsFragment.TAG)
-										.commit();
-								break;
-							case 4:
-								ProjectLoadTask.task(item.getDirectory(), getContext());
-								startActivity(new Intent(getActivity(), ProjectUploadActivity.class)
-										.putExtra(ProjectUploadActivity.PROJECT_DIR, item.getDirectory()));
-								break;
-							case 5:
-								exportProject(item);
-								break;
-							default:
-								dialog.dismiss();
-						}
+							getActivity().getSupportFragmentManager().beginTransaction()
+									.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
+									.addToBackStack(ProjectOptionsFragment.TAG)
+									.commit();
+							break;
+						default:
+							dialog.dismiss();
 					}
 				})
 				.show();
-	}
-
-	private void exportProject(final ProjectData item) {
-		new RequiresPermissionTask(PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE,
-				Arrays.asList(WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE),
-				R.string.runtime_permission_general) {
-
-			@Override
-			public void task() {
-				Context context = getContext();
-				if (context == null) {
-					return;
-				}
-				NotificationData notificationData = new StatusBarNotificationManager(context)
-						.createSaveProjectToExternalMemoryNotification(context, item.getName());
-
-				new ProjectExportTask(item.getDirectory(), notificationData, context)
-						.execute();
-			}
-		}.execute(getActivity());
 	}
 }

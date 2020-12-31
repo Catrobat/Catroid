@@ -360,6 +360,7 @@
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
+    <string name="project_options">Project options</string>
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
@@ -545,6 +546,14 @@
 
     <string name="error_no_files_found">No project files found.</string>
 
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">Description</string>
+    <string name="project_options_notes_and_credits">Notes and credits</string>
+    <string name="project_options_tags">Tags</string>
+    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
+    <string name="project_options_more_details">More details</string>
+    <string name="project_options_delete_project">Delete project</string>
+
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
     <!--  -->
@@ -687,12 +696,12 @@
     <string name="error_no_network_title">No network</string>
 
     <!-- UploadProjectDialog -->
-    <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Save project to external storage</string>

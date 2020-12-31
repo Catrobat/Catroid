@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -89,6 +89,7 @@ public class Project implements Serializable {
 	public Project(Context context, String name, boolean landscapeMode, boolean isCastProject) {
 		xmlHeader.setProjectName(name);
 		xmlHeader.setDescription("");
+		xmlHeader.setNotesAndCredits("");
 		xmlHeader.setlandscapeMode(landscapeMode);
 
 		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
@@ -163,6 +164,10 @@ public class Project implements Serializable {
 
 	public void removeScene(Scene scene) {
 		sceneList.remove(scene);
+	}
+
+	public boolean hasScene() {
+		return (sceneList.size() > 0);
 	}
 
 	public Scene getDefaultScene() {
@@ -362,6 +367,10 @@ public class Project implements Serializable {
 			xmlHeader.setApplicationVersion(Utils.getVersionName(context));
 			xmlHeader.setApplicationName(context.getString(R.string.app_name));
 		}
+	}
+
+	public List<String> getTags() {
+		return xmlHeader.getTags();
 	}
 
 	public void setTags(List<String> tags) {
