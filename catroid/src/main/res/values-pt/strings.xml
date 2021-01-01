@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="discard">Descartar</string>
+	<string name="save">Salve </string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

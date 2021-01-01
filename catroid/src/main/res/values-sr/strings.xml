@@ -39,6 +39,8 @@
     <string name="close">Затвори</string>
     <string name="yes">Да</string>
     <string name="no">Не</string>
+    <string name="discard">Одбаци</string>
+	<string name="save">сачувати</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

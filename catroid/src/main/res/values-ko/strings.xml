@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+    <string name="discard">포기</string>
+	<string name="save">저장</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

@@ -39,6 +39,8 @@
     <string name="close">关闭</string>
     <string name="yes">是</string>
     <string name="no">否</string>
+    <string name="discard">丢弃</string>
+	<string name="save">保存</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

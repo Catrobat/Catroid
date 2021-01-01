@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">Ndio</string>
     <string name="no">Hapana</string>
+    <string name="discard">Tupa</string>
+	<string name="save">Okoa</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

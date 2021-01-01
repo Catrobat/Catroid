@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
+    <string name="discard">破棄</string>
+	<string name="save">保存する</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

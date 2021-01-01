@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">Bəli</string>
     <string name="no">Xeyr</string>
+    <string name="discard">Hidhni</string>
+    <string name="save">Ruaj</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

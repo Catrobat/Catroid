@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">بله</string>
     <string name="no">خیر</string>
+    <string name="discard">دور انداختن</string>
+	<string name="save">صرفه جویی</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

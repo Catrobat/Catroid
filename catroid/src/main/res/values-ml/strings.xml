@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">ശരി</string>
     <string name="no">അല്ല</string>
+    <string name="discard">നിരസിക്കുക</string>
+	<string name="save">രക്ഷിക്കും</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

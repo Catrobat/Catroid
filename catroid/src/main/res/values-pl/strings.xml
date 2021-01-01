@@ -40,6 +40,8 @@
     <string name="assistant">Asystent</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="discard">Odrzucać</string>
+	<string name="save">Zapisać</string>
     <string name="once">Tylko raz</string>
     <string name="always">Zawsze</string>
     <string name="deny">Odmów</string>

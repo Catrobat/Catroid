@@ -40,6 +40,8 @@
     <string name="assistant">Assistant</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
+    <string name="discard">تجاهل</string>
+    <string name="save">حفظ</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
