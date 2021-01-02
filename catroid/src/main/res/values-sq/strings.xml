@@ -40,8 +40,6 @@
     <string name="assistant">Assistant</string>
     <string name="yes">Po</string>
     <string name="no">Jo</string>
-    <string name="discard">Hidhni poshtë</string>
-	<string name="save">Ruaj</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

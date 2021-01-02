@@ -39,8 +39,6 @@
     <string name="close">Close</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="discard">Yi watsi</string>
-	<string name="save">Ajiye</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

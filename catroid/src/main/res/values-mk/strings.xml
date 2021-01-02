@@ -40,8 +40,6 @@
     <string name="assistant">Assistant</string>
     <string name="yes">Да</string>
     <string name="no">Не</string>
-    <string name="discard">Отфрли</string>
-	<string name="save">Зачувај</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

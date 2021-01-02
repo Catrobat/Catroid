@@ -40,8 +40,6 @@
     <string name="assistant">ผู้ช่วย</string>
     <string name="yes">ใช่</string>
     <string name="no">ไม่ใช่</string>
-    <string name="discard">ทิ้ง</string>
-	<string name="save">บันทึก</string>
     <string name="once">ครั้งเดียว</string>
     <string name="always">ทุกครั้ง</string>
     <string name="deny">ปฏิเสธ</string>

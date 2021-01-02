@@ -40,8 +40,6 @@
     <string name="assistant">Assistant</string>
     <string name="yes">ಹೌದು</string>
     <string name="no">ಇಲ್ಲ</string>
-    <string name="discard">ತ್ಯಜಿಸಿ</string>
-	<string name="save">ಉಳಿಸಿ</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>

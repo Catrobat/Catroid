@@ -38,8 +38,6 @@
     <string name="close">Затвори</string>
     <string name="yes">Да</string>
     <string name="no">Не</string>
-    <string name="discard">Discard</string>
-	<string name="save">Save</string>
     <string name="agree">Прихватам</string>
     <string name="disagree">Не прихватам</string>
     <string name="select_all">Изабери све</string>

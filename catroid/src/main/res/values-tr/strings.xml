@@ -40,8 +40,6 @@
     <string name="assistant">Asistan</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
-    <string name="discard">At</string>
-	<string name="save">Kayıt etmek</string>
     <string name="once">Bir kez</string>
     <string name="always">Her zaman</string>
     <string name="deny">Reddet</string>

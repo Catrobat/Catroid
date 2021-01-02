@@ -40,8 +40,6 @@
     <string name="assistant">Assistant</string>
     <string name="yes">Có</string>
     <string name="no">Không</string>
-    <string name="discard">Bỏ đi</string>
-	<string name="save">Tiết kiệm</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
