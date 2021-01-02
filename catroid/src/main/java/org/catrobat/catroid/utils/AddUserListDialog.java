@@ -31,7 +31,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,7 @@ public class AddUserListDialog {
 
 	public void show(String hint, String ok, Callback callback) {
 		builder.setHint(hint)
-				.setTextWatcher(new NewItemTextWatcher<>(existingUserLists))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(existingUserLists))
 				.setPositiveButton(ok,
 						callback::onPositiveButton)
 				.setTitle(R.string.formula_editor_list_dialog_title)

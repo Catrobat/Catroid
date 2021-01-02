@@ -35,7 +35,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NonEmptyStringTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,7 +85,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
 		builder.setHint(activity.getString(R.string.dialog_new_broadcast_message_name))
-				.setTextWatcher(new NonEmptyStringTextWatcher())
+				.setTextWatcher(new DuplicateInputTextWatcher(new ArrayList()))
 				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener(activity))
 				.setTitle(R.string.dialog_new_broadcast_message_title)
 				.setNegativeButton(R.string.cancel, getNegativeButtonListener())

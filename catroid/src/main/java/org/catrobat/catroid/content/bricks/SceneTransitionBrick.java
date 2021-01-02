@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +113,7 @@ public class SceneTransitionBrick extends BrickBaseType implements BrickSpinner.
 
 		builder.setHint(activity.getString(R.string.scene_name_label))
 				.setText(defaultSceneName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentSceneList))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(currentSceneList))
 				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Scene scene = SceneController.newSceneWithBackgroundSprite(
 							textInput, activity.getString(R.string.background), currentProject);

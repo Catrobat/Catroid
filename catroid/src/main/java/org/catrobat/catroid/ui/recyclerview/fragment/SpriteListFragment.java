@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallb
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -155,7 +155,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 
 		builder.setHint(getString(R.string.sprite_group_name_label))
-				.setTextWatcher(new NewItemTextWatcher<>(adapter.getItems()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(adapter.getItems()))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
