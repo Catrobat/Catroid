@@ -124,4 +124,15 @@ public final class FormulaEditorDataListWrapper extends ViewInteractionWrapper {
 		pressBack();
 		onFormulaEditor();
 	}
+
+	public void performCancel(String itemName) {
+		onView(withId(R.id.button_add))
+				.perform(click());
+
+		onView(withId(R.id.input_edit_text))
+				.perform(typeText(itemName), closeSoftKeyboard());
+
+		onView(withId(android.R.id.button2))
+				.perform(click());
+	}
 }
