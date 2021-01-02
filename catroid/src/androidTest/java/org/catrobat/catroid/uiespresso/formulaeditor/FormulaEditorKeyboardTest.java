@@ -36,6 +36,7 @@ import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
@@ -96,13 +97,18 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 
 		onFormulaEditor()
-				.performEnterFormula("(1)+1-1*1/1");
+				.performEnterFormula("(1)+1-1*1/1")
+				.performOpenCategory(FormulaEditorWrapper.Category.LOGIC);
+
+		onView(withText(R.string.formula_editor_logic_equal)).perform(click());
+
+		onFormulaEditor().performEnterFormula("1");
 
 		onFormulaEditor()
 				.performCloseAndSave();
 
 		onView(withId(R.id.brick_set_variable_edit_text))
-				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 ")));
+				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 = 1 ")));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
