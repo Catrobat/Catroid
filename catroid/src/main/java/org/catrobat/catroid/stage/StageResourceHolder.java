@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -340,7 +340,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.FACE_DETECTION)) {
-			if (getCameraManager().startFaceDetection()) {
+			if (getCameraManager().startDetection()) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.FACE_DETECTION);
@@ -348,7 +348,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.TEXT_DETECTION)) {
-			if (getCameraManager().startTextDetection()) {
+			if (getCameraManager().startDetection()) {
 				resourceInitialized();
 			} else {
 				resourceFailed(Brick.TEXT_DETECTION);
