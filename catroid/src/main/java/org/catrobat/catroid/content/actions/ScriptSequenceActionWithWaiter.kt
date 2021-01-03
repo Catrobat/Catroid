@@ -42,10 +42,4 @@ class ScriptSequenceActionWithWaiter(
     }
 
     fun notifyWaiter() = waiter.event.notify(waiter.sprite)
-
-    override fun act(delta: Float) = super.act(delta).also { finished ->
-        if (finished) {
-            notifyWaiter()
-        }
-    }
 }

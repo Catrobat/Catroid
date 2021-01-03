@@ -26,14 +26,24 @@ import com.badlogic.gdx.scenes.scene2d.Event
 import org.catrobat.catroid.content.eventids.EventId
 
 class EventWrapper(internal val eventId: EventId, private val wait: Boolean) : Event() {
-    private val spriteWaitList = mutableSetOf<Sprite>()
+    private val spriteWaitList = mutableMapOf<Sprite, Int?>()
 
     fun notify(sprite: Sprite) {
-        spriteWaitList.remove(sprite)
+        spriteWaitList[sprite] = spriteWaitList[sprite]?.minus(1)
+
+        if (spriteWaitList[sprite] == 0) {
+            spriteWaitList.remove(sprite)
+        }
     }
 
     internal fun addSpriteToWaitList(sprite: Sprite) = wait.also {
-        if (it) spriteWaitList.add(sprite)
+        if (it) {
+            if (!spriteWaitList.containsKey(sprite)) {
+                spriteWaitList[sprite] = 1
+            } else {
+                spriteWaitList[sprite] = spriteWaitList[sprite]?.plus(1)
+            }
+        }
     }
 
     fun isWaitingForSprite() = spriteWaitList.isNotEmpty()
