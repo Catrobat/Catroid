@@ -30,21 +30,23 @@
     <string name="undo">취소</string>
     <string name="new_option">새로운 신호</string>
     <string name="confirm">확인</string>
-    <string name="ignore">Ignore</string>
+    <string name="ignore">무시</string>
     <string name="cancel">취소</string>
+    <string name="save">저장</string>
     <string name="next">다음</string>
     <string name="back">돌아가기</string>
     <string name="ok">확인</string>
     <string name="done">완료</string>
     <string name="close">닫기</string>
-    <string name="assistant">Assistant</string>
+    <string name="assistant">보조 기능</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="agree">동의</string>
+    <string name="once">한 번</string>
+    <string name="always">항상</string>
+    <string name="deny">거부</string>
     <string name="disagree">동의하지 않음</string>
+    <string name="accept">승인</string>
+    <string name="decline">거부</string>
     <string name="select_all">모두 선택</string>
     <string name="deselect_all">모든 선택 취소</string>
     <string name="skip">건너뛰기</string>
@@ -95,13 +97,15 @@
     <string name="marketing_created_with">제작</string>
     <string name="marketing_app_details">세부 정보</string>
     <string name="marketing_more_on_google_play">구글 플레이에서 다른 앱 보기</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC 태그</string>
     <!-- Settings activity -->
     <string name="preference_title">설정</string>
     <string name="preference_title_language">언어</string>
     <string name="preference_description_language">앱의 언어 선택</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_title_web_access">웹 연결</string>
+    <string name="preference_description_web_access">검증된 도메인을 추가하거나 제거하기위해 편집</string>
+    <string name="preference_screen_web_access_title">검증된 도메인 편집</string>
     <string name="preference_title_accessibility">접근성</string>
     <string name="preference_description_accessibility">응용 프로그램의 모양을 변경</string>
     <string name="preference_title_accessibility_profiles">접근성 참고사항</string>
@@ -177,11 +181,10 @@
     <string name="preference_raspi_host">Raspberry Pi의 IP-/ 호스트 주소</string>
     <string name="preference_raspi_port">Raspberry Pi 포트</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">다중 이용자 확장</string>
+    <string name="preference_description_multiplayer_variables_enabled">블루투스로 다중 사용자 변수를 사용하기 위해 허용</string>
+    <string name="preference_title_enable_test_bricks">확장 테스트</string>
+    <string name="preference_description_test_bricks">테스트하기 위해 허용</string>
     <!-- Scratch Converter activity -->
     <string name="beta">Beta</string>
     <string name="error_scratch_program_not_accessible_any_more">앗! 프로그램 사라지거나 접근할 수 없습니다.</string>
@@ -237,7 +240,7 @@
     <string name="mode">모드:</string>
     <string name="remix_of">리믹스:</string>
     <string name="description_hint">설명을 추가하려면 누르기</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="notes_and_credits_hint">노트와 크레딧 추가</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">%1$s전에 프로젝트를 변환했었다.</string>
     <plurals name="minutes">
@@ -253,8 +256,8 @@
     <string name="reconvert_dialog_reconvert">이 프로젝트를 다시 변환</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">이 앱을 사용하려면, 개인보호정책을 따라야 하며, 불편하지 않아야 무료 웹서비스를 사용할 수 있다.</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">이 앱을 사용하려면, 개인보호정책을 따라야 하며, 불편하지 않아야 무료 웹서비스를 사용할 수 있다.</string>
     <string name="wtf_error">예기치 않은 오류가 발생: 복원 기본 프로젝트 없음.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">프로그램을 복사하는 동안 오류가 발생했습니다.</string>
@@ -273,8 +276,6 @@
     <string name="am_convert">변환</string>
     <string name="am_merge">병합</string>
     <string name="dialog_confirm_delete">되돌릴 수 없습니다!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">배우와 오브젝트</string>
     <!-- Options Menu Options -->
     <string name="backpack">스크립트 모음</string>
@@ -308,10 +309,6 @@
     <plurals name="delete_scripts">
         <item quantity="other">이 스크립트를 삭제하시겠습니까?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">이 블록을 삭제하시겠습니까?</item>
-    </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">프로젝트 이름</string>
     <string name="scene_name_label">장면 이름:</string>
@@ -323,9 +320,9 @@
     <string name="nfc_tag_name_label">NFC 태그 이름</string>
     <string name="string_label">텍스트</string>
     <string name="data_label">이름</string>
-    <string name="keyword_label">Insert keyword</string>
-    <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="keyword_label">키워드 삽입</string>
+    <string name="html_label">HTML 텍스트 추가</string>
+    <string name="Image_format_not_supported">해당 포맷은 지원되지 않습니다</string>
     <!-- Details -->
     <string name="project_details">마지막 접근: %s, 크기: %s</string>
     <string name="last_access_today">오늘, %s</string>
@@ -426,8 +423,8 @@
     <string name="size">프로젝트 크기 :</string>
     <string name="description">설명:</string>
     <string name="set_description">설명 설정</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="notes_and_credits_title">노트와 크레딧</string>
+    <string name="set_notes_and_credits">노트와 크레딧</string>
     <string name="details_date_today">오늘</string>
     <string name="import_project">프로젝트 가져오기</string>
     <string name="error_import_project">프로젝트를 가져오는 동안 문제가 발생했습니다.</string>
@@ -464,13 +461,13 @@
     <string name="tnf_well_known_mailto">이메일</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">연결된 기기 변수</string>
     <string name="global_vars_headline">배우와 오브젝트를 위한 변수</string>
     <string name="local_vars_headline">배우와 오브젝트만을 위한 변수</string>
     <string name="global_lists_headline">배우와 오브젝트를 위한 리스트</string>
     <string name="local_lists_headline">배우와 오브젝트만을 위한 리스트</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="other">Inputs for this brick</item>
+        <item quantity="other">블럭을 위한 입력</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">모든 장면 배우, 오브젝트, 복사본</string>
@@ -482,20 +479,8 @@
     <string name="pack">묶기</string>
     <string name="unpack">풀기</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">스크립트</string>
-    <string name="backgrounds">배경</string>
-    <string name="looks">모양</string>
-    <string name="sounds">소리</string>
-    <string name="nfctags">NFC 태그</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">새 프로그램</string>
-    <string name="new_project_empty">빈 프로그램 만들기</string>
-    <string name="new_project_default">예제 프로그램 작성</string>
-    <string name="new_project_default_drone"> AR.Drone 2.0 프로그램 예제 만들기</string>
-    <string name="new_project_default_jumping_sumo">Jumping Sumo 프로그램 예제 만들기</string>
-    <string name="project_orientation_title">방향:</string>
-    <string name="project_select_screen_title">화면</string>
+    <string name="new_project_dialog_example_project">예제 프로젝트</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">병합된 프로젝트</string>
@@ -510,13 +495,15 @@
     <string name="add_look_draw_new_image">그림 그리기</string>
     <string name="add_look_choose_image">그림 선택하기</string>
     <string name="add_look_media_library">미디어 라이브러리</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 비디오</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">소리 추가</string>
     <string name="add_sound_from_recorder">소리 녹음</string>
     <string name="add_sound_choose_file">파일 선택</string>
     <string name="add_sound_music">음악 작곡가</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">노트 선택기</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">평가하기</string>
     <string name="rating_google_play_dialog_text">이 게임이 맘에 들면, App Store에서 평가해 주세요.</string>
@@ -540,7 +527,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">개인 정보 보호 정책</string>
     <string name="disclaimer_privacy_police_header_headline">환영합니다!</string>
-    <string name="disclaimer_privacy_policy_header">코딩을 시작하기전에 앱 사용 정책을 보아 주세요:</string>
+    <string name="disclaimer_privacy_policy_header">앱 사용을 위해, 허용</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -619,8 +606,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="upload_button">업로드하기</string>
     <string name="upload_project_dialog_title">프로그램 업로드</string>
     <string name="upload_description">설명:</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
+    <string name="upload_notes_and_credits">노트와 크레딧</string>
+    <string name="upload_notes_and_credits_explanation">어떻게 이 프로젝트를 만드셨나요? 다른 사람의 아이디어나 작품을 이용했나요? 여기에 감사를 써보세요.</string>
     <string name="upload_tag_dialog_title">최대 3개의 카테고리 선택</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">외부 저장장치에 저장</string>
@@ -639,20 +626,22 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">블록 이동</string>
     <string name="brick_context_dialog_move_script">스크립트 이동</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
+    <string name="brick_context_dialog_move_definition">정의 이동</string>
     <string name="brick_context_dialog_delete_brick">블럭 삭제</string>
     <string name="brick_context_dialog_copy_brick">블록 복사</string>
     <string name="brick_context_dialog_copy_script">스크립트 복사</string>
     <string name="brick_context_dialog_formula_edit_brick">수식 편집</string>
     <string name="brick_context_dialog_delete_script">스크립트 삭제</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
+    <string name="brick_context_dialog_delete_definition">이 정의 삭제</string>
+    <string name="brick_context_dialog_comment_in">활성화 블록</string>
+    <string name="brick_context_dialog_comment_out">비활성화 블록</string>
     <string name="brick_context_dialog_highlight_brick_parts">블록 강조</string>
     <string name="brick_context_dialog_comment_in_script">사용가능 스크립트</string>
     <string name="brick_context_dialog_comment_out_script">비활성화 스크립트</string>
     <string name="brick_context_dialog_help">도움말</string>
     <string name="comment_in_out">사용/사용 안함</string>
+    <string name="catblocks">토글 2D</string>
+    <string name="catblocks_reorder">스크립트 삭제</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">플레이 장면:</string>
@@ -683,7 +672,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="error_google_plus_sign_in">구글 로그인 오류. 상태: %s</string>
     <string name="error_session_expired">세션이 만료되었습니다. 다시 로그인해 주십시오.</string>
     <string name="error_register_empty_username">사용자 이름 없음</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
+    <string name="error_register_username_as_email">이메일은 사용자 이름으로 사용할 수 없음</string>
     <string name="error_register_invalid_username">사용자 이름에는 문자(a–z), 숫자(0–9)와 dashes (-), underscores (_), and periods (.)만 사용하세요.</string>
     <string name="error_register_username_start_with">사용자 이름은 dashes (-), underscores (_)나 periods (.)로 시작할 수 없습니다.</string>
     <string name="error_register_invalid_email_format">잘못된 이메일 형식</string>
@@ -710,19 +699,19 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="prestage_resource_not_available_text">이 프로젝트는 기기에서 작동하지 않습니다.
 다음 장치가 사용않됩니다:\n\n</string>
     <string name="prestage_resource_in_use_text">다른 장치가 점핑 스모와 연결되어 있습니다. 다른 기기가 드론과 연결되어 있는 것은 아닌지 확인하세요.</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_no_vibration_available">\u2022 진동\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 컴퍼스\n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 텍스트 음성 변환 엔진\n</string>
     <string name="prestage_no_back_camera_available">\u2022 뒤 카메라 \n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 얼굴인식\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 문장인식\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 앞 카메라 \n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_camera_available">\u2022 카메라 \n</string>
+    <string name="prestage_no_flash_available">\u2022 플래시\n</string>
     <string name="prestage_default_resource_not_available">\u2022 알 수 없는 구성요소\n</string>
     <string name="no_nfc_available">NFC 이용 불가</string>
     <string name="nfc_not_activated">NFC를 활성화하고 다시 응용 프로그램으로 돌아가세요!</string>
@@ -743,6 +732,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="dialog_new_broadcast_message_name">신호:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">전체</string>
     <!-- -->
     <!-- Brick categories -->
@@ -756,7 +746,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="category_event">이벤트</string>
     <string name="category_user_bricks">여러분의 블록</string>
     <string name="category_data">변수</string>
-    <string name="category_device">Device</string>
+    <string name="category_device">기기</string>
     <string name="category_lego_nxt">레고 NXT</string>
     <string name="category_lego_ev3">레고 EV3</string>
     <string name="category_drone">AR.Drone 2.0</string>
@@ -768,20 +758,20 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="category_assertions">테스트 중</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_add_label">라벨 추가</string>
+    <string name="brick_user_defined_add_input">입력 추가</string>
+    <string name="brick_user_defined_add_input_description">블럭을 위한 입력</string>
+    <string name="brick_user_defined_add_label_description">블럭을 위한 라벨 추가</string>
+    <string name="brick_user_defined_default_input_name">입력 이름</string>
+    <string name="brick_user_defined_default_label">레이블 텍스트</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_user_defined_script_define">정의</string>
+    <string name="brick_user_defined_script_as">~로서</string>
+    <string name="brick_user_defined_list_empty">새 블럭을 추가하려면 \"+\"탭</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at">"위치 설정"</string>
-    <string name="brick_option_place_visually">Place visually</string>
+    <string name="brick_option_place_visually">보이게 위치</string>
     <string name="x_label">"X:"</string>
     <string name="y_label">"Y:"</string>
     <string name="brick_set_x">"X좌표 정하기 :"</string>
@@ -853,6 +843,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_next_background">다음 배경</string>
     <string name="brick_previous_look">이전 모양</string>
     <string name="brick_previous_background">이전 배경</string>
+    <string name="brick_delete_look">모양 삭제</string>
+    <string name="brick_delete_background">배경 삭제</string>
     <string name="brick_flash">플래시 켜기</string>
     <string name="brick_flash_on">켜기</string>
     <string name="brick_flash_off">끄기</string>
@@ -865,6 +857,12 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_ask_speech_label">질문</string>
     <string name="brick_ask_speech_store">답변 저장</string>
     <string name="brick_ask_speech_default_question">당신의 이름이 무엇인가요?</string>
+    <string name="brick_paint_new_look">새 모양 칠하기</string>
+    <string name="brick_paint_new_background">새로운 배경 그리기</string>
+    <string name="brick_paint_new_look_name">"새 모양 이름"</string>
+    <string name="brick_copy_look">모양과 이름 복사</string>
+    <string name="brick_copy_look_name">복사된 모양 이름</string>
+    <string name="brick_copy_background">배경 복사하고 이름 정하기</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">펜 내리기</string>
@@ -877,7 +875,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!-- Sound bricks -->
     <string name="brick_play_sound">소리 재생</string>
     <string name="brick_play_sound_and_wait">소리 재생하고 기다리기</string>
-    <string name="brick_stop_sound">Stop sound</string>
+    <string name="brick_stop_sound">소리 정지</string>
     <string name="brick_stop_all_sounds">모든 소리 멈추기</string>
     <string name="brick_set_volume_to">음량 설정하기</string>
     <string name="brick_change_volume_by">음량 바꾸기</string>
@@ -889,22 +887,31 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
     for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">Set listening language to</string>
-    <string name="set_instrument_to">Set instrument to</string>
-    <string name="set_tempo_to">Set tempo to</string>
-    <string name="pause_for">Pause for</string>
-    <string name="beats">beats</string>
+    <string name="brick_set_listening_language">듣기 언어 설정</string>
+    <string name="set_instrument_to">악기 설정</string>
+    <string name="set_tempo_to">빠르기 설정</string>
+    <string name="change_tempo_by">빠르기를 %1 만큼 바꾸기</string>
+    <string name="pause_for">멈춤</string>
+    <string name="play_drum">드럼 연주</string>
+    <string name="beats">박자</string>
+    <string name="play_note">악보 연주</string>
+    <string name="for_string">동안</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">스티치</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
+    <string name="brick_running_stitch">길이만큼 스티치 시작</string>
+    <string name="brick_zigzag_stitch">길이만큼 지그재그 스티치 시작</string>
+    <string name="brick_zigzag_stitch_width">폭</string>
+    <string name="brick_triple_stitch">길이만큼 트리플 스티치 시작</string>
+    <string name="brick_stop_stitch">현재 스티치 멈춤</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">바느질</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">타이머 초기화</string>
+    <string name="brick_open">열기</string>
+    <string name="brick_in_browser">브라우저에서</string>
     <!-- Control bricks -->
     <string name="brick_when_started">시작할 때</string>
     <string name="brick_when">터치할 때</string>
@@ -935,9 +942,9 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_say_bubble">말</string>
     <string name="brick_think_say_for_text">동안</string>
     <string name="brick_forever">계속 반복</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
-    <string name="brick_loop_in">in</string>
+    <string name="brick_loop_for_values_from">다음 값부터</string>
+    <string name="brick_loop_for_each_value_from">다음 각 값부터</string>
+    <string name="brick_loop_in">에서</string>
     <string name="brick_loop_to">to</string>
     <string name="brick_repeat">반복</string>
     <string name="brick_repeat_until">반복 때까지</string>
@@ -946,12 +953,14 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_clone_this">스스로</string>
     <string name="brick_when_cloned">복사로 시작할 때</string>
     <string name="brick_delete_this_clone">이 형태를 삭제</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
+    <string name="brick_assert_that">실행:</string>
+    <string name="brick_is_equal_to">예상</string>
     <string name="brick_wait_till_idle">다른 스크립트가 정지할 때까지 기다리기</string>
     <string name="brick_tap_at">"한 번 누르기"</string>
-    <string name="brick_touch_at">"Touch at"</string>
+    <string name="brick_touch_at">"터치"</string>
     <string name="brick_tap_for">"동안"</string>
+    <string name="brick_touch_slide">"터치와 슬라이드"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">마지막 스테이지</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1039,30 +1048,50 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">내 첫 프로그램</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">장면 %1$d</string>
     <string name="default_project_background_name">배경</string>
     <string name="default_project_cloud_name">클라우드</string>
@@ -1094,18 +1123,6 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="default_cast_project_var_direction">방향</string>
     <string name="default_cast_project_name">첫 번째 내 캐스트 프로그램</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">첫 번째 AR.Drone 2.0 프로그램</string>
-    <string name="default_drone_project_sprites_takeoff">이륙</string>
-    <string name="default_drone_project_sprites_flip">뒤집기</string>
-    <string name="default_drone_project_sprites_up">위로</string>
-    <string name="default_drone_project_sprites_down">아래로</string>
-    <string name="default_drone_project_sprites_left">왼쪽으로</string>
-    <string name="default_drone_project_sprites_right">오른쪽으로</string>
-    <string name="default_drone_project_sprites_forward">앞으로</string>
-    <string name="default_drone_project_sprites_back">돌아가기</string>
-    <string name="default_drone_project_sprites_turn_left">왼쪽으로 돌기</string>
-    <string name="default_drone_project_sprites_turn_right">오른쪽으로 돌기</string>
-    <string name="default_drone_project_sprites_emergency">긴급</string>
     <string name="drone_brick_set_text">텍스트</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1383,19 +1400,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_jumping_sumo_taking_picture">점핑 스모로 사진찍기</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">내 첫번째 점핑 스모 프로그램</string>
-    <string name="add_look_jumping_sumo_video">점핑 스모 비디오</string>
-    <string name="default_jumping_sumo_project_sprites_forward">앞으로</string>
-    <string name="default_jumping_sumo_project_sprites_backward">뒤로</string>
-    <string name="default_jumping_sumo_project_sprites_animation">애니메이션</string>
     <string name="default_jumping_sumo_project_sprites_sound">소리</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">소리 끄기</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">멀리 뛰기</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">높이 뛰기</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">왼쪽으로 돌기</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">오른쪽으로 돌기</string>
-    <string name="default_jumping_sumo_project_sprites_flip">뒤집기</string>
-    <string name="default_jumping_sumo_project_sprites_picture">사진 찍기</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">회전하기</string>
@@ -1521,6 +1526,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_max_parameter">(0, 1)</string>
     <string name="formula_editor_function_min">최솟값</string>
     <string name="formula_editor_function_min_parameter">(0, 1)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">참</string>
     <string name="formula_editor_function_false">거짓</string>
     <string name="formula_editor_function_length">길이</string>
@@ -1529,6 +1536,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_letter_parameter">(1,\' 안녕하세요 \')</string>
     <string name="formula_editor_function_join">결합</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join3">결합</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">정규 표현</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1549,6 +1558,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_multi_finger_y">터치한 y 좌표</string>
     <string name="formula_editor_function_is_multi_finger_touching">화면을 터치할 때</string>
     <string name="formula_editor_function_index_of_last_finger">마지막 터치 번호</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">항목</string>
@@ -1564,6 +1574,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_function_touched">손가락 터치</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">x축방향 가속도</string>
     <string name="formula_editor_sensor_y_acceleration">y축방향 가속도</string>
     <string name="formula_editor_sensor_z_acceleration">z축방향 가속도</string>
@@ -1576,6 +1587,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_sensor_x_inclination">x축방향 기울기</string>
     <string name="formula_editor_sensor_y_inclination">y축방향 기울기</string>
     <string name="formula_editor_sensor_loudness">소리 크기</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">년</string>
     <string name="formula_editor_sensor_date_month">월</string>
     <string name="formula_editor_sensor_date_day">일</string>
@@ -1741,6 +1753,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_show_variable_aligned_left">왼쪽</string>
     <string name="brick_show_variable_aligned_right">오른쪽</string>
     <string name="brick_context_dialog_pick_color">색 선택</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">카메라 켜기</string>
@@ -1773,8 +1786,9 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="cast_connection_timout_msg">연결 시간 초과. 다시 시도하세요.</string>
     <string name="cast_screen_pause_text">정지</string>
     <!-- -->
-    <string name="deletion_alert_title">경고!</string>
-    <string name="deletion_alert_text">사용 중 변수를 삭제하는 것은 위험합니다! 삭제할까요?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">예, 삭제합니다!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>

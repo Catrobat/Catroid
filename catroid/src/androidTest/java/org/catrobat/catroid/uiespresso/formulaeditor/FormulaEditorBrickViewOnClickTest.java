@@ -51,6 +51,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isClickable;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.isFocusable;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorBrickViewOnClickTest {
@@ -74,6 +75,8 @@ public class FormulaEditorBrickViewOnClickTest {
 				.onFormulaTextField(R.id.brick_show_variable_edit_text_x)
 				.perform(click());
 
+		chooseEditFormulaDialogOption();
+
 		onView(withId(R.id.show_variable_spinner))
 				.check(matches(allOf(not(isClickable()), not(isEnabled()), not(isFocusable()))));
 	}
@@ -84,12 +87,16 @@ public class FormulaEditorBrickViewOnClickTest {
 				.onFormulaTextField(R.id.brick_show_variable_edit_text_x)
 				.perform(click());
 
+		chooseEditFormulaDialogOption();
+
 		onFormulaEditor()
 				.checkShows(showTextBrick.getFormulaWithBrickField(Brick.BrickField.X_POSITION)
 						.getTrimmedFormulaString(ApplicationProvider.getApplicationContext()));
 
 		onView(withId(R.id.brick_show_variable_edit_text_y))
 				.perform(click());
+
+		chooseEditFormulaDialogOption();
 
 		onFormulaEditor()
 				.checkShows(showTextBrick.getFormulaWithBrickField(Brick.BrickField.Y_POSITION)
@@ -100,5 +107,10 @@ public class FormulaEditorBrickViewOnClickTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript(getClass().getSimpleName());
 		showTextBrick = new ShowTextBrick(new Formula(100), new Formula(200));
 		script.addBrick(showTextBrick);
+	}
+
+	private void chooseEditFormulaDialogOption() {
+		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
+				.perform(click());
 	}
 }

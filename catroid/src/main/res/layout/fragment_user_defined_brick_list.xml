@@ -68,7 +68,7 @@
         android:src="@drawable/ic_plus"
         android:tint="@color/solid_white"
         android:theme="@style/Theme.AppCompat"
-        app:backgroundTint="@color/orange"
+        app:backgroundTint="@color/action_button"
         app:elevation="10dp"
         android:onClick="handleAddButton" />
 

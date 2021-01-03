@@ -32,6 +32,7 @@
     <string name="confirm">নিশ্চিত</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">বাতিল</string>
+    <string name="save">সংরক্ষণ করুন</string>
     <string name="next">পরবর্তী</string>
     <string name="back">পিছনে</string>
     <string name="ok">সঠিক</string>
@@ -43,8 +44,9 @@
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
-    <string name="agree">একমত</string>
     <string name="disagree">রাজি না</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     <string name="select_all">সব নির্বাচন করুন</string>
     <string name="deselect_all">সব নির্বাচন প্রত্যাহার করুন</string>
     <string name="skip">এড়িয়ে যান</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">সঙ্গে তৈরি</string>
     <string name="marketing_app_details">এই অ্যাপ্লিকেশন সম্পর্কে বিস্তারিত</string>
     <string name="marketing_more_on_google_play">অ্যাপ স্টোরের আরও অ্যাপস</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">সেটিংস</string>
     <string name="preference_title_language">ভাষা</string>
@@ -261,9 +265,9 @@
     <string name="reconvert_dialog_reconvert">প্রজেক্টটি আবার রূপান্তর করুন</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">আমাদের অ্যাপ্লিকেশনটি ব্যবহার করার জন্য, আমাদের গোপনীয়তা নীতি গ্রহণ করা প্রয়োজন।
-         তবে, যদি আপনি এটি করতে স্বাচ্ছন্দ্য বোধ না করেন তবে আপনি আমাদের বিনামূল্যে ওয়েব-পরিষেবাগুলি ব্যবহার করতে পারেন</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
+        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
     <string name="wtf_error">একটি অপ্রত্যাশিত ভুল ঘটেছে: আমি নমুনা প্রজেক্টটি পুনরুদ্ধার করতে পারিনি।</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">প্রজেক্টটি অনুলিপি করার সময় একটি ভুল ঘটেছে</string>
@@ -282,8 +286,6 @@
     <string name="am_convert">রূপান্তর করুন</string>
     <string name="am_merge">একত্রীকরণ</string>
     <string name="dialog_confirm_delete">আপনি এটিকে পূর্বাবস্থায় ফেরাতে পারবেন না!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">অভিনেতা এবং অবজেক্টস</string>
     <!-- Options Menu Options -->
     <string name="backpack">ব্যাকপ্যাক</string>
@@ -324,11 +326,6 @@
         <item quantity="one">এই স্ক্রিপ্ট মুছবেন?</item>
         <item quantity="other">এই স্ক্রিপ্টগুলি মুছবেন?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">এই ব্রিকটি মুছবেন?</item>
-        <item quantity="other">এই ব্রিকগুলি মুছবেন?</item>
-    </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">প্রজেক্টের নাম</string>
     <string name="scene_name_label">দৃশ্য নাম</string>
@@ -522,20 +519,8 @@
     <string name="pack">মোড়ক</string>
     <string name="unpack">মোড়ক খোলা</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">স্ক্রিপ্টসমূহ</string>
-    <string name="backgrounds">ব্যাকগ্রাউন্ড</string>
-    <string name="looks">চেহারা</string>
-    <string name="sounds">শব্দ</string>
-    <string name="nfctags">এনএফসি ট্যাগস</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">নতুন প্রজেক্ট</string>
-    <string name="new_project_empty">একটি খালি প্রজেক্ট তৈরি করুন</string>
-    <string name="new_project_default">একটি উদাহরণস্বরূপ প্রজেক্ট তৈরি করুন</string>
-    <string name="new_project_default_drone">একটি উদাহরণস্বরূপ এআর.ড্রোন ২.০ প্রকল্প তৈরি করুন</string>
-    <string name="new_project_default_jumping_sumo">একটি উদাহরণস্বরূপ জাম্পিং সুমো প্রকল্প তৈরি করুন</string>
-    <string name="project_orientation_title">বিন্যাস</string>
-    <string name="project_select_screen_title">পর্দা</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">একত্রিত প্রজেক্ট</string>
@@ -550,13 +535,15 @@
     <string name="add_look_draw_new_image">চিত্র আঁকুন</string>
     <string name="add_look_choose_image">ছবি নির্বাচন করুন</string>
     <string name="add_look_media_library">মিডিয়া লাইব্রেরি</string>
-    <string name="add_look_drone_video">এআর.ড্রোন ২.০ ভিডিও</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">শব্দ যোগ করুন</string>
     <string name="add_sound_from_recorder">শব্দ সংরক্ষণ করুন</string>
     <string name="add_sound_choose_file">ফাইল নির্বাচন করুন</string>
     <string name="add_sound_music">সুরকার</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">অ্যাপ্লিকেশন সম্পর্কে মতামত দিন</string>
     <string name="rating_google_play_dialog_text">আপনি যদি এই অ্যাপ্লিকেশনটি উপভোগ করেন তবে অ্যাপ স্টোরটিতে আমাদের মতামত দিন।</string>
@@ -580,7 +567,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">গোপনীয়তার নীতিমালা</string>
     <string name="disclaimer_privacy_police_header_headline">স্বাগতম</string>
-    <string name="disclaimer_privacy_policy_header">আপনি কোডিং শুরু করার আগে দয়া করে অ্যাপটি ব্যবহার করতে আমাদের গোপনীয়তা নীতিটি পড়ুন এবং গ্রহণ করুন:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -690,6 +677,8 @@
     <string name="brick_context_dialog_comment_out_script">স্ক্রিপ্ট অক্ষম করুন</string>
     <string name="brick_context_dialog_help">সাহায্য</string>
     <string name="comment_in_out">অক্ষম / সক্ষম করুন</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">খেলার দৃশ্য:</string>
@@ -779,6 +768,7 @@
     <string name="dialog_new_broadcast_message_name">বার্তা</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">সব</string>
     <!-- -->
     <!-- Brick categories -->
@@ -891,6 +881,8 @@
     <string name="brick_next_background">পরবর্তী ব্যাকগ্রাউন্ড</string>
     <string name="brick_previous_look">পূর্ববর্তী চেহারা</string>
     <string name="brick_previous_background">পূর্ববর্তী ব্যাকগ্রাউন্ড</string>
+    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_delete_background">Delete background</string>
     <string name="brick_flash">ফ্ল্যাশলাইট চালু করুন</string>
     <string name="brick_flash_on">চালু</string>
     <string name="brick_flash_off">বন্ধ</string>
@@ -903,6 +895,12 @@
     <string name="brick_ask_speech_label">জিজ্ঞাসা করুন</string>
     <string name="brick_ask_speech_store">এবং কথ্য উত্তর সঞ্চয় করুন</string>
     <string name="brick_ask_speech_default_question">তোমার নাম কি?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">কলম নিচে</string>
@@ -930,8 +928,12 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">জন্য</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">সেলাই</string>
@@ -942,7 +944,12 @@
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">Sew up</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">খুলুন</string>
+    <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">যখন দৃশ্য শুরু হয়</string>
     <string name="brick_when">যখন টেপ করা হয়</string>
@@ -991,6 +998,8 @@
     <string name="brick_tap_at">"একটি ট্যাপ করুন"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"জন্য"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1082,30 +1091,50 @@
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">আমার প্রথম প্রজেক্ট</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">দৃশ্য %d</string>
     <string name="default_project_background_name">ব্যাকগ্রাউন্ড</string>
     <string name="default_project_cloud_name">ক্লাউড</string>
@@ -1137,18 +1166,6 @@
     <string name="default_cast_project_var_direction">গতিপথ</string>
     <string name="default_cast_project_name">আমার প্রথম চরমকাস্ট প্রজেক্ট</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">আমার প্রথম এআর.ড্রোন ২.০ প্রজেক্ট</string>
-    <string name="default_drone_project_sprites_takeoff">উড্ডয়ন করা</string>
-    <string name="default_drone_project_sprites_flip">ফ্লিপ</string>
-    <string name="default_drone_project_sprites_up">উপরে</string>
-    <string name="default_drone_project_sprites_down">নিচে</string>
-    <string name="default_drone_project_sprites_left">বাম দিক</string>
-    <string name="default_drone_project_sprites_right">ডান দিক</string>
-    <string name="default_drone_project_sprites_forward">সামনে</string>
-    <string name="default_drone_project_sprites_back">পিছনে</string>
-    <string name="default_drone_project_sprites_turn_left">বাম দিকে ঘুরুন</string>
-    <string name="default_drone_project_sprites_turn_right">ডান দিকে ঘুরুন</string>
-    <string name="default_drone_project_sprites_emergency">জরুরী</string>
     <string name="drone_brick_set_text">পাঠ্য</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1427,19 +1444,7 @@
     <string name="brick_jumping_sumo_taking_picture">জাম্পিং সুমো ছবি তোলা</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">আমার প্রথম জাম্পিং সুমো প্রজেক্ট</string>
-    <string name="add_look_jumping_sumo_video">জাম্পিং সুমো ভিডিও</string>
-    <string name="default_jumping_sumo_project_sprites_forward">সামনে</string>
-    <string name="default_jumping_sumo_project_sprites_backward">পিছনে</string>
-    <string name="default_jumping_sumo_project_sprites_animation">অ্যানিমেশন</string>
     <string name="default_jumping_sumo_project_sprites_sound">শব্দ</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">কোন শব্দ নেই</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">দীর্ঘ লাফ দাও</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">উচু লাফ</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">বাম দিকে ঘুরুন</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">ডান দিকে ঘুরুন</string>
-    <string name="default_jumping_sumo_project_sprites_flip">ফ্লিপ</string>
-    <string name="default_jumping_sumo_project_sprites_picture">ছবি তুলুন</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">ঘূর্ণন</string>
@@ -1565,6 +1570,8 @@
     <string name="formula_editor_function_max_parameter">(৫,৪)</string>
     <string name="formula_editor_function_min">সর্বনিম্ন</string>
     <string name="formula_editor_function_min_parameter">(৭,২)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">সত্য</string>
     <string name="formula_editor_function_false">মিথ্যা</string>
     <string name="formula_editor_function_length">দৈর্ঘ্য</string>
@@ -1573,6 +1580,8 @@
     <string name="formula_editor_function_letter_parameter">(১,\'ওহে বিশ্ব\')</string>
     <string name="formula_editor_function_join">যোগদান করা</string>
     <string name="formula_editor_function_join_parameter">(\'ওহে বিশ্ব\')</string>
+    <string name="formula_editor_function_join3">যোগদান করা</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">নিয়মিত অভিব্যক্তি</string>
     <string name="formula_editor_function_regex_parameter">(\'এ? ([^।]] +)\', \'আমি পান্ডা।\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1593,6 +1602,7 @@
     <string name="formula_editor_function_multi_finger_y">মঞ্চ স্পর্শ y</string>
     <string name="formula_editor_function_is_multi_finger_touching">মঞ্চ স্পর্শ করা হয়</string>
     <string name="formula_editor_function_index_of_last_finger">শেষ পর্যায়ে টাচ সূচক</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(১)</string>
     <string name="formula_editor_function_list_item">বস্তু</string>
@@ -1608,6 +1618,7 @@
     <string name="formula_editor_function_touched">আঙুল স্পর্শ করে</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">ত্বরণ x</string>
     <string name="formula_editor_sensor_y_acceleration">ত্বরণ y</string>
     <string name="formula_editor_sensor_z_acceleration">ত্বরণ z</string>
@@ -1620,6 +1631,7 @@
     <string name="formula_editor_sensor_x_inclination">প্রবণতা x</string>
     <string name="formula_editor_sensor_y_inclination">প্রবণতা y</string>
     <string name="formula_editor_sensor_loudness">শব্দের মাত্রা</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">বছর</string>
     <string name="formula_editor_sensor_date_month">মাস</string>
     <string name="formula_editor_sensor_date_day">দিন</string>
@@ -1785,6 +1797,7 @@
     <string name="brick_show_variable_aligned_left">বাম</string>
     <string name="brick_show_variable_aligned_right">ডান</string>
     <string name="brick_context_dialog_pick_color">রং বাছাই</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">ক্যামেরা ঘুরুন</string>
@@ -1817,8 +1830,9 @@
     <string name="cast_connection_timout_msg">সংযোগ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন।</string>
     <string name="cast_screen_pause_text">থামা</string>
     <!-- -->
-    <string name="deletion_alert_title">সতর্কতা!</string>
-    <string name="deletion_alert_text">এখনও ব্যবহারের মধ্যে থাকা একটি ভেরিয়েবল মোছা বিপজ্জনক। তুমি কি নিশ্চিত?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">হ্যাঁ, যাইহোক মুছুন!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">আপনার প্রজেক্টি অ্যাপ্লিকেশনটির শেয়ার করে নেওয়ার সাইটে আপলোড হবে যেখানে অন্যরা এটি ব্যবহার এবং ডাউনলোড করতে পারে। আপনি নিজের প্রজেক্টি একটি স্বতন্ত্র অ্যাপ্লিকেশন হিসাবে ডাউনলোড করতে পারেন।</string>

@@ -29,11 +29,17 @@
         android:title="@string/undo"
         app:showAsAction="ifRoom"
         android:icon="@drawable/icon_undo" />
-    
+
     <item
         android:id="@+id/menu_redo"
         android:title="@string/redo"
         app:showAsAction="ifRoom"
         android:icon="@drawable/icon_redo" />
+        
+    <item
+        android:id="@+id/menu_ok"
+        android:title="@string/ok"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/done_white" />
 
 </menu>

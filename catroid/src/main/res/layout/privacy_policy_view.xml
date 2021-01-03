@@ -21,69 +21,36 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+<ScrollView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="@dimen/dialog_content_area_padding">
 
     <LinearLayout
-        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:padding="@dimen/material_design_spacing_large"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/welcome"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/text_size_xxlarge"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_large"
             android:paddingBottom="@dimen/material_design_spacing_large"
-            android:text="@string/disclaimer_privacy_police_header_headline"/>
+            android:text="@string/disclaimer_privacy_police_header_headline" />
 
         <TextView
-            android:layout_width="match_parent"
+            android:id="@+id/dialog_privacy_policy_disclaimer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/disclaimer_privacy_policy_header"/>
-
-    </LinearLayout>
-
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_bar"
-        android:layout_below="@+id/header">
+            android:text="@string/disclaimer_privacy_policy_header" />
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/material_design_spacing_large"
-            android:autoLink="all"
-            android:text="@string/dialog_privacy_policy_text" />
-
-    </ScrollView>
-
-    <LinearLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_bottom_bar_height"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:divider="@drawable/bottom_bar_divider"
-        android:showDividers="middle">
-
-        <Button
-            style="@style/BottomBarButton"
-            android:id="@+id/decline"
-            android:onClick="handleDeclinedPrivacyPolicyButton"
-            android:text="@string/disagree"/>
-
-        <Button
-            style="@style/BottomBarButton"
-            android:id="@+id/accept"
-            android:onClick="handleAgreedToPrivacyPolicyButton"
-            android:text="@string/agree"/>
-
+            android:id="@+id/dialog_privacy_policy_text_view_url"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-</RelativeLayout>
+</ScrollView>

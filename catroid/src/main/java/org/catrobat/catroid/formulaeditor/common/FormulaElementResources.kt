@@ -47,7 +47,11 @@ object FormulaElementResources {
             Sensors.FACE_DETECTED,
             Sensors.FACE_SIZE,
             Sensors.FACE_X_POSITION,
-            Sensors.FACE_Y_POSITION -> Brick.FACE_DETECTION
+            Sensors.FACE_Y_POSITION,
+            Sensors.SECOND_FACE_DETECTED,
+            Sensors.SECOND_FACE_SIZE,
+            Sensors.SECOND_FACE_X_POSITION,
+            Sensors.SECOND_FACE_Y_POSITION -> Brick.FACE_DETECTION
 
             Sensors.NXT_SENSOR_1,
             Sensors.NXT_SENSOR_2,

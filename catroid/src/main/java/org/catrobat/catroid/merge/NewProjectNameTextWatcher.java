@@ -22,34 +22,14 @@
  */
 package org.catrobat.catroid.merge;
 
-import android.content.Context;
-
-import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.ui.recyclerview.dialog.ReplaceExistingProjectDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 
-import androidx.annotation.Nullable;
+public class NewProjectNameTextWatcher<T extends Nameable> extends InputWatcher.TextWatcher {
 
-public class NewProjectNameTextWatcher<T extends Nameable> extends TextInputDialog.TextWatcher {
-
-	@Nullable
 	@Override
-	public String validateInput(String input, Context context) {
-		String error = null;
-
-		if (input.isEmpty()) {
-			return context.getString(R.string.name_empty);
-		}
-
-		input = input.trim();
-
-		if (input.isEmpty()) {
-			error = context.getString(R.string.name_consists_of_spaces_only);
-		} else if (ReplaceExistingProjectDialogFragment.projectExistsInDirectory(input)) {
-			error = context.getString(R.string.name_already_exists);
-		}
-
-		return error;
+	protected boolean isNameUnique(String name) {
+		return !ReplaceExistingProjectDialogFragment.projectExistsInDirectory(name);
 	}
 }

@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ShowTextBrick extends UserVariableBrickWithFormula {
+public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 
 	private static final long serialVersionUID = 1L;
 
@@ -73,5 +73,15 @@ public class ShowTextBrick extends UserVariableBrickWithFormula {
 		sequence.addAction(sprite.getActionFactory().createShowVariableAction(sprite,
 				getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariable));
+	}
+
+	@Override
+	public int getXEditTextId() {
+		return R.id.brick_show_variable_edit_text_x;
+	}
+
+	@Override
+	public int getYEditTextId() {
+		return R.id.brick_show_variable_edit_text_y;
 	}
 }

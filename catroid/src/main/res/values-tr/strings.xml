@@ -32,6 +32,7 @@
     <string name="confirm">Onayla</string>
     <string name="ignore">Göz ardı et</string>
     <string name="cancel">İptal et</string>
+    <string name="save">Kaydet</string>
     <string name="next">İleri</string>
     <string name="back">Geri</string>
     <string name="ok">Tamam</string>
@@ -43,8 +44,9 @@
     <string name="once">Bir kez</string>
     <string name="always">Her zaman</string>
     <string name="deny">Reddet</string>
-    <string name="agree">Kabul ediyorum</string>
     <string name="disagree">Kabul etmiyorum</string>
+    <string name="accept">Kabul et</string>
+    <string name="decline">Reddet</string>
     <string name="select_all">Hepsini seç</string>
     <string name="deselect_all">Seçimleri iptali et</string>
     <string name="skip">atla</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">Kullandığı oyun motoru</string>
     <string name="marketing_app_details">Uygulama ile ilgili ayrıntılar</string>
     <string name="marketing_more_on_google_play">Google Play\'de daha fazla uygulama</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC etiketleri</string>
     <!-- Settings activity -->
     <string name="preference_title">Ayarlar</string>
     <string name="preference_title_language">Dil</string>
@@ -242,7 +246,7 @@
     <string name="mode">Mod:</string>
     <string name="remix_of">Remixsi:</string>
     <string name="description_hint">Açıklama eklemek için tıklayın</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="notes_and_credits_hint">Not ve kredi eklemek için basın</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">Bu projeyi %1$s önce dönüştürdünüz.</string>
     <plurals name="minutes">
@@ -261,8 +265,9 @@
     <string name="reconvert_dialog_reconvert">Bu projeyi tekrar dönüştür</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">Uygulamamızı kullanmak için Gizlilik Politikamızı kabul etmeniz gerekmektedir. Ancak, bunu yapmakta kendinizi rahat hissetmiyorsanız, ücretsiz web hizmetlerimizi kullanın.</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">Uygulamamızı kullanmak için Kullanım ve Hizmet Şartlarımızı kabul etmeniz gerekmektedir.
+        Ancak, bunu yapmakta kendinizi rahat hissetmiyorsanız, ücretsiz web hizmetlerimizi kullanabilirsiniz</string>
     <string name="wtf_error">Beklenmeyen bir hata oluştu: Örnek projeyi geri yükleyemedim.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">Proje kopyalanırken bir hata oluştu</string>
@@ -281,7 +286,6 @@
     <string name="am_convert">Dönüştür</string>
     <string name="am_merge">Birleştir</string>
     <string name="dialog_confirm_delete">Bunu geri alamazsınız!</string>
-    <string name="dialog_confirm_delete_definition">Bu aynı zamanda kullanıldığı diğer tüm komut dosyalarındaki tuğlayı da kaldıracaktır. \nBunu geri alamazsınız!</string>
     <string name="list_headline_sprites">Objeler</string>
     <!-- Options Menu Options -->
     <string name="backpack">Sırt çantası</string>
@@ -322,11 +326,6 @@
         <item quantity="one">Bu komut dosyası silinsin mi?</item>
         <item quantity="other">Bu komut dosyaları silinsin mi?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Bu tuğla silinsin mi?</item>
-        <item quantity="other">Bu tuğlalar silinsin mi?</item>
-    </plurals>
-    <string name="delete_definition">Bu tuğlanın tanımı silinsin mi?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Proje ismi</string>
     <string name="scene_name_label">Sahne ismi</string>
@@ -463,8 +462,8 @@
     <string name="size">Ölçü:</string>
     <string name="description">Açıklama:</string>
     <string name="set_description">Açıklayınız</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="notes_and_credits_title">Notlar ve krediler:</string>
+    <string name="set_notes_and_credits">Notları ve krediyi ayarla</string>
     <string name="details_date_today">Bugün</string>
     <string name="import_project">Projeyi içe aktar</string>
     <string name="error_import_project">Projeler içe aktarılırken bir şeyler ters gitti.</string>
@@ -519,20 +518,8 @@
     <string name="pack">Paket</string>
     <string name="unpack">Çıkart</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">Komut dosyaları</string>
-    <string name="backgrounds">Arka plan</string>
-    <string name="looks">Görüntü</string>
-    <string name="sounds">Sesler</string>
-    <string name="nfctags">NFC etiketleri</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">Yeni proje</string>
-    <string name="new_project_empty">Boş proje oluştur</string>
-    <string name="new_project_default">Örnek proje oluştur</string>
-    <string name="new_project_default_drone">Örnek bir AR.Drone 2.0 projesi oluşturun</string>
-    <string name="new_project_default_jumping_sumo">Jumping Sumo Programının bir örnerğini oluşturun</string>
-    <string name="project_orientation_title">Oryantasyon:</string>
-    <string name="project_select_screen_title">Ekran:</string>
+    <string name="new_project_dialog_example_project">Örnek proje</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Birleştirilmiş proje</string>
@@ -547,13 +534,15 @@
     <string name="add_look_draw_new_image">Resim Çiz</string>
     <string name="add_look_choose_image">Telefondan seç</string>
     <string name="add_look_media_library">Medya kütüphanesi</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 videosu</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Ses ekle</string>
     <string name="add_sound_from_recorder">Ses kaydet</string>
     <string name="add_sound_choose_file">Telefondan seç</string>
     <string name="add_sound_music">Müzik bestecisi</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Nota Seçimi</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Uygulamayı Değerlendir</string>
     <string name="rating_google_play_dialog_text">Bu uygulamayı beğendiyseniz, lütfen Google play\'de bizi değerlendirin.</string>
@@ -577,7 +566,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Gizlilik politikası</string>
     <string name="disclaimer_privacy_police_header_headline">Hoşgeldiniz!</string>
-    <string name="disclaimer_privacy_policy_header">Lütfen önce, uygulamayı kullanmak için Gizlilik Politikamızı okuyun ve kabul edin:</string>
+    <string name="disclaimer_privacy_policy_header">Bu uygulamayı kullanmak için, lütfen önce kabul edin:</string>
     <string name="dialog_privacy_policy_text">Çarpışma bilgileri, zaman damgaları, ziyaret edilen sayfalar / ekranlar, uygulamalarımızın ve hizmetlerimizin kullanımı, kullanılan işletim sistemi ve ağ sağlayıcısı hakkında bilgiler. Bu analiz ve toplanan veriler profilinizle bağlantılı değildir ve herhangi bir kişisel bilgi içermez (IP adresinin son bitleri anonimleştirilir). Bununla birlikte, toplanan veriler servis sağlayıcıya (Google LLC, ABD ve Dynatrace LLC, ABD) aktarılacaktır. Veri işleme, Google LLC ve Dynatrace LLC ile yapılan anlaşmalara dayanmaktadır. Hizmet sağlayıcıyla olan bu ilişki, Avrupa Birliği\'nin Genel Veri Koruma Yönetmeliği (AB GDPR) ve AB-ABD \"Gizlilik Kalkanı\" sözleşmesine uygundur. \n \n
 • Sistemlerimizde bir hesap oluşturmak ve kullanmak ve gerekli konularda sizi bilgilendirmek için e-posta başına hesabınızla ilgili değişiklikler, ör. Kullanım Şartları ve Hizmetimizin, topluluk kurallarımızın veya politikalarımızın güncellenmesi veya ihlali, kullanıcı adınızı ve sağladığınız takdirde e-posta adresinizi saklayacağız. Hesabınızı Google veya Facebook hesabınız üzerinden bağladıysanız, bu hizmetlerde ek olarak hesabınıza bağlı bir kimlik anahtarı saklarız. Açıkça bize izin vermedikçe, bu verileri başka (ör. Pazarlama) amaçlar için kullanmayacağız. \n \n
 • Gönüllü olarak, ikamet ettiğiniz ülkeyi paylaşımdaki hesap sayfanızdan bize verebilirsiniz. bir site. Bu, herkese açık profilinizde gösterilecek ve yalnızca bizim tarafımızdan istatistiksel ve araştırma amaçlı kullanılacaktır. Profil ayarlarınızdan dilediğiniz zaman kaldırılabilir. \n \n
@@ -609,8 +598,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="upload_button">Topluluğa yükle</string>
     <string name="upload_project_dialog_title">Topluluğa yükle</string>
     <string name="upload_description">Açıklama:</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
+    <string name="upload_notes_and_credits">Notlar ve krediler:</string>
+    <string name="upload_notes_and_credits_explanation">Bu projeyi nasıl yarattınız? Başkalarının fikirlerini, senaryolarını veya sanat eserlerini kullandınız mı? Onlara burada teşekkür edin.</string>
     <string name="upload_tag_dialog_title">Lütfen en fazla üç kategori seçin</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Projeyi harici depolamaya kaydedin</string>
@@ -643,6 +632,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_context_dialog_comment_out_script">Komut dosyasını devre dışı bırak</string>
     <string name="brick_context_dialog_help">Yardım</string>
     <string name="comment_in_out">Devre dışı bırak/Etkinleştir</string>
+    <string name="catblocks">2D\'yi aç/kapat</string>
+    <string name="catblocks_reorder">Komut dosyalarını temizleyin</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Sahneyi Oynat:</string>
@@ -733,6 +724,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="dialog_new_broadcast_message_name">mesaj:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">NFC etiketlerinin listesini düzenleyin</string>
     <string name="brick_when_nfc_default_all">tümü</string>
     <!-- -->
     <!-- Brick categories -->
@@ -845,6 +837,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_next_background">Sonraki arka plan</string>
     <string name="brick_previous_look">Önceki görüntü</string>
     <string name="brick_previous_background">Önceki arka plan</string>
+    <string name="brick_delete_look">Görüntüyü sil</string>
+    <string name="brick_delete_background">Arka planı sil</string>
     <string name="brick_flash">Flash ışığını</string>
     <string name="brick_flash_on">aç</string>
     <string name="brick_flash_off">kapa</string>
@@ -857,6 +851,12 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_ask_speech_label">Sor</string>
     <string name="brick_ask_speech_store">ve sözlü yanıtı saklayın</string>
     <string name="brick_ask_speech_default_question">Adınız ne?</string>
+    <string name="brick_paint_new_look">Yeni görünüm boya</string>
+    <string name="brick_paint_new_background">Yeni arka planı boya</string>
+    <string name="brick_paint_new_look_name">"Yeni gönümün adı"</string>
+    <string name="brick_copy_look">Görüntüyü kopyala ve isimlendir</string>
+    <string name="brick_copy_look_name">kopyalanan görüntüyü isimlendir</string>
+    <string name="brick_copy_background">Arkaplanı kopyala ve isimlendir</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">Kalem aşağı</string>
@@ -883,8 +883,12 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_set_listening_language">Dinlenilen dili şuna ayarlayın:</string>
     <string name="set_instrument_to">Enstrümanı şuna ayarla</string>
     <string name="set_tempo_to">Tempoyu şuna ayarlayın:</string>
+    <string name="change_tempo_by">Tempoyu değiştir</string>
     <string name="pause_for">Duraklat</string>
+    <string name="play_drum">Davul çal</string>
     <string name="beats">vuruş</string>
+    <string name="play_note">Nota çal</string>
+    <string name="for_string">için</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Dikiş</string>
@@ -895,7 +899,12 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_stop_stitch">Mevcut dikişi durdur</string>
     <string name="brick_write_embroidery">Nakış verilerini dosyaya yaz</string>
     <string name="brick_default_embroidery_file">nakıs.dst</string>
+    <string name="brick_sew_up">Yukarı dik</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Zamanlayıcıyı sıfırla</string>
+    <string name="brick_open">Açık </string>
+    <string name="brick_in_browser">tarayıcıda</string>
     <!-- Control bricks -->
     <string name="brick_when_started">Program başladığında</string>
     <string name="brick_when">Objeye dokunduğunda</string>
@@ -940,10 +949,13 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_delete_this_clone">Bu kopyayı sil</string>
     <string name="brick_assert_that">Belirt</string>
     <string name="brick_is_equal_to">eşittir beklenen</string>
-    <string name="brick_wait_till_idle">Diğer tüm komut dosyaları durana kadar bekleyin</string>
+    <string name="brick_wait_till_idle">Diğer tüm komut dosyaları durana kadar
+bekleyin</string>
     <string name="brick_tap_at">"Tek dokunuş"</string>
     <string name="brick_touch_at">"Dokunun"</string>
     <string name="brick_tap_for">"için"</string>
+    <string name="brick_touch_slide">"Dokun ve kaydır"</string>
+    <string name="brick_touch_from_x">"x'ten itibaren:"</string>
     <string name="brick_finish_stage">Projeden(oyundan) çık</string>
     <string name="brick_finish_tests">Testi bitir(çık)</string>
     <string name="brick_assert_lists">Onay listeleri</string>
@@ -957,7 +969,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
         <item quantity="one">aynı isimli değişkende saklanır</item>
-        <item quantity="other">aynı ada sahip değişkenlerde saklanır</item>
+        <item quantity="other">aynı isimlere sahip değişkenlerde saklanır</item>
     </plurals>
     <plurals name="list_selection_plural">
         <item quantity="one">%d liste seçildi</item>
@@ -975,14 +987,14 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_set_variable">Değişkeni düzenle</string>
     <string name="brick_change_variable">Değişkeni değiştir</string>
     <string name="brick_write_variable_on_device">Cihaza değişkeni kaydet</string>
-    <string name="brick_read_variable_from_device">Cihazdaki kaydedilen değişkeni oku</string>
+    <string name="brick_read_variable_from_device">Cihaza kaydedilen değişkeni oku</string>
     <string name="brick_write_variable_to_file_top">Değişkeni cihaza</string>
     <string name="brick_write_variable_to_file_bottom">dosyala</string>
     <string name="brick_write_variable_to_file_default_value">degisken.txt</string>
     <string name="brick_write_variable_to_file_success">"Veriler %1$s'ye başarıyla yazıldı"</string>
     <string name="brick_read_variable_from_file_top">Değişkeni oku</string>
-    <string name="brick_read_variable_from_file_center">dosyadan</string>
-    <string name="brick_read_variable_from_file_bottom">VE</string>
+    <string name="brick_read_variable_from_file_center">şu dosyadan</string>
+    <string name="brick_read_variable_from_file_bottom">ve</string>
     <string name="brick_read_variable_from_file_keep">dosyayı sakla</string>
     <string name="brick_read_variable_from_file_delete">dosyayı sil</string>
     <string name="brick_write_list_on_device">Cihaza liste yaz</string>
@@ -990,7 +1002,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_note_default_value">buraya yorum ekle&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmm!</string>
     <string name="brick_say_bubble_default_value">Merhaba!</string>
-    <string name="brick_broadcast_default_value">"mesaj 1"</string>
+    <string name="brick_broadcast_default_value">"Yeni mesaj"</string>
     <string name="brick_add_item_to_userlist_add">Ekle</string>
     <string name="brick_add_item_to_userlist">listeye eklemek</string>
     <string name="brick_clear_userlist">Listedeki tüm öğeleri sil</string>
@@ -1026,30 +1038,50 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_store_csv_into_userlist_data">pisi,sevimli\npuppy, yaramaz\noctopus,akıllı</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
+    <string name="piano">piyano</string>
     <string name="electric_piano">Elektrikli Piano</string>
-    <string name="cello">Çello</string>
-    <string name="flute">Flüt</string>
-    <string name="vibraphone">Vibrafon</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Gitar</string>
-    <string name="electric_guitar">Elektrikli gitar</string>
-    <string name="bass">Bas</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Koro</string>
-    <string name="synth_lead">Synth Kurşun</string>
-    <string name="wooden_flute">Ahşap Flüt</string>
-    <string name="trombone">Trombon</string>
-    <string name="saxophone">Saksafon</string>
-    <string name="bassoon">Fagot</string>
-    <string name="clarinet">Klarnet</string>
-    <string name="music_box">Müzik Kutusu</string>
-    <string name="steel_drum">Çelik Varil</string>
-    <string name="marimba">Marimba</string>
+    <string name="cello">çello</string>
+    <string name="flute">flüt</string>
+    <string name="vibraphone">vibrafon</string>
+    <string name="organ">org</string>
+    <string name="guitar">gitar</string>
+    <string name="electric_guitar">elektro gitar</string>
+    <string name="bass">bas</string>
+    <string name="pizzicato">pizzikato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">koro</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">ahşap flüt</string>
+    <string name="trombone">trombon</string>
+    <string name="saxophone">saksafon</string>
+    <string name="bassoon">fagot</string>
+    <string name="clarinet">klarnet</string>
+    <string name="music_box">müzik kutusu</string>
+    <string name="steel_drum">çelik tambur</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">trampet</string>
+    <string name="bass_drum">bas davul</string>
+    <string name="side_stick">Yan sopa</string>
+    <string name="crash_cymbal">crash zil</string>
+    <string name="open_hi_hat">açık hi-hat</string>
+    <string name="closed_hi_hat">kapalı hi-hat</string>
+    <string name="tambourine">tef</string>
+    <string name="hand_clap">el çırpmak</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">Kütük</string>
+    <string name="cowbell">çıngırak</string>
+    <string name="triangle">üçgen</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">açık cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">İlk projem</string>
+    <string name="default_project_name">Projem</string>
     <string name="default_scene_name">Sahne %1$d</string>
     <string name="default_project_background_name">Arka plan</string>
     <string name="default_project_cloud_name">Bulutlar</string>
@@ -1081,18 +1113,6 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="default_cast_project_var_direction">yön</string>
     <string name="default_cast_project_name">İlk oyuncu programım</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">İlk AR.Drone 2.0 projem</string>
-    <string name="default_drone_project_sprites_takeoff">Havalan</string>
-    <string name="default_drone_project_sprites_flip">Çevir</string>
-    <string name="default_drone_project_sprites_up">Yukarı</string>
-    <string name="default_drone_project_sprites_down">Aşağı</string>
-    <string name="default_drone_project_sprites_left">Sol</string>
-    <string name="default_drone_project_sprites_right">Sağ</string>
-    <string name="default_drone_project_sprites_forward">ilet</string>
-    <string name="default_drone_project_sprites_back">Geri</string>
-    <string name="default_drone_project_sprites_turn_left">Sola dön</string>
-    <string name="default_drone_project_sprites_turn_right">Sağa dön</string>
-    <string name="default_drone_project_sprites_emergency">Acil durum</string>
     <string name="drone_brick_set_text">Metin</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1188,8 +1208,8 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="error_unknown_error">Bilinmeyen bir hata oluştu.</string>
     <string name="error_gps_not_available">Coğrafi konum verileri mevcut değil.</string>
     <string name="error_set_description">Yeni açıklama kaydedilirken bir hata oluştu.</string>
-    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
-        and credits.</string>
+    <string name="error_set_notes_and_credits">Yeni notlar kaydedilirken bir şeyler ters gitti
+         ve krediler.</string>
     <string name="error_no_whatsapp">WhatsApp yüklenmedi</string>
     <string name="error_unsupported_bricks_chromecast">Bu komut dosyası bir Chromecast projesine eklenemez.</string>
     <!--  -->
@@ -1370,19 +1390,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_jumping_sumo_taking_picture">Fotoğraf çekimi Sumo atlama</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">İlk Jumping Sumo projem</string>
-    <string name="add_look_jumping_sumo_video">Sumo videosu atlama</string>
-    <string name="default_jumping_sumo_project_sprites_forward">ilet</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Geri</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animasyonlar</string>
     <string name="default_jumping_sumo_project_sprites_sound">Ses</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">Ses Yok</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Uzun atlama</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Yüksek atlama</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Sola dön</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Sağa dön</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Çevir</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Resim çekmek</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Döndür</string>
@@ -1468,36 +1476,36 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_function_sin">günah</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
     <string name="formula_editor_function_cos">Cos</string>
-    <string name="formula_editor_function_cos_parameter">(0)</string>
+    <string name="formula_editor_function_cos_parameter">(360)</string>
     <string name="formula_editor_function_tan">ten rengi</string>
-    <string name="formula_editor_function_tan_parameter">(0)</string>
+    <string name="formula_editor_function_tan_parameter">(45)</string>
     <string name="formula_editor_function_ln">Içinde</string>
-    <string name="formula_editor_function_ln_parameter">(0)</string>
+    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
     <string name="formula_editor_function_log">log</string>
-    <string name="formula_editor_function_log_parameter">(0)</string>
+    <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
     <string name="formula_editor_object_color">renk</string>
     <string name="formula_editor_function_sqrt">karekök</string>
-    <string name="formula_editor_function_sqrt_parameter">(0)</string>
+    <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand">rastgele</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
     <string name="formula_editor_function_abs">abs</string>
-    <string name="formula_editor_function_abs_parameter">(0)</string>
+    <string name="formula_editor_function_abs_parameter">(1)</string>
     <string name="formula_editor_function_round">yuvarlak</string>
-    <string name="formula_editor_function_round_parameter">(0)</string>
+    <string name="formula_editor_function_round_parameter">(1.6)</string>
     <string name="formula_editor_function_mod">mod</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
     <string name="formula_editor_function_arcsin">arcsin</string>
-    <string name="formula_editor_function_arcsin_parameter">(0)</string>
+    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
     <string name="formula_editor_function_arccos">arccos</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan">arctan</string>
-    <string name="formula_editor_function_arctan_parameter">(0)</string>
+    <string name="formula_editor_function_arctan_parameter">(1)</string>
     <string name="formula_editor_function_arctan2">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp">üs</string>
-    <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_exp_parameter">(1)</string>
     <string name="formula_editor_function_power">güç</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
     <string name="formula_editor_function_floor">zemin</string>
@@ -1505,17 +1513,21 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_function_ceil">tavan</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
     <string name="formula_editor_function_max">maksimum</string>
-    <string name="formula_editor_function_max_parameter">(0,1)</string>
+    <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">minimum</string>
-    <string name="formula_editor_function_min_parameter">(0,1)</string>
-    <string name="formula_editor_function_true">DOĞRU</string>
-    <string name="formula_editor_function_false">YANLIŞ</string>
+    <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">eğer öyleyse</string>
+    <string name="formula_editor_function_if_then_else_parameter">(yanlış, 2, 3)</string>
+    <string name="formula_editor_function_true">doğru</string>
+    <string name="formula_editor_function_false">yanlış</string>
     <string name="formula_editor_function_length">Uzunluk</string>
     <string name="formula_editor_function_length_parameter">(\'Merhaba Dünya\')</string>
     <string name="formula_editor_function_letter">mektup</string>
     <string name="formula_editor_function_letter_parameter">(1, \'Merhaba Dünya\')</string>
     <string name="formula_editor_function_join">katıl</string>
     <string name="formula_editor_function_join_parameter">(\'Selam\',\' Dünya\')</string>
+    <string name="formula_editor_function_join3">katıl</string>
+    <string name="formula_editor_function_join3_parameter">(\'merhaba\',\' dünya\',\'!\')</string>
     <string name="formula_editor_function_regex">Düzenli ifade</string>
     <string name="formula_editor_function_regex_parameter">(\' bir? ([^ .]+)\',\'Ben bir pandayım.\')</string>
     <string name="formula_editor_function_regex_assistant">Düzenli ifade
@@ -1525,10 +1537,10 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_dialog_wiki_button">Daha fazla bilgi</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Anahtar kelime bulunamadı.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON çıkarıcı</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_dijital_pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino dijital pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
     <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
-    <string name="formula_editor_function_pin_default_parameter">(3)</string>
+    <string name="formula_editor_function_pin_default_parameter">(0)</string>
     <string name="formula_editor_function_finger_x">sahne dokunuşu x</string>
     <string name="formula_editor_function_finger_y">sahne dokunuşu</string>
     <string name="formula_editor_function_is_finger_touching">sahne\'ye dokundu</string>
@@ -1536,8 +1548,9 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_function_multi_finger_y">sahne dokunuşu</string>
     <string name="formula_editor_function_is_multi_finger_touching">sahne\'ye dokundu</string>
     <string name="formula_editor_function_index_of_last_finger">son aşama dokunmatik endeksi</string>
+    <string name="formula_editor_function_number_of_current_touches">mevcut dokunuşların sayısı</string>
     <string name="formula_editor_function_no_parameter"></string>
-    <string name="formula_editor_function_touch_parameter">(1)</string>
+    <string name="formula_editor_function_touch_parameter">(2)</string>
     <string name="formula_editor_function_list_item">öğeler</string>
     <string name="formula_editor_function_list_item_parameter">(1,*liste adı*)</string>
     <string name="formula_editor_function_contains">içeren</string>
@@ -1548,9 +1561,10 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_function_number_of_items_parameter">(*liste adı*)</string>
     <string name="formula_editor_function_collision">Objeye dokunursa</string>
     <string name="formula_editor_function_collides_with_edge">kenara dokunursa</string>
-    <string name="formula_editor_function_touched">Objeye dokunursa</string>
+    <string name="formula_editor_function_touched">Objeye eli ile dokunursa</string>
     <string name="formula_editor_function_collides_with_color">renge dokunur</string>
     <string name="formula_editor_function_color_touches_color">renk rengi dokunur</string>
+    <string name="formula_editor_sensor_color_at_x_y">x y\'de renk</string>
     <string name="formula_editor_sensor_x_acceleration">x_ivmesi</string>
     <string name="formula_editor_sensor_y_acceleration">y_ivmesi</string>
     <string name="formula_editor_sensor_z_acceleration">z_ivmesi</string>
@@ -1563,6 +1577,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_sensor_x_inclination">x_eğim açısı</string>
     <string name="formula_editor_sensor_y_inclination">y_eğim açısı</string>
     <string name="formula_editor_sensor_loudness">ses gürlüğü</string>
+    <string name="formula_editor_sensor_timer">Zamanlayıcı</string>
     <string name="formula_editor_sensor_date_year">yıl</string>
     <string name="formula_editor_sensor_date_month">ay</string>
     <string name="formula_editor_sensor_date_day">gün</string>
@@ -1662,9 +1677,9 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_logic_notequal">≠</string>
     <string name="formula_editor_logic_lesserthan">&lt;</string>
     <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">VE</string>
-    <string name="formula_editor_logic_or">YADA</string>
-    <string name="formula_editor_logic_not">DEĞİL</string>
+    <string name="formula_editor_logic_and">ve</string>
+    <string name="formula_editor_logic_or">yada</string>
+    <string name="formula_editor_logic_not">değil</string>
     <string name="formula_editor_logic_greaterequal">≥</string>
     <string name="formula_editor_logic_leserequal">≤</string>
     <string name="formula_editor_logic_equal">=</string>
@@ -1721,7 +1736,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="formula_editor_listening_language_sensor">dinleme dili</string>
     <string name="formula_editor_speech_recognition">Konuşma tanıma</string>
     <string name="camera_error_text_detection">        Metni algılamayla ilgili bir sorun yaşandı. Bazı bileşenler hala arka planda indiriliyor olabilir
-        . Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar deneyiniz.</string>
+        . Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar deneyin.</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
     <string name="brick_show_variable">Değişkeni göster</string>
@@ -1734,6 +1749,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_show_variable_aligned_left">sol</string>
     <string name="brick_show_variable_aligned_right">sağ</string>
     <string name="brick_context_dialog_pick_color">Renk seç</string>
+    <string name="brick_context_dialog_pick_note">Nota seç</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Kamerayı</string>
@@ -1763,8 +1779,9 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="cast_connection_timout_msg">Bağlantı zaman aşımına uğradı. Lütfen tekrar deneyin.</string>
     <string name="cast_screen_pause_text">Duraklatıldı</string>
     <!-- -->
-    <string name="deletion_alert_title">Uyarı!</string>
-    <string name="deletion_alert_text">Hala kullanılan bir programı silmek tehlikelidir. Silmek istediğinize emin misiniz?</string>
+    <string name="deletion_alert_title">Silinsin mi?</string>
+    <string name="deletion_alert_text">Halen kullanımda olan bir değişkeni veya listeyi silmek,
+        hatalara yol açar. Bunu geri alamazsınız!</string>
     <string name="deletion_alert_yes">Evet, yine de silin!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Programınız başkalarının kullanabileceği

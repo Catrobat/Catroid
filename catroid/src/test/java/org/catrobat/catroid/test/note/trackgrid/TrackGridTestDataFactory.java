@@ -47,7 +47,7 @@ public final class TrackGridTestDataFactory {
 		SparseArrayCompat<List<GridRowPosition>> gridRowContent = new SparseArrayCompat<>();
 
 		for (int columnStartIndex : columnStartIndices) {
-			int sparseArrayIndex = columnStartIndex / TrackRowView.QUARTER_COUNT;
+			int sparseArrayIndex = columnStartIndex / TrackRowView.INITIAL_QUARTER_COUNT;
 
 			List<GridRowPosition> gridRowPositions = gridRowContent.get(sparseArrayIndex);
 			if (gridRowPositions == null) {
@@ -55,7 +55,7 @@ public final class TrackGridTestDataFactory {
 				gridRowContent.put(sparseArrayIndex, gridRowPositions);
 			}
 
-			gridRowPositions.add(new GridRowPosition(columnStartIndex % TrackRowView.QUARTER_COUNT,
+			gridRowPositions.add(new GridRowPosition(columnStartIndex % TrackRowView.INITIAL_QUARTER_COUNT,
 					NoteLength.QUARTER));
 			gridRowContent.put(sparseArrayIndex, gridRowPositions);
 		}

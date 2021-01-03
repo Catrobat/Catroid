@@ -27,6 +27,7 @@ import android.graphics.Point
 import androidx.test.annotation.UiThreadTest
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.rule.GrantPermissionRule
+import com.google.mlkit.vision.face.Face
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.camera.FaceDetector
 import org.catrobat.catroid.content.Project
@@ -71,20 +72,41 @@ class SensorHandlerTest {
     }
 
     @Test
-    fun testFaceDetection() {
+    fun testFirstFaceDetection() {
         SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
         compareToSensor(0, Sensors.FACE_DETECTED)
         compareToSensor(0, Sensors.FACE_SIZE)
 
-        val size = 50
-        val position = Point(15, -15)
-        FaceDetector.updateDetectionStatus(true)
-        FaceDetector.onFaceDetected(position, size)
+        val firstFaceSize = 50
+        val firstFacePosition = Point(15, -15)
+        FaceDetector.facesForSensors[0] = Mockito.mock(Face::class.java)
+
+        FaceDetector.updateDetectionStatus()
+        FaceDetector.onFaceDetected(firstFacePosition, firstFaceSize, 0)
 
         compareToSensor(1, Sensors.FACE_DETECTED)
-        compareToSensor(size, Sensors.FACE_SIZE)
-        compareToSensor(position.x, Sensors.FACE_X_POSITION)
-        compareToSensor(position.y, Sensors.FACE_Y_POSITION)
+        compareToSensor(firstFaceSize, Sensors.FACE_SIZE)
+        compareToSensor(firstFacePosition.x, Sensors.FACE_X_POSITION)
+        compareToSensor(firstFacePosition.y, Sensors.FACE_Y_POSITION)
+    }
+
+    @Test
+    fun testSecondFaceDetection() {
+        SensorHandler.startSensorListener(ApplicationProvider.getApplicationContext())
+        compareToSensor(0, Sensors.SECOND_FACE_DETECTED)
+        compareToSensor(0, Sensors.SECOND_FACE_SIZE)
+
+        val secondFaceSize = 50
+        val secondFacePosition = Point(15, -15)
+        FaceDetector.facesForSensors[1] = Mockito.mock(Face::class.java)
+
+        FaceDetector.updateDetectionStatus()
+        FaceDetector.onFaceDetected(secondFacePosition, secondFaceSize, 1)
+
+        compareToSensor(1, Sensors.SECOND_FACE_DETECTED)
+        compareToSensor(secondFaceSize, Sensors.SECOND_FACE_SIZE)
+        compareToSensor(secondFacePosition.x, Sensors.SECOND_FACE_X_POSITION)
+        compareToSensor(secondFacePosition.y, Sensors.SECOND_FACE_Y_POSITION)
     }
 
     @Test

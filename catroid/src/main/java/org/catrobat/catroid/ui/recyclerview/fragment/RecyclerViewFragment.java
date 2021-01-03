@@ -43,7 +43,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ExtendedRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter;
 import org.catrobat.catroid.ui.recyclerview.adapter.draganddrop.TouchHelperCallback;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -435,10 +435,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		T item = selectedItems.get(0);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-
 		builder.setHint(getString(getRenameDialogHint()))
 				.setText(item.getName())
-				.setTextWatcher(new RenameItemTextWatcher<>(item, adapter.getItems()))
+				.setTextWatcher(new DuplicateInputTextWatcher(adapter.getItems()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> renameItem(item, textInput));
 
 		builder.setTitle(getRenameDialogTitle())

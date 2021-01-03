@@ -32,6 +32,7 @@
     <string name="confirm">ยืนยัน</string>
     <string name="ignore">เพิกเฉย</string>
     <string name="cancel">ยกเลิก</string>
+    <string name="save">บันทึก</string>
     <string name="next">ถัดไป</string>
     <string name="back">ย้อนกลับ</string>
     <string name="ok">ตกลง</string>
@@ -43,8 +44,9 @@
     <string name="once">ครั้งเดียว</string>
     <string name="always">ทุกครั้ง</string>
     <string name="deny">ปฏิเสธ</string>
-    <string name="agree">ตกลง</string>
     <string name="disagree">ไม่เห็นด้วย</string>
+    <string name="accept">ยอมรับ</string>
+    <string name="decline">ปฏิเสธ</string>
     <string name="select_all">เลือก​ทั้ง​หมด</string>
     <string name="deselect_all">ไม่​เลือก​ทั้ง​หมด</string>
     <string name="skip">ข้าม</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">สร้างด้วย</string>
     <string name="marketing_app_details">รายละเอียดเกี่ยวกับแอพนี้</string>
     <string name="marketing_more_on_google_play">แอพเพิ่มเติมใน App Store</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">แท็ก NFC</string>
     <!-- Settings activity -->
     <string name="preference_title">การตั้งค่า</string>
     <string name="preference_title_language">ภาษา</string>
@@ -263,8 +267,8 @@
     <string name="reconvert_dialog_reconvert">แปลงโครงการนี้อีกครั้ง</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">ในการใช้แอพของเราจำเป็นต้องยอมรับนโยบายความเป็นส่วนตัวของเรา  อย่างไรก็ตามหากคุณไม่สะดวกที่จะทำคุณสามารถใช้บริการเว็บฟรีของเราได้</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">ในการใช้แอพของเราจำเป็นต้องยอมรับข้อกำหนดการใช้งานและบริการของเรา อย่างไรก็ตามหากคุณไม่สบายใจที่จะทำเช่นนั้นคุณสามารถใช้บริการบนเว็บฟรีของเราได้ที่</string>
     <string name="wtf_error">มีข้อผิดพลาดที่ไม่คาดคิดเกิดขึ้น: ฉันไม่สามารถกู้คืนโปรเจ็กต์ตัวอย่างได้</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">เกิดข้อผิดพลาดขณะคัดลอกโครงการ</string>
@@ -283,8 +287,6 @@
     <string name="am_convert">แปลง</string>
     <string name="am_merge">รวม</string>
     <string name="dialog_confirm_delete">คุณไม่สามารถเลิกทำสิ่งนี้ได้!</string>
-    <string name="dialog_confirm_delete_definition">สิ่งนี้จะคำสั่งทั้งหมด
-         สคริปต์อื่น ๆ ที่ใช้งานอยู่ \n คุณไม่สามารถเลิกทำสิ่งนี้ได้!</string>
     <string name="list_headline_sprites">นักแสดงและวัตถุ</string>
     <!-- Options Menu Options -->
     <string name="backpack">ชุดข้อมูล</string>
@@ -324,11 +326,6 @@
         <item quantity="other">ลบสคริปต์นี้หรือไม่
 ลบสคริปต์เหล่านี้หรือไม่</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">ลบคำสั่งนี้หรือไม่
-ลบคำสั่งเหล่านี้หรือไม่</item>
-    </plurals>
-    <string name="delete_definition">ลบคำจำกัดความของคำสั่งนี้หรือไม่</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">ชื่อโครงการ</string>
     <string name="scene_name_label">ชื่อฉาก</string>
@@ -500,20 +497,8 @@
     <string name="pack">เก็บ</string>
     <string name="unpack">แตกออก</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">สคริปต์</string>
-    <string name="backgrounds">พื้นหลัง</string>
-    <string name="looks">รูปลักษณ์</string>
-    <string name="sounds">เสียง</string>
-    <string name="nfctags">แท็ก NFC</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">โปรแกรมใหม่</string>
-    <string name="new_project_empty">สร้างโครงการที่ไม่มีตัวอย่าง</string>
-    <string name="new_project_default">สร้างโครงการตัวอย่าง</string>
-    <string name="new_project_default_drone">สร้างตัวอย่างโครงการ AR.Drone 2.0</string>
-    <string name="new_project_default_jumping_sumo">สร้างตัวอย่างโครงการ Jumping Sumo</string>
-    <string name="project_orientation_title">ปฐมนิเทศ:</string>
-    <string name="project_select_screen_title">หน้าจอ:</string>
+    <string name="new_project_dialog_example_project">ตัวอย่างโครงการ</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">รวมโครงการแล้ว</string>
@@ -528,13 +513,15 @@
     <string name="add_look_draw_new_image">วาดรูป</string>
     <string name="add_look_choose_image">เลือกรูปภาพ</string>
     <string name="add_look_media_library">ไลบรารีสื่อ</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">เพิ่มเสียง</string>
     <string name="add_sound_from_recorder">บันทึกเสียง</string>
     <string name="add_sound_choose_file">เลือกไฟล์</string>
     <string name="add_sound_music">นักแต่งเพลง</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">ตัวเลือกหมายเหตุ</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">ให้คะแนนแอพ</string>
     <string name="rating_google_play_dialog_text">หากคุณสนุกกับแอพนี้โปรดให้คะแนนเราที่ App store</string>
@@ -560,7 +547,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">นโยบายความเป็นส่วนตัว</string>
     <string name="disclaimer_privacy_police_header_headline">ยินดีต้อนรับ!</string>
-    <string name="disclaimer_privacy_policy_header">ก่อนที่คุณจะเริ่มการเข้ารหัสโปรดอ่านและยอมรับนโยบายความเป็นส่วนตัวของเราเพื่อใช้แอพ:</string>
+    <string name="disclaimer_privacy_policy_header">ในการใช้แอพนี้โปรดยอมรับไฟล์</string>
     <string name="dialog_privacy_policy_text">เพื่อให้คุณได้รับประโยชน์ทั้งหมดจากบริการของเราและบัญชีที่เกี่ยวข้องคุณจำเป็นต้องรวบรวมข้อมูลบางอย่างจากคุณ \n\n
       •เพื่อรักษาและปรับปรุงบริการของเรา (แอพและเว็บไซต์) และเพื่อทำการวิจัยทางวิทยาศาสตร์เกี่ยวกับ ICT และ STEM /  การศึกษา STEAM เราใช้ Google Analytics, Crashlytics และ Firebase ทั้งหมดโดย Google LLC (USA) และ Dynatrace โดย Dynatrace LLC (USA) เพื่อรับข้อมูลเมตาเกี่ยวกับการใช้บริการของเราเช่นข้อมูลการชนเวลาบันทึกหน้าเว็บที่เข้าชม  / หน้าจอการใช้แอพและบริการของเราระบบปฏิบัติการที่ใช้และข้อมูลเกี่ยวกับผู้ให้บริการเครือข่าย  การวิเคราะห์และข้อมูลที่เก็บรวบรวมนี้ไม่ได้เชื่อมโยงกับโปรไฟล์ของคุณและไม่มีข้อมูลส่วนบุคคลใด ๆ (บิตสุดท้ายของที่อยู่ IP จะถูกลบออก)  อย่างไรก็ตามข้อมูลที่รวบรวมจะถูกถ่ายโอนไปยังผู้ให้บริการ (Google LLC, USA และ Dynatrace LLC, สหรัฐอเมริกา)  การประมวลผลข้อมูลเป็นไปตามข้อตกลงกับ Google LLC และ Dynatrace LLC  ความสัมพันธ์นี้กับผู้ให้บริการเป็นไปตามข้อกำหนดการป้องกันข้อมูลทั่วไปของสหภาพยุโรป (EU GDPR) และข้อตกลง \"Privacy Shield\" ของสหภาพยุโรป - สหรัฐอเมริกา \n\n
       •เพื่อสร้างและใช้บัญชีในระบบของเราและแจ้งให้คุณทราบเกี่ยวกับความจำเป็น  การเปลี่ยนแปลงเกี่ยวกับบัญชีของคุณต่ออีเมลเช่นการอัปเดตหรือการละเมิดข้อกำหนดในการให้บริการและกฎการใช้ชุมชนของเราหรือนโยบายของเราเราจะจัดเก็บชื่อผู้ใช้ของคุณและที่อยู่อีเมลของคุณ  หากคุณเชื่อมต่อบัญชีของคุณผ่านบัญชี Google หรือ Facebook ของคุณเราจะจัดเก็บรหัสระบุตัวตนที่เชื่อมต่อกับบัญชีของคุณในบริการเหล่านี้  เราจะไม่ใช้ข้อมูลนี้เพื่อจุดประสงค์อื่น ๆ (เช่นการตลาด) เว้นแต่คุณจะอนุญาตให้เราทำอย่างชัดเจน \n\n
@@ -630,6 +617,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_context_dialog_comment_out_script">ปิดการใช้งานสคริปต์</string>
     <string name="brick_context_dialog_help">ช่วยเหลือ</string>
     <string name="comment_in_out">ปิด / เปิด</string>
+    <string name="catblocks">สลับ 2D</string>
+    <string name="catblocks_reorder">ล้างสคริปต์</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">เล่นฉาก:</string>
@@ -694,12 +683,12 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="prestage_no_gps_sensor_available">\u2022 ตำแหน่งทางภูมิศาสตร์ \n</string>
     <string name="prestage_text_to_speech_error">\u2022 เครื่องมือแปลงข้อความเป็นคำพูด \n</string>
     <string name="prestage_no_back_camera_available">\u2022 กล้องด้านหลัง \n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 การตรวจจับใบหน้า \n</string>
     <string name="prestage_no_text_detection_available">\u2022 การตรวจจับข้อความ \n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 กล้องด้านหน้า \n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_camera_available">\u2022 กล้อง \n</string>
+    <string name="prestage_no_flash_available">\u2022 ไฟแฟรช\n</string>
     <string name="prestage_default_resource_not_available">\u2022 องค์ประกอบที่ไม่รู้จัก \n</string>
     <string name="no_nfc_available">ไม่สามารถใช้ NFC</string>
     <string name="nfc_not_activated">โปรดเปิดใช้งาน NFC และกดย้อนกลับเพื่อกลับไปที่แอพ</string>
@@ -720,6 +709,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="dialog_new_broadcast_message_name">ข้อความ:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">แก้ไขรายการแท็ก NFC</string>
     <string name="brick_when_nfc_default_all">ทั้งหมด</string>
     <!-- -->
     <!-- Brick categories -->
@@ -830,6 +820,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_next_background">พื้นหลังถัดไป</string>
     <string name="brick_previous_look">ดูก่อนหน้า</string>
     <string name="brick_previous_background">พื้นหลังก่อนหน้า</string>
+    <string name="brick_delete_look">ลบรูปลักษณ์</string>
+    <string name="brick_delete_background">ลบพื้นหลัง</string>
     <string name="brick_flash">เปิดไฟฉาย</string>
     <string name="brick_flash_on">เปิด</string>
     <string name="brick_flash_off">ปิด</string>
@@ -842,6 +834,12 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_ask_speech_label">คำถาม</string>
     <string name="brick_ask_speech_store">และเก็บคำตอบที่พูดมา</string>
     <string name="brick_ask_speech_default_question">คุณชื่ออะไร?</string>
+    <string name="brick_paint_new_look">สีรูปลักษณ์ใหม่</string>
+    <string name="brick_paint_new_background">ทาสีพื้นหลังใหม่</string>
+    <string name="brick_paint_new_look_name">"ชื่อรูปลักษณ์ใหม่"</string>
+    <string name="brick_copy_look">คัดลอกรูปลักษณ์และตั้งชื่อ</string>
+    <string name="brick_copy_look_name">ชื่อของรูปลักษณ์ที่คัดลอก</string>
+    <string name="brick_copy_background">คัดลอกพื้นหลังและตั้งชื่อ</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">วางปากกาลง</string>
@@ -869,8 +867,12 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_set_listening_language">ภาษาที่ใช้ในการฟัง</string>
     <string name="set_instrument_to">ตั้งค่าเครื่องมือเป็น</string>
     <string name="set_tempo_to">ตั้งเวลาเป็น</string>
+    <string name="change_tempo_by">เปลี่ยนจังหวะโดย</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">เล่นกลอง</string>
     <string name="beats">beats</string>
+    <string name="play_note">เล่นบันทึก</string>
+    <string name="for_string">สำหรับ</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">ตะเข็บ</string>
@@ -881,7 +883,12 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">เขียนข้อมูลการปักลงในไฟล์</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">เย็บ</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">รีเซ็ตเวลา</string>
+    <string name="brick_open">เปิด​</string>
+    <string name="brick_in_browser">ในเบราว์เซอร์</string>
     <!-- Control bricks -->
     <string name="brick_when_started">เมื่อฉากเริ่ม</string>
     <string name="brick_when">เมื่อเคาะ</string>
@@ -929,6 +936,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_tap_at">"แตะครั้งเดียวที่"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"สำหรับ"</string>
+    <string name="brick_touch_slide">"แตะและเลื่อน"</string>
+    <string name="brick_touch_from_x">"จาก x:"</string>
     <string name="brick_finish_stage">เสร็จสิ้นขั้นตอน</string>
     <string name="brick_finish_tests">เสร็จสิ้นการทดสอบ</string>
     <string name="brick_assert_lists">ยืนยันรายการ</string>
@@ -1013,30 +1022,50 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">เปียโน</string>
+    <string name="electric_piano">เปียโนไฟฟ้า</string>
+    <string name="cello">เชลโล</string>
+    <string name="flute">ขลุ่ย</string>
+    <string name="vibraphone">ไวบราโฟน</string>
+    <string name="organ">ออร์แกน</string>
+    <string name="guitar">กีตาร์</string>
+    <string name="electric_guitar">กีต้าร์ไฟฟ้า</string>
+    <string name="bass">เบส</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">นักร้องประสานเสียง</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">ขลุ่ยไม้</string>
+    <string name="trombone">ทรอมโบน</string>
+    <string name="saxophone">แซกโซโฟน</string>
+    <string name="bassoon">ปี่ทุ้ม</string>
+    <string name="clarinet">ปี่ชวา</string>
+    <string name="music_box">กล่องดนตรี</string>
+    <string name="steel_drum">กลองเหล็ก</string>
+    <string name="marimba">ระนาด</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">กลองสแนร์</string>
+    <string name="bass_drum">กลองเบส</string>
+    <string name="side_stick">ไม้ด้านข้าง</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">เปิด hi-hat</string>
+    <string name="closed_hi_hat">ปิด hi-hat</string>
+    <string name="tambourine">รำมะนา</string>
+    <string name="hand_clap">ปรบมือ</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">บล็อกไม้</string>
+    <string name="cowbell">กระดิ่ง</string>
+    <string name="triangle">สามเหลี่ยม</string>
+    <string name="bongo">บองโก</string>
+    <string name="conga">คองก้า</string>
+    <string name="cabasa">คาบาซา</string>
+    <string name="guiro">กิโระ</string>
+    <string name="vibraslap">ไวบราสแลป</string>
+    <string name="open_cuica">เปิด cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">โปรแกรมแรกของฉัน</string>
+    <string name="default_project_name">โครงการของฉัน</string>
     <string name="default_scene_name">ฉาก %1$d</string>
     <string name="default_project_background_name">พื้นหลัง</string>
     <string name="default_project_cloud_name">เมฆ</string>
@@ -1068,18 +1097,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="default_cast_project_var_direction">ทิศทาง</string>
     <string name="default_cast_project_name">Chromecast โครงการแรกของฉัน</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">ออกบิน</string>
-    <string name="default_drone_project_sprites_flip">พลิก</string>
-    <string name="default_drone_project_sprites_up">ขึ้น</string>
-    <string name="default_drone_project_sprites_down">ลง</string>
-    <string name="default_drone_project_sprites_left">ซ้าย</string>
-    <string name="default_drone_project_sprites_right">ขวา</string>
-    <string name="default_drone_project_sprites_forward">ไปข้างหน้า</string>
-    <string name="default_drone_project_sprites_back">ย้อนกลับ</string>
-    <string name="default_drone_project_sprites_turn_left">เลี้ยวซ้าย</string>
-    <string name="default_drone_project_sprites_turn_right">เลี้ยวขวา</string>
-    <string name="default_drone_project_sprites_emergency">ฉุกเฉิน</string>
     <string name="drone_brick_set_text">ข้อความ</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1204,7 +1221,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
     <string name="brick_raspi_if_begin_second_part">เป็นจริงแล้ว</string>
     <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-    <string name="brick_raspi_when_equals">changes to</string>
+    <string name="brick_raspi_when_equals">เปลี่ยนเป็น</string>
     <string name="brick_raspi_pressed_text">high</string>
     <string name="brick_raspi_released_text">low</string>
     <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
@@ -1333,7 +1350,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="drone_animation_blinkred">กะพริบไฟสีแดง</string>
     <string name="drone_animation_blinkorange">Blink orange</string>
     <string name="drone_animation_snakegreenred">Snake green red</string>
-    <string name="drone_animation_fire">Fire</string>
+    <string name="drone_animation_fire">ไฟ</string>
     <string name="drone_animation_standard">Standard</string>
     <string name="drone_animation_red">สีแดง</string>
     <string name="drone_animation_green">สีเขียว</string>
@@ -1348,7 +1365,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
     <string name="drone_animation_leftgreenrightred">Left green right red</string>
     <string name="drone_animation_leftredrightgreen">Left red right green</string>
-    <string name="drone_animation_blinkstandard">Blink standard</string>
+    <string name="drone_animation_blinkstandard">กะพริบ</string>
     <!-- Jumping Sumo Bricks -->
     <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
     <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
@@ -1363,19 +1380,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">ไปข้างหน้า</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-    <string name="default_jumping_sumo_project_sprites_animation">ภาพเคลื่อนไหว</string>
     <string name="default_jumping_sumo_project_sprites_sound">เสียง</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">เลี้ยวซ้าย</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">เลี้ยวขวา</string>
-    <string name="default_jumping_sumo_project_sprites_flip">พลิก</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Spin</string>
@@ -1501,6 +1506,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">ขั้นต่ำของ</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">ถ้าเป็นอย่างอื่น</string>
+    <string name="formula_editor_function_if_then_else_parameter">(เท็จ, 2, 3)</string>
     <string name="formula_editor_function_true">จริง</string>
     <string name="formula_editor_function_false">เท็จ</string>
     <string name="formula_editor_function_length">ความยาว</string>
@@ -1509,6 +1516,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_letter_parameter">(1 \'สวัสดีโลก\')</string>
     <string name="formula_editor_function_join">รวม</string>
     <string name="formula_editor_function_join_parameter">(\'สวัสดีชาวโลก\')</string>
+    <string name="formula_editor_function_join3">เข้าร่วม</string>
+    <string name="formula_editor_function_join3_parameter">(\'สวัสดี\',\' โลก\',!\')</string>
     <string name="formula_editor_function_regex">การแสดงออกปกติ</string>
     <string name="formula_editor_function_regex_parameter">(\'an? ([^.] +)\', \'ฉันเป็นแพนด้า\')</string>
     <string name="formula_editor_function_regex_assistant">ปกติ
@@ -1529,6 +1538,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_multi_finger_y">เวทีสัมผัส y</string>
     <string name="formula_editor_function_is_multi_finger_touching">เวทีสัมผัสแล้ว</string>
     <string name="formula_editor_function_index_of_last_finger">last stage touch index</string>
+    <string name="formula_editor_function_number_of_current_touches">จำนวนการสัมผัสในปัจจุบัน</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">ชิ้น</string>
@@ -1544,6 +1554,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_function_touched">touches finger</string>
     <string name="formula_editor_function_collides_with_color">สัมผัสสี</string>
     <string name="formula_editor_function_color_touches_color">สีสัมผัสสี</string>
+    <string name="formula_editor_sensor_color_at_x_y">สีที่ x y</string>
     <string name="formula_editor_sensor_x_acceleration">ความเร่ง_x</string>
     <string name="formula_editor_sensor_y_acceleration">ความเร่ง_y</string>
     <string name="formula_editor_sensor_z_acceleration">ความเร่ง_z</string>
@@ -1556,6 +1567,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_sensor_x_inclination">ความลาดเอียง_x</string>
     <string name="formula_editor_sensor_y_inclination">ความลาดเอียง_y</string>
     <string name="formula_editor_sensor_loudness">ระดับความดัง</string>
+    <string name="formula_editor_sensor_timer">จับเวลา</string>
     <string name="formula_editor_sensor_date_year">year</string>
     <string name="formula_editor_sensor_date_month">month</string>
     <string name="formula_editor_sensor_date_day">day</string>
@@ -1730,6 +1742,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">เลือกบันทึก</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>
@@ -1764,8 +1777,9 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
     <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
-    <string name="deletion_alert_title">Warning!</string>
-    <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous. Are you sure?</string>
+    <string name="deletion_alert_title">ลบ?</string>
+    <string name="deletion_alert_text">การลบตัวแปรหรือรายการที่ยังคงใช้งานอยู่อาจทำให้เกิด
+         ข้อผิดพลาด คุณไม่สามารถเลิกทำได้!</string>
     <string name="deletion_alert_yes">Yes, delete anyway!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others

@@ -50,7 +50,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = "2.5.2"
+    paintroidVersion = '2.6.0'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -59,6 +59,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco-android'
+apply plugin: 'kotlin-android-extensions'
 
 apply from: 'gradle/code_quality_tasks.gradle'
 apply from: 'gradle/emulator_tasks.gradle'
@@ -81,7 +82,7 @@ if (rootProject.hasProperty('independent')) {
 if (rootProject.hasProperty('playground') && rootProject.property('playground').toBoolean()) {
     println "Playground build"
     appId = 'org.catrobat.catroid.test'
-    appName = 'Catrobat Playground'
+    appName = 'Pocket Code beta'
     manifestAppName = appName
 }
 
@@ -164,6 +165,8 @@ android {
         buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "false"
+        buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "false"
         resValue "string", "FEATURE_EMBROIDERY_PREFERENCES_ENABLED", "false"
         resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "false"
         resValue "string", "SNACKBAR_HINTS_ENABLED", "false"
@@ -240,6 +243,8 @@ android {
         debug {
             buildConfigField "boolean", "USE_ANDROID_LOCALES_FOR_SCREENSHOTS", useAndroidLocales()
             resValue "string", "DEBUG_MODE", "true"
+            buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "true"
+            buildConfigField "boolean", "FEATURE_CATBLOCKS_DEBUGABLE", "true"
             testCoverageEnabled = rootProject.hasProperty('enableCoverage')
             signingConfig signingConfigs.debug
         }
@@ -254,6 +259,11 @@ android {
         }
 
         signedRelease {
+            initWith buildTypes.release
+            signingConfig signingConfigs.signedRelease
+        }
+
+        beta {
             initWith buildTypes.release
             signingConfig signingConfigs.signedRelease
         }
@@ -338,10 +348,10 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8'
 
     // Support libraries
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.mediarouter:mediarouter:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.browser:browser:1.2.0'
 
     implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
@@ -352,11 +362,16 @@ dependencies {
         exclude group: 'commons-logging', module: 'commons-logging'
     }
 
-    // Dagger
-    implementation 'com.google.dagger:dagger:2.21'
-    implementation 'com.google.dagger:dagger-android:2.21'
-    kapt 'com.google.dagger:dagger-compiler:2.21'
-    kapt 'com.google.dagger:dagger-android-processor:2.21'
+    // Dependency Injection
+    implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
     // Drone
     implementation 'com.parrot:arsdk:3.12.6'
@@ -377,6 +392,9 @@ dependencies {
     implementation ('com.thoughtworks.xstream:xstream:1.4.11.1') {
         exclude group: 'xmlpull'
     }
+
+    // Catblocks
+    implementation "androidx.webkit:webkit:1.2.0"
 
     // Pocket Music
     implementation 'com.github.oliewa92:MidiDroid:v1.1'

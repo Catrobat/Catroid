@@ -39,7 +39,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.99999991;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999999994;
 
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
@@ -51,6 +51,7 @@ public final class Constants {
 	public static final String CODE_XML_FILE_NAME = "code.xml";
 	public static final String PERMISSIONS_FILE_NAME = "permissions.txt";
 	public static final String TMP_CODE_XML_FILE_NAME = "tmp_" + CODE_XML_FILE_NAME;
+	public static final String UNDO_CODE_XML_FILE_NAME = "undo_" + CODE_XML_FILE_NAME;
 
 	public static final String DEVICE_VARIABLE_JSON_FILENAME = "DeviceVariables.json";
 	public static final String DEVICE_LIST_JSON_FILENAME = "DeviceLists.json";
@@ -126,6 +127,9 @@ public final class Constants {
 	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
+	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
+	public static final String CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL = "&versionCode=";
+	public static final int CATROBAT_TERMS_OF_USE_ACCEPTED = 1;
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
 

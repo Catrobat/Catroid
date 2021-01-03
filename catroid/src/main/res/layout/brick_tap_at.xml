@@ -37,10 +37,10 @@
         android:visibility="gone" />
 
     <org.catrobat.catroid.ui.BrickLayout
-        android:id="@+id/brick_place_at_layout"
+        android:id="@+id/brick_tap_at_layout"
         style="@style/BrickContainer.Device.Medium">
 
-        <include layout="@layout/icon_brick_category_look" />
+        <include layout="@layout/icon_brick_category_device" />
         
         <TextView
             style="@style/BrickText.SingleLine"

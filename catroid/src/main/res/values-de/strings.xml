@@ -32,6 +32,7 @@
     <string name="confirm">Bestätigen</string>
     <string name="ignore">Ignorieren </string>
     <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
     <string name="next">Weiter</string>
     <string name="back">Zurück</string>
     <string name="ok">Ok</string>
@@ -43,8 +44,9 @@
     <string name="once">Einmal</string>
     <string name="always">Immer</string>
     <string name="deny">Ablehnen</string>
-    <string name="agree">Zustimmen</string>
     <string name="disagree">Ablehnen</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     <string name="select_all">Alle auswählen</string>
     <string name="deselect_all">Auswahl aufheben</string>
     <string name="skip">SKIP</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">Erstellt mit</string>
     <string name="marketing_app_details">Details zu dieser App</string>
     <string name="marketing_more_on_google_play">Weitere Apps auf Google Play</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">Einstellungen</string>
     <string name="preference_title_language">Sprache</string>
@@ -274,9 +278,9 @@
     <string name="reconvert_dialog_reconvert">Projekt erneut konvertieren</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">Um die App zu nutzen ist es notwendig unsere Datenschutzvereinbarung zu akzeptieren.
-        Falls du das nicht möchtest stehen dir weiterhin unsere kostenlosen online Dienste zur Verfügung:</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
+        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
     <string name="wtf_error">Unvorhergesehener Fehler aufgetreten: Default Projekt konnte NICHT wiederhergestellt werden.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">Fehler beim Kopieren des Projekts aufgetreten</string>
@@ -295,7 +299,6 @@
     <string name="am_convert">Konvertieren</string>
     <string name="am_merge">Zusammenführen</string>
     <string name="dialog_confirm_delete">Du kannst das nicht rückgängig machen!</string>
-    <string name="dialog_confirm_delete_definition">Dadurch wird auch der Baustein in allen anderen Skripten entfernt, in denen er verwendet wird. \ NSie können dies nicht rückgängig machen!</string>
     <string name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string name="backpack">Rucksack</string>
@@ -336,11 +339,6 @@
         <item quantity="one">Dieses Skript löschen?</item>
         <item quantity="other">Diese Skripte löschen?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">Diesen Baustein löschen?</item>
-        <item quantity="other">Diese Bausteine löschen?</item>
-    </plurals>
-    <string name="delete_definition">Definition dieses Bausteins löschen?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Projektname</string>
     <string name="scene_name_label">Szenenname</string>
@@ -534,20 +532,8 @@
     <string name="pack">Einpacken</string>
     <string name="unpack">Auspacken</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">Skripte</string>
-    <string name="backgrounds">Hintergründe</string>
-    <string name="looks">Aussehen</string>
-    <string name="sounds">Klänge</string>
-    <string name="nfctags">NFC-Tags</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">Neues Projekt</string>
-    <string name="new_project_empty">Leeres Projekt erstellen</string>
-    <string name="new_project_default">Beispielprojekt erstellen</string>
-    <string name="new_project_default_drone">Beispielprojekt für AR.Drohnen 2.0 erstellen</string>
-    <string name="new_project_default_jumping_sumo">Erstelle ein Beispiel Jumping Sumo Programm</string>
-    <string name="project_orientation_title">Ausrichtung:</string>
-    <string name="project_select_screen_title">Bildschirm:</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Projekt zusammengeführt</string>
@@ -562,13 +548,15 @@
     <string name="add_look_draw_new_image">Neues Bild erstellen</string>
     <string name="add_look_choose_image">Bild auswählen</string>
     <string name="add_look_media_library">Medienbibliothek</string>
-    <string name="add_look_drone_video">AR.Drohnen 2.0 Video</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Klang hinzufügen</string>
     <string name="add_sound_from_recorder">Klang aufnehmen</string>
     <string name="add_sound_choose_file">Klang auswählen</string>
     <string name="add_sound_music">Komponist</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Bewerte die App</string>
     <string name="rating_google_play_dialog_text">Wenn dir diese App gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
@@ -597,7 +585,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Datenschutz-Vereinbarung</string>
     <string name="disclaimer_privacy_police_header_headline">Willkommen!</string>
-    <string name="disclaimer_privacy_policy_header">Bevor du mit der App loslegen kannst, lese und akzeptiere bitte unsere Datenschutzvereinbarung:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">Um Ihnen alle Vorteile unserer Services und dem damit verbundenen Konto anbieten zu können, ist es notwendig, bestimmte Daten von Ihnen zu erfassen.\n\n
 
 - Damit wir unsere Dienste (Apps und Websites) erhalten und verbessern können und wissenschaftliche Forschung über ICT und STEM/STEAM-Ausbildung betreiben können, verwenden wir Google Analytics, Crashlytics und Firebase, alle von Google LLC (USA), sowie Dynatrace von Dynatrace LLC (USA), um Metadaten über die Nutzung unserer Dienste zu erhalten, z.B. Absturzinformationen, Zeitstempel, besuchte Seiten/Bildschirme, Nutzung unserer Apps und Dienste, verwendetes Betriebssystem und Informationen über den Netzwerkanbieter. Diese Analyse und die gesammelten Daten werden nicht mit Ihrem Profil verknüpft und enthalten keine persönlichen Informationen (die letzten Bits der IP-Adresse werden anonymisiert). Die gesammelten Daten werden jedoch an den Service-Provider (Google LLC, USA und Dynatrace LLC, USA) übermittelt. Die Datenverarbeitung basiert auf Vereinbarungen mit Google LLC und Dynatrace LLC. Diese Beziehung zum Dienstanbieter entspricht der Allgemeinen Datenschutzverordnung der Europäischen Union (EU GDPR) und dem Abkommen zwischen der EU und den USA \"Privacy Shield\".\n\n
@@ -672,6 +660,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_context_dialog_comment_out_script">Skript deaktivieren</string>
     <string name="brick_context_dialog_help">Hilfe</string>
     <string name="comment_in_out">Deaktivieren/Aktivieren</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Spiele Szene:</string>
@@ -762,6 +752,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="dialog_new_broadcast_message_name">Nachricht:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">Alle</string>
     <!-- -->
     <!-- Brick categories -->
@@ -874,6 +865,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_next_background">Nächster Hintergrund</string>
     <string name="brick_previous_look">Voriges Aussehen</string>
     <string name="brick_previous_background">Voriger Hintergrund</string>
+    <string name="brick_delete_look">Lösche Aussehen</string>
+    <string name="brick_delete_background">Lösche Hintergrund</string>
     <string name="brick_flash">Schalte Blitz</string>
     <string name="brick_flash_on">ein</string>
     <string name="brick_flash_off">aus</string>
@@ -886,6 +879,12 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_ask_speech_label">Frage</string>
     <string name="brick_ask_speech_store">und speichere das Gesprochene in</string>
     <string name="brick_ask_speech_default_question">Wie heißt du?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">Schalte Stift ein</string>
@@ -912,8 +911,12 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Setze Tempo auf</string>
+    <string name="change_tempo_by">Ändere Tempo um </string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">für</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stich</string>
@@ -924,7 +927,12 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_stop_stitch">Beende aktuellen Stich</string>
     <string name="brick_write_embroidery">Schreiben Sie Stickdaten in die Datei</string>
     <string name="brick_default_embroidery_file">Stickerei.dst</string>
+    <string name="brick_sew_up">Sew up</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">Öffne </string>
+    <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">Wenn Szene startet</string>
     <string name="brick_when">Wenn angetippt</string>
@@ -973,6 +981,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_tap_at">"Einfaches tippen auf"</string>
     <string name="brick_touch_at">"Berühre bei"</string>
     <string name="brick_tap_for">"für"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Stufe beenden</string>
     <string name="brick_finish_tests">Beende tests</string>
     <string name="brick_assert_lists">Listen bestätigen</string>
@@ -1054,30 +1064,50 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_store_csv_into_userlist_data">Kätzchen,niedlich\nWelpe,Schlingel\nOktopus intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">Mein erstes Projekt</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">Szene %1$d</string>
     <string name="default_project_background_name">Hintergrund</string>
     <string name="default_project_cloud_name">Wolken</string>
@@ -1109,18 +1139,6 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="default_cast_project_var_direction">Richtung</string>
     <string name="default_cast_project_name">Mein erstes Cast-Projekt</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">Mein erstes AR.Drohnen 2.0 Projekt</string>
-    <string name="default_drone_project_sprites_takeoff">Abheben</string>
-    <string name="default_drone_project_sprites_flip">Umdrehen</string>
-    <string name="default_drone_project_sprites_up">Fliege hoch</string>
-    <string name="default_drone_project_sprites_down">Fliege runter</string>
-    <string name="default_drone_project_sprites_left">Fliege links</string>
-    <string name="default_drone_project_sprites_right">Fliege rechts</string>
-    <string name="default_drone_project_sprites_forward">Fliege nach vorne</string>
-    <string name="default_drone_project_sprites_back">Fliege rückwärts</string>
-    <string name="default_drone_project_sprites_turn_left">Drehe links</string>
-    <string name="default_drone_project_sprites_turn_right">Drehe rechts</string>
-    <string name="default_drone_project_sprites_emergency">Notfall</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1399,19 +1417,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_jumping_sumo_taking_picture">Fotoaufnahme Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">Mein erstes Jumping Sumo Projekt</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo Video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Fliege nach vorne</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Zurück</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animationen</string>
     <string name="default_jumping_sumo_project_sprites_sound">Klang</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">Kein Klang</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Sprung lang</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Sprung hoch</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Drehe links</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Drehe rechts</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Umdrehen</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Foto aufnehmen</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Drehen</string>
@@ -1537,6 +1543,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">Minimum von</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">WAHR</string>
     <string name="formula_editor_function_false">FALSCH</string>
     <string name="formula_editor_function_length">Länge</string>
@@ -1545,6 +1553,8 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_letter_parameter">(1,\'Hallo Welt\')</string>
     <string name="formula_editor_function_join">verbinde</string>
     <string name="formula_editor_function_join_parameter">(\'Hallo\',\'Welt\')</string>
+    <string name="formula_editor_function_join3">verbinde</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">regulärer Ausdruck</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Ich bin ein Panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1565,6 +1575,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_multi_finger_y">Bildschirm berührt y</string>
     <string name="formula_editor_function_is_multi_finger_touching">Bildschirm wurde berührt</string>
     <string name="formula_editor_function_index_of_last_finger">letzter Bildschirm Berührung Index</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">Element</string>
@@ -1580,6 +1591,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_function_touched">berührt Finger</string>
     <string name="formula_editor_function_collides_with_color">Berührt Farbe</string>
     <string name="formula_editor_function_color_touches_color">Farbe berührt Farbe</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">Beschleunigung x</string>
     <string name="formula_editor_sensor_y_acceleration">Beschleunigung_y</string>
     <string name="formula_editor_sensor_z_acceleration">Beschleunigung_z</string>
@@ -1592,6 +1604,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_sensor_x_inclination">Neigung x</string>
     <string name="formula_editor_sensor_y_inclination">Neigung y</string>
     <string name="formula_editor_sensor_loudness">Umgebungslautstärke</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">Jahr</string>
     <string name="formula_editor_sensor_date_month">Monat</string>
     <string name="formula_editor_sensor_date_day">Tag</string>
@@ -1768,6 +1781,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="brick_show_variable_aligned_left">links</string>
     <string name="brick_show_variable_aligned_right">rechts</string>
     <string name="brick_context_dialog_pick_color">Farbe auswählen</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Schalte Kamera</string>
@@ -1801,8 +1815,9 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="cast_connection_timout_msg">Verbindungs-Timeout. Bitte versuche es erneut.</string>
     <string name="cast_screen_pause_text">Pausiert</string>
     <!-- -->
-    <string name="deletion_alert_title">Achtung!</string>
-    <string name="deletion_alert_text">Löschen einer Variable, die noch in Gebrauch ist, ist gefährlich! Bist du sicher?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">Ja, trotzdem löschen!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Dein Projekt wird nun auf unsere Community Seite hochgeladen. Hier können andere dein Projekt verwenden und herunterladen. Du kannst dein Projekt auch als eigenständige App herunterladen.</string>

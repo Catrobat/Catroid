@@ -30,21 +30,23 @@
     <string name="undo">التراجع عن</string>
     <string name="new_option">جديد&#8230;</string>
     <string name="confirm">تأكيد</string>
-    <string name="ignore">Ignore</string>
+    <string name="ignore">تجاهل</string>
     <string name="cancel">إلغاء</string>
+    <string name="save">حفظ</string>
     <string name="next">التالي</string>
     <string name="back">رجوع</string>
     <string name="ok">موافق</string>
     <string name="done">موافق</string>
     <string name="close">إغلاق</string>
-    <string name="assistant">Assistant</string>
+    <string name="assistant">مساعد</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="agree">موافق</string>
+    <string name="once">مرة واحدة</string>
+    <string name="always">دائماً</string>
+    <string name="deny">رفض</string>
     <string name="disagree">غير موافق</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     <string name="select_all">تحديد الكل</string>
     <string name="deselect_all">إلغاء تحديد الكل</string>
     <string name="skip">تخطي</string>
@@ -56,12 +58,10 @@
     <string name="backpack_add">إضافة الى حزمة الظهر</string>
     <string name="share_website_text">www.pocketcode.org</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string name="security_warning_dialog_msg">المشروع الذي قمت بتنزيله، يستمع إلى صوتك
+        في الخلفية وكذلك يرسل معلومات إلى الإنترنت. هذا قد يكون غير ضار، وضروري
+        بسبب طريقة عمله. على أي حال، الرجاء التأكد بأن ما تقوله أثناء عمل المشروع، آمن. في حال وجود شك، الرجاء حذف المشروع الذي قمت بتنزيله.
+        ربما يمكنك أيضا الإبلاغ عن المشروع في صفحته على منصة Catrobat community في حال كنت متأكداً أنه ضار.</string>
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
     <string name="loading_google_exchange_code">تبادل بيانات جوجل بلس&#8230;</string>
@@ -95,13 +95,15 @@
     <string name="marketing_created_with">تم إنشاؤها بواسطة</string>
     <string name="marketing_app_details">تفاصيل حول هذا التطبيق</string>
     <string name="marketing_more_on_google_play">مزيد من التطبيقات في متجر جوجل بلي</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">إعدادات</string>
     <string name="preference_title_language">اللغة</string>
     <string name="preference_description_language">تعيين لغة التطبيق</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_title_web_access">الوصول إلى الويب</string>
+    <string name="preference_description_web_access">تعديل لإضافة أو حذف النطاقات الموثوقة</string>
+    <string name="preference_screen_web_access_title">تعديل النطاقات الموثوقة</string>
     <string name="preference_title_accessibility">إمكانية الوصول</string>
     <string name="preference_description_accessibility">تغيير مظهر التطبيق</string>
     <string name="preference_title_accessibility_profiles">ملفات تعريف إمكانية الوصول</string>
@@ -288,9 +290,9 @@
     <string name="reconvert_dialog_reconvert">تحويل هذا البرنامج مجدداً</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">لاستخدام تطبيقنا, من الضروري الموافقة على سياسة الخصوصية.
-        ومع ذلك, اذا لم تشعر بالراحة بالقيام بذلك, يمكنك استخدام خدمات الويب الخاصة بنا مجاناً على</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
+        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
     <string name="wtf_error">حدث خطأ غير متوقع: لا يمكن إستعادة البرنامج الإفتراضي.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">حدث خطأ أثناء نسخ المشروع</string>
@@ -309,8 +311,6 @@
     <string name="am_convert">تحويل</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">لا يمكنك التراجع عن هذا!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">أشكال و عناصر</string>
     <!-- Options Menu Options -->
     <string name="backpack">حقيبة الظهر</string>
@@ -379,15 +379,6 @@
         <item quantity="many">هل تريد حذف هذه النصوص البرمجية؟</item>
         <item quantity="other">هل تريد حذف هذه النصوص البرمجية؟</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="zero">هل تريد حذف هذه اللبّنة البرمجية؟</item>
-        <item quantity="one">هل تريد حذف هذه اللبّنة البرمجية؟</item>
-        <item quantity="two">هل تريد حذف هذين اللّبنتين البرمجيتين؟</item>
-        <item quantity="few">هل تريد حذف هذه اللّبنات البرمجية؟</item>
-        <item quantity="many">هل تريد حذف هذه اللّبنات البرمجية؟</item>
-        <item quantity="other">هل تريد حذف هذه اللّبنات البرمجية؟</item>
-    </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">اسم البرنامج</string>
     <string name="scene_name_label">اسم المشهد</string>
@@ -673,20 +664,8 @@
     <string name="pack">حزمة</string>
     <string name="unpack">فك الحزمة</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">النصوص البرمجية</string>
-    <string name="backgrounds">خلفيات الشاشة</string>
-    <string name="looks">المناظر</string>
-    <string name="sounds">الأصوات</string>
-    <string name="nfctags">وسوم NFC</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">برنامج جديد</string>
-    <string name="new_project_empty">إنشاء برنامج فارغ</string>
-    <string name="new_project_default">إنشاء مشروع إفتراضي</string>
-    <string name="new_project_default_drone">إنشاء برنامح مثال على \"طائرة بدون طيار\"</string>
-    <string name="new_project_default_jumping_sumo">إنشاء برنامج مثال على Jumping Sumo</string>
-    <string name="project_orientation_title">الإتجاه:</string>
-    <string name="project_select_screen_title">الشاشة:</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Merged project</string>
@@ -701,13 +680,15 @@
     <string name="add_look_draw_new_image">رسم صورة </string>
     <string name="add_look_choose_image">اختر الصورة</string>
     <string name="add_look_media_library">مكتبة الوسائط</string>
-    <string name="add_look_drone_video">فيديو \" طائرة بدون طيار\"</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">إضافة صوت</string>
     <string name="add_sound_from_recorder">تسجيل صوت</string>
     <string name="add_sound_choose_file">حدد الملف</string>
     <string name="add_sound_music">مُلحن الموسيقى</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">قم بتقييم البوكت كوود</string>
     <string name="rating_google_play_dialog_text">في حال تستمتع بـهذا التطبيق، يرجى تقييمنا على متجر الجوجل بلي.</string>
@@ -737,8 +718,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
     <string name="disclaimer_privacy_police_header_headline">مرحبا!</string>
-    <string name="disclaimer_privacy_policy_header">قبل الشروع بالتطبيق, من فضلك الموافقة على سياسة الخصوصية الخاصة بنا
-        لهذا التطبيق:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -854,6 +834,8 @@
     <string name="brick_context_dialog_comment_out_script">تعطيل النص البرمجي</string>
     <string name="brick_context_dialog_help">المساعدة</string>
     <string name="comment_in_out">تعطيل/تفعيل</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">تشغيل المشهد:</string>
@@ -947,6 +929,7 @@
     <string name="dialog_new_broadcast_message_name">رسالة:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">الكل</string>
     <!-- -->
     <!-- Brick categories -->
@@ -1067,6 +1050,8 @@
     <string name="brick_next_background">خلفية الشاشة التالية</string>
     <string name="brick_previous_look">المنظر السابق</string>
     <string name="brick_previous_background">خلفية الشاشة السابقة</string>
+    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_delete_background">Delete background</string>
     <string name="brick_flash">تشغيل ضوء الفلاش</string>
     <string name="brick_flash_on">تشغيل</string>
     <string name="brick_flash_off">إطفاء</string>
@@ -1079,6 +1064,12 @@
     <string name="brick_ask_speech_label">اسأل</string>
     <string name="brick_ask_speech_store">و خَزن جواب منطوق في</string>
     <string name="brick_ask_speech_default_question">ما هو اسمك؟</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">القلم إلى الأسفل</string>
@@ -1106,8 +1097,12 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">لفترة</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">حياكة</string>
@@ -1118,7 +1113,12 @@
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">Sew up</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">فتح</string>
+    <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">عند بدء تشغيل البرنامج</string>
     <string name="brick_when">عند النقر</string>
@@ -1171,6 +1171,8 @@
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"لفترة"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1278,30 +1280,50 @@
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">مشروعي الأول</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">المشهد %1$d</string>
     <string name="default_project_background_name">خلفية الشاشة</string>
     <string name="default_project_cloud_name">السُحب</string>
@@ -1333,18 +1355,6 @@
     <string name="default_cast_project_var_direction">الاتجاه</string>
     <string name="default_cast_project_name">مشروعي الأول لـ كروم كاست</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">مشروعي الأول لـ \"طائرة بدون طيار\"</string>
-    <string name="default_drone_project_sprites_takeoff">إقلاع</string>
-    <string name="default_drone_project_sprites_flip">قلب افقي-عمودي</string>
-    <string name="default_drone_project_sprites_up">الأعلى</string>
-    <string name="default_drone_project_sprites_down">الأسفل</string>
-    <string name="default_drone_project_sprites_left">اليسار</string>
-    <string name="default_drone_project_sprites_right">اليمين</string>
-    <string name="default_drone_project_sprites_forward">الأمام</string>
-    <string name="default_drone_project_sprites_back">رجوع</string>
-    <string name="default_drone_project_sprites_turn_left">انعطف نحو اليسار</string>
-    <string name="default_drone_project_sprites_turn_right">انعطف نحو اليمين</string>
-    <string name="default_drone_project_sprites_emergency">حالات الطوارئ</string>
     <string name="drone_brick_set_text">النص</string>
     <string name="drone_brick_set_x">س:</string>
     <!--  -->
@@ -1629,19 +1639,7 @@
     <string name="brick_jumping_sumo_taking_picture">التقاط صورة من Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">مشروعي الأول لـ Jumping Sumo</string>
-    <string name="add_look_jumping_sumo_video">فيديو Jumping Sumo</string>
-    <string name="default_jumping_sumo_project_sprites_forward">الأمام</string>
-    <string name="default_jumping_sumo_project_sprites_backward">الى الخلف</string>
-    <string name="default_jumping_sumo_project_sprites_animation">الرسوم المتحركة</string>
     <string name="default_jumping_sumo_project_sprites_sound">الصوت</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">لا يوجد صوت</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">اقفز طويلاً</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">اقفز عالياً</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">إتجه إلى اليسار</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">إتجه إلى اليمين</string>
-    <string name="default_jumping_sumo_project_sprites_flip">قلب افقي-عمودي</string>
-    <string name="default_jumping_sumo_project_sprites_picture">إلتقط صور</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">لف مغزلي</string>
@@ -1767,6 +1765,8 @@
     <string name="formula_editor_function_max_parameter">(0 ،1)</string>
     <string name="formula_editor_function_min">أقل قيمة</string>
     <string name="formula_editor_function_min_parameter">(0، 1)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">صحيح</string>
     <string name="formula_editor_function_false">خطأ</string>
     <string name="formula_editor_function_length">طول النص</string>
@@ -1775,6 +1775,8 @@
     <string name="formula_editor_function_letter_parameter">(1، \'مرحباً بالعالم\')</string>
     <string name="formula_editor_function_join">الانضمام إلى</string>
     <string name="formula_editor_function_join_parameter">(\'مرحباً\'، \'بالعالم\')</string>
+    <string name="formula_editor_function_join3">الانضمام إلى</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1795,6 +1797,7 @@
     <string name="formula_editor_function_multi_finger_y">إحداثيات_لمس_الشاشة_ص</string>
     <string name="formula_editor_function_is_multi_finger_touching">تم لمس الشاشة</string>
     <string name="formula_editor_function_index_of_last_finger">أخر_دلالة_لمس_الشاشة</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">عنصر</string>
@@ -1810,6 +1813,7 @@
     <string name="formula_editor_function_touched">الأصابع_الملموسة</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">تسارع x</string>
     <string name="formula_editor_sensor_y_acceleration">تسارع y</string>
     <string name="formula_editor_sensor_z_acceleration">تسارع z</string>
@@ -1822,6 +1826,7 @@
     <string name="formula_editor_sensor_x_inclination">زاوية ميل x</string>
     <string name="formula_editor_sensor_y_inclination">زاوية ميل y</string>
     <string name="formula_editor_sensor_loudness">بريق</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">السنة</string>
     <string name="formula_editor_sensor_date_month">الشهر</string>
     <string name="formula_editor_sensor_date_day">اليوم</string>
@@ -1987,6 +1992,7 @@
     <string name="brick_show_variable_aligned_left">يسار</string>
     <string name="brick_show_variable_aligned_right">يمين</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">تشغيل الكاميرا</string>
@@ -2020,8 +2026,9 @@
     <string name="cast_connection_timout_msg">انتهاء مهلة التواصل مع شبكة الاتصال. يُرجى المحاولة مرّة أخرى.</string>
     <string name="cast_screen_pause_text">مُتوقف</string>
     <!-- -->
-    <string name="deletion_alert_title">تحذير!</string>
-    <string name="deletion_alert_text">حذف المتغير الذي لا يزال قيد الاستخدام يعتبر أمراً خطيراً! هل أنت متأكد؟</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">نعم، قم بحذفه على أية حال!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">البرنامج الخاص بك الذي قد تم تحميله إلى صفحة المجتمع  يمكن للأخرين استخدامه وتنزيله. يمكنك أيضا تحميل البرنامج الخاص بك كتطبيق مستقل.</string>

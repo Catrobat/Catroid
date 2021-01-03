@@ -35,6 +35,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
@@ -47,9 +48,12 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
-import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
@@ -62,10 +66,13 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.BrickController;
 import org.catrobat.catroid.ui.recyclerview.controller.ScriptController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.UniqueStringTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
@@ -76,25 +83,38 @@ import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.ListFragment;
+
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
 
 public class ScriptFragment extends ListFragment implements
 		ActionMode.Callback,
 		BrickAdapter.OnItemClickListener,
-		BrickAdapter.SelectionListener, OnCategorySelectedListener {
+		BrickAdapter.SelectionListener, OnCategorySelectedListener,
+		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT})
+	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
 	@interface ActionModeType {
 	}
+
+	public ScriptFragment(Project currentProject) {
+		this.currentProject = currentProject;
+	}
+
+	private Project currentProject;
 
 	private static final int NONE = 0;
 	private static final int BACKPACK = 1;
 	private static final int COPY = 2;
 	private static final int DELETE = 3;
 	private static final int COMMENT = 4;
+	private static final int CATBLOCKS = 5;
 
 	@ActionModeType
 	private int actionModeType = NONE;
@@ -102,7 +122,9 @@ public class ScriptFragment extends ListFragment implements
 	private ActionMode actionMode;
 	private BrickAdapter adapter;
 	private BrickListView listView;
-	private BrickSpinner currentSpinner;
+	private String currentSceneName;
+	private String currentSpriteName;
+	private int undoBrickPosition;
 
 	private ScriptController scriptController = new ScriptController();
 	private BrickController brickController = new BrickController();
@@ -136,6 +158,8 @@ public class ScriptFragment extends ListFragment implements
 				adapter.setCheckBoxMode(NONE);
 				actionMode.finish();
 				return false;
+			case CATBLOCKS:
+				break;
 		}
 		return true;
 	}
@@ -177,13 +201,15 @@ public class ScriptFragment extends ListFragment implements
 				copy(adapter.getSelectedItems());
 				break;
 			case DELETE:
-				showDeleteAlert(adapter.getSelectedItems(), false);
+				showDeleteAlert(adapter.getSelectedItems());
 				break;
 			case COMMENT:
 				toggleComments(adapter.getSelectedItems());
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set correctly");
+			case CATBLOCKS:
+				break;
 		}
 	}
 
@@ -263,6 +289,10 @@ public class ScriptFragment extends ListFragment implements
 	public void onPrepareOptionsMenu(Menu menu) {
 		menu.findItem(R.id.show_details).setVisible(false);
 		menu.findItem(R.id.rename).setVisible(false);
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED) {
+			menu.findItem(R.id.catblocks).setVisible(false);
+		}
 		super.onPrepareOptionsMenu(menu);
 	}
 
@@ -277,7 +307,7 @@ public class ScriptFragment extends ListFragment implements
 		}
 		switch (item.getItemId()) {
 			case R.id.menu_undo:
-				currentSpinner.undoSelection();
+				loadProjectAfterUndoOption();
 				break;
 			case R.id.backpack:
 				prepareActionMode(BACKPACK);
@@ -290,6 +320,9 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.id.comment_in_out:
 				prepareActionMode(COMMENT);
+				break;
+			case R.id.catblocks:
+				switchToCatblocks();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -395,6 +428,8 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case NONE:
 				throw new IllegalStateException("ActionModeType not set Correctly");
+			case CATBLOCKS:
+				break;
 		}
 	}
 
@@ -403,10 +438,6 @@ public class ScriptFragment extends ListFragment implements
 		if (actionModeType != NONE) {
 			actionMode.finish();
 		}
-	}
-
-	public void setCurrentSpinner(BrickSpinner currentSpinner) {
-		this.currentSpinner = currentSpinner;
 	}
 
 	public Brick findBrickByHash(int hashCode) {
@@ -509,7 +540,7 @@ public class ScriptFragment extends ListFragment implements
 			items.add(brick.isCommentedOut()
 					? R.string.brick_context_dialog_comment_in
 					: R.string.brick_context_dialog_comment_out);
-			if (brick instanceof VisualPlacementBrick) {
+			if (brick instanceof VisualPlacementBrick && ((VisualPlacementBrick) brick).areAllBrickFieldsNumbers()) {
 				items.add(R.string.brick_option_place_visually);
 			}
 			if (brick instanceof FormulaBrick) {
@@ -527,6 +558,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void handleContextMenuItemClick(int itemId, Brick brick, int position) {
+		showUndo(false);
 		switch (itemId) {
 			case R.string.backpack_add:
 				List<Brick> bricksToPack = new ArrayList<>();
@@ -546,10 +578,10 @@ public class ScriptFragment extends ListFragment implements
 				break;
 			case R.string.brick_context_dialog_delete_brick:
 			case R.string.brick_context_dialog_delete_script:
-				showDeleteAlert(brick.getAllParts(), false);
+				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_delete_definition:
-				showDeleteAlert(brick.getAllParts(), true);
+				showDeleteAlert(brick.getAllParts());
 				break;
 			case R.string.brick_context_dialog_comment_in:
 			case R.string.brick_context_dialog_comment_in_script:
@@ -605,6 +637,7 @@ public class ScriptFragment extends ListFragment implements
 
 	@Override
 	public boolean onItemLongClick(Brick brick, int position) {
+		showUndo(false);
 		if (listView.isCurrentlyHighlighted()) {
 			listView.cancelHighlighting();
 		} else {
@@ -631,9 +664,10 @@ public class ScriptFragment extends ListFragment implements
 
 	public void showNewScriptGroupAlert(List<Brick> selectedBricks) {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-
+		DuplicateInputTextWatcher duplicateInputTextwatcher = new DuplicateInputTextWatcher(null);
+		duplicateInputTextwatcher.setScope(BackpackListManager.getInstance().getBackpackedScriptGroups());
 		builder.setHint(getString(R.string.script_group_label))
-				.setTextWatcher(new UniqueStringTextWatcher(BackpackListManager.getInstance().getBackpackedScriptGroups()))
+				.setTextWatcher(duplicateInputTextwatcher)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> pack(textInput, selectedBricks));
 
 		builder.setTitle(R.string.new_group)
@@ -659,6 +693,38 @@ public class ScriptFragment extends ListFragment implements
 		startActivity(intent);
 	}
 
+	private void switchToCatblocks() {
+		if (!BuildConfig.FEATURE_CATBLOCKS_ENABLED) {
+			return;
+		}
+
+		int scriptIndex = -1;
+
+		int firstVisible = listView.getFirstVisiblePosition();
+
+		if (firstVisible >= 0) {
+			Object firstBrick = listView.getItemAtPosition(firstVisible);
+			if (firstBrick instanceof Brick) {
+				Script scriptOfBrick = ((Brick) firstBrick).getScript();
+				scriptIndex =
+						ProjectManager.getInstance().getCurrentSprite().getScriptIndex(scriptOfBrick);
+			}
+		}
+
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+
+		SettingsFragment.setUseCatBlocks(getContext(), true);
+
+		CatblocksScriptFragment catblocksFragment = new CatblocksScriptFragment(currentProject,
+				currentScene, currentSprite, scriptIndex);
+
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.fragment_container, catblocksFragment,
+				CatblocksScriptFragment.Companion.getTAG());
+		fragmentTransaction.commit();
+	}
+
 	private void copy(List<Brick> selectedBricks) {
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		brickController.copy(selectedBricks, sprite);
@@ -666,21 +732,12 @@ public class ScriptFragment extends ListFragment implements
 		finishActionMode();
 	}
 
-	private void showDeleteAlert(List<Brick> selectedBricks, boolean isUserDefinedReceiverBrick) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-
-		if (isUserDefinedReceiverBrick) {
-			builder.setTitle(R.string.delete_definition)
-					.setMessage(R.string.dialog_confirm_delete_definition);
-		} else {
-			builder.setTitle(getResources().getQuantityString(R.plurals.delete_bricks, selectedBricks.size()))
-					.setMessage(R.string.dialog_confirm_delete);
+	private void showDeleteAlert(List<Brick> selectedBricks) {
+		if (copyProjectForUndoOption()) {
+			showUndo(true);
+			undoBrickPosition = adapter.getPosition(selectedBricks.get(0));
 		}
-
-		builder.setPositiveButton(R.string.yes, (dialog, id) -> delete(selectedBricks))
-				.setNegativeButton(R.string.no, null)
-				.setCancelable(false)
-				.show();
+		delete(selectedBricks);
 	}
 
 	private void delete(List<Brick> selectedItems) {
@@ -695,5 +752,66 @@ public class ScriptFragment extends ListFragment implements
 			brick.setCommentedOut(selectedBricks.contains(brick));
 		}
 		finishActionMode();
+	}
+
+	public void setUndoBrickPosition() {
+		undoBrickPosition = listView.getFirstVisiblePosition() + 1;
+	}
+
+	public boolean copyProjectForUndoOption() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		currentSpriteName = projectManager.getCurrentSprite().getName();
+		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
+		Project project = projectManager.getCurrentProject();
+		XstreamSerializer.getInstance().saveProject(project);
+		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		if (currentCodeFile.exists()) {
+			try {
+				StorageOperations.transferData(currentCodeFile, undoCodeFile);
+				return true;
+			} catch (IOException exception) {
+				Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
+			}
+		}
+		return false;
+	}
+
+	public void loadProjectAfterUndoOption() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		if (currentCodeFile.exists()) {
+			try {
+				StorageOperations.transferData(undoCodeFile, currentCodeFile);
+				new ProjectLoadTask(project.getDirectory(), getContext()).setListener(this).execute();
+			} catch (IOException exception) {
+				Log.e(TAG, "Replaceing project " + project.getName() + " failed.", exception);
+			}
+		}
+	}
+
+	@Override
+	public void onLoadFinished(boolean success) {
+		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		refreshFragmentAfterUndo();
+	}
+
+	private void refreshFragmentAfterUndo() {
+		Fragment scriptFragment = getActivity().getSupportFragmentManager().findFragmentByTag(TAG);
+		final FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.detach(scriptFragment);
+		fragmentTransaction.attach(scriptFragment);
+		fragmentTransaction.commit();
+		listView.post(() -> listView.setSelection(undoBrickPosition));
+	}
+
+	public void showUndo(boolean visible) {
+		SpriteActivity activity = (SpriteActivity) getActivity();
+		if (activity != null) {
+			((SpriteActivity) getActivity()).showUndo(visible);
+		}
 	}
 }

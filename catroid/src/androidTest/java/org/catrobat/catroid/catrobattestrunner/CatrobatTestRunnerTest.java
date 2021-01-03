@@ -96,9 +96,15 @@ public class CatrobatTestRunnerTest {
 	public void testTapAtMultitouch() throws Exception {
 		testAsset("testTapAtMultitouch.catrobat", "catrobatTestRunnerTests/success");
 	}
+
 	@Test
 	public void testTapForInterrupted() throws Exception {
 		testAsset("testTapForInterrupted.catrobat", "catrobatTestRunnerTests/success");
+	}
+
+	@Test
+	public void testTouchAndSlide() throws Exception {
+		testAsset("testTouchAndSlide.catrobat", "catrobatTestRunnerTests/success");
 	}
 
 	@Test

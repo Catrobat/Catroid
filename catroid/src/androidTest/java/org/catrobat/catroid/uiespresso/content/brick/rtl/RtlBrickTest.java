@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.bricks.CameraBrick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeColorByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
+import org.catrobat.catroid.content.bricks.ChangeTempoByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeTransparencyByNBrick;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.content.bricks.ChangeVolumeByNBrick;
@@ -53,7 +54,9 @@ import org.catrobat.catroid.content.bricks.ChooseCameraBrick;
 import org.catrobat.catroid.content.bricks.ClearBackgroundBrick;
 import org.catrobat.catroid.content.bricks.ClearGraphicEffectBrick;
 import org.catrobat.catroid.content.bricks.CloneBrick;
+import org.catrobat.catroid.content.bricks.CopyLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteItemOfUserListBrick;
+import org.catrobat.catroid.content.bricks.DeleteLookBrick;
 import org.catrobat.catroid.content.bricks.DeleteThisCloneBrick;
 import org.catrobat.catroid.content.bricks.DroneEmergencyBrick;
 import org.catrobat.catroid.content.bricks.DroneFlipBrick;
@@ -68,6 +71,7 @@ import org.catrobat.catroid.content.bricks.DroneSwitchCameraBrick;
 import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
+import org.catrobat.catroid.content.bricks.EditLookBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -100,6 +104,8 @@ import org.catrobat.catroid.content.bricks.LegoNxtPlayToneBrick;
 import org.catrobat.catroid.content.bricks.MoveNStepsBrick;
 import org.catrobat.catroid.content.bricks.NextLookBrick;
 import org.catrobat.catroid.content.bricks.NoteBrick;
+import org.catrobat.catroid.content.bricks.OpenUrlBrick;
+import org.catrobat.catroid.content.bricks.PaintNewLookBrick;
 import org.catrobat.catroid.content.bricks.PauseForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PenDownBrick;
 import org.catrobat.catroid.content.bricks.PenUpBrick;
@@ -110,6 +116,8 @@ import org.catrobat.catroid.content.bricks.PhiroMotorStopBrick;
 import org.catrobat.catroid.content.bricks.PhiroPlayToneBrick;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick;
 import org.catrobat.catroid.content.bricks.PlaceAtBrick;
+import org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick;
+import org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.PointInDirectionBrick;
@@ -332,6 +340,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(WhenClonedBrick.class, R.id.brick_when_cloned_layout);
 
 		checkIfBrickISRtl(SetNfcTagBrick.class, R.id.brick_set_nfc_tag_layout);
+
+		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -401,6 +411,8 @@ public class RtlBrickTest {
 
 		checkIfBrickISRtl(SetTempoBrick.class, R.id.brick_set_tempo_layout);
 
+		checkIfBrickISRtl(ChangeTempoByNBrick.class, R.id.brick_change_tempo_by_layout);
+
 		checkIfBrickISRtl(StopAllSoundsBrick.class, R.id.brick_stop_all_sounds_layout);
 
 		checkIfBrickISRtl(SetVolumeToBrick.class, R.id.brick_set_volume_to_layout);
@@ -420,6 +432,10 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(SetListeningLanguageBrick.class, R.id.brick_set_listening_language_layout);
 
 		checkIfBrickISRtl(PauseForBeatsBrick.class, R.id.brick_pause_for_beats_layout);
+
+		checkIfBrickISRtl(PlayNoteForBeatsBrick.class, R.id.brick_play_note_for_beats_layout);
+
+		checkIfBrickISRtl(PlayDrumForBeatsBrick.class, R.id.brick_play_drum_for_beats_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})
@@ -474,6 +490,16 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(FlashBrick.class, R.id.brick_flash_layout);
 
 		checkIfBrickISRtl(PhiroRGBLightBrick.class, R.id.brick_phiro_rgb_led_layout);
+
+		checkIfBrickISRtl(PaintNewLookBrick.class, R.id.brick_paint_new_look);
+
+		checkIfBrickISRtl(DeleteLookBrick.class, R.id.brick_delete_look_layout);
+
+		checkIfBrickISRtl(CopyLookBrick.class, R.id.brick_copy_look);
+
+		checkIfBrickISRtl(OpenUrlBrick.class, R.id.brick_open_url_layout);
+
+		checkIfBrickISRtl(EditLookBrick.class, R.id.brick_edit_look_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

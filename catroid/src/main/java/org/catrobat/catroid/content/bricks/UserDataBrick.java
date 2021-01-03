@@ -44,7 +44,7 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 
 import java.util.ArrayList;
@@ -162,7 +162,7 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
 		builder.setHint(activity.getString(R.string.data_label))
-				.setTextWatcher(new NewItemTextWatcher<>(spinnerMap.get(brickData).getItems()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(spinnerMap.get(brickData).getItems()))
 				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {

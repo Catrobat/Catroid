@@ -385,12 +385,15 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		if (intentListeners.indexOfKey(intentKey) < 0) {
 			return;
 		}
-		Intent i = intentListeners.get(intentKey).getTargetIntent();
+		Intent queuedIntent = intentListeners.get(intentKey).getTargetIntent();
+		if (queuedIntent == null) {
+			return;
+		}
 		Package pack = this.getClass().getPackage();
 		if (pack != null) {
-			i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, pack.getName());
+			queuedIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, pack.getName());
 		}
-		this.startActivityForResult(i, intentKey);
+		this.startActivityForResult(queuedIntent, intentKey);
 	}
 
 	@Override

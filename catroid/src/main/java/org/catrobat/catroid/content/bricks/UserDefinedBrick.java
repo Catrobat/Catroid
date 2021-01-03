@@ -95,6 +95,8 @@ public class UserDefinedBrick extends FormulaBrick {
 	public Brick clone() throws CloneNotSupportedException {
 		UserDefinedBrick clone = (UserDefinedBrick) super.clone();
 		clone.copyUserDefinedDataList(this);
+		clone.formulaFieldToTextViewMap = HashBiMap.create();
+		clone.formulaMap = new ConcurrentFormulaHashMap();
 		clone.userDefinedBrickID = this.getUserDefinedBrickID();
 		clone.isCallingBrick = this.isCallingBrick;
 		return clone;
@@ -266,6 +268,15 @@ public class UserDefinedBrick extends FormulaBrick {
 		formulaFieldToTextViewMap.put(formulaField, textView);
 	}
 
+	private void updateUserDefinedBrickDataValues() {
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+				input.setValue(getFormulaWithBrickField(input.getInputFormulaField()));
+			}
+		}
+	}
+
 	@Override
 	public void setClickListeners() {
 		for (BiMap.Entry<FormulaField, TextView> entry : formulaFieldToTextViewMap.entrySet()) {
@@ -299,5 +310,8 @@ public class UserDefinedBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		updateUserDefinedBrickDataValues();
+		sequence.addAction(sprite.getActionFactory().createUserBrickAction(userDefinedBrickDataList,
+				userDefinedBrickID, sprite));
 	}
 }

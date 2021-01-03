@@ -23,16 +23,21 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
@@ -40,20 +45,29 @@ import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.PluralsRes;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
+import static org.catrobat.catroid.ui.SpriteActivity.EDIT_LOOK;
 
 public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	public static final String TAG = LookListFragment.class.getSimpleName();
 
 	private LookController lookController = new LookController();
+
+	private Bitmap bmp;
+	private LookData currentItem;
 
 	@Override
 	protected void initializeAdapter() {
@@ -63,6 +77,14 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		adapter = new LookAdapter(items);
 		emptyView.setText(R.string.fragment_look_text_description);
 		onAdapterReady();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
 	}
 
 	@Override
@@ -128,6 +150,23 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		finishActionMode();
 	}
 
+	private void disposeItem() {
+		if (bmp != null) {
+			if (!bmp.isRecycled()) {
+				bmp.recycle();
+			}
+			bmp = null;
+			currentItem.dispose();
+			currentItem = null;
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		disposeItem();
+	}
+
 	@Override
 	@PluralsRes
 	protected int getDeleteAlertTitleId() {
@@ -164,13 +203,50 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	}
 
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == EDIT_LOOK) {
+			Bitmap b = BitmapFactory.decodeFile(currentItem.getFile().getAbsolutePath());
+			if (!bmp.sameAs(b)) {
+				Activity activity = getActivity();
+				if (activity instanceof SpriteActivity) {
+					((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
+				}
+			}
+		}
+	}
+
+	public boolean undo() {
+		if (currentItem != null) {
+			try {
+				bmp.compress(Bitmap.CompressFormat.PNG, 100,
+						new FileOutputStream(new File(currentItem.getFile().getAbsolutePath())));
+			} catch (FileNotFoundException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+			currentItem.invalidateThumbnailBitmap();
+			adapter.notifyDataSetChanged();
+			disposeItem();
+			return true;
+		}
+		return false;
+	}
+
+	public void deleteItem(LookData lookData) {
+		deleteItems(Collections.singletonList(lookData));
+	}
+
+	@Override
 	public void onItemClick(LookData item) {
 		if (actionModeType != NONE) {
 			return;
 		}
 
+		currentItem = item;
+
 		item.invalidateThumbnailBitmap();
 		item.clearCollisionInformation();
+		bmp = BitmapFactory.decodeFile(item.getFile().getAbsolutePath());
 
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(getActivity(), POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -179,6 +255,6 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		intent.putExtras(bundle);
 		intent.addCategory("android.intent.category.LAUNCHER");
 
-		startActivity(intent);
+		startActivityForResult(intent, EDIT_LOOK);
 	}
 }

@@ -162,7 +162,7 @@ public class StageResourceHolder implements GatherCollisionInformationTask.OnPol
 		}
 
 		if (requiredResourcesSet.contains(Brick.TEXT_TO_SPEECH)) {
-			TextToSpeechHolder.getInstance().initTextToSpeech(stageActivity, this);
+			TextToSpeechHolder.Companion.getInstance().initTextToSpeech(stageActivity, this);
 		}
 
 		if (requiredResourcesSet.contains(Brick.BLUETOOTH_LEGO_NXT)) {

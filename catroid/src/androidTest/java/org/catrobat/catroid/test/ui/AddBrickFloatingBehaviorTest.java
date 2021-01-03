@@ -39,7 +39,6 @@ import org.junit.runners.Parameterized;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -75,7 +74,6 @@ public class AddBrickFloatingBehaviorTest {
 	@Parameterized.Parameter(3)
 	public int expectedFloating;
 
-	@Spy
 	private ScriptFragment scriptFragmentMock;
 	@Mock
 	private Sprite spriteMock;
@@ -89,6 +87,7 @@ public class AddBrickFloatingBehaviorTest {
 
 	@Before
 	public void setUp() throws Exception {
+		scriptFragmentMock = Mockito.spy(ScriptFragment.class);
 		MockitoAnnotations.initMocks(this);
 		Mockito.when(brickAdapterMock.getCount()).thenReturn(alreadyAddedBricksCount);
 		Mockito.doNothing().when(brickAdapterMock).addItem(anyInt(), any(Brick.class));

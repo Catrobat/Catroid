@@ -38,6 +38,7 @@ public class MidiRunnable implements Runnable {
 	private final byte channel;
 	private long scheduledTime = 0;
 	private boolean manualNoteOff = false;
+	private NoteName pianoRow;
 
 	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler,
 			MidiNotePlayer midiNotePlayer, PianoView pianoView, byte channel) {
@@ -48,6 +49,18 @@ public class MidiRunnable implements Runnable {
 		this.midiNotePlayer = midiNotePlayer;
 		this.pianoView = pianoView;
 		this.channel = channel;
+	}
+
+	public MidiRunnable(MidiSignals signal, NoteName noteName, long duration, Handler handler,
+			MidiNotePlayer midiNotePlayer, PianoView pianoView, byte channel, NoteName pianoRow) {
+		this.signal = signal;
+		this.noteName = noteName;
+		this.duration = duration;
+		this.handler = handler;
+		this.midiNotePlayer = midiNotePlayer;
+		this.pianoView = pianoView;
+		this.channel = channel;
+		this.pianoRow = pianoRow;
 	}
 
 	void setManualNoteOff(boolean manual) {
@@ -67,12 +80,12 @@ public class MidiRunnable implements Runnable {
 		byte status = signal.getSignalByte();
 		status |= channel;
 		midiNotePlayer.sendMidi(status, noteName.getMidi(), 127);
-		if (pianoView != null) {
-			pianoView.setButtonColor(noteName, MidiSignals.NOTE_ON.equals(signal));
+		if (pianoView != null && pianoRow != null) {
+			pianoView.setButtonColor(pianoRow, MidiSignals.NOTE_ON.equals(signal));
 		}
 		if (signal.equals(MidiSignals.NOTE_ON) && !manualNoteOff) {
 			handler.postDelayed(new MidiRunnable(MidiSignals.NOTE_OFF, noteName, duration, handler, midiNotePlayer,
-					pianoView, channel), duration);
+					pianoView, channel, pianoRow), duration);
 		}
 	}
 

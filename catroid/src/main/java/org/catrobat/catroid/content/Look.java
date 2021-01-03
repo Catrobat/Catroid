@@ -68,6 +68,7 @@ public class Look extends Image {
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
 	private boolean simultaneousMovementXY = false;
+	private int lookListIndexBeforeLookRequest = -1;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
@@ -117,6 +118,14 @@ public class Look extends Image {
 
 	public synchronized void setLookVisible(boolean lookVisible) {
 		this.lookVisible = lookVisible;
+	}
+
+	public synchronized int getLookListIndexBeforeLookRequest() {
+		return lookListIndexBeforeLookRequest;
+	}
+
+	public synchronized void setLookListIndexBeforeLookRequest(int lookListIndexBeforeLookRequest) {
+		this.lookListIndexBeforeLookRequest = lookListIndexBeforeLookRequest;
 	}
 
 	@Override

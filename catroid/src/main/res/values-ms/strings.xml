@@ -32,6 +32,7 @@
     <string name="confirm">Confirm</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">Batal</string>
+    <string name="save">Save</string>
     <string name="next">Next</string>
     <string name="back">Back</string>
     <string name="ok">OK</string>
@@ -43,8 +44,9 @@
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
-    <string name="agree">Agree</string>
     <string name="disagree">Disagree</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
     <string name="skip">skip</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">Created with</string>
     <string name="marketing_app_details">Details about this app</string>
     <string name="marketing_more_on_google_play">More apps on App store</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">Settings</string>
     <string name="preference_title_language">Language</string>
@@ -269,8 +273,8 @@
     <string name="reconvert_dialog_reconvert">Convert this project again</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
         However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
     <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
     <!-- Project Handling Errors -->
@@ -291,8 +295,6 @@
     <string name="am_convert">Convert</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
@@ -326,10 +328,6 @@
     <plurals name="delete_scripts">
         <item quantity="other">Delete these scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>
@@ -500,20 +498,8 @@
     <string name="pack">Pack</string>
     <string name="unpack">Unpack</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">Scripts</string>
-    <string name="backgrounds">Backgrounds</string>
-    <string name="looks">Looks</string>
-    <string name="sounds">Sounds</string>
-    <string name="nfctags">NFC Tags</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">New project</string>
-    <string name="new_project_empty">Create an empty project</string>
-    <string name="new_project_default">Create an example project</string>
-    <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
-    <string name="new_project_default_jumping_sumo">Create an example Jumping Sumo project</string>
-    <string name="project_orientation_title">Orientation:</string>
-    <string name="project_select_screen_title">Screen:</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Merged project</string>
@@ -528,13 +514,15 @@
     <string name="add_look_draw_new_image">Draw image</string>
     <string name="add_look_choose_image">Select image</string>
     <string name="add_look_media_library">Media library</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">Add sound</string>
     <string name="add_sound_from_recorder">Record sound</string>
     <string name="add_sound_choose_file">Select file</string>
     <string name="add_sound_music">Music composer</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Rate App</string>
     <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
@@ -564,8 +552,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">Privacy policy</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -681,6 +668,8 @@
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
     <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/enable</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Play scene:</string>
@@ -776,6 +765,7 @@
     <string name="dialog_new_broadcast_message_name">message:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
     <!-- Brick categories -->
@@ -886,6 +876,8 @@
     <string name="brick_next_background">Next background</string>
     <string name="brick_previous_look">Previous look</string>
     <string name="brick_previous_background">Previous background</string>
+    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_delete_background">Delete background</string>
     <string name="brick_flash">Turn flashlight</string>
     <string name="brick_flash_on">on</string>
     <string name="brick_flash_off">off</string>
@@ -898,6 +890,12 @@
     <string name="brick_ask_speech_label">Ask</string>
     <string name="brick_ask_speech_store">and store spoken answer in</string>
     <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">Pen down</string>
@@ -925,8 +923,12 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">for</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -937,7 +939,12 @@
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">Sew up</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">Open</string>
+    <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">When scene starts</string>
     <string name="brick_when">When tapped</string>
@@ -985,6 +992,8 @@
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"for"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1072,30 +1081,50 @@
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My first project</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">Scene %1$d</string>
     <string name="default_project_background_name">Background</string>
     <string name="default_project_cloud_name">Clouds</string>
@@ -1127,18 +1156,6 @@
     <string name="default_cast_project_var_direction">direction</string>
     <string name="default_cast_project_name">My first Chromecast project</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">Take off</string>
-    <string name="default_drone_project_sprites_flip">Flip</string>
-    <string name="default_drone_project_sprites_up">Up</string>
-    <string name="default_drone_project_sprites_down">Down</string>
-    <string name="default_drone_project_sprites_left">Left</string>
-    <string name="default_drone_project_sprites_right">Right</string>
-    <string name="default_drone_project_sprites_forward">Forward</string>
-    <string name="default_drone_project_sprites_back">Back</string>
-    <string name="default_drone_project_sprites_turn_left">Turn left</string>
-    <string name="default_drone_project_sprites_turn_right">Turn right</string>
-    <string name="default_drone_project_sprites_emergency">Emergency</string>
     <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1430,19 +1447,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">Forward</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-    <string name="default_jumping_sumo_project_sprites_animation">Animations</string>
     <string name="default_jumping_sumo_project_sprites_sound">Sound</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">Turn left</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">Turn right</string>
-    <string name="default_jumping_sumo_project_sprites_flip">Flip</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Spin</string>
@@ -1568,6 +1573,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">minimum of</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">true</string>
     <string name="formula_editor_function_false">false</string>
     <string name="formula_editor_function_length">length</string>
@@ -1576,6 +1583,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join3">join</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1596,6 +1605,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_multi_finger_y">stage touch y</string>
     <string name="formula_editor_function_is_multi_finger_touching">stage is touched</string>
     <string name="formula_editor_function_index_of_last_finger">last stage touch index</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">item</string>
@@ -1611,6 +1621,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_touched">touches finger</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">acceleration x</string>
     <string name="formula_editor_sensor_y_acceleration">acceleration y</string>
     <string name="formula_editor_sensor_z_acceleration">acceleration z</string>
@@ -1623,6 +1634,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_x_inclination">inclination x</string>
     <string name="formula_editor_sensor_y_inclination">inclination y</string>
     <string name="formula_editor_sensor_loudness">loudness</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">year</string>
     <string name="formula_editor_sensor_date_month">month</string>
     <string name="formula_editor_sensor_date_day">day</string>
@@ -1800,6 +1812,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">left</string>
     <string name="brick_show_variable_aligned_right">right</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">Turn camera</string>
@@ -1834,8 +1847,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
     <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
-    <string name="deletion_alert_title">Warning!</string>
-    <string name="deletion_alert_text">Deleting a variable that is still in use is dangerous. Are you sure?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">Yes, delete anyway!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others

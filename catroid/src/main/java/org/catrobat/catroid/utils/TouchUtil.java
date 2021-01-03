@@ -117,4 +117,15 @@ public final class TouchUtil {
 		}
 		return points;
 	}
+
+	public static int getNumberOfCurrentTouches() {
+		return currentlyTouchingPointersToTouchIndex.size();
+	}
+
+	public static int getIndexOfCurrentTouch(int index) {
+		if ((index < 1) || index > currentlyTouchingPointersToTouchIndex.size()) {
+			return 0;
+		}
+		return currentlyTouchingPointersToTouchIndex.valueAt(index - 1) + 1;
+	}
 }

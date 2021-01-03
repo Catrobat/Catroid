@@ -32,6 +32,7 @@
     <string name="confirm">確認</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">キャンセル</string>
+    <string name="save">保存</string>
     <string name="next">次へ</string>
     <string name="back">戻る</string>
     <string name="ok">わかりました</string>
@@ -43,8 +44,9 @@
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
-    <string name="agree">同意する</string>
     <string name="disagree">同意しない</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     <string name="select_all">すべて選択</string>
     <string name="deselect_all">Deselect all</string>
     <string name="skip">スキップ</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">作成</string>
     <string name="marketing_app_details">このアプリの詳細について</string>
     <string name="marketing_more_on_google_play">Google Play でより多くのアプリ</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">設定</string>
     <string name="preference_title_language">言語</string>
@@ -265,8 +269,8 @@
     <string name="reconvert_dialog_reconvert">Convert this project again</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">To use our app, it is necessary to accept our Privacy Policy.
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
         However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
     <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
     <!-- Project Handling Errors -->
@@ -287,8 +291,6 @@
     <string name="am_convert">変換</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">バックパック</string>
@@ -322,10 +324,6 @@
     <plurals name="delete_scripts">
         <item quantity="other">Delete these scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">Project name</string>
     <string name="scene_name_label">Scene name</string>
@@ -496,20 +494,8 @@
     <string name="pack">Pack</string>
     <string name="unpack">解凍</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">スクリプト</string>
-    <string name="backgrounds">背景</string>
-    <string name="looks">外見</string>
-    <string name="sounds">サウンド</string>
-    <string name="nfctags">NFC タグ</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">新規プログラムの名前</string>
-    <string name="new_project_empty">空のプログラムを作成</string>
-    <string name="new_project_default">サンプル プログラムを作成</string>
-    <string name="new_project_default_drone">Create an example AR.Drone 2.0 project</string>
-    <string name="new_project_default_jumping_sumo">Create an example Jumping Sumo project</string>
-    <string name="project_orientation_title">向き:</string>
-    <string name="project_select_screen_title">Screen:</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">Merged project</string>
@@ -524,13 +510,15 @@
     <string name="add_look_draw_new_image">新しい画像を描画します。</string>
     <string name="add_look_choose_image">画像を選択</string>
     <string name="add_look_media_library">メディア ライブラリー</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 video</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">サウンドを追加</string>
     <string name="add_sound_from_recorder">サウンドの録音</string>
     <string name="add_sound_choose_file">ファイルを選択</string>
     <string name="add_sound_music">音楽の作曲</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Rate App</string>
     <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
@@ -560,8 +548,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">プライバシーポリシー</string>
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">Before you can start coding, please read and accept our Privacy
-        Policy to use the app:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
         it is necessary to collect certain data from you.\n\n
 
@@ -677,6 +664,8 @@
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
     <string name="brick_context_dialog_help">ヘルプ</string>
     <string name="comment_in_out">無効/有効にする</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">再生シーン:</string>
@@ -771,6 +760,7 @@
     <string name="dialog_new_broadcast_message_name">メッセージ：</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">すべて</string>
     <!-- -->
     <!-- Brick categories -->
@@ -881,6 +871,8 @@
     <string name="brick_next_background">次の背景</string>
     <string name="brick_previous_look">前の外見</string>
     <string name="brick_previous_background">前の背景</string>
+    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_delete_background">Delete background</string>
     <string name="brick_flash">フラッシュライトのスイッチ</string>
     <string name="brick_flash_on">オン</string>
     <string name="brick_flash_off">オフ</string>
@@ -893,6 +885,12 @@
     <string name="brick_ask_speech_label">質問</string>
     <string name="brick_ask_speech_store">音声応答を保存し</string>
     <string name="brick_ask_speech_default_question">What\'s your name?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">ペンを下す</string>
@@ -920,8 +918,12 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">次の</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">Stitch</string>
@@ -932,7 +934,12 @@
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">Sew up</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">開く </string>
+    <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">プログラムがはじまると</string>
     <string name="brick_when">オブジェクトがタップされている</string>
@@ -980,6 +987,8 @@
     <string name="brick_tap_at">"Single tap at"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"次の"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">Finish stage</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1067,30 +1076,50 @@
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">私の最初のプログラム</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">シーン %1$d</string>
     <string name="default_project_background_name">背景</string>
     <string name="default_project_cloud_name">雲</string>
@@ -1122,18 +1151,6 @@
     <string name="default_cast_project_var_direction">方向</string>
     <string name="default_cast_project_name">私の最初のキャストプログラム</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">My first AR.Drone 2.0 project</string>
-    <string name="default_drone_project_sprites_takeoff">離陸</string>
-    <string name="default_drone_project_sprites_flip">フリップ</string>
-    <string name="default_drone_project_sprites_up">上</string>
-    <string name="default_drone_project_sprites_down">下</string>
-    <string name="default_drone_project_sprites_left">左</string>
-    <string name="default_drone_project_sprites_right">右</string>
-    <string name="default_drone_project_sprites_forward">進む</string>
-    <string name="default_drone_project_sprites_back">戻る</string>
-    <string name="default_drone_project_sprites_turn_left">左方向：</string>
-    <string name="default_drone_project_sprites_turn_right">右方向：</string>
-    <string name="default_drone_project_sprites_emergency">緊急</string>
     <string name="drone_brick_set_text">テキスト</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1419,19 +1436,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">My first Jumping Sumo project</string>
-    <string name="add_look_jumping_sumo_video">Jumping Sumo video</string>
-    <string name="default_jumping_sumo_project_sprites_forward">進む</string>
-    <string name="default_jumping_sumo_project_sprites_backward">Backward</string>
-    <string name="default_jumping_sumo_project_sprites_animation">アニメーション</string>
     <string name="default_jumping_sumo_project_sprites_sound">音</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">No sound</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">Jump long</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">Jump high</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">左方向：</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">右方向：</string>
-    <string name="default_jumping_sumo_project_sprites_flip">フリップ</string>
-    <string name="default_jumping_sumo_project_sprites_picture">Taking pictures</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">Spin</string>
@@ -1557,6 +1562,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_max_parameter">(0,1)</string>
     <string name="formula_editor_function_min">最小値</string>
     <string name="formula_editor_function_min_parameter">(0,1)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">真</string>
     <string name="formula_editor_function_false">偽</string>
     <string name="formula_editor_function_length">length</string>
@@ -1565,6 +1572,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">join</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join3">join</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1585,6 +1594,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
     <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
     <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">element</string>
@@ -1600,6 +1610,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_touched">touches_finger</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">x_加速</string>
     <string name="formula_editor_sensor_y_acceleration">y_加速</string>
     <string name="formula_editor_sensor_z_acceleration">z_加速</string>
@@ -1612,6 +1623,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_x_inclination">x_傾斜</string>
     <string name="formula_editor_sensor_y_inclination">y_傾斜</string>
     <string name="formula_editor_sensor_loudness">ラウドネス</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">年</string>
     <string name="formula_editor_sensor_date_month">月</string>
     <string name="formula_editor_sensor_date_day">日</string>
@@ -1779,6 +1791,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_show_variable_aligned_left">左</string>
     <string name="brick_show_variable_aligned_right">右</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">カメラを</string>
@@ -1812,8 +1825,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_connection_timout_msg">接続タイムアウト。もう一度やり直してください。</string>
     <string name="cast_screen_pause_text">一時停止</string>
     <!-- -->
-    <string name="deletion_alert_title">警告!</string>
-    <string name="deletion_alert_text">まだ使用している変数を削除するのは危険です! よろしいですか?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">はい、とにかく削除します!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">あなたのプログラムは、私たちのコミュニ ティー ページにアップロードされます。他の人がそれを使用したりダウンロードすることができます。

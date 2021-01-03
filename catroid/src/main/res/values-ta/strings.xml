@@ -32,6 +32,7 @@
     <string name="confirm">உறுதிசெய்</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">தவிர்</string>
+    <string name="save">சேமி</string>
     <string name="next">அடுத்து</string>
     <string name="back">பின்செல்</string>
     <string name="ok">சரி</string>
@@ -43,8 +44,9 @@
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
-    <string name="agree">ஏற்கிறேன்</string>
     <string name="disagree">மறுக்கிறேன்</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
     <string name="select_all">அனைத்தையும் தேர்ந்தெடு</string>
     <string name="deselect_all">அனைத்தையும் தேர்வுநீக்கு</string>
     <string name="skip">தவிர்</string>
@@ -95,6 +97,8 @@
     <string name="marketing_created_with">உருவாக்கம்</string>
     <string name="marketing_app_details">இந்த பயன்பாட்டை பற்றி விவரம்</string>
     <string name="marketing_more_on_google_play">ஆப் ஸ்டோரில் கூடுதல் பயன்பாடுகள்</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
     <string name="preference_title">அமைப்புகள்</string>
     <string name="preference_title_language">மொழி</string>
@@ -269,9 +273,9 @@
     <string name="reconvert_dialog_reconvert">இந்த திட்டத்தை மீண்டும் மாற்றவும்</string>
     <!--  -->
     <!-- ERRORS -->
-    <!-- Privacy Policy Error -->
-    <string name="declined_privacy_agreement_alert">எங்கள் பயன்பாட்டைப் பயன்படுத்த, எங்கள் தனியுரிமைக் கொள்கையை ஏற்றுக்கொள்வது அவசியம்.  
-இருப்பினும், நீங்கள் அவ்வாறு செய்ய வசதியாக இல்லை என்றால், எங்கள் இலவச வலை சேவைகளைப் பயன்படுத்தலாம்</string>
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
+        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
     <string name="wtf_error">எதிர்பாராத பிழை ஏற்பட்டது: மாதிரி திட்டத்தை என்னால் மீட்டெடுக்க முடியவில்லை.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">திட்டத்தை நகலெடுக்கும் போது பிழை ஏற்பட்டது</string>
@@ -290,8 +294,6 @@
     <string name="am_convert">மாற்று</string>
     <string name="am_merge">ஒன்றுசேர்</string>
     <string name="dialog_confirm_delete">இதை செயல்தவிர்க்க முடியாது!</string>
-    <string name="dialog_confirm_delete_definition">This will also remove the brick in all
-        other scripts in which it is being used.\nYou cannot undo this!</string>
     <string name="list_headline_sprites">நடிகர்களும் பொருட்களும்</string>
     <!-- Options Menu Options -->
     <string name="backpack">முதுகுப்பை</string>
@@ -332,11 +334,6 @@
         <item quantity="one">இந்த ஸ்கிரிப்டை நீக்கவா?</item>
         <item quantity="other">Delete these scripts?</item>
     </plurals>
-    <plurals name="delete_bricks">
-        <item quantity="one">இந்த செங்களை நீக்கவா?</item>
-        <item quantity="other">Delete these bricks?</item>
-    </plurals>
-    <string name="delete_definition">Delete the definition of this brick?</string>
     <!-- Dialog Labels -->
     <string name="project_name_label">செயற்திட்டத்தின் பெயர்</string>
     <string name="scene_name_label">காட்சி பெயர்</string>
@@ -530,20 +527,8 @@
     <string name="pack">கட்டு</string>
     <string name="unpack">கட்டைப்பிரி</string>
     <!--  -->
-    <!-- Sprite Attribute Activity -->
-    <string name="scripts">ஸ்கிரிப்ட்கள்</string>
-    <string name="backgrounds">பின்னணிகள்</string>
-    <string name="looks">தோற்றம்</string>
-    <string name="sounds">ஒலிகள்</string>
-    <string name="nfctags">NFC குறிச்சொல்</string>
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_title">புதிய</string>
-    <string name="new_project_empty">வெறுமையான திட்டத்தை உருவாக்கு</string>
-    <string name="new_project_default">ஒரு எடுத்துக்காட்டு திட்டத்தை உருவாக்கவும்</string>
-    <string name="new_project_default_drone">ஒரு உதாரணத்தை உருவாக்கவும் AR.Drone 2.0 திட்டம்</string>
-    <string name="new_project_default_jumping_sumo">ஒரு உதாரணத்தை உருவாக்கவும் ஜம்பிங் சுமோ திட்டம்</string>
-    <string name="project_orientation_title">சார்புநிலை:</string>
-    <string name="project_select_screen_title">திரை:</string>
+    <string name="new_project_dialog_example_project">Example project</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
     <string name="new_merge_project_dialog_title">இணைக்கப்பட்ட திட்டம்</string>
@@ -558,13 +543,15 @@
     <string name="add_look_draw_new_image">படத்தை வரையவும்</string>
     <string name="add_look_choose_image">படம் தேர்ந்தெடு</string>
     <string name="add_look_media_library">ஊடக நூலகம்</string>
-    <string name="add_look_drone_video">AR.Drone 2.0 வீடியோ</string>
     <!--  -->
     <!-- NewSoundDialog -->
     <string name="new_sound_dialog_title">ஒலி சேர்க்கவும்</string>
     <string name="add_sound_from_recorder">ஒலி பதிவு</string>
     <string name="add_sound_choose_file">கோப்பு தேர்ந்தெடு</string>
     <string name="add_sound_music">இசை அமைப்பாளர்</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">செயலி மதிப்பீடு</string>
     <string name="rating_google_play_dialog_text">இந்த பயன்பாட்டை நீங்கள் ரசிக்கிறீர்கள் என்றால், தயவுசெய்து எங்களை ஆப் ஸ்டோரில் மதிப்பிடுங்கள்.</string>
@@ -592,7 +579,7 @@
     <!-- Privacy Policy -->
     <string name="dialog_privacy_policy_title">தனிமனித உரிமை கொள்கை</string>
     <string name="disclaimer_privacy_police_header_headline">வருக!</string>
-    <string name="disclaimer_privacy_policy_header">நீங்கள் குறியீட்டைத் தொடங்குவதற்கு முன், தயவுசெய்து எங்கள் தனியுரிமையைப் படித்து ஏற்றுக்கொள்ளுங்கள்      பயன்பாட்டைப் பயன்படுத்துவதற்கான கொள்கை:</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <string name="dialog_privacy_policy_text">எங்கள் சேவைகள் மற்றும் அதனுடன் தொடர்புடைய கணக்கின் அனைத்து நன்மைகளையும் உங்களுக்கு வழங்க,
          உங்களிடமிருந்து சில தரவைச் சேகரிப்பது அவசியம். \n\n
 
@@ -705,6 +692,8 @@
     <string name="brick_context_dialog_comment_out_script">ஸ்கிரிப்டை முடக்கு</string>
     <string name="brick_context_dialog_help">உதவி</string>
     <string name="comment_in_out">முடக்கு / செயல்படுத்த</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">காட்சி காட்சி:</string>
@@ -799,6 +788,7 @@
     <string name="dialog_new_broadcast_message_name">செய்தி:</string>
     <!--  -->
     <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">அனைத்து</string>
     <!-- -->
     <!-- Brick categories -->
@@ -911,6 +901,8 @@
     <string name="brick_next_background">அடுத்த பின்னணி</string>
     <string name="brick_previous_look">முந்தைய தோற்றம்</string>
     <string name="brick_previous_background">முந்தைய பின்னணி</string>
+    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_delete_background">Delete background</string>
     <string name="brick_flash">ஒளிரும் விளக்கை இயக்கவும்</string>
     <string name="brick_flash_on">மீது</string>
     <string name="brick_flash_off">ஆஃப்</string>
@@ -923,6 +915,12 @@
     <string name="brick_ask_speech_label">கேட்க</string>
     <string name="brick_ask_speech_store">பேசும் பதிலை சேமிக்கவும்</string>
     <string name="brick_ask_speech_default_question">உங்கள் பெயர் என்ன?</string>
+    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
     <string name="brick_pen_down">பேனா கீழே</string>
@@ -950,8 +948,12 @@
     <string name="brick_set_listening_language">Set listening language to</string>
     <string name="set_instrument_to">Set instrument to</string>
     <string name="set_tempo_to">Set tempo to</string>
+    <string name="change_tempo_by">Change tempo by</string>
     <string name="pause_for">Pause for</string>
+    <string name="play_drum">Play drum</string>
     <string name="beats">beats</string>
+    <string name="play_note">Play note</string>
+    <string name="for_string">ஆக</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch">தைத்து</string>
@@ -962,7 +964,12 @@
     <string name="brick_stop_stitch">Stop current stitch</string>
     <string name="brick_write_embroidery">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up">Sew up</string>
     <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer">Reset timer</string>
+    <string name="brick_open">திறந்த</string>
+    <string name="brick_in_browser">in browser</string>
     <!-- Control bricks -->
     <string name="brick_when_started">காட்சி தொடங்கும் போது</string>
     <string name="brick_when">தட்டும்போது</string>
@@ -1011,6 +1018,8 @@
     <string name="brick_tap_at">"இல் ஒற்றை தட்டு"</string>
     <string name="brick_touch_at">"Touch at"</string>
     <string name="brick_tap_for">"ஆக"</string>
+    <string name="brick_touch_slide">"Touch and slide"</string>
+    <string name="brick_touch_from_x">"from x:"</string>
     <string name="brick_finish_stage">நிலையை முடிக்க</string>
     <string name="brick_finish_tests">Finish tests</string>
     <string name="brick_assert_lists">Assert lists</string>
@@ -1102,30 +1111,50 @@
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">Piano</string>
-    <string name="electric_piano">Electric Piano</string>
-    <string name="cello">Cello</string>
-    <string name="flute">Flute</string>
-    <string name="vibraphone">Vibraphone</string>
-    <string name="organ">Organ</string>
-    <string name="guitar">Guitar</string>
-    <string name="electric_guitar">Electric Guitar</string>
-    <string name="bass">Bass</string>
-    <string name="pizzicato">Pizzicato</string>
-    <string name="synth_pad">Synth Pad</string>
-    <string name="choir">Choir</string>
-    <string name="synth_lead">Synth Lead</string>
-    <string name="wooden_flute">Wooden Flute</string>
-    <string name="trombone">Trombone</string>
-    <string name="saxophone">Saxophone</string>
-    <string name="bassoon">Bassoon</string>
-    <string name="clarinet">Clarinet</string>
-    <string name="music_box">Music Box</string>
-    <string name="steel_drum">Steel Drum</string>
-    <string name="marimba">Marimba</string>
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">எனது முதல் திட்டம்</string>
+    <string name="default_project_name">My project</string>
     <string name="default_scene_name">Scene %1$d</string>
     <string name="default_project_background_name">பின்னணி</string>
     <string name="default_project_cloud_name">மேகங்கள்</string>
@@ -1157,18 +1186,6 @@
     <string name="default_cast_project_var_direction">திசை</string>
     <string name="default_cast_project_name">எனது முதல் Chromecast திட்டம்</string>
     <!-- Default Drone Values -->
-    <string name="default_drone_project_name">எனது முதல் AR.Drone 2.0 திட்டம்</string>
-    <string name="default_drone_project_sprites_takeoff">பரக்கவும்</string>
-    <string name="default_drone_project_sprites_flip">திருப்பு</string>
-    <string name="default_drone_project_sprites_up">மேலே</string>
-    <string name="default_drone_project_sprites_down">கீழே</string>
-    <string name="default_drone_project_sprites_left">இடது</string>
-    <string name="default_drone_project_sprites_right">வலது</string>
-    <string name="default_drone_project_sprites_forward">முன்னோக்கி</string>
-    <string name="default_drone_project_sprites_back">பின்</string>
-    <string name="default_drone_project_sprites_turn_left">இடப்பக்கம் திரும்பு</string>
-    <string name="default_drone_project_sprites_turn_right">வலதுபுறம் திரும்ப</string>
-    <string name="default_drone_project_sprites_emergency">அவசரம்</string>
     <string name="drone_brick_set_text">உரை</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
@@ -1447,19 +1464,7 @@
     <string name="brick_jumping_sumo_taking_picture">படம் எடுக்கும் ஜம்பிங் சுமோ</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_name">எனது முதல் ஜம்பிங் சுமோ திட்டம்</string>
-    <string name="add_look_jumping_sumo_video">ஜம்பிங் சுமோ வீடியோ</string>
-    <string name="default_jumping_sumo_project_sprites_forward">முன்னோக்கி</string>
-    <string name="default_jumping_sumo_project_sprites_backward">பின்னோக்கி</string>
-    <string name="default_jumping_sumo_project_sprites_animation">அசைவூட்டங்கள்</string>
     <string name="default_jumping_sumo_project_sprites_sound">ஒலி</string>
-    <string name="default_jumping_sumo_project_sprites_no_sound">சத்தம் இல்லை</string>
-    <string name="default_jumping_sumo_project_sprites_jump_long">நீளமாக ஜம்ப் செய்யவும்</string>
-    <string name="default_jumping_sumo_project_sprites_jump_high">உயரமாக ஜம்ப் செய்யவும்</string>
-    <string name="default_jumping_sumo_project_sprites_turn_left">இடப்பக்கம் திரும்பு</string>
-    <string name="default_jumping_sumo_project_sprites_turn_right">வலதுபுறம் திரும்ப</string>
-    <string name="default_jumping_sumo_project_sprites_flip">திருப்பு</string>
-    <string name="default_jumping_sumo_project_sprites_picture">படம் எடுக்க</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin">சுழல்</string>
@@ -1585,6 +1590,8 @@
     <string name="formula_editor_function_max_parameter">(5,4)</string>
     <string name="formula_editor_function_min">குறைந்தபட்சம்</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
     <string name="formula_editor_function_true">சரி</string>
     <string name="formula_editor_function_false">தவறு</string>
     <string name="formula_editor_function_length">நீளம்</string>
@@ -1593,6 +1600,8 @@
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join">சேர்</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join3">சேர்</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex">வழக்கமான வெளிப்பாடு</string>
     <string name="formula_editor_function_regex_parameter">(\'an? ([^.] +)\', \'நான் ஒரு பாண்டா.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
@@ -1613,6 +1622,7 @@
     <string name="formula_editor_function_multi_finger_y">நிலை தொடு y</string>
     <string name="formula_editor_function_is_multi_finger_touching">மேடை தொட்டது</string>
     <string name="formula_editor_function_index_of_last_finger">கடைசி நிலை தொடு குறியீடு</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
     <string name="formula_editor_function_list_item">உருப்படி</string>
@@ -1628,6 +1638,7 @@
     <string name="formula_editor_function_touched">விரலைத் தொடும்</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_x_acceleration">முடுக்கம் x</string>
     <string name="formula_editor_sensor_y_acceleration">முடுக்கம் y</string>
     <string name="formula_editor_sensor_z_acceleration">முடுக்கம் z</string>
@@ -1640,6 +1651,7 @@
     <string name="formula_editor_sensor_x_inclination">சாய்வு x</string>
     <string name="formula_editor_sensor_y_inclination">சாய்வு y</string>
     <string name="formula_editor_sensor_loudness">உரப்பு</string>
+    <string name="formula_editor_sensor_timer">timer</string>
     <string name="formula_editor_sensor_date_year">ஆண்டு</string>
     <string name="formula_editor_sensor_date_month">மாதம்</string>
     <string name="formula_editor_sensor_date_day">நாள்</string>
@@ -1808,6 +1820,7 @@
     <string name="brick_show_variable_aligned_left">இடது</string>
     <string name="brick_show_variable_aligned_right">வலது</string>
     <string name="brick_context_dialog_pick_color">வண்ணம் தேர்ந்தெடுக்கவும்</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
     <string name="brick_video">கேமராவைத் திருப்புங்கள்</string>
@@ -1840,8 +1853,9 @@
     <string name="cast_connection_timout_msg">இணைப்பு நேரம் முடிந்தது. தயவு செய்து மீண்டும் முயற்சிக்கவும்.</string>
     <string name="cast_screen_pause_text">இடை நிறுத்தப்பட்டது</string>
     <!-- -->
-    <string name="deletion_alert_title">எச்சரிக்கை!</string>
-    <string name="deletion_alert_text">இன்னும் பயன்பாட்டில் உள்ள ஒரு மாறியை நீக்குவது ஆபத்தானது. உறுதியாக நீக்கவேண்டுமா?</string>
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
     <string name="deletion_alert_yes">ஆம், நீக்குக!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">உங்கள் திட்டம் பயன்பாட்டின் பகிர்வு தளத்தில் பதிவேற்றப்படும்

@@ -37,9 +37,10 @@ public class VibrateAction extends TemporalAction {
 	private Formula duration;
 
 	@Override
-	protected void update(float percent) {
+	protected void begin() {
 		try {
-			Double newDuration = duration == null ? Double.valueOf(0f) : duration.interpretFloat(sprite);
+			Float newDuration = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
+			super.setDuration(newDuration);
 			VibrationUtil.setTimeToVibrate(newDuration * 1000);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -52,5 +53,9 @@ public class VibrateAction extends TemporalAction {
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	@Override
+	protected void update(float percent) {
 	}
 }

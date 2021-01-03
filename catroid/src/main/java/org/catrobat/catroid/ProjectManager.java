@@ -42,7 +42,6 @@ import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
-import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -66,7 +65,7 @@ import androidx.annotation.VisibleForTesting;
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
-public final class ProjectManager implements EagerSingleton {
+public final class ProjectManager {
 
 	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
@@ -84,17 +83,16 @@ public final class ProjectManager implements EagerSingleton {
 	}
 
 	public ProjectManager(Context applicationContext) {
-		if (instance != null) {
-			throw new RuntimeException("ProjectManager should be instantiated only once");
-		}
 		this.applicationContext = applicationContext;
-		instance = this;
+		if (instance == null) {
+			instance = this;
+		}
 	}
 
 	/**
 	 * Replaced with dependency injection
 	 *
-	 * @deprecated use dependency injection with Dagger instead.
+	 * @deprecated use dependency injection with koin instead.
 	 */
 	@Deprecated
 	public static ProjectManager getInstance() {
@@ -515,6 +513,21 @@ public final class ProjectManager implements EagerSingleton {
 
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
+	}
+
+	public boolean setCurrentSceneAndSprite(String sceneName, String spriteName) {
+		for (Scene scene : project.getSceneList()) {
+			if (scene.getName().equals(sceneName)) {
+				setCurrentlyEditedScene(scene);
+				for (Sprite sprite : scene.getSpriteList()) {
+					if (sprite.getName().equals(spriteName)) {
+						currentSprite = sprite;
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public void setCurrentlyEditedScene(Scene scene) {

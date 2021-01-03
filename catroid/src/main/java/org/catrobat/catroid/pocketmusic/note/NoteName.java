@@ -23,6 +23,10 @@
 package org.catrobat.catroid.pocketmusic.note;
 
 public enum NoteName {
+	EXT0(0, false), EXT1(1, false), EXT2(2, false), EXT3(3, false), EXT4(4, false), EXT5(5, false),
+	EXT6(6, false), EXT7(7, false), EXT8(8, false), EXT9(9, false), EXT10(10, false), EXT11(11, false),
+	EXT12(12, false), EXT13(13, false), EXT14(14, false), EXT15(15, false), EXT16(16, false),
+	EXT17(17, false), EXT18(17, false), EXT19(17, false), EXT20(20, false),
 	A0(21, false), A0S(22, true), B0(23, false), C1(24, false), C1S(25, true), D1(26, false), D1S(27, true), E1(28,
 			false), F1(29, false), F1S(30, true), G1(31, false), G1S(32, true), A1(33, false), A1S(34, true), B1(35,
 			false), C2(36, false), C2S(37, true), D2(38, false), D2S(39, true), E2(40, false), F2(41, false), F2S(42,
@@ -35,7 +39,12 @@ public enum NoteName {
 			false), C6S(85, true), D6(86, false), D6S(87, true), E6(88, false), F6(89, false), F6S(90, true), G6(91,
 			false), G6S(92, true), A6(93, false), A6S(94, true), B6(95, false), C7(96, false), C7S(97, true), D7(98,
 			false), D7S(99, true), E7(100, false), F7(101, false), F7S(102, true), G7(103, false), G7S(104, true), A7(
-			105, false), A7S(106, true), B7(107, false), C8(108, false);
+			105, false), A7S(106, true), B7(107, false), C8(108, false),
+	EXT109(109, false), EXT110(110, false), EXT111(111, false), EXT112(112, false), EXT113(113, false),
+	EXT114(114, false), EXT115(115, false), EXT116(116, false), EXT117(117, false), EXT118(118, false),
+	EXT119(119, false), EXT120(120, false), EXT121(121, false), EXT122(122, false), EXT123(123, false),
+	EXT124(124, false), EXT125(125, false), EXT126(126, false), EXT127(127, false), EXT128(128, false),
+	EXT129(129, false), EXT130(130, false);
 
 	public static final NoteName DEFAULT_NOTE_NAME = NoteName.C1;
 

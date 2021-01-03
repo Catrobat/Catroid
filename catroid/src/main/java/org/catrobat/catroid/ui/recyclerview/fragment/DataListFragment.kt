@@ -46,7 +46,7 @@ import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
@@ -209,10 +209,10 @@ class DataListFragment : Fragment(),
 
     private fun startActionMode(@ActionModeType type: Int) {
         if (adapter?.items?.isEmpty() != false) {
-            ToastUtil.showError(activity, R.string.am_empty_list)
+            ToastUtil.showError(requireActivity(), R.string.am_empty_list)
         } else {
             actionModeType = type
-            actionMode = activity!!.startActionMode(this)
+            actionMode = requireActivity().startActionMode(this)
         }
     }
 
@@ -224,7 +224,7 @@ class DataListFragment : Fragment(),
     }
 
     private fun showDeleteAlert(selectedItems: List<UserData<*>>) {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.deletion_alert_title)
             .setMessage(R.string.deletion_alert_text)
             .setPositiveButton(
@@ -254,14 +254,14 @@ class DataListFragment : Fragment(),
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
         val item = selectedItems[0]
-        val builder = TextInputDialog.Builder(context!!)
+        val builder = TextInputDialog.Builder(requireContext())
+        val items = adapter!!.items
 
         builder.setHint(getString(R.string.data_label))
             .setText(item.name)
             .setTextWatcher(
-                RenameItemTextWatcher(
-                    item,
-                    adapter!!.items
+                DuplicateInputTextWatcher(
+                    items
                 )
             )
             .setPositiveButton(
@@ -315,7 +315,7 @@ class DataListFragment : Fragment(),
         }
         val items =
             arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        AlertDialog.Builder(activity!!)
+        AlertDialog.Builder(requireActivity())
             .setItems(
                 items
             ) { dialog: DialogInterface, which: Int ->
