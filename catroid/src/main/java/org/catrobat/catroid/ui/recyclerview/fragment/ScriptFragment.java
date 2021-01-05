@@ -733,7 +733,7 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	private void showDeleteAlert(List<Brick> selectedBricks) {
-		if (copyProjectForUndoOption()) {
+		if (selectedBricks.size() > 0 && copyProjectForUndoOption()) {
 			showUndo(true);
 			undoBrickPosition = adapter.getPosition(selectedBricks.get(0));
 		}
