@@ -187,7 +187,7 @@ public class CollisionInformation {
 			collisionPolygons = createCollisionPolygonByHitbox(bitmap);
 		}
 
-		if (isCalculationThreadCancelled) {
+		if (isCalculationThreadCancelled || !lookData.isValid()) {
 			return;
 		}
 
