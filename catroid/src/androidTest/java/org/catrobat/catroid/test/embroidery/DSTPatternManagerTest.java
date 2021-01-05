@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.DSTStitchCommand;
@@ -101,14 +103,14 @@ public class DSTPatternManagerTest {
 
 	@Test
 	public void testInvalidPattern() {
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite));
+		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK));
 		assertFalse(patternManager.validPatternExists());
 	}
 
 	@Test
 	public void testValidPattern() {
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite));
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 1, 0, sprite));
+		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK));
+		patternManager.addStitchCommand(new DSTStitchCommand(0, 1, 0, sprite, Color.BLACK));
 		assertTrue(patternManager.validPatternExists());
 	}
 
@@ -119,18 +121,18 @@ public class DSTPatternManagerTest {
 
 	@Test
 	public void testSingleLayerEmbroideryPatternList() {
-		StitchCommand command = new DSTStitchCommand(0, 0, 0, sprite);
+		StitchCommand command = new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK);
 		patternManager.addStitchCommand(command);
 
 		assertEquals(1, patternManager.getEmbroideryPatternList().size());
-		assertEquals(new DSTStitchPoint(command.getX(), command.getY()),
+		assertEquals(new DSTStitchPoint(command.getX(), command.getY(), Color.BLACK),
 				patternManager.getEmbroideryPatternList().get(0));
 	}
 
 	@Test
 	public void testMultilayerEmbroideryPatternList() {
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite));
-		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 1, sprite));
+		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK));
+		patternManager.addStitchCommand(new DSTStitchCommand(0, 0, 1, sprite, Color.BLACK));
 
 		assertEquals(5, patternManager.getEmbroideryPatternList().size());
 		assertTrue(patternManager.getEmbroideryPatternList().get(1).isColorChangePoint());

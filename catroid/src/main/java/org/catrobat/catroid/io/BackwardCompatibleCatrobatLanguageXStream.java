@@ -144,6 +144,7 @@ import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
+import org.catrobat.catroid.content.bricks.SetThreadColorBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -735,6 +736,9 @@ public class BackwardCompatibleCatrobatLanguageXStream extends XStream {
 
 		brickInfo = new BrickInfo(SewUpBrick.class.getSimpleName());
 		brickInfoMap.put("sewUpBrick", brickInfo);
+
+		brickInfo = new BrickInfo(SetThreadColorBrick.class.getSimpleName());
+		brickInfoMap.put("setThreadColorBrick", brickInfo);
 	}
 
 	private void initializeScriptInfoMap() {

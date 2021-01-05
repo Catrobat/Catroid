@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 import android.content.Context;
 import android.util.Log;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
@@ -88,6 +89,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 	private transient List<Integer> usedTouchPointer = new ArrayList<>();
+	private transient Color embroideryThreadColor = Color.BLACK;
 
 	@XStreamAsAttribute
 	private String name;
@@ -673,5 +675,13 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 
 		return idsToRemove;
+	}
+
+	public void setEmbroideryThreadColor(Color embroideryThreadColor) {
+		this.embroideryThreadColor = embroideryThreadColor;
+	}
+
+	public Color getEmbroideryThreadColor() {
+		return this.embroideryThreadColor;
 	}
 }
