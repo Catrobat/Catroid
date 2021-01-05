@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,9 @@ public class CompositeBrickVariableUpdateTest {
 	private static final String NEW_VARIABLE_USERVARIABLE_FORMAT = "\"NewName\" ";
 	private static final String NEW_VARIABLE_USERLIST_FORMAT = "*NewName* ";
 
+	private static final String VARIABLE_VALUE = "Value";
+	private static final String NEW_VARIABLE_VALUE = "NewValue";
+
 	@Parameterized.Parameters(name = "{0}")
 	public static Iterable<Object[]> data() {
 		return Arrays.asList(new Object[][] {
@@ -94,6 +97,7 @@ public class CompositeBrickVariableUpdateTest {
 		formulaBrick = new SetXBrick();
 
 		userVariable.setName(VARIABLE_NAME);
+		userVariable.setValue(VARIABLE_VALUE);
 		userList.setName(VARIABLE_NAME);
 
 		project.addScene(scene);
@@ -105,6 +109,18 @@ public class CompositeBrickVariableUpdateTest {
 		project.addUserVariable(userVariable);
 		project.addUserList(userList);
 		ProjectManager.getInstance().setCurrentProject(project);
+	}
+
+	@Test
+	public void testEditVariable() {
+		DataListFragment.updateUserVariableValue(NEW_VARIABLE_VALUE, userVariable);
+		assertEquals(NEW_VARIABLE_VALUE, userVariable.getValue());
+	}
+
+	@Test
+	public void testEditVariableSameValue() {
+		DataListFragment.updateUserVariableValue(VARIABLE_VALUE, userVariable);
+		assertEquals(VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	@Test
