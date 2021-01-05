@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.embroidery;
 
 import com.android.dex.util.FileUtils;
+import com.badlogic.gdx.graphics.Color;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
@@ -72,15 +73,15 @@ public class DSTFileGeneratorTest {
 	@Test
 	public void testWriteToSampleDSTFile() throws IOException {
 		EmbroideryStream stream = new DSTStream(new DSTHeader());
-		stream.addStitchPoint(-10, 0);
-		stream.addStitchPoint(10, 0);
-		stream.addStitchPoint(10, 10);
-		stream.addStitchPoint(0, 15);
-		stream.addStitchPoint(-10, 10);
-		stream.addStitchPoint(-10, 0);
-		stream.addStitchPoint(10, 10);
-		stream.addStitchPoint(-10, 10);
-		stream.addStitchPoint(10, 0);
+		stream.addStitchPoint(-10, 0, Color.BLACK);
+		stream.addStitchPoint(10, 0, Color.BLACK);
+		stream.addStitchPoint(10, 10, Color.BLACK);
+		stream.addStitchPoint(0, 15, Color.BLACK);
+		stream.addStitchPoint(-10, 10, Color.BLACK);
+		stream.addStitchPoint(-10, 0, Color.BLACK);
+		stream.addStitchPoint(10, 10, Color.BLACK);
+		stream.addStitchPoint(-10, 10, Color.BLACK);
+		stream.addStitchPoint(10, 0, Color.BLACK);
 		DSTFileGenerator fileGenerator = new DSTFileGenerator(stream);
 		fileGenerator.writeToDSTFile(dstFile);
 
@@ -97,17 +98,17 @@ public class DSTFileGeneratorTest {
 	}
 
 	private void addArrowToStream(EmbroideryStream stream, int shiftFactor) {
-		stream.addStitchPoint(0, shiftFactor);
-		stream.addStitchPoint(40, -40 + shiftFactor);
-		stream.addStitchPoint(-40, -40 + shiftFactor);
-		stream.addStitchPoint(0, shiftFactor);
+		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
+		stream.addStitchPoint(40, -40 + shiftFactor, Color.BLACK);
+		stream.addStitchPoint(-40, -40 + shiftFactor, Color.BLACK);
+		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
 	}
 
 	private void addColorChangeAndJumpToStream(EmbroideryStream stream, int shiftFactor) {
 		stream.addColorChange();
-		stream.addStitchPoint(0, shiftFactor);
+		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
 		stream.addJump();
-		stream.addStitchPoint(0, shiftFactor);
+		stream.addStitchPoint(0, shiftFactor, Color.BLACK);
 	}
 
 	@Test

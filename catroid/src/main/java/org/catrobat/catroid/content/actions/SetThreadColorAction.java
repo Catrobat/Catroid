@@ -22,28 +22,53 @@
  */
 package org.catrobat.catroid.content.actions;
 
+import android.util.Log;
+
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.embroidery.DSTStitchCommand;
-import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.formulaeditor.Formula;
 
-public class StitchAction extends TemporalAction {
+public class SetThreadColorAction extends TemporalAction {
 
+	private Scope scope;
+	private Formula color;
 	private Sprite sprite;
 
 	@Override
 	protected void update(float delta) {
-		sprite.runningStitch.pause();
-		float x = sprite.look.getXInUserInterfaceDimensionUnit();
-		float y = sprite.look.getYInUserInterfaceDimensionUnit();
-		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-				sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
-		sprite.runningStitch.setStartCoordinates(x, y);
-		sprite.runningStitch.resume();
+		try {
+			String colorStringInterpretation = "0xff0000";
+			if (color != null) {
+				colorStringInterpretation = color.interpretString(scope);
+			}
+
+			String red = "0x" + colorStringInterpretation.substring(1, 3);
+			String green = "0x" + colorStringInterpretation.substring(3, 5);
+			String blue = "0x" + colorStringInterpretation.substring(5, 7);
+			int redInt = Integer.decode(red);
+			int greenInt = Integer.decode(green);
+			int blueInt = Integer.decode(blue);
+
+			Color colorInterpretation = new Color();
+			Color.argb8888ToColor(colorInterpretation, android.graphics.Color.argb(0xFF, redInt, greenInt, blueInt));
+			sprite.setEmbroideryThreadColor(colorInterpretation);
+		} catch (Exception exception) {
+			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", exception);
+		}
+	}
+
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
+	}
+
+	public void setColor(Formula color) {
+		this.color = color;
 	}
 }

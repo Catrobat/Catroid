@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.embroidery.DSTStitchCommand;
 import org.catrobat.catroid.embroidery.DSTStream;
@@ -69,7 +71,7 @@ public class DSTStitchCommandTest {
 
 	@Test
 	public void testDSTStitchCommand() {
-		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, sprite);
+		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, sprite, Color.BLACK);
 
 		assertEquals(xCoord, command.getX(), 0);
 		assertEquals(yCoord, command.getY(), 0);
@@ -79,10 +81,10 @@ public class DSTStitchCommandTest {
 
 	@Test
 	public void testAddSimpleStitchCommand() {
-		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, sprite);
+		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, sprite, Color.BLACK);
 		command.act(workSpace, stream, null);
 
-		verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord));
+		verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord), eq(Color.BLACK));
 	}
 
 	@Test
@@ -91,10 +93,10 @@ public class DSTStitchCommandTest {
 		when(workSpace.getCurrentY()).thenReturn(yCoord);
 		when(workSpace.getLastSprite()).thenReturn(sprite);
 
-		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, sprite);
+		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, sprite, Color.BLACK);
 		command.act(workSpace, stream, null);
 
-		verify(stream, Mockito.never()).addStitchPoint(anyFloat(), anyFloat());
+		verify(stream, Mockito.never()).addStitchPoint(anyFloat(), anyFloat(), eq(Color.BLACK));
 	}
 
 	@Test
@@ -103,12 +105,12 @@ public class DSTStitchCommandTest {
 		when(workSpace.getCurrentY()).thenReturn(0.0f);
 		when(workSpace.getLastSprite()).thenReturn(sprite);
 
-		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, mock(Sprite.class));
+		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, mock(Sprite.class), Color.BLACK);
 		command.act(workSpace, stream, null);
 
 		verify(stream, times(1)).addColorChange();
-		verify(stream, times(2)).addStitchPoint(eq(0.0f), eq(0.0f));
-		verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord));
+		verify(stream, times(2)).addStitchPoint(eq(0.0f), eq(0.0f), eq(null));
+		verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord), eq(Color.BLACK));
 	}
 
 	@Test
@@ -117,16 +119,16 @@ public class DSTStitchCommandTest {
 		pointList.add(mock(StitchPoint.class));
 		when(stream.getPointList()).thenReturn(pointList);
 
-		StitchCommand previousCommand = new DSTStitchCommand(1, 1, layer - 1, mock(Sprite.class));
-		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, mock(Sprite.class));
+		StitchCommand previousCommand = new DSTStitchCommand(1, 1, layer - 1, mock(Sprite.class), Color.BLACK);
+		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, mock(Sprite.class), Color.BLACK);
 		command.act(workSpace, stream, previousCommand);
 
 		InOrder inOrder = inOrder(stream);
 		inOrder.verify(stream, times(1)).addColorChange();
-		inOrder.verify(stream, times(1)).addStitchPoint(eq(1.0f), eq(1.0f));
+		inOrder.verify(stream, times(1)).addStitchPoint(eq(1.0f), eq(1.0f), eq(Color.BLACK));
 		inOrder.verify(stream, times(1)).addJump();
-		inOrder.verify(stream, times(2)).addStitchPoint(eq(1.0f), eq(1.0f));
-		inOrder.verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord));
+		inOrder.verify(stream, times(2)).addStitchPoint(eq(1.0f), eq(1.0f), eq(Color.BLACK));
+		inOrder.verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord), eq(Color.BLACK));
 	}
 
 	@Test
@@ -134,22 +136,22 @@ public class DSTStitchCommandTest {
 		ArrayList<StitchPoint> pointList = new ArrayList<>();
 		when(stream.getPointList()).thenReturn(pointList);
 
-		StitchCommand previousCommand = new DSTStitchCommand(1, 1, layer - 1, mock(Sprite.class));
-		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, mock(Sprite.class));
+		StitchCommand previousCommand = new DSTStitchCommand(1, 1, layer - 1, mock(Sprite.class), Color.BLACK);
+		StitchCommand command = new DSTStitchCommand(xCoord, yCoord, layer, mock(Sprite.class), Color.BLACK);
 		command.act(workSpace, stream, previousCommand);
 
-		verify(stream, times(1)).addStitchPoint(eq(1.0f), eq(1.0f));
-		verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord));
+		verify(stream, times(1)).addStitchPoint(eq(1.0f), eq(1.0f), eq(Color.BLACK));
+		verify(stream, times(1)).addStitchPoint(eq(xCoord), eq(yCoord), eq(Color.BLACK));
 	}
 
 	@Test
 	public void testStitchCommandEquals() {
 		Sprite sprite = new Sprite("firstSprite");
-		StitchCommand command1 = new DSTStitchCommand(0, 0, 0, sprite);
-		StitchCommand command2 = new DSTStitchCommand(0, 1, 0, sprite);
-		StitchCommand command3 = new DSTStitchCommand(0, 0, 1, sprite);
-		StitchCommand command4 = new DSTStitchCommand(0, 0, 0, new Sprite("secondSprite"));
-		StitchCommand command5 = new DSTStitchCommand(0, 0, 0, sprite);
+		StitchCommand command1 = new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK);
+		StitchCommand command2 = new DSTStitchCommand(0, 1, 0, sprite, Color.BLACK);
+		StitchCommand command3 = new DSTStitchCommand(0, 0, 1, sprite, Color.BLACK);
+		StitchCommand command4 = new DSTStitchCommand(0, 0, 0, new Sprite("secondSprite"), Color.BLACK);
+		StitchCommand command5 = new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK);
 
 		assertEquals(command1, command5);
 		assertNotEquals(command1, command2);
@@ -160,11 +162,11 @@ public class DSTStitchCommandTest {
 	@Test
 	public void testStitchCommandHashCode() {
 		Sprite sprite = new Sprite("firstSprite");
-		StitchCommand command1 = new DSTStitchCommand(0, 0, 0, sprite);
-		StitchCommand command2 = new DSTStitchCommand(0, 1, 0, sprite);
-		StitchCommand command3 = new DSTStitchCommand(0, 0, 1, sprite);
-		StitchCommand command4 = new DSTStitchCommand(0, 0, 0, new Sprite("secondSprite"));
-		StitchCommand command5 = new DSTStitchCommand(0, 0, 0, sprite);
+		StitchCommand command1 = new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK);
+		StitchCommand command2 = new DSTStitchCommand(0, 1, 0, sprite, Color.BLACK);
+		StitchCommand command3 = new DSTStitchCommand(0, 0, 1, sprite, Color.BLACK);
+		StitchCommand command4 = new DSTStitchCommand(0, 0, 0, new Sprite("secondSprite"), Color.BLACK);
+		StitchCommand command5 = new DSTStitchCommand(0, 0, 0, sprite, Color.BLACK);
 
 		assertEquals(command1.hashCode(), command5.hashCode());
 		assertNotEquals(command1.hashCode(), command2.hashCode());

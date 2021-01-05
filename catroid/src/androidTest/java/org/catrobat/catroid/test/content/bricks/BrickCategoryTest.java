@@ -170,6 +170,7 @@ import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
+import org.catrobat.catroid.content.bricks.SetThreadColorBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -267,6 +268,7 @@ public class BrickCategoryTest {
 						SetBounceBrick.class,
 						SetFrictionBrick.class)},
 				{"Embroidery", Arrays.asList(StitchBrick.class,
+						SetThreadColorBrick.class,
 						RunningStitchBrick.class,
 						ZigZagStitchBrick.class,
 						TripleStitchBrick.class,

@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.embroidery.DSTStitchPoint;
 import org.catrobat.catroid.embroidery.StitchPoint;
 import org.junit.Before;
@@ -54,7 +56,7 @@ public class DSTStitchPointTest {
 
 	@Test
 	public void testisConnectingPoint() {
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 
 		assertTrue(stitchPoint.isConnectingPoint());
 		assertFalse(stitchPoint.isColorChangePoint());
@@ -63,7 +65,7 @@ public class DSTStitchPointTest {
 
 	@Test
 	public void testJumpStitchPoint() {
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint.setJump(true);
 
 		assertTrue(stitchPoint.isJumpPoint());
@@ -72,7 +74,7 @@ public class DSTStitchPointTest {
 
 	@Test
 	public void testColorChangeStitchPoint() {
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint.setColorChange(true);
 
 		assertTrue(stitchPoint.isColorChangePoint());
@@ -83,7 +85,7 @@ public class DSTStitchPointTest {
 	public void testStitchBytesZeroDifference() throws IOException {
 		final byte[] expectedStitchBytes = new byte[] {0, 0, (byte) 0x3};
 
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint.setRelativeCoordinatesToPreviousPoint(0, 0);
 
 		stitchPoint.appendToStream(fileOutputStream);
@@ -94,7 +96,7 @@ public class DSTStitchPointTest {
 	public void testStitchBytesDifference() throws IOException {
 		final byte[] expectedStitchBytes = new byte[] {(byte) 0x5A, (byte) 0x5A, (byte) 0x03};
 
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint.setRelativeCoordinatesToPreviousPoint(20, 20);
 
 		stitchPoint.appendToStream(fileOutputStream);
@@ -105,7 +107,7 @@ public class DSTStitchPointTest {
 	public void testStitchBytesWithColorChange() throws IOException {
 		final byte[] expectedStitchBytes = new byte[] {(byte) 0xA5, (byte) 0xA5, (byte) 0xC3};
 
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint.setColorChange(true);
 		stitchPoint.setRelativeCoordinatesToPreviousPoint(-20, -20);
 
@@ -117,7 +119,7 @@ public class DSTStitchPointTest {
 	public void testStitchBytesWithJump() throws IOException {
 		final byte[] expectedStitchBytes = new byte[] {(byte) 0xAA, (byte) 0xAA, (byte) 0x83};
 
-		StitchPoint stitchPoint = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint.setJump(true);
 		stitchPoint.setRelativeCoordinatesToPreviousPoint(20, -20);
 
@@ -127,13 +129,13 @@ public class DSTStitchPointTest {
 
 	@Test
 	public void testStitchPointsEquals() {
-		StitchPoint stitchPoint1 = new DSTStitchPoint(0, 0);
-		StitchPoint stitchPoint2 = new DSTStitchPoint(1, 1);
-		StitchPoint stitchPoint3 = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint1 = new DSTStitchPoint(0, 0, Color.BLACK);
+		StitchPoint stitchPoint2 = new DSTStitchPoint(1, 1, Color.BLACK);
+		StitchPoint stitchPoint3 = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint3.setColorChange(true);
-		StitchPoint stitchPoint4 = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint4 = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint4.setJump(true);
-		StitchPoint stitchPoint5 = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint5 = new DSTStitchPoint(0, 0, Color.BLACK);
 
 		assertNotEquals(stitchPoint1, stitchPoint2);
 		assertNotEquals(stitchPoint1, stitchPoint3);
@@ -144,13 +146,13 @@ public class DSTStitchPointTest {
 
 	@Test
 	public void testStitchPointsHashCode() {
-		StitchPoint stitchPoint1 = new DSTStitchPoint(1, 2);
-		StitchPoint stitchPoint2 = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint1 = new DSTStitchPoint(1, 2, Color.BLACK);
+		StitchPoint stitchPoint2 = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint2.setJump(true);
-		StitchPoint stitchPoint3 = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint3 = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint3.setColorChange(true);
-		StitchPoint stitchPoint4 = new DSTStitchPoint(2, 1);
-		StitchPoint stitchPoint5 = new DSTStitchPoint(1, 2);
+		StitchPoint stitchPoint4 = new DSTStitchPoint(2, 1, Color.BLACK);
+		StitchPoint stitchPoint5 = new DSTStitchPoint(1, 2, Color.BLACK);
 
 		assertNotEquals(stitchPoint1.hashCode(), stitchPoint2.hashCode());
 		assertNotEquals(stitchPoint1.hashCode(), stitchPoint3.hashCode());
