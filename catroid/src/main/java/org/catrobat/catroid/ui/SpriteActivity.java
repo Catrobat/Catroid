@@ -883,4 +883,8 @@ public class SpriteActivity extends BaseActivity {
 		}
 		super.onActionModeFinished(mode);
 	}
+
+	public void setCurrentSprite(Sprite sprite) {
+		currentSprite = sprite;
+	}
 }

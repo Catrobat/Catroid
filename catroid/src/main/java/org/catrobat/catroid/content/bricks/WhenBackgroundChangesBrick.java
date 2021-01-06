@@ -118,6 +118,8 @@ public class WhenBackgroundChangesBrick extends BrickBaseType implements ScriptB
 		if (!(activity instanceof SpriteActivity)) {
 			return;
 		}
+		((SpriteActivity) activity).setCurrentSprite(
+				ProjectManager.getInstance().getCurrentlyEditedScene().getBackgroundSprite());
 		((SpriteActivity) activity).registerOnNewLookListener(this);
 		((SpriteActivity) activity).handleAddBackgroundButton();
 	}
