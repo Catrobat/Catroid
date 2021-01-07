@@ -815,7 +815,7 @@
     <string name="sign_in_dialog_title">Sign in</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="password_forgotten">Forgot your password?</string>
+    <string name="reset_password">Reset password?</string>
     <string name="new_user_registered">New account created</string>
     <string name="user_logged_in">Login successful</string>
     <string name="register_error">Login invalid</string>
