@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.recyclerview.dialog.login;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -43,6 +42,7 @@ import org.catrobat.catroid.transfers.CheckEmailAvailableTask;
 import org.catrobat.catroid.transfers.CheckUserNameAvailableTask;
 import org.catrobat.catroid.transfers.RegistrationTask;
 import org.catrobat.catroid.transfers.RegistrationTask.OnRegistrationListener;
+import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.utils.DeviceSettingsProvider;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
@@ -238,17 +238,10 @@ public class RegistrationDialogFragment extends DialogFragment implements OnRegi
 			emailInputLayout.setErrorEnabled(false);
 		}
 
-		alertDialog.setOnShowListener(new OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						onRegisterButtonClick();
-					}
-				});
-			}
+		alertDialog.setOnShowListener(dialog -> {
+			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(buttonView -> onRegisterButtonClick());
+			ViewUtils.showKeyboard(userNameEditText);
 		});
 		return alertDialog;
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import android.text.Editable;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ViewUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -119,40 +120,38 @@ public final class HtmlExtractorInputDialog extends AlertDialog {
 		public androidx.appcompat.app.AlertDialog create() {
 			final androidx.appcompat.app.AlertDialog alertDialog = super.create();
 
-			alertDialog.setOnShowListener(new OnShowListener() {
+			alertDialog.setOnShowListener(dialog -> {
+				TextInputLayout textInputLayout = alertDialog.findViewById(R.id.input);
+				textInputLayout.setHint(keywordHint);
+				textInputLayout.getEditText().setText(keyword);
+				textInputLayout.getEditText().selectAll();
 
-				@Override
-				public void onShow(DialogInterface dialog) {
-					TextInputLayout textInputLayout = alertDialog.findViewById(R.id.input);
-					textInputLayout.setHint(keywordHint);
-					textInputLayout.getEditText().setText(keyword);
-					textInputLayout.getEditText().selectAll();
+				TextInputLayout textInputLayout1 = alertDialog.findViewById(R.id.input1);
+				textInputLayout1.setHint(htmlHint);
+				textInputLayout1.getEditText().setText(htmlText);
+				textInputLayout1.getEditText().selectAll();
 
-					TextInputLayout textInputLayout1 = alertDialog.findViewById(R.id.input1);
-					textInputLayout1.setHint(htmlHint);
-					textInputLayout1.getEditText().setText(htmlText);
-					textInputLayout1.getEditText().selectAll();
+				if (textWatcherKeyword != null) {
+					textInputLayout.getEditText().addTextChangedListener(textWatcherKeyword);
+					textWatcherKeyword.setInputLayout(textInputLayout);
+					textWatcherKeyword.setAlertDialog(alertDialog);
+					String error = textWatcherKeyword
+							.validateInput(textInputLayout.getEditText().getText().toString(), getContext());
 
-					if (textWatcherKeyword != null) {
-						textInputLayout.getEditText().addTextChangedListener(textWatcherKeyword);
-						textWatcherKeyword.setInputLayout(textInputLayout);
-						textWatcherKeyword.setAlertDialog(alertDialog);
-						String error = textWatcherKeyword
-								.validateInput(textInputLayout.getEditText().getText().toString(), getContext());
-
-						alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(error == null);
-					}
-
-					if (textWatcherHtml != null) {
-						textInputLayout.getEditText().addTextChangedListener(textWatcherHtml);
-						textWatcherHtml.setInputLayout(textInputLayout1);
-						textWatcherHtml.setAlertDialog(alertDialog);
-						String error = textWatcherHtml
-								.validateInput(textInputLayout.getEditText().getText().toString(), getContext());
-
-						alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(error == null);
-					}
+					alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(error == null);
 				}
+
+				if (textWatcherHtml != null) {
+					textInputLayout.getEditText().addTextChangedListener(textWatcherHtml);
+					textWatcherHtml.setInputLayout(textInputLayout1);
+					textWatcherHtml.setAlertDialog(alertDialog);
+					String error = textWatcherHtml
+							.validateInput(textInputLayout.getEditText().getText().toString(), getContext());
+
+					alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setEnabled(error == null);
+				}
+
+				ViewUtils.showKeyboard(textInputLayout.getEditText());
 			});
 
 			return alertDialog;
