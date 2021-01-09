@@ -21,7 +21,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.uiespresso.intents.loginFragment;
+package org.catrobat.catroid.uiespresso.intents.loginfragment;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.SignInActivity;
@@ -30,6 +30,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
+
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -42,7 +43,6 @@ public class LoginDialogFragmentTest {
 	public ActivityScenarioRule<SignInActivity> activityRule =
 			new ActivityScenarioRule(SignInActivity.class);
 
-
 	@Before
 	public void openLoginDialog() {
 		onView(withText("Login"))
@@ -50,7 +50,7 @@ public class LoginDialogFragmentTest {
 	}
 
 	@Test
-	public void cancelButtonTest(){
+	public void cancelButtonTest() {
 		onView(withText("Cancel")).perform(click());
 		onView(withId(R.id.dialog_login_username)).check(doesNotExist());
 		onView(withId(R.id.dialog_login_password)).check(doesNotExist());
