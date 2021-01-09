@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -432,11 +432,15 @@ public final class Utils {
 			}
 
 			String projectToCheckSpriteList = stringFinder.getResult();
+
+			String regex = "(?s)<scriptId>.*?</scriptId>";
+			String replacement = "<scriptId></scriptId>";
+			projectToCheckSpriteList = projectToCheckSpriteList.replaceAll(regex, replacement);
+			defaultProjectSpriteList = defaultProjectSpriteList.replaceAll(regex, replacement);
+
 			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | IOException illegalArgumentException) {
 			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return true;
 	}
