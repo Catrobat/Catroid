@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -149,6 +149,14 @@ public final class StorageOperations {
 
 	public static File duplicateFile(File src) throws IOException {
 		return copyFileToDir(src, src.getParentFile());
+	}
+
+	public static File copyFile(File srcFile, File dstFile) throws IOException {
+		if (!srcFile.exists()) {
+			throw new FileNotFoundException(srcFile.getAbsolutePath() + " does not exist.");
+		}
+		transferData(srcFile, dstFile);
+		return dstFile;
 	}
 
 	public static File copyFileToDir(File srcFile, File dstDir) throws IOException {

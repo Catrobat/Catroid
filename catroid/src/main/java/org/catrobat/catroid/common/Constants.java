@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -78,6 +78,8 @@ public final class Constants {
 	public static final String SOUND_DIRECTORY_NAME = "sounds";
 	public static final String SCREENSHOT_AUTOMATIC_FILE_NAME = "automatic_screenshot" + DEFAULT_IMAGE_EXTENSION;
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
+	public static final File TEMP_LOOK_FILE =
+			new File(DEFAULT_ROOT_DIRECTORY, "temporary_look_file" + DEFAULT_IMAGE_EXTENSION);
 
 	// Backpack Directories
 	public static final String BACKPACK_DIRECTORY_NAME = "backpack";
