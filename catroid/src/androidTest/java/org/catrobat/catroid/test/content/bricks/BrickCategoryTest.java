@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -340,10 +340,10 @@ public class BrickCategoryTest {
 						SetListeningLanguageBrick.class,
 						SetInstrumentBrick.class,
 						PlayNoteForBeatsBrick.class,
+						PlayDrumForBeatsBrick.class,
 						SetTempoBrick.class,
 						ChangeTempoByNBrick.class,
-						PauseForBeatsBrick.class,
-						PlayDrumForBeatsBrick.class)},
+						PauseForBeatsBrick.class)},
 				{"Control", Arrays.asList(WaitBrick.class,
 						NoteBrick.class,
 						ForeverBrick.class,
