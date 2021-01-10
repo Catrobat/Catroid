@@ -21,35 +21,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.common;
-
-import android.os.Environment;
-
-import org.catrobat.catroid.CatroidApplication;
-
-import java.io.File;
-
-import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
-
-public final class FlavoredConstants {
-	// Web:
-	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
-
-	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
-
-	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();
-
-	public static final File EXTERNAL_STORAGE_ROOT_DIRECTORY = new File(
-			Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME);
-
-	// Media Library:
-	public static final String LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/";
-	public static final String LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks";
-	public static final String LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait";
-	public static final String LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape";
-	public static final String LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds";
-
-	private FlavoredConstants() {
-		throw new AssertionError("No.");
-	}
+package org.catrobat.catroid.common
+import android.os.Environment
+import org.catrobat.catroid.CatroidApplication
+import java.io.File
+import org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS
+class FlavoredConstants private constructor() {
+  init{
+    throw AssertionError("No.")
+  }
+  companion object {
+    // Web:
+    val BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/"
+    val POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code"
+    val DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir()
+    val EXTERNAL_STORAGE_ROOT_DIRECTORY = File(
+      Environment.getExternalStorageDirectory(), POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME)
+    // Media Library:
+    val LIBRARY_BASE_URL = BASE_URL_HTTPS + "download-media/"
+    val LIBRARY_LOOKS_URL = BASE_URL_HTTPS + "media-library/looks"
+    val LIBRARY_BACKGROUNDS_URL_PORTRAIT = BASE_URL_HTTPS + "media-library/backgrounds-portrait"
+    val LIBRARY_BACKGROUNDS_URL_LANDSCAPE = BASE_URL_HTTPS + "media-library/backgrounds-landscape"
+    val LIBRARY_SOUNDS_URL = BASE_URL_HTTPS + "media-library/sounds"
+    val PRIVACY_POLICY_URL = "https://catrob.at/privacypolicy"
+  }
 }
