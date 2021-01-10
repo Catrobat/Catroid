@@ -71,6 +71,8 @@ public class LookData implements Cloneable, Nameable, Serializable {
 
 	private transient CollisionInformation collisionInformation = null;
 
+	private boolean valid = true;
+
 	public LookData() {
 	}
 
@@ -229,5 +231,13 @@ public class LookData implements Cloneable, Nameable, Serializable {
 		options.inJustDecodeBounds = true;
 		BitmapFactory.decodeFile(pathName, options);
 		return options.outMimeType;
+	}
+
+	public boolean isValid() {
+		return valid;
+	}
+
+	public void invalidate() {
+		valid = false;
 	}
 }

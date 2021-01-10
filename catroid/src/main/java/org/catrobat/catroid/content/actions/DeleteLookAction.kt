@@ -47,6 +47,7 @@ class DeleteLookAction : SpriteEventAction() {
             }
             val lookDataToDelete = look?.lookData
             setNewLookData(indexOfLookData + 1)
+            lookDataToDelete?.invalidate()
             lookController.delete(lookDataToDelete)
             lookList?.removeAt(indexOfLookData)
             xstreamSerializer.saveProject(ProjectManager.getInstance().currentProject)
