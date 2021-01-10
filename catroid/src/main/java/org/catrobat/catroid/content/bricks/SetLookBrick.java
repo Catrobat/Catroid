@@ -99,6 +99,10 @@ public class SetLookBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void addItem(LookData item) {
 		spinner.add(item);
 		spinner.setSelection(item);

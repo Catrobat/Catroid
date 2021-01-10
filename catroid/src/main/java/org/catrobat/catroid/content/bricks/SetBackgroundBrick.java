@@ -105,6 +105,10 @@ public class SetBackgroundBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void addItem(LookData item) {
 		spinner.add(item);
 		spinner.setSelection(item);

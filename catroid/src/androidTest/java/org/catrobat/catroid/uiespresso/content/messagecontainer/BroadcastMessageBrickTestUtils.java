@@ -46,4 +46,14 @@ public final class BroadcastMessageBrickTestUtils {
 				() -> brick.getOkButtonListener(activity)
 						.onPositiveButtonClick(Mockito.mock(DialogInterface.class), message));
 	}
+
+	public static void editBroadcastMessageOnBrick(final String oldMessage, final String newMessage, final BroadcastMessageBrick brick,
+			final AppCompatActivity activity) {
+		if (!(activity instanceof SpriteActivity)) {
+			return;
+		}
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(
+				() -> brick.getEditButtonListener(activity, oldMessage)
+						.onPositiveButtonClick(Mockito.mock(DialogInterface.class), newMessage));
+	}
 }

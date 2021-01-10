@@ -23,10 +23,13 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
+import android.util.Log;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.BroadcastBrick;
@@ -51,12 +54,17 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.createNewBroadcastMessageOnBrick;
+import static org.catrobat.catroid.uiespresso.content.messagecontainer.BroadcastMessageBrickTestUtils.editBroadcastMessageOnBrick;
 
 @RunWith(AndroidJUnit4.class)
 public class BroadcastBrickMessageUpdateTest {
 	private String defaultMessage = "defaultMessage";
-	String message = "newAddedMessage";
-	BroadcastReceiverBrick firstBroadcastBrick;
+	private String editedMessage = "editedMessage";
+	private String message = "newAddedMessage";
+
+	private Scene secondScene;
+	private Sprite secondSprite;
+	private BroadcastReceiverBrick firstBroadcastBrick;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -75,15 +83,51 @@ public class BroadcastBrickMessageUpdateTest {
 	}
 
 	@Test
-	public void testAllBroadcastBricksSpinnersShowTheNewAddedMessage() {
+	public void testAllBroadcastBrickSpinnersContainTheNewAddedMessage() {
 		createNewBroadcastMessageOnBrick(message, firstBroadcastBrick,
 				baseActivityTestRule.getActivity());
 
 		List<String> spinnerValues = Arrays.asList(
 				UiTestUtils.getResourcesString(R.string.new_option),
+				UiTestUtils.getResourcesString(R.string.edit_option),
 				defaultMessage,
 				message);
 
+		checkAllBrickSpinnerValues(spinnerValues);
+	}
+
+	@Test
+	public void testAllBroadcastBrickSpinnersContainTheEditedMessage() {
+		editBroadcastMessageOnBrick(defaultMessage, editedMessage, firstBroadcastBrick,
+				baseActivityTestRule.getActivity());
+
+		List<String> spinnerValues = Arrays.asList(
+				UiTestUtils.getResourcesString(R.string.new_option),
+				UiTestUtils.getResourcesString(R.string.edit_option),
+				editedMessage);
+
+		checkAllBrickSpinnerValues(spinnerValues);
+	}
+
+	@Test
+	public void testAllBroadcastBrickSpinnersShowTheEditedMessage() {
+		editBroadcastMessageOnBrick(defaultMessage, editedMessage, firstBroadcastBrick,
+				baseActivityTestRule.getActivity());
+
+		checkShowsCorrectSpinnerMessage(editedMessage);
+	}
+
+	@Test
+	public void testEditingOccursOnlyInCurrentScene() {
+		editBroadcastMessageOnBrick(defaultMessage, editedMessage, firstBroadcastBrick,
+				baseActivityTestRule.getActivity());
+
+		switchScene();
+
+		checkShowsCorrectSpinnerMessage(defaultMessage);
+	}
+
+	private void checkAllBrickSpinnerValues(List<String> spinnerValues) {
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_broadcast_spinner)
 				.checkNameableValuesAvailable(spinnerValues);
@@ -101,25 +145,63 @@ public class BroadcastBrickMessageUpdateTest {
 				.checkNameableValuesAvailable(spinnerValues);
 	}
 
+	private void checkShowsCorrectSpinnerMessage(String message) {
+		onBrickAtPosition(1)
+				.onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(message);
+		onBrickAtPosition(2)
+				.onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(message);
+		onBrickAtPosition(3)
+				.onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(message);
+		onBrickAtPosition(4)
+				.onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(message);
+		onBrickAtPosition(5)
+				.onSpinner(R.id.brick_broadcast_spinner)
+				.checkShowsText(message);
+	}
+
+	private void switchScene() {
+		baseActivityTestRule.finishActivity();
+
+		ProjectManager.getInstance().setCurrentSprite(secondSprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(secondScene);
+		baseActivityTestRule.launchActivity();
+	}
+
 	private void createTestProjectWithBricks(String projectName) {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
-		Sprite sprite = new Sprite("testSprite");
+		Sprite firstSprite = new Sprite("spriteScene1");
+		secondSprite = new Sprite("spriteScene2");
 
-		Script script1 = new BroadcastScript(defaultMessage);
-		firstBroadcastBrick = (BroadcastReceiverBrick) script1.getScriptBrick();
+		Script script = new BroadcastScript(defaultMessage);
+		firstBroadcastBrick = (BroadcastReceiverBrick) script.getScriptBrick();
 
-		Script script2 = new BroadcastScript(defaultMessage);
+		script.addBrick(new BroadcastBrick(defaultMessage));
+		script.addBrick(new BroadcastWaitBrick(defaultMessage));
 
-		script1.addBrick(new BroadcastBrick(defaultMessage));
-		script1.addBrick(new BroadcastWaitBrick(defaultMessage));
-		script2.addBrick(new BroadcastBrick(defaultMessage));
-		script2.addBrick(new BroadcastWaitBrick(defaultMessage));
+		firstSprite.addScript(script);
 
-		sprite.addScript(script1);
-		sprite.addScript(script2);
+		try {
+			firstSprite.addScript(script.clone());
+			secondSprite.addScript(script.clone());
+			secondSprite.addScript(script.clone());
+		} catch (CloneNotSupportedException e) {
+			Log.e(BroadcastBrickMessageUpdateTest.class.getSimpleName(), e.getMessage());
+		}
 
-		project.getDefaultScene().addSprite(sprite);
+		Scene firstScene = new Scene("Scene1", project);
+		secondScene = new Scene("Scene2", project);
+
+		firstScene.addSprite(firstSprite);
+		secondScene.addSprite(secondSprite);
+
+		project.addScene(firstScene);
+		project.addScene(secondScene);
 		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		ProjectManager.getInstance().setCurrentSprite(firstSprite);
+		ProjectManager.getInstance().setCurrentlyEditedScene(firstScene);
 	}
 }

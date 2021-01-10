@@ -78,6 +78,10 @@ public class SetInstrumentBrick extends BrickBaseType implements BrickSpinner.On
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

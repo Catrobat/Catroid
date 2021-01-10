@@ -110,6 +110,10 @@ public class PlaySoundBrick extends BrickBaseType implements BrickSpinner.OnItem
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

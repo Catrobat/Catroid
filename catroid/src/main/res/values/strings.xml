@@ -31,6 +31,7 @@
     <string name="undo">Undo</string>
 
     <string name="new_option">new…</string>
+    <string name="edit_option">edit…</string>
 
     <string name="confirm">Confirm</string>
     <string name="ignore">Ignore</string>
@@ -829,7 +830,8 @@
 
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">New message</string>
-    <string name="dialog_new_broadcast_message_name">message:</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
 
     <!-- NFC spinner -->
