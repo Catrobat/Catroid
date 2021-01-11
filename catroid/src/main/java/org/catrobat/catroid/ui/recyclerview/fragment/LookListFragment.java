@@ -228,6 +228,10 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	@Override
 	public void onItemClick(LookData item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
 		if (actionModeType != NONE) {
 			return;
 		}

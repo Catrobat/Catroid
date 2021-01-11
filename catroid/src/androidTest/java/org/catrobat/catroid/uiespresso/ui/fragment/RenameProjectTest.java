@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,16 +46,16 @@ import org.junit.runner.RunWith;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -65,6 +65,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+@Category({Cat.AppUi.class, Level.Smoke.class})
 @RunWith(AndroidJUnit4.class)
 public class RenameProjectTest {
 
@@ -84,16 +85,13 @@ public class RenameProjectTest {
 		baseActivityTestRule.launchActivity(null);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void renameProjectTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -111,16 +109,13 @@ public class RenameProjectTest {
 		onView(withText(newProjectName)).check(matches(isDisplayed()));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameProjectTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -136,16 +131,13 @@ public class RenameProjectTest {
 		onView(withText(oldProjectName)).check(matches(isDisplayed()));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void invalidInputRenameProjectTest() {
-		openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_project)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -177,6 +169,24 @@ public class RenameProjectTest {
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.check(matches(allOf(isDisplayed(), isEnabled())));
+	}
+
+	@Test
+	public void renameSingleProjectTest() {
+		openActionBar();
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(1).performCheckItem();
+
+		onActionMode().performConfirm();
+
+		onView(withText(R.string.yes)).perform(click());
+
+		openActionBar();
+		onView(withText(R.string.rename)).perform(click());
+
+		onView(withText(R.string.rename_project)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
 	}
 
 	private void createProject(String projectName) {
