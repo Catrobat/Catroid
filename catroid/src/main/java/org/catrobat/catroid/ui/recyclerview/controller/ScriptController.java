@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -177,6 +178,7 @@ public class ScriptController {
 
 	public void unpack(Script scriptToUnpack, Sprite dstSprite) throws CloneNotSupportedException {
 		Script script = scriptToUnpack.clone();
+		copyBroadcastMessages(script.getScriptBrick());
 
 		for (Brick brick : script.getBrickList()) {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()
@@ -184,9 +186,18 @@ public class ScriptController {
 				Log.e(TAG, "CANNOT insert bricks into ChromeCast project");
 				return;
 			}
+			copyBroadcastMessages(brick);
 		}
 
 		dstSprite.getScriptList().add(script);
+	}
+
+	private boolean copyBroadcastMessages(Brick brick) {
+		if (brick instanceof BroadcastMessageBrick) {
+			String broadcastMessage = ((BroadcastMessageBrick) brick).getBroadcastMessage();
+			return ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().addBroadcastMessage(broadcastMessage);
+		}
+		return false;
 	}
 
 	void unpackForSprite(Script scriptToUnpack, Project dstProject, Scene dstScene, Sprite dstSprite)
