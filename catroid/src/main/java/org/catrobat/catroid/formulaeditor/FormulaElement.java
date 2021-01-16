@@ -44,6 +44,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -725,22 +726,22 @@ public class FormulaElement implements Serializable {
 				if (atLeastOneIsNaN) {
 					return Double.NaN;
 				}
-				return left.add(right).doubleValue();
+				return left.add(right, MathContext.DECIMAL128).doubleValue();
 			case MINUS:
 				if (atLeastOneIsNaN) {
 					return Double.NaN;
 				}
-				return left.subtract(right).doubleValue();
+				return left.subtract(right, MathContext.DECIMAL128).doubleValue();
 			case MULT:
 				if (atLeastOneIsNaN) {
 					return Double.NaN;
 				}
-				return left.multiply(right).doubleValue();
+				return left.multiply(right, MathContext.DECIMAL128).doubleValue();
 			case DIVIDE:
 				if (atLeastOneIsNaN || right.equals(BigDecimal.valueOf(0d))) {
 					return Double.NaN;
 				}
-				return left.divide(right).doubleValue();
+				return left.divide(right, MathContext.DECIMAL128).doubleValue();
 			case POW:
 				if (atLeastOneIsNaN) {
 					return Double.NaN;

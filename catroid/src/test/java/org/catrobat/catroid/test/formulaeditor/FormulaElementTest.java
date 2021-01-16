@@ -180,5 +180,12 @@ public class FormulaElementTest {
 				new FormulaElement(ElementType.NUMBER, "5", null));
 
 		assertEquals(0.22, formulaElementDivision.interpretRecursive(null));
+
+		FormulaElement formulaElementDivisionInfiniteDecimals = new FormulaElement(ElementType.OPERATOR,
+				Operators.DIVIDE.name(), null,
+				new FormulaElement(ElementType.NUMBER, "1", null),
+				new FormulaElement(ElementType.NUMBER, "2.34", null));
+
+		assertEquals(0.42735042735042733, formulaElementDivisionInfiniteDecimals.interpretRecursive(null));
 	}
 }
