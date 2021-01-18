@@ -56,6 +56,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY;
+import static org.catrobat.catroid.utils.Utils.getAttr;
 
 public class ScratchConverterActivity extends BaseActivity implements
 		BaseInfoViewListener,
@@ -99,7 +100,7 @@ public class ScratchConverterActivity extends BaseActivity implements
 				+ " "
 				+ getString(R.string.beta));
 		scratchConverterBeta.setSpan(
-				new ForegroundColorSpan(getResources().getColor(R.color.beta_label_color)),
+				new ForegroundColorSpan(getAttr(this, R.attr.beta_label_color)),
 				scratchConverter.length(), scratchConverterBeta.length(),
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		getSupportActionBar().setTitle(scratchConverterBeta);

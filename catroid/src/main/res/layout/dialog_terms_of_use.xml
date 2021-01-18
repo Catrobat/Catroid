@@ -41,7 +41,7 @@
             android:id="@+id/dialog_terms_of_use_text_view_url"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColorLink="@color/terms_of_use_text_color" />
+            android:textColorLink="?attr/terms_of_use_text_color" />
 
        <CheckBox
            android:id="@+id/dialog_terms_of_use_check_box_agree_permanently"

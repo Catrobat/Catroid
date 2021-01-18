@@ -40,6 +40,8 @@ import java.util.Set;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
+import static org.catrobat.catroid.utils.Utils.getAttr;
+
 public final class SnackbarUtil {
 
 	private static final int MAX_LINES = 5;
@@ -71,7 +73,7 @@ public final class SnackbarUtil {
 			TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
 			textView.setMaxLines(MAX_LINES);
 			textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
-			snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));
+			snackbarView.setBackgroundColor(getAttr(activity, R.attr.snackbar));
 			snackbar.show();
 		}
 	}

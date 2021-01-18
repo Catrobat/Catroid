@@ -39,7 +39,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bluetooth_device_list_divider_color" />
+        android:background="?attr/bluetooth_device_list_divider_color" />
 
     <ListView
         android:id="@+id/paired_devices"
@@ -82,7 +82,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/bluetooth_device_list_divider_color" />
+        android:background="?attr/bluetooth_device_list_divider_color" />
 
     <ListView
         android:id="@+id/new_devices"

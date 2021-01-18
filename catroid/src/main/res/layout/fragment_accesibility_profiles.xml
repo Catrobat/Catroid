@@ -38,7 +38,7 @@
             android:paddingTop="@dimen/material_design_spacing_large"
             android:paddingBottom="@dimen/material_design_spacing_small"
             android:text="@string/preference_title_accessibility_profile_headline"
-            android:textColor="@color/accent" />
+            android:textColor="?attr/accent" />
 
         <include
             android:id="@+id/custom_profile"
@@ -55,7 +55,7 @@
             android:paddingTop="@dimen/material_design_spacing_large"
             android:paddingBottom="@dimen/material_design_spacing_small"
             android:text="@string/preference_title_accessibility_predefined_profile_headline"
-            android:textColor="@color/accent" />
+            android:textColor="?attr/accent" />
 
         <include
             android:id="@+id/argus"

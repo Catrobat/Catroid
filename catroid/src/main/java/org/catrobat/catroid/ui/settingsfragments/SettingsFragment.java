@@ -114,6 +114,8 @@ public class SettingsFragment extends PreferenceFragment {
 
 	public static final String SETTINGS_USE_CATBLOCKS = "settings_use_catblocks";
 
+	public static final String SWITCH_THEME = "setting_theme";
+
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -201,6 +203,13 @@ public class SettingsFragment extends PreferenceFragment {
 				getFragmentManager().beginTransaction()
 						.replace(R.id.content_frame, new AccessibilitySettingsFragment(), AccessibilitySettingsFragment.TAG)
 						.addToBackStack(AccessibilitySettingsFragment.TAG)
+						.commit();
+				break;
+			case SWITCH_THEME:
+				getFragmentManager().beginTransaction()
+						.replace(R.id.content_frame, new ThemeSettingsFragment(),
+								ThemeSettingsFragment.TAG)
+						.addToBackStack(ThemeSettingsFragment.TAG)
 						.commit();
 				break;
 			case NXT_SCREEN_KEY:

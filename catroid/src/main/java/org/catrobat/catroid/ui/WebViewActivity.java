@@ -66,6 +66,7 @@ import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
+import static org.catrobat.catroid.utils.Utils.getAttr;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends AppCompatActivity {
@@ -94,7 +95,7 @@ public class WebViewActivity extends AppCompatActivity {
 		}
 
 		webView = findViewById(R.id.webView);
-		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
+		webView.setBackgroundColor(getAttr(this, R.attr.app_background));
 		webView.setWebViewClient(new MyWebViewClient());
 		webView.getSettings().setJavaScriptEnabled(true);
 		String language = String.valueOf(Constants.CURRENT_CATROBAT_LANGUAGE_VERSION);

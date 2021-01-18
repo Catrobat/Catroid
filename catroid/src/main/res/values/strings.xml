@@ -2068,7 +2068,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="percent_symbol">%</string>
     <string name="hertz_symbol">㎐</string>
 
-    <string name="sans_serif_font" translatable="false">sans_serif</string>
+    <string name="sans_serif_font" translatable="false">sans_serif</string> <!-- TODO remove this
+     -->
     <string name="serif_font" translatable="false">serif</string>
+
+    <string name="preference_title_theme">Themes</string>
+    <string name="preference_description_theme">Choose a theme for Catroid</string>
 
 </resources>

@@ -30,7 +30,7 @@
               android:id="@+id/fragment_user_defined_brick_list"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/app_background"
+              android:background="?attr/app_background"
               android:orientation="vertical"
               tools:ignore="Overdraw" >
 
@@ -68,7 +68,7 @@
         android:src="@drawable/ic_plus"
         android:tint="@color/solid_white"
         android:theme="@style/Theme.AppCompat"
-        app:backgroundTint="@color/action_button"
+        app:backgroundTint="?attr/action_button"
         app:elevation="10dp"
         android:onClick="handleAddButton" />
 

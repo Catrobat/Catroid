@@ -59,7 +59,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/separator"
+            android:background="?attr/separator"
             android:layout_marginBottom="@dimen/material_design_spacing_large" />
 
         <TextView
@@ -181,6 +181,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="@dimen/material_design_spacing_large"
         android:text="@string/convert"
-        android:background="@color/button_background" />
+        android:background="?attr/button_background" />
 
 </RelativeLayout>

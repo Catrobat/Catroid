@@ -68,6 +68,7 @@ import kotlin.Lazy;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.FlavoredConstants.PRIVACY_POLICY_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.catrobat.catroid.utils.Utils.getAttr;
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class MainMenuActivity extends BaseCastActivity implements
@@ -76,6 +77,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
+	public static final int SETTINGS_ACTIVITY = 1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +237,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				+ " "
 				+ getString(R.string.beta));
 		scratchConverterBeta.setSpan(
-				new ForegroundColorSpan(getResources().getColor(R.color.beta_label_color)),
+				new ForegroundColorSpan(getAttr(this, R.attr.beta_label_color)),
 				scratchConverter.length(), scratchConverterBeta.length(),
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		menu.findItem(R.id.menu_scratch_converter).setTitle(scratchConverterBeta);
@@ -282,7 +284,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 				}
 				break;
 			case R.id.settings:
-				startActivity(new Intent(this, SettingsActivity.class));
+				startActivityForResult(new Intent(this, SettingsActivity.class), SETTINGS_ACTIVITY);
 				break;
 			case R.id.menu_login:
 				startActivity(new Intent(this, SignInActivity.class));
@@ -322,6 +324,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == SETTINGS_ACTIVITY){
+			recreate();
+		}
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			if (requestCode == StageActivity.REQUEST_START_STAGE) {
 				finish();

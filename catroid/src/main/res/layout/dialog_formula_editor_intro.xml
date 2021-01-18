@@ -35,7 +35,7 @@
         android:textAlignment="center"
         android:gravity="center"
         android:textSize="@dimen/text_size_large"
-        android:textColor="@color/formula_editor_intro_heading_color"/>
+        android:textColor="?attr/formula_editor_intro_heading_color"/>
 
     <ScrollView
         android:layout_width="match_parent"

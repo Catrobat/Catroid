@@ -26,7 +26,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/button_background"
+    android:background="?attr/button_background"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing">
     <include layout="@layout/progress_bar" />
@@ -97,7 +97,7 @@
                     android:paddingBottom="16dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="32dp"
-                    android:textColor="@color/landing_page_icons"
+                    android:textColor="?attr/landing_page_icons"
                     android:drawableEnd="@drawable/ic_arrow_forward_vector"
                     android:clickable="true"
                     android:focusable="true"
@@ -138,7 +138,7 @@
         android:src="@drawable/ic_plus"
         android:tint="@color/solid_white"
         android:theme="@style/Theme.AppCompat"
-        app:backgroundTint="@color/action_button"
+        app:backgroundTint="?attr/action_button"
         app:elevation="10dp" />
 
     </RelativeLayout>

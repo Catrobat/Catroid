@@ -57,7 +57,7 @@
         android:layout_height="wrap_content"
         android:text="@string/description"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/description_value"
@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         android:text="@string/author"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/author_value"
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:text="@string/notes_and_credits_title"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/notes_and_credits_value"
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:text="@string/size"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:layout_width="match_parent"
@@ -111,7 +111,7 @@
         android:layout_height="wrap_content"
         android:text="@string/last_used"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/last_access_value"
@@ -124,7 +124,7 @@
         android:layout_height="wrap_content"
         android:text="@string/screen_size"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/screen_size_value"
@@ -137,7 +137,7 @@
         android:layout_height="wrap_content"
         android:text="@string/mode"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/mode_value"
@@ -150,7 +150,7 @@
         android:layout_height="wrap_content"
         android:text="@string/remix_of"
         android:textSize="?attr/large"
-        android:textColor="@color/accent" />
+        android:textColor="?attr/accent" />
 
     <TextView
         android:id="@+id/remix_of_value"

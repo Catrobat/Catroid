@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/brick_space_padding"
             android:paddingBottom="@dimen/brick_space_padding"
-            android:background="@color/toolbar_background"
+            android:background="?attr/toolbar_background"
             android:orientation="vertical"/>
 
         <FrameLayout

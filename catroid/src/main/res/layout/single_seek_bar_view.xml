@@ -48,7 +48,7 @@
         android:paddingStart="@dimen/material_design_spacing_small"
         android:paddingEnd="@dimen/material_design_spacing_small"
         android:text="0"
-        android:textColor="@color/accent"
+        android:textColor="?attr/accent"
         tools:ignore="HardcodedText" />
 
     <SeekBar
@@ -65,7 +65,7 @@
         android:paddingStart="@dimen/material_design_spacing_small"
         android:paddingEnd="@dimen/material_design_spacing_small"
         android:text="100"
-        android:textColor="@color/accent"
+        android:textColor="?attr/accent"
         tools:ignore="HardcodedText" />
 
     <TextView

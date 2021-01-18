@@ -25,6 +25,12 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <PreferenceScreen
+        android:defaultValue="false"
+        android:key="setting_theme"
+        android:summary="@string/preference_description_theme"
+        android:title="@string/preference_title_theme" />
+
     <ListPreference
         android:defaultValue="false"
         android:key="setting_multilingual"

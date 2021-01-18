@@ -40,12 +40,12 @@
         android:id="@+id/title_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/vh_item_title"
+        android:textColor="?attr/vh_item_title"
         android:textSize="?attr/x_large" />
 
     <TextView
         android:id="@+id/subtitle_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/vh_item_details" />
+        android:textColor="?attr/vh_item_details" />
 </LinearLayout>

@@ -48,6 +48,8 @@ import java.util.List;
 import androidx.annotation.CallSuper;
 import androidx.annotation.VisibleForTesting;
 
+import static org.catrobat.catroid.utils.Utils.getAttr;
+
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
 	@XStreamAlias("formulaList")
@@ -135,8 +137,8 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		TextView formulaTextField = getTextView(formulaField);
 
 		formulaTextField.getBackground().mutate()
-				.setColorFilter(view.getContext().getResources()
-						.getColor(R.color.brick_field_highlight), PorterDuff.Mode.SRC_ATOP);
+				.setColorFilter(getAttr(view.getContext(), R.attr.brick_field_highlight),
+						PorterDuff.Mode.SRC_ATOP);
 	}
 
 	@Override

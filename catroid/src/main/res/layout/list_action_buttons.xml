@@ -38,7 +38,7 @@
         android:layout_margin="@dimen/material_design_spacing_large"
         android:src="@drawable/ic_play"
         android:tint="@color/solid_white"
-        app:backgroundTint="@color/action_button"
+        app:backgroundTint="?attr/action_button"
         app:elevation="10dp"
         android:onClick="handlePlayButton" />
 
@@ -52,7 +52,7 @@
         android:layout_marginBottom="@dimen/material_design_spacing_large"
         android:src="@drawable/ic_plus"
         android:tint="@color/solid_white"
-        app:backgroundTint="@color/action_button"
+        app:backgroundTint="?attr/action_button"
         app:elevation="10dp"
         android:onClick="handleAddButton" />
 

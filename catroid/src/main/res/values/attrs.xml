@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -25,81 +24,154 @@
 <resources>
     <!-- Accessibility -->
     <!-- Font Sizes -->
-    <declare-styleable name="FontSize">
-        <attr name="x_small" format="dimension"/>
-        <attr name="small" format="dimension"/>
-        <attr name="medium" format="dimension"/>
-        <attr name="large" format="dimension"/>
-        <attr name="x_large" format="dimension"/>
-        <attr name="xx_large" format="dimension"/>
-    </declare-styleable>
+    <attr name="FastScroller_style" format="reference" />
 
     <!-- Element Spacing -->
-    <declare-styleable name="ElementSpacing">
-        <attr name="element_spacing" format="dimension"/>
+    <declare-styleable name="FontSize">
+        <attr name="x_small" format="dimension" />
+        <attr name="small" format="dimension" />
+        <attr name="medium" format="dimension" />
+        <attr name="large" format="dimension" />
+        <attr name="x_large" format="dimension" />
+        <attr name="xx_large" format="dimension" />
     </declare-styleable>
 
     <!-- Font -->
-    <declare-styleable name="AppFont">
-        <attr name="app_font" format="string"/>
+    <declare-styleable name="ElementSpacing">
+        <attr name="element_spacing" format="dimension" />
     </declare-styleable>
 
     <!-- Category icons -->
+    <declare-styleable name="AppFont">
+        <attr name="app_font" format="string" />
+    </declare-styleable>
+
+    <!-- Category icons visibility -->
     <declare-styleable name="CategoryIcons">
-        <attr name="icon_ardrone" format="reference"/>
-        <attr name="icon_data" format="reference"/>
-        <attr name="icon_motion" format="reference"/>
-        <attr name="icon_sound" format="reference"/>
-        <attr name="icon_arduino" format="reference"/>
-        <attr name="icon_event" format="reference"/>
-        <attr name="icon_pen" format="reference"/>
-        <attr name="icon_chromecast" format="reference"/>
-        <attr name="icon_legonxt" format="reference"/>
-        <attr name="icon_phiro" format="reference"/>
-        <attr name="icon_control" format="reference"/>
-        <attr name="icon_look" format="reference"/>
-        <attr name="icon_device" format="reference"/>
-        <attr name="icon_raspberrypi" format="reference"/>
+        <attr name="icon_ardrone" format="reference" />
+        <attr name="icon_data" format="reference" />
+        <attr name="icon_motion" format="reference" />
+        <attr name="icon_sound" format="reference" />
+        <attr name="icon_arduino" format="reference" />
+        <attr name="icon_event" format="reference" />
+        <attr name="icon_pen" format="reference" />
+        <attr name="icon_chromecast" format="reference" />
+        <attr name="icon_legonxt" format="reference" />
+        <attr name="icon_phiro" format="reference" />
+        <attr name="icon_control" format="reference" />
+        <attr name="icon_look" format="reference" />
+        <attr name="icon_device" format="reference" />
+        <attr name="icon_raspberrypi" format="reference" />
         <attr name="icon_embroidery" format="reference" />
         <attr name="icon_userbrick" format="reference" />
     </declare-styleable>
 
-    <!-- Category icons visibility -->
-    <declare-styleable name="CategoryIconsVisibility">
-        <attr name="category_icon_visibility" format="integer"/>
-    </declare-styleable>
-
     <!-- Category icons size -->
-    <declare-styleable name="CategoryIconSize">
-        <attr name="category_icon_size" format="dimension"/>
+    <declare-styleable name="CategoryIconsVisibility">
+        <attr name="category_icon_visibility" format="integer" />
     </declare-styleable>
 
     <!-- /Accessibility -->
 
+    <declare-styleable name="CategoryIconSize">
+        <attr name="category_icon_size" format="dimension" />
+    </declare-styleable>
     <declare-styleable name="BrickLayout">
-        <attr name="customPadding" format="dimension"/>
-        <attr name="horizontalSpacing" format="dimension"/>
-        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="customPadding" format="dimension" />
+        <attr name="horizontalSpacing" format="dimension" />
+        <attr name="verticalSpacing" format="dimension" />
         <attr name="orientation" format="enum">
-            <enum name="horizontal" value="0"/>
-            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="0" />
+            <enum name="vertical" value="1" />
         </attr>
         <attr name="debugDraw" format="boolean" />
         <attr name="userDefinedBrick" format="boolean" />
     </declare-styleable>
     <declare-styleable name="BrickLayout_Layout">
-        <attr name="layout_textField" format="boolean"/>
-        <attr name="layout_inputType" format="string"/>
-        <attr name="layout_newLine" format="boolean"/>
-        <attr name="layout_customPadding" format="dimension"/>
-        <attr name="layout_horizontalSpacing" format="dimension"/>
-        <attr name="layout_verticalSpacing" format="dimension"/>
-        <attr name="layout_category_icon" format="reference"/>
+        <attr name="layout_textField" format="boolean" />
+        <attr name="layout_inputType" format="string" />
+        <attr name="layout_newLine" format="boolean" />
+        <attr name="layout_customPadding" format="dimension" />
+        <attr name="layout_horizontalSpacing" format="dimension" />
+        <attr name="layout_verticalSpacing" format="dimension" />
+        <attr name="layout_category_icon" format="reference" />
     </declare-styleable>
-    <attr name="FastScroller_style" format="reference" />
     <declare-styleable name="FastScroller">
 	    <attr name="bubbleColor" format="color" />
 	    <attr name="handleColor" format="color" />
 	    <attr name="bubbleTextAppearance" format="reference" />
 	</declare-styleable>
+
+    <declare-styleable name="Color">
+
+    <!-- Toolbar and Bottombar Colors -->
+        <attr name="toolbar_background" format="color" />
+        <attr name="toolbar_icons" format="color" />
+
+        <!-- Text Colors -->
+        <attr name="toolbar_title" format="color" />
+        <attr name="checkbox_and_radio_button_description" format="color" />
+        <attr name="dialog_title_and_text_view" format="color" />
+        <attr name="vh_headline" format="color" />
+        <attr name="vh_item_title" format="color" />
+        <attr name="vh_item_details" format="color" />
+        <attr name="spinner_icon_and_inactive_elements" format="color" />
+        <attr name="secondary_text" format="color"/>se
+
+        <!-- Backgrounds -->
+        <attr name="app_background" format="color" />
+        <attr name="button_background" format="color" />
+        <attr name="button_bottom_bar" format="color" />
+        <attr name="button_border_top" format="color" />
+
+        <!-- Accent Colors -->
+        <attr name="accent" format="color" />
+        <attr name="brick_field_highlight" format="color" />
+        <attr name="image_view_border" format="color" />
+        <attr name="snackbar" format="color" />
+        <attr name="separator" format="color" />
+        <attr name="action_button" format="color" />
+
+        <!-- Formula Editor Colors -->
+        <attr name="formula_editor_compute_button" format="color" />
+        <attr name="formula_editor_compute_button_pressed" format="color" />
+        <attr name="formula_editor_compute_text" format="color" />
+        <attr name="formula_editor_delete_button" format="color" />
+        <attr name="formula_editor_delete_button_pressed" format="color" />
+        <attr name="formula_editor_delete_icon" format="color" />
+        <attr name="formula_editor_toggle_functions_button" format="color" />
+        <attr name="formula_editor_toggle_functions_button_pressed" format="color" />
+        <attr name="formula_editor_toggle_functions_icon" format="color" />
+        <attr name="formula_editor_category_button" format="color" />
+        <attr name="formula_editor_category_button_pressed" format="color" />
+        <attr name="formula_editor_category_text" format="color" />
+        <attr name="formula_editor_symbol_button" format="color" />
+        <attr name="formula_editor_symbol_button_pressed" format="color" />
+        <attr name="formula_editor_symbol_text" format="color" />
+
+        <!-- Misc Text Colors -->
+        <attr name="formula_editor_intro_heading_color" format="color" />
+        <attr name="terms_of_use_text_color" format="color" />
+
+        <!-- Device List Colors -->
+        <attr name="bluetooth_device_list_divider_color" format="color" />
+
+        <!-- Scratch Converter Colors -->
+        <attr name="beta_label_color" format="color" />
+
+        <!-- Icon Colors -->
+        <attr name="landing_page_icons" format="color" />
+        <attr name="project_icons" format="color" />
+        <attr name="stage_icons_pressed" format="color" />
+
+        <attr name="pocketpaint_color_picker_actionbar_color" format="color" />
+
+        <attr name="tabs_background" format="color"/>
+        <!--        <attr name="button_background" format="color" />-->
+        <!--        <attr name="app_background" format="color" />-->
+        <!--        <attr name="action_button" format="color" />-->
+        <!--        <attr name="accent" format="color" />-->
+        <!--        <attr name="landing_page_icons" format="color"/>-->
+        <!--        <attr name="project_icons" format="color"/>-->
+    </declare-styleable>
 </resources>

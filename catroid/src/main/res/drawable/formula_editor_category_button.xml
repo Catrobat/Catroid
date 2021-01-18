@@ -26,12 +26,12 @@
 
     <item android:state_pressed="false">
         <shape>
-            <solid android:color="@color/formula_editor_category_button" />
+            <solid android:color="?attr/formula_editor_category_button" />
         </shape>
     </item>
     <item android:state_pressed="true">
         <shape>
-            <solid android:color="@color/formula_editor_category_button_pressed" />
+            <solid android:color="?attr/formula_editor_category_button_pressed" />
         </shape>
     </item>
 

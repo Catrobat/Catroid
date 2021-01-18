@@ -33,6 +33,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionHandlingActivity;
 import org.catrobat.catroid.ui.runtimepermissions.PermissionRequestActivityExtension;
@@ -49,9 +50,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 	public static final String RECOVERED_FROM_CRASH = "RECOVERED_FROM_CRASH";
 	private PermissionRequestActivityExtension permissionRequestActivityExtension = new PermissionRequestActivityExtension();
 
+	public static final int THEME_CLASSIC = 0;
+	public static final int THEME_LIGHT = 1;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		SharedPreferences sharedPreferences =
+				PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+		int theme = sharedPreferences.getInt("theme", 0);
+		switch (theme){
+			case THEME_LIGHT:
+				setTheme(R.style.Light);
+				break;
+			case THEME_CLASSIC:
+			default:
+				setTheme(R.style.Classic);
+		}
 		SettingsFragment.setToChosenLanguage(this);
 		applyAccessibilityStyles();
 

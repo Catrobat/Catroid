@@ -41,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="13dp"
         android:gravity="center"
-        android:textColor="@color/button_border_top"
+        android:textColor="?attr/button_border_top"
         android:textSize="36sp" />
 
     <View
@@ -51,7 +51,7 @@
         android:layout_above="@+id/soundrecorder_record_button"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/activity_text_view_margin_large"
-        android:background="@color/button_border_top" />
+        android:background="?attr/button_border_top" />
 
     <org.catrobat.catroid.soundrecorder.RecordButton
         android:id="@id/soundrecorder_record_button"

@@ -25,27 +25,24 @@
 
     <style name="Catroid" parent="Theme.MaterialComponents.NoActionBar.Bridge">
 
-        <!-- Colors -->
-        <item name="android:windowBackground">@color/app_background</item>
-
-        <item name="colorAccent">@color/accent</item>
+        <item name="colorAccent">?attr/accent</item>
 
         <item name="seekBarStyle">@style/CustomSeekBarStyle</item>
 
         <!-- android:textColorPrimary changes TextViews, and DialogTitles -->
-        <item name="android:textColorPrimary">@color/dialog_title_and_text_view</item>
+        <item name="android:textColorPrimary">?attr/dialog_title_and_text_view</item>
 
         <!-- android:textColorPrimaryDisableOnly changes Checkboxes and RadioButton description -->
-        <item name="android:textColorPrimaryDisableOnly">@color/checkbox_and_radio_button_description</item>
+        <item name="android:textColorPrimaryDisableOnly">?attr/checkbox_and_radio_button_description</item>
 
         <!-- android:textColorSecondary changes unchecked Checkboxes, disabled buttons, spinner icon -->
-        <item name="android:textColorSecondary">@color/spinner_icon_and_inactive_elements</item>
+        <item name="android:textColorSecondary">?attr/spinner_icon_and_inactive_elements</item>
 
         <item name="android:itemTextAppearance">@color/solid_black</item>
         <item name="itemTextColor">@color/solid_black</item>
-        <item name="actionMenuTextColor">@color/toolbar_title</item>
+        <item name="actionMenuTextColor">?attr/toolbar_title</item>
         <!-- android:textColorHint changes only non focused hints -->
-        <!-- <item name="android:textColorHint">@color/accent</item> -->
+        <!-- <item name="android:textColorHint">?attr/accent</item> -->
 
         <!-- Action Mode -->
         <item name="actionModeStyle">@style/ActionMode</item>
@@ -93,20 +90,93 @@
         <item name="icon_device">@drawable/device_pos</item>
     </style>
 
+    <style name="CatroidLight" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
+
+        <item name="colorAccent">?attr/accent</item>
+
+        <item name="seekBarStyle">@style/CustomSeekBarStyle</item>
+
+        <!-- android:textColorPrimary changes TextViews, and DialogTitles -->
+        <item name="android:textColorPrimary">?attr/dialog_title_and_text_view</item>
+
+        <!-- android:textColorPrimaryDisableOnly changes Checkboxes and RadioButton description -->
+        <item name="android:textColorPrimaryDisableOnly">?attr/checkbox_and_radio_button_description</item>
+
+        <!-- android:textColorSecondary changes unchecked Checkboxes, disabled buttons, spinner icon -->
+        <item name="android:textColorSecondary">?attr/secondary_text</item>
+
+        <item name="android:itemTextAppearance">@color/solid_black</item>
+        <item name="itemTextColor">@color/solid_black</item>
+        <item name="actionMenuTextColor">?attr/toolbar_title</item>
+        <!-- android:textColorHint changes only non focused hints -->
+        <!-- <item name="android:textColorHint">?attr/accent</item> -->
+
+        <!-- Action Mode -->
+        <item name="actionModeStyle">@style/ActionMode</item>
+        <item name="windowActionModeOverlay">true</item>
+
+        <!-- Accessibility REGULAR styles-->
+        <!-- Font Sizes -->
+        <item name="android:textSize">16sp</item>
+        <item name="x_small">10sp</item>
+        <item name="small">14sp</item>
+        <item name="medium">16sp</item>
+        <item name="large">18sp</item>
+        <item name="x_large">22sp</item>
+        <item name="xx_large">28sp</item>
+        <!-- High Contrast -->
+        <item name="android:shadowColor">@color/transparent</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">0</item>
+        <!-- Element Spacing -->
+        <item name="element_spacing">0dp</item>
+        <!-- Fonts -->
+        <item name="android:fontFamily">@string/sans_serif_font</item>
+        <item name="app_font">@string/sans_serif_font</item>
+        <!-- Category Icon Visibility -->
+        <item name="category_icon_visibility">2</item>
+        <!-- Category Icon Visibility -->
+        <item name="category_icon_size">40dp</item>
+        <!-- Icon Contrast -->
+        <item name="icon_ardrone">@drawable/ardrone_pos</item>
+        <item name="icon_data">@drawable/data_pos</item>
+        <item name="icon_motion">@drawable/motion_pos</item>
+        <item name="icon_sound">@drawable/sound_pos</item>
+        <item name="icon_arduino">@drawable/arduino_pos</item>
+        <item name="icon_event">@drawable/event_pos</item>
+        <item name="icon_pen">@drawable/pen_pos</item>
+        <item name="icon_chromecast">@drawable/chromecast_pos</item>
+        <item name="icon_legonxt">@drawable/legonxt_pos</item>
+        <item name="icon_phiro">@drawable/phiro_pos</item>
+        <item name="icon_control">@drawable/control_pos</item>
+        <item name="icon_look">@drawable/look_pos</item>
+        <item name="icon_raspberrypi">@drawable/raspberrypi_pos</item>
+        <item name="icon_embroidery">@drawable/embroidery_pos</item>
+        <item name="icon_userbrick">@drawable/yourbrick_pos</item>
+        <item name="icon_device">@drawable/device_pos</item>
+    </style>
+
+    <!-- Checkbox-->
+    <style name="CheckboxStyle">
+        <item name="colorAccent">?attr/checkbox_and_radio_button_description</item>  // for checked
+        <item name="android:textColorSecondary">?attr/accent</item>  // for unchecked
+    </style>
+
     <!-- Toolbar -->
     <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textColor">@color/toolbar_title</item>
+        <item name="android:textColor">?attr/toolbar_title</item>
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
-        <item name="android:actionMenuTextColor">@color/toolbar_title</item>
+        <item name="android:actionMenuTextColor">?attr/toolbar_title</item>
     </style>
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlNormal">@color/toolbar_icons</item>
+        <item name="colorControlNormal">?attr/toolbar_icons</item>
     </style>
 
     <!-- ActionMode -->
     <style name="ActionMode" parent="Widget.AppCompat.ActionMode">
-        <item name="background">@color/toolbar_background</item>
+        <item name="background">?attr/toolbar_background</item>
         <item name="titleTextStyle">@style/ActionModeTitle</item>
         <item name="theme">@style/ToolbarTheme</item>
     </style>
@@ -114,7 +184,7 @@
     <style name="ActionModeTitle" parent="TextAppearance.AppCompat.Widget.ActionMode.Title">
         <item name="android:textSize">?attr/medium</item>
         <item name="android:fontFamily">?attr/app_font</item>
-        <item name="android:textColor">@color/toolbar_title</item>
+        <item name="android:textColor">?attr/toolbar_title</item>
     </style>
 
     <style name="CastGamepad">
@@ -155,7 +225,7 @@
         <item name="android:layout_marginRight">10dp</item>
         <item name="android:background">@drawable/button_background_selector</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textColor">@color/vh_item_title</item>
+        <item name="android:textColor">?attr/vh_item_title</item>
         <item name="android:textAlignment">center</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
@@ -200,6 +270,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/solid_white</item>
     </style>
 
     <style name="BrickContainer">
@@ -545,7 +616,7 @@
 
      <style name="FormulaEditorComputeButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_compute_button_selector</item>
-        <item name="android:textColor">@color/formula_editor_compute_text</item>
+        <item name="android:textColor">?attr/formula_editor_compute_text</item>
     </style>
 
     <style name="FormulaEditorDeleteButton" parent="@style/FormulaEditorButton">
@@ -554,7 +625,7 @@
 
     <style name="FormulaEditorCategoryButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_category_button</item>
-        <item name="android:textColor">@color/formula_editor_category_text</item>
+        <item name="android:textColor">?attr/formula_editor_category_text</item>
     </style>
 
     <style name="FormulaEditorToggleFunctionsButton" parent="@style/FormulaEditorButton">
@@ -563,7 +634,7 @@
 
     <style name="FormulaEditorKeyboardButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
-        <item name="android:textColor">@color/formula_editor_symbol_text</item>
+        <item name="android:textColor">?attr/formula_editor_symbol_text</item>
     </style>
 
     <style name="BrickCategory">
@@ -581,6 +652,7 @@
         <item name="android:layout_marginTop">?attr/element_spacing</item>
         <item name="android:layout_marginBottom">?attr/element_spacing</item>
         <item name="android:textSize">?attr/x_large</item>
+        <item name="android:textColor">@color/solid_white</item>
     </style>
 
     <style name="BrickCategory.Control">

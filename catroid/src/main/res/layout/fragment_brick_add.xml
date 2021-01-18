@@ -29,7 +29,7 @@
               android:id="@+id/add_brick_fragment_list"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/app_background"
+              android:background="?attr/app_background"
               android:orientation="vertical"
               tools:ignore="Overdraw" >
 

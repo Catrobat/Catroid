@@ -26,7 +26,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
+    android:background="?attr/app_background"
     android:textColor="@color/solid_white"
     android:textSize="@dimen/plus_button_size"
     android:text="@string/plus"

@@ -31,11 +31,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.TypedValue;
 
 import com.google.common.base.Splitter;
 
@@ -72,6 +74,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.Response;
 
@@ -540,5 +543,13 @@ public final class Utils {
 				}
 			}
 		}, null, Activity.RESULT_OK, null, null);
+	}
+
+	public static @ColorInt int getAttr(Context context, int id){
+		TypedValue typedValue = new TypedValue();
+		Resources.Theme theme = context.getTheme();
+		theme.resolveAttribute(id, typedValue, true);
+		@ColorInt int color = typedValue.data;
+		return color;
 	}
 }
