@@ -207,9 +207,9 @@ public class SettingsFragment extends PreferenceFragment {
 				break;
 			case SWITCH_THEME:
 				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new ThemeSettingsFragment(),
-								ThemeSettingsFragment.TAG)
-						.addToBackStack(ThemeSettingsFragment.TAG)
+						.replace(R.id.content_frame, new ThemesFragment(),
+								ThemesFragment.TAG)
+						.addToBackStack(ThemesFragment.TAG)
 						.commit();
 				break;
 			case NXT_SCREEN_KEY:

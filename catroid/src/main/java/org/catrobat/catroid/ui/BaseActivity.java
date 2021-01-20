@@ -32,6 +32,7 @@ import android.view.MenuItem;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -59,9 +60,18 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 		SharedPreferences sharedPreferences =
 				PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		int theme = sharedPreferences.getInt("theme", 0);
-		switch (theme){
+		switch (theme) {
 			case THEME_LIGHT:
-				setTheme(R.style.Light);
+				switch (BuildConfig.FLAVOR){
+					case "embroideryDesigner":
+						setTheme(R.style.Light_Embroidery);
+						break;
+					case "lunaAndCat":
+						setTheme(R.style.Light_LunaAndCat);
+						break;
+					default:
+						setTheme(R.style.Light);
+				}
 				break;
 			case THEME_CLASSIC:
 			default:

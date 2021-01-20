@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+
+    <style name="Light.LunaAndCat" parent="CatroidLight">
+
+        <!-- Toolbar and Bottombar Colors -->
+        <item name="toolbar_background">#442a66</item>
+        <item name="toolbar_icons">@color/solid_white</item>
+
+        <!-- Text Colors -->
+        <item name="toolbar_title">@color/solid_white</item>
+        <item name="checkbox_and_radio_button_description">?attr/action_button</item>
+        <item name="dialog_title_and_text_view">@color/solid_black</item>
+        <item name="vh_headline">@color/solid_black</item>
+        <item name="vh_item_title">@color/solid_black</item>
+        <item name="vh_item_details">#82000000</item>
+        <item name="spinner_icon_and_inactive_elements">@color/solid_white</item>
+        <item name="secondary_text">#82000000</item>
+
+        <!-- Backgrounds -->
+        <item name="app_background">#f5f5f6</item>
+        <item name="button_background">#FFFFFF</item>
+        <item name="button_bottom_bar">#442a66</item>
+        <item name="button_border_top">#4D7F8F</item>
+
+        <!-- Accent Colors -->
+        <item name="accent">#000000</item>
+        <item name="brick_field_highlight">#33B5E5</item>
+        <item name="image_view_border">?attr/accent</item>
+        <item name="snackbar">#FF33B5E5</item>
+        <item name="separator">#51656C</item>
+        <item name="action_button">#eab7d5</item>
+
+        <!-- Formula Editor Colors -->
+        <item name="formula_editor_compute_button">#D3D3D3</item>
+        <item name="formula_editor_compute_button_pressed">#A9A9A9</item>
+        <item name="formula_editor_compute_text">#242424</item>
+        <item name="formula_editor_delete_button">#E9E9E9</item>
+        <item name="formula_editor_delete_button_pressed">#A9A9A9</item>
+        <item name="formula_editor_delete_icon">#242424</item>
+        <item name="formula_editor_toggle_functions_button">#D3D3D3</item>
+        <item name="formula_editor_toggle_functions_button_pressed">#A9A9A9</item>
+        <item name="formula_editor_toggle_functions_icon">#242424</item>
+        <item name="formula_editor_category_button">#D3D3D3</item>
+        <item name="formula_editor_category_button_pressed">#A9A9A9</item>
+        <item name="formula_editor_category_text">#242424</item>
+        <item name="formula_editor_symbol_button">#E9E9E9</item>
+        <item name="formula_editor_symbol_button_pressed">#A9A9A9</item>
+        <item name="formula_editor_symbol_text">#242424</item>
+
+        <!-- Misc Text Colors -->
+        <item name="formula_editor_intro_heading_color">#FF6600</item>
+        <item name="terms_of_use_text_color">@color/orange</item>
+
+        <!-- Device List Colors -->
+        <item name="bluetooth_device_list_divider_color">#505050</item>
+
+        <!-- Scratch Converter Colors -->
+        <item name="beta_label_color">#FF7700</item>
+
+        <!-- Icon Colors -->
+        <item name="landing_page_icons">?attr/accent</item>
+        <item name="project_icons">?attr/accent</item>
+        <item name="stage_icons_pressed">#e3f9fd</item>
+
+        <!-- override the color of ColorPickerPreviewActivity toolbar -->
+        <item name="pocketpaint_color_picker_actionbar_color">?attr/toolbar_background</item>
+
+        <item name="android:windowBackground">?attr/app_background</item>
+        <item name="tabs_background">#715494</item>
+        <item name="android:statusBarColor">#19023b</item>
+    </style>
+</resources>
