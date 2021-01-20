@@ -53,7 +53,7 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(longClick());
 		onView(withText(R.string.delete))
 				.perform(click());
-		onView(withText(R.string.deletion_alert_yes))
+		onView(withText(R.string.delete))
 				.perform(click());
 	}
 
