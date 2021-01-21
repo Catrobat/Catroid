@@ -151,7 +151,7 @@ public class ScriptFragment extends ListFragment implements
 				mode.setTitle(getString(R.string.am_backpack));
 				break;
 			case COPY:
-				adapter.setCheckBoxMode(BrickAdapter.ALL);
+				adapter.setCheckBoxMode(BrickAdapter.CONNECTED_ONLY);
 				mode.setTitle(getString(R.string.am_copy));
 				break;
 			case DELETE:
