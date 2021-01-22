@@ -145,6 +145,8 @@ public class BrickCategoryFragment extends ListFragment {
 		menu.findItem(R.id.copy).setVisible(false);
 		menu.findItem(R.id.backpack).setVisible(false);
 		menu.findItem(R.id.comment_in_out).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
 	}
 
 	private void setUpActionBar() {
