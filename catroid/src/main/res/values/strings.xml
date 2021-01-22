@@ -38,6 +38,8 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
+    <string name="discard">Discard</string>
+
     <string name="next">Next</string>
 
     <string name="ok">OK</string>

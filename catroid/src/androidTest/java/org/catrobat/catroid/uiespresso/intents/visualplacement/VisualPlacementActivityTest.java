@@ -113,7 +113,7 @@ public class VisualPlacementActivityTest {
 	@Test
 	public void testResultWhenDiscarded() {
 		Espresso.pressBack();
-		onView(withText(R.string.cancel))
+		onView(withText(R.string.discard))
 				.perform(click());
 
 		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());

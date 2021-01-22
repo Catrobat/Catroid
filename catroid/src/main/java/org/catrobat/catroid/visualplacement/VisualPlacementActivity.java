@@ -419,7 +419,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				.setTitle(R.string.formula_editor_discard_changes_dialog_title)
 				.setMessage(R.string.formula_editor_discard_changes_dialog_message)
 				.setPositiveButton(R.string.save, this)
-				.setNegativeButton(R.string.cancel, this)
+				.setNegativeButton(R.string.discard, this)
 				.setCancelable(true)
 				.show();
 	}
