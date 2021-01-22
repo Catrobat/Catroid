@@ -23,9 +23,12 @@
 
 package org.catrobat.catroid.uiespresso.stage;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
@@ -96,19 +99,24 @@ public class StartStageTouchTest {
 		screenIsTouchedUserVariable = new UserVariable("ScreenTouched");
 		project.addUserVariable(screenIsTouchedUserVariable);
 
+		Sprite sprite = new Sprite("Background");
+		Scope scope = new Scope(project, sprite, new SequenceAction());
+
 		Script background1StartScript = new StartScript();
-		background1StartScript.addBrick(new WaitUntilBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED)));
+		background1StartScript.addBrick(new WaitUntilBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED, scope)));
 
 		background1StartScript.addBrick(new SceneStartBrick("Scene2"));
 		Scene scene1 = project.getDefaultScene();
 		scene1.getBackgroundSprite().addScript(background1StartScript);
 
-		scene2.addSprite(new Sprite("Background"));
+		scene2.addSprite(sprite);
+
 
 		Script background2StartScript = new StartScript();
 		ForeverBrick foreverBrick = new ForeverBrick();
 		foreverBrick.addBrick(
-				new SetVariableBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED), screenIsTouchedUserVariable));
+				new SetVariableBrick(createFormulaWithSensor(Sensors.FINGER_TOUCHED, scope),
+						screenIsTouchedUserVariable));
 		background2StartScript.addBrick(foreverBrick);
 
 		scene2.getBackgroundSprite().addScript(background2StartScript);
@@ -118,11 +126,11 @@ public class StartStageTouchTest {
 		ProjectManager.getInstance().setStartScene(scene1);
 	}
 
-	private Formula createFormulaWithSensor(Sensors sensor) {
+	private Formula createFormulaWithSensor(Sensors sensor, Scope scope) {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internFormulaParser = new InternFormulaParser(internTokenList);
-		FormulaElement root = internFormulaParser.parseFormula();
+		FormulaElement root = internFormulaParser.parseFormula(scope);
 		return new Formula(root);
 	}
 }

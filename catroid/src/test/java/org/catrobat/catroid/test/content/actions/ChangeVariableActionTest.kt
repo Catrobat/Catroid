@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.junit.Assert
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
@@ -42,6 +43,8 @@ class ChangeVariableActionTest(
     private val expectedValue: Double?
 ) {
     private lateinit var testSprite: Sprite
+    private lateinit var testSequence: SequenceAction
+
 
     companion object {
         @JvmStatic
@@ -64,6 +67,7 @@ class ChangeVariableActionTest(
     @Before
     fun setUp() {
         testSprite = Sprite("testSprite")
+        testSequence = SequenceAction()
         Project(MockUtil.mockContextForProject(), "testProject").apply {
             addUserVariable(userVariable)
             ProjectManager.getInstance().currentProject = this
@@ -72,7 +76,9 @@ class ChangeVariableActionTest(
 
     @Test
     fun testChangeUserVariableAndCheckResult() {
-        Assert.assertTrue(testSprite.actionFactory.createChangeVariableAction(testSprite, formula, userVariable).act(1f))
+        Assert.assertTrue(testSprite.actionFactory.createChangeVariableAction(testSprite, testSequence,
+                                                                              formula,
+                                                                              userVariable).act(1f))
         Assert.assertEquals(expectedValue, userVariable?.value)
     }
 }

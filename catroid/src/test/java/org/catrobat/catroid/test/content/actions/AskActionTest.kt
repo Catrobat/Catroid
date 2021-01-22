@@ -47,7 +47,7 @@ class AskActionTest {
     @Throws(Exception::class)
     fun setUp() {
         testSprite = Sprite("testSprite")
-        testSequence = SequenceAction("testSequence")
+        testSequence = SequenceAction()
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
     }

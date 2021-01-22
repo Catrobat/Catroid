@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.WriteVariableToFileAction
 import org.catrobat.catroid.formulaeditor.Formula
@@ -50,6 +51,7 @@ class WriteVariableToFileActionTest(
     private val writeToFile: Int
 ) {
     private lateinit var sprite: Sprite
+    private lateinit var sequence: SequenceAction
     private lateinit var file: File
 
     companion object {
@@ -80,6 +82,7 @@ class WriteVariableToFileActionTest(
     @Before
     fun setUp() {
         sprite = Sprite("testSprite")
+        sequence = SequenceAction()
         file = Mockito.mock(File::class.java)
     }
 
@@ -87,6 +90,7 @@ class WriteVariableToFileActionTest(
     fun testWriteVariableToFile() {
         val action = spy(sprite.actionFactory.createWriteVariableToFileAction(
             sprite,
+            sequence,
             formula,
             userVariable
         ) as WriteVariableToFileAction)

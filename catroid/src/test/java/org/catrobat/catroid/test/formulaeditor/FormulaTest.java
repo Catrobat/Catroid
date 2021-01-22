@@ -147,7 +147,7 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
 		assertEquals(-1d, parseTree.interpretRecursive(null));
@@ -163,7 +163,7 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
 		assertEquals(-1d, parseTree.interpretRecursive(null));
@@ -181,7 +181,7 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
 		assertEquals(-2d, parseTree.interpretRecursive(null));
@@ -199,7 +199,7 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
 		assertEquals(1d, parseTree.interpretRecursive(null));

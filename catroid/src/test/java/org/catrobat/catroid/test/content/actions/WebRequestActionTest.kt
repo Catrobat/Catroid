@@ -22,10 +22,12 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.catrobat.catroid.common.Constants
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.content.actions.WebRequestAction
@@ -61,6 +63,7 @@ import org.powermock.modules.junit4.PowerMockRunner
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
 class WebRequestActionTest {
     private lateinit var testSprite: Sprite
+    private lateinit var testSequence: SequenceAction
     private lateinit var userVariable: UserVariable
     private lateinit var webConnection: WebConnection
     private lateinit var response: Response
@@ -77,6 +80,7 @@ class WebRequestActionTest {
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
         testSprite = Sprite("testSprite")
+        testSequence = SequenceAction()
         userVariable = UserVariable(TEST_USER_VARIABLE)
         webConnection = mock(WebConnection::class.java)
         response = mock(Response::class.java)
@@ -93,7 +97,7 @@ class WebRequestActionTest {
     @Test
     fun testUserVariableIsNull() {
         val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL),
             null
         ) as WebRequestAction
@@ -104,7 +108,7 @@ class WebRequestActionTest {
     @Test
     fun testTooManyRequests() {
         val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL),
             userVariable
         ) as WebRequestAction
@@ -119,7 +123,7 @@ class WebRequestActionTest {
     @Test
     fun testRequestNotSuccessfullySent() {
         val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL),
             userVariable
         ) as WebRequestAction
@@ -138,7 +142,7 @@ class WebRequestActionTest {
     @Test
     fun testSuccessfulResponse() {
         val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL),
             userVariable
         ) as WebRequestAction
@@ -157,7 +161,7 @@ class WebRequestActionTest {
     @Test
     fun testPermissionDenied() {
         val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL),
             userVariable
         ) as WebRequestAction
@@ -170,7 +174,7 @@ class WebRequestActionTest {
     @Test
     fun testCancelledCallAndResendRequest() {
         val action = testSprite.actionFactory.createWebRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL),
             userVariable
         ) as WebRequestAction
@@ -211,6 +215,7 @@ class WebRequestActionTest {
 
         val action = testSprite.actionFactory.createWebRequestAction(
             testSprite,
+            testSequence,
             formula,
             userVariable
         ) as WebRequestAction
@@ -221,7 +226,7 @@ class WebRequestActionTest {
         Mockito.doAnswer { invocation: InvocationOnMock ->
             val sprite = invocation.getArgument<Sprite>(0)
             sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
-        }.`when`(formula).interpretString(any(Sprite::class.java))
+        }.`when`(formula).interpretString(any(Scope::class.java))
 
         Mockito.doAnswer {
             action.onRequestSuccess(response)

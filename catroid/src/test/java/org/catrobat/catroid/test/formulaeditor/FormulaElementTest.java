@@ -56,7 +56,7 @@ public class FormulaElementTest {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
 		assertEquals(-1d, parseTree.interpretRecursive(null));

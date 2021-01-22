@@ -22,11 +22,14 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import okhttp3.Response
 import okhttp3.ResponseBody
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.LookRequestAction
 import org.catrobat.catroid.content.actions.WebAction
@@ -59,6 +62,7 @@ import java.io.InputStream
 @PrepareForTest(GdxNativesLoader::class, WebAction::class)
 class LookRequestActionTest {
     private lateinit var testSprite: Sprite
+    private lateinit var testSequence: SequenceAction
     private lateinit var lookData1: LookData
     private lateinit var lookData2: LookData
     private lateinit var webConnection: WebConnection
@@ -74,6 +78,7 @@ class LookRequestActionTest {
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
 
         testSprite = Sprite("testSprite")
+        testSequence = SequenceAction()
         lookData1 = mock(LookData::class.java)
         testSprite.look.lookData = lookData1
         lookData2 = mock(LookData::class.java)
@@ -93,7 +98,7 @@ class LookRequestActionTest {
     @Test
     fun testSpriteIsNull() {
         val action = testSprite.actionFactory.createLookRequestAction(
-            null,
+            null, testSequence,
             Formula(TEST_URL)
         ) as LookRequestAction
 
@@ -104,7 +109,7 @@ class LookRequestActionTest {
     @Test
     fun testTooManyRequests() {
         val action = testSprite.actionFactory.createLookRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL)
         ) as LookRequestAction
         action.grantPermission()
@@ -120,7 +125,7 @@ class LookRequestActionTest {
     @Test
     fun testRequestNotSuccessfullySent() {
         val action = testSprite.actionFactory.createLookRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL)
         ) as LookRequestAction
         action.grantPermission()
@@ -141,7 +146,7 @@ class LookRequestActionTest {
     fun testSuccessfulResponse() {
         val action = mock(LookRequestAction::class.java, Mockito.CALLS_REAL_METHODS)
         action.apply {
-            sprite = testSprite
+            scope = Scope(Project(), testSprite, testSequence)
             formula = Formula(TEST_URL)
             requestStatus = WebAction.RequestStatus.NOT_SENT
             grantPermission()
@@ -163,7 +168,7 @@ class LookRequestActionTest {
     @Test
     fun testPermissionDenied() {
         val action = testSprite.actionFactory.createLookRequestAction(
-            testSprite,
+            testSprite, testSequence,
             Formula(TEST_URL)
         ) as LookRequestAction
         action.denyPermission()
@@ -177,7 +182,7 @@ class LookRequestActionTest {
     fun testCancelledCallAndResendRequest() {
         val action = mock(LookRequestAction::class.java, Mockito.CALLS_REAL_METHODS)
         action.apply {
-            sprite = testSprite
+            scope = Scope(Project(), testSprite, testSequence)
             formula = Formula(TEST_URL)
             requestStatus = WebAction.RequestStatus.NOT_SENT
             grantPermission()

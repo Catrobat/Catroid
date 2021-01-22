@@ -60,10 +60,10 @@ public class ParserFunctionTest {
 	public void testPi() {
 		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.PI.name()));
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(Math.PI, parseTree.interpretRecursive(testSprite));
+		assertEquals(Math.PI, parseTree.interpretRecursive(null));
 	}
 
 	@Test
@@ -75,10 +75,10 @@ public class ParserFunctionTest {
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETER_DELIMITER, ","));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE, ")"));
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
 
 		assertNotNull(parseTree);
-		Double result = (Double) parseTree.interpretRecursive(testSprite);
+		Double result = (Double) parseTree.interpretRecursive(null);
 		assertThat(result, is(anyOf(equalTo(0d), equalTo(1d))));
 	}
 
@@ -90,7 +90,7 @@ public class ParserFunctionTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNull(parseTree);
 		assertEquals(0, internParser.getErrorTokenIndex());
@@ -100,25 +100,25 @@ public class ParserFunctionTest {
 	public void testTrue() {
 		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.TRUE.name()));
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(1.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(1.0, parseTree.interpretRecursive(null));
 	}
 
 	@Test
 	public void testFalse() {
 		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.FALSE.name()));
-		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(internTokenList).parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(0.0, parseTree.interpretRecursive(null));
 	}
 
 	@Test
 	public void testArctan2ZeroParameter() {
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.ARCTAN2, InternTokenType.NUMBER, "0",
-				InternTokenType.NUMBER, "0", 0.0, 180.0, testSprite);
+				InternTokenType.NUMBER, "0", 0.0, 180.0, null);
 	}
 }

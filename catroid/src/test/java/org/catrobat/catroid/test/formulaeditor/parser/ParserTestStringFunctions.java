@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -48,7 +51,7 @@ import static junit.framework.Assert.assertNotNull;
 @RunWith(JUnit4.class)
 public class ParserTestStringFunctions {
 
-	private Sprite testSprite;
+	private Scope testScope;
 	private static final double USER_VARIABLE_1_VALUE_TYPE_DOUBLE = 888.88;
 	private static final String USER_VARIABLE_2_VALUE_TYPE_STRING = "another String";
 	private static final String PROJECT_USER_VARIABLE_NAME = "projectUserVariable";
@@ -56,7 +59,7 @@ public class ParserTestStringFunctions {
 
 	@Before
 	public void setUp() {
-		testSprite = new Sprite("testsprite");
+		Sprite testSprite = new Sprite("testsprite");
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentProject(project);
@@ -64,28 +67,30 @@ public class ParserTestStringFunctions {
 
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_NAME2, USER_VARIABLE_2_VALUE_TYPE_STRING));
+
+		testScope = new Scope(project, testSprite, new SequenceAction());
 	}
 
 	@Test
 	public void testLength() {
 		String firstParameter = "testString";
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.STRING, firstParameter,
-				(double) firstParameter.length(), testSprite);
+				(double) firstParameter.length(), testScope);
 
 		String number = "1.1";
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.NUMBER, number,
-				(double) number.length(), testSprite);
+				(double) number.length(), testScope);
 
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME, (double) Double.toString(USER_VARIABLE_1_VALUE_TYPE_DOUBLE).length(),
-				testSprite);
+				testScope);
 
 		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE_NAME2, (double) USER_VARIABLE_2_VALUE_TYPE_STRING.length(), testSprite);
+				PROJECT_USER_VARIABLE_NAME2, (double) USER_VARIABLE_2_VALUE_TYPE_STRING.length(), testScope);
 
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
-		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, firstParameterList, 0d, testSprite);
+		FormulaEditorTestUtil.testSingleParameterFunction(Functions.LENGTH, firstParameterList, 0d, testScope);
 	}
 
 	@Test
@@ -94,47 +99,47 @@ public class ParserTestStringFunctions {
 		String index = "7";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
 				InternTokenType.STRING, letterString, String.valueOf(letterString.charAt(Integer.valueOf(index) - 1)),
-				testSprite);
+				testScope);
 
 		index = "0";
 		String emptyString = "";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
-				InternTokenType.STRING, letterString, emptyString, testSprite);
+				InternTokenType.STRING, letterString, emptyString, testScope);
 
 		index = "-5";
 		emptyString = "";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
-				InternTokenType.STRING, letterString, emptyString, testSprite);
+				InternTokenType.STRING, letterString, emptyString, testScope);
 
 		index = "0";
 		emptyString = "";
 		letterString = emptyString;
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, String.valueOf(index),
-				InternTokenType.STRING, letterString, emptyString, testSprite);
+				InternTokenType.STRING, letterString, emptyString, testScope);
 
 		letterString = "letterString";
 		index = "2";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.STRING,
 				String.valueOf(letterString.charAt(Integer.valueOf(index) - 1)), InternTokenType.STRING, letterString,
-				emptyString, testSprite);
+				emptyString, testScope);
 
 		index = "4";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME,
 				String.valueOf(Double.toString(USER_VARIABLE_1_VALUE_TYPE_DOUBLE).charAt(Integer.valueOf(index) - 1)),
-				testSprite);
+				testScope);
 
 		index = "3";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, InternTokenType.NUMBER, index,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
-				String.valueOf(USER_VARIABLE_2_VALUE_TYPE_STRING.charAt(Integer.valueOf(index) - 1)), testSprite);
+				String.valueOf(USER_VARIABLE_2_VALUE_TYPE_STRING.charAt(Integer.valueOf(index) - 1)), testScope);
 
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
 		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.LETTER, firstParameterList, secondParameterList, "",
-				testSprite);
+				testScope);
 	}
 
 	@Test
@@ -142,47 +147,47 @@ public class ParserTestStringFunctions {
 		String firstParameter = "first";
 		String secondParameter = "second";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testScope);
 
 		firstParameter = "";
 		secondParameter = "second";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testScope);
 
 		firstParameter = "first";
 		secondParameter = "";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testScope);
 
 		firstParameter = "55";
 		secondParameter = "66";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.NUMBER, firstParameter,
-				InternTokenType.NUMBER, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.NUMBER, secondParameter, firstParameter + secondParameter, testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.NUMBER, firstParameter,
-				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, firstParameter,
-				InternTokenType.NUMBER, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.NUMBER, secondParameter, firstParameter + secondParameter, testScope);
 
 		firstParameter = "5*3-6+(8*random(1,2))";
 		secondParameter = "string'**##!§\"$\'§%%/&%(())??";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testSprite);
+				InternTokenType.STRING, secondParameter, firstParameter + secondParameter, testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.STRING, firstParameter,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, firstParameter
-						+ USER_VARIABLE_2_VALUE_TYPE_STRING, testSprite);
+						+ USER_VARIABLE_2_VALUE_TYPE_STRING, testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
-				USER_VARIABLE_1_VALUE_TYPE_DOUBLE + USER_VARIABLE_2_VALUE_TYPE_STRING, testSprite);
+				USER_VARIABLE_1_VALUE_TYPE_DOUBLE + USER_VARIABLE_2_VALUE_TYPE_STRING, testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME, InternTokenType.STRING, secondParameter, USER_VARIABLE_1_VALUE_TYPE_DOUBLE
-						+ secondParameter, testSprite);
+						+ secondParameter, testScope);
 
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
 		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.JOIN, firstParameterList, secondParameterList, ""
-				+ Double.NaN + Double.NaN, testSprite);
+				+ Double.NaN + Double.NaN, testScope);
 	}
 
 	@Test
@@ -195,7 +200,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, secondParameter,
 				InternTokenType.STRING, thirdParameter,
 				firstParameter + secondParameter + thirdParameter,
-				testSprite);
+				testScope);
 
 		firstParameter = "";
 		secondParameter = "second";
@@ -205,7 +210,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, secondParameter,
 				InternTokenType.STRING, thirdParameter,
 				firstParameter + secondParameter + thirdParameter,
-				testSprite);
+				testScope);
 
 		firstParameter = "first";
 		secondParameter = "";
@@ -215,7 +220,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, secondParameter,
 				InternTokenType.STRING, thirdParameter,
 				firstParameter + secondParameter + thirdParameter,
-				testSprite);
+				testScope);
 
 		firstParameter = "first";
 		secondParameter = "";
@@ -225,7 +230,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.STRING, secondParameter,
 				InternTokenType.STRING, thirdParameter,
 				firstParameter + secondParameter + thirdParameter,
-				testSprite);
+				testScope);
 
 		firstParameter = "33";
 		secondParameter = "44";
@@ -235,7 +240,7 @@ public class ParserTestStringFunctions {
 				InternTokenType.NUMBER, secondParameter,
 				InternTokenType.NUMBER, thirdParameter,
 				firstParameter + secondParameter + thirdParameter,
-				testSprite);
+				testScope);
 
 		firstParameter = "5*3-6+(8*random(1,2))";
 		secondParameter = "string'**##!§\"$\'§%\"%/&%(())??";
@@ -243,16 +248,16 @@ public class ParserTestStringFunctions {
 		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING, firstParameter,
 				InternTokenType.STRING, secondParameter, InternTokenType.STRING, thirdParameter,
 				firstParameter + secondParameter + thirdParameter,
-				testSprite);
+				testScope);
 		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, InternTokenType.STRING,
 				firstParameter,
 				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, InternTokenType.STRING,
 				thirdParameter,
-				firstParameter + USER_VARIABLE_2_VALUE_TYPE_STRING + thirdParameter, testSprite);
+				firstParameter + USER_VARIABLE_2_VALUE_TYPE_STRING + thirdParameter, testScope);
 		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3,
 				InternTokenType.STRING, firstParameter, InternTokenType.STRING, secondParameter, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME,
-				firstParameter + secondParameter + USER_VARIABLE_1_VALUE_TYPE_DOUBLE, testSprite);
+				firstParameter + secondParameter + USER_VARIABLE_1_VALUE_TYPE_DOUBLE, testScope);
 
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
@@ -265,7 +270,7 @@ public class ParserTestStringFunctions {
 						InternTokenType.STRING, "thisString");
 		FormulaEditorTestUtil.testTripleParameterFunction(Functions.JOIN3, firstParameterList,
 				secondParameterList, thirdParameterList, ""
-						+ Double.NaN + Double.NaN + Double.NaN, testSprite);
+						+ Double.NaN + Double.NaN + Double.NaN, testScope);
 	}
 
 	@Test
@@ -273,51 +278,51 @@ public class ParserTestStringFunctions {
 		String firstParameter = " an? ([^ .]+)";
 		String secondParameter = "I am a penguin.";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, "penguin", testSprite);
+				InternTokenType.STRING, secondParameter, "penguin", testScope);
 
 		firstParameter = "";
 		secondParameter = "second";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, "", testSprite);
+				InternTokenType.STRING, secondParameter, "", testScope);
 
 		firstParameter = "first";
 		secondParameter = "";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, "", testSprite);
+				InternTokenType.STRING, secondParameter, "", testScope);
 
 		firstParameter = "345";
 		secondParameter = "123456";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.NUMBER, firstParameter,
-				InternTokenType.NUMBER, secondParameter, "345", testSprite);
+				InternTokenType.NUMBER, secondParameter, "345", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.NUMBER, firstParameter,
-				InternTokenType.STRING, secondParameter, "345", testSprite);
+				InternTokenType.STRING, secondParameter, "345", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
-				InternTokenType.NUMBER, secondParameter, "345", testSprite);
+				InternTokenType.NUMBER, secondParameter, "345", testScope);
 
 		firstParameter = "5*3-6+(8*random(1,2))";
 		secondParameter = "string'**##!§\"$\'§%%/&%(())??";
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
-				InternTokenType.STRING, secondParameter, "", testSprite);
+				InternTokenType.STRING, secondParameter, "", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.STRING, firstParameter,
-				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, "", testSprite);
+				InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2, "", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
-				"", testSprite);
+				"", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
-				PROJECT_USER_VARIABLE_NAME, InternTokenType.STRING, secondParameter, "", testSprite);
+				PROJECT_USER_VARIABLE_NAME, InternTokenType.STRING, secondParameter, "", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME,
-				"888.88", testSprite);
+				"888.88", testScope);
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, InternTokenType.USER_VARIABLE,
 				PROJECT_USER_VARIABLE_NAME2, InternTokenType.USER_VARIABLE, PROJECT_USER_VARIABLE_NAME2,
-				USER_VARIABLE_2_VALUE_TYPE_STRING, testSprite);
+				USER_VARIABLE_2_VALUE_TYPE_STRING, testScope);
 
 		List<InternToken> firstParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.PLUS,
 				InternTokenType.STRING, "datString");
 		List<InternToken> secondParameterList = FormulaEditorTestUtil.buildBinaryOperator(InternTokenType.NUMBER, "5", Operators.MULT,
 				InternTokenType.STRING, "anotherString");
 		FormulaEditorTestUtil.testDoubleParameterFunction(Functions.REGEX, firstParameterList, secondParameterList,
-				"" + Double.NaN, testSprite);
+				"" + Double.NaN, testScope);
 	}
 
 	@Test
@@ -332,11 +337,11 @@ public class ParserTestStringFunctions {
 		secondInternTokenList.add(new InternToken(InternTokenType.STRING, firstParameter + secondParameter));
 		List<InternToken> letterTokenList = FormulaEditorTestUtil.buildDoubleParameterFunction(Functions.LETTER,
 				lengthTokenList, secondInternTokenList);
-		FormulaElement parseTree = new InternFormulaParser(letterTokenList).parseFormula();
+		FormulaElement parseTree = new InternFormulaParser(letterTokenList).parseFormula(testScope);
 
 		assertNotNull(parseTree);
 		assertEquals(String.valueOf((firstParameter + secondParameter)
 						.charAt((firstParameter + secondParameter).length() - 1)),
-				parseTree.interpretRecursive(testSprite));
+				parseTree.interpretRecursive(testScope));
 	}
 }

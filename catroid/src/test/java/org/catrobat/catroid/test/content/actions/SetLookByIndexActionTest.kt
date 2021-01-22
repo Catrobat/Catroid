@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
@@ -44,6 +45,7 @@ import java.io.File
 @PrepareForTest(GdxNativesLoader::class)
 class SetLookByIndexActionTest {
     private lateinit var sprite: Sprite
+    private lateinit var testSequence: SequenceAction
     private lateinit var lookData1: LookData
     private lateinit var lookData2: LookData
 
@@ -58,6 +60,7 @@ class SetLookByIndexActionTest {
             lookList.add(lookData2)
             look.lookData = lookData1
         }
+        testSequence = SequenceAction()
 
         Project(MockUtil.mockContextForProject(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
@@ -66,34 +69,34 @@ class SetLookByIndexActionTest {
 
     @Test
     fun testValidIndex() {
-        sprite.actionFactory.createSetLookByIndexAction(sprite, Formula(1)).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(sprite, testSequence, Formula(1)).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
 
-        sprite.actionFactory.createSetLookByIndexAction(sprite, Formula(2)).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(sprite, testSequence, Formula(2)).act(1f)
         assertEquals(lookData2, sprite.look.lookData)
     }
 
     @Test
     fun testInvalidIndex() {
-        sprite.actionFactory.createSetLookByIndexAction(sprite, Formula(-1)).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(sprite, testSequence, Formula(-1)).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
 
-        sprite.actionFactory.createSetLookByIndexAction(sprite, Formula(0)).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(sprite, testSequence, Formula(0)).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
 
-        sprite.actionFactory.createSetLookByIndexAction(sprite, Formula(42)).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(sprite, testSequence, Formula(42)).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
     }
 
     @Test
     fun testFormulaNull() {
-        sprite.actionFactory.createSetLookByIndexAction(sprite, null).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(sprite, testSequence, null).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
     }
 
     @Test
     fun testSpriteNull() {
-        sprite.actionFactory.createSetLookByIndexAction(null, Formula(1)).act(1f)
+        sprite.actionFactory.createSetLookByIndexAction(null, testSequence, Formula(1)).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
     }
 }

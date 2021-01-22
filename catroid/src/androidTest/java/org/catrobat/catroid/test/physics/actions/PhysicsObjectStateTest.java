@@ -219,21 +219,22 @@ public class PhysicsObjectStateTest {
 
 	private void setX(float value) {
 		SetXAction setXAction = (SetXAction) sprite.getActionFactory().createSetXAction(sprite,
-				new Formula(value));
+				new SequenceAction(), new Formula(value));
 		setXAction.act(1.0f);
 		sprite.look.getX();
 	}
 
 	private void setY(float value) {
 		SetYAction setYAction = (SetYAction) sprite.getActionFactory().createSetYAction(sprite,
-				new Formula(value));
+				new SequenceAction(), new Formula(value));
 		setYAction.act(1.0f);
 		sprite.look.getY();
 	}
 
 	private void transparency(int percent) {
-		SetTransparencyAction ghostEffectAction =
-				(SetTransparencyAction) sprite.getActionFactory().createSetTransparencyAction(sprite, new Formula(percent));
+		SetTransparencyAction ghostEffectAction = (SetTransparencyAction) sprite.getActionFactory().
+										createSetTransparencyAction(sprite, new SequenceAction(),
+												new Formula(percent));
 		ghostEffectAction.act(1.0f);
 	}
 
@@ -253,6 +254,8 @@ public class PhysicsObjectStateTest {
 	}
 
 	private Action glideTo(Formula x, Formula y) {
+		sprite.getActionFactory().createGlideToPhysics...
+
 		GlideToPhysicsAction glideToPhysicsAction = new GlideToPhysicsAction();
 		glideToPhysicsAction.setSprite(sprite);
 		glideToPhysicsAction.setPhysicsLook((PhysicsLook) sprite.look);

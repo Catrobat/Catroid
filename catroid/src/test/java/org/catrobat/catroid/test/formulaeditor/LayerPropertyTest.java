@@ -23,10 +23,13 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Sensors;
@@ -42,16 +45,20 @@ import static org.mockito.Mockito.when;
 
 @RunWith(JUnit4.class)
 public class LayerPropertyTest {
-	Sprite background;
-	Sprite firstSprite;
-	Sprite secondSprite;
+	Scope backgroundScope;
+	Scope firstScope;
+	Scope secondScope;
 
 	@Before
 	public void setUp() throws Exception {
 		Project project = new Project(MockUtil.mockContextForProject(), "Project");
-		background = project.getDefaultScene().getBackgroundSprite();
-		firstSprite = new Sprite("firstSprite");
-		secondSprite = new Sprite("secondSprite");
+		Sprite background = project.getDefaultScene().getBackgroundSprite();
+		Sprite firstSprite = new Sprite("firstSprite");
+		Sprite secondSprite = new Sprite("secondSprite");
+
+		backgroundScope = new Scope(project, background, new SequenceAction());
+		firstScope = new Scope(project, firstSprite, new SequenceAction());
+		secondScope = new Scope(project, secondSprite, new SequenceAction());
 
 		project.getDefaultScene().addSprite(firstSprite);
 		project.getDefaultScene().addSprite(secondSprite);
@@ -63,14 +70,14 @@ public class LayerPropertyTest {
 	@Test
 	public void testBackgroundLayerPropertyNoZIndex() {
 		FormulaElement layerElement = new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_LAYER.name(), null);
-		assertEquals(0d, layerElement.interpretRecursive(background));
+		assertEquals(0d, layerElement.interpretRecursive(backgroundScope));
 	}
 
 	@Test
 	public void testSpritesLayerPropertyNoZIndex() {
 		FormulaElement layerElement = new FormulaElement(FormulaElement.ElementType.SENSOR, Sensors.OBJECT_LAYER.name(), null);
-		assertEquals(1d, layerElement.interpretRecursive(firstSprite));
-		assertEquals(2d, layerElement.interpretRecursive(secondSprite));
+		assertEquals(1d, layerElement.interpretRecursive(firstScope));
+		assertEquals(2d, layerElement.interpretRecursive(secondScope));
 	}
 
 	@Test
@@ -82,11 +89,11 @@ public class LayerPropertyTest {
 		Look secondLook = mock(Look.class);
 		when(secondLook.getZIndex()).thenReturn(1 + Constants.Z_INDEX_NUMBER_VIRTUAL_LAYERS);
 
-		firstSprite.look = firstLook;
-		secondSprite.look = secondLook;
+		firstScope.getSprite().look = firstLook;
+		secondScope.getSprite().look = secondLook;
 
-		assertEquals(2d, layerElement.interpretRecursive(firstSprite));
-		assertEquals(1d, layerElement.interpretRecursive(secondSprite));
+		assertEquals(2d, layerElement.interpretRecursive(firstScope));
+		assertEquals(1d, layerElement.interpretRecursive(secondScope));
 	}
 
 	@Test
@@ -95,7 +102,7 @@ public class LayerPropertyTest {
 
 		Look backgroundLook = mock(Look.class);
 		when(backgroundLook.getZIndex()).thenReturn(0);
-		background.look = backgroundLook;
-		assertEquals(0d, layerElement.interpretRecursive(background));
+		backgroundScope.getSprite().look = backgroundLook;
+		assertEquals(0d, layerElement.interpretRecursive(backgroundScope));
 	}
 }

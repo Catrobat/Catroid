@@ -110,35 +110,35 @@ class SingleParameterFunctionParserTest(
     fun testNumberParameter() {
         val internToken = InternToken(NUMBER, parameterValue.toString())
         val expectedValue = associatedFunction.function(parameterValue)
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testStringParameter() {
         val internToken = InternToken(STRING, parameterValue.toString())
         val expectedValue = associatedFunction.function(parameterValue)
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testEmptyParameter() {
         val internToken = InternToken(STRING, "")
         val expectedValue = 0.0
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testNotNumericalStringParameter() {
         val internToken = InternToken(STRING, NOT_NUMERICAL_STRING)
         val expectedValue = 0.0
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testInvalidFormulaParameter() {
         val parameter = buildBinaryOperator(NUMBER, "15.0", PLUS, STRING, NOT_NUMERICAL_STRING)
         val expectedValue = associatedFunction.function(Double.NaN)
-        testSingleParameterFunction(function, parameter, expectedValue, sprite)
+        testSingleParameterFunction(function, parameter, expectedValue, null)
     }
 
     data class AssociatedFunction(val function: (Double) -> Double)
