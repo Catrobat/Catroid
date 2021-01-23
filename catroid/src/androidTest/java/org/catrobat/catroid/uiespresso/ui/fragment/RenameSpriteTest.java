@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,11 +31,12 @@ import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.rules.FlakyTestRule;
 import org.catrobat.catroid.runner.Flaky;
+import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.ProjectActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,14 +48,13 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -65,6 +65,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+@Category({Cat.AppUi.class, Level.Smoke.class})
 @RunWith(AndroidJUnit4.class)
 public class RenameSpriteTest {
 
@@ -81,12 +82,16 @@ public class RenameSpriteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject("renameSpriteDialogTest");
+		createProject(RenameSpriteTest.class.getSimpleName());
 
 		baseActivityTestRule.launchActivity();
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@After
+	public void tearDown() throws Exception {
+		TestUtils.deleteProjects(RenameSpriteTest.class.getSimpleName());
+	}
+
 	@Test
 	@Flaky
 	public void renameSpriteDialogTest() {
@@ -94,16 +99,15 @@ public class RenameSpriteTest {
 		renameSpriteTo(newSpriteName);
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameSpriteDialogTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(2)
-				.performCheckItem();
+		onRecyclerView().atPosition(0).check(matches(not(isDisplayed())));
 
-		onView(withId(R.id.confirm)).perform(click());
+		onRecyclerView().atPosition(2)
+				.perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -115,20 +119,17 @@ public class RenameSpriteTest {
 
 		onView(withText(secondSpriteName))
 				.check(matches(isDisplayed()));
-
-		onActionMode().checkTitleMatches(UiTestUtils.getResourcesString(R.string.rename));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void invalidInputRenameSoundTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(1)
-				.performCheckItem();
+		onRecyclerView().atPosition(0).check(matches(not(isDisplayed())));
 
-		onView(withId(R.id.confirm)).perform(click());
+		onRecyclerView().atPosition(1)
+				.perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -162,7 +163,6 @@ public class RenameSpriteTest {
 				.check(matches(allOf(isDisplayed(), isEnabled())));
 	}
 
-	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	@Flaky
 	public void renameSpriteSwitchCaseDialogTest() {
@@ -170,14 +170,32 @@ public class RenameSpriteTest {
 		renameSpriteTo(newSpriteName);
 	}
 
-	private void renameSpriteTo(String newSpriteName) {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+	@Test
+	public void renameSingleSpriteTest() {
+		openActionBar();
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(2).performCheckItem();
+
+		onActionMode().performConfirm();
+
+		onView(withText(R.string.yes)).perform(click());
+
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
-		onRecyclerView().atPosition(2)
-				.performCheckItem();
+		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
+	}
 
-		onView(withId(R.id.confirm)).perform(click());
+	private void renameSpriteTo(String newSpriteName) {
+		openActionBar();
+		onView(withText(R.string.rename)).perform(click());
+
+		onRecyclerView().atPosition(0).check(matches(not(isDisplayed())));
+
+		onRecyclerView().atPosition(2)
+				.perform(click());
 
 		onView(withText(R.string.rename_sprite_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));

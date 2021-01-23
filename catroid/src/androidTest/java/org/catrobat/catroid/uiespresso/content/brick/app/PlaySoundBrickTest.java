@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,13 +59,12 @@ import androidx.test.rule.GrantPermissionRule;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -99,12 +98,10 @@ public class PlaySoundBrickTest {
 	private void renameSound(int position, String newSoundName) {
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename))
 				.perform(click());
 		onRecyclerView().atPosition(position)
-				.performCheckItem();
-		onView(withId(R.id.confirm))
 				.perform(click());
 		onView(allOf(withText(soundName), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(newSoundName));
@@ -116,7 +113,7 @@ public class PlaySoundBrickTest {
 	private void deleteSound(int position) {
 		onView(withId(R.id.tab_layout))
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRecyclerView().atPosition(position)

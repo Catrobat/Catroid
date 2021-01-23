@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -287,16 +287,22 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onItemClick(Sprite item) {
+
 		if (item instanceof GroupSprite) {
 			GroupSprite groupSprite = (GroupSprite) item;
 			groupSprite.setCollapsed(!groupSprite.isCollapsed());
 			adapter.notifyDataSetChanged();
-		} else if (actionModeType == NONE) {
-			ProjectManager.getInstance().setCurrentSprite(item);
-			Intent intent = new Intent(getActivity(), SpriteActivity.class);
-			intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-
-			startActivity(intent);
+		} else {
+			if (actionModeType == RENAME) {
+				super.onItemClick(item);
+				return;
+			}
+			if (actionModeType == NONE) {
+				ProjectManager.getInstance().setCurrentSprite(item);
+				Intent intent = new Intent(getActivity(), SpriteActivity.class);
+				intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+				startActivity(intent);
+			}
 		}
 	}
 
@@ -317,7 +323,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 									showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 									break;
 								case 1:
-									showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
+									showRenameDialog(item);
 									break;
 								default:
 									dialog.dismiss();
@@ -328,5 +334,9 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		} else {
 			super.onItemLongClick(item, holder);
 		}
+	}
+
+	public boolean isSingleVisibleSprite() {
+		return adapter.getItems().size() == 2 && !(adapter.getItems().get(1) instanceof GroupSprite);
 	}
 }

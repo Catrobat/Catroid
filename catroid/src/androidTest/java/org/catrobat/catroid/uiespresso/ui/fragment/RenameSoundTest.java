@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -52,15 +52,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.uiespresso.ui.actionbar.utils.ActionModeWrapper.onActionMode;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.not;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -91,13 +91,11 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void renameSoundTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -118,13 +116,11 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelRenameSoundTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -143,13 +139,11 @@ public class RenameSoundTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void invalidInputRenameSoundTest() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename)).perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm)).perform(click());
+				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
@@ -181,6 +175,24 @@ public class RenameSoundTest {
 
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.check(matches(allOf(isDisplayed(), isEnabled())));
+	}
+
+	@Test
+	public void renameSingleSoundTest() {
+		openActionBar();
+		onView(withText(R.string.delete)).perform(click());
+
+		onRecyclerView().atPosition(1).performCheckItem();
+
+		onActionMode().performConfirm();
+
+		onView(withText(R.string.yes)).perform(click());
+
+		openActionBar();
+		onView(withText(R.string.rename)).perform(click());
+
+		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
+				.check(matches(isDisplayed()));
 	}
 
 	private void createProject() throws IOException {

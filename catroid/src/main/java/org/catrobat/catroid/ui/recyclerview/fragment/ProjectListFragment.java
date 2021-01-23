@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -368,6 +368,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemClick(ProjectData item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
 		if (actionModeType == NONE) {
 			setShowProgressBar(true);
 			new ProjectLoadTask(item.getDirectory(), getContext())
@@ -400,7 +404,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 								break;
 							case 2:
-								showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
+								showRenameDialog(item);
 								break;
 							case 3:
 								ProjectDetailsFragment fragment = new ProjectDetailsFragment();
