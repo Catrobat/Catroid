@@ -140,6 +140,7 @@ public class CatblocksScriptFragmentTest {
 
 		assertEquals(ProjectManager.getInstance().getCurrentSprite().getScript(0).getPosX(), 0.0f);
 		assertEquals(ProjectManager.getInstance().getCurrentSprite().getScript(0).getPosY(), 0.0f);
+		onView(withText(R.string.catblocks)).perform(click());
 	}
 
 	private void createProject() {

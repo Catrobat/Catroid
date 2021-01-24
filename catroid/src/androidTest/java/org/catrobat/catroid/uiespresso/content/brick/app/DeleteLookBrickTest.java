@@ -79,21 +79,18 @@ public class DeleteLookBrickTest {
 		ProjectManager.getInstance().setCurrentSprite(sprite);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
+		Intents.init();
 		baseActivityTestRule.launchActivity();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testPaintLookWithoutDelete() {
-		Intents.init();
-
 		onView(withId(R.id.button_play)).perform(click());
 		onView(withId(R.id.pocketpaint_drawing_surface_view)).perform(click());
 		pressBack();
 
 		assertEquals(1, sprite.getLookList().size());
-
-		Intents.release();
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -101,19 +98,16 @@ public class DeleteLookBrickTest {
 	public void testPaintAndDeleteLook() {
 		script.addBrick(new DeleteLookBrick());
 
-		Intents.init();
-
 		onView(withId(R.id.button_play)).perform(click());
 		onView(withId(R.id.pocketpaint_drawing_surface_view)).perform(click());
 		pressBack();
 
 		assertEquals(0, sprite.getLookList().size());
-
-		Intents.release();
 	}
 
 	@After
 	public void tearDown() throws IOException {
+		Intents.release();
 		baseActivityTestRule.finishActivity();
 		TestUtils.deleteProjects(projectName);
 	}
