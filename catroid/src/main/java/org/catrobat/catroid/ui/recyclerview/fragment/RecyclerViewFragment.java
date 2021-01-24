@@ -448,8 +448,8 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, (dialog, id) -> deleteItems(selectedItems))
-				.setNegativeButton(R.string.no, null)
+				.setPositiveButton(R.string.delete, (dialog, id) -> deleteItems(selectedItems))
+				.setNegativeButton(R.string.cancel, null)
 				.setCancelable(false)
 				.show();
 	}

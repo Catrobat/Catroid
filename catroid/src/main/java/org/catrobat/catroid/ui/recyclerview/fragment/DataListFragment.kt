@@ -228,11 +228,11 @@ class DataListFragment : Fragment(),
             .setTitle(R.string.deletion_alert_title)
             .setMessage(R.string.deletion_alert_text)
             .setPositiveButton(
-                R.string.deletion_alert_yes
+                R.string.delete
             ) { _: DialogInterface?, _: Int ->
                 deleteItems(selectedItems)
             }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setCancelable(false)
             .show()
     }
