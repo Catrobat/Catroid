@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
@@ -65,14 +66,14 @@ public class LookControllerTest {
 	@Before
 	public void setUp() throws IOException {
 		backpackListManager = BackpackListManager.getInstance();
-		clearBackPack();
+		clearBackPack(backpackListManager);
 		createProject();
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		deleteProject();
-		clearBackPack();
+		clearBackPack(backpackListManager);
 	}
 
 	@Test
@@ -140,13 +141,6 @@ public class LookControllerTest {
 
 		assertFileDoesNotExist(copy.getFile());
 		assertFileExists(lookData.getFile());
-	}
-
-	private void clearBackPack() throws IOException {
-		if (backpackListManager.backpackImageDirectory.exists()) {
-			StorageOperations.deleteDir(backpackListManager.backpackImageDirectory);
-		}
-		backpackListManager.backpackImageDirectory.mkdirs();
 	}
 
 	private void createProject() throws IOException {

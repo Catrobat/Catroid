@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.catrobat.catroid.content.bricks.HideBrick;
 import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
+import org.catrobat.catroid.ui.controller.BackpackListManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -104,5 +105,20 @@ public final class TestUtils {
 				.createSoundFileFromResourcesInDirectory(InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 						source, new File(project.getDefaultScene().getDirectory(),
 								SOUND_DIRECTORY_NAME), soundName);
+	}
+
+	public static boolean clearBackPack(BackpackListManager backpackListManager) throws IOException {
+		if (backpackListManager.backpackImageDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackImageDirectory);
+		}
+		if (backpackListManager.backpackSoundDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackSoundDirectory);
+		}
+		if (backpackListManager.backpackSceneDirectory.exists()) {
+			StorageOperations.deleteDir(backpackListManager.backpackSceneDirectory);
+		}
+		return backpackListManager.backpackSceneDirectory.mkdirs()
+				&& backpackListManager.backpackImageDirectory.mkdirs()
+				&& backpackListManager.backpackSoundDirectory.mkdirs();
 	}
 }

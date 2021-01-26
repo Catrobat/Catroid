@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -57,6 +57,7 @@ import static junit.framework.Assert.assertTrue;
 
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
+import static org.catrobat.catroid.test.utils.TestUtils.clearBackPack;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExist;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileDoesNotExistInDirectory;
 import static org.catrobat.catroid.uiespresso.util.FileTestUtils.assertFileExists;
@@ -73,14 +74,14 @@ public class SpriteControllerTest {
 	@Before
 	public void setUp() throws IOException {
 		backpackListManager = BackpackListManager.getInstance();
-		clearBackPack();
+		clearBackPack(backpackListManager);
 		createProject();
 	}
 
 	@After
 	public void tearDown() throws IOException {
 		deleteProject();
-		clearBackPack();
+		clearBackPack(backpackListManager);
 	}
 
 	@Test
@@ -218,17 +219,6 @@ public class SpriteControllerTest {
 
 		assertFileDoesNotExist(sprite.getLookList().get(0).getFile());
 		assertFileDoesNotExist(sprite.getSoundList().get(0).getFile());
-	}
-
-	private void clearBackPack() throws IOException {
-		if (backpackListManager.backpackImageDirectory.exists()) {
-			StorageOperations.deleteDir(backpackListManager.backpackImageDirectory);
-		}
-		if (backpackListManager.backpackSoundDirectory.exists()) {
-			StorageOperations.deleteDir(backpackListManager.backpackSoundDirectory);
-		}
-		backpackListManager.backpackImageDirectory.mkdirs();
-		backpackListManager.backpackSoundDirectory.mkdirs();
 	}
 
 	private void createProject() throws IOException {
