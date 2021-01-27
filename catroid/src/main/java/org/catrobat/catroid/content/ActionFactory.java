@@ -81,6 +81,7 @@ import org.catrobat.catroid.content.actions.FinishStageAction;
 import org.catrobat.catroid.content.actions.FlashAction;
 import org.catrobat.catroid.content.actions.ForItemInUserListAction;
 import org.catrobat.catroid.content.actions.ForVariableFromToAction;
+import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.content.actions.GoNStepsBackAction;
 import org.catrobat.catroid.content.actions.GoToOtherSpritePositionAction;
 import org.catrobat.catroid.content.actions.GoToRandomPositionAction;
@@ -216,6 +217,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.PickableMusicalInstrumen
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
 
@@ -732,6 +734,20 @@ public class ActionFactory extends Actions {
 		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
 		action.setScope(scope);
 		action.setSize(size);
+		return action;
+	}
+
+	public Action createGlideToPhysicsAction(Sprite sprite, PhysicsLook physicsLook,
+			SequenceAction sequence, Formula x,
+			Formula y,  float duration, float delta) {
+
+		GlideToPhysicsAction action = Actions.action(GlideToPhysicsAction.class);
+		Scope scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, sequence);
+		action.setScope(scope);
+		action.setPhysicsLook(physicsLook);
+		action.setPosition(x, y);
+		action.setDuration(duration);
+		action.act(delta);
 		return action;
 	}
 

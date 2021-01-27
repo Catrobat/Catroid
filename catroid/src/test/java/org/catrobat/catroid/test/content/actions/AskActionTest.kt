@@ -25,10 +25,13 @@ package org.catrobat.catroid.test.content.actions
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import junit.framework.Assert
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.AskAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.test.MockUtil
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -50,6 +53,9 @@ class AskActionTest {
         testSequence = SequenceAction()
         userVariableForAnswer = UserVariable(TEST_USERVARIABLE)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
+
+        val project = Project(MockUtil.mockContextForProject(), "Project")
+        ProjectManager.getInstance().currentProject = project
     }
 
     @Test

@@ -24,6 +24,7 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
@@ -254,14 +255,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	private Action glideTo(Formula x, Formula y) {
-		sprite.getActionFactory().createGlideToPhysics...
-
-		GlideToPhysicsAction glideToPhysicsAction = new GlideToPhysicsAction();
-		glideToPhysicsAction.setSprite(sprite);
-		glideToPhysicsAction.setPhysicsLook((PhysicsLook) sprite.look);
-		glideToPhysicsAction.setPosition(x, y);
-		glideToPhysicsAction.setDuration(2.0f);
-		glideToPhysicsAction.act(1.0f);
-		return glideToPhysicsAction;
+		return sprite.getActionFactory().createGlideToPhysicsAction(sprite, (PhysicsLook) sprite.look,
+				new SequenceAction(), x, y, 2.0f, 1.0f);
 	}
 }

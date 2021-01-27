@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
@@ -97,7 +98,8 @@ public class SetBounceFactorActionTest {
 
 	private void initBounceFactorValue(float bounceFactor) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(bounceFactor));
+		Action action = sprite.getActionFactory().createSetBounceFactorAction(sprite,
+				new SequenceAction(), new Formula(bounceFactor));
 
 		assertEquals(PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject.getBounceFactor());
 
@@ -108,11 +110,13 @@ public class SetBounceFactorActionTest {
 	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String.valueOf(BOUNCE_FACTOR)))
+		sprite.getActionFactory().createSetBounceFactorAction(sprite,
+				new SequenceAction(), new Formula(String.valueOf(BOUNCE_FACTOR)))
 				.act(1.0f);
 		assertEquals(BOUNCE_FACTOR / 100.f, physicsObject.getBounceFactor());
 
-		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(String
+		sprite.getActionFactory().createSetBounceFactorAction(sprite, new SequenceAction(),
+				new Formula(String
 				.valueOf("not a numerical string"))).act(1.0f);
 		assertEquals(BOUNCE_FACTOR / 100.f, physicsObject.getBounceFactor());
 	}
@@ -120,14 +124,15 @@ public class SetBounceFactorActionTest {
 	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetBounceFactorAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetBounceFactorAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, physicsObject.getBounceFactor());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetBounceFactorAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetBounceFactorAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN)).act(1.0f);
 		assertEquals(PhysicsObject.DEFAULT_BOUNCE_FACTOR, physicsObject.getBounceFactor());
 	}
 

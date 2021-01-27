@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.physics.actions;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -98,7 +99,8 @@ public class SetGravityActionTest {
 	}
 
 	private void initGravityValues(float gravityX, float gravityY) throws Exception {
-		Action action = sprite.getActionFactory().createSetGravityAction(sprite, new Formula(gravityX),
+		Action action = sprite.getActionFactory().createSetGravityAction(sprite,
+			new SequenceAction(), new Formula(gravityX),
 				new Formula(gravityY));
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
@@ -111,7 +113,8 @@ public class SetGravityActionTest {
 
 	@Test
 	public void testBrickWithStringFormula() throws Exception {
-		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(String.valueOf(GRAVITY_X)),
+		sprite.getActionFactory().createSetGravityAction(sprite,
+			new SequenceAction(),	new Formula(String.valueOf(GRAVITY_X)),
 				new Formula(String.valueOf(GRAVITY_Y))).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
@@ -119,8 +122,9 @@ public class SetGravityActionTest {
 		assertEquals(GRAVITY_X, gravityVector.x);
 		assertEquals(GRAVITY_Y, gravityVector.y);
 
-		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(String.valueOf("not a numerical string")),
-				new Formula(String.valueOf("not a numerical string"))).act(1.0f);
+		sprite.getActionFactory().createSetGravityAction(sprite, new SequenceAction(),
+				new Formula("not a numerical string"),
+				new Formula("not a numerical string")).act(1.0f);
 		gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world")).getGravity();
 
 		assertEquals(GRAVITY_X, gravityVector.x);
@@ -129,7 +133,8 @@ public class SetGravityActionTest {
 
 	@Test
 	public void testNullFormula() throws Exception {
-		sprite.getActionFactory().createSetGravityAction(sprite, null, null).act(1.0f);
+		sprite.getActionFactory().createSetGravityAction(sprite, new SequenceAction(), null,
+				null).act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();
 
@@ -139,7 +144,9 @@ public class SetGravityActionTest {
 
 	@Test
 	public void testNotANumberFormula() throws Exception {
-		sprite.getActionFactory().createSetGravityAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
+		sprite.getActionFactory().createSetGravityAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN),
+				new Formula(Double.NaN))
 				.act(1.0f);
 		Vector2 gravityVector = ((World) Reflection.getPrivateField(PhysicsWorld.class, physicsWorld, "world"))
 				.getGravity();

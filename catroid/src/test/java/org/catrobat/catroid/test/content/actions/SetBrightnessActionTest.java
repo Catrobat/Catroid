@@ -23,9 +23,14 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -48,47 +53,52 @@ public class SetBrightnessActionTest {
 
 	@Before
 	public void setUp() throws Exception {
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
 		sprite = new Sprite("testSprite");
+		project.getDefaultScene().addSprite(sprite);
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test
 	public void testBrightnessEffect() {
 		assertEquals(100f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createSetBrightnessAction(sprite, brightness).act(1.0f);
+		sprite.getActionFactory().createSetBrightnessAction(sprite, new SequenceAction(), brightness).act(1.0f);
 		assertEquals(BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
-		Action action = sprite.getActionFactory().createSetBrightnessAction(null, brightness);
-		exception.expect(NullPointerException.class);
+		Action action = sprite.getActionFactory().createSetBrightnessAction(null,
+				null, brightness);
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testNegativeBrightnessValue() {
-		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(-BRIGHTNESS)).act(1.0f);
+		sprite.getActionFactory().createSetBrightnessAction(sprite, new SequenceAction(),
+				new Formula(-BRIGHTNESS)).act(1.0f);
 		assertEquals(0f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(String.valueOf(BRIGHTNESS))).act(1.0f);
+		sprite.getActionFactory().createSetBrightnessAction(sprite, new SequenceAction(), new Formula(String.valueOf(BRIGHTNESS))).act(1.0f);
 		assertEquals(BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createSetBrightnessAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(BRIGHTNESS, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createSetBrightnessAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetBrightnessAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createSetBrightnessAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetBrightnessAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN)).act(1.0f);
 		assertEquals(100f, sprite.look.getBrightnessInUserInterfaceDimensionUnit());
 	}
 }

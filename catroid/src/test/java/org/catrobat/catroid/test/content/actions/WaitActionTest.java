@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.actions.WaitAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -46,7 +48,7 @@ public class WaitActionTest {
 	public void testWait() {
 		float waitOneSecond = 1.0f;
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(waitOneSecond));
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new SequenceAction(), new Formula(waitOneSecond));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -58,7 +60,8 @@ public class WaitActionTest {
 	@Test
 	public void testBrickWithStringFormula() {
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(String.valueOf(VALUE)));
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new SequenceAction(),
+				new Formula(String.valueOf(VALUE)));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -66,7 +69,7 @@ public class WaitActionTest {
 
 		assertThat(action.getTime() - VALUE, is(greaterThan(0.5f)));
 
-		action = (WaitAction) factory.createDelayAction(null, new Formula(NOT_NUMERICAL_STRING));
+		action = (WaitAction) factory.createDelayAction(null, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING));
 		currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -74,10 +77,10 @@ public class WaitActionTest {
 		assertEquals(0f, action.getTime(), DELTA);
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullFormula() {
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = (WaitAction) factory.createDelayAction(null, null);
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new SequenceAction(), null);
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;
@@ -88,7 +91,7 @@ public class WaitActionTest {
 	@Test
 	public void testNotANumberFormula() {
 		ActionFactory factory = new ActionFactory();
-		WaitAction action = (WaitAction) factory.createDelayAction(null, new Formula(Double.NaN));
+		WaitAction action = (WaitAction) factory.createDelayAction(null, new SequenceAction(), new Formula(Double.NaN));
 		long currentTimeInMilliSeconds = System.currentTimeMillis();
 		do {
 			currentTimeInMilliSeconds = System.currentTimeMillis() - currentTimeInMilliSeconds;

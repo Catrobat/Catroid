@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.formulaeditor;
 import android.content.Context;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.Formula.StringProvider;
@@ -40,8 +41,10 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -59,6 +62,9 @@ import static org.mockito.Mockito.mock;
 public class FormulaTest {
 
 	private List<InternToken> internTokenList;
+
+	@Mock
+	Scope scope;
 
 	@Before
 	public void setUp() {
@@ -147,10 +153,10 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula(null);
+		FormulaElement parseTree = internParser.parseFormula(scope);
 
 		assertNotNull(parseTree);
-		assertEquals(-1d, parseTree.interpretRecursive(null));
+		assertEquals(-1d, parseTree.interpretRecursive(scope));
 		internTokenList.clear();
 
 		Formula formula = new Formula(parseTree);
@@ -163,10 +169,10 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula(null);
+		FormulaElement parseTree = internParser.parseFormula(scope);
 
 		assertNotNull(parseTree);
-		assertEquals(-1d, parseTree.interpretRecursive(null));
+		assertEquals(-1d, parseTree.interpretRecursive(scope));
 		internTokenList.clear();
 
 		Formula formula = new Formula(parseTree);
@@ -181,10 +187,10 @@ public class FormulaTest {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "1.0"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula(null);
+		FormulaElement parseTree = internParser.parseFormula(scope);
 
 		assertNotNull(parseTree);
-		assertEquals(-2d, parseTree.interpretRecursive(null));
+		assertEquals(-2d, parseTree.interpretRecursive(scope));
 		internTokenList.clear();
 
 		Formula formula = new Formula(parseTree);

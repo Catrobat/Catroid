@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
@@ -52,20 +53,20 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testMoveHorizontalForward() {
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 		executeTest(moveNStepsAction, steps, 0);
 	}
 
 	@Test
 	public void testMoveHorizontalBackward() {
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(-steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(-steps));
 		executeTest(moveNStepsAction, -steps, 0);
 	}
 
 	@Test
 	public void testMoveVerticalUp() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(0);
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, steps);
 	}
@@ -73,7 +74,7 @@ public class MoveNStepsActionTest {
 	@Test
 	public void testMoveVerticalDown() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(180);
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, 0, -steps);
 	}
@@ -81,7 +82,7 @@ public class MoveNStepsActionTest {
 	@Test
 	public void testMoveDiagonalRightUp() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, diagonalStepLength);
 	}
@@ -89,7 +90,7 @@ public class MoveNStepsActionTest {
 	@Test
 	public void testMoveDiagonalLeftUp() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(-45);
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, diagonalStepLength);
 	}
@@ -97,7 +98,7 @@ public class MoveNStepsActionTest {
 	@Test
 	public void testMoveDiagonalRightDown() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(135);
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, diagonalStepLength, -diagonalStepLength);
 	}
@@ -105,7 +106,7 @@ public class MoveNStepsActionTest {
 	@Test
 	public void testMoveDiagonalLeftDown() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(-135);
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(steps));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(steps));
 
 		executeTest(moveNStepsAction, -diagonalStepLength, -diagonalStepLength);
 	}
@@ -113,7 +114,7 @@ public class MoveNStepsActionTest {
 	@Test
 	public void testMoveOther() {
 		sprite.look.setDirectionInUserInterfaceDimensionUnit(100);
-		Action action = factory.createMoveNStepsAction(sprite, new Formula(10));
+		Action action = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(10));
 
 		action.act(1.0f);
 		checkPosition(9.848078f, -1.7364818f);
@@ -136,25 +137,25 @@ public class MoveNStepsActionTest {
 
 	@Test
 	public void testBrickWithValidStringFormula() {
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(String.valueOf(steps)));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(String.valueOf(steps)));
 		executeTest(moveNStepsAction, steps, 0);
 	}
 
 	@Test
 	public void testBrickWithInValidStringFormula() {
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(NOT_NUMERICAL_STRING));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING));
 		executeTest(moveNStepsAction, 0f, 0);
 	}
 
 	@Test
 	public void testNullFormula() {
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, null);
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite,  new SequenceAction(),null);
 		executeTest(moveNStepsAction, 0f, 0);
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new Formula(Double.NaN));
+		Action moveNStepsAction = factory.createMoveNStepsAction(sprite, new SequenceAction(), new Formula(Double.NaN));
 		executeTest(moveNStepsAction, 0f, 0);
 	}
 

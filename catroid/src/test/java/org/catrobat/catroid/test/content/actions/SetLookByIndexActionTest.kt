@@ -40,6 +40,7 @@ import org.powermock.api.mockito.PowerMockito.mockStatic
 import org.powermock.core.classloader.annotations.PrepareForTest
 import org.powermock.modules.junit4.PowerMockRunner
 import java.io.File
+import java.lang.NullPointerException
 
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(GdxNativesLoader::class)
@@ -94,7 +95,7 @@ class SetLookByIndexActionTest {
         assertEquals(lookData1, sprite.look.lookData)
     }
 
-    @Test
+    @Test(expected = NullPointerException::class)
     fun testSpriteNull() {
         sprite.actionFactory.createSetLookByIndexAction(null, testSequence, Formula(1)).act(1f)
         assertEquals(lookData1, sprite.look.lookData)

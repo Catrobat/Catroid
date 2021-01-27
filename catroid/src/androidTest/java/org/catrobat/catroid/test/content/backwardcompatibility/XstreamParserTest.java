@@ -23,9 +23,12 @@
 
 package org.catrobat.catroid.test.content.backwardcompatibility;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.StorageOperations;
@@ -139,38 +142,31 @@ public class XstreamParserTest {
 		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 2),
 				scene2.getName());
 
-		assertNotNull(UserDataWrapper.getUserVariable("localVar",
-				scene1.getSprite("SpriteWithLocalVarAndList"), project));
+		Scope scopeLocal = new Scope(project, scene1.getSprite("SpriteWithLocalVarAndList"),
+				new SequenceAction());
+		Scope scopeGlobal = new Scope(project, scene1.getSprite("SpriteWithGlobalVarAndList"),
+				new SequenceAction());
 
-		assertNotNull(UserDataWrapper.getUserList("localList",
-				scene1.getSprite("SpriteWithLocalVarAndList"), project));
+		assertNotNull(UserDataWrapper.getUserVariable("localVar", scopeLocal));
 
-		assertNull(UserDataWrapper.getUserVariable("localVar",
-				scene1.getSprite("SpriteWithGlobalVarAndList"), project));
+		assertNotNull(UserDataWrapper.getUserList("localList", scopeLocal));
 
-		assertNull(UserDataWrapper.getUserList("localList",
-				scene1.getSprite("SpriteWithGlobalVarAndList"), project));
+		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
-		assertNotNull(UserDataWrapper.getUserVariable("globalVar",
-				scene2.getSprite("SpriteWithLocalVarAndList"), project));
+		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
 
-		assertNotNull(UserDataWrapper.getUserList("globalList",
-				scene2.getSprite("SpriteWithLocalVarAndList"), project));
+		assertNotNull(UserDataWrapper.getUserVariable("globalVar", scopeLocal));
 
-		assertNull(UserDataWrapper.getUserVariable("localVar",
-				scene2.getSprite("SpriteWithGlobalVarAndList"), project));
+		assertNotNull(UserDataWrapper.getUserList("globalList", scopeLocal));
 
-		assertNull(UserDataWrapper.getUserList("localList",
-				scene2.getSprite("SpriteWithGlobalVarAndList"), project));
+		assertNull(UserDataWrapper.getUserVariable("localVar", scopeGlobal));
 
-		assertNotSame(UserDataWrapper.getUserVariable("localVar",
-				scene1.getSprite("SpriteWithLocalVarAndList"), project),
-				UserDataWrapper.getUserVariable("globalList",
-						scene2.getSprite("SpriteWithLocalVarAndList"), project));
+		assertNull(UserDataWrapper.getUserList("localList", scopeGlobal));
 
-		assertNotSame(UserDataWrapper.getUserList("localList",
-				scene1.getSprite("SpriteWithLocalVarAndList"), project),
-				UserDataWrapper.getUserList("globalList",
-				scene2.getSprite("SpriteWithLocalVarAndList"), project));
+		assertNotSame(UserDataWrapper.getUserVariable("localVar", scopeLocal),
+				UserDataWrapper.getUserVariable("globalList", scopeLocal));
+
+		assertNotSame(UserDataWrapper.getUserList("localList", scopeLocal),
+				UserDataWrapper.getUserList("globalList", scopeLocal));
 	}
 }

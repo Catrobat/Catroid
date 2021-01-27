@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.content.actions;
 import android.graphics.PointF;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Queue;
 
 import org.catrobat.catroid.content.ActionFactory;
@@ -73,7 +74,7 @@ public class PenDownActionTest {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createChangeXByNAction(sprite, xMovement).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(),	 xMovement).act(1.0f);
 
 		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
 		assertEquals(0f, positions.first().removeFirst().x);
@@ -86,7 +87,8 @@ public class PenDownActionTest {
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		sprite.getActionFactory().createPenDownAction(sprite).act(1.0f);
-		sprite.getActionFactory().createPlaceAtAction(sprite, xMovement, yMovement).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xMovement,
+				yMovement).act(1.0f);
 
 		Queue<Queue<PointF>> positions = sprite.penConfiguration.getPositions();
 		assertEquals(0f, positions.first().removeFirst().x);

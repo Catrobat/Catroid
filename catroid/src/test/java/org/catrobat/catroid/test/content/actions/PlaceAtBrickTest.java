@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.junit.Before;
@@ -57,7 +59,7 @@ public class PlaceAtBrickTest {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createPlaceAtAction(sprite, xPosition, yPosition).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), xPosition, yPosition).act(1.0f);
 		assertEquals(X_POSITION_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
@@ -65,18 +67,20 @@ public class PlaceAtBrickTest {
 	@Test
 	public void testNullSprite() {
 		exception.expect(NullPointerException.class);
-		sprite.getActionFactory().createPlaceAtAction(null, xPosition, yPosition).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(null, new SequenceAction(), xPosition, yPosition).act(1.0f);
 	}
 
 	@Test
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE),
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(),
+				new Formula(Integer.MAX_VALUE),
 				new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE),
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(),
+				new Formula(Integer.MIN_VALUE),
 				new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
@@ -84,12 +88,12 @@ public class PlaceAtBrickTest {
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(String.valueOf(X_POSITION_VALUE)),
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(),new Formula(String.valueOf(X_POSITION_VALUE)),
 				new Formula(String.valueOf(Y_POSITION_VALUE))).act(1.0f);
 		assertEquals(X_POSITION_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(Y_POSITION_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(NOT_NUMERICAL_STRING),
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(),new Formula(NOT_NUMERICAL_STRING),
 				new Formula(String.valueOf(NOT_NUMERICAL_STRING2))).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -97,14 +101,15 @@ public class PlaceAtBrickTest {
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createPlaceAtAction(sprite, null, null).act(1.0f);
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), null, null).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());

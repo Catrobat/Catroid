@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Look;
@@ -63,7 +64,8 @@ public class SetRotationStyleActionTest {
 	public void testNormalMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_ALL_AROUND);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(90));
+		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite,
+				new SequenceAction(), new Formula(90));
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
@@ -74,7 +76,8 @@ public class SetRotationStyleActionTest {
 	public void testNoMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_NONE);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(-90));
+		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite,
+				new SequenceAction(), new Formula(-90));
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);
@@ -86,7 +89,8 @@ public class SetRotationStyleActionTest {
 	public void testLRMode() {
 		ActionFactory factory = sprite.getActionFactory();
 		Action rotationStyleAction = factory.createSetRotationStyleAction(sprite, Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
-		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite, new Formula(-90));
+		Action pointInDirectionAction = factory.createPointInDirectionAction(sprite,
+				new SequenceAction(), new Formula(-90));
 
 		rotationStyleAction.act(1.0f);
 		pointInDirectionAction.act(1.0f);

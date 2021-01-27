@@ -25,14 +25,18 @@ package org.catrobat.catroid.test.content.actions;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.TapAtAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -55,9 +59,6 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest(GdxNativesLoader.class)
 public class TapAtActionTest {
 
-	@Rule
-	public final ExpectedException exception = ExpectedException.none();
-
 	private static final float X_POSITION = 111f;
 	private static final float Y_POSITION = 333f;
 	private static final String NOT_NUMERICAL_STRING = "NOT_NUMERICAL_STRING";
@@ -75,19 +76,22 @@ public class TapAtActionTest {
 
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
 		Mockito.when(StageActivity.stageListener.getStage()).thenReturn(stageMock);
+
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test
 	public void testCreateAction() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createTapAtAction(new Sprite(), xPosition, yPosition);
+		Action action = factory.createTapAtAction(new Sprite(), new SequenceAction(), xPosition, yPosition);
 		assertThat(action, instanceOf(TapAtAction.class));
 	}
 
 	@Test
 	public void testActionCallsStage() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createTapAtAction(new Sprite(), xPosition, yPosition);
+		Action action = factory.createTapAtAction(new Sprite(), new SequenceAction(), xPosition, yPosition);
 
 		Vector2 touchCoords = new Vector2();
 		touchCoords.set(X_POSITION, Y_POSITION);
@@ -105,7 +109,7 @@ public class TapAtActionTest {
 	@Test
 	public void testXNotValid() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createTapAtAction(new Sprite(), notNumericalString, yPosition);
+		Action action = factory.createTapAtAction(new Sprite(), new SequenceAction(), notNumericalString, yPosition);
 
 		Mockito.when(stageMock.stageToScreenCoordinates(any())).thenReturn(new Vector2());
 
@@ -119,7 +123,7 @@ public class TapAtActionTest {
 	@Test
 	public void testYNotValid() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createTapAtAction(new Sprite(), xPosition, notNumericalString);
+		Action action = factory.createTapAtAction(new Sprite(), new SequenceAction(), xPosition, notNumericalString);
 
 		Mockito.when(stageMock.stageToScreenCoordinates(any())).thenReturn(new Vector2());
 

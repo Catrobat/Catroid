@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -32,6 +33,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+import org.mockito.internal.matchers.Null;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -53,14 +55,13 @@ public class ChangeXByNActionTest {
 	@Test
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), new Formula(CHANGE_VALUE)).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
-		Action action = sprite.getActionFactory().createChangeXByNAction(null, new Formula(CHANGE_VALUE));
-		exception.expect(NullPointerException.class);
+		Action action = sprite.getActionFactory().createChangeXByNAction(null, new SequenceAction(), new Formula(CHANGE_VALUE));
 		action.act(1.0f);
 	}
 
@@ -69,33 +70,33 @@ public class ChangeXByNActionTest {
 		int xPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 
 		xPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(xPosition, sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createChangeXByNAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(),null).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createChangeXByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createChangeXByNAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 	}
 }

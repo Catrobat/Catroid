@@ -25,16 +25,21 @@ package org.catrobat.catroid.test.content.actions;
 import android.content.Context;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.CatroidApplication;
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.SpeakAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
 import org.catrobat.catroid.formulaeditor.Formula;
+import org.catrobat.catroid.test.MockUtil;
 import org.catrobat.catroid.test.PowerMockUtil;
 import org.catrobat.catroid.test.utils.Reflection;
 import org.junit.Before;
@@ -73,19 +78,23 @@ public class SpeakActionTest {
 		text = new Formula(666);
 		text2 = new Formula(888.88);
 		textString = new Formula(SPEAK);
+
+
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@Test
 	public void testSpeak() throws Exception {
 		SpeakBrick speakBrick = new SpeakBrick(text);
-		Action action = factory.createSpeakAction(sprite, text);
+		Action action = factory.createSpeakAction(sprite, new SequenceAction(), text);
 		Formula textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
 		assertEquals(text, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
 		assertEquals(text, textAfterExecution);
 
 		speakBrick = new SpeakBrick(text2);
-		action = factory.createSpeakAction(sprite, text);
+		action = factory.createSpeakAction(sprite, new SequenceAction(), text);
 		textAfterExecution = (Formula) Reflection.getPrivateField(action, "text");
 
 		assertEquals(text2, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
@@ -103,7 +112,7 @@ public class SpeakActionTest {
 	@Test
 	public void testBrickWithStringFormula() throws Exception {
 		SpeakBrick speakBrick = new SpeakBrick(textString);
-		Action action = factory.createSpeakAction(sprite, textString);
+		Action action = factory.createSpeakAction(sprite, new SequenceAction(), textString);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals(textString, speakBrick.getFormulaWithBrickField(Brick.BrickField.SPEAK));
@@ -112,7 +121,7 @@ public class SpeakActionTest {
 
 	@Test
 	public void testNullFormula() throws Exception {
-		Action action = factory.createSpeakAction(sprite, null);
+		Action action = factory.createSpeakAction(sprite, new SequenceAction(), null);
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));
@@ -120,7 +129,7 @@ public class SpeakActionTest {
 
 	@Test
 	public void testNotANumberFormula() throws Exception {
-		Action action = factory.createSpeakAction(sprite, new Formula(Double.NaN));
+		Action action = factory.createSpeakAction(sprite, new SequenceAction(), new Formula(Double.NaN));
 		Reflection.invokeMethod(action, "begin");
 
 		assertEquals("", String.valueOf(Reflection.getPrivateField(action, "interpretedText")));

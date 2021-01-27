@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Script;
@@ -179,11 +180,11 @@ public class RepeatActionTest {
 		Sprite sprite = new Sprite("testSprite");
 
 		Action repeatAction = sprite.getActionFactory()
-				.createRepeatAction(sprite, new Formula(0), sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(decoyDeltaY)));
+				.createRepeatAction(sprite, new SequenceAction(), new Formula(0), sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(decoyDeltaY)));
 
 		repeatAction.act(1f);
 
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(expectedDeltaY)).act(1f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(expectedDeltaY)).act(1f);
 
 		int executedCount = (Integer) Reflection.getPrivateField(repeatAction, "executedCount");
 
@@ -209,8 +210,8 @@ public class RepeatActionTest {
 	@Test
 	public void testNullFormula() throws Exception {
 		Sprite testSprite = new Sprite("testSprite");
-		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new Formula(10));
-		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite, null, repeatedAction);
+		Action repeatedAction = testSprite.getActionFactory().createSetXAction(testSprite, new SequenceAction(), new Formula(10));
+		Action repeatAction = testSprite.getActionFactory().createRepeatAction(testSprite,  new SequenceAction(),null, repeatedAction);
 		repeatAction.act(1.0f);
 		Object repeatCountValue = Reflection.getPrivateField(repeatAction, "repeatCountValue");
 		assertEquals(0, repeatCountValue);

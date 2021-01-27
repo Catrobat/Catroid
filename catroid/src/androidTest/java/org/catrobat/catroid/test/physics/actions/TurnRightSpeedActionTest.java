@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -77,7 +78,7 @@ public class TurnRightSpeedActionTest {
 
 	private void initRightSpeedValue(float speed) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(speed));
+		Action action = sprite.getActionFactory().createTurnRightSpeedAction(sprite,  new SequenceAction(),new Formula(speed));
 
 		assertEquals(0.0f, physicsObject.getRotationSpeed());
 
@@ -87,10 +88,10 @@ public class TurnRightSpeedActionTest {
 	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(String.valueOf(SPEED))).act(1.0f);
+		sprite.getActionFactory().createTurnRightSpeedAction(sprite,  new SequenceAction(),new Formula(String.valueOf(SPEED))).act(1.0f);
 		assertEquals(-SPEED, physicsObject.getRotationSpeed());
 
-		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(
+		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new SequenceAction(), new Formula(
 				String.valueOf("not a numerical string"))).act(1.0f);
 		assertEquals(-SPEED, physicsObject.getRotationSpeed());
 	}
@@ -98,14 +99,15 @@ public class TurnRightSpeedActionTest {
 	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createTurnRightSpeedAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new SequenceAction(),null).act(1.0f);
 		assertEquals(-0f, physicsObject.getRotationSpeed());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createTurnRightSpeedAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, physicsObject.getRotationSpeed());
 	}
 }
