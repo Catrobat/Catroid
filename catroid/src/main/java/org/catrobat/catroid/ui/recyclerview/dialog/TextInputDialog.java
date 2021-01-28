@@ -91,8 +91,6 @@ public final class TextInputDialog extends AlertDialog {
 				TextInputLayout textInputLayout = alertDialog.findViewById(R.id.input);
 				EditText editText = textInputLayout.getEditText();
 				textInputLayout.setHint(hint);
-				editText.setText(text);
-				editText.selectAll();
 
 				if (textWatcher != null) {
 					textInputLayout.getEditText().addTextChangedListener(textWatcher);
@@ -100,6 +98,9 @@ public final class TextInputDialog extends AlertDialog {
 					textWatcher.setButton(alertDialog.getButton(AlertDialog.BUTTON_POSITIVE));
 					textWatcher.setContext(getContext());
 				}
+
+				editText.setText(text);
+				editText.selectAll();
 				ViewUtils.showKeyboard(editText);
 			});
 			return alertDialog;

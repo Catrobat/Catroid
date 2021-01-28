@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -24,7 +24,6 @@ package org.catrobat.catroid.ui.recyclerview.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -34,6 +33,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.web.GlobalProjectDownloadQueue;
@@ -42,7 +42,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
-import androidx.annotation.IdRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
@@ -86,33 +85,30 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 
 			@Override
 			protected boolean isNameUnique(String name) {
-				return projectExistsInDirectory(name) || GlobalProjectDownloadQueue.INSTANCE.getQueue().alreadyInQueue(name);
+				return !projectExistsInDirectory(name) && !GlobalProjectDownloadQueue.INSTANCE.getQueue().alreadyInQueue(name);
 			}
 		};
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setText(programName)
 				.setTextWatcher(textWatcher)
-				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
-					@Override
-					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
-						Context context = getContext();
-						if (context == null) {
-							return;
-						}
+				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
+					Context context = getContext();
+					if (context == null) {
+						return;
+					}
 
-						switch (radioGroup.getCheckedRadioButtonId()) {
-							case R.id.rename:
-								downloader.downloadOverwriteExistingProject(context, textInput);
-								break;
-							case R.id.replace:
+					switch (radioGroup.getCheckedRadioButtonId()) {
+						case R.id.rename:
+							downloader.downloadOverwriteExistingProject(context, textInput);
+							break;
+						case R.id.replace:
 
-								ProjectManager.getInstance().setCurrentProject(null);
-								downloader.downloadOverwriteExistingProject(context, textInput);
-								break;
-							default:
-								throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
-						}
+							ProjectManager.getInstance().setCurrentProject(null);
+							downloader.downloadOverwriteExistingProject(context, textInput);
+							break;
+						default:
+							throw new IllegalStateException(TAG + ": Cannot find RadioButton.");
 					}
 				});
 
@@ -122,20 +118,19 @@ public class ReplaceExistingProjectDialogFragment extends DialogFragment {
 				.setNegativeButton(R.string.notification_download_project_cancel, null)
 				.create();
 
-		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-				switch (checkedId) {
-					case R.id.replace:
-						inputLayout.setVisibility(TextView.GONE);
-						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
-						break;
-					case R.id.rename:
-						inputLayout.setVisibility(TextView.VISIBLE);
-						alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-								.setEnabled(textWatcher.validateInput(inputLayout.getEditText().toString(), getContext()) == null);
-						break;
-				}
+		radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+			switch (checkedId) {
+				case R.id.replace:
+					inputLayout.setVisibility(TextView.GONE);
+					ViewUtils.hideKeyboard(inputLayout.getEditText());
+					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+					break;
+				case R.id.rename:
+					inputLayout.setVisibility(TextView.VISIBLE);
+					ViewUtils.showKeyboard(inputLayout.getEditText());
+					alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+							.setEnabled(textWatcher.validateInput(inputLayout.getEditText().getText().toString(), getContext()) == null);
+					break;
 			}
 		});
 
