@@ -699,10 +699,9 @@ public class ScriptFragment extends ListFragment implements
 		}
 
 		int scriptIndex = -1;
-
 		int firstVisible = listView.getFirstVisiblePosition();
 
-		if (firstVisible >= 0) {
+		if (listView.getCount() > 0 && firstVisible >= 0) {
 			Object firstBrick = listView.getItemAtPosition(firstVisible);
 			if (firstBrick instanceof Brick) {
 				Script scriptOfBrick = ((Brick) firstBrick).getScript();
