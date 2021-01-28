@@ -237,7 +237,7 @@ public class SpriteActivity extends BaseActivity {
 			setUndoMenuItemVisibility(false);
 			showUndoMenuItem(isUndoMenuItemVisible);
 			Fragment fragment = getCurrentFragment();
-			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo()) {
+			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo() && currentLookData != null) {
 				((LookListFragment) fragment).deleteItem(currentLookData);
 				currentLookData.dispose();
 				currentLookData = null;

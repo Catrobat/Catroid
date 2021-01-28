@@ -159,6 +159,11 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	public void onDestroy() {
 		super.onDestroy();
 		disposeItem();
+		Activity activity = getActivity();
+		if (activity instanceof SpriteActivity) {
+			((SpriteActivity) activity).setUndoMenuItemVisibility(false);
+			((SpriteActivity) activity).showUndoMenuItem(false);
+		}
 	}
 
 	@Override
