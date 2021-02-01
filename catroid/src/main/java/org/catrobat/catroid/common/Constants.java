@@ -122,11 +122,16 @@ public final class Constants {
 	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
+	public static final String CATROBAT_FORMULA_WIKI_URL = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
+	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
+	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";
+	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Properties/";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
