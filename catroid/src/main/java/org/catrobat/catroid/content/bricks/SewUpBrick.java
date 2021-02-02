@@ -37,7 +37,6 @@ public class SewUpBrick extends FormulaBrick {
 	public int getViewResource() {
 		return R.layout.brick_sew_up;
 	}
-
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory().createSewUpAction(sprite));
