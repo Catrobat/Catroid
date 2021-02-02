@@ -21,16 +21,19 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settingsfragments.ThemesFragment">
+    android:orientation="vertical"
+    tools:context=".ui.ThemesActivity">
 
-<RadioGroup
-    android:id="@+id/radio_group_themes"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <include layout="@layout/toolbar" />
+
+    <RadioGroup
+        android:id="@+id/radio_group_themes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <RadioButton
         android:id="@+id/theme_catroid_classic"
@@ -56,4 +59,4 @@
 
 </RadioGroup>
 
-</FrameLayout>
+</LinearLayout>

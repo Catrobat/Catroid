@@ -44,6 +44,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.ui.MainMenuActivity;
+import org.catrobat.catroid.ui.ThemesActivity;
 import org.catrobat.catroid.utils.SnackbarUtil;
 
 import java.util.ArrayList;
@@ -206,11 +207,12 @@ public class SettingsFragment extends PreferenceFragment {
 						.commit();
 				break;
 			case SWITCH_THEME:
-				getFragmentManager().beginTransaction()
-						.replace(R.id.content_frame, new ThemesFragment(),
-								ThemesFragment.TAG)
-						.addToBackStack(ThemesFragment.TAG)
-						.commit();
+				startActivity(new Intent(getActivity(), ThemesActivity.class));
+//				getFragmentManager().beginTransaction()
+//						.replace(R.id.content_frame, new ThemesFragment(),
+//								ThemesFragment.TAG)
+//						.addToBackStack(ThemesFragment.TAG)
+//						.commit();
 				break;
 			case NXT_SCREEN_KEY:
 				getFragmentManager().beginTransaction()

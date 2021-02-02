@@ -2074,5 +2074,7 @@ needs read and write access to it. You can always change permissions through you
 
     <string name="preference_title_theme">Themes</string>
     <string name="preference_description_theme">Choose a theme for Catroid</string>
+    <string name="theme_name_classic">Classic</string>
+    <string name="theme_name_light">Light</string>
 
 </resources>

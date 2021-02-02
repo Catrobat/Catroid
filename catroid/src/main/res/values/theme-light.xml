@@ -47,7 +47,7 @@
         <item name="button_border_top">#4D7F8F</item>
 
         <!-- Accent Colors -->
-        <item name="accent">#000000</item>
+        <item name="accent">#17a5b8</item>
         <item name="brick_field_highlight">#33B5E5</item>
         <item name="image_view_border">?attr/accent</item>
         <item name="snackbar">#FF33B5E5</item>
@@ -82,8 +82,8 @@
         <item name="beta_label_color">#FF7700</item>
 
         <!-- Icon Colors -->
-        <item name="landing_page_icons">?attr/accent</item>
-        <item name="project_icons">?attr/accent</item>
+        <item name="landing_page_icons">@color/solid_black</item>
+        <item name="project_icons">@color/solid_black</item>
         <item name="stage_icons_pressed">#e3f9fd</item>
 
         <!-- override the color of ColorPickerPreviewActivity toolbar -->
