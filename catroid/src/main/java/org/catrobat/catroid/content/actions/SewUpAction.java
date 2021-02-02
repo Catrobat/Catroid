@@ -62,7 +62,6 @@ public class SewUpAction extends TemporalAction {
 		y += STEPS * Math.cos(radians);
 		StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
 				sprite.look.getZIndex(), sprite));
-
 		sprite.runningStitch.setStartCoordinates(sprite.look.getXInUserInterfaceDimensionUnit(),
 				sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.runningStitch.resume();
