@@ -71,7 +71,6 @@ public class SewUpAction extends TemporalAction {
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
-
 	@Override
 	protected void update(float delta) {
 	}
