@@ -67,7 +67,6 @@ public class SewUpAction extends TemporalAction {
 				sprite.look.getYInUserInterfaceDimensionUnit());
 		sprite.runningStitch.resume();
 	}
-
 	public void setSprite(Sprite sprite) {
 		this.sprite = sprite;
 	}
