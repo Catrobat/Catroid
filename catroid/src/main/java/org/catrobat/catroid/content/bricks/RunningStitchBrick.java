@@ -44,7 +44,6 @@ public class RunningStitchBrick extends FormulaBrick {
 	public BrickField getDefaultBrickField() {
 		return BrickField.EMBROIDERY_LENGTH;
 	}
-
 	@Override
 	public int getViewResource() {
 		return R.layout.brick_running_stitch_with_length;
