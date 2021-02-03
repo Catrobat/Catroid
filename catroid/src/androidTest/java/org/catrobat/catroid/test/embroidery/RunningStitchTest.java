@@ -51,7 +51,6 @@ public class RunningStitchTest {
 		runningStitchType = Mockito.mock(RunningStitchType.class);
 		runningStitch = new RunningStitch();
 	}
-
 	@Test
 	public void testActivateRunningStitch() {
 		runningStitch.activateStitching(sprite, runningStitchType);
