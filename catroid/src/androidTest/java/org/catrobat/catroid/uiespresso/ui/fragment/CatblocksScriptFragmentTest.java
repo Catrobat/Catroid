@@ -74,6 +74,7 @@ public class CatblocksScriptFragmentTest {
 
 	@After
 	public void tearDown() {
+		SettingsFragment.setUseCatBlocks(ApplicationProvider.getApplicationContext(), false);
 		baseActivityTestRule.getActivity().finish();
 	}
 
