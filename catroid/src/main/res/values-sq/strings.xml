@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Kopjo</string>
+    <string name="menu_item_copy">Kopjo</string>
     <string name="delete">Fshije</string>
     <string name="rename">Riemërto</string>
     <string name="merge">Merge</string>

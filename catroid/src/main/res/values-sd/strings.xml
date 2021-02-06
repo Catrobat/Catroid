@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">بيڪ پيڪ</string>
-    <string name="copy">ڪاپي</string>
+    <string name="menu_item_copy">ڪاپي</string>
     <string name="delete">ختم ڪيو</string>
     <string name="rename">نالو ماٽيو</string>
     <string name="merge">Merge</string>

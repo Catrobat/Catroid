@@ -305,7 +305,7 @@
     <string name="list_headline_sprites">Atores e objetos</string>
     <!-- Options Menu Options -->
     <string name="backpack">Mochila</string>
-    <string name="copy">Copiar</string>
+    <string name="menu_item_copy">Copiar</string>
     <string name="delete">Apagar</string>
     <string name="rename">Mudar nome</string>
     <string name="merge">Mesclar</string>

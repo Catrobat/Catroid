@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">ಬ್ಯಾಕ್ ಪ್ಯಾಕ್</string>
-    <string name="copy">ನಕಲಿಸಿ</string>
+    <string name="menu_item_copy">ನಕಲಿಸಿ</string>
     <string name="delete">ಅಳಿಸಿ</string>
     <string name="rename">ಮರುಹೆಸರಿಸಿ</string>
     <string name="merge">Merge</string>

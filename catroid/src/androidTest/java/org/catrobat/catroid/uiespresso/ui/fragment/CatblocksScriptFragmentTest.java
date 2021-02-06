@@ -92,7 +92,7 @@ public class CatblocksScriptFragmentTest {
 
 		onView(withText(R.string.undo)).check(doesNotExist());
 		onView(withText(R.string.backpack)).check(doesNotExist());
-		onView(withText(R.string.copy)).check(doesNotExist());
+		onView(withText(R.string.menu_item_copy)).check(doesNotExist());
 		onView(withText(R.string.delete)).check(doesNotExist());
 		onView(withText(R.string.rename)).check(doesNotExist());
 		onView(withText(R.string.show_details)).check(doesNotExist());
@@ -105,7 +105,7 @@ public class CatblocksScriptFragmentTest {
 		onView(withText(R.string.catblocks_reorder)).check(doesNotExist());
 
 		onView(withText(R.string.backpack)).check(matches(isDisplayed()));
-		onView(withText(R.string.copy)).check(matches(isDisplayed()));
+		onView(withText(R.string.menu_item_copy)).check(matches(isDisplayed()));
 		onView(withText(R.string.comment_in_out)).check(matches(isDisplayed()));
 		onView(withText(R.string.catblocks)).check(matches(isDisplayed()));
 	}

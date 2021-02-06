@@ -304,7 +304,7 @@
     <string name="list_headline_sprites">Actors и objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ранац</string>
-    <string name="copy">Копирај</string>
+    <string name="menu_item_copy">Копирај</string>
     <string name="delete">Обриши</string>
     <string name="rename">Преименуј</string>
     <string name="merge">Обједини</string>

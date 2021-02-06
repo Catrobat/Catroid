@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Hátizsák</string>
-    <string name="copy">Másolás</string>
+    <string name="menu_item_copy">Másolás</string>
     <string name="delete">Törlés</string>
     <string name="rename">Átnevezés</string>
     <string name="merge">Merge</string>

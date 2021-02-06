@@ -302,7 +302,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="list_headline_sprites">Aktorzy i obiekty</string>
     <!-- Options Menu Options -->
     <string name="backpack">Plecak</string>
-    <string name="copy">Kopiuj</string>
+    <string name="menu_item_copy">Kopiuj</string>
     <string name="delete">Usuń</string>
     <string name="rename">Zmień nazwę</string>
     <string name="merge">Scal</string>

@@ -287,7 +287,7 @@
     <string name="list_headline_sprites">Актерлер мен объектілер</string>
     <!-- Options Menu Options -->
     <string name="backpack">Рюкзак</string>
-    <string name="copy">Көшіру</string>
+    <string name="menu_item_copy">Көшіру</string>
     <string name="delete">Жою</string>
     <string name="rename">Атын өзгерту</string>
     <string name="merge">Біріктіру</string>

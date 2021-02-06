@@ -305,7 +305,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">बैग</string>
-    <string name="copy">प्रतिलिपि बनाएँ</string>
+    <string name="menu_item_copy">प्रतिलिपि बनाएँ</string>
     <string name="delete">मिटायें</string>
     <string name="rename">नाम बदलिए</string>
     <string name="merge">Merge</string>

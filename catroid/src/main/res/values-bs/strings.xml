@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Učesnici i objekti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ruksak</string>
-    <string name="copy">Kopirati</string>
+    <string name="menu_item_copy">Kopirati</string>
     <string name="delete">obriši</string>
     <string name="rename">Preimenovati</string>
     <string name="merge">Merge</string>

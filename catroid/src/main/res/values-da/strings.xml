@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Kopiér</string>
+    <string name="menu_item_copy">Kopiér</string>
     <string name="delete">Slet</string>
     <string name="rename">Omdøb</string>
     <string name="merge">Merge</string>

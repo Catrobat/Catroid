@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">പകര്‍പ്പ്‌</string>
+    <string name="menu_item_copy">പകര്‍പ്പ്‌</string>
     <string name="delete">ഒഴിവാക്കുക</string>
     <string name="rename">പോക്കറ്റ് കോഡ്</string>
     <string name="merge">Merge</string>

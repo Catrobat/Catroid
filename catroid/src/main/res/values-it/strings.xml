@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Attori ed oggetti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Zaino</string>
-    <string name="copy">Copiare</string>
+    <string name="menu_item_copy">Copiare</string>
     <string name="delete">Eliminare</string>
     <string name="rename">Rinomina</string>
     <string name="merge">Unisci</string>

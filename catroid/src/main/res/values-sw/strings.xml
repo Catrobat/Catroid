@@ -302,7 +302,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Mkoba</string>
-    <string name="copy">Nakili</string>
+    <string name="menu_item_copy">Nakili</string>
     <string name="delete">Futa</string>
     <string name="rename">Ita jina jipya</string>
     <string name="merge">Merge</string>

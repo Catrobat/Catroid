@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Bel çantası</string>
-    <string name="copy">Surətini çıxar</string>
+    <string name="menu_item_copy">Surətini çıxar</string>
     <string name="delete">Sil</string>
     <string name="rename">Adını dəyiş</string>
     <string name="merge">Merge</string>

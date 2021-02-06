@@ -96,7 +96,7 @@ public class CopySceneTest {
 	@Test
 	public void copySceneTest() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy))
+		onView(withText(R.string.menu_item_copy))
 				.perform(click());
 
 		onRecyclerView().atPosition(0)

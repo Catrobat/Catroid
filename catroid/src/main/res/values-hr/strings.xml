@@ -307,7 +307,7 @@
     <string name="list_headline_sprites">Likovi i objekti</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ostava</string>
-    <string name="copy">Kopirati</string>
+    <string name="menu_item_copy">Kopirati</string>
     <string name="delete">Izbrisati</string>
     <string name="rename">Preimenovati</string>
     <string name="merge">Spoji</string>

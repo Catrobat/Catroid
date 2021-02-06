@@ -80,7 +80,7 @@ public class CopyLookTest {
 	@Test
 	public void copyLookTest() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.menu_item_copy)).perform(click());
 
 		onRecyclerView().atPosition(0)
 			.performCheckItem();

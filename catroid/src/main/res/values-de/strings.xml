@@ -302,7 +302,7 @@
     <string name="list_headline_sprites">Figuren und Objekte</string>
     <!-- Options Menu Options -->
     <string name="backpack">Rucksack</string>
-    <string name="copy">Kopieren</string>
+    <string name="menu_item_copy">Kopieren</string>
     <string name="delete">Löschen</string>
     <string name="rename">Umbenennen</string>
     <string name="merge">Zusammenführen</string>

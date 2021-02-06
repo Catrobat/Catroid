@@ -322,7 +322,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">העתק</string>
+    <string name="menu_item_copy">העתק</string>
     <string name="delete">מחק</string>
     <string name="rename">שנה שם</string>
     <string name="merge">Merge</string>

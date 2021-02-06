@@ -38,7 +38,7 @@ public class SettingsActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.preference);
+		setContentView(R.layout.activity_settings);
 
 		getFragmentManager().beginTransaction()
 				.replace(R.id.content_frame, new SettingsFragment())

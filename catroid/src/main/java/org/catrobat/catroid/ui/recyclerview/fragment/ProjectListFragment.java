@@ -383,7 +383,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onItemLongClick(final ProjectData item, CheckableVH holder) {
 		CharSequence[] items = new CharSequence[] {
-				getString(R.string.copy),
+				getString(R.string.menu_item_copy),
 				getString(R.string.delete),
 				getString(R.string.rename),
 				getString(R.string.show_details),

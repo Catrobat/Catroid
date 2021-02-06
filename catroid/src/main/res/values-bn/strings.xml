@@ -289,7 +289,7 @@
     <string name="list_headline_sprites">অভিনেতা এবং অবজেক্টস</string>
     <!-- Options Menu Options -->
     <string name="backpack">ব্যাকপ্যাক</string>
-    <string name="copy">অনুলিপি</string>
+    <string name="menu_item_copy">অনুলিপি</string>
     <string name="delete">মুছুন</string>
     <string name="rename">নাম পরিবর্তন</string>
     <string name="merge">একত্রীকরণ</string>

@@ -319,7 +319,7 @@
     <string name="list_headline_sprites">Актеры и объекты</string>
     <!-- Options Menu Options -->
     <string name="backpack">Рюкзак</string>
-    <string name="copy">Копировать</string>
+    <string name="menu_item_copy">Копировать</string>
     <string name="delete">Удалить</string>
     <string name="rename">Переименовать</string>
     <string name="merge">Объединить</string>

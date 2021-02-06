@@ -279,7 +279,7 @@
     <string name="list_headline_sprites">배우와 오브젝트</string>
     <!-- Options Menu Options -->
     <string name="backpack">스크립트 모음</string>
-    <string name="copy">복사하기</string>
+    <string name="menu_item_copy">복사하기</string>
     <string name="delete">삭제하기</string>
     <string name="rename">이름 바꾸기</string>
     <string name="merge">병합</string>

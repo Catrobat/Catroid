@@ -314,7 +314,7 @@
     <string name="list_headline_sprites">أشكال و عناصر</string>
     <!-- Options Menu Options -->
     <string name="backpack">حقيبة الظهر</string>
-    <string name="copy">نسخ</string>
+    <string name="menu_item_copy">نسخ</string>
     <string name="delete">حذف</string>
     <string name="rename">إعادة تسمية</string>
     <string name="merge">Merge</string>

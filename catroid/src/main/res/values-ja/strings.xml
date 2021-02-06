@@ -294,7 +294,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">バックパック</string>
-    <string name="copy">コピー</string>
+    <string name="menu_item_copy">コピー</string>
     <string name="delete">削除</string>
     <string name="rename">名前の変更</string>
     <string name="merge">Merge</string>

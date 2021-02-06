@@ -31,7 +31,7 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/copy"
-        android:title="@string/copy"
+        android:title="@string/menu_item_copy"
         app:showAsAction="never" />
     <item
         android:id="@+id/delete"

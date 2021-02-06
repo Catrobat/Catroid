@@ -306,7 +306,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Motxilla</string>
-    <string name="copy">Copia</string>
+    <string name="menu_item_copy">Copia</string>
     <string name="delete">Elimina</string>
     <string name="rename">Canvia el nom</string>
     <string name="merge">Merge</string>

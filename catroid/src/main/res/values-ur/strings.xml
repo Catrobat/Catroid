@@ -300,7 +300,7 @@
     <string name="list_headline_sprites">اداکار اور آبجیکٹ</string>
     <!-- Options Menu Options -->
     <string name="backpack">بستہ</string>
-    <string name="copy">نقل بنائین</string>
+    <string name="menu_item_copy">نقل بنائین</string>
     <string name="delete">خارج کر دیں</string>
     <string name="rename">نام تبدیل کریں</string>
     <string name="merge">Merge</string>

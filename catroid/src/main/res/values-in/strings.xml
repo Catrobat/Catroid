@@ -298,7 +298,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Ransel</string>
-    <string name="copy">Salin</string>
+    <string name="menu_item_copy">Salin</string>
     <string name="delete">Hapus</string>
     <string name="rename">Menamai ulang</string>
     <string name="merge">Merge</string>

@@ -297,7 +297,7 @@
     <string name="list_headline_sprites">நடிகர்களும் பொருட்களும்</string>
     <!-- Options Menu Options -->
     <string name="backpack">முதுகுப்பை</string>
-    <string name="copy">நகல்</string>
+    <string name="menu_item_copy">நகல்</string>
     <string name="delete">அழித்துவிடு</string>
     <string name="rename">மறுபெயர்</string>
     <string name="merge">ஒன்றுசேர்</string>

@@ -322,7 +322,7 @@
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Nahrbtnik</string>
-    <string name="copy">kopija</string>
+    <string name="menu_item_copy">kopija</string>
     <string name="delete">izbriši</string>
     <string name="rename">Preimenuj</string>
     <string name="merge">Merge</string>

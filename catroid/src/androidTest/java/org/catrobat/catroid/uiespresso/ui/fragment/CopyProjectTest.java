@@ -89,7 +89,7 @@ public class CopyProjectTest {
 	@Test
 	public void copyProjectTest() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.menu_item_copy)).perform(click());
 
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
@@ -108,7 +108,7 @@ public class CopyProjectTest {
 	@Test
 	public void copyCopiedProjectsTest() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.menu_item_copy)).perform(click());
 
 		onRecyclerView().atPosition(0)
 				.performCheckItem();
@@ -117,7 +117,7 @@ public class CopyProjectTest {
 				.perform(click());
 
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText(R.string.copy)).perform(click());
+		onView(withText(R.string.menu_item_copy)).perform(click());
 
 		onRecyclerView().atPosition(0)
 				.performCheckItem();

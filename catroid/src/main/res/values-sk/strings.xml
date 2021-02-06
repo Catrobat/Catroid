@@ -318,7 +318,7 @@
     <string name="list_headline_sprites">Objekty</string>
     <!-- Options Menu Options -->
     <string name="backpack">Batoh</string>
-    <string name="copy">Kopírovať</string>
+    <string name="menu_item_copy">Kopírovať</string>
     <string name="delete">Vymazať</string>
     <string name="rename">Premenovať</string>
     <string name="merge">Merge</string>
