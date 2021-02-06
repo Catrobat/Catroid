@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,8 +46,8 @@ public class TextBlockFunctionProvider implements FunctionProvider {
 
 	public void checkTextDetectionEnabled() {
 		CameraManager cameraManager = StageActivity.getActiveCameraManager();
-		if (cameraManager != null && !cameraManager.getTextDetectionOn()) {
-			new Handler(Looper.getMainLooper()).post(() -> cameraManager.startTextDetection());
+		if (cameraManager != null && !cameraManager.getDetectionOn()) {
+			new Handler(Looper.getMainLooper()).post(() -> cameraManager.startDetection());
 		}
 	}
 
