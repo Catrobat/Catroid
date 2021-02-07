@@ -112,6 +112,12 @@
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
+
+    <string name="main_menu_category_recent">Newest projects</string>
+    <string name="main_menu_category_scratch_remixes">Scratch remixes</string>
+    <string name="main_menu_category_random">Random projects</string>
+    <string name="main_menu_category_most_viewed">Most viewed</string>
+    <string name="main_menu_category_most_downloaded">Most downloaded</string>
     <!--  -->
 
     <!-- Marketing activity -->

@@ -27,6 +27,7 @@ import android.app.Application
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.retrofit.CatroidWebServer
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
+import org.catrobat.catroid.ui.recyclerview.viewmodel.CategoriesViewModel
 import org.catrobat.catroid.ui.recyclerview.viewmodel.FeaturedProjectsViewModel
 import org.catrobat.catroid.ui.recyclerview.viewmodel.ProjectsViewModel
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
@@ -50,6 +51,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
 val viewModelModules = module {
     viewModel { ProjectsViewModel() }
     viewModel { FeaturedProjectsViewModel(get()) }
+    viewModel { CategoriesViewModel(get()) }
 }
 
 val repositoryModules = module {

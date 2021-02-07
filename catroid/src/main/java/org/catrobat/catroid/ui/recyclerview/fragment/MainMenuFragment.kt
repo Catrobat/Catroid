@@ -24,6 +24,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
+import kotlinx.android.synthetic.main.landing_page.categoriesLayout
 import kotlinx.android.synthetic.main.landing_page.editProject
 import kotlinx.android.synthetic.main.landing_page.featuredProjectsRecyclerView
 import kotlinx.android.synthetic.main.landing_page.featuredProjectsTextView
@@ -59,8 +61,10 @@ import org.catrobat.catroid.ui.recyclerview.ProjectListener
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.HorizontalProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.NewProjectDialogFragment
+import org.catrobat.catroid.ui.recyclerview.viewmodel.CategoriesViewModel
 import org.catrobat.catroid.ui.recyclerview.viewmodel.FeaturedProjectsViewModel
 import org.catrobat.catroid.ui.recyclerview.viewmodel.ProjectsViewModel
+import org.catrobat.catroid.ui.view.ShareCategoryView
 import org.catrobat.catroid.utils.FileMetaDataExtractor
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.catrobat.catroid.utils.ProjectDownloadUtil.setFragment
@@ -81,6 +85,7 @@ class MainMenuFragment : Fragment(),
     private lateinit var projectsAdapter: HorizontalProjectsAdapter
     private val projectVM: ProjectsViewModel by viewModel()
     private val featuredProjectVM: FeaturedProjectsViewModel by viewModel()
+    private val categoriesViewModel : CategoriesViewModel by viewModel()
     private val connectionMonitor: NetworkConnectionMonitor by inject()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
 
@@ -106,8 +111,25 @@ class MainMenuFragment : Fragment(),
 
         setupProjectsRV()
         setupFeaturedProjectsRV()
+        setUpShareCategories()
 
         setShowProgressBar(false)
+    }
+
+    private fun setUpShareCategories() {
+        categoriesViewModel.getShareCategories().observe(viewLifecycleOwner, Observer{
+            Log.e(javaClass.simpleName, "values $it")
+            it.forEachIndexed { index, shareCategory ->
+                Log.e(javaClass.simpleName, "index: $index values $shareCategory")
+                ShareCategoryView(requireContext()).apply {
+                    setShareCategory(shareCategory)
+                    setCallback(this@MainMenuFragment)
+                    id = index
+                }.let { view->
+                    categoriesLayout.addView(view)
+                }
+            }
+        })
     }
 
     private fun setupProjectsRV() {
@@ -128,6 +150,7 @@ class MainMenuFragment : Fragment(),
     private fun setupFeaturedProjectsRV() {
         connectionMonitor.observe(viewLifecycleOwner, Observer {
             noInternetLayout.setVisibleOrGone(it.not())
+            categoriesLayout.setVisibleOrGone(it)
             featuredProjectsRecyclerView.setVisibleOrGone(it)
             featuredProjectsTextView.isEnabled = it
             if (it) {

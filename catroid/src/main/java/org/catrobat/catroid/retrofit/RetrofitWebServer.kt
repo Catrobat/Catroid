@@ -26,6 +26,7 @@ package org.catrobat.catroid.retrofit
 import okhttp3.ConnectionSpec
 import okhttp3.OkHttpClient
 import org.catrobat.catroid.common.FlavoredConstants.FLAVOR_NAME
+import org.catrobat.catroid.retrofit.models.ShareProject
 import org.catrobat.catroid.retrofit.models.FeaturedProject
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -41,6 +42,14 @@ interface WebService {
         @Query("limit") limit: Int = 20,
         @Query("offset") offset: Int = 0
     ): Call<List<FeaturedProject>>
+
+    @GET("projects")
+    fun getProjectCategory(
+        @Query("category") category: String,
+        @Query("flavor") flavor: String = FLAVOR_NAME,
+        @Query("limit") limit: Int = 10,
+        @Query("offset") offset: Int = 0
+    ) : Call<List<ShareProject>>
 }
 
 class CatroidWebServer private constructor() {

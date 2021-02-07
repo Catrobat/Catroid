@@ -172,6 +172,12 @@
 
                 </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/categoriesLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
             </LinearLayout>
         </ScrollView>
 
