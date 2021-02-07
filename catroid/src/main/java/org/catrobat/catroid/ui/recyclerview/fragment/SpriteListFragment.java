@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 
 public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
@@ -125,6 +127,8 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 			Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 			title = currentProject.getName() + ": " + currentScene.getName();
 		}
+		PreferenceManager.getDefaultSharedPreferences(getContext()).edit()
+				.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
 
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(title);
 	}
@@ -159,7 +163,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
 		List<Sprite> groups = adapter.getItems();
 		List<String> groupNames = new ArrayList<>();
-		for (Sprite sprite: groups) {
+		for (Sprite sprite : groups) {
 			groupNames.add(sprite.getName());
 		}
 		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();

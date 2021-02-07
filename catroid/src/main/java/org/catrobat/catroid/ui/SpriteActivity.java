@@ -27,6 +27,7 @@ import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -93,6 +94,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BACKGROUNDS_URL_PORTRAIT;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_SOUNDS_URL;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.getTabPositionInSpriteActivity;
@@ -829,6 +831,9 @@ public class SpriteActivity extends BaseActivity {
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 					boolean addToMultiplayerData = multiplayerRadioButton.isChecked();
+
+					PreferenceManager.getDefaultSharedPreferences(this).edit()
+							.putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false).apply();
 
 					if (makeListCheckBox.isChecked()) {
 						UserList userList = new UserList(textInput);

@@ -40,6 +40,7 @@ public class UserDefinedBrickInput extends UserDefinedBrickData implements Seria
 	@XStreamAlias("input")
 	private InputFormulaField name;
 	private transient Formula value;
+	private int initialIndex = -1;
 
 	public UserDefinedBrickInput(String input) {
 		this.name = new InputFormulaField(input);
@@ -60,6 +61,14 @@ public class UserDefinedBrickInput extends UserDefinedBrickData implements Seria
 
 	@Override
 	public void setName(String name) {
+	}
+
+	public int getInitialIndex() {
+		return initialIndex;
+	}
+
+	public void setInitialIndex(int initialIndex) {
+		this.initialIndex = initialIndex;
 	}
 
 	public InputFormulaField getInputFormulaField() {

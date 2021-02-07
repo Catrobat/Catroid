@@ -57,7 +57,7 @@
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    
+
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
 
@@ -2099,6 +2099,8 @@ needs read and write access to it. You can always change permissions through you
     data is turned on.</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">Sort</string>
     <string name="category_recently_used">Recently used</string>
     <string name="new_sprite_dialog_place_visually">Place visually</string>
     <string name="place_visually_text">You will be asked to place the new actor or object on the

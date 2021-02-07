@@ -24,9 +24,11 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +42,12 @@ import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
 import kotlinx.android.synthetic.main.fragment_list_view.view.empty_view
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
+import org.catrobat.catroid.common.SharedPreferenceKeys.INDEXING_VARIABLE_PREFERENCE_KEY
+import org.catrobat.catroid.common.SharedPreferenceKeys.SORT_VARIABLE_PREFERENCE_KEY
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserData
+import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
@@ -54,6 +59,7 @@ import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
 import org.catrobat.catroid.utils.UserDataUtil.renameUserData
 import java.util.ArrayList
+import java.util.Collections
 
 class DataListFragment : Fragment(),
     ActionMode.Callback, RVAdapter.SelectionListener,
@@ -68,6 +74,8 @@ class DataListFragment : Fragment(),
     private var formulaEditorDataInterface: FormulaEditorDataInterface? = null
     private var parentScriptBrick: ScriptBrick? = null
     private var emptyView: TextView? = null
+    private var sortData = false
+    private var indexVariable = false
 
     @ActionModeType
     var actionModeType = NONE
@@ -162,6 +170,7 @@ class DataListFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
+        initializeAdapter()
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
         adapter?.apply {
             notifyDataSetChanged()
@@ -185,7 +194,8 @@ class DataListFragment : Fragment(),
     }
 
     private fun initializeAdapter() {
-        arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT).let { parentScriptBrick = it as ScriptBrick? }
+        arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT)
+            .let { parentScriptBrick = it as ScriptBrick? }
 
         val currentProject =
             ProjectManager.getInstance().currentProject
@@ -194,7 +204,8 @@ class DataListFragment : Fragment(),
 
         var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
         if (parentScriptBrick is UserDefinedReceiverBrick) {
-            userDefinedBrickInputs = (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
+            userDefinedBrickInputs =
+                (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
         }
 
         val globalVars = currentProject.userVariables
@@ -202,12 +213,129 @@ class DataListFragment : Fragment(),
         val multiplayerVars = currentProject.multiplayerVariables
         val globalLists = currentProject.userLists
         val localLists = currentSprite.userLists
+
+        indexVariable = PreferenceManager.getDefaultSharedPreferences(
+            context
+        ).getBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, false)
+
+        if (!indexVariable) {
+            initialIndexing(
+                userDefinedBrickInputs,
+                globalVars,
+                localVars,
+                multiplayerVars,
+                globalLists,
+                localLists
+            )
+            indexVariable = true
+            PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                .putBoolean(INDEXING_VARIABLE_PREFERENCE_KEY, indexVariable).apply()
+        }
+
+        sortData = PreferenceManager.getDefaultSharedPreferences(
+            context
+        ).getBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
+
+        if (sortData) {
+            Collections.sort(userDefinedBrickInputs) { item1:
+            UserDefinedBrickInput, item2: UserDefinedBrickInput ->
+                item1.name.compareTo(item2.name)
+            }
+            Collections.sort(multiplayerVars, fun(item1: UserVariable, item2: UserVariable): Int {
+                return item1.name.compareTo(item2.name)
+            })
+            Collections.sort(globalVars, fun(item1: UserVariable, item2: UserVariable): Int {
+                return item1.name.compareTo(item2.name)
+            })
+            Collections.sort(localVars, fun(item1: UserVariable, item2: UserVariable): Int {
+                return item1.name.compareTo(item2.name)
+            })
+            Collections.sort(globalLists, fun(item1: UserList, item2: UserList): Int {
+                return item1.name.compareTo(item2.name)
+            })
+            Collections.sort(localLists, fun(item1: UserList, item2: UserList): Int {
+                return item1.name.compareTo(item2.name)
+            })
+        } else {
+            Collections.sort(userDefinedBrickInputs) { item1:
+            UserDefinedBrickInput, item2: UserDefinedBrickInput ->
+                item1.initialIndex.compareTo(item2.initialIndex)
+            }
+            Collections.sort(multiplayerVars, fun(item1: UserVariable, item2: UserVariable): Int {
+                return item1.initialIndex.compareTo(item2.initialIndex)
+            })
+            Collections.sort(globalVars, fun(item1: UserVariable, item2: UserVariable): Int {
+                return item1.initialIndex.compareTo(item2.initialIndex)
+            })
+            Collections.sort(localVars, fun(item1: UserVariable, item2: UserVariable): Int {
+                return item1.initialIndex.compareTo(item2.initialIndex)
+            })
+            Collections.sort(globalLists, fun(item1: UserList, item2: UserList): Int {
+                return item1.initialIndex.compareTo(item2.initialIndex)
+            })
+            Collections.sort(localLists, fun(item1: UserList, item2: UserList): Int {
+                return item1.initialIndex.compareTo(item2.initialIndex)
+            })
+        }
+        adapter?.updateDataSet()
         adapter = DataListAdapter(
             userDefinedBrickInputs, multiplayerVars, globalVars, localVars, globalLists,
             localLists
         )
         emptyView?.setText(R.string.fragment_data_text_description)
         onAdapterReady()
+    }
+
+    private fun initialIndexing(
+        userDefinedBrickInputs: List<UserDefinedBrickInput>,
+        globalVars: MutableList<UserVariable>,
+        localVars: MutableList<UserVariable>,
+        multiplayerVars: MutableList<UserVariable>,
+        globalLists: MutableList<UserList>,
+        localLists: MutableList<UserList>
+    ) {
+        if (userDefinedBrickInputs.size > 0) {
+            for ((counter, userDefinedBrickInput) in userDefinedBrickInputs.withIndex()) {
+                if (userDefinedBrickInput.initialIndex == -1) {
+                    userDefinedBrickInput.initialIndex = counter
+                }
+            }
+        }
+        if (globalVars.size > 0) {
+            for ((counter, globalVar) in globalVars.withIndex()) {
+                if (globalVar.initialIndex == -1) {
+                    globalVar.initialIndex = counter
+                }
+            }
+        }
+        if (localVars.size > 0) {
+            for ((counter, localVar) in localVars.withIndex()) {
+                if (localVar.initialIndex == -1) {
+                    localVar.initialIndex = counter
+                }
+            }
+        }
+        if (multiplayerVars.size > 0) {
+            for ((counter, multiplayerVar) in multiplayerVars.withIndex()) {
+                if (multiplayerVar.initialIndex == -1) {
+                    multiplayerVar.initialIndex = counter
+                }
+            }
+        }
+        if (globalLists.size > 0) {
+            for ((counter, globalList) in globalLists.withIndex()) {
+                if (globalList.initialIndex == -1) {
+                    globalList.initialIndex = counter
+                }
+            }
+        }
+        if (localLists.size > 0) {
+            for ((counter, localList) in localLists.withIndex()) {
+                if (localList.initialIndex == -1) {
+                    localList.initialIndex = counter
+                }
+            }
+        }
     }
 
     private fun onAdapterReady() {
@@ -220,17 +348,36 @@ class DataListFragment : Fragment(),
         adapter?.notifyDataSetChanged()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_sort, menu)
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         for (index in 0 until menu.size()) {
             menu.getItem(index).isVisible = false
         }
         menu.findItem(R.id.delete).isVisible = true
+        if (context != null) {
+            sortData = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(SORT_VARIABLE_PREFERENCE_KEY, false)
+            menu.findItem(R.id.sort)
+                .setTitle(if (sortData) R.string.undo_sort else R.string.sort)
+                .isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.delete -> startActionMode(DELETE)
+            R.id.sort -> {
+                sortData = !sortData
+                PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                    .putBoolean(SORT_VARIABLE_PREFERENCE_KEY, sortData).apply()
+                initializeAdapter()
+                adapter?.registerAdapterDataObserver(observer)
+            }
             else -> return super.onOptionsItemSelected(item)
         }
         return true
