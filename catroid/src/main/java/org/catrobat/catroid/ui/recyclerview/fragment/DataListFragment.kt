@@ -24,9 +24,11 @@ package org.catrobat.catroid.ui.recyclerview.fragment
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.view.ActionMode
 import android.view.LayoutInflater
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +42,7 @@ import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ScriptBrick
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick
 import org.catrobat.catroid.formulaeditor.UserData
+import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
@@ -64,6 +67,8 @@ class DataListFragment : Fragment(),
     private var actionMode: ActionMode? = null
     private var formulaEditorDataInterface: FormulaEditorDataInterface? = null
     private var parentScriptBrick: ScriptBrick? = null
+    private var sharedPreferenceSortKey = ""
+    private var sortData = false
 
     @ActionModeType
     var actionModeType = NONE
@@ -144,6 +149,8 @@ class DataListFragment : Fragment(),
 
     override fun onResume() {
         super.onResume()
+        // Checks weather data is sorted or not: setup accordingly
+        initializeAdapter()
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
@@ -156,7 +163,8 @@ class DataListFragment : Fragment(),
     }
 
     private fun initializeAdapter() {
-        arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT).let { parentScriptBrick = it as ScriptBrick? }
+        arguments?.getSerializable(PARENT_SCRIPT_BRICK_BUNDLE_ARGUMENT)
+            .let { parentScriptBrick = it as ScriptBrick? }
 
         val currentProject =
             ProjectManager.getInstance().currentProject
@@ -165,14 +173,53 @@ class DataListFragment : Fragment(),
 
         var userDefinedBrickInputs = listOf<UserDefinedBrickInput>()
         if (parentScriptBrick is UserDefinedReceiverBrick) {
-            userDefinedBrickInputs = (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
+            userDefinedBrickInputs =
+                (parentScriptBrick as UserDefinedReceiverBrick).userDefinedBrick.userDefinedBrickInputs
         }
 
-        val globalVars = currentProject.userVariables
-        val localVars = currentSprite.userVariables
-        val multiplayerVars = currentProject.multiplayerVariables
-        val globalLists = currentProject.userLists
-        val localLists = currentSprite.userLists
+        var globalVars = currentProject.userVariables
+        var localVars = currentSprite.userVariables
+        var multiplayerVars = currentProject.multiplayerVariables
+        var globalLists = currentProject.userLists
+        var localLists = currentSprite.userLists
+
+        // Get the state of shared Preference
+
+        sortData = PreferenceManager.getDefaultSharedPreferences(
+            context
+        ).getBoolean(sharedPreferenceSortKey, false)
+
+        /*If shared Preference is true:
+            sort list and store in dataLists initialized previously (Note: Sorting the list
+            directly resulting in permanent sorting of data) and pass it to adapter
+          If shared Preference is false:
+            just pass the value to adapter without any changes */
+        if (sortData) {
+            userDefinedBrickInputs = userDefinedBrickInputs.sortedWith(Comparator { item1:
+            UserDefinedBrickInput, item2: UserDefinedBrickInput ->
+                item1.name.compareTo(item2.name)
+            })
+            multiplayerVars = multiplayerVars.sortedWith(Comparator { item1: UserVariable,
+                item2: UserVariable ->
+                item1.name.compareTo(item2.name)
+            })
+            globalVars = globalVars.sortedWith(Comparator { item1: UserVariable, item2:
+            UserVariable ->
+                item1.name.compareTo(item2.name)
+            })
+            localVars = localVars.sortedWith(Comparator { item1: UserVariable, item2:
+            UserVariable ->
+                item1.name.compareTo(item2.name)
+            })
+            globalLists = globalLists.sortedWith(Comparator { item1: UserList, item2:
+            UserList ->
+                item1.name.compareTo(item2.name)
+            })
+            localLists = localLists.sortedWith(Comparator { item1: UserList, item2:
+            UserList ->
+                item1.name.compareTo(item2.name)
+            })
+        }
         adapter = DataListAdapter(
             userDefinedBrickInputs, multiplayerVars, globalVars, localVars, globalLists,
             localLists
@@ -190,17 +237,42 @@ class DataListFragment : Fragment(),
         adapter?.notifyDataSetChanged()
     }
 
+    // create Sort option in Overflow menu
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.menu_sort, menu)
+    }
+
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         for (index in 0 until menu.size()) {
             menu.getItem(index).isVisible = false
         }
         menu.findItem(R.id.delete).isVisible = true
+
+        // Initialize sort option in overflow according to shared Preference
+
+        if (context != null) {
+            sortData = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(sharedPreferenceSortKey, false)
+            menu.findItem(R.id.sort)
+                .setTitle(if (sortData) R.string.undo_sort else R.string.sort)
+                .isVisible = true
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.delete -> startActionMode(DELETE)
+            R.id.sort -> {
+                // toggle between Sort and Undo-Sort,
+                // save this data in shared Preference,
+                // re-initialize adapter and set RecyclerView accordingly
+                sortData = !sortData
+                PreferenceManager.getDefaultSharedPreferences(activity).edit()
+                    .putBoolean(sharedPreferenceSortKey, sortData).apply()
+                initializeAdapter()
+            }
             else -> return super.onOptionsItemSelected(item)
         }
         return true

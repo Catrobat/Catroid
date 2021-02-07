@@ -2075,5 +2075,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="serif_font" translatable="false">serif</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
+    <string name="undo_sort">Undo sort</string>
+    <string name="sort">Sort</string>
 
 </resources>
