@@ -425,6 +425,12 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_text_block_size:
 				return buildSingleParameterFunction(Functions.TEXT_BLOCK_SIZE,
 						InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_text_block_from_camera:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_FROM_CAMERA,
+						InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_text_block_language_from_camera:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_LANGUAGE_FROM_CAMERA,
+						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_collides_with_color:
 				return buildSingleParameterFunction(Functions.COLLIDES_WITH_COLOR, STRING, "#ff0000");
 			case R.string.formula_editor_function_color_touches_color:

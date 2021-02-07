@@ -415,6 +415,7 @@ dependencies {
     // ML Kit
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.0.0'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
+    implementation 'com.google.mlkit:language-id:16.1.0'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"
