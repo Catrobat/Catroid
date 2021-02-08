@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickData.UserDefinedBrickDataType;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +58,7 @@ public class AddUserDefinedBrickFragment extends Fragment {
 
 	public static final String TAG = AddUserDefinedBrickFragment.class.getSimpleName();
 
-	private ScriptFragment scriptFragment;
+	private AddBrickFragment.OnAddBrickListener addBrickListener;
 	private UserDefinedBrick userDefinedBrick;
 	private View userBrickView;
 	private LinearLayout userBrickSpace;
@@ -70,10 +69,10 @@ public class AddUserDefinedBrickFragment extends Fragment {
 	private Button addLabel;
 	private Button addInput;
 
-	public static AddUserDefinedBrickFragment newInstance(ScriptFragment scriptFragment) {
+	public static AddUserDefinedBrickFragment newInstance(AddBrickFragment.OnAddBrickListener addBrickListener) {
 		AddUserDefinedBrickFragment fragment = new AddUserDefinedBrickFragment();
 
-		fragment.scriptFragment = scriptFragment;
+		fragment.addBrickListener = addBrickListener;
 		return fragment;
 	}
 
@@ -168,7 +167,7 @@ public class AddUserDefinedBrickFragment extends Fragment {
 	private void addUserDefinedScriptToScript(UserDefinedBrick brickToAddScript) {
 
 		UserDefinedReceiverBrick scriptBrick = new UserDefinedReceiverBrick(brickToAddScript);
-		scriptFragment.addBrick(scriptBrick);
+		addBrickListener.addBrick(scriptBrick);
 
 		FragmentManager fragmentManager = getFragmentManager();
 		if (fragmentManager != null) {

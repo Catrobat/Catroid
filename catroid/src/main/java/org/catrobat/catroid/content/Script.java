@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -218,5 +218,72 @@ public abstract class Script implements Serializable, Cloneable {
 				((ListSelectorBrick) brick).deselectElements(elements);
 			}
 		}
+	}
+
+	public List<Brick> findBricksInScript(List<UUID> brickIds) {
+		List<Brick> bricks = new ArrayList<>();
+
+		for (Brick brick : brickList) {
+			if (brickIds.contains(brick.getBrickID())) {
+				bricks.add(brick);
+			} else if (brick instanceof CompositeBrick) {
+				List<Brick> tmpBricks = brick.findBricksInNestedBricks(brickIds);
+				if (tmpBricks != null) {
+					return tmpBricks;
+				}
+			}
+
+			if (bricks.size() == brickIds.size()) {
+				return bricks;
+			}
+		}
+
+		if (bricks.size() > 0) {
+			return bricks;
+		}
+		return null;
+	}
+
+	public List<Brick> removeBricksFromScript(List<UUID> brickIds) {
+		List<Brick> bricks = findBricksInScript(brickIds);
+
+		if (bricks != null) {
+			for (Brick brick : bricks) {
+				removeBrick(brick);
+			}
+		}
+
+		return bricks;
+	}
+
+	public boolean insertBrickAfter(UUID parentId, int subStackIndex, List<Brick> bricksToAdd) {
+
+		if (subStackIndex == -1) {
+			if (scriptId.equals(parentId) || getScriptBrick().getBrickID().equals(parentId)) {
+				brickList.addAll(0, bricksToAdd);
+				return true;
+			}
+
+			boolean found = false;
+			int index = 0;
+			for (Brick brick : brickList) {
+				++index;
+				if (brick.getBrickID().equals(parentId)) {
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				brickList.addAll(index, bricksToAdd);
+				return true;
+			}
+		}
+
+		for (Brick brick : brickList) {
+			if (brick.addBrickInNestedBrick(parentId, subStackIndex, bricksToAdd)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

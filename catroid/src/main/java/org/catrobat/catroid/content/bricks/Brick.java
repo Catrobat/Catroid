@@ -35,12 +35,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.IntDef;
 
 public interface Brick extends Serializable, Cloneable {
 
-	interface FormulaField extends Serializable{ }
+	interface FormulaField extends Serializable {
+	}
 
 	enum BrickField implements FormulaField {
 		COLOR, COLOR_CHANGE, BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE,
@@ -204,4 +206,10 @@ public interface Brick extends Serializable, Cloneable {
 	boolean hasHelpPage();
 
 	String getHelpUrl(String category);
+
+	UUID getBrickID();
+
+	List<Brick> findBricksInNestedBricks(List<UUID> brickIds);
+
+	boolean addBrickInNestedBrick(UUID parentBrickId, int subStackIndex, List<Brick> bricksToAdd);
 }
