@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -59,6 +59,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
@@ -570,6 +571,10 @@ public class SpriteActivity extends BaseActivity {
 	public void handleAddButton(View view) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			((ScriptFragment) getCurrentFragment()).handleAddButton();
+			return;
+		}
+		if (getCurrentFragment() instanceof CatblocksScriptFragment) {
+			((CatblocksScriptFragment) getCurrentFragment()).handleAddButton();
 			return;
 		}
 		if (getCurrentFragment() instanceof DataListFragment) {

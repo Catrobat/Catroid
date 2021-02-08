@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,7 +35,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
@@ -52,15 +51,15 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 	public static final String USER_DEFINED_BRICK_LIST_FRAGMENT_TAG =
 			AddBrickFragment.class.getSimpleName();
 
-	private ScriptFragment scriptFragment;
+	private AddBrickFragment.OnAddBrickListener addBrickListener;
 
 	private ImageButton addUserDefinedBrickButton;
 	private PrototypeBrickAdapter adapter;
 
-	public static UserDefinedBrickListFragment newInstance(ScriptFragment scriptFragment) {
+	public static UserDefinedBrickListFragment newInstance(AddBrickFragment.OnAddBrickListener addBrickListener) {
 		UserDefinedBrickListFragment fragment = new UserDefinedBrickListFragment();
 
-		fragment.scriptFragment = scriptFragment;
+		fragment.addBrickListener = addBrickListener;
 		return fragment;
 	}
 
@@ -118,7 +117,7 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 	@Override
 	public void onClick(View v) {
 		AddUserDefinedBrickFragment addUserDefinedBrickFragment =
-				AddUserDefinedBrickFragment.newInstance(scriptFragment);
+				AddUserDefinedBrickFragment.newInstance(addBrickListener);
 
 		UserDefinedBrick userDefinedBrick = new UserDefinedBrick();
 		Bundle bundle = new Bundle();
@@ -138,7 +137,7 @@ public class UserDefinedBrickListFragment extends ListFragment implements View.O
 		try {
 			Brick clonedBrick = userDefinedBrickToAdd.clone();
 			((UserDefinedBrick) clonedBrick).setCallingBrick(true);
-			scriptFragment.addBrick(clonedBrick);
+			addBrickListener.addBrick(clonedBrick);
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 			Fragment categoryFragment = getFragmentManager()
