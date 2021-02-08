@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,7 @@ public class BrickAdapter extends BaseAdapter implements
 		AdapterView.OnItemClickListener,
 		AdapterView.OnItemLongClickListener {
 
-	private static final float DISABLED_BRICK_ALPHA = .8f;
+	public static final float DISABLED_BRICK_ALPHA = .8f;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, ALL, SCRIPTS_ONLY})
@@ -123,10 +123,7 @@ public class BrickAdapter extends BaseAdapter implements
 		Drawable background = brickViewContainer.getBackground();
 
 		if (item.isCommentedOut()) {
-			ColorMatrix matrix = new ColorMatrix();
-			matrix.setSaturation(0);
-			ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-			background.setColorFilter(filter);
+			colorAsCommentedOut(background);
 		} else {
 			background.clearColorFilter();
 		}
@@ -155,6 +152,13 @@ public class BrickAdapter extends BaseAdapter implements
 		item.getCheckBox().setChecked(selectionManager.isPositionSelected(position));
 		item.getCheckBox().setEnabled(viewStateManager.isEnabled(position));
 		return itemView;
+	}
+
+	public static void colorAsCommentedOut(Drawable background) {
+		ColorMatrix matrix = new ColorMatrix();
+		matrix.setSaturation(0);
+		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+		background.setColorFilter(filter);
 	}
 
 	@Override

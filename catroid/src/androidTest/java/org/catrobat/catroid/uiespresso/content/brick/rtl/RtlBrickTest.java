@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -72,6 +72,7 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
+import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
 import org.catrobat.catroid.content.bricks.ForeverBrick;
 import org.catrobat.catroid.content.bricks.GlideToBrick;
@@ -302,6 +303,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(WhenClonedBrick.class, R.id.brick_when_cloned_layout);
 
 		checkIfBrickISRtl(WhenNfcBrick.class, R.id.brick_when_nfc_layout);
+
+		checkIfBrickISRtl(EmptyEventBrick.class, R.id.brick_when_nfc_layout);
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class, Cat.RTLTests.class})

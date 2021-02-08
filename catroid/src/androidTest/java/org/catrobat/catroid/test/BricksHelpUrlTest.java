@@ -452,6 +452,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CopyLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EditLookBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EditLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmptyEventBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

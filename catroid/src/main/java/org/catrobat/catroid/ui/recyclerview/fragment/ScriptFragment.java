@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
@@ -521,9 +522,11 @@ public class ScriptFragment extends ListFragment implements
 			items.add(R.string.brick_context_dialog_copy_script);
 			items.add(R.string.brick_context_dialog_delete_script);
 
-			items.add(brick.isCommentedOut()
-					? R.string.brick_context_dialog_comment_in_script
-					: R.string.brick_context_dialog_comment_out_script);
+			if (!(brick instanceof EmptyEventBrick)) {
+				items.add(brick.isCommentedOut()
+						? R.string.brick_context_dialog_comment_in_script
+						: R.string.brick_context_dialog_comment_out_script);
+			}
 
 			if (brick instanceof FormulaBrick) {
 				items.add(R.string.brick_context_dialog_formula_edit_brick);
