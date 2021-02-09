@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,7 +49,9 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInt
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.Matchers.containsString;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -92,6 +94,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
+		closeSoftKeyboard();
 		onView(withText(R.string.color_picker_apply))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
@@ -107,6 +110,7 @@ public class ShowTextColorSizeAlignmentBrickTest {
 				.perform(click());
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
+		closeSoftKeyboard();
 		onView(withText(R.string.color_picker_cancel))
 				.perform(click());
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
@@ -130,8 +134,8 @@ public class ShowTextColorSizeAlignmentBrickTest {
 		onView(withText(R.string.brick_context_dialog_formula_edit_brick))
 				.perform(click());
 		onFormulaEditor()
-				.performEnterFormula("1+2")
-				.performCloseAndSave();
+				.performEnterFormula("1+2");
+		pressBack();
 		onView(withId(R.id.brick_show_variable_color_size_edit_color))
 				.perform(click());
 		onFormulaEditor()

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -169,11 +169,59 @@ public class Project implements Serializable {
 		return sceneList.get(0);
 	}
 
+	public <T> boolean hasUserDataChanged(List<T> newUserData, List<T> oldUserData) {
+		if (newUserData.size() != oldUserData.size()) {
+			return true;
+		}
+
+		for (T userData : newUserData) {
+			if (!checkEquality(userData, oldUserData)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public <T> boolean checkEquality(T newUserData, List<T> oldUserData) {
+		for (T userData : oldUserData) {
+			if (userData.equals(newUserData)) {
+				if (userData.getClass() == UserVariable.class) {
+					UserVariable userVariable = (UserVariable) userData;
+					return userVariable.hasSameValue((UserVariable) newUserData);
+				} else {
+					UserList userList = (UserList) userData;
+					return userList.hasSameListSize((UserList) newUserData);
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public List<UserVariable> getUserVariables() {
 		if (userVariables == null) {
 			userVariables = new ArrayList<>();
 		}
 		return userVariables;
+	}
+
+	public List<UserVariable> getUserVariablesCopy() {
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
+		}
+
+		List<UserVariable> userVariablesCopy = new ArrayList<>();
+		for (UserVariable userVariable : userVariables) {
+			userVariablesCopy.add(new UserVariable(userVariable.getName(),
+					userVariable.getValue()));
+		}
+
+		return userVariablesCopy;
+	}
+
+	public void setUserVariables(List<UserVariable> newUserVariables) {
+		userVariables = newUserVariables;
 	}
 
 	public UserVariable getUserVariable(String name) {
@@ -205,6 +253,23 @@ public class Project implements Serializable {
 		return userLists;
 	}
 
+	public void setUserLists(List<UserList> newUserLists) {
+		userLists = newUserLists;
+	}
+
+	public List<UserList> getUserListsCopy() {
+		if (userLists == null) {
+			userLists = new ArrayList<>();
+		}
+
+		List<UserList> userListsCopy = new ArrayList<>();
+		for (UserList userList : userLists) {
+			userListsCopy.add(new UserList(userList.getName(), userList.getValue()));
+		}
+
+		return userListsCopy;
+	}
+
 	public UserList getUserList(String name) {
 		for (UserList list : userLists) {
 			if (list.getName().equals(name)) {
@@ -225,6 +290,23 @@ public class Project implements Serializable {
 			}
 		}
 		return false;
+	}
+
+	public void setMultiplayerVariables(List<UserVariable> newMultiplayerVariables) {
+		multiplayerVariables = newMultiplayerVariables;
+	}
+
+	public List<UserVariable> getMultiplayerVariablesCopy() {
+		if (multiplayerVariables == null) {
+			multiplayerVariables = new ArrayList<>();
+		}
+
+		List<UserVariable> multiplayerVariablesCopy = new ArrayList<>();
+		for (UserVariable userVariable : multiplayerVariables) {
+			multiplayerVariablesCopy.add(new UserVariable(userVariable.getName(), userVariable.getValue()));
+		}
+
+		return multiplayerVariablesCopy;
 	}
 
 	public List<UserVariable> getMultiplayerVariables() {

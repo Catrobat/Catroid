@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -102,6 +102,10 @@ public class UserList implements Serializable, UserData<List<Object>> {
 			return false;
 		}
 		return ((UserList) obj).name.equals(name);
+	}
+
+	public boolean hasSameListSize(UserList listToCheck) {
+		return listToCheck.list.size() == list.size();
 	}
 
 	@Override

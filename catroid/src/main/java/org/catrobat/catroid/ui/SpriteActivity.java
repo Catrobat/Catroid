@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,6 +94,7 @@ import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.isFr
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.loadFragment;
 import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
@@ -203,12 +204,6 @@ public class SpriteActivity extends BaseActivity {
 		}
 	}
 
-	public void showUndoMenuItem(boolean visible) {
-		if (currentMenu != null) {
-			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
-		}
-	}
-
 	public void setUndoMenuItemVisibility(boolean isVisible) {
 		isUndoMenuItemVisible = isVisible;
 	}
@@ -217,8 +212,9 @@ public class SpriteActivity extends BaseActivity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (getCurrentFragment() instanceof ScriptFragment) {
 			menu.findItem(R.id.comment_in_out).setVisible(true);
+			showUndo(isUndoMenuItemVisible);
 		} else if (getCurrentFragment() instanceof LookListFragment) {
-			showUndoMenuItem(isUndoMenuItemVisible);
+			showUndo(isUndoMenuItemVisible);
 		}
 		return super.onPrepareOptionsMenu(menu);
 	}
@@ -235,7 +231,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (item.getItemId() == R.id.menu_undo && getCurrentFragment() instanceof LookListFragment) {
 			setUndoMenuItemVisibility(false);
-			showUndoMenuItem(isUndoMenuItemVisible);
+			showUndo(isUndoMenuItemVisible);
 			Fragment fragment = getCurrentFragment();
 			if (fragment instanceof LookListFragment && !((LookListFragment) fragment).undo() && currentLookData != null) {
 				((LookListFragment) fragment).deleteItem(currentLookData);
@@ -269,7 +265,7 @@ public class SpriteActivity extends BaseActivity {
 				return;
 			}
 		} else if (currentFragment instanceof FormulaEditorFragment) {
-			((FormulaEditorFragment) currentFragment).promptSave();
+			((FormulaEditorFragment) currentFragment).exitFormulaEditorFragment();
 			return;
 		} else if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
@@ -376,6 +372,7 @@ public class SpriteActivity extends BaseActivity {
 				if (extras == null) {
 					return;
 				}
+
 				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
 				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
 				int brickHash = extras.getInt(EXTRA_BRICK_HASH);
@@ -395,6 +392,9 @@ public class SpriteActivity extends BaseActivity {
 						((FormulaEditorFragment) fragment).updateFragmentAfterVisualPlacement();
 					}
 				}
+
+				setUndoMenuItemVisibility(extras.getBoolean(CHANGED_COORDINATES));
+
 				break;
 		}
 	}
@@ -755,6 +755,11 @@ public class SpriteActivity extends BaseActivity {
 		RadioButton addToProjectUserDataRadioButton = view.findViewById(R.id.global);
 
 		List<UserData> variables = new ArrayList<>();
+
+		ProjectManager projectManager = ProjectManager.getInstance();
+		currentSprite = projectManager.getCurrentSprite();
+		currentProject = projectManager.getCurrentProject();
+
 		variables.addAll(currentProject.getUserVariables());
 		variables.addAll(currentProject.getMultiplayerVariables());
 		variables.addAll(currentSprite.getUserVariables());
