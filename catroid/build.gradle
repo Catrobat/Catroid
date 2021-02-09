@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,11 +79,9 @@ if (rootProject.hasProperty('independent')) {
     manifestAppName = appName
 }
 
-if (rootProject.hasProperty('playground') && rootProject.property('playground').toBoolean()) {
-    println "Playground build"
+if (rootProject.hasProperty('pocketCodeBeta') && rootProject.property('pocketCodeBeta').toBoolean()) {
+    println "PocketCodeBeta build"
     appId = 'org.catrobat.catroid.test'
-    appName = 'Pocket Code beta'
-    manifestAppName = appName
 }
 
 if (!rootProject.hasProperty("signingKeystore")) {
@@ -117,6 +115,9 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 
+def defaultVersionCode = 80
+def defaultVersionName = "0.9.75"
+
 android {
     compileSdkVersion 29
 
@@ -126,8 +127,8 @@ android {
         targetSdkVersion 29
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
-        versionCode 80
-        versionName "0.9.75"
+        versionCode defaultVersionCode
+        versionName defaultVersionName
         println "VersionCode is $versionCode"
         println "VersionName is $versionName"
         multiDexEnabled true
@@ -262,11 +263,6 @@ android {
             initWith buildTypes.release
             signingConfig signingConfigs.signedRelease
         }
-
-        beta {
-            initWith buildTypes.release
-            signingConfig signingConfigs.signedRelease
-        }
     }
 
     flavorDimensions "default"
@@ -292,6 +288,10 @@ android {
         phiro {
             applicationIdSuffix '.phiro'
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
+        }
+        pocketCodeBeta {
+            applicationIdSuffix '.pocketCodeBeta'
+            manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
         }
         standalone {
             if (!project.hasProperty('packageName')) {
@@ -406,6 +406,7 @@ dependencies {
     embroideryDesignerImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    pocketCodeBetaImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
     implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // CameraX
