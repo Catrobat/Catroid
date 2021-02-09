@@ -203,7 +203,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 			if (convertView == null) {
 				convertView = LayoutInflater.from(parent.getContext())
-						.inflate(android.R.layout.simple_spinner_dropdown_item, parent, false);
+						.inflate(R.layout.spinner_dropdown_item, parent, false);
 			}
 
 			final Nameable item = getItem(position);
@@ -226,7 +226,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 			if (convertView == null) {
 				convertView = LayoutInflater.from(parent.getContext())
-						.inflate(android.R.layout.simple_spinner_item, parent, false);
+						.inflate(R.layout.spinner_item, parent, false);
 			}
 
 			Nameable item = getItem(position);

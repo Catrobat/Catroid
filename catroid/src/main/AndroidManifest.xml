@@ -98,6 +98,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".ui.ThemesActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.MainMenuActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustNothing">

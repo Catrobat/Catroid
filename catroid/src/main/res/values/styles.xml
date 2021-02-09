@@ -763,5 +763,10 @@
         <item name="android:colorControlActivated">?colorAccent</item>
     </style>
 
+    <!-- VisualPlacement Activity Toolbar Style-->
+    <style name="VisualPlacementToolbarStyle" parent="@style/ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlNormal">@color/solid_white</item>
+    </style>
+
     <!-- END -->
 </resources>

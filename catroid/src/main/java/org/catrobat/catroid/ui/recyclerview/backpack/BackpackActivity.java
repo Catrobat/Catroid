@@ -54,7 +54,6 @@ public class BackpackActivity extends BaseActivity {
 		setContentView(R.layout.activity_recycler_backpack);
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 		getSupportActionBar().setTitle(R.string.backpack_title);
-		getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#83B3C7")));
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 		if (savedInstanceState == null) {

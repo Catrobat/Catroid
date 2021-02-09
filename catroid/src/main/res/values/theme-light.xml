@@ -42,7 +42,7 @@
 
         <!-- Backgrounds -->
         <item name="app_background">#f5f5f6</item>
-        <item name="button_background">#FFFFFF</item>
+        <item name="button_background">@color/solid_white</item>
         <item name="button_bottom_bar">#17a4b7</item>
         <item name="button_border_top">#4D7F8F</item>
 

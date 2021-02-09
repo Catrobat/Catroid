@@ -88,6 +88,7 @@
         <Switch
             android:id="@+id/example_project_switch"
             android:layout_width="match_parent"
+            android:textColor="?attr/dialog_title_and_text_view"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/material_design_spacing_large"
             android:paddingBottom="@dimen/material_design_spacing_large"
