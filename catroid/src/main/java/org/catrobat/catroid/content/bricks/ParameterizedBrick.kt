@@ -33,6 +33,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.bricks.Brick.ResourcesSet
 import org.catrobat.catroid.formulaeditor.UserList
 import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.utils.LoopUtil.checkLoopBrickForLoopDelay
 
 class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     private var loopBricks = mutableListOf<Brick>()
@@ -133,6 +134,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         val repeatSequence =
             ActionFactory.createScriptSequenceAction(sequence.script) as ScriptSequenceAction
+        val isLoopDelay = checkLoopBrickForLoopDelay(this)
         loopBricks.filterNot { brick -> brick.isCommentedOut }.forEach {
             it.addActionToSequence(sprite, repeatSequence)
         }
@@ -142,7 +144,7 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         sequence.addAction(
             sprite.actionFactory.createRepeatParameterizedAction(
                 sprite, parameterizedData,
-                createLinkedPair(), positionInformation, repeatSequence
+                createLinkedPair(), positionInformation, repeatSequence, isLoopDelay
             )
         )
     }

@@ -915,30 +915,34 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction) {
+	public Action createRepeatAction(Sprite sprite, Formula count, Action repeatedAction,
+			boolean isLoopDelay) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setRepeatCount(count);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
+		action.setLoopDelay(isLoopDelay);
 		return action;
 	}
 
 	public Action createForVariableFromToAction(Sprite sprite, UserVariable controlVariable,
-			Formula from, Formula to, Action repeatedAction) {
+			Formula from, Formula to, Action repeatedAction, boolean isLoopDelay) {
 		ForVariableFromToAction action = Actions.action(ForVariableFromToAction.class);
 		action.setRange(from, to);
 		action.setControlVariable(controlVariable);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
+		action.setLoopDelay(isLoopDelay);
 		return action;
 	}
 
 	public Action createForItemInUserListAction(UserList userList,
-			UserVariable userVariable, Action repeatedAction) {
+			UserVariable userVariable, Action repeatedAction, boolean isLoopDelay) {
 		ForItemInUserListAction action = Actions.action(ForItemInUserListAction.class);
 		action.setAction(repeatedAction);
 		action.setUserList(userList);
 		action.setCurrentItemVariable(userVariable);
+		action.setLoopDelay(isLoopDelay);
 		return action;
 	}
 
@@ -949,11 +953,13 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createRepeatUntilAction(Sprite sprite, Formula condition, Action repeatedAction) {
+	public Action createRepeatUntilAction(Sprite sprite, Formula condition, Action repeatedAction,
+			boolean isLoopDelay) {
 		RepeatUntilAction action = action(RepeatUntilAction.class);
 		action.setRepeatCondition(condition);
 		action.setAction(repeatedAction);
 		action.setSprite(sprite);
+		action.setLoopDelay(isLoopDelay);
 		return action;
 	}
 
@@ -964,11 +970,13 @@ public class ActionFactory extends Actions {
 		return action;
 	}
 
-	public Action createForeverAction(Sprite sprite, ScriptSequenceAction foreverSequence) {
+	public Action createForeverAction(Sprite sprite, ScriptSequenceAction foreverSequence,
+			boolean isLoopDelay) {
 		RepeatAction action = Actions.action(RepeatAction.class);
 		action.setForeverRepeat(true);
 		action.setAction(foreverSequence);
 		action.setSprite(sprite);
+		action.setLoopDelay(isLoopDelay);
 		return action;
 	}
 
@@ -1387,11 +1395,12 @@ public class ActionFactory extends Actions {
 
 	public Action createRepeatParameterizedAction(Sprite sprite, ParameterizedData data,
 			List<? extends Pair<UserList, UserVariable>> parameters,
-			String position, Action repeatedAction) {
+			String position, Action repeatedAction, boolean isLoopDelay) {
 		RepeatParameterizedAction action = action(RepeatParameterizedAction.class);
 		action.setParameterizedData(data);
 		action.setParameters(parameters);
 		action.setAction(repeatedAction);
+		action.setLoopDelay(isLoopDelay);
 
 		action.setSprite(sprite);
 		action.setPosition(position);
