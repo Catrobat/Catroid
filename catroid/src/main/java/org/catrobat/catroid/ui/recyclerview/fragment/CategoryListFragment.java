@@ -197,30 +197,29 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_touch_parameter,
 			R.string.formula_editor_function_touch_parameter, R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter, R.string.formula_editor_function_touch_parameter);
-	private static final List<Integer> SENSORS_VISUAL_DETECTION = asList(R.string.formula_editor_sensor_face_detected,
+	private static final List<Integer> SENSORS_FACE_DETECTION = asList(R.string.formula_editor_sensor_face_detected,
 			R.string.formula_editor_sensor_face_size, R.string.formula_editor_sensor_face_x_position,
 			R.string.formula_editor_sensor_face_y_position,
 			R.string.formula_editor_sensor_second_face_detected,
 			R.string.formula_editor_sensor_second_face_size,
 			R.string.formula_editor_sensor_second_face_x_position,
-			R.string.formula_editor_sensor_second_face_y_position,
-			R.string.formula_editor_sensor_text_from_camera,
+			R.string.formula_editor_sensor_second_face_y_position);
+	private static final List<Integer> SENSORS_FACE_DETECTION_PARAMS = asList(R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_no_parameter);
+	private static final List<Integer> SENSORS_TEXT_RECOGNITION = asList(R.string.formula_editor_sensor_text_from_camera,
 			R.string.formula_editor_sensor_text_blocks_number,
 			R.string.formula_editor_function_text_block_x,
 			R.string.formula_editor_function_text_block_y,
 			R.string.formula_editor_function_text_block_size,
 			R.string.formula_editor_function_text_block_from_camera,
 			R.string.formula_editor_function_text_block_language_from_camera);
-	private static final List<Integer> SENSORS_VISUAL_DETECTION_PARAMS =
-			asList(R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
-			R.string.formula_editor_function_no_parameter,
+	private static final List<Integer> SENSORS_TEXT_RECOGNITION_PARAMS = asList(R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_no_parameter,
 			R.string.formula_editor_function_text_block_parameter,
 			R.string.formula_editor_function_text_block_parameter,
@@ -256,6 +255,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			R.string.formula_editor_phiro_sensor_bottom_right);
 	private static final List<Integer> SENSORS_ARDUINO = asList(R.string.formula_editor_function_arduino_read_pin_value_analog,
 			R.string.formula_editor_function_arduino_read_pin_value_digital);
+	private static final List<Integer> SENSORS_ARDUINO_PARAMS = asList(R.string.formula_editor_function_pin_default_parameter,
+			R.string.formula_editor_function_pin_default_parameter);
 	private static final List<Integer> SENSORS_DRONE = asList(R.string.formula_editor_sensor_drone_battery_status,
 			R.string.formula_editor_sensor_drone_emergency_state, R.string.formula_editor_sensor_drone_flying,
 			R.string.formula_editor_sensor_drone_initialized, R.string.formula_editor_sensor_drone_usb_active,
@@ -676,11 +677,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getSensorItems() {
 		List<CategoryListItem> result = new ArrayList<>();
-		result.addAll(getDeviceSensorItems());
-		result.addAll(getTouchDetectionSensorItems());
-		result.addAll(getVisualSensorItems());
-		result.addAll(getDateTimeSensorItems());
-		result.addAll(getSpeechRecognitionItems());
 		result.addAll(getNxtSensorItems());
 		result.addAll(getEv3SensorItems());
 		result.addAll(getPhiroSensorItems());
@@ -689,6 +685,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getRaspberrySensorItems());
 		result.addAll(getNfcItems());
 		result.addAll(getCastGamepadSensorItems());
+		result.addAll(getDeviceSensorItems());
+		result.addAll(getTouchDetectionSensorItems());
+		result.addAll(getDateTimeSensorItems());
+		result.addAll(getSpeechRecognitionItems());
+		result.addAll(getFaceSensorItems());
+		result.addAll(getTextSensorItems());
 		return result;
 	}
 
@@ -738,9 +740,14 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		return addHeader(toCategoryListItems(SENSORS_TOUCH, SENSORS_TOUCH_PARAMS), getString(R.string.formula_editor_device_touch_detection));
 	}
 
-	private List<CategoryListItem> getVisualSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_VISUAL_DETECTION, SENSORS_VISUAL_DETECTION_PARAMS),
-				getString(R.string.formula_editor_device_visual_detection));
+	private List<CategoryListItem> getFaceSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS),
+				getString(R.string.formula_editor_device_face_detection));
+	}
+
+	private List<CategoryListItem> getTextSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
+				getString(R.string.formula_editor_device_text_recognition));
 	}
 
 	private List<CategoryListItem> getDateTimeSensorItems() {
@@ -767,7 +774,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 
 	private List<CategoryListItem> getArduinoSensorItems() {
 		return SettingsFragment.isArduinoSharedPreferenceEnabled(getActivity().getApplicationContext())
-				? addHeader(toCategoryListItems(SENSORS_ARDUINO), getString(R.string.formula_editor_device_arduino))
+				? addHeader(toCategoryListItems(SENSORS_ARDUINO, SENSORS_ARDUINO_PARAMS), getString(R.string.formula_editor_device_arduino))
 				: Collections.emptyList();
 	}
 
