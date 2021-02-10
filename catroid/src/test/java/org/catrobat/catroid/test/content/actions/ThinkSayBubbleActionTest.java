@@ -26,8 +26,10 @@ package org.catrobat.catroid.test.content.actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -36,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +62,9 @@ public class ThinkSayBubbleActionTest {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 		PowerMockito.whenNew(ShowBubbleActor.class).withAnyArguments().thenReturn(Mockito.mock(ShowBubbleActor.class));
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
+
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@After

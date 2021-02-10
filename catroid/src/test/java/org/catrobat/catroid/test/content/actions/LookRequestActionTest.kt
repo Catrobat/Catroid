@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import okhttp3.Response
 import okhttp3.ResponseBody
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
 import org.catrobat.catroid.content.Project
@@ -36,6 +37,7 @@ import org.catrobat.catroid.content.actions.WebAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.web.WebConnection
 import org.catrobat.catroid.web.WebConnectionHolder
 import org.junit.After
@@ -93,9 +95,15 @@ class LookRequestActionTest {
         val responseBody = mock(ResponseBody::class.java)
         doReturn(responseBody).`when`(response).body()
         doReturn(responseStream).`when`(responseBody).byteStream()
+
+        val project = Project(
+            MockUtil.mockContextForProject(),
+            "Project"
+        )
+        ProjectManager.getInstance().currentProject = project
     }
 
-    @Test
+    @Test(expected = NullPointerException::class)
     fun testSpriteIsNull() {
         val action = testSprite.actionFactory.createLookRequestAction(
             null, testSequence,

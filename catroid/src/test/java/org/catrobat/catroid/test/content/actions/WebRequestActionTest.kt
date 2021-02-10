@@ -230,8 +230,9 @@ class WebRequestActionTest {
             .addConnection(webConnection)
 
         Mockito.doAnswer { invocation: InvocationOnMock ->
-            val sprite = invocation.getArgument<Sprite>(0)
-            sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
+            val scope = invocation.getArgument<Scope>(0)
+//            val sprite = invocation.getArgument<Sprite>(0)
+            scope.sprite.getUserVariable(TEST_INPUT_VARIABLE).value.toString()
         }.`when`(formula).interpretString(any(Scope::class.java))
 
         Mockito.doAnswer {
