@@ -1755,7 +1755,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="formula_editor_logic_comparison">operatori di confronto</string>
     <string name="formula_editor_object_general">proprietà generali</string>
     <string name="formula_editor_object_movement">proprietà del movimento</string>
-    <string name="formula_editor_device_visual_detection">Sensori visivi</string>
+    <string name="formula_editor_device_face_detection">Sensori visivi</string>
     <string name="formula_editor_device_date_and_time">Data e ora</string>
     <string name="formula_editor_device_touch_detection">Rilevamento tocco</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>

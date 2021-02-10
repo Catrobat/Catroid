@@ -1711,7 +1711,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">Operator perbandingan</string>
     <string name="formula_editor_object_general">Properti Umum</string>
     <string name="formula_editor_object_movement">Sifat gerak</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Tanggal dan waktu</string>
     <string name="formula_editor_device_touch_detection">Deteksi sentuhan</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
