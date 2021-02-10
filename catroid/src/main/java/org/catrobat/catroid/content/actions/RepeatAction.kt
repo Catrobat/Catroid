@@ -23,17 +23,15 @@
 package org.catrobat.catroid.content.actions
 
 import android.util.Log
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
-class RepeatAction : RepeatAction() {
+class RepeatAction : LoopAction() {
     private var executedCount = 0
     private var isCurrentLoopInitialized = false
     private var isRepeatActionInitialized = false
     private var repeatCountValue = 0
-    private var currentTime = 0f
     lateinit var sprite: Sprite
     var isForeverRepeat = false
     var repeatCount: Formula? = null
@@ -54,7 +52,7 @@ class RepeatAction : RepeatAction() {
         if (executedCount >= repeatCountValue && !isForeverRepeat) {
             return true
         }
-        if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
+        if (action != null && action.act(delta) && !isLoopDelayNeeded()) {
             executedCount++
             if (executedCount >= repeatCountValue && !isForeverRepeat) {
                 return true
@@ -83,9 +81,5 @@ class RepeatAction : RepeatAction() {
             )
             0
         }
-    }
-
-    companion object {
-        private const val LOOP_DELAY = 0.02f
     }
 }

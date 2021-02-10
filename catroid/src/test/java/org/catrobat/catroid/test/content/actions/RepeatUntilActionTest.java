@@ -138,7 +138,7 @@ public class RepeatUntilActionTest {
 		Action repeatedAction = testSprite.getActionFactory()
 				.createSetXAction(testSprite, new Formula(10));
 		Action repeatAction = testSprite.getActionFactory()
-				.createRepeatUntilAction(testSprite, null, repeatedAction);
+				.createRepeatUntilAction(testSprite, null, repeatedAction, true);
 
 		repeatAction.act(1.0f);
 		int repeatCountValue = ((RepeatUntilAction) repeatAction).getExecutedCount();
