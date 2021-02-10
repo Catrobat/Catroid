@@ -1716,7 +1716,7 @@
     <string name="formula_editor_logic_comparison">তুলনা অপারেটর</string>
     <string name="formula_editor_object_general">সাধারণ বৈশিষ্ট্য</string>
     <string name="formula_editor_object_movement">গতি বৈশিষ্ট্য</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_face_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">তারিখ এবং সময়</string>
     <string name="formula_editor_device_touch_detection">স্পর্শ সনাক্তকরণ</string>
     <string name="formula_editor_device_lego_nxt">লেগো মাইন্ডস্টর্ম এনএক্সটি</string>

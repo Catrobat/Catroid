@@ -1662,7 +1662,7 @@ bekleyin</string>
     <string name="formula_editor_logic_comparison">Karşılaştırma Operatörleri</string>
     <string name="formula_editor_object_general">Genel özellikler</string>
     <string name="formula_editor_object_movement">Hareket özellikleri</string>
-    <string name="formula_editor_device_visual_detection">Görsel sensörler</string>
+    <string name="formula_editor_device_face_detection">Görsel sensörler</string>
     <string name="formula_editor_device_date_and_time">Tarih ve zaman</string>
     <string name="formula_editor_device_touch_detection">Dokunmatiği tanıma</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>
