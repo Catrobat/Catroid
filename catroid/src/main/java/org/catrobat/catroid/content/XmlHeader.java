@@ -52,6 +52,7 @@ public class XmlHeader implements Serializable {
 	@SuppressWarnings("unused")
 	public boolean scenesEnabled = true;
 	private String listeningLanguageTag = "";
+	private String speakingLanguageTag = "";
 
 	//==============================================================================================
 	// mutable fields only used by Catroweb (share.catrob.at website) so far
@@ -268,5 +269,13 @@ public class XmlHeader implements Serializable {
 
 	public void setListeningLanguageTag(String listeningLanguageTag) {
 		this.listeningLanguageTag = listeningLanguageTag;
+	}
+
+	public String getSpeakingLanguageTag() {
+		return speakingLanguageTag;
+	}
+
+	public void setSpeakingLanguageTag (String speakingLanguageTag) {
+		this.speakingLanguageTag = speakingLanguageTag;
 	}
 }

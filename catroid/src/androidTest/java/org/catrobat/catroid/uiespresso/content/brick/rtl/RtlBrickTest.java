@@ -149,6 +149,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -181,6 +182,7 @@ import org.catrobat.catroid.content.bricks.WhenNfcBrick;
 import org.catrobat.catroid.content.bricks.WhenRaspiPinChangedBrick;
 import org.catrobat.catroid.content.bricks.WhenStartedBrick;
 import org.catrobat.catroid.content.bricks.WhenTouchDownBrick;
+import org.catrobat.catroid.stage.TextToSpeechHolder;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -261,6 +263,7 @@ public class RtlBrickTest {
 			}
 		}
 		Utils.fetchSpeechRecognitionSupportedLanguages(ApplicationProvider.getApplicationContext());
+		TextToSpeechHolder.getInstance().fetchSupportedLocales(ApplicationProvider.getApplicationContext());
 		baseActivityTestRule.launchActivity();
 	}
 
@@ -433,6 +436,8 @@ public class RtlBrickTest {
 		checkIfBrickISRtl(StartListeningBrick.class, R.id.brick_start_listening_layout);
 
 		checkIfBrickISRtl(SetListeningLanguageBrick.class, R.id.brick_set_listening_language_layout);
+
+		checkIfBrickISRtl(SetSpeakingLanguageBrick.class, R.id.brick_set_speaking_language_layout);
 
 		checkIfBrickISRtl(PauseForBeatsBrick.class, R.id.brick_pause_for_beats_layout);
 

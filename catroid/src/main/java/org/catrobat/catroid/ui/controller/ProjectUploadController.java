@@ -77,6 +77,7 @@ public class ProjectUploadController {
 		project.setNotesAndCredits(projectNotesAndCredits);
 		project.setDeviceData(context);
 		project.setListeningLanguageTag();
+		project.setSpeakingLanguageTag();
 		ProjectSaveTask.task(project, context);
 
 		Intent uploadIntent = createUploadIntent(projectName, projectDescription, project);

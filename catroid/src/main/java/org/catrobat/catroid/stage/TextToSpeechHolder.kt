@@ -22,18 +22,22 @@
  */
 package org.catrobat.catroid.stage
 
+import android.content.Context
 import android.content.Intent
 import android.speech.tts.TextToSpeech
 import android.speech.tts.TextToSpeech.OnInitListener
 import android.speech.tts.UtteranceProgressListener
+import android.speech.tts.Voice
 import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.appcompat.app.AlertDialog
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.content.bricks.Brick
+import org.catrobat.catroid.formulaeditor.SensorHandler
 import java.io.File
 import java.util.HashMap
+import java.util.Locale
 
 class TextToSpeechHolder private constructor() {
 
@@ -70,6 +74,7 @@ class TextToSpeechHolder private constructor() {
     fun textToSpeech(text: String?, speechFile: File, listener: UtteranceProgressListener, speakParameter: HashMap<String, String?>) {
         if (utteranceProgressListenerContainer?.addUtteranceProgressListener(speechFile, listener,
             speakParameter[TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID]) == true) {
+                forceSetLanguage()
             val status = textToSpeech?.synthesizeToFile(text ?: "", speakParameter, speechFile.absolutePath)
             if (status == TextToSpeech.ERROR) {
                 Log.e(TAG, "File synthesizing failed")
@@ -86,10 +91,40 @@ class TextToSpeechHolder private constructor() {
         }
     }
 
+    fun forceSetLanguage() {
+        val locale = Locale(SensorHandler.getSpeakingLanguageSensor())
+        textToSpeech?.defaultVoice?.let {
+            val voice = Voice(it.name, locale, it.quality, it.latency, it
+                .isNetworkConnectionRequired, it.features)
+            textToSpeech?.voice = voice
+        }
+        textToSpeech?.language = locale
+    }
+
+    fun fetchSupportedLocales(context: Context) {
+        textToSpeech = TextToSpeech(context) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val defaultLocale = textToSpeech?.defaultVoice?.locale
+                textToSpeech?.availableLanguages?.let {
+                    supportedLocales.addAll(it)
+                }
+                defaultLocale?.let {
+                    supportedLocales.remove(it)
+                    supportedLocales.add(0, it)
+                    SensorHandler.setSpeakingLanguageSensor(defaultLocale.toLanguageTag())
+                }
+
+            }
+        }
+    }
+
+    fun getSupportedLocales() = supportedLocales
+
     companion object {
         private val TAG = TextToSpeechHolder::class.java.simpleName
         private var textToSpeech: TextToSpeech? = null
         private var utteranceProgressListenerContainer: UtteranceProgressListenerContainer? = null
+        private val supportedLocales = mutableListOf<Locale>()
         @JvmStatic
         var instance = TextToSpeechHolder()
     }

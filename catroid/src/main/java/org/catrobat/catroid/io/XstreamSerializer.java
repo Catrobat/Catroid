@@ -210,6 +210,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTextBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
@@ -500,6 +501,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", StopSoundBrick.class);
 		xstream.alias("brick", StopAllSoundsBrick.class);
 		xstream.alias("brick", SetListeningLanguageBrick.class);
+		xstream.alias("brick", SetSpeakingLanguageBrick.class);
 		xstream.alias("brick", ThinkBubbleBrick.class);
 		xstream.alias("brick", SayBubbleBrick.class);
 		xstream.alias("brick", ThinkForBubbleBrick.class);

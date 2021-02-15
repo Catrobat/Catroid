@@ -33,6 +33,7 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import org.catrobat.catroid.koin.CatroidKoinHelperKt;
+import org.catrobat.catroid.stage.TextToSpeechHolder;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Locale;
@@ -68,6 +69,7 @@ public class CatroidApplication extends Application {
 		}
 
 		Utils.fetchSpeechRecognitionSupportedLanguages(this);
+		TextToSpeechHolder.getInstance().fetchSupportedLocales(this);
 
 		context = getApplicationContext();
 

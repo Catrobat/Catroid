@@ -109,6 +109,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public static double timerPauseValue = 0d;
 
 	private static String listeningLanguageSensor;
+	private static String speakingLanguageSensor;
 
 	private SensorLoudness sensorLoudness = null;
 
@@ -613,6 +614,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return String.valueOf(NfcHandler.getLastNfcTagId());
 			case SPEECH_RECOGNITION_LANGUAGE:
 				return listeningLanguageSensor;
+			case TEXT_TO_SPEECH_LANGUAGE:
+				return speakingLanguageSensor;
 		}
 		return 0d;
 	}
@@ -624,6 +627,15 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	public static void setListeningLanguageSensor(String listeningLanguageTag) {
 		listeningLanguageSensor = listeningLanguageTag;
 		Log.d(TAG, "listening language sensor changed to: " + listeningLanguageSensor);
+	}
+
+	public static String getSpeakingLanguageSensor() {
+		return speakingLanguageSensor;
+	}
+
+	public static void setSpeakingLanguageSensor(String speakingLanguageTag) {
+		speakingLanguageSensor = speakingLanguageTag;
+		Log.e(TAG, "speaking language sensor changed to: " + speakingLanguageSensor);
 	}
 
 	public static void clearFaceDetectionValues() {

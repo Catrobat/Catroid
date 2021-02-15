@@ -181,6 +181,7 @@ import org.catrobat.catroid.content.bricks.SetPenSizeBrick;
 import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
+import org.catrobat.catroid.content.bricks.SetSpeakingLanguageBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
@@ -495,6 +496,7 @@ public class CategoryBricksFactory {
 		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 		soundBrickList.add(new StartListeningBrick());
 		soundBrickList.add(new SetListeningLanguageBrick());
+		soundBrickList.add(new SetSpeakingLanguageBrick());
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new PlayNoteForBeatsBrick(70, 1));

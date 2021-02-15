@@ -40,6 +40,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.content.ActionPhysicsFactory;
 import org.catrobat.catroid.stage.StageActivity;
+import org.catrobat.catroid.stage.TextToSpeechHolder;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import org.catrobat.catroid.utils.ScreenValueHandler;
 import org.catrobat.catroid.utils.Utils;
@@ -48,6 +49,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static org.catrobat.catroid.common.Constants.Z_INDEX_BACKGROUND;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -410,6 +412,14 @@ public class Project implements Serializable {
 				&& !SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.isEmpty()) {
 			// first item represents the default speech recognition language
 			xmlHeader.setListeningLanguageTag(SPEECH_RECOGNITION_SUPPORTED_LANGUAGES.get(0));
+		}
+	}
+
+	public void setSpeakingLanguageTag() {
+		List<Locale> supportedLocales = TextToSpeechHolder.getInstance().getSupportedLocales();
+		if (xmlHeader.getSpeakingLanguageTag().isEmpty()
+				&& !supportedLocales.isEmpty()) {
+			xmlHeader.setSpeakingLanguageTag(supportedLocales.get(0).toLanguageTag());
 		}
 	}
 

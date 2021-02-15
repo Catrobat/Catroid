@@ -235,6 +235,8 @@ public class InternToExternGenerator {
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.SPEECH_RECOGNITION_LANGUAGE.name(),
 				R.string.formula_editor_listening_language_sensor);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TEXT_TO_SPEECH_LANGUAGE.name(),
+				R.string.formula_editor_speaking_language_sensor);
 	}
 	public InternToExternGenerator(Context context) {
 		this.context = context;

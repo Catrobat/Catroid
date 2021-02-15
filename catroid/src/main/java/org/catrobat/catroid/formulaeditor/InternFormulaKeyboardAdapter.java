@@ -431,6 +431,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.COLOR_TOUCHES_COLOR, STRING, "#ff0000", STRING, "#ff0000");
 			case R.string.formula_editor_listening_language_sensor:
 				return buildSensor(Sensors.SPEECH_RECOGNITION_LANGUAGE);
+			case R.string.formula_editor_speaking_language_sensor:
+				return buildSensor(Sensors.TEXT_TO_SPEECH_LANGUAGE);
 		}
 		return null;
 	}

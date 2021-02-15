@@ -155,6 +155,7 @@ import org.catrobat.catroid.content.actions.SetPenSizeAction;
 import org.catrobat.catroid.content.actions.SetPreviousLookAction;
 import org.catrobat.catroid.content.actions.SetRotationStyleAction;
 import org.catrobat.catroid.content.actions.SetSizeToAction;
+import org.catrobat.catroid.content.actions.SetSpeakingLanguageAction;
 import org.catrobat.catroid.content.actions.SetTempoAction;
 import org.catrobat.catroid.content.actions.SetTextAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
@@ -1530,6 +1531,12 @@ public class ActionFactory extends Actions {
 	public Action createSetListeningLanguageAction(String listeningLanguageTag) {
 		SetListeningLanguageAction action = action(SetListeningLanguageAction.class);
 		action.listeningLanguageTag = listeningLanguageTag;
+		return action;
+	}
+
+	public Action createSetSpeakingLanguageAction(String speakingLanguageTag) {
+		SetSpeakingLanguageAction action = action(SetSpeakingLanguageAction.class);
+		action.speakingLanguageTag = speakingLanguageTag;
 		return action;
 	}
 
