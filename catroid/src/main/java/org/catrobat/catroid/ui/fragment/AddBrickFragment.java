@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,6 @@ import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.ui.adapter.PrototypeBrickAdapter;
-import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
 import java.util.List;
@@ -57,7 +56,7 @@ public class AddBrickFragment extends ListFragment {
 
 	private static final String BUNDLE_ARGUMENTS_SELECTED_CATEGORY = "selected_category";
 
-	private ScriptFragment scriptFragment;
+	private OnAddBrickListener addBrickListener;
 	private CharSequence previousActionBarTitle;
 	private PrototypeBrickAdapter adapter;
 	private static int listIndexToFocus = -1;
@@ -66,12 +65,12 @@ public class AddBrickFragment extends ListFragment {
 		return PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(BEGINNER_BRICKS, false);
 	}
 
-	public static AddBrickFragment newInstance(String selectedCategory, ScriptFragment scriptFragment) {
+	public static AddBrickFragment newInstance(String selectedCategory, OnAddBrickListener addBrickListener) {
 		AddBrickFragment fragment = new AddBrickFragment();
 		Bundle arguments = new Bundle();
 		arguments.putString(BUNDLE_ARGUMENTS_SELECTED_CATEGORY, selectedCategory);
 		fragment.setArguments(arguments);
-		fragment.scriptFragment = scriptFragment;
+		fragment.addBrickListener = addBrickListener;
 		return fragment;
 	}
 
@@ -154,7 +153,7 @@ public class AddBrickFragment extends ListFragment {
 
 		try {
 			brickToAdd = brickToAdd.clone();
-			scriptFragment.addBrick(brickToAdd);
+			addBrickListener.addBrick(brickToAdd);
 
 			FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 			Fragment categoryFragment = getFragmentManager()
@@ -177,5 +176,9 @@ public class AddBrickFragment extends ListFragment {
 			Log.e(getTag(), e.getLocalizedMessage());
 			ToastUtil.showError(getActivity(), R.string.error_adding_brick);
 		}
+	}
+
+	public interface OnAddBrickListener {
+		void addBrick(Brick brick);
 	}
 }
