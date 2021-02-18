@@ -213,6 +213,9 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.INDEX_CURRENT_TOUCH, NUMBER, "1");
 			case R.string.formula_editor_sensor_color_at_x_y:
 				return buildDoubleParameterFunction(Functions.COLOR_AT_XY, NUMBER, "100", NUMBER, "200");
+			case R.string.formula_editor_sensor_color_equals_color:
+				return buildTripleParameterFunction(Functions.COLOR_EQUALS_COLOR, STRING, "#ff0000",
+						STRING, "#fe0000", NUMBER, "1");
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
 			case R.string.formula_editor_sensor_y_acceleration:

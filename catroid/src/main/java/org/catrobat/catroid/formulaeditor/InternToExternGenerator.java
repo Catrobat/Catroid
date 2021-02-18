@@ -112,7 +112,8 @@ public class InternToExternGenerator {
 		if (BuildConfig.DEBUG) {
 			INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.COLOR_AT_XY.name(), R.string.formula_editor_sensor_color_at_x_y);
 		}
-
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Functions.COLOR_EQUALS_COLOR.name(),
+				R.string.formula_editor_sensor_color_equals_color);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.X_ACCELERATION.name(), R.string.formula_editor_sensor_x_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Y_ACCELERATION.name(), R.string.formula_editor_sensor_y_acceleration);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.Z_ACCELERATION.name(), R.string.formula_editor_sensor_z_acceleration);
