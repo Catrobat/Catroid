@@ -154,6 +154,11 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> SENSORS_COLOR_AT_XY = asList(R.string.formula_editor_sensor_color_at_x_y);
 	private static final List<Integer> SENSORS_COLOR_AT_XY_PARAMS = asList(R.string.formula_editor_sensor_color_at_x_y_parameter);
 
+	private static final List<Integer> SENSORS_COLOR_EQUALS_COLOR =
+			asList(R.string.formula_editor_sensor_color_equals_color);
+	private static final List<Integer> SENSORS_COLOR_EQUALS_COLOR_PARAMS =
+			asList(R.string.formula_editor_sensor_color_equals_color_parameter);
+
 	private static final List<Integer> SENSORS_ACCELERATION = asList(R.string.formula_editor_sensor_x_acceleration,
 			R.string.formula_editor_sensor_y_acceleration, R.string.formula_editor_sensor_z_acceleration);
 	private static final List<Integer> SENSORS_INCLINATION = asList(R.string.formula_editor_sensor_x_inclination,
@@ -637,6 +642,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 			deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
 		}
 
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_EQUALS_COLOR,
+				SENSORS_COLOR_EQUALS_COLOR_PARAMS));
 		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
 				: Collections.emptyList());
 		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
