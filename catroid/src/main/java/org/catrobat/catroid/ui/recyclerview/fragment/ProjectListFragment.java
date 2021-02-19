@@ -298,7 +298,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		if (adapter.getItems().isEmpty()) {
 			setShowProgressBar(true);
 
-			if (ProjectManager.getInstance().initializeDefaultProject(getContext())) {
+			if (ProjectManager.getInstance().initializeDefaultProject()) {
 				adapter.setItems(getItemList());
 				setShowProgressBar(false);
 			} else {
@@ -374,7 +374,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		}
 		if (actionModeType == NONE) {
 			setShowProgressBar(true);
-			new ProjectLoadTask(item.getDirectory(), getContext())
+			new ProjectLoadTask(item.getDirectory())
 					.setListener(this)
 					.execute();
 		}
@@ -417,7 +417,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 										.commit();
 								break;
 							case 4:
-								ProjectLoadTask.task(item.getDirectory(), getContext());
+								ProjectLoadTask.task(item.getDirectory());
 								startActivity(new Intent(getActivity(), ProjectUploadActivity.class)
 										.putExtra(ProjectUploadActivity.PROJECT_DIR, item.getDirectory()));
 								break;

@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.io.asynctask;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -41,17 +40,14 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	private File projectDir;
 
-	private WeakReference<Context> weakContextReference;
 	private WeakReference<ProjectLoadListener> weakListenerReference;
 
-	public ProjectLoadTask(Context context, ProjectLoadListener listener) {
-		weakContextReference = new WeakReference<>(context);
+	public ProjectLoadTask(ProjectLoadListener listener) {
 		weakListenerReference = new WeakReference<>(listener);
 	}
 
-	public ProjectLoadTask(File projectDir, Context context) {
+	public ProjectLoadTask(File projectDir) {
 		this.projectDir = projectDir;
-		weakContextReference = new WeakReference<>(context);
 	}
 
 	public ProjectLoadTask setListener(ProjectLoadListener listener) {
@@ -59,9 +55,9 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 		return this;
 	}
 
-	public static boolean task(File projectDir, Context context) {
+	public static boolean task(File projectDir) {
 		try {
-			ProjectManager.getInstance().loadProject(projectDir, context);
+			ProjectManager.getInstance().loadProject(projectDir);
 			Project project = ProjectManager.getInstance().getCurrentProject();
 			new DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project);
 			new DeviceListAccessor(projectDir).cleanUpDeletedUserData(project);
@@ -74,11 +70,7 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected Boolean doInBackground(Void... voids) {
-		Context context = weakContextReference.get();
-		if (context == null) {
-			return false;
-		}
-		return task(projectDir, context);
+		return task(projectDir);
 	}
 
 	@Override

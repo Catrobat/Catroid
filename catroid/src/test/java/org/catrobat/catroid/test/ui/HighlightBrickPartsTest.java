@@ -50,7 +50,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import androidx.annotation.IdRes;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -79,13 +78,15 @@ public class HighlightBrickPartsTest {
 
 	private BrickAdapter brickAdapter;
 	private BrickListView brickListView;
+	private ProjectManager projectManager;
 
 	@Before
 	public void setUp() {
 		Context context = Mockito.mock(Context.class).getApplicationContext();
+		projectManager = new ProjectManager(MockUtil.mockContextForProject());
 		createProject();
 
-		brickAdapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
+		brickAdapter = new BrickAdapter(projectManager.getCurrentSprite());
 		brickListView = Mockito.spy(new BrickListView(context));
 		brickListView.setAdapter(brickAdapter);
 		View view = Mockito.mock(View.class);
@@ -114,8 +115,8 @@ public class HighlightBrickPartsTest {
 
 		sprite.addScript(script);
 
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
+		projectManager.setCurrentProject(project);
+		projectManager.setCurrentSprite(sprite);
 	}
 
 	@Test

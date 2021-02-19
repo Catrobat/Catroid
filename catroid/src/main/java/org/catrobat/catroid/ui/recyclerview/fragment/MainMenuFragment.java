@@ -184,13 +184,13 @@ public class MainMenuFragment extends Fragment implements
 		}
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
-		ProjectLoadTask.task(projectDir, getContext());
+		ProjectLoadTask.task(projectDir);
 		loadProjectImage();
 	}
 
 	private void loadDownloadedProject(String name) {
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor.encodeSpecialCharsForFileSystem(name));
-		new ProjectLoadTask(projectDir, getContext())
+		new ProjectLoadTask(projectDir)
 				.setListener(this)
 				.execute();
 	}
@@ -221,7 +221,7 @@ public class MainMenuFragment extends Fragment implements
 				setShowProgressBar(true);
 				File projectDir = new File(DEFAULT_ROOT_DIRECTORY,
 						FileMetaDataExtractor.encodeSpecialCharsForFileSystem(currentProject));
-				new ProjectLoadTask(projectDir, getContext())
+				new ProjectLoadTask(projectDir)
 						.setListener(this)
 						.execute();
 				break;
@@ -287,7 +287,7 @@ public class MainMenuFragment extends Fragment implements
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, FileMetaDataExtractor
 				.encodeSpecialCharsForFileSystem(projectData.getName()));
 
-		new ProjectLoadTask(projectDir, getContext())
+		new ProjectLoadTask(projectDir)
 				.setListener(this)
 				.execute();
 	}

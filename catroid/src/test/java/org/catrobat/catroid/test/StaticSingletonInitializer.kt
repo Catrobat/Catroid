@@ -26,6 +26,8 @@ package org.catrobat.catroid.test
 import android.content.Context
 import org.catrobat.catroid.ProjectManager
 
+// TODO: 2/19/2021 remove
+
 /**
  * Static singleton methods need to be initialized until they are removed entirely.
  *

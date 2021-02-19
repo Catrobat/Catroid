@@ -96,7 +96,7 @@ public class ProjectRenameSpecialCharactersTaskTest {
 
 		assertEquals(projectNameWithoutSpecialCharacter, renamedDirectory.getName());
 
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory));
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(projectNameWithoutSpecialCharacter, project.getName());
@@ -112,7 +112,7 @@ public class ProjectRenameSpecialCharactersTaskTest {
 
 		assertEquals(expectedDirectory, renamedDirectory);
 
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory));
 
 		project = ProjectManager.getInstance().getCurrentProject();
 		assertEquals(specialCharacterProjectName, project.getName());

@@ -88,8 +88,7 @@ public class MessageContainerTest {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		currentProject.getBroadcastMessageContainer().update();
 
-		ProjectManager.getInstance()
-				.loadProject(project2.getDirectory(), ApplicationProvider.getApplicationContext());
+		ProjectManager.getInstance().loadProject(project2.getDirectory());
 
 		currentProject = ProjectManager.getInstance().getCurrentProject();
 		ProjectManager.getInstance().setCurrentlyEditedScene(currentProject.getDefaultScene());
@@ -132,7 +131,6 @@ public class MessageContainerTest {
 		XstreamSerializer.getInstance().saveProject(project2);
 
 		ProjectManager.getInstance()
-				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2),
-						ApplicationProvider.getApplicationContext());
+				.loadProject(new File(FlavoredConstants.DEFAULT_ROOT_DIRECTORY, projectName2));
 	}
 }

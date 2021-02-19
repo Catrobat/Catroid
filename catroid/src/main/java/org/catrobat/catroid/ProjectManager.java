@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -100,32 +100,24 @@ public final class ProjectManager {
 	}
 
 	public void loadProject(File projectDir) throws ProjectException {
-		loadProject(projectDir, applicationContext);
-	}
-
-	/**
-	 * @deprecated use {@link #loadProject(File projectDir)} without Context instead.
-	 */
-	@Deprecated
-	public void loadProject(File projectDir, Context context) throws ProjectException {
 
 		Project previousProject = project;
 
 		try {
-			project = XstreamSerializer.getInstance().loadProject(projectDir, context);
+			project = XstreamSerializer.getInstance().loadProject(projectDir, applicationContext);
 		} catch (IOException e) {
 			Log.e(TAG, Log.getStackTraceString(e));
 			restorePreviousProject(previousProject);
-			throw new LoadingProjectException(context.getString(R.string.error_load_project));
+			throw new LoadingProjectException(applicationContext.getString(R.string.error_load_project));
 		}
 
 		if (project.getCatrobatLanguageVersion() > CURRENT_CATROBAT_LANGUAGE_VERSION) {
 			restorePreviousProject(previousProject);
-			throw new OutdatedVersionProjectException(context.getString(R.string.error_outdated_version));
+			throw new OutdatedVersionProjectException(applicationContext.getString(R.string.error_outdated_version));
 		}
 		if (project.getCatrobatLanguageVersion() < 0.9 && project.getCatrobatLanguageVersion() != 0.8) {
 			restorePreviousProject(previousProject);
-			throw new CompatibilityProjectException(context.getString(R.string.error_project_compatibility));
+			throw new CompatibilityProjectException(applicationContext.getString(R.string.error_project_compatibility));
 		}
 
 		if (project.getCatrobatLanguageVersion() <= 0.91) {
@@ -154,24 +146,24 @@ public final class ProjectManager {
 		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
-		localizeBackgroundSprites(project, context.getString(R.string.background));
+		localizeBackgroundSprites(project, applicationContext.getString(R.string.background));
 		initializeScripts(project);
 
-		loadLegoNXTSettingsFromProject(project, context);
-		loadLegoEV3SettingsFromProject(project, context);
+		loadLegoNXTSettingsFromProject(project, applicationContext);
+		loadLegoEV3SettingsFromProject(project, applicationContext);
 
 		Brick.ResourcesSet resourcesSet = project.getRequiredResources();
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
-			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
+			SettingsFragment.setPhiroSharedPreferenceEnabled(applicationContext, true);
 		}
 
 		if (resourcesSet.contains(Brick.JUMPING_SUMO)) {
-			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
+			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(applicationContext, true);
 		}
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
-			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
+			SettingsFragment.setArduinoSharedPreferenceEnabled(applicationContext, true);
 		}
 
 		currentlyPlayingScene = project.getDefaultScene();
@@ -310,7 +302,7 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				for (Script script : sprite.getScriptList()) {
-					List<Brick> flatList = new ArrayList();
+					List<Brick> flatList = new ArrayList<>();
 					script.addToFlatList(flatList);
 					for (Brick brick : flatList) {
 						if (brick instanceof FormulaBrick) {
@@ -401,18 +393,9 @@ public final class ProjectManager {
 		}
 	}
 
-	@SuppressWarnings({"unused", "WeakerAccess"})
 	public boolean initializeDefaultProject() {
-		return initializeDefaultProject(applicationContext);
-	}
-
-	/**
-	 * @deprecated use {@link #initializeDefaultProject()} without Context instead.
-	 */
-	@Deprecated
-	public boolean initializeDefaultProject(Context context) {
 		try {
-			project = DefaultProjectHandler.createAndSaveDefaultProject(context);
+			project = DefaultProjectHandler.createAndSaveDefaultProject(applicationContext);
 			currentSprite = null;
 			currentlyEditedScene = project.getDefaultScene();
 			currentlyPlayingScene = currentlyEditedScene;
@@ -423,34 +406,17 @@ public final class ProjectManager {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	public void createNewEmptyProject(String name, boolean landscapeMode, boolean castEnabled) throws IOException {
-		createNewEmptyProject(name, applicationContext, landscapeMode, castEnabled);
-	}
-
-	/**
-	 * @deprecated use {@link #createNewEmptyProject(String, boolean, boolean)} ()} without Context instead.
-	 */
-	@Deprecated
-	public void createNewEmptyProject(String name, Context context, boolean landscapeMode, boolean castEnabled) throws IOException {
-		project = DefaultProjectHandler.createAndSaveEmptyProject(name, context, landscapeMode, castEnabled);
+		project = DefaultProjectHandler.createAndSaveEmptyProject(name, applicationContext, landscapeMode,
+				castEnabled);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
 	}
 
-	@SuppressWarnings("unused")
 	public void createNewExampleProject(String name, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
-		createNewExampleProject(name, applicationContext, projectCreatorType, landscapeMode);
-	}
-
-	/**
-	 * @deprecated use {@link #createNewExampleProject(String, DefaultProjectHandler.ProjectCreatorType, boolean)} ()} without Context instead.
-	 */
-	@Deprecated
-	public void createNewExampleProject(String name, Context context, DefaultProjectHandler.ProjectCreatorType projectCreatorType, boolean landscapeMode) throws IOException {
 		DefaultProjectHandler.getInstance().setDefaultProjectCreator(projectCreatorType);
-		project = DefaultProjectHandler.createAndSaveDefaultProject(name, context, landscapeMode);
+		project = DefaultProjectHandler.createAndSaveDefaultProject(name, applicationContext, landscapeMode);
 		currentSprite = null;
 		currentlyEditedScene = project.getDefaultScene();
 		currentlyPlayingScene = currentlyEditedScene;
@@ -515,19 +481,18 @@ public final class ProjectManager {
 		currentSprite = sprite;
 	}
 
-	public boolean setCurrentSceneAndSprite(String sceneName, String spriteName) {
+	public void setCurrentSceneAndSprite(String sceneName, String spriteName) {
 		for (Scene scene : project.getSceneList()) {
 			if (scene.getName().equals(sceneName)) {
 				setCurrentlyEditedScene(scene);
 				for (Sprite sprite : scene.getSpriteList()) {
 					if (sprite.getName().equals(spriteName)) {
 						currentSprite = sprite;
-						return true;
+						return;
 					}
 				}
 			}
 		}
-		return false;
 	}
 
 	public void setCurrentlyEditedScene(Scene scene) {

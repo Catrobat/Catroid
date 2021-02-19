@@ -304,7 +304,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 					FileMetaDataExtractor.encodeSpecialCharsForFileSystem(BuildConfig.PROJECT_NAME));
 			new ZipArchiver()
 					.unzip(inputStream, projectDir);
-			new ProjectLoadTask(projectDir, this)
+			new ProjectLoadTask(projectDir)
 					.setListener(this)
 					.execute();
 		} catch (IOException e) {

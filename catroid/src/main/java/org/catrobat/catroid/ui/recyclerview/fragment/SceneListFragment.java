@@ -216,7 +216,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
 				new ProjectSaveTask(currentProject, getContext())
 						.execute();
-				new ProjectLoadTask(currentProject.getDirectory(), getContext())
+				new ProjectLoadTask(currentProject.getDirectory())
 						.setListener(this)
 						.execute();
 			} else {

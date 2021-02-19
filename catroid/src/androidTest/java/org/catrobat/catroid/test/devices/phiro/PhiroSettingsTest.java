@@ -75,8 +75,7 @@ public class PhiroSettingsTest {
 	public void testIfPhiroBricksAreEnabledIfItItUsedInAProgram() throws IOException, ProjectException {
 		assertFalse(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 
-		ProjectManager.getInstance()
-				.loadProject(project.getDirectory(), ApplicationProvider.getApplicationContext());
+		ProjectManager.getInstance().loadProject(project.getDirectory());
 
 		assertTrue(SettingsFragment.isPhiroSharedPreferenceEnabled(ApplicationProvider.getApplicationContext()));
 

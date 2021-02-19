@@ -66,7 +66,7 @@ public class ProjectRenameTaskTest {
 	public void projectRenameTaskTest() throws IOException {
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(renamedProjectName, renamedDirectory.getName());
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory));
 	}
 
 	@Test
@@ -74,6 +74,6 @@ public class ProjectRenameTaskTest {
 		File expectedDirectory = new File(defaultProject.getDirectory().getParent(), renamedProjectName);
 		File renamedDirectory = ProjectRenameTask.task(defaultProject.getDirectory(), renamedProjectName);
 		assertEquals(expectedDirectory, renamedDirectory);
-		assertTrue(ProjectLoadTask.task(renamedDirectory, ApplicationProvider.getApplicationContext()));
+		assertTrue(ProjectLoadTask.task(renamedDirectory));
 	}
 }

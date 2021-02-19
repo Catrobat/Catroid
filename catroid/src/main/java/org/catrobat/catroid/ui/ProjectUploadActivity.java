@@ -310,7 +310,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 		if (!project.getName().equals(name)) {
 			try {
 				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
-				ProjectLoadTask.task(renamedDirectory, getApplicationContext());
+				ProjectLoadTask.task(renamedDirectory);
 				project = ProjectManager.getInstance().getCurrentProject();
 			} catch (IOException e) {
 				Log.e(TAG, "Creating renamed directory failed!", e);

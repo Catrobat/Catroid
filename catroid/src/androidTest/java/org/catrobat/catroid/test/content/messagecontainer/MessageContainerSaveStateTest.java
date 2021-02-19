@@ -96,7 +96,7 @@ public class MessageContainerSaveStateTest {
 		XstreamSerializer.getInstance().saveProject(project1);
 
 		ProjectManager.getInstance()
-				.loadProject(project1.getDirectory(), ApplicationProvider.getApplicationContext());
+				.loadProject(project1.getDirectory());
 
 		ProjectManager.getInstance()
 				.setCurrentlyEditedScene(ProjectManager.getInstance().getCurrentProject().getDefaultScene());

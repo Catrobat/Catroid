@@ -111,18 +111,18 @@ public class NewProjectDialogFragment extends DialogFragment {
 			if (exampleProject) {
 				if (castProject) {
 					ProjectManager.getInstance()
-							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_CAST, false);
+							.createNewExampleProject(projectName, PROJECT_CREATOR_CAST, false);
 				} else {
 					ProjectManager.getInstance()
-							.createNewExampleProject(projectName, getContext(), PROJECT_CREATOR_DEFAULT, landscape);
+							.createNewExampleProject(projectName, PROJECT_CREATOR_DEFAULT, landscape);
 				}
 			} else {
 				if (castProject) {
 					ProjectManager.getInstance()
-							.createNewEmptyProject(projectName, getContext(), false, true);
+							.createNewEmptyProject(projectName, false, true);
 				} else {
 					ProjectManager.getInstance()
-							.createNewEmptyProject(projectName, getContext(), landscape, false);
+							.createNewEmptyProject(projectName, landscape, false);
 				}
 			}
 			getActivity().startActivity(new Intent(getActivity(), ProjectActivity.class));

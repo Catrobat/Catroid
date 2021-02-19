@@ -78,7 +78,7 @@ public class ArduinoSettingsTest {
 
 		assertFalse(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 
-		ProjectManager.getInstance().loadProject(project.getDirectory(), context);
+		ProjectManager.getInstance().loadProject(project.getDirectory());
 
 		assertTrue(SettingsFragment.isArduinoSharedPreferenceEnabled(context));
 

@@ -379,7 +379,7 @@ public final class Utils {
 		if (ProjectManager.getInstance().getCurrentProject() == null) {
 
 			if (FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY).size() == 0) {
-				ProjectManager.getInstance().initializeDefaultProject(context);
+				ProjectManager.getInstance().initializeDefaultProject();
 			}
 
 			SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);

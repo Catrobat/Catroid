@@ -300,7 +300,7 @@ public class XstreamSerializerTest {
 				.setLegoMindstormsNXTSensorMapping(ApplicationProvider.getApplicationContext(), changedSensorMapping);
 
 		assertTrue(ProjectLoadTask
-				.task(project.getDirectory(), ApplicationProvider.getApplicationContext()));
+				.task(project.getDirectory()));
 
 		actualSensorMapping = SettingsFragment.getLegoNXTSensorMapping(ApplicationProvider.getApplicationContext());
 

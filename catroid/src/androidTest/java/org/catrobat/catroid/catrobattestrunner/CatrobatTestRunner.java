@@ -44,7 +44,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.test.core.app.ApplicationProvider;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 import androidx.test.rule.GrantPermissionRule;
@@ -124,7 +123,7 @@ public class CatrobatTestRunner {
 		File projectDir = new File(DEFAULT_ROOT_DIRECTORY, projectName);
 
 		assertTrue(ProjectLoadTask
-				.task(projectDir, ApplicationProvider.getApplicationContext()));
+				.task(projectDir));
 	}
 
 	@After
