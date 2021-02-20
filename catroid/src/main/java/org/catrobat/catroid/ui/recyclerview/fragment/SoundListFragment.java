@@ -54,6 +54,10 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	private SoundController soundController = new SoundController();
 
+	public SoundListFragment() {
+		// required empty constructor
+	}
+
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
