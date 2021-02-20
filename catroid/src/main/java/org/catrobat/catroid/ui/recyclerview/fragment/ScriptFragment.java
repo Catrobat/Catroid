@@ -85,6 +85,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -104,6 +105,8 @@ public class ScriptFragment extends ListFragment implements
 		ProjectLoadTask.ProjectLoadListener {
 
 	public static final String TAG = ScriptFragment.class.getSimpleName();
+	private static final String BRICK_TAG = "brickToFocus";
+	private static final String SCRIPT_TAG = "scriptToFocus";
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({NONE, BACKPACK, COPY, DELETE, COMMENT, CATBLOCKS})
@@ -134,15 +137,34 @@ public class ScriptFragment extends ListFragment implements
 	private Brick brickToFocus;
 	private Script scriptToFocus;
 
-	public ScriptFragment(Brick brickToFocus) {
-		this.brickToFocus = brickToFocus;
+	public static ScriptFragment newInstance(Brick brickToFocus) {
+		ScriptFragment scriptFragment = new ScriptFragment();
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(BRICK_TAG, brickToFocus);
+		scriptFragment.setArguments(bundle);
+		return scriptFragment;
+	}
+
+	public static ScriptFragment newInstance(Script scriptToFocus) {
+		ScriptFragment scriptFragment = new ScriptFragment();
+		Bundle bundle = new Bundle();
+		bundle.putSerializable(SCRIPT_TAG, scriptToFocus);
+		scriptFragment.setArguments(bundle);
+		return scriptFragment;
 	}
 
 	public ScriptFragment() {
+		// required empty constructor
 	}
 
-	public ScriptFragment(Script scriptToFocus) {
-		this.scriptToFocus = scriptToFocus;
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			this.brickToFocus = (Brick) bundle.get(BRICK_TAG);
+			this.scriptToFocus = (Script) bundle.get(SCRIPT_TAG);
+		}
 	}
 
 	private List<UserVariable> savedUserVariables;

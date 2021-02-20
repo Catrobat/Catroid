@@ -67,6 +67,10 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	private LookData currentItem;
 
+	public LookListFragment() {
+		// required empty constructor
+	}
+
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
