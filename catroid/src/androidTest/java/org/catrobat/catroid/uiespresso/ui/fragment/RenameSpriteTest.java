@@ -179,7 +179,7 @@ public class RenameSpriteTest {
 
 		onActionMode().performConfirm();
 
-		onView(withText(R.string.yes)).perform(click());
+		onView(withText(R.string.delete)).perform(click());
 
 		openActionBar();
 		onView(withText(R.string.rename)).perform(click());

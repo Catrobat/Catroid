@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,6 +38,7 @@ import org.catrobat.catroid.common.NfcTagData;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.common.SoundInfo;
 import org.catrobat.catroid.content.BroadcastScript;
+import org.catrobat.catroid.content.EmptyScript;
 import org.catrobat.catroid.content.GroupItemSprite;
 import org.catrobat.catroid.content.GroupSprite;
 import org.catrobat.catroid.content.LegoNXTSetting;
@@ -108,6 +109,7 @@ import org.catrobat.catroid.content.bricks.DroneTakeOffLandBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnLeftBrick;
 import org.catrobat.catroid.content.bricks.DroneTurnRightBrick;
 import org.catrobat.catroid.content.bricks.EditLookBrick;
+import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.ExitStageBrick;
 import org.catrobat.catroid.content.bricks.FinishStageBrick;
 import org.catrobat.catroid.content.bricks.FlashBrick;
@@ -393,6 +395,7 @@ public final class XstreamSerializer {
 		xstream.alias("script", WhenTouchDownScript.class);
 		xstream.alias("script", WhenBackgroundChangesScript.class);
 		xstream.alias("script", UserDefinedScript.class);
+		xstream.alias("script", EmptyScript.class);
 
 		xstream.alias("brick", AddItemToUserListBrick.class);
 		xstream.alias("brick", AskBrick.class);
@@ -521,6 +524,7 @@ public final class XstreamSerializer {
 		xstream.alias("brick", WebRequestBrick.class);
 		xstream.alias("brick", StoreCSVIntoUserListBrick.class);
 		xstream.alias("brick", ResetTimerBrick.class);
+		xstream.alias("brick", EmptyEventBrick.class);
 
 		xstream.alias("brick", WhenNfcBrick.class);
 		xstream.alias("brick", SetNfcTagBrick.class);
