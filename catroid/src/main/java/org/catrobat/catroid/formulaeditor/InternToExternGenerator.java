@@ -153,6 +153,10 @@ public class InternToExternGenerator {
 				R.string.formula_editor_function_text_block_y);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TEXT_BLOCK_SIZE.name(),
 				R.string.formula_editor_function_text_block_size);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TEXT_BLOCK_FROM_CAMERA.name(),
+				R.string.formula_editor_function_text_block_from_camera);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.TEXT_BLOCK_LANGUAGE_FROM_CAMERA.name(),
+				R.string.formula_editor_function_text_block_language_from_camera);
 
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.GAMEPAD_A_PRESSED.name(),
 				R.string.formula_editor_sensor_gamepad_a_pressed);

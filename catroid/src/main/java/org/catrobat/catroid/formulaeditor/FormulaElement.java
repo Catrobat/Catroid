@@ -105,9 +105,12 @@ public class FormulaElement implements Serializable {
 	private transient FormulaElement parent;
 	private transient Map<Functions, FormulaFunction> formulaFunctions;
 
+	TextBlockFunctionProvider textBlockFunctionProvider;
+
 	protected FormulaElement() {
+		textBlockFunctionProvider = new TextBlockFunctionProvider();
 		List<FunctionProvider> functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
-				new MathFunctionProvider(), new TouchFunctionProvider(), new TextBlockFunctionProvider());
+				new MathFunctionProvider(), new TouchFunctionProvider(), textBlockFunctionProvider);
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);
@@ -431,6 +434,10 @@ public class FormulaElement implements Serializable {
 						.tryInterpretFunctionColorTouchesColor(arguments.get(0), arguments.get(1)));
 			case COLOR_AT_XY:
 				return Double.NaN;
+			case TEXT_BLOCK_FROM_CAMERA:
+				return textBlockFunctionProvider.interpretFunctionTextBlock(Double.parseDouble(arguments.get(0).toString()));
+			case TEXT_BLOCK_LANGUAGE_FROM_CAMERA:
+				return textBlockFunctionProvider.interpretFunctionTextBlockLanguage(Double.parseDouble(arguments.get(0).toString()));
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}
