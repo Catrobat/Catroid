@@ -27,11 +27,14 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
 
+import com.google.mlkit.nl.languageid.LanguageIdentification;
+import com.google.mlkit.nl.languageid.LanguageIdentifier;
 import com.google.mlkit.vision.text.Text;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.stage.StageActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.COORDINATE_TRANSFORMATION_OFFSET;
@@ -40,9 +43,11 @@ import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 
 public final class TextBlockUtil {
 	private static List<Text.TextBlock> textBlocks;
+	private static List<String> textBlockLanguages;
 	private static int imageWidth;
 	private static int imageHeight;
 	private static final int MAX_TEXT_SIZE = 100;
+	private static LanguageIdentifier identifier;
 
 	private TextBlockUtil() {
 		// static class, nothing to do
@@ -52,6 +57,41 @@ public final class TextBlockUtil {
 		textBlocks = text;
 		imageWidth = width;
 		imageHeight = height;
+		if (textBlockLanguages != null) {
+			textBlockLanguages.clear();
+		} else {
+			textBlockLanguages = new ArrayList<>();
+		}
+
+		if (identifier == null) {
+			identifier = LanguageIdentification.getClient();
+		}
+
+		for (int i = 0; i < text.size(); i++) {
+			Text.TextBlock textBlock = text.get(i);
+			int finalIndex = i;
+			identifier.identifyLanguage(textBlock.getText()).addOnSuccessListener(langCode -> {
+				if (finalIndex < textBlocks.size() - 1) {
+					textBlockLanguages.add(finalIndex, langCode);
+				} else {
+					textBlockLanguages.add(langCode);
+				}
+			});
+		}
+	}
+
+	public static String getTextBlock(int index) {
+		if (textBlocks != null && (textBlocks.size() > (index - 1)) && index >= 1) {
+			return textBlocks.get(index - 1).getText();
+		}
+		return "0";
+	}
+
+	public static String getTextBlockLanguage(int index) {
+		if (textBlockLanguages != null && (textBlockLanguages.size() > (index - 1)) && index >= 1) {
+			return textBlockLanguages.get(index - 1);
+		}
+		return "0";
 	}
 
 	public static Point getCenterCoordinates(int index) {
