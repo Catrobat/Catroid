@@ -432,6 +432,12 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-auth:$playServicesVersion"
 
+    // HUAWEI Mobile Services
+    implementation 'com.huawei.hms:base:4.0.2.300'
+    // HUAWEI ML
+    implementation 'com.huawei.hms:ml-computer-voice-asr-plugin:2.2.0.300'
+    implementation 'com.huawei.hms:ml-computer-voice-asr:2.2.0.300'
+
     androidTestImplementation('tools.fastlane:screengrab:1.2.0') {
         // https://issuetracker.google.com/issues/123060356
         exclude group: 'com.android.support.test.uiautomator', module: 'uiautomator-v18'
@@ -511,3 +517,4 @@ tasks.whenTaskAdded { packageTask ->
 }
 
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.huawei.agconnect'

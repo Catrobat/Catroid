@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,7 +26,8 @@ import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.OnSpeechRecognitionResultCallback
-import org.catrobat.catroid.stage.SpeechRecognitionHolder
+import org.catrobat.catroid.stage.SpeechRecognitionHolderFactory
+import org.koin.java.KoinJavaComponent.get
 
 class StartListeningAction : Action(), OnSpeechRecognitionResultCallback {
 
@@ -36,6 +37,7 @@ class StartListeningAction : Action(), OnSpeechRecognitionResultCallback {
 
     private var listeningRequested = false
     private var spokenWordsReceived = false
+    private val speechRecognitionHolder = get(SpeechRecognitionHolderFactory::class.java).instance
     var userVariable: UserVariable? = null
 
     override fun act(delta: Float): Boolean {
@@ -53,7 +55,7 @@ class StartListeningAction : Action(), OnSpeechRecognitionResultCallback {
     }
 
     private fun requestStartListening() {
-        SpeechRecognitionHolder.instance?.apply {
+        speechRecognitionHolder.apply {
             callback = this@StartListeningAction
             startListening()
         }
