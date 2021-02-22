@@ -881,6 +881,8 @@
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
 
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+
+    <string name="brick_report" tools:ignore="UnusedResources">Report</string>
     <!--  -->
 
     <!-- Motion bricks -->

@@ -155,6 +155,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.ReportBrick;
 import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
@@ -409,10 +410,13 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupUserBricksCategoryList() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<Brick> userDefinedBricks = new ArrayList<>();
 		if (currentSprite != null) {
-			return currentSprite.getUserDefinedBrickList();
+			userDefinedBricks = currentSprite.getUserDefinedBrickList();
 		}
-		return new ArrayList<>();
+		userDefinedBricks = new ArrayList<>(userDefinedBricks);
+		userDefinedBricks.add(new ReportBrick());
+		return userDefinedBricks;
 	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {

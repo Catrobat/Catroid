@@ -527,6 +527,11 @@
         <item name="android:layout_marginBottom">@dimen/script_spacing</item>
     </style>
 
+    <style name ="BrickContainer.Report">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_white_1h</item>
+    </style>
+
     <style name ="BrickContainer.Script.As">
         <item name="android:minHeight">@dimen/brick_height_small</item>
         <item name="android:background">@drawable/brick_white_1h</item>
