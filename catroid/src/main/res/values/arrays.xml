@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -282,6 +282,172 @@
         <item>sans_serif</item>
         <item>serif</item>
         <item>dyslexic</item>
+    </string-array>
+
+    <!-- Formulas for text recognition -->
+    <string-array name="formulas_with_params">
+        <item>@string/formula_editor_function_abs</item>
+        <item>@string/formula_editor_function_arccos</item>
+        <item>@string/formula_editor_function_arcsin</item>
+        <item>@string/formula_editor_function_arctan</item>
+        <item>@string/formula_editor_function_arctan2</item>
+        <item>@string/formula_editor_function_arctan2</item>
+        <item>@string/formula_editor_function_arduino_read_pin_value_analog</item>
+        <item>@string/formula_editor_function_arduino_read_pin_value_digital</item>
+        <item>@string/formula_editor_function_ceil</item>
+        <item>@string/formula_editor_function_collides_with_color</item>
+        <item>@string/formula_editor_function_color_touches_color</item>
+        <item>@string/formula_editor_function_contains</item>
+        <item>@string/formula_editor_function_cos</item>
+        <item>@string/formula_editor_function_exp</item>
+        <item>@string/formula_editor_function_floor</item>
+        <item>@string/formula_editor_function_if_then_else</item>
+        <item>@string/formula_editor_function_index_of_item</item>
+        <item>@string/formula_editor_function_join</item>
+        <item>@string/formula_editor_function_join3</item>
+        <item>@string/formula_editor_function_length</item>
+        <item>@string/formula_editor_function_letter</item>
+        <item>@string/formula_editor_function_list_item</item>
+        <item>@string/formula_editor_function_ln</item>
+        <item>@string/formula_editor_function_log</item>
+        <item>@string/formula_editor_function_max</item>
+        <item>@string/formula_editor_function_min</item>
+        <item>@string/formula_editor_function_mod</item>
+        <item>@string/formula_editor_function_number_of_items</item>
+        <item>@string/formula_editor_function_power</item>
+        <item>@string/formula_editor_function_rand</item>
+        <item>@string/formula_editor_function_raspi_read_pin_value_digital</item>
+        <item>@string/formula_editor_function_regex</item>
+        <item>@string/formula_editor_function_round</item>
+        <item>@string/formula_editor_function_sin</item>
+        <item>@string/formula_editor_function_sqrt</item>
+        <item>@string/formula_editor_function_tan</item>
+        <item>@string/formula_editor_function_text_block_language_from_camera</item>
+        <item>@string/formula_editor_function_text_block_size</item>
+        <item>@string/formula_editor_function_text_block_x</item>
+        <item>@string/formula_editor_function_text_block_y</item>
+        <item>@string/formula_editor_sensor_color_at_x_y</item>
+    </string-array>
+    <string-array name="formulas_without_params">
+        <item>@string/formula_editor_function_collides_with_edge</item>
+        <item>@string/formula_editor_function_collision</item>
+        <item>@string/formula_editor_function_false</item>
+        <item>@string/formula_editor_function_finger_x</item>
+        <item>@string/formula_editor_function_finger_y</item>
+        <item>@string/formula_editor_function_index_of_current_touch</item>
+        <item>@string/formula_editor_function_index_of_last_finger</item>
+        <item>@string/formula_editor_function_is_finger_touching</item>
+        <item>@string/formula_editor_function_is_multi_finger_touching</item>
+        <item>@string/formula_editor_function_multi_finger_x</item>
+        <item>@string/formula_editor_function_multi_finger_y</item>
+        <item>@string/formula_editor_function_number_of_current_touches</item>
+        <item>@string/formula_editor_function_pi</item>
+        <item>@string/formula_editor_function_text_block_from_camera</item>
+        <item>@string/formula_editor_sensor_altitude</item>
+        <item>@string/formula_editor_sensor_compass_direction</item>
+        <item>@string/formula_editor_sensor_date_day</item>
+        <item>@string/formula_editor_sensor_date_month</item>
+        <item>@string/formula_editor_sensor_date_weekday</item>
+        <item>@string/formula_editor_sensor_date_year</item>
+        <item>@string/formula_editor_sensor_drone_battery_status</item>
+        <item>@string/formula_editor_sensor_drone_camera_ready</item>
+        <item>@string/formula_editor_sensor_drone_emergency_state</item>
+        <item>@string/formula_editor_sensor_drone_flying</item>
+        <item>@string/formula_editor_sensor_drone_initialized</item>
+        <item>@string/formula_editor_sensor_drone_num_frames</item>
+        <item>@string/formula_editor_sensor_drone_record_ready</item>
+        <item>@string/formula_editor_sensor_drone_recording</item>
+        <item>@string/formula_editor_sensor_drone_usb_active</item>
+        <item>@string/formula_editor_sensor_drone_usb_remaining_time</item>
+        <item>@string/formula_editor_sensor_face_detected</item>
+        <item>@string/formula_editor_sensor_face_size</item>
+        <item>@string/formula_editor_sensor_face_x_position</item>
+        <item>@string/formula_editor_sensor_face_y_position</item>
+        <item>@string/formula_editor_sensor_gamepad_a_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_b_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_down_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_left_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_up_pressed</item>
+        <item>@string/formula_editor_sensor_gamepad_right_pressed</item>
+        <item>@string/formula_editor_sensor_latitude</item>
+        <item>@string/formula_editor_sensor_lego_ev3_1</item>
+        <item>@string/formula_editor_sensor_lego_ev3_2</item>
+        <item>@string/formula_editor_sensor_lego_ev3_3</item>
+        <item>@string/formula_editor_sensor_lego_ev3_4</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_color</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_color_ambient</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_color_reflected</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_hitechnic_color</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_infrared</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_light</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_light_active</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_sound</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic</item>
+        <item>@string/formula_editor_sensor_lego_ev3_sensor_touch</item>
+        <item>@string/formula_editor_sensor_lego_nxt_1</item>
+        <item>@string/formula_editor_sensor_lego_nxt_2</item>
+        <item>@string/formula_editor_sensor_lego_nxt_3</item>
+        <item>@string/formula_editor_sensor_lego_nxt_4</item>
+        <item>@string/formula_editor_sensor_lego_nxt_light_active</item>
+        <item>@string/formula_editor_sensor_lego_nxt_light</item>
+        <item>@string/formula_editor_sensor_lego_nxt_sound</item>
+        <item>@string/formula_editor_sensor_lego_nxt_touch</item>
+        <item>@string/formula_editor_sensor_lego_nxt_ultrasonic</item>
+        <item>@string/formula_editor_sensor_location_accuracy</item>
+        <item>@string/formula_editor_sensor_longitude</item>
+        <item>@string/formula_editor_sensor_loudness</item>
+        <item>@string/formula_editor_sensor_second_face_detected</item>
+        <item>@string/formula_editor_sensor_second_face_size</item>
+        <item>@string/formula_editor_sensor_second_face_x_position</item>
+        <item>@string/formula_editor_sensor_second_face_y_position</item>
+        <item>@string/formula_editor_sensor_text_blocks_number</item>
+        <item>@string/formula_editor_sensor_text_from_camera</item>
+        <item>@string/formula_editor_sensor_time_hour</item>
+        <item>@string/formula_editor_sensor_time_minute</item>
+        <item>@string/formula_editor_sensor_time_second</item>
+        <item>@string/formula_editor_sensor_timer</item>
+        <item>@string/formula_editor_sensor_user_language</item>
+        <item>@string/formula_editor_sensor_x_acceleration</item>
+        <item>@string/formula_editor_sensor_x_inclination</item>
+        <item>@string/formula_editor_sensor_y_acceleration</item>
+        <item>@string/formula_editor_sensor_y_inclination</item>
+        <item>@string/formula_editor_sensor_z_acceleration</item>
+        <item>@string/formula_editor_phiro_sensor_bottom_left</item>
+        <item>@string/formula_editor_phiro_sensor_bottom_right</item>
+        <item>@string/formula_editor_phiro_sensor_front_left</item>
+        <item>@string/formula_editor_phiro_sensor_front_right</item>
+        <item>@string/formula_editor_phiro_sensor_side_left</item>
+        <item>@string/formula_editor_phiro_sensor_side_right</item>
+        <item>@string/formula_editor_logic_and</item>
+        <item>@string/formula_editor_logic_comparison</item>
+        <item>@string/formula_editor_logic_equal</item>
+        <item>@string/formula_editor_logic_greaterequal</item>
+        <item>@string/formula_editor_logic_greaterthan</item>
+        <item>@string/formula_editor_logic_leserequal</item>
+        <item>@string/formula_editor_logic_lesserthan</item>
+        <item>@string/formula_editor_logic_not</item>
+        <item>@string/formula_editor_logic_notequal</item>
+        <item>@string/formula_editor_logic_or</item>
+        <item>@string/formula_editor_nfc_tag_id</item>
+        <item>@string/formula_editor_nfc_tag_message</item>
+        <item>@string/formula_editor_object_angular_velocity</item>
+        <item>@string/formula_editor_object_background_name</item>
+        <item>@string/formula_editor_object_background_number</item>
+        <item>@string/formula_editor_object_brightness</item>
+        <item>@string/formula_editor_object_color</item>
+        <item>@string/formula_editor_object_distance_to</item>
+        <item>@string/formula_editor_object_layer</item>
+        <item>@string/formula_editor_object_look_name</item>
+        <item>@string/formula_editor_object_look_number</item>
+        <item>@string/formula_editor_object_rotation</item>
+        <item>@string/formula_editor_object_size</item>
+        <item>@string/formula_editor_object_transparency</item>
+        <item>@string/formula_editor_object_x</item>
+        <item>@string/formula_editor_object_x_velocity</item>
+        <item>@string/formula_editor_object_y</item>
+        <item>@string/formula_editor_object_y_velocity</item>
     </string-array>
 
 </resources>

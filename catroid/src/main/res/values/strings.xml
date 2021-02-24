@@ -54,6 +54,7 @@
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
+    <string name="do_not_show_again">DO NOT SHOW AGAIN</string>
 
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
@@ -2005,6 +2006,9 @@ needs read and write access to it. You can always change permissions through you
         background. Please make sure you are connected to the internet and check back later.</string>
     <string name="formula_editor_function_flatten">flatten</string>
     <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
+    <string name="warning_formula_recognized">You entered a text that looks like a formula. If you want to use functions,
+        sensors, variables and other formula elements, please select them instead using the
+        buttons in the formula editor.</string>
     <!--  -->
 
 
