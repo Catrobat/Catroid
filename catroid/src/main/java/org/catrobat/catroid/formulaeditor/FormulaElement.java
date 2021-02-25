@@ -260,35 +260,23 @@ public class FormulaElement implements Serializable {
 		return root;
 	}
 
-	public void updateVariableReferences(String oldName, String newName) {
-		tryUpdateVariableReference(leftChild, oldName, newName);
-		tryUpdateVariableReference(rightChild, oldName, newName);
+	public void updateElementByName(String oldName, String newName, ElementType type) {
+		tryUpdateElementByName(leftChild, oldName, newName, type);
+		tryUpdateElementByName(rightChild, oldName, newName, type);
 
 		for (FormulaElement child : additionalChildren) {
-			tryUpdateVariableReference(child, oldName, newName);
+			tryUpdateElementByName(child, oldName, newName, type);
 		}
 
-		if (matchesTypeAndName(ElementType.USER_VARIABLE, oldName)) {
+		if (matchesTypeAndName(type, oldName)) {
 			value = newName;
 		}
 	}
 
-	public void updateListName(String oldName, String newName) {
-		tryUpdateVariableReference(leftChild, oldName, newName);
-		tryUpdateVariableReference(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateVariableReference(child, oldName, newName);
-		}
-
-		if (matchesTypeAndName(ElementType.USER_LIST, oldName)) {
-			value = newName;
-		}
-	}
-
-	private void tryUpdateVariableReference(FormulaElement element, String oldName, String newName) {
+	private void tryUpdateElementByName(FormulaElement element, String oldName, String newName,
+			ElementType type) {
 		if (element != null) {
-			element.updateVariableReferences(oldName, newName);
+			element.updateElementByName(oldName, newName, type);
 		}
 	}
 
@@ -308,27 +296,8 @@ public class FormulaElement implements Serializable {
 		return element != null && element.containsSpriteInCollision(name);
 	}
 
-	public final void updateCollisionFormula(String oldName, String newName) {
-		tryUpdateCollisionFormula(leftChild, oldName, newName);
-		tryUpdateCollisionFormula(rightChild, oldName, newName);
-
-		for (FormulaElement child : additionalChildren) {
-			tryUpdateCollisionFormula(child, oldName, newName);
-		}
-
-		if (matchesTypeAndName(ElementType.COLLISION_FORMULA, oldName)) {
-			value = newName;
-		}
-	}
-
-	private boolean matchesTypeAndName(ElementType collisionFormula, String name) {
-		return type == collisionFormula && value.equals(name);
-	}
-
-	private void tryUpdateCollisionFormula(FormulaElement element, String oldName, String newName) {
-		if (element != null) {
-			element.updateCollisionFormula(oldName, newName);
-		}
+	private boolean matchesTypeAndName(ElementType queriedType, String name) {
+		return type == queriedType && value.equals(name);
 	}
 
 	public void updateCollisionFormulaToVersion(Project currentProject) {

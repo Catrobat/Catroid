@@ -71,7 +71,7 @@ public class LookSensorValuesInterpretationTest {
 		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
 		testSprite.look.setBrightnessInUserInterfaceDimensionUnit(LOOK_BRIGHTNESS);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
-		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
+		testSprite.look.setMotionDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 
 		project.getDefaultScene().addSprite(testSprite);
 
@@ -103,8 +103,11 @@ public class LookSensorValuesInterpretationTest {
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
 		assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testScope), DELTA);
 
-		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
-		assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testScope), DELTA);
+		Formula motionDirectionFormula = getFormulaBySensor(Sensors.MOTION_DIRECTION);
+		assertEquals(LOOK_ROTATION, motionDirectionFormula.interpretDouble(testScope), DELTA);
+
+		Formula lookDirectionFormula = getFormulaBySensor(Sensors.LOOK_DIRECTION);
+		assertEquals(LOOK_ROTATION, lookDirectionFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
 		assertEquals(1.0, lookZPositionFormula.interpretDouble(testScope));

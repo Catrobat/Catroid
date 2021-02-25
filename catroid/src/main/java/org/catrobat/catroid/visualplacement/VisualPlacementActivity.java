@@ -273,7 +273,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 				scaleX = currentSprite.look.getScaleX();
 				scaleY = currentSprite.look.getScaleY();
 				rotationMode = currentSprite.look.getRotationMode();
-				rotation = currentSprite.look.getDirectionInUserInterfaceDimensionUnit();
+				rotation = currentSprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 				visualPlacementBitmap = BitmapFactory.decodeFile(objectLookPath, bitmapOptions);
 			} else if (currentSprite.getLookList().size() != 0) {
 				objectLookPath = currentSprite.getLookList().get(0).getFile().getAbsolutePath();

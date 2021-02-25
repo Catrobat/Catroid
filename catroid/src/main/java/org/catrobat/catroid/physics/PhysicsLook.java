@@ -202,7 +202,7 @@ public class PhysicsLook extends Look {
 	}
 
 	public void setFlippedByDegree(float degree) {
-		float direction = getDirectionInUserInterfaceDimensionUnit();
+		float direction = getMotionDirectionInUserInterfaceDimensionUnit();
 		float newDirection = (degree + direction) % 360;
 		setFlippedByDirection(newDirection);
 	}
@@ -212,7 +212,7 @@ public class PhysicsLook extends Look {
 		if (newDirection < 0) {
 			newDirection += 360;
 		}
-		float direction = getDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
+		float direction = getMotionDirectionInUserInterfaceDimensionUnit() - Look.DEGREE_UI_OFFSET;
 		if ((direction >= 0 && direction <= 180) != (newDirection >= 0 && newDirection <= 180)) {
 			updateFlippedByAction();
 		}

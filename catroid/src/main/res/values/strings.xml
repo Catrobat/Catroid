@@ -1863,7 +1863,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">transparency</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">brightness</string>
     <string name="formula_editor_object_size" tools:ignore="UnusedResources">size</string>
-    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">direction</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">motion  direction</string>
     <string name="formula_editor_object_layer" tools:ignore="UnusedResources">layer</string>
     <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x velocity</string>
     <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y velocity</string>

@@ -122,13 +122,14 @@ class IfOnEdgeBouncePhysicsAction : TemporalAction() {
     private fun changeDirectionOnStepsTaken(side: Side) {
         if (sprite.movedByStepsBrick) {
             val physicsObject = physicsWorld.getPhysicsObject(sprite)
-            val realRotation = sprite.look.directionInUserInterfaceDimensionUnit
+            val realRotation = sprite.look.motionDirectionInUserInterfaceDimensionUnit
             if (side == Side.LEFT || side == Side.RIGHT) {
-                sprite.look.directionInUserInterfaceDimensionUnit = -realRotation
+                sprite.look.motionDirectionInUserInterfaceDimensionUnit = -realRotation
                 calculateBoundaryBoxDimensions(physicsObject)
                 (sprite.look as PhysicsLook).updateFlippedByAction()
             } else if (side == Side.TOP || side == Side.BOTTOM) {
-                sprite.look.directionInUserInterfaceDimensionUnit = OPPOSITE_DIRECTION - realRotation
+                sprite.look.motionDirectionInUserInterfaceDimensionUnit = OPPOSITE_DIRECTION -
+                    realRotation
                 calculateBoundaryBoxDimensions(physicsObject)
             }
             when (side) {

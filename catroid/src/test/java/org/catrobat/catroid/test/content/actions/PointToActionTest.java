@@ -54,73 +54,73 @@ public class PointToActionTest {
 
 		pointedSprite.look.setPosition(200f, 0f);
 		pointToAction.act(1.0f);
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(200f, 200f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(45f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(45f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(0f, 200f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(0f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(0f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(-200f, 200f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(-45f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(-45f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(-200f, 0f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(-90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(-90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(-200f, -200f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(-135f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(-135f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(0f, -200f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(180f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(180f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 
 		pointedSprite.look.setPosition(200f, -200f);
 		pointToAction.restart();
 		pointToAction.act(1.0f);
-		assertEquals(135f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(135f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	@Test
 	public void testPointToBothSpritesOnSamePosition() {
 		pointedSprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
 		sprite.look.setPositionInUserInterfaceDimensionUnit(0, 0);
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(45);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(45);
 
 		createPointToAction(sprite, pointedSprite).act(1.0f);
 
-		assertEquals(90f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(90f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	@Test
 	public void testPointedSpriteNull() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(33);
-		final float previousDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(33);
+		final float previousDirection = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 
 		createPointToAction(sprite, null).act(1.0f);
 
-		assertEquals(previousDirection, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(previousDirection, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	@Test
 	public void testSpriteNotInScene() {
-		sprite.look.setDirectionInUserInterfaceDimensionUnit(33);
-		final float previousDirection = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit(33);
+		final float previousDirection = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 
 		createPointToAction(sprite, new Sprite("Sprite not in Scene")).act(1.0f);
 
-		assertEquals(previousDirection, sprite.look.getDirectionInUserInterfaceDimensionUnit(), DELTA);
+		assertEquals(previousDirection, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	private Action createPointToAction(Sprite sprite, Sprite pointedSprite) {

@@ -67,7 +67,7 @@ public class PointToAction extends TemporalAction {
 		if (sprite.look instanceof PhysicsLook) {
 			((PhysicsLook) sprite.look).setFlippedByDirection((float) rotationDegrees);
 		}
-		sprite.look.setDirectionInUserInterfaceDimensionUnit((float) rotationDegrees);
+		sprite.look.setMotionDirectionInUserInterfaceDimensionUnit((float) rotationDegrees);
 	}
 
 	public void setSprite(Sprite sprite) {

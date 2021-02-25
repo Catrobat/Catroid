@@ -140,7 +140,7 @@ public class TurnLeftActionTest {
 		Action action = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(370.0f));
 		action.act(1.0f);
 
-		assertEquals(80f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
+		assertEquals(80f, sprite.look.getMotionDirectionInUserInterfaceDimensionUnit(), 1e-3);
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}

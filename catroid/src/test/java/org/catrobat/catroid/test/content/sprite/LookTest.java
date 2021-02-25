@@ -111,16 +111,16 @@ public class LookTest {
 
 	@Test
 	public void testDirection() {
-		look.setDirectionInUserInterfaceDimensionUnit(90f);
+		look.setMotionDirectionInUserInterfaceDimensionUnit(90f);
 		look.changeDirectionInUserInterfaceDimensionUnit(10f);
 
-		assertEquals(100f, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(100f, look.getMotionDirectionInUserInterfaceDimensionUnit());
 		assertEquals(-10f, look.getRotation());
 
-		look.setDirectionInUserInterfaceDimensionUnit(90f);
+		look.setMotionDirectionInUserInterfaceDimensionUnit(90f);
 		look.changeDirectionInUserInterfaceDimensionUnit(360f);
 
-		assertEquals(90f, look.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(90f, look.getMotionDirectionInUserInterfaceDimensionUnit());
 		assertEquals(0f, look.getRotation());
 	}
 
@@ -198,7 +198,7 @@ public class LookTest {
 		origin.setTransparencyInUserInterfaceDimensionUnit(7);
 		origin.setRotationMode(Look.ROTATION_STYLE_LEFT_RIGHT_ONLY);
 		origin.setBrightnessInUserInterfaceDimensionUnit(3);
-		origin.setDirectionInUserInterfaceDimensionUnit(8);
+		origin.setMotionDirectionInUserInterfaceDimensionUnit(8);
 		origin.setLookVisible(false);
 
 		Look clone = new Look(null);
@@ -216,7 +216,7 @@ public class LookTest {
 
 		assertEquals(origin.getBrightnessInUserInterfaceDimensionUnit(), clone.getBrightnessInUserInterfaceDimensionUnit());
 
-		assertEquals(origin.getDirectionInUserInterfaceDimensionUnit(), clone.getDirectionInUserInterfaceDimensionUnit());
+		assertEquals(origin.getMotionDirectionInUserInterfaceDimensionUnit(), clone.getMotionDirectionInUserInterfaceDimensionUnit());
 
 		assertEquals(origin.isLookVisible(), clone.isLookVisible());
 	}

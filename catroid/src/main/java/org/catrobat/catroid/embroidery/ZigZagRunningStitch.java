@@ -72,7 +72,7 @@ public class ZigZagRunningStitch extends RunningStitchType {
 	}
 
 	private void interpolateStitches(int interpolationCount, float currentX, float currentY) {
-		float degrees = sprite.look.getDirectionInUserInterfaceDimensionUnit();
+		float degrees = sprite.look.getMotionDirectionInUserInterfaceDimensionUnit();
 
 		if (first) {
 			first = false;

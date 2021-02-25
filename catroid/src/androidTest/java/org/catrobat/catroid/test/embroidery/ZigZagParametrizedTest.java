@@ -92,7 +92,7 @@ public class ZigZagParametrizedTest {
 	public void setUp() throws Exception {
 		sprite = Mockito.mock(Sprite.class);
 		spriteLook = Mockito.mock(Look.class);
-		when(spriteLook.getDirectionInUserInterfaceDimensionUnit()).thenReturn(degrees);
+		when(spriteLook.getMotionDirectionInUserInterfaceDimensionUnit()).thenReturn(degrees);
 		sprite.look = spriteLook;
 		embroideryPatternManager = mock(EmbroideryPatternManager.class);
 		StageActivity.stageListener = Mockito.mock(StageListener.class);

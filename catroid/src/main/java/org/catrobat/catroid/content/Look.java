@@ -151,7 +151,7 @@ public class Look extends Image {
 		destination.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
 
 		destination.setRotationMode(this.getRotationMode());
-		destination.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
+		destination.setMotionDirectionInUserInterfaceDimensionUnit(this.getMotionDirectionInUserInterfaceDimensionUnit());
 		destination.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
 	}
 
@@ -357,7 +357,7 @@ public class Look extends Image {
 		return getHeight() * getSizeInUserInterfaceDimensionUnit() / 100f;
 	}
 
-	public float getDirectionInUserInterfaceDimensionUnit() {
+	public float getMotionDirectionInUserInterfaceDimensionUnit() {
 		return realRotation;
 	}
 
@@ -367,7 +367,7 @@ public class Look extends Image {
 	}
 
 	private void flipLookDataIfNeeded(int mode) {
-		boolean orientedLeft = getDirectionInUserInterfaceDimensionUnit() < 0;
+		boolean orientedLeft = getMotionDirectionInUserInterfaceDimensionUnit() < 0;
 		boolean differentModeButFlipped = mode != ROTATION_STYLE_LEFT_RIGHT_ONLY && isFlipped();
 		boolean facingWrongDirection = mode == ROTATION_STYLE_LEFT_RIGHT_ONLY && (orientedLeft ^ isFlipped());
 		if (differentModeButFlipped || facingWrongDirection) {
@@ -423,7 +423,7 @@ public class Look extends Image {
 		return p.getBoundingRectangle();
 	}
 
-	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
+	public void setMotionDirectionInUserInterfaceDimensionUnit(float degrees) {
 		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
 		realRotation = convertStageAngleToCatroidAngle(rotation);
 
@@ -451,8 +451,8 @@ public class Look extends Image {
 	}
 
 	public void changeDirectionInUserInterfaceDimensionUnit(float changeDegrees) {
-		setDirectionInUserInterfaceDimensionUnit(
-				(getDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
+		setMotionDirectionInUserInterfaceDimensionUnit(
+				(getMotionDirectionInUserInterfaceDimensionUnit() + changeDegrees) % 360);
 	}
 
 	public float getSizeInUserInterfaceDimensionUnit() {
