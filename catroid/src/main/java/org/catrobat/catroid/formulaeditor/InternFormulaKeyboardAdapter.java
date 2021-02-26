@@ -184,7 +184,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.INDEX_OF_ITEM,
 						NUMBER, "1",
 						USER_LIST, "list_name");
-
+			case R.string.formula_editor_function_flatten:
+				return buildSingleParameterFunction(Functions.FLATTEN, STRING, "list_name");
 			case R.string.formula_editor_function_arduino_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.ARDUINODIGITAL, NUMBER, "0");
 			case R.string.formula_editor_function_arduino_read_pin_value_analog:

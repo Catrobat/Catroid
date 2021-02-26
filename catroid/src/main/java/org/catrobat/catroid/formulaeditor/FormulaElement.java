@@ -427,6 +427,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionNumberOfItems(arguments.get(0), sprite, currentProject);
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(arguments.get(0), sprite, currentProject);
+			case FLATTEN:
+				return interpretFunctionFlatten(sprite, leftChild);
 			case COLLIDES_WITH_COLOR:
 				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
 						.tryInterpretFunctionTouchesColor(arguments.get(0)));
@@ -547,6 +549,10 @@ public class FormulaElement implements Serializable {
 				sprite) + interpretFunctionString(additionalChildren.get(0), sprite);
 	}
 
+	private static String interpretFunctionFlatten(Sprite sprite, FormulaElement leftChild) {
+		return interpretFunctionString(leftChild, sprite);
+	}
+
 	private static String tryInterpretFunctionRegex(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
 		try {
 			String left = interpretFunctionString(leftChild, sprite);
@@ -569,23 +575,30 @@ public class FormulaElement implements Serializable {
 	}
 
 	private static String interpretFunctionString(FormulaElement child, Sprite sprite) {
-		if (child == null) {
-			return "";
-		} else if (child.getElementType() == ElementType.STRING) {
-			return child.getValue();
-		}
-		Object objectInterpretation = child.interpretRecursive(sprite);
 		String parameterInterpretation = "";
-
-		if (child.getElementType() == ElementType.NUMBER) {
-			double number = Double.parseDouble((String) objectInterpretation);
-			if (!Double.isNaN(number)) {
-				parameterInterpretation += isInteger(number) ? (int) number : number;
+		if (child != null) {
+			String objectInterpretation = child.interpretRecursive(sprite).toString();
+			switch (child.getElementType()) {
+				case STRING:
+					parameterInterpretation = child.getValue();
+					break;
+				case NUMBER:
+					parameterInterpretation = formatNumberString(objectInterpretation);
+					break;
+				default:
+					parameterInterpretation = trimTrailingCharacters(objectInterpretation);
 			}
-		} else {
-			parameterInterpretation += objectInterpretation;
 		}
-		return trimTrailingCharacters(parameterInterpretation);
+		return parameterInterpretation;
+	}
+
+	private static String formatNumberString(String numberString) {
+		double number = Double.parseDouble(numberString);
+		String formattedNumberString = "";
+		if (!Double.isNaN(number)) {
+			formattedNumberString += isInteger(number) ? (int) number : number;
+		}
+		return trimTrailingCharacters(formattedNumberString);
 	}
 
 	private Object interpretFunctionLength(Object left, Sprite sprite, Project currentProject) {

@@ -122,20 +122,23 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 	private static final List<Integer> STRING_FUNCTIONS = asList(R.string.formula_editor_function_length,
 			R.string.formula_editor_function_letter, R.string.formula_editor_function_join,
 			R.string.formula_editor_function_join3, R.string.formula_editor_function_regex,
-			R.string.formula_editor_function_regex_assistant);
+			R.string.formula_editor_function_regex_assistant,
+			R.string.formula_editor_function_flatten);
 	private static final List<Integer> STRING_PARAMS = asList(R.string.formula_editor_function_length_parameter,
 			R.string.formula_editor_function_letter_parameter,
 			R.string.formula_editor_function_join_parameter,
 			R.string.formula_editor_function_join3_parameter,
 			R.string.formula_editor_function_regex_parameter,
-			R.string.formula_editor_function_no_parameter);
+			R.string.formula_editor_function_no_parameter,
+			R.string.formula_editor_function_flatten_parameter);
 	private static final List<Integer> LIST_FUNCTIONS = asList(R.string.formula_editor_function_number_of_items,
 			R.string.formula_editor_function_list_item, R.string.formula_editor_function_contains,
-			R.string.formula_editor_function_index_of_item);
+			R.string.formula_editor_function_index_of_item, R.string.formula_editor_function_flatten);
 	private static final List<Integer> LIST_PARAMS = asList(R.string.formula_editor_function_number_of_items_parameter,
 			R.string.formula_editor_function_list_item_parameter,
 			R.string.formula_editor_function_contains_parameter,
-			R.string.formula_editor_function_index_of_item_parameter);
+			R.string.formula_editor_function_index_of_item_parameter,
+			R.string.formula_editor_function_flatten_parameter);
 	private static final List<Integer> LOGIC_BOOL = asList(R.string.formula_editor_logic_and,
 			R.string.formula_editor_logic_or, R.string.formula_editor_logic_not,
 			R.string.formula_editor_function_true, R.string.formula_editor_function_false);
