@@ -104,8 +104,7 @@ public class FormulaElement implements Serializable {
 	public List<FormulaElement> additionalChildren;
 	private transient FormulaElement parent;
 	private transient Map<Functions, FormulaFunction> formulaFunctions;
-
-	TextBlockFunctionProvider textBlockFunctionProvider;
+	private transient TextBlockFunctionProvider textBlockFunctionProvider;
 
 	protected FormulaElement() {
 		textBlockFunctionProvider = new TextBlockFunctionProvider();
