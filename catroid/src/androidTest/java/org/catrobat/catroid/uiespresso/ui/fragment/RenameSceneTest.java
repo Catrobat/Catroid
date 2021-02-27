@@ -84,7 +84,7 @@ public class RenameSceneTest {
 		onView(withText(R.string.rename_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		String oldSceneName = "Scene 1";
+		String oldSceneName = ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1);
 		String newSceneName = "firstScene";
 
 		onView(allOf(withText(oldSceneName), isDisplayed(), instanceOf(EditText.class)))

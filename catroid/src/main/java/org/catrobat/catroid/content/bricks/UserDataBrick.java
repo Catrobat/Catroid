@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,6 +46,7 @@ import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -160,9 +161,10 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		BrickData brickData = getBrickDataFromTextViewId(spinnerId);
 
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
-
+		UniqueNameProvider uniqueNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
 		builder.setHint(activity.getString(R.string.data_label))
 				.setTextWatcher(new DuplicateInputTextWatcher<>(spinnerMap.get(brickData).getItems()))
+				.setText(uniqueNameProvider.getUniqueName(activity.getString(R.string.default_list_name), null))
 				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {

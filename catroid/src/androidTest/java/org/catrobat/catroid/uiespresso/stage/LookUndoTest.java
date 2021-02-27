@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,7 +85,7 @@ public class LookUndoTest {
 	private Matcher<Intent> expectedPaintNewLookIntent;
 	private final String lookFileName = "catroid_sunglasses.png";
 	private final String projectName = getClass().getSimpleName();
-	private final String spriteName = "testSprite";
+	private final String spriteName = "testSprite (1)";
 	private File imageFile;
 	private final File tmpDir = new File(
 			Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
@@ -181,7 +181,7 @@ public class LookUndoTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(lookFileName.replace(".png", ""))));
+				.check(matches(withText(lookFileName.replace(".png", " (1)"))));
 
 		onView(withId(R.id.menu_undo)).perform(click()); // press undo
 

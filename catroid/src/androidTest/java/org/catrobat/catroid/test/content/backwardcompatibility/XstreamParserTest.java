@@ -133,10 +133,10 @@ public class XstreamParserTest {
 		Scene scene1 = project.getSceneList().get(0);
 		Scene scene2 = project.getSceneList().get(1);
 
-		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1),
+		assertEquals("Scene 1",
 				scene1.getName());
 
-		assertEquals(ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 2),
+		assertEquals("Scene 2",
 				scene2.getName());
 
 		assertNotNull(UserDataWrapper.getUserVariable("localVar",

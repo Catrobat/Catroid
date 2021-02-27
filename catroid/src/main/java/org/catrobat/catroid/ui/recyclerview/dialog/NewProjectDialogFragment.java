@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.merge.NewProjectNameTextWatcher;
 import org.catrobat.catroid.ui.ProjectActivity;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
 
@@ -61,10 +62,15 @@ public class NewProjectDialogFragment extends DialogFragment {
 		if (SettingsFragment.isCastSharedPreferenceEnabled(getActivity())) {
 			view.findViewById(R.id.cast_radio_button).setVisibility(View.VISIBLE);
 		}
-
+		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider() {
+			@Override
+			public boolean isUnique(String newName) {
+				return (!ReplaceExistingProjectDialogFragment.projectExistsInDirectory(newName));
+			}
+		};
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext())
 				.setHint(getString(R.string.project_name_label))
-				.setText(getUniqueDefaultProjectName())
+				.setText(uniqueNameProvider.getUniqueName(getString(R.string.default_project_name), null))
 				.setTextWatcher(new NewProjectNameTextWatcher<>())
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					exampleProject = exampleProjectSwitch.isChecked();
@@ -90,19 +96,6 @@ public class NewProjectDialogFragment extends DialogFragment {
 				.setView(view)
 				.setNegativeButton(R.string.cancel, null)
 				.create();
-	}
-
-	public String getUniqueDefaultProjectName() {
-
-		for (int i = 1; i < Integer.MAX_VALUE; i++) {
-			String name = getString(R.string.default_project_name) + " " + Integer.toString(i);
-
-			if (!ReplaceExistingProjectDialogFragment.projectExistsInDirectory(name)) {
-				return name;
-			}
-		}
-
-		throw new IllegalStateException("Could not find new project name.");
 	}
 
 	void createProject(String projectName, boolean landscape, boolean exampleProject,

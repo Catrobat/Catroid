@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -253,13 +253,16 @@ public class UserDefinedBrick extends FormulaBrick {
 	}
 
 	private String getDefaultText(Context context, UserDefinedBrickDataType dataTypeToAdd) {
+
+		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
+
 		String defaultText;
 		if (dataTypeToAdd == INPUT) {
 			defaultText = context.getResources().getString(R.string.brick_user_defined_default_input_name);
 		} else {
 			defaultText = context.getResources().getString(R.string.brick_user_defined_default_label);
 		}
-		defaultText = new UniqueNameProvider().getUniqueName(defaultText, getUserDataListAsStrings(dataTypeToAdd));
+		defaultText = uniqueNameProvider.getUniqueName(defaultText, getUserDataListAsStrings(dataTypeToAdd));
 		return defaultText;
 	}
 
