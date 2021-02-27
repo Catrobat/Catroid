@@ -203,6 +203,7 @@ public class InternToExternGenerator {
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_COLOR.name(), R.string.formula_editor_object_color);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_SIZE.name(), R.string.formula_editor_object_size);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.MOTION_DIRECTION.name(), R.string.formula_editor_object_rotation);
+		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.LOOK_DIRECTION.name(), R.string.formula_editor_object_rotation_look);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.OBJECT_LAYER.name(), R.string.formula_editor_object_layer);
 		INTERN_EXTERN_LANGUAGE_CONVERTER_MAP.put(Sensors.COLLIDES_WITH_EDGE.name(), R.string
 				.formula_editor_function_collides_with_edge);

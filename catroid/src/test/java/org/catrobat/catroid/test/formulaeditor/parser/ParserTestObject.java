@@ -96,6 +96,7 @@ public class ParserTestObject {
 		assertEquals(LOOK_COLOR, interpretSensor(Sensors.OBJECT_COLOR), DELTA);
 		assertEquals(LOOK_SCALE, interpretSensor(Sensors.OBJECT_SIZE), DELTA);
 		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.MOTION_DIRECTION), DELTA);
+		assertEquals(LOOK_ROTATION, interpretSensor(Sensors.LOOK_DIRECTION), DELTA);
 		assertEquals(LOOK_LAYER, interpretSensor(Sensors.OBJECT_LAYER));
 	}
 

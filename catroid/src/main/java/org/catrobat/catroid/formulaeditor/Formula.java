@@ -100,6 +100,13 @@ public class Formula implements Serializable {
 		formulaTree.updateCollisionFormulaToVersion(ProjectManager.getInstance().getCurrentProject());
 	}
 
+	public void updateDirectionPropertyToVersion() {
+		String oldName = "OBJECT_ROTATION";
+		String newName = "MOTION_DIRECTION";
+		internFormula.updateSensorTokens(oldName, newName, CatroidApplication.getAppContext());
+		formulaTree.updateElementByName(oldName, newName, ElementType.SENSOR);
+	}
+
 	public void updateVariableName(String oldName, String newName) {
 		internFormula.updateVariableReferences(oldName, newName, CatroidApplication.getAppContext());
 		formulaTree.updateElementByName(oldName, newName, ElementType.USER_VARIABLE);

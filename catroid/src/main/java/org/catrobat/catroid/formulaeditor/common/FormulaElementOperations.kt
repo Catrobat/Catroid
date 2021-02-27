@@ -149,6 +149,7 @@ object FormulaElementOperations {
             Sensors.OBJECT_TRANSPARENCY -> look.transparencyInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_LAYER -> getLookLayerIndex(sprite, look, currentlyEditedScene.spriteList)
             Sensors.MOTION_DIRECTION -> look.motionDirectionInUserInterfaceDimensionUnit.toDouble()
+            Sensors.LOOK_DIRECTION -> look.lookDirectionInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_SIZE -> look.sizeInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_X -> look.xInUserInterfaceDimensionUnit.toDouble()
             Sensors.OBJECT_Y -> look.yInUserInterfaceDimensionUnit.toDouble()

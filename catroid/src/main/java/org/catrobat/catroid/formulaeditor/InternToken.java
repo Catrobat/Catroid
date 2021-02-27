@@ -78,6 +78,12 @@ public class InternToken {
 		}
 	}
 
+	public void updateSensorTokens(String oldName, String newName) {
+		if (isSensor() && tokenStringValue.equals(oldName)) {
+			tokenStringValue = newName;
+		}
+	}
+
 	public boolean isNumber() {
 		return internTokenType == InternTokenType.NUMBER;
 	}

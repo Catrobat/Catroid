@@ -159,6 +159,13 @@ public class InternFormula {
 		generateExternFormulaStringAndInternExternMapping(context);
 	}
 
+	public void updateSensorTokens(String oldName, String newName, Context context) {
+		for (InternToken internToken : internTokenFormulaList) {
+			internToken.updateSensorTokens(oldName, newName);
+		}
+		generateExternFormulaStringAndInternExternMapping(context);
+	}
+
 	public void updateCollisionFormulaToVersion(Context context) {
 		for (InternToken internToken : internTokenFormulaList) {
 			internToken.updateCollisionFormulaToVersion();

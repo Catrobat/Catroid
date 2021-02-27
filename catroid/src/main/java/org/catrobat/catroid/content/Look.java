@@ -89,7 +89,6 @@ public class Look extends Image {
 		setRotation(0f);
 		setTouchable(Touchable.enabled);
 		addListeners();
-		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
 	protected void addListeners() {
@@ -359,6 +358,19 @@ public class Look extends Image {
 
 	public float getMotionDirectionInUserInterfaceDimensionUnit() {
 		return realRotation;
+	}
+
+	public float getLookDirectionInUserInterfaceDimensionUnit() {
+		float direction = 0f;
+		switch (rotationMode) {
+			case ROTATION_STYLE_NONE : direction = DEGREE_UI_OFFSET;
+			break;
+			case ROTATION_STYLE_ALL_AROUND : direction = realRotation;
+			break;
+			case ROTATION_STYLE_LEFT_RIGHT_ONLY : direction =
+					isFlipped() ? -DEGREE_UI_OFFSET : DEGREE_UI_OFFSET;
+		}
+		return direction;
 	}
 
 	public void setRotationMode(int mode) {
