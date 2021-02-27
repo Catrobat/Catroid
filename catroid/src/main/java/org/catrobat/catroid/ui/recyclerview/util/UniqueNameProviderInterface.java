@@ -25,48 +25,13 @@ package org.catrobat.catroid.ui.recyclerview.util;
 
 import org.catrobat.catroid.common.Nameable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-public class UniqueNameProvider implements UniqueNameProviderInterface {
-	private List<String> scope;
+public interface UniqueNameProviderInterface {
 
-	public String getUniqueName(String name, List<String> scope) {
-		this.scope = scope;
+	String getUniqueName(String name, List<String> scope);
 
-		Pattern pattern = Pattern.compile("\\((\\d+)\\)");
-		Matcher matcher = pattern.matcher(name);
+	boolean isUnique(String newName);
 
-		int n = 1;
-
-		if (matcher.find()) {
-			name = name.replace(matcher.group(0), "").trim();
-			n = Integer.parseInt(matcher.group(1));
-		}
-
-		while (n < Integer.MAX_VALUE) {
-			String newName = name + " (" + n + ")";
-			if (isUnique(newName)) {
-				return newName;
-			}
-			n++;
-		}
-
-		return name;
-	}
-
-	@Override
-	public boolean isUnique(String newName) {
-		return !scope.contains(newName);
-	}
-
-	public String getUniqueNameInNameables(String name, List<? extends Nameable> scope) {
-		List<String> names = new ArrayList<>();
-		for (Nameable nameable : scope) {
-			names.add(nameable.getName());
-		}
-		return getUniqueName(name, names);
-	}
+	String getUniqueNameInNameables(String name, List<? extends Nameable> scope);
 }

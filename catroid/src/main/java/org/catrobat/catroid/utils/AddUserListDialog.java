@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,8 +54,11 @@ public class AddUserListDialog {
 	}
 
 	public void show(String hint, String ok, Callback callback) {
+		UniqueNameProvider uniqueNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
+		String name = builder.getContext().getString(R.string.default_list_name);
 		builder.setHint(hint)
 				.setTextWatcher(new DuplicateInputTextWatcher<>(existingUserLists))
+				.setText(uniqueNameProvider.getUniqueName(name, null))
 				.setPositiveButton(ok,
 						callback::onPositiveButton)
 				.setTitle(R.string.formula_editor_list_dialog_title)

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -100,13 +100,13 @@ public class UserDefinedBrickTest {
 	@Test
 	public void testAddInputToUserBrickDefaultText() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_input_name)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name) + " (1)")));
 	}
 
 	@Test
 	public void testAddLabelToUserBrickDefaultText() {
 		clickOnAddLabelToUserBrick();
-		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_label)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_label) + " (1)")));
 	}
 
 	@Test
@@ -148,7 +148,7 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.button_add_input))
 				.perform(click());
-		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name) + " (1)"));
 		onView(withText(R.string.name_already_exists)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
 	}

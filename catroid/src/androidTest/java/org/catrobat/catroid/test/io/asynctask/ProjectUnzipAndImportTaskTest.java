@@ -86,7 +86,8 @@ public class ProjectUnzipAndImportTaskTest {
 
 		FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY);
 
-		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY), hasItem(AIR_FIGHT_0_5));
+		assertThat(FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY),
+				hasItem(AIR_FIGHT_0_5));
 		File xmlFile = new File(new File(DEFAULT_ROOT_DIRECTORY, AIR_FIGHT_0_5), CODE_XML_FILE_NAME);
 		assertEquals(AIR_FIGHT_0_5, new ProjectMetaDataParser(xmlFile).getProjectMetaData().getName());
 	}
