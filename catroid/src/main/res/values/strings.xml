@@ -1793,6 +1793,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_color_touches_color_parameter" translatable="false">(\'#ff0000\',\'#00ff00\')</string>
     <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_at_x_y_parameter" translatable="false">(100,200)</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
+        tolerance</string>
+    <string name="formula_editor_sensor_color_equals_color_parameter" translatable="false">
+        (\'ff0000\',\'fe0000\',1)</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
     <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">acceleration y</string>
     <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">acceleration z</string>

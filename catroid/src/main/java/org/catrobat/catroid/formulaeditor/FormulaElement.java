@@ -38,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
 import org.catrobat.catroid.sensing.ColorCollisionDetection;
+import org.catrobat.catroid.sensing.ColorEqualsColor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
@@ -437,6 +438,9 @@ public class FormulaElement implements Serializable {
 				return textBlockFunctionProvider.interpretFunctionTextBlock(Double.parseDouble(arguments.get(0).toString()));
 			case TEXT_BLOCK_LANGUAGE_FROM_CAMERA:
 				return textBlockFunctionProvider.interpretFunctionTextBlockLanguage(Double.parseDouble(arguments.get(0).toString()));
+			case COLOR_EQUALS_COLOR:
+				return booleanToDouble(new ColorEqualsColor().tryInterpretFunctionColorEqualsColor(arguments.get(0), arguments.get(1),
+								arguments.get(2)));
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}
