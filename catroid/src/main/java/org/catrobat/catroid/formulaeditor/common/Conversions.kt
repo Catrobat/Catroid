@@ -24,6 +24,7 @@ package org.catrobat.catroid.formulaeditor.common
 
 import android.graphics.Color
 import androidx.annotation.ColorInt
+import org.apache.commons.lang3.StringUtils
 import java.util.regex.Pattern
 
 object Conversions {
@@ -32,6 +33,9 @@ object Conversions {
     private val colorPattern = Pattern.compile("#\\p{XDigit}{6}")
 
     private fun tryParseDouble(argument: String): Double? {
+        if (StringUtils.containsAny(argument, "fFdD")) {
+            return null
+        }
         return try {
             argument.toDouble()
         } catch (numberFormatException: NumberFormatException) {
