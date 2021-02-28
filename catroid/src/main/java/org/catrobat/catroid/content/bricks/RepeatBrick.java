@@ -37,6 +37,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.utils.LoopUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -174,6 +175,7 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -182,7 +184,8 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 		}
 
 		Action action = sprite.getActionFactory()
-				.createRepeatAction(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT), repeatSequence);
+				.createRepeatAction(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT),
+						repeatSequence, isLoopDelay);
 
 		sequence.addAction(action);
 	}

@@ -66,7 +66,8 @@ class RepeatActionTest(
     fun setUp() {
         sprite = Sprite("testSprite")
         innerLoopAction = Mockito.mock(MockAction()::class.java, Mockito.CALLS_REAL_METHODS)
-        repeatAction = sprite.actionFactory.createRepeatAction(sprite, loopCondition, innerLoopAction) as RepeatAction
+        repeatAction = sprite.actionFactory.createRepeatAction(
+            sprite, loopCondition, innerLoopAction, true) as RepeatAction
     }
 
     @Test
