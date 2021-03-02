@@ -137,6 +137,7 @@ import org.catrobat.catroid.content.actions.RepeatAction;
 import org.catrobat.catroid.content.actions.RepeatParameterizedAction;
 import org.catrobat.catroid.content.actions.RepeatUntilAction;
 import org.catrobat.catroid.content.actions.ReplaceItemInUserListAction;
+import org.catrobat.catroid.content.actions.ReportAction;
 import org.catrobat.catroid.content.actions.ResetTimerAction;
 import org.catrobat.catroid.content.actions.RunningStitchAction;
 import org.catrobat.catroid.content.actions.SceneStartAction;
@@ -1359,6 +1360,20 @@ public class ActionFactory extends Actions {
 				return stopOtherScriptsAction;
 			default:
 				return Actions.action(StopAllScriptsAction.class);
+		}
+	}
+
+	public Action createReportAction(Sprite sprite, Script currentScript, Formula reportFormula) {
+		if (currentScript instanceof UserDefinedScript) {
+			ReportAction reportAction = Actions.action(ReportAction.class);
+			reportAction.setSprite(sprite);
+			reportAction.setCurrentScript(currentScript);
+			reportAction.setReportFormula(reportFormula);
+			return reportAction;
+		} else {
+			StopThisScriptAction stopThisScriptAction = Actions.action(StopThisScriptAction.class);
+			stopThisScriptAction.setCurrentScript(currentScript);
+			return stopThisScriptAction;
 		}
 	}
 
