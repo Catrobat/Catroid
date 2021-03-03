@@ -21,27 +21,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.io;
-
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonElement;
+package org.catrobat.catroid.common;
 
 import org.catrobat.catroid.content.bricks.Brick;
 
-import java.io.File;
-import java.lang.reflect.Type;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class BackpackFormulaFieldSerializerAndDeserializer extends BackpackInterfaceSerializerAndDeserializer<Brick.FormulaField> {
+public class RecentBricksHolder implements Serializable {
+	private List<Brick> recentBricks;
 
-	public BackpackFormulaFieldSerializerAndDeserializer(File file) {
-		super(file);
+	public RecentBricksHolder() {
+		recentBricks = new ArrayList<>();
 	}
 
-	@Override
-	public Brick.FormulaField deserialize(JsonElement json, Type interfaceType, JsonDeserializationContext context) {
-		if (!json.isJsonObject()) {
-			return Brick.BrickField.valueOf(json.getAsString());
+	public List<Brick> getRecentBricks() {
+		return recentBricks;
+	}
+
+	public int find(Brick brick) {
+		for (int i = 0; i < recentBricks.size(); i++) {
+			Brick b = recentBricks.get(i);
+			if (b.getClass().equals(brick.getClass())) {
+				return i;
+			}
 		}
-		return super.deserialize(json, interfaceType, context);
+		return -1;
+	}
+
+	public int size() {
+		return recentBricks.size();
+	}
+
+	public void remove() {
+		recentBricks.remove(size() - 1);
+	}
+
+	public void remove(int index) {
+		recentBricks.remove(index);
+	}
+
+	public void insert(Brick brick) {
+		recentBricks.add(0, brick);
 	}
 }

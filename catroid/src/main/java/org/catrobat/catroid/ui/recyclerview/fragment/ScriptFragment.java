@@ -47,6 +47,7 @@ import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
 import org.catrobat.catroid.io.StorageOperations;
@@ -56,6 +57,7 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.BottomBar;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
+import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.dragndrop.BrickListView;
 import org.catrobat.catroid.ui.fragment.AddBrickFragment;
 import org.catrobat.catroid.ui.fragment.BrickCategoryFragment;
@@ -467,6 +469,13 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public void addBrick(Brick brick) {
+		try {
+			if (!brick.getClass().equals(UserDefinedReceiverBrick.class) && !brick.getClass().equals(UserDefinedBrick.class)) {
+				RecentBrickListManager.getInstance().addBrick(brick.clone());
+			}
+		} catch (CloneNotSupportedException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
 		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
 		addBrick(brick, sprite, adapter, listView);
 	}

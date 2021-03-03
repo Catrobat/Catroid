@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2020 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\AndroidManifest.xml"
-            line="94"
+            line="91"
             column="9"/>
     </issue>
 
@@ -129,7 +129,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\CatroidApplication.java"
-            line="55"
+            line="46"
             column="10"/>
     </issue>
 
@@ -195,7 +195,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="104"
+            line="116"
             column="10"/>
     </issue>
 
@@ -206,7 +206,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="106"
+            line="118"
             column="10"/>
     </issue>
 
@@ -217,7 +217,7 @@
         errorLine2="         ~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="108"
+            line="120"
             column="10"/>
     </issue>
 
@@ -283,19 +283,8 @@
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\dialogs\StageDialog.java"
-            line="237"
+            line="238"
             column="16"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
-        message="Do not place Android context classes in static fields; this is a memory leak"
-        errorLine1=" private static Context context = null;"
-        errorLine2="         ~~~~~~">
-        <location
-            file="src\main\java\org\catrobat\catroid\utils\VibrationUtil.java"
-            line="37"
-            column="10"/>
     </issue>
 
     <issue
@@ -344,21 +333,6 @@
 
     <issue
         id="UnusedResources"
-        message="The resource `R.drawable.brick_gold_1h` appears to be unused">
-        <location
-            file="src\main\res\drawable-hdpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-ldpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-mdpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-xhdpi\brick_gold_1h.9.png"/>
-        <location
-            file="src\main\res\drawable-xxhdpi\brick_gold_1h.9.png"/>
-    </issue>
-
-    <issue
-        id="UnusedResources"
         message="The resource `R.mipmap.ic_launcher_round` appears to be unused"
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
@@ -402,14 +376,14 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (41 more)">
+        message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (42 more)">
         <location
             file="src\main\res\drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (41 more)">
+        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (42 more)">
         <location
             file="src\main\res\drawable-mdpi"/>
     </issue>
@@ -423,7 +397,7 @@
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (85 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
         <location
             file="src\main\res\drawable-xxhdpi"/>
     </issue>
@@ -442,11 +416,11 @@
     <issue
         id="ClickableViewAccessibility"
         message="`onTouch` should call `View#performClick` when a click is detected"
-        errorLine1="    public boolean onTouch(View v, MotionEvent event) {"
+        errorLine1="    public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                   ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\content\bricks\brickspinner\BrickSpinner.java"
-            line="213"
+            line="217"
             column="20"/>
     </issue>
 
@@ -501,7 +475,7 @@
         errorLine2="                  ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="293"
+            line="314"
             column="19"/>
     </issue>
 
@@ -523,7 +497,7 @@
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
-            line="286"
+            line="242"
             column="3"/>
     </issue>
 
@@ -534,7 +508,7 @@
         errorLine2="                ~~~~~~~">
         <location
             file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
-            line="290"
+            line="375"
             column="17"/>
     </issue>
 
@@ -897,6 +871,17 @@
         errorLine2="     ~~~~~~~~~">
         <location
             file="src\main\res\layout\icon_brick_category_raspberrypi.xml"
+            line="28"
+            column="6"/>
+    </issue>
+
+    <issue
+        id="ContentDescription"
+        message="Missing `contentDescription` attribute on image"
+        errorLine1="    &lt;ImageView"
+        errorLine2="     ~~~~~~~~~">
+        <location
+            file="src\main\res\layout\icon_brick_category_recently_used.xml"
             line="28"
             column="6"/>
     </issue>

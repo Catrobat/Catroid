@@ -134,6 +134,7 @@ public class BrickAddCategoryTest {
 	@Test
 	public void categoriesTest() {
 		List<String> expectedCategories = translateAll(Arrays.asList(
+				R.string.category_recently_used,
 				R.string.category_embroidery,
 				R.string.category_lego_nxt,
 				R.string.category_lego_ev3,

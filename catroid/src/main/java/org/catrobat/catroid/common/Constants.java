@@ -81,6 +81,10 @@ public final class Constants {
 	public static final File TEMP_LOOK_FILE =
 			new File(DEFAULT_ROOT_DIRECTORY, "temporary_look_file" + DEFAULT_IMAGE_EXTENSION);
 
+	// Recent Bricks Directory
+	public static final String RECENT_BRICKS_DIRECTORY = "recent_bricks";
+	public static final String RECENT_BRICKS_FILE = "recent_bricks.json";
+
 	// Backpack Directories
 	public static final String BACKPACK_DIRECTORY_NAME = "backpack";
 	public static final String BACKPACK_JSON_FILE_NAME = "backpack.json";

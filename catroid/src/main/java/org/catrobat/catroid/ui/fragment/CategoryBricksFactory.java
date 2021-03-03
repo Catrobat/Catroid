@@ -238,6 +238,7 @@ import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Operators;
 import org.catrobat.catroid.formulaeditor.Sensors;
+import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.util.ArrayList;
@@ -251,7 +252,9 @@ import static org.catrobat.catroid.formulaeditor.FormulaElement.ElementType.OPER
 public class CategoryBricksFactory {
 
 	public List<Brick> getBricks(String category, boolean isBackgroundSprite, Context context) {
-
+		if (category.equals(context.getString(R.string.category_recently_used))) {
+			return setupRecentBricksCategoryList(isBackgroundSprite);
+		}
 		if (category.equals(context.getString(R.string.category_event))) {
 			return setupEventCategoryList(context, isBackgroundSprite);
 		}
@@ -311,6 +314,10 @@ public class CategoryBricksFactory {
 		}
 
 		return Collections.emptyList();
+	}
+
+	protected List<Brick> setupRecentBricksCategoryList(boolean isBackgroundSprite) {
+		return RecentBrickListManager.getInstance().getRecentBricks(isBackgroundSprite);
 	}
 
 	protected List<Brick> setupEventCategoryList(Context context, boolean isBackgroundSprite) {

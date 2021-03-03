@@ -28,8 +28,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.catrobat.catroid.common.Backpack;
-import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.common.RecentBricksHolder;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.userbrick.UserDefinedBrickData;
 
@@ -40,34 +39,31 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public final class BackpackSerializer {
+public final class RecentBrickListSerializer {
 
-	private static final String TAG = BackpackSerializer.class.getSimpleName();
-	private final File backpackFile;
+	private static final String TAG = RecentBrickListSerializer.class.getSimpleName();
+	private final File recentBricksFile;
 
-	private Gson backpackGson;
+	private final Gson recentBrickListGson;
 
-	public BackpackSerializer(File backpackFile) {
-		this.backpackFile = backpackFile;
+	public RecentBrickListSerializer(File recentBricksFile) {
+		this.recentBricksFile = recentBricksFile;
 		GsonBuilder gsonBuilder = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting();
-		gsonBuilder.registerTypeAdapter(Script.class,
-				new BackpackScriptSerializerAndDeserializer());
 		gsonBuilder.registerTypeAdapter(Brick.class,
-				new BackpackInterfaceSerializerAndDeserializer(backpackFile));
+				new BackpackInterfaceSerializerAndDeserializer(recentBricksFile));
 		gsonBuilder.registerTypeAdapter(UserDefinedBrickData.class,
-				new BackpackInterfaceSerializerAndDeserializer(backpackFile));
+				new BackpackInterfaceSerializerAndDeserializer(recentBricksFile));
 		gsonBuilder.registerTypeAdapter(Brick.FormulaField.class,
-				new BackpackFormulaFieldSerializerAndDeserializer(backpackFile));
-		backpackGson = gsonBuilder.create();
+				new BackpackFormulaFieldSerializerAndDeserializer(recentBricksFile));
+		recentBrickListGson = gsonBuilder.create();
 	}
 
-	public boolean saveBackpack(Backpack backpack) {
+	public boolean saveRecentBricks(RecentBricksHolder recentBricksHolder) {
 		FileWriter writer = null;
-		String json = backpackGson.toJson(backpack);
-
+		String json = recentBrickListGson.toJson(recentBricksHolder);
 		try {
-			backpackFile.createNewFile();
-			writer = new FileWriter(backpackFile);
+			recentBricksFile.createNewFile();
+			writer = new FileWriter(recentBricksFile);
 			writer.write(json);
 			return true;
 		} catch (IOException e) {
@@ -84,20 +80,21 @@ public final class BackpackSerializer {
 		}
 	}
 
-	public Backpack loadBackpack() {
-		if (!backpackFile.exists()) {
-			return new Backpack();
+	public RecentBricksHolder loadRecentBricks() {
+		if (!recentBricksFile.exists()) {
+			return new RecentBricksHolder();
 		}
 
 		try {
-			BufferedReader bufferedReader = new BufferedReader(new FileReader(backpackFile));
-			return backpackGson.fromJson(bufferedReader, Backpack.class);
+			BufferedReader bufferedReader = new BufferedReader(new FileReader(recentBricksFile));
+			return recentBrickListGson.fromJson(bufferedReader,
+					RecentBricksHolder.class);
 		} catch (Exception e) {
 			if (!(e instanceof FileNotFoundException)) {
-				backpackFile.delete();
+				recentBricksFile.delete();
 			}
-			Log.e(TAG, "Cannot load Backpack. Creating new Backpack File.", e);
-			return new Backpack();
+			Log.e(TAG, "Cannot load Recent Bricks File. Creating new Recent Bricks File.", e);
+			return new RecentBricksHolder();
 		}
 	}
 }

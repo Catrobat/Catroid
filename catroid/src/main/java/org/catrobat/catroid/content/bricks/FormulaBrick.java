@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -106,7 +106,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 		super.getView(context);
 		for (BiMap.Entry<FormulaField, Integer> entry : brickFieldToTextViewIdMap.entrySet()) {
 			TextView formulaFieldView = view.findViewById(entry.getValue());
-			formulaFieldView.setText(getFormulaWithBrickField(entry.getKey()).getTrimmedFormulaString(context));
+			formulaFieldView.setText(getFormulaWithBrickField(entry.getKey()).clone().getTrimmedFormulaString(context));
 		}
 		return view;
 	}

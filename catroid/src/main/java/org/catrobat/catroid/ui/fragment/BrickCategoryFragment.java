@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -158,6 +158,8 @@ public class BrickCategoryFragment extends ListFragment {
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		List<View> categories = new ArrayList<>();
+
+		categories.add(inflater.inflate(R.layout.brick_category_recently_used, null));
 
 		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_embroidery, null));
