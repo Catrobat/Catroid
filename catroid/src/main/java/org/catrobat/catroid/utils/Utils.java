@@ -545,7 +545,7 @@ public final class Utils {
 		}, null, Activity.RESULT_OK, null, null);
 	}
 
-	public static @ColorInt int getAttr(Context context, int id){
+	public static @ColorInt int getAttr(Context context, int id) {
 		TypedValue typedValue = new TypedValue();
 		Resources.Theme theme = context.getTheme();
 		theme.resolveAttribute(id, typedValue, true);

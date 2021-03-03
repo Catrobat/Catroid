@@ -44,7 +44,6 @@
     <color name="accent">#A8DFF4</color>
 
     <!-- Icon Colors -->
-    <color name="landing_page_icons">@color/accent</color>
     <color name="project_icons">@color/accent</color>
     <color name="stage_icons_pressed">#e3f9fd</color>
 

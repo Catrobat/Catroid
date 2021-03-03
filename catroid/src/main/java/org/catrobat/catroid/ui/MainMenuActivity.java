@@ -324,7 +324,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == SETTINGS_ACTIVITY){
+		if(requestCode == SETTINGS_ACTIVITY) {
 			recreate();
 		}
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {

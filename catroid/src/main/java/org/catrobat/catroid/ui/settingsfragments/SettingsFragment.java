@@ -208,11 +208,6 @@ public class SettingsFragment extends PreferenceFragment {
 				break;
 			case SWITCH_THEME:
 				startActivity(new Intent(getActivity(), ThemesActivity.class));
-//				getFragmentManager().beginTransaction()
-//						.replace(R.id.content_frame, new ThemesFragment(),
-//								ThemesFragment.TAG)
-//						.addToBackStack(ThemesFragment.TAG)
-//						.commit();
 				break;
 			case NXT_SCREEN_KEY:
 				getFragmentManager().beginTransaction()
