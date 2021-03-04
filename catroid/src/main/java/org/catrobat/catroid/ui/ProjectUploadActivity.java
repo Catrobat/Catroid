@@ -86,6 +86,7 @@ import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
 import static org.catrobat.catroid.common.Constants.SHARE_PROJECT_URL;
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
@@ -448,6 +449,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	public void showUploadDialog() {
+		if (surveyCampaign != null) {
+			surveyCampaign.setUploadFlag(true);
+		}
 
 		uploadProgressDialog = new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.upload_project_dialog_title))
@@ -457,6 +461,11 @@ public class ProjectUploadActivity extends BaseActivity implements
 				})
 				.setNegativeButton(R.string.done, (dialog, which) -> {
 					loadBackup();
+
+					if (surveyCampaign != null) {
+						surveyCampaign.showSurvey(this);
+					}
+
 					finish();
 				})
 				.setCancelable(false)

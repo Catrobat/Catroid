@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,8 +23,12 @@
 package org.catrobat.catroid.ui;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
@@ -40,8 +44,12 @@ import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 public abstract class BaseActivity extends AppCompatActivity implements PermissionHandlingActivity {
 	private static boolean savedInstanceStateExpected;
@@ -92,6 +100,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 
 		invalidateOptionsMenu();
 		googleAnalyticsTrackScreenResume();
+
+		if (surveyCampaign != null) {
+			surveyCampaign.startAppTime(this);
+		}
 	}
 
 	protected void googleAnalyticsTrackScreenResume() {
@@ -136,5 +148,41 @@ public abstract class BaseActivity extends AppCompatActivity implements Permissi
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		permissionRequestActivityExtension.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+
+		PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+		if (surveyCampaign != null && (isApplicationSentToBackground(this) || !pm.isInteractive())) {
+			surveyCampaign.endAppTime(this);
+		}
+	}
+
+	private boolean isApplicationSentToBackground(final Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+			List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+			ComponentName topActivity = tasks.get(0).topActivity;
+			if (topActivity.getPackageName().equals(context.getPackageName())) {
+				return false;
+			}
+		} else {
+			List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
+			for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+				if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+					for (String activeProcess : processInfo.pkgList) {
+						if (activeProcess.equals(context.getPackageName())) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.Survey;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -77,6 +78,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
+	public static Survey surveyCampaign;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -94,6 +97,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			showTermsOfUseDialog();
 		}
+
+		surveyCampaign = new Survey(this);
+		surveyCampaign.showSurvey(this);
 	}
 
 	private void showTermsOfUseDialog() {
