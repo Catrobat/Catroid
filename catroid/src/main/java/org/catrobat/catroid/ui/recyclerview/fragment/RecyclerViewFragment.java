@@ -62,6 +62,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
+
 public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment implements
 		ActionMode.Callback,
 		RVAdapter.SelectionListener,
@@ -240,6 +242,9 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 		adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(getActivity())
 				.getBoolean(sharedPreferenceDetailsKey, false);
 		recyclerView.setAdapter(adapter);
+
+		adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(getActivity())
+				.getBoolean(SORT_PROJECTS_PREFERENCE_KEY, false);
 
 		adapter.setSelectionListener(this);
 		adapter.setOnItemClickListener(this);
