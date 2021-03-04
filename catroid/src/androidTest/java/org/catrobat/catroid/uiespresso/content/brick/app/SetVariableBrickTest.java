@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,7 @@ import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -137,7 +138,7 @@ public class SetVariableBrickTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(typeText(userVariableName), closeSoftKeyboard());
+				.perform(clearText(), typeText(userVariableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))

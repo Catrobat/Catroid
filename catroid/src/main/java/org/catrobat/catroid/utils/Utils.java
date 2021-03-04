@@ -433,10 +433,14 @@ public final class Utils {
 
 			String projectToCheckSpriteList = stringFinder.getResult();
 
-			String regex = "(?s)<scriptId>.*?</scriptId>";
-			String replacement = "<scriptId></scriptId>";
-			projectToCheckSpriteList = projectToCheckSpriteList.replaceAll(regex, replacement);
-			defaultProjectSpriteList = defaultProjectSpriteList.replaceAll(regex, replacement);
+			String scriptIdRegex = "((?s)<scriptId>.*?</scriptId>)";
+			String brickIdRegex = "(?s)<brickId>.*?</brickId>";
+			String scriptIdReplacement = "<scriptId></scriptId>";
+			String brickIdIdReplacement = "<bricktId></brickId>";
+			projectToCheckSpriteList = projectToCheckSpriteList.replaceAll(scriptIdRegex, scriptIdReplacement);
+			projectToCheckSpriteList = projectToCheckSpriteList.replaceAll(brickIdRegex, brickIdIdReplacement);
+			defaultProjectSpriteList = defaultProjectSpriteList.replaceAll(scriptIdRegex, scriptIdReplacement);
+			defaultProjectSpriteList = defaultProjectSpriteList.replaceAll(brickIdRegex, brickIdIdReplacement);
 
 			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
 		} catch (IllegalArgumentException | IOException illegalArgumentException) {

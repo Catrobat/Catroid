@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,9 +43,7 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 
 	public UserVariableBrickTextInputDialogBuilder(Project project, Sprite sprite, UserVariable currentUserVariable,
 			AppCompatActivity activity, BrickSpinner<UserVariable> spinner) {
-
 		super(activity);
-
 		View dialogView = View.inflate(activity, R.layout.dialog_new_user_data, null);
 		RadioButton multiplayerRadioButton = dialogView.findViewById(R.id.multiplayer);
 		if (SettingsFragment.isMultiplayerVariablesPreferenceEnabled(activity.getApplicationContext())) {
@@ -79,6 +78,8 @@ public class UserVariableBrickTextInputDialogBuilder extends TextInputDialog.Bui
 				});
 
 		setTitle(R.string.formula_editor_variable_dialog_title);
+		UniqueNameProvider uniqueNameProvider = createUniqueNameProvider(R.string.default_variable_name);
+		setText(uniqueNameProvider.getUniqueName(activity.getString(R.string.default_variable_name), null));
 
 		setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(currentUserVariable));
 		setOnCancelListener(dialog -> spinner.setSelection(currentUserVariable));

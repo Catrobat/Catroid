@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -155,7 +155,7 @@ public class LookFromGalleryIntentTest {
 		intended(expectedChooserIntent);
 
 		onRecyclerView().atPosition(0).onChildView(R.id.title_view)
-				.check(matches(withText(lookFileName.replace(".png", ""))));
+				.check(matches(withText(lookFileName.replace(".png", " (1)"))));
 	}
 
 	private void createProject(String projectName) {
