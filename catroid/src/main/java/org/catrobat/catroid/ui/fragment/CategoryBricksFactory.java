@@ -496,16 +496,21 @@ public class CategoryBricksFactory {
 
 		soundBrickList.add(new ChangeVolumeByNBrick(new Formula(BrickValues.CHANGE_VOLUME_BY)));
 
-		soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
-		soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
+		if (SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context)) {
+			soundBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
+			soundBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
+		}
 
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
 			soundBrickList.add(new PhiroPlayToneBrick(PhiroPlayToneBrick.Tone.DO,
 					BrickValues.PHIRO_DURATION));
 		}
-		soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
-		soundBrickList.add(new StartListeningBrick());
-		soundBrickList.add(new SetListeningLanguageBrick());
+
+		if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
+			soundBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+			soundBrickList.add(new StartListeningBrick());
+			soundBrickList.add(new SetListeningLanguageBrick());
+		}
 
 		soundBrickList.add(new SetInstrumentBrick());
 		soundBrickList.add(new PlayNoteForBeatsBrick(70, 1));
@@ -530,7 +535,9 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new ChangeSizeByNBrick(BrickValues.CHANGE_SIZE_BY));
 		looksBrickList.add(new HideBrick());
 		looksBrickList.add(new ShowBrick());
+
 		looksBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
+
 		if (!isBackgroundSprite) {
 			looksBrickList.add(new SayBubbleBrick(context.getString(R.string.brick_say_bubble_default_value)));
 			looksBrickList.add(new SayForBubbleBrick(context.getString(R.string.brick_say_bubble_default_value), 1.0f));
@@ -630,14 +637,16 @@ public class CategoryBricksFactory {
 		}
 
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
-		dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
+		if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
+			dataBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+		}
 		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(context)) {
 			dataBrickList.add(new WriteEmbroideryToFileBrick(context.getString(R.string.brick_default_embroidery_file)));
 		}
-
-		dataBrickList.add(new StartListeningBrick());
-
+		if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
+			dataBrickList.add(new StartListeningBrick());
+		}
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			dataBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
@@ -667,18 +676,22 @@ public class CategoryBricksFactory {
 
 		deviceBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		deviceBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
-		deviceBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
-		deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
-		deviceBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
 
-		deviceBrickList.add(new StartListeningBrick());
+		if (SettingsFragment.isAISpeechSynthetizationSharedPreferenceEnabled(context)) {
+			deviceBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
+			deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
+		}
+
+		if (SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(context)) {
+			deviceBrickList.add(new AskSpeechBrick(context.getString(R.string.brick_ask_speech_default_question)));
+			deviceBrickList.add(new StartListeningBrick());
+		}
 
 		if (!ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			deviceBrickList.add(new CameraBrick());
 			deviceBrickList.add(new ChooseCameraBrick());
 			deviceBrickList.add(new FlashBrick());
 		}
-
 		deviceBrickList.add(new WriteVariableOnDeviceBrick());
 		deviceBrickList.add(new ReadVariableFromDeviceBrick());
 		deviceBrickList.add(new WriteListOnDeviceBrick());
@@ -689,7 +702,6 @@ public class CategoryBricksFactory {
 		deviceBrickList.add(new TouchAndSlideBrick(BrickValues.TOUCH_X_START,
 				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
 				BrickValues.TOUCH_DURATION));
-
 		if (SettingsFragment.isCastSharedPreferenceEnabled(context)) {
 			deviceBrickList.addAll(setupChromecastCategoryList(context));
 		}

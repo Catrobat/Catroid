@@ -687,12 +687,12 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(getRaspberrySensorItems());
 		result.addAll(getNfcItems());
 		result.addAll(getCastGamepadSensorItems());
-		result.addAll(getDeviceSensorItems());
-		result.addAll(getTouchDetectionSensorItems());
-		result.addAll(getDateTimeSensorItems());
 		result.addAll(getSpeechRecognitionItems());
 		result.addAll(getFaceSensorItems());
 		result.addAll(getTextSensorItems());
+		result.addAll(getDeviceSensorItems());
+		result.addAll(getTouchDetectionSensorItems());
+		result.addAll(getDateTimeSensorItems());
 		return result;
 	}
 
@@ -718,42 +718,6 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		result.addAll(toCategoryListItems(OBJECT_PHYSICAL_2));
 		result.addAll(toCategoryListItems(OBJECT_COLOR_COLLISION, OBJECT_COLOR_PARAMS));
 		return addHeader(result, getString(R.string.formula_editor_object_movement));
-	}
-
-	private List<CategoryListItem> getDeviceSensorItems() {
-		List<CategoryListItem> deviceSensorItems = new ArrayList<>(toCategoryListItems(SENSORS_DEFAULT));
-		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_EQUALS_COLOR,
-				SENSORS_COLOR_EQUALS_COLOR_PARAMS));
-		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
-				: Collections.emptyList());
-		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
-				: Collections.emptyList());
-		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
-				: Collections.emptyList());
-		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
-		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
-
-		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
-	}
-
-	private List<CategoryListItem> getTouchDetectionSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_TOUCH, SENSORS_TOUCH_PARAMS), getString(R.string.formula_editor_device_touch_detection));
-	}
-
-	private List<CategoryListItem> getFaceSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS),
-				getString(R.string.formula_editor_device_face_detection));
-	}
-
-	private List<CategoryListItem> getTextSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
-				getString(R.string.formula_editor_device_text_recognition));
-	}
-
-	private List<CategoryListItem> getDateTimeSensorItems() {
-		return addHeader(toCategoryListItems(SENSORS_DATE_TIME), getString(R.string.formula_editor_device_date_and_time));
 	}
 
 	private List<CategoryListItem> getNxtSensorItems() {
@@ -804,8 +768,49 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				: Collections.emptyList();
 	}
 
+	private List<CategoryListItem> getDeviceSensorItems() {
+		List<CategoryListItem> deviceSensorItems = new ArrayList<>(toCategoryListItems(SENSORS_DEFAULT));
+		SensorHandler sensorHandler = SensorHandler.getInstance(getActivity());
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_AT_XY, SENSORS_COLOR_AT_XY_PARAMS));
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_COLOR_EQUALS_COLOR,
+				SENSORS_COLOR_EQUALS_COLOR_PARAMS));
+		deviceSensorItems.addAll(sensorHandler.accelerationAvailable() ? toCategoryListItems(SENSORS_ACCELERATION)
+				: Collections.emptyList());
+		deviceSensorItems.addAll(sensorHandler.inclinationAvailable() ? toCategoryListItems(SENSORS_INCLINATION)
+				: Collections.emptyList());
+		deviceSensorItems.addAll(sensorHandler.compassAvailable() ? toCategoryListItems(SENSORS_COMPASS)
+				: Collections.emptyList());
+		deviceSensorItems.addAll(toCategoryListItems(SENSORS_GPS));
+		deviceSensorItems.addAll(toCategoryListItems(SENSOR_USER_LANGUAGE));
+
+		return addHeader(deviceSensorItems, getString(R.string.formula_editor_device_sensors));
+	}
+
+	private List<CategoryListItem> getTouchDetectionSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_TOUCH, SENSORS_TOUCH_PARAMS), getString(R.string.formula_editor_device_touch_detection));
+	}
+
+	private List<CategoryListItem> getDateTimeSensorItems() {
+		return addHeader(toCategoryListItems(SENSORS_DATE_TIME), getString(R.string.formula_editor_device_date_and_time));
+	}
+
 	private List<CategoryListItem> getSpeechRecognitionItems() {
-		return addHeader(toCategoryListItems(SENSORS_SPEECH_RECOGNITION),
-				getString(R.string.formula_editor_speech_recognition));
+		return SettingsFragment.isAISpeechRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_SPEECH_RECOGNITION), getString(R.string.formula_editor_speech_recognition))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getFaceSensorItems() {
+		return SettingsFragment.isAIFaceDetectionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_FACE_DETECTION, SENSORS_FACE_DETECTION_PARAMS),
+				getString(R.string.formula_editor_device_face_detection))
+				: Collections.emptyList();
+	}
+
+	private List<CategoryListItem> getTextSensorItems() {
+		return SettingsFragment.isAITextRecognitionSharedPreferenceEnabled(getActivity().getApplicationContext())
+				? addHeader(toCategoryListItems(SENSORS_TEXT_RECOGNITION, SENSORS_TEXT_RECOGNITION_PARAMS),
+				getString(R.string.formula_editor_device_text_recognition))
+				: Collections.emptyList();
 	}
 }
