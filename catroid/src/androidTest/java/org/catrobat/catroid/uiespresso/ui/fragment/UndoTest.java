@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,7 +30,7 @@ import org.catrobat.catroid.content.bricks.IfLogicBeginBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
-import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.After;
@@ -49,10 +49,12 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(Parameterized.class)
 public class UndoTest {
@@ -60,16 +62,15 @@ public class UndoTest {
 	private final long waitThreshold = 5000;
 
 	@Rule
-	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class,
-			SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+	public FragmentActivityTestRule<ProjectActivity> baseActivityTestRule = new
+			FragmentActivityTestRule<>(ProjectActivity.class, ProjectActivity.EXTRA_FRAGMENT_POSITION, ProjectActivity.FRAGMENT_SPRITES);
 
 	@Parameterized.Parameters(name = "{0}")
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] {
-				{"SingleScript", 0},
-				{"CompositeBrick", 1},
-				{"SingleBrick", 2},
+				{"SingleScript", 0, R.string.brick_when_started},
+				{"CompositeBrick", 1, R.string.brick_if_begin},
+				{"SingleBrick", 2, R.string.brick_set_x},
 		});
 	}
 
@@ -78,6 +79,9 @@ public class UndoTest {
 
 	@Parameterized.Parameter(1)
 	public int brickPosition;
+
+	@Parameterized.Parameter(2)
+	public int brickText;
 
 	String initialProject;
 
@@ -90,6 +94,8 @@ public class UndoTest {
 	public void setUp() throws Exception {
 		createProject();
 		baseActivityTestRule.launchActivity();
+		onView(withText("testSprite"))
+				.perform(click());
 	}
 
 	@Test
@@ -113,6 +119,21 @@ public class UndoTest {
 
 		String projectAfterUndo = getProjectAsXmlString();
 		assertEquals(projectAfterUndo, initialProject);
+	}
+
+	@Test
+	public void checkScriptAfterUndo() {
+		onBrickAtPosition(brickPosition).performDeleteBrick();
+
+		onView(withId(R.id.menu_undo))
+				.perform(click());
+
+		pressBack();
+
+		onView(withText("testSprite"))
+				.perform(click());
+
+		onBrickAtPosition(brickPosition).checkShowsText(brickText);
 	}
 
 	public String getProjectAsXmlString() {
