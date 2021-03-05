@@ -28,5 +28,5 @@
     android:textColor="?attr/dialog_title_and_text_view"
     android:singleLine="true"
     android:layout_width="match_parent"
-    android:layout_height="?attr/dropdownListPreferredItemHeight"
+    android:layout_height="45dp"
     android:ellipsize="marquee"/>
