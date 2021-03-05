@@ -26,28 +26,28 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
 public class SetTempoAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula tempo;
 
 	@Override
 	protected void update(float delta) {
 		try {
-			int newTempo = tempo == null ? Integer.valueOf(0) : tempo.interpretInteger(sprite);
+			int newTempo = tempo == null ? Integer.valueOf(0) : tempo.interpretInteger(scope);
 			MidiSoundManager.getInstance().setTempo(newTempo);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setTempo(Formula tempo) {

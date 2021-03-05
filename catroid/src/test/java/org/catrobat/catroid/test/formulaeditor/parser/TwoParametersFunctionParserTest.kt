@@ -23,6 +23,10 @@
 
 package org.catrobat.catroid.test.formulaeditor.parser
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Functions.ARCTAN2
@@ -33,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.Functions.RAND
 import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType
 import org.catrobat.catroid.formulaeditor.Operators
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testDoubleParameterFunction
 import org.junit.Before
@@ -69,10 +74,18 @@ class TwoParametersFunctionParserTest(
     }
 
     private var sprite: Sprite? = null
+    private var scope: Scope? = null
 
     @Before
     fun setUp() {
+        val project = Project(
+            MockUtil.mockContextForProject(),
+            "Project"
+        )
         sprite = Sprite("sprite")
+        scope = Scope(project, sprite!!, SequenceAction())
+        project.defaultScene.addSprite(sprite)
+        ProjectManager.getInstance().currentProject = project
     }
 
     @Test
@@ -80,7 +93,7 @@ class TwoParametersFunctionParserTest(
         val firstParameter = listOf(InternToken(InternTokenType.NUMBER, firstParameterValue.toString()))
         val secondParameter = listOf(InternToken(InternTokenType.NUMBER, secondParameterValue.toString()))
         val expectedValue = associatedFunction.function(firstParameterValue, secondParameterValue)
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
@@ -88,7 +101,7 @@ class TwoParametersFunctionParserTest(
         val firstParameter = listOf(InternToken(InternTokenType.STRING, firstParameterValue.toString()))
         val secondParameter = listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
         val expectedValue = associatedFunction.function(firstParameterValue, secondParameterValue)
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
@@ -96,7 +109,7 @@ class TwoParametersFunctionParserTest(
         val firstParameter = listOf(InternToken(InternTokenType.STRING, ""))
         val secondParameter = listOf(InternToken(InternTokenType.STRING, ""))
         val expectedValue = 0.0
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
@@ -104,7 +117,7 @@ class TwoParametersFunctionParserTest(
         val firstParameter = listOf(InternToken(InternTokenType.STRING, ""))
         val secondParameter = listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
         val expectedValue = 0.0
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
@@ -112,7 +125,7 @@ class TwoParametersFunctionParserTest(
         val firstParameter = listOf(InternToken(InternTokenType.STRING, firstParameterValue.toString()))
         val secondParameter = listOf(InternToken(InternTokenType.STRING, ""))
         val expectedValue = 0.0
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
@@ -120,7 +133,7 @@ class TwoParametersFunctionParserTest(
         val firstParameter = listOf(InternToken(InternTokenType.STRING, NOT_NUMERICAL_STRING))
         val secondParameter = listOf(InternToken(InternTokenType.STRING, NOT_NUMERICAL_STRING))
         val expectedValue = 0.0
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     @Test
@@ -132,7 +145,7 @@ class TwoParametersFunctionParserTest(
         )
         val secondParameter = listOf(InternToken(InternTokenType.STRING, secondParameterValue.toString()))
         val expectedValue = Double.NaN
-        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, sprite)
+        testDoubleParameterFunction(function, firstParameter, secondParameter, expectedValue, scope)
     }
 
     data class AssociatedFunction(val function: (Double, Double) -> Double)

@@ -47,9 +47,9 @@ public class WaitForSoundAction extends WaitAction {
 	@Override
 	protected void update(float percent) {
 		if (soundFilePath != null && !midiSoundManager.getStartedSoundfilePaths().isEmpty()) {
-			SoundFilePathWithSprite spriteSoundFilePath = new SoundFilePathWithSprite(soundFilePath, sprite);
+			SoundFilePathWithSprite spriteSoundFilePath = new SoundFilePathWithSprite(soundFilePath, scope.getSprite());
 			Set<SoundFilePathWithSprite> recentlyStarted = midiSoundManager.getStartedSoundfilePaths();
-			if (recentlyStarted.contains(spriteSoundFilePath) && !midiSoundManager.isSoundInSpritePlaying(sprite, soundFilePath)) {
+			if (recentlyStarted.contains(spriteSoundFilePath) && !midiSoundManager.isSoundInSpritePlaying(scope.getSprite(), soundFilePath)) {
 				recentlyStarted.remove(spriteSoundFilePath);
 				finish();
 				soundStopped = true;
@@ -58,7 +58,7 @@ public class WaitForSoundAction extends WaitAction {
 		}
 		if (soundFilePath != null && !soundManager.getRecentlyStoppedSoundfilePaths().isEmpty()) {
 			SoundFilePathWithSprite spriteSoundFilePath =
-					new SoundFilePathWithSprite(soundFilePath, sprite);
+					new SoundFilePathWithSprite(soundFilePath, scope.getSprite());
 			Set<SoundFilePathWithSprite> recentlyStopped =
 					soundManager.getRecentlyStoppedSoundfilePaths();
 			if (recentlyStopped.contains(spriteSoundFilePath)) {
@@ -72,13 +72,13 @@ public class WaitForSoundAction extends WaitAction {
 	@Override
 	protected void end() {
 		for (MediaPlayerWithSoundDetails mediaPlayer : soundManager.getMediaPlayers()) {
-			if (mediaPlayer.isPlaying() && mediaPlayer.getStartedBySprite() == sprite && mediaPlayer.getPathToSoundFile().equals(soundFilePath) && !soundStopped) {
+			if (mediaPlayer.isPlaying() && mediaPlayer.getStartedBySprite() == scope.getSprite() && mediaPlayer.getPathToSoundFile().equals(soundFilePath) && !soundStopped) {
 				restart();
 				setTime(mediaPlayer.getCurrentPosition());
 			}
 		}
 		for (MidiPlayer midiPlayer : midiSoundManager.getMidiPlayers()) {
-			if (midiPlayer.isPlaying() && midiPlayer.getStartedBySprite() == sprite && midiPlayer.getPathToSoundFile().equals(soundFilePath) && !soundStopped) {
+			if (midiPlayer.isPlaying() && midiPlayer.getStartedBySprite() == scope.getSprite() && midiPlayer.getPathToSoundFile().equals(soundFilePath) && !soundStopped) {
 				restart();
 				setTime(midiPlayer.getCurrentPosition());
 			}

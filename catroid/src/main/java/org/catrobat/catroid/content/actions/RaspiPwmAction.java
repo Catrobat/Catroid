@@ -27,7 +27,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -41,7 +41,7 @@ public class RaspiPwmAction extends TemporalAction {
 	private Formula pwmFrequencyFormula;
 	private Formula pwmPercentageFormula;
 
-	private Sprite sprite;
+	private Scope scope;
 
 	private int pinInterpretation;
 	private double frequencyInterpretation;
@@ -50,7 +50,8 @@ public class RaspiPwmAction extends TemporalAction {
 	@Override
 	protected void begin() {
 		try {
-			pinInterpretation = pinNumberFormula == null ? Integer.valueOf(0) : pinNumberFormula.interpretInteger(sprite);
+			pinInterpretation = pinNumberFormula == null ? Integer.valueOf(0)
+					: pinNumberFormula.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed. (pin)",
@@ -59,7 +60,7 @@ public class RaspiPwmAction extends TemporalAction {
 
 		try {
 			frequencyInterpretation = pwmFrequencyFormula == null ? Double.valueOf(0) : pwmFrequencyFormula
-					.interpretDouble(sprite);
+					.interpretDouble(scope);
 		} catch (InterpretationException interpretationException) {
 			frequencyInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed. (frequency)",
@@ -68,7 +69,7 @@ public class RaspiPwmAction extends TemporalAction {
 
 		try {
 			percentageInterpretation = pwmPercentageFormula == null ? Double.valueOf(0) : pwmPercentageFormula
-					.interpretDouble(sprite);
+					.interpretDouble(scope);
 		} catch (InterpretationException interpretationException) {
 			percentageInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed. (percentage)",
@@ -89,8 +90,8 @@ public class RaspiPwmAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPinNumberFormula(Formula pinNumberFormula) {

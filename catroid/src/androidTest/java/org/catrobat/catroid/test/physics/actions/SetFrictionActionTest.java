@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -77,7 +78,8 @@ public class SetFrictionActionTest {
 
 	private void initFrictionValue(float frictionFactor) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(frictionFactor));
+		Action action = sprite.getActionFactory().createSetFrictionAction(sprite,
+				new SequenceAction(), new Formula(frictionFactor));
 
 		assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
 
@@ -88,10 +90,12 @@ public class SetFrictionActionTest {
 	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(String.valueOf(FRICTION))).act(1.0f);
+		sprite.getActionFactory().createSetFrictionAction(sprite,
+			new SequenceAction(), new Formula(String.valueOf(FRICTION))).act(1.0f);
 		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
 
-		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(String.valueOf("not a numerical string")))
+		sprite.getActionFactory().createSetFrictionAction(sprite, new SequenceAction(),
+				new Formula("not a numerical string"))
 				.act(1.0f);
 		assertEquals(FRICTION / 100.f, physicsObject.getFriction());
 	}
@@ -99,14 +103,15 @@ public class SetFrictionActionTest {
 	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetFrictionAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetFrictionAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, physicsObject.getFriction());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetFrictionAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetFrictionAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN)).act(1.0f);
 		assertEquals(PhysicsObject.DEFAULT_FRICTION, physicsObject.getFriction());
 	}
 }

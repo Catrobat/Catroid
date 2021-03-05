@@ -52,6 +52,7 @@ public class ChangeXByNBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createChangeXByNAction(sprite, getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)));
+				.createChangeXByNAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.X_POSITION_CHANGE)));
 	}
 }

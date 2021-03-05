@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.sprite;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -95,7 +97,8 @@ public class SpriteTest {
 		ProjectManager.getInstance().setCurrentlyPlayingScene(secondScene);
 
 		ScriptSequenceAction thread = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(new StartScript());
-		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2, new Formula(10),
+		thread.addAction(sprite2.getActionFactory().createShowVariableAction(sprite2,
+				new SequenceAction(), new Formula(10),
 				new Formula(10), userVariable));
 		secondScript.run(sprite2, thread);
 

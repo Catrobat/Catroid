@@ -30,7 +30,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -40,7 +40,7 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 	private Formula hertz;
 	private Formula durationInSeconds;
 	private Formula volumeInPercent;
-	private Sprite sprite;
+	private Scope scope;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
@@ -51,21 +51,21 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 		int volumeInterpretation;
 
 		try {
-			hertzInterpretation = hertz.interpretInteger(sprite);
+			hertzInterpretation = hertz.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			hertzInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			durationInterpretation = durationInSeconds.interpretFloat(sprite);
+			durationInterpretation = durationInSeconds.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			volumeInterpretation = volumeInPercent.interpretInteger(sprite);
+			volumeInterpretation = volumeInPercent.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			volumeInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -93,7 +93,7 @@ public class LegoEv3PlayToneAction extends TemporalAction {
 		this.volumeInPercent = volumeInPercent;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

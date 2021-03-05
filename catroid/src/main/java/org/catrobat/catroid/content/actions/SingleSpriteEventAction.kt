@@ -25,7 +25,7 @@ package org.catrobat.catroid.content.actions
 
 import org.catrobat.catroid.content.Sprite
 
-abstract class SpriteEventAction : EventAction() {
+abstract class SingleSpriteEventAction : EventAction() {
     override val receivingSprites by lazy {
         sprite?.let { listOf(it) } ?: listOf()
     }

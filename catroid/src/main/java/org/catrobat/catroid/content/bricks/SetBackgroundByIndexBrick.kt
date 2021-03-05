@@ -44,7 +44,7 @@ class SetBackgroundByIndexBrick : FormulaBrick {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory.createSetBackgroundByIndexAction(
-                sprite,
+                sprite, sequence,
                 getFormulaWithBrickField(BrickField.BACKGROUND_INDEX),
                 false
             )

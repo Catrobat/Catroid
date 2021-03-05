@@ -96,7 +96,7 @@ public class LegoEv3MotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, Motor.valueOf(motor),
-				getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
+		sequence.addAction(sprite.getActionFactory().createLegoEv3SingleMotorMoveAction(sprite, sequence,
+				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_EV3_SPEED)));
 	}
 }

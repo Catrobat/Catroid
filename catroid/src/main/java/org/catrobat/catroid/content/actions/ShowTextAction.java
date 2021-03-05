@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -44,30 +44,31 @@ public class ShowTextAction extends TemporalAction {
 	private Formula yPosition;
 	private UserVariable variableToShow;
 
-	private Sprite sprite;
+	private Scope scope;
 	private ShowTextActor actor;
 
 	@Override
 	protected void begin() {
 		try {
-			int xPosition = this.xPosition.interpretInteger(sprite);
-			int yPosition = this.yPosition.interpretInteger(sprite);
+			int xPosition = this.xPosition.interpretInteger(scope);
+			int yPosition = this.yPosition.interpretInteger(scope);
 
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
-				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0, 0.0f, null, sprite);
+				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0, 0,
+						0.0f, null, scope.getSprite());
 
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
 						ShowTextActor showTextActor = (ShowTextActor) actor;
 						if (showTextActor.getVariableNameToCompare().equals(variableToShow.getName())
-								&& showTextActor.getSprite().equals(sprite)) {
+								&& showTextActor.getSprite().equals(scope.getSprite())) {
 							actor.remove();
 						}
 					}
 				}
 
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, sprite);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, 1.0f, null, scope.getSprite());
 				StageActivity.stageListener.addActor(actor);
 			}
 
@@ -80,8 +81,8 @@ public class ShowTextAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			int xPosition = this.xPosition.interpretInteger(sprite);
-			int yPosition = this.yPosition.interpretInteger(sprite);
+			int xPosition = this.xPosition.interpretInteger(scope);
+			int yPosition = this.yPosition.interpretInteger(scope);
 
 			if (actor != null) {
 				actor.setPositionX(xPosition);
@@ -97,8 +98,8 @@ public class ShowTextAction extends TemporalAction {
 		this.yPosition = yPosition;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setVariableToShow(UserVariable userVariable) {

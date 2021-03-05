@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 public class TurnLeftSpeedAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private PhysicsObject physicsObject;
 	private Formula speed;
 
@@ -41,7 +41,7 @@ public class TurnLeftSpeedAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newSpeed;
 		try {
-			newSpeed = speed == null ? Float.valueOf(0f) : speed.interpretFloat(sprite);
+			newSpeed = speed == null ? Float.valueOf(0f) : speed.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
@@ -49,8 +49,8 @@ public class TurnLeftSpeedAction extends TemporalAction {
 		physicsObject.setRotationSpeed(newSpeed);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPhysicsObject(PhysicsObject physicsObject) {

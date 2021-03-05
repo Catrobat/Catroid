@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.brickspinner.PickableDrum;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -35,7 +35,7 @@ import org.catrobat.catroid.pocketmusic.note.Drum;
 
 public class PlayDrumForBeatsAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private PickableDrum selectedDrum;
 	private Formula beats;
 
@@ -43,16 +43,16 @@ public class PlayDrumForBeatsAction extends TemporalAction {
 	protected void begin() {
 		try {
 			Drum drum = Drum.getDrumFromProgram(selectedDrum.getValue());
-			float playedBeats = beats == null ? Float.valueOf(0f) : beats.interpretFloat(sprite);
-			MidiSoundManager.getInstance().playDrumForBeats(drum, playedBeats, sprite);
+			float playedBeats = beats == null ? Float.valueOf(0f) : beats.interpretFloat(scope);
+			MidiSoundManager.getInstance().playDrumForBeats(drum, playedBeats, scope.getSprite());
 			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(playedBeats) / 1000);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setDrum(PickableDrum selectedDrum) {

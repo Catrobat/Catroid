@@ -96,7 +96,7 @@ public class LegoNxtMotorMoveBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorMoveAction(sprite, Motor.valueOf(motor),
-				getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
+		sequence.addAction(sprite.getActionFactory().createLegoNxtMotorMoveAction(sprite, sequence,
+				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_NXT_SPEED)));
 	}
 }

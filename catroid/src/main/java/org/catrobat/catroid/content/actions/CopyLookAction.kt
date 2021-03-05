@@ -30,7 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.LookData
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.StorageOperations
 import org.catrobat.catroid.io.XstreamSerializer
@@ -42,7 +42,7 @@ private const val TAG = "CopyLookAction"
 
 class CopyLookAction : Action() {
     var formula: Formula? = null
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var nextLookAction: SetNextLookAction? = null
     private var xstreamSerializer = XstreamSerializer.getInstance()
 
@@ -65,11 +65,11 @@ class CopyLookAction : Action() {
     }
 
     private fun copyLookFile() {
-        val sprite = sprite ?: return
+        val sprite = scope?.sprite ?: return
         val formula = formula ?: return
         val currentLookData = sprite.look?.lookData ?: return
         val currentLookDataFile = sprite.look?.lookData?.file ?: return
-        var lookDataName = formula.interpretObject(sprite).toString()
+        var lookDataName = formula.interpretObject(scope).toString()
         val currentLookDataIndex = sprite.lookList.indexOf(sprite.look.lookData)
         val currentScene = ProjectManager.getInstance().currentlyPlayingScene
         lookDataName = UniqueNameProvider().getUniqueNameInNameables(lookDataName, sprite.lookList)

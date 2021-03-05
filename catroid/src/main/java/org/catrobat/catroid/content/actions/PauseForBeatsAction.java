@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
 public class PauseForBeatsAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula beats;
 
 	@Override
@@ -41,7 +41,7 @@ public class PauseForBeatsAction extends TemporalAction {
 		try {
 			float pausedBeats = 0;
 			if (beats != null) {
-				pausedBeats = beats.interpretFloat(sprite);
+				pausedBeats = beats.interpretFloat(scope);
 			}
 			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(pausedBeats) / 1000);
 		} catch (InterpretationException interpretationException) {
@@ -49,8 +49,8 @@ public class PauseForBeatsAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setBeats(Formula beats) {

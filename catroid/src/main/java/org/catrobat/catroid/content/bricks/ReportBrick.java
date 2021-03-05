@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content.bricks;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -42,7 +44,7 @@ public class ReportBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createReportAction(sprite, sequence.getScript(),
+				.createReportAction(sprite, new SequenceAction(), sequence.getScript(),
 						getFormulaWithBrickField(BrickField.REPORT_BRICK)));
 	}
 }

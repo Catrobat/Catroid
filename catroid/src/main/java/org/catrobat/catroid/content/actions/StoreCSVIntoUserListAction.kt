@@ -28,7 +28,7 @@ import com.opencsv.CSVParserBuilder
 import com.opencsv.CSVReader
 import com.opencsv.CSVReaderBuilder
 import com.opencsv.exceptions.CsvException
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserList
@@ -38,7 +38,7 @@ import java.util.regex.Pattern
 
 class StoreCSVIntoUserListAction : TemporalAction() {
 
-    var sprite: Sprite? = null
+    var scope: Scope? = null
 
     var formulaColumnToExtract: Formula? = null
     var formulaCSVData: Formula? = null
@@ -70,7 +70,7 @@ class StoreCSVIntoUserListAction : TemporalAction() {
 
     fun interpretCSVData(formulaCSVData: Formula?): String? {
         return try {
-            formulaCSVData?.interpretString(sprite)
+            formulaCSVData?.interpretString(scope)
         } catch (exception: InterpretationException) {
             Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
             null
@@ -79,7 +79,7 @@ class StoreCSVIntoUserListAction : TemporalAction() {
 
     fun interpretColumnToExtract(formulaColumnToExtract: Formula?): Int? {
         return try {
-            formulaColumnToExtract?.interpretInteger(sprite)
+            formulaColumnToExtract?.interpretInteger(scope)
         } catch (exception: InterpretationException) {
             Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
             null

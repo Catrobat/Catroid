@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
@@ -104,13 +105,13 @@ public class GoNStepsBackActionTest {
 
 		int oldPosition = sprite.look.getZIndex();
 
-		sprite.getActionFactory().createGoNStepsBackAction(sprite, steps).act(1.0f);
+		sprite.getActionFactory().createGoNStepsBackAction(sprite, new SequenceAction(), steps).act(1.0f);
 		assertEquals((oldPosition - STEPS), sprite.look.getZIndex());
 
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getDefaultScene().getSpriteList());
 		oldPosition = sprite.look.getZIndex();
 
-		sprite.getActionFactory().createGoNStepsBackAction(sprite, new Formula(-STEPS)).act(1.0f);
+		sprite.getActionFactory().createGoNStepsBackAction(sprite, new SequenceAction(), new Formula(-STEPS)).act(1.0f);
 		assertEquals((oldPosition + STEPS), sprite.look.getZIndex());
 		checkIfEveryZIndexUsedOnlyOnceFromZeroToNMinus1(project.getDefaultScene().getSpriteList());
 	}
@@ -134,11 +135,10 @@ public class GoNStepsBackActionTest {
 		}
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createGoNStepsBackAction(null, steps);
-		exception.expect(NullPointerException.class);
+		Action action = factory.createGoNStepsBackAction(null, new SequenceAction(), steps);
 		action.act(1.0f);
 	}
 
@@ -163,19 +163,19 @@ public class GoNStepsBackActionTest {
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 
-		sprite2.getActionFactory().createGoNStepsBackAction(sprite2, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		sprite2.getActionFactory().createGoNStepsBackAction(sprite2, new SequenceAction(), new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(realSpriteMinLayer, sprite2.look.getZIndex());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		realSprite.getActionFactory().createGoNStepsBackAction(realSprite, new Formula(String.valueOf(STEPS))).act(1.0f);
+		realSprite.getActionFactory().createGoNStepsBackAction(realSprite, new SequenceAction(), new Formula(String.valueOf(STEPS))).act(1.0f);
 		assertEquals(backgroundLayer, background.look.getZIndex());
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 
-		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
+		penActorSprite.getActionFactory().createGoNStepsBackAction(penActorSprite, new SequenceAction(), new Formula(String.valueOf(NOT_NUMERICAL_STRING))).act(1.0f);
 		assertEquals(backgroundLayer, background.look.getZIndex());
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
@@ -184,7 +184,7 @@ public class GoNStepsBackActionTest {
 
 	@Test
 	public void testNullFormula() {
-		penActorSprite.getActionFactory().createGoNStepsBackAction(realSprite, null).act(1.0f);
+		penActorSprite.getActionFactory().createGoNStepsBackAction(realSprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(backgroundLayer, background.look.getZIndex());
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
@@ -193,7 +193,7 @@ public class GoNStepsBackActionTest {
 
 	@Test
 	public void testNotANumberFormula() {
-		penActorSprite.getActionFactory().createGoNStepsBackAction(realSprite, new Formula(Double.NaN)).act(1.0f);
+		penActorSprite.getActionFactory().createGoNStepsBackAction(realSprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(backgroundLayer, background.look.getZIndex());
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
@@ -204,7 +204,7 @@ public class GoNStepsBackActionTest {
 	public void testLayerOrder() {
 		Random random = new Random();
 
-		realSprite.getActionFactory().createGoNStepsBackAction(realSprite, new Formula(random.nextInt(100))).act(1.0f);
+		realSprite.getActionFactory().createGoNStepsBackAction(realSprite, new SequenceAction(), new Formula(random.nextInt(100))).act(1.0f);
 		assertEquals(realSpriteMinLayer, realSprite.look.getZIndex());
 	}
 }

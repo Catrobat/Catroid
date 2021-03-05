@@ -34,7 +34,7 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
@@ -174,8 +174,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 		if (getFormulaWithBrickField(formulaField).isNumber()) {
 			try {
-				Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-				Double formulaValue = formulaMap.get(formulaField).interpretDouble(sprite);
+				ProjectManager projectManager = ProjectManager.getInstance();
+				Scope scope = new Scope(projectManager.getCurrentProject(),
+						projectManager.getCurrentSprite(), null);
+				Double formulaValue = formulaMap.get(formulaField).interpretDouble(scope);
 				textView.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(formulaValue)));
 				return;

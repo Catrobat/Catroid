@@ -65,7 +65,7 @@ public class JumpingSumoMoveBackwardBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveBackwardAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createJumpingSumoMoveBackwardAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_TIME_TO_DRIVE_IN_SECONDS),
 				getFormulaWithBrickField(BrickField.JUMPING_SUMO_SPEED)));
 	}

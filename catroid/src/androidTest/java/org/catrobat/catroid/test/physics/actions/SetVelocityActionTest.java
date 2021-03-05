@@ -24,6 +24,7 @@ package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -84,7 +85,7 @@ public class SetVelocityActionTest {
 
 	private void initVelocityValue(float velocityX, float velocityY) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetVelocityAction(sprite, new Formula(velocityX),
+		Action action = sprite.getActionFactory().createSetVelocityAction(sprite, new SequenceAction(), new Formula(velocityX),
 				new Formula(velocityY));
 		Vector2 velocityVector = physicsObject.getVelocity();
 
@@ -97,14 +98,14 @@ public class SetVelocityActionTest {
 	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetVelocityAction(sprite, new Formula(String.valueOf(VELOCITY_X)),
+		sprite.getActionFactory().createSetVelocityAction(sprite, new SequenceAction(), new Formula(String.valueOf(VELOCITY_X)),
 				new Formula(String.valueOf(VELOCITY_Y))).act(1.0f);
 		Vector2 velocityVector = physicsObject.getVelocity();
 
 		assertEquals(VELOCITY_X, velocityVector.x);
 		assertEquals(VELOCITY_Y, velocityVector.y);
 
-		sprite.getActionFactory().createSetVelocityAction(sprite, new Formula(String.valueOf("not a numerical string")),
+		sprite.getActionFactory().createSetVelocityAction(sprite, new SequenceAction(), new Formula("not a numerical string"),
 				new Formula(String.valueOf("not a numerical string"))).act(1.0f);
 		velocityVector = physicsObject.getVelocity();
 
@@ -115,7 +116,7 @@ public class SetVelocityActionTest {
 	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetVelocityAction(sprite, null, null).act(1.0f);
+		sprite.getActionFactory().createSetVelocityAction(sprite, new SequenceAction(), null, null).act(1.0f);
 		Vector2 velocityVector = physicsObject.getVelocity();
 
 		assertEquals(0f, velocityVector.x);
@@ -125,7 +126,7 @@ public class SetVelocityActionTest {
 	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetVelocityAction(sprite, new Formula(Double.NaN), new Formula(Double.NaN))
+		sprite.getActionFactory().createSetVelocityAction(sprite, new SequenceAction(), new Formula(Double.NaN), new Formula(Double.NaN))
 				.act(1.0f);
 		Vector2 velocityVector = physicsObject.getVelocity();
 

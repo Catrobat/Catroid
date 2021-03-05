@@ -23,10 +23,13 @@
 
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ThinkSayBubbleAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -35,6 +38,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
+import org.catrobat.catroid.test.MockUtil;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -57,6 +61,9 @@ public class ThinkSayBubbleActionTest {
 		PowerMockito.mockStatic(GdxNativesLoader.class);
 		PowerMockito.whenNew(ShowBubbleActor.class).withAnyArguments().thenReturn(Mockito.mock(ShowBubbleActor.class));
 		StageActivity.stageListener = Mockito.mock(StageListener.class);
+
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		ProjectManager.getInstance().setCurrentProject(project);
 	}
 
 	@After
@@ -71,9 +78,10 @@ public class ThinkSayBubbleActionTest {
 		ActionFactory factory = new ActionFactory();
 
 		ThinkSayBubbleAction thinkActionEmptyText = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(Mockito
-				.mock(Sprite.class), emptyText, Constants.THINK_BRICK);
+				.mock(Sprite.class), Mockito.mock(SequenceAction.class), emptyText,
+				Constants.THINK_BRICK);
 		ThinkSayBubbleAction thinkActionNormalText = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(Mockito
-				.mock(Sprite.class), normalText, Constants.THINK_BRICK);
+				.mock(Sprite.class), Mockito.mock(SequenceAction.class), normalText, Constants.THINK_BRICK);
 
 		assertNull(thinkActionEmptyText.createBubbleActor());
 		assertNotNull(thinkActionNormalText.createBubbleActor());
@@ -87,7 +95,7 @@ public class ThinkSayBubbleActionTest {
 		Formula text = Mockito.mock(Formula.class);
 		ShowBubbleActor actor = Mockito.mock(ShowBubbleActor.class);
 		ActionFactory factory = new ActionFactory();
-		ThinkSayBubbleAction thinkAction = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite, text, Constants.THINK_BRICK);
+		ThinkSayBubbleAction thinkAction = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite, new SequenceAction(), text, Constants.THINK_BRICK);
 		thinkAction = Mockito.spy(thinkAction);
 		Mockito.doReturn(actor).when(thinkAction).createBubbleActor();
 
@@ -105,10 +113,10 @@ public class ThinkSayBubbleActionTest {
 		ShowBubbleActor actor = Mockito.mock(ShowBubbleActor.class);
 
 		ActionFactory factory = new ActionFactory();
-		ThinkSayBubbleAction thinkAction = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite, text,
+		ThinkSayBubbleAction thinkAction = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite, new SequenceAction(), text,
 				Constants.THINK_BRICK);
 		ThinkSayBubbleAction thinkActionWithoutText = (ThinkSayBubbleAction) factory.createThinkSayBubbleAction(sprite,
-				text, Constants.THINK_BRICK);
+				new SequenceAction(), text, Constants.THINK_BRICK);
 		thinkAction = Mockito.spy(thinkAction);
 		thinkActionWithoutText = Mockito.spy(thinkActionWithoutText);
 		Mockito.doReturn(actor).when(thinkAction).createBubbleActor();

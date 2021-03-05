@@ -26,20 +26,20 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.utils.VibrationUtil;
 
 public class VibrateAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula duration;
 
 	@Override
 	protected void begin() {
 		try {
-			Float newDuration = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
+			Float newDuration = duration == null ? Float.valueOf(0f) : duration.interpretFloat(scope);
 			super.setDuration(newDuration);
 			VibrationUtil.setTimeToVibrate(newDuration * 1000);
 		} catch (InterpretationException interpretationException) {
@@ -51,8 +51,8 @@ public class VibrateAction extends TemporalAction {
 		this.duration = duration;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	@Override

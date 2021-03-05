@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.uiespresso.stage;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.GoNStepsBackBrick;
@@ -61,7 +64,7 @@ import static junit.framework.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class ObjectVariableTest {
-	private Sprite sprite;
+	private Scope scope;
 	private ScriptEvaluationGateBrick lastBrickInScript;
 
 	private static final double DELTA = 0.01d;
@@ -103,9 +106,9 @@ public class ObjectVariableTest {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(scope);
 		Formula sensorFormula = new Formula(parseTree);
-		return sensorFormula.interpretDouble(sprite);
+		return sensorFormula.interpretDouble(scope);
 	}
 
 	private void createProject(String projectName) {
@@ -117,8 +120,9 @@ public class ObjectVariableTest {
 		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite3"));
 		ProjectManager.getInstance().getCurrentlyEditedScene().addSprite(new Sprite("sprite4"));
 
-		sprite = new Sprite("sprite5");
+		Sprite sprite = new Sprite("sprite5");
 		StartScript startScript = new StartScript();
+		scope = new Scope(project, sprite, new SequenceAction());
 
 		SetXBrick setXBrick = new SetXBrick((int) SPRITE_X_POSITION);
 		startScript.addBrick(setXBrick);

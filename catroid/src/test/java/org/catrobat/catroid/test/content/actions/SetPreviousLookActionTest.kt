@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.LookData
@@ -42,6 +43,7 @@ import java.io.File
 @PrepareForTest(GdxNativesLoader::class)
 class SetPreviousLookActionTest {
     private lateinit var sprite: Sprite
+    private lateinit var sequence: SequenceAction
     private lateinit var lookData1: LookData
     private lateinit var lookData2: LookData
     private lateinit var lookData3: LookData
@@ -58,7 +60,7 @@ class SetPreviousLookActionTest {
             lookList.add(lookData2)
             lookList.add(lookData3)
         }
-
+        sequence = SequenceAction()
         Project(MockUtil.mockContextForProject(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
@@ -67,21 +69,21 @@ class SetPreviousLookActionTest {
     @Test
     fun testPreviousLook() {
         sprite.look.lookData = lookData2
-        sprite.actionFactory.createSetPreviousLookAction(sprite).act(1f)
+        sprite.actionFactory.createSetPreviousLookAction(sprite, sequence).act(1f)
         assertEquals(lookData1, sprite.look.lookData)
     }
 
     @Test
     fun testFirstLook() {
         sprite.look.lookData = lookData1
-        sprite.actionFactory.createSetPreviousLookAction(sprite).act(1f)
+        sprite.actionFactory.createSetPreviousLookAction(sprite, sequence).act(1f)
         assertEquals(lookData3, sprite.look.lookData)
     }
 
     @Test
     fun testEmptyLookList() {
         with(Sprite("noLookSprite")) {
-            actionFactory.createSetPreviousLookAction(sprite).act(1f)
+            actionFactory.createSetPreviousLookAction(sprite, sequence).act(1f)
             org.junit.Assert.assertNull(look.lookData)
         }
     }
@@ -91,7 +93,7 @@ class SetPreviousLookActionTest {
         with(Sprite("singleLookSprite")) {
             lookList.add(lookData1)
             look.lookData = lookData1
-            actionFactory.createSetPreviousLookAction(sprite).act(1f)
+            actionFactory.createSetPreviousLookAction(sprite, sequence).act(1f)
             assertEquals(lookData1, look.lookData)
         }
     }

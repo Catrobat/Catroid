@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcommands.ARCOMMANDS_JUMPINGSUMO_AUDIOSETTINGS_THEME_THEME_ENUM;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.JumpingSumoSoundBrick;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -37,7 +37,7 @@ import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class JumpingSumoSoundAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula volumeInPercent;
 	private JumpingSumoSoundBrick.Sounds soundType;
 
@@ -51,7 +51,7 @@ public class JumpingSumoSoundAction extends TemporalAction {
 		deviceController = controller.getDeviceController();
 
 		try {
-			normVolume = volumeInPercent.interpretInteger(sprite);
+			normVolume = volumeInPercent.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			normVolume = 0;
@@ -80,8 +80,8 @@ public class JumpingSumoSoundAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setVolume(Formula volume) {
