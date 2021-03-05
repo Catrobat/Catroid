@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
 public class ChangeTempoByAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula tempo;
 
 	@Override
@@ -43,7 +43,7 @@ public class ChangeTempoByAction extends TemporalAction {
 			if (tempo == null) {
 				newTempo = Integer.valueOf(0);
 			} else {
-				newTempo = tempo.interpretInteger(sprite);
+				newTempo = tempo.interpretInteger(scope);
 			}
 			MidiSoundManager.getInstance().setTempo(MidiSoundManager.getInstance().getTempo() + newTempo);
 		} catch (InterpretationException interpretationException) {
@@ -51,11 +51,11 @@ public class ChangeTempoByAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
-	}
-
 	public void setTempo(Formula tempo) {
 		this.tempo = tempo;
+	}
+
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

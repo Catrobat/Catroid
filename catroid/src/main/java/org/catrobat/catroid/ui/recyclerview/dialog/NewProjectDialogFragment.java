@@ -41,8 +41,8 @@ import java.io.IOException;
 
 import androidx.fragment.app.DialogFragment;
 
-import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT;
 import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_CAST;
+import static org.catrobat.catroid.common.DefaultProjectHandler.ProjectCreatorType.PROJECT_CREATOR_DEFAULT;
 
 public class NewProjectDialogFragment extends DialogFragment {
 

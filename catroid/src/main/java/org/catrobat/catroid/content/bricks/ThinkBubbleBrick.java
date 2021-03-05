@@ -55,7 +55,7 @@ public class ThinkBubbleBrick extends FormulaBrick implements OnClickListener {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.STRING), THINK_BRICK));
 	}
 }

@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.ChangeSizeByNBrick;
@@ -59,6 +62,7 @@ public class ParserTestUserVariables {
 
 	private Project project;
 	private Sprite firstSprite;
+	private Scope scope;
 
 	@Before
 	public void setUp() {
@@ -75,6 +79,8 @@ public class ParserTestUserVariables {
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE, USER_VARIABLE_1_VALUE_TYPE_DOUBLE));
 		firstSprite.addUserVariable(new UserVariable(SPRITE_USER_VARIABLE, USER_VARIABLE_2_VALUE_TYPE_DOUBLE));
 		project.addUserVariable(new UserVariable(PROJECT_USER_VARIABLE_2, USER_VARIABLE_3_VALUE_TYPE_STRING));
+
+		scope = new Scope(project, firstSprite, new SequenceAction());
 	}
 
 	@Test
@@ -95,16 +101,17 @@ public class ParserTestUserVariables {
 
 	@Test
 	public void testNotExistingUserVariable() {
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE, "NOT_EXISTING_USER_VARIABLE", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.USER_VARIABLE,
+				"NOT_EXISTING_USER_VARIABLE", 0, scope);
 	}
 
 	private Object interpretUserVariable(String userVariableName) {
 		List<InternToken> internTokenList = new LinkedList<>();
 		internTokenList.add(new InternToken(InternTokenType.USER_VARIABLE, userVariableName));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(scope);
 		Formula userVariableFormula = new Formula(parseTree);
 
-		return userVariableFormula.interpretObject(firstSprite);
+		return userVariableFormula.interpretObject(scope);
 	}
 }

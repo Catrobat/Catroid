@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
@@ -34,7 +34,7 @@ public class WaitUntilAction extends Action {
 
 	private boolean completed = false;
 	private Formula condition;
-	private Sprite sprite;
+	private Scope scope;
 	private static final float LOOP_DELAY = 0.02f;
 	private float currentTime = 0f;
 
@@ -45,8 +45,8 @@ public class WaitUntilAction extends Action {
 		this.condition = condition;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class WaitUntilAction extends Action {
 		}
 
 		try {
-			completed = condition.interpretBoolean(sprite);
+			completed = condition.interpretBoolean(scope);
 		} catch (InterpretationException e) {
 			completed = false;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", e);

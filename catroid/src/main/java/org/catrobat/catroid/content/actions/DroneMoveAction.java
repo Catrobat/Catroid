@@ -27,14 +27,14 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.freeflight.service.DroneControlService;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public abstract class DroneMoveAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula duration;
 	private Formula powerInPercent;
 	private float moveEndDuration = 5.0f;
@@ -45,7 +45,8 @@ public abstract class DroneMoveAction extends TemporalAction {
 	protected void begin() {
 		Float newDuration;
 		try {
-			newDuration = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP) : duration.interpretFloat(sprite);
+			newDuration = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP)
+					: duration.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			newDuration = Float.valueOf(DRONE_MOVE_SPEED_STOP);
@@ -61,14 +62,15 @@ public abstract class DroneMoveAction extends TemporalAction {
 		this.powerInPercent = powerInPercent;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	protected float getPowerNormalized() {
 		Float normalizedPower;
 		try {
-			normalizedPower = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP) : powerInPercent.interpretFloat(sprite) / 100;
+			normalizedPower = duration == null ? Float.valueOf(DRONE_MOVE_SPEED_STOP)
+					: powerInPercent.interpretFloat(scope) / 100;
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			normalizedPower = Float.valueOf(DRONE_MOVE_SPEED_STOP);

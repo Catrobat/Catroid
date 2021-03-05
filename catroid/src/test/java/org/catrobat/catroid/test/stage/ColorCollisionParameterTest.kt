@@ -22,7 +22,9 @@
  */
 package org.catrobat.catroid.test.stage
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.sensing.ColorCollisionDetection
 import org.catrobat.catroid.stage.StageListener
@@ -39,9 +41,10 @@ internal class ColorCollisionParameterTest(
     private val expected: Boolean
 ) {
     private val sprite = Sprite()
+    private val sequence = SequenceAction()
     private val projectMock = Mockito.mock(Project::class.java)
     private val stageListenerMock = Mockito.mock(StageListener::class.java)
-    private val colorCollisionDetection = ColorCollisionDetection(sprite, projectMock, stageListenerMock)
+    private val colorCollisionDetection = ColorCollisionDetection(Scope(projectMock, sprite, sequence), stageListenerMock)
 
     companion object {
         @JvmStatic

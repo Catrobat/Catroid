@@ -56,10 +56,10 @@ class CopyLookBrick constructor() : FormulaBrick() {
     }
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        val nextLookAction = sprite.actionFactory.createSetNextLookAction(sprite)
+        val nextLookAction = sprite.actionFactory.createSetNextLookAction(sprite, sequence)
         val formula = getFormulaWithBrickField(Brick.BrickField.LOOK_COPY)
-        sequence.addAction(sprite.actionFactory.createCopyLookAction(sprite, formula, nextLookAction as
-            SetNextLookAction
+        sequence.addAction(sprite.actionFactory.createCopyLookAction(sprite, sequence, formula,
+            nextLookAction as SetNextLookAction
         ))
         sequence.addAction(nextLookAction)
     }

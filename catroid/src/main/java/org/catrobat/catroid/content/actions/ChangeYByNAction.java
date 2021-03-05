@@ -26,27 +26,27 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ChangeYByNAction extends TemporalAction {
+	private Scope scope;
 
-	private Sprite sprite;
 	private Formula yMovement;
 
 	@Override
 	protected void update(float arg0) {
 		try {
-			Float newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(sprite);
-			sprite.look.changeYInUserInterfaceDimensionUnit(newY);
+			Float newY = yMovement == null ? Float.valueOf(0f) : yMovement.interpretFloat(scope);
+			scope.getSprite().look.changeYInUserInterfaceDimensionUnit(newY);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setyMovement(Formula yMovement) {

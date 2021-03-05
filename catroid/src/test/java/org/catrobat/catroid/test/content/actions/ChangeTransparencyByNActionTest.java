@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -56,39 +57,39 @@ public class ChangeTransparencyByNActionTest {
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(INCREASE_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new SequenceAction(), new Formula(INCREASE_VALUE)).act(1.0f);
 		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(DECREASE_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new SequenceAction(), new Formula(DECREASE_VALUE)).act(1.0f);
 		assertEquals(INCREASE_VALUE + DECREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
-		Action action = sprite.getActionFactory().createChangeTransparencyByNAction(null, new Formula(INCREASE_VALUE));
-		exception.expect(NullPointerException.class);
+		Action action = sprite.getActionFactory().createChangeTransparencyByNAction(null,
+				new SequenceAction(), new Formula(INCREASE_VALUE));
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(String.valueOf(INCREASE_VALUE)))
+		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new SequenceAction(), new Formula(String.valueOf(INCREASE_VALUE)))
 				.act(1.0f);
 		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
 
-		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(INCREASE_VALUE, sprite.look.getTransparencyInUserInterfaceDimensionUnit(), DELTA);
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createChangeTransparencyByNAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getTransparencyInUserInterfaceDimensionUnit());
 	}
 }

@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -156,11 +157,11 @@ public class IfLogicActionTest {
 		Object userVariableExpected = userVariable.getValue();
 
 		Action ifAction = testSprite.getActionFactory()
-				.createSetVariableAction(testSprite, new Formula(IF_TRUE_VALUE), userVariable);
+				.createSetVariableAction(testSprite, new SequenceAction(), new Formula(IF_TRUE_VALUE), userVariable);
 		Action elseAction = testSprite.getActionFactory()
-				.createSetVariableAction(testSprite, new Formula(IF_FALSE_VALUE), userVariable);
+				.createSetVariableAction(testSprite, new SequenceAction(), new Formula(IF_FALSE_VALUE), userVariable);
 		Action ifLogicAction = testSprite.getActionFactory()
-				.createIfLogicAction(testSprite, null, ifAction, elseAction);
+				.createIfLogicAction(testSprite, new SequenceAction(), null, ifAction, elseAction);
 
 		ifLogicAction.act(1.0f);
 

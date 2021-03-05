@@ -42,7 +42,7 @@ open class LookRequestAction : WebAction() {
     private var fileExtension: String? = null
 
     override fun act(delta: Float): Boolean {
-        return if (sprite == null || formula == null) {
+        return if (scope?.sprite == null || formula == null || scope?.sequence == null) {
             true
         } else super.act(delta)
     }
@@ -51,17 +51,17 @@ open class LookRequestAction : WebAction() {
         val lookData = getLookFromResponse()
         lookData?.apply {
             updateLookListIndex()
-            sprite?.look?.lookData = this
+            scope?.sprite?.look?.lookData = this
             collisionInformation?.collisionPolygonCalculationThread?.join()
             file?.delete()
         }
     }
 
     private fun updateLookListIndex() {
-        val currentLook = sprite?.look
+        val currentLook = scope?.sprite?.look
         if (!(currentLook != null && currentLook.lookListIndexBeforeLookRequest > -1)) {
-            sprite?.look?.lookListIndexBeforeLookRequest =
-                sprite?.lookList?.indexOf(sprite?.look?.lookData) ?: -1
+            scope?.sprite?.look?.lookListIndexBeforeLookRequest =
+                scope?.sprite?.lookList?.indexOf(scope?.sprite?.look?.lookData) ?: -1
         }
     }
 

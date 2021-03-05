@@ -61,7 +61,7 @@ public class PlaceAtBrick extends VisualPlacementBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createPlaceAtAction(sprite, sequence,
 				getFormulaWithBrickField(X_POSITION),
 				getFormulaWithBrickField(Y_POSITION)));
 	}

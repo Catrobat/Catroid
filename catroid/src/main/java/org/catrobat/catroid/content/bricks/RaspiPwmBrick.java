@@ -66,7 +66,7 @@ public class RaspiPwmBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSendRaspiPwmValueAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createSendRaspiPwmValueAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.RASPI_DIGITAL_PIN_NUMBER),
 				getFormulaWithBrickField(BrickField.RASPI_PWM_FREQUENCY),
 				getFormulaWithBrickField(BrickField.RASPI_PWM_PERCENTAGE)));

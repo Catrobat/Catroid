@@ -29,7 +29,7 @@ import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.ui.SpriteActivity;
@@ -98,8 +98,6 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 	}
 
 	public Intent generateIntentForVisualPlacement(BrickField brickFieldX, BrickField brickFieldY) {
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
-
 		Formula formulax = getFormulaWithBrickField(brickFieldX);
 		Formula formulay = getFormulaWithBrickField(brickFieldY);
 		Intent intent = new Intent(view.getContext(), VisualPlacementActivity.class);
@@ -107,8 +105,11 @@ public abstract class VisualPlacementBrick extends FormulaBrick {
 		int xValue;
 		int yValue;
 		try {
-			xValue = formulax.interpretInteger(currentSprite);
-			yValue = formulay.interpretInteger(currentSprite);
+			ProjectManager projectManager = ProjectManager.getInstance();
+			Scope scope = new Scope(projectManager.getCurrentProject(),
+					projectManager.getCurrentSprite(), null);
+			xValue = formulax.interpretInteger(scope);
+			yValue = formulay.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			xValue = 0;
 			yValue = 0;

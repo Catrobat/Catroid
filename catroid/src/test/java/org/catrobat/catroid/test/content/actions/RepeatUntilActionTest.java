@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -136,9 +137,9 @@ public class RepeatUntilActionTest {
 	@Test
 	public void testNullFormula() {
 		Action repeatedAction = testSprite.getActionFactory()
-				.createSetXAction(testSprite, new Formula(10));
+				.createSetXAction(testSprite, new SequenceAction(), new Formula(10));
 		Action repeatAction = testSprite.getActionFactory()
-				.createRepeatUntilAction(testSprite, null, repeatedAction, true);
+				.createRepeatUntilAction(testSprite, new SequenceAction(), null, repeatedAction, true);
 
 		repeatAction.act(1.0f);
 		int repeatCountValue = ((RepeatUntilAction) repeatAction).getExecutedCount();

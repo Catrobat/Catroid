@@ -85,7 +85,7 @@ class TouchAndSlideBrick() : VisualPlacementBrick() {
     ) {
         sequence.addAction(
             sprite.actionFactory.createTouchAndSlideAction(
-                sprite,
+                sprite, sequence,
                 getFormulaWithBrickField(BrickField.X_POSITION),
                 getFormulaWithBrickField(BrickField.Y_POSITION),
                 getFormulaWithBrickField(BrickField.X_POSITION_CHANGE),

@@ -62,7 +62,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 	private static final int LIST_GLOBAL = 4;
 	private static final int LIST_LOCAL = 5;
 
-	private final UserDataRVAdapter<UserDefinedBrickInput> userDefinedBrickInputAdapter;
+	private final UserDefinedBrickInputRVAdapter userDefinedBrickInputAdapter;
 	private final UserDataRVAdapter<UserVariable> multiplayerVarAdapter;
 	private final UserDataRVAdapter<UserVariable> globalVarAdapter;
 	private final UserDataRVAdapter<UserVariable> localVarAdapter;
@@ -78,15 +78,7 @@ public class DataListAdapter extends RecyclerView.Adapter<CheckableVH> implement
 			List<UserList> globalLists,
 			List<UserList> localLists) {
 
-		userDefinedBrickInputAdapter = new UserDataRVAdapter<UserDefinedBrickInput>(userDefinedBrickInputs) {
-			@Override
-			public void onBindViewHolder(CheckableVH holder, int position) {
-				super.onBindViewHolder(holder, position);
-				if (position == 0) {
-					((TextView) holder.itemView.findViewById(R.id.headline)).setText(holder.itemView.getResources().getQuantityText(R.plurals.user_defined_brick_input_headline, userDefinedBrickInputAdapter.getItemCount()));
-				}
-			}
-		};
+		userDefinedBrickInputAdapter = new UserDefinedBrickInputRVAdapter(userDefinedBrickInputs);
 		userDefinedBrickInputAdapter.setSelectionListener(this);
 
 		multiplayerVarAdapter = new UserDataRVAdapter<UserVariable>(multiplayerVars) {

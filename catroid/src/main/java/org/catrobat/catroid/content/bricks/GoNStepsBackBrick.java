@@ -29,6 +29,7 @@ import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -65,10 +66,13 @@ public class GoNStepsBackBrick extends FormulaBrick {
 
 		if (getFormulaWithBrickField(BrickField.STEPS).isNumber()) {
 			try {
+				ProjectManager projectManager = ProjectManager.getInstance();
+				Scope scope = new Scope(projectManager.getCurrentProject(),
+						projectManager.getCurrentSprite(), null);
 				times.setText(view.getResources().getQuantityString(
 						R.plurals.brick_go_back_layer_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.STEPS).interpretDouble(
-								ProjectManager.getInstance().getCurrentSprite()))
+								scope))
 				));
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula.", interpretationException);
@@ -84,6 +88,6 @@ public class GoNStepsBackBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createGoNStepsBackAction(sprite, getFormulaWithBrickField(BrickField.STEPS)));
+				.createGoNStepsBackAction(sprite, sequence, getFormulaWithBrickField(BrickField.STEPS)));
 	}
 }

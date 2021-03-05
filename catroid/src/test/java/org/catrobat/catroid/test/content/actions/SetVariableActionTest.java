@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Sprite;
@@ -56,39 +58,39 @@ public class SetVariableActionTest {
 
 	@Test
 	public void testSetVariableWithNumericalFormula() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new SequenceAction(), new Formula(SET_VARIABLE_VALUE), userVariable).act(1f);
 		assertEquals(SET_VARIABLE_VALUE, userVariable.getValue());
 	}
 
 	@Test
 	public void testSetVariableWithInvalidUserVariable() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(SET_VARIABLE_VALUE), null).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new SequenceAction(), new Formula(SET_VARIABLE_VALUE), null).act(1f);
 		assertEquals(INITIALIZED_VALUE, userVariable.getValue());
 	}
 
 	@Test
 	public void testSetVariableWithNumericalStringFormula() {
 		String myString = "155";
-		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(myString), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new SequenceAction(), new Formula(myString), userVariable).act(1f);
 		assertEquals(Double.valueOf(myString), Double.valueOf((String) userVariable.getValue()));
 	}
 
 	@Test
 	public void testSetVariableWithStringFormula() {
 		String myString = "myString";
-		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(myString), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new SequenceAction(), new Formula(myString), userVariable).act(1f);
 		assertEquals(myString, (String) userVariable.getValue());
 	}
 
 	@Test
 	public void testNullFormula() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite, null, userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new SequenceAction(), null, userVariable).act(1f);
 		assertEquals(0d, userVariable.getValue());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		testSprite.getActionFactory().createSetVariableAction(testSprite, new Formula(Double.NaN), userVariable).act(1f);
+		testSprite.getActionFactory().createSetVariableAction(testSprite, new SequenceAction(), new Formula(Double.NaN), userVariable).act(1f);
 		assertEquals(Double.NaN, userVariable.getValue());
 	}
 }

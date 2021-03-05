@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -81,7 +82,8 @@ public class SetMassActionTest {
 
 	private void initMassValue(float mass) {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		Action action = sprite.getActionFactory().createSetMassAction(sprite, new Formula(mass));
+		Action action = sprite.getActionFactory().createSetMassAction(sprite,
+				new SequenceAction(), new Formula(mass));
 
 		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
 
@@ -92,10 +94,12 @@ public class SetMassActionTest {
 	@Test
 	public void testBrickWithStringFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf(MASS))).act(1.0f);
+		sprite.getActionFactory().createSetMassAction(sprite,
+				new SequenceAction(), new Formula(String.valueOf(MASS))).act(1.0f);
 		assertEquals(MASS, physicsObject.getMass());
 
-		sprite.getActionFactory().createSetMassAction(sprite, new Formula(String.valueOf("not a numerical string")))
+		sprite.getActionFactory().createSetMassAction(sprite, new SequenceAction(),
+				new Formula("not a numerical string"))
 				.act(1.0f);
 		assertEquals(MASS, physicsObject.getMass());
 	}
@@ -103,14 +107,15 @@ public class SetMassActionTest {
 	@Test
 	public void testNullFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetMassAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetMassAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, physicsObject.getMass());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
 		PhysicsObject physicsObject = physicsWorld.getPhysicsObject(sprite);
-		sprite.getActionFactory().createSetMassAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetMassAction(sprite, new SequenceAction(),
+				new Formula(Double.NaN)).act(1.0f);
 		assertEquals(PhysicsObject.DEFAULT_MASS, physicsObject.getMass());
 	}
 

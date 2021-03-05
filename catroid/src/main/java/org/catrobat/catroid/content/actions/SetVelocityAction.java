@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.physics.PhysicsObject;
 
 public class SetVelocityAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private PhysicsObject physicsObject;
 	private Formula velocityX;
 	private Formula velocityY;
@@ -42,14 +42,16 @@ public class SetVelocityAction extends TemporalAction {
 	protected void update(float percent) {
 		Float newVelocityX;
 		try {
-			newVelocityX = velocityX == null ? Float.valueOf(0f) : velocityX.interpretFloat(sprite);
+			newVelocityX = velocityX == null ? Float.valueOf(0f)
+					: velocityX.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
 		}
 		Float newVelocityY;
 		try {
-			newVelocityY = velocityY == null ? Float.valueOf(0f) : velocityY.interpretFloat(sprite);
+			newVelocityY = velocityY == null ? Float.valueOf(0f)
+					: velocityY.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 			return;
@@ -57,8 +59,8 @@ public class SetVelocityAction extends TemporalAction {
 		physicsObject.setVelocity(newVelocityX, newVelocityY);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPhysicsObject(PhysicsObject physicsObject) {

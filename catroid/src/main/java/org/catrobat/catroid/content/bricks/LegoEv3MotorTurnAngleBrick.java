@@ -96,7 +96,7 @@ public class LegoEv3MotorTurnAngleBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, Motor.valueOf(motor),
-				getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
+		sequence.addAction(sprite.getActionFactory().createLegoEv3MotorTurnAngleAction(sprite, sequence,
+				Motor.valueOf(motor), getFormulaWithBrickField(BrickField.LEGO_EV3_DEGREES)));
 	}
 }

@@ -52,6 +52,7 @@ public class SetLookByIndexBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetLookByIndexAction(sprite, getFormulaWithBrickField(BrickField.LOOK_INDEX)));
+				.createSetLookByIndexAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.LOOK_INDEX)));
 	}
 }

@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.embroidery.TripleRunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class TripleStitchAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula steps;
 
 	@Override
@@ -41,18 +41,18 @@ public class TripleStitchAction extends TemporalAction {
 		int stepsInterpretation = 0;
 		try {
 			if (steps != null) {
-				stepsInterpretation = steps.interpretInteger(sprite);
+				stepsInterpretation = steps.interpretInteger(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			stepsInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
-		this.sprite.runningStitch.activateStitching(sprite, new TripleRunningStitch(sprite,
+		this.scope.getSprite().runningStitch.activateStitching(scope.getSprite(), new TripleRunningStitch(scope.getSprite(),
 				stepsInterpretation));
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setSteps(Formula steps) {

@@ -74,7 +74,7 @@ public class LegoNxtPlayToneBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createLegoNxtPlayToneAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.LEGO_NXT_FREQUENCY),
 				getFormulaWithBrickField(BrickField.LEGO_NXT_DURATION_IN_SECONDS)));
 	}

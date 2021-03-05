@@ -38,8 +38,8 @@ class AssertEqualsAction : AssertAction() {
             failWith("Expected is null")
             return false
         }
-        val actualValue = actualFormula!!.interpretObject(sprite).toString()
-        val expectedValue = expectedFormula!!.interpretObject(sprite).toString()
+        val actualValue = actualFormula!!.interpretObject(scope).toString()
+        val expectedValue = expectedFormula!!.interpretObject(scope).toString()
         if (!equalValues(actualValue, expectedValue)) {
             failWith(formattedAssertEqualsError(actualValue, expectedValue))
             return false

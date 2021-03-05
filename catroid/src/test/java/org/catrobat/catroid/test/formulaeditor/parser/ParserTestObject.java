@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -56,13 +59,13 @@ public class ParserTestObject {
 	private static final float LOOK_SCALE = 90.3f;
 	private static final float LOOK_ROTATION = 30.7f;
 	private static final float DELTA = 0.01f;
-	private Sprite testSprite;
+	private Scope testScope;
 
 	@Before
 	public void setUp() {
 		Project project = new Project(MockUtil.mockContextForProject(), "testProject");
 		ProjectManager.getInstance().setCurrentProject(project);
-		testSprite = new Sprite("sprite");
+		Sprite testSprite = new Sprite("sprite");
 		project.getDefaultScene().addSprite(testSprite);
 		ProjectManager.getInstance().setCurrentSprite(testSprite);
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
@@ -72,15 +75,16 @@ public class ParserTestObject {
 		testSprite.look.setColorInUserInterfaceDimensionUnit(LOOK_COLOR);
 		testSprite.look.setSizeInUserInterfaceDimensionUnit(LOOK_SCALE);
 		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
+		testScope = new Scope(project, testSprite, new SequenceAction());
 	}
 
 	public Double interpretSensor(Sensors sensor) throws InterpretationException {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(testScope);
 		Formula sensorFormula = new Formula(parseTree);
-		return sensorFormula.interpretDouble(testSprite);
+		return sensorFormula.interpretDouble(testScope);
 	}
 
 	@Test
@@ -97,7 +101,8 @@ public class ParserTestObject {
 
 	@Test
 	public void testNotExistingLookSensorValues() {
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingSensor O_O", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0, testScope);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingSensor "
+				+ "O_O", 0, testScope);
 	}
 }

@@ -30,7 +30,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorTurnAngleBrick;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -42,7 +42,7 @@ public class LegoEv3MotorTurnAngleAction extends TemporalAction {
 
 	private LegoEv3MotorTurnAngleBrick.Motor motorEnum;
 	private Formula degrees;
-	private Sprite sprite;
+	private Scope scope;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
@@ -50,7 +50,7 @@ public class LegoEv3MotorTurnAngleAction extends TemporalAction {
 	protected void update(float percent) {
 		int degreesValue;
 		try {
-			degreesValue = degrees.interpretInteger(sprite);
+			degreesValue = degrees.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			degreesValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -108,7 +108,7 @@ public class LegoEv3MotorTurnAngleAction extends TemporalAction {
 		this.degrees = degrees;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

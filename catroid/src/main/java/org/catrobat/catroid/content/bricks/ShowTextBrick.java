@@ -70,7 +70,7 @@ public class ShowTextBrick extends UserVariableBrickWithVisualPlacement {
 			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
 			userVariable.setDummy(true);
 		}
-		sequence.addAction(sprite.getActionFactory().createShowVariableAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createShowVariableAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION), userVariable));
 	}

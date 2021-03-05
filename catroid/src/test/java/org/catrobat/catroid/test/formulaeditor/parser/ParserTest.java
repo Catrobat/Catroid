@@ -22,7 +22,7 @@
  */
 package org.catrobat.catroid.test.formulaeditor.parser;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.Functions;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
@@ -45,28 +45,28 @@ import static junit.framework.Assert.assertNull;
 @RunWith(MockitoJUnitRunner.class)
 public class ParserTest {
 	@Mock
-	private Sprite testSprite;
+	private Scope scope;
 
 	@Test
 	public void testNumbers() {
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1.0", "1.0", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.NUMBER, "1", "1", scope);
 
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, "", 0);
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".", 0);
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".1", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, "", 0, null);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".", 0, null);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.NUMBER, ".1", 0, null);
 	}
 
 	@Test
 	public void testStrings() {
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.0", "1.0", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1", "1", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "", "", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".", ".", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".1", ".1", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.1.1", "1.1.1", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\"o.o\"", "\"o.o\"", testSprite);
-		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", testSprite);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.0", "1.0", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1", "1", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "", "", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".", ".", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, ".1", ".1", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "1.1.1", "1.1.1", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\"o.o\"", "\"o.o\"", null);
+		FormulaEditorTestUtil.testSingleToken(InternTokenType.STRING, "\'^_^\'", "\'^_^\'", null);
 	}
 
 	@Test
@@ -86,10 +86,10 @@ public class ParserTest {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(9.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(9.0, parseTree.interpretRecursive(scope));
 
 		internTokenList = new LinkedList<>();
 
@@ -110,10 +110,10 @@ public class ParserTest {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(0.0, parseTree.interpretRecursive(scope));
 	}
 
 	@Test
@@ -121,7 +121,7 @@ public class ParserTest {
 		List<InternToken> internTokenList = new LinkedList<>();
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(scope);
 
 		assertNull(parseTree);
 		assertEquals(InternFormulaParser.PARSER_NO_INPUT, internParser.getErrorTokenIndex());
@@ -143,10 +143,10 @@ public class ParserTest {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(scope);
 
 		assertNotNull(parseTree);
-		assertEquals(10.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(10.0, parseTree.interpretRecursive(scope));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "3"));
@@ -161,10 +161,10 @@ public class ParserTest {
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_PARAMETERS_BRACKET_CLOSE));
 
 		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(9.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(9.0, parseTree.interpretRecursive(scope));
 		internTokenList.clear();
 
 		internTokenList.add(new InternToken(InternTokenType.FUNCTION_NAME, Functions.MOD.name()));
@@ -187,9 +187,9 @@ public class ParserTest {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		parseTree = internParser.parseFormula(null);
 
 		assertNotNull(parseTree);
-		assertEquals(0.0, parseTree.interpretRecursive(testSprite));
+		assertEquals(0.0, parseTree.interpretRecursive(null));
 	}
 }

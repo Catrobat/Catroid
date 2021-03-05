@@ -27,7 +27,7 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -36,7 +36,7 @@ import org.catrobat.catroid.formulaeditor.Sensors;
 public class PhiroSensorAction extends Action {
 
 	private int sensorNumber;
-	private Sprite sprite;
+	private Scope scope;
 	private Action ifAction;
 	private Action elseAction;
 	private Formula ifCondition;
@@ -52,7 +52,7 @@ public class PhiroSensorAction extends Action {
 				isInterpretedCorrectly = false;
 				return;
 			}
-			Double interpretation = ifCondition.interpretDouble(sprite);
+			Double interpretation = ifCondition.interpretDouble(scope);
 			ifConditionValue = interpretation.intValue() <= DISTANCE_THRESHOLD_VALUE ? true : false;
 			isInterpretedCorrectly = true;
 		} catch (InterpretationException interpretationException) {
@@ -87,8 +87,8 @@ public class PhiroSensorAction extends Action {
 		super.restart();
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setIfAction(Action ifAction) {

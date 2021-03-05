@@ -63,6 +63,7 @@ public class DeleteItemOfUserListBrick extends UserListBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createDeleteItemOfUserListAction(sprite, getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
+				.createDeleteItemOfUserListAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.LIST_DELETE_ITEM), userList));
 	}
 }

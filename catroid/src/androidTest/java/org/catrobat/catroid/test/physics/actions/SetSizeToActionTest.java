@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -131,6 +132,7 @@ public class SetSizeToActionTest {
 	}
 
 	private void performSetSizeToAction(float scaleFactor) {
-		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(scaleFactor)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(),
+				new Formula(scaleFactor)).act(1.0f);
 	}
 }

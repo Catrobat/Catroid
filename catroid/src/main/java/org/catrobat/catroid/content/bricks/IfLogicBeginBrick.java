@@ -205,7 +205,8 @@ public class IfLogicBeginBrick extends FormulaBrick implements CompositeBrick {
 		}
 
 		Action action = sprite.getActionFactory()
-				.createIfLogicAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifSequence, elseSequence);
+				.createIfLogicAction(sprite, sequence, getFormulaWithBrickField(BrickField.IF_CONDITION),
+						ifSequence, elseSequence);
 
 		sequence.addAction(action);
 	}

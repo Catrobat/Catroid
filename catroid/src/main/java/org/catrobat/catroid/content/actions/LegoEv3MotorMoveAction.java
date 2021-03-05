@@ -30,7 +30,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.LegoEv3MotorMoveBrick.Motor;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -45,14 +45,14 @@ public class LegoEv3MotorMoveAction extends TemporalAction {
 
 	private Motor motorEnum;
 	private Formula speed;
-	private Sprite sprite;
+	private Scope scope;
 
 	@Override
 	protected void update(float percent) {
 		int speedValue;
 
 		try {
-			speedValue = speed.interpretInteger(sprite);
+			speedValue = speed.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			speedValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -100,7 +100,7 @@ public class LegoEv3MotorMoveAction extends TemporalAction {
 		this.speed = speed;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }
