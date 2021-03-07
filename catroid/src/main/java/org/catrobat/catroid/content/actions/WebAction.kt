@@ -60,6 +60,10 @@ abstract class WebAction : Action(), WebRequestListener {
                     it
                 } else "https://$it"
             }
+            val newlineIndex = url?.indexOf("\n")
+            if (newlineIndex != -1) {
+                url = newlineIndex?.let { url?.subSequence(0, it).toString() }
+            }
             true
         } catch (exception: InterpretationException) {
             Log.d(javaClass.simpleName, "Couldn't interpret formula", exception)
