@@ -176,12 +176,12 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         AlertDialog.Builder(requireContext())
             .setTitle(R.string.deletion_alert_title)
             .setMessage(R.string.deletion_alert_text)
-            .setPositiveButton(R.string.deletion_alert_yes) { _, _ ->
+            .setPositiveButton(R.string.delete) { _, _ ->
                 deleteItems(
                     selectedItems
                 )
             }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setCancelable(false)
             .show()
     }

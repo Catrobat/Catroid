@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -153,9 +154,15 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	private void showNewGroupDialog() {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-
+		List<Sprite> groups = adapter.getItems();
+		List<String> groupNames = new ArrayList<>();
+		for (Sprite sprite: groups) {
+			groupNames.add(sprite.getName());
+		}
+		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 		builder.setHint(getString(R.string.sprite_group_name_label))
 				.setTextWatcher(new DuplicateInputTextWatcher<>(adapter.getItems()))
+				.setText(uniqueNameProvider.getUniqueName(getString(R.string.default_group_name), groupNames))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
@@ -287,16 +294,22 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onItemClick(Sprite item) {
+
 		if (item instanceof GroupSprite) {
 			GroupSprite groupSprite = (GroupSprite) item;
 			groupSprite.setCollapsed(!groupSprite.isCollapsed());
 			adapter.notifyDataSetChanged();
-		} else if (actionModeType == NONE) {
-			ProjectManager.getInstance().setCurrentSprite(item);
-			Intent intent = new Intent(getActivity(), SpriteActivity.class);
-			intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
-
-			startActivity(intent);
+		} else {
+			if (actionModeType == RENAME) {
+				super.onItemClick(item);
+				return;
+			}
+			if (actionModeType == NONE) {
+				ProjectManager.getInstance().setCurrentSprite(item);
+				Intent intent = new Intent(getActivity(), SpriteActivity.class);
+				intent.putExtra(SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+				startActivity(intent);
+			}
 		}
 	}
 
@@ -317,7 +330,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 									showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 									break;
 								case 1:
-									showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
+									showRenameDialog(item);
 									break;
 								default:
 									dialog.dismiss();
@@ -328,5 +341,9 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 		} else {
 			super.onItemLongClick(item, holder);
 		}
+	}
+
+	public boolean isSingleVisibleSprite() {
+		return adapter.getItems().size() == 2 && !(adapter.getItems().get(1) instanceof GroupSprite);
 	}
 }

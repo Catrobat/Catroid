@@ -138,7 +138,7 @@ public class FormulaEditorRegexDetectionTest {
 
 	private void prepareUntilButton(String nameOfFunction) {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text)).perform(click());
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(nameOfFunction);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(nameOfFunction);
 		onFormulaEditor().performClickOn(FormulaEditorWrapper.Control.TEXT);
 	}
 

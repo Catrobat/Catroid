@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -228,6 +228,10 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 
 	@Override
 	public void onItemClick(Scene item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
 		if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentlyEditedScene(item);
 			getFragmentManager().beginTransaction()

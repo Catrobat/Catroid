@@ -27,7 +27,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickCoordinatesProvider;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -121,7 +120,6 @@ public class ChangeVariableTest {
 
 		performNewVariableFromFormulaEditor(1, userVariableName2);
 
-		onBrickAtPosition(1).performDragNDrop(BrickCoordinatesProvider.DOWN_ONE_POSITION);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.checkShowsVariableNamesInAdapter(Arrays.asList(userVariableName, userVariableName2));
 	}

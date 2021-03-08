@@ -107,10 +107,10 @@ public class DeleteFirstSceneTest {
 		onView(withText(R.string.dialog_confirm_delete)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
+		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.check(matches(isDisplayed()))
 				.perform(click());
 

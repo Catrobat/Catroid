@@ -1,6 +1,5 @@
-/*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+/*Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -228,11 +227,11 @@ class DataListFragment : Fragment(),
             .setTitle(R.string.deletion_alert_title)
             .setMessage(R.string.deletion_alert_text)
             .setPositiveButton(
-                R.string.deletion_alert_yes
+                R.string.delete
             ) { _: DialogInterface?, _: Int ->
                 deleteItems(selectedItems)
             }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setCancelable(false)
             .show()
     }
@@ -293,6 +292,34 @@ class DataListFragment : Fragment(),
         }
     }
 
+    private fun showEditDialog(selectedItems: List<UserData<*>>) {
+        val item = selectedItems[0]
+        val builder = TextInputDialog.Builder(requireContext())
+
+        builder.setHint(getString(R.string.data_value))
+            .setText(item.value.toString())
+            .setPositiveButton(
+                getString(R.string.save)
+            ) { _: DialogInterface?, textInput: String? ->
+                editItem(
+                    item,
+                    textInput
+                )
+            }
+        builder.setTitle("Edit " + item.name)
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun editItem(
+        item: UserData<*>,
+        value: String?
+    ) {
+        updateUserVariableValue(value, item)
+        adapter?.updateDataSet()
+        finishActionMode()
+    }
+
     override fun onSelectionChanged(selectedItemCnt: Int) {
         if (actionModeType == DELETE) {
             actionMode?.title = getString(R.string.am_delete) + " " + selectedItemCnt
@@ -312,28 +339,66 @@ class DataListFragment : Fragment(),
     ) {
         if (item is UserDefinedBrickInput) {
             return
-        }
-        val items =
-            arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        AlertDialog.Builder(requireActivity())
-            .setItems(
-                items
-            ) { dialog: DialogInterface, which: Int ->
-                when (which) {
-                    0 -> showDeleteAlert(
-                        ArrayList(
-                            listOf(item)
+        } else if (item is UserVariable) {
+            val items =
+                arrayOf<CharSequence>(
+                    getString(R.string.delete), getString(R.string.rename),
+                    getString(R.string.edit)
+                )
+            AlertDialog.Builder(requireActivity())
+                .setItems(
+                    items
+                ) { dialog: DialogInterface, which: Int ->
+                    when (which) {
+                        0 -> showDeleteAlert(
+                            ArrayList(
+                                listOf(item)
+                            )
                         )
-                    )
-                    1 -> showRenameDialog(
-                        ArrayList(
-                            listOf(item)
+                        1 -> showRenameDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
                         )
-                    )
-                    else -> dialog.dismiss()
+                        2 -> showEditDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        else -> dialog.dismiss()
+                    }
                 }
-            }
-            .show()
+                .show()
+        } else {
+            val items =
+                arrayOf<CharSequence>(
+                    getString(R.string.delete), getString(R.string.rename)
+                )
+            AlertDialog.Builder(requireActivity())
+                .setItems(
+                    items
+                ) { dialog: DialogInterface, which: Int ->
+                    when (which) {
+                        0 -> showDeleteAlert(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        1 -> showRenameDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        2 -> showEditDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        else -> dialog.dismiss()
+                    }
+                }
+                .show()
+        }
     }
 
     interface FormulaEditorDataInterface {
@@ -357,6 +422,11 @@ class DataListFragment : Fragment(),
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
             ProjectManager.getInstance().currentProject
                 .updateUserDataReferences(oldName, newName, item)
+        }
+
+        @JvmStatic
+        fun updateUserVariableValue(value: String?, item: UserData<*>) {
+            item.value = value
         }
     }
 }

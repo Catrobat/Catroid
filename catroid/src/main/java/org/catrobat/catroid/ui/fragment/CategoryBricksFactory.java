@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -155,6 +155,7 @@ import org.catrobat.catroid.content.bricks.ReadVariableFromFileBrick;
 import org.catrobat.catroid.content.bricks.RepeatBrick;
 import org.catrobat.catroid.content.bricks.RepeatUntilBrick;
 import org.catrobat.catroid.content.bricks.ReplaceItemInUserListBrick;
+import org.catrobat.catroid.content.bricks.ReportBrick;
 import org.catrobat.catroid.content.bricks.ResetTimerBrick;
 import org.catrobat.catroid.content.bricks.RunningStitchBrick;
 import org.catrobat.catroid.content.bricks.SayBubbleBrick;
@@ -344,6 +345,7 @@ public class CategoryBricksFactory {
 		if (SettingsFragment.isNfcSharedPreferenceEnabled(context)) {
 			eventBrickList.add(new WhenNfcBrick());
 		}
+
 		return eventBrickList;
 	}
 
@@ -408,10 +410,13 @@ public class CategoryBricksFactory {
 
 	private List<Brick> setupUserBricksCategoryList() {
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+		List<Brick> userDefinedBricks = new ArrayList<>();
 		if (currentSprite != null) {
-			return currentSprite.getUserDefinedBrickList();
+			userDefinedBricks = currentSprite.getUserDefinedBrickList();
 		}
-		return new ArrayList<>();
+		userDefinedBricks = new ArrayList<>(userDefinedBricks);
+		userDefinedBricks.add(new ReportBrick());
+		return userDefinedBricks;
 	}
 
 	private List<Brick> setupChromecastCategoryList(Context context) {

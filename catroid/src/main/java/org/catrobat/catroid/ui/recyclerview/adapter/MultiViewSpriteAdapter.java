@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,6 +45,8 @@ import java.util.Locale;
 
 import androidx.annotation.IntDef;
 
+import static android.view.View.GONE;
+
 public class MultiViewSpriteAdapter extends SpriteAdapter {
 
 	public static final String TAG = MultiViewSpriteAdapter.class.getSimpleName();
@@ -56,6 +58,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 	private static final int SPRITE_SINGLE = 1;
 	private static final int SPRITE_GROUP = 2;
 	private static final int SPRITE_GROUP_ITEM = 3;
+	private View backgroundView;
 
 	public MultiViewSpriteAdapter(List<Sprite> items) {
 		super(items);
@@ -67,10 +70,10 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 		switch (viewType) {
 			case BACKGROUND:
-				View view = inflater.inflate(R.layout.vh_background_sprite, parent, false);
-				return new ExtendedVH(view);
+				backgroundView = inflater.inflate(R.layout.vh_background_sprite, parent, false);
+				return new ExtendedVH(backgroundView);
 			case SPRITE_SINGLE:
-				view = inflater.inflate(R.layout.vh_with_checkbox, parent, false);
+				View view = inflater.inflate(R.layout.vh_with_checkbox, parent, false);
 				return new ExtendedVH(view);
 			case SPRITE_GROUP:
 				view = inflater.inflate(R.layout.vh_sprite_group, parent, false);
@@ -95,13 +98,13 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 					? context.getResources().getDrawable(R.drawable.ic_play)
 					: context.getResources().getDrawable(R.drawable.ic_play_down);
 			holder.image.setImageDrawable(drawable);
-			holder.checkBox.setVisibility(View.GONE);
+			holder.checkBox.setVisibility(GONE);
 			return;
 		}
 
 		if (holder.getItemViewType() == BACKGROUND) {
 			holder.itemView.setOnLongClickListener(null);
-			holder.checkBox.setVisibility(View.GONE);
+			holder.checkBox.setVisibility(GONE);
 		}
 
 		if (holder.getItemViewType() == SPRITE_GROUP_ITEM) {
@@ -128,7 +131,7 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 					item.getSoundList().size()));
 			holder.details.setVisibility(View.VISIBLE);
 		} else {
-			holder.details.setVisibility(View.GONE);
+			holder.details.setVisibility(GONE);
 		}
 	}
 
@@ -220,5 +223,14 @@ public class MultiViewSpriteAdapter extends SpriteAdapter {
 		}
 
 		return items.size() - backgroundCount - groupSpriteCount;
+	}
+
+	public void setBackgroundVisible(int visible) {
+		backgroundView.setVisibility(visible);
+		if (visible == GONE) {
+			backgroundView.getLayoutParams().height = 0;
+		} else {
+			backgroundView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+		}
 	}
 }

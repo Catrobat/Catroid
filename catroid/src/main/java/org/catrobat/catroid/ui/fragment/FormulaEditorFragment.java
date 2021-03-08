@@ -327,9 +327,17 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_compute:
 							showComputeDialog();
 							return true;
-						case R.id.formula_editor_keyboard_function:
+						case R.id.formula_editor_keyboard_mathematics:
 							showCategoryListFragment(CategoryListFragment.FUNCTION_TAG,
-									R.string.formula_editor_functions);
+									R.string.formula_editor_mathematics);
+							return true;
+						case R.id.formula_editor_keyboard_text:
+							showCategoryListFragment(CategoryListFragment.TEXT_TAG,
+									R.string.formula_editor_text);
+							return true;
+						case R.id.formula_editor_keyboard_list:
+							showCategoryListFragment(CategoryListFragment.LISTS_TAG,
+									R.string.formula_editor_lists);
 							return true;
 						case R.id.formula_editor_keyboard_logic:
 							showCategoryListFragment(CategoryListFragment.LOGIC_TAG,
@@ -431,11 +439,14 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void toggleFunctionalButtons() {
 		View row1 = getActivity().findViewById(R.id.tableRow11);
 		View row2 = getActivity().findViewById(R.id.tableRow12);
+		View row3 = getActivity().findViewById(R.id.tableRow13);
 		ImageButton toggleButton = getActivity().findViewById(R.id.formula_editor_keyboard_functional_button_toggle);
 
 		boolean isVisible = row1.getVisibility() == View.VISIBLE;
 		row1.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
 		row2.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+		row3.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+
 		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible ? R.drawable.ic_keyboard_toggle_caret_up : R.drawable.ic_keyboard_toggle_caret_down));
 	}
 

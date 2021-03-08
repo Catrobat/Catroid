@@ -50,7 +50,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = '2.6.0'
+    paintroidVersion = '2.6.1'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -415,6 +415,7 @@ dependencies {
     // ML Kit
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.0.0'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
+    implementation 'com.google.mlkit:language-id:16.1.0'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

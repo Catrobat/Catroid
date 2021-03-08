@@ -23,6 +23,7 @@
 package org.catrobat.catroid.uiespresso.formulaeditor;
 
 import android.app.Activity;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -58,6 +59,7 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -133,11 +135,13 @@ public class FormulaEditorKeyboardTest {
 				.perform(click());
 		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
 		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
+		onView(withId(R.id.tableRow13)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.INVISIBLE)));
 
 		onView(withId(R.id.formula_editor_keyboard_functional_button_toggle))
 				.perform(click());
 		onView(withId(R.id.tableRow11)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		onView(withId(R.id.tableRow12)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		onView(withId(R.id.tableRow13)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -155,6 +159,32 @@ public class FormulaEditorKeyboardTest {
 				.performCloseAndSave();
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText(activity.getString(R.string.formula_editor_sensor_x_acceleration) + " + 2 ")));
+	}
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void textFunctionTest() {
+		Activity activity = baseActivityTestRule.getActivity();
+		if (activity == null || activity.isFinishing()) {
+			Log.e("Activity error", "Formula Editor Keyboard Text Activity is not Found.");
+			return;
+		}
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_text)).perform(click());
+		onView(withText("length('hello world')")).check(matches(isDisplayed()));
+		onView(withText("letter(1,'hello world')")).check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void listFunctionTest() {
+		Activity activity = baseActivityTestRule.getActivity();
+		if (activity == null || activity.isFinishing()) {
+			return;
+		}
+		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
+		onView(withId(R.id.formula_editor_keyboard_list)).perform(click());
+		onView(withText("number of items(*list name*)")).check(matches(isDisplayed()));
+		onView(withText("item(1,*list name*)")).check(matches(isDisplayed()));
 	}
 
 	@Test
@@ -182,19 +212,15 @@ public class FormulaEditorKeyboardTest {
 		Project project = new Project(ApplicationProvider.getApplicationContext(), PROJECT_NAME);
 		Sprite sprite = new Sprite("testSprite");
 		Script script = new StartScript();
-
 		SetVariableBrick setVariableBrick = new SetVariableBrick();
 		UserVariable userVariable = new UserVariable("Global1");
 		project.addUserVariable(userVariable);
 		setVariableBrick.setUserVariable(userVariable);
-
 		script.addBrick(setVariableBrick);
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentSprite(sprite);
-
 		return project;
 	}
 }

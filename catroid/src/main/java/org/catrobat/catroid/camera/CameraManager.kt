@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -46,7 +46,7 @@ import java.util.concurrent.Executors
 class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     private val cameraProvider = ProcessCameraProvider.getInstance(stageActivity).get()
     private val lifecycle = LifecycleRegistry(this)
-    private val previewView = PreviewView(stageActivity).apply {
+    val previewView = PreviewView(stageActivity).apply {
         visibility = View.INVISIBLE
     }
 
@@ -64,10 +64,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     var previewVisible = false
         private set
 
-    var faceDetectionOn = false
-        private set
-
-    var textDetectionOn = false
+    var detectionOn = false
         private set
 
     var flashOn = false
@@ -105,8 +102,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     fun reset() {
         flashOn = false
         previewVisible = false
-        faceDetectionOn = false
-        textDetectionOn = false
+        detectionOn = false
         unbindPreview()
         switchToDefaultCamera()
     }
@@ -152,8 +148,7 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
                 bindPreview()
             }
             if (cameraProvider.isBound(analysisUseCase)) {
-                bindFaceDetector()
-                bindTextDetector()
+                bindFaceAndTextDetector()
             }
             return true
         }
@@ -213,19 +208,10 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     }
 
     @Synchronized
-    fun startFaceDetection(): Boolean {
-        if (faceDetectionOn.not()) {
-            faceDetectionOn = true
-            bindFaceDetector()
-        }
-        return true
-    }
-
-    @Synchronized
-    fun startTextDetection(): Boolean {
-        if (textDetectionOn.not()) {
-            textDetectionOn = true
-            bindTextDetector()
+    fun startDetection(): Boolean {
+        if (detectionOn.not()) {
+            detectionOn = true
+            bindFaceAndTextDetector()
         }
         return true
     }
@@ -249,12 +235,8 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
     }
 
     @UiThread
-    private fun bindFaceDetector() = bindUseCase(analysisUseCase).also {
-        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceDetector)
-    }
-
-    private fun bindTextDetector() = bindUseCase(analysisUseCase).also {
-        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), TextDetector)
+    private fun bindFaceAndTextDetector() = bindUseCase(analysisUseCase).also {
+        analysisUseCase.setAnalyzer(Executors.newSingleThreadExecutor(), FaceAndTextDetector)
     }
 
     @UiThread

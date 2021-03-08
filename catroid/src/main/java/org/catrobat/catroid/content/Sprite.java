@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -152,7 +152,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		if (userDefinedBrick == null) {
 			return null;
 		}
-		for (Brick brick: userDefinedBrickList) {
+		for (Brick brick : userDefinedBrickList) {
 			if (((UserDefinedBrick) brick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
 				return (UserDefinedBrick) brick;
 			}
@@ -572,5 +572,42 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			}
 		}
 		usedTouchPointer.clear();
+	}
+
+	public Brick findBrickInSprite(UUID brickId) {
+		for (Script script : scriptList) {
+			if (script.getScriptId().equals(brickId)) {
+				return script.getScriptBrick();
+			}
+		}
+
+		List<UUID> brickIdList = new ArrayList<>();
+		brickIdList.add(brickId);
+		for (Script script : scriptList) {
+			List<Brick> foundBricks = script.findBricksInScript(brickIdList);
+			if (foundBricks != null && !foundBricks.isEmpty()) {
+				return foundBricks.get(0);
+			}
+		}
+
+		return null;
+	}
+
+	public List<UUID> removeAllEmptyScriptBricks() {
+		List<UUID> idsToRemove = new ArrayList<>();
+		List<Script> scriptsToRemove = new ArrayList<>();
+
+		for (Script script : scriptList) {
+			if (script instanceof EmptyScript && (script.brickList == null || script.brickList.isEmpty())) {
+				scriptsToRemove.add(script);
+				idsToRemove.add(script.getScriptId());
+			}
+		}
+
+		for (Script toRemove : scriptsToRemove) {
+			scriptList.remove(toRemove);
+		}
+
+		return idsToRemove;
 	}
 }

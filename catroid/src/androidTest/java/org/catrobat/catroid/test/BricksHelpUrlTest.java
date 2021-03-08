@@ -418,6 +418,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/UserDefinedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/UserDefinedReceiverBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReportBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReportBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StoreCSVIntoUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AssertUserListsBrick",
@@ -452,6 +454,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CopyLookBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EditLookBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EditLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmptyEventBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

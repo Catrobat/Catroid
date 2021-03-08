@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,7 +37,9 @@ import org.catrobat.catroid.formulaeditor.function.TernaryFunction;
 import org.catrobat.catroid.formulaeditor.function.TextBlockFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.TouchFunctionProvider;
 import org.catrobat.catroid.sensing.CollisionDetection;
+import org.catrobat.catroid.sensing.ColorAtXYDetection;
 import org.catrobat.catroid.sensing.ColorCollisionDetection;
+import org.catrobat.catroid.sensing.ColorEqualsColor;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.StageListener;
 import org.jetbrains.annotations.NotNull;
@@ -104,10 +106,12 @@ public class FormulaElement implements Serializable {
 	public List<FormulaElement> additionalChildren;
 	private transient FormulaElement parent;
 	private transient Map<Functions, FormulaFunction> formulaFunctions;
+	private transient TextBlockFunctionProvider textBlockFunctionProvider;
 
 	protected FormulaElement() {
+		textBlockFunctionProvider = new TextBlockFunctionProvider();
 		List<FunctionProvider> functionProviders = Arrays.asList(new ArduinoFunctionProvider(), new RaspiFunctionProvider(),
-				new MathFunctionProvider(), new TouchFunctionProvider(), new TextBlockFunctionProvider());
+				new MathFunctionProvider(), new TouchFunctionProvider(), textBlockFunctionProvider);
 
 		formulaFunctions = new EnumMap<>(Functions.class);
 		initFunctionMap(functionProviders, formulaFunctions);
@@ -430,7 +434,15 @@ public class FormulaElement implements Serializable {
 				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
 						.tryInterpretFunctionColorTouchesColor(arguments.get(0), arguments.get(1)));
 			case COLOR_AT_XY:
-				return Double.NaN;
+				return new ColorAtXYDetection(sprite, currentProject, StageActivity.stageListener)
+						.tryInterpretFunctionColorAtXY(arguments.get(0), arguments.get(1));
+			case TEXT_BLOCK_FROM_CAMERA:
+				return textBlockFunctionProvider.interpretFunctionTextBlock(Double.parseDouble(arguments.get(0).toString()));
+			case TEXT_BLOCK_LANGUAGE_FROM_CAMERA:
+				return textBlockFunctionProvider.interpretFunctionTextBlockLanguage(Double.parseDouble(arguments.get(0).toString()));
+			case COLOR_EQUALS_COLOR:
+				return booleanToDouble(new ColorEqualsColor().tryInterpretFunctionColorEqualsColor(arguments.get(0), arguments.get(1),
+								arguments.get(2)));
 			default:
 				return interpretFormulaFunction(function, arguments);
 		}

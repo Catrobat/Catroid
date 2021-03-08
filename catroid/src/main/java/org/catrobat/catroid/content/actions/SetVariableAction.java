@@ -32,6 +32,7 @@ import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import static org.catrobat.catroid.common.Constants.TEXT_FROM_CAMERA_SENSOR_HASHCODE;
+import static org.catrobat.catroid.formulaeditor.common.Conversions.convertArgumentToDouble;
 
 public class SetVariableAction extends TemporalAction {
 
@@ -52,8 +53,9 @@ public class SetVariableAction extends TemporalAction {
 		}
 
 		try {
-			if (!isFirstLevelStringTree && value instanceof String && userVariable.hashCode() != TEXT_FROM_CAMERA_SENSOR_HASHCODE) {
-				value = Double.valueOf((String) value);
+			if (!isFirstLevelStringTree && value instanceof String && userVariable.hashCode() != TEXT_FROM_CAMERA_SENSOR_HASHCODE
+					&& convertArgumentToDouble(value) != null) {
+				value = convertArgumentToDouble(value);
 			}
 		} catch (NumberFormatException numberFormatException) {
 			Log.d(getClass().getSimpleName(), "Couldn't parse String", numberFormatException);

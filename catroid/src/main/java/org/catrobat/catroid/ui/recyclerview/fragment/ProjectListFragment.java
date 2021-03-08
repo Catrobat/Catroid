@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import android.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser;
 import org.catrobat.catroid.io.StorageOperations;
@@ -257,10 +258,15 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		finishActionMode();
 		setShowProgressBar(true);
 
-		String name = uniqueNameProvider.getUniqueNameInNameables(selectedItems.get(0).getName(), adapter.getItems());
-		new ProjectCopyTask(selectedItems.get(0).getDirectory(), name)
-				.setListener(this)
-				.execute();
+		ArrayList<Nameable> usedProjectNames = new ArrayList<>(adapter.getItems());
+
+		for (ProjectData projectData : selectedItems) {
+			String name = uniqueNameProvider.getUniqueNameInNameables(projectData.getName(), usedProjectNames);
+			usedProjectNames.add(new ProjectData(name, null, 0, false));
+			new ProjectCopyTask(projectData.getDirectory(), name)
+					.setListener(this)
+					.execute();
+		}
 	}
 
 	@Override
@@ -362,6 +368,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 	@Override
 	public void onItemClick(ProjectData item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
 		if (actionModeType == NONE) {
 			setShowProgressBar(true);
 			new ProjectLoadTask(item.getDirectory(), getContext())
@@ -394,7 +404,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 								showDeleteAlert(new ArrayList<>(Collections.singletonList(item)));
 								break;
 							case 2:
-								showRenameDialog(new ArrayList<>(Collections.singletonList(item)));
+								showRenameDialog(item);
 								break;
 							case 3:
 								ProjectDetailsFragment fragment = new ProjectDetailsFragment();

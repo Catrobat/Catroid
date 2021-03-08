@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,6 +37,7 @@ import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.pressBack;
@@ -87,7 +88,7 @@ public class BrickVariableSpinnerDataInteractionWrapper extends BrickSpinnerData
 
 	private static void enterTextOnDialogue(int editTextId, String textToEnter) {
 		onView(withId(editTextId))
-				.perform(typeText(textToEnter), closeSoftKeyboard());
+				.perform(clearText(), typeText(textToEnter), closeSoftKeyboard());
 		onView(withId(android.R.id.button1))
 				.perform(click());
 	}

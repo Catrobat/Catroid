@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemInter
 import org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewItemMatcher;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.longClick;
@@ -53,7 +54,7 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 				.perform(longClick());
 		onView(withText(R.string.delete))
 				.perform(click());
-		onView(withText(R.string.deletion_alert_yes))
+		onView(withText(R.string.delete))
 				.perform(click());
 	}
 
@@ -63,8 +64,19 @@ public abstract class UserDataItemRVInteractionWrapper<T extends UserDataItemRVI
 		onView(withText(R.string.rename))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(replaceText(newName), closeSoftKeyboard());
+				.perform(clearText(), replaceText(newName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
+				.perform(click());
+	}
+
+	public void performEdit(String newValue) {
+		onChildView(R.id.title_view)
+				.perform(longClick());
+		onView(withText(R.string.edit))
+				.perform(click());
+		onView(withId(R.id.input_edit_text))
+				.perform(replaceText(newValue), closeSoftKeyboard());
+		onView(withText(R.string.save))
 				.perform(click());
 	}
 

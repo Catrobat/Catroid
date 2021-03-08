@@ -31,9 +31,11 @@ import android.widget.EditText;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.InputWatcher;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,8 +93,6 @@ public final class TextInputDialog extends AlertDialog {
 				TextInputLayout textInputLayout = alertDialog.findViewById(R.id.input);
 				EditText editText = textInputLayout.getEditText();
 				textInputLayout.setHint(hint);
-				editText.setText(text);
-				editText.selectAll();
 
 				if (textWatcher != null) {
 					textInputLayout.getEditText().addTextChangedListener(textWatcher);
@@ -100,9 +100,37 @@ public final class TextInputDialog extends AlertDialog {
 					textWatcher.setButton(alertDialog.getButton(AlertDialog.BUTTON_POSITIVE));
 					textWatcher.setContext(getContext());
 				}
+
+				editText.setText(text);
+				editText.selectAll();
 				ViewUtils.showKeyboard(editText);
 			});
 			return alertDialog;
+		}
+
+		public UniqueNameProvider createUniqueNameProvider(int stringID) {
+			UniqueNameProvider uniqueNameProvider;
+			switch (stringID) {
+				case R.string.default_list_name:
+					uniqueNameProvider = new UniqueNameProvider() {
+						@Override
+						public boolean isUnique(String newName) {
+							return null == ProjectManager.getInstance().getCurrentProject().getUserList(newName) && null == ProjectManager.getInstance().getCurrentSprite().getUserList(newName);
+						}
+					};
+					break;
+				case R.string.default_variable_name:
+					uniqueNameProvider = new UniqueNameProvider() {
+						@Override
+						public boolean isUnique(String newName) {
+							return null == ProjectManager.getInstance().getCurrentProject().getUserVariable(newName) && null == ProjectManager.getInstance().getCurrentProject().getMultiplayerVariable(newName) && null == ProjectManager.getInstance().getCurrentSprite().getUserVariable(newName);
+						}
+						};
+					break;
+				default:
+					uniqueNameProvider = new UniqueNameProvider();
+			}
+			return uniqueNameProvider;
 		}
 	}
 

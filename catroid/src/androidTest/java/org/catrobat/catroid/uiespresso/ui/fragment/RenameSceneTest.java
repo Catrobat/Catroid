@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,13 +48,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -75,20 +74,17 @@ public class RenameSceneTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testRenameScene() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		openActionBar();
 		onView(withText(R.string.rename))
 				.perform(click());
 
 		onRecyclerView().atPosition(0)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm))
 				.perform(click());
 
 		onView(withText(R.string.rename_scene_dialog)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		String oldSceneName = "Scene 1";
+		String oldSceneName = ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 1);
 		String newSceneName = "firstScene";
 
 		onView(allOf(withText(oldSceneName), isDisplayed(), instanceOf(EditText.class)))
