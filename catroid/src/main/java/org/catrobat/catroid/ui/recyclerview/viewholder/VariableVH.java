@@ -24,6 +24,7 @@
 package org.catrobat.catroid.ui.recyclerview.viewholder;
 
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.catrobat.catroid.R;
@@ -31,9 +32,11 @@ import org.catrobat.catroid.R;
 public class VariableVH extends CheckableVH {
 
 	public TextView value;
+	public ImageButton arrow_btn;
 
 	public VariableVH(View itemView) {
 		super(itemView);
 		value = itemView.findViewById(R.id.value_view);
+		arrow_btn=itemView.findViewById(R.id.arrow_variable);
 	}
 }

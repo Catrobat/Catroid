@@ -49,6 +49,9 @@
 
         <TextView
             android:id="@+id/title_view"
+            android:maxWidth="160dp"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingEnd="@dimen/details_spacing"
@@ -57,10 +60,27 @@
 
         <TextView
             android:id="@+id/value_view"
+            android:maxLines="4"
+            android:maxWidth="140dp"
+            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/solid_white"
-            android:textSize="?attr/large" />
+            android:textSize="?attr/large"
+            android:layout_marginBottom="4dp"/>
+        <RelativeLayout
+            android:layout_marginStart="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp">
+            <ImageButton
+                android:id="@+id/arrow_variable"
+                android:background="@color/transparent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_arrow_forward_vector"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
     </LinearLayout>
 </LinearLayout>
