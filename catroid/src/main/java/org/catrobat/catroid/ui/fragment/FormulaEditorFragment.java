@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -419,7 +419,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			@Override
 			public int getValue() {
 				String currentValue = getSelectedFormulaText();
-				if (currentValue != null && currentValue.matches("^#[0-9A-F]{6}$")) {
+				if (currentValue != null && currentValue.matches("^#[0-9A-Fa-f]{6}$")) {
 					return Color.parseColor(currentValue);
 				} else {
 					return 0;
