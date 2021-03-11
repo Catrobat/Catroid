@@ -2091,4 +2091,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
 
+    <!-- Information -->
+    <string name="no_variable_selected">No variable selected</string>
+
 </resources>
