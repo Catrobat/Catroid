@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
   ~ Copyright (C) 2010-2018 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
@@ -24,22 +23,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/dialog_content_area_padding_top"
-    android:paddingStart="@dimen/dialog_content_area_padding"
+    android:paddingBottom="@dimen/dialog_content_area_padding_top"
     android:paddingEnd="@dimen/dialog_content_area_padding"
-    android:paddingBottom="@dimen/dialog_content_area_padding_top">
+    android:paddingStart="@dimen/dialog_content_area_padding"
+    android:paddingTop="@dimen/dialog_content_area_padding_top">
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="*">
+        android:measureWithLargestChild="true">
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
             <TextView
                 android:id="@+id/dialog_new_sound_recorder"
+                android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/pc_toolbar_icon"
                 android:gravity="center"
@@ -48,6 +49,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_sound_media_library"
+                android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_media_library"
                 android:gravity="center"
@@ -56,11 +58,14 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:measureWithLargestChild="true">
 
             <TextView
                 android:id="@+id/dialog_new_sound_gallery"
+                android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_gallery"
                 android:gravity="center"
@@ -69,6 +74,7 @@
 
             <TextView
                 android:id="@+id/dialog_new_sound_pocketmusic"
+                android:layout_weight="1"
                 android:background="@drawable/new_object_dialog_selector"
                 android:drawableTop="@drawable/ic_pocketmusic"
                 android:gravity="center"
