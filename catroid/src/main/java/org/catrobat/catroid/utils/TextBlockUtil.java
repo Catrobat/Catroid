@@ -102,10 +102,10 @@ public final class TextBlockUtil {
 				float aspectRatio = (float) imageWidth / imageHeight;
 
 				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-					float relativeY = textBlockBounds.exactCenterX() / imageWidth;
+					float relativeY = -1 * textBlockBounds.exactCenterX() / imageWidth;
 					relativeY = invertAxis ? relativeY : 1 - relativeY;
 					return coordinatesFromRelativePosition(
-							1 - textBlockBounds.exactCenterY() / imageHeight,
+							textBlockBounds.exactCenterY() / imageHeight,
 							SCREEN_WIDTH / aspectRatio,
 							relativeY,
 							(float) SCREEN_WIDTH
