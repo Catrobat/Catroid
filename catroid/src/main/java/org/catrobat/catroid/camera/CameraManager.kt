@@ -143,13 +143,9 @@ class CameraManager(private val stageActivity: StageActivity) : LifecycleOwner {
         if (currentCameraSelector != cameraSelector) {
             currentCameraSelector = cameraSelector
             currentCamera = null
-
-            if (cameraProvider.isBound(previewUseCase)) {
-                bindPreview()
-            }
-            if (cameraProvider.isBound(analysisUseCase)) {
-                bindFaceAndTextDetector()
-            }
+            cameraProvider.unbindAll()
+            bindPreview()
+            bindFaceAndTextDetector()
             return true
         }
         return false
