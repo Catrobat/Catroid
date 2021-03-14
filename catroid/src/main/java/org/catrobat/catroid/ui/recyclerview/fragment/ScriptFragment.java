@@ -22,9 +22,12 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.ActionMode;
@@ -34,6 +37,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -81,6 +87,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.IntDef;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
@@ -121,6 +128,7 @@ public class ScriptFragment extends ListFragment implements
 	private BrickListView listView;
 	private String currentSceneName;
 	private String currentSpriteName;
+	private RelativeLayout fab;
 	private int undoBrickPosition;
 
 	private ScriptController scriptController = new ScriptController();
@@ -229,14 +237,18 @@ public class ScriptFragment extends ListFragment implements
 		adapter.setCheckBoxMode(BrickAdapter.NONE);
 	}
 
+	@RequiresApi(api = Build.VERSION_CODES.M)
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = View.inflate(getActivity(), R.layout.fragment_script, null);
 		listView = view.findViewById(android.R.id.list);
+		hideFab();
 		setHasOptionsMenu(true);
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
 		return view;
 	}
+
+
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -861,5 +873,34 @@ public class ScriptFragment extends ListFragment implements
 		}
 		scriptToFocus = null;
 		brickToFocus = null;
+	}
+
+	Runnable showRunnable = new Runnable() {
+		@Override
+		public void run() {
+			fab.setVisibility(View.VISIBLE);
+		}
+	};
+
+	private void hideFab() {
+		LayoutInflater inflater2 =
+				(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		View vi = inflater2.inflate(R.layout.activity_sprite,
+				(ViewGroup) getActivity().findViewById(R.id.activity_sprite));
+		fab = vi.findViewById(R.id.bottom_bar);
+		Handler handler = new Handler();
+		listView.setOnScrollListener(new BrickListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) { }
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if(firstVisibleItem + visibleItemCount == totalItemCount && fab.getVisibility() == View.VISIBLE){
+					handler.removeCallbacks(showRunnable);
+					handler.postDelayed(showRunnable,2000);
+					fab.setVisibility(View.GONE);
+				}
+			}
+		});
 	}
 }
