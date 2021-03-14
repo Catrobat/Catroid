@@ -26,6 +26,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ActionMode;
@@ -77,6 +78,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
@@ -180,6 +182,9 @@ public class SpriteActivity extends BaseActivity {
 		}
 		loadFragment(this, fragmentPosition);
 		addTabLayout(this, fragmentPosition);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+			removeFloatingButtonWhenScrolling();
+		}
 	}
 
 	private String createActionBarTitle() {
@@ -827,7 +832,7 @@ public class SpriteActivity extends BaseActivity {
 				if (currentName.equals(generatedVariableName)) {
 					generatedVariableName =
 							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
-							null);
+									null);
 					textInputEditText.setText(generatedVariableName);
 				}
 			}
@@ -910,5 +915,18 @@ public class SpriteActivity extends BaseActivity {
 
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
+	}
+
+	@RequiresApi(api = Build.VERSION_CODES.M)
+	private void removeFloatingButtonWhenScrolling() {
+		findViewById(R.id.activity_sprite_sv).setOnScrollChangeListener(new View.OnScrollChangeListener() {
+			@Override
+			public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+				Log.e(TAG,
+						"onScrollChange: " + scrollX + scrollY +" old "+ oldScrollX + oldScrollY);
+				findViewById(R.id.bottom_bar).setVisibility(scrollX < oldScrollX ?
+						View.VISIBLE : View.GONE);
+			}
+		});
 	}
 }

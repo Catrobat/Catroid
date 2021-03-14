@@ -43,6 +43,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static android.animation.ValueAnimator.REVERSE;
 import static android.view.MotionEvent.ACTION_CANCEL;
@@ -53,7 +54,7 @@ import static android.view.MotionEvent.ACTION_POINTER_INDEX_SHIFT;
 import static android.view.MotionEvent.ACTION_POINTER_UP;
 import static android.view.MotionEvent.ACTION_UP;
 
-public class BrickListView extends ListView {
+public class BrickListView extends RecyclerView {
 
 	private static final int SMOOTH_SCROLL_BY = 15;
 	private static final int ANIMATION_DURATION = 250;
@@ -122,6 +123,7 @@ public class BrickListView extends ListView {
 		brickPositionsToHighlight.addAll(positions);
 		invalidate();
 	}
+
 
 	public void startMoving(Brick brickToMove) {
 		cancelMove();
@@ -334,7 +336,7 @@ public class BrickListView extends ListView {
 	}
 
 	@Override
-	public void setAdapter(ListAdapter adapter) {
+	public void setAdapter(Adapter adapter) {
 		if (!(adapter instanceof BrickAdapterInterface)) {
 			throw new IllegalArgumentException("Adapter has to implement the BrickListView.AdapterInterface.");
 		}
