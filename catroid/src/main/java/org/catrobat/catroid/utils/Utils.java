@@ -73,12 +73,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.exifinterface.media.ExifInterface;
 import okhttp3.Response;
 
 import static android.speech.RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE;
 import static android.speech.RecognizerIntent.EXTRA_SUPPORTED_LANGUAGES;
 
+import static org.catrobat.catroid.common.Constants.EXIFTAGS_FOR_EXIFREMOVER;
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -548,5 +550,24 @@ public final class Utils {
 				}
 			}
 		}, null, Activity.RESULT_OK, null, null);
+	}
+
+	public static void removeExifData(File directory, String fileName) {
+		boolean isJPG = fileName.toLowerCase(Locale.US).endsWith(".jpeg") || fileName.toLowerCase(Locale.US).endsWith(".jpg");
+
+		if (!isJPG) {
+			return;
+		}
+
+		File file = new File(directory, fileName);
+		try {
+			ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+			for (String exifTag: EXIFTAGS_FOR_EXIFREMOVER) {
+				exif.setAttribute(exifTag, "");
+			}
+			exif.saveAttributes();
+		} catch (IOException e) {
+			Log.e(TAG, "removeExifData: Failed to remove exif data");
+		}
 	}
 }
