@@ -67,4 +67,8 @@ public class RunningStitch {
 		type = null;
 		sprite = null;
 	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
 }

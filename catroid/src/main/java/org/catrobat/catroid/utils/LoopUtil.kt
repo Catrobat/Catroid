@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.utils
 
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.bricks.Brick
 import org.catrobat.catroid.content.bricks.BrickBaseType
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick
@@ -50,7 +51,6 @@ import org.catrobat.catroid.content.bricks.SetSizeToBrick
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick
 import org.catrobat.catroid.content.bricks.SetXBrick
 import org.catrobat.catroid.content.bricks.SetYBrick
-import org.catrobat.catroid.content.bricks.StitchBrick
 import org.catrobat.catroid.content.bricks.TurnLeftBrick
 import org.catrobat.catroid.content.bricks.TurnRightBrick
 import java.util.ArrayList
@@ -70,16 +70,25 @@ object LoopUtil {
 
     @JvmStatic
     fun checkLoopBrickForLoopDelay(loopBrick: CompositeBrick): Boolean {
-        var isLoopDelayBrick = false
         val allNestedBricks: List<Brick> = ArrayList()
         loopBrick.addToFlatList(allNestedBricks)
-
         for (brick in allNestedBricks.filter { b -> !b.isCommentedOut }) {
-            isLoopDelayBrick = isLoopDelayBrick || loopDelayBricks.contains(brick::class)
-            if (brick is StitchBrick) {
-                return false
+            if (loopDelayBricks.contains(brick::class)) {
+                return true
             }
         }
-        return isLoopDelayBrick
+        return false
+    }
+
+    @JvmStatic
+    fun isAnyStitchRunning(): Boolean {
+        ProjectManager.getInstance() ?: return false
+        ProjectManager.getInstance().currentProject ?: return false
+        ProjectManager.getInstance().currentProject.spriteListWithClones?.forEach {
+            if (it.runningStitch.isRunning) {
+                return true
+            }
+        }
+        return false
     }
 }
