@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.drone.ardrone.DroneConfigManager;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
@@ -37,7 +37,7 @@ public class DroneSetAltitudeAction extends TemporalAction {
 	private Formula verticalSpeed;
 	private Formula rotationSpeed;
 	private Formula tiltAngle;
-	private Sprite sprite;
+	private Scope scope;
 
 	@Override
 	protected void update(float percent) {
@@ -57,7 +57,7 @@ public class DroneSetAltitudeAction extends TemporalAction {
 		int value;
 
 		try {
-			value = rgbFormula.interpretInteger(sprite);
+			value = rgbFormula.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			value = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -82,7 +82,7 @@ public class DroneSetAltitudeAction extends TemporalAction {
 		this.tiltAngle = tiltAngle;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

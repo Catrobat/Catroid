@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -68,7 +70,8 @@ public class AddItemToUserListActionTest {
 
 	@Test
 	public void testAddNumericalValueToUserList() {
-		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite,
+			new SequenceAction(), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), userList).act(1f);
 		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
 
 		assertEquals(3, userList.getValue().size());
@@ -77,20 +80,24 @@ public class AddItemToUserListActionTest {
 
 	@Test
 	public void testAddItemWithInvalidUserList() {
-		actionFactory.createAddItemToUserListAction(testSprite, new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite,
+			new SequenceAction(), new Formula(DOUBLE_VALUE_ITEM_TO_ADD), null).act(1f);
 		assertEquals(2, userList.getValue().size());
 	}
 
 	@Test
 	public void testAddNullFormula() {
-		actionFactory.createAddItemToUserListAction(testSprite, null, userList).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, new SequenceAction(), null,
+				userList).act(1f);
 		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
 		assertEquals(0d, lastItemOfUserList);
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		actionFactory.createAddItemToUserListAction(testSprite, new Formula(Double.NaN), userList).act(1f);
+		actionFactory.createAddItemToUserListAction(testSprite, new SequenceAction(),
+				new Formula(Double.NaN),
+				userList).act(1f);
 		Object lastItemOfUserList = userList.getValue().get(userList.getValue().size() - 1);
 		assertEquals(String.valueOf(Double.NaN), lastItemOfUserList);
 	}

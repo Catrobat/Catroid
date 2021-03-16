@@ -23,16 +23,38 @@
 
 package org.catrobat.catroid.content.actions
 
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId
-import org.catrobat.catroid.userbrick.UserDefinedBrickData
+import org.catrobat.catroid.formulaeditor.UserVariable
+import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import java.util.UUID
 
-class UserDefinedBrickAction : SpriteEventAction() {
+class UserDefinedBrickAction : SingleSpriteEventAction() {
+    var scope: Scope? = null
+        set(scope) {
+            field = scope
+            super.sprite = scope?.sprite
+        }
+
     var userDefinedBrickID: UUID? = null
-    var userDefinedBrickDataList: MutableList<UserDefinedBrickData?>? = null
+    var userDefinedBrickInputs: MutableList<UserDefinedBrickInput>? = null
+
+    fun setInputs(userDefinedBrickInputs: MutableList<UserDefinedBrickInput>) {
+        this.userDefinedBrickInputs = userDefinedBrickInputs
+    }
+
+    private fun getInterpretedInputs(): MutableList<Any> {
+        val interpretedInputs = mutableListOf<Any>()
+
+        userDefinedBrickInputs?.forEach {
+            val parameter = it.value.interpretObject(scope)
+            interpretedInputs?.add(UserVariable(it.name, parameter))
+        }
+        return interpretedInputs
+    }
 
     override fun getEventId() =
         userDefinedBrickID?.let { id ->
-            UserDefinedBrickEventId(id)
+            UserDefinedBrickEventId(id, getInterpretedInputs())
         }
 }

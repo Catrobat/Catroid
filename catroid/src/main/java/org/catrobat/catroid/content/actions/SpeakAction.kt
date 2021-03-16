@@ -26,18 +26,15 @@ package org.catrobat.catroid.content.actions
 import android.speech.tts.TextToSpeech
 import android.speech.tts.UtteranceProgressListener
 import android.util.Log
-
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
-
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.FormulaElement
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.io.SoundManager
 import org.catrobat.catroid.stage.TextToSpeechHolder
 import org.catrobat.catroid.utils.Utils
-
 import java.io.File
 import java.util.HashMap
 
@@ -46,7 +43,7 @@ class SpeakAction : TemporalAction() {
     private var interpretedText: Any? = null
     private var hashText: String? = null
     private var determineLength = false
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var lengthOfText = 0f
         private set
     lateinit var speechFile: File
@@ -62,7 +59,7 @@ class SpeakAction : TemporalAction() {
                 if (determineLength) {
                     lengthOfText = SoundManager.getInstance().getDurationOfSoundFile(speechFile.absolutePath)
                 } else {
-                    SoundManager.getInstance().playSoundFile(speechFile.absolutePath, sprite)
+                    SoundManager.getInstance().playSoundFile(speechFile.absolutePath, scope?.sprite)
                 }
             }
         }
@@ -94,7 +91,7 @@ class SpeakAction : TemporalAction() {
 
     fun interpretFormula() {
         interpretedText = try {
-            text?.interpretString(sprite) ?: ""
+            text?.interpretString(scope) ?: ""
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)
             ""

@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import junit.framework.Assert
 import org.catrobat.catroid.ProjectManager
@@ -49,6 +50,7 @@ import java.io.File
 @PrepareForTest(StorageOperations::class, XstreamSerializer::class, GdxNativesLoader::class)
 class PaintNewLookActionTest {
     private lateinit var projectMock: Project
+    private lateinit var testSequence: SequenceAction
     private val xstreamSerializerMock = PowerMockito.mock(XstreamSerializer::class.java)
     private val lookDataFile = mock(File::class.java)
     private val lookData = LookData("firstLook", mock(File::class.java))
@@ -59,6 +61,7 @@ class PaintNewLookActionTest {
         projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
+        testSequence = SequenceAction()
         PowerMockito.mockStatic(XstreamSerializer::class.java)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
         Mockito.`when`(XstreamSerializer.getInstance()).thenReturn(xstreamSerializerMock)
@@ -68,9 +71,10 @@ class PaintNewLookActionTest {
     @Test
     fun testWithEmptyLookList() {
         with(Sprite()) {
-            val setNewLookAction = actionFactory.createSetNextLookAction(this)
+            val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
             val paintNewLookAction = actionFactory.createPaintNewLookAction(
-                this, formulaName, setNewLookAction as SetNextLookAction) as PaintNewLookAction
+                this, testSequence, formulaName, setNewLookAction as SetNextLookAction) as
+                PaintNewLookAction
             paintNewLookAction.addLookFromFile(lookDataFile)
             setNewLookAction.act(1f)
             Assert.assertEquals(look.lookData.file, lookDataFile)
@@ -82,9 +86,10 @@ class PaintNewLookActionTest {
         with(Sprite()) {
             this.lookList.add(lookData)
             this.look.lookData = lookData
-            val setNewLookAction = actionFactory.createSetNextLookAction(this)
+            val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
             val paintNewLookAction = actionFactory.createPaintNewLookAction(
-                this, formulaName, setNewLookAction as SetNextLookAction) as PaintNewLookAction
+                this, testSequence, formulaName, setNewLookAction as SetNextLookAction) as
+                PaintNewLookAction
             paintNewLookAction.addLookFromFile(lookDataFile)
             setNewLookAction.act(1f)
             Assert.assertEquals(look.lookData.file, lookDataFile)

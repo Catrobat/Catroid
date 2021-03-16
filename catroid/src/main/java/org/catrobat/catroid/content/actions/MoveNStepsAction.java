@@ -26,30 +26,31 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class MoveNStepsAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula steps;
 
 	@Override
 	protected void update(float percent) {
 		try {
-			Double stepsValue = steps == null ? Double.valueOf(0d) : steps.interpretDouble(sprite);
-			double radians = Math.toRadians(sprite.look.getDirectionInUserInterfaceDimensionUnit());
-			sprite.look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
-			sprite.look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
-			sprite.movedByStepsBrick = true;
+			Double stepsValue = steps == null ? Double.valueOf(0d)
+					: steps.interpretDouble(scope);
+			double radians = Math.toRadians(scope.getSprite().look.getDirectionInUserInterfaceDimensionUnit());
+			scope.getSprite().look.changeXInUserInterfaceDimensionUnit((float) (stepsValue * Math.sin(radians)));
+			scope.getSprite().look.changeYInUserInterfaceDimensionUnit((float) (stepsValue * Math.cos(radians)));
+			scope.getSprite().movedByStepsBrick = true;
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setSteps(Formula steps) {

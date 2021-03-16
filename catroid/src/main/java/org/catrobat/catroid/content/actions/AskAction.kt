@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.actions
 
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.formulaeditor.UserVariable
@@ -32,7 +32,7 @@ import org.catrobat.catroid.stage.BrickDialogManager
 import org.catrobat.catroid.stage.StageActivity
 
 class AskAction : Action() {
-    private var sprite: Sprite? = null
+    var scope: Scope? = null
     var questionFormula: Formula? = null
     var answerVariable: UserVariable? = null
     var questionAsked = false
@@ -41,7 +41,7 @@ class AskAction : Action() {
         StageActivity.messageHandler ?: return
         var question = ""
         try {
-            question = questionFormula?.interpretString(sprite) ?: ""
+            question = questionFormula?.interpretString(scope) ?: ""
         } catch (e: InterpretationException) {
             Log.e(
                 javaClass.simpleName,
@@ -58,10 +58,6 @@ class AskAction : Action() {
         answerVariable ?: return
         answerVariable!!.value = answer
         answerReceived = true
-    }
-
-    fun setSprite(sprite: Sprite) {
-        this.sprite = sprite
     }
 
     override fun act(delta: Float): Boolean {

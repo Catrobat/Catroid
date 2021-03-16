@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.embroidery.SimpleRunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class RunningStitchAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula length;
 
 	@Override
@@ -41,17 +41,18 @@ public class RunningStitchAction extends TemporalAction {
 		int lengthInterpretation = 0;
 		try {
 			if (length != null) {
-				lengthInterpretation = length.interpretInteger(sprite);
+				lengthInterpretation = length.interpretInteger(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			lengthInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
-		this.sprite.runningStitch.activateStitching(sprite, new SimpleRunningStitch(sprite, lengthInterpretation));
+		this.scope.getSprite().runningStitch.activateStitching(scope.getSprite(),
+				new SimpleRunningStitch(scope.getSprite(), lengthInterpretation));
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setLength(Formula length) {

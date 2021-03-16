@@ -32,7 +32,8 @@ class WebRequestAction : WebAction() {
     var response: String? = null
 
     override fun act(delta: Float): Boolean {
-        return if (userVariable == null || sprite == null || formula == null) {
+        val scopeInitialized = scope?.sprite != null && scope?.sequence != null
+        return if (userVariable == null || formula == null || !scopeInitialized) {
             true
         } else super.act(delta)
     }

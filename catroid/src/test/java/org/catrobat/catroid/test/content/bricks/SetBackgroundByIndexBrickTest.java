@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
@@ -85,6 +86,7 @@ public class SetBackgroundByIndexBrickTest {
 		ActionFactory actionFactory = new ActionFactory();
 		actionFactory.createSetBackgroundByIndexAction(
 				sprite,
+				new SequenceAction(),
 				createFormulaWithVariable(localUserVariableBackgroundIndex),
 				true
 		).act(1f);

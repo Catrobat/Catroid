@@ -52,6 +52,7 @@ public class ChangeColorByNBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createChangeColorByNAction(sprite, getFormulaWithBrickField(BrickField.COLOR_CHANGE)));
+				.createChangeColorByNAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.COLOR_CHANGE)));
 	}
 }

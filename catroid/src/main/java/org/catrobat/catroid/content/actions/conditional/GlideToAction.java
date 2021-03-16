@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
@@ -38,7 +38,7 @@ public class GlideToAction extends TemporalAction {
 	private float currentY;
 	private Formula endX;
 	private Formula endY;
-	protected Sprite sprite;
+	protected Scope scope;
 	private Formula duration;
 	private float endXValue;
 	private float endYValue;
@@ -52,21 +52,22 @@ public class GlideToAction extends TemporalAction {
 		Float endYInterpretation = 0f;
 
 		try {
-			durationInterpretation = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
+			durationInterpretation = duration == null ? Float.valueOf(0f)
+					: duration.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0f;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			endXInterpretation = endX == null ? Float.valueOf(0f) : endX.interpretFloat(sprite);
+			endXInterpretation = endX == null ? Float.valueOf(0f) : endX.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0f;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 
 		try {
-			endYInterpretation = endY == null ? Float.valueOf(0f) : endY.interpretFloat(sprite);
+			endYInterpretation = endY == null ? Float.valueOf(0f) : endY.interpretFloat(scope);
 		} catch (InterpretationException interpretationException) {
 			durationInterpretation = 0f;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -81,8 +82,8 @@ public class GlideToAction extends TemporalAction {
 		}
 		restart = false;
 
-		startX = sprite.look.getXInUserInterfaceDimensionUnit();
-		startY = sprite.look.getYInUserInterfaceDimensionUnit();
+		startX = scope.getSprite().look.getXInUserInterfaceDimensionUnit();
+		startY = scope.getSprite().look.getYInUserInterfaceDimensionUnit();
 		currentX = startX;
 		currentY = startY;
 		if (startX == endXInterpretation && startY == endYInterpretation) {
@@ -92,8 +93,8 @@ public class GlideToAction extends TemporalAction {
 
 	@Override
 	protected void update(float percent) {
-		float deltaX = sprite.look.getXInUserInterfaceDimensionUnit() - currentX;
-		float deltaY = sprite.look.getYInUserInterfaceDimensionUnit() - currentY;
+		float deltaX = scope.getSprite().look.getXInUserInterfaceDimensionUnit() - currentX;
+		float deltaY = scope.getSprite().look.getYInUserInterfaceDimensionUnit() - currentY;
 		if ((-0.1f > deltaX || deltaX > 0.1f) || (-0.1f > deltaY || deltaY > 0.1f)) {
 			restart = true;
 			setDuration(getDuration() - getTime());
@@ -101,7 +102,7 @@ public class GlideToAction extends TemporalAction {
 		} else {
 			currentX = startX + (endXValue - startX) * percent;
 			currentY = startY + (endYValue - startY) * percent;
-			sprite.look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
+			scope.getSprite().look.setPositionInUserInterfaceDimensionUnit(currentX, currentY);
 		}
 	}
 
@@ -114,7 +115,7 @@ public class GlideToAction extends TemporalAction {
 		endY = y;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

@@ -45,7 +45,7 @@ class BackgroundRequestBrick constructor() : FormulaBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createLookRequestAction(
-                ProjectManager.getInstance().currentlyPlayingScene.backgroundSprite,
+                ProjectManager.getInstance().currentlyPlayingScene.backgroundSprite, sequence,
                 getFormulaWithBrickField(BrickField.BACKGROUND_REQUEST)
             )
         )

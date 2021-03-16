@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
@@ -57,7 +58,7 @@ public class SetSizeToActionTest {
 		assertEquals(1f, sprite.look.getScaleX());
 		assertEquals(1f, sprite.look.getScaleY());
 
-		sprite.getActionFactory().createSetSizeToAction(sprite, size).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), size).act(1.0f);
 		assertEquals(SIZE / 100, sprite.look.getScaleX());
 		assertEquals(SIZE / 100, sprite.look.getScaleY());
 	}
@@ -67,39 +68,38 @@ public class SetSizeToActionTest {
 		float initialSize = sprite.look.getSizeInUserInterfaceDimensionUnit();
 		assertEquals(100f, initialSize);
 
-		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(-10)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), new Formula(-10)).act(1.0f);
 		assertEquals(0f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createSetSizeToAction(null, size);
-		exception.expect(NullPointerException.class);
+		Action action = factory.createSetSizeToAction(null, new SequenceAction(), size);
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(String.valueOf(SIZE))).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), new Formula(String.valueOf(SIZE))).act(1.0f);
 		assertEquals(SIZE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(SIZE, sprite.look.getSizeInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createSetSizeToAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createSetSizeToAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createSetSizeToAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createSetSizeToAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(100f, sprite.look.getSizeInUserInterfaceDimensionUnit());
 	}
 }

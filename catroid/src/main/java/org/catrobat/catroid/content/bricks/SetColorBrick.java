@@ -53,6 +53,6 @@ public class SetColorBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetColorAction(sprite, getFormulaWithBrickField(BrickField.COLOR)));
+				.createSetColorAction(sprite, sequence, getFormulaWithBrickField(BrickField.COLOR)));
 	}
 }

@@ -22,8 +22,11 @@
  */
 package org.catrobat.catroid.test.formulaeditor;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
@@ -53,7 +56,7 @@ public class LookSensorValuesInterpretationTest {
 	private static final float LOOK_SCALE = 90.3f;
 	private static final float LOOK_ROTATION = 30.7f;
 	private static final float DELTA = 0.01f;
-	private Sprite testSprite;
+	private Scope testScope;
 
 	@Before
 	public void setUp() {
@@ -62,7 +65,7 @@ public class LookSensorValuesInterpretationTest {
 		ProjectManager.getInstance().setCurrentProject(project);
 		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
 
-		testSprite = new Sprite("sprite");
+		Sprite testSprite = new Sprite("sprite");
 		testSprite.look.setXInUserInterfaceDimensionUnit(LOOK_X_POSITION);
 		testSprite.look.setYInUserInterfaceDimensionUnit(LOOK_Y_POSITION);
 		testSprite.look.setTransparencyInUserInterfaceDimensionUnit(LOOK_ALPHA);
@@ -71,43 +74,45 @@ public class LookSensorValuesInterpretationTest {
 		testSprite.look.setDirectionInUserInterfaceDimensionUnit(LOOK_ROTATION);
 
 		project.getDefaultScene().addSprite(testSprite);
+
+		testScope = new Scope(project, testSprite, new SequenceAction());
 	}
 
 	public Formula getFormulaBySensor(Sensors sensor) {
 		List<InternToken> internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.SENSOR, sensor.name()));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(testScope);
 		return new Formula(parseTree);
 	}
 
 	@Test
 	public void testLookSensorValues() throws InterpretationException {
 		Formula lookXPositionFormula = getFormulaBySensor(Sensors.OBJECT_X);
-		assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testSprite), DELTA);
+		assertEquals(LOOK_X_POSITION, lookXPositionFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookYPositionFormula = getFormulaBySensor(Sensors.OBJECT_Y);
-		assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testSprite), DELTA);
+		assertEquals(LOOK_Y_POSITION, lookYPositionFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookAlphaValueFormula = getFormulaBySensor(Sensors.OBJECT_TRANSPARENCY);
-		assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testSprite), DELTA);
+		assertEquals(LOOK_ALPHA, lookAlphaValueFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookBrightnessFormula = getFormulaBySensor(Sensors.OBJECT_BRIGHTNESS);
-		assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testSprite), DELTA);
+		assertEquals(LOOK_BRIGHTNESS, lookBrightnessFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookScaleFormula = getFormulaBySensor(Sensors.OBJECT_SIZE);
-		assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testSprite), DELTA);
+		assertEquals(LOOK_SCALE, lookScaleFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookRotateFormula = getFormulaBySensor(Sensors.OBJECT_ROTATION);
-		assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testSprite), DELTA);
+		assertEquals(LOOK_ROTATION, lookRotateFormula.interpretDouble(testScope), DELTA);
 
 		Formula lookZPositionFormula = getFormulaBySensor(Sensors.OBJECT_LAYER);
-		assertEquals(1.0, lookZPositionFormula.interpretDouble(testSprite));
+		assertEquals(1.0, lookZPositionFormula.interpretDouble(testScope));
 	}
 
 	@Test
 	public void testNotExistingLookSensorValues() {
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0);
-		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingLookSensor", 0);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "", 0, testScope);
+		FormulaEditorTestUtil.testSingleTokenError(InternTokenType.SENSOR, "notExistingLookSensor", 0, testScope);
 	}
 }

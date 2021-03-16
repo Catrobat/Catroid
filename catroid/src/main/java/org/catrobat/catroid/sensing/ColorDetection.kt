@@ -44,16 +44,15 @@ import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.common.ScreenModes
 import org.catrobat.catroid.content.Look
 import org.catrobat.catroid.content.Project
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.StageListener
 
 abstract class ColorDetection(
-    protected val sprite: Sprite,
-    protected val currentProject: Project,
-    protected val stageListener: StageListener
+    protected open val scope: Scope,
+    protected open val stageListener: StageListener
 ) {
-    protected val look = sprite.look
+    protected open val look = scope.sprite.look
     protected var bufferWidth = 0
     protected var bufferHeight = 0
     protected var cameraBitmap: Bitmap? = null

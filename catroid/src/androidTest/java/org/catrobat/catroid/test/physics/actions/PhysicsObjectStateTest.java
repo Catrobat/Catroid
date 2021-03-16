@@ -24,9 +24,9 @@
 package org.catrobat.catroid.test.physics.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.actions.GlideToPhysicsAction;
 import org.catrobat.catroid.content.actions.SetTransparencyAction;
 import org.catrobat.catroid.content.actions.SetVisibleAction;
 import org.catrobat.catroid.content.actions.SetXAction;
@@ -218,25 +218,23 @@ public class PhysicsObjectStateTest {
 	}
 
 	private void setX(float value) {
-		SetXAction setXAction = new SetXAction();
-		setXAction.setSprite(sprite);
-		setXAction.setX(new Formula(value));
+		SetXAction setXAction = (SetXAction) sprite.getActionFactory().createSetXAction(sprite,
+				new SequenceAction(), new Formula(value));
 		setXAction.act(1.0f);
 		sprite.look.getX();
 	}
 
 	private void setY(float value) {
-		SetYAction setYAction = new SetYAction();
-		setYAction.setSprite(sprite);
-		setYAction.setY(new Formula(value));
+		SetYAction setYAction = (SetYAction) sprite.getActionFactory().createSetYAction(sprite,
+				new SequenceAction(), new Formula(value));
 		setYAction.act(1.0f);
 		sprite.look.getY();
 	}
 
 	private void transparency(int percent) {
-		SetTransparencyAction ghostEffectAction = new SetTransparencyAction();
-		ghostEffectAction.setSprite(sprite);
-		ghostEffectAction.setTransparency(new Formula(percent));
+		SetTransparencyAction ghostEffectAction = (SetTransparencyAction) sprite.getActionFactory()
+										.createSetTransparencyAction(sprite, new SequenceAction(),
+												new Formula(percent));
 		ghostEffectAction.act(1.0f);
 	}
 
@@ -256,12 +254,7 @@ public class PhysicsObjectStateTest {
 	}
 
 	private Action glideTo(Formula x, Formula y) {
-		GlideToPhysicsAction glideToPhysicsAction = new GlideToPhysicsAction();
-		glideToPhysicsAction.setSprite(sprite);
-		glideToPhysicsAction.setPhysicsLook((PhysicsLook) sprite.look);
-		glideToPhysicsAction.setPosition(x, y);
-		glideToPhysicsAction.setDuration(2.0f);
-		glideToPhysicsAction.act(1.0f);
-		return glideToPhysicsAction;
+		return sprite.getActionFactory().createGlideToPhysicsAction(sprite, (PhysicsLook) sprite.look,
+				new SequenceAction(), x, y, 2.0f, 1.0f);
 	}
 }

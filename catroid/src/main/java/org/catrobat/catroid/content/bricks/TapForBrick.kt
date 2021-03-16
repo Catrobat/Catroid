@@ -59,7 +59,7 @@ class TapForBrick() : VisualPlacementBrick() {
     ) {
         sequence.addAction(
             sprite.actionFactory.createTapForAction(
-                sprite,
+                sprite, sequence,
                 getFormulaWithBrickField(BrickField.X_POSITION),
                 getFormulaWithBrickField(BrickField.Y_POSITION),
                 getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)
