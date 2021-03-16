@@ -30,7 +30,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
