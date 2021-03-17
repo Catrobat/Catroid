@@ -30,7 +30,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
@@ -206,7 +205,7 @@ public class BrickCategoryFragment extends ListFragment {
 		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 		categories.add(inflater.inflate(R.layout.brick_category_device, null));
-		if (!onlyBeginnerBricks() && BuildConfig.FEATURE_USERBRICKS_ENABLED) {
+		if (!onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
 		}
 		if (SettingsFragment.isTestSharedPreferenceEnabled(getActivity())) {
