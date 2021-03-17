@@ -54,26 +54,13 @@ public final class SnackbarUtil {
 		final String messageId = activity.getResources().getResourceName(resourceId);
 
 		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
-			View contentView = activity.findViewById(android.R.id.content);
-			if (contentView == null) {
-				return;
-			}
-
-			Snackbar snackbar = Snackbar.make(contentView, resourceId, Snackbar.LENGTH_INDEFINITE);
-			snackbar.setAction(R.string.got_it, new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setHintShown(activity, messageId);
-				}
-			});
-			snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
-			View snackbarView = snackbar.getView();
-			TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-			textView.setMaxLines(MAX_LINES);
-			textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
-			snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));
-			snackbar.show();
+			display(activity, resourceId, messageId);
 		}
+	}
+
+	public static void showErrorSnackbar(final Activity activity, @StringRes int resourceId) {
+		final String messageId = activity.getResources().getResourceName(resourceId);
+		display(activity, resourceId, messageId);
 	}
 
 	public static void setHintShown(Activity activity, String messageId) {
@@ -96,5 +83,27 @@ public final class SnackbarUtil {
 	private static Set<String> getStringSetFromSharedPreferences(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return new HashSet<>(prefs.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
+	}
+
+	private static void display(final Activity activity, @StringRes int resourceId, String messageId) {
+		View contentView = activity.findViewById(android.R.id.content);
+		if (contentView == null) {
+			return;
+		}
+
+		Snackbar snackbar = Snackbar.make(contentView, resourceId, Snackbar.LENGTH_INDEFINITE);
+		snackbar.setAction(R.string.got_it, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setHintShown(activity, messageId);
+			}
+		});
+		snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
+		View snackbarView = snackbar.getView();
+		TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+		textView.setMaxLines(MAX_LINES);
+		textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
+		snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));
+		snackbar.show();
 	}
 }

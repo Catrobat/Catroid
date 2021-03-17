@@ -54,6 +54,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
@@ -154,10 +155,14 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				handleAddSceneButton();
 				break;
 			case R.id.upload:
-				setShowProgressBar(true);
 				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
-				Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+				if (Utils.isDefaultProject(currentProject, this)) {
+					SnackbarUtil.showErrorSnackbar(this, R.string.error_upload_default_project);
+				} else {
+					setShowProgressBar(true);
+					new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
+					Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+				}
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
