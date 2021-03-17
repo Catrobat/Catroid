@@ -59,6 +59,7 @@ import androidx.test.rule.GrantPermissionRule;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
 import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.hamcrest.Matchers.allOf;
@@ -146,7 +147,7 @@ public class PlaySoundBrickTest {
 				.perform(click());
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(R.string.soundrecorder_recorded_filename);
+				.checkShowsText(getResourcesString(R.string.soundrecorder_recorded_filename) + " (1)");
 		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 	}

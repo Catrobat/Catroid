@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -153,9 +154,15 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	private void showNewGroupDialog() {
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(getContext());
-
+		List<Sprite> groups = adapter.getItems();
+		List<String> groupNames = new ArrayList<>();
+		for (Sprite sprite: groups) {
+			groupNames.add(sprite.getName());
+		}
+		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
 		builder.setHint(getString(R.string.sprite_group_name_label))
 				.setTextWatcher(new DuplicateInputTextWatcher<>(adapter.getItems()))
+				.setText(uniqueNameProvider.getUniqueName(getString(R.string.default_group_name), groupNames))
 				.setPositiveButton(getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {

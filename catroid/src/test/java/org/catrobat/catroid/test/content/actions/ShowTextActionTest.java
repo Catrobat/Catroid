@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
@@ -79,10 +80,11 @@ public class ShowTextActionTest {
 	@Test
 	public void testShowVariablesVisibilitySameVariableNameAcrossSprites() {
 		ActionFactory factory = sprite.getActionFactory();
-		Action firstSpriteAction = factory.createShowVariableAction(sprite, new Formula(0), new Formula(0),
+		Action firstSpriteAction = factory.createShowVariableAction(sprite, new SequenceAction(),
+				new Formula(0), new Formula(0),
 				var0);
 		factory = secondSprite.getActionFactory();
-		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new Formula(0), new Formula(0),
+		Action secondSpriteAction = factory.createShowVariableAction(secondSprite, new SequenceAction(), new Formula(0), new Formula(0),
 				var1);
 		firstSpriteAction.act(1.0f);
 		ProjectManager.getInstance().setCurrentSprite(secondSprite);

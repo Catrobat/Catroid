@@ -152,7 +152,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		if (userDefinedBrick == null) {
 			return null;
 		}
-		for (Brick brick: userDefinedBrickList) {
+		for (Brick brick : userDefinedBrickList) {
 			if (((UserDefinedBrick) brick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
 				return (UserDefinedBrick) brick;
 			}
@@ -410,7 +410,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return convertedSprite;
 	}
 
-	private ScriptSequenceAction createSequenceAction(Script script) {
+	public ScriptSequenceAction createSequenceAction(Script script) {
 		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
 		if (!script.getClass().equals(UserDefinedScript.class)) {
 			script.run(this, sequence);
@@ -636,5 +636,42 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			}
 		}
 		usedTouchPointer.clear();
+	}
+
+	public Brick findBrickInSprite(UUID brickId) {
+		for (Script script : scriptList) {
+			if (script.getScriptId().equals(brickId)) {
+				return script.getScriptBrick();
+			}
+		}
+
+		List<UUID> brickIdList = new ArrayList<>();
+		brickIdList.add(brickId);
+		for (Script script : scriptList) {
+			List<Brick> foundBricks = script.findBricksInScript(brickIdList);
+			if (foundBricks != null && !foundBricks.isEmpty()) {
+				return foundBricks.get(0);
+			}
+		}
+
+		return null;
+	}
+
+	public List<UUID> removeAllEmptyScriptBricks() {
+		List<UUID> idsToRemove = new ArrayList<>();
+		List<Script> scriptsToRemove = new ArrayList<>();
+
+		for (Script script : scriptList) {
+			if (script instanceof EmptyScript && (script.brickList == null || script.brickList.isEmpty())) {
+				scriptsToRemove.add(script);
+				idsToRemove.add(script.getScriptId());
+			}
+		}
+
+		for (Script toRemove : scriptsToRemove) {
+			scriptList.remove(toRemove);
+		}
+
+		return idsToRemove;
 	}
 }

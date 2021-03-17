@@ -35,6 +35,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -59,6 +61,7 @@ import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.fragment.CatblocksScriptFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ListSelectorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.LookListFragment;
@@ -148,6 +151,7 @@ public class SpriteActivity extends BaseActivity {
 	private Scene currentScene;
 	private Menu currentMenu;
 	private LookData currentLookData;
+	private String generatedVariableName;
 
 	private boolean isUndoMenuItemVisible = false;
 
@@ -572,6 +576,10 @@ public class SpriteActivity extends BaseActivity {
 			((ScriptFragment) getCurrentFragment()).handleAddButton();
 			return;
 		}
+		if (getCurrentFragment() instanceof CatblocksScriptFragment) {
+			((CatblocksScriptFragment) getCurrentFragment()).handleAddButton();
+			return;
+		}
 		if (getCurrentFragment() instanceof DataListFragment) {
 			handleAddUserDataButton();
 			return;
@@ -769,9 +777,12 @@ public class SpriteActivity extends BaseActivity {
 		lists.addAll(currentSprite.getUserLists());
 
 		DuplicateInputTextWatcher<UserData> textWatcher = new DuplicateInputTextWatcher(variables);
-
-		TextInputDialog.Builder builder = new TextInputDialog.Builder(this)
-				.setTextWatcher(textWatcher)
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
+		UniqueNameProvider uniqueVariableNameProvider = builder.createUniqueNameProvider(R.string.default_variable_name);
+		UniqueNameProvider uniqueListNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
+		generatedVariableName = uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name), null);
+		builder.setTextWatcher(textWatcher)
+				.setText(generatedVariableName)
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					boolean addToProjectUserData = addToProjectUserDataRadioButton.isChecked();
 					boolean addToMultiplayerData = multiplayerRadioButton.isChecked();
@@ -805,12 +816,25 @@ public class SpriteActivity extends BaseActivity {
 				.create();
 
 		makeListCheckBox.setOnCheckedChangeListener((compoundButton, checked) -> {
+			TextInputEditText textInputEditText = alertDialog.findViewById(R.id.input_edit_text);
+			String currentName = textInputEditText.getText().toString();
 			if (checked) {
 				alertDialog.setTitle(getString(R.string.formula_editor_list_dialog_title));
 				textWatcher.setOriginalScope(lists);
+				if (currentName.equals(generatedVariableName)) {
+					generatedVariableName = uniqueListNameProvider.getUniqueName(getString(R.string.default_list_name),
+							null);
+					textInputEditText.setText(generatedVariableName);
+				}
 			} else {
 				alertDialog.setTitle(getString(R.string.formula_editor_variable_dialog_title));
 				textWatcher.setOriginalScope(variables);
+				if (currentName.equals(generatedVariableName)) {
+					generatedVariableName =
+							uniqueVariableNameProvider.getUniqueName(getString(R.string.default_variable_name),
+							null);
+					textInputEditText.setText(generatedVariableName);
+				}
 			}
 			multiplayerRadioButton.setEnabled(!checked);
 		});

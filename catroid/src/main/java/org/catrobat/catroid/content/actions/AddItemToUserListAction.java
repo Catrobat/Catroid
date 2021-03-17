@@ -24,13 +24,13 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserList;
 
 public class AddItemToUserListAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula formulaItemToAdd;
 	private UserList userList;
 
@@ -39,7 +39,8 @@ public class AddItemToUserListAction extends TemporalAction {
 		if (userList == null) {
 			return;
 		}
-		Object value = formulaItemToAdd == null ? Double.valueOf(0d) : formulaItemToAdd.interpretObject(sprite);
+		Object value = formulaItemToAdd == null ? Double.valueOf(0d)
+				: formulaItemToAdd.interpretObject(scope);
 		userList.addListItem(value);
 	}
 
@@ -51,7 +52,7 @@ public class AddItemToUserListAction extends TemporalAction {
 		this.formulaItemToAdd = changeVariable;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

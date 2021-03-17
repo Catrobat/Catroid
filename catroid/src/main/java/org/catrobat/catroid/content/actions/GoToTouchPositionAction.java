@@ -35,8 +35,9 @@ public class GoToTouchPositionAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		int touchIndex = TouchUtil.getLastTouchIndex();
-		sprite.look.setXInUserInterfaceDimensionUnit(TouchUtil.getX(touchIndex));
-		sprite.look.setYInUserInterfaceDimensionUnit(TouchUtil.getY(touchIndex));
+		float x = TouchUtil.getX(touchIndex);
+		float y = TouchUtil.getY(touchIndex);
+		sprite.look.setPositionInUserInterfaceDimensionUnit(x, y);
 	}
 
 	public void setSprite(Sprite sprite) {

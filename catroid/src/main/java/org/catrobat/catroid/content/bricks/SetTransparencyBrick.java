@@ -52,6 +52,7 @@ public class SetTransparencyBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetTransparencyAction(sprite, getFormulaWithBrickField(BrickField.TRANSPARENCY)));
+				.createSetTransparencyAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.TRANSPARENCY)));
 	}
 }

@@ -24,14 +24,14 @@
 package org.catrobat.catroid.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.Action
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.io.XstreamSerializer
 import org.catrobat.catroid.stage.StageActivity
 
 abstract class PocketPaintAction : Action(), StageActivity.IntentListener {
     var formula: Formula? = null
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     protected var responseReceived = false
     protected var questionAsked = false
     protected var nextLookAction: SetNextLookAction? = null

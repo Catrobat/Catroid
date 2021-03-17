@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import junit.framework.Assert
 import org.catrobat.catroid.ProjectManager
@@ -48,6 +49,7 @@ import java.io.File
 @PrepareForTest(StorageOperations::class, XstreamSerializer::class, GdxNativesLoader::class)
 class CopyLookActionTest {
     private lateinit var projectMock: Project
+    private lateinit var testSequence: SequenceAction
     private val xstreamSerializerMock = PowerMockito.mock(XstreamSerializer::class.java)
     private val lookDataFile = mock(File::class.java)
     private val lookDataFileCopy = mock(File::class.java)
@@ -59,6 +61,7 @@ class CopyLookActionTest {
         projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
+        testSequence = SequenceAction()
         PowerMockito.mockStatic(StorageOperations::class.java)
         PowerMockito.mockStatic(XstreamSerializer::class.java)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
@@ -71,8 +74,9 @@ class CopyLookActionTest {
     @Test
     fun testWithEmptyLookList() {
         with(Sprite()) {
-            val setNewLookAction = actionFactory.createSetNextLookAction(this)
-            actionFactory.createCopyLookAction(this, formulaName, setNewLookAction as SetNextLookAction).act(1f)
+            val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
+            actionFactory.createCopyLookAction(this, testSequence, formulaName, setNewLookAction as
+                SetNextLookAction).act(1f)
             Assert.assertNull(look.lookData)
         }
     }
@@ -82,8 +86,9 @@ class CopyLookActionTest {
         with(Sprite()) {
             lookList.add(lookData)
             look.lookData = lookData
-            val setNewLookAction = actionFactory.createSetNextLookAction(this)
-            actionFactory.createCopyLookAction(this, formulaName, setNewLookAction as SetNextLookAction).act(1f)
+            val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
+            actionFactory.createCopyLookAction(this, testSequence, formulaName, setNewLookAction as
+                SetNextLookAction).act(1f)
             org.junit.Assert.assertEquals(lookDataFileCopy, this.lookList[1].file)
         }
     }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -116,6 +116,8 @@ public class PocketPaintNewSpriteIntentTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testAddNewSprite() {
+		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name) + " (1)";
+
 		onView(withId(R.id.button_add))
 				.perform(click());
 
@@ -124,16 +126,14 @@ public class PocketPaintNewSpriteIntentTest {
 
 		intended(expectedIntent);
 
-		onView(withText(R.string.default_sprite_name))
+		onView(withText(newSpriteName))
 				.check(matches(isDisplayed()));
 
 		onView(Matchers.allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
 
 		onRecyclerView().atPosition(1).onChildView(R.id.title_view)
-				.check(matches(withText(R.string.default_sprite_name)));
-
-		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name);
+				.check(matches(withText(newSpriteName)));
 		Sprite newSprite = ProjectManager.getInstance().getCurrentlyEditedScene().getSprite(newSpriteName);
 
 		assertEquals(newSpriteName, newSprite.getLookList().get(0).getName());

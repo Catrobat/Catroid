@@ -27,7 +27,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -39,7 +39,7 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 
 	private Formula pinNumber;
 	private Formula pinValue;
-	private Sprite sprite;
+	private Scope scope;
 	private int pin;
 	private boolean value;
 
@@ -49,7 +49,8 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 		boolean pinValueInterpretation;
 
 		try {
-			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
+			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0)
+					: pinNumber.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed.",
@@ -57,7 +58,7 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 		}
 
 		try {
-			pinValueInterpretation = pinValue != null && pinValue.interpretBoolean(sprite);
+			pinValueInterpretation = pinValue != null && pinValue.interpretBoolean(scope);
 		} catch (InterpretationException interpretationException) {
 			pinValueInterpretation = false;
 			Log.d(TAG, "Formula interpretation for this specific Brick failed.",
@@ -79,8 +80,8 @@ public class RaspiSendDigitalValueAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPinNumber(Formula newPinNumber) {

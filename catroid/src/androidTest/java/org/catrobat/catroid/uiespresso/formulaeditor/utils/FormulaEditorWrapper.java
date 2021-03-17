@@ -102,7 +102,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
+				.perform(clearText(), typeText(UiTestUtils.getResourcesString(stringResourceId)));
 		onView(withText(R.string.ok))
 				.perform(click());
 		return new FormulaEditorWrapper();

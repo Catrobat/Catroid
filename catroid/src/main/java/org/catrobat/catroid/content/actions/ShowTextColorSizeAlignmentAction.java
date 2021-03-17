@@ -29,7 +29,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -45,31 +45,31 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 	private Formula relativeTextSize;
 	private Formula color;
 	private UserVariable variableToShow;
-	private Sprite sprite;
+	private Scope scope;
 	private int alignment;
 	private ShowTextActor actor;
 
 	@Override
 	protected void begin() {
 		try {
-			int xPosition = this.xPosition.interpretInteger(sprite);
-			int yPosition = this.yPosition.interpretInteger(sprite);
-			float relativeTextSize = this.relativeTextSize.interpretFloat(sprite) / 100;
-			String color = this.color.interpretString(sprite);
+			int xPosition = this.xPosition.interpretInteger(scope);
+			int yPosition = this.yPosition.interpretInteger(scope);
+			float relativeTextSize = this.relativeTextSize.interpretFloat(scope) / 100;
+			String color = this.color.interpretString(scope);
 			if (StageActivity.stageListener != null) {
 				Array<Actor> stageActors = StageActivity.stageListener.getStage().getActors();
 				ShowTextActor dummyActor = new ShowTextActor(new UserVariable("dummyActor"), 0,
-						0, relativeTextSize, color, sprite, alignment);
+						0, relativeTextSize, color, scope.getSprite(), alignment);
 				for (Actor actor : stageActors) {
 					if (actor.getClass().equals(dummyActor.getClass())) {
 						ShowTextActor showTextActor = (ShowTextActor) actor;
 						if (showTextActor.getVariableNameToCompare().equals(variableToShow.getName())
-								&& showTextActor.getSprite().equals(sprite)) {
+								&& showTextActor.getSprite().equals(scope.getSprite())) {
 							actor.remove();
 						}
 					}
 				}
-				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize, color, sprite, alignment);
+				actor = new ShowTextActor(variableToShow, xPosition, yPosition, relativeTextSize, color, scope.getSprite(), alignment);
 			}
 			if (relativeTextSize <= 0.f) {
 				variableToShow.setVisible(false);
@@ -85,8 +85,8 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			int xPosition = this.xPosition.interpretInteger(sprite);
-			int yPosition = this.yPosition.interpretInteger(sprite);
+			int xPosition = this.xPosition.interpretInteger(scope);
+			int yPosition = this.yPosition.interpretInteger(scope);
 
 			if (actor != null) {
 				actor.setPositionX(xPosition);
@@ -110,8 +110,8 @@ public class ShowTextColorSizeAlignmentAction extends TemporalAction {
 		this.color = color;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setVariableToShow(UserVariable userVariable) {

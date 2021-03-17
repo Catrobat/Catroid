@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,15 @@
 
 package org.catrobat.catroid.content.actions
 
-import org.catrobat.catroid.content.Sprite
+import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 
-abstract class SpriteEventAction : EventAction() {
-    override val receivingSprites by lazy {
-        sprite?.let { listOf(it) } ?: listOf()
+abstract class LoopAction : RepeatAction() {
+    var isLoopDelay = true
+    protected open var currentTime = 0f
+
+    protected fun isLoopDelayNeeded(): Boolean = currentTime < LOOP_DELAY && isLoopDelay
+
+    companion object {
+        private const val LOOP_DELAY = 0.02f
     }
-    var sprite: Sprite? = null
 }

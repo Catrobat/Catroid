@@ -44,13 +44,13 @@ public class UniqueNameProviderTest {
 
 	@Test
 	public void testNewName() {
-		assertEquals("Lion",
+		assertEquals("Lion (1)",
 				uniqueNameProvider.getUniqueName("Lion", Lists.newArrayList("Zebra", "Giraffe")));
 	}
 
 	@Test
 	public void testNewNameWithEmptyScope() {
-		assertEquals("Object",
+		assertEquals("Object (1)",
 				uniqueNameProvider.getUniqueName("Object", new ArrayList<String>()));
 	}
 

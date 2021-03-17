@@ -35,12 +35,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.IntDef;
 
 public interface Brick extends Serializable, Cloneable {
 
-	interface FormulaField extends Serializable{ }
+	interface FormulaField extends Serializable {
+	}
 
 	enum BrickField implements FormulaField {
 		COLOR, COLOR_CHANGE, BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE,
@@ -56,7 +58,7 @@ public interface Brick extends Serializable, Cloneable {
 		IF_CONDITION, TIMES_TO_REPEAT, FOR_LOOP_FROM, FOR_LOOP_TO, VIBRATE_DURATION_IN_SECONDS,
 		USER_BRICK, NOTE, SPEAK, SHOWTEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION,
 		ASK_QUESTION, NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION, LOOK_INDEX, BACKGROUND_INDEX,
-		BACKGROUND_WAIT_INDEX,
+		BACKGROUND_WAIT_INDEX, REPORT_BRICK,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
@@ -204,4 +206,10 @@ public interface Brick extends Serializable, Cloneable {
 	boolean hasHelpPage();
 
 	String getHelpUrl(String category);
+
+	UUID getBrickID();
+
+	List<Brick> findBricksInNestedBricks(List<UUID> brickIds);
+
+	boolean addBrickInNestedBrick(UUID parentBrickId, int subStackIndex, List<Brick> bricksToAdd);
 }

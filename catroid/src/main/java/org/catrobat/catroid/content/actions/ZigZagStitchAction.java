@@ -27,14 +27,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.embroidery.ZigZagRunningStitch;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class ZigZagStitchAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula length;
 	private Formula width;
 
@@ -44,7 +44,7 @@ public class ZigZagStitchAction extends TemporalAction {
 		float heightInterpretation = 0;
 		try {
 			if (length != null) {
-				lengthInterpretation = length.interpretFloat(sprite);
+				lengthInterpretation = length.interpretFloat(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			lengthInterpretation = 0;
@@ -52,18 +52,18 @@ public class ZigZagStitchAction extends TemporalAction {
 		}
 		try {
 			if (width != null) {
-				heightInterpretation = width.interpretFloat(sprite);
+				heightInterpretation = width.interpretFloat(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			heightInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
-		this.sprite.runningStitch.activateStitching(sprite, new ZigZagRunningStitch(sprite,
+		this.scope.getSprite().runningStitch.activateStitching(scope.getSprite(), new ZigZagRunningStitch(scope.getSprite(),
 				lengthInterpretation, heightInterpretation));
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setLength(Formula length) {

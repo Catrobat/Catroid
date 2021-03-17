@@ -29,6 +29,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,6 +137,7 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction foreverSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -143,7 +145,7 @@ public class ForeverBrick extends BrickBaseType implements CompositeBrick {
 			}
 		}
 
-		Action action = sprite.getActionFactory().createForeverAction(sprite, foreverSequence);
+		Action action = sprite.getActionFactory().createForeverAction(sprite, sequence, foreverSequence, isLoopDelay);
 
 		sequence.addAction(action);
 	}

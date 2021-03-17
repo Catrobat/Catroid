@@ -32,6 +32,7 @@ import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.utils.LoopUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -166,6 +167,7 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		}
 
 		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -174,9 +176,9 @@ public class ForVariableFromToBrick extends UserVariableBrickWithFormula impleme
 		}
 
 		Action action = sprite.getActionFactory()
-				.createForVariableFromToAction(sprite, userVariable,
+				.createForVariableFromToAction(sprite, sequence, userVariable,
 						getFormulaWithBrickField(BrickField.FOR_LOOP_FROM),
-						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence);
+						getFormulaWithBrickField(BrickField.FOR_LOOP_TO), repeatSequence, isLoopDelay);
 
 		sequence.addAction(action);
 	}

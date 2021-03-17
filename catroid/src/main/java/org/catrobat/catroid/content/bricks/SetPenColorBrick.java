@@ -93,7 +93,7 @@ public class SetPenColorBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetPenColorAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createSetPenColorAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.PEN_COLOR_RED),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_GREEN),
 				getFormulaWithBrickField(BrickField.PEN_COLOR_BLUE)));

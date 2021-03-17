@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.actions;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -114,7 +116,8 @@ public class WaitForSoundActionTest {
 		when(soundManager.getRecentlyStoppedSoundfilePaths()).thenReturn(pathSet);
 		when(soundManager.getDurationOfSoundFile(anyString())).thenReturn(SOUND_DURATION * 1000);
 		action = (WaitForSoundAction) (new ActionFactory()).createWaitForSoundAction(
-				project.getDefaultScene().getBackgroundSprite(), new Formula(SOUND_DURATION),
+				project.getDefaultScene().getBackgroundSprite(), new SequenceAction(),
+				new Formula(SOUND_DURATION),
 				PATH_TO_SOUND_FILE);
 		action.setSoundManager(soundManager);
 	}

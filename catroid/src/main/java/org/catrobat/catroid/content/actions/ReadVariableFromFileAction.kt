@@ -26,7 +26,7 @@ import android.util.Log
 import androidx.annotation.VisibleForTesting
 import com.badlogic.gdx.scenes.scene2d.Action
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.utils.Utils
@@ -34,7 +34,7 @@ import java.io.File
 import java.io.IOException
 
 class ReadVariableFromFileAction : Action() {
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var formula: Formula? = null
     var userVariable: UserVariable? = null
     var deleteFile: Boolean = false
@@ -44,7 +44,7 @@ class ReadVariableFromFileAction : Action() {
             return true
         }
 
-        var fileName = Utils.sanitizeFileName(formula!!.interpretString(sprite))
+        var fileName = Utils.sanitizeFileName(formula!!.interpretString(scope))
         if (!fileName.contains(Regex("\\.\\w+$"))) {
             fileName += ".txt"
         }

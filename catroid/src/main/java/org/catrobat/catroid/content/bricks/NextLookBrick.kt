@@ -43,6 +43,6 @@ class NextLookBrick : BrickBaseType() {
     }
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        sequence.addAction(sprite.actionFactory.createSetNextLookAction(sprite))
+        sequence.addAction(sprite.actionFactory.createSetNextLookAction(sprite, sequence))
     }
 }

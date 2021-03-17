@@ -23,22 +23,20 @@
 package org.catrobat.catroid.content.actions
 
 import android.util.Log
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
-class RepeatUntilAction : RepeatAction() {
+class RepeatUntilAction : LoopAction() {
     var executedCount = 0
         private set
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var repeatCondition: Formula? = null
     private var isCurrentLoopInitialized = false
-    private var currentTime = 0f
 
     private fun isValidConditionFormula(): Boolean {
         try {
-            repeatCondition?.interpretDouble(sprite) ?: return false
+            repeatCondition?.interpretDouble(scope) ?: return false
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName, "Formula interpretation for this specific Brick failed.",
@@ -50,7 +48,7 @@ class RepeatUntilAction : RepeatAction() {
     }
 
     private fun isConditionTrue(): Boolean = try {
-        repeatCondition?.interpretDouble(sprite) != 0.0
+        repeatCondition?.interpretDouble(scope) != 0.0
     } catch (interpretationException: InterpretationException) {
         Log.d(
             javaClass.simpleName, "Formula interpretation for this specific Brick failed.",
@@ -71,7 +69,7 @@ class RepeatUntilAction : RepeatAction() {
             isCurrentLoopInitialized = true
         }
         currentTime += delta
-        if (action.act(delta) && currentTime >= LOOP_DELAY) {
+        if (action.act(delta) && !isLoopDelayNeeded()) {
             executedCount++
             if (isConditionTrue()) {
                 return true
@@ -86,9 +84,5 @@ class RepeatUntilAction : RepeatAction() {
         isCurrentLoopInitialized = false
         executedCount = 0
         super.restart()
-    }
-
-    companion object {
-        private const val LOOP_DELAY = 0.02f
     }
 }

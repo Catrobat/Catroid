@@ -161,7 +161,6 @@ android {
         buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
-        buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_WEBREQUEST_BRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
@@ -252,7 +251,6 @@ android {
         release {
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
-            buildConfigField "boolean", "FEATURE_USERBRICKS_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig signingConfigs.debug
@@ -415,6 +413,7 @@ dependencies {
     // ML Kit
     implementation 'com.google.android.gms:play-services-mlkit-face-detection:16.0.0'
     implementation 'com.google.android.gms:play-services-mlkit-text-recognition:16.1.0'
+    implementation 'com.google.mlkit:language-id:16.1.0'
 
     // libGDX
     implementation "com.badlogicgames.gdx:gdx:$gdxVersion"

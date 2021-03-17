@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions
 
 import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Formula
@@ -66,7 +67,8 @@ class RepeatActionTest(
     fun setUp() {
         sprite = Sprite("testSprite")
         innerLoopAction = Mockito.mock(MockAction()::class.java, Mockito.CALLS_REAL_METHODS)
-        repeatAction = sprite.actionFactory.createRepeatAction(sprite, loopCondition, innerLoopAction) as RepeatAction
+        repeatAction = sprite.actionFactory.createRepeatAction(
+            sprite, SequenceAction(), loopCondition, innerLoopAction, true) as RepeatAction
     }
 
     @Test

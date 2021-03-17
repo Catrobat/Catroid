@@ -42,7 +42,7 @@ public class AssertUserListsBrick extends UserDataBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createAssertUserListsAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createAssertUserListsAction(sprite, sequence,
 				getUserListWithBrickData(BrickData.ASSERT_LISTS_ACTUAL),
 				getUserListWithBrickData(BrickData.ASSERT_LISTS_EXPECTED),
 				getPositionInformation()));

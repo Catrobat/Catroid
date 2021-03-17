@@ -48,6 +48,7 @@ public class WaitUntilBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createWaitUntilAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION)));
+				.createWaitUntilAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.IF_CONDITION)));
 	}
 }

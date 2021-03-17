@@ -22,7 +22,6 @@
  */
 package org.catrobat.catroid.content.actions
 
-import com.badlogic.gdx.scenes.scene2d.actions.RepeatAction
 import org.catrobat.catroid.common.ParameterizedData
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.UserList
@@ -30,9 +29,8 @@ import org.catrobat.catroid.formulaeditor.UserVariable
 import org.catrobat.catroid.stage.StageActivity
 import org.catrobat.catroid.stage.TestResult
 
-class RepeatParameterizedAction : RepeatAction() {
+class RepeatParameterizedAction : LoopAction() {
     private var assertTitle = "ParameterizedInitialisationError"
-    private var currentTime = 0f
     private var isCurrentLoopInitialized = false
     var position = ""
     var sprite: Sprite? = null
@@ -58,7 +56,7 @@ class RepeatParameterizedAction : RepeatAction() {
         }
 
         currentTime += delta
-        if (action.act(delta) && currentTime >= loopDelay) {
+        if (action.act(delta) && !isLoopDelayNeeded()) {
             if (parameterizedData?.currentPosition ?: 1 >= parameterizedData?.listSize ?: 0) {
                 return true
             }
@@ -106,8 +104,4 @@ class RepeatParameterizedAction : RepeatAction() {
     } ?: true
 
     private fun formattedPosition(): String = "on sprite ${sprite?.name}\n$position"
-
-    companion object {
-        private const val loopDelay = 0.02f
-    }
 }

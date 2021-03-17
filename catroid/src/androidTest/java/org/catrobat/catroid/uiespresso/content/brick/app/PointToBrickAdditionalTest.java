@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -143,7 +143,7 @@ public class PointToBrickAdditionalTest {
 		onView(withText(R.string.ok))
 				.perform(click());
 
-		String newObjectName = lookFileName.replace(".png", "");
+		String newObjectName = lookFileName.replace(".png", " (1)");
 		List<String> pointToBrickSpinnerValues = new ArrayList<>();
 		pointToBrickSpinnerValues.add(ApplicationProvider.getApplicationContext().getString(R.string.new_option));
 		pointToBrickSpinnerValues.add(newObjectName);
