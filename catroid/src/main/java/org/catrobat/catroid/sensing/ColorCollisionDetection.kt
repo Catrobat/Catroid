@@ -37,10 +37,9 @@ import kotlin.math.sqrt
 private const val MAX_PIXELS = 10_000f
 
 class ColorCollisionDetection(
-    override val scope: Scope,
+    scope: Scope,
     override val stageListener: StageListener
 ) : ColorDetection(scope, stageListener) {
-    override val look: Look = scope.sprite.look
     private val polygons = scope.sprite.look.currentCollisionPolygon
     private val boundingRectangle = polygons.toBoundingRectangle()
     private val scale = calculateBufferScale()
