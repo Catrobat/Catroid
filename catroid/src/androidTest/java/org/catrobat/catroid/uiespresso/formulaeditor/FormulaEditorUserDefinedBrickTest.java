@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,8 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorW
 
 import static java.util.Arrays.asList;
 
+import static androidx.test.espresso.Espresso.pressBack;
+
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorUserDefinedBrickTest {
 
@@ -75,7 +77,8 @@ public class FormulaEditorUserDefinedBrickTest {
 	@Test
 	public void testChangeFormula() throws Throwable {
 		clickOnFormulaField(input.getInputFormulaField());
-		onFormulaEditor().performEnterFormula("1234").performCloseAndSave();
+		onFormulaEditor().performEnterFormula("1234");
+		pressBack();
 		assertEquals("200 ", getValueOfFormulaField(secondInput.getInputFormulaField()));
 		assertEquals("1234 ", getValueOfFormulaField(input.getInputFormulaField()));
 	}
