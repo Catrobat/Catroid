@@ -80,7 +80,7 @@ public class RegularExpressionAssistantDialogTest {
 	private void clickOnAssistantInFunctionList() {
 		String regularExpressionAssistant =
 				"\t\t\t\t\t" + UiTestUtils.getResourcesString(R.string.formula_editor_function_regex_assistant);
-		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS).performSelect(regularExpressionAssistant);
+		onFormulaEditor().performOpenCategory(FormulaEditorWrapper.Category.TEXT).performSelect(regularExpressionAssistant);
 	}
 
 	@Test

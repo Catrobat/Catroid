@@ -33,12 +33,12 @@
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/formula_editor_keyboard_function"
+            android:id="@+id/formula_editor_keyboard_mathematics"
             style="@style/FormulaEditorCategoryButton"
             android:layout_marginStart="@dimen/key_margin"
             android:layout_marginTop="@dimen/key_margin"
             android:layout_span="3"
-            android:text="@string/formula_editor_functions" />
+            android:text="@string/formula_editor_mathematics" />
 
         <Button
             android:id="@+id/formula_editor_keyboard_object"
@@ -51,6 +51,26 @@
 
     <TableRow
         android:id="@+id/tableRow12"
+        android:layout_width="match_parent"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_text"
+            style="@style/FormulaEditorCategoryButton"
+            android:layout_marginStart="@dimen/key_margin"
+            android:layout_span="3"
+            android:text="@string/formula_editor_text"/>
+
+        <Button
+            android:id="@+id/formula_editor_keyboard_list"
+            style="@style/FormulaEditorCategoryButton"
+            android:layout_span="3"
+            android:text="@string/formula_editor_lists"/>
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRow13"
         android:layout_width="match_parent"
         android:layout_weight="1">
 

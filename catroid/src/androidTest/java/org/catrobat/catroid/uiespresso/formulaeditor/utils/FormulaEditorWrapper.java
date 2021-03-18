@@ -152,7 +152,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public void performOpenFunctions() {
-		performOpenCategory(Category.FUNCTIONS);
+		performOpenCategory(Category.MATHEMATICS);
 	}
 
 	public void performUndo() {
@@ -223,9 +223,11 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public static final class Category {
 		public static final Matcher<View> OBJECT = withId(R.id.formula_editor_keyboard_object);
-		public static final Matcher<View> FUNCTIONS = withId(R.id.formula_editor_keyboard_function);
+		public static final Matcher<View> MATHEMATICS = withId(R.id.formula_editor_keyboard_mathematics);
 		public static final Matcher<View> LOGIC = withId(R.id.formula_editor_keyboard_logic);
 		public static final Matcher<View> DEVICE = withId(R.id.formula_editor_keyboard_sensors);
+		public static final Matcher<View> LISTS = withId(R.id.formula_editor_keyboard_list);
+		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_text);
 	}
 
 	public static final class ActionMenu {

@@ -1761,8 +1761,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex" tools:ignore="UnusedResources">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression assistant</string>
     <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
         expression assistant</string>
     <string name="formula_editor_dialog_wiki_button">More information</string>
@@ -1890,15 +1889,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">distance to touch position</string>
     <string name="formula_editor_compute">Compute</string>
     <string name="formula_editor_object">Properties</string>
-    <string name="formula_editor_functions">Functions</string>
+    <string name="formula_editor_mathematics">Mathematics</string>
+    <string name="formula_editor_text">Text</string>
+    <string name="formula_editor_lists">Lists</string>`
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
-    <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Text</string>
-    <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
+    <string name="formula_editor_logic_reporters">Reporters</string>
     <string name="formula_editor_object_general">General properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
     <string name="formula_editor_device_visual_detection">Visual sensors</string>

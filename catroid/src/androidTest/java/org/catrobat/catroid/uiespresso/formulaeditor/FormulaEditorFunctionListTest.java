@@ -85,13 +85,10 @@ public class FormulaEditorFunctionListTest {
 				{R.string.formula_editor_function_floor, R.string.formula_editor_function_floor_parameter, "floor"},
 				{R.string.formula_editor_function_ceil, R.string.formula_editor_function_ceil_parameter, "ceil"},
 				{R.string.formula_editor_function_max, R.string.formula_editor_function_max_parameter, "maximum of"},
-				{R.string.formula_editor_function_min, R.string.formula_editor_function_min_parameter, "minimum of"},
-				{R.string.formula_editor_function_length, R.string.formula_editor_function_length_parameter, "length"},
-				{R.string.formula_editor_function_letter, R.string.formula_editor_function_letter_parameter,
-						"letter"},
-				{R.string.formula_editor_function_join, R.string.formula_editor_function_join_parameter, "join"},
-				{R.string.formula_editor_function_regex, R.string.formula_editor_function_regex_parameter,
-						"regular expression"},
+				{R.string.formula_editor_function_min,
+						R.string.formula_editor_function_min_parameter, "minimum of"},
+				{R.string.formula_editor_function_if_then_else,
+						R.string.formula_editor_function_if_then_else_parameter, "if then else"}
 		});
 	}
 
@@ -127,7 +124,7 @@ public class FormulaEditorFunctionListTest {
 		String selectedFunctionString = getSelectedFunctionString(editorFunction);
 
 		onFormulaEditor()
-				.performOpenCategory(FormulaEditorWrapper.Category.FUNCTIONS)
+				.performOpenCategory(FormulaEditorWrapper.Category.MATHEMATICS)
 				.performSelect(editorFunction);
 
 		onFormulaEditor()
