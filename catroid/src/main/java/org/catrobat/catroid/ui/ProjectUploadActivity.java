@@ -106,7 +106,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 	private static final String LOOK_REQUEST_BRICK = "LookRequestBrick";
 	private static final String OPEN_URL_BRICK = "OpenUrlBrick";
 	private static final String WIKI_URL = "<a href='https://catrob.at/webbricks'>"
-		+ "https://catrob.at/webbricks</a>";
+			+ "https://catrob.at/webbricks</a>";
 	private static final String PROGRAM_NAME_START_TAG = "<programName>";
 	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
