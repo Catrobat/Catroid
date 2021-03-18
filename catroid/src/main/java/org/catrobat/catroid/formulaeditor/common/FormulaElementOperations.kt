@@ -294,7 +294,7 @@ object FormulaElementOperations {
     }
 
     @JvmStatic
-    fun tryInterpretElementRecursive(element: FormulaElement, scope: Scope):
+    fun tryInterpretElementRecursive(element: FormulaElement, scope: Scope?):
         Any {
         return try {
             element.interpretRecursive(scope)
