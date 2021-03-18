@@ -112,6 +112,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	public void onResume() {
+		initializeAdapter();
 		super.onResume();
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		String title;

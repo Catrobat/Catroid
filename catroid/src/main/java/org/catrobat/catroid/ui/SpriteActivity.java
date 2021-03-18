@@ -279,6 +279,7 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void saveProject() {
+		currentProject = ProjectManager.getInstance().getCurrentProject();
 		new ProjectSaveTask(currentProject, getApplicationContext())
 				.execute();
 	}
