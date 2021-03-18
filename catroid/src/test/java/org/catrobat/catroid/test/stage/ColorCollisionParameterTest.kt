@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,15 @@
 package org.catrobat.catroid.test.stage
 
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.content.Project
 import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.sensing.ColorCollisionDetection
 import org.catrobat.catroid.stage.StageListener
+import org.catrobat.catroid.test.MockUtil
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -40,11 +43,21 @@ internal class ColorCollisionParameterTest(
     private val parameter: Any?,
     private val expected: Boolean
 ) {
-    private val sprite = Sprite()
-    private val sequence = SequenceAction()
-    private val projectMock = Mockito.mock(Project::class.java)
-    private val stageListenerMock = Mockito.mock(StageListener::class.java)
-    private val colorCollisionDetection = ColorCollisionDetection(Scope(projectMock, sprite, sequence), stageListenerMock)
+    private lateinit var colorCollisionDetection: ColorCollisionDetection
+
+    @Before
+    @Throws(Exception::class)
+    fun setUp() {
+        val sprite = Sprite("testSprite")
+        val sequence = SequenceAction()
+        val stageListener = Mockito.mock(StageListener::class.java)
+        val project = Project(MockUtil.mockContextForProject(), "testProject")
+        ProjectManager.getInstance().currentProject = project
+        colorCollisionDetection = ColorCollisionDetection(
+            Scope(project, sprite, sequence),
+            stageListener
+        )
+    }
 
     companion object {
         @JvmStatic
