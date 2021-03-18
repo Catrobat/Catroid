@@ -81,6 +81,16 @@
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
 
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
+    <string name="api_replacement_dialog_warning">The project contains bricks that access the
+        web, and also seems to contain API keys. Please see %1s why
+        uploading these keys can be dangerous.</string>
+    <string name="api_replacement">insert API key here</string>
+    <!-- -->
+
+
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data…</string>
     <string name="loading_google_exchange_code">Exchanging Google login data…</string>
