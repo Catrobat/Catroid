@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -67,8 +67,8 @@ public class ChangeVariableTest {
 
 	@Test
 	public void testCreateNewUserVariableAndDeletion() {
-		String userVariableName = "testVariable1";
-		String secondUserVariableName = "testVariable2";
+		String userVariableName = "TestVariable1";
+		String secondUserVariableName = "TestVariable2";
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -107,8 +107,8 @@ public class ChangeVariableTest {
 
 	@Test
 	public void testViewInFormulaEditorAfterClone() {
-		String userVariableName = "testvariable1";
-		String userVariableName2 = "testvariable2";
+		String userVariableName = "Testvariable1";
+		String userVariableName2 = "Testvariable2";
 
 		performNewVariableFromFormulaEditor(1, userVariableName);
 
@@ -132,8 +132,7 @@ public class ChangeVariableTest {
 		onDataList()
 				.performAdd(variableName)
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 	}
 
 	public void createProject() {

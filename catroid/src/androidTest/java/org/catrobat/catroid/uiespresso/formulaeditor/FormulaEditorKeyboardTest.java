@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,7 +55,9 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.ColorPickerInteractionWrapper.onColorPickerPresetButton;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
@@ -83,8 +85,9 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.brick_set_variable_edit_text)).perform(click());
 
 		onFormulaEditor()
-				.performEnterNumber(1234567890.1)
-				.performCloseAndSave();
+				.performEnterNumber(1234567890.1);
+
+		pressBack();
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("1234567890"
@@ -104,8 +107,7 @@ public class FormulaEditorKeyboardTest {
 
 		onFormulaEditor().performEnterFormula("1");
 
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("( 1 ) + 1 - 1 × 1 ÷ 1 = 1 ")));
@@ -118,8 +120,9 @@ public class FormulaEditorKeyboardTest {
 				.perform(click());
 
 		onFormulaEditor()
-				.performEnterString("Foo")
-				.performCloseAndSave();
+				.performEnterString("Foo");
+
+		pressBack();
 
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText("'Foo' ")));
@@ -151,8 +154,8 @@ public class FormulaEditorKeyboardTest {
 		onView(withId(R.id.formula_editor_keyboard_sensors)).perform(click());
 		onView(withText(activity.getString(R.string.formula_editor_sensor_x_acceleration))).perform(click());
 		onFormulaEditor()
-				.performEnterFormula("+2")
-				.performCloseAndSave();
+				.performEnterFormula("+2");
+		pressBack();
 		onView(withId(R.id.brick_set_variable_edit_text))
 				.check(matches(withText(activity.getString(R.string.formula_editor_sensor_x_acceleration) + " + 2 ")));
 	}
@@ -165,6 +168,8 @@ public class FormulaEditorKeyboardTest {
 
 		onColorPickerPresetButton(0, 0)
 				.perform(click());
+
+		closeSoftKeyboard();
 
 		onView(withText(R.string.color_picker_apply))
 				.perform(click());
