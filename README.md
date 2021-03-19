@@ -23,6 +23,8 @@ Start setting up the working environment by following the instructions: https://
 
 Also make sure to read our guidelines for [creating a pull request](https://github.com/Catrobat/Catroid/wiki/Creating-a-pull-request)
 
+A first training ticket usually consists of writing a new Catrobat language test, see https://jira.catrob.at/browse/CATROID-390 for details.
+
 
 # Resources and links #
 * [Google Play Store Download](https://catrob.at/gp)
