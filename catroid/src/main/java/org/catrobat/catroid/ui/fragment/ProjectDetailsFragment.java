@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ProjectData;
 import org.catrobat.catroid.content.Project;
@@ -72,6 +73,7 @@ public class ProjectDetailsFragment extends Fragment {
 		try {
 			projectData = (ProjectData) getArguments().getSerializable(SELECTED_PROJECT_KEY);
 			project = XstreamSerializer.getInstance().loadProject(projectData.getDirectory(), getActivity());
+			ProjectManager.getInstance().setCurrentProject(project);
 		} catch (IOException | LoadingProjectException e) {
 			ToastUtil.showError(getActivity(), R.string.error_load_project);
 			Log.e(TAG, Log.getStackTraceString(e));
@@ -161,10 +163,9 @@ public class ProjectDetailsFragment extends Fragment {
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		menu.findItem(R.id.delete).setVisible(false);
-		menu.findItem(R.id.copy).setVisible(false);
-		menu.findItem(R.id.rename).setVisible(false);
-		menu.findItem(R.id.show_details).setVisible(false);
+		for (int index = 0; index < menu.size(); index++) {
+			menu.getItem(index).setVisible(false);
+		}
 	}
 
 	private String getLastAccess() {
