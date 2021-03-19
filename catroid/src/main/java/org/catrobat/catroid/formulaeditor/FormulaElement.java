@@ -592,10 +592,10 @@ public class FormulaElement implements Serializable {
 					parameterInterpretation = child.getValue();
 					break;
 				case NUMBER:
-					parameterInterpretation = formatNumberString(objectInterpretation);
+					parameterInterpretation = formatNumberString((String) objectInterpretation);
 					break;
 				default:
-					parameterInterpretation = trimTrailingCharacters(objectInterpretation);
+					parameterInterpretation = trimTrailingCharacters((String) objectInterpretation);
 			}
 		}
 		return parameterInterpretation;
