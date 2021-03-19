@@ -45,6 +45,7 @@ import androidx.test.core.app.ApplicationProvider;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.hamcrest.CoreMatchers.not;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -92,6 +93,8 @@ public class FormulaEditorMultiplayerVariablesTest {
 				ApplicationProvider.getApplicationContext(), true);
 		onView(withId(R.id.button_add))
 				.perform(click());
+
+		closeSoftKeyboard();
 
 		onView(withId(R.id.multiplayer))
 				.perform(click());
