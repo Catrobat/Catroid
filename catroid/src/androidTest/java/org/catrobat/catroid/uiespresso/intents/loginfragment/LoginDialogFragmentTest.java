@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -51,6 +52,7 @@ public class LoginDialogFragmentTest {
 
 	@Test
 	public void cancelButtonTest() {
+		closeSoftKeyboard();
 		onView(withText("Cancel")).perform(click());
 		onView(withId(R.id.dialog_login_username)).check(doesNotExist());
 		onView(withId(R.id.dialog_login_password)).check(doesNotExist());
