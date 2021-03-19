@@ -23,6 +23,10 @@
 
 package org.catrobat.catroid.test.formulaeditor.parser
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
+import org.catrobat.catroid.ProjectManager
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.formulaeditor.Functions
 import org.catrobat.catroid.formulaeditor.Functions.ABS
@@ -43,6 +47,7 @@ import org.catrobat.catroid.formulaeditor.InternToken
 import org.catrobat.catroid.formulaeditor.InternTokenType.NUMBER
 import org.catrobat.catroid.formulaeditor.InternTokenType.STRING
 import org.catrobat.catroid.formulaeditor.Operators.PLUS
+import org.catrobat.catroid.test.MockUtil
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.buildBinaryOperator
 import org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.testSingleParameterFunction
 import org.junit.Before
@@ -100,45 +105,53 @@ class SingleParameterFunctionParserTest(
     }
 
     private var sprite: Sprite? = null
+    private var scope: Scope? = null
 
     @Before
     fun setUp() {
-        sprite = Sprite("sprite")
+        val project = Project(
+            MockUtil.mockContextForProject(),
+            "Project"
+        )
+        sprite = Sprite("testSprite")
+        scope = Scope(project, sprite!!, SequenceAction())
+        project.defaultScene.addSprite(sprite)
+        ProjectManager.getInstance().currentProject = project
     }
 
     @Test
     fun testNumberParameter() {
         val internToken = InternToken(NUMBER, parameterValue.toString())
         val expectedValue = associatedFunction.function(parameterValue)
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testStringParameter() {
         val internToken = InternToken(STRING, parameterValue.toString())
         val expectedValue = associatedFunction.function(parameterValue)
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testEmptyParameter() {
         val internToken = InternToken(STRING, "")
         val expectedValue = 0.0
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testNotNumericalStringParameter() {
         val internToken = InternToken(STRING, NOT_NUMERICAL_STRING)
         val expectedValue = 0.0
-        testSingleParameterFunction(function, listOf(internToken), expectedValue, sprite)
+        testSingleParameterFunction(function, listOf(internToken), expectedValue, null)
     }
 
     @Test
     fun testInvalidFormulaParameter() {
         val parameter = buildBinaryOperator(NUMBER, "15.0", PLUS, STRING, NOT_NUMERICAL_STRING)
         val expectedValue = associatedFunction.function(Double.NaN)
-        testSingleParameterFunction(function, parameter, expectedValue, sprite)
+        testSingleParameterFunction(function, parameter, expectedValue, scope)
     }
 
     data class AssociatedFunction(val function: (Double) -> Double)

@@ -39,8 +39,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.9999999991;
-
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.01;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
@@ -270,7 +269,6 @@ public final class Constants {
 
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
-	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final int SAY_BRICK = 0;
 	public static final int THINK_BRICK = 1;
 	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
@@ -284,6 +282,8 @@ public final class Constants {
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
 
 	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
+
+	public static final int MAX_NUMBER_OF_CHECKED_TAGS = 3;
 
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;

@@ -131,11 +131,6 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 				.perform(click());
 	}
 
-	public void performCloseAndSave() {
-		onView(Control.OK)
-				.perform(click());
-	}
-
 	public void performClickOn(Matcher<View> matcher) {
 		onView(matcher)
 				.perform(click());
@@ -214,7 +209,6 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 	}
 
 	public static final class Control {
-		public static final Matcher<View> OK = withId(R.id.menu_ok);
 		public static final Matcher<View> COMPUTE = withId(R.id.formula_editor_keyboard_compute);
 		public static final Matcher<View> BACKSPACE = withId(R.id.formula_editor_keyboard_delete);
 		public static final Matcher<View> DATA = withId(R.id.formula_editor_keyboard_data);

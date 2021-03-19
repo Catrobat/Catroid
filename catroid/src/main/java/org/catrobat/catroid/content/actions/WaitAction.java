@@ -26,19 +26,20 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class WaitAction extends TemporalAction {
 
-	protected Sprite sprite;
+	protected Scope scope;
 	protected Formula duration;
 
 	@Override
 	protected void begin() {
 		try {
-			Float newDuration = duration == null ? Float.valueOf(0f) : duration.interpretFloat(sprite);
+			Float newDuration = duration == null ? Float.valueOf(0f)
+					: duration.interpretFloat(scope);
 			super.setDuration(newDuration);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -49,8 +50,8 @@ public class WaitAction extends TemporalAction {
 		this.duration = delay;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	@Override

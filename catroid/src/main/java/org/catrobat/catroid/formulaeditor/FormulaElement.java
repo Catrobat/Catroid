@@ -25,7 +25,7 @@ package org.catrobat.catroid.formulaeditor;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.function.ArduinoFunctionProvider;
 import org.catrobat.catroid.formulaeditor.function.BinaryFunction;
@@ -79,6 +79,7 @@ import static org.catrobat.catroid.formulaeditor.common.Conversions.booleanToDou
 import static org.catrobat.catroid.formulaeditor.common.Conversions.convertArgumentToDouble;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.interpretOperatorEqual;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.interpretSensor;
+import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.interpretUserDefinedBrickInput;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.interpretUserList;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.interpretUserVariable;
 import static org.catrobat.catroid.formulaeditor.common.FormulaElementOperations.isInteger;
@@ -350,12 +351,12 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	public Object interpretRecursive(Sprite sprite) {
-		Object rawReturnValue = rawInterpretRecursive(sprite);
+	public Object interpretRecursive(Scope scope) {
+		Object rawReturnValue = rawInterpretRecursive(scope);
 		return normalizeDegeneratedDoubleValues(rawReturnValue);
 	}
 
-	private Object rawInterpretRecursive(Sprite sprite) {
+	private Object rawInterpretRecursive(Scope scope) {
 		ProjectManager projectManager = ProjectManager.getInstance();
 		Project currentProject = projectManager != null ? projectManager.getCurrentProject() : null;
 		Scene currentlyPlayingScene = projectManager != null ? projectManager.getCurrentlyPlayingScene() : null;
@@ -364,79 +365,84 @@ public class FormulaElement implements Serializable {
 		switch (type) {
 			case BRACKET:
 				if (additionalChildren.size() != 0) {
-					return additionalChildren.get(additionalChildren.size() - 1).interpretRecursive(sprite);
+					return additionalChildren.get(additionalChildren.size() - 1).interpretRecursive(scope);
 				}
-				return rightChild.interpretRecursive(sprite);
+				return rightChild.interpretRecursive(scope);
 			case NUMBER:
 			case STRING:
 				return value;
 			case OPERATOR:
-				return tryInterpretOperator(sprite, value);
+				return tryInterpretOperator(scope, value);
 			case FUNCTION:
 				Functions function = Functions.getFunctionByValue(value);
-				return interpretFunction(function, sprite, currentProject);
+				return interpretFunction(function, scope);
 			case SENSOR:
-				return interpretSensor(sprite, currentlyEditedScene, currentProject, value);
+				return interpretSensor(scope.getSprite(), currentlyEditedScene, currentProject, value);
 			case USER_VARIABLE:
-				UserVariable userVariable = UserDataWrapper.getUserVariable(value, sprite, currentProject);
+				UserVariable userVariable = UserDataWrapper.getUserVariable(value, scope);
 				return interpretUserVariable(userVariable);
 			case USER_LIST:
-				UserList userList = UserDataWrapper.getUserList(value, sprite, currentProject);
+				UserList userList = UserDataWrapper.getUserList(value, scope);
 				return interpretUserList(userList);
+			case USER_DEFINED_BRICK_INPUT:
+				UserData userBrickVariable = UserDataWrapper.getUserDefinedBrickInput(value,
+						scope.getSequence());
+				return interpretUserDefinedBrickInput(userBrickVariable);
 			case COLLISION_FORMULA:
 				StageListener stageListener = StageActivity.stageListener;
-				return tryInterpretCollision(sprite.look, value, currentlyPlayingScene, stageListener);
+				return tryInterpretCollision(scope.getSprite().look, value, currentlyPlayingScene,
+						stageListener);
 		}
 		return FALSE;
 	}
 
 	@NotNull
-	private Object tryInterpretOperator(Sprite sprite, String value) {
+	private Object tryInterpretOperator(Scope scope, String value) {
 		Operators operator = Operators.getOperatorByValue(value);
 		if (operator == null) {
 			return false;
 		}
-		return interpretOperator(operator, sprite);
+		return interpretOperator(operator, scope);
 	}
 
-	private Object interpretFunction(Functions function, Sprite sprite, Project currentProject) {
+	private Object interpretFunction(Functions function, Scope scope) {
 		List<Object> arguments = new ArrayList<>();
-		arguments.add(tryInterpretRecursive(leftChild, sprite));
-		arguments.add(tryInterpretRecursive(rightChild, sprite));
+		arguments.add(tryInterpretRecursive(leftChild, scope));
+		arguments.add(tryInterpretRecursive(rightChild, scope));
 
 		for (FormulaElement child : additionalChildren) {
-			arguments.add(tryInterpretRecursive(child, sprite));
+			arguments.add(tryInterpretRecursive(child, scope));
 		}
 
 		switch (function) {
 			case LETTER:
 				return interpretFunctionLetter(arguments.get(0), arguments.get(1));
 			case LENGTH:
-				return interpretFunctionLength(arguments.get(0), sprite, currentProject);
+				return interpretFunctionLength(arguments.get(0), scope);
 			case JOIN:
-				return interpretFunctionJoin(sprite, leftChild, rightChild);
+				return interpretFunctionJoin(scope, leftChild, rightChild);
 			case JOIN3:
-				return interpretFunctionJoin3(sprite, leftChild, rightChild, additionalChildren);
+				return interpretFunctionJoin3(scope, leftChild, rightChild, additionalChildren);
 			case REGEX:
-				return tryInterpretFunctionRegex(sprite, leftChild, rightChild);
+				return tryInterpretFunctionRegex(scope, leftChild, rightChild);
 			case LIST_ITEM:
-				return interpretFunctionListItem(arguments.get(0), sprite, currentProject);
+				return interpretFunctionListItem(arguments.get(0), scope);
 			case CONTAINS:
-				return interpretFunctionContains(arguments.get(1), sprite, currentProject);
+				return interpretFunctionContains(arguments.get(1), scope);
 			case NUMBER_OF_ITEMS:
-				return interpretFunctionNumberOfItems(arguments.get(0), sprite, currentProject);
+				return interpretFunctionNumberOfItems(arguments.get(0), scope);
 			case INDEX_OF_ITEM:
-				return interpretFunctionIndexOfItem(arguments.get(0), sprite, currentProject);
+				return interpretFunctionIndexOfItem(arguments.get(0), scope);
 			case FLATTEN:
-				return interpretFunctionFlatten(sprite, leftChild);
+				return interpretFunctionFlatten(scope, leftChild);
 			case COLLIDES_WITH_COLOR:
-				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+				return booleanToDouble(new ColorCollisionDetection(scope, StageActivity.stageListener)
 						.tryInterpretFunctionTouchesColor(arguments.get(0)));
 			case COLOR_TOUCHES_COLOR:
-				return booleanToDouble(new ColorCollisionDetection(sprite, currentProject, StageActivity.stageListener)
+				return booleanToDouble(new ColorCollisionDetection(scope, StageActivity.stageListener)
 						.tryInterpretFunctionColorTouchesColor(arguments.get(0), arguments.get(1)));
 			case COLOR_AT_XY:
-				return new ColorAtXYDetection(sprite, currentProject, StageActivity.stageListener)
+				return new ColorAtXYDetection(scope, StageActivity.stageListener)
 						.tryInterpretFunctionColorAtXY(arguments.get(0), arguments.get(1));
 			case TEXT_BLOCK_FROM_CAMERA:
 				return textBlockFunctionProvider.interpretFunctionTextBlock(Double.parseDouble(arguments.get(0).toString()));
@@ -451,11 +457,11 @@ public class FormulaElement implements Serializable {
 	}
 
 	@Nullable
-	private Object tryInterpretRecursive(FormulaElement element, Sprite sprite) {
+	private Object tryInterpretRecursive(FormulaElement element, Scope scope) {
 		if (element == null) {
 			return null;
 		}
-		return element.interpretRecursive(sprite);
+		return element.interpretRecursive(scope);
 	}
 
 	private Object interpretFormulaFunction(Functions function, List<Object> arguments) {
@@ -473,12 +479,12 @@ public class FormulaElement implements Serializable {
 		return formulaFunction.execute(argumentsDouble.get(0), argumentsDouble.get(1), argumentsDouble.get(2));
 	}
 
-	private Object interpretFunctionNumberOfItems(Object left, Sprite sprite, Project currentProject) {
+	private Object interpretFunctionNumberOfItems(Object left, Scope scope) {
 		if (leftChild.type == ElementType.USER_LIST) {
-			UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
+			UserList userList = UserDataWrapper.getUserList(leftChild.value, scope);
 			return (double) handleNumberOfItemsOfUserListParameter(userList);
 		}
-		return interpretFunctionLength(left, sprite, currentProject);
+		return interpretFunctionLength(left, scope);
 	}
 
 	private int handleNumberOfItemsOfUserListParameter(UserList userList) {
@@ -489,8 +495,8 @@ public class FormulaElement implements Serializable {
 		return userList.getValue().size();
 	}
 
-	private Object interpretFunctionContains(Object right, Sprite sprite, Project currentProject) {
-		UserList userList = getUserListOfChild(leftChild, sprite, currentProject);
+	private Object interpretFunctionContains(Object right, Scope scope) {
+		UserList userList = getUserListOfChild(leftChild, scope);
 		if (userList == null) {
 			return FALSE;
 		}
@@ -504,21 +510,21 @@ public class FormulaElement implements Serializable {
 		return FALSE;
 	}
 
-	private Object interpretFunctionIndexOfItem(Object left, Sprite sprite, Project currentProject) {
+	private Object interpretFunctionIndexOfItem(Object left, Scope scope) {
 		if (rightChild.getElementType() == ElementType.USER_LIST) {
-			UserList userList = UserDataWrapper.getUserList(rightChild.value, sprite, currentProject);
+			UserList userList = UserDataWrapper.getUserList(rightChild.value, scope);
 			return (double) (userList.getIndexOf(left) + 1);
 		}
 
 		return FALSE;
 	}
 
-	private Object interpretFunctionListItem(Object left, Sprite sprite, Project currentProject) {
+	private Object interpretFunctionListItem(Object left, Scope scope) {
 		if (left == null) {
 			return "";
 		}
 
-		UserList userList = getUserListOfChild(rightChild, sprite, currentProject);
+		UserList userList = getUserListOfChild(rightChild, scope);
 		if (userList == null) {
 			return "";
 		}
@@ -532,31 +538,34 @@ public class FormulaElement implements Serializable {
 	}
 
 	@Nullable
-	private UserList getUserListOfChild(FormulaElement child, Sprite sprite, Project currentProject) {
+	private UserList getUserListOfChild(FormulaElement child, Scope scope) {
 		if (child.getElementType() != ElementType.USER_LIST) {
 			return null;
 		}
-		return UserDataWrapper.getUserList(child.value, sprite, currentProject);
+		return UserDataWrapper.getUserList(child.value, scope);
 	}
 
-	private static String interpretFunctionJoin(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
-		return interpretFunctionString(leftChild, sprite) + interpretFunctionString(rightChild, sprite);
+	private static String interpretFunctionJoin(Scope scope, FormulaElement leftChild,
+			FormulaElement rightChild) {
+		return interpretFunctionString(leftChild, scope) + interpretFunctionString(rightChild,
+				scope);
 	}
 
-	private static String interpretFunctionJoin3(Sprite sprite, FormulaElement leftChild,
+	private static String interpretFunctionJoin3(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild, List<FormulaElement> additionalChildren) {
-		return interpretFunctionString(leftChild, sprite) + interpretFunctionString(rightChild,
-				sprite) + interpretFunctionString(additionalChildren.get(0), sprite);
+		return interpretFunctionString(leftChild, scope) + interpretFunctionString(rightChild,
+				scope) + interpretFunctionString(additionalChildren.get(0), scope);
 	}
 
-	private static String interpretFunctionFlatten(Sprite sprite, FormulaElement leftChild) {
-		return interpretFunctionString(leftChild, sprite);
+	private static String interpretFunctionFlatten(Scope scope, FormulaElement leftChild) {
+		return interpretFunctionString(leftChild, scope);
 	}
 
-	private static String tryInterpretFunctionRegex(Sprite sprite, FormulaElement leftChild, FormulaElement rightChild) {
+	private static String tryInterpretFunctionRegex(Scope scope, FormulaElement leftChild,
+			FormulaElement rightChild) {
 		try {
-			String left = interpretFunctionString(leftChild, sprite);
-			String right = interpretFunctionString(rightChild, sprite);
+			String left = interpretFunctionString(leftChild, scope);
+			String right = interpretFunctionString(rightChild, scope);
 			return interpretFunctionRegex(left, right);
 		} catch (IllegalArgumentException exception) {
 			return exception.getLocalizedMessage();
@@ -574,10 +583,10 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private static String interpretFunctionString(FormulaElement child, Sprite sprite) {
+	private static String interpretFunctionString(FormulaElement child, Scope scope) {
 		String parameterInterpretation = "";
 		if (child != null) {
-			String objectInterpretation = child.interpretRecursive(sprite).toString();
+			Object objectInterpretation = child.interpretRecursive(scope);
 			switch (child.getElementType()) {
 				case STRING:
 					parameterInterpretation = child.getValue();
@@ -601,7 +610,7 @@ public class FormulaElement implements Serializable {
 		return trimTrailingCharacters(formattedNumberString);
 	}
 
-	private Object interpretFunctionLength(Object left, Sprite sprite, Project currentProject) {
+	private Object interpretFunctionLength(Object left, Scope scope) {
 		if (leftChild == null) {
 			return FALSE;
 		}
@@ -610,11 +619,11 @@ public class FormulaElement implements Serializable {
 			case STRING:
 				return (double) leftChild.value.length();
 			case USER_VARIABLE:
-				UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, sprite, currentProject);
+				UserVariable userVariable = UserDataWrapper.getUserVariable(leftChild.value, scope);
 				return (double) calculateUserVariableLength(userVariable);
 			case USER_LIST:
-				UserList userList = UserDataWrapper.getUserList(leftChild.value, sprite, currentProject);
-				return calculateUserListLength(userList, left, sprite);
+				UserList userList = UserDataWrapper.getUserList(leftChild.value, scope);
+				return calculateUserListLength(userList, left, scope);
 			default:
 				if (left instanceof Double && ((Double) left).isNaN()) {
 					return 0d;
@@ -636,12 +645,12 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private double calculateUserListLength(UserList userList, Object left, Sprite sprite) {
+	private double calculateUserListLength(UserList userList, Object left, Scope scope) {
 		if (userList == null || userList.getValue().isEmpty()) {
 			return FALSE;
 		}
 
-		Object interpretedList = leftChild.interpretRecursive(sprite);
+		Object interpretedList = leftChild.interpretRecursive(scope);
 		if (interpretedList instanceof Double) {
 			Double interpretedListDoubleValue = (Double) interpretedList;
 			if (interpretedListDoubleValue.isNaN() || interpretedListDoubleValue.isInfinite()) {
@@ -702,16 +711,16 @@ public class FormulaElement implements Serializable {
 		return element.type == ElementType.NUMBER && element.value.contains(".");
 	}
 
-	private double interpretOperator(@NotNull Operators operator, Sprite sprite) {
+	private double interpretOperator(@NotNull Operators operator, Scope scope) {
 		if (leftChild != null) {
-			return interpretBinaryOperator(operator, sprite);
+			return interpretBinaryOperator(operator, scope);
 		} else {
-			return interpretUnaryOperator(operator, sprite);
+			return interpretUnaryOperator(operator, scope);
 		}
 	}
 
-	private double interpretUnaryOperator(@NotNull Operators operator, Sprite sprite) {
-		Object rightObject = tryInterpretElementRecursive(rightChild, sprite);
+	private double interpretUnaryOperator(@NotNull Operators operator, Scope scope) {
+		Object rightObject = tryInterpretElementRecursive(rightChild, scope);
 		double right = tryInterpretDoubleValue(rightObject);
 
 		switch (operator) {
@@ -724,9 +733,9 @@ public class FormulaElement implements Serializable {
 		}
 	}
 
-	private double interpretBinaryOperator(@NotNull Operators operator, Sprite sprite) {
-		Object leftObject = tryInterpretElementRecursive(leftChild, sprite);
-		Object rightObject = tryInterpretElementRecursive(rightChild, sprite);
+	private double interpretBinaryOperator(@NotNull Operators operator, Scope scope) {
+		Object leftObject = tryInterpretElementRecursive(leftChild, scope);
+		Object rightObject = tryInterpretElementRecursive(rightChild, scope);
 
 		Double leftDouble = tryInterpretDoubleValue(leftObject);
 		Double rightDouble = tryInterpretDoubleValue(rightObject);

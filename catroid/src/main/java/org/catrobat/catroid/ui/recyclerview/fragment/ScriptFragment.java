@@ -49,6 +49,8 @@ import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -140,6 +142,12 @@ public class ScriptFragment extends ListFragment implements
 	public ScriptFragment(Script scriptToFocus) {
 		this.scriptToFocus = scriptToFocus;
 	}
+
+	private List<UserVariable> savedUserVariables;
+	private List<UserVariable> savedMultiplayerVariables;
+	private List<UserList> savedUserLists;
+	private transient List<UserVariable> savedLocalUserVariables;
+	private transient List<UserList> savedLocalLists;
 
 	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
@@ -295,6 +303,8 @@ public class ScriptFragment extends ListFragment implements
 				.execute();
 
 		savedListViewState = listView.onSaveInstanceState();
+
+		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 	}
 
 	@Override
@@ -463,6 +473,7 @@ public class ScriptFragment extends ListFragment implements
 		if (listView.isCurrentlyMoving()) {
 			listView.highlightMovingItem();
 		} else {
+			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 			showCategoryFragment();
 		}
 	}
@@ -768,13 +779,14 @@ public class ScriptFragment extends ListFragment implements
 		finishActionMode();
 	}
 
-	public void setUndoBrickPosition() {
-		undoBrickPosition = listView.getFirstVisiblePosition() + 1;
+	public void setUndoBrickPosition(Brick brick) {
+		undoBrickPosition = adapter.getPosition(brick);
 	}
 
 	public boolean copyProjectForUndoOption() {
 		ProjectManager projectManager = ProjectManager.getInstance();
-		currentSpriteName = projectManager.getCurrentSprite().getName();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		currentSpriteName = currentSprite.getName();
 		currentSceneName = projectManager.getCurrentlyEditedScene().getName();
 		Project project = projectManager.getCurrentProject();
 		XstreamSerializer.getInstance().saveProject(project);
@@ -784,6 +796,7 @@ public class ScriptFragment extends ListFragment implements
 		if (currentCodeFile.exists()) {
 			try {
 				StorageOperations.transferData(currentCodeFile, undoCodeFile);
+				saveVariables();
 				return true;
 			} catch (IOException exception) {
 				Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
@@ -810,7 +823,44 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public void onLoadFinished(boolean success) {
 		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
+		loadVariables();
 		refreshFragmentAfterUndo();
+	}
+
+	private void saveVariables() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Project project = projectManager.getCurrentProject();
+
+		savedUserVariables = project.getUserVariablesCopy();
+		savedMultiplayerVariables = project.getMultiplayerVariablesCopy();
+		savedUserLists = project.getUserListsCopy();
+		savedLocalUserVariables = currentSprite.getUserVariablesCopy();
+		savedLocalLists = currentSprite.getUserListsCopy();
+	}
+
+	public boolean checkVariables() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Project project = projectManager.getCurrentProject();
+
+		return (project.hasUserDataChanged(project.getUserVariables(), savedUserVariables)
+				|| project.hasUserDataChanged(project.getMultiplayerVariables(), savedMultiplayerVariables)
+				|| project.hasUserDataChanged(project.getUserLists(), savedUserLists)
+				|| currentSprite.hasUserDataChanged(currentSprite.getUserVariables(), savedLocalUserVariables)
+				|| currentSprite.hasUserDataChanged(currentSprite.getUserLists(), savedLocalLists));
+	}
+
+	private void loadVariables() {
+		ProjectManager projectManager = ProjectManager.getInstance();
+		Sprite currentSprite = projectManager.getCurrentSprite();
+		Project project = projectManager.getCurrentProject();
+
+		project.setUserVariables(savedUserVariables);
+		project.setMultiplayerVariables(savedMultiplayerVariables);
+		project.setUserLists(savedUserLists);
+		currentSprite.setUserVariables(savedLocalUserVariables);
+		currentSprite.setUserLists(savedLocalLists);
 	}
 
 	private void refreshFragmentAfterUndo() {
@@ -819,7 +869,9 @@ public class ScriptFragment extends ListFragment implements
 		fragmentTransaction.detach(scriptFragment);
 		fragmentTransaction.attach(scriptFragment);
 		fragmentTransaction.commit();
-		listView.post(() -> listView.setSelection(undoBrickPosition));
+		if (undoBrickPosition < listView.getFirstVisiblePosition() || undoBrickPosition > listView.getLastVisiblePosition()) {
+			listView.post(() -> listView.setSelection(undoBrickPosition));
+		}
 	}
 
 	public void showUndo(boolean visible) {

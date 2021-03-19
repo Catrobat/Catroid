@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -69,7 +70,7 @@ public class TurnLeftActionTest {
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createTurnLeftAction(sprite, new Formula(10.0f));
+		Action action = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(10.0f));
 		action.act(1.0f);
 
 		assertEquals(10f, sprite.look.getRotation(), 1e-3);
@@ -90,8 +91,8 @@ public class TurnLeftActionTest {
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createTurnLeftAction(sprite, new Formula(10.0f));
-		Action scaleAction = factory.createSetSizeToAction(sprite, new Formula(50.0f));
+		Action action = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(10.0f));
+		Action scaleAction = factory.createSetSizeToAction(sprite, new SequenceAction(), new Formula(50.0f));
 		action.act(1.0f);
 		scaleAction.act(1.0f);
 
@@ -106,8 +107,8 @@ public class TurnLeftActionTest {
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createTurnLeftAction(sprite, new Formula(10.0f));
-		Action scaleAction = factory.createSetSizeToAction(sprite, new Formula(50.0f));
+		Action action = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(10.0f));
+		Action scaleAction = factory.createSetSizeToAction(sprite, new SequenceAction(), new Formula(50.0f));
 		scaleAction.act(1.0f);
 		action.act(1.0f);
 
@@ -122,7 +123,7 @@ public class TurnLeftActionTest {
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createTurnLeftAction(sprite, new Formula(-10.0f));
+		Action action = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(-10.0f));
 		action.act(1.0f);
 
 		assertEquals(-10f, sprite.look.getRotation(), 1e-3);
@@ -136,7 +137,7 @@ public class TurnLeftActionTest {
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action action = factory.createTurnLeftAction(sprite, new Formula(370.0f));
+		Action action = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(370.0f));
 		action.act(1.0f);
 
 		assertEquals(80f, sprite.look.getDirectionInUserInterfaceDimensionUnit(), 1e-3);
@@ -150,8 +151,8 @@ public class TurnLeftActionTest {
 		sprite.look.setLookData(lookData);
 
 		ActionFactory factory = sprite.getActionFactory();
-		Action turnLeftAction = factory.createTurnLeftAction(sprite, new Formula(50.0f));
-		Action turnRightAction = factory.createTurnRightAction(sprite, new Formula(30.0f));
+		Action turnLeftAction = factory.createTurnLeftAction(sprite, new SequenceAction(), new Formula(50.0f));
+		Action turnRightAction = factory.createTurnRightAction(sprite, new SequenceAction(), new Formula(30.0f));
 		turnLeftAction.act(1.0f);
 		turnRightAction.act(1.0f);
 
@@ -164,14 +165,14 @@ public class TurnLeftActionTest {
 	public void testBrickWithStringFormula() {
 		Sprite sprite = new Sprite("test");
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite,
-				new Formula(String.valueOf(VALUE)));
+				new SequenceAction(), new Formula(String.valueOf(VALUE)));
 		action.act(1.0f);
 		assertEquals(VALUE, sprite.look.getRotation());
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 
 		action = sprite.getActionFactory().createTurnLeftAction(sprite,
-				new Formula(String.valueOf(NOT_NUMERICAL_STRING)));
+				new SequenceAction(), new Formula(NOT_NUMERICAL_STRING));
 		action.act(1.0f);
 		assertEquals(VALUE, sprite.look.getRotation());
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -181,7 +182,7 @@ public class TurnLeftActionTest {
 	@Test
 	public void testNullFormula() {
 		Sprite sprite = new Sprite("test");
-		Action action = sprite.getActionFactory().createTurnLeftAction(sprite, null);
+		Action action = sprite.getActionFactory().createTurnLeftAction(sprite, new SequenceAction(), null);
 		action.act(1.0f);
 		assertEquals(0f, sprite.look.getRotation());
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
@@ -192,7 +193,7 @@ public class TurnLeftActionTest {
 	public void testNotANumberFormula() {
 		Sprite sprite = new Sprite("test");
 		Action action = sprite.getActionFactory().createTurnLeftAction(sprite,
-				new Formula(Double.NaN));
+				new SequenceAction(), new Formula(Double.NaN));
 		action.act(1.0f);
 		assertEquals(0f, sprite.look.getRotation());
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());

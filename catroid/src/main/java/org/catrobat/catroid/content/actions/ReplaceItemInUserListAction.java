@@ -24,7 +24,7 @@ package org.catrobat.catroid.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserList;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class ReplaceItemInUserListAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula formulaIndexToReplace;
 	private Formula formulaItemToInsert;
 
@@ -45,11 +45,13 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 			return;
 		}
 
-		Object value = formulaItemToInsert == null ? Double.valueOf(0d) : formulaItemToInsert.interpretObject(sprite);
+		Object value = formulaItemToInsert == null ? Double.valueOf(0d)
+				: formulaItemToInsert.interpretObject(scope);
 		int indexToReplace;
 
 		try {
-			indexToReplace = formulaIndexToReplace == null ? 1 : formulaIndexToReplace.interpretInteger(sprite);
+			indexToReplace = formulaIndexToReplace == null ? 1
+					: formulaIndexToReplace.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			indexToReplace = 1;
 		}
@@ -75,7 +77,7 @@ public class ReplaceItemInUserListAction extends TemporalAction {
 		this.formulaItemToInsert = formulaItemToInsert;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

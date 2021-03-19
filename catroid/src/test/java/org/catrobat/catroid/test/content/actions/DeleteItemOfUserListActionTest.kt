@@ -22,7 +22,11 @@
  */
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import org.catrobat.catroid.content.ActionFactory
+import org.catrobat.catroid.content.Project
+import org.catrobat.catroid.content.Scope
+import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.actions.DeleteItemOfUserListAction
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.UserList
@@ -70,6 +74,7 @@ class DeleteItemOfUserListActionTest(
         deleteaction.userList = userList
         for (indexToDelete in listIndexToDelete) {
             deleteaction.formulaIndexToDelete = indexToDelete
+            deleteaction.scope = Scope(Project(), Sprite(), SequenceAction())
             deleteaction.act(1f)
             deleteaction.reset()
         }

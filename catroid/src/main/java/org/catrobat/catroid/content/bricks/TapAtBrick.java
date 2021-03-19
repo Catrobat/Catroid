@@ -58,7 +58,7 @@ public class TapAtBrick extends VisualPlacementBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createTapAtAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createTapAtAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION)));
 	}

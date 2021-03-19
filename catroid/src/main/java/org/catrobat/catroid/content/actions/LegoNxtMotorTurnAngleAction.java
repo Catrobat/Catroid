@@ -30,7 +30,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.LegoNxtMotorTurnAngleBrick.Motor;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -40,7 +40,7 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 
 	private Motor motorEnum;
 	private Formula degrees;
-	private Sprite sprite;
+	private Scope scope;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
@@ -48,7 +48,7 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 	protected void update(float percent) {
 		int degreesValue;
 		try {
-			degreesValue = degrees.interpretInteger(sprite);
+			degreesValue = degrees.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			degreesValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -91,7 +91,7 @@ public class LegoNxtMotorTurnAngleAction extends TemporalAction {
 		this.degrees = degrees;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

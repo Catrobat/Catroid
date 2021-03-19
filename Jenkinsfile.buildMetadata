@@ -27,7 +27,7 @@ pipeline {
         stage('Setup Translations') {
             steps {
                 script {
-                    if (env.flavor == 'Playground') {
+                    if (env.flavor == 'PocketCodeBeta') {
                         sh '''
                             set +x
                             ./gradlew generateCrowdinMetadataCatroid -PcrowdinKey=$crowdinKey
@@ -51,7 +51,7 @@ pipeline {
         stage('Create Screenshots') {
             steps {
                 script {
-                    if (env.flavor == 'Playground') {
+                    if (env.flavor == 'PocketCodeBeta') {
                         sh './gradlew generateScreenshotsCatroid'
                     } else {
                         sh './gradlew generateScreenshots${flavor}'
@@ -107,8 +107,8 @@ pipeline {
             }
             steps {
                 script {
-                    if (env.flavor == 'Playground') {
-                        echo 'Playground cannot be promoted to production!'
+                    if (env.flavor == 'PocketCodeBeta') {
+                        echo 'PocketCodeBeta cannot be promoted to production!'
                     } else {
                         // deactivated for testing to not publish by accident
                         //sh 'fastlane android promote_${flavor}'

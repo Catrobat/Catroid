@@ -23,6 +23,7 @@
 
 package org.catrobat.catroid.test.content.actions
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction
 import com.badlogic.gdx.utils.GdxNativesLoader
 import junit.framework.Assert
 import org.catrobat.catroid.ProjectManager
@@ -48,6 +49,7 @@ import java.io.File
 @PrepareForTest(StorageOperations::class, XstreamSerializer::class, GdxNativesLoader::class)
 class EditLookActionTest {
     private lateinit var projectMock: Project
+    private lateinit var testSequence: SequenceAction
     private val xstreamSerializerMock = PowerMockito.mock(XstreamSerializer::class.java)
     private val lookDataFile = mock(File::class.java)
     private val lookDataFileEdited = mock(File::class.java)
@@ -58,6 +60,7 @@ class EditLookActionTest {
         projectMock = Project(MockUtil.mockContextForProject(), "testProject").also { project ->
             ProjectManager.getInstance().currentProject = project
         }
+        testSequence = SequenceAction()
         PowerMockito.mockStatic(XstreamSerializer::class.java)
         PowerMockito.mockStatic(GdxNativesLoader::class.java)
         PowerMockito.mockStatic(StorageOperations::class.java)
@@ -69,9 +72,9 @@ class EditLookActionTest {
     @Test
     fun testWithEmptyLookList() {
         with(Sprite()) {
-            val setNewLookAction = actionFactory.createSetNextLookAction(this)
+            val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
             val editLookAction = actionFactory.createEditLookAction(
-                this, setNewLookAction as SetNextLookAction) as EditLookAction
+                this, testSequence, setNewLookAction as SetNextLookAction) as EditLookAction
             editLookAction.setLookData()
             setNewLookAction.act(1f)
             Assert.assertEquals(0, this.lookList.size)
@@ -83,9 +86,9 @@ class EditLookActionTest {
         with(Sprite()) {
             this.lookList.add(lookData)
             this.look.lookData = lookData
-            val setNewLookAction = actionFactory.createSetNextLookAction(this)
+            val setNewLookAction = actionFactory.createSetNextLookAction(this, testSequence)
             val editLookAction = actionFactory.createEditLookAction(
-                this, setNewLookAction as SetNextLookAction) as EditLookAction
+                this, testSequence, setNewLookAction as SetNextLookAction) as EditLookAction
             editLookAction.setLookData()
             Assert.assertEquals(lookDataFileEdited, this.lookList[0].file)
         }

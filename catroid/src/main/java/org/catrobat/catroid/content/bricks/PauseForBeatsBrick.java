@@ -50,6 +50,6 @@ public class PauseForBeatsBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createPauseForBeatsAction(sprite, getFormulaWithBrickField(BrickField.BEATS_TO_PAUSE)));
+				.createPauseForBeatsAction(sprite, sequence, getFormulaWithBrickField(BrickField.BEATS_TO_PAUSE)));
 	}
 }

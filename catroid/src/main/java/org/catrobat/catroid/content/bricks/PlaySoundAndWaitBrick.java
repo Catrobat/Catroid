@@ -66,7 +66,7 @@ public class PlaySoundAndWaitBrick extends PlaySoundBrick {
 			}
 		}
 
-		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite, sequence,
 				new Formula(duration), sound.getFile().getAbsolutePath()));
 	}
 }

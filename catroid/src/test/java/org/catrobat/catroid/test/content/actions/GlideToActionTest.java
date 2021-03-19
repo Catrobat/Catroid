@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Sprite;
@@ -65,7 +66,7 @@ public class GlideToActionTest {
 		sprite.look.setWidth(100.0f);
 		sprite.look.setHeight(50.0f);
 
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, xPosition, yPosition, duration);
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), xPosition, yPosition, duration);
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
 			currentTimeDelta = System.currentTimeMillis() - currentTimeDelta;
@@ -75,23 +76,22 @@ public class GlideToActionTest {
 		assertEquals(Y_POSITION, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullActor() {
 		ActionFactory factory = new ActionFactory();
-		Action action = factory.createGlideToAction(null, xPosition, yPosition, duration);
-		exception.expect(NullPointerException.class);
+		Action action = factory.createGlideToAction(null, new SequenceAction(), xPosition, yPosition, duration);
 		action.act(1.0f);
 	}
 
 	@Test
 	public void testBoundaryPositions() {
 		Sprite sprite = new Sprite("testSprite");
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MAX_VALUE), new Formula(
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), new Formula(Integer.MAX_VALUE), new Formula(
 				Integer.MAX_VALUE)).act(1.0f);
 		assertEquals((float) Integer.MAX_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals((float) Integer.MAX_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createPlaceAtAction(sprite, new Formula(Integer.MIN_VALUE), new Formula(
+		sprite.getActionFactory().createPlaceAtAction(sprite, new SequenceAction(), new Formula(Integer.MIN_VALUE), new Formula(
 				Integer.MIN_VALUE)).act(1.0f);
 		assertEquals((float) Integer.MIN_VALUE, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals((float) Integer.MIN_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
@@ -99,7 +99,7 @@ public class GlideToActionTest {
 
 	@Test
 	public void testBrickWithStringFormula() {
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(String.valueOf(Y_POSITION)),
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), new Formula(String.valueOf(Y_POSITION)),
 				new Formula(String.valueOf(DURATION)), new Formula(String.valueOf(X_POSITION)));
 
 		long currentTimeDelta = System.currentTimeMillis();
@@ -110,7 +110,7 @@ public class GlideToActionTest {
 		assertEquals(Y_POSITION, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(DURATION, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(NOT_NUMERICAL_STRING), new Formula(
+		action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING), new Formula(
 				NOT_NUMERICAL_STRING2), new Formula(NOT_NUMERICAL_STRING3));
 
 		currentTimeDelta = System.currentTimeMillis();
@@ -124,7 +124,7 @@ public class GlideToActionTest {
 
 	@Test
 	public void testNullFormula() {
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, null, null, null);
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), null, null, null);
 
 		long currentTimeDelta = System.currentTimeMillis();
 		do {
@@ -137,7 +137,7 @@ public class GlideToActionTest {
 
 	@Test
 	public void testNotANumberFormula() {
-		Action action = sprite.getActionFactory().createGlideToAction(sprite, new Formula(Double.NaN),
+		Action action = sprite.getActionFactory().createGlideToAction(sprite, new SequenceAction(), new Formula(Double.NaN),
 				new Formula(Double.NaN), new Formula(Double.NaN));
 
 		long currentTimeDelta = System.currentTimeMillis();

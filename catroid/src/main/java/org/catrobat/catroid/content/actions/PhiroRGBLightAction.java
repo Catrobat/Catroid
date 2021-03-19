@@ -30,7 +30,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.PhiroRGBLightBrick.Eye;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -45,7 +45,7 @@ public class PhiroRGBLightAction extends TemporalAction {
 	private Formula red;
 	private Formula green;
 	private Formula blue;
-	private Sprite sprite;
+	private Scope scope;
 
 	private BluetoothDeviceService btService = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 
@@ -75,7 +75,7 @@ public class PhiroRGBLightAction extends TemporalAction {
 		int rgbValue;
 
 		try {
-			rgbValue = rgbFormula.interpretInteger(sprite);
+			rgbValue = rgbFormula.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			rgbValue = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -106,7 +106,7 @@ public class PhiroRGBLightAction extends TemporalAction {
 		this.blue = blue;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

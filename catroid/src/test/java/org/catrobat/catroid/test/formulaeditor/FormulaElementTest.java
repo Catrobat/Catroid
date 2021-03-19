@@ -23,6 +23,12 @@
 
 package org.catrobat.catroid.test.formulaeditor;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.Functions;
@@ -30,6 +36,8 @@ import org.catrobat.catroid.formulaeditor.InternFormulaParser;
 import org.catrobat.catroid.formulaeditor.InternToken;
 import org.catrobat.catroid.formulaeditor.InternTokenType;
 import org.catrobat.catroid.formulaeditor.Operators;
+import org.catrobat.catroid.test.MockUtil;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -46,6 +54,23 @@ import static org.catrobat.catroid.test.formulaeditor.FormulaEditorTestUtil.asse
 
 @RunWith(JUnit4.class)
 public class FormulaElementTest {
+
+	Scope scope;
+
+	@Before
+	public void setUp() throws Exception {
+		Project project = new Project(MockUtil.mockContextForProject(), "Project");
+		Sprite background = project.getDefaultScene().getBackgroundSprite();
+		Sprite sprite = new Sprite("testSprite");
+
+		scope = new Scope(project, background, new SequenceAction());
+
+		project.getDefaultScene().addSprite(sprite);
+
+		ProjectManager.getInstance().setCurrentProject(project);
+		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+	}
+
 	@Test
 	public void testGetInternTokenList() {
 
@@ -56,10 +81,10 @@ public class FormulaElementTest {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(scope);
 
 		assertNotNull(parseTree);
-		assertEquals(-1d, parseTree.interpretRecursive(null));
+		assertEquals(-1d, parseTree.interpretRecursive(scope));
 
 		List<InternToken> internTokenListAfterConversion = parseTree.getInternTokenList();
 		assertEquals(internTokenListAfterConversion.size(), internTokenList.size());
@@ -70,13 +95,13 @@ public class FormulaElementTest {
 	@Test
 	public void testInterpretNonExistingUserVariable() {
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_VARIABLE, "notExistingUserVariable", null);
-		assertEquals(0d, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(scope));
 	}
 
 	@Test
 	public void testInterpretNonExistingUserList() {
 		FormulaElement formulaElement = new FormulaElement(ElementType.USER_LIST, "notExistingUserList", null);
-		assertEquals(0d, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(scope));
 	}
 
 	@Test
@@ -84,7 +109,7 @@ public class FormulaElementTest {
 		FormulaElement formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.PLUS.name(), null, null,
 				new FormulaElement(ElementType.NUMBER, "1.0", null));
 
-		assertEquals(0d, formulaElement.interpretRecursive(null));
+		assertEquals(0d, formulaElement.interpretRecursive(scope));
 	}
 
 	@Test
@@ -94,18 +119,18 @@ public class FormulaElementTest {
 				new FormulaElement(ElementType.NUMBER, Double.toString(Double.MAX_VALUE), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(Double.MAX_VALUE), null));
 
-		assertEquals(Double.MAX_VALUE, formulaElement.interpretRecursive(null));
+		assertEquals(Double.MAX_VALUE, formulaElement.interpretRecursive(scope));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.MINUS.name(), null, new FormulaElement(
 				ElementType.NUMBER, Double.toString(Double.MAX_VALUE * -1d), null), new FormulaElement(
 				ElementType.NUMBER, Double.toString(Double.MAX_VALUE), null));
 
-		assertEquals(Double.MAX_VALUE * -1d, formulaElement.interpretRecursive(null));
+		assertEquals(Double.MAX_VALUE * -1d, formulaElement.interpretRecursive(scope));
 
 		formulaElement = new FormulaElement(ElementType.OPERATOR, Operators.DIVIDE.name(), null, new FormulaElement(
 				ElementType.NUMBER, "0", null), new FormulaElement(ElementType.NUMBER, "0", null));
 
-		assertEquals(Double.NaN, formulaElement.interpretRecursive(null));
+		assertEquals(Double.NaN, formulaElement.interpretRecursive(scope));
 	}
 
 	@Test
@@ -158,34 +183,34 @@ public class FormulaElementTest {
 				new FormulaElement(ElementType.NUMBER, "1.1", null),
 				new FormulaElement(ElementType.NUMBER, "0.1", null));
 
-		assertEquals(1.2, formulaElementAddition.interpretRecursive(null));
+		assertEquals(1.2, formulaElementAddition.interpretRecursive(scope));
 
 		FormulaElement formulaElementSubtraction = new FormulaElement(ElementType.OPERATOR,
 				Operators.MINUS.name(), null,
 				new FormulaElement(ElementType.NUMBER, "15.3", null),
 				new FormulaElement(ElementType.NUMBER, "3.2", null));
 
-		assertEquals(12.1, formulaElementSubtraction.interpretRecursive(null));
+		assertEquals(12.1, formulaElementSubtraction.interpretRecursive(scope));
 
 		FormulaElement formulaElementMultiplication = new FormulaElement(ElementType.OPERATOR,
 				Operators.MULT.name(), null,
 				new FormulaElement(ElementType.NUMBER, "3.5", null),
 				new FormulaElement(ElementType.NUMBER, "3.2", null));
 
-		assertEquals(11.2, formulaElementMultiplication.interpretRecursive(null));
+		assertEquals(11.2, formulaElementMultiplication.interpretRecursive(scope));
 
 		FormulaElement formulaElementDivision = new FormulaElement(ElementType.OPERATOR,
 				Operators.DIVIDE.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1.1", null),
 				new FormulaElement(ElementType.NUMBER, "5", null));
 
-		assertEquals(0.22, formulaElementDivision.interpretRecursive(null));
+		assertEquals(0.22, formulaElementDivision.interpretRecursive(scope));
 
 		FormulaElement formulaElementDivisionInfiniteDecimals = new FormulaElement(ElementType.OPERATOR,
 				Operators.DIVIDE.name(), null,
 				new FormulaElement(ElementType.NUMBER, "1", null),
 				new FormulaElement(ElementType.NUMBER, "2.34", null));
 
-		assertEquals(0.42735042735042733, formulaElementDivisionInfiniteDecimals.interpretRecursive(null));
+		assertEquals(0.42735042735042733, formulaElementDivisionInfiniteDecimals.interpretRecursive(scope));
 	}
 }

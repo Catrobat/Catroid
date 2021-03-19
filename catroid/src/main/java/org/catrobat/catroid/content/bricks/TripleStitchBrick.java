@@ -53,7 +53,7 @@ public class TripleStitchBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createTripleStitchAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createTripleStitchAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.EMBROIDERY_LENGTH)));
 	}
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -101,8 +101,9 @@ public class WebViewActivity extends AppCompatActivity {
 		String flavor = Constants.FLAVOR_DEFAULT;
 		String version = Utils.getVersionName(getApplicationContext());
 		String platform = Constants.PLATFORM_DEFAULT;
+		String buildType = BuildConfig.FLAVOR.equals("pocketCodeBeta") ? "debug" : BuildConfig.BUILD_TYPE;
 		webView.getSettings().setUserAgentString("Catrobat/" + language + " " + flavor + "/"
-				+ version + " Platform/" + platform + " BuildType/" + BuildConfig.BUILD_TYPE);
+				+ version + " Platform/" + platform + " BuildType/" + buildType);
 
 		setLoginCookies(url, PreferenceManager.getDefaultSharedPreferences(getApplicationContext()), CookieManager.getInstance());
 		webView.loadUrl(url);

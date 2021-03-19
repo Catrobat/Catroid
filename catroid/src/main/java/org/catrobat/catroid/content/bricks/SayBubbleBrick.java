@@ -47,7 +47,7 @@ public class SayBubbleBrick extends ThinkBubbleBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createThinkSayBubbleAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.STRING), SAY_BRICK));
 	}
 }

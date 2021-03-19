@@ -56,9 +56,9 @@ class PaintNewLookBrick constructor() : FormulaBrick() {
     }
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        val nextLookAction = sprite.actionFactory.createSetNextLookAction(sprite)
+        val nextLookAction = sprite.actionFactory.createSetNextLookAction(sprite, sequence)
         sequence.addAction(sprite.actionFactory.createPaintNewLookAction(
-            sprite, getFormulaWithBrickField(Brick.BrickField.LOOK_NEW), nextLookAction as
+            sprite, sequence, getFormulaWithBrickField(Brick.BrickField.LOOK_NEW), nextLookAction as
                 SetNextLookAction
         ))
         sequence.addAction(nextLookAction)

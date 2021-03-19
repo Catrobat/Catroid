@@ -27,14 +27,14 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class JumpingSumoMoveBackwardAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula duration;
 	private Formula powerInPercent;
 	private byte normalizedPower;
@@ -46,8 +46,8 @@ public class JumpingSumoMoveBackwardAction extends TemporalAction {
 	private JumpingSumoDeviceController controller;
 	private static final String TAG = JumpingSumoMoveBackwardAction.class.getSimpleName();
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setDelay(Formula delay) {
@@ -69,7 +69,7 @@ public class JumpingSumoMoveBackwardAction extends TemporalAction {
 			if (duration == null) {
 				newDuration = Float.valueOf(JUMPING_SUMO_MOVE_DURATION_STOP);
 			} else {
-				newDuration = duration.interpretFloat(sprite);
+				newDuration = duration.interpretFloat(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
@@ -81,7 +81,7 @@ public class JumpingSumoMoveBackwardAction extends TemporalAction {
 			if (duration == null) {
 				normalizedPower = Byte.valueOf(JUMPING_SUMO_MOVE_SPEED_STOP);
 			} else {
-				float normPower = powerInPercent.interpretFloat(sprite);
+				float normPower = powerInPercent.interpretFloat(scope);
 				normalizedPower = (byte) -normPower;
 			}
 		} catch (InterpretationException interpretationException) {

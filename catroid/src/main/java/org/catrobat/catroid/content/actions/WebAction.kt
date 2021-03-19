@@ -28,7 +28,7 @@ import com.badlogic.gdx.scenes.scene2d.Action
 import okhttp3.Response
 import org.catrobat.catroid.TrustedDomainManager
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 import org.catrobat.catroid.stage.BrickDialogManager
@@ -40,7 +40,7 @@ import org.catrobat.catroid.web.WebConnection.WebRequestListener
 abstract class WebAction : Action(), WebRequestListener {
     private var webConnection: WebConnection? = null
     var formula: Formula? = null
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var url: String? = null
 
     enum class RequestStatus {
@@ -55,7 +55,7 @@ abstract class WebAction : Action(), WebRequestListener {
 
     private fun interpretUrl(): Boolean {
         return try {
-            formula!!.interpretString(sprite)!!.let {
+            formula!!.interpretString(scope)!!.let {
                 url = if (it.startsWith("http://") || it.startsWith("https://")) {
                     it
                 } else "https://$it"

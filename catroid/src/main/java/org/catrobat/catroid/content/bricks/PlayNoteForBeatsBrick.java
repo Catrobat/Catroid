@@ -83,7 +83,8 @@ public class PlayNoteForBeatsBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createPlayNoteForBeatsAction(sprite, getFormulaWithBrickField(BrickField.NOTE_TO_PLAY),
+				.createPlayNoteForBeatsAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.NOTE_TO_PLAY),
 						getFormulaWithBrickField(BrickField.BEATS_TO_PLAY_NOTE)));
 	}
 

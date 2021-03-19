@@ -58,6 +58,7 @@ public class SetFrictionBrick extends FormulaBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetFrictionAction(sprite, getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)));
+				.createSetFrictionAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.PHYSICS_FRICTION)));
 	}
 }

@@ -26,14 +26,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 
 public class PlayNoteForBeatsAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula midiValue;
 	private Formula beats;
 
@@ -42,11 +42,11 @@ public class PlayNoteForBeatsAction extends TemporalAction {
 		try {
 			int playedMidiValue = 0;
 			if (midiValue != null) {
-				playedMidiValue = midiValue.interpretInteger(sprite);
+				playedMidiValue = midiValue.interpretInteger(scope);
 			}
 			float playedBeats = 0;
 			if (beats != null) {
-				playedBeats = beats.interpretFloat(sprite);
+				playedBeats = beats.interpretFloat(scope);
 			}
 			MidiSoundManager.getInstance().playNoteForBeats(playedMidiValue, playedBeats);
 			super.setDuration((float) MidiSoundManager.getInstance().getDurationForBeats(playedBeats) / 1000);
@@ -55,8 +55,8 @@ public class PlayNoteForBeatsAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setMidiValue(Formula midiValue) {

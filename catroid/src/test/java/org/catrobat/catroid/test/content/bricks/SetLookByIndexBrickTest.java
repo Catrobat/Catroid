@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -71,7 +73,8 @@ public class SetLookByIndexBrickTest {
 
 		brick.addActionToSequence(sprite, new ScriptSequenceAction(Mockito.mock(Script.class)));
 
-		Mockito.verify(actionFactory).createSetLookByIndexAction(eq(sprite), any(Formula.class));
+		Mockito.verify(actionFactory).createSetLookByIndexAction(eq(sprite),
+				any(SequenceAction.class), any(Formula.class));
 	}
 
 	@Test
@@ -82,6 +85,7 @@ public class SetLookByIndexBrickTest {
 
 		brick.addActionToSequence(sprite, new ScriptSequenceAction(Mockito.mock(Script.class)));
 
-		Mockito.verify(actionFactory).createSetBackgroundByIndexAction(eq(sprite), any(Formula.class), anyBoolean());
+		Mockito.verify(actionFactory).createSetBackgroundByIndexAction(eq(sprite),
+				any(SequenceAction.class), any(Formula.class), anyBoolean());
 	}
 }

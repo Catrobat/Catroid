@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.physics.collision;
 
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.LookData;
@@ -125,7 +126,7 @@ public class CollisionDetectionAdvancedTest {
 		float steps = 200.0f;
 		ActionFactory factory = new ActionFactory();
 		sprite2.setActionFactory(factory);
-		Action moveNSteptsaction = factory.createMoveNStepsAction(sprite2, new Formula(steps));
+		Action moveNSteptsaction = factory.createMoveNStepsAction(sprite2, new SequenceAction(), new Formula(steps));
 		moveNSteptsaction.act(1.0f);
 
 		assertTrue(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));
@@ -138,7 +139,7 @@ public class CollisionDetectionAdvancedTest {
 		float size = 300.0f;
 		ActionFactory factory = new ActionFactory();
 		sprite2.setActionFactory(factory);
-		Action createChangeSizeByNAction = factory.createChangeSizeByNAction(sprite2, new Formula(size));
+		Action createChangeSizeByNAction = factory.createChangeSizeByNAction(sprite2, new SequenceAction(), new Formula(size));
 		createChangeSizeByNAction.act(1.0f);
 
 		assertTrue(CollisionDetection.checkCollisionBetweenLooks(sprite1.look, sprite2.look));

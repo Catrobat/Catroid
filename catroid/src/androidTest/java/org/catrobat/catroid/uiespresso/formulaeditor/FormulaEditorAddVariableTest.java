@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -70,7 +70,7 @@ public class FormulaEditorAddVariableTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void addVariableTest() {
-		final String varName = "variable";
+		final String varName = "Variable";
 		onDataList()
 				.performAdd(varName);
 
@@ -81,7 +81,7 @@ public class FormulaEditorAddVariableTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void addListTest() {
-		final String listName = "list";
+		final String listName = "List";
 		onDataList()
 				.performAdd(listName, FormulaEditorDataListWrapper.ItemType.LIST);
 
@@ -92,8 +92,8 @@ public class FormulaEditorAddVariableTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void cancelAddVariableTest() {
-		final String varName1 = "canceled";
-		final String varName2 = "variable";
+		final String varName1 = "Canceled";
+		final String varName2 = "Variable";
 		onDataList()
 				.performCancel(varName1);
 

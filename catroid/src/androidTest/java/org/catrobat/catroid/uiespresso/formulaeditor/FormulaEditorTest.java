@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 
@@ -71,8 +72,8 @@ public class FormulaEditorTest {
 
 		//typeText not working for formula editor, so use CustomActions.typeInValue
 		onFormulaEditor()
-				.performEnterNumber(12345.678)
-				.performCloseAndSave();
+				.performEnterNumber(12345.678);
+		pressBack();
 	}
 
 	@After

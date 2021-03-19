@@ -27,14 +27,14 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import com.parrot.arsdk.arcontroller.ARDeviceController;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class JumpingSumoRotateRightAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula degree;
 	private float newDegree;
 	private float duration;
@@ -45,8 +45,8 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 	private JumpingSumoDeviceController controller;
 	private static final String TAG = JumpingSumoRotateRightAction.class.getSimpleName();
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setDegree(Formula degree) {
@@ -62,7 +62,7 @@ public class JumpingSumoRotateRightAction extends TemporalAction {
 			if (degree == null) {
 				newDegree = Float.valueOf(JUMPING_SUMO_ROTATE_ZERO);
 			} else {
-				newDegree = degree.interpretFloat(sprite);
+				newDegree = degree.interpretFloat(scope);
 			}
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
