@@ -623,7 +623,7 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		}
 		List<CategoryListItem> result = toCategoryListItems(resIds);
 		result.addAll(toCategoryListItems(OBJECT_COLOR_COLLISION.subList(1, 2), OBJECT_COLOR_PARAMS.subList(1, 2)));
-		return addHeader(result, getString(R.string.formula_editor_object_general));
+		return addHeader(result, getString(R.string.formula_editor_object_look));
 	}
 
 	private List<CategoryListItem> getObjectPhysicalPropertiesItems() {
