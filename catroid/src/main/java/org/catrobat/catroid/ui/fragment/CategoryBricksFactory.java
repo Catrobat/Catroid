@@ -556,9 +556,9 @@ public class CategoryBricksFactory {
 		if (!isBackgroundSprite) {
 			looksBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
 		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
-		} else {
 			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
@@ -618,9 +618,9 @@ public class CategoryBricksFactory {
 		if (!isBackgroundSprite) {
 			dataBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
 		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
-		} else {
 			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
@@ -654,9 +654,9 @@ public class CategoryBricksFactory {
 		if (!isBackgroundSprite) {
 			deviceBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
 		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
-		} else {
 			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		deviceBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
