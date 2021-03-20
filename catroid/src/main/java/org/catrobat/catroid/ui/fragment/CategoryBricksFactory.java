@@ -552,14 +552,12 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new FlashBrick());
 		}
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			if (!isBackgroundSprite) {
-				looksBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		if (!isBackgroundSprite) {
+			looksBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
+		} else {
+			looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
 		}
 
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
@@ -615,15 +613,13 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-			if (!isBackgroundSprite) {
-				dataBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		if (!isBackgroundSprite) {
+			dataBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
+		} else {
+			dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
 		}
 
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
@@ -653,15 +649,13 @@ public class CategoryBricksFactory {
 			deviceBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-			if (!isBackgroundSprite) {
-				deviceBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		if (!isBackgroundSprite) {
+			deviceBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
+		} else {
+			deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
 		}
 
 		deviceBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
@@ -873,9 +867,7 @@ public class CategoryBricksFactory {
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-		}
+		assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 
 		return assertionsBrickList;
 	}
