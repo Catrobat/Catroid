@@ -195,6 +195,13 @@ public final class BrickValues {
 	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
 	// Note: No constant default value for the "Send web request" brick, as it is localized in strings.xml
 
+	//Constants Web
+	public static final String OPEN_IN_BROWSER = "https://catrobat.org/";
+	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
+	public static final String BACKGROUND_REQUEST = "https://catrob.at/HalloweenPortrait";
+	public static final String BACKGROUND_REQUEST_LANDSCAPE = "https://catrob.at/HalloweenLandscape";
+	// Note: No constant default value for the "Send web request" brick, as it is localized in strings.xml
+
 	private BrickValues() {
 		throw new AssertionError("No.");
 	}
