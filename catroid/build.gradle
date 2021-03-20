@@ -162,6 +162,7 @@ android {
         buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_RASPI_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_SCRATCH_CONVERTER_ENABLED", "true"
+        buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_TESTBRICK_ENABLED", "true"
         buildConfigField "boolean", "FEATURE_CATBLOCKS_ENABLED", "false"
@@ -252,6 +253,7 @@ android {
             buildConfigField "boolean", "FEATURE_MERGE_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_POCKETMUSIC_ENABLED", "false"
             buildConfigField "boolean", "FEATURE_MULTIPLAYER_VARIABLES_ENABLED", "false"
+            buildConfigField "boolean", "FEATURE_USER_REPORTERS_ENABLED", "false"
             resValue "string", "SNACKBAR_HINTS_ENABLED", "true"
             signingConfig signingConfigs.debug
         }
