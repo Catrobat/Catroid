@@ -415,7 +415,9 @@ public class CategoryBricksFactory {
 			userDefinedBricks = currentSprite.getUserDefinedBrickList();
 		}
 		userDefinedBricks = new ArrayList<>(userDefinedBricks);
-		userDefinedBricks.add(new ReportBrick());
+		if (BuildConfig.FEATURE_USER_REPORTERS_ENABLED) {
+			userDefinedBricks.add(new ReportBrick());
+		}
 		return userDefinedBricks;
 	}
 
