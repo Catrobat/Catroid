@@ -87,7 +87,7 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
-	// Trusted domains
+	// Trusted domains for Web access bricks
 	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";
 	public static final String TRUSTED_USER_DOMAINS_FILE_NAME = "trustedUserDomains.json";
 	public static final String TRUST_LIST_JSON_ARRAY_NAME = "domains";
