@@ -1911,7 +1911,7 @@
     <string name="formula_editor_logic_comparison">عوامل تشغيل المقارنة</string>
     <string name="formula_editor_object_general">الخصائص العامة</string>
     <string name="formula_editor_object_movement">خصائص الحركة</string>
-    <string name="formula_editor_device_face_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">التاريخ والوقت</string>
     <string name="formula_editor_device_touch_detection">الكشف عن التلامس</string>
     <string name="formula_editor_device_lego_nxt">ليغو NXT</string>

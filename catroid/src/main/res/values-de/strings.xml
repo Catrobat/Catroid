@@ -1689,7 +1689,7 @@ Die vorangegangene, veraltete Version unserer Datenschutzrichtlinie (2.0) finden
     <string name="formula_editor_logic_comparison">Vergleichsoperatoren</string>
     <string name="formula_editor_object_general">Allgemeine Eigenschaften</string>
     <string name="formula_editor_object_movement">Physikalische Eigenschaften</string>
-    <string name="formula_editor_device_face_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Datum und Uhrzeit</string>
     <string name="formula_editor_device_touch_detection">Berührungserkennung</string>
     <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>

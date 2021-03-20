@@ -1848,7 +1848,7 @@
     <string name="formula_editor_logic_comparison">операторы сравнения</string>
     <string name="formula_editor_object_general">общие свойства</string>
     <string name="formula_editor_object_movement">свойства движения</string>
-    <string name="formula_editor_device_face_detection">Визуальные датчики</string>
+    <string name="formula_editor_device_visual_detection">Визуальные датчики</string>
     <string name="formula_editor_device_date_and_time">Дата и время</string>
     <string name="formula_editor_device_touch_detection">Обнаружение касаний</string>
     <string name="formula_editor_device_lego_nxt">Лего NXT</string>

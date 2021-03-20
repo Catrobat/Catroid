@@ -1760,7 +1760,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">operador de Comparação</string>
     <string name="formula_editor_object_general">propriedades gerais</string>
     <string name="formula_editor_object_movement">propriedades de movimento</string>
-    <string name="formula_editor_device_face_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Data e hora</string>
     <string name="formula_editor_device_touch_detection">Deteção de toque</string>
     <string name="formula_editor_device_lego_nxt">Lego NXT</string>

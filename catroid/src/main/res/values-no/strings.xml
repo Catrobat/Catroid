@@ -1753,7 +1753,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_comparison">sammenligningsoperatorer</string>
     <string name="formula_editor_object_general">generelle egenskaper</string>
     <string name="formula_editor_object_movement">bevegelse egenskaper</string>
-    <string name="formula_editor_device_face_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Dato og klokkeslett</string>
     <string name="formula_editor_device_touch_detection">Touch gjenkjenning</string>
     <string name="formula_editor_device_lego_nxt">LEGO NXT</string>
