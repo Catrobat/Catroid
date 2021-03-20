@@ -801,6 +801,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				getActivity().getString(actionbarResId));
 		bundle.putString(CategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 		fragment.setArguments(bundle);
+		fragment.onPrepareOptionsMenu(currentMenu);
 
 		getFragmentManager().beginTransaction()
 				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))

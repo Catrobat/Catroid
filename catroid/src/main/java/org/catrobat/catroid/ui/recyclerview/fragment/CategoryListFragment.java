@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,11 +23,18 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -41,6 +48,7 @@ import org.catrobat.catroid.devices.mindstorms.ev3.sensors.EV3Sensor;
 import org.catrobat.catroid.devices.mindstorms.nxt.sensors.NXTSensor;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserList;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.dialogs.LegoSensorPortConfigDialog;
 import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistantDialog;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
@@ -53,8 +61,10 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.AddUserListDialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -64,6 +74,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static org.catrobat.catroid.CatroidApplication.defaultSystemLanguage;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.DEVICE_LANGUAGE;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAGS;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.LANGUAGE_TAG_KEY;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -303,6 +318,8 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 		if (appCompatActivity == null) {
 			return;
 		}
+		appCompatActivity.getMenuInflater().inflate(R.menu.menu_formulareditor_category, menu);
+
 		ActionBar supportActionBar = appCompatActivity.getSupportActionBar();
 		if (supportActionBar != null) {
 			supportActionBar.setDisplayHomeAsUpEnabled(true);
@@ -332,6 +349,71 @@ public class CategoryListFragment extends Fragment implements CategoryListRVAdap
 				}
 				break;
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == R.id.wiki_help) {
+			onOptionsMenuClick(getTag());
+		}
+		return true;
+	}
+
+	public void onOptionsMenuClick(String tag) {
+		String language = getLanguage(getActivity());
+		switch (tag) {
+			case FUNCTION_TAG:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(Constants.CATROBAT_FUNCTIONS_WIKI_URL + language)));
+				break;
+			case LOGIC_TAG:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(Constants.CATROBAT_LOGIC_WIKI_URL + language)));
+				break;
+			case OBJECT_TAG:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(Constants.CATROBAT_OBJECT_WIKI_URL + language)));
+				break;
+			case SENSOR_TAG:
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse(Constants.CATROBAT_SENSORS_WIKI_URL + language)));
+				break;
+		}
+	}
+
+	public String getHelpUrl(String tag, SpriteActivity activity) {
+		String language = getLanguage(activity);
+		switch (tag) {
+			case FUNCTION_TAG:
+				return Constants.CATROBAT_FUNCTIONS_WIKI_URL + language;
+			case LOGIC_TAG:
+				return Constants.CATROBAT_LOGIC_WIKI_URL + language;
+			case OBJECT_TAG:
+				return Constants.CATROBAT_OBJECT_WIKI_URL + language;
+			case SENSOR_TAG:
+				return Constants.CATROBAT_SENSORS_WIKI_URL + language;
+		}
+		return null;
+	}
+
+	private static SharedPreferences getSharedPreferences(Context context) {
+		return PreferenceManager.getDefaultSharedPreferences(context);
+	}
+
+	public String getLanguage(Activity activity) {
+		String language = "?language=";
+		SharedPreferences sharedPreferences = getSharedPreferences(activity.getApplicationContext());
+		String languageTag = sharedPreferences.getString(LANGUAGE_TAG_KEY, "");
+		Locale mLocale;
+		if (languageTag.equals(DEVICE_LANGUAGE)) {
+			mLocale = Locale.forLanguageTag(defaultSystemLanguage);
+		} else {
+			mLocale = Arrays.asList(LANGUAGE_TAGS).contains(languageTag)
+					? Locale.forLanguageTag(languageTag)
+					: Locale.forLanguageTag(defaultSystemLanguage);
+		}
+		language = language + mLocale.getLanguage();
+		return language;
 	}
 
 	private FormulaEditorFragment addResourceToActiveFormulaInFormulaEditor(CategoryListItem categoryListItem) {
