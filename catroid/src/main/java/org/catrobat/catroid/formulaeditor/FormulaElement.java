@@ -433,6 +433,8 @@ public class FormulaElement implements Serializable {
 				return interpretFunctionNumberOfItems(arguments.get(0), scope);
 			case INDEX_OF_ITEM:
 				return interpretFunctionIndexOfItem(arguments.get(0), scope);
+			case FLATTEN:
+				return interpretFunctionFlatten(scope, leftChild);
 			case COLLIDES_WITH_COLOR:
 				return booleanToDouble(new ColorCollisionDetection(scope, StageActivity.stageListener)
 						.tryInterpretFunctionTouchesColor(arguments.get(0)));
@@ -555,6 +557,10 @@ public class FormulaElement implements Serializable {
 				scope) + interpretFunctionString(additionalChildren.get(0), scope);
 	}
 
+	private static String interpretFunctionFlatten(Scope scope, FormulaElement leftChild) {
+		return interpretFunctionString(leftChild, scope);
+	}
+
 	private static String tryInterpretFunctionRegex(Scope scope, FormulaElement leftChild,
 			FormulaElement rightChild) {
 		try {
@@ -578,23 +584,31 @@ public class FormulaElement implements Serializable {
 	}
 
 	private static String interpretFunctionString(FormulaElement child, Scope scope) {
-		if (child == null) {
-			return "";
-		} else if (child.getElementType() == ElementType.STRING) {
-			return child.getValue();
-		}
-		Object objectInterpretation = child.interpretRecursive(scope);
 		String parameterInterpretation = "";
-
-		if (child.getElementType() == ElementType.NUMBER) {
-			double number = Double.parseDouble((String) objectInterpretation);
-			if (!Double.isNaN(number)) {
-				parameterInterpretation += isInteger(number) ? (int) number : number;
+		if (child != null) {
+			Object objectInterpretation = child.interpretRecursive(scope);
+			switch (child.getElementType()) {
+				case STRING:
+					parameterInterpretation = child.getValue();
+					break;
+				case NUMBER:
+					parameterInterpretation = formatNumberString((String) objectInterpretation);
+					break;
+				default:
+					parameterInterpretation += objectInterpretation;
+					parameterInterpretation = trimTrailingCharacters(parameterInterpretation);
 			}
-		} else {
-			parameterInterpretation += objectInterpretation;
 		}
-		return trimTrailingCharacters(parameterInterpretation);
+		return parameterInterpretation;
+	}
+
+	private static String formatNumberString(String numberString) {
+		double number = Double.parseDouble(numberString);
+		String formattedNumberString = "";
+		if (!Double.isNaN(number)) {
+			formattedNumberString += isInteger(number) ? (int) number : number;
+		}
+		return trimTrailingCharacters(formattedNumberString);
 	}
 
 	private Object interpretFunctionLength(Object left, Scope scope) {

@@ -2011,6 +2011,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="camera_error_text_detection">
         There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <!--  -->
 
 
