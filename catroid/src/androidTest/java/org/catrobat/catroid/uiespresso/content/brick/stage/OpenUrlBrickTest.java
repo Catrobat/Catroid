@@ -29,7 +29,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.BrickValues;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.io.StorageOperations;
@@ -64,7 +64,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 public class OpenUrlBrickTest {
 
 	private int openUrlBrickPosition;
-	private final String url = Constants.MAIN_URL_HTTPS;
+	private final String url = BrickValues.OPEN_IN_BROWSER;
 	private Matcher expectedIntent;
 	private final String projectName = "openUrlBrickTest";
 
