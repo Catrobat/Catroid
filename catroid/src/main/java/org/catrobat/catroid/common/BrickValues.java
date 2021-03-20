@@ -187,7 +187,7 @@ public final class BrickValues {
 	public static final int TOUCH_Y_START = -200;
 	public static final int TOUCH_X_GOAL = 100;
 	public static final int TOUCH_Y_GOAL = 200;
-	
+
 	//Constants Web
 	public static final String OPEN_IN_BROWSER = "https://catrobat.org/";
 	public static final String LOOK_REQUEST = "https://catrob.at/penguin";
