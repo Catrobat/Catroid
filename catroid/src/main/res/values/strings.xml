@@ -2108,6 +2108,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="serif_font" translatable="false">serif</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
+    <string name="new_sprite_dialog_place_visually">Place Visually</string>
+    <string name="place_visually_text">You will be asked to place the new actor or object on the stage</string>
 
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
