@@ -595,7 +595,7 @@ public class FormulaElement implements Serializable {
 					parameterInterpretation = formatNumberString((String) objectInterpretation);
 					break;
 				default:
-					parameterInterpretation = trimTrailingCharacters((String) objectInterpretation);
+					parameterInterpretation = trimTrailingCharacters(objectInterpretation);
 			}
 		}
 		return parameterInterpretation;
