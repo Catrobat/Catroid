@@ -46,7 +46,7 @@ fun clickWhenEnabled(): ViewAction {
         }
 
         override fun perform(uiController: UiController, view: View) {
-				view.performClick()
+            view.performClick()
         }
     }
 }
