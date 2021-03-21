@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.ShowBubbleActor;
@@ -35,7 +35,7 @@ import org.catrobat.catroid.stage.StageActivity;
 public class ThinkSayBubbleAction extends TemporalAction {
 	private static final String TAG = ThinkSayBubbleAction.class.getSimpleName();
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula text;
 	private int type;
 
@@ -49,24 +49,24 @@ public class ThinkSayBubbleAction extends TemporalAction {
 			return;
 		}
 
-		if (StageActivity.stageListener.getBubbleActorForSprite(sprite) != null) {
-			StageActivity.stageListener.removeBubbleActorForSprite(sprite);
+		if (StageActivity.stageListener.getBubbleActorForSprite(scope.getSprite()) != null) {
+			StageActivity.stageListener.removeBubbleActorForSprite(scope.getSprite());
 		}
 		if (showBubbleActor != null) {
-			StageActivity.stageListener.setBubbleActorForSprite(sprite, showBubbleActor);
+			StageActivity.stageListener.setBubbleActorForSprite(scope.getSprite(), showBubbleActor);
 		}
 	}
 
 	public ShowBubbleActor createBubbleActor() throws InterpretationException {
-		String textToDisplay = text == null ? "" : text.interpretString(sprite);
+		String textToDisplay = text == null ? "" : text.interpretString(scope);
 		if (textToDisplay.isEmpty()) {
 			return null;
 		}
-		return new ShowBubbleActor(textToDisplay, sprite, type);
+		return new ShowBubbleActor(textToDisplay, scope.getSprite(), type);
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setText(Formula text) {

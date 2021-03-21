@@ -23,7 +23,7 @@
 package org.catrobat.catroid.content.actions
 
 import android.util.Log
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
@@ -32,7 +32,8 @@ class RepeatAction : LoopAction() {
     private var isCurrentLoopInitialized = false
     private var isRepeatActionInitialized = false
     private var repeatCountValue = 0
-    lateinit var sprite: Sprite
+    override var currentTime = 0f
+    var scope: Scope? = null
     var isForeverRepeat = false
     var repeatCount: Formula? = null
 
@@ -72,7 +73,7 @@ class RepeatAction : LoopAction() {
 
     private fun interpretRepeatCount() {
         repeatCountValue = try {
-            repeatCount?.interpretInteger(sprite) ?: 0
+            repeatCount?.interpretInteger(scope) ?: 0
         } catch (interpretationException: InterpretationException) {
             Log.d(
                 javaClass.simpleName,

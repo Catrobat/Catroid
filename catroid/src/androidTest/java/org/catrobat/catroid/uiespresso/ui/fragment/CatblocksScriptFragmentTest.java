@@ -119,11 +119,9 @@ public class CatblocksScriptFragmentTest {
 		while (true) {
 			loadCounter++;
 			try {
-				onWebView().check(webContent(hasElementWithXpath("//*[@data-object=\"testSprite\" "
-						+ "and contains(@class,'catblocks-script-container') "
-						+ "and contains(@class,'collapse') "
-						+ "and contains(@class,'show')"
-						+ "]")));
+				onWebView().check(webContent(hasElementWithXpath(
+						"//*[@id=\"catroid-catblocks-container\"]/div/svg[1]/g")));
+
 				break;
 			} catch (Throwable throwable) {
 				if (loadCounter >= 25) {

@@ -30,7 +30,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.devices.arduino.Arduino;
 import org.catrobat.catroid.devices.arduino.ArduinoImpl;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -40,7 +40,7 @@ public class ArduinoSendDigitalValueAction extends TemporalAction {
 
 	private Formula pinNumber;
 	private Formula pinValue;
-	private Sprite sprite;
+	private Scope scope;
 	private int pin;
 	private int value;
 
@@ -52,7 +52,8 @@ public class ArduinoSendDigitalValueAction extends TemporalAction {
 		Integer pinValueInterpretation;
 
 		try {
-			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
+			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0)
+					: pinNumber.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
@@ -60,7 +61,8 @@ public class ArduinoSendDigitalValueAction extends TemporalAction {
 		}
 
 		try {
-			pinValueInterpretation = pinValue == null ? Integer.valueOf(0) : pinValue.interpretInteger(sprite);
+			pinValueInterpretation = pinValue == null ? Integer.valueOf(0)
+					: pinValue.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinValueInterpretation = 0;
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.",
@@ -84,8 +86,8 @@ public class ArduinoSendDigitalValueAction extends TemporalAction {
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setPinNumber(Formula newPinNumber) {

@@ -50,10 +50,10 @@ class EditLookAction : PocketPaintAction() {
     }
 
     override fun getTargetIntent(): Intent? {
-        if (sprite?.look?.lookData?.file?.exists() != true) {
+        if (scope?.sprite?.look?.lookData?.file?.exists() != true) {
             return null
         }
-        val lookAbsolutePath = sprite?.look?.lookData?.file?.absolutePath ?: return null
+        val lookAbsolutePath = scope?.sprite?.look?.lookData?.file?.absolutePath ?: return null
         return StageActivity.activeStageActivity.get()?.let { stageActivity ->
             val intent = Intent("android.intent.action.MAIN").setComponent(ComponentName(
                 stageActivity, Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME))
@@ -78,7 +78,7 @@ class EditLookAction : PocketPaintAction() {
 
     @VisibleForTesting
     fun setLookData() {
-        val sprite = sprite ?: return
+        val sprite = scope?.sprite ?: return
         val lookData = sprite?.look?.lookData ?: return
         val lookDataName = lookData.name ?: return
         val lookDataOldFile = sprite.look?.lookData?.file ?: return

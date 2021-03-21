@@ -51,7 +51,7 @@ public class SetSizeToBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createSetSizeToAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.SIZE)));
 	}
 }

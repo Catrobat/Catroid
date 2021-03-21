@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -44,6 +44,7 @@ import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorD
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -70,8 +71,8 @@ public class ReplaceItemInUserListTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testCreateNewUserListAndDeletion() {
-		String userListName = "testList1";
-		String secondUserListName = "testList2";
+		String userListName = "TestList1";
+		String secondUserListName = "TestList2";
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.replace_item_in_userlist_spinner)
 				.performNewVariable(userListName);
@@ -88,8 +89,7 @@ public class ReplaceItemInUserListTest {
 				.performDelete();
 		onDataList()
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 
 		onBrickAtPosition(brickPosition).onChildView(withId(R.id.replace_item_in_userlist_spinner))
 				.perform(click());
@@ -105,7 +105,7 @@ public class ReplaceItemInUserListTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testCreateUserListInFormulaEditor() {
-		String userListName = "testList1";
+		String userListName = "TestList1";
 
 		onView(withId(R.id.brick_replace_item_in_userlist_value_edit_text))
 				.perform(click());
@@ -115,8 +115,7 @@ public class ReplaceItemInUserListTest {
 		onDataList()
 				.performAdd(userListName, FormulaEditorDataListWrapper.ItemType.LIST)
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 
 		onBrickAtPosition(brickPosition).onVariableSpinner(R.id.replace_item_in_userlist_spinner)
 				.perform(click());

@@ -23,9 +23,11 @@
 package org.catrobat.catroid.test.physics;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenBounceOffScript;
@@ -60,8 +62,8 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(JUnit4.class)
 public class PhysicsSpriteCloneTest {
 
-	private Sprite sprite;
 	private Project project;
+	private Sprite sprite;
 	private static final float BOUNCE_TEST_VALUE = 0.5f;
 	private static final float FRICTION_TEST_VALUE = 0.5f;
 	private static final Vector2 GRAVITY_TEST_VALUE = new Vector2(10.0f, 10.0f);
@@ -156,8 +158,9 @@ public class PhysicsSpriteCloneTest {
 
 		Formula clonedSetBounceBrickFormula = ((FormulaBrick) clonedSetBounceBrick)
 				.getFormulaWithBrickField(Brick.BrickField.PHYSICS_BOUNCE_FACTOR);
+		Scope clonedScope = new Scope(project, clonedSprite, new SequenceAction());
 		float clonedBounceFactorValue = 0;
-		clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedSprite);
+		clonedBounceFactorValue = clonedSetBounceBrickFormula.interpretFloat(clonedScope);
 
 		assertEquals(BOUNCE_TEST_VALUE, clonedBounceFactorValue);
 	}

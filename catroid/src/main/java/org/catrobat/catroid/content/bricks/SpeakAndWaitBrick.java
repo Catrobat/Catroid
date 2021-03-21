@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.content.bricks;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -63,20 +65,20 @@ public class SpeakAndWaitBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory()
-				.createSpeakAction(sprite, getFormulaWithBrickField(BrickField.SPEAK)));
 
-		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite,
-				new Formula(getDurationOfSpokenText(sprite,
-						getFormulaWithBrickField(BrickField.SPEAK))), speechFile.getAbsolutePath()));
+		Formula text = getFormulaWithBrickField(BrickField.SPEAK);
+		sequence.addAction(sprite.getActionFactory()
+				.createSpeakAction(sprite, sequence, text));
+
+		sequence.addAction(sprite.getActionFactory().createWaitForSoundAction(sprite, sequence,
+				new Formula(getDurationOfSpokenText(sprite, sequence,
+						text)), speechFile.getAbsolutePath()));
 	}
 
-	private float getDurationOfSpokenText(Sprite sprite, Formula text) {
-		SpeakAction action = (SpeakAction) sprite.getActionFactory()
-				.createSpeakAction(sprite, getFormulaWithBrickField(BrickField.SPEAK));
+	private float getDurationOfSpokenText(Sprite sprite, SequenceAction sequence, Formula text) {
 
-		action.setSprite(sprite);
-		action.setText(text);
+		SpeakAction action = (SpeakAction) sprite.getActionFactory()
+				.createSpeakAction(sprite, sequence, text);
 		action.setDetermineLength(true);
 
 		action.act(1.0f);

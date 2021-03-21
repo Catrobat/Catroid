@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,12 +34,15 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.ui.SpriteActivity;
+import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -47,6 +50,8 @@ import java.util.List;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 public abstract class FormulaBrick extends BrickBaseType implements View.OnClickListener {
 
@@ -141,6 +146,7 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 	@Override
 	public void onClick(View view) {
+		saveCodeFile(view);
 		showFormulaEditorToEditFormula(view);
 	}
 
@@ -174,8 +180,10 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 
 		if (getFormulaWithBrickField(formulaField).isNumber()) {
 			try {
-				Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
-				Double formulaValue = formulaMap.get(formulaField).interpretDouble(sprite);
+				ProjectManager projectManager = ProjectManager.getInstance();
+				Scope scope = new Scope(projectManager.getCurrentProject(),
+						projectManager.getCurrentSprite(), null);
+				Double formulaValue = formulaMap.get(formulaField).interpretDouble(scope);
 				textView.setText(context.getResources().getQuantityString(R.plurals.second_plural,
 						Utils.convertDoubleToPluralInteger(formulaValue)));
 				return;
@@ -201,5 +209,31 @@ public abstract class FormulaBrick extends BrickBaseType implements View.OnClick
 				formula.updateUserlistName(oldName, newName);
 			}
 		}
+	}
+
+	private void saveCodeFile(View view) {
+		ScriptFragment scriptFragment = getScriptFragment(view);
+		if (scriptFragment != null && scriptFragment.copyProjectForUndoOption()) {
+			((SpriteActivity) scriptFragment.getActivity()).setUndoMenuItemVisibility(true);
+			scriptFragment.setUndoBrickPosition(this);
+		}
+	}
+
+	private ScriptFragment getScriptFragment(View view) {
+		FragmentActivity activity = null;
+		if (view != null) {
+			activity = UiUtils.getActivityFromView(view);
+		}
+
+		if (activity == null) {
+			return null;
+		}
+
+		Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+		if (currentFragment instanceof ScriptFragment) {
+			return (ScriptFragment) currentFragment;
+		}
+
+		return null;
 	}
 }

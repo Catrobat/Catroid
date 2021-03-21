@@ -41,7 +41,6 @@ import java.util.Arrays;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.OK;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorDataListWrapper.onDataList;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
@@ -80,8 +79,8 @@ public class SetVariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCreateNewUserVariableAndDeletion() {
-		String userVariableName = "testVariable1";
-		String secondUserVariableName = "testVariable2";
+		String userVariableName = "TestVariable1";
+		String secondUserVariableName = "TestVariable2";
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -113,13 +112,13 @@ public class SetVariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testIfSetVariableSpinnerCanHoldMultipleVariables() {
-		String userVariableName = "testVariable1";
-		String userVariableNameTwo = "testVariable2";
+		String userVariableName = "TestVariable1";
+		String userVariableNameTwo = "TestVariable2";
 
 		addNewVariableViaFormulaEditor(1, userVariableName);
 
-		onView(OK)
-				.perform(click());
+		pressBack();
+
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(userVariableNameTwo);
 

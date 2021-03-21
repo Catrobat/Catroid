@@ -231,7 +231,8 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 		}
 
 		Action action = sprite.getActionFactory()
-				.createPhiroSendSelectedSensorAction(sprite, sensorSpinnerPosition, ifSequence, elseSequence);
+				.createPhiroSendSelectedSensorAction(sprite, sequence, sensorSpinnerPosition, ifSequence,
+						elseSequence);
 
 		sequence.addAction(action);
 	}

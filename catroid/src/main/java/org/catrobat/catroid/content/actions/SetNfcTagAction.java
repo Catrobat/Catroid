@@ -27,14 +27,14 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.stage.StageActivity;
 
 public class SetNfcTagAction extends Action {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula nfcNdefMessage;
 	private int nfcTagNdefSpinnerSelection;
 	private NdefMessage message;
@@ -50,8 +50,8 @@ public class SetNfcTagAction extends Action {
 		this.nfcNdefMessage = nfcNdefMessage;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class SetNfcTagAction extends Action {
 		}
 		if (firstExecution) {
 			try {
-				message = NfcHandler.createMessage(nfcNdefMessage.interpretString(sprite),
+				message = NfcHandler.createMessage(nfcNdefMessage.interpretString(scope),
 						nfcTagNdefSpinnerSelection);
 				synchronized (StageActivity.class) {
 					StageActivity.setNfcTagMessage(message);

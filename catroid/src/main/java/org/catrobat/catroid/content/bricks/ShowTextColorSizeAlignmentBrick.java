@@ -27,8 +27,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -153,12 +153,13 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable = new UserVariable("NoVariableSet",
+					CatroidApplication.getAppContext().getString(R.string.no_variable_selected));
 			userVariable.setDummy(true);
 		}
 
 		sequence.addAction(sprite.getActionFactory().createShowVariableColorAndSizeAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION),
+				sequence, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
 				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,6 +47,7 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
+import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
@@ -153,11 +154,11 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			case R.id.new_scene:
 				handleAddSceneButton();
 				break;
-			case R.id.upload:
-				setShowProgressBar(true);
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
-				Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+			case R.id.project_options:
+				getSupportFragmentManager().beginTransaction()
+						.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
+						.addToBackStack(ProjectOptionsFragment.TAG)
+						.commit();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -191,10 +192,15 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			return;
 		}
 
-		saveProject(currentProject);
+		Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+		if (!(currentFragment instanceof ProjectOptionsFragment)) {
+			saveProject(currentProject);
+		}
 
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
+			BottomBar.showBottomBar(this);
 			return;
 		}
 

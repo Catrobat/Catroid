@@ -59,7 +59,7 @@ public class SetTextBrick extends FormulaBrick implements View.OnClickListener {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		sequence.addAction(sprite.getActionFactory()
-				.createSetTextAction(sprite, getFormulaWithBrickField(BrickField.X_DESTINATION),
+				.createSetTextAction(sprite, sequence, getFormulaWithBrickField(BrickField.X_DESTINATION),
 						getFormulaWithBrickField(BrickField.Y_DESTINATION),
 						getFormulaWithBrickField(BrickField.STRING)));
 	}

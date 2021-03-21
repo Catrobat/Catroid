@@ -72,7 +72,7 @@ public class GlideToBrick extends VisualPlacementBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createGlideToAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.X_DESTINATION),
 				getFormulaWithBrickField(BrickField.Y_DESTINATION),
 				getFormulaWithBrickField(BrickField.DURATION_IN_SECONDS)));

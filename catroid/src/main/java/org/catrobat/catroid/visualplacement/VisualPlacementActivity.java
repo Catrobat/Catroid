@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -95,6 +95,7 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	public static final String X_COORDINATE_BUNDLE_ARGUMENT = "xCoordinate";
 	public static final String Y_COORDINATE_BUNDLE_ARGUMENT = "yCoordinate";
+	public static final String CHANGED_COORDINATES = "changedCoordinates";
 
 	private ProjectManager projectManager;
 	private FrameLayout frameLayout;
@@ -385,7 +386,14 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 
 	@Override
 	public void onBackPressed() {
-		showSaveChangesDialog(this);
+		int xCoordinate = Math.round(xCoord * reversedRatioWidth);
+		int yCoordinate = Math.round(yCoord * reversedRatioHeight);
+
+		if (translateX != xCoordinate || translateY != yCoordinate) {
+			showSaveChangesDialog(this);
+		} else {
+			finish();
+		}
 	}
 
 	@Override
@@ -407,8 +415,11 @@ public class VisualPlacementActivity extends BaseCastActivity implements View.On
 		extras.putInt(EXTRA_BRICK_HASH, getIntent().getIntExtra(EXTRA_BRICK_HASH, -1));
 		int xCoordinate = Math.round(xCoord * reversedRatioWidth);
 		int yCoordinate = Math.round(yCoord * reversedRatioHeight);
+
 		extras.putInt(X_COORDINATE_BUNDLE_ARGUMENT, xCoordinate);
 		extras.putInt(Y_COORDINATE_BUNDLE_ARGUMENT, yCoordinate);
+		extras.putBoolean(CHANGED_COORDINATES, translateX != xCoordinate || translateY != yCoordinate);
+
 		returnIntent.putExtras(extras);
 		setResult(Activity.RESULT_OK, returnIntent);
 		finish();

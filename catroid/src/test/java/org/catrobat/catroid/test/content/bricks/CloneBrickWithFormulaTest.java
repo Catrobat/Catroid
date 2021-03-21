@@ -23,6 +23,10 @@
 
 package org.catrobat.catroid.test.content.bricks;
 
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+
+import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.ChangeBrightnessByNBrick;
@@ -146,27 +150,30 @@ public class CloneBrickWithFormulaTest {
 	private Sprite sprite = new Sprite("testSprite");
 	private Formula brickFormula;
 	private Formula cloneBrickFormula;
+	private Scope scope;
 
 	@Before
 	public void setUp() throws CloneNotSupportedException {
 		FormulaBrick cloneBrick = (FormulaBrick) brick.clone();
 		brickFormula = brick.getFormulaWithBrickField(brickField);
 		cloneBrickFormula = cloneBrick.getFormulaWithBrickField(brickField);
+		scope = new Scope(ProjectManager.getInstance().getCurrentProject(), sprite, new SequenceAction());
 	}
 
 	@Test
 	public void testChangeBrickField() throws InterpretationException {
 		cloneBrickFormula.setRoot(new FormulaElement(FormulaElement.ElementType.NUMBER, CLONE_BRICK_FORMULA_VALUE, null));
-		assertNotEquals(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
+		assertNotEquals(brickFormula.interpretInteger(scope),
+				cloneBrickFormula.interpretInteger(scope));
 	}
 
 	@Test
 	public void testBrickFieldValidValue() throws InterpretationException {
-		assertEquals(BRICK_FORMULA_VALUE, brickFormula.interpretInteger(sprite));
+		assertEquals(BRICK_FORMULA_VALUE, brickFormula.interpretInteger(scope));
 	}
 
 	@Test
 	public void testBrickFieldEquals() throws InterpretationException {
-		assertEquals(brickFormula.interpretInteger(sprite), cloneBrickFormula.interpretInteger(sprite));
+		assertEquals(brickFormula.interpretInteger(scope), cloneBrickFormula.interpretInteger(scope));
 	}
 }

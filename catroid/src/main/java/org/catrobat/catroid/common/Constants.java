@@ -39,8 +39,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 0.999999999;
-
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.01;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
@@ -88,7 +87,7 @@ public final class Constants {
 	public static final String BACKPACK_SOUND_DIRECTORY_NAME = "backpack_sound";
 	public static final String BACKPACK_IMAGE_DIRECTORY_NAME = "backpack_image";
 
-	// Trusted domains
+	// Trusted domains for Web access bricks
 	public static final String TRUSTED_DOMAINS_FILE_NAME = "trustedDomains.json";
 	public static final String TRUSTED_USER_DOMAINS_FILE_NAME = "trustedUserDomains.json";
 	public static final String TRUST_LIST_JSON_ARRAY_NAME = "domains";
@@ -122,11 +121,16 @@ public final class Constants {
 	public static final String SHARE_PROJECT_URL = BASE_URL_HTTPS + "/project/";
 
 	public static final String CATROBAT_ABOUT_URL = "https://www.catrobat.org/";
+	public static final String CATROBAT_FORMULA_WIKI_URL = "https://wiki.catrobat.org/bin/view/Documentation/FormulaEditor";
 	public static final String ABOUT_POCKETCODE_LICENSE_URL = "https://catrob.at/licenses";
 	public static final String WEB_REQUEST_WIKI_URL = "https://catrob.at/webbricks";
 
 	public static final String CATROBAT_TERMS_OF_USE_URL = BASE_URL_HTTPS + "termsOfUse";
 	public static final String CATROBAT_HELP_URL = "https://catrob.at/help";
+	public static final String CATROBAT_FUNCTIONS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Functions/";
+	public static final String CATROBAT_LOGIC_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Logic/";
+	public static final String CATROBAT_SENSORS_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Sensors/";
+	public static final String CATROBAT_OBJECT_WIKI_URL = CATROBAT_FORMULA_WIKI_URL + "/Properties/";
 	public static final String CATROBAT_TOKEN_LOGIN_URL = BASE_URL_HTTPS + "tokenlogin?username=";
 	public static final String CATROBAT_DELETE_ACCOUNT_URL = BASE_URL_HTTPS + "profile/edit";
 	public static final String CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL = "?flavorName=";
@@ -270,7 +274,6 @@ public final class Constants {
 
 	public static final int Z_INDEX_FIRST_SPRITE = Z_INDEX_BACKGROUND + Z_INDEX_NUMBER_VIRTUAL_LAYERS + 1;
 
-	public static final String NO_VARIABLE_SELECTED = "No variable set";
 	public static final int SAY_BRICK = 0;
 	public static final int THINK_BRICK = 1;
 	public static final int MAX_STRING_LENGTH_BUBBLES = 16;
@@ -284,6 +287,8 @@ public final class Constants {
 	public static final int UPLOAD_IMAGE_SCALE_HEIGHT = 480;
 
 	public static final int TEXT_FROM_CAMERA_SENSOR_HASHCODE = 1613638780;
+
+	public static final int MAX_NUMBER_OF_CHECKED_TAGS = 3;
 
 	//Services + Notifications
 	public static final int UPDATE_DOWNLOAD_PROGRESS = 101;

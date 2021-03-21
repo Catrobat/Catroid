@@ -27,7 +27,7 @@ import android.util.Log;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.devices.raspberrypi.RPiSocketConnection;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -37,7 +37,7 @@ public class RaspiIfLogicAction extends Action {
 
 	private static final String TAG = RaspiIfLogicAction.class.getSimpleName();
 
-	private Sprite sprite;
+	private Scope scope;
 	private Action ifAction;
 	private Action elseAction;
 	private boolean isInitialized = false;
@@ -52,7 +52,8 @@ public class RaspiIfLogicAction extends Action {
 		Integer pinNumberInterpretation;
 
 		try {
-			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0) : pinNumber.interpretInteger(sprite);
+			pinNumberInterpretation = pinNumber == null ? Integer.valueOf(0)
+					: pinNumber.interpretInteger(scope);
 		} catch (InterpretationException interpretationException) {
 			pinNumberInterpretation = 0;
 			Log.e(TAG, "Formula interpretation for this specific Brick failed.",
@@ -94,8 +95,8 @@ public class RaspiIfLogicAction extends Action {
 		super.restart();
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setIfAction(Action ifAction) {

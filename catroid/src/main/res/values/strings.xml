@@ -81,6 +81,16 @@
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
 
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
+    <string name="api_replacement_dialog_warning">The project contains bricks that access the
+        web, and also seems to contain API keys. Please see %1s why
+        uploading these keys can be dangerous.</string>
+    <string name="api_replacement">insert API key here</string>
+    <!-- -->
+
+
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Checking login data…</string>
     <string name="loading_google_exchange_code">Exchanging Google login data…</string>
@@ -360,6 +370,7 @@
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
+    <string name="project_options">Project options</string>
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>
@@ -545,6 +556,14 @@
 
     <string name="error_no_files_found">No project files found.</string>
 
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">Description</string>
+    <string name="project_options_notes_and_credits">Notes and credits</string>
+    <string name="project_options_tags">Tags</string>
+    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
+    <string name="project_options_more_details">More details</string>
+    <string name="project_options_delete_project">Delete project</string>
+
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
     <!--  -->
@@ -681,18 +700,19 @@
     <string name="dialog_about_license_link_text">Source code license</string>
     <string name="dialog_about_catrobat_link_text">About Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
+    <string name="dialog_about_version">version:</string>
     <!--  -->
 
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">No network</string>
 
     <!-- UploadProjectDialog -->
-    <string name="upload_button">Upload</string>
     <string name="upload_project_dialog_title">Upload project</string>
     <string name="upload_description">Description:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
 
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Save project to external storage</string>
@@ -1184,9 +1204,6 @@
         the settings of this app.
     </string>
     <string name="brick_look_request" tools:ignore="UnusedResources">Get image from</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
     <string name="brick_look_request_result" tools:ignore="UnusedResources">and use as current look</string>
     <string name="brick_background_request_result" tools:ignore="UnusedResources">and use as current background</string>
     <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
@@ -1696,7 +1713,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_false">false</string>
     <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">Formula editor</string>
-    <string name="formula_editor_changes_saved">Changes saved.</string>
     <string name="formula_editor_changes_discarded">Changes discarded!</string>
     <string name="formula_editor_parse_fail">Formula is not valid!</string>
     <string name="formula_nothing_selected">Define input value</string>
@@ -1898,7 +1914,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
     <string name="formula_editor_logic_reporters">Reporters</string>
-    <string name="formula_editor_object_general">General properties</string>
+    <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Motion properties</string>
     <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
@@ -1991,6 +2007,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="camera_error_text_detection">
         There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <!--  -->
 
 
@@ -2089,5 +2107,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="serif_font" translatable="false">serif</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
+
+    <!-- Information -->
+    <string name="no_variable_selected">No variable selected</string>
 
 </resources>

@@ -44,7 +44,7 @@ class LookRequestBrick constructor() : FormulaBrick() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createLookRequestAction(
-                sprite,
+                sprite, sequence,
                 getFormulaWithBrickField(BrickField.LOOK_REQUEST)
             )
         )

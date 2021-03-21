@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,6 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInter
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Category.MATHEMATICS;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.BACKSPACE;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.COMPUTE;
-import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.Control.OK;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.FORMULA_EDITOR_TEXT_FIELD_MATCHER;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 import static org.catrobat.catroid.uiespresso.util.UiTestUtils.getResourcesString;
@@ -65,10 +64,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 @RunWith(AndroidJUnit4.class)
 public class FormulaEditorEditTextTest {
 
-	private String decimalMark;
-	private String no;
-	private String yes;
-
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
 			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION,
@@ -79,9 +74,6 @@ public class FormulaEditorEditTextTest {
 		Script script = BrickTestUtils.createProjectAndGetStartScript("FormulaEditorEditTextTest");
 		script.addBrick(new ChangeSizeByNBrick(new Formula(10)));
 		baseActivityTestRule.launchActivity();
-		no = getResourcesString(R.string.no);
-		yes = getResourcesString(R.string.yes);
-		decimalMark = getResourcesString(R.string.formula_editor_decimal_mark);
 		onBrickAtPosition(1)
 				.onFormulaTextField(R.id.brick_change_size_by_edit_text)
 				.perform(click());
@@ -135,53 +127,10 @@ public class FormulaEditorEditTextTest {
 
 	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
 	@Test
-	public void testGoBackToDiscardChanges() {
-		onFormulaEditor()
-				.performEnterFormula("99.9+");
-		pressBack();
-		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
-				.check(matches(isDisplayed()));
-		onView(withText(no))
-				.perform(click());
-
-		onToast(withText(R.string.formula_editor_changes_discarded))
-				.check(matches(isDisplayed()));
-		onBrickAtPosition(1)
-				.checkShowsText("10 ");
-		onView(isRoot()).perform(CustomActions.wait(3000));
-	}
-
-	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
-	@Test
-	public void testDiscardDialogDiscardSaveYes() {
-		onFormulaEditor()
-				.performEnterFormula("99");
-		pressBack();
-		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
-				.check(matches(isDisplayed()));
-		pressBack();
-
-		onFormulaEditor()
-				.performEnterFormula(".9");
-		pressBack();
-		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
-				.check(matches(isDisplayed()));
-		onView(withText(yes))
-				.perform(click());
-		onToast(withText(R.string.formula_editor_changes_saved))
-				.check(matches(isDisplayed()));
-		onBrickAtPosition(1)
-				.checkShowsText("99" + decimalMark + "9 ");
-		onView(isRoot()).perform(CustomActions.wait(3000));
-	}
-
-	@Category({Cat.CatrobatLanguage.class, Level.Smoke.class})
-	@Test
 	public void testFormulaIsNotValidToast1() {
 		onFormulaEditor()
 				.performClickOn(BACKSPACE);
-		onFormulaEditor()
-				.performClickOn(OK);
+		pressBack();
 		onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
@@ -195,10 +144,6 @@ public class FormulaEditorEditTextTest {
 		onFormulaEditor()
 				.performEnterFormula("1+1+");
 		pressBack();
-		onView(withText(R.string.formula_editor_discard_changes_dialog_title))
-				.check(matches(isDisplayed()));
-		onView(withText(yes))
-				.perform(click());
 		onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));
@@ -211,8 +156,7 @@ public class FormulaEditorEditTextTest {
 				.performClickOn(BACKSPACE);
 		onFormulaEditor()
 				.performEnterFormula("+");
-		onFormulaEditor()
-				.performClickOn(OK);
+		pressBack();
 		onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
 		onView(isRoot()).perform(CustomActions.wait(3000));

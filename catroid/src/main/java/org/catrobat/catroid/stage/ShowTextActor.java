@@ -35,8 +35,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.UserVariable;
@@ -103,7 +104,9 @@ public class ShowTextActor extends Actor {
 		}
 
 		if (variableToShow.isDummy()) {
-			drawText(batch, Constants.NO_VARIABLE_SELECTED, xPosition, yPosition, color);
+			drawText(batch,
+					CatroidApplication.getAppContext().getString(R.string.no_variable_selected),
+					xPosition, yPosition, color);
 		} else {
 			for (UserVariable variable : variableList) {
 				if (variable.getName().equals(variableToShow.getName())) {
