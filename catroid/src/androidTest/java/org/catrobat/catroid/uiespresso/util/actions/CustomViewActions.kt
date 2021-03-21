@@ -36,7 +36,7 @@ import org.hamcrest.Matcher
 
 fun waitForView(viewId: Int, timeout: Long): ViewAction {
     return object : ViewAction {
-        override fun getConstraints(): Matcher {
+        override fun getConstraints(): Matcher<View> {
             return isRoot()
         }
 
