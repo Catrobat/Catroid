@@ -61,6 +61,7 @@ import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 
 public class OpenUrlBrickTest {
 
@@ -91,7 +92,7 @@ public class OpenUrlBrickTest {
 	public void testOpenUrlIntent() {
 		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
 		onView(isRoot()).perform(waitForView(R.id.button_play, 5000));
-		onView(withId(R.id.button_play)).perform(click());
+		onView(allOf(withId(R.id.button_play), isDisplayingAtLeast(90))).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
 		intended(expectedIntent);
 	}
