@@ -29,10 +29,27 @@ import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.util.TreeIterables
 import androidx.test.espresso.util.HumanReadables
 import java.util.concurrent.TimeoutException
 import org.hamcrest.Matcher
+
+fun clickWhenEnabled(): ViewAction {
+    return object : ViewAction {
+        override fun getConstraints(): Matcher<View> {
+            return isEnabled()
+        }
+
+        override fun getDescription(): String {
+            return "Click when enabled. Do _not_ wait till > 90% visible."
+        }
+
+        override fun perform(uiController: UiController, view: View) {
+				view.performClick()
+        }
+    }
+}
 
 fun waitForView(viewId: Int, timeout: Long): ViewAction {
     return object : ViewAction {
@@ -41,7 +58,7 @@ fun waitForView(viewId: Int, timeout: Long): ViewAction {
         }
 
         override fun getDescription(): String {
-            return "wait for a specific view with id $viewId; during $timeout millis."
+            return "Wait for a specific view with id $viewId; during $timeout millis."
         }
 
         override fun perform(uiController: UiController, rootView: View) {
