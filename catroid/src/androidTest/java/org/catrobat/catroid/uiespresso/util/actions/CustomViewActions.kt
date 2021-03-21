@@ -1,4 +1,3 @@
-  
 /*
  * Catroid: An on-device visual programming system for Android devices
  * Copyright (C) 2010-2021 The Catrobat Team
@@ -28,7 +27,7 @@ import android.view.View
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.PerformException
 import androidx.test.espresso.UiController
-import androidx.test.espresso.matcher
+import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.util.TreeIterables
 import androidx.test.espresso.util.HumanReadables
 
