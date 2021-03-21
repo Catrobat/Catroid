@@ -35,6 +35,7 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
+import org.catrobat.catroid.uiespresso.util.actions.CustomViewActions;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -89,6 +90,7 @@ public class OpenUrlBrickTest {
 	@Test
 	public void testOpenUrlIntent() {
 		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
+		onView(isRoot()).perform(CustomViewActions.waitForView(R.id.button_play, 5000))
 		onView(withId(R.id.button_play)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
 		intended(expectedIntent);
