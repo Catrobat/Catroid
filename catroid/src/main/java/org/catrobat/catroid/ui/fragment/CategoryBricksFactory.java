@@ -32,7 +32,6 @@ import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.BrickValues;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.BroadcastScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.RaspiInterruptScript;
@@ -404,7 +403,7 @@ public class CategoryBricksFactory {
 				BrickValues.TOUCH_Y_START, BrickValues.TOUCH_X_GOAL, BrickValues.TOUCH_Y_GOAL,
 				BrickValues.TOUCH_DURATION));
 
-		controlBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
+		controlBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		return controlBrickList;
 	}
 
@@ -554,14 +553,12 @@ public class CategoryBricksFactory {
 			looksBrickList.add(new FlashBrick());
 		}
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			if (!isBackgroundSprite) {
-				looksBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				looksBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		if (!isBackgroundSprite) {
+			looksBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			looksBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		if (SettingsFragment.isPhiroSharedPreferenceEnabled(context)) {
@@ -574,7 +571,7 @@ public class CategoryBricksFactory {
 		looksBrickList.add(new CopyLookBrick(context.getString(R.string.brick_copy_look_name)));
 		looksBrickList.add(new DeleteLookBrick());
 
-		looksBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
+		looksBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		return looksBrickList;
 	}
 
@@ -617,15 +614,13 @@ public class CategoryBricksFactory {
 		dataBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-			if (!isBackgroundSprite) {
-				dataBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				dataBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		dataBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		if (!isBackgroundSprite) {
+			dataBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			dataBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
 		dataBrickList.add(new AskBrick(context.getString(R.string.brick_ask_default_question)));
@@ -655,18 +650,16 @@ public class CategoryBricksFactory {
 			deviceBrickList.add(new SetNfcTagBrick(context.getString(R.string.brick_set_nfc_tag_default_value)));
 		}
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-			if (!isBackgroundSprite) {
-				deviceBrickList.add(new LookRequestBrick(context.getString(R.string.brick_look_request_default_value)));
-			} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
-				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_landscape)));
-			} else {
-				deviceBrickList.add(new BackgroundRequestBrick(context.getString(R.string.brick_background_request_default_value_portrait)));
-			}
+		deviceBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
+		if (!isBackgroundSprite) {
+			deviceBrickList.add(new LookRequestBrick(BrickValues.LOOK_REQUEST));
+		} else if (ProjectManager.getInstance().getCurrentProject().getXmlHeader().islandscapeMode()) {
+			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST_LANDSCAPE));
+		} else {
+			deviceBrickList.add(new BackgroundRequestBrick(BrickValues.BACKGROUND_REQUEST));
 		}
 
-		deviceBrickList.add(new OpenUrlBrick(Constants.MAIN_URL_HTTPS));
+		deviceBrickList.add(new OpenUrlBrick(BrickValues.OPEN_IN_BROWSER));
 		deviceBrickList.add(new VibrationBrick(BrickValues.VIBRATE_SECONDS));
 		deviceBrickList.add(new SpeakBrick(context.getString(R.string.brick_speak_default_value)));
 		deviceBrickList.add(new SpeakAndWaitBrick(context.getString(R.string.brick_speak_default_value)));
@@ -875,9 +868,7 @@ public class CategoryBricksFactory {
 		assertionsBrickList.add(new StoreCSVIntoUserListBrick(BrickValues.STORE_CSV_INTO_USERLIST_COLUMN,
 				context.getString(R.string.brick_store_csv_into_userlist_data)));
 
-		if (BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
-		}
+		assertionsBrickList.add(new WebRequestBrick(context.getString(R.string.brick_web_request_default_value)));
 
 		return assertionsBrickList;
 	}

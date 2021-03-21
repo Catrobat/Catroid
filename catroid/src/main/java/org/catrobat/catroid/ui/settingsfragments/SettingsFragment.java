@@ -126,10 +126,6 @@ public class SettingsFragment extends PreferenceFragment {
 
 		screen = getPreferenceScreen();
 
-		if (!BuildConfig.FEATURE_WEBREQUEST_BRICK_ENABLED) {
-			screen.removePreference(findPreference(SETTINGS_EDIT_TRUSTED_DOMAINS));
-		}
-
 		if (!BuildConfig.FEATURE_EMBROIDERY_ENABLED) {
 			CheckBoxPreference embroideryPreference = (CheckBoxPreference) findPreference(SETTINGS_SHOW_EMBROIDERY_BRICKS);
 			embroideryPreference.setEnabled(false);
