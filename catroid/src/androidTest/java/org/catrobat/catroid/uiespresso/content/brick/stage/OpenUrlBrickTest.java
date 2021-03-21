@@ -48,11 +48,9 @@ import java.io.IOException;
 import androidx.test.espresso.intent.Intents;
 
 import static org.catrobat.catroid.WaitForConditionAction.waitFor;
-
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
-
 import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
