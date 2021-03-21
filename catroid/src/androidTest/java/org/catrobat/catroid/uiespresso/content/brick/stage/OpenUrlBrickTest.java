@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
-import org.catrobat.catroid.uiespresso.util.actions.CustomViewActionsKt.waitForView;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -48,6 +47,7 @@ import java.io.IOException;
 
 import androidx.test.espresso.intent.Intents;
 
+import static org.catrobat.catroid.uiespresso.util.actions.CustomViewActionsKt.waitForView;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
