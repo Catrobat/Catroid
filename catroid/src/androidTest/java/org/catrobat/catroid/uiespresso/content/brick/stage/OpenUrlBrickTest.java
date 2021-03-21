@@ -35,7 +35,6 @@ import org.catrobat.catroid.content.bricks.OpenUrlBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
-import org.catrobat.catroid.uiespresso.util.actions.CustomViewActionsKt;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.hamcrest.Matcher;
 import org.junit.After;
@@ -48,18 +47,24 @@ import java.io.IOException;
 
 import androidx.test.espresso.intent.Intents;
 
+import static org.catrobat.catroid.WaitForConditionAction.waitFor;
+
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
+
 import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayingAtLeast;
 
 public class OpenUrlBrickTest {
 
@@ -67,6 +72,7 @@ public class OpenUrlBrickTest {
 	private final String url = BrickValues.OPEN_IN_BROWSER;
 	private Matcher expectedIntent;
 	private final String projectName = "openUrlBrickTest";
+	private final long waitThreshold = 5000;
 
 	@Rule
 	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
@@ -89,8 +95,8 @@ public class OpenUrlBrickTest {
 	@Test
 	public void testOpenUrlIntent() {
 		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
-		onView(isRoot()).perform(CustomViewActionsKt.waitForView(R.id.button_play, 5000));
-		onView(withId(R.id.button_play)).perform(CustomViewActionsKt.clickWhenEnabled());
+		closeSoftKeyboard();
+		onView(withId(R.id.button_play)).perform(waitFor(isDisplayingAtLeast(90), waitThreshold), click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
 		intended(expectedIntent);
 	}
