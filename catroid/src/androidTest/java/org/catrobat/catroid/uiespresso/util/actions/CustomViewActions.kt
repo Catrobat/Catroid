@@ -54,7 +54,7 @@ fun waitForView(viewId: Int, timeout: Long): ViewAction {
                     }
                 }
                 uiController.loopMainThreadForAtLeast(100)
-            } while (System.currentTimeMillis() &lt; endTime)
+            } while (System.currentTimeMillis() < endTime)
             throw PerformException.Builder()
                 .withCause(TimeoutException())
                 .withActionDescription(this.description)
