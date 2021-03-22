@@ -53,6 +53,7 @@ import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils
 import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -89,6 +90,7 @@ public class OpenUrlBrickTest {
 	@Test
 	public void testOpenUrlIntent() {
 		onBrickAtPosition(openUrlBrickPosition).onFormulaTextField(R.id.brick_open_url_edit_text).performEnterString(url);
+		pressBack();
 		onView(withId(R.id.button_play)).perform(click());
 		onView(isRoot()).perform(CustomActions.wait(2000));
 		intended(expectedIntent);
