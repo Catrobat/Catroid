@@ -41,6 +41,8 @@ import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -151,6 +153,9 @@ public final class ProjectManager {
 		}
 		if (project.getCatrobatLanguageVersion() <= 0.99992) {
 			removePermissionsFile(project);
+		}
+		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
+			updateBackgroundIndexTo9999995(project);
 		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
@@ -373,6 +378,27 @@ public final class ProjectManager {
 							spriteToCollideWith = spriteNames[1];
 						}
 						bounceOffScript.setSpriteToBounceOffName(spriteToCollideWith);
+					}
+				}
+			}
+		}
+	}
+
+	@VisibleForTesting
+	public static void updateBackgroundIndexTo9999995(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof SetBackgroundByIndexBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_INDEX);
+						} else if (brick instanceof SetBackgroundByIndexAndWaitBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_WAIT_INDEX);
+						}
 					}
 				}
 			}
