@@ -42,8 +42,11 @@ public class ForItemInUserListAction extends LoopAction {
 			isCurrentLoopInitialized = true;
 		}
 
+		if (userList == null) {
+			return true;
+		}
 		List<Object> list = userList.getValue();
-		if (index >= list.size()) {
+		if (list == null || index >= list.size()) {
 			return true;
 		}
 
