@@ -40,12 +40,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.hamcrest.Matchers.not;
-import static org.mockito.ArgumentMatchers.any;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.replaceText;
@@ -65,12 +65,21 @@ public class ReplaceExistingProjectDialogTest {
 
 	String[] projectNames = {"Project1", "Project2", "Project3"};
 
+	private static final String URL = "https://share.catrob.at/pocketcode/download/71489.catrobat?fname=Pet%20Simulator";
+
+	private ProjectDownloader.ProjectDownloadQueue queueMock = null;
+
 	@Before
 	public void setUp() throws Exception {
 		createProjects();
 		baseActivityTestRule.launchActivity(null);
+
+		queueMock = Mockito.mock(ProjectDownloader.ProjectDownloadQueue.class);
+
 		ReplaceExistingProjectDialogFragment dialog =
-				ReplaceExistingProjectDialogFragment.newInstance(projectNames[0], any(ProjectDownloader.class));
+				ReplaceExistingProjectDialogFragment.newInstance(projectNames[0],
+						new ProjectDownloader(queueMock, URL, null));
+
 		dialog.show(baseActivityTestRule.getActivity().getSupportFragmentManager(),
 				ReplaceExistingProjectDialogFragment.TAG);
 	}
