@@ -159,12 +159,20 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 		final Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		final Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		BrickData brickData = getBrickDataFromTextViewId(spinnerId);
-
+		int placeholder;
+		int title;
+		if (Brick.BrickData.isUserList(getBrickDataFromTextViewId(spinnerId))) {
+			placeholder = R.string.default_list_name;
+			title = R.string.formula_editor_list_dialog_title;
+		} else {
+			placeholder = R.string.default_variable_name;
+			title = R.string.formula_editor_variable_dialog_title;
+		}
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
-		UniqueNameProvider uniqueNameProvider = builder.createUniqueNameProvider(R.string.default_list_name);
+		UniqueNameProvider uniqueNameProvider = builder.createUniqueNameProvider(placeholder);
 		builder.setHint(activity.getString(R.string.data_label))
 				.setTextWatcher(new DuplicateInputTextWatcher<>(spinnerMap.get(brickData).getItems()))
-				.setText(uniqueNameProvider.getUniqueName(activity.getString(R.string.default_list_name), null))
+				.setText(uniqueNameProvider.getUniqueName(activity.getString(placeholder), null))
 				.setPositiveButton(activity.getString(R.string.ok), new TextInputDialog.OnClickListener() {
 					@Override
 					public void onPositiveButtonClick(DialogInterface dialog, String textInput) {
@@ -206,12 +214,6 @@ public abstract class UserDataBrick extends FormulaBrick implements BrickSpinner
 					}
 				});
 
-		int title;
-		if (Brick.BrickData.isUserList(getBrickDataFromTextViewId(spinnerId))) {
-			title = R.string.formula_editor_list_dialog_title;
-		} else {
-			title = R.string.formula_editor_variable_dialog_title;
-		}
 		builder.setTitle(title)
 				.setView(R.layout.dialog_new_user_data)
 				.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
