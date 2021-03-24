@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2020 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,22 +21,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.viewholder;
+package org.catrobat.catroid.utils
 
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.content.Context
+import android.util.DisplayMetrics
+import android.view.View
+import android.widget.ImageView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 
-import org.catrobat.catroid.R;
+fun ImageView.loadImageFromUrl(url: String) {
+    Glide.with(context)
+        .load(url)
+        .centerInside()
+        .transition(DrawableTransitionOptions.withCrossFade())
+        .into(this)
+}
 
-public class ButtonVH extends ViewHolder {
+fun Context.dpToPx(dp: Float): Float {
+    val displayMetrics = resources.displayMetrics
+    val pixelScaleFactor = displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT
+    return dp * pixelScaleFactor
+}
 
-	public ImageView image;
-	public TextView subtitle;
-
-	public ButtonVH(View itemView) {
-		super(itemView);
-		image = itemView.findViewById(R.id.image_view);
-		subtitle = itemView.findViewById(R.id.subtitle_view);
-	}
+fun View.setVisibleOrGone(show: Boolean) {
+    visibility = if (show) {
+        View.VISIBLE
+    } else {
+        View.GONE
+    }
 }

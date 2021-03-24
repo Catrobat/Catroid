@@ -89,6 +89,7 @@
         android:theme="@style/Catroid"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
+        tools:ignore="UnusedAttribute"
         tools:replace="android:label,android:allowBackup"
         android:usesCleartextTraffic="true">
 

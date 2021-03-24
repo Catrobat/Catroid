@@ -106,4 +106,9 @@
     <color name="pocketpaint_color_picker_actionbar_color"
         tools:ignore="UnusedResources">@color/toolbar_background</color>
 
+    <!-- indicator colors -->
+    <color name="indicator_selected_color">#FFFFFF</color>
+    <color name="indicator_unselected_color">#ACA3A3</color>
+    <color name="no_internet_color">#606060</color>
+
 </resources>

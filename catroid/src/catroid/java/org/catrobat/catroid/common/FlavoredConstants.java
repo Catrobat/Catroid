@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -34,6 +34,8 @@ import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
+
+	public static final String FLAVOR_NAME = "pocketcode";
 
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code";
 

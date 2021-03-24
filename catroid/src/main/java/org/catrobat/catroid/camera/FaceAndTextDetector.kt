@@ -23,7 +23,6 @@
 package org.catrobat.catroid.camera
 
 import android.graphics.Point
-import android.os.Build
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.camera.core.ExperimentalGetImage
@@ -196,7 +195,6 @@ object FaceAndTextDetector : ImageAnalysis.Analyzer {
         imageHeight: Int
     ) {
         val frontCamera = StageActivity.getActiveCameraManager().isCameraFacingFront
-        val oldAPI = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
         val aspectRatio = imageWidth.toFloat() / imageHeight
         val faceBounds = face.boundingBox
 
@@ -204,7 +202,7 @@ object FaceAndTextDetector : ImageAnalysis.Analyzer {
             val relativeX = faceBounds.exactCenterY() / imageHeight
             val relativeY = faceBounds.exactCenterX() / imageWidth
             coordinatesFromRelativePosition(
-                if (oldAPI) relativeX else 1 - relativeX,
+                1 - relativeX,
                 SCREEN_WIDTH / aspectRatio,
                 if (frontCamera) relativeY else 1 - relativeY,
                 SCREEN_WIDTH.toFloat()
@@ -212,7 +210,7 @@ object FaceAndTextDetector : ImageAnalysis.Analyzer {
         } else {
             val relativeX = faceBounds.exactCenterX() / imageHeight
             coordinatesFromRelativePosition(
-                if (frontCamera.xor(oldAPI)) 1 - relativeX else relativeX,
+                if (frontCamera) 1 - relativeX else relativeX,
                 SCREEN_HEIGHT / aspectRatio,
                 1 - faceBounds.exactCenterY() / imageWidth,
                 SCREEN_HEIGHT.toFloat()

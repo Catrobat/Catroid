@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,7 +25,11 @@ package org.catrobat.catroid.koin
 
 import android.app.Application
 import org.catrobat.catroid.ProjectManager
-import org.catrobat.catroid.ui.recyclerview.fragment.ProjectsViewModel
+import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
+import org.catrobat.catroid.ui.recyclerview.viewmodel.FeaturedProjectsViewModel
+import org.catrobat.catroid.ui.recyclerview.viewmodel.ProjectsViewModel
+import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -36,6 +40,7 @@ import org.koin.dsl.module
 
 val componentsModules = module(createdAtStart = true, override = false) {
     single { ProjectManager(androidContext()) }
+    single { NetworkConnectionMonitor(androidContext()) }
 }
 
 /**
@@ -44,9 +49,22 @@ val componentsModules = module(createdAtStart = true, override = false) {
  */
 val viewModelModules = module {
     viewModel { ProjectsViewModel() }
+    viewModel { FeaturedProjectsViewModel(get()) }
 }
 
-val myModules = listOf(componentsModules, viewModelModules)
+val repositoryModules = module {
+    single {
+        CatroidWebServer.getWebService("https://share.catrob.at/api/")
+    }
+}
+
+val adapterModules = module {
+    single {
+        FeaturedProjectsAdapter()
+    }
+}
+
+val myModules = listOf(componentsModules, viewModelModules, repositoryModules, adapterModules)
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {
