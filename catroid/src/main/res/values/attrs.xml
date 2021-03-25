@@ -62,6 +62,7 @@
         <attr name="icon_raspberrypi" format="reference"/>
         <attr name="icon_embroidery" format="reference" />
         <attr name="icon_userbrick" format="reference" />
+        <attr name="icon_recently_used" format="reference" />
     </declare-styleable>
 
     <!-- Category icons visibility -->

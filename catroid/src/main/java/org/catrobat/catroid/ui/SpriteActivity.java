@@ -57,6 +57,7 @@ import org.catrobat.catroid.pocketmusic.PocketMusicActivity;
 import org.catrobat.catroid.soundrecorder.SoundRecorderActivity;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
+import org.catrobat.catroid.ui.controller.RecentBrickListManager;
 import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.dialoginterface.NewItemInterface;
@@ -173,6 +174,10 @@ public class SpriteActivity extends BaseActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(createActionBarTitle());
 
+		if (RecentBrickListManager.getInstance().getRecentBricks(true).size() == 0) {
+			RecentBrickListManager.getInstance().loadRecentBricks();
+		}
+
 		int fragmentPosition = FRAGMENT_SCRIPTS;
 
 		Bundle bundle = getIntent().getExtras();
@@ -251,6 +256,7 @@ public class SpriteActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		saveProject();
+		RecentBrickListManager.getInstance().saveRecentBrickList();
 	}
 
 	@Override
