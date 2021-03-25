@@ -2079,6 +2079,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="serif_font" translatable="false">serif</string>
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
-    <string name="category_recently_used">Recently Used</string>
+    <string name="category_recently_used">Recently used</string>
 
 </resources>
