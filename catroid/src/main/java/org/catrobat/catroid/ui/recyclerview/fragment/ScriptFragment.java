@@ -52,6 +52,8 @@ import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.VisualPlacementBrick;
+import org.catrobat.catroid.formulaeditor.InternToExternGenerator;
+import org.catrobat.catroid.formulaeditor.Sensors;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.io.StorageOperations;
@@ -341,6 +343,8 @@ public class ScriptFragment extends ListFragment implements
 		super.onActivityCreated(savedInstanceState);
 
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
+		Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 		currentProject.getBroadcastMessageContainer().update();
 
 		adapter = new BrickAdapter(ProjectManager.getInstance().getCurrentSprite());
@@ -350,6 +354,14 @@ public class ScriptFragment extends ListFragment implements
 		listView.setAdapter(adapter);
 		listView.setOnItemClickListener(adapter);
 		listView.setOnItemLongClickListener(adapter);
+
+		if (currentSprite.equals(currentScene.getBackgroundSprite())) {
+			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS,
+					R.string.formula_editor_object_number_of_backgrounds);
+		} else {
+			InternToExternGenerator.setInternExternLanguageConverterMap(Sensors.OBJECT_NUMBER_OF_LOOKS,
+					R.string.formula_editor_object_number_of_looks);
+		}
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -73,6 +73,8 @@ public class LookData implements Cloneable, Nameable, Serializable {
 
 	private boolean valid = true;
 
+	private boolean isWebRequest = false;
+
 	public LookData() {
 	}
 
@@ -88,6 +90,14 @@ public class LookData implements Cloneable, Nameable, Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean getIsWebRequest() {
+		return isWebRequest;
+	}
+
+	public void setIsWebRequest(Boolean isWebRequest) {
+		this.isWebRequest = isWebRequest;
 	}
 
 	public String getXstreamFileName() {
