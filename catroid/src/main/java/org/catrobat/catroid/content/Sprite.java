@@ -500,19 +500,23 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	public void rename(String newSpriteName) {
-		if (hasCollision()) {
-			renameSpriteInCollisionFormulas(newSpriteName, CatroidApplication.getAppContext());
+		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		renameSpriteAndUpdateCollisionFormulas(newSpriteName, scene);
+	}
+
+	public void renameSpriteAndUpdateCollisionFormulas(String newSpriteName, Scene scene) {
+		if (hasCollision(scene)) {
+			renameSpriteInCollisionFormulas(newSpriteName, scene);
 		}
 		setName(newSpriteName);
 	}
 
-	public boolean hasCollision() {
+	public boolean hasCollision(Scene scene) {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
 		if (resourcesSet.contains(Brick.COLLISION)) {
 			return true;
 		}
-		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		for (Sprite sprite : scene.getSpriteList()) {
 			if (sprite.hasToCollideWith(this)) {
 				return true;
@@ -539,9 +543,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return false;
 	}
 
-	private void renameSpriteInCollisionFormulas(String newName, Context context) {
+	private void renameSpriteInCollisionFormulas(String newName, Scene scene) {
 		String oldName = getName();
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+		List<Sprite> spriteList = scene.getSpriteList();
 		for (Sprite sprite : spriteList) {
 			for (Script currentScript : sprite.getScriptList()) {
 				if (currentScript == null) {
@@ -553,7 +557,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 					if (brick instanceof FormulaBrick) {
 						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
 						for (Formula formula : formulaList) {
-							formula.updateCollisionFormulas(oldName, newName, context);
+							formula.updateCollisionFormulas(oldName, newName, CatroidApplication.getAppContext());
 						}
 					}
 				}
