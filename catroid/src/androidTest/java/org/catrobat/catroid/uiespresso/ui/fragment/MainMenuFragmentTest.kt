@@ -25,11 +25,19 @@ package org.catrobat.catroid.uiespresso.ui.fragment
 
 import android.content.Context
 import android.preference.PreferenceManager
+import android.view.View
+import androidx.core.widget.NestedScrollView
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.ViewAction
+import androidx.test.espresso.action.ScrollToAction
+import androidx.test.espresso.action.ViewActions.actionWithAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -39,11 +47,15 @@ import org.catrobat.catroid.common.Constants.CATROBAT_TERMS_OF_USE_ACCEPTED
 import org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION
 import org.catrobat.catroid.test.utils.TestUtils
 import org.catrobat.catroid.ui.MainMenuActivity
+import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
+import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.anyOf
 import org.hamcrest.CoreMatchers.not
+import org.hamcrest.Matcher
 import org.junit.After
 import org.junit.Assume.assumeTrue
 import org.junit.Before
@@ -59,6 +71,7 @@ class MainMenuFragmentTest : KoinTest {
     private lateinit var applicationContext: Context
     private val connectionMonitor: NetworkConnectionMonitor by inject()
     private val featuredProjectsAdapter: FeaturedProjectsAdapter by inject()
+    private val categoriesAdapter: CategoriesAdapter by inject()
     private val projectManager: ProjectManager by inject()
 
     @get:Rule
@@ -92,6 +105,30 @@ class MainMenuFragmentTest : KoinTest {
             .edit()
             .putInt(AGREED_TO_PRIVACY_POLICY_VERSION, privacyPreferenceSetting)
             .commit()
+    }
+
+    @Test
+    fun testIsLoading() {
+        waitFor(800)
+        onView(withId(R.id.shimmerViewContainer))
+            .perform(scrollTo())
+            .check(matches(isDisplayed()))
+
+        onView(withId(R.id.categoriesRecyclerView))
+            .check(matches(not(isDisplayed())))
+    }
+
+    @Test
+    fun testCategoriesAreLoadedAfter9Seconds() {
+        waitFor(9000)
+        onView(withId(R.id.categoriesRecyclerView))
+            .perform(scrollTo())
+            .check(matches(isDisplayed()))
+
+        assumeTrue(categoriesAdapter.itemCount > 0)
+
+        onView(withId(R.id.shimmerViewContainer))
+            .check(matches(not(isDisplayed())))
     }
 
     @Test
@@ -129,6 +166,7 @@ class MainMenuFragmentTest : KoinTest {
             .check(matches(isDisplayed()))
         onView(withId(R.id.featuredProjectsRecyclerView))
             .check(matches(not(isDisplayed())))
+        connectionMonitor.setValueTo(true)
     }
 
     private fun createProject() {
@@ -141,5 +179,19 @@ class MainMenuFragmentTest : KoinTest {
 
     private fun waitFor(time: Int = 1000) {
         onView(ViewMatchers.isRoot()).perform(CustomActions.wait(time))
+    }
+
+    private fun scrollTo(): ViewAction = actionWithAssertions(NestedScrollViewScrollToAction())
+    class NestedScrollViewScrollToAction(private val action: ScrollToAction = ScrollToAction()) :
+        ViewAction by action {
+        override fun getConstraints(): Matcher<View> {
+            return anyOf(
+                allOf(
+                    withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+                    isDescendantOfA(isAssignableFrom(NestedScrollView::class.java))
+                ),
+                action.constraints
+            )
+        }
     }
 }

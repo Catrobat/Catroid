@@ -96,13 +96,13 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testCallUsesHTTPS() {
+    fun testFeaturedProjectsCallUsesHTTPS() {
         assertTrue(webServer.getFeaturedProjects().request().isHttps)
     }
 
     @Test
     @Throws(Exception::class)
-    fun testResponseHasCorrectStructure() {
+    fun testFeaturedProjectsResponseHasCorrectStructure() {
         val response = webServer.getFeaturedProjects().execute().body()
         assertNotNull(response)
         webServer.getFeaturedProjects()
@@ -121,7 +121,7 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testResponseHasValidProjectUrls() {
+    fun testFeaturedProjectsResponseHasValidProjectUrls() {
         val response = webServer.getFeaturedProjects().execute().body()
         assertNotNull(response)
         webServer.getFeaturedProjects()
@@ -135,7 +135,7 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testResponseHasValidImagesFormat() {
+    fun testFeaturedProjectsResponseHasValidImagesFormat() {
         val response = webServer.getFeaturedProjects().execute().body()
         assertNotNull(response)
         webServer.getFeaturedProjects()
@@ -150,8 +150,8 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testEmptyFlavorNameReturnsEmptyList() {
-        val response = webServer.getFeaturedProjects("")
+    fun testFeaturedProjectsEmptyFlavorNameReturnsEmptyList() {
+        val response = webServer.getFeaturedProjects(flavor = "")
             .execute()
             .body()
         assertNotNull(response)
@@ -160,11 +160,71 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testCallWithDefaultValues() {
+    fun testFeaturedProjectsCallWithDefaultValues() {
         val expectedRawResponse =
-            "Response{protocol=h2, code=200, message=, url=https://share.catrob.at/api/projects/featured?flavor=${FlavoredConstants.FLAVOR_NAME}&platform=android&limit=20&offset=0}"
+            "Response{protocol=h2, code=200, message=," +
+                " url=https://share.catrob.at/api/projects/featured?" +
+                "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
+                "&flavor=${FlavoredConstants.FLAVOR_NAME}&platform=android&limit=20&offset=0}"
         val rawResponse = webServer.getFeaturedProjects().execute().raw().toString()
         assertEquals(expectedRawResponse, rawResponse)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testProjectCategoriesCallUsesHTTPS() {
+        assertTrue(webServer.getProjectCategories().request().isHttps)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testProjectCategoriesCallWithDefaultValues() {
+        val expectedRawResponse =
+            "Response{protocol=h2, code=200, message=," +
+                " url=https://share.catrob.at/api/projects/categories?" +
+                "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
+                "&flavor=${FlavoredConstants.FLAVOR_NAME}}"
+        val rawResponse = webServer.getProjectCategories().execute().raw().toString()
+        assertEquals(expectedRawResponse, rawResponse)
+    }
+
+    @Test
+    @Throws(Exception::class)
+    fun testProjectCategoriesResponseHasCorrectStructure() {
+        val response = webServer.getProjectCategories().execute().body()
+        assertNotNull(response)
+        webServer.getProjectCategories()
+            .execute()
+            .body()
+            ?.forEach {
+                assertNotNull(it)
+                assertNotNull(it.name)
+                assertNotNull(it.type)
+                assertNotNull(it.projectsList)
+                it.projectsList.forEach { projectResponse ->
+                    assertNotNull(projectResponse.id)
+                    assertNotNull(projectResponse.name)
+                    assertNotNull(projectResponse.author)
+                    assertNotNull(projectResponse.description)
+                    assertNotNull(projectResponse.version)
+                    assertNotNull(projectResponse.views)
+                    assertNotNull(projectResponse.download)
+                    assertNotNull(projectResponse.private)
+                    assertNotNull(projectResponse.flavor)
+                    assertNotNull(projectResponse.tags)
+                    assertNotNull(projectResponse.uploaded)
+                    assertNotNull(projectResponse.uploaded_string)
+                    assertNotNull(projectResponse.screenshot_small)
+                    assertTrue(projectResponse.screenshot_small.contains(Constants.DEFAULT_IMAGE_EXTENSION))
+                    assertNotNull(projectResponse.screenshot_large)
+                    assertTrue(projectResponse.screenshot_large.contains(Constants.DEFAULT_IMAGE_EXTENSION))
+                    assertNotNull(projectResponse.project_url)
+                    assertTrue(Patterns.WEB_URL.matcher(projectResponse.project_url).matches())
+                    assertNotNull(projectResponse.download_url)
+                    assertTrue(Patterns.WEB_URL.matcher(projectResponse.download_url).matches())
+                    assertNotNull(projectResponse.filesize)
+                }
+            }
     }
 
     private fun String.containsOkHttpCode() = contains(200.toString())

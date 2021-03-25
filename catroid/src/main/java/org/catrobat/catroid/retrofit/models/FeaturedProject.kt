@@ -32,3 +32,30 @@ data class FeaturedProject(
     val author: String,
     val featured_image: String
 )
+
+data class ProjectsCategory(
+    val type: String,
+    val name: String,
+    val projectsList: List<ProjectResponse>
+)
+
+@SuppressWarnings("ConstructorParameterNaming")
+data class ProjectResponse(
+    val id: String,
+    val name: String,
+    val author: String,
+    val description: String,
+    val version: String,
+    val views: Int,
+    val download: Int,
+    val private: Boolean,
+    val flavor: String,
+    val tags: List<String>,
+    val uploaded: Long,
+    val uploaded_string: String,
+    val screenshot_large: String,
+    val screenshot_small: String,
+    val project_url: String,
+    val download_url: String,
+    val filesize: Double
+)

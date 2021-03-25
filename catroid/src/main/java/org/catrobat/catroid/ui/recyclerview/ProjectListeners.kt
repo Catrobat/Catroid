@@ -31,3 +31,7 @@ interface ProjectListener {
 interface FeaturedProjectCallback {
     fun onFeatureProjectClicked(projectUrl: String)
 }
+
+interface CategoryTitleCallback {
+    fun onCategoryTitleClicked(categoryId: String)
+}
