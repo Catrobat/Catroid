@@ -371,6 +371,8 @@
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
     <string name="project_options">Project options</string>
+    <string name="sort_projects">Sort</string>
+    <string name="unsort_projects">Unsort</string>
 
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">New scene</string>

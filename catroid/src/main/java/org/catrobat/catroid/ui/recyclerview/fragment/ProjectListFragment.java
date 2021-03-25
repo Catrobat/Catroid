@@ -23,9 +23,12 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import org.catrobat.catroid.ProjectManager;
@@ -56,7 +59,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import androidx.annotation.PluralsRes;
@@ -71,6 +73,7 @@ import static org.catrobat.catroid.common.Constants.CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.SORT_PROJECTS_PREFERENCE_KEY;
 
 public class ProjectListFragment extends RecyclerViewFragment<ProjectData> implements
 		ProjectLoadTask.ProjectLoadListener,
@@ -95,7 +98,8 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			new ProjectUnzipAndImportTask.ProjectUnzipAndImportListener() {
 				@Override
 				public void onImportFinished(boolean success) {
-					adapter.setItems(getItemList());
+					setAdapterItems(adapter.projectsSorted);
+
 					if (!success) {
 						ToastUtil.showError(getContext(), R.string.error_import_project);
 					}
@@ -107,7 +111,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			new ProjectImportTask.ProjectImportListener() {
 				@Override
 				public void onImportFinished(boolean success) {
-					adapter.setItems(getItemList());
+
+					setAdapterItems(adapter.projectsSorted);
+
 					if (!success) {
 						ToastUtil.showError(getContext(), R.string.error_import_project);
 					}
@@ -119,8 +125,10 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	public void onResume() {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.project_list_title);
 		ProjectManager.getInstance().setCurrentProject(null);
-		adapter.setItems(getItemList());
+
+		setAdapterItems(adapter.projectsSorted);
 		checkForEmptyList();
+
 		BottomBar.showBottomBar(getActivity());
 		super.onResume();
 	}
@@ -128,34 +136,28 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	protected void initializeAdapter() {
 		sharedPreferenceDetailsKey = SHOW_DETAILS_PROJECTS_PREFERENCE_KEY;
+
 		adapter = new ProjectAdapter(getItemList());
+
 		onAdapterReady();
 	}
 
 	private List<ProjectData> getItemList() {
 		List<ProjectData> items = new ArrayList<>();
 
-		for (File projectDir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
-			File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
-			if (!xmlFile.exists()) {
-				continue;
-			}
+		getLocalProjectList(items);
 
-			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
+		Collections.sort(items, (project1, project2) -> Long.compare(project2.getLastUsed(), project1.getLastUsed()));
 
-			try {
-				items.add(metaDataParser.getProjectMetaData());
-			} catch (IOException e) {
-				Log.e(TAG, "Well, that's awkward.", e);
-			}
-		}
+		return items;
+	}
 
-		Collections.sort(items, new Comparator<ProjectData>() {
-			@Override
-			public int compare(ProjectData project1, ProjectData project2) {
-				return Long.compare(project2.getLastUsed(), project1.getLastUsed());
-			}
-		});
+	private List<ProjectData> getSortedItemList() {
+		List<ProjectData> items = new ArrayList<>();
+
+		getLocalProjectList(items);
+
+		Collections.sort(items, (project1, project2) -> project1.getName().compareTo(project2.getName()));
 
 		return items;
 	}
@@ -165,6 +167,14 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 		switch (item.getItemId()) {
 			case R.id.import_project:
 				showImportChooser();
+				break;
+			case R.id.sort_projects:
+				adapter.projectsSorted = !adapter.projectsSorted;
+				PreferenceManager.getDefaultSharedPreferences(getActivity())
+						.edit()
+						.putBoolean(SORT_PROJECTS_PREFERENCE_KEY, adapter.projectsSorted)
+						.apply();
+				setAdapterItems(adapter.projectsSorted);
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -291,7 +301,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 				selectedItems.size()));
 		finishActionMode();
 
-		adapter.setItems(getItemList());
+		setAdapterItems(adapter.projectsSorted);
 
 		checkForEmptyList();
 	}
@@ -301,7 +311,9 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 			setShowProgressBar(true);
 
 			if (ProjectManager.getInstance().initializeDefaultProject(getContext())) {
-				adapter.setItems(getItemList());
+
+				setAdapterItems(adapter.projectsSorted);
+
 				setShowProgressBar(false);
 			} else {
 				ToastUtil.showError(getActivity(), R.string.wtf_error);
@@ -351,7 +363,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onCopyFinished(boolean success) {
 		if (success) {
-			adapter.setItems(getItemList());
+			setAdapterItems(adapter.projectsSorted);
 		} else {
 			ToastUtil.showError(getContext(), R.string.error_copy_project);
 		}
@@ -361,7 +373,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	@Override
 	public void onRenameFinished(boolean success) {
 		if (success) {
-			adapter.setItems(getItemList());
+			setAdapterItems(adapter.projectsSorted);
 		} else {
 			ToastUtil.showError(getContext(), R.string.error_rename_incompatible_project);
 		}
@@ -415,5 +427,45 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 					}
 				})
 				.show();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		Context context = getActivity();
+		if (context != null) {
+			adapter.projectsSorted = PreferenceManager.getDefaultSharedPreferences(context)
+					.getBoolean(SORT_PROJECTS_PREFERENCE_KEY, false);
+
+			menu.findItem(R.id.sort_projects).setTitle(adapter.projectsSorted
+					? R.string.unsort_projects
+					: R.string.sort_projects);
+		}
+	}
+
+	public void setAdapterItems(boolean sortProjects) {
+		if (sortProjects) {
+			adapter.setItems(getSortedItemList());
+		} else {
+			adapter.setItems(getItemList());
+		}
+		adapter.notifyDataSetChanged();
+	}
+
+	public static void getLocalProjectList(List<ProjectData> items) {
+		for (File projectDir : DEFAULT_ROOT_DIRECTORY.listFiles()) {
+			File xmlFile = new File(projectDir, CODE_XML_FILE_NAME);
+			if (!xmlFile.exists()) {
+				continue;
+			}
+
+			ProjectMetaDataParser metaDataParser = new ProjectMetaDataParser(xmlFile);
+
+			try {
+				items.add(metaDataParser.getProjectMetaData());
+			} catch (IOException e) {
+				Log.e(TAG, "Well, that's awkward.", e);
+			}
+		}
 	}
 }
