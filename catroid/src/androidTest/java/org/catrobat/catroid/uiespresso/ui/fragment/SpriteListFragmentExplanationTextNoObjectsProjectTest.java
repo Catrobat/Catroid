@@ -24,6 +24,7 @@
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
 import android.app.Activity;
+import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -39,11 +40,13 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -73,6 +76,11 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 	public void testAddSprite() {
 		onView(withId(R.id.empty_view))
 				.check(matches(isDisplayed()));
+
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, false)
+				.commit();
+
 		onView(withText(R.string.fragment_sprite_text_description))
 				.check(matches(isDisplayed()));
 
@@ -84,6 +92,8 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 			}
 		});
 
+		closeSoftKeyboard();
+
 		onView(allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
 
@@ -91,6 +101,10 @@ public class SpriteListFragmentExplanationTextNoObjectsProjectTest {
 				.check(matches(not(isDisplayed())));
 		onView(withText(R.string.fragment_sprite_text_description))
 				.check(matches(not(isDisplayed())));
+
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.remove(NEW_SPRITE_VISUAL_PLACEMENT_KEY)
+				.apply();
 	}
 
 	private void createNoObjectsProject() {

@@ -25,6 +25,7 @@ package org.catrobat.catroid.uiespresso.intents.looks.paintroid;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -56,6 +57,7 @@ import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
@@ -64,6 +66,7 @@ import static org.junit.Assert.assertEquals;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -105,6 +108,10 @@ public class PocketPaintNewSpriteIntentTest {
 	@After
 	public void tearDown() {
 		Intents.release();
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.remove(NEW_SPRITE_VISUAL_PLACEMENT_KEY)
+				.apply();
+
 		baseActivityTestRule.finishActivity();
 		try {
 			StorageOperations.deleteDir(new File(DEFAULT_ROOT_DIRECTORY, projectName));
@@ -118,6 +125,10 @@ public class PocketPaintNewSpriteIntentTest {
 	public void testAddNewSprite() {
 		String newSpriteName = UiTestUtils.getResourcesString(R.string.default_sprite_name) + " (1)";
 
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, false)
+				.commit();
+
 		onView(withId(R.id.button_add))
 				.perform(click());
 
@@ -128,6 +139,8 @@ public class PocketPaintNewSpriteIntentTest {
 
 		onView(withText(newSpriteName))
 				.check(matches(isDisplayed()));
+
+		closeSoftKeyboard();
 
 		onView(Matchers.allOf(withId(android.R.id.button1), withText(R.string.ok)))
 				.perform(click());
