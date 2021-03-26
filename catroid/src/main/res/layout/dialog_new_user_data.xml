@@ -57,18 +57,21 @@
                 android:id="@+id/global"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/dialog_title_and_text_view"
                 android:text="@string/new_data_for_all_sprites" />
 
             <RadioButton
                 android:id="@+id/local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/dialog_title_and_text_view"
                 android:text="@string/new_data_for_this_sprite_only" />
 
             <RadioButton
                 android:id="@+id/multiplayer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/dialog_title_and_text_view"
                 android:text="@string/new_data_for_connected_devices"
                 android:visibility="gone" />
         </RadioGroup>
@@ -78,6 +81,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/formula_editor_data_dialog_is_list"
+            android:theme="@style/CheckboxStyle"
+            android:textColor="?attr/dialog_title_and_text_view"
             android:visibility="gone"/>
 
     </LinearLayout>
