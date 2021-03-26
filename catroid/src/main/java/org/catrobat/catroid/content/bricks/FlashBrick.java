@@ -76,8 +76,8 @@ public class FlashBrick extends BrickBaseType {
 		spinnerValues[FLASH_OFF] = context.getString(R.string.brick_flash_off);
 		spinnerValues[FLASH_ON] = context.getString(R.string.brick_flash_on);
 
-		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, spinnerValues);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, R.layout.spinner_item, spinnerValues);
+		spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
 		return spinnerAdapter;
 	}

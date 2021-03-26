@@ -60,8 +60,8 @@ public class LegoNxtMotorStopBrick extends BrickBaseType {
 		super.getView(context);
 
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter
-				.createFromResource(context, R.array.nxt_stop_motor_chooser, android.R.layout.simple_spinner_item);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				.createFromResource(context, R.array.nxt_stop_motor_chooser, R.layout.spinner_item);
+		spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
 		Spinner spinner = view.findViewById(R.id.stop_motor_spinner);
 		spinner.setAdapter(spinnerAdapter);
