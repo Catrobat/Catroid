@@ -84,8 +84,8 @@ public class PhiroRGBLightBrick extends FormulaBrick {
 		super.getView(context);
 
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(context,
-				R.array.brick_phiro_select_light_spinner, android.R.layout.simple_spinner_item);
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				R.array.brick_phiro_select_light_spinner, R.layout.spinner_item);
+		spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
 		Spinner spinner = view.findViewById(R.id.brick_phiro_rgb_light_spinner);
 		spinner.setAdapter(spinnerAdapter);

@@ -180,9 +180,9 @@ public class PhiroIfLogicBeginBrick extends BrickBaseType implements CompositeBr
 
 		ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(view.getContext(),
 				R.array.brick_phiro_select_sensor_spinner,
-				android.R.layout.simple_spinner_item);
+				R.layout.spinner_item);
 
-		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinnerAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 
 		spinner.setAdapter(spinnerAdapter);
 		spinner.setSelection(sensorSpinnerPosition);
