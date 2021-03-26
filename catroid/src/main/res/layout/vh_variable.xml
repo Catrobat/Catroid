@@ -39,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/checkbox_margin"
+        android:theme="@style/CheckboxStyle"
         android:visibility="gone" />
 
     <LinearLayout

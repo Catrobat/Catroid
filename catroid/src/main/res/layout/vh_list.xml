@@ -38,6 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:theme="@style/CheckboxStyle"
         android:layout_marginEnd="@dimen/checkbox_margin"
         android:visibility="gone" />
 
