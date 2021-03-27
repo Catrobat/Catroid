@@ -28,9 +28,12 @@ import android.preference.PreferenceManager
 import android.text.format.DateUtils
 import org.catrobat.catroid.common.SharedPreferenceKeys
 import org.catrobat.catroid.common.Survey
+import org.catrobat.catroid.transfers.GetSurveyTask
 import org.catrobat.catroid.utils.Utils
+import org.json.JSONException
 import org.junit.Before
 import org.junit.Test
+import org.junit.rules.ExpectedException
 import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
@@ -43,13 +46,18 @@ import java.util.Date
 @RunWith(PowerMockRunner::class)
 @PrepareForTest(Utils::class, PreferenceManager::class, DateUtils::class)
 class EmbeddedSurveyTest {
-    private var currentTimeInMillis: Long = 0
+    private var currentTimeInMilliseconds: Long = 0
     private var surveySpy: Survey? = null
+    private val URL1: String = "https://url1.at/"
+    private val URL2: String = "https://url2.at/"
 
     @Mock
     var sharedPreferencesMock: SharedPreferences? = null
     var sharedPreferenceEditorMock: SharedPreferences.Editor? = null
     var contextMock: Context? = null
+    var surveyMock: Survey? = null
+    var getSurveyTaskMock: GetSurveyTask? = null
+
     @Before
     @Throws(Exception::class)
     fun setUp() {
@@ -61,50 +69,145 @@ class EmbeddedSurveyTest {
         PowerMockito.mockStatic(PreferenceManager::class.java)
         PowerMockito.mockStatic(Utils::class.java)
         PowerMockito.mockStatic(DateUtils::class.java)
-        currentTimeInMillis = System.currentTimeMillis()
+        currentTimeInMilliseconds = System.currentTimeMillis()
+        surveyMock = Mockito.mock(Survey::class.java)
+        getSurveyTaskMock = Mockito.mock(GetSurveyTask::class.java)
     }
 
     @Test
     fun doNotShowSurveyUnderMinimumTime() {
-        val dateYesterday = Date(currentTimeInMillis - dayInMilliseconds)
-        val timeSpendInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP - 1).toLong()
-        initMocks(dateYesterday, timeSpendInApp, showSurveyKey = false, networkConnected = true, uploadFlag = false)
+        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS - 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
+            uploadFlag = false
+        )
+        surveySpy?.showSurvey(contextMock)
         Mockito.verify(surveySpy, Mockito.times(0))!!
             .getSurvey(contextMock)
     }
 
     @Test
     fun doNotShowSurveyOnSameDay() {
-        val dateToday = Date(currentTimeInMillis)
-        val timeSpendInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP + 1).toLong()
-        initMocks(dateToday, timeSpendInApp, showSurveyKey = false, networkConnected = true, uploadFlag = false)
+        val dateToday = Date(currentTimeInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateToday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
+            uploadFlag = false
+        )
+        surveySpy?.showSurvey(contextMock)
         Mockito.verify(surveySpy, Mockito.times(0))!!
             .getSurvey(contextMock)
     }
 
     @Test
-    fun doNotShowSurveyWhenNoInternetCon() {
-        val dateYesterday = Date(System.currentTimeMillis() - dayInMilliseconds)
-        val timeSpendInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP + 1).toLong()
-        initMocks(dateYesterday, timeSpendInApp, showSurveyKey = false, networkConnected = false, uploadFlag = false)
+    fun doNotShowSurveyWhenNoInternetConnection() {
+        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = false,
+            uploadFlag = false
+        )
+        surveySpy?.showSurvey(contextMock)
         Mockito.verify(surveySpy, Mockito.times(0))!!
             .getSurvey(contextMock)
     }
 
     @Test
-    fun showSurveyAfterUploadWhenInternetCon() {
-        val dateYesterday = Date(System.currentTimeMillis())
-        val timeSpendInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP + 1).toLong()
-        initMocks(dateYesterday, timeSpendInApp, showSurveyKey = true, networkConnected = true, uploadFlag = true)
+    fun doNotShowSurveyTwice() {
+        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
+            uploadFlag = false
+        )
+        Mockito.`when`(
+            sharedPreferencesMock!!.getLong(
+                ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL1_HASH_KEY),
+                ArgumentMatchers.anyLong()
+            )
+        ).thenReturn(URL1.hashCode().toLong())
+        Mockito.`when`(
+            sharedPreferencesMock!!.getLong(
+                ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL2_HASH_KEY),
+                ArgumentMatchers.anyLong()
+            )
+        ).thenReturn(0)
+
+        surveySpy?.onSurveyReceived(contextMock, URL1)
+        Mockito.verify(surveySpy, Mockito.times(1))!!
+            .isUrlNew(contextMock, URL1)
+        Mockito.verify(surveySpy, Mockito.times(0))!!
+            .saveUrlHash(contextMock, URL1)
+    }
+
+    @Test
+    fun doNotShowSameSurveyAfterShowingAnotherSurvey() {
+        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
+            uploadFlag = false
+        )
+        Mockito.`when`(
+            sharedPreferencesMock!!.getLong(
+                ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL1_HASH_KEY),
+                ArgumentMatchers.anyLong()
+            )
+        ).thenReturn(URL2.hashCode().toLong())
+        Mockito.`when`(
+            sharedPreferencesMock!!.getLong(
+                ArgumentMatchers.eq(SharedPreferenceKeys.SURVEY_URL2_HASH_KEY),
+                ArgumentMatchers.anyLong()
+            )
+        ).thenReturn(URL1.hashCode().toLong())
+
+        surveySpy?.onSurveyReceived(contextMock, URL1)
+        Mockito.verify(surveySpy, Mockito.times(1))!!
+            .isUrlNew(contextMock, URL1)
+        Mockito.verify(surveySpy, Mockito.times(0))!!
+            .saveUrlHash(contextMock, URL1)
+    }
+
+    @Test
+    fun doNotShowSurveyForLanguageNotDeposited() {
+        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
+            uploadFlag = false
+        )
+
+        PowerMockito.`when`(
+            getSurveyTaskMock?.parseSurvey(ArgumentMatchers.anyString())
+        ).thenReturn("")
+
+        val exception = ExpectedException.none()
+        exception.expect(JSONException::class.java)
+    }
+
+    @Test
+    fun showSurveyAfterUploadWhenInternetConnection() {
+        val dateYesterday = Date(currentTimeInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = true, networkConnected = true,
+            uploadFlag = true
+        )
+        surveySpy?.showSurvey(contextMock)
         Mockito.verify(surveySpy, Mockito.times(1))!!
             .getSurvey(contextMock)
     }
 
     @Test
     fun showSurveyFulfilledRequirements() {
-        val dateYesterday = Date(currentTimeInMillis - dayInMilliseconds)
-        val timeSpendInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP + 1).toLong()
-        initMocks(dateYesterday, timeSpendInApp, showSurveyKey = false, networkConnected = true, uploadFlag = false)
+        val dateYesterday = Date(currentTimeInMilliseconds - dayInMilliseconds)
+        val timeSpentInApp = (Survey.MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS + 1).toLong()
+        initMocks(
+            dateYesterday, timeSpentInApp, showSurveyKey = false, networkConnected = true,
+            uploadFlag = false
+        )
+        surveySpy?.showSurvey(contextMock)
         Mockito.verify(surveySpy, Mockito.times(1))!!
             .getSurvey(contextMock)
     }
@@ -112,13 +215,13 @@ class EmbeddedSurveyTest {
     private fun initMocks(date: Date, timeSpentInApp: Long, showSurveyKey: Boolean, networkConnected: Boolean, uploadFlag: Boolean) {
         PowerMockito.`when`(Utils.isNetworkAvailable(contextMock)).thenReturn(networkConnected)
         PowerMockito.`when`(DateUtils.isToday(ArgumentMatchers.anyLong())).thenReturn(
-            currentTimeInMillis - date.time < dayInMilliseconds
+            currentTimeInMilliseconds - date.time < dayInMilliseconds
         )
         PowerMockito.`when`(PreferenceManager.getDefaultSharedPreferences(contextMock))
             .thenReturn(sharedPreferencesMock)
         Mockito.`when`(
             sharedPreferencesMock!!.getLong(
-                ArgumentMatchers.eq(SharedPreferenceKeys.TIME_SPENT_IN_APP_KEY),
+                ArgumentMatchers.eq(SharedPreferenceKeys.TIME_SPENT_IN_APP_IN_SECONDS_KEY),
                 ArgumentMatchers.anyLong()
             )
         ).thenReturn(timeSpentInApp)
@@ -147,10 +250,9 @@ class EmbeddedSurveyTest {
         val survey = Survey(contextMock)
         surveySpy = Mockito.spy(survey)
         Mockito.`when`(surveySpy?.getUploadFlag()).thenReturn(uploadFlag)
-        surveySpy?.showSurvey(contextMock)
     }
 
     companion object {
-        private const val dayInMilliseconds = (24 * 360 * 1000).toLong()
+        private const val dayInMilliseconds = (24 * 60 * 60 * 1000).toLong()
     }
 }

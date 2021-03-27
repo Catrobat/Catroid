@@ -40,24 +40,24 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.LAST_USED_DATE_KE
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_SURVEY_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SURVEY_URL1_HASH_KEY;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SURVEY_URL2_HASH_KEY;
-import static org.catrobat.catroid.common.SharedPreferenceKeys.TIME_SPENT_IN_APP_KEY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.TIME_SPENT_IN_APP_IN_SECONDS_KEY;
 
 public class Survey implements GetSurveyTask.SurveyResponseListener {
 	@VisibleForTesting
-	public static final int MINIMUM_TIME_SPENT_IN_APP = 3600;
+	public static final int MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS = 60 * 60;
 
-	long totalTimeSpentInApp;
-	long currentTimeSpentInApp;
-	long totalTimeSpentInStage;
-	long currentTimeSpentInStage;
+	long sessionTimeSpentInIdeInSeconds;
+	long sessionStartTimeInMilliseconds;
+	long sessionTimeSpentInStageInMilliseconds;
+	long stageStartTimeInMilliseconds;
 	boolean fulfilledSurveyRequirements;
 	boolean uploadFlag;
 
 	public Survey(Context context) {
 		fulfilledSurveyRequirements = false;
 		uploadFlag = false;
-		totalTimeSpentInStage = 0;
-		currentTimeSpentInApp = 0;
+		sessionTimeSpentInStageInMilliseconds = 0;
+		sessionStartTimeInMilliseconds = 0;
 
 		checkSurveyRequirement(context);
 	}
@@ -70,44 +70,44 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 				.putLong(LAST_USED_DATE_KEY, new Date(System.currentTimeMillis()).getTime())
 				.apply();
 
-		if (!fulfilledSurveyRequirements && currentTimeSpentInApp == 0) {
-			currentTimeSpentInApp = System.currentTimeMillis();
+		if (!fulfilledSurveyRequirements && sessionStartTimeInMilliseconds == 0) {
+			sessionStartTimeInMilliseconds = System.currentTimeMillis();
 		}
 	}
 
 	public void endAppTime(Context context) {
 		if (!fulfilledSurveyRequirements) {
-			totalTimeSpentInApp = (System.currentTimeMillis() - currentTimeSpentInApp - totalTimeSpentInStage) / 1000;
-			currentTimeSpentInApp = 0;
+			sessionTimeSpentInIdeInSeconds = (System.currentTimeMillis() - sessionStartTimeInMilliseconds - sessionTimeSpentInStageInMilliseconds) / 1000;
+			sessionStartTimeInMilliseconds = 0;
 
 			long oldTimeSpentInApp = PreferenceManager.getDefaultSharedPreferences(context)
-					.getLong(TIME_SPENT_IN_APP_KEY, 0);
+					.getLong(TIME_SPENT_IN_APP_IN_SECONDS_KEY, 0);
 
 			PreferenceManager.getDefaultSharedPreferences(context)
 					.edit()
-					.putLong(TIME_SPENT_IN_APP_KEY, oldTimeSpentInApp + totalTimeSpentInApp)
+					.putLong(TIME_SPENT_IN_APP_IN_SECONDS_KEY, oldTimeSpentInApp + sessionTimeSpentInIdeInSeconds)
 					.apply();
 		}
 	}
 
 	public void startStageTime() {
 		if (!fulfilledSurveyRequirements) {
-			currentTimeSpentInStage = System.currentTimeMillis();
+			stageStartTimeInMilliseconds = System.currentTimeMillis();
 		}
 	}
 
 	public void endStageTime() {
 		if (!fulfilledSurveyRequirements) {
-			totalTimeSpentInStage += System.currentTimeMillis() - currentTimeSpentInStage;
+			sessionTimeSpentInStageInMilliseconds += System.currentTimeMillis() - stageStartTimeInMilliseconds;
 		}
 	}
 
 	private void checkSurveyRequirement(Context context) {
 		if (!fulfilledSurveyRequirements) {
 			long timeSpentInApp = PreferenceManager.getDefaultSharedPreferences(context)
-					.getLong(TIME_SPENT_IN_APP_KEY, 0);
+					.getLong(TIME_SPENT_IN_APP_IN_SECONDS_KEY, 0);
 
-			fulfilledSurveyRequirements = timeSpentInApp > MINIMUM_TIME_SPENT_IN_APP;
+			fulfilledSurveyRequirements = timeSpentInApp > MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS;
 		}
 	}
 
@@ -170,7 +170,8 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 		}
 	}
 
-	private void saveUrlHash(Context context, String surveyUrl) {
+	@VisibleForTesting
+	public void saveUrlHash(Context context, String surveyUrl) {
 		long firstSurveyHash = PreferenceManager.getDefaultSharedPreferences(context)
 				.getLong(SURVEY_URL1_HASH_KEY, 0);
 
@@ -185,7 +186,8 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 				.apply();
 	}
 
-	private boolean isUrlNew(Context context, String surveyUrl) {
+	@VisibleForTesting
+	public boolean isUrlNew(Context context, String surveyUrl) {
 		long firstSurveyHash = PreferenceManager.getDefaultSharedPreferences(context)
 				.getLong(SURVEY_URL1_HASH_KEY, 0);
 

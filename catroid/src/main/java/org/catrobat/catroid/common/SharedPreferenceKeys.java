@@ -52,7 +52,7 @@ public final class SharedPreferenceKeys {
 	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY = "scratchconverter"
 			+ ".downloadStatePref";
 
-	public static final String TIME_SPENT_IN_APP_KEY = "timeSpentInApp";
+	public static final String TIME_SPENT_IN_APP_IN_SECONDS_KEY = "timeSpentInApp";
 	public static final String LAST_USED_DATE_KEY = "lastUsedDate";
 	public static final String SHOW_SURVEY_KEY = "showSurvey";
 	public static final String SURVEY_URL1_HASH_KEY = "surveyUrl1Hash";

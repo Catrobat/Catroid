@@ -39,6 +39,8 @@ import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import androidx.annotation.VisibleForTesting;
+
 public class GetSurveyTask extends AsyncTask<String, Void, String> {
 
 	private static final String TAG = GetSurveyTask.class.getSimpleName();
@@ -80,7 +82,8 @@ public class GetSurveyTask extends AsyncTask<String, Void, String> {
 		}
 	}
 
-	private String parseSurvey(String response) throws JSONException {
+	@VisibleForTesting
+	public String parseSurvey(String response) throws JSONException {
 		JSONObject json = new JSONObject(response);
 		String surveyUrl = json.getString(SURVEY_URL_JSON_KEY);
 
