@@ -43,6 +43,7 @@ public final class Constants {
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
+	public static final long RETROFIT_WRITE_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build

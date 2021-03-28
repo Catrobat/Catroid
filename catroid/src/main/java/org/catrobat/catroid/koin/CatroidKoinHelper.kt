@@ -26,9 +26,9 @@ package org.catrobat.catroid.koin
 import android.app.Application
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
-import org.catrobat.catroid.ui.recyclerview.viewmodel.FeaturedProjectsViewModel
-import org.catrobat.catroid.ui.recyclerview.viewmodel.ProjectsViewModel
+import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
 import org.catrobat.catroid.utils.NetworkConnectionMonitor
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -48,8 +48,7 @@ val componentsModules = module(createdAtStart = true, override = false) {
  * https://github.com/InsertKoinIO/koin/blob/master/koin-projects/docs/reference/koin-android/viewmodel.md
  */
 val viewModelModules = module {
-    viewModel { ProjectsViewModel() }
-    viewModel { FeaturedProjectsViewModel(get()) }
+    viewModel { MainFragmentViewModel(get()) }
 }
 
 val repositoryModules = module {
@@ -61,6 +60,10 @@ val repositoryModules = module {
 val adapterModules = module {
     single {
         FeaturedProjectsAdapter()
+    }
+
+    single {
+        CategoriesAdapter()
     }
 }
 
