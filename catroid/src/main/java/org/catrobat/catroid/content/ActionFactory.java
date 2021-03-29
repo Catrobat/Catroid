@@ -120,6 +120,7 @@ import org.catrobat.catroid.content.actions.SceneStartAction;
 import org.catrobat.catroid.content.actions.SceneTransitionAction;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.actions.SetBrightnessAction;
+import org.catrobat.catroid.content.actions.SetCameraFocusPointAction;
 import org.catrobat.catroid.content.actions.SetColorAction;
 import org.catrobat.catroid.content.actions.SetInstrumentAction;
 import org.catrobat.catroid.content.actions.SetListeningLanguageAction;
@@ -574,6 +575,15 @@ public class ActionFactory extends Actions {
 
 	public Action createClearBackgroundAction() {
 		return Actions.action(ClearBackgroundAction.class);
+	}
+
+	public Action createSetCameraFocusPointAction(Sprite sprite, Formula horizontal,
+			Formula vertical) {
+		SetCameraFocusPointAction action = action(SetCameraFocusPointAction.class);
+		action.setSprite(sprite);
+		action.setHorizontal(horizontal);
+		action.setVertical(vertical);
+		return action;
 	}
 
 	public Action createStampAction(Sprite sprite) {
