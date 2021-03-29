@@ -132,7 +132,7 @@ files: [
           "zh-TW": "zh-rTW",
           "en-AU": "en-rAU",
           "en-CA": "en-rCA",
-          "en-GB": "en-rGB"
+          "en-GB": "en-rGB",
           "sr-CS": "sr-rCS"
      }
   },
