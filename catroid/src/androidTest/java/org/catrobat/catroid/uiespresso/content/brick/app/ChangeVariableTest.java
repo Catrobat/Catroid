@@ -100,7 +100,7 @@ public class ChangeVariableTest {
 		String userVariableName1 = "Variable1";
 		performNewVariableFromFormulaEditor(1, userVariableName1);
 		onBrickAtPosition(1)
-				.checkShowsText(userVariableName1);
+				.checkShowsText(R.string.new_option);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.checkShowsVariableNameInAdapter(userVariableName1);
 	}

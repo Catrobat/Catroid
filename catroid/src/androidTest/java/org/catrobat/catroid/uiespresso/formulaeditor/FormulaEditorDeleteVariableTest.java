@@ -97,8 +97,6 @@ public class FormulaEditorDeleteVariableTest {
 				.performCheckItem();
 		onActionMode()
 				.performConfirm();
-		onView(withId(android.R.id.button1))
-				.perform(click());
 
 		onRecyclerView().checkHasNumberOfItems(0);
 	}

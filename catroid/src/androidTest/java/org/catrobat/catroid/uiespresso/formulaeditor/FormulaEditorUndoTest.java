@@ -264,7 +264,7 @@ public class FormulaEditorUndoTest {
 				.performOpenDataFragment();
 
 		onDataList().onVariableAtPosition(0)
-				.performDelete();
+				.performDeleteInDropDown();
 
 		onDataList()
 				.performClose();
@@ -381,7 +381,7 @@ public class FormulaEditorUndoTest {
 				.performOpenDataFragment();
 
 		onDataList().onVariableAtPosition(0)
-				.performDelete();
+				.performDeleteInDropDown();
 
 		onDataList()
 				.performClose();

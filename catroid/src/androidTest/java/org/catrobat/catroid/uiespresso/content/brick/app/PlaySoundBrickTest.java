@@ -162,9 +162,9 @@ public class PlaySoundBrickTest {
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(1).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(soundName2);
+				.checkShowsText(R.string.new_option);
 		onBrickAtPosition(2).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(soundName2);
+				.checkShowsText(R.string.new_option);
 	}
 
 	@Test
@@ -199,9 +199,6 @@ public class PlaySoundBrickTest {
 
 		XstreamSerializer.getInstance().saveProject(project);
 
-		startScript.addBrick(new PlaySoundBrick());
-		startScript.addBrick(new PlaySoundBrick());
-
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
@@ -221,6 +218,14 @@ public class PlaySoundBrickTest {
 		SoundInfo soundInfo2 = new SoundInfo();
 		soundInfo2.setFile(soundFile2);
 		soundInfo2.setName(soundName2);
+
+		PlaySoundBrick playSoundBrick1 = new PlaySoundBrick();
+		playSoundBrick1.setSound(soundInfo);
+		startScript.addBrick(playSoundBrick1);
+
+		PlaySoundBrick playSoundBrick2 = new PlaySoundBrick();
+		playSoundBrick2.setSound(soundInfo);
+		startScript.addBrick(playSoundBrick2);
 
 		List<SoundInfo> soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);

@@ -110,7 +110,7 @@ public class BrickSpinnerDefaultValueTest {
 				{"InsertItemIntoUserListBrick - R.id.insert_item_into_userlist_spinner", "Data", InsertItemIntoUserListBrick.class, R.id.insert_item_into_userlist_spinner, "new…"},
 				{"ReplaceItemInUserListBrick - R.id.replace_item_in_userlist_spinner", "Data", ReplaceItemInUserListBrick.class, R.id.replace_item_in_userlist_spinner, "new…"},
 				{"SceneTransitionBrick - R.id.brick_scene_transition_spinner", "Control", SceneTransitionBrick.class, R.id.brick_scene_transition_spinner, "new…"},
-				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "Scene (1)"},
+				{"SceneStartBrick - R.id.brick_scene_start_spinner", "Control", SceneStartBrick.class, R.id.brick_scene_start_spinner, "new…"},
 				{"CloneBrick - R.id.brick_clone_spinner", "Control", CloneBrick.class, R.id.brick_clone_spinner, "yourself"},
 		});
 	}

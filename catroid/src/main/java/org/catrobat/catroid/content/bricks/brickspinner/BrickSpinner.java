@@ -142,7 +142,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 	}
 
 	private int consolidateSpinnerSelection(int position) {
-		if (position == -1) {
+		/*if (position == -1) {
 			if (adapter.containsNewOption()) {
 				if (adapter.containsEditOption()) {
 					position = adapter.getCount() > 2 ? 2 : 0;
@@ -153,7 +153,17 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 				position = 0;
 			}
 		}
-		return position;
+		return position;*/
+
+		/*if (position == -1) {
+			if (adapter.containsEditOption()) {
+				position = adapter.getCount() > 2 ? 2 : 0;
+			} else {
+				position = 0;
+			}
+		}*/
+
+		return position == -1 ? 0 : position;
 	}
 
 	private void onSelectionSet(Nameable selectedItem) {

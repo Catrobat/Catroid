@@ -132,9 +132,9 @@ public class PlaySoundAndWaitBrickTest {
 				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(soundName2);
+				.checkShowsText(R.string.new_option);
 		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
-				.checkShowsText(soundName2);
+				.checkShowsText(R.string.new_option);
 	}
 
 	@Category({Cat.AppUi.class, Level.Functional.class, Cat.Device.class})
@@ -257,11 +257,6 @@ public class PlaySoundAndWaitBrickTest {
 
 		XstreamSerializer.getInstance().saveProject(project);
 
-		playSoundAndWaitBrickPosition = 1;
-		startScript.addBrick(new PlaySoundAndWaitBrick());
-		playSoundBrickPosition = 2;
-		startScript.addBrick(new PlaySoundBrick());
-
 		soundFile = ResourceImporter.createSoundFileFromResourcesInDirectory(
 				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
 				org.catrobat.catroid.test.R.raw.longsound,
@@ -285,5 +280,15 @@ public class PlaySoundAndWaitBrickTest {
 		soundInfoList = ProjectManager.getInstance().getCurrentSprite().getSoundList();
 		soundInfoList.add(soundInfo);
 		soundInfoList.add(soundInfo2);
+
+		playSoundAndWaitBrickPosition = 1;
+		PlaySoundAndWaitBrick playSoundAndWaitBrick = new PlaySoundAndWaitBrick();
+		playSoundAndWaitBrick.setSound(soundInfo);
+		startScript.addBrick(playSoundAndWaitBrick);
+
+		playSoundBrickPosition = 2;
+		PlaySoundBrick playSoundBrick = new PlaySoundBrick();
+		playSoundBrick.setSound(soundInfo);
+		startScript.addBrick(playSoundBrick);
 	}
 }

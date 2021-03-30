@@ -117,6 +117,10 @@ public class ActionBarUndoSpinnerTest {
 		onView(withId(R.id.menu_undo)).check(doesNotExist());
 		onBrickAtPosition(brickPosition)
 				.onSpinner(brickSpinnerViewId)
+				.performSelectNameable(firstItem);
+
+		onBrickAtPosition(brickPosition)
+				.onSpinner(brickSpinnerViewId)
 				.performSelectNameable(secondItem);
 
 		onView(withId(R.id.menu_undo))
@@ -131,6 +135,9 @@ public class ActionBarUndoSpinnerTest {
 
 	@Test
 	public void testUndoSpinnerAction() {
+		onBrickAtPosition(brickPosition)
+				.onSpinner(brickSpinnerViewId)
+				.performSelectNameable(firstItem);
 		onBrickAtPosition(brickPosition)
 				.onSpinner(brickSpinnerViewId)
 				.performSelectNameable(secondItem);

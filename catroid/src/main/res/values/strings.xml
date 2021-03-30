@@ -2034,10 +2034,18 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
     <string name="cast_screen_pause_text">Paused</string>
     <!-- -->
-
+    
     <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_warning">Warning!</string>
     <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
         errors. You can\'t undo this!</string>
+    <string name="deletion_alert_text_in_use_with_variable_name">%1$s is still in use in a formula and therefore cannot be deleted.
+        Please replace the variable in all formulas in this project where it is used before deleting it,
+        or consider instead to only rename the variable.</string>
+    <string name="deletion_alert_text_drop_down_with_variable_name">%1$s is selected from a
+        drop-down list. Deleting this variable/list will delete it from all drop-down lists and
+        replace it with \"new…\", if it was selected. Continue?</string>
+    <string name="deletion_alert_yes">Yes, delete anyway!</string>
 
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others

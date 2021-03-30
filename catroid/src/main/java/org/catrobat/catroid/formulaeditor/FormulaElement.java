@@ -879,6 +879,18 @@ public class FormulaElement implements Serializable {
 		return false;
 	}
 
+	public boolean containsList(String name) {
+		return ((type.equals(ElementType.USER_LIST) && value.equals(name))
+				|| (leftChild != null && leftChild.containsList(name))
+				|| (rightChild != null && rightChild.containsList(name)));
+	}
+
+	public boolean containsVariable(String name) {
+		return ((type.equals(ElementType.USER_VARIABLE) && value.equals(name))
+				|| (leftChild != null && leftChild.containsVariable(name))
+				|| (rightChild != null && rightChild.containsVariable(name)));
+	}
+
 	public boolean isNumber() {
 		if (type == ElementType.OPERATOR) {
 			Operators operator = Operators.getOperatorByValue(value);
