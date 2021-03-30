@@ -113,4 +113,23 @@
     <color name="indicator_unselected_color">#ACA3A3</color>
     <color name="no_internet_color">#606060</color>
 
-</resources>
+    <!-- bricks -->
+     <color name="brick_color_darkblue">#395cab</color>
+     <color name="brick_color_blue">#408ac5</color>
+     <color name="brick_color_cyan">#26a6ae</color>
+     <color name="brick_color_brightgreen">#00FF00</color>
+     <color name="brick_color_green">#6b9c49</color>
+     <color name="brick_color_darkgreen">#305716</color>
+     <color name="brick_color_olive">#aea626</color>
+     <color name="brick_color_yellow">#fccb41</color>
+     <color name="brick_color_gold">#95750C</color>
+     <color name="brick_color_brown">#866A4E</color>
+     <color name="brick_color_red">#f24e50</color>
+     <color name="brick_color_orange">#cf5717</color>
+     <color name="brick_color_lightorange">#f99761</color>
+     <color name="brick_color_pink">#cf7aa6</color>
+     <color name="brick_color_violet">#8f4cba</color>
+     <color name="brick_color_grey">#AAAAAA</color>
+     <color name="brick_color_white">#FFFFFF</color>
+
+    </resources>

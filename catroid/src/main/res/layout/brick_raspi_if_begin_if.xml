@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_raspi_if_begin_layout"
-        style="@style/BrickContainer.Control.Small">
+        style="@style/BrickContainer.Control.Medium">
 
         <include layout="@layout/icon_brick_category_raspberrypi" />
 

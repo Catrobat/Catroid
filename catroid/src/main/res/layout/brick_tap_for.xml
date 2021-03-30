@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_tap_for_layout"
-        style="@style/BrickContainer.Device.Medium">
+        style="@style/BrickContainer.Device.Big">
 
         <include layout="@layout/icon_brick_category_device" />
 

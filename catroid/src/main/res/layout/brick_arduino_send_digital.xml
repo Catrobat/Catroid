@@ -39,7 +39,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_arduino_send_digital_layout"
-        style="@style/BrickContainer.Arduino.Big">
+        style="@style/BrickContainer.Arduino.Medium">
 
         <include layout="@layout/icon_brick_category_arduino" />
 

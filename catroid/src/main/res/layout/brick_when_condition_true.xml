@@ -37,7 +37,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_when_condition_layout"
-        style="@style/BrickContainer.Event.MediumWhen">
+        style="@style/BrickContainer.Event.Small">
 
         <include layout="@layout/icon_brick_category_event" />
 

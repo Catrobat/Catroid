@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_repeat_layout"
-        style="@style/BrickContainer.Control.Small"
+        style="@style/BrickContainer.Control.Big"
         android:layout_height="match_parent">
 
         <include layout="@layout/icon_brick_category_control" />

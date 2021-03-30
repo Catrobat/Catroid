@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_insert_item_into_userlist_layout"
-        style="@style/BrickContainer.UserVariables.Medium">
+        style="@style/BrickContainer.UserVariables.Big">
 
         <include layout="@layout/icon_brick_category_data" />
 

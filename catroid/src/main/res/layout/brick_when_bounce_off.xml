@@ -43,7 +43,6 @@
 
         <TextView
             style="@style/BrickText.SingleLine"
-            android:paddingTop="25dp"
             android:text="@string/brick_collision_receive" />
 
         <Spinner

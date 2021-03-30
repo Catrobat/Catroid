@@ -37,7 +37,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_think_bubble_layout"
-        style="@style/BrickContainer.Look.Medium">
+        style="@style/BrickContainer.Look.Small">
 
         <include layout="@layout/icon_brick_category_look" />
 

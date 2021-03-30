@@ -112,9 +112,13 @@ public class BrickLayout extends ViewGroup {
 		return lineData;
 	}
 
+	public int getPaddingLeft(int widthMeasureSpec) {
+		return super.getPaddingLeft() + (int) (MeasureSpec.getSize(widthMeasureSpec) * 0.14);
+	}
+
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		int sizeWidth = MeasureSpec.getSize(widthMeasureSpec) - this.getPaddingRight() - this.getPaddingLeft();
+		int sizeWidth = MeasureSpec.getSize(widthMeasureSpec) - this.getPaddingRight() - this.getPaddingLeft(widthMeasureSpec);
 		int sizeHeight = MeasureSpec.getSize(heightMeasureSpec) - getPaddingTop() - getPaddingBottom();
 
 		int modeWidth = MeasureSpec.getMode(widthMeasureSpec);
@@ -309,7 +313,7 @@ public class BrickLayout extends ViewGroup {
 
 				currentLine.height = lineThickness;
 
-				int posX = getPaddingLeft() + lineLength - childWidth;
+				int posX = getPaddingLeft(widthMeasureSpec) + lineLength - childWidth;
 				int posY = getPaddingTop() + prevLinePosition;
 
 				element.posX = posX;

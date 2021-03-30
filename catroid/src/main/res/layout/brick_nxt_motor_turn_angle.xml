@@ -38,7 +38,7 @@
 
     <org.catrobat.catroid.ui.BrickLayout
         android:id="@+id/brick_nxt_motor_turn_layout"
-        style="@style/BrickContainer.Lego.Small">
+        style="@style/BrickContainer.Lego.Big">
 
         <include layout="@layout/icon_brick_category_legonxt" />
 
