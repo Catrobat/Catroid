@@ -123,20 +123,17 @@ files: [
           "he" : "iw",
           "id": "in",
           "ml-IN": "ml",
-          "nl": "nl",
-          "no": "no",
-          "pl": "pl",
-          "ps": "ps",
           "pt-PT": "pt",
           "pt-BR": "pt-rBR",
           "si-LK" : "si",
           "sv-SE": "sv",
           "ur-PK": "ur",
-	  "zh-CN": "zn-rCN",
+          "zh-CN": "zh-rCN",
           "zh-TW": "zh-rTW",
           "en-AU": "en-rAU",
-	  "en-CA": "en-rCA",
+          "en-CA": "en-rCA",
           "en-GB": "en-rGB"
+          "sr-CS": "sr-rCS"
      }
   },
 
