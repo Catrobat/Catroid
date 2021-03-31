@@ -20,30 +20,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
+package org.catrobat.catroid.bluetooth.base
 
-import android.app.Activity;
-import android.content.Context;
+import android.content.Context
 
-import org.catrobat.catroid.common.CatroidService;
-import org.catrobat.catroid.devices.mindstorms.MindstormsException;
-import org.catrobat.catroid.stage.StageResourceInterface;
-
-public interface BluetoothDeviceService extends CatroidService, StageResourceInterface {
-
-	enum ConnectDeviceResult {
-		ALREADY_CONNECTED,
-		CONNECTION_REQUESTED
-	}
-
-	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceType,
-			Activity activity, int requestCode);
-
-	ConnectDeviceResult connectDevice(Class<? extends BluetoothDevice> deviceToConnect,
-			Context context);
-
-	void deviceConnected(BluetoothDevice device) throws MindstormsException;
-	void disconnectDevices();
-
-	<T extends BluetoothDevice> T getDevice(Class<T> btDevice);
+interface BluetoothDeviceFactory {
+    fun <T : BluetoothDevice?> createDevice(
+        service: Class<T>?,
+        applicationContext: Context?
+    ): BluetoothDevice?
 }

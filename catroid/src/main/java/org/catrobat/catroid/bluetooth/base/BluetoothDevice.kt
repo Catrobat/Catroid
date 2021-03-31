@@ -20,30 +20,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
+package org.catrobat.catroid.bluetooth.base
 
-import android.bluetooth.BluetoothSocket;
+import org.catrobat.catroid.devices.arduino.Arduino
+import org.catrobat.catroid.devices.arduino.phiro.Phiro
+import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3
+import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT
+import org.catrobat.catroid.stage.StageResourceInterface
+import java.util.UUID
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+interface BluetoothDevice : StageResourceInterface {
+    val name: String?
+    val deviceType: Class<out BluetoothDevice?>?
+    fun setConnection(connection: BluetoothConnection?)
+    fun disconnect()
+    val isAlive: Boolean
+    val bluetoothDeviceUUID: UUID?
 
-public interface BluetoothConnection {
-
-	enum State {
-		CONNECTED, NOT_CONNECTED, ERROR_BLUETOOTH_NOT_SUPPORTED, ERROR_BLUETOOTH_NOT_ON,
-		ERROR_ADAPTER, ERROR_DEVICE, ERROR_SOCKET, ERROR_STILL_BONDING, ERROR_NOT_BONDED, ERROR_CLOSING
-	}
-
-	State connect();
-
-	State connectSocket(BluetoothSocket socket);
-
-	void disconnect();
-
-	InputStream getInputStream() throws IOException;
-
-	OutputStream getOutputStream() throws IOException;
-
-	State getState();
+    companion object {
+        @JvmField
+		val LEGO_NXT = LegoNXT::class.java
+        @JvmField
+		val LEGO_EV3 = LegoEV3::class.java
+        @JvmField
+		val PHIRO = Phiro::class.java
+        @JvmField
+		val ARDUINO = Arduino::class.java
+    }
 }

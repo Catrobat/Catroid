@@ -20,29 +20,26 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
+package org.catrobat.catroid.bluetooth.base
 
-import org.catrobat.catroid.devices.arduino.Arduino;
-import org.catrobat.catroid.devices.arduino.phiro.Phiro;
-import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
-import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.stage.StageResourceInterface;
+import android.bluetooth.BluetoothSocket
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 
-import java.util.UUID;
+interface BluetoothConnection {
+    enum class State {
+        CONNECTED, NOT_CONNECTED, ERROR_BLUETOOTH_NOT_SUPPORTED, ERROR_BLUETOOTH_NOT_ON, ERROR_ADAPTER, ERROR_DEVICE, ERROR_SOCKET, ERROR_STILL_BONDING, ERROR_NOT_BONDED, ERROR_CLOSING
+    }
 
-public interface BluetoothDevice extends StageResourceInterface {
+    fun connect(): State?
+    fun connectSocket(socket: BluetoothSocket?): State?
+    fun disconnect()
 
-	Class<LegoNXT> LEGO_NXT = LegoNXT.class;
-	Class<LegoEV3> LEGO_EV3 = LegoEV3.class;
-	Class<Phiro> PHIRO = Phiro.class;
-	Class<Arduino> ARDUINO = Arduino.class;
+    @get:kotlin.jvm.Throws(IOException::class)
+    val inputStream: InputStream?
 
-	String getName();
-	Class<? extends BluetoothDevice> getDeviceType();
-	void setConnection(BluetoothConnection connection);
-	void disconnect();
-
-	boolean isAlive();
-
-	UUID getBluetoothDeviceUUID();
+    @get:kotlin.jvm.Throws(IOException::class)
+    val outputStream: OutputStream?
+    val state: State?
 }

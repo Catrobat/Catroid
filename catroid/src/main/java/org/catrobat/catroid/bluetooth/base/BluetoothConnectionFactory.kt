@@ -20,14 +20,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth.base;
+package org.catrobat.catroid.bluetooth.base
 
-import android.content.Context;
+import android.content.Context
+import java.util.UUID
 
-import java.util.UUID;
-
-public interface BluetoothConnectionFactory {
-
-	<T extends BluetoothDevice> BluetoothConnection createBTConnectionForDevice(Class<T> bluetoothDeviceType,
-			String address, UUID deviceUUID, Context applicationContext);
+interface BluetoothConnectionFactory {
+    fun <T : BluetoothDevice?> createBTConnectionForDevice(
+        bluetoothDeviceType: Class<T>?,
+        address: String?, deviceUUID: UUID?, applicationContext: Context?
+    ): BluetoothConnection?
 }
