@@ -25,11 +25,11 @@ package org.catrobat.catroid.common;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
 import org.catrobat.catroid.transfers.GetSurveyTask;
+import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.Date;
@@ -153,7 +153,8 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 	@Override
 	public void onSurveyReceived(Context context, String surveyUrl) {
 		if (isUrlNew(context, surveyUrl)) {
-			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(surveyUrl));
+			Intent intent = new Intent(context, WebViewActivity.class);
+			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, surveyUrl);
 			context.startActivity(intent);
 
 			saveUrlHash(context, surveyUrl);
