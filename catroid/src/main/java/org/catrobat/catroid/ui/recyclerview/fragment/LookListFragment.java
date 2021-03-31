@@ -167,6 +167,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		Activity activity = getActivity();
 		if (activity instanceof SpriteActivity) {
 			((SpriteActivity) activity).setUndoMenuItemVisibility(false);
+			((SpriteActivity) activity).checkForChange();
 			((SpriteActivity) activity).showUndo(false);
 		}
 	}

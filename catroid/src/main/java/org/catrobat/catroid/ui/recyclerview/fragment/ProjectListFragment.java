@@ -290,6 +290,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 
 		for (ProjectData item : selectedItems) {
 			try {
+				ProjectManager.getInstance().deleteDownloadedProjectInformation(item.getName());
 				StorageOperations.deleteDir(item.getDirectory());
 			} catch (IOException e) {
 				Log.e(TAG, Log.getStackTraceString(e));

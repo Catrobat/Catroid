@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,6 +30,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.ResultReceiver
 import android.util.Log
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.Constants.CACHE_DIR
@@ -139,6 +140,7 @@ class ProjectDownloadService : IntentService("ProjectDownloadService") {
             ZipArchiver().unzip(destinationFile, projectDir)
 
             XstreamSerializer.renameProject(File(projectDir, Constants.CODE_XML_FILE_NAME), projectName)
+            ProjectManager.getInstance().addNewDownloadedProject(projectName)
 
             val downloadIntent = Intent(context, MainMenuActivity::class.java)
             downloadIntent.setAction(Intent.ACTION_MAIN)
