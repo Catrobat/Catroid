@@ -108,6 +108,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 	private static final String OPEN_URL_BRICK = "OpenUrlBrick";
 	private static final String WIKI_URL = "<a href='https://catrob.at/webbricks'>"
 			+ "https://catrob.at/webbricks</a>";
+	private static final String LICENSE_TO_PLAY_URL = "<a href='https://catrob.at/ltp'>"
+			+ "https://catrob.at/ltp</a>";
 	private static final String PROGRAM_NAME_START_TAG = "<programName>";
 	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
@@ -185,7 +187,9 @@ public class ProjectUploadActivity extends BaseActivity implements
 		TextView projectSizeView = findViewById(R.id.project_size_view);
 		projectSizeView
 				.setText(FileMetaDataExtractor.getSizeAsString(project.getDirectory(), this));
-
+		if (!ProjectManager.getInstance().isChangedProject(project)) {
+			showUploadIsUnchangedDialog();
+		}
 		nameInputLayout = findViewById(R.id.input_project_name);
 		descriptionInputLayout = findViewById(R.id.input_project_description);
 		notesAndCreditsInputLayout = findViewById(R.id.input_project_notes_and_credits);
@@ -199,6 +203,24 @@ public class ProjectUploadActivity extends BaseActivity implements
 		checkCodeforApiKey();
 		setShowProgressBar(false);
 		setNextButtonEnabled(true);
+	}
+
+	private void showUploadIsUnchangedDialog() {
+		View view = View.inflate(this, R.layout.dialog_upload_unchanged_project, null);
+		TextView warningText = view.findViewById(R.id.unchanged_upload_url);
+		warningText.setMovementMethod(LinkMovementMethod.getInstance());
+		String warningURL = getString(R.string.unchanged_upload_url,
+				LICENSE_TO_PLAY_URL);
+		warningText.setText(Html.fromHtml(warningURL));
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
+				.setTitle(R.string.warning)
+				.setView(view)
+				.setPositiveButton(getString(R.string.ok), (dialog, which) -> {
+					finish();
+				})
+				.setCancelable(false)
+				.create();
+		alertDialog.show();
 	}
 
 	@Override
@@ -458,9 +480,11 @@ public class ProjectUploadActivity extends BaseActivity implements
 				.setView(R.layout.dialog_upload_project_progress)
 				.setPositiveButton(R.string.progress_upload_dialog_show_program, (dialog, which) -> {
 					loadBackup();
+					ProjectManager.getInstance().resetChangedFlag(project);
 				})
 				.setNegativeButton(R.string.done, (dialog, which) -> {
 					loadBackup();
+					ProjectManager.getInstance().resetChangedFlag(project);
 
 					if (surveyCampaign != null) {
 						surveyCampaign.showSurvey(this);
@@ -510,6 +534,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
 			startActivity(intent);
 			loadBackup();
+			ProjectManager.getInstance().resetChangedFlag(project);
 			finish();
 		});
 		positiveButton.setEnabled(true);

@@ -23,7 +23,12 @@
 package org.catrobat.catroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.catrobat.catroid.common.DefaultProjectHandler;
 import org.catrobat.catroid.common.LookData;
@@ -58,7 +63,9 @@ import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,6 +84,8 @@ public final class ProjectManager {
 	private Scene currentlyPlayingScene;
 	private Scene startScene;
 	private Sprite currentSprite;
+	private HashMap<String, Boolean> downloadedProjects;
+	private final String downloadedProjectsName = "downloaded_projects";
 
 	private Context applicationContext;
 
@@ -88,6 +97,7 @@ public final class ProjectManager {
 		this.applicationContext = applicationContext;
 		if (instance == null) {
 			instance = this;
+			loadDownloadedProjects();
 		}
 	}
 
@@ -555,5 +565,77 @@ public final class ProjectManager {
 	public void setCurrentlyEditedScene(Scene scene) {
 		currentlyEditedScene = scene;
 		currentlyPlayingScene = scene;
+	}
+
+	public void addNewDownloadedProject(String projectName) {
+		Boolean flag = downloadedProjects.get(projectName);
+		if (flag == null || flag) {
+			downloadedProjects.put(projectName, false);
+			saveDownloadedProjects();
+		}
+	}
+
+	public void resetChangedFlag(Project project) {
+		String projectName = project.getName();
+		Boolean isChanged = downloadedProjects.get(projectName);
+		if (isChanged != null && isChanged) {
+			downloadedProjects.put(projectName, false);
+			saveDownloadedProjects();
+		}
+	}
+
+	public boolean isChangedProject(Project project) {
+		String projectName = project.getName();
+		Boolean isChanged = downloadedProjects.get(projectName);
+		if (isChanged == null) {
+			return true;
+		}
+		return isChanged;
+	}
+
+	public void deleteDownloadedProjectInformation(String projectName) {
+		downloadedProjects.remove(projectName);
+	}
+
+	public void changedProject(String projectName) {
+		Boolean isChanged = downloadedProjects.get(projectName);
+		if (isChanged != null && !isChanged) {
+			downloadedProjects.put(projectName, true);
+			saveDownloadedProjects();
+		}
+	}
+
+	public void saveDownloadedProjects() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+		SharedPreferences.Editor editor = sharedPreferences.edit();
+		Gson gson = new Gson();
+		String json = gson.toJson(downloadedProjects);
+		editor.putString(downloadedProjectsName, json);
+		editor.apply();
+	}
+
+	public void loadDownloadedProjects() {
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext);
+		Gson gson = new Gson();
+		String json = null;
+		if (sharedPreferences != null) {
+			json = sharedPreferences.getString(downloadedProjectsName, null);
+			if (json != null) {
+				Type type = new TypeToken<HashMap<String, Boolean>>() {
+				}.getType();
+				downloadedProjects = gson.fromJson(json, type);
+			} else {
+				downloadedProjects = new HashMap<>();
+			}
+		}
+	}
+
+	public void moveChangedFlag(String source, String destination) {
+		Boolean value = downloadedProjects.get(source);
+		if (null != value) {
+			downloadedProjects.remove(source);
+			downloadedProjects.put(destination, true);
+			saveDownloadedProjects();
+		}
 	}
 }

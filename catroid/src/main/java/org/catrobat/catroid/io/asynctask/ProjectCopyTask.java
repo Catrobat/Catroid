@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.io.asynctask;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -61,6 +62,7 @@ public class ProjectCopyTask extends AsyncTask<Void, Void, Boolean> {
 		try {
 			StorageOperations.copyDir(srcDir, dstDir);
 			XstreamSerializer.renameProject(new File(dstDir, CODE_XML_FILE_NAME), dstName);
+			ProjectManager.getInstance().addNewDownloadedProject(dstName);
 			return true;
 		} catch (IOException e) {
 			Log.e(TAG, "Something went wrong while copying " + srcDir.getAbsolutePath() + " to " + dstName, e);
