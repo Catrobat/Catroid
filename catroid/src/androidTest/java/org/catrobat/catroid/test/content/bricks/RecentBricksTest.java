@@ -52,7 +52,6 @@ import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
-import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -89,19 +88,14 @@ public class RecentBricksTest {
 		onView(withText(spriteName)).perform(click());
 
 		onView(withId(R.id.button_add)).perform(click());
-		onView(withText(R.string.category_pen)).perform(waitFor(isDisplayed(), 5000));
-		onView(withText(R.string.category_pen)).perform(scrollTo(), click());
-		onView(withText(R.string.brick_clear_background)).perform(scrollTo(), click());
-		onView(withId(android.R.id.list)).perform(click());
-
-		onView(withId(R.id.button_add)).perform(click());
-		onView(withText(R.string.category_pen)).perform(scrollTo(), click());
-		onView(withText(R.string.brick_stamp)).perform(scrollTo(), click());
+		onView(withText(R.string.category_motion)).perform(scrollTo(), click());
+		onView(withText(R.string.brick_if_on_edge_bounce)).perform(scrollTo());
+		onView(withText(R.string.brick_if_on_edge_bounce)).perform(waitFor(isDisplayed(), 2000), click());
 		onView(withId(android.R.id.list)).perform(click());
 
 		onView(withId(R.id.button_add)).perform(click());
 		onView(withText(R.string.category_recently_used)).perform(click());
-		onBrickAtPosition(1).checkShowsText(R.string.brick_stamp);
+		onBrickAtPosition(1).checkShowsText(R.string.brick_if_on_edge_bounce);
 
 		pressBack();
 		pressBack();
@@ -110,8 +104,7 @@ public class RecentBricksTest {
 		onView(withText(R.string.background)).perform(click());
 		onView(withId(R.id.button_add)).perform(click());
 		onView(withText(R.string.category_recently_used)).perform(click());
-		onView(withText(R.string.brick_stamp)).check(doesNotExist());
-		onView(withText(R.string.brick_clear_background)).check(matches(isDisplayed()));
+		onView(withText(R.string.brick_if_on_edge_bounce)).check(doesNotExist());
 	}
 
 	@After
