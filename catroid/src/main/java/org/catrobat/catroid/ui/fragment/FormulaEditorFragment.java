@@ -63,10 +63,8 @@ import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
-import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UndoState;
 import org.catrobat.catroid.formulaeditor.UserData;
@@ -97,7 +95,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -761,9 +758,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 			if (saveFormulaIfPossible()) {
 				hasFormulaBeenChanged = false;
 			} else {
-				Map<Brick.FormulaField, InternFormulaState> initialStates = formulaEditorEditText
-						.getHistory().getInitialStates();
-				restoreInitialStates(initialStates);
+				return;
 			}
 		}
 		onUserDismiss();
@@ -930,14 +925,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		} else {
 			backspaceOnKeyboard.setAlpha(255);
 			backspaceOnKeyboard.setEnabled(true);
-		}
-	}
-
-	private void restoreInitialStates(Map<Brick.FormulaField, InternFormulaState> initialStates) {
-		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialStates.entrySet()) {
-			InternFormula internFormula = state.getValue().createInternFormulaFromState();
-			formulaBrick.setFormulaWithBrickField(state.getKey(),
-					new Formula(internFormula.getInternFormulaParser().parseFormula(generateScope())));
 		}
 	}
 
