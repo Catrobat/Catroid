@@ -569,6 +569,7 @@
     <string name="local_vars_headline">Varijable samo za ovog učesnika ili ovaj objekat</string>
     <string name="global_lists_headline">Lista za sve učesnike i objekte</string>
     <string name="local_lists_headline">Lista samo za ovog učesnika ili ovaj objekat</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input for this brick</item>
         <item quantity="few">Inputs for this brick</item>

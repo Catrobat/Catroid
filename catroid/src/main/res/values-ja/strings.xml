@@ -499,6 +499,7 @@
     <string name="local_vars_headline">このアクターまたはオブジェクトのみの変数</string>
     <string name="global_lists_headline">すべてのアクターとオブジェクトのリスト</string>
     <string name="local_lists_headline">このアクターまたはオブジェクトのみのリスト</string>
+    <string name="fragment_data_text_description">「+」をタップして\n変数やリストを追加します</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="other">このブロックの入力</item>
     </plurals>

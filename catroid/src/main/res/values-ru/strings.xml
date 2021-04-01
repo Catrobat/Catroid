@@ -611,6 +611,7 @@
     <string name="local_vars_headline">Переменные только для этого актера или объекта</string>
     <string name="global_lists_headline">Списки для всех актеров или объектов</string>
     <string name="local_lists_headline">Списки только для этого актера или объекта</string>
+    <string name="fragment_data_text_description">Нажмите \"+\", чтобы добавить\nпеременных или списков</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Введите для этого кирпича</item>
         <item quantity="few">Введите для этого кирпича</item>
