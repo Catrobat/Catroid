@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -43,16 +43,15 @@ public class ProjectSaveTask extends AsyncTask<Void, Void, Boolean> {
 	private Project project;
 
 	private WeakReference<Context> weakContextReference;
-	private WeakReference<ProjectSaveListener> weakListenerReference;
+	private ProjectSaveListener onProjectSaveListener;
 
 	public ProjectSaveTask(Project project, Context context) {
 		this.project = project;
 		this.weakContextReference = new WeakReference<>(context);
 	}
 
-	public ProjectSaveTask setListener(ProjectSaveListener listener) {
-		weakListenerReference = new WeakReference<>(listener);
-		return this;
+	public void setOnProjectSaveListener(ProjectSaveListener listener) {
+		onProjectSaveListener = listener;
 	}
 
 	public static boolean task(Project project, Context context) {
@@ -127,12 +126,8 @@ public class ProjectSaveTask extends AsyncTask<Void, Void, Boolean> {
 
 	@Override
 	protected void onPostExecute(Boolean success) {
-		if (weakListenerReference == null) {
-			return;
-		}
-		ProjectSaveListener listener = weakListenerReference.get();
-		if (listener != null) {
-			listener.onSaveProjectComplete(success);
+		if (onProjectSaveListener != null) {
+			onProjectSaveListener.onSaveProjectComplete(success);
 		}
 	}
 

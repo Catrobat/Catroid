@@ -72,7 +72,8 @@ import androidx.fragment.app.Fragment;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class ProjectOptionsFragment extends Fragment {
+public class ProjectOptionsFragment extends Fragment implements
+		ProjectSaveTask.ProjectSaveListener {
 
 	public static final String TAG = ProjectOptionsFragment.class.getSimpleName();
 	private static final int PERMISSIONS_REQUEST_EXPORT_TO_EXTERNAL_STORAGE = 802;
@@ -266,10 +267,13 @@ public class ProjectOptionsFragment extends Fragment {
 
 	public void projectUpload(View view) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		new ProjectSaveTask(currentProject, getActivity().getApplicationContext()).setListener(this::onSaveProjectComplete).execute();
-		Utils.setLastUsedProjectName(getActivity().getApplicationContext(), currentProject.getName());
+		ProjectSaveTask projectSaveTask = new ProjectSaveTask(currentProject, getContext());
+		projectSaveTask.setOnProjectSaveListener(this);
+		projectSaveTask.execute();
+		Utils.setLastUsedProjectName(getContext(), currentProject.getName());
 	}
 
+	@Override
 	public void onSaveProjectComplete(boolean success) {
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		Intent intent = new Intent(getContext(), ProjectUploadActivity.class);
