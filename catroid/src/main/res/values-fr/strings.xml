@@ -535,6 +535,7 @@
     <string name="local_vars_headline">Variables pour cet acteur ou objet uniquement</string>
     <string name="global_lists_headline">Listes pour tous les acteurs et objets</string>
     <string name="local_lists_headline">Listes pour cet acteur ou cet objet uniquement</string>
+    <string name="fragment_data_text_description">Tapez sur « + » pour ajouter\nvariables ou listes</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Entrée pour cette brique</item>
         <item quantity="other">Entrées pour cette brique</item>

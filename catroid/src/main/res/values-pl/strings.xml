@@ -594,6 +594,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="local_vars_headline">Zmienna tylko dla tego aktora lub obiektu</string>
     <string name="global_lists_headline">Listy dla wszystkich aktorów i obiektów</string>
     <string name="local_lists_headline">Listy tylko dla tego aktora i obiektu</string>
+    <string name="fragment_data_text_description">Naciśnij \"+\", aby dodać\nzmiennych lub list</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Dodaj dane wejściowe dla tego bloku:</item>
         <item quantity="few">Dodaj dane wejściowe dla tego bloku:</item>

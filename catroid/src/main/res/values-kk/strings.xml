@@ -521,6 +521,7 @@
     <string name="local_vars_headline">Тек осы актер немесе объектіге арналған айнымалылар</string>
     <string name="global_lists_headline">Барлық актерлер мен объектілерге арналған тізімдер</string>
     <string name="local_lists_headline">Тек осы актер немесе объектіге арналған тізімдер</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input for this brick</item>
         <item quantity="other">Inputs for this brick</item>

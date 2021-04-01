@@ -610,6 +610,7 @@
     <string name="local_vars_headline">Proměnné pouze pro tento objekt</string>
     <string name="global_lists_headline">Seznamy pro všechny objekty</string>
     <string name="local_lists_headline">Seznamy pouze pro tento objekt</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input for this brick</item>
         <item quantity="few">Inputs for this brick</item>

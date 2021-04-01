@@ -540,6 +540,7 @@
     <string name="local_vars_headline">Variabili per solo questo oggetto</string>
     <string name="global_lists_headline">Liste per tutti gli oggetti</string>
     <string name="local_lists_headline">Lista per solo questo oggetto</string>
+    <string name="fragment_data_text_description">Tocca \"+\" per aggiungere\nvariabili o liste</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input per questo mattoncino</item>
         <item quantity="other">Input per questi mattoncini</item>

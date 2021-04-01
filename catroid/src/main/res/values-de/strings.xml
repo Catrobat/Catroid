@@ -535,6 +535,7 @@
     <string name="local_vars_headline">Variablen nur für diese Figur oder dieses Objekt</string>
     <string name="global_lists_headline">Listen für alle Figuren und Objekte</string>
     <string name="local_lists_headline">Listen nur für diese Figur oder dieses Objekt</string>
+    <string name="fragment_data_text_description">Tippe auf \"+\",\n um Variablen oder Listen hinzuzufügen</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Eingabe für diesen Baustein</item>
         <item quantity="other">Eingaben für diesen Baustein</item>
@@ -1326,7 +1327,7 @@
     <string name="ev3_sensor_infrared">EV3 Infrarot</string>
     <string name="ev3_sensor_color">EV3 Farbe</string>
     <string name="ev3_sensor_color_ambient">EV3 Umgebungslicht</string>
-    <string name="ev3_sensor_color_reflected">EV3_Lichtreflexion</string>
+    <string name="ev3_sensor_color_reflected">EV3 Lichtfarbenreflexion</string>
     <string name="ev3_sensor_hitechnic_color">HiTechnic Farbsensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT Temperatursensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT Temperatursensor (°F)</string>
@@ -1569,7 +1570,7 @@
     <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">Raspberry Pi Pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">Bildschirm berührt x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">bildschirm_berührt_y</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">Bildschirm berührt y</string>
     <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">Bildschirm wurde berührt</string>
     <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">Bildschirm berührt x</string>
     <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">Bildschirm berührt y</string>
@@ -1596,8 +1597,8 @@
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">Farbe gleicht Farbe mit %
         Toleranz</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">Beschleunigung x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">Beschleunigung_y</string>
-    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">Beschleunigung_z</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">Beschleunigung y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">Beschleunigung z</string>
     <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">Kompassrichtung</string>
     <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">Breitengrad</string>
     <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">Längengrad</string>
@@ -1650,8 +1651,8 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT Licht aktiv</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT Klang</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT Ultraschallsensor</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad_a_gedrückt</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad_b_gedrückt</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">Gamepad A gedrückt</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">Gamepad B gedrückt</string>
     <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">Gamepad nach oben gedrückt</string>
     <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">Gamepad nach unten gedrückt</string>
     <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">Gamepad links gedrückt</string>
@@ -1664,7 +1665,7 @@
     <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">Phiro Sensor unten rechts</string>
     <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">NFC Tag ID</string>
     <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">NFC Tag Nachricht</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">Position_x</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">Position x</string>
     <string name="formula_editor_object_y" tools:ignore="UnusedResources">Position y</string>
     <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">Transparenz</string>
     <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">Helligkeit</string>
@@ -1675,7 +1676,7 @@
     <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y Geschwindigkeit</string>
     <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">Winkelgeschwindigkeit</string>
     <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">Nummer des Aussehens</string>
-    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">aussehen_name</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">Namen des Aussehens</string>
     <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">Nummer des Hintergrunds</string>
     <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">Hintergrundname</string>
     <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">Entfernung zu</string>

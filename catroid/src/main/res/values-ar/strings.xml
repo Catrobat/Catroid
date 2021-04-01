@@ -664,6 +664,7 @@
     <string name="local_vars_headline">متغيرات لهذا الكائن فقط</string>
     <string name="global_lists_headline">قوائم لكل المتغيرات</string>
     <string name="local_lists_headline">قوائم لهذا الكائن فقط</string>
+    <string name="fragment_data_text_description">انقر فوق \"+\"  \nلإضافة متغيرات وقوائم</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="zero">الإدخال لهذه الطوبة</item>
         <item quantity="one">الإدخال لهذه الطوبة</item>
