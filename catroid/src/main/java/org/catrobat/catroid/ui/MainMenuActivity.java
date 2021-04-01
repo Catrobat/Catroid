@@ -38,6 +38,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.navigation.NavigationView;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -62,7 +65,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -71,11 +78,13 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY
 import static org.koin.java.KoinJavaComponent.inject;
 
 public class MainMenuActivity extends BaseCastActivity implements
-		ProjectLoadTask.ProjectLoadListener {
+		ProjectLoadTask.ProjectLoadListener, NavigationView.OnNavigationItemSelectedListener {
 
 	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
+	private DrawerLayout drawerLayout;
+	private NavigationView navigationView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +187,16 @@ public class MainMenuActivity extends BaseCastActivity implements
 		setSupportActionBar(findViewById(R.id.toolbar));
 		getSupportActionBar().setIcon(R.drawable.pc_toolbar_icon);
 		getSupportActionBar().setTitle(R.string.app_name);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		drawerLayout = findViewById(R.id.drawer);
+		navigationView = findViewById(R.id.navigationView);
+		ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this
+				, drawerLayout
+				, R.string.open_drawer, R.string.close_drawer);
+		drawerLayout.addDrawerListener(actionBarDrawerToggle);
+		actionBarDrawerToggle.syncState();
+		navigationView.setNavigationItemSelectedListener(this);
 
 		setShowProgressBar(true);
 
@@ -185,10 +204,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 			CastManager.getInstance().initializeCast(this);
 		}
 
-		loadFragment();
+		loadHomeFragment();
 	}
 
-	private void loadFragment() {
+	private void loadHomeFragment() {
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.fragment_container, new MainMenuFragment(),
 						MainMenuFragment.Companion.getTAG())
@@ -256,34 +275,13 @@ public class MainMenuActivity extends BaseCastActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case R.id.menu_rate_app:
-				if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
-					try {
-						startActivity(new Intent(Intent.ACTION_VIEW,
-								Uri.parse("market://details?id=" + getPackageName())));
-					} catch (ActivityNotFoundException e) {
-						ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
-					}
-				}
-				break;
-			case R.id.menu_terms_of_use:
-				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
-				break;
-			case R.id.menu_privacy_policy:
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-						Uri.parse(PRIVACY_POLICY_URL));
-				startActivity(browserIntent);
-				break;
-			case R.id.menu_about:
-				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
+			case android.R.id.home:
+				drawerLayout.openDrawer(GravityCompat.START);
 				break;
 			case R.id.menu_scratch_converter:
 				if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
 					startActivity(new Intent(this, ScratchConverterActivity.class));
 				}
-				break;
-			case R.id.settings:
-				startActivity(new Intent(this, SettingsActivity.class));
 				break;
 			case R.id.menu_login:
 				startActivity(new Intent(this, SignInActivity.class));
@@ -299,6 +297,17 @@ public class MainMenuActivity extends BaseCastActivity implements
 				return super.onOptionsItemSelected(item);
 		}
 		return true;
+	}
+
+	private void redirectToPlayStore() {
+		if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
+			try {
+				startActivity(new Intent(Intent.ACTION_VIEW,
+						Uri.parse("market://details?id=" + getPackageName())));
+			} catch (ActivityNotFoundException e) {
+				ToastUtil.showError(this, R.string.main_menu_play_store_not_installed);
+			}
+		}
 	}
 
 	private void prepareStandaloneProject() {
@@ -333,5 +342,55 @@ public class MainMenuActivity extends BaseCastActivity implements
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);
 		}
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.dashboard:
+				loadHomeFragment();
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.scratch_converter:
+				if (Utils.checkIsNetworkAvailableAndShowErrorMessage(this)) {
+					startActivity(new Intent(this, ScratchConverterActivity.class));
+				}
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.settings:
+				startActivity(new Intent(this, SettingsActivity.class));
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.rate_app:
+				redirectToPlayStore();
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.about_app:
+				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.help_button:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL)));
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.terms_of_use:
+				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
+				drawerLayout.closeDrawers();
+				break;
+
+			case R.id.privacy_policy:
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+						Uri.parse(PRIVACY_POLICY_URL));
+				startActivity(browserIntent);
+				drawerLayout.closeDrawers();
+				break;
+		}
+		return true;
 	}
 }

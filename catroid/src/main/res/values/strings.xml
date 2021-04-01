@@ -2117,6 +2117,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="category_recently_used">Recently used</string>
 
     <!-- Information -->
-    <string name="no_variable_selected">No variable selected</string>
+    <string name="no_variable_selected">No variable selected</string><string name="pocket_code">Pocket Code</string><string name="Dashboard">Dashboard</string><string name="open_drawer">Open Drawer</string><string name="close_drawer">Close Drawer</string>
 
 </resources>

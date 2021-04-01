@@ -462,6 +462,9 @@ dependencies {
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
 
+    // material design support library
+    implementation 'com.google.android.material:material:1.3.0'
+
     // Retrofit testing
     androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.14.9'
 

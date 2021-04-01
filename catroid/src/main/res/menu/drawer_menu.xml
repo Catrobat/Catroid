@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/dashboard"
+        android:title="@string/Dashboard"
+        android:icon="@drawable/ic_dashboard_icon"/>
+
+     <item
+         android:id="@+id/scratch_converter"
+         android:title="@string/main_menu_scratch_converter"
+         android:icon="@drawable/ic_scratch_conveter_icon"/>
+
+    <item
+        android:id="@+id/settings"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_setting_icon"/>
+
+    <item
+        android:id="@+id/help_button"
+        android:icon="@drawable/ic_main_menu_help"
+        android:title="@string/main_menu_help" />
+
+    <item
+        android:id="@+id/terms_of_use"
+        android:title="@string/main_menu_terms_of_use"
+        android:icon="@drawable/ic_terms_icon"/>
+
+    <item
+        android:id="@+id/privacy_policy"
+        android:title="@string/main_menu_privacy_policy"
+        android:icon="@drawable/ic_privacy_icon"/>
+
+      <item
+          android:id="@+id/rate_app"
+          android:title="@string/main_menu_rate_app"
+          android:icon="@drawable/ic_rate_icon"/>
+
+    <item
+        android:id="@+id/about_app"
+        android:title="@string/main_menu_about"
+        android:icon="@drawable/ic_about_app_icon"/>
+
+</menu>

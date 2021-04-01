@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -20,19 +20,27 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="0dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-<androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/toolbar_background"
-    android:theme="@style/ToolbarTheme"
-    app:titleMarginStart="32dp"
-    app:titleTextAppearance="@style/ToolbarTitle" />
+    android:layout_height="240dp"
+    android:orientation="vertical"
+    android:background="@color/pocketpaint_colorPrimary">
 
-</com.google.android.material.appbar.AppBarLayout>
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:padding="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/pc_toolbar_icon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pocket_code"
+        android:textColor="#fff"
+        android:layout_marginTop="20dp"
+        android:padding="10dp"
+        android:textSize="18sp"/>
+
+</LinearLayout>
