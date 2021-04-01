@@ -71,6 +71,7 @@ import org.catrobat.catroid.ui.recyclerview.fragment.SoundListFragment;
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,6 +85,7 @@ import androidx.fragment.app.Fragment;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.DEFAULT_SOUND_EXTENSION;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
@@ -327,11 +329,11 @@ public class SpriteActivity extends BaseActivity {
 				break;
 			case SPRITE_FILE:
 				uri = data.getData();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case SPRITE_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case BACKGROUND_POCKET_PAINT:
 				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
@@ -343,11 +345,11 @@ public class SpriteActivity extends BaseActivity {
 				break;
 			case BACKGROUND_FILE:
 				uri = data.getData();
-				addBackgroundFromUri(uri);
+				addBackgroundFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case BACKGROUND_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addBackgroundFromUri(uri);
+				addBackgroundFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case LOOK_POCKET_PAINT:
 				uri = new ImportFromPocketPaintLauncher(this).getPocketPaintCacheUri();
@@ -361,12 +363,12 @@ public class SpriteActivity extends BaseActivity {
 				break;
 			case LOOK_FILE:
 				uri = data.getData();
-				addLookFromUri(uri);
+				addLookFromUri(uri, JPEG_IMAGE_EXTENSION);
 				setUndoMenuItemVisibility(true);
 				break;
 			case LOOK_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addLookFromUri(uri);
+				addLookFromUri(uri, JPEG_IMAGE_EXTENSION);
 				setUndoMenuItemVisibility(true);
 				break;
 			case SOUND_RECORD:
@@ -423,6 +425,10 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addSpriteFromUri(final Uri uri) {
+		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+
+	private void addSpriteFromUri(final Uri uri, String imageExtension) {
 		String resolvedName;
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 
@@ -434,7 +440,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (useDefaultSpriteName) {
 			resolvedName = getString(R.string.default_sprite_name);
-			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = resolvedName + imageExtension;
 		} else {
 			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -454,6 +460,7 @@ public class SpriteActivity extends BaseActivity {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 						File file = StorageOperations
 								.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+						Utils.removeExifData(imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
 						sprite.getLookList().add(lookData);
 						lookData.getCollisionInformation().calculate();
@@ -483,6 +490,9 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addBackgroundFromUri(Uri uri) {
+		addBackgroundFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+	private void addBackgroundFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
 		String lookFileName;
@@ -492,7 +502,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (useSpriteName) {
 			lookDataName = currentSprite.getName();
-			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = lookDataName + imageExtension;
 		} else {
 			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -502,7 +512,9 @@ public class SpriteActivity extends BaseActivity {
 
 		try {
 			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory,
+					lookFileName);
+			Utils.removeExifData(imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			currentSprite.getLookList().add(look);
 			look.getCollisionInformation().calculate();
@@ -515,6 +527,9 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private void addLookFromUri(Uri uri) {
+		addLookFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+	private void addLookFromUri(Uri uri, String imageExtension) {
 		String resolvedFileName = StorageOperations.resolveFileName(getContentResolver(), uri);
 		String lookDataName;
 		String lookFileName;
@@ -524,7 +539,7 @@ public class SpriteActivity extends BaseActivity {
 
 		if (useSpriteName) {
 			lookDataName = currentSprite.getName();
-			lookFileName = lookDataName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = lookDataName + imageExtension;
 		} else {
 			lookDataName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -535,6 +550,7 @@ public class SpriteActivity extends BaseActivity {
 		try {
 			File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
 			File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+			Utils.removeExifData(imageDirectory, lookFileName);
 			LookData look = new LookData(lookDataName, file);
 			this.currentLookData = look;
 			currentSprite.getLookList().add(look);

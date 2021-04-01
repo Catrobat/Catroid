@@ -69,6 +69,7 @@ import androidx.fragment.app.FragmentTransaction;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EV3;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
@@ -262,11 +263,11 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 			case SPRITE_FILE:
 				uri = data.getData();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case SPRITE_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 		}
 	}
@@ -280,6 +281,10 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	public void addSpriteFromUri(final Uri uri) {
+		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+
+	public void addSpriteFromUri(final Uri uri, final String imageExtension) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		String resolvedName;
@@ -293,7 +298,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		if (useDefaultSpriteName) {
 			resolvedName = getString(R.string.default_sprite_name);
-			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = resolvedName + imageExtension;
 		} else {
 			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -310,7 +315,9 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 					currentScene.addSprite(sprite);
 					try {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-						File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+						File file = StorageOperations.copyUriToDir(getContentResolver(), uri,
+								imageDirectory, lookFileName);
+						Utils.removeExifData(imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
 						if (lookData.getImageMimeType() == null) {
 							imgFormatNotSupportedDialog();
