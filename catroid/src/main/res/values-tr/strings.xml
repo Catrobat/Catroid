@@ -523,6 +523,7 @@
     <string name="local_vars_headline">Yalnızca bu Obje için değişkenler</string>
     <string name="global_lists_headline">Tüm Objeler için listeler</string>
     <string name="local_lists_headline">Yalnızca bu Obje için listeler</string>
+    <string name="fragment_data_text_description">Değişken veya liste eklemek\niçin \"+\" simgesine dokunun</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Bu tuğla için giriş</item>
         <item quantity="other">Bu tuğla için girişler</item>
@@ -576,7 +577,7 @@
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">Kullanım Koşulları ve Hizmetleri</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">Bu uygulamayı Parrot\'un AR.Drone 2.0 ile birlikte kullanmak üzeresiniz. Hem Parrot hem de Catrobat\'ın Kullanım ve Hizmet Koşullarına uymanızı şiddetle hatırlatırız.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Bir kez daha hatırlatma.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Bir daha hatırlatma</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Bu uygulamayı Parrot\'s Jumping Sumo ile birlikte kullanmak üzeresiniz. Hem Parrot hem de Catrobat\'ın Kullanım ve Hizmet Koşullarına uymanızı şiddetle hatırlatırız.</string>
@@ -599,7 +600,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">Topluluğa yükle</string>
     <string name="upload_description">Açıklama:</string>
-    <string name="upload_notes_and_credits">Notlar ve krediler:</string>
+    <string name="upload_notes_and_credits">Yapanlar:</string>
     <string name="upload_notes_and_credits_explanation">Bu projeyi nasıl yarattınız? Başkalarının fikirlerini, senaryolarını veya sanat eserlerini kullandınız mı? Onlara burada teşekkür edin.</string>
     <string name="upload_tag_dialog_title">Lütfen en fazla üç kategori seçin</string>
     <string name="upload_tags_maximum_error">3\'ten fazla etiket seçmek mümkün değildir.</string>
@@ -910,7 +911,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Zamanlayıcıyı sıfırla</string>
-    <string name="brick_open" tools:ignore="UnusedResources">Açık </string>
+    <string name="brick_open" tools:ignore="UnusedResources">Aç</string>
     <string name="brick_in_browser" tools:ignore="UnusedResources">tarayıcıda</string>
     <!-- Control bricks -->
     <string name="brick_when_started" tools:ignore="UnusedResources">Program başladığında</string>
@@ -1087,7 +1088,7 @@ bekleyin</string>
     <!-- Default Values -->
     <string name="default_project_name">Projem</string>
     <string name="default_variable_name">Değişken</string>
-    <string name="default_scene_name">Sahne %1$d</string>
+    <string name="default_scene_name">Sahne (%1$d)</string>
     <string name="default_script_group_name">Komut dosyası grubu</string>
     <string name="default_broadcast_message_name">Mesaj</string>
     <string name="default_list_name">Liste</string>
@@ -1729,7 +1730,10 @@ bekleyin</string>
     <string name="formula_editor_function_text_block_language_from_camera">kameradan gelen metin bloğu dili</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">Formül düzenleyicisi</string>
-    <string name="formula_editor_intro_summary_formula_editor">Formül düzenleyici, tuğlalarda kullanabileceğiniz matematiksel ve mantıksal         formüller oluşturmanıza olanak tanır. \n\nBu küçük tanıtmayı, sağ alt köşedeki \"İleri\" düğmesine dokunarak geliştirebilirsiniz ve sol alt köşedeki \"ATLA\" düğmesine dokunarak atlayabilirsiniz.</string>
+    <string name="formula_editor_intro_summary_formula_editor">Formül düzenleyici ile bileşenlerinizde kullanmak için
+        matematiksel ve mantıksal formüller oluşturabilirsiniz. \n\nDevam etmek için \"İLERİ\" ye dokunun veya öğretici den çıkımak için
+        \"ATLA\" ya dokunun.
+    </string>
     <string name="formula_editor_intro_title_input_field">Giriş alanı</string>
     <string name="formula_editor_intro_summary_input_field">Burada formülünüzü görebilir ve düzenleyebilirsiniz.</string>
     <string name="formula_editor_intro_title_keyboard">Klavye</string>
