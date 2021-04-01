@@ -60,11 +60,14 @@ public class GetSurveyTask extends AsyncTask<String, Void, String> {
 	protected String doInBackground(String... arg0) {
 		String jsonString = new CatrobatServerCalls().getSurvey(Locale.getDefault().getLanguage());
 		String surveyUrl = null;
-		try {
-			surveyUrl = parseSurvey(jsonString);
-			surveyUrl = isUrlStatusCodeOk(surveyUrl) ? surveyUrl : null;
-		} catch (Exception e) {
-			Log.e(TAG, "Failed to get survey url", e);
+
+		if (!jsonString.isEmpty()) {
+			try {
+				surveyUrl = parseSurvey(jsonString);
+				surveyUrl = isUrlStatusCodeOk(surveyUrl) ? surveyUrl : null;
+			} catch (Exception e) {
+				Log.e(TAG, "Failed to get survey url", e);
+			}
 		}
 
 		return surveyUrl;
