@@ -30,11 +30,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+import kotlinx.android.synthetic.main.fragment_list_view.view.empty_view
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -64,6 +67,7 @@ class DataListFragment : Fragment(),
     private var actionMode: ActionMode? = null
     private var formulaEditorDataInterface: FormulaEditorDataInterface? = null
     private var parentScriptBrick: ScriptBrick? = null
+    private var emptyView: TextView? = null
 
     @ActionModeType
     var actionModeType = NONE
@@ -102,6 +106,19 @@ class DataListFragment : Fragment(),
         return true
     }
 
+    fun shouldShowEmptyView(): Boolean = adapter!!.itemCount == 0
+
+    fun setShowEmptyView(visible: Boolean) {
+        emptyView!!.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    private var observer: AdapterDataObserver = object : AdapterDataObserver() {
+        override fun onChanged() {
+            super.onChanged()
+            setShowEmptyView(shouldShowEmptyView())
+        }
+    }
+
     override fun onDestroyActionMode(mode: ActionMode) {
         resetActionModeParameters()
         adapter?.clearSelection()
@@ -133,6 +150,7 @@ class DataListFragment : Fragment(),
         val parent =
             inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
+        emptyView = parent.empty_view
         setHasOptionsMenu(true)
         return parent
     }
@@ -145,8 +163,19 @@ class DataListFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
+        adapter?.apply {
+            notifyDataSetChanged()
+            registerAdapterDataObserver(observer)
+        }
+        setShowEmptyView(shouldShowEmptyView())
+
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter?.unregisterAdapterDataObserver(observer)
     }
 
     override fun onStop() {
@@ -177,6 +206,7 @@ class DataListFragment : Fragment(),
             userDefinedBrickInputs, multiplayerVars, globalVars, localVars, globalLists,
             localLists
         )
+        emptyView?.setText(R.string.fragment_data_text_description)
         onAdapterReady()
     }
 
