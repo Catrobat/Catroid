@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,7 +69,7 @@ class TouchesColorMatcher(color: String) : ConditionMatcher() {
         val stagePixel = stagePixmap?.getPixel(x, y) ?: return false
         val spritePixel = spritePixmap?.getPixel(x, y) ?: return false
 
-        return Color(stagePixel).equalsColor(color) && Color(spritePixel) != clearColor
+        return Color(stagePixel).equalsColor(color) && Color(spritePixel).a > 0.0
     }
 }
 

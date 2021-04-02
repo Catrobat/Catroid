@@ -609,6 +609,8 @@ public class Look extends Image {
 				+ "void main()\n"
 				+ "{\n"
 				+ "    vec4 color = v_color * texture2D(u_texture, v_texCoords);\n"
+				+ "    color.a += color.a / 255.0;\n"
+				+ "    color.a = min(color.a, 1.0);\n"
 				+ "    color.rgb /= color.a;\n"
 				+ "    color.rgb = ((color.rgb - 0.5) * max(contrast, 0.0)) + 0.5;\n"
 				+ "    color.rgb += brightness;\n"
