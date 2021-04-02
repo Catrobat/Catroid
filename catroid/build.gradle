@@ -79,11 +79,6 @@ if (rootProject.hasProperty('independent')) {
     manifestAppName = appName
 }
 
-if (rootProject.hasProperty('pocketCodeBeta') && rootProject.property('pocketCodeBeta').toBoolean()) {
-    println "PocketCodeBeta build"
-    appId = 'org.catrobat.catroid.test'
-}
-
 if (!rootProject.hasProperty("signingKeystore")) {
     ext.signingKeystore = "dummyKeystore"
 }
@@ -115,8 +110,8 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 
-def defaultVersionCode = 80
-def defaultVersionName = "0.9.75"
+def defaultVersionCode = 82
+def defaultVersionName = "1.0.0"
 
 android {
     compileSdkVersion 29
@@ -289,7 +284,7 @@ android {
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
         }
         pocketCodeBeta {
-            applicationIdSuffix '.pocketCodeBeta'
+            applicationIdSuffix '.test'
             manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
         }
         standalone {
