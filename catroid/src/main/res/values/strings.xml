@@ -279,8 +279,8 @@
     <string name="status_started">Started…</string>
     <string name="status_conversion_finished">Conversion finished</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="one">In progress: %s job</item>
+        <item quantity="other">In progress: %s jobs</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
         <item quantity="one">Completed: %d job</item>
