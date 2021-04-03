@@ -23,16 +23,18 @@
 
 package org.catrobat.catroid.uiespresso.content.brick.app;
 
-import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.EmptyScript;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.DeleteLookBrick;
+import org.catrobat.catroid.content.bricks.ShowBrick;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
-import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.catrobat.catroid.ui.ProjectListActivity;
+import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,38 +44,56 @@ import org.junit.runner.RunWith;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static junit.framework.Assert.assertFalse;
+
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 public class EmptyEventBrickTest {
+	private static final String PROJECT_NAME = "testEmptyEventBrick";
+	private static final String SPRITE_NAME = "testSprite";
+	private Project project;
 
 	@Rule
-	public FragmentActivityTestRule<SpriteActivity> baseActivityTestRule = new
-			FragmentActivityTestRule<>(SpriteActivity.class, SpriteActivity.EXTRA_FRAGMENT_POSITION, SpriteActivity.FRAGMENT_SCRIPTS);
+	public BaseActivityTestRule<ProjectListActivity> baseActivityTestRule = new
+			BaseActivityTestRule<>(ProjectListActivity.class, true, false);
 
 	@Before
 	public void setUp() throws Exception {
-		Project project = new Project(ApplicationProvider.getApplicationContext(),
-				"testEmptyEventBrick");
-		Sprite sprite = new Sprite("testSprite");
+		project = new Project(ApplicationProvider.getApplicationContext(),
+				PROJECT_NAME);
+		Sprite sprite = new Sprite(SPRITE_NAME);
 		Script script = new EmptyScript();
+		script.addBrick(new ShowBrick());
 		script.addBrick(new DeleteLookBrick());
-
 		sprite.addScript(script);
 		project.getDefaultScene().addSprite(sprite);
-		ProjectManager.getInstance().setCurrentProject(project);
-		ProjectManager.getInstance().setCurrentSprite(sprite);
-		ProjectManager.getInstance().setCurrentlyEditedScene(project.getDefaultScene());
+		XstreamSerializer.getInstance().saveProject(project);
 
-		baseActivityTestRule.launchActivity();
+		baseActivityTestRule.launchActivity(null);
 	}
 
 	@Category({Cat.AppUi.class, Level.Detailed.class})
 	@Test
 	public void testIsEmptyBrickShownInScripts() {
+		onView(withText(PROJECT_NAME)).perform(click());
+		onView(withText(SPRITE_NAME)).perform(click());
 		onBrickAtPosition(0).check(matches(isDisplayed()));
+	}
+
+	@Category({Cat.AppUi.class, Level.Detailed.class})
+	@Test
+	public void testBelowBricksAreNotDisabled() {
+		onView(withText(PROJECT_NAME)).perform(click());
+		onView(withText(SPRITE_NAME)).perform(click());
+		for (Brick brick : project.getDefaultScene().getSprite(SPRITE_NAME).getAllBricks()) {
+			assertFalse(brick.isCommentedOut());
+		}
 	}
 }

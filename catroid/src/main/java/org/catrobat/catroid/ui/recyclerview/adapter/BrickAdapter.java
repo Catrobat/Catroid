@@ -34,6 +34,7 @@ import android.widget.BaseAdapter;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.EmptyEventBrick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
 import org.catrobat.catroid.content.bricks.ListSelectorBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -125,7 +126,7 @@ public class BrickAdapter extends BaseAdapter implements
 
 		Drawable background = brickViewContainer.getBackground();
 
-		if (item.isCommentedOut()) {
+		if (item.isCommentedOut() || item instanceof EmptyEventBrick) {
 			colorAsCommentedOut(background);
 		} else {
 			background.clearColorFilter();
