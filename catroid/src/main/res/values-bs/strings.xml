@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">Pozornica</string>
     <string name="play">Pokreni</string>
     <string name="settings">Podešavanja</string>
-    <string name="redo">Ponovi</string>
-    <string name="undo">Poništi</string>
+    <string name="redo" tools:ignore="UnusedResources">Ponovi</string>
+    <string name="undo" tools:ignore="UnusedResources">Poništi</string>
     <string name="new_option">Novi&#8230;</string>
+    <string name="edit_option">edit&#8230;</string>
     <string name="confirm">Potvrdi</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">Odustani</string>
     <string name="save">Sačuvaj</string>
+    <string name="discard">Odbaci</string>
     <string name="next">Iduće</string>
-    <string name="back">Nazad</string>
     <string name="ok">OK</string>
     <string name="done">Gotovo</string>
-    <string name="close">Zatvoriti</string>
-    <string name="assistant">Assistant</string>
+    <string name="close" tools:ignore="UnusedResources">Zatvoriti</string>
+    <string name="assistant">Asistent</string>
     <string name="yes">Da</string>
     <string name="no">Ne</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
+    <string name="once">Jednom</string>
+    <string name="always">Uvijek</string>
     <string name="deny">Deny</string>
-    <string name="disagree">Ne slažem se</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="select_all">Izaberi sve</string>
@@ -64,14 +64,21 @@
         project is running is safe. In case of doubt, please delete the downloaded project.
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
+    <string name="api_replacement_dialog_warning">The project contains bricks that access the
+        web, and also seems to contain API keys. Please see %1s why
+        uploading these keys can be dangerous.</string>
+    <string name="api_replacement">insert API key here</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Provjera login podataka&#8230;</string>
     <string name="loading_google_exchange_code">Svičaj Gugl login podatke&#8230;</string>
     <string name="loading_google_login">Gugl login na serveru je gotov&#8230;</string>
-    <string name="delete_account">Briši mi akaunt</string>
     <string name="logout_successful">Odjava uspješna</string>
-    <string name="degrees">stepeni</string>
-    <string name="background">Pozadina</string>
+    <string name="degrees" tools:ignore="UnusedResources">stepeni</string>
+    <string name="background" tools:ignore="UnusedResources">Pozadina</string>
     <string name="landscape">pejzaž</string>
     <string name="portrait">portret</string>
     <string name="unknown">Ućoravo naslijepo</string>
@@ -81,7 +88,7 @@
     <string name="main_menu_continue">Nastavi projekt</string>
     <string name="main_menu_new">Novi projekt</string>
     <string name="main_menu_programs">Programi</string>
-    <string name="main_menu_help">Pomoć</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">Pomoć</string>
     <string name="main_menu_web">Catrobat koalicija</string>
     <string name="main_menu_upload">Postavite projekat</string>
     <string name="main_menu_rate_app">Ocijeni nas!</string>
@@ -298,7 +305,7 @@
     <string name="am_backpack">Spakuj</string>
     <string name="am_unpack">Otpakuj</string>
     <string name="am_copy">Kopirati</string>
-    <string name="am_delete">obriši</string>
+    <string name="am_delete" tools:ignore="UnusedResources">obriši</string>
     <string name="am_rename">Preimenovati</string>
     <string name="am_convert">Konvertuj</string>
     <string name="am_merge">Merge</string>
@@ -312,6 +319,9 @@
     <string name="merge">Merge</string>
     <string name="show_details">Prikaži detalje</string>
     <string name="hide_details">Sakrij detalje</string>
+    <string name="project_options">Project options</string>
+    <string name="sort_projects">Sort</string>
+    <string name="unsort_projects">Unsort</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Nova scena</string>
     <!-- Delete Dialog Titles -->
@@ -383,6 +393,7 @@
     <string name="rename_data_dialog">Preimenovati</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">Nova grupa</string>
+    <string name="default_group_name">Group</string>
     <!-- New Scene Menu -->
     <string name="new_scene">Nova scena</string>
     <!-- Action Toasts -->
@@ -514,6 +525,13 @@
     <string name="import_project">Uvezite projekat</string>
     <string name="error_import_project">Nešto je pošlo po zlu pri uvoženju projekata.</string>
     <string name="error_no_files_found">Nisu pronađeni dokumenti projekta.</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">Opis</string>
+    <string name="project_options_notes_and_credits">Credits</string>
+    <string name="project_options_tags">Tags</string>
+    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
+    <string name="project_options_more_details">More details</string>
+    <string name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Pritisni \"+\" za dodavanje skripti</string>
     <!--  -->
@@ -532,8 +550,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Skenirajte NFC oznaku da ih dodate</string>
-    <string name="ndef_record_label">as record type</string>
-    <string name="brick_set_nfc_tag">Wait for next NFC tag to write</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">as record type</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Wait for next NFC tag to write</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC oznaka</string>
     <string name="tnf_empty">Prazno</string>
@@ -551,6 +569,7 @@
     <string name="local_vars_headline">Varijable samo za ovog učesnika ili ovaj objekat</string>
     <string name="global_lists_headline">Lista za sve učesnike i objekte</string>
     <string name="local_lists_headline">Lista samo za ovog učesnika ili ovaj objekat</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input for this brick</item>
         <item quantity="few">Inputs for this brick</item>
@@ -615,74 +634,8 @@
         Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Privacy policy</string>
     <string name="disclaimer_privacy_police_header_headline">Dobro došli!</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
-    <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
-        it is necessary to collect certain data from you.\n\n
-
-        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
-            as well as Dynatrace by Dynatrace LLC (USA) to get
-            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
-            usage of our apps and services, used operating system, and information about the network provider. This
-            analysis and the collected data is not linked to your profile and does not contain any personal
-            information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
-            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
-            This relationship to the service provider conforms to the European Union\'s General Data
-            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
-        • To create and use an account in our systems, and to inform you about necessary changes about your
-            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
-            our policies, we will store your username and, if provided by you, your e-mail address. If you have
-            connected your account via your Google or Facebook account, we additionally store an identification key connected
-            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
-            unless you explicitly allowed us to do so.\n\n
-        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-            site. This will get displayed on your public profile and only be used for statistical and research
-            purposes by us. It can be removed at any time in your profile settings.\n\n
-        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at. After deleting your account you will still
-            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
-            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
-            comments, etc., will be deleted.\n\n
-        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
-            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
-            together with a timestamp and the used internet address. This data will not be used by or forwarded to
-            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
-            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
-            individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
-            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
-            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
-            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
-            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
-            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
-            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
-        • All Services are provided by the free open source Catrobat project under the umbrella of the
-            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
-            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
-            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
-                c/o\n
-                Institute of Software Technology,\n
-                Graz University of Technology,\n
-                Inffeldgasse 16b,\n
-                A-8010 Graz, Austria\n
-                (European Union).\n\n
-        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
-
-        Catrobat\'s official English language privacy policy is available on the web under
-        https://catrob.at/privacypolicy.\n\n
-
-        Version 2.2, 17 October 2019\n\n
-
-        Find the previous, outdated, version of our privacy policy (2.0) here:
-        http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
-    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">O ovoj aplikaciji</string>
@@ -692,16 +645,18 @@
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">Licenca izvornog koda</string>
     <string name="dialog_about_catrobat_link_text">O Catrobat-u</string>
+    <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
+    <string name="dialog_about_version">version:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">Nema mreže</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">Učitaj</string>
     <string name="upload_project_dialog_title">Postavite projekat</string>
     <string name="upload_description">Opis:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Molimo izaberite do tri kategorije</string>
+    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Spremite projekat na vanjsku memoriju</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -720,7 +675,7 @@
     <string name="brick_context_dialog_move_brick">Move brick</string>
     <string name="brick_context_dialog_move_script">Premjestite skriptu</string>
     <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick">Delete brick</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Delete brick</string>
     <string name="brick_context_dialog_copy_brick">Copy brick</string>
     <string name="brick_context_dialog_copy_script">Kopirajte skriptu</string>
     <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
@@ -735,6 +690,7 @@
     <string name="comment_in_out">Omogućiti/onemogućiti</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Prikaži scenu:</string>
@@ -745,7 +701,7 @@
     <string name="sign_in_dialog_title">Prijavite se</string>
     <string name="username">Korisničko Ime</string>
     <string name="password">Lozinka</string>
-    <string name="password_forgotten">Zaboravili ste šifru?</string>
+    <string name="reset_password">Reset password</string>
     <string name="new_user_registered">Novi račun napravljen</string>
     <string name="user_logged_in">Prijava uspješna</string>
     <string name="register_error">Prijava neuspješna</string>
@@ -822,33 +778,34 @@
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nova poruka</string>
-    <string name="dialog_new_broadcast_message_name">poruka:</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">svi</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">Kategorije</string>
-    <string name="category_embroidery">Vez</string>
-    <string name="category_motion">Kretanje</string>
-    <string name="category_looks">Izgledi</string>
-    <string name="category_pen">Olovka</string>
-    <string name="category_sound">Zvuk</string>
-    <string name="category_control">Kontrola</string>
-    <string name="category_event">Događaj</string>
-    <string name="category_user_bricks">Vaši blokovi</string>
-    <string name="category_data">Podaci</string>
-    <string name="category_device">Device</string>
-    <string name="category_lego_nxt">Lego NXT</string>
-    <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Dron 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">Arduino</string>
-    <string name="category_cast">Chromecast</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testiranje</string>
+    <string name="categories" tools:ignore="UnusedResources">Kategorije</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">Vez</string>
+    <string name="category_motion" tools:ignore="UnusedResources">Kretanje</string>
+    <string name="category_looks" tools:ignore="UnusedResources">Izgledi</string>
+    <string name="category_pen" tools:ignore="UnusedResources">Olovka</string>
+    <string name="category_sound" tools:ignore="UnusedResources">Zvuk</string>
+    <string name="category_control" tools:ignore="UnusedResources">Kontrola</string>
+    <string name="category_event" tools:ignore="UnusedResources">Događaj</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">Vaši blokovi</string>
+    <string name="category_data" tools:ignore="UnusedResources">Podaci</string>
+    <string name="category_device" tools:ignore="UnusedResources">Device</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.Dron 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
+    <string name="category_cast" tools:ignore="UnusedResources">Chromecast</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">Testiranje</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Add label</string>
@@ -858,215 +815,218 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">Prijavi</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Postavi na "</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"Postavi na "</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"X: "</string>
-    <string name="y_label">"Y: "</string>
-    <string name="brick_set_x">"Postavi X na "</string>
-    <string name="brick_set_y">"Postavi Y na "</string>
-    <string name="brick_change_x_by">"Promjeni X za "</string>
-    <string name="brick_change_y_by">"Promjeni Y za "</string>
-    <string name="brick_go_back">Idi nazad</string>
-    <string name="brick_set_rotation_style">"Postavite stil rotacije"</string>
-    <string name="brick_set_rotation_style_lr">lijevo-desno samo</string>
-    <string name="brick_set_rotation_style_normal">all-around</string>
-    <string name="brick_set_rotation_style_no">ne rotiraj</string>
+    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
+    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"Postavi X na "</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"Postavi Y na "</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Promjeni X za "</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Promjeni Y za "</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">Idi nazad</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Postavite stil rotacije"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">lijevo-desno samo</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">all-around</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">ne rotiraj</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">sloj</item>
         <item quantity="few">slojevi</item>
         <item quantity="other">slojevi</item>
     </plurals>
-    <string name="brick_come_to_front">Idite naprijed</string>
-    <string name="brick_if_on_edge_bounce">Ako je na ivici, odskoči</string>
-    <string name="brick_move">Pomjeriti</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">Idite naprijed</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">Ako je na ivici, odskoči</string>
+    <string name="brick_move" tools:ignore="UnusedResources">Pomjeriti</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="one">korak</item>
         <item quantity="few">koraci</item>
         <item quantity="other">koraci</item>
     </plurals>
-    <string name="brick_turn_left">Skreni lijevo</string>
-    <string name="brick_turn_right">Skreni desno</string>
-    <string name="brick_point_in_direction">Usmjerite u pravcu</string>
-    <string name="brick_point_to">Pokazati prema</string>
-    <string name="brick_glide">Klizati</string>
-    <string name="brick_glide_to_x">prema X:</string>
-    <string name="brick_go_to">Idite na</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">Skreni lijevo</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">Skreni desno</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Usmjerite u pravcu</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">Pokazati prema</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">Klizati</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">prema X:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">Idite na</string>
     <string name="brick_go_to_touch_position">dodirnite poziciju</string>
     <string name="brick_go_to_random_position">slučajna pozicija</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">Postavite Vaš tip kretanja na</string>
-    <string name="brick_set_physics_object_type_dynamic">moving and bouncing under gravity</string>
-    <string name="brick_set_physics_object_type_fixed">not moving under gravity, but others bounce off you under gravity</string>
-    <string name="brick_set_physics_object_type_no">not moving or bouncing under gravity (default)</string>
-    <string name="brick_set_mass">"Postavite masu na"</string>
-    <string name="brick_set_mass_unit">kilogram</string>
-    <string name="brick_set_gravity_to">"Postavite gravitaciju za sve učesnike i objekte na"</string>
-    <string name="brick_set_gravity_unit">koraci/sekundi²</string>
-    <string name="brick_set_velocity_to">"Postavite brzinu na"</string>
-    <string name="brick_set_velocity_unit">koraci/sekundi</string>
-    <string name="brick_turn_speed_unit">stepeni/sekundi</string>
-    <string name="brick_set_friction">"Set friction to"</string>
-    <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
-    <string name="brick_rotate_left">"Okrenite lijevo"</string>
-    <string name="brick_rotate_right">"Okrenite desno"</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Postavite Vaš tip kretanja na</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">moving and bouncing under gravity</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">not moving under gravity, but others bounce off you under gravity</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">not moving or bouncing under gravity (default)</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"Postavite masu na"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kilogram</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Postavite gravitaciju za sve učesnike i objekte na"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">koraci/sekundi²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Postavite brzinu na"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">koraci/sekundi</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">stepeni/sekundi</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"Set friction to"</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Set bounce factor to"</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"Okrenite lijevo"</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"Okrenite desno"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Prebaci na izgled</string>
-    <string name="brick_set_look_by_index">Pređite na poziciju broj</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">Prebaci na izgled</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Pređite na poziciju broj</string>
     <string name="brick_and_wait">i čekajte</string>
-    <string name="brick_set_background">Postavi pozadinu</string>
-    <string name="brick_set_background_and_wait">Postavite pozadinu i sačekajte</string>
-    <string name="brick_set_background_by_index">Postavite pozadinu na broj</string>
-    <string name="brick_when_background">Kada se pozadina promijeni na</string>
-    <string name="brick_set_size_to">Postavi veličinu na</string>
-    <string name="brick_change_size_by">Promjeni veličinu za</string>
-    <string name="brick_hide">Sakrij</string>
-    <string name="brick_show">Prikaži</string>
-    <string name="brick_set_transparency">"Postavite transparentnost"</string>
-    <string name="brick_change_ghost_effect">"Promijenite transparentnost"</string>
-    <string name="brick_set_brightness">"Postavite osvijetljenost"</string>
-    <string name="brick_change_brightness">"Promijenite osvijetljenost"</string>
-    <string name="brick_set_color">"Postavite boju"</string>
-    <string name="brick_change_color">"Promijenite boju"</string>
-    <string name="by_label">od</string>
-    <string name="to_label">za</string>
-    <string name="brick_clear_graphic_effect">Očisti grafičke efekte</string>
-    <string name="brick_next_look">Sljedeći izgled</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">Postavi pozadinu</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Postavite pozadinu i sačekajte</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Postavite pozadinu na broj</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">Kada se pozadina promijeni na</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">Postavi veličinu na</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">Promjeni veličinu za</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">Sakrij</string>
+    <string name="brick_show" tools:ignore="UnusedResources">Prikaži</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"Postavite transparentnost"</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Promijenite transparentnost"</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"Postavite osvijetljenost"</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"Promijenite osvijetljenost"</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Postavite boju"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Promijenite boju"</string>
+    <string name="by_label" tools:ignore="UnusedResources">od</string>
+    <string name="to_label" tools:ignore="UnusedResources">za</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Očisti grafičke efekte</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">Sljedeći izgled</string>
     <string name="brick_next_background">Sljedeća pozadina</string>
-    <string name="brick_previous_look">Prethodni izgled</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">Prethodni izgled</string>
     <string name="brick_previous_background">Prethodna pozadina</string>
-    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">Edit look</string>
+    <string name="brick_edit_background">Edit background</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">Delete look</string>
     <string name="brick_delete_background">Delete background</string>
-    <string name="brick_flash">Uključite lampu</string>
-    <string name="brick_flash_on">uključeno</string>
-    <string name="brick_flash_off">isključeno</string>
-    <string name="brick_vibration">Vibriraj</string>
-    <string name="brick_ask_label">Pitajte</string>
-    <string name="brick_ask_store">i pohranite pisani odgovor u</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">Uključite lampu</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">uključeno</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">isključeno</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">Vibriraj</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">Pitajte</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">i pohranite pisani odgovor u</string>
     <string name="brick_ask_default_question">Kako se zovete?</string>
     <string name="brick_ask_dialog_hint">"Unesite Vaš odgovor:"</string>
     <string name="brick_ask_dialog_submit">Predajte odgovor</string>
-    <string name="brick_ask_speech_label">Pitajte</string>
-    <string name="brick_ask_speech_store">i pohranite govorni odgovor u</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">Pitajte</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">i pohranite govorni odgovor u</string>
     <string name="brick_ask_speech_default_question">Kako se zovete?</string>
-    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Paint new look</string>
     <string name="brick_paint_new_background">Paint new background</string>
     <string name="brick_paint_new_look_name">"name of new look"</string>
-    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">Copy look and name it</string>
     <string name="brick_copy_look_name">name of copied look</string>
     <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">Pen down</string>
-    <string name="brick_pen_up">Pen up</string>
-    <string name="brick_pen_size">Postavite veličinu olovke na</string>
-    <string name="brick_pen_color">Postavite boju olovke na</string>
-    <string name="brick_clear_background">Obrišite</string>
-    <string name="brick_stamp">Pečat</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">Postavite veličinu olovke na</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Postavite boju olovke na</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">Obrišite</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">Pečat</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">Pokreni zvuk</string>
-    <string name="brick_play_sound_and_wait">Pokrenite zvuk i čekajte</string>
-    <string name="brick_stop_sound">Stop sound</string>
-    <string name="brick_stop_all_sounds">Zaustavi sve zvukove</string>
-    <string name="brick_set_volume_to">Postavi glasnoću na</string>
-    <string name="brick_change_volume_by">Promjeni glasnoću za</string>
-    <string name="brick_speak">Pričajte</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">Pokreni zvuk</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">Pokrenite zvuk i čekajte</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">Stop sound</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Zaustavi sve zvukove</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">Postavi glasnoću na</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">Promjeni glasnoću za</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">Pričajte</string>
     <string name="brick_speak_default_value">Zdravo!</string>
-    <string name="brick_speak_and_wait">i čekajte</string>
-    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">i čekajte</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Start listening to voice and store spoken words in</string>
     <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
     for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">Set listening language to</string>
-    <string name="set_instrument_to">Set instrument to</string>
-    <string name="set_tempo_to">Set tempo to</string>
-    <string name="change_tempo_by">Change tempo by</string>
-    <string name="pause_for">Pause for</string>
-    <string name="play_drum">Play drum</string>
-    <string name="beats">beats</string>
-    <string name="play_note">Play note</string>
-    <string name="for_string">za</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Set listening language to</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">Set instrument to</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">Set tempo to</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">Change tempo by</string>
+    <string name="pause_for" tools:ignore="UnusedResources">Pause for</string>
+    <string name="play_drum" tools:ignore="UnusedResources">Play drum</string>
+    <string name="beats" tools:ignore="UnusedResources">beats</string>
+    <string name="play_note" tools:ignore="UnusedResources">Play note</string>
+    <string name="for_string" tools:ignore="UnusedResources">za</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">Stitch</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
-    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">Stitch</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">Start running stitch with length</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Start zigzag stitch with length</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">and width</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Start triple stitch with length</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Stop current stitch</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">Sew up</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">Reset timer</string>
-    <string name="brick_open">Otvori </string>
-    <string name="brick_in_browser">in browser</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
+    <string name="brick_open" tools:ignore="UnusedResources">Otvori </string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">in browser</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">Kada scena počinje</string>
-    <string name="brick_when">Kada je pritisnuto</string>
-    <string name="brick_when_condition_when">Kada</string>
-    <string name="brick_when_becomes_true">postaje tačno</string>
-    <string name="brick_wait">Čekaj</string>
-    <string name="brick_wait_until">Sačekajte dok</string>
-    <string name="brick_wait_until_second_part">je tačno</string>
-    <string name="brick_when_gamepad_button">When gamepad button</string>
-    <string name="brick_when_gamepad_button_tapped">pritisnuto</string>
-    <string name="brick_when_nfc">When NFC</string>
-    <string name="brick_stop_script">Stop</string>
-    <string name="brick_stop_this_script">ova skripta</string>
-    <string name="brick_stop_all_scripts">sve skripte</string>
-    <string name="brick_stop_other_scripts">druge skripte ovog učesnika ili objekta</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">Kada scena počinje</string>
+    <string name="brick_when" tools:ignore="UnusedResources">Kada je pritisnuto</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">Kada</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">postaje tačno</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">Čekaj</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">Sačekajte dok</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">je tačno</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">When gamepad button</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">pritisnuto</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">When NFC</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">Stop</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">ova skripta</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">sve skripte</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">druge skripte ovog učesnika ili objekta</string>
     <plurals name="second_plural">
         <item quantity="one">"sekunda "</item>
         <item quantity="few">"sekunde"</item>
         <item quantity="other">"sekunde "</item>
     </plurals>
-    <string name="brick_collision_receive">Kada odskočite od</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">Kada odskočite od</string>
     <string name="collision_with_anything">any edge, actor, or object</string>
-    <string name="brick_broadcast_receive">Kada primite</string>
-    <string name="brick_broadcast">Emitovanje</string>
-    <string name="brick_broadcast_wait">Emitujte i čekajte</string>
-    <string name="brick_scene_transition">Nastavite scenu</string>
-    <string name="brick_scene_start">Pokrenite scenu</string>
-    <string name="brick_note">Bilješka</string>
-    <string name="brick_think_bubble">Razmislite</string>
-    <string name="brick_say_bubble">Recite</string>
-    <string name="brick_think_say_for_text">za</string>
-    <string name="brick_forever">Zauvijek</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
-    <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">za</string>
-    <string name="brick_repeat">Ponovi</string>
-    <string name="brick_repeat_until">Ponavljajte dok</string>
-    <string name="brick_when_touched">When stage is tapped</string>
-    <string name="brick_clone">Kreirajte klon od</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Kada primite</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">Emitovanje</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Emitujte i čekajte</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">Nastavite scenu</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">Pokrenite scenu</string>
+    <string name="brick_note" tools:ignore="UnusedResources">Bilješka</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">Razmislite</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">Recite</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">za</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">Zauvijek</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">For each value from</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">in</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">za</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">Ponovi</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">Ponavljajte dok</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">When stage is tapped</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">Kreirajte klon od</string>
     <string name="brick_clone_this">yourself</string>
-    <string name="brick_when_cloned">Kada počinjete kao klon</string>
-    <string name="brick_delete_this_clone">Obrišite ovog klona</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
-    <string name="brick_wait_till_idle">Sačekajte dok sve ostale skripte prestanu raditi</string>
-    <string name="brick_tap_at">"Jedan pritisak na"</string>
-    <string name="brick_touch_at">"Touch at"</string>
-    <string name="brick_tap_for">"za"</string>
-    <string name="brick_touch_slide">"Touch and slide"</string>
-    <string name="brick_touch_from_x">"from x:"</string>
-    <string name="brick_finish_stage">Zadnja faza</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">Kada počinjete kao klon</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Obrišite ovog klona</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">Assert</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">equals expected</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Sačekajte dok sve ostale skripte prestanu raditi</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"Jedan pritisak na"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"za"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Touch and slide"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"from x:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">Zadnja faza</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">Finish tests</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">Assert lists</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">Actual:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">Expected:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">equals to expected item of</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For each item of</item>
         <item quantity="few">For each tuple of items of</item>
@@ -1088,43 +1048,43 @@
         <item quantity="other">vremena</item>
     </plurals>
     <string name="brick_loop_end">Kraj petlje</string>
-    <string name="brick_if_begin">Ako</string>
-    <string name="brick_if_begin_second_part">je tačno onda</string>
-    <string name="brick_if_else">Drugo</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">Ako</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">je tačno onda</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">Drugo</string>
     <string name="brick_if_end">Završi ako</string>
-    <string name="brick_set_variable">Postavi varijablu</string>
-    <string name="brick_change_variable">Promjeni varijablu</string>
-    <string name="brick_write_variable_on_device">Pišite varijable na uređaju</string>
-    <string name="brick_read_variable_from_device">Čitajte varijable sa uređaja</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">Postavi varijablu</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">Promjeni varijablu</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Pišite varijable na uređaju</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Čitajte varijable sa uređaja</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">to file</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
     <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">i</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Read variable</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">from file</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">i</string>
     <string name="brick_read_variable_from_file_keep">keep the file</string>
     <string name="brick_read_variable_from_file_delete">delete the file</string>
-    <string name="brick_write_list_on_device">Napišite listu na uređaj</string>
-    <string name="brick_read_list_from_device">Čitajte listu sa uređaja</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Napišite listu na uređaj</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Čitajte listu sa uređaja</string>
     <string name="brick_note_default_value">dodaj komentar ovdje&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Zdravo!</string>
     <string name="brick_broadcast_default_value">"poruka 1"</string>
-    <string name="brick_add_item_to_userlist_add">Dodajte</string>
-    <string name="brick_add_item_to_userlist">u listu</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete">Obrišite stvar sa liste</string>
-    <string name="brick_delete_item_from_userlist">na poziciju</string>
-    <string name="brick_insert_item_into_userlist_insert_into">Umetnite</string>
-    <string name="brick_insert_item_into_userlist_into_list">u listu</string>
-    <string name="brick_insert_item_into_userlist_at_position">na poziciju</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">Zamijenite stvar u listi</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">na poziciji</string>
-    <string name="brick_replace_item_in_userlist_with_value">sa</string>
-    <string name="brick_web_request">Pošaljite web zahtjev</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Dodajte</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">u listu</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Delete all items from list</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Obrišite stvar sa liste</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">na poziciju</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Umetnite</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">u listu</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">na poziciju</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Zamijenite stvar u listi</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">na poziciji</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">sa</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">Pošaljite web zahtjev</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">i pohranite odgovor u</string>
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">i pohranite odgovor u</string>
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
@@ -1140,18 +1100,15 @@
         later, you can remove the entry from the list of trusted domains in
         the settings of this app.
     </string>
-    <string name="brick_look_request">Get image from</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">Get image from</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">and use as current look</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">and use as current background</string>
     <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
     <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into">u listu</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Store column</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">of the</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">u listu</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
@@ -1199,7 +1156,11 @@
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
+    <string name="default_variable_name">Variable</string>
     <string name="default_scene_name">Scena %1$d</string>
+    <string name="default_script_group_name">Script group</string>
+    <string name="default_broadcast_message_name">Poruka</string>
+    <string name="default_list_name">List</string>
     <string name="default_project_background_name">Pozadina</string>
     <string name="default_project_cloud_name">Oblaci</string>
     <string name="default_project_cloud_sprite_name_1">Oblaci1</string>
@@ -1349,20 +1310,20 @@ needs read and write access to it. You can always change permissions through you
     <string name="none_paired">Nema sparenih uređaja</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">Postavite Arduino digitalnu šifru</string>
-    <string name="brick_arduino_select_analog_value">Postavite Arduino PWM~ šifru</string>
-    <string name="brick_arduino_set_pin_value_to">za</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Postavite Arduino digitalnu šifru</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Postavite Arduino PWM~ šifru</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">za</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Postavite Raspberry Pi šifru</string>
-    <string name="brick_raspi_set_pin_value_to">za</string>
-    <string name="brick_raspi_if_begin">Ako Raspberry Pi šifra</string>
-    <string name="brick_raspi_if_begin_second_part">je tačno onda</string>
-    <string name="brick_raspi_when_begin">Kada Raspberry Pi šifra</string>
-    <string name="brick_raspi_when_equals">se promijeni u</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Postavite Raspberry Pi šifru</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">za</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">Ako Raspberry Pi šifra</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">je tačno onda</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">Kada Raspberry Pi šifra</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">se promijeni u</string>
     <string name="brick_raspi_pressed_text">visoko</string>
     <string name="brick_raspi_released_text">nisko</string>
-    <string name="brick_raspi_set_pwm">Postavite Raspberry Pi PWN šifru</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Postavite Raspberry Pi PWN šifru</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi postavke</string>
@@ -1370,16 +1331,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="error_connecting_to">Greška: Nemoguće povezivanje sa %s : %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">Postavite NXT motor</string>
-    <string name="nxt_motor_speed_to">za</string>
-    <string name="nxt_motor_speed">brzina</string>
-    <string name="nxt_brick_motor_turn_angle">Uključite NXT motor</string>
-    <string name="nxt_motor_move_by">od</string>
-    <string name="nxt_motor_stop">Isključite NXT motor</string>
-    <string name="nxt_play_tone">Pokrenite NXT ton</string>
-    <string name="nxt_tone_duration">Trajanje</string>
-    <string name="nxt_tone_frequency">Frekvencija</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">Postavite NXT motor</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">za</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">brzina</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">Uključite NXT motor</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">od</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">Isključite NXT motor</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">Pokrenite NXT ton</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">Trajanje</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Frekvencija</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1437,15 +1398,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">Sve</string>
-    <string name="ev3_play_tone">Pokrenite EV3 ton</string>
-    <string name="ev3_tone_duration_for">za</string>
-    <string name="ev3_tone_volume">Jačina zvuka</string>
-    <string name="ev3_tone_percent">%</string>
-    <string name="ev3_motor_stop">Isključite EV3 motor</string>
-    <string name="ev3_motor_move">Postavite EV3 motor</string>
-    <string name="ev3_brick_motor_turn_angle">Uključite EV3 motor</string>
-    <string name="ev3_motor_move_by">od</string>
-    <string name="ev3_set_led_status">Postavite EV3 LED status</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">Pokrenite EV3 ton</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">za</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">Jačina zvuka</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">Isključite EV3 motor</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">Postavite EV3 motor</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">Uključite EV3 motor</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">od</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">Postavite EV3 LED status</string>
     <string name="ev3_led_status_off">Isključen</string>
     <string name="ev3_led_status_green">Zelena</string>
     <string name="ev3_led_status_red">Crvena</string>
@@ -1458,76 +1419,76 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_led_status_orange_pulse">Orange pulse</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">Take off / land AR.Drone 2.0</string>
-    <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
-    <string name="brick_drone_flip">Preokrenite AR.Dron 2.0</string>
-    <string name="brick_drone_move_left">Pomjerite AR.Dron 2.0 lijevo</string>
-    <string name="brick_drone_move_right">Pomjerite AR. dron 2.0 desno</string>
-    <string name="brick_drone_move_forward">Pomjerite AR. dron 2.0 naprijed</string>
-    <string name="brick_drone_move_backward">Pomjerite AR. dron 2.0 nazad</string>
-    <string name="brick_drone_move_up">Pomjerite AR. dron 2.0 gore</string>
-    <string name="brick_drone_move_down">Pomjerite AR. dron 2.0 dolje</string>
-    <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right">Okrenite AR. dron 2.0 desno</string>
-    <string name="brick_drone_turn_left">Okrenite AR. dron 2.0 desno lijevo</string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">Take off / land AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">Play AR.Drone 2.0 flash animation</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">Preokrenite AR.Dron 2.0</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources">Pomjerite AR.Dron 2.0 lijevo</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">Pomjerite AR. dron 2.0 desno</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">Pomjerite AR. dron 2.0 naprijed</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">Pomjerite AR. dron 2.0 nazad</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">Pomjerite AR. dron 2.0 gore</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">Pomjerite AR. dron 2.0 dolje</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">Emergency AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">Okrenite AR. dron 2.0 desno</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">Okrenite AR. dron 2.0 desno lijevo</string>
     <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-    <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">Switch AR.Drone 2.0 camera</string>
     <string name="brick_drone_set_altitude">Altitude limit </string>
     <string name="brick_drone_set_vertical_speed">Vertikalno ograničenje brzine</string>
     <string name="brick_drone_set_rotation_speed">Rotaciono ograničenje brzine</string>
     <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with.">sa</string>
-    <string name="brick_drone_power">snaga</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">sa</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">snaga</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Blink green red</string>
-    <string name="drone_animation_blinkgreen">Blink green</string>
-    <string name="drone_animation_blinkred">Blink red</string>
-    <string name="drone_animation_blinkorange">Blink orange</string>
-    <string name="drone_animation_snakegreenred">Zmija zelena crvena</string>
-    <string name="drone_animation_fire">Požar</string>
-    <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">Crvena</string>
-    <string name="drone_animation_green">Zelena</string>
-    <string name="drone_animation_redsnake">Crvena zmija</string>
-    <string name="drone_animation_blank">Prazan</string>
-    <string name="drone_animation_rightmissile">Right missile</string>
-    <string name="drone_animation_leftmissile">Left missile</string>
-    <string name="drone_animation_doublemissile">Double missile</string>
-    <string name="drone_animation_frontleftgreenothersred">Front left green others red</string>
-    <string name="drone_animation_frontrightgreenothersred">Front right green others red</string>
-    <string name="drone_animation_rearrightgreenothersred">Rear right green others red</string>
-    <string name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
-    <string name="drone_animation_leftgreenrightred">Left green right red</string>
-    <string name="drone_animation_leftredrightgreen">Left red right green</string>
-    <string name="drone_animation_blinkstandard">Blink standard</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">Blink green red</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">Blink green</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">Blink red</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Blink orange</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Zmija zelena crvena</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">Požar</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">Standard</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">Crvena</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">Zelena</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Crvena zmija</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">Prazan</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Right missile</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">Left missile</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">Double missile</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">Front left green others red</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">Front right green others red</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">Rear right green others red</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">Rear left green others red</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">Left green right red</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">Left red right green</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">Blink standard</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">Pomjerite Jumping Sumo naprijed</string>
-    <string name="brick_jumping_sumo_move_backward">Pomjerite Jumping Sumo nazad</string>
-    <string name="brick_jumping_sumo_animation">Animacije Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound">Nema Jumping Sumo zvuka</string>
-    <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-    <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-    <string name="brick_jumping_sumo_rotate_left">Okrenite Jumping Sumo lijevo</string>
-    <string name="brick_jumping_sumo_rotate_right">Okrenite Jumping Sumo desno</string>
-    <string name="brick_jumping_sumo_rotate_text">stepeni</string>
-    <string name="brick_jumping_sumo_turn">Preokrenite Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">Pomjerite Jumping Sumo naprijed</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">Pomjerite Jumping Sumo nazad</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">Animacije Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">Nema Jumping Sumo zvuka</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">Jump Jumping Sumo long</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Okrenite Jumping Sumo lijevo</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Okrenite Jumping Sumo desno</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">stepeni</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Preokrenite Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">Zvuk</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Zvuk</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">Zavrtjeti</string>
-    <string name="animation_tab">Tab</string>
-    <string name="animation_slowshake">Slowshake</string>
-    <string name="animation_metronome">Metronome</string>
-    <string name="animation_ondulation">Ondulation</string>
-    <string name="animation_spinjump">Spinjump</string>
-    <string name="animation_spiral">Spiral</string>
-    <string name="animation_slalom">Slalom</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">Zavrtjeti</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">Tab</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">Slowshake</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">Metronome</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">Ondulation</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">Spinjump</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">Spiral</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">Slalom</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">Jačina zvuka</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">Jačina zvuka</string>
     <string name="sound_default">Normalno</string>
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Insekt</string>
@@ -1535,23 +1496,23 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">Zaustavite Phiro motor</string>
-    <string name="brick_phiro_motor_forward_action">Pomjerite Phiro motor naprijed</string>
-    <string name="brick_phiro_motor_backward_action">Pomjerite Phiro motor nazad</string>
-    <string name="phiro_motor_speed">Brzina</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Zaustavite Phiro motor</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Pomjerite Phiro motor naprijed</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">Pomjerite Phiro motor nazad</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">Brzina</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">Ako Piro</string>
-    <string name="brick_phiro_sensor_second_part">je aktivan</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">Ako Piro</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">je aktivan</string>
     <!-- tone -->
-    <string name="phiro_play_tone">Pokreni Phiro muziku\n</string>
-    <string name="phiro_tone_duration">Trajanje</string>
-    <string name="brick_phiro_select_tone">ton</string>
-    <string name="phiro_seconds">sekunde</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">Pokreni Phiro muziku\n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">Trajanje</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">ton</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">sekunde</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">Postavite Phiro svjetlo</string>
-    <string name="phiro_rgb_led_red">Crvena</string>
-    <string name="phiro_rgb_led_green">Zelena</string>
-    <string name="phiro_rgb_led_blue">Plava</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Postavite Phiro svjetlo</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">Crvena</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">Zelena</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">Plava</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1588,9 +1549,8 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_data">Podaci</string>
     <string name="formula_editor_true">tačno</string>
     <string name="formula_editor_false">netačno</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">Uređivač formule</string>
-    <string name="formula_editor_changes_saved">Promjene spremljene!</string>
     <string name="formula_editor_changes_discarded">Promjene odbačene!</string>
     <string name="formula_editor_parse_fail">Formula nije validna!</string>
     <string name="formula_nothing_selected">Definiši ulaznu vrijednost</string>
@@ -1598,62 +1558,62 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_choose_object_variable">Svojstva ovog objekta</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sine</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">cosine</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tangent</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln">natural logarithm</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log">decimal logarithm</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
     <string name="formula_editor_function_log_parameter">(0)</string>
-    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">boja</string>
-    <string name="formula_editor_function_sqrt">kvadratni korijen</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">boja</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">kvadratni korijen</string>
     <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand">slučajna vrijednost od</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">slučajna vrijednost od</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
-    <string name="formula_editor_function_abs">absolute value</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
     <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">round</string>
     <string name="formula_editor_function_round_parameter">(0)</string>
-    <string name="formula_editor_function_mod">modulo</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
-    <string name="formula_editor_function_arcsin">arcsine</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccosine</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangent</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">exponent</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
-    <string name="formula_editor_function_power">snaga</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">snaga</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor">floor</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">floor</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">ceiling</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">ceiling</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">maksimum od</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">maksimum od</string>
     <string name="formula_editor_function_max_parameter">(0,1)</string>
-    <string name="formula_editor_function_min">minimum od</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">minimum od</string>
     <string name="formula_editor_function_min_parameter">(0,1)</string>
     <string name="formula_editor_function_if_then_else">if then else</string>
     <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true">tačno</string>
-    <string name="formula_editor_function_false">netačno</string>
-    <string name="formula_editor_function_length">Dužina</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">tačno</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">netačno</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">Dužina</string>
     <string name="formula_editor_function_length_parameter">(\'Zdravo svijete\')</string>
-    <string name="formula_editor_function_letter">slovo</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">slovo</string>
     <string name="formula_editor_function_letter_parameter">(1,\"Zdravo svijete\")</string>
-    <string name="formula_editor_function_join">pridružite se</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">pridružite se</string>
     <string name="formula_editor_function_join_parameter">(\'zdravo\',\' svijete\')</string>
     <string name="formula_editor_function_join3">pridružite se</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex">regularni izraz</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">regularni izraz</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'Ja sam panda.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
         assistant</string>
@@ -1662,72 +1622,75 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_dialog_wiki_button">Više informacija</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino digital pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino digital pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino analog pin</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">dodir pozornice x</string>
-    <string name="formula_editor_function_finger_y">dodir pozornice y</string>
-    <string name="formula_editor_function_is_finger_touching">pozornica je pritisnuta</string>
-    <string name="formula_editor_function_multi_finger_x">dodir pozornice x</string>
-    <string name="formula_editor_function_multi_finger_y">dodir pozornice y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">pozornica je pritisnuta</string>
-    <string name="formula_editor_function_index_of_last_finger">zadnji dodir pozornice indeks</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">dodir pozornice x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">dodir pozornice y</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">pozornica je pritisnuta</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">dodir pozornice x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">dodir pozornice y</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">pozornica je pritisnuta</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">zadnji dodir pozornice indeks</string>
     <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
+    <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(0)</string>
-    <string name="formula_editor_function_list_item">stvar</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">stvar</string>
     <string name="formula_editor_function_list_item_parameter">(1,*naziv liste*)</string>
-    <string name="formula_editor_function_contains">sadrži</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">sadrži</string>
     <string name="formula_editor_function_contains_parameter">(*naziv liste*,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">item\'s index</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*naziv liste*)</string>
-    <string name="formula_editor_function_number_of_items">broj stvari</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">broj stvari</string>
     <string name="formula_editor_function_number_of_items_parameter">(*naziv liste*)</string>
     <string name="formula_editor_function_collision">dodiruje učesnika ili objekat</string>
-    <string name="formula_editor_function_collides_with_edge">dodiruje ivicu</string>
-    <string name="formula_editor_function_touched">dodiruje prst</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">dodiruje ivicu</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">dodiruje prst</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
     <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_x_acceleration">ubrzanje x</string>
-    <string name="formula_editor_sensor_y_acceleration">ubrzanje y</string>
-    <string name="formula_editor_sensor_z_acceleration">ubrzanje z</string>
-    <string name="formula_editor_sensor_compass_direction">pravac kompasa</string>
-    <string name="formula_editor_sensor_latitude">latitude</string>
-    <string name="formula_editor_sensor_longitude">longitude</string>
-    <string name="formula_editor_sensor_location_accuracy">location accuracy</string>
-    <string name="formula_editor_sensor_altitude">altitude</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
+        tolerance</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">ubrzanje x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">ubrzanje y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">ubrzanje z</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">pravac kompasa</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitude</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">longitude</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">location accuracy</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">altitude</string>
     <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination">nagib x</string>
-    <string name="formula_editor_sensor_y_inclination">nagib y</string>
-    <string name="formula_editor_sensor_loudness">glasnoća</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">nagib x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">nagib y</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">glasnoća</string>
     <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year">godina</string>
-    <string name="formula_editor_sensor_date_month">mjesec</string>
-    <string name="formula_editor_sensor_date_day">dan</string>
-    <string name="formula_editor_sensor_date_weekday">dan u sedmici</string>
-    <string name="formula_editor_sensor_time_hour">sat</string>
-    <string name="formula_editor_sensor_time_minute">minuta</string>
-    <string name="formula_editor_sensor_time_second">sekunda</string>
-    <string name="formula_editor_sensor_drone_battery_status">status baterije drona</string>
-    <string name="formula_editor_sensor_drone_emergency_state">izvanredno stanje drona</string>
-    <string name="formula_editor_sensor_drone_flying">dron leti</string>
-    <string name="formula_editor_sensor_drone_initialized">dron inicijaliziran</string>
-    <string name="formula_editor_sensor_drone_usb_active">usb drona aktivan</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">preostalo vrijeme usb drona</string>
-    <string name="formula_editor_sensor_drone_camera_ready">kamera drona spremna</string>
-    <string name="formula_editor_sensor_drone_record_ready">snimak drona spreman</string>
-    <string name="formula_editor_sensor_drone_recording">kamera drona snima</string>
-    <string name="formula_editor_sensor_drone_num_frames">broj okvira kamere drona</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT senzor 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT senzor 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT senzor 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT senzor 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3 senzor 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3 senzor 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3 senzor 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3 senzor 4</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">godina</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">mjesec</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">dan</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">dan u sedmici</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">sat</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">minuta</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">sekunda</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">status baterije drona</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">izvanredno stanje drona</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">dron leti</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">dron inicijaliziran</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">usb drona aktivan</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">preostalo vrijeme usb drona</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">kamera drona spremna</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">snimak drona spreman</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">kamera drona snima</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">broj okvira kamere drona</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT senzor 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT senzor 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT senzor 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT senzor 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 senzor 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 senzor 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 senzor 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 senzor 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT dodir</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT zvuk</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT svjetlo</string>
@@ -1745,35 +1708,35 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT svjetlo aktivno</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT zvuk</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrazvuk</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad A pressed</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad B pressed</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad up pressed</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad down pressed</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad left pressed</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad right pressed</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro prednji lijevi senzor</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro prednji desni senzor</string>
-    <string name="formula_editor_phiro_sensor_side_left">phiro bočni lijevi senzor</string>
-    <string name="formula_editor_phiro_sensor_side_right">phiro bočni desni senzor</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">phiro zadnji lijevi senzor</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">phiro zadnji desni senzor</string>
-    <string name="formula_editor_nfc_tag_id">nfc tag id</string>
-    <string name="formula_editor_nfc_tag_message">nfc tag message</string>
-    <string name="formula_editor_object_x">pozicija x</string>
-    <string name="formula_editor_object_y">pozicija y</string>
-    <string name="formula_editor_object_transparency">transparentnost</string>
-    <string name="formula_editor_object_brightness">osvjetljenje</string>
-    <string name="formula_editor_object_size">veličina</string>
-    <string name="formula_editor_object_rotation">smjer</string>
-    <string name="formula_editor_object_layer">sloj</string>
-    <string name="formula_editor_object_x_velocity">x brzina</string>
-    <string name="formula_editor_object_y_velocity">y brzina</string>
-    <string name="formula_editor_object_angular_velocity">ugaona brzina</string>
-    <string name="formula_editor_object_look_number">broj izgleda</string>
-    <string name="formula_editor_object_look_name">naziv izgleda</string>
-    <string name="formula_editor_object_background_number">broj pozadine</string>
-    <string name="formula_editor_object_background_name">naziv pozadine</string>
-    <string name="formula_editor_object_distance_to">udaljenost od pozicije dodira</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad A pressed</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad B pressed</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad up pressed</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">gamepad down pressed</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">gamepad left pressed</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">gamepad right pressed</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro prednji lijevi senzor</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro prednji desni senzor</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro bočni lijevi senzor</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro bočni desni senzor</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro zadnji lijevi senzor</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro zadnji desni senzor</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc tag id</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc tag message</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">pozicija x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">pozicija y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">transparentnost</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">osvjetljenje</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">veličina</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">smjer</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">sloj</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x brzina</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y brzina</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">ugaona brzina</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">broj izgleda</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">naziv izgleda</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">broj pozadine</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">naziv pozadine</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">udaljenost od pozicije dodira</string>
     <string name="formula_editor_compute">Izračunaj</string>
     <string name="formula_editor_object">Objekat</string>
     <string name="formula_editor_functions">Funkcije</string>
@@ -1785,7 +1748,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_functions_lists">Liste</string>
     <string name="formula_editor_logic_boolean">Logički (Boolean) operatori i konstante</string>
     <string name="formula_editor_logic_comparison">Operatori poređenja</string>
-    <string name="formula_editor_object_general">Generalne osobine</string>
+    <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">Osobine pokreta</string>
     <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">Date and time</string>
@@ -1799,21 +1762,23 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">i</string>
-    <string name="formula_editor_logic_or">ili</string>
-    <string name="formula_editor_logic_not">nije</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">i</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">ili</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">nije</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">obriši</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
+    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">Nova varijabla</string>
     <string name="formula_editor_list_dialog_title">Nova lista</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
@@ -1825,15 +1790,22 @@ needs read and write access to it. You can always change permissions through you
         expression</string>
     <string name="formula_editor_fragment_data_current_items">trenutne stvari</string>
     <string name="formula_editor_data_dialog_is_list">Napravite listu</string>
-    <string name="formula_editor_sensor_face_detected">lice je vidljivo</string>
-    <string name="formula_editor_sensor_face_size">veličina lica</string>
-    <string name="formula_editor_sensor_face_x_position">x pozicija lica</string>
-    <string name="formula_editor_sensor_face_y_position">y pozicija lica</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">lice je vidljivo</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">veličina lica</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">x pozicija lica</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">y pozicija lica</string>
+    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
+    <string name="formula_editor_sensor_second_face_size">second face size</string>
+    <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
+    <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
     <string name="formula_editor_sensor_text_from_camera">text from camera</string>
     <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
     <string name="formula_editor_function_text_block_x">text block x from camera</string>
     <string name="formula_editor_function_text_block_y">text block y from camera</string>
     <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
+    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_intro_title_formula_editor">Uređivač formule</string>
     <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
         logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
@@ -1865,27 +1837,29 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_speech_recognition">Speech recognition</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*naziv liste*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">Prikažite varijablu</string>
-    <string name="brick_hide_variable">Sakrijte varijablu</string>
-    <string name="brick_show_variable_position">na</string>
-    <string name="brick_show_variable_size">veličina:</string>
-    <string name="brick_show_variable_color">boja:</string>
-    <string name="brick_show_variable_aligned">poravnato</string>
-    <string name="brick_show_variable_aligned_centered">centrirano</string>
-    <string name="brick_show_variable_aligned_left">lijevo</string>
-    <string name="brick_show_variable_aligned_right">desno</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">Prikažite varijablu</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">Sakrijte varijablu</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">na</string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">veličina:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">boja:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">poravnato</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centrirano</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">lijevo</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">desno</string>
     <string name="brick_context_dialog_pick_color">Izaberite boju</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">Uključite kameru</string>
-    <string name="video_brick_camera_on">uključeno</string>
-    <string name="video_brick_camera_off">isključeno</string>
-    <string name="brick_choose_camera">Koristite kameru</string>
-    <string name="choose_camera_front">prednja</string>
-    <string name="choose_camera_back">rear</string>
+    <string name="brick_video" tools:ignore="UnusedResources">Uključite kameru</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">uključeno</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">isključeno</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">Koristite kameru</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">prednja</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">rear</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1914,7 +1888,6 @@ needs read and write access to it. You can always change permissions through you
     <string name="deletion_alert_title">Delete?</string>
     <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
         errors. You can\'t undo this!</string>
-    <string name="deletion_alert_yes">Da, svakako obriši!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Vaš projekat će se objaviti na stranici za dijeljenje gdje ga ostali mogu koristiti i preuzeti. Također možete preuzeti Vaš projekat kao samostalnu aplikaciju.</string>
     <string name="progress_upload_dialog_failed">Preuzimanje neuspješno. Molimo da provjerite Vašu internet konekciju i pokušate ponovo!</string>
@@ -1937,5 +1910,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="device_language">Jezik Vašeg uređaja</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">㎐</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
+    data is turned on.</string>
+    <string name="edit">Uredi</string>
+    <string name="data_value">Value</string>
+    <string name="category_recently_used">Recently used</string>
+    <!-- Information -->
+    <string name="no_variable_selected">No variable selected</string>
 </resources>

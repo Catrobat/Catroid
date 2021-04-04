@@ -66,6 +66,7 @@ import static org.catrobat.catroid.common.Constants.CATROBAT_HELP_URL;
 import static org.catrobat.catroid.common.Constants.MAIN_URL_HTTPS;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_BASE_URL;
+import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class WebViewActivity extends AppCompatActivity {
@@ -303,6 +304,11 @@ public class WebViewActivity extends AppCompatActivity {
 	protected void onDestroy() {
 		webView.setDownloadListener(null);
 		webView.destroy();
+
+		if (surveyCampaign != null) {
+			surveyCampaign.showSurvey(this);
+		}
+
 		super.onDestroy();
 	}
 }

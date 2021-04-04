@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -85,8 +85,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -315,25 +313,21 @@ public class StageListener implements ApplicationListener {
 
 	public List<Sprite> getAllClonesOfSprite(Sprite sprite) {
 		List<Sprite> clonesOfSprite = new ArrayList<>();
-		Pattern pattern = createCloneRegexPattern(sprite.getName());
-
 		for (Sprite spriteOfStage : sprites) {
-			if (!spriteOfStage.isClone) {
-				continue;
-			}
-
-			Matcher matcher = pattern.matcher(spriteOfStage.getName());
-			if (matcher.matches()) {
+			if (spriteIsCloneOfSprite(sprite, spriteOfStage)) {
 				clonesOfSprite.add(spriteOfStage);
 			}
 		}
-
 		return clonesOfSprite;
 	}
 
-	private Pattern createCloneRegexPattern(String spriteName) {
-		String cloneRegexMask = "^" + spriteName + "\\-c\\d+$";
-		return Pattern.compile(cloneRegexMask);
+	private Boolean spriteIsCloneOfSprite(Sprite sprite, Sprite cloneSprite) {
+		if (!cloneSprite.isClone) {
+			return false;
+		}
+		String cloneNameExtensionRegexPattern = "\\-c\\d+$";
+		String[] splitCloneNameStrings = cloneSprite.getName().split(cloneNameExtensionRegexPattern);
+		return splitCloneNameStrings[0].contentEquals(sprite.getName());
 	}
 
 	private void disposeClonedSprites() {

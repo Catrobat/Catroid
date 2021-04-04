@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,22 +21,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview.viewholder;
+package org.catrobat.catroid.retrofit.models
 
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+@SuppressWarnings("ConstructorParameterNaming")
+data class FeaturedProject(
+    val id: String,
+    val project_id: String,
+    val project_url: String,
+    val name: String,
+    val author: String,
+    val featured_image: String
+)
 
-import org.catrobat.catroid.R;
+data class ProjectsCategory(
+    val type: String,
+    val name: String,
+    val projectsList: List<ProjectResponse>
+)
 
-public class ButtonVH extends ViewHolder {
-
-	public ImageView image;
-	public TextView subtitle;
-
-	public ButtonVH(View itemView) {
-		super(itemView);
-		image = itemView.findViewById(R.id.image_view);
-		subtitle = itemView.findViewById(R.id.subtitle_view);
-	}
-}
+@SuppressWarnings("ConstructorParameterNaming")
+data class ProjectResponse(
+    val id: String,
+    val name: String,
+    val author: String,
+    val description: String,
+    val version: String,
+    val views: Int,
+    val download: Int,
+    val private: Boolean,
+    val flavor: String,
+    val tags: List<String>,
+    val uploaded: Long,
+    val uploaded_string: String,
+    val screenshot_large: String,
+    val screenshot_small: String,
+    val project_url: String,
+    val download_url: String,
+    val filesize: Double
+)

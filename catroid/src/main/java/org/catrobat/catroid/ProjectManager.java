@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,6 +41,8 @@ import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
@@ -152,6 +154,9 @@ public final class ProjectManager {
 		if (project.getCatrobatLanguageVersion() <= 0.99992) {
 			removePermissionsFile(project);
 		}
+		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
+			updateBackgroundIndexTo9999995(project);
+		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
@@ -235,7 +240,7 @@ public final class ProjectManager {
 		for (Scene scene : project.getSceneList()) {
 			if (!scene.getSpriteList().isEmpty()) {
 				Sprite background = scene.getSpriteList().get(0);
-				background.setName(localizedBackgroundName);
+				background.renameSpriteAndUpdateCollisionFormulas(localizedBackgroundName, scene);
 				background.look.setZIndex(0);
 			}
 		}
@@ -373,6 +378,27 @@ public final class ProjectManager {
 							spriteToCollideWith = spriteNames[1];
 						}
 						bounceOffScript.setSpriteToBounceOffName(spriteToCollideWith);
+					}
+				}
+			}
+		}
+	}
+
+	@VisibleForTesting
+	public static void updateBackgroundIndexTo9999995(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof SetBackgroundByIndexBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_INDEX);
+						} else if (brick instanceof SetBackgroundByIndexAndWaitBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_WAIT_INDEX);
+						}
 					}
 				}
 			}

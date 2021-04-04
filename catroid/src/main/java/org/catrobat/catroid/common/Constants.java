@@ -30,9 +30,12 @@ import org.catrobat.catroid.CatroidApplication;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import androidx.annotation.IntDef;
+import androidx.exifinterface.media.ExifInterface;
 
 import static org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -43,6 +46,7 @@ public final class Constants {
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
+	public static final long RETROFIT_WRITE_TIMEOUT = 15;
 
 	public static final String PLATFORM_NAME = "Android";
 	public static final int APPLICATION_BUILD_NUMBER = 0; // updated from jenkins nightly/release build
@@ -61,6 +65,7 @@ public final class Constants {
 
 	public static final String CATROBAT_EXTENSION = ".catrobat";
 	public static final String DEFAULT_IMAGE_EXTENSION = ".png";
+	public static final String JPEG_IMAGE_EXTENSION = ".jpg";
 	public static final String DEFAULT_SOUND_EXTENSION = ".wav";
 	public static final String EMBROIDERY_FILE_EXTENSION = ".dst";
 	public static final char REMIX_URL_PREFIX_INDICATOR = '[';
@@ -79,6 +84,10 @@ public final class Constants {
 	public static final String SCREENSHOT_MANUAL_FILE_NAME = "manual_screenshot" + DEFAULT_IMAGE_EXTENSION;
 	public static final File TEMP_LOOK_FILE =
 			new File(DEFAULT_ROOT_DIRECTORY, "temporary_look_file" + DEFAULT_IMAGE_EXTENSION);
+
+	// Recent Bricks Directory
+	public static final String RECENT_BRICKS_DIRECTORY = "recent_bricks";
+	public static final String RECENT_BRICKS_FILE = "recent_bricks.json";
 
 	// Backpack Directories
 	public static final String BACKPACK_DIRECTORY_NAME = "backpack";
@@ -307,6 +316,45 @@ public final class Constants {
 	public static final int STATUS_CODE_UPLOAD_SAVE_THUMBNAIL_FAILED = 514;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_LANGUAGE = 518;
 	public static final int STATUS_CODE_UPLOAD_OLD_CATROBAT_VERSION = 519;
+
+	//ExifTags for Exifremover
+	public static final ArrayList<String> EXIFTAGS_FOR_EXIFREMOVER =
+			new ArrayList<String>(Arrays.asList(
+			ExifInterface.TAG_ARTIST,
+			ExifInterface.TAG_DATETIME,
+			ExifInterface.TAG_DATETIME_ORIGINAL,
+			ExifInterface.TAG_DATETIME_DIGITIZED,
+			ExifInterface.TAG_EXPOSURE_TIME,
+			ExifInterface.TAG_FLASH,
+			ExifInterface.TAG_FILE_SOURCE,
+			ExifInterface.TAG_GPS_ALTITUDE,
+			ExifInterface.TAG_GPS_ALTITUDE_REF,
+			ExifInterface.TAG_GPS_AREA_INFORMATION,
+			ExifInterface.TAG_GPS_DATESTAMP,
+			ExifInterface.TAG_GPS_DEST_BEARING,
+			ExifInterface.TAG_GPS_DEST_BEARING_REF,
+			ExifInterface.TAG_GPS_DEST_DISTANCE,
+			ExifInterface.TAG_GPS_DEST_DISTANCE_REF,
+			ExifInterface.TAG_GPS_DEST_LATITUDE,
+			ExifInterface.TAG_GPS_DEST_LATITUDE_REF,
+			ExifInterface.TAG_GPS_DEST_LONGITUDE,
+			ExifInterface.TAG_GPS_DEST_LONGITUDE_REF,
+			ExifInterface.TAG_GPS_LATITUDE,
+			ExifInterface.TAG_GPS_LATITUDE_REF,
+			ExifInterface.TAG_GPS_LONGITUDE,
+			ExifInterface.TAG_GPS_LONGITUDE_REF,
+			ExifInterface.TAG_GPS_MAP_DATUM,
+			ExifInterface.TAG_GPS_SATELLITES,
+			ExifInterface.TAG_GPS_TIMESTAMP,
+			ExifInterface.TAG_GPS_PROCESSING_METHOD,
+			ExifInterface.TAG_GPS_DATESTAMP,
+			ExifInterface.TAG_MAKE,
+			ExifInterface.TAG_MODEL,
+			ExifInterface.TAG_IMAGE_DESCRIPTION,
+			ExifInterface.TAG_STRIP_OFFSETS,
+			ExifInterface.TAG_SOFTWARE,
+			ExifInterface.TAG_CAMARA_OWNER_NAME
+	));
 
 	private Constants() {
 		throw new AssertionError("No.");

@@ -50,7 +50,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = '2.6.1'
+    paintroidVersion = '2.7.0'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -77,11 +77,6 @@ if (rootProject.hasProperty('independent')) {
     appId += '.independent_' + today.format('YYYYMMdd_HHmm')
     appName = rootProject.property('independent') ?: 'Code ' + today.format('MMdd HH:mm')
     manifestAppName = appName
-}
-
-if (rootProject.hasProperty('pocketCodeBeta') && rootProject.property('pocketCodeBeta').toBoolean()) {
-    println "PocketCodeBeta build"
-    appId = 'org.catrobat.catroid.test'
 }
 
 if (!rootProject.hasProperty("signingKeystore")) {
@@ -115,15 +110,15 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 
-def defaultVersionCode = 80
-def defaultVersionName = "0.9.75"
+def defaultVersionCode = 82
+def defaultVersionName = "1.0.0"
 
 android {
     compileSdkVersion 29
 
     defaultConfig {
 
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         applicationId appId
         testInstrumentationRunner 'org.catrobat.catroid.runner.UiTestApplicationRunner'
@@ -289,7 +284,7 @@ android {
             resValue "string", "FEATURE_PHIRO_PREFERENCES_ENABLED", "true"
         }
         pocketCodeBeta {
-            applicationIdSuffix '.pocketCodeBeta'
+            applicationIdSuffix '.test'
             manifestPlaceholders.appName = "Pocket Code BETA-" + defaultVersionCode
         }
         standalone {
@@ -366,6 +361,16 @@ dependencies {
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
     implementation "org.koin:koin-androidx-fragment:$koin_version"
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    // retrofit moshi converter
+    implementation 'com.squareup.retrofit2:converter-moshi:2.7.1'
+    // Glide (Images downloader)
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+
+    // Shimmer effect
+    implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
@@ -451,6 +456,12 @@ dependencies {
 
     testImplementation 'org.reflections:reflections:0.9.11'
     testImplementation 'org.json:json:20190722'
+
+    // Retrofit testing
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.14.9'
+
+    // Koin for Unit tests
+    androidTestImplementation "org.koin:koin-test:$koin_version"
 
     androidTestImplementation 'com.linkedin.dexmaker:dexmaker-mockito:2.2.0'
     androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"

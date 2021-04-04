@@ -131,6 +131,9 @@ public class LoadProjectsTest {
 
 		PowerMockito.verifyStatic(ProjectManager.class, times(1));
 		ProjectManager.removePermissionsFile(projectMock);
+
+		PowerMockito.verifyStatic(ProjectManager.class, times(1));
+		ProjectManager.updateBackgroundIndexTo9999995(projectMock);
 	}
 
 	@Test

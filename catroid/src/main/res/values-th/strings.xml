@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">เวที</string>
+    <string name="stage">เลเยอร์</string>
     <string name="play">เล่น</string>
     <string name="settings">การตั้งค่า</string>
-    <string name="redo">ทำซ้ำ</string>
-    <string name="undo">เลิกทำ</string>
+    <string name="redo" tools:ignore="UnusedResources">ทำซ้ำ</string>
+    <string name="undo" tools:ignore="UnusedResources">เลิกทำ</string>
     <string name="new_option">สร้างใหม่&#8230;</string>
+    <string name="edit_option">แก้ไข&#8230;</string>
     <string name="confirm">ยืนยัน</string>
     <string name="ignore">เพิกเฉย</string>
     <string name="cancel">ยกเลิก</string>
     <string name="save">บันทึก</string>
+    <string name="discard">ละทิ้ง</string>
     <string name="next">ถัดไป</string>
-    <string name="back">ย้อนกลับ</string>
     <string name="ok">ตกลง</string>
     <string name="done">เสร็จสิ้น</string>
-    <string name="close">ปิด</string>
+    <string name="close" tools:ignore="UnusedResources">ปิด</string>
     <string name="assistant">ผู้ช่วย</string>
     <string name="yes">ใช่</string>
     <string name="no">ไม่ใช่</string>
     <string name="once">ครั้งเดียว</string>
     <string name="always">ทุกครั้ง</string>
     <string name="deny">ปฏิเสธ</string>
-    <string name="disagree">ไม่เห็นด้วย</string>
     <string name="accept">ยอมรับ</string>
     <string name="decline">ปฏิเสธ</string>
     <string name="select_all">เลือก​ทั้ง​หมด</string>
@@ -64,14 +64,21 @@
          โครงการกำลังดำเนินอยู่นั้นปลอดภัย ในกรณีที่มีข้อสงสัยโปรดลบโครงการที่ดาวน์โหลด
          นอกจากนี้คุณยังสามารถรายงานโครงการบนหน้าของโครงการบนแพลตฟอร์มชุมชน Catrobat ได้ในกรณี
          คุณมั่นใจว่ามันเป็นอันตราย</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">อัปโหลดโดยไม่มีการเปลี่ยนแปลง</string>
+    <string name="api_replacement_dialog_accept">อัปโหลดโดยแทนที่คีย์</string>
+    <string name="api_replacement_dialog_warning">โครงการมีคำสั่งที่เข้าถึงไฟล์
+         เว็บและดูเหมือนว่าจะมีคีย์ API ด้วย โปรดดูเหตุผลที่ %1s
+         การอัปโหลดคีย์เหล่านี้อาจเป็นอันตรายได้</string>
+    <string name="api_replacement">ใส่คีย์ API ที่นี่</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">กำลังตรวจสอบข้อมูลการเข้าสู่ระบบ&#8230;</string>
     <string name="loading_google_exchange_code">กำลังแลกเปลี่ยนข้อมูลการลงชื่อเข้าใช้ Google&#8230;</string>
     <string name="loading_google_login">การเข้าสู่ระบบ Google บนเซิร์ฟเวอร์ของเราเสร็จสมบูรณ&#8230;</string>
-    <string name="delete_account">ลบบัญชีของฉัน</string>
     <string name="logout_successful">ออกจากระบบสำเร็จ</string>
-    <string name="degrees">องศา</string>
-    <string name="background">พื้นหลัง</string>
+    <string name="degrees" tools:ignore="UnusedResources">องศา</string>
+    <string name="background" tools:ignore="UnusedResources">พื้นหลัง</string>
     <string name="landscape">ภูมิประเทศ</string>
     <string name="portrait">แนวตั้ง</string>
     <string name="unknown">ไม่รู้จัก</string>
@@ -81,7 +88,7 @@
     <string name="main_menu_continue">ดำเนินการโครงการ</string>
     <string name="main_menu_new">โครงการใหม่</string>
     <string name="main_menu_programs">โปรแกรม</string>
-    <string name="main_menu_help">ช่วยเหลือ</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">ช่วยเหลือ</string>
     <string name="main_menu_web">ชุมชน Catrobat</string>
     <string name="main_menu_upload">อัพโหลดโปรแกรม</string>
     <string name="main_menu_rate_app">ให้คะแนนเรา</string>
@@ -282,7 +289,7 @@
     <string name="am_backpack">เก็บ</string>
     <string name="am_unpack">แตกออก</string>
     <string name="am_copy">คัด​ลอก</string>
-    <string name="am_delete">ลบ</string>
+    <string name="am_delete" tools:ignore="UnusedResources">ลบ</string>
     <string name="am_rename">เปลี่ยนชื่อ</string>
     <string name="am_convert">แปลง</string>
     <string name="am_merge">รวม</string>
@@ -296,6 +303,9 @@
     <string name="merge">รวม</string>
     <string name="show_details">แสดงรายละเอียด</string>
     <string name="hide_details">แก้ไขรายละเอียด</string>
+    <string name="project_options">ตัวเลือกโครงการ</string>
+    <string name="sort_projects">เรียงลำดับ</string>
+    <string name="unsort_projects">ไม่เรียงลำดับ</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">ฉากใหม่</string>
     <!-- Delete Dialog Titles -->
@@ -359,6 +369,7 @@
     <string name="rename_data_dialog">เปลี่ยนชื่อ</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">กลุ่มใหม่</string>
+    <string name="default_group_name">กลุ่ม</string>
     <!-- New Scene Menu -->
     <string name="new_scene">ฉากใหม่</string>
     <!-- Action Toasts -->
@@ -446,6 +457,13 @@
     <string name="import_project">นำเข้าโครงการ</string>
     <string name="error_import_project">เกิดข้อผิดพลาดขณะนำเข้าโครงการ</string>
     <string name="error_no_files_found">ไม่พบไฟล์โครงการ</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">คำอธิบาย</string>
+    <string name="project_options_notes_and_credits">เครดิต</string>
+    <string name="project_options_tags">แท็ก</string>
+    <string name="project_options_aspect_ratio">คงอัตราส่วนเดิมไว้</string>
+    <string name="project_options_more_details">ข้อมูลเพิ่มเติม</string>
+    <string name="project_options_delete_project">ลบโปรเจค</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">เคาะ \"+\" เพื่อเพิ่มสคริปต์</string>
     <!--  -->
@@ -464,8 +482,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">สแกนแท็ก NFC เพื่อเพิ่ม</string>
-    <string name="ndef_record_label">บันทึกเป็น</string>
-    <string name="brick_set_nfc_tag">รอให้แท็ก NFC ถัดไปเขียน</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">บันทึกเป็น</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">รอให้แท็ก NFC ถัดไปเขียน</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">แท็ก NFC</string>
     <string name="tnf_empty">ว่างเปล่า</string>
@@ -483,6 +501,7 @@
     <string name="local_vars_headline">ตัวแปรสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
     <string name="global_lists_headline">รายการสำหรับนักแสดงและวัตถุทั้งหมด</string>
     <string name="local_lists_headline">รายการสำหรับนักแสดงหรือวัตถุนี้เท่านั้น</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="other">อินพุตสำหรับคำสั่งนี้
 อินพุตสำหรับคำสั่งนี้</item>
@@ -545,28 +564,8 @@
         Services.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">นโยบายความเป็นส่วนตัว</string>
     <string name="disclaimer_privacy_police_header_headline">ยินดีต้อนรับ!</string>
     <string name="disclaimer_privacy_policy_header">ในการใช้แอพนี้โปรดยอมรับไฟล์</string>
-    <string name="dialog_privacy_policy_text">เพื่อให้คุณได้รับประโยชน์ทั้งหมดจากบริการของเราและบัญชีที่เกี่ยวข้องคุณจำเป็นต้องรวบรวมข้อมูลบางอย่างจากคุณ \n\n
-      •เพื่อรักษาและปรับปรุงบริการของเรา (แอพและเว็บไซต์) และเพื่อทำการวิจัยทางวิทยาศาสตร์เกี่ยวกับ ICT และ STEM /  การศึกษา STEAM เราใช้ Google Analytics, Crashlytics และ Firebase ทั้งหมดโดย Google LLC (USA) และ Dynatrace โดย Dynatrace LLC (USA) เพื่อรับข้อมูลเมตาเกี่ยวกับการใช้บริการของเราเช่นข้อมูลการชนเวลาบันทึกหน้าเว็บที่เข้าชม  / หน้าจอการใช้แอพและบริการของเราระบบปฏิบัติการที่ใช้และข้อมูลเกี่ยวกับผู้ให้บริการเครือข่าย  การวิเคราะห์และข้อมูลที่เก็บรวบรวมนี้ไม่ได้เชื่อมโยงกับโปรไฟล์ของคุณและไม่มีข้อมูลส่วนบุคคลใด ๆ (บิตสุดท้ายของที่อยู่ IP จะถูกลบออก)  อย่างไรก็ตามข้อมูลที่รวบรวมจะถูกถ่ายโอนไปยังผู้ให้บริการ (Google LLC, USA และ Dynatrace LLC, สหรัฐอเมริกา)  การประมวลผลข้อมูลเป็นไปตามข้อตกลงกับ Google LLC และ Dynatrace LLC  ความสัมพันธ์นี้กับผู้ให้บริการเป็นไปตามข้อกำหนดการป้องกันข้อมูลทั่วไปของสหภาพยุโรป (EU GDPR) และข้อตกลง \"Privacy Shield\" ของสหภาพยุโรป - สหรัฐอเมริกา \n\n
-      •เพื่อสร้างและใช้บัญชีในระบบของเราและแจ้งให้คุณทราบเกี่ยวกับความจำเป็น  การเปลี่ยนแปลงเกี่ยวกับบัญชีของคุณต่ออีเมลเช่นการอัปเดตหรือการละเมิดข้อกำหนดในการให้บริการและกฎการใช้ชุมชนของเราหรือนโยบายของเราเราจะจัดเก็บชื่อผู้ใช้ของคุณและที่อยู่อีเมลของคุณ  หากคุณเชื่อมต่อบัญชีของคุณผ่านบัญชี Google หรือ Facebook ของคุณเราจะจัดเก็บรหัสระบุตัวตนที่เชื่อมต่อกับบัญชีของคุณในบริการเหล่านี้  เราจะไม่ใช้ข้อมูลนี้เพื่อจุดประสงค์อื่น ๆ (เช่นการตลาด) เว้นแต่คุณจะอนุญาตให้เราทำอย่างชัดเจน \n\n
-      •ด้วยความสมัครใจคุณสามารถให้ประเทศที่พำนักอาศัยของคุณผ่านหน้าบัญชีของคุณในการแบ่งปัน  เว็บไซต์.  สิ่งนี้จะปรากฏในโปรไฟล์สาธารณะของคุณและใช้เพื่อวัตถุประสงค์ทางสถิติและการวิจัยโดยเราเท่านั้น  สามารถลบออกได้ตลอดเวลาในการตั้งค่าโปรไฟล์ของคุณ \ n\n
-     •คุณสามารถถอนการใช้ข้อมูลส่วนบุคคลที่เป็นของบัญชีของคุณได้ตลอดเวลาโดยการลบบัญชีของคุณผ่านหน้าโปรไฟล์ของคุณใน https: //share.catrob  ที่.  หลังจากลบบัญชีของคุณคุณจะยังสามารถใช้บริการที่ให้ไว้ได้ แต่จะไม่ทำงานร่วมกันเช่นผ่านการอัปโหลดโปรแกรมการแสดงความคิดเห็นหรือความชอบ  นอกจากนี้เนื้อหาทั้งหมดที่เชื่อมโยงกับบัญชีของคุณเช่นโปรแกรมที่อัปโหลดความคิดเห็น ฯลฯ จะถูกลบ \n\n
-      •เพื่อหลีกเลี่ยงการใช้บริการของเราในทางที่ผิดเช่นผ่านการอัพโหลดหรือความคิดเห็นของผู้ใช้เพื่อวัตถุประสงค์ที่ผิดกฎหมาย  ข้อมูลสาธารณะที่สร้างขึ้น (อัพโหลดความคิดเห็น) จะถูกเก็บไว้ภายในฐานข้อมูลพร้อมกับเวลาและที่อยู่อินเทอร์เน็ตที่ใช้  ข้อมูลนี้จะไม่ถูกนำไปใช้โดยหรือส่งต่อไปยังสถาบันใด ๆ เว้นแต่จะมีการกระทำที่ผิดกฎหมายอย่างเพียงพอและสงสัยว่ามีเหตุผลอย่างเป็นทางการและได้รับสิทธิ์อย่างเป็นทางการจากสถาบันทางกฎหมายตามคำขอ  แต่ละกรณีจะได้รับการตรวจสอบอย่างละเอียดเป็นรายบุคคลโดยเราก่อน \n\n
-      •คุณสามารถสมัครรับจดหมายข่าว Catrobat โดยสมัครใจได้ที่ https://catrob.at/newsletter จากเราผ่านบริการ MailChimp (The Rocket Science Group  LLC d / b / a MailChimp สหรัฐอเมริกา)  จากนั้นคุณจะได้รับการอัปเดตเกี่ยวกับโครงการ Catrobat และบริการของโครงการไปยังที่อยู่อีเมลที่คุณให้ไว้  คุณสามารถถอนจดหมายข่าวได้ตลอดเวลาโดยใช้ลิงก์ \"ยกเลิกการเป็นสมาชิก\" ในส่วนท้ายของจดหมายข่าวทุกฉบับ  จดหมายข่าวนี้จัดทำโดย MailChimp ที่เรามีข้อตกลงการประมวลผลข้อมูลและผู้ที่มุ่งมั่นที่จะระเบียบคุ้มครองข้อมูลทั่วไปของสหภาพยุโรปและ \"ความเป็นส่วนตัวโล่\" EU-USA  สำหรับรายละเอียดเพิ่มเติมเกี่ยวกับ MailChimp โปรดค้นหานโยบายความเป็นส่วนตัวและข้อกำหนดการใช้งานของ MailChimp \ n\n 
-      •บริการทั้งหมดจัดทำโดยโครงการโอเพ่นซอร์ส Catrobat ฟรีภายใต้สมาคม Catrobat นานาชาติ - Verein zur Förderung freier Software, non  -profit NGO จัดตั้งขึ้นใน Graz, Austria (สหภาพยุโรป)  นโยบายของเราให้ความสำคัญกับกฎหมายคุ้มครองข้อมูลของสหภาพยุโรปและออสเตรีย (GDPR)  หากต้องการติดต่อเราโปรดส่งอีเมลไปที่ contact@catrobat.org หรือส่งอีเมลถึงเราที่ Catrobat \n
-c/o \n
-สถาบันเทคโนโลยีซอฟท์แวร์ \n
-มหาวิทยาลัยเทคโนโลยี Graz, \n
-อินฟอร์เดลกาส 16b, \n
-A-8010 กราซ, ออสเตรีย \n
-(สหภาพยุโรป) \n\n 
-ในกรณีที่คุณอายุต่ำกว่า 14 ปี  นโยบายนี้จะต้องได้รับการยอมรับจากผู้ปกครองตามกฎหมาย (โดยปกติจะเป็นผู้ปกครอง) \n\n
-นโยบายความเป็นส่วนตัวภาษาอังกฤษอย่างเป็นทางการของ Catrobat มีอยู่บนเว็บภายใต้ https://catrob.at/privacypolicy.\n\n
-เวอร์ชั่น 2.2, 17  ตุลาคม 2019 \ n\n
-ค้นหานโยบายส่วนบุคคลรุ่นก่อนหน้าล้าสมัย (2.0) ที่นี่: http://developer.catrobat.org/privacy_policy_2-0    </string>
-    <string name="dialog_privacy_policy_declined_text">จำเป็นต้องยอมรับนโยบายความเป็นส่วนตัวเพื่อลงทะเบียนหรือใช้งานบัญชีของคุณต่อไป  หากคุณไม่ต้องการให้เรารวบรวมข้อมูลนี้คุณสามารถลบบัญชีของคุณผ่านหน้าโปรไฟล์ของคุณในเว็บไซต์ https://share.catrob.at/ ของเรา    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">เกี่ยวกับ App นี้</string>
@@ -576,16 +575,18 @@ A-8010 กราซ, ออสเตรีย \n
         For further details on the license see the link below.\n</string>
     <string name="dialog_about_license_link_text">ใบอนุญาตรหัสที่มา</string>
     <string name="dialog_about_catrobat_link_text">เกี่ยวกับ Catrobat</string>
+    <string name="dialog_about_catrobat_language_version">Catrobat เวอร์ชันภาษา </string>
+    <string name="dialog_about_version">รุ่น:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">ไม่มีเครือข่าย</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">อัพโหลด</string>
     <string name="upload_project_dialog_title">อัพโหลดโปรแกรม</string>
     <string name="upload_description">คำอธิบาย:</string>
     <string name="upload_notes_and_credits">หมายเหตุและเครดิต:</string>
     <string name="upload_notes_and_credits_explanation">คุณสร้างโครงการนี้ได้อย่างไร คุณใช้ไอเดียสคริปต์หรืออาร์ตเวิร์คจากคนอื่นหรือไม่? ขอบคุณพวกเขาที่นี่</string>
     <string name="upload_tag_dialog_title">โปรดเลือกได้สูงสุดสามหมวด</string>
+    <string name="upload_tags_maximum_error">ไม่สามารถเลือกมากกว่า 3 แท็กได้</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">บันทึกโครงการไปยังที่จัดเก็บข้อมูลภายนอก</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -604,7 +605,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_context_dialog_move_brick">ย้ายคำสั่ง</string>
     <string name="brick_context_dialog_move_script">ย้ายสคริปต์</string>
     <string name="brick_context_dialog_move_definition">ย้ายคำจำกัดความนี้</string>
-    <string name="brick_context_dialog_delete_brick">ลบคำสั่ง</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">ลบคำสั่ง</string>
     <string name="brick_context_dialog_copy_brick">คัดลอกคำสั่ง</string>
     <string name="brick_context_dialog_copy_script">คัดลอกสคริปต์</string>
     <string name="brick_context_dialog_formula_edit_brick">แก้ไขสูตร</string>
@@ -619,6 +620,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="comment_in_out">ปิด / เปิด</string>
     <string name="catblocks">สลับ 2D</string>
     <string name="catblocks_reorder">ล้างสคริปต์</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">มุมมอง 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">เล่นฉาก:</string>
@@ -629,7 +631,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="sign_in_dialog_title">เข้าสู่ระบบ</string>
     <string name="username">ชื่อผู้ใช้</string>
     <string name="password">รหัสผ่าน</string>
-    <string name="password_forgotten">ลืมรหัสผ่าน?</string>
+    <string name="reset_password">รีเซ็ตรหัสผ่าน</string>
     <string name="new_user_registered">บัญชีใหม่ถูกสร้างแล้ว</string>
     <string name="user_logged_in">เข้าสู่ระบบสำเร็จแล้ว</string>
     <string name="register_error">เข้าสู่ระบบไม่ถูกต้อง</string>
@@ -706,33 +708,34 @@ A-8010 กราซ, ออสเตรีย \n
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">ข้อความใหม่</string>
-    <string name="dialog_new_broadcast_message_name">ข้อความ:</string>
+    <string name="dialog_broadcast_message_name">ข้อความ:</string>
+    <string name="dialog_edit_broadcast_message_title">แก้ไขข้อความ</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">แก้ไขรายการแท็ก NFC</string>
     <string name="brick_when_nfc_default_all">ทั้งหมด</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">หมวดหมู่</string>
-    <string name="category_embroidery">การตกแต่ง</string>
-    <string name="category_motion">เคลื่อนไหว</string>
-    <string name="category_looks">รูปลักษณ์</string>
-    <string name="category_pen">ปากกา</string>
-    <string name="category_sound">เสียง</string>
-    <string name="category_control">ควบคุม</string>
-    <string name="category_event">เหตุการณ์</string>
-    <string name="category_user_bricks">คำสั่งของคุณ</string>
-    <string name="category_data">ข้อมูล</string>
-    <string name="category_device">อุปกรณ์</string>
-    <string name="category_lego_nxt">Lego NXT</string>
-    <string name="category_lego_ev3">Lego EV3</string>
-    <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">Arduino</string>
-    <string name="category_cast">Chromecast</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
+    <string name="categories" tools:ignore="UnusedResources">หมวดหมู่</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">การตกแต่ง</string>
+    <string name="category_motion" tools:ignore="UnusedResources">เคลื่อนไหว</string>
+    <string name="category_looks" tools:ignore="UnusedResources">รูปลักษณ์</string>
+    <string name="category_pen" tools:ignore="UnusedResources">ปากกา</string>
+    <string name="category_sound" tools:ignore="UnusedResources">เสียง</string>
+    <string name="category_control" tools:ignore="UnusedResources">ควบคุม</string>
+    <string name="category_event" tools:ignore="UnusedResources">เหตุการณ์</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">คำสั่งของคุณ</string>
+    <string name="category_data" tools:ignore="UnusedResources">ข้อมูล</string>
+    <string name="category_device" tools:ignore="UnusedResources">อุปกรณ์</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
+    <string name="category_cast" tools:ignore="UnusedResources">Chromecast</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">Testing</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">เพิ่มป้ายชื่อ</string>
@@ -742,209 +745,212 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">กำหนด</string>
-    <string name="brick_user_defined_script_as">เช่นเดียวกับ</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">กำหนด</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">เช่นเดียวกับ</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">รายงาน</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"วางที่"</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"วางที่"</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"X: "</string>
-    <string name="y_label">"Y: "</string>
-    <string name="brick_set_x">"ตั้งค่า X เป็น"</string>
-    <string name="brick_set_y">"ตั้งค่า Y เป็น"</string>
-    <string name="brick_change_x_by">"เปลี่ยนค่า X ทีละ"</string>
-    <string name="brick_change_y_by">"เปลี่ยนค่า Y ทีละ"</string>
-    <string name="brick_go_back">ย้อนกลับ</string>
-    <string name="brick_set_rotation_style">"ตั้งค่ารูปแบบการหมุน"</string>
-    <string name="brick_set_rotation_style_lr">ซ้าย - ขวาเท่านั้น</string>
-    <string name="brick_set_rotation_style_normal">รอบ ๆ</string>
-    <string name="brick_set_rotation_style_no">อย่าหมุน</string>
+    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
+    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"ตั้งค่า X เป็น"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"ตั้งค่า Y เป็น"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"เปลี่ยนค่า X ทีละ"</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"เปลี่ยนค่า Y ทีละ"</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">ย้อนกลับ</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"ตั้งค่ารูปแบบการหมุน"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">ซ้าย - ขวาเท่านั้น</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">รอบ ๆ</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">อย่าหมุน</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="other">ลำดับชั้น</item>
     </plurals>
-    <string name="brick_come_to_front">ย้ายขึ้นข้างบน</string>
-    <string name="brick_if_on_edge_bounce">ถ้าติดขอบให้เด้งกลับ</string>
-    <string name="brick_move">เคลื่อน</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">ย้ายขึ้นข้างบน</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">ถ้าติดขอบให้เด้งกลับ</string>
+    <string name="brick_move" tools:ignore="UnusedResources">เคลื่อน</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="other">ก้าว</item>
     </plurals>
-    <string name="brick_turn_left">เลี้ยวซ้าย</string>
-    <string name="brick_turn_right">เลี้ยวขวา</string>
-    <string name="brick_point_in_direction">ชี้ไปยังทิศทาง</string>
-    <string name="brick_point_to">ชี้ไปยัง</string>
-    <string name="brick_glide">ไถล</string>
-    <string name="brick_glide_to_x">ไปยังตำแหน่ง X:</string>
-    <string name="brick_go_to">ไปยัง</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">เลี้ยวซ้าย</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">เลี้ยวขวา</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">ชี้ไปยังทิศทาง</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">ชี้ไปยัง</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">ไถล</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">ไปยังตำแหน่ง X:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">ไปยัง</string>
     <string name="brick_go_to_touch_position">ตำแหน่งสัมผัส</string>
     <string name="brick_go_to_random_position">ตำแหน่งสุ่ม</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">ตั้งค่าประเภทการเคลื่อนไหวของคุณเป็น</string>
-    <string name="brick_set_physics_object_type_dynamic">เคลื่อนที่และกระดอนภายใต้แรงโน้มถ่วง</string>
-    <string name="brick_set_physics_object_type_fixed">ไม่เคลื่อนไหวภายใต้แรงโน้มถ่วง แต่คนอื่น ๆ กระเด็นคุณภายใต้แรงโน้มถ่วง</string>
-    <string name="brick_set_physics_object_type_no">ไม่เคลื่อนไหวหรือกระดอนภายใต้แรงโน้มถ่วง (ค่าเริ่มต้น)</string>
-    <string name="brick_set_mass">"ตั้งค่ามวลเป็น"</string>
-    <string name="brick_set_mass_unit">กิโลกรัม</string>
-    <string name="brick_set_gravity_to">"ตั้งค่าแรงโน้มถ่วงสำหรับนักแสดงและวัตถุทั้งหมดให้เป็น"</string>
-    <string name="brick_set_gravity_unit">ขั้นตอน / วินาที²</string>
-    <string name="brick_set_velocity_to">"ตั้งค่าความเร็วเป็น"</string>
-    <string name="brick_set_velocity_unit">ขั้นตอน / วินาที</string>
-    <string name="brick_turn_speed_unit">degrees/second</string>
-    <string name="brick_set_friction">"Set friction to"</string>
-    <string name="brick_set_bounce_factor">"Set bounce factor to"</string>
-    <string name="brick_rotate_left">"Spin left"</string>
-    <string name="brick_rotate_right">"Spin right"</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">ตั้งค่าประเภทการเคลื่อนไหวของคุณเป็น</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">เคลื่อนที่และกระดอนภายใต้แรงโน้มถ่วง</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">ไม่เคลื่อนไหวภายใต้แรงโน้มถ่วง แต่คนอื่น ๆ กระเด็นคุณภายใต้แรงโน้มถ่วง</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">ไม่เคลื่อนไหวหรือกระดอนภายใต้แรงโน้มถ่วง (ค่าเริ่มต้น)</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"ตั้งค่ามวลเป็น"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">กิโลกรัม</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"ตั้งค่าแรงโน้มถ่วงสำหรับนักแสดงและวัตถุทั้งหมดให้เป็น"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">ขั้นตอน / วินาที²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"ตั้งค่าความเร็วเป็น"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">ขั้นตอน / วินาที</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">degrees/second</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"Set friction to"</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Set bounce factor to"</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"Spin left"</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"Spin right"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">เปลี่ยนรูปลักษณ์เป็น</string>
-    <string name="brick_set_look_by_index">Switch to look with number</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">เปลี่ยนรูปลักษณ์เป็น</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Switch to look with number</string>
     <string name="brick_and_wait">และรอ</string>
-    <string name="brick_set_background">ตั้งค่าพื้นหลัง</string>
-    <string name="brick_set_background_and_wait">Set background and wait</string>
-    <string name="brick_set_background_by_index">Set background to number</string>
-    <string name="brick_when_background">When background changes to</string>
-    <string name="brick_set_size_to">ตั้งขนาดให้เป็น</string>
-    <string name="brick_change_size_by">เปลี่ยนขนาดทีละ</string>
-    <string name="brick_hide">ซ่อน</string>
-    <string name="brick_show">แสดง</string>
-    <string name="brick_set_transparency">"ตั้งค่าความโปร่งใส"</string>
-    <string name="brick_change_ghost_effect">"เปลี่ยนความโปร่งใส"</string>
-    <string name="brick_set_brightness">"ตั้งค่าความสว่าง "</string>
-    <string name="brick_change_brightness">"เปลี่ยนแปลงความสว่าง"</string>
-    <string name="brick_set_color">"ตั้งค่าสี"</string>
-    <string name="brick_change_color">"เปลี่ยนสี"</string>
-    <string name="by_label">โดย</string>
-    <string name="to_label">กำหนดความหมาย</string>
-    <string name="brick_clear_graphic_effect">ล้างลักษณะพิเศษ</string>
-    <string name="brick_next_look">รูปลักษณ์ถัดไป</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">ตั้งค่าพื้นหลัง</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Set background and wait</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Set background to number</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">When background changes to</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">ตั้งขนาดให้เป็น</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">เปลี่ยนขนาดทีละ</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">ซ่อน</string>
+    <string name="brick_show" tools:ignore="UnusedResources">แสดง</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"ตั้งค่าความโปร่งใส"</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"เปลี่ยนความโปร่งใส"</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"ตั้งค่าความสว่าง "</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"เปลี่ยนแปลงความสว่าง"</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"ตั้งค่าสี"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"เปลี่ยนสี"</string>
+    <string name="by_label" tools:ignore="UnusedResources">โดย</string>
+    <string name="to_label" tools:ignore="UnusedResources">กำหนดความหมาย</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">ล้างลักษณะพิเศษ</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">รูปลักษณ์ถัดไป</string>
     <string name="brick_next_background">พื้นหลังถัดไป</string>
-    <string name="brick_previous_look">ดูก่อนหน้า</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">ดูก่อนหน้า</string>
     <string name="brick_previous_background">พื้นหลังก่อนหน้า</string>
-    <string name="brick_delete_look">ลบรูปลักษณ์</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">แก้ไขรูปลักษณ์</string>
+    <string name="brick_edit_background">แก้ไขพื้นหลัง</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">ลบรูปลักษณ์</string>
     <string name="brick_delete_background">ลบพื้นหลัง</string>
-    <string name="brick_flash">เปิดไฟฉาย</string>
-    <string name="brick_flash_on">เปิด</string>
-    <string name="brick_flash_off">ปิด</string>
-    <string name="brick_vibration">สั่นเป็นเวลา</string>
-    <string name="brick_ask_label">คำถาม</string>
-    <string name="brick_ask_store">และเก็บคำตอบเป็นลายลักษณ์อักษร</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">เปิดไฟฉาย</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">เปิด</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">ปิด</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">สั่นเป็นเวลา</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">คำถาม</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">และเก็บคำตอบเป็นลายลักษณ์อักษร</string>
     <string name="brick_ask_default_question">คุณชื่ออะไร?</string>
     <string name="brick_ask_dialog_hint">"ป้อนคำตอบของคุณ:"</string>
     <string name="brick_ask_dialog_submit">ส่งคำตอบ</string>
-    <string name="brick_ask_speech_label">คำถาม</string>
-    <string name="brick_ask_speech_store">และเก็บคำตอบที่พูดมา</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">คำถาม</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">และเก็บคำตอบที่พูดมา</string>
     <string name="brick_ask_speech_default_question">คุณชื่ออะไร?</string>
-    <string name="brick_paint_new_look">สีรูปลักษณ์ใหม่</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">สีรูปลักษณ์ใหม่</string>
     <string name="brick_paint_new_background">ทาสีพื้นหลังใหม่</string>
     <string name="brick_paint_new_look_name">"ชื่อรูปลักษณ์ใหม่"</string>
-    <string name="brick_copy_look">คัดลอกรูปลักษณ์และตั้งชื่อ</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">คัดลอกรูปลักษณ์และตั้งชื่อ</string>
     <string name="brick_copy_look_name">ชื่อของรูปลักษณ์ที่คัดลอก</string>
     <string name="brick_copy_background">คัดลอกพื้นหลังและตั้งชื่อ</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">วางปากกาลง</string>
-    <string name="brick_pen_up">ยกปากกาขึ้น</string>
-    <string name="brick_pen_size">ตั้งค่าขนาดปากกาเป็น</string>
-    <string name="brick_pen_color">ตั้งค่าสีปากกาเป็น</string>
-    <string name="brick_clear_background">ลบ</string>
-    <string name="brick_stamp">แสตมป์</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">วางปากกาลง</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">ยกปากกาขึ้น</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">ตั้งค่าขนาดปากกาเป็น</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">ตั้งค่าสีปากกาเป็น</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">ลบ</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">แสตมป์</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">เริ่มเล่นเสียง</string>
-    <string name="brick_play_sound_and_wait">เริ่มเสียงแล้วรอ</string>
-    <string name="brick_stop_sound">หยุดเล่นเสียง</string>
-    <string name="brick_stop_all_sounds">หยุดเสียงทั้งหมด</string>
-    <string name="brick_set_volume_to">ตั้งระดับเสียงเป็น</string>
-    <string name="brick_change_volume_by">เปลี่ยนระดับเสียงทีละ</string>
-    <string name="brick_speak">พูด</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">เริ่มเล่นเสียง</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">เริ่มเสียงแล้วรอ</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">หยุดเล่นเสียง</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">หยุดเสียงทั้งหมด</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">ตั้งระดับเสียงเป็น</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">เปลี่ยนระดับเสียงทีละ</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">พูด</string>
     <string name="brick_speak_default_value">สวัสดี!</string>
-    <string name="brick_speak_and_wait">และรอ</string>
-    <string name="brick_start_listening_to_voice">เริ่มฟังเสียงและจัดเก็บคำพูดในรูปแบบ</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">และรอ</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">เริ่มฟังเสียงและจัดเก็บคำพูดในรูปแบบ</string>
     <string name="speech_recognition_not_available">ไม่สามารถใช้การจดจำเสียงได้</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">ไม่มีข้อมูลออฟไลน์</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">การรู้จำเสียงออฟไลน์
      สำหรับ%s หายไปหรือจำเป็นต้องอัปเดต คุณต้องการดาวน์โหลดหรืออัปเดตเลยไหม</string>
-    <string name="brick_set_listening_language">ภาษาที่ใช้ในการฟัง</string>
-    <string name="set_instrument_to">ตั้งค่าเครื่องมือเป็น</string>
-    <string name="set_tempo_to">ตั้งเวลาเป็น</string>
-    <string name="change_tempo_by">เปลี่ยนจังหวะโดย</string>
-    <string name="pause_for">Pause for</string>
-    <string name="play_drum">เล่นกลอง</string>
-    <string name="beats">beats</string>
-    <string name="play_note">เล่นบันทึก</string>
-    <string name="for_string">สำหรับ</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">ภาษาที่ใช้ในการฟัง</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">ตั้งค่าเครื่องมือเป็น</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">ตั้งเวลาเป็น</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">เปลี่ยนจังหวะโดย</string>
+    <string name="pause_for" tools:ignore="UnusedResources">Pause for</string>
+    <string name="play_drum" tools:ignore="UnusedResources">เล่นกลอง</string>
+    <string name="beats" tools:ignore="UnusedResources">beats</string>
+    <string name="play_note" tools:ignore="UnusedResources">เล่นบันทึก</string>
+    <string name="for_string" tools:ignore="UnusedResources">สำหรับ</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">ตะเข็บ</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">และความกว้าง</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
-    <string name="brick_write_embroidery">เขียนข้อมูลการปักลงในไฟล์</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">ตะเข็บ</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">Start running stitch with length</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Start zigzag stitch with length</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">และความกว้าง</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Start triple stitch with length</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Stop current stitch</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">เขียนข้อมูลการปักลงในไฟล์</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">เย็บ</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">เย็บ</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">รีเซ็ตเวลา</string>
-    <string name="brick_open">เปิด​</string>
-    <string name="brick_in_browser">ในเบราว์เซอร์</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">รีเซ็ตเวลา</string>
+    <string name="brick_open" tools:ignore="UnusedResources">เปิด​</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">ในเบราว์เซอร์</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">เมื่อฉากเริ่ม</string>
-    <string name="brick_when">เมื่อเคาะ</string>
-    <string name="brick_when_condition_when">เมื่อ</string>
-    <string name="brick_when_becomes_true">กลายเป็นจริง</string>
-    <string name="brick_wait">รอ</string>
-    <string name="brick_wait_until">รอจนกว่า</string>
-    <string name="brick_wait_until_second_part">เป็นความจริง</string>
-    <string name="brick_when_gamepad_button">เมื่อปุ่ม gamepad</string>
-    <string name="brick_when_gamepad_button_tapped">เคาะ</string>
-    <string name="brick_when_nfc">เมื่อ NFC</string>
-    <string name="brick_stop_script">หยุด</string>
-    <string name="brick_stop_this_script">สคริปต์นี้</string>
-    <string name="brick_stop_all_scripts">สคริปต์ทั้งหมด</string>
-    <string name="brick_stop_other_scripts">สคริปต์อื่น ๆ ของนักแสดงหรือวัตถุนี้</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">เมื่อฉากเริ่ม</string>
+    <string name="brick_when" tools:ignore="UnusedResources">เมื่อเคาะ</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">เมื่อ</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">กลายเป็นจริง</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">รอ</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">รอจนกว่า</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">เป็นความจริง</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">เมื่อปุ่ม gamepad</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">เคาะ</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">เมื่อ NFC</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">หยุด</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">สคริปต์นี้</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">สคริปต์ทั้งหมด</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">สคริปต์อื่น ๆ ของนักแสดงหรือวัตถุนี้</string>
     <plurals name="second_plural">
         <item quantity="other">"วินาที"</item>
     </plurals>
-    <string name="brick_collision_receive">เมื่อคุณกระเด็น</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">เมื่อคุณกระเด็น</string>
     <string name="collision_with_anything">ขอบนักแสดงหรือวัตถุใด ๆ</string>
-    <string name="brick_broadcast_receive">เมื่อคุณได้รับ</string>
-    <string name="brick_broadcast">กระจายเสียง</string>
-    <string name="brick_broadcast_wait">กระจายเสียงและรอ</string>
-    <string name="brick_scene_transition">ดำเนินการต่อฉาก</string>
-    <string name="brick_scene_start">เริ่มฉาก</string>
-    <string name="brick_note">หมายเหตุ</string>
-    <string name="brick_think_bubble">คิด</string>
-    <string name="brick_say_bubble">พูด</string>
-    <string name="brick_think_say_for_text">สำหรับ</string>
-    <string name="brick_forever">ตลอดไป</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">สำหรับแต่ละค่าจาก</string>
-    <string name="brick_loop_in">ใน</string>
-    <string name="brick_loop_to">กำหนดความหมาย</string>
-    <string name="brick_repeat">ทำซ้ำ</string>
-    <string name="brick_repeat_until">ทำซ้ำจนกระทั่ง</string>
-    <string name="brick_when_touched">เมื่อเวทีถูกทาบทาม</string>
-    <string name="brick_clone">สร้างโคลนของ</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">เมื่อคุณได้รับ</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">กระจายเสียง</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">กระจายเสียงและรอ</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">ดำเนินการต่อฉาก</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">เริ่มฉาก</string>
+    <string name="brick_note" tools:ignore="UnusedResources">หมายเหตุ</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">คิด</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">พูด</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">สำหรับ</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">ตลอดไป</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">สำหรับแต่ละค่าจาก</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">ใน</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">กำหนดความหมาย</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">ทำซ้ำ</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">ทำซ้ำจนกระทั่ง</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">เมื่อเวทีถูกทาบทาม</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">สร้างโคลนของ</string>
     <string name="brick_clone_this">ตัวเอง</string>
-    <string name="brick_when_cloned">เมื่อเริ่มต้นเป็นโคลน</string>
-    <string name="brick_delete_this_clone">ลบโคลนนี้</string>
-    <string name="brick_assert_that">ยืนยัน</string>
-    <string name="brick_is_equal_to">เท่ากับที่คาดไว้</string>
-    <string name="brick_wait_till_idle">รอจนกระทั่งสคริปต์อื่น ๆ หยุดทำงาน</string>
-    <string name="brick_tap_at">"แตะครั้งเดียวที่"</string>
-    <string name="brick_touch_at">"Touch at"</string>
-    <string name="brick_tap_for">"สำหรับ"</string>
-    <string name="brick_touch_slide">"แตะและเลื่อน"</string>
-    <string name="brick_touch_from_x">"จาก x:"</string>
-    <string name="brick_finish_stage">เสร็จสิ้นขั้นตอน</string>
-    <string name="brick_finish_tests">เสร็จสิ้นการทดสอบ</string>
-    <string name="brick_assert_lists">ยืนยันรายการ</string>
-    <string name="brick_assert_actual">จริง:</string>
-    <string name="brick_assert_expected">คาดว่าจะ:</string>
-    <string name="brick_parameterized_assert">ยืนยัน</string>
-    <string name="brick_parameterized_equals">เท่ากับรายการที่คาดหวังของ</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">เมื่อเริ่มต้นเป็นโคลน</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">ลบโคลนนี้</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">ยืนยัน</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">เท่ากับที่คาดไว้</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">รอจนกระทั่งสคริปต์อื่น ๆ หยุดทำงาน</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"แตะครั้งเดียวที่"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"สำหรับ"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"แตะและเลื่อน"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"จาก x:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">เสร็จสิ้นขั้นตอน</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">เสร็จสิ้นการทดสอบ</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">ยืนยันรายการ</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">จริง:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">คาดว่าจะ:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">ยืนยัน</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">เท่ากับรายการที่คาดหวังของ</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="other">สำหรับแต่ละรายการของ</item>
     </plurals>
@@ -958,48 +964,48 @@ A-8010 กราซ, ออสเตรีย \n
         <item quantity="other">ครั้ง</item>
     </plurals>
     <string name="brick_loop_end">จุดสิ้นสุดของลูป</string>
-    <string name="brick_if_begin">ถ้า</string>
-    <string name="brick_if_begin_second_part">เป็นจริงแล้ว</string>
-    <string name="brick_if_else">มิฉนั้น</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">ถ้า</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">เป็นจริงแล้ว</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">มิฉนั้น</string>
     <string name="brick_if_end">สิ้นสุดถ้า</string>
-    <string name="brick_set_variable">ตั้งค่าตัวแปร</string>
-    <string name="brick_change_variable">เปลี่ยนค่าตัวแปร</string>
-    <string name="brick_write_variable_on_device">เขียนตัวแปรบนอุปกรณ์</string>
-    <string name="brick_read_variable_from_device">อ่านตัวแปรจากอุปกรณ์</string>
-    <string name="brick_write_variable_to_file_top">เขียนตัวแปร</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">ตั้งค่าตัวแปร</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">เปลี่ยนค่าตัวแปร</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">เขียนตัวแปรบนอุปกรณ์</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">อ่านตัวแปรจากอุปกรณ์</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">เขียนตัวแปร</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">to file</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
     <string name="brick_write_variable_to_file_success">"เขียนข้อมูลไปยัง %1$s สำเร็จแล้ว"</string>
-    <string name="brick_read_variable_from_file_top">อ่านตัวแปร</string>
-    <string name="brick_read_variable_from_file_center">จากไฟล์</string>
-    <string name="brick_read_variable_from_file_bottom">และ</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">อ่านตัวแปร</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">จากไฟล์</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">และ</string>
     <string name="brick_read_variable_from_file_keep">เก็บไฟล์</string>
     <string name="brick_read_variable_from_file_delete">ลบไฟล์</string>
-    <string name="brick_write_list_on_device">เขียนรายการบนอุปกรณ์</string>
-    <string name="brick_read_list_from_device">อ่านรายการจากอุปกรณ์</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">เขียนรายการบนอุปกรณ์</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">อ่านรายการจากอุปกรณ์</string>
     <string name="brick_note_default_value">เพิ่มความคิดเห็นที่นี่&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">สวัสดี!</string>
     <string name="brick_broadcast_default_value">"ข้อความ 1"</string>
-    <string name="brick_add_item_to_userlist_add">เพิ่ม</string>
-    <string name="brick_add_item_to_userlist">ไปยังรายการ</string>
-    <string name="brick_clear_userlist">ลบรายการทั้งหมดจากรายการ</string>
-    <string name="brick_delete_item_from_userlist_delete">ลบข้อมูลออกจากรายการ</string>
-    <string name="brick_delete_item_from_userlist">ที่ตำแหน่ง</string>
-    <string name="brick_insert_item_into_userlist_insert_into">แทรก</string>
-    <string name="brick_insert_item_into_userlist_into_list">ลงในรายการ</string>
-    <string name="brick_insert_item_into_userlist_at_position">ที่ตำแหน่ง</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">แทนที่ข้อมูลในรายการ</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">ที่ตำแหน่ง</string>
-    <string name="brick_replace_item_in_userlist_with_value">แทนด้วย</string>
-    <string name="brick_web_request">ส่งคำขอทางเว็บไปที่</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">เพิ่ม</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">ไปยังรายการ</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">ลบรายการทั้งหมดจากรายการ</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">ลบข้อมูลออกจากรายการ</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">ที่ตำแหน่ง</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">แทรก</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">ลงในรายการ</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">ที่ตำแหน่ง</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">แทนที่ข้อมูลในรายการ</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">ที่ตำแหน่ง</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">แทนด้วย</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">ส่งคำขอทางเว็บไปที่</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">และเก็บคำตอบไว้</string>
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">และเก็บคำตอบไว้</string>
     <string name="web_request_warning_title">อนุญาตการเข้าถึงเว็บหรือไม่</string>
     <string name="web_request_warning_message">ระวังให้มากก่อนอนุญาตให้เข้าถึงตั้งแต่
          ลิงก์อาจเปิดเผยข้อมูลส่วนบุคคลของคุณ
          คุณเข้าสู่บุคคลอื่นที่เป็นอันตรายหรือสาธารณะ ดูของเรา
-         &lt;a href=%1s>wiki&lt;/a&gt; สำหรับข้อมูลเพิ่มเติมว่าทำไมสิ่งนี้ถึงได้
+         &lt;a href=%1s&gt;wiki&lt;/a&gt; สำหรับข้อมูลเพิ่มเติมว่าทำไมสิ่งนี้ถึงได้
          เป็นอันตรายอย่างยิ่ง</string>
     <string name="web_request_trust_domain_warning_title">อนุญาตการเข้าถึงเว็บเสมอหรือไม่</string>
     <string name="web_request_trust_domain_warning_message">ด้วยการอนุญาตให้เข้าถึงเสมอคุณจะ
@@ -1007,18 +1013,15 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="trusted_domains_edit_hint">หากคุณต้องการเพิกถอนการอนุญาตนี้
          ในภายหลังคุณสามารถลบรายการออกจากรายการโดเมนที่เชื่อถือได้ใน
          การตั้งค่าของแอพนี้</string>
-    <string name="brick_look_request">รับภาพจาก</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">และใช้เป็นรูปลักษณ์ปัจจุบัน</string>
-    <string name="brick_background_request_result">และใช้เป็นพื้นหลังปัจจุบัน</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">รับภาพจาก</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">และใช้เป็นรูปลักษณ์ปัจจุบัน</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">และใช้เป็นพื้นหลังปัจจุบัน</string>
     <string name="look_request_http_error_message">"รับภาพจาก%1$sข้อผิดพลาด HTTP ที่ส่งคืน%2$s"</string>
     <string name="look_request_type_error_message">"รับภาพจาก%1$s ไม่สามารถดึงรูปแบบภาพที่เป็นที่รู้จัก"</string>
-    <string name="brick_store_csv_into_userlist_store">คอลัมน์ร้านค้า</string>
-    <string name="brick_store_csv_into_userlist_of">ของ</string>
-    <string name="brick_store_csv_into_userlist_csv">ค่าที่คั่นด้วยเครื่องหมายจุลภาค</string>
-    <string name="brick_store_csv_into_userlist_into">ลงในรายการ</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">คอลัมน์ร้านค้า</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">ของ</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">ค่าที่คั่นด้วยเครื่องหมายจุลภาค</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">ลงในรายการ</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
@@ -1066,7 +1069,11 @@ A-8010 กราซ, ออสเตรีย \n
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">โครงการของฉัน</string>
+    <string name="default_variable_name">ตัวแปร</string>
     <string name="default_scene_name">ฉาก %1$d</string>
+    <string name="default_script_group_name">กลุ่มสคริปต์</string>
+    <string name="default_broadcast_message_name">ข้อความ</string>
+    <string name="default_list_name">รายการ</string>
     <string name="default_project_background_name">พื้นหลัง</string>
     <string name="default_project_cloud_name">เมฆ</string>
     <string name="default_project_cloud_sprite_name_1">เมฆ 1</string>
@@ -1161,7 +1168,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="error_project_upload">ข้อผิดพลาดเกิดขึ้นขณะอัปโหลดโปรแกรม</string>
     <string name="error_project_download">เกิดข้อผิดพลาดในขณะดาวน์โหลดโปรแกรม</string>
     <string name="error_project_already_in_queue">"โครงการ %s อยู่ในคิวแล้ว"</string>
-    <string name="error_could_not_decode_project_name_from_url">"การดาวน์โหลดของคุณไม่สามารถเริ่มต้นดูเหมือนว่ามีปัญหากับเซิร์ฟเวอร์ของเรา"</string>
+    <string name="error_could_not_decode_project_name_from_url">การดาวน์โหลดของคุณไม่สามารถเริ่มต้นดูเหมือนว่ามีปัญหากับเซิร์ฟเวอร์ของเรา</string>
     <string name="error_new_project">เกิดข้อผิดพลาดขณะสร้างโปรแกรมใหม่</string>
     <string name="error_rename_scene">เกิดข้อผิดพลาดขณะเปลี่ยนชื่อฉาก</string>
     <string name="error_load_project">เกิดข้อผิดพลาดขณะโหลดโปรแกรม</string>
@@ -1211,20 +1218,20 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="none_paired">ไม่พบอุปกรณ์ที่จับคู่ไว้</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">ตั้ง Arduino ดิจิตอลพิน</string>
-    <string name="brick_arduino_select_analog_value">ตั้ง Arduino PWM ~ pin</string>
-    <string name="brick_arduino_set_pin_value_to">กำหนดความหมาย</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">ตั้ง Arduino ดิจิตอลพิน</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">ตั้ง Arduino PWM ~ pin</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">กำหนดความหมาย</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Set Raspberry Pi pin</string>
-    <string name="brick_raspi_set_pin_value_to">กำหนดความหมาย</string>
-    <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-    <string name="brick_raspi_if_begin_second_part">เป็นจริงแล้ว</string>
-    <string name="brick_raspi_when_begin">When Raspberry Pi pin</string>
-    <string name="brick_raspi_when_equals">เปลี่ยนเป็น</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Set Raspberry Pi pin</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">กำหนดความหมาย</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">If Raspberry Pi pin</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">เป็นจริงแล้ว</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">When Raspberry Pi pin</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">เปลี่ยนเป็น</string>
     <string name="brick_raspi_pressed_text">high</string>
     <string name="brick_raspi_released_text">low</string>
-    <string name="brick_raspi_set_pwm">Set Raspberry Pi PWM pin</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Set Raspberry Pi PWM pin</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi settings</string>
@@ -1232,16 +1239,16 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">Set NXT motor</string>
-    <string name="nxt_motor_speed_to">กำหนดความหมาย</string>
-    <string name="nxt_motor_speed">speed</string>
-    <string name="nxt_brick_motor_turn_angle">Turn NXT motor</string>
-    <string name="nxt_motor_move_by">โดย</string>
-    <string name="nxt_motor_stop">Stop NXT motor</string>
-    <string name="nxt_play_tone">Play NXT tone</string>
-    <string name="nxt_tone_duration">Duration</string>
-    <string name="nxt_tone_frequency">ความถี่</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">Set NXT motor</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">กำหนดความหมาย</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">speed</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">Turn NXT motor</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">โดย</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">Stop NXT motor</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">Play NXT tone</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">Duration</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">ความถี่</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1302,15 +1309,15 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="ev3_motor_d">วัน</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">ทั้งหมด</string>
-    <string name="ev3_play_tone">เล่นเสียง EV3</string>
-    <string name="ev3_tone_duration_for">สำหรับ</string>
-    <string name="ev3_tone_volume">ระดับเสียง</string>
-    <string name="ev3_tone_percent">%</string>
-    <string name="ev3_motor_stop">หยุดมอเตอร์ EV3</string>
-    <string name="ev3_motor_move">ตั้งค่ามอเตอร์ EV3</string>
-    <string name="ev3_brick_motor_turn_angle">หมุนมอเตอร์ EV3</string>
-    <string name="ev3_motor_move_by">โดย</string>
-    <string name="ev3_set_led_status">ตั้งสถานะ LED EV3</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">เล่นเสียง EV3</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">สำหรับ</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">ระดับเสียง</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">หยุดมอเตอร์ EV3</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">ตั้งค่ามอเตอร์ EV3</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">หมุนมอเตอร์ EV3</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">โดย</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">ตั้งสถานะ LED EV3</string>
     <string name="ev3_led_status_off">ปิด</string>
     <string name="ev3_led_status_green">สีเขียว</string>
     <string name="ev3_led_status_red">สีแดง</string>
@@ -1323,76 +1330,76 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="ev3_led_status_orange_pulse">ชีพจรสีส้ม</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">บินขึ้น / ลงสู่พื้นดิน AR.Drone 2.0</string>
-    <string name="brick_drone_play_led_animation">เล่นภาพเคลื่อนไหวแฟลช AR.Drone 2.0</string>
-    <string name="brick_drone_flip">พลิก AR.Drone 2.0</string>
-    <string name="brick_drone_move_left">ย้าย AR.Drone 2.0 ไปทางซ้าย</string>
-    <string name="brick_drone_move_right">ย้าย AR.Drone 2.0 ไปทางขวา</string>
-    <string name="brick_drone_move_forward">ย้าย AR.Drone 2.0 ไปข้างหน้า</string>
-    <string name="brick_drone_move_backward">ย้าย AR.Drone 2.0 ไปข้างหลัง</string>
-    <string name="brick_drone_move_up">ย้าย AR.Drone 2.0 ขึ้นไป</string>
-    <string name="brick_drone_move_down">ย้าย AR.Drone 2.0 ลง</string>
-    <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right">เลี้ยว AR.Drone 2.0 ขวา</string>
-    <string name="brick_drone_turn_left">เลี้ยว AR.Drone 2.0 ซ้าย</string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">บินขึ้น / ลงสู่พื้นดิน AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">เล่นภาพเคลื่อนไหวแฟลช AR.Drone 2.0</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">พลิก AR.Drone 2.0</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources">ย้าย AR.Drone 2.0 ไปทางซ้าย</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">ย้าย AR.Drone 2.0 ไปทางขวา</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">ย้าย AR.Drone 2.0 ไปข้างหน้า</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">ย้าย AR.Drone 2.0 ไปข้างหลัง</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">ย้าย AR.Drone 2.0 ขึ้นไป</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">ย้าย AR.Drone 2.0 ลง</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">Emergency AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">เลี้ยว AR.Drone 2.0 ขวา</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">เลี้ยว AR.Drone 2.0 ซ้าย</string>
     <string name="brick_drone_set_config">ตั้งค่าคอนฟิก AR.Drone 2.0</string>
-    <string name="brick_drone_switch_camera">สลับกล้อง AR.Drone 2.0</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">สลับกล้อง AR.Drone 2.0</string>
     <string name="brick_drone_set_altitude">ขีด จำกัด ระดับความสูง </string>
     <string name="brick_drone_set_vertical_speed">จำกัด ความเร็วในแนวตั้ง</string>
     <string name="brick_drone_set_rotation_speed">จำกัด ความเร็วในการหมุน</string>
     <string name="brick_drone_set_tilt_limit">ขีด จำกัด การเอียง</string>
-    <string name="brick_drone_with.">แทนด้วย</string>
-    <string name="brick_drone_power">กำลัง</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">แทนด้วย</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">กำลัง</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">กระพริบสีแดงสีเขียว</string>
-    <string name="drone_animation_blinkgreen">สีเขียวกระพริบ</string>
-    <string name="drone_animation_blinkred">กะพริบไฟสีแดง</string>
-    <string name="drone_animation_blinkorange">Blink orange</string>
-    <string name="drone_animation_snakegreenred">Snake green red</string>
-    <string name="drone_animation_fire">ไฟ</string>
-    <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">สีแดง</string>
-    <string name="drone_animation_green">สีเขียว</string>
-    <string name="drone_animation_redsnake">Red snake</string>
-    <string name="drone_animation_blank">Blank</string>
-    <string name="drone_animation_rightmissile">Right missile</string>
-    <string name="drone_animation_leftmissile">Left missile</string>
-    <string name="drone_animation_doublemissile">Double missile</string>
-    <string name="drone_animation_frontleftgreenothersred">Front left green others red</string>
-    <string name="drone_animation_frontrightgreenothersred">Front right green others red</string>
-    <string name="drone_animation_rearrightgreenothersred">Rear right green others red</string>
-    <string name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
-    <string name="drone_animation_leftgreenrightred">Left green right red</string>
-    <string name="drone_animation_leftredrightgreen">Left red right green</string>
-    <string name="drone_animation_blinkstandard">กะพริบ</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">กระพริบสีแดงสีเขียว</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">สีเขียวกระพริบ</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">กะพริบไฟสีแดง</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Blink orange</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Snake green red</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">ไฟ</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">Standard</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">สีแดง</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">สีเขียว</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Red snake</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">Blank</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Right missile</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">Left missile</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">Double missile</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">Front left green others red</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">Front right green others red</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">Rear right green others red</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">Rear left green others red</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">Left green right red</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">Left red right green</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">กะพริบ</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-    <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-    <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-    <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-    <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
-    <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text">องศา</string>
-    <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">Move Jumping Sumo forward</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">Move Jumping Sumo backward</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">Animations Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">No Jumping Sumo sound</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">Jump Jumping Sumo long</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Turn Jumping Sumo left</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Turn Jumping Sumo right</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">องศา</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">เสียง</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">เสียง</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">Spin</string>
-    <string name="animation_tab">Tab</string>
-    <string name="animation_slowshake">Slowshake</string>
-    <string name="animation_metronome">Metronome</string>
-    <string name="animation_ondulation">Ondulation</string>
-    <string name="animation_spinjump">Spinjump</string>
-    <string name="animation_spiral">Spiral</string>
-    <string name="animation_slalom">Slalom</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">Spin</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">Tab</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">Slowshake</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">Metronome</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">Ondulation</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">Spinjump</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">Spiral</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">Slalom</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">ระดับเสียง</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">ระดับเสียง</string>
     <string name="sound_default">Normal</string>
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Insect</string>
@@ -1400,23 +1407,23 @@ A-8010 กราซ, ออสเตรีย \n
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">Stop Phiro motor</string>
-    <string name="brick_phiro_motor_forward_action">Move Phiro motor forward</string>
-    <string name="brick_phiro_motor_backward_action">เลื่อนมอเตอร์ Phiro ไปด้านหลัง</string>
-    <string name="phiro_motor_speed">ความเร็ว</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Stop Phiro motor</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Move Phiro motor forward</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">เลื่อนมอเตอร์ Phiro ไปด้านหลัง</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">ความเร็ว</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">ถ้า Phiro</string>
-    <string name="brick_phiro_sensor_second_part">เปิดใช้งานแล้ว</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">ถ้า Phiro</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">เปิดใช้งานแล้ว</string>
     <!-- tone -->
-    <string name="phiro_play_tone">Phiro เล่นเพลง \n</string>
-    <string name="phiro_tone_duration">ระยะเวลา</string>
-    <string name="brick_phiro_select_tone">โทน</string>
-    <string name="phiro_seconds">วินาที</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">Phiro เล่นเพลง \n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">ระยะเวลา</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">โทน</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">วินาที</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">ชุดไฟ Phiro</string>
-    <string name="phiro_rgb_led_red">สีแดง</string>
-    <string name="phiro_rgb_led_green">สีเขียว</string>
-    <string name="phiro_rgb_led_blue">สีน้ำเงิน</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">ชุดไฟ Phiro</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">สีแดง</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">สีเขียว</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">สีน้ำเงิน</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">โด่</string>
@@ -1453,9 +1460,8 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_data">ข้อมูล</string>
     <string name="formula_editor_true">จริง</string>
     <string name="formula_editor_false">เท็จ</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">ตัวแก้ไขสูตร</string>
-    <string name="formula_editor_changes_saved">บันทึกการเปลี่ยนแปลงแล้ว!</string>
     <string name="formula_editor_changes_discarded">ละทิ้งการเปลี่ยนแปลงแล้ว!</string>
     <string name="formula_editor_parse_fail">สูตรไม่ถูกต้อง!</string>
     <string name="formula_nothing_selected">กำหนดค่ารับเข้า</string>
@@ -1463,62 +1469,62 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_choose_object_variable">คุณสมบัติของวัตถุนี้</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sin</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cos</string>
     <string name="formula_editor_function_cos_parameter">(360)</string>
-    <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tan</string>
     <string name="formula_editor_function_tan_parameter">(45)</string>
-    <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">ln</string>
     <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
-    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">log</string>
     <string name="formula_editor_function_log_parameter">(10)</string>
-    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">สี</string>
-    <string name="formula_editor_function_sqrt">รากที่สอง</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">สี</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">รากที่สอง</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">สุ่มค่า</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">สุ่มค่า</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
-    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">abs</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round">ปัดเศษ</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">ปัดเศษ</string>
     <string name="formula_editor_function_round_parameter">(1.6)</string>
-    <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">mod</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
-    <string name="formula_editor_function_arcsin">arcsin</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsin</string>
     <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
-    <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccos</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctan</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctan</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">exp</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exp</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
-    <string name="formula_editor_function_power">กำลัง</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">กำลัง</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor">ชั้น</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">ชั้น</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">เพดาน</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">เพดาน</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">สูงสุดของ</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">สูงสุดของ</string>
     <string name="formula_editor_function_max_parameter">(5,4)</string>
-    <string name="formula_editor_function_min">ขั้นต่ำของ</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">ขั้นต่ำของ</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">ถ้าเป็นอย่างอื่น</string>
     <string name="formula_editor_function_if_then_else_parameter">(เท็จ, 2, 3)</string>
-    <string name="formula_editor_function_true">จริง</string>
-    <string name="formula_editor_function_false">เท็จ</string>
-    <string name="formula_editor_function_length">ความยาว</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">จริง</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">เท็จ</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">ความยาว</string>
     <string name="formula_editor_function_length_parameter">(\'สวัสดีโลก\')</string>
-    <string name="formula_editor_function_letter">ตัวอักษร</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">ตัวอักษร</string>
     <string name="formula_editor_function_letter_parameter">(1 \'สวัสดีโลก\')</string>
-    <string name="formula_editor_function_join">รวม</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">รวม</string>
     <string name="formula_editor_function_join_parameter">(\'สวัสดีชาวโลก\')</string>
     <string name="formula_editor_function_join3">เข้าร่วม</string>
     <string name="formula_editor_function_join3_parameter">(\'สวัสดี\',\' โลก\',!\')</string>
-    <string name="formula_editor_function_regex">การแสดงออกปกติ</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">การแสดงออกปกติ</string>
     <string name="formula_editor_function_regex_parameter">(\'an? ([^.] +)\', \'ฉันเป็นแพนด้า\')</string>
     <string name="formula_editor_function_regex_assistant">ปกติ
          ผู้ช่วย</string>
@@ -1527,72 +1533,75 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_dialog_wiki_button">ข้อมูลมากกว่านี้</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">ไม่พบคีย์เวิร์ด</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino ขาดิจิตอล</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino ขาอะนาล็อก</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry pi pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino ขาดิจิตอล</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino ขาอะนาล็อก</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">เวทีสัมผัส x</string>
-    <string name="formula_editor_function_finger_y">เวทีสัมผัส y</string>
-    <string name="formula_editor_function_is_finger_touching">เวทีสัมผัสแล้ว</string>
-    <string name="formula_editor_function_multi_finger_x">เวทีสัมผัส x</string>
-    <string name="formula_editor_function_multi_finger_y">เวทีสัมผัส y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">เวทีสัมผัสแล้ว</string>
-    <string name="formula_editor_function_index_of_last_finger">last stage touch index</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">เวทีสัมผัส x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">เวทีสัมผัส y</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">เวทีสัมผัสแล้ว</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">เวทีสัมผัส x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">เวทีสัมผัส y</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">เวทีสัมผัสแล้ว</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">last stage touch index</string>
     <string name="formula_editor_function_number_of_current_touches">จำนวนการสัมผัสในปัจจุบัน</string>
+    <string name="formula_editor_function_index_of_current_touch">จำนวนการสัมผัสในปัจจุบัน</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item">ชิ้น</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">ชิ้น</string>
     <string name="formula_editor_function_list_item_parameter">(1, *ชื่อรายการ*)</string>
-    <string name="formula_editor_function_contains">ประกอบด้วย</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">ประกอบด้วย</string>
     <string name="formula_editor_function_contains_parameter">(*ชื่อรายการ*,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">item\'s index</string>
     <string name="formula_editor_function_index_of_item_parameter">(1, *ชื่อรายการ*)</string>
-    <string name="formula_editor_function_number_of_items">จำนวนรายการ</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">จำนวนรายการ</string>
     <string name="formula_editor_function_number_of_items_parameter">(*ชื่อรายการ*)</string>
     <string name="formula_editor_function_collision">touches actor or object</string>
-    <string name="formula_editor_function_collides_with_edge">touches edge</string>
-    <string name="formula_editor_function_touched">touches finger</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
     <string name="formula_editor_function_collides_with_color">สัมผัสสี</string>
     <string name="formula_editor_function_color_touches_color">สีสัมผัสสี</string>
     <string name="formula_editor_sensor_color_at_x_y">สีที่ x y</string>
-    <string name="formula_editor_sensor_x_acceleration">ความเร่ง_x</string>
-    <string name="formula_editor_sensor_y_acceleration">ความเร่ง_y</string>
-    <string name="formula_editor_sensor_z_acceleration">ความเร่ง_z</string>
-    <string name="formula_editor_sensor_compass_direction">ทิศทาง_เข็มทิศ</string>
-    <string name="formula_editor_sensor_latitude">latitude</string>
-    <string name="formula_editor_sensor_longitude">longitude</string>
-    <string name="formula_editor_sensor_location_accuracy">location accuracy</string>
-    <string name="formula_editor_sensor_altitude">altitude</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">สีเท่ากับสีด้วย%
+         ความอดทน</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">ความเร่ง_x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">ความเร่ง_y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">ความเร่ง_z</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">ทิศทาง_เข็มทิศ</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitude</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">longitude</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">location accuracy</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">altitude</string>
     <string name="formula_editor_sensor_user_language">ภาษาของผู้ใช้</string>
-    <string name="formula_editor_sensor_x_inclination">ความลาดเอียง_x</string>
-    <string name="formula_editor_sensor_y_inclination">ความลาดเอียง_y</string>
-    <string name="formula_editor_sensor_loudness">ระดับความดัง</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">ความลาดเอียง_x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">ความลาดเอียง_y</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">ระดับความดัง</string>
     <string name="formula_editor_sensor_timer">จับเวลา</string>
-    <string name="formula_editor_sensor_date_year">year</string>
-    <string name="formula_editor_sensor_date_month">month</string>
-    <string name="formula_editor_sensor_date_day">day</string>
-    <string name="formula_editor_sensor_date_weekday">weekday</string>
-    <string name="formula_editor_sensor_time_hour">hour</string>
-    <string name="formula_editor_sensor_time_minute">minute</string>
-    <string name="formula_editor_sensor_time_second">second</string>
-    <string name="formula_editor_sensor_drone_battery_status">drone battery status</string>
-    <string name="formula_editor_sensor_drone_emergency_state">drone emergency state</string>
-    <string name="formula_editor_sensor_drone_flying">drone flying</string>
-    <string name="formula_editor_sensor_drone_initialized">drone initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone usb active</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">drone usb remaining time</string>
-    <string name="formula_editor_sensor_drone_camera_ready">drone camera ready</string>
-    <string name="formula_editor_sensor_drone_record_ready">drone record ready</string>
-    <string name="formula_editor_sensor_drone_recording">drone camera recording</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone camera number of frames</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT sensor 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT sensor 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT sensor 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT sensor 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3 sensor 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3 sensor 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3 sensor 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3 sensor 4</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">year</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">month</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">day</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">weekday</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">hour</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">minute</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">second</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">drone battery status</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">drone emergency state</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">drone flying</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">drone initialized</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">drone usb active</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">drone usb remaining time</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">drone camera ready</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">drone record ready</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">drone camera recording</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">drone camera number of frames</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT sensor 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT sensor 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT sensor 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT sensor 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 sensor 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 sensor 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 sensor 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 sensor 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT touch</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT sound</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT light</string>
@@ -1610,35 +1619,35 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">แสง EV3 NXT เปิดใช้งาน</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">เสียง EV3 NXT</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">อัลตราโซนิก EV3 NXT</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad A ที่ถูกกด</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad B ที่ถูกกด</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad บน ที่ถูกกด</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad ลง ที่ถูกกด</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">กดซ้ายค้างไว้</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">กดขวาค้างไว้</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro เซ็นเซอร์ด้านหน้าซ้าย</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro เซ็นเซอร์ด้านหน้าขวา</string>
-    <string name="formula_editor_phiro_sensor_side_left">phiro เซ็นเซอร์ด้านซ้าย</string>
-    <string name="formula_editor_phiro_sensor_side_right">phiro เซ็นเซอร์ด้านขวา</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">phiro เซ็นเซอร์ซ้ายล่าง</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">phiro เซ็นเซอร์ขวาล่าง</string>
-    <string name="formula_editor_nfc_tag_id">รหัสแท็ก nfc</string>
-    <string name="formula_editor_nfc_tag_message">ข้อความแท็ก nfc</string>
-    <string name="formula_editor_object_x">ตำแหน่ง_x</string>
-    <string name="formula_editor_object_y">ตำแหน่ง_y</string>
-    <string name="formula_editor_object_transparency">ความโปร่งใส</string>
-    <string name="formula_editor_object_brightness">ความสว่าง</string>
-    <string name="formula_editor_object_size">ขนาด</string>
-    <string name="formula_editor_object_rotation">ทิศทาง</string>
-    <string name="formula_editor_object_layer">ชั้น</string>
-    <string name="formula_editor_object_x_velocity">ความเร็ว x</string>
-    <string name="formula_editor_object_y_velocity">ความเร็ว y</string>
-    <string name="formula_editor_object_angular_velocity">ความเร็วเชิงมุม</string>
-    <string name="formula_editor_object_look_number">ดูหมายเลข</string>
-    <string name="formula_editor_object_look_name">ดูชื่อ</string>
-    <string name="formula_editor_object_background_number">หมายเลขพื้นหลัง</string>
-    <string name="formula_editor_object_background_name">ชื่อพื้นหลัง</string>
-    <string name="formula_editor_object_distance_to">ระยะทางไปยังตำแหน่งที่สัมผัส</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad A ที่ถูกกด</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad B ที่ถูกกด</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad บน ที่ถูกกด</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">gamepad ลง ที่ถูกกด</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">กดซ้ายค้างไว้</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">กดขวาค้างไว้</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro เซ็นเซอร์ด้านหน้าซ้าย</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro เซ็นเซอร์ด้านหน้าขวา</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro เซ็นเซอร์ด้านซ้าย</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro เซ็นเซอร์ด้านขวา</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro เซ็นเซอร์ซ้ายล่าง</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro เซ็นเซอร์ขวาล่าง</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">รหัสแท็ก nfc</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">ข้อความแท็ก nfc</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">ตำแหน่ง_x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">ตำแหน่ง_y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">ความโปร่งใส</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">ความสว่าง</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">ขนาด</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">ทิศทาง</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">ชั้น</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">ความเร็ว x</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">ความเร็ว y</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">ความเร็วเชิงมุม</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">ดูหมายเลข</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">ดูชื่อ</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">หมายเลขพื้นหลัง</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">ชื่อพื้นหลัง</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">ระยะทางไปยังตำแหน่งที่สัมผัส</string>
     <string name="formula_editor_compute">คำนวณ</string>
     <string name="formula_editor_object">วัตถุ</string>
     <string name="formula_editor_functions">ฟังก์ชัน</string>
@@ -1650,7 +1659,7 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_functions_lists">รายการ</string>
     <string name="formula_editor_logic_boolean">ตัวดำเนินการเชิงตรรกะ (บูลีน) และค่าคงที่</string>
     <string name="formula_editor_logic_comparison">ผู้ประกอบการเปรียบเทียบ</string>
-    <string name="formula_editor_object_general">คุณสมบัติทั่วไป</string>
+    <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">คุณสมบัติเคลื่อนที่</string>
     <string name="formula_editor_device_visual_detection">เซ็นเซอร์ภาพ</string>
     <string name="formula_editor_device_date_and_time">วันและเวลา</string>
@@ -1664,21 +1673,23 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">และ</string>
-    <string name="formula_editor_logic_or">หรือ</string>
-    <string name="formula_editor_logic_not">ไม่</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">และ</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">หรือ</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">ไม่</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">ลบ</string>
+    <string name="formula_editor_image_button_description_color_picker">ตัวเลือกสี</string>
+    <string name="formula_editor_image_button_description_functions_toggle">ฟังก์ชันสลับ</string>
     <string name="formula_editor_variable_dialog_title">สร้างตัวแปรใหม่</string>
     <string name="formula_editor_list_dialog_title">สร้างรายการใหม่</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">ตัวแยก HTML</string>
@@ -1690,15 +1701,22 @@ A-8010 กราซ, ออสเตรีย \n
          นิพจน์</string>
     <string name="formula_editor_fragment_data_current_items">รายการปัจจุบัน</string>
     <string name="formula_editor_data_dialog_is_list">ทำให้เป็นรายการ</string>
-    <string name="formula_editor_sensor_face_detected">พบใบหน้า</string>
-    <string name="formula_editor_sensor_face_size">ขนาดใบหน้า</string>
-    <string name="formula_editor_sensor_face_x_position">ตำแหน่งใบหน้าแกน_x</string>
-    <string name="formula_editor_sensor_face_y_position">ตำแหน่งใบหน้าแกน_y</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">พบใบหน้า</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">ขนาดใบหน้า</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">ตำแหน่งใบหน้าแกน_x</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">ตำแหน่งใบหน้าแกน_y</string>
+    <string name="formula_editor_sensor_second_face_detected">ใบหน้าที่สองสามารถมองเห็นได้</string>
+    <string name="formula_editor_sensor_second_face_size">ขนาดใบหน้าที่สอง</string>
+    <string name="formula_editor_sensor_second_face_x_position">ใบหน้าที่สอง x ตำแหน่ง</string>
+    <string name="formula_editor_sensor_second_face_y_position">ใบหน้าที่สอง y ตำแหน่ง</string>
     <string name="formula_editor_sensor_text_from_camera">ข้อความจากกล้อง</string>
     <string name="formula_editor_sensor_text_blocks_number">จำนวนบล็อกข้อความ</string>
     <string name="formula_editor_function_text_block_x">บล็อกข้อความ x จากกล้อง</string>
     <string name="formula_editor_function_text_block_y">บล็อกข้อความ y จากกล้อง</string>
     <string name="formula_editor_function_text_block_size">ขนาดบล็อกข้อความจากกล้อง</string>
+    <string name="formula_editor_function_text_block_from_camera">บล็อกข้อความจากกล้อง</string>
+    <string name="formula_editor_function_text_block_language_from_camera">ภาษาบล็อกข้อความจากกล้อง</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">ตัวแก้ไขสูตร</string>
     <string name="formula_editor_intro_summary_formula_editor">ด้วยตัวแก้ไขสูตรคุณสามารถสร้างสูตรทางคณิตศาสตร์และตรรกะที่คุณสามารถใช้ในคำสั่งของคุณ \n\n คุณสามารถดำเนินการผ่านบทนำเล็กน้อยนี้ได้โดยแตะปุ่ม \"ถัดไป\" ที่มุมล่างขวาและคุณสามารถข้ามได้โดยคลิกที่  ปุ่ม \"ข้าม\" ที่มุมล่างซ้าย</string>
     <string name="formula_editor_intro_title_input_field">ช่องป้อนข้อมูล</string>
@@ -1730,27 +1748,29 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="formula_editor_speech_recognition">การเรียนรู้จดจำเสียง</string>
     <string name="camera_error_text_detection">        มีปัญหากับการตรวจจับข้อความ ส่วนประกอบบางอย่างอาจยังดาวน์โหลดอยู่ในไฟล์
          พื้นหลัง. โปรดตรวจสอบว่าคุณเชื่อมต่ออินเทอร์เน็ตแล้วและกลับมาตรวจสอบในภายหลัง</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(*ชื่อรายการ*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">Show variable</string>
-    <string name="brick_hide_variable">Hide variable</string>
-    <string name="brick_show_variable_position">at</string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
-    <string name="brick_show_variable_aligned_left">left</string>
-    <string name="brick_show_variable_aligned_right">right</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">Show variable</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
     <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">เลือกบันทึก</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">Turn camera</string>
-    <string name="video_brick_camera_on">เปิด</string>
-    <string name="video_brick_camera_off">ปิด</string>
-    <string name="brick_choose_camera">Use camera</string>
-    <string name="choose_camera_front">front</string>
-    <string name="choose_camera_back">rear</string>
+    <string name="brick_video" tools:ignore="UnusedResources">Turn camera</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">เปิด</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">ปิด</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">Use camera</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">front</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">rear</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1780,7 +1800,6 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="deletion_alert_title">ลบ?</string>
     <string name="deletion_alert_text">การลบตัวแปรหรือรายการที่ยังคงใช้งานอยู่อาจทำให้เกิด
          ข้อผิดพลาด คุณไม่สามารถเลิกทำได้!</string>
-    <string name="deletion_alert_yes">Yes, delete anyway!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
         can use and download it. You can also download your project as a standalone app.</string>
@@ -1805,5 +1824,11 @@ A-8010 กราซ, ออสเตรีย \n
     <string name="device_language">ภาษาของอุปกรณ์ของคุณ</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">㎐</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="no_internet_connection">ไม่มีการเชื่อมต่ออินเทอร์เน็ต. ตรวจสอบว่า Wi-Fi หรือเน็ตมือถือปิดอยู่</string>
+    <string name="edit">แก้ไข</string>
+    <string name="data_value">ค่า</string>
+    <string name="category_recently_used">ใช้ล่าสุด</string>
+    <!-- Information -->
+    <string name="no_variable_selected">ไม่ได้เลือกตัวแปร</string>
 </resources>

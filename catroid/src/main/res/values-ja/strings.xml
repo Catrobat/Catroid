@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,34 +21,34 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">ステージ</string>
     <string name="play">プレイ</string>
     <string name="settings">設定</string>
-    <string name="redo">リドゥー</string>
-    <string name="undo">取り消す</string>
+    <string name="redo" tools:ignore="UnusedResources">リドゥー</string>
+    <string name="undo" tools:ignore="UnusedResources">取り消す</string>
     <string name="new_option">新しい&#8230;</string>
+    <string name="edit_option">編集&#8230;</string>
     <string name="confirm">確認</string>
-    <string name="ignore">Ignore</string>
+    <string name="ignore">無視</string>
     <string name="cancel">キャンセル</string>
     <string name="save">保存</string>
+    <string name="discard">破棄</string>
     <string name="next">次へ</string>
-    <string name="back">戻る</string>
     <string name="ok">わかりました</string>
     <string name="done">完了</string>
-    <string name="close">閉じる</string>
-    <string name="assistant">Assistant</string>
+    <string name="close" tools:ignore="UnusedResources">閉じる</string>
+    <string name="assistant">アシスタント</string>
     <string name="yes">はい</string>
     <string name="no">いいえ</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="disagree">同意しない</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
+    <string name="once">一度だけ</string>
+    <string name="always">常に表示</string>
+    <string name="deny">拒否</string>
+    <string name="accept">同意する</string>
+    <string name="decline">同意しない</string>
     <string name="select_all">すべて選択</string>
-    <string name="deselect_all">Deselect all</string>
+    <string name="deselect_all">すべての選択を解除</string>
     <string name="skip">スキップ</string>
     <string name="warning">警告</string>
     <string name="error">エラー</string>
@@ -58,31 +58,38 @@
     <string name="backpack_add">バックパックに追加</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string name="security_warning_dialog_msg">あなたがダウンロードしたプロジェクトは、バックグラウンドであなたの声を聴き
+        バックグラウンドであなたの声を聞き、またデータをインターネットに送信します。これは無害かもしれませんし
+        意図した動作のためには必要なことかもしれません。しかし、プロジェクトの実行中にあなたが話していることが安全であることを確認してください。
+        プロジェクトが実行されている間のあなたの発言が安全であることを確認してください。疑わしい場合には、ダウンロードしたプロジェクトを削除してください。
+        また、このプロジェクトが有害であることが確実な場合には、Catrobat コミュニティ・プラットフォームのプロジェクト・ページで報告することもできます。
+        有害であると確信している場合は、Catrobat コミュニティ・プラットフォームのプロジェクト・ページで報告することもできます。</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">変更せずにアップロード</string>
+    <string name="api_replacement_dialog_accept">アップロードにキーを置き換えました</string>
+    <string name="api_replacement_dialog_warning">プロジェクトにはウェブにアクセスするブリックが含まれています。
+        プロジェクトには、ウェブにアクセスするブリックが含まれており、API キーも含まれているようです。これらのキーのアップロードが危険な理由については、%1s を参照してください。
+        キーのアップロードは危険です。</string>
+    <string name="api_replacement">ここにAPIキーを挿入する</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="delete_account">アカウントを削除</string>
+    <string name="loading_check_oauth_token">ログインデータを確認中&#8230;</string>
+    <string name="loading_google_exchange_code">Googleログインデータを交換しています&#8230;</string>
+    <string name="loading_google_login">サーバーでのGoogleログインが完了しました&#8230;</string>
     <string name="logout_successful">ログアウトしました</string>
-    <string name="degrees">度</string>
-    <string name="background">背景</string>
+    <string name="degrees" tools:ignore="UnusedResources">度</string>
+    <string name="background" tools:ignore="UnusedResources">背景</string>
     <string name="landscape">ランドスケープ (横長モード)</string>
     <string name="portrait">ポートレート (縦長モード)</string>
     <string name="unknown">不明</string>
     <string name="disconnect">切断</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">プロジェクトを続ける</string>
+    <string name="main_menu_new">新規プロジェクト</string>
     <string name="main_menu_programs">プログラム</string>
-    <string name="main_menu_help">ヘルプ</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">ヘルプ</string>
+    <string name="main_menu_web">Catrobat コミュニティ</string>
     <string name="main_menu_upload">プログラムをアップロード</string>
     <string name="main_menu_rate_app">アプリを評価して！</string>
     <string name="main_menu_terms_of_use">利用とサービスの規約</string>
@@ -91,134 +98,134 @@
     <string name="main_menu_login">ログイン</string>
     <string name="main_menu_logout">ログアウト</string>
     <string name="main_menu_scratch_converter">スクラッチ コンバーター</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_play_store_not_installed">App store が見つかりません</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">作成</string>
     <string name="marketing_app_details">このアプリの詳細について</string>
     <string name="marketing_more_on_google_play">Google Play でより多くのアプリ</string>
     <!-- NFC activity -->
-    <string name="nfc_activity_title">NFC tags</string>
+    <string name="nfc_activity_title">NFC タグ</string>
     <!-- Settings activity -->
     <string name="preference_title">設定</string>
     <string name="preference_title_language">言語</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="preference_description_language">アプリの言語を設定する</string>
+    <string name="preference_title_web_access">Webアクセス</string>
+    <string name="preference_description_web_access">信頼できるドメインを追加または削除するには編集</string>
+    <string name="preference_screen_web_access_title">信頼できるドメインを編集</string>
+    <string name="preference_title_accessibility">アクセシビリティ</string>
+    <string name="preference_description_accessibility">アプリの外観を変更する</string>
+    <string name="preference_title_accessibility_profiles">ユーザー補助プロファイル</string>
+    <string name="preference_title_accessibility_profile">定義済みプロファイル</string>
+    <string name="preference_title_accessibility_profile_headline">プロフィール</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">定義済みプロファイル</string>
+    <string name="preference_description_accessibility_profiles">定義済みのアクセシビリティプロファイルを選択します</string>
+    <string name="preference_title_accessibility_text_appearance">テキストの外観</string>
+    <string name="preference_title_accessibility_handling">取扱い方法</string>
+    <string name="preference_title_accessibility_category_icons_big">大きなアイコン</string>
+    <string name="preference_description_accessibility_category_icons_big">アイコンのサイズを大きくします。</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">ハイコントラストアイコン</string>
+    <string name="preference_title_accessibility_Brick_icons">アイコン</string>
+    <string name="preference_title_accessibility_category_icons">アイコンを表示</string>
+    <string name="preference_description_accessibility_category_icons">カテゴリとブロックにアイコンを追加します。</string>
+    <string name="preference_title_accessibility_high_contrast">ハイコントラスト</string>
+    <string name="preference_description_accessibility_high_contrast">テキストのコントラストを増やします。</string>
+    <string name="preference_description_accessibility_large_text">テキストのサイズを大きくします。</string>
+    <string name="preference_title_accessibility_large_text">大きなテキスト</string>
+    <string name="preference_title_accessibility_element_spacing">大きな要素の間隔</string>
+    <string name="preference_description_accessibility_element_spacing">リストの要素間隔を大きくします。</string>
+    <string name="preference_title_accessibility_dragndrop_delay">ドラッグ＆ドロップの遅延</string>
+    <string name="preference_description_accessibility_dragndrop_delay">ブロックのドラッグ＆ドロップの遅延。</string>
+    <string name="preference_title_accessibility_beginner_bricks">初心者モード</string>
+    <string name="preference_description_accessibility_beginner_bricks">単純な機能のみを表示します。</string>
+    <string name="preference_title_accessibility_font_style">テキストの種類を選択</string>
+    <string name="accessibility_font_regular">標準</string>
     <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
-    <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-    <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
-    <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="accessibility_font_dyslexic">ディスレクシック</string>
+    <string name="accessibility_settings_applied">適用された変更</string>
+    <string name="preference_access_title_profile_default">デフォルト</string>
+    <string name="preference_access_summary_profile_default">デフォルトの設定</string>
+    <string name="preference_access_title_profile_custom">自分のカスタム プロファイル</string>
+    <string name="preference_access_summary_profile_custom">個人設定</string>
+    <string name="preference_access_title_profile_argus">アーガス</string>
+    <string name="preference_access_summary_profile_argus">高コントラスト、追加アイコン</string>
+    <string name="preference_access_title_profile_odin">オーディン</string>
+    <string name="preference_access_summary_profile_odin">大きなテキスト、大きなアイコン、大きな要素
+       間隔、高コントラスト。</string>
+    <string name="preference_access_title_profile_fenrir">フェンリル</string>
+    <string name="preference_access_summary_profile_fenrir">大きな要素間隔、ドラッグ＆ドロップ
+       の遅延</string>
+    <string name="preference_access_title_profile_tiro">ティロ</string>
+    <string name="preference_access_summary_profile_tiro">初心者モード</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 ブロック</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
+    <string name="preference_description_quadcopter_bricks">クアッドコプター「Parrot AR.Drone 2.0」をアプリで操作可能にする</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">パロット・ジャンピング・スモウ・エクステンション</string>
+    <string name="preference_description_jumpingsumo_bricks">パロット社のロボット「ジャンピングスーモ」をアプリで操作できるようにする</string>
     <string name="preference_title_enable_mindstorms_nxt_bricks">レゴ マインドストーム NXT ブロック</string>
     <string name="preference_title_enable_mindstorms_ev3_bricks">レゴ マインドストーム EV3 ブロック</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
+    <string name="preference_description_mindstorms_nxt_bricks">アプリがレゴマインドストームNXTロボットを制御できるようにします</string>
+    <string name="preference_description_mindstorms_ev3_bricks">アプリがレゴマインドストームEV3ロボットを制御できるようにする</string>
     <string name="preference_title_mindstorms_nxt_sensors">レゴ NXT センサー</string>
     <string name="preference_title_mindstorms_ev3_sensors">レゴ EV3 センサー</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
+    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0の構成</string>
     <string name="preference_title_enable_phiro_bricks">Phiro ブロック</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
+    <string name="preference_description_phiro_bricks">RobotixEduのPhiro ロボットの制御をアプリに許可する</string>
     <string name="preference_title_enable_arduino_bricks">Arduino ブロック</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
+    <string name="preference_description_arduino_bricks">Arduinoボードの制御をアプリに許可する</string>
+    <string name="preference_title_enable_embroidery_bricks">刺繍拡張</string>
+    <string name="preference_description_embroidery_bricks">ステッチマシンのパターンを作成</string>
     <string name="preference_title_cast_feature_globally_enabled">キャスト機能を有効にする</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
+    <string name="preference_description_cast_feature_globally_enabled">キャストボタンを表示し、キャストプロジェクトを有効にする</string>
     <string name="preference_title_enable_nfc_bricks">近距離無線通信 (NFC)</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
+    <string name="preference_description_nfc_bricks">アプリがプロジェクトで NFC タグを使用することを許可します</string>
     <string name="preference_title_enable_crash_reports">匿名のクラッシュ レポートを送信</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_description_crash_reports">アプリがクラッシュレポートを自動的に送信できるようにします</string>
     <!-- -->
     <string name="preference_title_enable_raspi_bricks">Raspberry Pi ブロック</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
+    <string name="preference_description_raspi_bricks">Raspberry Pi コンピューターの制御をアプリに許可する</string>
     <string name="preference_raspi_enable_bricks">Raspberry Pi ブロックを有効にする</string>
     <string name="preference_raspi_help">ヘルプ / はじめに</string>
     <string name="preference_raspi_help_summary">接続を設定する方法についてヘルプを表示します</string>
     <string name="preference_raspi_host">Raspberry Pi IP/ホスト アドレス</string>
     <string name="preference_raspi_port">Raspberry Pi ポート</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">マルチプレイエクステンション</string>
+    <string name="preference_description_multiplayer_variables_enabled">Bluetooth経由で共有される
+        マルチプレイヤー変数の使用をアプリに許可する</string>
+    <string name="preference_title_enable_test_bricks">拡張機能のテスト</string>
+    <string name="preference_description_test_bricks">テストの作成を許可</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
+    <string name="error_scratch_program_not_accessible_any_more">おっと！プロジェクトが消えたようです。
+        もしくはアクセスできなくなった可能性があります。</string>
+    <string name="error_scratch_project_data_not_available">おっと！プロジェクトの一部が
+        欠落しているようです。後でもう一度お試しください。</string>
+    <string name="error_request_timeout">おっと！サーバーが時間内に応答しませんでした。後でもう一度お試しください。</string>
     <string name="error_scratch_program_conversion_failed">スクラッチ プログラムの変換に失敗しました。もう一度やり直してください!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">%1$s への変換に失敗しました。後でもう一度やり直してください!</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
+    <string name="error_scratch_converter_outdated_app_version">このアプリのバージョンが古くなっています。私たちのスクラッチ
+        コンバータは最新バージョンのみ動作します。アプリをアップデートしてください。</string>
     <string name="error_cannot_open_not_existing_scratch_program">このスクラッチ プログラムを開くことができません。スクラッチ プログラムの変換/ダウンロードをキャンセルしたか、プログラムの名前を変更/削除した可能性があります!</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">プロジェクトをまだ開くことができません。
+        ダウンロードが完了するまでお待ちください。</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">プロジェクトをまだ開くことができません。
+        先にダウンロードしてから開いてください。</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$sを変換できませんでした。これは
+ %2$s前の古いスクラッチプロジェクトのようです。別のものを試してください。</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="other">同時に %d 件以上のプロジェクトを変換することはできません。
+            最初に変換が完了するまでお待ちください。</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">正しく変換されていないため、
+        プロジェクトを開くことができません。もう一度変換してみてください。</string>
+    <string name="search_failed">何も見つかりませんでした。後で再試行してください。</string>
+    <string name="connection_lost_or_closed_by_server">サーバーの接続が切断されました。</string>
+    <string name="connection_failed">現在サーバーに接続できません。後でもう一度お試しください。</string>
+    <string name="authentication_failed">サービスへの接続に問題があるようです。
+        Catrobat チームに連絡してください。</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="other">キューに %d Scratch プロジェクトを追加しました&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">スクラッチ プログラムの変換を開始しました&#8230;</string>
     <string name="convert">変換</string>
@@ -228,20 +235,20 @@
     <string name="status_started">開始しました&#8230;</string>
     <string name="status_conversion_finished">変換が終了しました</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="other">進行中: %d ジョブ</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="other">完了: %d ジョブ</item>
     </plurals>
     <string name="status_conversion_failed">変換に失敗しました!</string>
     <string name="status_downloading">ダウンロード中&#8230;</string>
     <string name="status_download_finished">ダウンロードが完了しました!</string>
     <string name="status_download_canceled">ダウンロードをキャンセルしました!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
+    <string name="scratch_programs_in_progress_title">進行中</string>
+    <string name="scratch_programs_finished_title">変換済みプロジェクト</string>
     <string name="by_x">%1$s によって</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
+    <string name="warning_program_visibility">警告:\nこれはプライベートプロジェクトのようです。
+        変換しても動作しない可能性があります。</string>
     <string name="instructions">説明</string>
     <string name="notes_and_credits">ノートとクレジット</string>
     <string name="shared_at_x">共有: %1$s</string>
@@ -253,99 +260,102 @@
     <string name="mode">モード:</string>
     <string name="remix_of">リミックス:</string>
     <string name="description_hint">押すと説明を追加します</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="notes_and_credits_hint">クリックしてメモとクレジットを追加します</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">%1$s 前にこのプロジェクトを変換しました。</string>
     <plurals name="minutes">
-        <item quantity="other">%d minutes</item>
+        <item quantity="other">%d 分</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d hours</item>
+        <item quantity="other">%d 時間</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">%d days</item>
+        <item quantity="other">%d 日</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">プロジェクトを再度ダウンロード</string>
+    <string name="reconvert_dialog_reconvert">このプロジェクトを再度変換する</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
-    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="declined_terms_of_use_and_service_alert">アプリをご利用いただくには、利用規約とサービスに同意する必要があります。
+        ただし、快適でない場合は、無料のウェブサービスをご利用いただけます</string>
+    <string name="wtf_error">予期しないエラーが発生しました: サンプルプロジェクトを復元できませんでした。</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">プロジェクトのコピー中にエラーが発生しました</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">この名前は既に使用されています。別の名前を選択してください。</string>
+    <string name="name_consists_of_spaces_only">テキストフィールドにはスペースのみを入れています。
+        文字、数字またはその他の特殊文字を使用してテキストを入力してください。</string>
+    <string name="name_empty">テキストを入力してください</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
-    <string name="am_backpack">Pack</string>
+    <string name="am_empty_list">このリストにはまだアイテムがありません。最初にいくつか追加してください。</string>
+    <string name="am_merge_error">マージが行われていません。まさに2つのプロジェクトをマージするには選択する必要があります。</string>
+    <string name="am_backpack">パック</string>
     <string name="am_unpack">解凍</string>
     <string name="am_copy">コピー</string>
-    <string name="am_delete">削除</string>
+    <string name="am_delete" tools:ignore="UnusedResources">削除</string>
     <string name="am_rename">名前の変更</string>
     <string name="am_convert">変換</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_merge">結合</string>
+    <string name="dialog_confirm_delete">これを元に戻すことはできません！</string>
+    <string name="list_headline_sprites">アクターとオブジェクト</string>
     <!-- Options Menu Options -->
     <string name="backpack">バックパック</string>
     <string name="copy">コピー</string>
     <string name="delete">削除</string>
     <string name="rename">名前の変更</string>
-    <string name="merge">Merge</string>
+    <string name="merge">結合</string>
     <string name="show_details">詳細を表示</string>
     <string name="hide_details">詳細を隠す</string>
+    <string name="project_options">プロジェクトオプション</string>
+    <string name="sort_projects">並べ替え</string>
+    <string name="unsort_projects">並べ替えを解除</string>
     <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">New scene</string>
+    <string name="new_scene_dialog">新しいシーン</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="other">Delete these projects?</item>
+        <item quantity="other">これらのプロジェクトを削除しますか？</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="other">Delete these scenes?</item>
+        <item quantity="other">これらのシーンを削除しますか？</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="other">Delete these actors or objects?</item>
+        <item quantity="other">これらのアクターやオブジェクトを削除しますか？</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="other">これらの外見を削除しますか？</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="other">これらのサウンドを削除しますか？</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="other">Delete these tags?</item>
+        <item quantity="other">これらのタグを削除しますか？</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="other">これらのスクリプトを削除しますか？</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
-    <string name="scene_name_label">Scene name</string>
-    <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
+    <string name="project_name_label">プロジェクト名</string>
+    <string name="scene_name_label">シーン名</string>
+    <string name="sprite_name_label">アクターまたはオブジェクト名</string>
+    <string name="sprite_group_name_label">グループ名</string>
+    <string name="script_group_label">スクリプトグループ名</string>
+    <string name="look_name_label">ルック名</string>
+    <string name="sound_name_label">サウンド名</string>
+    <string name="nfc_tag_name_label">NFC タグ名</string>
     <string name="string_label">テキスト</string>
-    <string name="data_label">Name</string>
-    <string name="keyword_label">Insert keyword</string>
-    <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="data_label">名前</string>
+    <string name="keyword_label">キーワードの挿入</string>
+    <string name="html_label">HTML テキストを挿入</string>
+    <string name="Image_format_not_supported">画像形式はサポートされていません</string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">最終アクセス: %s, サイズ: %s</string>
+    <string name="last_access_today">今日 %s</string>
+    <string name="scene_details">アクターとオブジェクト: %d、ルック: %d、サウンド: %d</string>
+    <string name="sprite_details">ブロック: %d, 外見: %d, 音: %d</string>
+    <string name="look_details">解像度: %s, サイズ: %s</string>
+    <string name="sound_duration">期間: %s</string>
+    <string name="sound_details">期間: %s, サイズ: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
     <string name="rename_project">プログラム名を変更</string>
@@ -357,79 +367,80 @@
     <string name="rename_data_dialog">名前の変更</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">新しいグループ</string>
+    <string name="default_group_name">グループ</string>
     <!-- New Scene Menu -->
-    <string name="new_scene">New scene</string>
+    <string name="new_scene">新しいシーン</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="other">%d シーンをバックパック。</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="other">%d 人のアクターまたはオブジェクトをバックパックしました。</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="other">%d の外見をバックパックしました。</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="other">%d のサウンドをバックパックしました。</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">一つのスクリプトグループをバックパックしました。</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="other">%d シーンを解凍しました。</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="other">%d 人のアクターまたはオブジェクトを解凍します。</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="other">%d ルックを解凍しました。</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="other">%d サウンドを解凍しました。</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="other">%d 個のスクリプトを解凍しました。</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="other">%d シーンをコピーしました。</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="other">%d 人のアクターまたはオブジェクトをコピーしました。</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="other">%d ルックをコピーしました。</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="other">%d のサウンドをコピーしました。</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="other">%d NFC タグをコピーしました。</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="other">%d 件のプロジェクトを削除しました。</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="other">%d シーンを削除しました。</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="other">%d 個のスプライトを削除しました。</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="other">%d ルックを削除しました。</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="other">%d のサウンドを削除しました。</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="other">%d NFC タグを削除しました。</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="other">%d 個のスクリプトを削除しました。</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="other">%d アイテムを削除しました。</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -438,18 +449,25 @@
     <string name="size">プログラムのサイズ：</string>
     <string name="description">デスクリプション：</string>
     <string name="set_description">説明を設定する</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="notes_and_credits_title">ノートとクレジット:</string>
+    <string name="set_notes_and_credits">メモとクレジットを設定</string>
     <string name="details_date_today">今日</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="import_project">プロジェクトをインポート</string>
+    <string name="error_import_project">プロジェクトのインポート中に問題が発生しました。</string>
+    <string name="error_no_files_found">プロジェクトファイルが見つかりません。</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">説明</string>
+    <string name="project_options_notes_and_credits">Credits</string>
+    <string name="project_options_tags">タグ</string>
+    <string name="project_options_aspect_ratio">元のアスペクト比を維持する</string>
+    <string name="project_options_more_details">詳細情報</string>
+    <string name="project_options_delete_project">プロジェクトを削除</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">スクリプトを追加するために「+」をタップしてください</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">「+」をタップすると、アクターやオブジェクトを追加できます</string>
+    <string name="default_sprite_name">私のアクターまたはオブジェクト</string>
     <!--  -->
     <!-- LookListFragment -->
     <string name="fragment_look_text_description">外見を追加するに「+」をタップしてください</string>
@@ -461,9 +479,9 @@
     <string name="sound_select_source">サウンドを選択</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
-    <string name="ndef_record_label">as record type</string>
-    <string name="brick_set_nfc_tag">次の NFC タグを設定</string>
+    <string name="fragment_nfctag_text_description">NFC タグをスキャンして追加</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">レコードタイプ</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">次の NFC タグを設定</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">nfc_tag</string>
     <string name="tnf_empty">空</string>
@@ -476,30 +494,31 @@
     <string name="tnf_well_known_mailto">メール</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
+    <string name="multiplayer_vars_headline">接続されたデバイスの変数</string>
+    <string name="global_vars_headline">すべてのアクターとオブジェクトの変数</string>
+    <string name="local_vars_headline">このアクターまたはオブジェクトのみの変数</string>
+    <string name="global_lists_headline">すべてのアクターとオブジェクトのリスト</string>
+    <string name="local_lists_headline">このアクターまたはオブジェクトのみのリスト</string>
+    <string name="fragment_data_text_description">「+」をタップして\n変数やリストを追加します</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="other">Inputs for this brick</item>
+        <item quantity="other">このブロックの入力</item>
     </plurals>
     <!-- NewDataDialog -->
-    <string name="new_data_for_all_sprites">For all actors, objects, and clones in all scenes</string>
-    <string name="new_data_for_this_sprite_only">For this actor, object, or one of its clones only</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_all_sprites">すべてのシーンのすべての俳優、オブジェクト、およびクローンに対して</string>
+    <string name="new_data_for_this_sprite_only">このアクター、オブジェクト、またはそのクローンのうちの1つのみ</string>
+    <string name="new_data_for_connected_devices">接続されたマルチプレイヤーデバイス上のプロジェクト
+        のすべてのシーンにあるすべてのアクター、オブジェクト、およびクローンに対して。</string>
     <!-- Backpack -->
     <string name="backpack_title">あなたのバックパック</string>
-    <string name="pack">Pack</string>
+    <string name="pack">パック</string>
     <string name="unpack">解凍</string>
     <!--  -->
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_example_project">Example project</string>
+    <string name="new_project_dialog_example_project">プロジェクトの例</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">マージされたプロジェクト</string>
+    <string name="merging_project_text">これらの2つのプロジェクトはまだ統合できません</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">新しいオブジェクトの名前</string>
@@ -517,129 +536,65 @@
     <string name="add_sound_choose_file">ファイルを選択</string>
     <string name="add_sound_music">音楽の作曲</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Note Picker</string>
+    <string name="note_picker_title">ノートピッカー</string>
     <!--  -->
     <!-- Rating Dialog -->
-    <string name="rating_dialog_title">Rate App</string>
-    <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
+    <string name="rating_dialog_title">アプリを評価</string>
+    <string name="rating_google_play_dialog_text">このアプリを気に入っていただけた方は、App Storeで評価してください。</string>
     <string name="rating_dialog_rate_now">今すぐ</string>
     <string name="rating_dialog_rate_later">後で</string>
     <string name="rating_dialog_rate_never">しない</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">利用とサービスの規約</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_info">以下の条件を満たすために
+        Catrobatプロジェクトが提供するアプリやその他のサービスをご利用いただくためには
+        利用規約とサービスに同意する必要があります。アプリやその他のサービスを利用する際には、これらの規約に厳密に従う必要があります。
+        遵守していただく必要があります。具体的には以下のリンクを参照してください。</string>
     <string name="dialog_terms_of_use_link_text">利用とサービスの規約</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">ポケットコード利用とサービスの規約</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">Parrot の
+        AR.Drone 2.0 と一緒にこのアプリを使用しようとしています。 オウムとCatrobatの利用規約とサービスの両方を遵守することを強くお知らせします。</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">今後表示しない。</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">このアプリと一緒に使おうとしているのは
+        Parrot\'s Jumping Sumo」です。オウムのジャンピング相撲」のご利用にあたっては、「オウムのジャンピング相撲」と「Catrobatのジャンピング相撲」の両方の利用規約とサービス内容を遵守していただくようお願いいたします。
+        サービスを提供しています。</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">プライバシーポリシー</string>
-    <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
-    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
-    <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
-        it is necessary to collect certain data from you.\n\n
-
-        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
-            as well as Dynatrace by Dynatrace LLC (USA) to get
-            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
-            usage of our apps and services, used operating system, and information about the network provider. This
-            analysis and the collected data is not linked to your profile and does not contain any personal
-            information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
-            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
-            This relationship to the service provider conforms to the European Union\'s General Data
-            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
-        • To create and use an account in our systems, and to inform you about necessary changes about your
-            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
-            our policies, we will store your username and, if provided by you, your e-mail address. If you have
-            connected your account via your Google or Facebook account, we additionally store an identification key connected
-            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
-            unless you explicitly allowed us to do so.\n\n
-        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-            site. This will get displayed on your public profile and only be used for statistical and research
-            purposes by us. It can be removed at any time in your profile settings.\n\n
-        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at. After deleting your account you will still
-            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
-            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
-            comments, etc., will be deleted.\n\n
-        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
-            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
-            together with a timestamp and the used internet address. This data will not be used by or forwarded to
-            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
-            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
-            individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
-            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
-            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
-            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
-            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
-            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
-            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
-        • All Services are provided by the free open source Catrobat project under the umbrella of the
-            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
-            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
-            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
-                c/o\n
-                Institute of Software Technology,\n
-                Graz University of Technology,\n
-                Inffeldgasse 16b,\n
-                A-8010 Graz, Austria\n
-                (European Union).\n\n
-        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
-
-        Catrobat\'s official English language privacy policy is available on the web under
-        https://catrob.at/privacypolicy.\n\n
-
-        Version 2.2, 17 October 2019\n\n
-
-        Find the previous, outdated, version of our privacy policy (2.0) here:
-        http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
-    </string>
+    <string name="disclaimer_privacy_police_header_headline">ようこそ！</string>
+    <string name="disclaimer_privacy_policy_header">このアプリを使用するには、次のことを承認してください</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">このアプリについて</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
+    <string name="dialog_about_license_info">このアプリは、ビジュアルプログラミング言語「Catrobat」のコーディング環境とインタープリターを提供します。
+        ビジュアルプログラミング言語「Catrobat」のコーディング環境とインタプリタを提供します。
+        このアプリのソースコードは、主にGNU AGPL v3ライセンスで提供されています。
+        ライセンスの詳細については、以下のリンクを参照してください。</string>
     <string name="dialog_about_license_link_text">ソースコード ライセンス</string>
     <string name="dialog_about_catrobat_link_text">キャトロバットについて</string>
+    <string name="dialog_about_catrobat_language_version">キャットロバットの言語バージョン</string>
+    <string name="dialog_about_version">バージョン:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">ネットワーク接続がありません</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">アップロード</string>
     <string name="upload_project_dialog_title">プログラムをアップロード</string>
     <string name="upload_description">デスクリプション：</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
-    <string name="upload_tag_dialog_title">Please choose up to three categories</string>
+    <string name="upload_notes_and_credits">ノートとクレジット:</string>
+    <string name="upload_notes_and_credits_explanation">どのようにしてこのプロジェクトを作ったのですか? アイデア、スクリプト、または他の人々のアートワークを使ったのですか?</string>
+    <string name="upload_tag_dialog_title">最大3つのカテゴリを選択してください</string>
+    <string name="upload_tags_maximum_error">3つ以上のタグは選択できません。</string>
     <!-- Save Project to External Storage -->
-    <string name="save_to_external_storage_button">Save project to external storage</string>
+    <string name="save_to_external_storage_button">プロジェクトを外部ストレージに保存</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
-    <string name="notification_save_project_to_external_storage_pending">Saving project to external storage.</string>
+    <string name="notification_save_project_to_external_storage_pending">プロジェクトを外部ストレージに保存しています。</string>
     <string name="notification_save_project_to_external_storage_title_open">" "</string>
-    <string name="notification_save_project_to_external_storage_open">"Saved project to %1$s"</string>
-    <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
+    <string name="notification_save_project_to_external_storage_open">"プロジェクトを %1$s に保存しました"</string>
+    <string name="save_project_to_external_storage_io_exception_message">プロジェクトの保存に失敗しました。メモリが不足しています。</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
     <string name="soundrecorder_name">ポケットコードのサウンドレコーダー</string>
@@ -648,38 +603,39 @@
     <string name="soundrecorder_text_view">録音を開始しとか停止に、上記のアイコンを押します。</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Move brick</string>
-    <string name="brick_context_dialog_move_script">Move script</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick">Delete brick</string>
-    <string name="brick_context_dialog_copy_brick">Copy brick</string>
-    <string name="brick_context_dialog_copy_script">Copy script</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
-    <string name="brick_context_dialog_delete_script">Delete script</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
-    <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
-    <string name="brick_context_dialog_comment_in_script">Enable script</string>
-    <string name="brick_context_dialog_comment_out_script">Disable script</string>
+    <string name="brick_context_dialog_move_brick">ブロックを移動</string>
+    <string name="brick_context_dialog_move_script">スクリプトを移動</string>
+    <string name="brick_context_dialog_move_definition">この定義を移動</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">ブロックを削除</string>
+    <string name="brick_context_dialog_copy_brick">ブロックをコピー</string>
+    <string name="brick_context_dialog_copy_script">スクリプトをコピー</string>
+    <string name="brick_context_dialog_formula_edit_brick">数式を編集</string>
+    <string name="brick_context_dialog_delete_script">スクリプトを削除</string>
+    <string name="brick_context_dialog_delete_definition">この定義を削除</string>
+    <string name="brick_context_dialog_comment_in">ブロックを有効にする</string>
+    <string name="brick_context_dialog_comment_out">ブロックを無効にする</string>
+    <string name="brick_context_dialog_highlight_brick_parts">レンガ部品を強調表示する</string>
+    <string name="brick_context_dialog_comment_in_script">スクリプトの有効化</string>
+    <string name="brick_context_dialog_comment_out_script">スクリプトを無効にする</string>
     <string name="brick_context_dialog_help">ヘルプ</string>
     <string name="comment_in_out">無効/有効にする</string>
-    <string name="catblocks">Toggle 2D</string>
-    <string name="catblocks_reorder">Clean up scripts</string>
+    <string name="catblocks">2Dの切り替え</string>
+    <string name="catblocks_reorder">スクリプトをクリーンアップする</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D表示</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">再生シーン:</string>
     <string name="play_scene_dialog_default">最初のシーン (%1$s)</string>
-    <string name="play_scene_dialog_current">Current scene (%1$s)</string>
+    <string name="play_scene_dialog_current">現在のシーン (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">サインイン</string>
     <string name="username">ユーザー名</string>
     <string name="password">パスワード</string>
-    <string name="password_forgotten">Forgot your password?</string>
+    <string name="reset_password">パスワードのリセット</string>
     <string name="new_user_registered">新しいアカウントを作成</string>
-    <string name="user_logged_in">Login successful</string>
-    <string name="register_error">Login invalid</string>
+    <string name="user_logged_in">ログイン成功</string>
+    <string name="register_error">ログインが無効です</string>
     <string name="register_terms">登録により、同意します。</string>
     <string name="register_code_terms_of_use_text">利用とサービスの規約</string>
     <string name="login">ログイン</string>
@@ -688,62 +644,62 @@
     <string name="accountName">メール</string>
     <string name="signin_thanks">登録ありがとうございます!</string>
     <string name="signin_choose_username">ユーザー名を選択してください:</string>
-    <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
-    <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
+    <string name="signin_choose_username_empty">ユーザー名を入力してください。</string>
+    <string name="signin_choose_username_hint">ユーザー名は本名であっても、メールアドレスであっても構いません。</string>
+    <string name="oauth_username_taken">他の誰かが既にこの名前を使用しています。別の名前を選択してください！</string>
     <string name="show_password">パスワードを表示</string>
-    <string name="sign_in_error">Something went wrong during sign in.</string>
-    <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
-    <string name="error_register_empty_username">Empty username</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
-    <string name="error_register_invalid_username">Username should only contain letters (a–z), numbers (0–9),
-        dashes (-), underscores (_), and periods (.).</string>
-    <string name="error_register_username_start_with">Username should not start with dashes (-), underscores (_), or
-        periods (.).</string>
-    <string name="error_register_invalid_email_format">Invalid email format</string>
-    <string name="error_register_empty_password">Password field is empty</string>
-    <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
+    <string name="sign_in_error">サインイン中に問題が発生しました。</string>
+    <string name="error_google_plus_sign_in">Googleのサインインエラーです。状態: %s</string>
+    <string name="error_session_expired">セッションの期限が切れました。ログインしてください。</string>
+    <string name="error_register_empty_username">ユーザー名が空です</string>
+    <string name="error_register_username_as_email">メールアドレスはユーザー名として使用できません</string>
+    <string name="error_register_invalid_username">ユーザー名には、英数字(a–z)、数字(0–9)、
+        ダッシュ(-)、アンダースコア(_)、ピリオド(.)のみを含める必要があります。</string>
+    <string name="error_register_username_start_with">ユーザー名は、ダッシュ(-)、アンダースコア(_)、または
+        ピリオド(.)で始まるべきではありません。</string>
+    <string name="error_register_invalid_email_format">無効なメールフォーマット</string>
+    <string name="error_register_empty_password">パスワードフィールドが空です</string>
+    <string name="error_register_password_at_least_6_characters">パスワードは6文字以上でなければなりません</string>
     <string name="error_register_passwords_mismatch">パスワードが一致しません</string>
-    <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
-    <string name="error_register_username_already_exists">Username already exists</string>
-    <string name="error_register_email_exists">Email address already exists</string>
+    <string name="error_register_empty_confirm_password">パスワード入力欄が入力されていません</string>
+    <string name="error_register_username_already_exists">ユーザー名は既に存在します</string>
+    <string name="error_register_email_exists">メールアドレスは既に存在します</string>
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
-    <string name="overwrite_title">Project exists.</string>
-    <string name="overwrite_text">A project with this name already exists.</string>
-    <string name="overwrite_replace">Overwrite project</string>
+    <string name="overwrite_title">プロジェクトは存在します。</string>
+    <string name="overwrite_text">この名前のプロジェクトは既に存在します。</string>
+    <string name="overwrite_replace">プロジェクトを上書き</string>
     <string name="overwrite_rename">ダウンロードしたプログラムの名前を変更</string>
     <!--  -->
     <!-- Music activity -->
-    <string name="pocket_music_default_project_name">Untitled song</string>
-    <string name="pocket_music_default_track_name">Track 1</string>
+    <string name="pocket_music_default_project_name">無題の曲</string>
+    <string name="pocket_music_default_track_name">トラック 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
     <string name="prestage_text_to_speech_engine_not_installed">音声合成エンジンがインストールされていません!\n今すぐインストールしますか?</string>
     <string name="prestage_resource_not_available_title">コンポーネントは使用できません</string>
-    <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
-        The following components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
-        are the one connected to the drone.</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_resource_not_available_text">申し訳ありませんが、このプロジェクトはお使いのデバイスでは動作しません。
+        次のコンポーネントは使用できません:\n\n</string>
+    <string name="prestage_resource_in_use_text">ジャンプ相撲に別のデバイスが接続されています。
+        がドローンに接続されていることを確認してください。</string>
+    <string name="prestage_no_vibration_available">\u2022 バイブレーション\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度センサー\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 傾斜センサー\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 コンパス\n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 音声合成エンジン\n</string>
-    <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
-    <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_back_camera_available">\u2022 背面カメラ\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 顔検出\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 テキスト検出\n</string>
+    <string name="prestage_no_jumping_sumo_available">\u2022 ジャンプ相撲\n</string>
+    <string name="prestage_no_front_camera_available">\u2022 フロントカメラ\n</string>
+    <string name="prestage_no_camera_available">\u2022 カメラ\n</string>
+    <string name="prestage_no_flash_available">\u2022 懐中電灯\n</string>
     <string name="prestage_default_resource_not_available">\u2022 不明なコンポーネント\n</string>
     <string name="no_nfc_available">NFC は利用できません</string>
-    <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
-    <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
-        issues.</string>
+    <string name="nfc_not_activated">NFCを有効にして戻るを押してアプリに戻ってください。</string>
+    <string name="nfc_facedetection_support">NFCと顔検出を同時に使用すると、パフォーマンスの問題が発生する可能性があります
+。</string>
     <!--  -->
     <!-- Stage menu dialog -->
     <string name="stage_dialog_back">戻る</string>
@@ -753,389 +709,393 @@
     <string name="stage_dialog_axes_off">軸オフ</string>
     <string name="stage_dialog_maximize">最大化/\n拡大解釈</string>
     <string name="stage_dialog_screenshot">プレビュー</string>
-    <string name="stage_dialog_embroidery">Embroidery</string>
+    <string name="stage_dialog_embroidery">刺繍（刺繍）</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">新しいメッセージ</string>
-    <string name="dialog_new_broadcast_message_name">メッセージ：</string>
+    <string name="dialog_broadcast_message_name">メッセージ:</string>
+    <string name="dialog_edit_broadcast_message_title">メッセージの編集</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">NFC タグのリストを編集</string>
     <string name="brick_when_nfc_default_all">すべて</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">範囲</string>
-    <string name="category_embroidery">Embroidery</string>
-    <string name="category_motion">動き</string>
-    <string name="category_looks">外見</string>
-    <string name="category_pen">ペン</string>
-    <string name="category_sound">音</string>
-    <string name="category_control">制御</string>
-    <string name="category_event">イベント</string>
-    <string name="category_user_bricks">Your bricks</string>
-    <string name="category_data">データ</string>
-    <string name="category_device">Device</string>
-    <string name="category_lego_nxt">レゴマインドストームNXT</string>
-    <string name="category_lego_ev3">レゴ EV3</string>
-    <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">Arduino</string>
-    <string name="category_cast">キャスト</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Testing</string>
+    <string name="categories" tools:ignore="UnusedResources">範囲</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">刺繍（刺繍）</string>
+    <string name="category_motion" tools:ignore="UnusedResources">動き</string>
+    <string name="category_looks" tools:ignore="UnusedResources">外見</string>
+    <string name="category_pen" tools:ignore="UnusedResources">ペン</string>
+    <string name="category_sound" tools:ignore="UnusedResources">音</string>
+    <string name="category_control" tools:ignore="UnusedResources">制御</string>
+    <string name="category_event" tools:ignore="UnusedResources">イベント</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">あなたのブロック</string>
+    <string name="category_data" tools:ignore="UnusedResources">データ</string>
+    <string name="category_device" tools:ignore="UnusedResources">デバイス</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">レゴマインドストームNXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">レゴ EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">ジャンピングスーモ</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
+    <string name="category_cast" tools:ignore="UnusedResources">キャスト</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">テスト</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_user_defined_add_label">ラベルを追加</string>
+    <string name="brick_user_defined_add_input">入力の追加</string>
+    <string name="brick_user_defined_add_input_description">このブロックの入力を追加:</string>
+    <string name="brick_user_defined_add_label_description">このブロックのラベルを追加:</string>
+    <string name="brick_user_defined_default_input_name">入力の名前</string>
+    <string name="brick_user_defined_default_label">ラベルテキスト</string>
+    <string name="brick_user_defined_already_exists">これらのラベルを持つブロックは既に存在します。ラベルまたは入力を追加してください。</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">定義</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">として</string>
+    <string name="brick_user_defined_list_empty">\"+\" をタップすると、新しいブロックを追加できます。</string>
+    <string name="brick_report" tools:ignore="UnusedResources">不適切として報告する</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"配置："</string>
-    <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"X:"</string>
-    <string name="y_label">"Y:"</string>
-    <string name="brick_set_x">"Xを設定:"</string>
-    <string name="brick_set_y">"Yを設定:"</string>
-    <string name="brick_change_x_by">"Xを現在値から変更: "</string>
-    <string name="brick_change_y_by">"Yを現在値から変更: "</string>
-    <string name="brick_go_back">戻って：</string>
-    <string name="brick_set_rotation_style">"回転のスタイルを設定 "</string>
-    <string name="brick_set_rotation_style_lr">左右のみ</string>
-    <string name="brick_set_rotation_style_normal">万能</string>
-    <string name="brick_set_rotation_style_no">回転しない</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"配置："</string>
+    <string name="brick_option_place_visually">視覚的に配置</string>
+    <string name="x_label" tools:ignore="UnusedResources">"X:"</string>
+    <string name="y_label" tools:ignore="UnusedResources">"Y:"</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"Xを設定:"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"Yを設定:"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Xを現在値から変更: "</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Yを現在値から変更: "</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">戻って：</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"回転のスタイルを設定 "</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">左右のみ</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">万能</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">回転しない</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="other">レイヤー</item>
     </plurals>
-    <string name="brick_come_to_front">前に出す</string>
-    <string name="brick_if_on_edge_bounce">端に当たったら、跳ね返る</string>
-    <string name="brick_move">移動</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">前に出す</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">端に当たったら、跳ね返る</string>
+    <string name="brick_move" tools:ignore="UnusedResources">移動</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="other">ステップ</item>
     </plurals>
-    <string name="brick_turn_left">左方向：</string>
-    <string name="brick_turn_right">右方向：</string>
-    <string name="brick_point_in_direction">方向（左右上下）：</string>
-    <string name="brick_point_to">方向（オブジェクト）：</string>
-    <string name="brick_glide">滑る：</string>
-    <string name="brick_glide_to_x">x：</string>
-    <string name="brick_go_to">移動</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">左方向：</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">右方向：</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">方向（左右上下）：</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">方向（オブジェクト）：</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">滑る：</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">x：</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">移動</string>
     <string name="brick_go_to_touch_position">タッチ位置</string>
     <string name="brick_go_to_random_position">ランダムな位置</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">動きの種類を設定</string>
-    <string name="brick_set_physics_object_type_dynamic">重力で跳ね返り</string>
-    <string name="brick_set_physics_object_type_fixed">その他の跳ね返り</string>
-    <string name="brick_set_physics_object_type_no">跳ね返りなし</string>
-    <string name="brick_set_mass">"質量を設定 "</string>
-    <string name="brick_set_mass_unit">キログラム</string>
-    <string name="brick_set_gravity_to">"すべてのオブジェクトに重力を設定 "</string>
-    <string name="brick_set_gravity_unit">ステップ/秒²</string>
-    <string name="brick_set_velocity_to">"速度を設定 "</string>
-    <string name="brick_set_velocity_unit">ステップ/秒</string>
-    <string name="brick_turn_speed_unit">度/秒</string>
-    <string name="brick_set_friction">"摩擦を設定 "</string>
-    <string name="brick_set_bounce_factor">"跳ね返り率を設定 "</string>
-    <string name="brick_rotate_left">"左に回転 "</string>
-    <string name="brick_rotate_right">"右に回転 "</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">動きの種類を設定</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">重力で跳ね返り</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">その他の跳ね返り</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">跳ね返りなし</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"質量を設定 "</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">キログラム</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"すべてのオブジェクトに重力を設定 "</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">ステップ/秒²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"速度を設定 "</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">ステップ/秒</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">度/秒</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"摩擦を設定 "</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"跳ね返り率を設定 "</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"左に回転 "</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"右に回転 "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">外見に切り替える：</string>
-    <string name="brick_set_look_by_index">番号で外見に切り替え</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">外見に切り替える：</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">番号で外見に切り替え</string>
     <string name="brick_and_wait">待つ</string>
-    <string name="brick_set_background">背景を設定する</string>
-    <string name="brick_set_background_and_wait">Set background and wait</string>
-    <string name="brick_set_background_by_index">番号に背景を設定</string>
-    <string name="brick_when_background">背景を変更した場合</string>
-    <string name="brick_set_size_to">サイズ：</string>
-    <string name="brick_change_size_by">サイズを変更：</string>
-    <string name="brick_hide">隠す</string>
-    <string name="brick_show">表示する</string>
-    <string name="brick_set_transparency">"透明度の設定 "</string>
-    <string name="brick_change_ghost_effect">"透明度を変更："</string>
-    <string name="brick_set_brightness">"明るさ："</string>
-    <string name="brick_change_brightness">"明るさの変更："</string>
-    <string name="brick_set_color">"色の設定 "</string>
-    <string name="brick_change_color">"色の変更 "</string>
-    <string name="by_label">によって</string>
-    <string name="to_label">先</string>
-    <string name="brick_clear_graphic_effect">画像効果をなくす</string>
-    <string name="brick_next_look">次の外見</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">背景を設定する</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">背景を設定して待つ</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">番号に背景を設定</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">背景を変更した場合</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">サイズ：</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">サイズを変更：</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">隠す</string>
+    <string name="brick_show" tools:ignore="UnusedResources">表示する</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"透明度の設定 "</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"透明度を変更："</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"明るさ："</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"明るさの変更："</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"色の設定 "</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"色の変更 "</string>
+    <string name="by_label" tools:ignore="UnusedResources">によって</string>
+    <string name="to_label" tools:ignore="UnusedResources">先</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">画像効果をなくす</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">次の外見</string>
     <string name="brick_next_background">次の背景</string>
-    <string name="brick_previous_look">前の外見</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">前の外見</string>
     <string name="brick_previous_background">前の背景</string>
-    <string name="brick_delete_look">Delete look</string>
-    <string name="brick_delete_background">Delete background</string>
-    <string name="brick_flash">フラッシュライトのスイッチ</string>
-    <string name="brick_flash_on">オン</string>
-    <string name="brick_flash_off">オフ</string>
-    <string name="brick_vibration">振動する</string>
-    <string name="brick_ask_label">質問</string>
-    <string name="brick_ask_store">して答えを保存</string>
-    <string name="brick_ask_default_question">What\'s your name?</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">外見を編集</string>
+    <string name="brick_edit_background">背景を編集</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">外見を削除</string>
+    <string name="brick_delete_background">背景を削除</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">フラッシュライトのスイッチ</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">オン</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">オフ</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">振動する</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">質問</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">して答えを保存</string>
+    <string name="brick_ask_default_question">あなたのお名前は？</string>
     <string name="brick_ask_dialog_hint">"答えを入力:"</string>
     <string name="brick_ask_dialog_submit">答えを送信</string>
-    <string name="brick_ask_speech_label">質問</string>
-    <string name="brick_ask_speech_store">音声応答を保存し</string>
-    <string name="brick_ask_speech_default_question">What\'s your name?</string>
-    <string name="brick_paint_new_look">Paint new look</string>
-    <string name="brick_paint_new_background">Paint new background</string>
-    <string name="brick_paint_new_look_name">"name of new look"</string>
-    <string name="brick_copy_look">Copy look and name it</string>
-    <string name="brick_copy_look_name">name of copied look</string>
-    <string name="brick_copy_background">Copy background and name it</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">質問</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">音声応答を保存し</string>
+    <string name="brick_ask_speech_default_question">あなたのお名前は？</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">新しい外観をペイントする</string>
+    <string name="brick_paint_new_background">新しい背景をペイントする</string>
+    <string name="brick_paint_new_look_name">"新しい外見の名前"</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">外見をコピーして名前を付けます</string>
+    <string name="brick_copy_look_name">コピーされた外見の名前</string>
+    <string name="brick_copy_background">背景をコピーして名前を付けます</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">ペンを下す</string>
-    <string name="brick_pen_up">ペンを上げる</string>
-    <string name="brick_pen_size">ペンのサイズを設定</string>
-    <string name="brick_pen_color">ペンの色を設定</string>
-    <string name="brick_clear_background">クリア</string>
-    <string name="brick_stamp">スタンプ</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">ペンを下す</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">ペンを上げる</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">ペンのサイズを設定</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">ペンの色を設定</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">クリア</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">スタンプ</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">サウンドの再生</string>
-    <string name="brick_play_sound_and_wait">サウンドを開始して待つ</string>
-    <string name="brick_stop_sound">Stop sound</string>
-    <string name="brick_stop_all_sounds">すべてのサウンドを停止</string>
-    <string name="brick_set_volume_to">音量：</string>
-    <string name="brick_change_volume_by">音量を変更して：</string>
-    <string name="brick_speak">話す：</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">サウンドの再生</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">サウンドを開始して待つ</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">サウンドを停止</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">すべてのサウンドを停止</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">音量：</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">音量を変更して：</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">話す：</string>
     <string name="brick_speak_default_value">こんにちは！</string>
-    <string name="brick_speak_and_wait">待つ</string>
-    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
-    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
-    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
-    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">Set listening language to</string>
-    <string name="set_instrument_to">Set instrument to</string>
-    <string name="set_tempo_to">Set tempo to</string>
-    <string name="change_tempo_by">Change tempo by</string>
-    <string name="pause_for">Pause for</string>
-    <string name="play_drum">Play drum</string>
-    <string name="beats">beats</string>
-    <string name="play_note">Play note</string>
-    <string name="for_string">次の</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">待つ</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">音声を聴き始め、話された単語を保存する</string>
+    <string name="speech_recognition_not_available">音声認識は利用できません。</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">オフラインデータがありません</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">オフライン音声認識
+    for %s が不足しているか、更新する必要があります。今すぐダウンロードまたはアップデートしますか？</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">リスニング言語の設定</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">楽器の設定</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">テンポを設定</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">テンポを変更</string>
+    <string name="pause_for" tools:ignore="UnusedResources">一時停止</string>
+    <string name="play_drum" tools:ignore="UnusedResources">ドラムを再生</string>
+    <string name="beats" tools:ignore="UnusedResources">ビーツ</string>
+    <string name="play_note" tools:ignore="UnusedResources">ノートを再生</string>
+    <string name="for_string" tools:ignore="UnusedResources">次の</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">Stitch</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
-    <string name="brick_write_embroidery">Write embroidery data to file</string>
-    <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">Sew up</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">ステッチ</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">長さのステッチを開始する</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">ジグザグステッチを長さで開始</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">と幅</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">トリプルステッチを長さで開始</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">現在のステッチを停止</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">刺繍データをファイルに書く</string>
+    <string name="brick_default_embroidery_file">刺繍.dst</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">縫製する</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">Reset timer</string>
-    <string name="brick_open">開く </string>
-    <string name="brick_in_browser">in browser</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">リセットタイマー</string>
+    <string name="brick_open" tools:ignore="UnusedResources">開く </string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">ブラウザで</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">プログラムがはじまると</string>
-    <string name="brick_when">オブジェクトがタップされている</string>
-    <string name="brick_when_condition_when">場合</string>
-    <string name="brick_when_becomes_true">真になる</string>
-    <string name="brick_wait"></string>
-    <string name="brick_wait_until">次まで待つ</string>
-    <string name="brick_wait_until_second_part">が真</string>
-    <string name="brick_when_gamepad_button">ゲームパッドボタンのとき</string>
-    <string name="brick_when_gamepad_button_tapped">タップした</string>
-    <string name="brick_when_nfc">場合 NFC が</string>
-    <string name="brick_stop_script">スクリプトを停止</string>
-    <string name="brick_stop_this_script">このスクリプトを停止</string>
-    <string name="brick_stop_all_scripts">すべてのスクリプトを停止</string>
-    <string name="brick_stop_other_scripts">このオブジェクトの他のスクリプトを停止</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">プログラムがはじまると</string>
+    <string name="brick_when" tools:ignore="UnusedResources">オブジェクトがタップされている</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">場合</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">真になる</string>
+    <string name="brick_wait" tools:ignore="UnusedResources"></string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">次まで待つ</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">が真</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">ゲームパッドボタンのとき</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">タップした</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">場合 NFC が</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">スクリプトを停止</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">このスクリプトを停止</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">すべてのスクリプトを停止</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">このオブジェクトの他のスクリプトを停止</string>
     <plurals name="second_plural">
         <item quantity="other">"秒待つ"</item>
     </plurals>
-    <string name="brick_collision_receive">物理的に衝突したとき</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">物理的に衝突したとき</string>
     <string name="collision_with_anything">何でも</string>
-    <string name="brick_broadcast_receive">受け取ったとき</string>
-    <string name="brick_broadcast">次のメッセージを送る：</string>
-    <string name="brick_broadcast_wait">次のメッセージを送り、待つ：</string>
-    <string name="brick_scene_transition">シーンを続ける</string>
-    <string name="brick_scene_start">シーンを開始</string>
-    <string name="brick_note">注意</string>
-    <string name="brick_think_bubble">考える</string>
-    <string name="brick_say_bubble">言う</string>
-    <string name="brick_think_say_for_text">次の</string>
-    <string name="brick_forever">ずっと</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
-    <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">先</string>
-    <string name="brick_repeat">繰り返し：</string>
-    <string name="brick_repeat_until">次まで繰り返し</string>
-    <string name="brick_when_touched">画面にタッチした時</string>
-    <string name="brick_clone">複製を作成</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">受け取ったとき</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">次のメッセージを送る：</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">次のメッセージを送り、待つ：</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">シーンを続ける</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">シーンを開始</string>
+    <string name="brick_note" tools:ignore="UnusedResources">注意</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">考える</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">言う</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">次の</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">ずっと</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">からの値については</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">各値から</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">で</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">先</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">繰り返し：</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">次まで繰り返し</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">画面にタッチした時</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">複製を作成</string>
     <string name="brick_clone_this">自分自身</string>
-    <string name="brick_when_cloned">自分が複製として起動したとき</string>
-    <string name="brick_delete_this_clone">この複製を削除</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at">"Single tap at"</string>
-    <string name="brick_touch_at">"Touch at"</string>
-    <string name="brick_tap_for">"次の"</string>
-    <string name="brick_touch_slide">"Touch and slide"</string>
-    <string name="brick_touch_from_x">"from x:"</string>
-    <string name="brick_finish_stage">Finish stage</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">自分が複製として起動したとき</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">この複製を削除</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">アサート</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">イコール期待値</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">他のすべてのスクリプトが停止するまで待つ</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"シングルタップ"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"タップする"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"次の"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"タッチアンドスライド"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"xから:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">ステージを終了する</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">テストを終了する</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">アサートリスト</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">実際:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">期待値:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">アサート</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">次の期待されるアイテムに等しい：</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="other">アイテムのタプル毎に</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="other">同じ名前の変数に保存されています</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="other">%d lists selected</item>
+        <item quantity="other">%d リストを選択しました</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="other">回</item>
     </plurals>
     <string name="brick_loop_end">ループの終わり</string>
-    <string name="brick_if_begin">もし</string>
-    <string name="brick_if_begin_second_part">は本当だったら</string>
-    <string name="brick_if_else">そうではなかったら、</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">もし</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">は本当だったら</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">そうではなかったら、</string>
     <string name="brick_if_end">「もし」の終わり</string>
-    <string name="brick_set_variable">変数を設定：</string>
-    <string name="brick_change_variable">変数の変更：</string>
-    <string name="brick_write_variable_on_device">Write variable on device</string>
-    <string name="brick_read_variable_from_device">Read variable from device</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
-    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">AND</string>
-    <string name="brick_read_variable_from_file_keep">keep the file</string>
-    <string name="brick_read_variable_from_file_delete">delete the file</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">変数を設定：</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">変数の変更：</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">変数をデバイスに書き込み</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">デバイスから変数を読み込みます</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">変数の書き込み</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">ファイルに</string>
+    <string name="brick_write_variable_to_file_default_value">変数.txt</string>
+    <string name="brick_write_variable_to_file_success">"データを %1$s に書き込みました"</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">変数の読み取り</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">ファイルから</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">AND</string>
+    <string name="brick_read_variable_from_file_keep">ファイルを保持する</string>
+    <string name="brick_read_variable_from_file_delete">ファイルを削除する</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">デバイスにリストを書く</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">デバイスからリストを読み込む</string>
     <string name="brick_note_default_value">ここにコメントを追加。</string>
     <string name="brick_think_bubble_default_value">うーむ!</string>
     <string name="brick_say_bubble_default_value">こんにちは！</string>
     <string name="brick_broadcast_default_value">"メッセージ 1"</string>
-    <string name="brick_add_item_to_userlist_add">追加</string>
-    <string name="brick_add_item_to_userlist">リストに</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete">リストからアイテムを削除</string>
-    <string name="brick_delete_item_from_userlist">位置</string>
-    <string name="brick_insert_item_into_userlist_insert_into">挿入</string>
-    <string name="brick_insert_item_into_userlist_into_list">リストに</string>
-    <string name="brick_insert_item_into_userlist_at_position">位置</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">リストのアイテムを置き換え</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">位置</string>
-    <string name="brick_replace_item_in_userlist_with_value">で</string>
-    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">追加</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">リストに</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">リストからすべてのアイテムを削除</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">リストからアイテムを削除</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">位置</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">挿入</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">リストに</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">位置</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">リストのアイテムを置き換え</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">位置</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">で</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">ウェブリクエストを送信</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">and store answer in</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">答えを保存する</string>
+    <string name="web_request_warning_title">ウェブアクセスを許可しますか？</string>
+    <string name="web_request_warning_message">アクセスを許可する前に十分注意してください。
+        リンク先では、あなたの正確な地理的位置や入力したテキストなどの個人情報が悪意のある他者や公衆に
+        悪意のある他者や公衆に公開される可能性があります。詳しくは
+        &lt;a href=%1s&gt;ウィキ &lt;/a&gt; の詳細はこちらをご覧ください。
+        は非常に危険です。
     </string>
-    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
+    <string name="web_request_trust_domain_warning_title">常にウェブアクセスを許可しますか？</string>
+    <string name="web_request_trust_domain_warning_message">常にアクセスを許可することで、
+        このドメインのWebアドレスを確認するように再度要求されることはありません。
     </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
-    </string>
-    <string name="brick_look_request">Get image from</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into">リストに</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="trusted_domains_edit_hint">後日、この許可を取り消したい場合は
+        後でこの許可を取り消したい場合は、このアプリの設定で、信頼できるドメインのリストから
+        このアプリの設定で</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">画像を取得する</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">現在の外見として使うのは</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">現在の背景として</string>
+    <string name="look_request_http_error_message">"%1$s から画像を取得 HTTP エラー %2$s"</string>
+    <string name="look_request_type_error_message">"%1$s から画像を取得できませんでした。認識された画像形式です。"</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">列を保存</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">の</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">カンマ区切りの値</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">リストに</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,Intelligent</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">piano</string>
-    <string name="electric_piano">electric piano</string>
-    <string name="cello">cello</string>
-    <string name="flute">flute</string>
-    <string name="vibraphone">vibraphone</string>
-    <string name="organ">organ</string>
-    <string name="guitar">guitar</string>
-    <string name="electric_guitar">electric guitar</string>
-    <string name="bass">bass</string>
-    <string name="pizzicato">pizzicato</string>
-    <string name="synth_pad">synth pad</string>
-    <string name="choir">choir</string>
-    <string name="synth_lead">synth lead</string>
-    <string name="wooden_flute">wooden flute</string>
-    <string name="trombone">trombone</string>
-    <string name="saxophone">saxophone</string>
-    <string name="bassoon">bassoon</string>
-    <string name="clarinet">clarinet</string>
-    <string name="music_box">music box</string>
-    <string name="steel_drum">steel drum</string>
-    <string name="marimba">marimba</string>
+    <string name="piano">ピアノ</string>
+    <string name="electric_piano">エレクトリック・ピアノと</string>
+    <string name="cello">チェロ（チェロ）</string>
+    <string name="flute">フルート</string>
+    <string name="vibraphone">ビブラフォン</string>
+    <string name="organ">オルガ</string>
+    <string name="guitar">オルガ</string>
+    <string name="electric_guitar">ギター</string>
+    <string name="bass">バス|低音</string>
+    <string name="pizzicato">エレクトリック・ギター</string>
+    <string name="synth_pad">シンセパッド</string>
+    <string name="choir">合唱団</string>
+    <string name="synth_lead">シンセリード</string>
+    <string name="wooden_flute">木製のフルート</string>
+    <string name="trombone">トロンボーン</string>
+    <string name="saxophone">サキソフォン</string>
+    <string name="bassoon">バスーン</string>
+    <string name="clarinet">クラリネット</string>
+    <string name="music_box">音楽 ボックス</string>
+    <string name="steel_drum">スチールドラム</string>
+    <string name="marimba">マリンバ</string>
     <!--  -->
     <!--Drums-->
-    <string name="snare_drum">snare drum</string>
-    <string name="bass_drum">bass drum</string>
-    <string name="side_stick">side stick</string>
-    <string name="crash_cymbal">crash cymbal</string>
-    <string name="open_hi_hat">open hi-hat</string>
-    <string name="closed_hi_hat">closed hi-hat</string>
-    <string name="tambourine">tambourine</string>
-    <string name="hand_clap">hand clap</string>
-    <string name="claves">claves</string>
-    <string name="wood_block">wood block</string>
-    <string name="cowbell">cowbell</string>
-    <string name="triangle">triangle</string>
-    <string name="bongo">bongo</string>
-    <string name="conga">conga</string>
-    <string name="cabasa">cabasa</string>
-    <string name="guiro">guiro</string>
-    <string name="vibraslap">vibraslap</string>
-    <string name="open_cuica">open cuica</string>
+    <string name="snare_drum">スネアドラム</string>
+    <string name="bass_drum">バスドラム</string>
+    <string name="side_stick">サイドスティック</string>
+    <string name="crash_cymbal">クラッシュシンバル</string>
+    <string name="open_hi_hat">ハイハットを開く</string>
+    <string name="closed_hi_hat">クローズドハイ帽子</string>
+    <string name="tambourine">タンバリン</string>
+    <string name="hand_clap">ハンドクラップ</string>
+    <string name="claves">クラベス</string>
+    <string name="wood_block">木のブロック</string>
+    <string name="cowbell">カウベル</string>
+    <string name="triangle">三角形</string>
+    <string name="bongo">ボンゴ</string>
+    <string name="conga">コンガ</string>
+    <string name="cabasa">カバサ</string>
+    <string name="guiro">ギロ</string>
+    <string name="vibraslap">ビブラスラップ</string>
+    <string name="open_cuica">オープンクオカ</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My project</string>
+    <string name="default_project_name">私のプロジェクト</string>
+    <string name="default_variable_name">変数</string>
     <string name="default_scene_name">シーン %1$d</string>
+    <string name="default_script_group_name">スクリプト グループ</string>
+    <string name="default_broadcast_message_name">メッセージ</string>
+    <string name="default_list_name">リスト</string>
     <string name="default_project_background_name">背景</string>
     <string name="default_project_cloud_name">雲</string>
     <string name="default_project_cloud_sprite_name_1">雲1</string>
     <string name="default_project_cloud_sprite_name_2">雲2</string>
-    <string name="default_project_sprites_animal_name">Animal</string>
-    <string name="default_project_sprites_animal_wings_up">Wings up</string>
-    <string name="default_project_sprites_animal_wings_down">Wings down</string>
+    <string name="default_project_sprites_animal_name">アニマル</string>
+    <string name="default_project_sprites_animal_wings_up">ウィングアップ</string>
+    <string name="default_project_sprites_animal_wings_down">翼を下げて</string>
     <string name="default_project_sprites_tweet_1">さえずり1</string>
     <string name="default_project_sprites_tweet_2">さえずり2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">ニードル語</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">外側ループ</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">内側ループ</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">背景</string>
     <string name="default_cast_project_cloud_name">雲</string>
@@ -1180,11 +1140,11 @@
     <string name="drone_set_tilt_outdoor">20 度 </string>
     <string name="drone_set_tilt_max">30 度</string>
     <!-- Notification Channel -->
-    <string name="channel_description">%1$s notification channel</string>
+    <string name="channel_description">%1$s 通知チャンネル</string>
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">プレビュー画像を保存しました</string>
-    <string name="notification_download_project_cancel">Cancel project download</string>
+    <string name="notification_download_project_cancel">プロジェクトのダウンロードをキャンセル</string>
     <string name="notification_reconvert_download_program_cancel">プログラムのダウンロード/再変換をキャンセルしました</string>
     <string name="notification_upload_title_pending">"アップロード中 "</string>
     <string name="notification_upload_title_finished">"見てください："</string>
@@ -1197,70 +1157,70 @@
     <string name="notification_download_pending">ダウンロードが進行中</string>
     <string name="notification_download_finished">ダウンロードに成功しました</string>
     <string name="notification_title_open">"開く "</string>
-    <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
+    <string name="notification_low_battery_with_value">注意。バッテリー残量が少なくなっています。現在の状態は %d です</string>
     <string name="size_of_project">プログラムのサイズ：</string>
     <string name="drone_emergency_battery_low">バッテリー残量が少なくなりました (自動着陸)。</string>
     <string name="drone_emergency_camera">1 つまたは複数のカメラが応答していません。</string>
     <string name="drone_emergency_ultrasound">超音波センサーが応答していません。</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 オイラーの角度が高すぎました。モーターはシャットダウンして危険な
+        動作を防ぎます。</string>
     <string name="drone_emergency_cutout">1 つまたは複数のモーターが環境によって停止されました。</string>
     <string name="drone_alert_battery_low">バッテリー残量が少なすぎるため再び離陸できません。</string>
-    <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
+    <string name="drone_alert_ultrasound">超音波センサーではAR.Drone 2.0の高度がわからない。</string>
     <string name="drone_alert_vision">下向きのカメラから速度を推定できません。</string>
     <string name="drone_emergency_title">緊急</string>
     <!--  -->
     <!-- Runtime permission messages -->
-    <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
-Camera brick needs access to the device\'s camera, the \"location\" formula element needs access to the
-device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
-needs read and write access to it. You can always change permissions through your device\'s settings.</string>
+    <string name="runtime_permission_general">このアプリは、正常に機能するために要求された許可が必要です。例えば、以下のようなものがあります。
+カメラブリックはデバイスのカメラへのアクセスを必要とし、「ロケーション」式要素はデバイスのジオロケーションセンサーへのアクセスを必要とします。
+また、プロジェクトをローカルメモリーとの間でインポートおよびエクスポートするためには、アプリはローカルメモリーに対する読み取りおよび書き込みのアクセスを必要とします。
+読み込みと書き込みのアクセスが必要です。パーミッションの変更は、デバイスの設定からいつでも行えます。</string>
     <!-- Error messages -->
     <string name="error_project_upload">アップロード中にエラーが発生しました</string>
     <string name="error_project_download">プログラムをダウンロード中にエラーが発生しました</string>
-    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
+    <string name="error_project_already_in_queue">"プロジェクト %s はすでにキューに入っています。"</string>
+    <string name="error_could_not_decode_project_name_from_url">「ダウンロードを
+        開始できませんでした。サーバーに問題があるようです。</string>
     <string name="error_new_project">新しいプログラムを作成中にエラーが発生しました</string>
     <string name="error_rename_scene">シーンの名前を変更中にエラーが発生しました。</string>
     <string name="error_load_project">プログラムの読み込み中にエラーが発生しました</string>
     <string name="error_screenshot_failed">プレビュー画像の保存中にエラーが発生しました。</string>
     <string name="error_internet_connection">不明なエラーが発生しました。インターネット接続を確認してください</string>
-    <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
+    <string name="error_project_compatibility">プロジェクトは、このバージョンのアプリと互換性がありません。</string>
     <string name="error_outdated_version">このアプリのバージョンが古すぎます。今すぐ更新しますか?</string>
-    <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
-        Please rename the project.</string>
-    <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
-        change something and try again.</string>
+    <string name="error_upload_project_with_default_name">「私の最初のプロジェクト」という名前のプロジェクトをアップロードすることはできません。
+        プロジェクトの名前を変更してください。</string>
+    <string name="error_upload_default_project">変更されていないサンプルプロジェクトをアップロードすることはできません。
+        何かを変更して再度お試し下さい。</string>
     <string name="error_adding_brick">このブロックを追加中にエラーが発生しました</string>
     <string name="error_copying_brick">このブロックをコピー中にエラーが発生しました</string>
-    <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
+    <string name="error_no_drone_connected_title">AR.Drone 2.0が見つかりません。</string>
+    <string name="error_no_drone_connected">Wi-FiをAR.Drone 2.0に接続し、もう一度やり直してください。</string>
+    <string name="error_drone_low_battery_title">AR.Drone 2.0 バッテリー残量: %d%%</string>
     <string name="error_drone_low_battery">充電済みのバッテリーを挿入して、もう一度やり直してください。</string>
-    <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
-    <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
+    <string name="error_jumpingsumo_wrong_platform">お使いの端末では、ジャンピングスーモのプロジェクトを実行することはできません。</string>
+    <string name="error_no_jumpingsumo_connected_title">ジャンプ相撲が見つかりません</string>
+    <string name="error_no_jumpingsumo_connected">Wi-Fiをジャンプ相撲に接続し、もう一度お試しください。</string>
+    <string name="error_jumpingsumo_battery_title">相撲のバッテリー残量が少なくなります</string>
     <string name="error_jumpingsumo_battery">充電済みのバッテリーを挿入して、もう一度やり直してください。</string>
-    <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
-    <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
-    <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
+    <string name="error_jumpingsumo_wrong_platform_title">ジャンプ中の相撲はありません</string>
+    <string name="error_drone_wrong_platform_title">AR.Drone 2.0には対応していません。</string>
+    <string name="error_drone_wrong_platform">お使いのデバイスで AR.Drone 2.0 プロジェクトを実行できません。</string>
     <string name="error_rename_incompatible_project">互換性のないプロジェクトの名前を変更することはできません。</string>
-    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
-    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
-    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string name="error_embroidery_file_export">刺繍ファイルの共有中に問題が発生しました。</string>
+    <string name="error_embroidery_file_write">刺繍ファイルの作成中に問題が発生しました。</string>
+    <string name="error_embroidery_data_not_found">刺繍がありません。</string>
     <string name="error_unknown_error">不明なエラーが発生しました。</string>
-    <string name="error_gps_not_available">Geolocation data is not available.</string>
+    <string name="error_gps_not_available">位置情報データは利用できません。</string>
     <string name="error_set_description">新しい説明を保存中にエラーが発生しました。</string>
-    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
-        and credits.</string>
+    <string name="error_set_notes_and_credits">新しいメモ
+        とクレジットを保存中に問題が発生しました。</string>
     <string name="error_no_whatsapp">WhatsApp がインストールされていません</string>
-    <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
-        project.</string>
+    <string name="error_unsupported_bricks_chromecast">このスクリプトは Chromecast
+        プロジェクトに追加できません。</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
-    <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
+    <string name="notification_blueth_err">Bluetoothを有効にできません。再度電源を入れてみてください。</string>
     <string name="title_paired_devices">デバイスの組み合わせ</string>
     <string name="title_other_devices">新しいデバイス</string>
     <string name="searching_devices">デバイスを検索しています&#8230;</string>
@@ -1273,37 +1233,37 @@ needs read and write access to it. You can always change permissions through you
     <string name="none_paired">見つかったペアのデバイスがありません</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">Arduino のデジタル端子を設定</string>
-    <string name="brick_arduino_select_analog_value">Arduino PWM~ 端子を設定</string>
-    <string name="brick_arduino_set_pin_value_to">先</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Arduino のデジタル端子を設定</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Arduino PWM~ 端子を設定</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">先</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Raspberry Pi の端子を設定</string>
-    <string name="brick_raspi_set_pin_value_to">先</string>
-    <string name="brick_raspi_if_begin">Raspberry Pi の端子が次の場合</string>
-    <string name="brick_raspi_if_begin_second_part">は本当だったら</string>
-    <string name="brick_raspi_when_begin">Raspberry Pi の端子が次のとき</string>
-    <string name="brick_raspi_when_equals">変更する</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Raspberry Pi の端子を設定</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">先</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">Raspberry Pi の端子が次の場合</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">は本当だったら</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">Raspberry Pi の端子が次のとき</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">変更する</string>
     <string name="brick_raspi_pressed_text">高</string>
     <string name="brick_raspi_released_text">低</string>
-    <string name="brick_raspi_set_pwm">Raspberry Pi PWM 端子を設定</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Raspberry Pi PWM 端子を設定</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi 設定</string>
     <string name="raspi_settings_gpio_version">GPIO バージョン</string>
-    <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
+    <string name="error_connecting_to">エラー: %s に接続できませんでした: %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">NXT モーターを設定</string>
-    <string name="nxt_motor_speed_to">先</string>
-    <string name="nxt_motor_speed">スピード</string>
-    <string name="nxt_brick_motor_turn_angle">NXT モーターの回転</string>
-    <string name="nxt_motor_move_by">によって</string>
-    <string name="nxt_motor_stop">NXT モーターを停止</string>
-    <string name="nxt_play_tone">NXT の音色を再生</string>
-    <string name="nxt_tone_duration">時間</string>
-    <string name="nxt_tone_frequency">周波数</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">NXT モーターを設定</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">先</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">スピード</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">NXT モーターの回転</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">によって</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">NXT モーターを停止</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">NXT の音色を再生</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">時間</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">周波数</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1325,12 +1285,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_disable_nxt_info_dialog_description">プログラムを開いたとき、プログラム固有の NXT 設定は表示されません。</string>
     <string name="preference_title_mindstorms_nxt_sensors_description">NXT センサーのポートへのマッピングはプログラム固有で、開かれたプログラムに対してのみ設定することができます!</string>
     <string name="lego_nxt_sensor_config_info_text">現在のプログラムは、レゴ マインドストーム NXT ブロックやセンサーを使用します。正しく動作するように、次のとおりセンサーをロボットに接続してください</string>
-    <string name="lego_port_1">Port 1</string>
-    <string name="lego_port_2">Port 2</string>
-    <string name="lego_port_3">Port 3</string>
-    <string name="lego_port_4">Port 4</string>
-    <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
-    <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
+    <string name="lego_port_1">ポート 1</string>
+    <string name="lego_port_2">ポート 2</string>
+    <string name="lego_port_3">ポート 3</string>
+    <string name="lego_port_4">ポート 4</string>
+    <string name="lego_sensor_config_dont_show_again">今後このメッセージを表示しないでください。</string>
+    <string name="lego_sensor_port_config_dialog_title">%1$s に接続するポートを選択してください。</string>
     <string name="lego_ev3_sensor_config_info_title">EV3 センサー設定</string>
     <string name="preference_disable_ev3_info_dialog_description">プログラムを開いたとき、プログラム固有の EV3 設定は表示されません。</string>
     <string name="preference_title_mindstorms_ev3_sensors_description">EV3 センサーのポートへのマッピングはプログラム固有で、開かれたプログラムに対してのみ設定することができます!</string>
@@ -1345,9 +1305,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_sensor_color">EV3 カラーセンサー</string>
     <string name="ev3_sensor_color_ambient">EV3 カラーセンサー周囲</string>
     <string name="ev3_sensor_color_reflected">Ev3 カラーセンサー反映</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
-    <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
-    <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
+    <string name="ev3_sensor_hitechnic_color">ハイテク色センサー</string>
+    <string name="ev3_sensor_nxt_temperature_c">NXT 温度センサー (°C)</string>
+    <string name="ev3_sensor_nxt_temperature_f">NXT 温度センサー (°F)</string>
     <string name="ev3_sensor_nxt_light">NXT 光センサー</string>
     <string name="ev3_sensor_nxt_light_active">NXT 光センサー アクティブ</string>
     <string name="ev3_sensor_nxt_sound">NXT サウンド センサー</string>
@@ -1358,15 +1318,15 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">すべて</string>
-    <string name="ev3_play_tone">EV3 の音色を再生</string>
-    <string name="ev3_tone_duration_for">次の</string>
-    <string name="ev3_tone_volume">音量</string>
-    <string name="ev3_tone_percent">%</string>
-    <string name="ev3_motor_stop">EV3 モーターを停止</string>
-    <string name="ev3_motor_move">EV3 モーターを設定</string>
-    <string name="ev3_brick_motor_turn_angle">EV3 モーターの回転</string>
-    <string name="ev3_motor_move_by">によって</string>
-    <string name="ev3_set_led_status">EV3 LED ステータスを設定</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">EV3 の音色を再生</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">次の</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">音量</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">EV3 モーターを停止</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">EV3 モーターを設定</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">EV3 モーターの回転</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">によって</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">EV3 LED ステータスを設定</string>
     <string name="ev3_led_status_off">オフ</string>
     <string name="ev3_led_status_green">緑</string>
     <string name="ev3_led_status_red">赤</string>
@@ -1379,100 +1339,100 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_led_status_orange_pulse">オレンジのパルス</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">Take off / land AR.Drone 2.0</string>
-    <string name="brick_drone_play_led_animation">Play AR.Drone 2.0 flash animation</string>
-    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
-    <string name="brick_drone_move_left">Move AR.Drone 2.0 left</string>
-    <string name="brick_drone_move_right">Move AR.Drone 2.0 right</string>
-    <string name="brick_drone_move_forward">Move AR.Drone 2.0 forward</string>
-    <string name="brick_drone_move_backward">Move AR.Drone 2.0 backward</string>
-    <string name="brick_drone_move_up">Move AR.Drone 2.0 up</string>
-    <string name="brick_drone_move_down">Move AR.Drone 2.0 down</string>
-    <string name="brick_drone_emergency">Emergency AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right">Turn AR.Drone 2.0 right</string>
-    <string name="brick_drone_turn_left">Turn AR.Drone 2.0 left</string>
-    <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
-    <string name="brick_drone_switch_camera">Switch AR.Drone 2.0 camera</string>
-    <string name="brick_drone_set_altitude">Altitude limit </string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">AR.Drone 2.0を離陸/&lt;unk&gt;</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">AR.Drone 2.0フラッシュアニメーションを再生</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">フリップAR.ドローン2.0</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources">ARDrone 2.0 を左に移動</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">ARDrone 2.0 右に移動</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">AR.Drone 2.0を前方に移動</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">AR.Drone 2.0 を後方に移動</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">ARDrone 2.0 を上に移動</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">AR.Drone 2.0 を下に移動</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">緊急用AR.ドローン2.0</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">AR.Drone 2.0を右に回す</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">ARDrone 2.0 を左に回転</string>
+    <string name="brick_drone_set_config">設定AR.Drone 2.0を設定</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">AR.Drone 2.0カメラを切り替え</string>
+    <string name="brick_drone_set_altitude">高度制限 </string>
     <string name="brick_drone_set_vertical_speed">垂直方向の速度制限</string>
     <string name="brick_drone_set_rotation_speed">回転速度の制限</string>
     <string name="brick_drone_set_tilt_limit">傾斜制限</string>
-    <string name="brick_drone_with.">で</string>
-    <string name="brick_drone_power">power</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">で</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">power</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Blink green red</string>
-    <string name="drone_animation_blinkgreen">Blink green</string>
-    <string name="drone_animation_blinkred">Blink red</string>
-    <string name="drone_animation_blinkorange">Blink orange</string>
-    <string name="drone_animation_snakegreenred">Snake green red</string>
-    <string name="drone_animation_fire">Fire</string>
-    <string name="drone_animation_standard">Standard</string>
-    <string name="drone_animation_red">赤</string>
-    <string name="drone_animation_green">緑</string>
-    <string name="drone_animation_redsnake">Red snake</string>
-    <string name="drone_animation_blank">Blank</string>
-    <string name="drone_animation_rightmissile">Right missile</string>
-    <string name="drone_animation_leftmissile">Left missile</string>
-    <string name="drone_animation_doublemissile">Double missile</string>
-    <string name="drone_animation_frontleftgreenothersred">Front left green others red</string>
-    <string name="drone_animation_frontrightgreenothersred">Front right green others red</string>
-    <string name="drone_animation_rearrightgreenothersred">Rear right green others red</string>
-    <string name="drone_animation_rearleftgreenothersred">Rear left green others red</string>
-    <string name="drone_animation_leftgreenrightred">Left green right red</string>
-    <string name="drone_animation_leftredrightgreen">Left red right green</string>
-    <string name="drone_animation_blinkstandard">Blink standard</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">赤く点滅する</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">緑色に点滅する</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">赤く点滅する</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">オレンジを点滅させる</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">スネークグリーン赤</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">火災</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">標準</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">赤</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">緑</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">レッドスネーク</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">空白の</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">右ミサイル</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">左ミサイル</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">二重ミサイル</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">他の人が赤の緑色のフロントを残しました</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">他者の前右緑赤</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">右緑の他者が赤</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">背面が緑色の他者を赤色にしたままにしました</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">左緑右赤</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">左赤右緑</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">標準を点滅させる</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">Move Jumping Sumo forward</string>
-    <string name="brick_jumping_sumo_move_backward">Move Jumping Sumo backward</string>
-    <string name="brick_jumping_sumo_animation">Animations Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound">No Jumping Sumo sound</string>
-    <string name="brick_jumping_sumo_jump_long">Jump Jumping Sumo long</string>
-    <string name="brick_jumping_sumo_jump_high">Jump Jumping Sumo high</string>
-    <string name="brick_jumping_sumo_rotate_left">Turn Jumping Sumo left</string>
-    <string name="brick_jumping_sumo_rotate_right">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text">度</string>
-    <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Taking picture Jumping Sumo</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">ジャンプ相撲を前に移動</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">ジャンプ相撲を後方に移動</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">アニメーション ジャンプ相撲。</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">相撲音なし</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">相撲ジャンプ長</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">相撲ジャンプ高</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">左にジャンプする</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">ジャンプ相撲を右に回転</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">度</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">相撲を反転させる</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">ジャンプ相撲を撮影する</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">音</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">音</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">Spin</string>
-    <string name="animation_tab">Tab</string>
-    <string name="animation_slowshake">Slowshake</string>
-    <string name="animation_metronome">Metronome</string>
-    <string name="animation_ondulation">Ondulation</string>
-    <string name="animation_spinjump">Spinjump</string>
-    <string name="animation_spiral">Spiral</string>
-    <string name="animation_slalom">Slalom</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">スピン</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">タブ</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">スローシェイク</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">メトロノーム</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">オンデレーション</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">スピンジャンプ</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">スパイラル</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">スラローム</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">音量</string>
-    <string name="sound_default">Normal</string>
-    <string name="sound_robot">Robot</string>
-    <string name="sound_insect">Insect</string>
-    <string name="sound_monster">Monster</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">音量</string>
+    <string name="sound_default">標準</string>
+    <string name="sound_robot">ロボット</string>
+    <string name="sound_insect">昆虫（虫）</string>
+    <string name="sound_monster">モンスター</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">Phiro モーターを停止</string>
-    <string name="brick_phiro_motor_forward_action">Phiro モーターを前に移動</string>
-    <string name="brick_phiro_motor_backward_action">Phiro モーターを後に移動</string>
-    <string name="phiro_motor_speed">スピード</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Phiro モーターを停止</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Phiro モーターを前に移動</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">Phiro モーターを後に移動</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">スピード</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">Phiro が次の場合</string>
-    <string name="brick_phiro_sensor_second_part">アクティブです</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">Phiro が次の場合</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">アクティブです</string>
     <!-- tone -->
-    <string name="phiro_play_tone">Phiro 音楽を再生\n</string>
-    <string name="phiro_tone_duration">時間</string>
-    <string name="brick_phiro_select_tone">音色</string>
-    <string name="phiro_seconds">秒</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">Phiro 音楽を再生\n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">時間</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">音色</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">秒</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">Phiro の光を設定</string>
-    <string name="phiro_rgb_led_red">赤</string>
-    <string name="phiro_rgb_led_green">緑</string>
-    <string name="phiro_rgb_led_blue">青</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Phiro の光を設定</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">赤</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">緑</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">青</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">ド</string>
@@ -1501,17 +1461,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_sensor_bottom_left">後左センサー</string>
     <string name="phiro_sensor_bottom_right">後右センサー</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
+    <string name="color_red">赤</string>
+    <string name="color_green">緑</string>
+    <string name="color_blue">青</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">データ</string>
     <string name="formula_editor_true">真</string>
     <string name="formula_editor_false">偽</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">数式エディター</string>
-    <string name="formula_editor_changes_saved">変更を保存しました!</string>
     <string name="formula_editor_changes_discarded">変更破棄されます ！</string>
     <string name="formula_editor_parse_fail">数式が正しくありません!</string>
     <string name="formula_nothing_selected">入力値を定義</string>
@@ -1519,136 +1478,138 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_choose_object_variable">このオブジェクトのプロパティ</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sin</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sin</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">cos</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cos</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tan</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tan</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln">ln</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">ln</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">log</string>
     <string name="formula_editor_function_log_parameter">(0)</string>
-    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">色</string>
-    <string name="formula_editor_function_sqrt">sqrt</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">色</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">sqrt</string>
     <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand">random</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
-    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">abs</string>
     <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round">round</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">round</string>
     <string name="formula_editor_function_round_parameter">(0)</string>
-    <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">mod</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
-    <string name="formula_editor_function_arcsin">arcsin</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsin</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccos</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">逆正接関数</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">逆正接関数</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">アークタンジェント2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">指数関数</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">指数関数</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
-    <string name="formula_editor_function_power">power</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">power</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor">floor</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">floor</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">ceil</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">ceil</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">最大</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">最大</string>
     <string name="formula_editor_function_max_parameter">(0,1)</string>
-    <string name="formula_editor_function_min">最小値</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">最小値</string>
     <string name="formula_editor_function_min_parameter">(0,1)</string>
-    <string name="formula_editor_function_if_then_else">if then else</string>
-    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true">真</string>
-    <string name="formula_editor_function_false">偽</string>
-    <string name="formula_editor_function_length">length</string>
+    <string name="formula_editor_function_if_then_else">でなければ、</string>
+    <string name="formula_editor_function_if_then_else_parameter">(偽, 2, 3)</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">真</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">偽</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">length</string>
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
-    <string name="formula_editor_function_letter">letter</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">letter</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
-    <string name="formula_editor_function_join">join</string>
-    <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">join</string>
+    <string name="formula_editor_function_join_parameter">(\'hello\', \'world\')</string>
     <string name="formula_editor_function_join3">join</string>
-    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex">regular expression</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
-    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
-        expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
-    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino_digital_pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino_analog_pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',world\',\'!\')</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">正規表現</string>
+    <string name="formula_editor_function_regex_parameter">(\'an\' ? ([^ .]+)\',\'私はパンダです\'</string>
+    <string name="formula_editor_function_regex_assistant">正規表現
+        アシスタント</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">正規表現 アシスタント</string>
+    <string name="formula_editor_dialog_wiki_button">詳細情報</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">キーワードが見つかりませんでした。</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON抽出器</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino_digital_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino_analog_pin</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">screen_touch_x</string>
-    <string name="formula_editor_function_finger_y">screen_touch_y</string>
-    <string name="formula_editor_function_is_finger_touching">screen_is_touched</string>
-    <string name="formula_editor_function_multi_finger_x">screen_touch_x</string>
-    <string name="formula_editor_function_multi_finger_y">screen_touch_y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">screen_is_touched</string>
-    <string name="formula_editor_function_index_of_last_finger">last_screen_touch_index</string>
-    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">screen_touch_x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">screen_touch_y</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">screen_is_touched</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">screen_touch_x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">screen_touch_y</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">screen_is_touched</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">last_screen_touch_index</string>
+    <string name="formula_editor_function_number_of_current_touches">現在のタッチ数</string>
+    <string name="formula_editor_function_index_of_current_touch">現在のタッチのインデックス</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item">element</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">element</string>
     <string name="formula_editor_function_list_item_parameter">(1,*リスト名*)</string>
-    <string name="formula_editor_function_contains">contains</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">contains</string>
     <string name="formula_editor_function_contains_parameter">(*リスト名*,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">アイテムのインデックス</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*リスト名*)</string>
-    <string name="formula_editor_function_number_of_items">number_of_items</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">number_of_items</string>
     <string name="formula_editor_function_number_of_items_parameter">(*リスト名*)</string>
     <string name="formula_editor_function_collision">touches_object</string>
-    <string name="formula_editor_function_collides_with_edge">touches_edge</string>
-    <string name="formula_editor_function_touched">touches_finger</string>
-    <string name="formula_editor_function_collides_with_color">touches color</string>
-    <string name="formula_editor_function_color_touches_color">color touches color</string>
-    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_x_acceleration">x_加速</string>
-    <string name="formula_editor_sensor_y_acceleration">y_加速</string>
-    <string name="formula_editor_sensor_z_acceleration">z_加速</string>
-    <string name="formula_editor_sensor_compass_direction">コンパスの方向</string>
-    <string name="formula_editor_sensor_latitude">緯度</string>
-    <string name="formula_editor_sensor_longitude">経度</string>
-    <string name="formula_editor_sensor_location_accuracy">位置の精度</string>
-    <string name="formula_editor_sensor_altitude">高度</string>
-    <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination">x_傾斜</string>
-    <string name="formula_editor_sensor_y_inclination">y_傾斜</string>
-    <string name="formula_editor_sensor_loudness">ラウドネス</string>
-    <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year">年</string>
-    <string name="formula_editor_sensor_date_month">月</string>
-    <string name="formula_editor_sensor_date_day">日</string>
-    <string name="formula_editor_sensor_date_weekday">曜日</string>
-    <string name="formula_editor_sensor_time_hour"> 時間</string>
-    <string name="formula_editor_sensor_time_minute">分</string>
-    <string name="formula_editor_sensor_time_second">秒</string>
-    <string name="formula_editor_sensor_drone_battery_status">drone_battery_status</string>
-    <string name="formula_editor_sensor_drone_emergency_state">drone_emergency_state</string>
-    <string name="formula_editor_sensor_drone_flying">drone_flying</string>
-    <string name="formula_editor_sensor_drone_initialized">drone_initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone_usb_active</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">drone_usb_remaining_time</string>
-    <string name="formula_editor_sensor_drone_camera_ready">drone_camera_ready</string>
-    <string name="formula_editor_sensor_drone_record_ready">drone_record_ready</string>
-    <string name="formula_editor_sensor_drone_recording">drone_recording</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone_num_frames</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT_sensor_1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT_sensor_2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT_sensor_3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT_sensor_4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3_sensor_1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3_sensor_2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3_sensor_3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3_sensor_4</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches_edge</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches_finger</string>
+    <string name="formula_editor_function_collides_with_color">色に さわったら</string>
+    <string name="formula_editor_function_color_touches_color">色にさわったら</string>
+    <string name="formula_editor_sensor_color_at_x_y">x-yの色</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">色が%
+        公差のある色に等しいです</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">x_加速</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">y_加速</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">z_加速</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">コンパスの方向</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">緯度</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">経度</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">位置の精度</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">高度</string>
+    <string name="formula_editor_sensor_user_language">ユーザーの言語</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">x_傾斜</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">y_傾斜</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">ラウドネス</string>
+    <string name="formula_editor_sensor_timer">タイマー</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">年</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">月</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">日</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">曜日</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources"> 時間</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">分</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">秒</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">drone_battery_status</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">drone_emergency_state</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">drone_flying</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">drone_initialized</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">drone_usb_active</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">drone_usb_remaining_time</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">drone_camera_ready</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">drone_record_ready</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">drone_recording</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">drone_num_frames</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT_sensor_1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT_sensor_2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT_sensor_3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT_sensor_4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3_sensor_1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3_sensor_2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3_sensor_3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3_sensor_4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT_touch</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT_sound</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT_light</string>
@@ -1660,41 +1621,41 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_color_ambient</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_color_reflected</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad_a_pressed</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad_b_pressed</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad_up_pressed</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad_down_pressed</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad_left_pressed</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad_right_pressed</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro_front_left_sensor</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro_front_right_sensor</string>
-    <string name="formula_editor_phiro_sensor_side_left">phiro_side_left_sensor</string>
-    <string name="formula_editor_phiro_sensor_side_right">phiro_side_right_sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">phiro_bottom_left_sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">phiro_bottom_right_sensor</string>
-    <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
-    <string name="formula_editor_nfc_tag_message">nfc_tag_message</string>
-    <string name="formula_editor_object_x">x_位置</string>
-    <string name="formula_editor_object_y">y_位置</string>
-    <string name="formula_editor_object_transparency">透明度</string>
-    <string name="formula_editor_object_brightness">輝度</string>
-    <string name="formula_editor_object_size">サイズ</string>
-    <string name="formula_editor_object_rotation">方向</string>
-    <string name="formula_editor_object_layer">レイヤー</string>
-    <string name="formula_editor_object_x_velocity">x_velocity</string>
-    <string name="formula_editor_object_y_velocity">y_velocity</string>
-    <string name="formula_editor_object_angular_velocity">angular_velocity</string>
-    <string name="formula_editor_object_look_number">look_number</string>
-    <string name="formula_editor_object_look_name">look_name</string>
-    <string name="formula_editor_object_background_number">background_number</string>
-    <string name="formula_editor_object_background_name">background_name</string>
-    <string name="formula_editor_object_distance_to">距離</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXTの温度（℃）。</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXTの温度（°F）。</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT ライト</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT ライトが有効です</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXTサウンド</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT 超音波</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad_a_pressed</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad_b_pressed</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad_up_pressed</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">gamepad_down_pressed</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">gamepad_left_pressed</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">gamepad_right_pressed</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro_front_left_sensor</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro_front_right_sensor</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro_side_left_sensor</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro_side_right_sensor</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro_bottom_left_sensor</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_bottom_right_sensor</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc_tag_message</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">x_位置</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">y_位置</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">透明度</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">輝度</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">サイズ</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">方向</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">レイヤー</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x_velocity</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y_velocity</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">angular_velocity</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">look_number</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">look_name</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">background_number</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">background_name</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">距離</string>
     <string name="formula_editor_compute">計算</string>
     <string name="formula_editor_object">オブジェクト</string>
     <string name="formula_editor_functions">関数</string>
@@ -1706,9 +1667,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_functions_lists">リスト</string>
     <string name="formula_editor_logic_boolean">論理 (ブール) 演算子</string>
     <string name="formula_editor_logic_comparison">比較演算子</string>
-    <string name="formula_editor_object_general">全般プロパティ</string>
+    <string name="formula_editor_object_look">プロパティを見る</string>
     <string name="formula_editor_object_movement">運動プロパティ</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">ビジュアルセンサー</string>
     <string name="formula_editor_device_date_and_time">日付と時刻</string>
     <string name="formula_editor_device_touch_detection">タッチ検出</string>
     <string name="formula_editor_device_lego_nxt">レゴマインドストームNXT</string>
@@ -1720,41 +1681,50 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">キャスト</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">AND</string>
-    <string name="formula_editor_logic_or">OR</string>
-    <string name="formula_editor_logic_not">NOT</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">AND</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">OR</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">NOT</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">削除</string>
+    <string name="formula_editor_image_button_description_color_picker">カラーピッカー</string>
+    <string name="formula_editor_image_button_description_functions_toggle">関数の切り替え</string>
     <string name="formula_editor_variable_dialog_title">新しい変数</string>
     <string name="formula_editor_list_dialog_title">新しいリスト</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML抽出</string>
     <string name="formula_editor_discard_changes_dialog_message">変更内容を保存しますか？</string>
     <string name="formula_editor_discard_changes_dialog_title">変更を保存しますか？</string>
     <string name="formula_editor_new_string_name">新しいテキスト</string>
     <string name="formula_editor_dialog_change_text">テキストを変更</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
+    <string name="formula_editor_dialog_change_regular_expression">正規表現
+        の式を変更する</string>
     <string name="formula_editor_fragment_data_current_items">現在のアイテム</string>
     <string name="formula_editor_data_dialog_is_list">リストにする</string>
-    <string name="formula_editor_sensor_face_detected">is_face_detected</string>
-    <string name="formula_editor_sensor_face_size">face_size</string>
-    <string name="formula_editor_sensor_face_x_position">face_x_position</string>
-    <string name="formula_editor_sensor_face_y_position">face_y_position</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">is_face_detected</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">face_size</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">face_x_position</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">face_y_position</string>
+    <string name="formula_editor_sensor_second_face_detected">2番目の顔が見えます</string>
+    <string name="formula_editor_sensor_second_face_size">2つ目の面サイズ</string>
+    <string name="formula_editor_sensor_second_face_x_position">2つ目の顔 x 位置</string>
+    <string name="formula_editor_sensor_second_face_y_position">2番目の顔 y位置</string>
+    <string name="formula_editor_sensor_text_from_camera">カメラからのテキスト</string>
+    <string name="formula_editor_sensor_text_blocks_number">テキストブロックの数</string>
+    <string name="formula_editor_function_text_block_x">カメラからのテキストブロック x</string>
+    <string name="formula_editor_function_text_block_y">カメラからのテキストブロック y</string>
+    <string name="formula_editor_function_text_block_size">カメラからのテキストブロックサイズ</string>
+    <string name="formula_editor_function_text_block_from_camera">カメラからのテキストブロック</string>
+    <string name="formula_editor_function_text_block_language_from_camera">カメラからのテキストブロック言語</string>
+    <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_intro_title_formula_editor">数式エディター</string>
     <string name="formula_editor_intro_summary_formula_editor">数式エディターは、ブロックで使用できる数式と
 論理式を作成することができます。\n\n右下の \"次へ\" ボタンをタッチして、この少しのイントロを進めることができ、左下の \"スキップ\" ボタンをタッチして、スキップすることができます。</string>
@@ -1775,31 +1745,33 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_summary_device">\"デバイス\" で、お使いのスマートフォンやタブレットの記録した情報を見つけることができます。 \n例えば、お使いのデバイスの傾きや、周辺の音の大きさなど。</string>
     <string name="formula_editor_intro_title_data">データ</string>
     <string name="formula_editor_intro_summary_data">プログラムで使用される変数やリストをここで見つけることができます。\n数式にこれらを挿入したり、新しいものを追加することができます。</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="formula_editor_listening_language_sensor">聞いている言語</string>
+    <string name="formula_editor_speech_recognition">音声認識</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">平坦化</string>
+    <string name="formula_editor_function_flatten_parameter">(*リスト名*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">変数を表示</string>
-    <string name="brick_hide_variable">変数を隠す</string>
-    <string name="brick_show_variable_position">位置 </string>
-    <string name="brick_show_variable_size">size:</string>
-    <string name="brick_show_variable_color">color:</string>
-    <string name="brick_show_variable_aligned">aligned</string>
-    <string name="brick_show_variable_aligned_centered">centered</string>
-    <string name="brick_show_variable_aligned_left">左</string>
-    <string name="brick_show_variable_aligned_right">右</string>
-    <string name="brick_context_dialog_pick_color">Pick color</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">変数を表示</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">変数を隠す</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">位置 </string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">サイズ:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">色:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">配置</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">中央揃え</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">左</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">右</string>
+    <string name="brick_context_dialog_pick_color">色を選択</string>
+    <string name="brick_context_dialog_pick_note">ノートを選択</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">カメラを</string>
-    <string name="video_brick_camera_on">オン</string>
-    <string name="video_brick_camera_off">オフ</string>
-    <string name="brick_choose_camera">使用カメラ</string>
-    <string name="choose_camera_front">前面</string>
-    <string name="choose_camera_back">rear</string>
+    <string name="brick_video" tools:ignore="UnusedResources">カメラを</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">オン</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">オフ</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">使用カメラ</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">前面</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">背面へ</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1820,20 +1792,19 @@ needs read and write access to it. You can always change permissions through you
     <string name="cast_ready_to_cast">キャスト準備完了</string>
     <string name="cast_enable_cast_feature">キャスト機能は無効です。設定でキャスト機能を有効にしてください。</string>
     <string name="cast_searching_for_cast_devices">キャストデバイスの検索中</string>
-    <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
-        and on.</string>
+    <string name="cast_trouble_finding_devices_tip">をクリックします。\nデバイスが表示されませんか？デバイスのWi-Fiを
+        オフにしてみてください。</string>
     <string name="cast_connection_timout_msg">接続タイムアウト。もう一度やり直してください。</string>
     <string name="cast_screen_pause_text">一時停止</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
-    <string name="deletion_alert_yes">はい、とにかく削除します!</string>
+    <string name="deletion_alert_title">削除？</string>
+    <string name="deletion_alert_text">まだ使用中の変数やリストを削除すると、
+        エラーが発生する可能性があります。元に戻すことはできません。</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">あなたのプログラムは、私たちのコミュニ ティー ページにアップロードされます。他の人がそれを使用したりダウンロードすることができます。
 スタンドアロン アプリケーションとしてあなたのプログラムをダウンロードすることもできます。</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
+    <string name="progress_upload_dialog_failed">アップロードに失敗しました。インターネット接続を確認して、
+        をもう一度やり直してください。</string>
     <string name="progress_upload_dialog_show_program">プログラムの表示</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -1842,14 +1813,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="preference_title_enable_hints">ヒントを表示 </string>
     <string name="hint_category">すべてのブロックがカテゴリでソートされます。お探しのカテゴリを選択してください。</string>
     <string name="hint_bricks">使用するブロックの上でタップして、スクリプトにブロックを追加します。</string>
-    <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
-        tap the \"+\" symbol.</string>
-    <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
-        tap the \"+\" symbol.</string>
-    <string name="hint_sounds">Here you can add new sounds to your actor or object. Remember using a brick from the
-        sound category.</string>
-    <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
-        To add a new actor or object, tap the \"+\" symbol.</string>
+    <string name="hint_scripts">スクリプトは、アクターまたはオブジェクトの動作を定義します。スクリプトにブロックを追加するには、
+        \"+\" シンボルをタップします。</string>
+    <string name="hint_looks">ここでは、アクターやオブジェクトの外見を見ることができます。新しい外見を追加するには、
+        \"+\" シンボルをタップします。</string>
+    <string name="hint_sounds">ここでは、アクターやオブジェクトに新しいサウンドを追加できます。
+        サウンドカテゴリーのブロックを使用していることを覚えておいてください。</string>
+    <string name="hint_objects">あなたのプログラムは、お互いに相互作用することができるさまざまなアクターとオブジェクトで構成されています。
+        新しいアクターやオブジェクトを追加するには、「+」記号をタップします。</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1857,5 +1828,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="device_language">デバイスの言語</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">㎐</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">Hzの</string>
+    <string name="no_internet_connection">インターネットに接続されていません。Wi-Fiまたはモバイル
+    データがオンになっていることを確認してください。</string>
+    <string name="edit">編集</string>
+    <string name="data_value">値</string>
+    <string name="category_recently_used">最近使用したもの</string>
+    <!-- Information -->
+    <string name="no_variable_selected">変数が選択されていません</string>
 </resources>

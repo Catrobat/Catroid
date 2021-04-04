@@ -33,8 +33,7 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import org.catrobat.catroid.ui.controller.BackpackListManager;
-
+import java.io.File;
 import java.lang.reflect.Type;
 
 public class BackpackInterfaceSerializerAndDeserializer<T> implements JsonSerializer<T>,
@@ -44,6 +43,12 @@ public class BackpackInterfaceSerializerAndDeserializer<T> implements JsonSerial
 
 	private static final String TYPE = "type";
 	private static final String PROPERTY = "properties";
+
+	File file;
+
+	public BackpackInterfaceSerializerAndDeserializer(File file) {
+		this.file = file;
+	}
 
 	@Override
 	public JsonElement serialize(T object, Type interfaceType, JsonSerializationContext context) {
@@ -66,7 +71,7 @@ public class BackpackInterfaceSerializerAndDeserializer<T> implements JsonSerial
 			classToDeserialize = Class.forName(type);
 		} catch (ClassNotFoundException classNotFoundException) {
 			Log.e(TAG, "Could not deserialize backpacked element: " + type);
-			BackpackListManager.getInstance().backpackFile.delete();
+			file.delete();
 			return null;
 		}
 		return context.deserialize(element, classToDeserialize);

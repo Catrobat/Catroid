@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,7 +48,15 @@ public final class SharedPreferenceKeys {
 	public static final String SHOW_DETAILS_SOUNDS_PREFERENCE_KEY = "showDetailsSoundList";
 	public static final String SHOW_DETAILS_SPRITES_PREFERENCE_KEY = "showDetailsSpriteList";
 
+	public static final String SORT_PROJECTS_PREFERENCE_KEY = "sortProjectsList";
+
 	public static final String SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY = "scratchconverter.clientID";
 	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY = "scratchconverter"
 			+ ".downloadStatePref";
+
+	public static final String TIME_SPENT_IN_APP_IN_SECONDS_KEY = "timeSpentInApp";
+	public static final String LAST_USED_DATE_KEY = "lastUsedDate";
+	public static final String SHOW_SURVEY_KEY = "showSurvey";
+	public static final String SURVEY_URL1_HASH_KEY = "surveyUrl1Hash";
+	public static final String SURVEY_URL2_HASH_KEY = "surveyUrl2Hash";
 }

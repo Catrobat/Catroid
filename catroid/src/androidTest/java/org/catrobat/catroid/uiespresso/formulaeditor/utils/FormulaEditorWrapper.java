@@ -213,6 +213,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		public static final Matcher<View> BACKSPACE = withId(R.id.formula_editor_keyboard_delete);
 		public static final Matcher<View> DATA = withId(R.id.formula_editor_keyboard_data);
 		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_string);
+		public static final Matcher<View> PROPERTIES = withId(R.id.formula_editor_keyboard_object);
 	}
 
 	public static final class Category {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@
         <attr name="icon_raspberrypi" format="reference"/>
         <attr name="icon_embroidery" format="reference" />
         <attr name="icon_userbrick" format="reference" />
+        <attr name="icon_recently_used" format="reference" />
     </declare-styleable>
 
     <!-- Category icons visibility -->
@@ -102,4 +103,8 @@
 	    <attr name="handleColor" format="color" />
 	    <attr name="bubbleTextAppearance" format="reference" />
 	</declare-styleable>
+
+    <declare-styleable name="AutoScrollableRecyclerView">
+        <attr name="delay" format="integer" />
+    </declare-styleable>
 </resources>

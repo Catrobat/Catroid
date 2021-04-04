@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">மேடை</string>
     <string name="play">விளையாடு</string>
     <string name="settings">அமைவுகள்</string>
-    <string name="redo">மறுபடியும் செய்</string>
-    <string name="undo">செயல்தவிர்</string>
+    <string name="redo" tools:ignore="UnusedResources">மறுபடியும் செய்</string>
+    <string name="undo" tools:ignore="UnusedResources">செயல்தவிர்</string>
     <string name="new_option">புதியவை&#8230;</string>
+    <string name="edit_option">edit&#8230;</string>
     <string name="confirm">உறுதிசெய்</string>
     <string name="ignore">Ignore</string>
     <string name="cancel">தவிர்</string>
     <string name="save">சேமி</string>
+    <string name="discard">புறக்கணி</string>
     <string name="next">அடுத்து</string>
-    <string name="back">பின்செல்</string>
     <string name="ok">சரி</string>
     <string name="done">முடிந்தது</string>
-    <string name="close">மூடு</string>
+    <string name="close" tools:ignore="UnusedResources">மூடு</string>
     <string name="assistant">Assistant</string>
     <string name="yes">அமாம்</string>
     <string name="no">இல்லை</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
-    <string name="disagree">மறுக்கிறேன்</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
     <string name="select_all">அனைத்தையும் தேர்ந்தெடு</string>
@@ -64,14 +64,21 @@
         project is running is safe. In case of doubt, please delete the downloaded project.
         You may also report the project on its page on the Catrobat community platform in case
         you are sure that it is harmful.</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
+    <string name="api_replacement_dialog_warning">The project contains bricks that access the
+        web, and also seems to contain API keys. Please see %1s why
+        uploading these keys can be dangerous.</string>
+    <string name="api_replacement">insert API key here</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">உள்நுழைவு தரவைச் சரிபார்க்கிறது&#8230;</string>
     <string name="loading_google_exchange_code">கூகிள் உள்நுழைவு தரவைப் பரிமாறிக்கொள்கிறது&#8230;</string>
     <string name="loading_google_login">எங்கள் சேவையகத்தில் கூகிள் உள்நுழைவு முடிந்தது&#8230;</string>
-    <string name="delete_account">என்னுடைய கணக்கை அழித்துவிடு</string>
     <string name="logout_successful">வெளியேறல் வெற்றி</string>
-    <string name="degrees">டிகிரிக்கள்</string>
-    <string name="background">பின்னணி</string>
+    <string name="degrees" tools:ignore="UnusedResources">டிகிரிக்கள்</string>
+    <string name="background" tools:ignore="UnusedResources">பின்னணி</string>
     <string name="landscape">நிலப்பரப்பு</string>
     <string name="portrait">சித்திரப் படிவம்</string>
     <string name="unknown">தெரியாத</string>
@@ -81,7 +88,7 @@
     <string name="main_menu_continue">தொடர்ந்து</string>
     <string name="main_menu_new">புதிய</string>
     <string name="main_menu_programs">சாதனத்தில் உள்ள திட்டங்கள்</string>
-    <string name="main_menu_help">உதவி</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">உதவி</string>
     <string name="main_menu_web">கேட்ரோபாட் சமூகம்</string>
     <string name="main_menu_upload">பதிவேற்றவும்</string>
     <string name="main_menu_rate_app">எங்களுக்கு மதிப்பிடுக!</string>
@@ -289,7 +296,7 @@
     <string name="am_backpack">கட்டு</string>
     <string name="am_unpack">கட்டைப்பிரி</string>
     <string name="am_copy">நகல்</string>
-    <string name="am_delete">அழித்துவிடு</string>
+    <string name="am_delete" tools:ignore="UnusedResources">அழித்துவிடு</string>
     <string name="am_rename">மறுபெயர்</string>
     <string name="am_convert">மாற்று</string>
     <string name="am_merge">ஒன்றுசேர்</string>
@@ -303,6 +310,9 @@
     <string name="merge">ஒன்றுசேர்</string>
     <string name="show_details">விவரங்கள் காண்பி</string>
     <string name="hide_details">விவரங்களை மறை</string>
+    <string name="project_options">Project options</string>
+    <string name="sort_projects">Sort</string>
+    <string name="unsort_projects">Unsort</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">புதிய காட்சி</string>
     <!-- Delete Dialog Titles -->
@@ -367,6 +377,7 @@
     <string name="rename_data_dialog">மறுபெயர்</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">புதிய குழு</string>
+    <string name="default_group_name">Group</string>
     <!-- New Scene Menu -->
     <string name="new_scene">புதிய காட்சி</string>
     <!-- Action Toasts -->
@@ -476,6 +487,13 @@
     <string name="import_project">செயற்திட்டத்தை இறக்குமதி செய்</string>
     <string name="error_import_project">திட்டங்களை இறக்குமதி செய்யும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_no_files_found">திட்ட கோப்புகள் எதுவும் கிடைக்கவில்லை.</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">விளக்கம்</string>
+    <string name="project_options_notes_and_credits">பங்களித்தவர்கள்</string>
+    <string name="project_options_tags">குறிச்சொற்கள்</string>
+    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
+    <string name="project_options_more_details">More details</string>
+    <string name="project_options_delete_project">செயல்திட்டத்தை நீக்கு</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">ஸ்கிரிப்ட்களைச் சேர்க்க \"+\" தட்டவும்</string>
     <!--  -->
@@ -494,8 +512,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">அவற்றைச் சேர்க்க NFC குறிச்சொற்களை ஸ்கேன் செய்யுங்கள்</string>
-    <string name="ndef_record_label">பதிவு வகையாக</string>
-    <string name="brick_set_nfc_tag">அடுத்த NFC குறிச்சொல் எழுத காத்திருக்கவும்</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">பதிவு வகையாக</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">அடுத்த NFC குறிச்சொல் எழுத காத்திருக்கவும்</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">NFC குறிச்சொல்</string>
     <string name="tnf_empty">காலி</string>
@@ -513,6 +531,7 @@
     <string name="local_vars_headline">இந்த நடிகர் அல்லது பொருளுக்கு மட்டுமே மாறுபாடுகள்</string>
     <string name="global_lists_headline">அனைத்து நடிகர்கள் மற்றும் பொருள்களுக்கான பட்டியல்கள்</string>
     <string name="local_lists_headline">இந்த நடிகர் அல்லது பொருளுக்கு மட்டுமே பட்டியல்கள்</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input for this brick</item>
         <item quantity="other">Inputs for this brick</item>
@@ -577,71 +596,8 @@
 கிளியின் ஜம்பிங் சுமோ. கிளி மற்றும் கேட்ரோபாட்டின் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவைகள் இரண்டையும் பின்பற்றுமாறு நாங்கள் உங்களுக்கு கடுமையாக நினைவூட்டுகிறோம்.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">தனிமனித உரிமை கொள்கை</string>
     <string name="disclaimer_privacy_police_header_headline">வருக!</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
-    <string name="dialog_privacy_policy_text">எங்கள் சேவைகள் மற்றும் அதனுடன் தொடர்புடைய கணக்கின் அனைத்து நன்மைகளையும் உங்களுக்கு வழங்க,
-         உங்களிடமிருந்து சில தரவைச் சேகரிப்பது அவசியம். \n\n
-
-         Services எங்கள் சேவைகளை (பயன்பாடுகள் மற்றும் வலைத்தளங்கள்) பராமரிக்கவும் மேம்படுத்தவும் மற்றும் ஐ.சி.டி மற்றும் விஞ்ஞான ஆராய்ச்சி செய்யவும்
-             STEM / STEAM கல்வி, நாங்கள் Google Analytics, Crashlytics மற்றும் Firebase ஐப் பயன்படுத்துகிறோம், இவை அனைத்தும் Google LLC (USA),
-             அத்துடன் டைனட்ரேஸ் எல்.எல்.ஏ (யு.எஸ்.ஏ) வழங்கும் டைனட்ரேஸ்
-             எங்கள் சேவைகளின் பயன்பாடு பற்றிய மெட்டாடேட்டா, எ.கா., செயலிழப்பு தகவல், நேர முத்திரைகள், பார்வையிட்ட பக்கங்கள் / திரைகள்,
-             எங்கள் பயன்பாடுகள் மற்றும் சேவைகளின் பயன்பாடு, பயன்படுத்தப்பட்ட இயக்க முறைமை மற்றும் பிணைய வழங்குநரைப் பற்றிய தகவல்கள்.  இந்த
-             பகுப்பாய்வு மற்றும் சேகரிக்கப்பட்ட தரவு உங்கள் சுயவிவரத்துடன் இணைக்கப்படவில்லை மற்றும் தனிப்பட்டவை எதுவும் இல்லை
-             தகவல் (ஐபி முகவரியின் கடைசி பிட்கள் அநாமதேயமாக்கப்படுகின்றன).  இருப்பினும், சேகரிக்கப்பட்ட தரவு கிடைக்கும்
-             சேவை வழங்குநருக்கு மாற்றப்பட்டது (கூகிள் எல்.எல்.சி, அமெரிக்கா மற்றும் டைனட்ரேஸ் எல்.எல்.சி, அமெரிக்கா).
-             கூகிள் எல்.எல்.சி மற்றும் டைனட்ரேஸ் எல்.எல்.சி உடனான ஒப்பந்தங்களின் அடிப்படையில் தரவு செயலாக்கம் செய்யப்படுகிறது.
-             சேவை வழங்குநருடனான இந்த உறவு ஐரோப்பிய ஒன்றியத்தின் பொது தரவுகளுடன் ஒத்துப்போகிறது
-             பாதுகாப்பு ஒழுங்குமுறை (EU GDPR) மற்றும் EU-USA \"தனியுரிமை கேடயம்\" ஒப்பந்தம். \n\n
-         Systems எங்கள் கணினிகளில் ஒரு கணக்கை உருவாக்கி பயன்படுத்தவும், உங்களைப் பற்றிய தேவையான மாற்றங்களைப் பற்றி உங்களுக்குத் தெரிவிக்கவும்
-             ஒரு மின்னஞ்சலுக்கான கணக்கு, எ.கா., எங்கள் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவை விதிமுறைகள், எங்கள் சமூக விதிகள், அல்லது
-             எங்கள் கொள்கைகள், நாங்கள் உங்கள் பயனர்பெயரை சேமிப்போம், நீங்கள் வழங்கியிருந்தால், உங்கள் மின்னஞ்சல் முகவரி.  உன்னிடம் இருந்தால்
-             உங்கள் கூகிள் அல்லது பேஸ்புக் கணக்கு வழியாக உங்கள் கணக்கை இணைத்துள்ளோம், கூடுதலாக இணைக்கப்பட்ட அடையாள விசையை நாங்கள் சேமிக்கிறோம்
-             இந்த சேவைகளில் உங்கள் கணக்கில்.  இந்தத் தரவை வேறு எந்த (எ.கா., சந்தைப்படுத்தல்) நோக்கங்களுக்காகவும் நாங்கள் பயன்படுத்த மாட்டோம்,
-             அவ்வாறு செய்ய நீங்கள் எங்களை வெளிப்படையாக அனுமதிக்காவிட்டால். \n\n
-         A தன்னார்வ அடிப்படையில், பகிர்வில் உங்கள் கணக்கு பக்கத்தின் மூலம் நீங்கள் வசிக்கும் நாட்டை எங்களுக்கு வழங்கலாம்
-             தளம்.  இது உங்கள் பொது சுயவிவரத்தில் காண்பிக்கப்படும் மற்றும் புள்ளிவிவர மற்றும் ஆராய்ச்சிக்கு மட்டுமே பயன்படுத்தப்படும்
-             எங்களால் நோக்கங்கள்.  உங்கள் சுயவிவர அமைப்புகளில் எந்த நேரத்திலும் இதை அகற்றலாம். \n\n
-         Account உங்கள் கணக்கிற்கு சொந்தமான தனிப்பட்ட தரவின் பயன்பாட்டை எந்த நேரத்திலும் நீக்குவதன் மூலம் திரும்பப் பெறலாம்
-             https://share.catrob.at இல் உங்கள் சுயவிவரப் பக்கத்தின் மூலம் கணக்கு.  உங்கள் கணக்கை நீக்கிய பிறகு நீங்கள் இன்னும் இருப்பீர்கள்
-             வழங்கப்பட்ட சேவைகளைப் பயன்படுத்த முடியும், ஆனால் ஒத்துழைக்க முடியாது, எ.கா., பதிவேற்றும் நிரல்கள் மூலம்,
-             கருத்து தெரிவித்தல் அல்லது விரும்புவது.  மேலும், உங்கள் கணக்கில் இணைக்கப்பட்ட அனைத்து உள்ளடக்கங்களும், எ.கா., பதிவேற்றிய நிரல்கள்,
-             கருத்துகள் போன்றவை நீக்கப்படும். \n\n
-         Services எங்கள் சேவைகளை தவறாகப் பயன்படுத்துவதைத் தவிர்க்க, எ.கா., பயனர் பங்களித்த பதிவேற்றங்கள் அல்லது சட்டவிரோதமான கருத்துகள் மூலம்
-             நோக்கங்களுக்காக, பயனர் உருவாக்கிய அனைத்து பொது தரவுகளும் (பதிவேற்றங்கள், கருத்துகள்) ஒரு தரவுத்தளத்தில் உள்நாட்டில் சேமிக்கப்படும்,
-             நேர முத்திரை மற்றும் பயன்படுத்தப்பட்ட இணைய முகவரியுடன்.  இந்தத் தரவு பயன்படுத்தப்படாது அல்லது அனுப்பப்படாது
-             எந்தவொரு நிறுவனமும், போதுமான சட்டவிரோத நடவடிக்கைகள் நியாயமான முறையில் சந்தேகிக்கப்பட்டு அதிகாரப்பூர்வமாக உரிமை பெறாவிட்டால்
-             சட்ட நிறுவனங்கள் பொருந்தக்கூடிய சட்டத்தின் அடிப்படையில் அதைக் கோருகின்றன.  ஒவ்வொரு வழக்கும் ஒரு மீது முழுமையாக சோதிக்கப்படும்
-             முதலில் எங்களால் தனிப்பட்ட அடிப்படையில். \n\n
-         Http வழங்கப்பட்ட https://catrob.at/newsletter இல் நீங்கள் தானாக முன்வந்து கேட்ரோபாட் செய்திமடலுக்கு குழுசேரலாம்.
-             MailChimp சேவையின் மூலம் (தி ராக்கெட் சயின்ஸ் குரூப் LLC d / b / a MailChimp, USA).  நீங்கள் அப்போது செய்வீர்கள்
-             நீங்கள் வழங்கிய மின்னஞ்சல் முகவரிக்கு கேட்ரோபாட் திட்டம் மற்றும் அதன் சேவைகள் குறித்த புதுப்பிப்புகளைப் பெறுக.  நீங்கள் திரும்பப் பெறலாம்
-             ஒவ்வொரு செய்திமடலின் அடிக்குறிப்பிலும் \"குழுவிலக\" இணைப்பைப் பயன்படுத்தி எந்த நேரத்திலும் செய்திமடல்.  இந்த
-             செய்திமடல் MailChimp ஆல் வழங்கப்படுகிறது, அவருடன் தரவு செயலாக்க ஒப்பந்தம் உள்ளது, யார் உறுதிபூண்டுள்ளனர்
-             ஐரோப்பிய ஒன்றிய பொது தரவு பாதுகாப்பு ஒழுங்குமுறை மற்றும் EU-USA \"தனியுரிமை கேடயம்\".  MailChimp பற்றிய கூடுதல் விவரங்களுக்கு
-             MailChimp இன் தனியுரிமைக் கொள்கை மற்றும் பயன்பாட்டு விதிமுறைகளையும் பார்க்கவும். \n\n
-         Services அனைத்து சேவைகளும் குடையின் கீழ் இலவச திறந்த மூல கேட்ரோபாட் திட்டத்தால் வழங்கப்படுகின்றன
-             இன்டர்நேஷனல் கேட்ரோபாட் அசோசியேஷன் - வெரீன் ஸுர் ஃபுர்டெருங் ஃப்ரீயர் மென்பொருள், ஒரு இலாப நோக்கற்ற என்ஜிஓ
-             கிராஸ், ஆஸ்திரியாவில் (ஐரோப்பிய ஒன்றியம்).  எங்கள் கொள்கைகள் ஐரோப்பிய ஒன்றியம் மற்றும் ஆஸ்திரிய தரவு பாதுகாப்பு சட்டத்திற்கு மரியாதை செலுத்துகின்றன
-             (GDPR).  எங்களுடன் தொடர்பு கொள்ள, தயவுசெய்து contact@catrobat.org க்கு ஒரு மின்னஞ்சல் அனுப்பவும் அல்லது எங்களை Catrobat க்கு அனுப்பவும்,\n
-                 மென்பொருள் தொழில்நுட்ப நிறுவனம்,. \n
-                 கிராஸ் தொழில்நுட்ப பல்கலைக்கழகம்,. \n
-                 இன்ஃபெல்ட்காஸ் 16 பி,. \n
-                 ஏ -8010 கிராஸ், ஆஸ்திரியா \n
-                 (ஐரோப்பிய ஒன்றியம்). \n\n
-         நீங்கள் 14 வயதிற்குட்பட்டவராக இருந்தால், இந்தக் கொள்கையை சட்டப்பூர்வ பாதுகாவலர் (பொதுவாக பெற்றோர்) ஏற்றுக்கொள்ள வேண்டும். \n\n
-
-         கேட்ரோபாட்டின் அதிகாரப்பூர்வ ஆங்கில மொழி தனியுரிமைக் கொள்கை இணையத்தில் கிடைக்கிறது
-         https://catrob.at/privacypolicy.\n\n
-
-         பதிப்பு 2.2, 17 அக்டோபர் 2019 \n\n
-
-         எங்கள் தனியுரிமைக் கொள்கையின் (2.0) முந்தைய, காலாவதியான, பதிப்பை இங்கே காணலாம்:
-         http://developer.catrobat.org/privacy_policy_2-0    </string>
-    <string name="dialog_privacy_policy_declined_text">பதிவு செய்ய அல்லது தனியுரிமைக் கொள்கையை ஒப்புக்கொள்வது அவசியம்
-        உங்கள் கணக்கைப் பயன்படுத்துவதைத் தொடரவும். இந்தத் தரவை நாங்கள் சேகரிக்க விரும்பவில்லை என்றால், நீங்கள் நீக்கலாம்
-        எங்கள் https://share.catrob.at/ இணையதளத்தில் உங்கள் சுயவிவரப் பக்கத்தின் வழியாக கணக்கு.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">இந்த பயன்பாட்டை பற்றி</string>
@@ -651,16 +607,18 @@
         உரிமம் குறித்த கூடுதல் விவரங்களுக்கு கீழே உள்ள இணைப்பைக் காண்க</string>
     <string name="dialog_about_license_link_text">மூல குறியீடு உரிமம்</string>
     <string name="dialog_about_catrobat_link_text">கேட்ரோபாட் பற்றி</string>
+    <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
+    <string name="dialog_about_version">version:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">நெட்வொர்க் இல்லை</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">பதிவேற்றவும்</string>
     <string name="upload_project_dialog_title">பதிவேற்றும் திட்டம்</string>
     <string name="upload_description">விளக்கம்:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">மூன்று வகைகள் வரை தேர்வு செய்யவும்</string>
+    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">திட்டத்தை வெளிப்புற சேமிப்பகத்தில் சேமிக்கவும்</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -679,7 +637,7 @@
     <string name="brick_context_dialog_move_brick">செங்கல் நகர்த்து</string>
     <string name="brick_context_dialog_move_script">ஸ்கிரிப்டை நகர்த்தவும்</string>
     <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick">செங்கலை நீக்கு</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">செங்கலை நீக்கு</string>
     <string name="brick_context_dialog_copy_brick">செங்கலை நகலெடுக்கவும்</string>
     <string name="brick_context_dialog_copy_script">ஸ்கிரிப்டை நகலெடுக்கவும்</string>
     <string name="brick_context_dialog_formula_edit_brick">சூத்திரத்தைத் திருத்து</string>
@@ -694,6 +652,7 @@
     <string name="comment_in_out">முடக்கு / செயல்படுத்த</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">காட்சி காட்சி:</string>
@@ -704,7 +663,7 @@
     <string name="sign_in_dialog_title">உள்நுழைக</string>
     <string name="username">பயனர் பெயர்</string>
     <string name="password">கடவுச்சொல்</string>
-    <string name="password_forgotten">உங்கள் கடவுச்சொல்லை மறந்துவிட்டீர்களா?</string>
+    <string name="reset_password">Reset password</string>
     <string name="new_user_registered">புதிய கணக்கு உருவாக்கப்பட்டது</string>
     <string name="user_logged_in">உள்நுழைதல் வெற்றி</string>
     <string name="register_error">உள்நுழைவு தவறானது</string>
@@ -785,33 +744,34 @@
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">புதிய தகவல்</string>
-    <string name="dialog_new_broadcast_message_name">செய்தி:</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
     <string name="brick_when_nfc_default_all">அனைத்து</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">வகைகள்</string>
-    <string name="category_embroidery">எம்பிராய்டரி</string>
-    <string name="category_motion">மோஷன்</string>
-    <string name="category_looks">தோற்றம்</string>
-    <string name="category_pen">பேனா</string>
-    <string name="category_sound">ஒலி</string>
-    <string name="category_control">கட்டுப்பாடு</string>
-    <string name="category_event">நிகழ்வு</string>
-    <string name="category_user_bricks">உங்கள் செங்கற்கள்</string>
-    <string name="category_data">தகவல்கள்</string>
-    <string name="category_device">Device</string>
-    <string name="category_lego_nxt">லெகோ NXT</string>
-    <string name="category_lego_ev3">லெகோ EV3</string>
-    <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">ஜம்பிங் சுமோ</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">ஆர்டுயினோ</string>
-    <string name="category_cast">Chromecast</string>
-    <string name="category_raspi">ராஸ்பெர்ரி பை</string>
-    <string name="category_assertions">சோதனை</string>
+    <string name="categories" tools:ignore="UnusedResources">வகைகள்</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">எம்பிராய்டரி</string>
+    <string name="category_motion" tools:ignore="UnusedResources">மோஷன்</string>
+    <string name="category_looks" tools:ignore="UnusedResources">தோற்றம்</string>
+    <string name="category_pen" tools:ignore="UnusedResources">பேனா</string>
+    <string name="category_sound" tools:ignore="UnusedResources">ஒலி</string>
+    <string name="category_control" tools:ignore="UnusedResources">கட்டுப்பாடு</string>
+    <string name="category_event" tools:ignore="UnusedResources">நிகழ்வு</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">உங்கள் செங்கற்கள்</string>
+    <string name="category_data" tools:ignore="UnusedResources">தகவல்கள்</string>
+    <string name="category_device" tools:ignore="UnusedResources">Device</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">லெகோ NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">லெகோ EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">ஜம்பிங் சுமோ</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">ஆர்டுயினோ</string>
+    <string name="category_cast" tools:ignore="UnusedResources">Chromecast</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">ராஸ்பெர்ரி பை</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">சோதனை</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Add label</string>
@@ -821,212 +781,215 @@
     <string name="brick_user_defined_default_input_name">Name of input</string>
     <string name="brick_user_defined_default_label">Label text</string>
     <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">அறிக்கையிடு</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"இடத்தில்"</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"இடத்தில்"</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"x:"</string>
-    <string name="y_label">"y:"</string>
-    <string name="brick_set_x">"X ஐ அமைக்கவும்"</string>
-    <string name="brick_set_y">"Y ஐ அமைக்கவும்"</string>
-    <string name="brick_change_x_by">"X ஐ மாற்றவும்"</string>
-    <string name="brick_change_y_by">"Y ஐ மாற்றவும்"</string>
-    <string name="brick_go_back">பின்னால் செல்</string>
-    <string name="brick_set_rotation_style">"சுழற்சி பாணியை அமைக்கவும்"</string>
-    <string name="brick_set_rotation_style_lr">இடது-வலது மட்டும்</string>
-    <string name="brick_set_rotation_style_normal">அனைத்தையும் சுற்றி</string>
-    <string name="brick_set_rotation_style_no">சுழற்ற வேண்டாம்</string>
+    <string name="x_label" tools:ignore="UnusedResources">"x:"</string>
+    <string name="y_label" tools:ignore="UnusedResources">"y:"</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"X ஐ அமைக்கவும்"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"Y ஐ அமைக்கவும்"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"X ஐ மாற்றவும்"</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Y ஐ மாற்றவும்"</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">பின்னால் செல்</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"சுழற்சி பாணியை அமைக்கவும்"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">இடது-வலது மட்டும்</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">அனைத்தையும் சுற்றி</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">சுழற்ற வேண்டாம்</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">அடுக்கு</item>
         <item quantity="other">layers</item>
     </plurals>
-    <string name="brick_come_to_front">முன் செல்லுங்கள்</string>
-    <string name="brick_if_on_edge_bounce">விளிம்பில் இருந்தால், துள்ளவும்</string>
-    <string name="brick_move">நகர்த்து</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">முன் செல்லுங்கள்</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">விளிம்பில் இருந்தால், துள்ளவும்</string>
+    <string name="brick_move" tools:ignore="UnusedResources">நகர்த்து</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="one">படி</item>
         <item quantity="other">steps</item>
     </plurals>
-    <string name="brick_turn_left">இடப்பக்கம் திரும்பு</string>
-    <string name="brick_turn_right">வலதுபுறம் திரும்ப</string>
-    <string name="brick_point_in_direction">திசையில் புள்ளி</string>
-    <string name="brick_point_to">நோக்கி சுட்டிக்காட்டவும்</string>
-    <string name="brick_glide">சறுக்கு</string>
-    <string name="brick_glide_to_x">x க்கு:</string>
-    <string name="brick_go_to">செல்லுங்கள்</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">இடப்பக்கம் திரும்பு</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">வலதுபுறம் திரும்ப</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">திசையில் புள்ளி</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">நோக்கி சுட்டிக்காட்டவும்</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">சறுக்கு</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">x க்கு:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">செல்லுங்கள்</string>
     <string name="brick_go_to_touch_position">தொடு நிலை</string>
     <string name="brick_go_to_random_position">சீரற்ற நிலை</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">உங்கள் இயக்க வகையை அமைக்கவும்</string>
-    <string name="brick_set_physics_object_type_dynamic">ஈர்ப்பு கீழ் நகரும் மற்றும் துள்ளல்</string>
-    <string name="brick_set_physics_object_type_fixed">ஈர்ப்பு விசையின் கீழ் நகரவில்லை, ஆனால் மற்றவர்கள் ஈர்ப்பு விசையின் கீழ் உங்களைத் துரத்துகிறார்கள்</string>
-    <string name="brick_set_physics_object_type_no">ஈர்ப்பு (இயல்புநிலை) கீழ் நகரவோ அல்லது எதிர்க்கவோ இல்லை</string>
-    <string name="brick_set_mass">"வெகுஜனத்தை அமைக்கவும்"</string>
-    <string name="brick_set_mass_unit">கிலோகிராம்</string>
-    <string name="brick_set_gravity_to">"அனைத்து நடிகர்களுக்கும் பொருள்களுக்கும் ஈர்ப்பு அமைக்கவும்"</string>
-    <string name="brick_set_gravity_unit">படிகள் / வினாடி²</string>
-    <string name="brick_set_velocity_to">"வேகத்தை அமைக்கவும்"</string>
-    <string name="brick_set_velocity_unit">படிகள் / இரண்டாவது</string>
-    <string name="brick_turn_speed_unit">டிகிரி / இரண்டாவது</string>
-    <string name="brick_set_friction">"உராய்வை அமைக்கவும்"</string>
-    <string name="brick_set_bounce_factor">"பவுன்ஸ் காரணி அமைக்கவும்"</string>
-    <string name="brick_rotate_left">"இடதுபுறம் சுழலும்"</string>
-    <string name="brick_rotate_right">"வலதுபுறம் சுழற்று"</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">உங்கள் இயக்க வகையை அமைக்கவும்</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">ஈர்ப்பு கீழ் நகரும் மற்றும் துள்ளல்</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">ஈர்ப்பு விசையின் கீழ் நகரவில்லை, ஆனால் மற்றவர்கள் ஈர்ப்பு விசையின் கீழ் உங்களைத் துரத்துகிறார்கள்</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">ஈர்ப்பு (இயல்புநிலை) கீழ் நகரவோ அல்லது எதிர்க்கவோ இல்லை</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"வெகுஜனத்தை அமைக்கவும்"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">கிலோகிராம்</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"அனைத்து நடிகர்களுக்கும் பொருள்களுக்கும் ஈர்ப்பு அமைக்கவும்"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">படிகள் / வினாடி²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"வேகத்தை அமைக்கவும்"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">படிகள் / இரண்டாவது</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">டிகிரி / இரண்டாவது</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"உராய்வை அமைக்கவும்"</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"பவுன்ஸ் காரணி அமைக்கவும்"</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"இடதுபுறம் சுழலும்"</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"வலதுபுறம் சுழற்று"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">பார்க்க மாறவும்</string>
-    <string name="brick_set_look_by_index">எண்ணுடன் பார்க்க மாறவும்</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">பார்க்க மாறவும்</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">எண்ணுடன் பார்க்க மாறவும்</string>
     <string name="brick_and_wait">காத்திருங்கள்</string>
-    <string name="brick_set_background">பின்னணியை அமைக்கவும்</string>
-    <string name="brick_set_background_and_wait">பின்னணியை அமைத்து காத்திருங்கள்</string>
-    <string name="brick_set_background_by_index">பின்னணியை எண்ணாக அமைக்கவும்</string>
-    <string name="brick_when_background">பின்னணி மாறும்போது</string>
-    <string name="brick_set_size_to">அளவை அமைக்கவும்</string>
-    <string name="brick_change_size_by">அளவை மாற்றவும்</string>
-    <string name="brick_hide">மறை</string>
-    <string name="brick_show">காட்டு</string>
-    <string name="brick_set_transparency">"வெளிப்படைத்தன்மையை அமைக்கவும்"</string>
-    <string name="brick_change_ghost_effect">"வெளிப்படைத்தன்மையை மாற்றவும்"</string>
-    <string name="brick_set_brightness">"பிரகாசத்தை அமைக்கவும்"</string>
-    <string name="brick_change_brightness">"பிரகாசத்தை மாற்றவும்"</string>
-    <string name="brick_set_color">"வண்ணத்தை அமைக்கவும்"</string>
-    <string name="brick_change_color">"நிறத்தை மாற்றவும்"</string>
-    <string name="by_label">மூலம்</string>
-    <string name="to_label">க்கு</string>
-    <string name="brick_clear_graphic_effect">கிராஃபிக் விளைவுகளை அழிக்கவும்</string>
-    <string name="brick_next_look">அடுத்த பார்வை</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">பின்னணியை அமைக்கவும்</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">பின்னணியை அமைத்து காத்திருங்கள்</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">பின்னணியை எண்ணாக அமைக்கவும்</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">பின்னணி மாறும்போது</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">அளவை அமைக்கவும்</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">அளவை மாற்றவும்</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">மறை</string>
+    <string name="brick_show" tools:ignore="UnusedResources">காட்டு</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"வெளிப்படைத்தன்மையை அமைக்கவும்"</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"வெளிப்படைத்தன்மையை மாற்றவும்"</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"பிரகாசத்தை அமைக்கவும்"</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"பிரகாசத்தை மாற்றவும்"</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"வண்ணத்தை அமைக்கவும்"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"நிறத்தை மாற்றவும்"</string>
+    <string name="by_label" tools:ignore="UnusedResources">மூலம்</string>
+    <string name="to_label" tools:ignore="UnusedResources">க்கு</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">கிராஃபிக் விளைவுகளை அழிக்கவும்</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">அடுத்த பார்வை</string>
     <string name="brick_next_background">அடுத்த பின்னணி</string>
-    <string name="brick_previous_look">முந்தைய தோற்றம்</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">முந்தைய தோற்றம்</string>
     <string name="brick_previous_background">முந்தைய பின்னணி</string>
-    <string name="brick_delete_look">Delete look</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">தோற்றத்தைத் திருத்து</string>
+    <string name="brick_edit_background">பின்னணியைத் திருத்து</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">Delete look</string>
     <string name="brick_delete_background">Delete background</string>
-    <string name="brick_flash">ஒளிரும் விளக்கை இயக்கவும்</string>
-    <string name="brick_flash_on">மீது</string>
-    <string name="brick_flash_off">ஆஃப்</string>
-    <string name="brick_vibration">க்கு அதிர்வு</string>
-    <string name="brick_ask_label">கேட்க</string>
-    <string name="brick_ask_store">மற்றும் எழுதப்பட்ட பதிலை சேமிக்கவும்</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">ஒளிரும் விளக்கை இயக்கவும்</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">மீது</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">ஆஃப்</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">க்கு அதிர்வு</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">கேட்க</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">மற்றும் எழுதப்பட்ட பதிலை சேமிக்கவும்</string>
     <string name="brick_ask_default_question">உங்கள் பெயர் என்ன?</string>
     <string name="brick_ask_dialog_hint">"உங்கள் பதிலை உள்ளிடவும்:"</string>
     <string name="brick_ask_dialog_submit">பதிலை சமர்ப்பிக்கவும்</string>
-    <string name="brick_ask_speech_label">கேட்க</string>
-    <string name="brick_ask_speech_store">பேசும் பதிலை சேமிக்கவும்</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">கேட்க</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">பேசும் பதிலை சேமிக்கவும்</string>
     <string name="brick_ask_speech_default_question">உங்கள் பெயர் என்ன?</string>
-    <string name="brick_paint_new_look">Paint new look</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Paint new look</string>
     <string name="brick_paint_new_background">Paint new background</string>
     <string name="brick_paint_new_look_name">"name of new look"</string>
-    <string name="brick_copy_look">Copy look and name it</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">Copy look and name it</string>
     <string name="brick_copy_look_name">name of copied look</string>
     <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">பேனா கீழே</string>
-    <string name="brick_pen_up">பேனா கீழே</string>
-    <string name="brick_pen_size">பேனா அளவை அமைக்கவும்</string>
-    <string name="brick_pen_color">பேனா நிறத்தை அமைக்கவும்</string>
-    <string name="brick_clear_background">அழி</string>
-    <string name="brick_stamp">முத்திரை</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">பேனா கீழே</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">பேனா கீழே</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">பேனா அளவை அமைக்கவும்</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">பேனா நிறத்தை அமைக்கவும்</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">அழி</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">முத்திரை</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">ஒலியைத் தொடங்குங்கள்</string>
-    <string name="brick_play_sound_and_wait">ஒலியைத் தொடங்கி காத்திருங்கள்</string>
-    <string name="brick_stop_sound">Stop sound</string>
-    <string name="brick_stop_all_sounds">எல்லா ஒலிகளையும் நிறுத்துங்கள்</string>
-    <string name="brick_set_volume_to">அளவை அமைக்கவும்</string>
-    <string name="brick_change_volume_by">அளவை மாற்றவும்</string>
-    <string name="brick_speak">பேசு</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">ஒலியைத் தொடங்குங்கள்</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">ஒலியைத் தொடங்கி காத்திருங்கள்</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">Stop sound</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">எல்லா ஒலிகளையும் நிறுத்துங்கள்</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">அளவை அமைக்கவும்</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">அளவை மாற்றவும்</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">பேசு</string>
     <string name="brick_speak_default_value">வணக்கம்!</string>
-    <string name="brick_speak_and_wait">காத்திருங்கள்</string>
-    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">காத்திருங்கள்</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Start listening to voice and store spoken words in</string>
     <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
     for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">Set listening language to</string>
-    <string name="set_instrument_to">Set instrument to</string>
-    <string name="set_tempo_to">Set tempo to</string>
-    <string name="change_tempo_by">Change tempo by</string>
-    <string name="pause_for">Pause for</string>
-    <string name="play_drum">Play drum</string>
-    <string name="beats">beats</string>
-    <string name="play_note">Play note</string>
-    <string name="for_string">ஆக</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Set listening language to</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">Set instrument to</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">Set tempo to</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">Change tempo by</string>
+    <string name="pause_for" tools:ignore="UnusedResources">Pause for</string>
+    <string name="play_drum" tools:ignore="UnusedResources">Play drum</string>
+    <string name="beats" tools:ignore="UnusedResources">beats</string>
+    <string name="play_note" tools:ignore="UnusedResources">Play note</string>
+    <string name="for_string" tools:ignore="UnusedResources">ஆக</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">தைத்து</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
-    <string name="brick_write_embroidery">Write embroidery data to file</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">தைத்து</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">Start running stitch with length</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Start zigzag stitch with length</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">and width</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Start triple stitch with length</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Stop current stitch</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">Sew up</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">Reset timer</string>
-    <string name="brick_open">திறந்த</string>
-    <string name="brick_in_browser">in browser</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
+    <string name="brick_open" tools:ignore="UnusedResources">திறந்த</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">in browser</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">காட்சி தொடங்கும் போது</string>
-    <string name="brick_when">தட்டும்போது</string>
-    <string name="brick_when_condition_when">எப்பொழுது</string>
-    <string name="brick_when_becomes_true">உண்மை ஆகிறது</string>
-    <string name="brick_wait">காத்திருக்கவும்</string>
-    <string name="brick_wait_until">அதுவரை காத்திரு</string>
-    <string name="brick_wait_until_second_part">உண்மை</string>
-    <string name="brick_when_gamepad_button">கேம்பேட் பொத்தான் போது</string>
-    <string name="brick_when_gamepad_button_tapped">தட்டப்பட்டது</string>
-    <string name="brick_when_nfc">NFC போது</string>
-    <string name="brick_stop_script">நிறுத்து</string>
-    <string name="brick_stop_this_script">இந்த ஸ்கிரிப்ட்</string>
-    <string name="brick_stop_all_scripts">எல்லா ஸ்க்ரிப்ட்</string>
-    <string name="brick_stop_other_scripts">இந்த நடிகர் அல்லது பொருளின் பிற ஸ்கிரிப்ட்கள்</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">காட்சி தொடங்கும் போது</string>
+    <string name="brick_when" tools:ignore="UnusedResources">தட்டும்போது</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">எப்பொழுது</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">உண்மை ஆகிறது</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">காத்திருக்கவும்</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">அதுவரை காத்திரு</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">உண்மை</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">கேம்பேட் பொத்தான் போது</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">தட்டப்பட்டது</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">NFC போது</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">நிறுத்து</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">இந்த ஸ்கிரிப்ட்</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">எல்லா ஸ்க்ரிப்ட்</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">இந்த நடிகர் அல்லது பொருளின் பிற ஸ்கிரிப்ட்கள்</string>
     <plurals name="second_plural">
         <item quantity="one">"வினாடி"</item>
         <item quantity="other">"seconds"</item>
     </plurals>
-    <string name="brick_collision_receive">நீங்கள் துள்ளும்போது</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">நீங்கள் துள்ளும்போது</string>
     <string name="collision_with_anything">எந்த விளிம்பு, நடிகர் அல்லது பொருள்</string>
-    <string name="brick_broadcast_receive">நீங்கள் பெறும்போது</string>
-    <string name="brick_broadcast">ஒளிபரப்பு</string>
-    <string name="brick_broadcast_wait">ஒளிபரப்பி காத்திருங்கள்</string>
-    <string name="brick_scene_transition">காட்சியைத் தொடரவும்</string>
-    <string name="brick_scene_start">காட்சியைத் தொடங்குங்கள்</string>
-    <string name="brick_note">குறிப்பு</string>
-    <string name="brick_think_bubble">சிந்தியுங்கள்</string>
-    <string name="brick_say_bubble">சொல்</string>
-    <string name="brick_think_say_for_text">ஆக</string>
-    <string name="brick_forever">என்றென்றும்</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
-    <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">க்கு</string>
-    <string name="brick_repeat">மீண்டும்</string>
-    <string name="brick_repeat_until">வரை மீண்டும் செய்யவும்</string>
-    <string name="brick_when_touched">மேடை தட்டும்போது</string>
-    <string name="brick_clone">இன் குளோனை உருவாக்கவும்</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">நீங்கள் பெறும்போது</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">ஒளிபரப்பு</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">ஒளிபரப்பி காத்திருங்கள்</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">காட்சியைத் தொடரவும்</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">காட்சியைத் தொடங்குங்கள்</string>
+    <string name="brick_note" tools:ignore="UnusedResources">குறிப்பு</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">சிந்தியுங்கள்</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">சொல்</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">ஆக</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">என்றென்றும்</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">For each value from</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">in</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">க்கு</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">மீண்டும்</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">வரை மீண்டும் செய்யவும்</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">மேடை தட்டும்போது</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">இன் குளோனை உருவாக்கவும்</string>
     <string name="brick_clone_this">உங்களை</string>
-    <string name="brick_when_cloned">நீங்கள் ஒரு குளோனாகத் தொடங்கும்போது</string>
-    <string name="brick_delete_this_clone">இந்த குளோனை நீக்கு</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
-    <string name="brick_wait_till_idle">மற்ற எல்லா ஸ்கிரிப்டுகளும் நிறுத்தப்படும் வரை காத்திருங்கள்</string>
-    <string name="brick_tap_at">"இல் ஒற்றை தட்டு"</string>
-    <string name="brick_touch_at">"Touch at"</string>
-    <string name="brick_tap_for">"ஆக"</string>
-    <string name="brick_touch_slide">"Touch and slide"</string>
-    <string name="brick_touch_from_x">"from x:"</string>
-    <string name="brick_finish_stage">நிலையை முடிக்க</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">நீங்கள் ஒரு குளோனாகத் தொடங்கும்போது</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">இந்த குளோனை நீக்கு</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">Assert</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">equals expected</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">மற்ற எல்லா ஸ்கிரிப்டுகளும் நிறுத்தப்படும் வரை காத்திருங்கள்</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"இல் ஒற்றை தட்டு"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"ஆக"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Touch and slide"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"from x:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">நிலையை முடிக்க</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">Finish tests</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">Assert lists</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">Actual:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">Expected:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">equals to expected item of</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">For each item of</item>
         <item quantity="other">For each tuple of items of</item>
@@ -1044,43 +1007,43 @@
         <item quantity="other">times</item>
     </plurals>
     <string name="brick_loop_end">வளையத்தின் முடிவு</string>
-    <string name="brick_if_begin">என்றால்</string>
-    <string name="brick_if_begin_second_part">உண்மை, பின்னர்</string>
-    <string name="brick_if_else">வேறு</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">என்றால்</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">உண்மை, பின்னர்</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">வேறு</string>
     <string name="brick_if_end">என்றால் முடிவு</string>
-    <string name="brick_set_variable">மாறி அமை</string>
-    <string name="brick_change_variable">மாறி மாற்று</string>
-    <string name="brick_write_variable_on_device">சாதனத்தில் மாறி எழுதவும்</string>
-    <string name="brick_read_variable_from_device">சாதனத்திலிருந்து மாறியைப் படிக்கவும்</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">மாறி அமை</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">மாறி மாற்று</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">சாதனத்தில் மாறி எழுதவும்</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">சாதனத்திலிருந்து மாறியைப் படிக்கவும்</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">to file</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
     <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">மற்றும்</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Read variable</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">from file</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">மற்றும்</string>
     <string name="brick_read_variable_from_file_keep">keep the file</string>
     <string name="brick_read_variable_from_file_delete">delete the file</string>
-    <string name="brick_write_list_on_device">சாதனத்தில் பட்டியலை எழுதுங்கள்</string>
-    <string name="brick_read_list_from_device">சாதனத்திலிருந்து பட்டியலைப் படிக்கவும்</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">சாதனத்தில் பட்டியலை எழுதுங்கள்</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">சாதனத்திலிருந்து பட்டியலைப் படிக்கவும்</string>
     <string name="brick_note_default_value">கருத்தை இங்கே சேர்க்கவும்&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">வணக்கம்!</string>
     <string name="brick_broadcast_default_value">"புதிய தகவல்"</string>
-    <string name="brick_add_item_to_userlist_add">கூட்டு</string>
-    <string name="brick_add_item_to_userlist">பட்டியலிட</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete">பட்டியலிலிருந்து உருப்படியை நீக்கு</string>
-    <string name="brick_delete_item_from_userlist">நிலையில்</string>
-    <string name="brick_insert_item_into_userlist_insert_into">நுழைக்கவும்</string>
-    <string name="brick_insert_item_into_userlist_into_list">பட்டியலில்</string>
-    <string name="brick_insert_item_into_userlist_at_position">நிலையில்</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">பட்டியலில் உள்ள உருப்படியை மாற்றவும்</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">நிலையில்</string>
-    <string name="brick_replace_item_in_userlist_with_value">உடன்</string>
-    <string name="brick_web_request">வலை கோரிக்கையை அனுப்பவும்</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">கூட்டு</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">பட்டியலிட</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Delete all items from list</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">பட்டியலிலிருந்து உருப்படியை நீக்கு</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">நிலையில்</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">நுழைக்கவும்</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">பட்டியலில்</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">நிலையில்</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">பட்டியலில் உள்ள உருப்படியை மாற்றவும்</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">நிலையில்</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">உடன்</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">வலை கோரிக்கையை அனுப்பவும்</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">மற்றும் பதிலை சேமிக்கவும்</string>
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">மற்றும் பதிலை சேமிக்கவும்</string>
     <string name="web_request_warning_title">Allow web access?</string>
     <string name="web_request_warning_message">Be very careful before allowing access, since the
         link may expose your personal information, such as your precise geographical location or any text
@@ -1096,18 +1059,15 @@
         later, you can remove the entry from the list of trusted domains in
         the settings of this app.
     </string>
-    <string name="brick_look_request">Get image from</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">Get image from</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">and use as current look</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">and use as current background</string>
     <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
     <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into">பட்டியலில்</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Store column</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">of the</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">பட்டியலில்</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
@@ -1155,7 +1115,11 @@
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
+    <string name="default_variable_name">Variable</string>
     <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_script_group_name">Script group</string>
+    <string name="default_broadcast_message_name">செய்தி</string>
+    <string name="default_list_name">List</string>
     <string name="default_project_background_name">பின்னணி</string>
     <string name="default_project_cloud_name">மேகங்கள்</string>
     <string name="default_project_cloud_sprite_name_1">மேகங்கள்</string>
@@ -1251,7 +1215,7 @@
     <string name="error_project_upload">திட்டத்தை பதிவேற்றும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_project_download">திட்டத்தைப் பதிவிறக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_project_already_in_queue">"திட்டம் %s ஏற்கனவே வரிசையில் உள்ளது."</string>
-    <string name="error_could_not_decode_project_name_from_url">"உங்கள் பதிவிறக்கத்தைத் தொடங்க முடியவில்லை, எங்கள் சேவையகத்தில் சிக்கல் இருப்பதாகத் தெரிகிறது."</string>
+    <string name="error_could_not_decode_project_name_from_url">உங்கள் பதிவிறக்கத்தைத் தொடங்க முடியவில்லை, எங்கள் சேவையகத்தில் சிக்கல் இருப்பதாகத் தெரிகிறது.</string>
     <string name="error_new_project">புதிய திட்டத்தை உருவாக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_rename_scene">காட்சியின் மறுபெயரிடும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_load_project">திட்டத்தை ஏற்றும்போது ஏதோ தவறு ஏற்பட்டது.</string>
@@ -1301,20 +1265,20 @@
     <string name="none_paired">இணைக்கப்பட்ட சாதனங்கள் எதுவும் கிடைக்கவில்லை</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">Arduino டிஜிட்டல் முள் அமைக்கவும்</string>
-    <string name="brick_arduino_select_analog_value">Arduino PWM ~ pin ஐ அமைக்கவும்</string>
-    <string name="brick_arduino_set_pin_value_to">க்கு</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Arduino டிஜிட்டல் முள் அமைக்கவும்</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Arduino PWM ~ pin ஐ அமைக்கவும்</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">க்கு</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">ராஸ்பெர்ரி பை முள் அமைக்கவும்</string>
-    <string name="brick_raspi_set_pin_value_to">க்கு</string>
-    <string name="brick_raspi_if_begin">If Raspberry Pi pin</string>
-    <string name="brick_raspi_if_begin_second_part">உண்மை, பின்னர்</string>
-    <string name="brick_raspi_when_begin">ராஸ்பெர்ரி பை முள் போது</string>
-    <string name="brick_raspi_when_equals">இதற்கு மாற்றப்பட்டது</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">ராஸ்பெர்ரி பை முள் அமைக்கவும்</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">க்கு</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">If Raspberry Pi pin</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">உண்மை, பின்னர்</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">ராஸ்பெர்ரி பை முள் போது</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">இதற்கு மாற்றப்பட்டது</string>
     <string name="brick_raspi_pressed_text">உயர்</string>
     <string name="brick_raspi_released_text">தாழ்ந்த</string>
-    <string name="brick_raspi_set_pwm">ராஸ்பெர்ரி பை முள் அமைக்கவும்</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">ராஸ்பெர்ரி பை முள் அமைக்கவும்</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">ராஸ்பெர்ரி பை அமைப்புகள்</string>
@@ -1322,16 +1286,16 @@
     <string name="error_connecting_to">பிழை: %s உடன் இணைக்க முடியவில்லை: %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">NXT மோட்டார் அமைக்கவும்</string>
-    <string name="nxt_motor_speed_to">க்கு</string>
-    <string name="nxt_motor_speed">வேகம்</string>
-    <string name="nxt_brick_motor_turn_angle">NXT மோட்டாரைத் திருப்புங்கள்</string>
-    <string name="nxt_motor_move_by">மூலம்</string>
-    <string name="nxt_motor_stop">NXT மோட்டாரை நிறுத்துங்கள்</string>
-    <string name="nxt_play_tone">NXT தொனியை இயக்கு</string>
-    <string name="nxt_tone_duration">கால அளவு</string>
-    <string name="nxt_tone_frequency">அதிர்வலை</string>
-    <string name="nxt_tone_hundred_hz">×100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">NXT மோட்டார் அமைக்கவும்</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">க்கு</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">வேகம்</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">NXT மோட்டாரைத் திருப்புங்கள்</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">மூலம்</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">NXT மோட்டாரை நிறுத்துங்கள்</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">NXT தொனியை இயக்கு</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">கால அளவு</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">அதிர்வலை</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">×100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1386,15 +1350,15 @@
     <string name="ev3_motor_d">டி</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">அனைத்தும்</string>
-    <string name="ev3_play_tone">EV3 தொனியை இயக்கு</string>
-    <string name="ev3_tone_duration_for">ஆக</string>
-    <string name="ev3_tone_volume">தொகுதி</string>
-    <string name="ev3_tone_percent">சதவிதம்</string>
-    <string name="ev3_motor_stop">EV3 மோட்டாரை நிறுத்துங்கள்</string>
-    <string name="ev3_motor_move">EV3 மோட்டார் அமைக்கவும்</string>
-    <string name="ev3_brick_motor_turn_angle">EV3 மோட்டாரைத் திருப்புங்கள்</string>
-    <string name="ev3_motor_move_by">மூலம்</string>
-    <string name="ev3_set_led_status">EV3 LED நிலையை அமைக்கவும்</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">EV3 தொனியை இயக்கு</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">ஆக</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">தொகுதி</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">சதவிதம்</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">EV3 மோட்டாரை நிறுத்துங்கள்</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">EV3 மோட்டார் அமைக்கவும்</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">EV3 மோட்டாரைத் திருப்புங்கள்</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">மூலம்</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">EV3 LED நிலையை அமைக்கவும்</string>
     <string name="ev3_led_status_off">ஆஃப்</string>
     <string name="ev3_led_status_green">பச்சை</string>
     <string name="ev3_led_status_red">சிவப்பு</string>
@@ -1407,76 +1371,76 @@
     <string name="ev3_led_status_orange_pulse">ஆரஞ்சு துடிப்பு</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">AR.Drone 2.0 ஐ எடுத்துக் கொள்ளுங்கள்</string>
-    <string name="brick_drone_play_led_animation">AR.Drone 2.0 ஃபிளாஷ் அனிமேஷனை இயக்கு</string>
-    <string name="brick_drone_flip">AR.Drone 2.0 ஐ புரட்டுங்கள்</string>
-    <string name="brick_drone_move_left">AR.Drone 2.0 ஐ இடதுபுறமாக நகர்த்தவும்</string>
-    <string name="brick_drone_move_right">AR.Drone 2.0 ஐ வலதுபுறமாக நகர்த்தவும்</string>
-    <string name="brick_drone_move_forward">AR.Drone 2.0 ஐ முன்னோக்கி நகர்த்தவும்</string>
-    <string name="brick_drone_move_backward">AR.Drone 2.0 ஐ பின்னோக்கி நகர்த்தவும்</string>
-    <string name="brick_drone_move_up">AR.Drone 2.0 ஐ மேலே நகர்த்தவும்</string>
-    <string name="brick_drone_move_down">AR.Drone 2.0 ஐ கீழே நகர்த்தவும்</string>
-    <string name="brick_drone_emergency">அவசர AR.Drone 2.0</string>
-    <string name="brick_drone_turn_right">AR.Drone 2.0 ஐ வலதுபுறம் திருப்பவும்</string>
-    <string name="brick_drone_turn_left">AR.Drone 2.0 இடதுபுறம் திரும்பவும்</string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ எடுத்துக் கொள்ளுங்கள்</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">AR.Drone 2.0 ஃபிளாஷ் அனிமேஷனை இயக்கு</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ புரட்டுங்கள்</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ இடதுபுறமாக நகர்த்தவும்</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ வலதுபுறமாக நகர்த்தவும்</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ முன்னோக்கி நகர்த்தவும்</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ பின்னோக்கி நகர்த்தவும்</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ மேலே நகர்த்தவும்</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ கீழே நகர்த்தவும்</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">அவசர AR.Drone 2.0</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">AR.Drone 2.0 ஐ வலதுபுறம் திருப்பவும்</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">AR.Drone 2.0 இடதுபுறம் திரும்பவும்</string>
     <string name="brick_drone_set_config">கட்டமைப்பு AR.Drone 2.0 ஐ அமைக்கவும்</string>
-    <string name="brick_drone_switch_camera">AR.Drone 2.0 கேமராவை மாற்றவும்</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">AR.Drone 2.0 கேமராவை மாற்றவும்</string>
     <string name="brick_drone_set_altitude">உயர வரம்பு </string>
     <string name="brick_drone_set_vertical_speed">செங்குத்து வேக வரம்பு</string>
     <string name="brick_drone_set_rotation_speed">சுழற்சி வேக வரம்பு</string>
     <string name="brick_drone_set_tilt_limit">சாய்வு வரம்பு</string>
-    <string name="brick_drone_with.">உடன்</string>
-    <string name="brick_drone_power">ஆற்றல்</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">உடன்</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">ஆற்றல்</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">பச்சை சிவப்பு சிமிட்டல்</string>
-    <string name="drone_animation_blinkgreen">பச்சை சிமிட்டல்</string>
-    <string name="drone_animation_blinkred">சிவப்பு சிமிட்டல்</string>
-    <string name="drone_animation_blinkorange">ஆரஞ்சு சிமிட்டல்</string>
-    <string name="drone_animation_snakegreenred">பாம்பு பச்சை சிவப்பு</string>
-    <string name="drone_animation_fire">தீ</string>
-    <string name="drone_animation_standard">வழக்கமான</string>
-    <string name="drone_animation_red">சிவப்பு</string>
-    <string name="drone_animation_green">பச்சை</string>
-    <string name="drone_animation_redsnake">சிவப்பு பாம்பு</string>
-    <string name="drone_animation_blank">வெற்று</string>
-    <string name="drone_animation_rightmissile">வலது ஏவுகணை</string>
-    <string name="drone_animation_leftmissile">இடது ஏவுகணை</string>
-    <string name="drone_animation_doublemissile">இரட்டை ஏவுகணை</string>
-    <string name="drone_animation_frontleftgreenothersred">முன் இடது பச்சை மற்றது சிவப்பு</string>
-    <string name="drone_animation_frontrightgreenothersred">முன் வலது பச்சை மற்றது சிவப்பு</string>
-    <string name="drone_animation_rearrightgreenothersred">பின் வலது பச்சை மற்றது சிவப்பு</string>
-    <string name="drone_animation_rearleftgreenothersred">பின் இடது பச்சை மற்றது சிவப்பு</string>
-    <string name="drone_animation_leftgreenrightred">இடது பச்சை வலது சிவப்பு</string>
-    <string name="drone_animation_leftredrightgreen">இடது சிவப்பு வலது பச்சை</string>
-    <string name="drone_animation_blinkstandard">ஒளிரும் தரநிலை</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">பச்சை சிவப்பு சிமிட்டல்</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">பச்சை சிமிட்டல்</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">சிவப்பு சிமிட்டல்</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">ஆரஞ்சு சிமிட்டல்</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">பாம்பு பச்சை சிவப்பு</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">தீ</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">வழக்கமான</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">சிவப்பு</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">பச்சை</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">சிவப்பு பாம்பு</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">வெற்று</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">வலது ஏவுகணை</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">இடது ஏவுகணை</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">இரட்டை ஏவுகணை</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">முன் இடது பச்சை மற்றது சிவப்பு</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">முன் வலது பச்சை மற்றது சிவப்பு</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">பின் வலது பச்சை மற்றது சிவப்பு</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">பின் இடது பச்சை மற்றது சிவப்பு</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">இடது பச்சை வலது சிவப்பு</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">இடது சிவப்பு வலது பச்சை</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">ஒளிரும் தரநிலை</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">ஜம்பிங் சுமோவை முன்னோக்கி நகர்த்தவும்</string>
-    <string name="brick_jumping_sumo_move_backward">ஜம்பிங் சுமோவை பின்னோக்கி நகர்த்தவும்</string>
-    <string name="brick_jumping_sumo_animation">அனிமேஷன்ஸ் ஜம்பிங் சுமோ</string>
-    <string name="brick_jumping_sumo_no_sound">ஜம்பிங் சுமோ ஒலி இல்லை</string>
-    <string name="brick_jumping_sumo_jump_long">ஜம்பிங் சுமோ தாண்டும் நீளம்</string>
-    <string name="brick_jumping_sumo_jump_high">ஜம்பிங் சுமோ தாண்டும் உயரம்</string>
-    <string name="brick_jumping_sumo_rotate_left">ஜம்பிங் சுமோவை இடது பக்கம் திருப்புங்கள்</string>
-    <string name="brick_jumping_sumo_rotate_right">ஜம்பிங் சுமோவை வலது பக்கம் திருப்புங்கள்</string>
-    <string name="brick_jumping_sumo_rotate_text">டிகிரிக்கள்</string>
-    <string name="brick_jumping_sumo_turn">ஃபிளிப் ஜம்பிங் சுமோ</string>
-    <string name="brick_jumping_sumo_taking_picture">படம் எடுக்கும் ஜம்பிங் சுமோ</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">ஜம்பிங் சுமோவை முன்னோக்கி நகர்த்தவும்</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">ஜம்பிங் சுமோவை பின்னோக்கி நகர்த்தவும்</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">அனிமேஷன்ஸ் ஜம்பிங் சுமோ</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">ஜம்பிங் சுமோ ஒலி இல்லை</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">ஜம்பிங் சுமோ தாண்டும் நீளம்</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">ஜம்பிங் சுமோ தாண்டும் உயரம்</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">ஜம்பிங் சுமோவை இடது பக்கம் திருப்புங்கள்</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">ஜம்பிங் சுமோவை வலது பக்கம் திருப்புங்கள்</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">டிகிரிக்கள்</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">ஃபிளிப் ஜம்பிங் சுமோ</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">படம் எடுக்கும் ஜம்பிங் சுமோ</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">ஒலி</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">ஒலி</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">சுழல்</string>
-    <string name="animation_tab">தத்தல்</string>
-    <string name="animation_slowshake">Slowshake</string>
-    <string name="animation_metronome">கால அளவு சாதனம்</string>
-    <string name="animation_ondulation">ஆண்டுலேசென்</string>
-    <string name="animation_spinjump">ஸ்பின்ஜம்ப்</string>
-    <string name="animation_spiral">சுழல்</string>
-    <string name="animation_slalom">ஸ்லாலோம்</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">சுழல்</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">தத்தல்</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">Slowshake</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">கால அளவு சாதனம்</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">ஆண்டுலேசென்</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">ஸ்பின்ஜம்ப்</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">சுழல்</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">ஸ்லாலோம்</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">தொகுதி</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">தொகுதி</string>
     <string name="sound_default">இயல்பு</string>
     <string name="sound_robot">ரோபோ</string>
     <string name="sound_insect">பூச்சி</string>
@@ -1484,23 +1448,23 @@
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">பைரோ மோட்டாரை நிறுத்துங்கள்</string>
-    <string name="brick_phiro_motor_forward_action">பைரோ மோட்டாரை முன்னோக்கி நகர்த்தவும்</string>
-    <string name="brick_phiro_motor_backward_action">பைரோ மோட்டாரை பின்னோக்கி நகர்த்தவும்</string>
-    <string name="phiro_motor_speed">வேகம்</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">பைரோ மோட்டாரை நிறுத்துங்கள்</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">பைரோ மோட்டாரை முன்னோக்கி நகர்த்தவும்</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">பைரோ மோட்டாரை பின்னோக்கி நகர்த்தவும்</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">வேகம்</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">ஃபிரோ என்றால்</string>
-    <string name="brick_phiro_sensor_second_part">செயல்படுத்தப்பட்டது</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">ஃபிரோ என்றால்</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">செயல்படுத்தப்பட்டது</string>
     <!-- tone -->
-    <string name="phiro_play_tone">பைரோ இசையை வாசிக்கவும்\n</string>
-    <string name="phiro_tone_duration">கால அளவு</string>
-    <string name="brick_phiro_select_tone">தொனி</string>
-    <string name="phiro_seconds">விநாடிகள்</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">பைரோ இசையை வாசிக்கவும்\n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">கால அளவு</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">தொனி</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">விநாடிகள்</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">பைரோ ஒளியை அமைக்கவும்</string>
-    <string name="phiro_rgb_led_red">சிவப்பு</string>
-    <string name="phiro_rgb_led_green">பச்சை</string>
-    <string name="phiro_rgb_led_blue">நீலம்</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">பைரோ ஒளியை அமைக்கவும்</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">சிவப்பு</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">பச்சை</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">நீலம்</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">டோ</string>
@@ -1537,9 +1501,8 @@
     <string name="formula_editor_data">தகவல்கள்</string>
     <string name="formula_editor_true">சரி</string>
     <string name="formula_editor_false">தவறு</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">சூத்திரத் தொகுப்பி</string>
-    <string name="formula_editor_changes_saved">மாற்றங்கள் சேமிக்கப்பட்டன.</string>
     <string name="formula_editor_changes_discarded">மாற்றங்கள் நிராகரிக்கப்பட்டன!</string>
     <string name="formula_editor_parse_fail">சூத்திரம் செல்லுபடியாகாது!</string>
     <string name="formula_nothing_selected">உள்ளீட்டு மதிப்பை வரையறுக்கவும்</string>
@@ -1547,62 +1510,62 @@
     <string name="formula_editor_choose_object_variable">இந்த நடிகர் அல்லது பொருளின் பண்புகள்</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sine</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos">cosine</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
     <string name="formula_editor_function_cos_parameter">(360)</string>
-    <string name="formula_editor_function_tan">tangent</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
     <string name="formula_editor_function_tan_parameter">(45)</string>
-    <string name="formula_editor_function_ln">natural logarithm</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
-    <string name="formula_editor_function_log">decimal logarithm</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
     <string name="formula_editor_function_log_parameter">(10)</string>
-    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">நிறம்</string>
-    <string name="formula_editor_function_sqrt">வர்க்க மூலம்</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">நிறம்</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">வர்க்க மூலம்</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">சீரற்ற மதிப்பு முதல் வரை</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">சீரற்ற மதிப்பு முதல் வரை</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
-    <string name="formula_editor_function_abs">absolute value</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round">சுற்று</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">சுற்று</string>
     <string name="formula_editor_function_round_parameter">(1.6)</string>
-    <string name="formula_editor_function_mod">modulo</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin">arcsine</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
-    <string name="formula_editor_function_arccos">arccosine</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangent</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">exponent</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
-    <string name="formula_editor_function_power">ஆற்றல்</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">ஆற்றல்</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor">தரை</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">தரை</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">உட்கூரை</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">உட்கூரை</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">அதிகபட்சம்</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">அதிகபட்சம்</string>
     <string name="formula_editor_function_max_parameter">(5,4)</string>
-    <string name="formula_editor_function_min">குறைந்தபட்சம்</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">குறைந்தபட்சம்</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">if then else</string>
     <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true">சரி</string>
-    <string name="formula_editor_function_false">தவறு</string>
-    <string name="formula_editor_function_length">நீளம்</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">சரி</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">தவறு</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">நீளம்</string>
     <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
-    <string name="formula_editor_function_letter">கடிதம்</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">கடிதம்</string>
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
-    <string name="formula_editor_function_join">சேர்</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">சேர்</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_join3">சேர்</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex">வழக்கமான வெளிப்பாடு</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">வழக்கமான வெளிப்பாடு</string>
     <string name="formula_editor_function_regex_parameter">(\'an? ([^.] +)\', \'நான் ஒரு பாண்டா.\')</string>
     <string name="formula_editor_function_regex_assistant">Regular expression
         assistant</string>
@@ -1611,72 +1574,75 @@
     <string name="formula_editor_dialog_wiki_button">மேற்கொண்ட தகவல்கள்</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino டிஜிட்டல் முள்</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino அனலாக் முள்</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">ராஸ்பெர்ரி பை முள்</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino டிஜிட்டல் முள்</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino அனலாக் முள்</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">ராஸ்பெர்ரி பை முள்</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">நிலை தொடு x</string>
-    <string name="formula_editor_function_finger_y">நிலை தொடு y</string>
-    <string name="formula_editor_function_is_finger_touching">மேடை தொட்டது</string>
-    <string name="formula_editor_function_multi_finger_x">நிலை தொடு x</string>
-    <string name="formula_editor_function_multi_finger_y">நிலை தொடு y</string>
-    <string name="formula_editor_function_is_multi_finger_touching">மேடை தொட்டது</string>
-    <string name="formula_editor_function_index_of_last_finger">கடைசி நிலை தொடு குறியீடு</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">நிலை தொடு x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">நிலை தொடு y</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">மேடை தொட்டது</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">நிலை தொடு x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">நிலை தொடு y</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">மேடை தொட்டது</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">கடைசி நிலை தொடு குறியீடு</string>
     <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
+    <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item">உருப்படி</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">உருப்படி</string>
     <string name="formula_editor_function_list_item_parameter">(1, * பட்டியல் பெயர் *)</string>
-    <string name="formula_editor_function_contains">உள் அடக்கி வை</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">உள் அடக்கி வை</string>
     <string name="formula_editor_function_contains_parameter">( * பட்டியல் பெயர் *,1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">item\'s index</string>
     <string name="formula_editor_function_index_of_item_parameter">(1, * பட்டியல் பெயர் *)</string>
-    <string name="formula_editor_function_number_of_items">பொருட்களின் எண்ணிக்கை</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">பொருட்களின் எண்ணிக்கை</string>
     <string name="formula_editor_function_number_of_items_parameter">( * பட்டியல் பெயர் *)</string>
     <string name="formula_editor_function_collision">நடிகர் அல்லது பொருளைத் தொடும்</string>
-    <string name="formula_editor_function_collides_with_edge">விளிம்பைத் தொடும்</string>
-    <string name="formula_editor_function_touched">விரலைத் தொடும்</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">விளிம்பைத் தொடும்</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">விரலைத் தொடும்</string>
     <string name="formula_editor_function_collides_with_color">touches color</string>
     <string name="formula_editor_function_color_touches_color">color touches color</string>
     <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_x_acceleration">முடுக்கம் x</string>
-    <string name="formula_editor_sensor_y_acceleration">முடுக்கம் y</string>
-    <string name="formula_editor_sensor_z_acceleration">முடுக்கம் z</string>
-    <string name="formula_editor_sensor_compass_direction">திசைகாட்டி திசை</string>
-    <string name="formula_editor_sensor_latitude">அட்ச ரேகை</string>
-    <string name="formula_editor_sensor_longitude">தீர்க்கரேகை</string>
-    <string name="formula_editor_sensor_location_accuracy">இருப்பிட துல்லியம்</string>
-    <string name="formula_editor_sensor_altitude">உயரம்</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
+        tolerance</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">முடுக்கம் x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">முடுக்கம் y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">முடுக்கம் z</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">திசைகாட்டி திசை</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">அட்ச ரேகை</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">தீர்க்கரேகை</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">இருப்பிட துல்லியம்</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">உயரம்</string>
     <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination">சாய்வு x</string>
-    <string name="formula_editor_sensor_y_inclination">சாய்வு y</string>
-    <string name="formula_editor_sensor_loudness">உரப்பு</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">சாய்வு x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">சாய்வு y</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">உரப்பு</string>
     <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year">ஆண்டு</string>
-    <string name="formula_editor_sensor_date_month">மாதம்</string>
-    <string name="formula_editor_sensor_date_day">நாள்</string>
-    <string name="formula_editor_sensor_date_weekday">வாரநாட்கள்</string>
-    <string name="formula_editor_sensor_time_hour">மணிநேரம்</string>
-    <string name="formula_editor_sensor_time_minute">நிமிடம்</string>
-    <string name="formula_editor_sensor_time_second">வினாடி</string>
-    <string name="formula_editor_sensor_drone_battery_status">ட்ரோன் பேட்டரி நிலை</string>
-    <string name="formula_editor_sensor_drone_emergency_state">ட்ரோன் அவசர நிலை</string>
-    <string name="formula_editor_sensor_drone_flying">ட்ரோன் பறக்கும்</string>
-    <string name="formula_editor_sensor_drone_initialized">ட்ரோன் துவக்கப்பட்டது</string>
-    <string name="formula_editor_sensor_drone_usb_active">ட்ரோன் யு. எஸ். பி செயலில் உள்ளது</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">ட்ரோன் யு. எஸ். பி மீதமுள்ள நேரம்</string>
-    <string name="formula_editor_sensor_drone_camera_ready">ட்ரோன் கேமரா தயார்</string>
-    <string name="formula_editor_sensor_drone_record_ready">ட்ரோன் பதிவு தயாராக உள்ளது</string>
-    <string name="formula_editor_sensor_drone_recording">ட்ரோன் கேமரா பதிவாகிரது</string>
-    <string name="formula_editor_sensor_drone_num_frames">ட்ரோன் கேமரா பிரேம்களின் எண்ணிக்கை</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT சென்சார் 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT சென்சார் 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT சென்சார் 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT சென்சார் 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3 சென்சார் 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3 சென்சார் 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3 சென்சார் 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3 சென்சார் 4</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">ஆண்டு</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">மாதம்</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">நாள்</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">வாரநாட்கள்</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">மணிநேரம்</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">நிமிடம்</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">வினாடி</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">ட்ரோன் பேட்டரி நிலை</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">ட்ரோன் அவசர நிலை</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">ட்ரோன் பறக்கும்</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">ட்ரோன் துவக்கப்பட்டது</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">ட்ரோன் யு. எஸ். பி செயலில் உள்ளது</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">ட்ரோன் யு. எஸ். பி மீதமுள்ள நேரம்</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">ட்ரோன் கேமரா தயார்</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">ட்ரோன் பதிவு தயாராக உள்ளது</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">ட்ரோன் கேமரா பதிவாகிரது</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">ட்ரோன் கேமரா பிரேம்களின் எண்ணிக்கை</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT சென்சார் 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT சென்சார் 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT சென்சார் 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT சென்சார் 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 சென்சார் 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 சென்சார் 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 சென்சார் 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 சென்சார் 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT தொடுதல்</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT ஒலி</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT ஒளி</string>
@@ -1694,35 +1660,35 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT ஒளி செயலில் உள்ளது</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT ஒலி</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT மீயொலி</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">கேம்பேட் ஏ அழுத்தப்பட்டது</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">கேம்பேட் பீ அழுத்தப்பட்டது</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">கேம்பேட் மேல் அழுத்தப்பட்டது</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">கேம்பேட் கீழ் அழுத்தப்பட்டது</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">கேம்பேட் இடது அழுத்தப்பட்டது</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">கேம்பேட் வலது அழுத்தப்பட்டது</string>
-    <string name="formula_editor_phiro_sensor_front_left">பைரோ முன் இடது சென்சார்</string>
-    <string name="formula_editor_phiro_sensor_front_right">பைரோ முன் வலது சென்சார்</string>
-    <string name="formula_editor_phiro_sensor_side_left">பைரோ இடது பக்க சென்சார்</string>
-    <string name="formula_editor_phiro_sensor_side_right">பைரோ வலது பக்க சென்சார்</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">பைரோ கீழ் இடது சென்சார்</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">பைரோ கீழ் வலது சென்சார்</string>
-    <string name="formula_editor_nfc_tag_id">nfc டேக் ஐடி</string>
-    <string name="formula_editor_nfc_tag_message">nfc குறிச்சொல் செய்தி</string>
-    <string name="formula_editor_object_x">நிலை x</string>
-    <string name="formula_editor_object_y">நிலை y</string>
-    <string name="formula_editor_object_transparency">வெளிப்படைத்தன்மை</string>
-    <string name="formula_editor_object_brightness">பிரகாசம்</string>
-    <string name="formula_editor_object_size">அளவு</string>
-    <string name="formula_editor_object_rotation">திசை</string>
-    <string name="formula_editor_object_layer">அடுக்கு</string>
-    <string name="formula_editor_object_x_velocity">x வேகம்</string>
-    <string name="formula_editor_object_y_velocity">y வேகம்</string>
-    <string name="formula_editor_object_angular_velocity">கோண வேகம்</string>
-    <string name="formula_editor_object_look_number">எண் பார்</string>
-    <string name="formula_editor_object_look_name"> பெயர் பார்</string>
-    <string name="formula_editor_object_background_number">பின்னணி எண்</string>
-    <string name="formula_editor_object_background_name">பின்னணி பெயர்</string>
-    <string name="formula_editor_object_distance_to">தொடுவதற்கான தூரம்</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">கேம்பேட் ஏ அழுத்தப்பட்டது</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">கேம்பேட் பீ அழுத்தப்பட்டது</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">கேம்பேட் மேல் அழுத்தப்பட்டது</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">கேம்பேட் கீழ் அழுத்தப்பட்டது</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">கேம்பேட் இடது அழுத்தப்பட்டது</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">கேம்பேட் வலது அழுத்தப்பட்டது</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">பைரோ முன் இடது சென்சார்</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">பைரோ முன் வலது சென்சார்</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">பைரோ இடது பக்க சென்சார்</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">பைரோ வலது பக்க சென்சார்</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">பைரோ கீழ் இடது சென்சார்</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">பைரோ கீழ் வலது சென்சார்</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc டேக் ஐடி</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc குறிச்சொல் செய்தி</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">நிலை x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">நிலை y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">வெளிப்படைத்தன்மை</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">பிரகாசம்</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">அளவு</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">திசை</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">அடுக்கு</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x வேகம்</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y வேகம்</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">கோண வேகம்</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">எண் பார்</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources"> பெயர் பார்</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">பின்னணி எண்</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">பின்னணி பெயர்</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">தொடுவதற்கான தூரம்</string>
     <string name="formula_editor_compute">கம்ப்யூட்</string>
     <string name="formula_editor_object">பொருள்</string>
     <string name="formula_editor_functions">பணிகள்</string>
@@ -1734,7 +1700,7 @@
     <string name="formula_editor_functions_lists">பட்டியல்கள்</string>
     <string name="formula_editor_logic_boolean">தருக்க (பூலியன்) ஆபரேட்டர்கள் மற்றும் மாறிலிகள்</string>
     <string name="formula_editor_logic_comparison">ஒப்பீட்டு ஆபரேட்டர்கள்</string>
-    <string name="formula_editor_object_general">பொது பண்புகள்</string>
+    <string name="formula_editor_object_look">Look properties</string>
     <string name="formula_editor_object_movement">இயக்க பண்புகள்</string>
     <string name="formula_editor_device_visual_detection">Visual sensors</string>
     <string name="formula_editor_device_date_and_time">தேதி மற்றும் நேரம்</string>
@@ -1748,21 +1714,23 @@
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">மற்றும்</string>
-    <string name="formula_editor_logic_or">அல்லது</string>
-    <string name="formula_editor_logic_not">இல்லை</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">மற்றும்</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">அல்லது</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">இல்லை</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">அழித்துவிடு</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
+    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">புதிய மாறி</string>
     <string name="formula_editor_list_dialog_title">புதிய பட்டியல்</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
@@ -1774,15 +1742,22 @@
         expression</string>
     <string name="formula_editor_fragment_data_current_items">தற்போதைய உருப்படிகள்</string>
     <string name="formula_editor_data_dialog_is_list">அதை ஒரு பட்டியலாக ஆக்குங்கள்</string>
-    <string name="formula_editor_sensor_face_detected">முகம் தெரியும்</string>
-    <string name="formula_editor_sensor_face_size">முகம் அளவு</string>
-    <string name="formula_editor_sensor_face_x_position">முகம் x நிலை</string>
-    <string name="formula_editor_sensor_face_y_position">முகம் y நிலை</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">முகம் தெரியும்</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">முகம் அளவு</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">முகம் x நிலை</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">முகம் y நிலை</string>
+    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
+    <string name="formula_editor_sensor_second_face_size">second face size</string>
+    <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
+    <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
     <string name="formula_editor_sensor_text_from_camera">text from camera</string>
     <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
     <string name="formula_editor_function_text_block_x">text block x from camera</string>
     <string name="formula_editor_function_text_block_y">text block y from camera</string>
     <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
+    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">சூத்திரத் தொகுப்பி</string>
     <string name="formula_editor_intro_summary_formula_editor">ஃபார்முலா எடிட்டர் மூலம் நீங்கள் கணிதத்தை உருவாக்கலாம் மற்றும்
         உங்கள் செங்கற்களில் நீங்கள் பயன்படுத்தக்கூடிய தருக்க சூத்திரங்கள்.\n\nதட்டுவதன் மூலம் இந்த சிறிய அறிமுகத்தை நீங்கள் தொடரலாம்       கீழ் வலது மூலையில் உள்ள \"அடுத்து\" பொத்தானை, மேலும் \"ஸ்கிப்\" பொத்தானைக் கிளிக் செய்வதன் மூலம் அதைத் தவிர்க்கலாம்        கீழ் இடது மூலையில்.</string>
@@ -1808,27 +1783,29 @@
     <string name="formula_editor_speech_recognition">Speech recognition</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">( * பட்டியல் பெயர் *)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">மாறியை காட்டுக</string>
-    <string name="brick_hide_variable">மாறியை மறைக்கவும்</string>
-    <string name="brick_show_variable_position">இல்</string>
-    <string name="brick_show_variable_size">அளவு:</string>
-    <string name="brick_show_variable_color">நிறம்:</string>
-    <string name="brick_show_variable_aligned">சீரமைக்கப்பட்டது</string>
-    <string name="brick_show_variable_aligned_centered">மையம்</string>
-    <string name="brick_show_variable_aligned_left">இடது</string>
-    <string name="brick_show_variable_aligned_right">வலது</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">மாறியை காட்டுக</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">மாறியை மறைக்கவும்</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">இல்</string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">அளவு:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">நிறம்:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">சீரமைக்கப்பட்டது</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">மையம்</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">இடது</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">வலது</string>
     <string name="brick_context_dialog_pick_color">வண்ணம் தேர்ந்தெடுக்கவும்</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">கேமராவைத் திருப்புங்கள்</string>
-    <string name="video_brick_camera_on">மீது</string>
-    <string name="video_brick_camera_off">ஆஃப்</string>
-    <string name="brick_choose_camera">கேமராவைப் பயன்படுத்துங்கள்</string>
-    <string name="choose_camera_front">முன்</string>
-    <string name="choose_camera_back">பின்</string>
+    <string name="brick_video" tools:ignore="UnusedResources">கேமராவைத் திருப்புங்கள்</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">மீது</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">ஆஃப்</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">கேமராவைப் பயன்படுத்துங்கள்</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">முன்</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">பின்</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1856,7 +1833,6 @@
     <string name="deletion_alert_title">Delete?</string>
     <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
         errors. You can\'t undo this!</string>
-    <string name="deletion_alert_yes">ஆம், நீக்குக!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">உங்கள் திட்டம் பயன்பாட்டின் பகிர்வு தளத்தில் பதிவேற்றப்படும்
 மற்றவர்கள் அதைப் பயன்படுத்தலாம் மற்றும் பதிவிறக்கலாம். உங்கள் திட்டத்தை முழுமையான செயலியாகவும் பதிவிறக்கலாம்.</string>
@@ -1881,5 +1857,12 @@
     <string name="device_language">உங்கள் சாதனத்தின் மொழி</string>
     <!-- Symbols -->
     <string name="percent_symbol">சதவீதம்</string>
-    <string name="hertz_symbol">(ஹெர்ட்ஸ்) அதிர்வெண்</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">(ஹெர்ட்ஸ்) அதிர்வெண்</string>
+    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
+    data is turned on.</string>
+    <string name="edit">திருத்து</string>
+    <string name="data_value">Value</string>
+    <string name="category_recently_used">Recently used</string>
+    <!-- Information -->
+    <string name="no_variable_selected">No variable selected</string>
 </resources>

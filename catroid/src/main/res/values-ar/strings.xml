@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,32 +21,32 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">المسرح</string>
     <string name="play">تشغيل</string>
     <string name="settings">إعدادات</string>
-    <string name="redo">الإعادة</string>
-    <string name="undo">التراجع عن</string>
+    <string name="redo" tools:ignore="UnusedResources">الإعادة</string>
+    <string name="undo" tools:ignore="UnusedResources">التراجع عن</string>
     <string name="new_option">جديد&#8230;</string>
+    <string name="edit_option">تحرير&#8230;</string>
     <string name="confirm">تأكيد</string>
     <string name="ignore">تجاهل</string>
     <string name="cancel">إلغاء</string>
     <string name="save">حفظ</string>
+    <string name="discard">تجاهل</string>
     <string name="next">التالي</string>
-    <string name="back">رجوع</string>
     <string name="ok">موافق</string>
     <string name="done">موافق</string>
-    <string name="close">إغلاق</string>
+    <string name="close" tools:ignore="UnusedResources">إغلاق</string>
     <string name="assistant">مساعد</string>
     <string name="yes">نعم</string>
     <string name="no">لا</string>
     <string name="once">مرة واحدة</string>
     <string name="always">دائماً</string>
     <string name="deny">رفض</string>
-    <string name="disagree">غير موافق</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
+    <string name="accept">قبول</string>
+    <string name="decline">رفض</string>
     <string name="select_all">تحديد الكل</string>
     <string name="deselect_all">إلغاء تحديد الكل</string>
     <string name="skip">تخطي</string>
@@ -62,14 +62,21 @@
         في الخلفية وكذلك يرسل معلومات إلى الإنترنت. هذا قد يكون غير ضار، وضروري
         بسبب طريقة عمله. على أي حال، الرجاء التأكد بأن ما تقوله أثناء عمل المشروع، آمن. في حال وجود شك، الرجاء حذف المشروع الذي قمت بتنزيله.
         ربما يمكنك أيضا الإبلاغ عن المشروع في صفحته على منصة Catrobat community في حال كنت متأكداً أنه ضار.</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">تحميل بدون تغيير</string>
+    <string name="api_replacement_dialog_accept">تم استبدال الرفع مع المفاتيح</string>
+    <string name="api_replacement_dialog_warning">يحتوي المشروع على الطوب التي تصل إلى
+        الويب، ويبدو أيضا أنها تحتوي على مفاتيح API. يرجى رؤية %1s لماذا
+        تحميل هذه المفاتيح يمكن أن يكون خطيراً.</string>
+    <string name="api_replacement">أدخل مفتاح API هنا</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">التحقق من بيانات تسجيل الدخول&#8230;</string>
     <string name="loading_google_exchange_code">تبادل بيانات جوجل بلس&#8230;</string>
     <string name="loading_google_login">اكتمال تسجيل الدخول عبر جوجل بلس على سيرفرنا&#8230;</string>
-    <string name="delete_account">حذف حسابي</string>
     <string name="logout_successful">تم الخروج بنجاح</string>
-    <string name="degrees">درجة</string>
-    <string name="background">خلفية الشاشة</string>
+    <string name="degrees" tools:ignore="UnusedResources">درجة</string>
+    <string name="background" tools:ignore="UnusedResources">خلفية الشاشة</string>
     <string name="landscape">المشهد الطبيعي</string>
     <string name="portrait">بورتريت</string>
     <string name="unknown">غير معروف</string>
@@ -79,7 +86,7 @@
     <string name="main_menu_continue">متابعة المشروع</string>
     <string name="main_menu_new">مشروع جديد</string>
     <string name="main_menu_programs">البرامج</string>
-    <string name="main_menu_help">المساعدة</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">المساعدة</string>
     <string name="main_menu_web">مجتمع كاتروبات</string>
     <string name="main_menu_upload">تحميل البرنامج</string>
     <string name="main_menu_rate_app">قم بالتقييم!</string>
@@ -96,7 +103,7 @@
     <string name="marketing_app_details">تفاصيل حول هذا التطبيق</string>
     <string name="marketing_more_on_google_play">مزيد من التطبيقات في متجر جوجل بلي</string>
     <!-- NFC activity -->
-    <string name="nfc_activity_title">NFC tags</string>
+    <string name="nfc_activity_title">وسوم NFC</string>
     <!-- Settings activity -->
     <string name="preference_title">إعدادات</string>
     <string name="preference_title_language">اللغة</string>
@@ -179,11 +186,11 @@
     <string name="preference_raspi_host">عنوان الايبي المضيف لـ راسبيري باي</string>
     <string name="preference_raspi_port">منفذ الراسبيري باي</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">ملحق متعدد اللاعبين</string>
+    <string name="preference_description_multiplayer_variables_enabled">السماح للتطبيق باستخدام
+        متغيرات متعددة اللاعبين المشتركة عبر البلوتوث</string>
+    <string name="preference_title_enable_test_bricks">اختبار التمديد</string>
+    <string name="preference_description_test_bricks">يسمح بإنشاء الاختبارات</string>
     <!-- Scratch Converter activity -->
     <string name="beta">بيتا</string>
     <string name="error_scratch_program_not_accessible_any_more">اوووبس! يبدو أن البرنامج اختفى         أو انت فقدت الوصول اليه.</string>
@@ -259,7 +266,7 @@
     <string name="mode">الوضع:</string>
     <string name="remix_of">خليط مُعدل من:</string>
     <string name="description_hint">إضغط لإضافة وصف</string>
-    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <string name="notes_and_credits_hint">اضغط لإضافة ملاحظات واعتمادات</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">لقد قمت بتحويل هذا البرنامج مُحول منذ%1$s مضت.</string>
     <plurals name="minutes">
@@ -291,8 +298,8 @@
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
-    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
-        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
+    <string name="declined_terms_of_use_and_service_alert">لاستخدام تطبيقنا، من الضروري قبول شروط الاستخدام والخدمة لدينا.
+        ومع ذلك، إذا كنت لا تشعر بالارتياح للقيام بذلك، يمكنك استخدام خدمات الويب المجانية لدينا على</string>
     <string name="wtf_error">حدث خطأ غير متوقع: لا يمكن إستعادة البرنامج الإفتراضي.</string>
     <!-- Project Handling Errors -->
     <string name="error_copy_project">حدث خطأ أثناء نسخ المشروع</string>
@@ -302,14 +309,14 @@
     <string name="name_empty">الرجاء إدخال النص</string>
     <!-- Recycler View -->
     <string name="am_empty_list">لا توجد أي عناصر في القائمة بعد. من فضلك أضف بعض العناصر أولاً.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_merge_error">لم يتم الدمج. يجب اختيار مشروعين بالضبط للدمج.</string>
     <string name="am_backpack">حزمة</string>
     <string name="am_unpack">فك الحزمة</string>
     <string name="am_copy">نسخ</string>
-    <string name="am_delete">حذف</string>
+    <string name="am_delete" tools:ignore="UnusedResources">حذف</string>
     <string name="am_rename">إعادة تسمية</string>
     <string name="am_convert">تحويل</string>
-    <string name="am_merge">Merge</string>
+    <string name="am_merge">دمج</string>
     <string name="dialog_confirm_delete">لا يمكنك التراجع عن هذا!</string>
     <string name="list_headline_sprites">أشكال و عناصر</string>
     <!-- Options Menu Options -->
@@ -317,9 +324,12 @@
     <string name="copy">نسخ</string>
     <string name="delete">حذف</string>
     <string name="rename">إعادة تسمية</string>
-    <string name="merge">Merge</string>
+    <string name="merge">دمج</string>
     <string name="show_details">إظهار التفاصيل</string>
     <string name="hide_details">إخفاء التفاصيل</string>
+    <string name="project_options">خيارات المشروع</string>
+    <string name="sort_projects">فرز</string>
+    <string name="unsort_projects">ترتيب</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">مشهد جديد</string>
     <!-- Delete Dialog Titles -->
@@ -390,12 +400,12 @@
     <string name="nfc_tag_name_label">اسم وسم NFC</string>
     <string name="string_label">النص</string>
     <string name="data_label">الإسم</string>
-    <string name="keyword_label">Insert keyword</string>
-    <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="keyword_label">أدخل الكلمة الأساسية</string>
+    <string name="html_label">إدراج نص HTML</string>
+    <string name="Image_format_not_supported">صيغة الصورة غير مدعومة</string>
     <!-- Details -->
     <string name="project_details">آخر وصول: %s، الحجم: %s</string>
-    <string name="last_access_today">today, %s</string>
+    <string name="last_access_today">اليوم، %s</string>
     <string name="scene_details">العناصر: %d، المظاهر: %d, الملفات الصوتية: %d</string>
     <string name="sprite_details">لبّنات برمجية:%d, مظاهر:%d, ملفات صوتية:%d</string>
     <string name="look_details">القياس: %s, الحجم:%s</string>
@@ -412,6 +422,7 @@
     <string name="rename_data_dialog">إعادة تسمية</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">مجموعة جديدة</string>
+    <string name="default_group_name">مجموعة</string>
     <!-- New Scene Menu -->
     <string name="new_scene">مشهد جديد</string>
     <!-- Action Toasts -->
@@ -603,12 +614,19 @@
     <string name="size">الحجم:</string>
     <string name="description">الوصف:</string>
     <string name="set_description">وصف مجموعة</string>
-    <string name="notes_and_credits_title">Notes and credits:</string>
-    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="notes_and_credits_title">الملاحظات والائتمانات</string>
+    <string name="set_notes_and_credits">تعيين الملاحظات والائتمان</string>
     <string name="details_date_today">اليوم</string>
     <string name="import_project">استيراد مشروع</string>
     <string name="error_import_project">حدث خطأ أثناء استيراد المشاريع.</string>
     <string name="error_no_files_found">لم يتم العثور على مشاريع.</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">الوصف</string>
+    <string name="project_options_notes_and_credits">Credits</string>
+    <string name="project_options_tags">وسوم</string>
+    <string name="project_options_aspect_ratio">الحفاظ على نسبة العرض الأصلية</string>
+    <string name="project_options_more_details">المزيد من التفاصيل</string>
+    <string name="project_options_delete_project">حذف المشروع</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">انقر فوق \"+\" لإضافة نصوص برمجية</string>
     <!--  -->
@@ -627,8 +645,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">مسح وسوم NFC لإضافتهم</string>
-    <string name="ndef_record_label">كـ نمط سجل</string>
-    <string name="brick_set_nfc_tag">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">كـ نمط سجل</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">تعيين النقطة التفاعلية التالية لـ NFC الى</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">وسم Nfc</string>
     <string name="tnf_empty">فارغ</string>
@@ -641,35 +659,36 @@
     <string name="tnf_well_known_mailto">البريد الإلكتروني</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="multiplayer_vars_headline">المتغيرات للأجهزة المتصلة</string>
     <string name="global_vars_headline">متغيرات لكل الكائنات</string>
     <string name="local_vars_headline">متغيرات لهذا الكائن فقط</string>
     <string name="global_lists_headline">قوائم لكل المتغيرات</string>
     <string name="local_lists_headline">قوائم لهذا الكائن فقط</string>
+    <string name="fragment_data_text_description">انقر فوق \"+\"  \nلإضافة متغيرات وقوائم</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="zero">Inputs for this brick</item>
-        <item quantity="one">Input for this brick</item>
-        <item quantity="two">Inputs for this brick</item>
-        <item quantity="few">Inputs for this brick</item>
-        <item quantity="many">Inputs for this brick</item>
-        <item quantity="other">Inputs for this brick</item>
+        <item quantity="zero">الإدخال لهذه الطوبة</item>
+        <item quantity="one">الإدخال لهذه الطوبة</item>
+        <item quantity="two">الإدخال لهذه الطوبة</item>
+        <item quantity="few">الإدخال لهذه الطوبة</item>
+        <item quantity="many">الإدخال لهذه الطوبة</item>
+        <item quantity="other">المدخلات لهذه الطوبة</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">لكل الكائنات</string>
     <string name="new_data_for_this_sprite_only">لهذا الكائن فقط</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_connected_devices">لجميع الجهات الفاعلة، الكائنات، والاستنساخات في جميع مشاهد المشاريع
+        على أجهزة متعددة اللاعبين المتصلين</string>
     <!-- Backpack -->
     <string name="backpack_title">حقيبة الظهر الخاصة بك</string>
     <string name="pack">حزمة</string>
     <string name="unpack">فك الحزمة</string>
     <!--  -->
     <!-- NewProjectDialog -->
-    <string name="new_project_dialog_example_project">Example project</string>
+    <string name="new_project_dialog_example_project">مثال على المشروع</string>
     <!--  -->
     <!-- NewMergedProjectDialog -->
-    <string name="new_merge_project_dialog_title">Merged project</string>
-    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <string name="new_merge_project_dialog_title">المشروع المدمج</string>
+    <string name="merging_project_text">لا يمكن حتى الآن دمج هذين المشروعين</string>
     <!--  -->
     <!-- NewSpriteDialog -->
     <string name="new_sprite_dialog_title">كائن جديد</string>
@@ -687,7 +706,7 @@
     <string name="add_sound_choose_file">حدد الملف</string>
     <string name="add_sound_music">مُلحن الموسيقى</string>
     <!-- NotePickerDialog -->
-    <string name="note_picker_title">Note Picker</string>
+    <string name="note_picker_title">منتقي الملاحظات</string>
     <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">قم بتقييم البوكت كوود</string>
@@ -698,111 +717,47 @@
     <!--  -->
     <!-- Terms of Use Dialog -->
     <string name="dialog_terms_of_use_title">شروط الاستخدام والخدمات</string>
-    <string name="dialog_terms_of_use_info">In order to
-        be allowed to use the apps and other services offered by the Catrobat project, you
-        must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
-        and other services. Please see the link below for their precise formulation.\n</string>
+    <string name="dialog_terms_of_use_info">من أجل
+        أن يسمح لك باستخدام التطبيقات وغيرها من الخدمات التي يقدمها مشروع كاتروبات، يجب عليك
+        أن توافق على شروط الاستخدام والخدمة لدينا. يجب عليك اتباع هذه الشروط بدقة عند استخدام تطبيقاتنا
+        وغيرها من الخدمات. يرجى الاطلاع على الرابط أدناه للحصول على صياغته الدقيقة.\n</string>
     <string name="dialog_terms_of_use_link_text">شروط الاستخدام والخدمات</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">شروط الاستخدام والخدمات لـ بوكت كود</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">أنت على وشك استخدام هذا التطبيق جنبا إلى جنب مع البارد
+        الطائرة بدون طيار 2.0. نذكركم بشدة بالتقيد بكل من شروط الاستخدام والخدمات في البارد وكاتروبات.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">لاتذكرني مرة أخرى.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">أنت على وشك استخدام هذا التطبيق مع
+        Parrot Jumping Sumo. نحن نذكركم بشدة بالتقيد بكل من شروط استخدام الببغاء وكاتروبات و
+        خدمات.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">سياسة الخصوصية</string>
     <string name="disclaimer_privacy_police_header_headline">مرحبا!</string>
-    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
-    <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
-        it is necessary to collect certain data from you.\n\n
-
-        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
-            as well as Dynatrace by Dynatrace LLC (USA) to get
-            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
-            usage of our apps and services, used operating system, and information about the network provider. This
-            analysis and the collected data is not linked to your profile and does not contain any personal
-            information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
-            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
-            This relationship to the service provider conforms to the European Union\'s General Data
-            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
-        • To create and use an account in our systems, and to inform you about necessary changes about your
-            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
-            our policies, we will store your username and, if provided by you, your e-mail address. If you have
-            connected your account via your Google or Facebook account, we additionally store an identification key connected
-            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
-            unless you explicitly allowed us to do so.\n\n
-        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-            site. This will get displayed on your public profile and only be used for statistical and research
-            purposes by us. It can be removed at any time in your profile settings.\n\n
-        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at. After deleting your account you will still
-            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
-            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
-            comments, etc., will be deleted.\n\n
-        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
-            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
-            together with a timestamp and the used internet address. This data will not be used by or forwarded to
-            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
-            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
-            individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
-            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
-            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
-            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
-            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
-            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
-            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
-        • All Services are provided by the free open source Catrobat project under the umbrella of the
-            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
-            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
-            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
-                c/o\n
-                Institute of Software Technology,\n
-                Graz University of Technology,\n
-                Inffeldgasse 16b,\n
-                A-8010 Graz, Austria\n
-                (European Union).\n\n
-        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
-
-        Catrobat\'s official English language privacy policy is available on the web under
-        https://catrob.at/privacypolicy.\n\n
-
-        Version 2.2, 17 October 2019\n\n
-
-        Find the previous, outdated, version of our privacy policy (2.0) here:
-        http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">It is necessary to agree to the Privacy Policy to register or to
-        continue using your account. If you do not want us to collect this data, you can delete your
-        account via your profile page on our https://share.catrob.at/ website.
-    </string>
+    <string name="disclaimer_privacy_policy_header">لاستخدام هذا التطبيق، يرجى قبول</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">حول تطبيق بوكت كوود</string>
-    <string name="dialog_about_license_info">This app offers a coding
-        environment and interpreter for the visual programming language Catrobat.\n
-        The source code of this app is mainly licensed under the GNU AGPL v3 license.
-        For further details on the license see the link below.\n</string>
+    <string name="dialog_about_license_info">يوفر هذا التطبيق بيئة برمجة
+        ومترجم شفوي للغة البرمجة البصرية كاتروبات.\n
+        رمز المصدر لهذا التطبيق مرخص أساسا بموجب ترخيص GNU AGPL v3.
+        للحصول على مزيد من التفاصيل عن الترخيص، انظر الرابط أدناه\n</string>
     <string name="dialog_about_license_link_text">ترخيص مصدر النص البرمجي</string>
     <string name="dialog_about_catrobat_link_text">حول كاتروبات</string>
+    <string name="dialog_about_catrobat_language_version">إصدار لغة كاتروبات</string>
+    <string name="dialog_about_version">الإصدار:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">لا يوجد اتصال بالشبكة</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">تحميل</string>
     <string name="upload_project_dialog_title">تحميل البرنامج</string>
     <string name="upload_description">الوصف:</string>
-    <string name="upload_notes_and_credits">Notes and credits:</string>
-    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
+    <string name="upload_notes_and_credits">الملاحظات والائتمانات</string>
+    <string name="upload_notes_and_credits_explanation">كيف قمت بإنشاء هذا المشروع؟ هل استخدمت الأفكار أو البرامج النصية أو الأعمال الفنية من أشخاص آخرين؟ شكراً لهم هنا.</string>
     <string name="upload_tag_dialog_title">اختر كحد أقصى ثلاث فئات</string>
+    <string name="upload_tags_maximum_error">لا يمكن اختيار أكثر من 3 علامات.</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">حفظ المشروع على الذاكرة الخارجية</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -818,24 +773,25 @@
     <string name="soundrecorder_text_view">اضغط على الأيقونة أعلاه لبدء وإيقاف التسجيل.</string>
     <!--  -->
     <!-- Brick context dialog -->
-    <string name="brick_context_dialog_move_brick">Move brick</string>
+    <string name="brick_context_dialog_move_brick">نقل الطوب</string>
     <string name="brick_context_dialog_move_script">نقل النص البرمجي</string>
-    <string name="brick_context_dialog_move_definition">Move this definition</string>
-    <string name="brick_context_dialog_delete_brick">Delete brick</string>
-    <string name="brick_context_dialog_copy_brick">Copy brick</string>
+    <string name="brick_context_dialog_move_definition">نقل هذا التعريف</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">حذف الطوب</string>
+    <string name="brick_context_dialog_copy_brick">نسخ الطوب</string>
     <string name="brick_context_dialog_copy_script">نسخ النص البرمجي</string>
-    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
-    <string name="brick_context_dialog_delete_script">Delete script</string>
-    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
-    <string name="brick_context_dialog_comment_in">Enable brick</string>
-    <string name="brick_context_dialog_comment_out">Disable brick</string>
+    <string name="brick_context_dialog_formula_edit_brick">تعديل الصيغة</string>
+    <string name="brick_context_dialog_delete_script">حذف البرنامج النصي</string>
+    <string name="brick_context_dialog_delete_definition">حذف هذا التعريف</string>
+    <string name="brick_context_dialog_comment_in">تمكين الطوب</string>
+    <string name="brick_context_dialog_comment_out">تعطيل الطوب</string>
     <string name="brick_context_dialog_highlight_brick_parts">إبراز أجزاء اللبّنة البرمجية</string>
     <string name="brick_context_dialog_comment_in_script">تفعيل النص البرمجي</string>
     <string name="brick_context_dialog_comment_out_script">تعطيل النص البرمجي</string>
     <string name="brick_context_dialog_help">المساعدة</string>
     <string name="comment_in_out">تعطيل/تفعيل</string>
-    <string name="catblocks">Toggle 2D</string>
-    <string name="catblocks_reorder">Clean up scripts</string>
+    <string name="catblocks">تبديل 2D</string>
+    <string name="catblocks_reorder">تنظيف البرامج النصية</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">عرض 1D</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">تشغيل المشهد:</string>
@@ -846,7 +802,7 @@
     <string name="sign_in_dialog_title">تسجيل الدخول</string>
     <string name="username">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>
-    <string name="password_forgotten">هل نسيت كلمة المرور؟</string>
+    <string name="reset_password">إعادة تعيين كلمة المرور</string>
     <string name="new_user_registered">إنشاء حساب جديد</string>
     <string name="user_logged_in">تم تسجيل الدخول بنجاح</string>
     <string name="register_error">فشل تسجيل الدخول</string>
@@ -864,9 +820,9 @@
     <string name="show_password">إظهار كلمة المرور</string>
     <string name="sign_in_error">حدث خطأ أثناء تسجيل الدخول.</string>
     <string name="error_google_plus_sign_in">خطأ خلال تسجيل الدخول باستخدام جوجل. الحالة: %s</string>
-    <string name="error_session_expired">Session expired, please log in.</string>
+    <string name="error_session_expired">انتهت صلاحية الجلسة، الرجاء تسجيل الدخول.</string>
     <string name="error_register_empty_username">اسم مستخدم فارغ</string>
-    <string name="error_register_username_as_email">Email address cannot be used as username</string>
+    <string name="error_register_username_as_email">لا يمكن استخدام عنوان البريد الإلكتروني كاسم مستخدم</string>
     <string name="error_register_invalid_username">اسم المستخدم يجب أن يحتوي فقط على الاحرف (a–z), الارقام (0–9)
         داش (-), اندر سكور (_) و دوت  (.).</string>
     <string name="error_register_username_start_with">اسم المستخدم لا يمكن أن يبدأ ب داش (-), اندر سكور (_), أو
@@ -896,19 +852,19 @@
         المكونات التالية غير متوفرة: \n\n</string>
     <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
         المتحكم الوحيد بالطائرة بدون طيار.</string>
-    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_no_vibration_available">\u2022 اهتزاز\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 جهاز استشعار الميل\n</string>
     <string name="prestage_no_compass_sensor_available">\u2022 البوصلة\n</string>
     <string name="prestage_no_gps_sensor_available">\u2022 نظام تحديد المواقعGPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 محرك تحويل النص إلى كلام\n</string>
     <string name="prestage_no_back_camera_available">\u2022 الكاميرا الخلفية\n</string>
-    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
-    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
+    <string name="prestage_no_face_detection_available">\u2022 كشف الوجه\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 كشف النص\n</string>
     <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية \n</string>
-    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
-    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_no_camera_available">\u2022 الكاميرا\n</string>
+    <string name="prestage_no_flash_available">\u2022 ضوء الفلاش\n</string>
     <string name="prestage_default_resource_not_available">\u2022 مكون غير معروف\n</string>
     <string name="no_nfc_available">NFC غير متوفر</string>
     <string name="nfc_not_activated">الرجاء تفعيل NFC واضغط على زر العودة للرجوع إلى التطبيق.</string>
@@ -926,60 +882,62 @@
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">رسالة جديدة</string>
-    <string name="dialog_new_broadcast_message_name">رسالة:</string>
+    <string name="dialog_broadcast_message_name">رسالة:</string>
+    <string name="dialog_edit_broadcast_message_title">تعديل الرسالة</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">تعديل قائمة علامات NFC</string>
     <string name="brick_when_nfc_default_all">الكل</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">الفئات</string>
-    <string name="category_embroidery">التطريز</string>
-    <string name="category_motion">الحركة</string>
-    <string name="category_looks">المناظر</string>
-    <string name="category_pen">القلم</string>
-    <string name="category_sound">الصوت</string>
-    <string name="category_control">التحكم</string>
-    <string name="category_event">الحدث</string>
-    <string name="category_user_bricks">Your bricks</string>
-    <string name="category_data">البيانات</string>
-    <string name="category_device">Device</string>
-    <string name="category_lego_nxt">ليغو NXT</string>
-    <string name="category_lego_ev3">ليغو EV3</string>
-    <string name="category_drone">طائرة بدون طيار 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
-    <string name="category_phiro">روبوت الاطفال</string>
-    <string name="category_arduino">الاردوينو</string>
-    <string name="category_cast">بث وإرسال</string>
-    <string name="category_raspi">راسبيري باي</string>
-    <string name="category_assertions">Testing</string>
+    <string name="categories" tools:ignore="UnusedResources">الفئات</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">التطريز</string>
+    <string name="category_motion" tools:ignore="UnusedResources">الحركة</string>
+    <string name="category_looks" tools:ignore="UnusedResources">المناظر</string>
+    <string name="category_pen" tools:ignore="UnusedResources">القلم</string>
+    <string name="category_sound" tools:ignore="UnusedResources">الصوت</string>
+    <string name="category_control" tools:ignore="UnusedResources">التحكم</string>
+    <string name="category_event" tools:ignore="UnusedResources">الحدث</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">الطوب الخاص بك</string>
+    <string name="category_data" tools:ignore="UnusedResources">البيانات</string>
+    <string name="category_device" tools:ignore="UnusedResources">الجهاز</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">ليغو NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">ليغو EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">طائرة بدون طيار 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">روبوت الاطفال</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">الاردوينو</string>
+    <string name="category_cast" tools:ignore="UnusedResources">بث وإرسال</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">راسبيري باي</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">اختبار</string>
     <!--  -->
     <!-- User Defined Bricks -->
-    <string name="brick_user_defined_add_label">Add label</string>
-    <string name="brick_user_defined_add_input">Add input</string>
-    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
-    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
-    <string name="brick_user_defined_default_input_name">Name of input</string>
-    <string name="brick_user_defined_default_label">Label text</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">Define</string>
-    <string name="brick_user_defined_script_as">as</string>
-    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_user_defined_add_label">إضافة تسمية</string>
+    <string name="brick_user_defined_add_input">أضف المدخلات</string>
+    <string name="brick_user_defined_add_input_description">إضافة إدخال لهذه الطوبة:</string>
+    <string name="brick_user_defined_add_label_description">إضافة تسمية لهذه الطوبة:</string>
+    <string name="brick_user_defined_default_input_name">اسم المدخل</string>
+    <string name="brick_user_defined_default_label">نص التسمية</string>
+    <string name="brick_user_defined_already_exists">طُوبة بهذه التسميات موجودة بالفعل. الرجاء إضافة المزيد من التسميات أو المدخلات.</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">تعريف</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">مثل</string>
+    <string name="brick_user_defined_list_empty">انقر فوق \"+\" لإضافة الطوب الجديد الخاص بك.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">تقرير</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"تحديد موقع الكائن في "</string>
-    <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label">"س: "</string>
-    <string name="y_label">"ص: "</string>
-    <string name="brick_set_x">"تعيين قيمة س الى "</string>
-    <string name="brick_set_y">"تعيين قيمة ص الى "</string>
-    <string name="brick_change_x_by">"تغيير قيمة س بمقدار "</string>
-    <string name="brick_change_y_by">"تغيير قيمة ص بمقدار "</string>
-    <string name="brick_go_back">الرجوع للخلف</string>
-    <string name="brick_set_rotation_style">"تعيين نمط الاستدارة الى "</string>
-    <string name="brick_set_rotation_style_lr">من اليسار-اليمين فقط</string>
-    <string name="brick_set_rotation_style_normal">متعدد الجوانب</string>
-    <string name="brick_set_rotation_style_no">لا تدور</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"تحديد موقع الكائن في "</string>
+    <string name="brick_option_place_visually">مكان بصري</string>
+    <string name="x_label" tools:ignore="UnusedResources">"س: "</string>
+    <string name="y_label" tools:ignore="UnusedResources">"ص: "</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"تعيين قيمة س الى "</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"تعيين قيمة ص الى "</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"تغيير قيمة س بمقدار "</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"تغيير قيمة ص بمقدار "</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">الرجوع للخلف</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"تعيين نمط الاستدارة الى "</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">من اليسار-اليمين فقط</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">متعدد الجوانب</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">لا تدور</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="zero">طبقة</item>
         <item quantity="one">طبقات</item>
@@ -988,9 +946,9 @@
         <item quantity="many">طبقات</item>
         <item quantity="other">طبقات</item>
     </plurals>
-    <string name="brick_come_to_front">الذهاب إلى الامام</string>
-    <string name="brick_if_on_edge_bounce">إذا كان على الحافة، ارتد</string>
-    <string name="brick_move">تحرك</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">الذهاب إلى الامام</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">إذا كان على الحافة، ارتد</string>
+    <string name="brick_move" tools:ignore="UnusedResources">تحرك</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="zero">خطوة</item>
         <item quantity="one">خطوة</item>
@@ -999,141 +957,143 @@
         <item quantity="many">خطوات</item>
         <item quantity="other">خطوة</item>
     </plurals>
-    <string name="brick_turn_left">إتجه إلى اليسار</string>
-    <string name="brick_turn_right">إتجه إلى اليمين</string>
-    <string name="brick_point_in_direction">تغيير الإتجاه بزاوية</string>
-    <string name="brick_point_to">تعيين الوجهة ناحية</string>
-    <string name="brick_glide">إنزلق خلال</string>
-    <string name="brick_glide_to_x">إلى س:</string>
-    <string name="brick_go_to">الانتقال إلى</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">إتجه إلى اليسار</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">إتجه إلى اليمين</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">تغيير الإتجاه بزاوية</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">تعيين الوجهة ناحية</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">إنزلق خلال</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">إلى س:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">الانتقال إلى</string>
     <string name="brick_go_to_touch_position">قم بلمس الموقع</string>
     <string name="brick_go_to_random_position">موقع عشوائي</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">تعيين نوع الحركة إلى</string>
-    <string name="brick_set_physics_object_type_dynamic">الارتداد مع الجاذبية</string>
-    <string name="brick_set_physics_object_type_fixed">بقية الكائنات تتناثر</string>
-    <string name="brick_set_physics_object_type_no">لا يوجد ارتداد</string>
-    <string name="brick_set_mass">"تعيين قيمة الكتلة الى "</string>
-    <string name="brick_set_mass_unit">كيلوغرام</string>
-    <string name="brick_set_gravity_to">"تعيين الجاذبية لكافة الكائنات إلى "</string>
-    <string name="brick_set_gravity_unit">خطوة/ثانية²</string>
-    <string name="brick_set_velocity_to">"تعيين السرعة إلى "</string>
-    <string name="brick_set_velocity_unit">خطوة/ثانية</string>
-    <string name="brick_turn_speed_unit">درجة/ ثانية</string>
-    <string name="brick_set_friction">"تعيين قيمة الاحتكاك إلى "</string>
-    <string name="brick_set_bounce_factor">"تعيين عامل الارتداد إلى "</string>
-    <string name="brick_rotate_left">"استدارة إلى اليسار "</string>
-    <string name="brick_rotate_right">"استدارة إلى اليمين "</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">تعيين نوع الحركة إلى</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">الارتداد مع الجاذبية</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">بقية الكائنات تتناثر</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">لا يوجد ارتداد</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"تعيين قيمة الكتلة الى "</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">كيلوغرام</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"تعيين الجاذبية لكافة الكائنات إلى "</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">خطوة/ثانية²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"تعيين السرعة إلى "</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">خطوة/ثانية</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">درجة/ ثانية</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"تعيين قيمة الاحتكاك إلى "</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"تعيين عامل الارتداد إلى "</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"استدارة إلى اليسار "</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"استدارة إلى اليمين "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">تبديل المظهر الى</string>
-    <string name="brick_set_look_by_index">تبديل الى منظر مُحدد برقم</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">تبديل المظهر الى</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">تبديل الى منظر مُحدد برقم</string>
     <string name="brick_and_wait">والانتظار</string>
-    <string name="brick_set_background">تعيين كـ خلفية شاشة</string>
-    <string name="brick_set_background_and_wait">تعيين الخلفية والانتظار</string>
-    <string name="brick_set_background_by_index">تعيين خلفية الشاشة الى عدد</string>
-    <string name="brick_when_background">عند تغيير الخلفية إلى</string>
-    <string name="brick_set_size_to">تعيين الحجم الى</string>
-    <string name="brick_change_size_by">تغيير الحجم بمقدار</string>
-    <string name="brick_hide">إخفاء</string>
-    <string name="brick_show">إظهار</string>
-    <string name="brick_set_transparency">"تعيين درجة الشفافية "</string>
-    <string name="brick_change_ghost_effect">"تغيير درجة الشفافية "</string>
-    <string name="brick_set_brightness">"تعيين درجة السطوع "</string>
-    <string name="brick_change_brightness">"تغيير درجة السطوع "</string>
-    <string name="brick_set_color">"تعيين اللون "</string>
-    <string name="brick_change_color">"تغيير اللون "</string>
-    <string name="by_label">بمقدار</string>
-    <string name="to_label">إلى</string>
-    <string name="brick_clear_graphic_effect">مسح التأثيرات الرسومية</string>
-    <string name="brick_next_look">المنظر التالي</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">تعيين كـ خلفية شاشة</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">تعيين الخلفية والانتظار</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">تعيين خلفية الشاشة الى عدد</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">عند تغيير الخلفية إلى</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">تعيين الحجم الى</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">تغيير الحجم بمقدار</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">إخفاء</string>
+    <string name="brick_show" tools:ignore="UnusedResources">إظهار</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"تعيين درجة الشفافية "</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"تغيير درجة الشفافية "</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"تعيين درجة السطوع "</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"تغيير درجة السطوع "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"تعيين اللون "</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"تغيير اللون "</string>
+    <string name="by_label" tools:ignore="UnusedResources">بمقدار</string>
+    <string name="to_label" tools:ignore="UnusedResources">إلى</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">مسح التأثيرات الرسومية</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">المنظر التالي</string>
     <string name="brick_next_background">خلفية الشاشة التالية</string>
-    <string name="brick_previous_look">المنظر السابق</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">المنظر السابق</string>
     <string name="brick_previous_background">خلفية الشاشة السابقة</string>
-    <string name="brick_delete_look">Delete look</string>
-    <string name="brick_delete_background">Delete background</string>
-    <string name="brick_flash">تشغيل ضوء الفلاش</string>
-    <string name="brick_flash_on">تشغيل</string>
-    <string name="brick_flash_off">إطفاء</string>
-    <string name="brick_vibration">الإهتزاز لـفترة</string>
-    <string name="brick_ask_label">اسأل</string>
-    <string name="brick_ask_store">خَزن جواب مكتوب في</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">تحرير مظهر</string>
+    <string name="brick_edit_background">تعديل الخلفية</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">حذف مظهر</string>
+    <string name="brick_delete_background">حذف الخلفية</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">تشغيل ضوء الفلاش</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">تشغيل</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">إطفاء</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">الإهتزاز لـفترة</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">اسأل</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">خَزن جواب مكتوب في</string>
     <string name="brick_ask_default_question">ما هو اسمك؟</string>
     <string name="brick_ask_dialog_hint">"أدخل الإجابة الخاصة بك:"</string>
     <string name="brick_ask_dialog_submit">تقديم الجواب</string>
-    <string name="brick_ask_speech_label">اسأل</string>
-    <string name="brick_ask_speech_store">و خَزن جواب منطوق في</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">اسأل</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">و خَزن جواب منطوق في</string>
     <string name="brick_ask_speech_default_question">ما هو اسمك؟</string>
-    <string name="brick_paint_new_look">Paint new look</string>
-    <string name="brick_paint_new_background">Paint new background</string>
-    <string name="brick_paint_new_look_name">"name of new look"</string>
-    <string name="brick_copy_look">Copy look and name it</string>
-    <string name="brick_copy_look_name">name of copied look</string>
-    <string name="brick_copy_background">Copy background and name it</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">رسم نظرة جديدة</string>
+    <string name="brick_paint_new_background">رسم خلفية جديدة</string>
+    <string name="brick_paint_new_look_name">"اسم مظهر جديد"</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">نسخ المظهر وتسميته</string>
+    <string name="brick_copy_look_name">اسم مظهر منسوخ</string>
+    <string name="brick_copy_background">نسخ الخلفية واسمها</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">القلم إلى الأسفل</string>
-    <string name="brick_pen_up">القلم الى الأعلى</string>
-    <string name="brick_pen_size">تعيين حجم قلم التلوين بنسبة</string>
-    <string name="brick_pen_color">تعيين لون قلم التلوين الى</string>
-    <string name="brick_clear_background">امسح</string>
-    <string name="brick_stamp">ختم</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">القلم إلى الأسفل</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">القلم الى الأعلى</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">تعيين حجم قلم التلوين بنسبة</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">تعيين لون قلم التلوين الى</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">امسح</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">ختم</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">بدء تشغيل مقطع صوتي</string>
-    <string name="brick_play_sound_and_wait">بدء تشغيل مقطع صوتي والانتظار</string>
-    <string name="brick_stop_sound">Stop sound</string>
-    <string name="brick_stop_all_sounds">إيقاف كافة الأصوات</string>
-    <string name="brick_set_volume_to">تعيين مستوى الصوت إلى</string>
-    <string name="brick_change_volume_by">تغيير مستوى الصوت بمقدار</string>
-    <string name="brick_speak">تَحدّث</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">بدء تشغيل مقطع صوتي</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">بدء تشغيل مقطع صوتي والانتظار</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">إيقاف الصوت</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">إيقاف كافة الأصوات</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">تعيين مستوى الصوت إلى</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">تغيير مستوى الصوت بمقدار</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">تَحدّث</string>
     <string name="brick_speak_default_value">مرحباً!</string>
-    <string name="brick_speak_and_wait">والانتظار</string>
-    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
-    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
-    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
-    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">Set listening language to</string>
-    <string name="set_instrument_to">Set instrument to</string>
-    <string name="set_tempo_to">Set tempo to</string>
-    <string name="change_tempo_by">Change tempo by</string>
-    <string name="pause_for">Pause for</string>
-    <string name="play_drum">Play drum</string>
-    <string name="beats">beats</string>
-    <string name="play_note">Play note</string>
-    <string name="for_string">لفترة</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">والانتظار</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">بدء الإستماع إلى الصوت وتخزين الكلمات المنطوقة في</string>
+    <string name="speech_recognition_not_available">التعرف على الكلام غير متوفر.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">بيانات غير متصلة مفقودة</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">مشاهدة الكلام دون اتصال
+    لـ %s مفقودة أو تحتاج إلى تحديث. هل ترغب في تنزيله أو تحديثه الآن؟</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">تعيين لغة الاستماع إلى</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">تعيين أداة إلى</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">تعيين الإيقاع إلى</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">تغيير الإيقاع بمقدار</string>
+    <string name="pause_for" tools:ignore="UnusedResources">إيقاف مؤقت لـ</string>
+    <string name="play_drum" tools:ignore="UnusedResources">تشغيل الطبل</string>
+    <string name="beats" tools:ignore="UnusedResources">هزات</string>
+    <string name="play_note" tools:ignore="UnusedResources">تشغيل الملاحظة</string>
+    <string name="for_string" tools:ignore="UnusedResources">لفترة</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">حياكة</string>
-    <string name="brick_running_stitch">Start running stitch with length</string>
-    <string name="brick_zigzag_stitch">Start zigzag stitch with length</string>
-    <string name="brick_zigzag_stitch_width">and width</string>
-    <string name="brick_triple_stitch">Start triple stitch with length</string>
-    <string name="brick_stop_stitch">Stop current stitch</string>
-    <string name="brick_write_embroidery">Write embroidery data to file</string>
-    <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">Sew up</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">حياكة</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">بدء تشغيل الخيط بطول</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">ابدأ خياطة zigzag بطول</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">و العرض</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">ابدأ الخيط الثلاثي بطول</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">إيقاف الخيط الحالي</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">كتابة بيانات التطريز إلى الملف</string>
+    <string name="brick_default_embroidery_file">التطريز.dst</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">ابدأ</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">Reset timer</string>
-    <string name="brick_open">فتح</string>
-    <string name="brick_in_browser">in browser</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">إعادة ضبط الموقت</string>
+    <string name="brick_open" tools:ignore="UnusedResources">فتح</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">في المتصفح</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">عند بدء تشغيل البرنامج</string>
-    <string name="brick_when">عند النقر</string>
-    <string name="brick_when_condition_when">عندما</string>
-    <string name="brick_when_becomes_true">يتحقق الشرط</string>
-    <string name="brick_wait">انتظر</string>
-    <string name="brick_wait_until">انتظر حتى</string>
-    <string name="brick_wait_until_second_part">تحقق الشرط</string>
-    <string name="brick_when_gamepad_button">عندما يكون لوح تحكم الألعاب</string>
-    <string name="brick_when_gamepad_button_tapped">تم النقر عليه</string>
-    <string name="brick_when_nfc">عندما NFC</string>
-    <string name="brick_stop_script">إيقاف البرنامج النصي/ البرامج النصية</string>
-    <string name="brick_stop_this_script">إيقاف هذا البرنامج النصي</string>
-    <string name="brick_stop_all_scripts">إيقاف كافة النصوص البرمجية</string>
-    <string name="brick_stop_other_scripts">إيقاف النصوص البرمجية الأخرى لهذا الكائن</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">عند بدء تشغيل البرنامج</string>
+    <string name="brick_when" tools:ignore="UnusedResources">عند النقر</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">عندما</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">يتحقق الشرط</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">انتظر</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">انتظر حتى</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">تحقق الشرط</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">عندما يكون لوح تحكم الألعاب</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">تم النقر عليه</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">عندما NFC</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">إيقاف البرنامج النصي/ البرامج النصية</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">إيقاف هذا البرنامج النصي</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">إيقاف كافة النصوص البرمجية</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">إيقاف النصوص البرمجية الأخرى لهذا الكائن</string>
     <plurals name="second_plural">
         <item quantity="zero">"ثانية "</item>
         <item quantity="one">"ثانية "</item>
@@ -1142,67 +1102,67 @@
         <item quantity="many">"ثوان "</item>
         <item quantity="other">"ثانية "</item>
     </plurals>
-    <string name="brick_collision_receive">عند الاصطدام الفعلي بـ</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">عند الاصطدام الفعلي بـ</string>
     <string name="collision_with_anything">أي شيء</string>
-    <string name="brick_broadcast_receive">عند إستلام</string>
-    <string name="brick_broadcast">بث رسالة</string>
-    <string name="brick_broadcast_wait">بث رسالة والانتظار</string>
-    <string name="brick_scene_transition">متابعة المشهد</string>
-    <string name="brick_scene_start">بِدء المشهد</string>
-    <string name="brick_note">دوّن ملاحظة</string>
-    <string name="brick_think_bubble">فكّر</string>
-    <string name="brick_say_bubble">قُل</string>
-    <string name="brick_think_say_for_text">لفترة</string>
-    <string name="brick_forever">تكرار لا نهائي</string>
-    <string name="brick_loop_for_values_from">For values from</string>
-    <string name="brick_loop_for_each_value_from">For each value from</string>
-    <string name="brick_loop_in">in</string>
-    <string name="brick_loop_to">إلى</string>
-    <string name="brick_repeat">تكرار</string>
-    <string name="brick_repeat_until">تكرار حتى</string>
-    <string name="brick_when_touched">عند لمس الشاشة</string>
-    <string name="brick_clone">إنشاء نسخة من</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">عند إستلام</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">بث رسالة</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">بث رسالة والانتظار</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">متابعة المشهد</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">بِدء المشهد</string>
+    <string name="brick_note" tools:ignore="UnusedResources">دوّن ملاحظة</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">فكّر</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">قُل</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">لفترة</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">تكرار لا نهائي</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">للقيم من</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">لكل قيمة من</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">في</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">إلى</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">تكرار</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">تكرار حتى</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">عند لمس الشاشة</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">إنشاء نسخة من</string>
     <string name="brick_clone_this">نفسي</string>
-    <string name="brick_when_cloned">عندما أبدأ كنسخة</string>
-    <string name="brick_delete_this_clone">حذف هذه النسخة</string>
-    <string name="brick_assert_that">Assert</string>
-    <string name="brick_is_equal_to">equals expected</string>
-    <string name="brick_wait_till_idle">Wait until all other scripts have stopped</string>
-    <string name="brick_tap_at">"Single tap at"</string>
-    <string name="brick_touch_at">"Touch at"</string>
-    <string name="brick_tap_for">"لفترة"</string>
-    <string name="brick_touch_slide">"Touch and slide"</string>
-    <string name="brick_touch_from_x">"from x:"</string>
-    <string name="brick_finish_stage">Finish stage</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">عندما أبدأ كنسخة</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">حذف هذه النسخة</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">المؤمّن</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">يساوي المتوقع</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">انتظر حتى تتوقف جميع البرامج النصية الأخرى</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"ضغطة واحدة في"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"المس في"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"لفترة"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"المس و الشريحة"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"من x:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">إنهاء المرحلة</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">إنهاء الاختبارات</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">قوائم التأكيدات</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">فعلي:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">المتوقع:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">تأكيد</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">يساوي العنصر المتوقع من</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="zero">For each tuple of items of</item>
-        <item quantity="one">For each item of</item>
-        <item quantity="two">For each tuple of items of</item>
-        <item quantity="few">For each tuple of items of</item>
-        <item quantity="many">For each tuple of items of</item>
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="zero">لكل عنصر من</item>
+        <item quantity="one">لكل عنصر من</item>
+        <item quantity="two">لكل عنصر من</item>
+        <item quantity="few">لكل عنصر من</item>
+        <item quantity="many">لكل عنصر من</item>
+        <item quantity="other">لكل مجموعة من العناصر</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="zero">stored in variables with the same names</item>
-        <item quantity="one">stored in variable with the same name</item>
-        <item quantity="two">stored in variables with the same names</item>
-        <item quantity="few">stored in variables with the same names</item>
-        <item quantity="many">stored in variables with the same names</item>
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="zero">مخزنة في متغير بنفس الاسم</item>
+        <item quantity="one">مخزنة في متغير بنفس الاسم</item>
+        <item quantity="two">مخزنة في متغير بنفس الاسم</item>
+        <item quantity="few">مخزنة في متغير بنفس الاسم</item>
+        <item quantity="many">مخزنة في متغير بنفس الاسم</item>
+        <item quantity="other">مخزنة في متغيرات بنفس الأسماء</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="zero">%d lists selected</item>
-        <item quantity="one">%d list selected</item>
-        <item quantity="two">%d lists selected</item>
-        <item quantity="few">%d lists selected</item>
-        <item quantity="many">%d lists selected</item>
-        <item quantity="other">%d lists selected</item>
+        <item quantity="zero">تم تحديد %d قائمة</item>
+        <item quantity="one">تم تحديد %d قائمة</item>
+        <item quantity="two">تم تحديد %d قائمة</item>
+        <item quantity="few">تم تحديد %d قائمة</item>
+        <item quantity="many">تم تحديد %d قائمة</item>
+        <item quantity="other">%d قائمة محددة</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="zero">مرة</item>
@@ -1213,118 +1173,119 @@
         <item quantity="other">مرات</item>
     </plurals>
     <string name="brick_loop_end">نهاية التكرار</string>
-    <string name="brick_if_begin">إذا</string>
-    <string name="brick_if_begin_second_part">تحقق الشرط</string>
-    <string name="brick_if_else">عدا ذلك</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">إذا</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">تحقق الشرط</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">عدا ذلك</string>
     <string name="brick_if_end">نهاية إذا</string>
-    <string name="brick_set_variable">تعيين قيمة المتغير</string>
-    <string name="brick_change_variable">تغيير قيمة المتغير</string>
-    <string name="brick_write_variable_on_device">Write variable on device</string>
-    <string name="brick_read_variable_from_device">Read variable from device</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
-    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">و</string>
-    <string name="brick_read_variable_from_file_keep">keep the file</string>
-    <string name="brick_read_variable_from_file_delete">delete the file</string>
-    <string name="brick_write_list_on_device">Write list on device</string>
-    <string name="brick_read_list_from_device">Read list from device</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">تعيين قيمة المتغير</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">تغيير قيمة المتغير</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">كتابة المتغير على الجهاز</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">قراءة المتغير من الجهاز</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">كتابة المتغير</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">إلى ملف</string>
+    <string name="brick_write_variable_to_file_default_value">المتغير.txt</string>
+    <string name="brick_write_variable_to_file_success">"تم كتابة البيانات بنجاح إلى %1$s"</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">قراءة المتغير</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">من الملف</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">و</string>
+    <string name="brick_read_variable_from_file_keep">الاحتفاظ بالملف</string>
+    <string name="brick_read_variable_from_file_delete">حذف الملف</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">كتابة قائمة على الجهاز</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">قراءة القائمة من الجهاز</string>
     <string name="brick_note_default_value">أضف تعليق هنا&#8230;</string>
     <string name="brick_think_bubble_default_value">همممم!</string>
     <string name="brick_say_bubble_default_value">مرحباً!</string>
     <string name="brick_broadcast_default_value">"رسالة جديدة"</string>
-    <string name="brick_add_item_to_userlist_add">إضافة</string>
-    <string name="brick_add_item_to_userlist">الى القائمة</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete">حذف عنصر من قائمة</string>
-    <string name="brick_delete_item_from_userlist">في الموقع</string>
-    <string name="brick_insert_item_into_userlist_insert_into">إدراج</string>
-    <string name="brick_insert_item_into_userlist_into_list">في القائمة</string>
-    <string name="brick_insert_item_into_userlist_at_position">في الموقع</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">استبدال عنصر في القائمة</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">في الموقع</string>
-    <string name="brick_replace_item_in_userlist_with_value">مع</string>
-    <string name="brick_web_request">Send web request to</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">إضافة</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">الى القائمة</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">حذف جميع العناصر من القائمة</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">حذف عنصر من قائمة</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">في الموقع</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">إدراج</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">في القائمة</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">في الموقع</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">استبدال عنصر في القائمة</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">في الموقع</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">مع</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">إرسال طلب ويب إلى</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">and store answer in</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">وتخزين الإجابة في</string>
+    <string name="web_request_warning_title">السماح بالوصول إلى الويب؟</string>
+    <string name="web_request_warning_message">كن حذراً جداً قبل السماح بالوصول، لأن الرابط
+        قد يفضح معلوماتك الشخصية. مثل موقعك الجغرافي الدقيق أو أي نص
+        قمت بإدخاله إلى الآخرين الخبيثين أو إلى الجمهور. راجع
+        &lt;a href=%1s&gt;ويكي&lt;/a&gt; لمزيد من المعلومات لماذا يمكن أن يكون هذا
+        خطراً للغاية.
     </string>
-    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
+    <string name="web_request_trust_domain_warning_title">السماح دائماً بالوصول إلى الويب؟</string>
+    <string name="web_request_trust_domain_warning_message">بالسماح دائما بالوصول، لن يطلب منك
+        مرة أخرى تأكيد عناوين الويب من هذا النطاق.
     </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
+    <string name="trusted_domains_edit_hint">إذا كنت ترغب في إلغاء هذا الإذن
+        لاحقا، يمكنك إزالة الإدخال من قائمة النطاقات الموثوقة في
+        إعدادات هذا التطبيق.
     </string>
-    <string name="brick_look_request">Get image from</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into">في القائمة</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">الحصول على صورة من</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">واستخدم كمظهر حالي</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">واستخدم كخلفية حالية</string>
+    <string name="look_request_http_error_message">"الحصول على صورة من %1$s خطأ HTTP %2$s"</string>
+    <string name="look_request_type_error_message">"الحصول على صورة من %1$s لا يمكن استرداد تنسيق الصورة المعترف بها"</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">عمود المتجر</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">مــــن</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">قيم مفصولة بفواصل</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">في القائمة</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,لطيف\nبالجرع,nughty\noctopus,ذكي</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">piano</string>
-    <string name="electric_piano">electric piano</string>
-    <string name="cello">cello</string>
-    <string name="flute">flute</string>
-    <string name="vibraphone">vibraphone</string>
-    <string name="organ">organ</string>
-    <string name="guitar">guitar</string>
-    <string name="electric_guitar">electric guitar</string>
-    <string name="bass">bass</string>
-    <string name="pizzicato">pizzicato</string>
-    <string name="synth_pad">synth pad</string>
-    <string name="choir">choir</string>
-    <string name="synth_lead">synth lead</string>
-    <string name="wooden_flute">wooden flute</string>
-    <string name="trombone">trombone</string>
-    <string name="saxophone">saxophone</string>
-    <string name="bassoon">bassoon</string>
-    <string name="clarinet">clarinet</string>
-    <string name="music_box">music box</string>
-    <string name="steel_drum">steel drum</string>
-    <string name="marimba">marimba</string>
+    <string name="piano">بيانو</string>
+    <string name="electric_piano">البيانو الكهربائي</string>
+    <string name="cello">شيلو</string>
+    <string name="flute">تلويث</string>
+    <string name="vibraphone">فيبرافون</string>
+    <string name="organ">عضو</string>
+    <string name="guitar">غيتار</string>
+    <string name="electric_guitar">غيتار كهربائي</string>
+    <string name="bass">باسكال</string>
+    <string name="pizzicato">بيتزا</string>
+    <string name="synth_pad">لوحة المزامنة</string>
+    <string name="choir">جوقة</string>
+    <string name="synth_lead">مزامنة الرصاص</string>
+    <string name="wooden_flute">تلويث خشبي</string>
+    <string name="trombone">الترومبون</string>
+    <string name="saxophone">ساكسفون</string>
+    <string name="bassoon">باسون</string>
+    <string name="clarinet">كليرين</string>
+    <string name="music_box">صندوق الموسيقى</string>
+    <string name="steel_drum">برميل فولاذي</string>
+    <string name="marimba">ماريمبا</string>
     <!--  -->
     <!--Drums-->
-    <string name="snare_drum">snare drum</string>
-    <string name="bass_drum">bass drum</string>
-    <string name="side_stick">side stick</string>
-    <string name="crash_cymbal">crash cymbal</string>
-    <string name="open_hi_hat">open hi-hat</string>
-    <string name="closed_hi_hat">closed hi-hat</string>
-    <string name="tambourine">tambourine</string>
-    <string name="hand_clap">hand clap</string>
-    <string name="claves">claves</string>
-    <string name="wood_block">wood block</string>
-    <string name="cowbell">cowbell</string>
-    <string name="triangle">triangle</string>
-    <string name="bongo">bongo</string>
-    <string name="conga">conga</string>
-    <string name="cabasa">cabasa</string>
-    <string name="guiro">guiro</string>
-    <string name="vibraslap">vibraslap</string>
-    <string name="open_cuica">open cuica</string>
+    <string name="snare_drum">برميل سخري</string>
+    <string name="bass_drum">براميل البازس</string>
+    <string name="side_stick">عصا جانبية</string>
+    <string name="crash_cymbal">تحطم سيمابل</string>
+    <string name="open_hi_hat">فتح القبعة العليا</string>
+    <string name="closed_hi_hat">قبعة مغلقة</string>
+    <string name="tambourine">التامبورين</string>
+    <string name="hand_clap">تصفيق</string>
+    <string name="claves">بقايا</string>
+    <string name="wood_block">كتلة الخشب</string>
+    <string name="cowbell">جرس</string>
+    <string name="triangle">مثلث</string>
+    <string name="bongo">بونغو</string>
+    <string name="conga">كونجا</string>
+    <string name="cabasa">كاباسا</string>
+    <string name="guiro">جيرو</string>
+    <string name="vibraslap">فيبراسلاب</string>
+    <string name="open_cuica">فتح الكويكا</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My project</string>
+    <string name="default_project_name">مشروعي</string>
+    <string name="default_variable_name">متغير</string>
     <string name="default_scene_name">المشهد %1$d</string>
+    <string name="default_script_group_name">مجموعة سكريبت</string>
+    <string name="default_broadcast_message_name">رسالة</string>
+    <string name="default_list_name">قائمة</string>
     <string name="default_project_background_name">خلفية الشاشة</string>
     <string name="default_project_cloud_name">السُحب</string>
     <string name="default_project_cloud_sprite_name_1">سحابة 1</string>
@@ -1335,11 +1296,11 @@
     <string name="default_project_sprites_tweet_1">زقزقة1</string>
     <string name="default_project_sprites_tweet_2">زقزقة2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">إحتياطي</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">حلقة خارجية</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">حلقة داخلية</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">خلفية الشاشة</string>
     <string name="default_cast_project_cloud_name">السُحب</string>
@@ -1422,9 +1383,9 @@
     <!-- Error messages -->
     <string name="error_project_upload">حدث خطأ أثناء تحميل البرنامج.</string>
     <string name="error_project_download">حدث خطأ أثناء تنزيل البرنامج.</string>
-    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
-    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
-        started, seems there is a problem with our server."</string>
+    <string name="error_project_already_in_queue">"المشروع %s في قائمة الانتظار بالفعل."</string>
+    <string name="error_could_not_decode_project_name_from_url">"لا يمكن أن يكون تحميلك
+        بدأ، يبدو أن هناك مشكلة مع خادمنا."</string>
     <string name="error_new_project">حدث خطأ أثناء إنشاء برنامج جديد.</string>
     <string name="error_rename_scene">حدث خطأ أثناء إعادة تسمية المشهد.</string>
     <string name="error_load_project">حدث خطأ أثناء تحميل البرنامج.</string>
@@ -1451,14 +1412,14 @@
     <string name="error_drone_wrong_platform_title">لا يوجد دعم لطائرة بدون طيار2.0.</string>
     <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
     <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
-    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
-    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
-    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string name="error_embroidery_file_export">حدث خطأ أثناء مشاركة ملف التطريز.</string>
+    <string name="error_embroidery_file_write">حدث خطأ أثناء كتابة ملف التطريز.</string>
+    <string name="error_embroidery_data_not_found">الامبراطور مفقود.</string>
     <string name="error_unknown_error">حدث خطأ غير معروف.</string>
     <string name="error_gps_not_available">خطأ، نظام تحديد المواقع غير متاح.</string>
     <string name="error_set_description">حصل خطأ أثناء حفظ الإجراء.</string>
-    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
-        and credits.</string>
+    <string name="error_set_notes_and_credits">حدث خطأ أثناء حفظ الملاحظات الجديدة
+        والائتمانات.</string>
     <string name="error_no_whatsapp">تطبيق الواتساب غير مُثبت</string>
     <string name="error_unsupported_bricks_chromecast">هذا النص البرمجي لا يمكن إضافته للمشروع         كروم كاست.</string>
     <!--  -->
@@ -1476,20 +1437,20 @@
     <string name="none_paired">لم يتم العثور على أجهزة مقترنة</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">تعيين قيمة إبرة أردوينو الرقمية</string>
-    <string name="brick_arduino_select_analog_value">تعيين قيمة إبرة أردوينو PWM</string>
-    <string name="brick_arduino_set_pin_value_to">إلى</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">تعيين قيمة إبرة أردوينو الرقمية</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">تعيين قيمة إبرة أردوينو PWM</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">إلى</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">تعيين قيمة إبرة راسبيري باي</string>
-    <string name="brick_raspi_set_pin_value_to">إلى</string>
-    <string name="brick_raspi_if_begin">إذا إبرة راسبيري باي</string>
-    <string name="brick_raspi_if_begin_second_part">مُحققة</string>
-    <string name="brick_raspi_when_begin">عندما إبرة راسبيري باي</string>
-    <string name="brick_raspi_when_equals">يتغير إلى</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">تعيين قيمة إبرة راسبيري باي</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">إلى</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">إذا إبرة راسبيري باي</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">مُحققة</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">عندما إبرة راسبيري باي</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">يتغير إلى</string>
     <string name="brick_raspi_pressed_text">مرتفع</string>
     <string name="brick_raspi_released_text">منخفض</string>
-    <string name="brick_raspi_set_pwm">تعيين قيمة إبرة راسبيري باي (PWM)</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">تعيين قيمة إبرة راسبيري باي (PWM)</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">إعدادات راسبيري باي</string>
@@ -1497,16 +1458,16 @@
     <string name="error_connecting_to">خطأ: لم يتم الاتصال بـ %s : %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">تعيين محرك NXT</string>
-    <string name="nxt_motor_speed_to">إلى</string>
-    <string name="nxt_motor_speed">سرعة</string>
-    <string name="nxt_brick_motor_turn_angle">تشغيل محرك NXT</string>
-    <string name="nxt_motor_move_by">بمقدار</string>
-    <string name="nxt_motor_stop">إيقاف محرك NXT</string>
-    <string name="nxt_play_tone">تشغيل نغمة NXT</string>
-    <string name="nxt_tone_duration">المدة</string>
-    <string name="nxt_tone_frequency">التردد</string>
-    <string name="nxt_tone_hundred_hz">X ١٠٠هرتز</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">تعيين محرك NXT</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">إلى</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">سرعة</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">تشغيل محرك NXT</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">بمقدار</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">إيقاف محرك NXT</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">تشغيل نغمة NXT</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">المدة</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">التردد</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">X ١٠٠هرتز</string>
     <string name="nxt_motor_a">أ</string>
     <string name="nxt_motor_b">ب</string>
     <string name="nxt_motor_c">ج</string>
@@ -1561,15 +1522,15 @@
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">ب + ج</string>
     <string name="ev3_motor_all">جميع</string>
-    <string name="ev3_play_tone">تشغيل نغمة EV3</string>
-    <string name="ev3_tone_duration_for">لفترة</string>
-    <string name="ev3_tone_volume">مستوى الصوت</string>
-    <string name="ev3_tone_percent">%</string>
-    <string name="ev3_motor_stop">إيقاف محرك EV3</string>
-    <string name="ev3_motor_move">تعيين محرك EV3</string>
-    <string name="ev3_brick_motor_turn_angle">تشغيل محرك EV3</string>
-    <string name="ev3_motor_move_by">بمقدار</string>
-    <string name="ev3_set_led_status">تعيين حالة أزرار الإضاءة EV3 الى</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">تشغيل نغمة EV3</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">لفترة</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">مستوى الصوت</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">إيقاف محرك EV3</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">تعيين محرك EV3</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">تشغيل محرك EV3</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">بمقدار</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">تعيين حالة أزرار الإضاءة EV3 الى</string>
     <string name="ev3_led_status_off">غير مفعل</string>
     <string name="ev3_led_status_green">أخضر</string>
     <string name="ev3_led_status_red">أحمر</string>
@@ -1582,76 +1543,76 @@
     <string name="ev3_led_status_orange_pulse">النبض البرتقالي</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">الإقلاع / الهبوط</string>
-    <string name="brick_drone_play_led_animation">تشغيل مؤثرات الفلاش بالطائرة بدون طيار</string>
-    <string name="brick_drone_flip">قلب طائرة بدون طيار</string>
-    <string name="brick_drone_move_left">التحرك نحو اليسار</string>
-    <string name="brick_drone_move_right">التحرك نحو اليمين</string>
-    <string name="brick_drone_move_forward">التحرك نحو الأمام</string>
-    <string name="brick_drone_move_backward">التحرك نحو الخلف</string>
-    <string name="brick_drone_move_up">التحرك نحو الأعلى</string>
-    <string name="brick_drone_move_down">التحرك نحو الأسفل</string>
-    <string name="brick_drone_emergency">حالة الطوارىء</string>
-    <string name="brick_drone_turn_right">التوجه نحو اليمين</string>
-    <string name="brick_drone_turn_left">التوجه نحو اليسار</string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">الإقلاع / الهبوط</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">تشغيل مؤثرات الفلاش بالطائرة بدون طيار</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">قلب طائرة بدون طيار</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources">التحرك نحو اليسار</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">التحرك نحو اليمين</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">التحرك نحو الأمام</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">التحرك نحو الخلف</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">التحرك نحو الأعلى</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">التحرك نحو الأسفل</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">حالة الطوارىء</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">التوجه نحو اليمين</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">التوجه نحو اليسار</string>
     <string name="brick_drone_set_config">تعيين إعدادات الطائرة بدون طيار 2.0</string>
-    <string name="brick_drone_switch_camera">تبديل كاميرا الطائرة بدون طيار</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">تبديل كاميرا الطائرة بدون طيار</string>
     <string name="brick_drone_set_altitude">الحد الأقصى للارتفاع </string>
     <string name="brick_drone_set_vertical_speed">الحد الأقصى للسرعة العمودية</string>
     <string name="brick_drone_set_rotation_speed">الحد الأقصى لسرعة الدوران</string>
     <string name="brick_drone_set_tilt_limit">الحد الأقصى للميل</string>
-    <string name="brick_drone_with.">مع</string>
-    <string name="brick_drone_power">القوة</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">مع</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">القوة</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">وميض أخضر أحمر</string>
-    <string name="drone_animation_blinkgreen">وميض أخضر</string>
-    <string name="drone_animation_blinkred">وميض أحمر</string>
-    <string name="drone_animation_blinkorange">وميض برتقالي</string>
-    <string name="drone_animation_snakegreenred">تموج أخصر أحمر</string>
-    <string name="drone_animation_fire">نار</string>
-    <string name="drone_animation_standard">أساسي</string>
-    <string name="drone_animation_red">أحمر</string>
-    <string name="drone_animation_green">أخضر</string>
-    <string name="drone_animation_redsnake">تموج أحمر</string>
-    <string name="drone_animation_blank">فارغ</string>
-    <string name="drone_animation_rightmissile">صاروخ أيمن</string>
-    <string name="drone_animation_leftmissile">صاروح أيسر</string>
-    <string name="drone_animation_doublemissile">صاروخ مزدوج</string>
-    <string name="drone_animation_frontleftgreenothersred">أمامي ايسر أخضر والبقية أحمر</string>
-    <string name="drone_animation_frontrightgreenothersred">أمامي أيمن أخضر والبقية أحمر</string>
-    <string name="drone_animation_rearrightgreenothersred">أيمن قريب أخضر والبقية أحمر</string>
-    <string name="drone_animation_rearleftgreenothersred">أيسر قريب أخضر والبقية أحمر</string>
-    <string name="drone_animation_leftgreenrightred">أيسر أخضر وأيمن أحمر</string>
-    <string name="drone_animation_leftredrightgreen">أيسر أحمر واليمين أخضر</string>
-    <string name="drone_animation_blinkstandard">وميض قياسي</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">وميض أخضر أحمر</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">وميض أخضر</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">وميض أحمر</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">وميض برتقالي</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">تموج أخصر أحمر</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">نار</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">أساسي</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">أحمر</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">أخضر</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">تموج أحمر</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">فارغ</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">صاروخ أيمن</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">صاروح أيسر</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">صاروخ مزدوج</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">أمامي ايسر أخضر والبقية أحمر</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">أمامي أيمن أخضر والبقية أحمر</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">أيمن قريب أخضر والبقية أحمر</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">أيسر قريب أخضر والبقية أحمر</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">أيسر أخضر وأيمن أحمر</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">أيسر أحمر واليمين أخضر</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">وميض قياسي</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">تحريك Jumping Sumo نحو الأمام</string>
-    <string name="brick_jumping_sumo_move_backward">تحريك Jumping Sumo نحو الخلف</string>
-    <string name="brick_jumping_sumo_animation">حركات Jumping Sumo</string>
-    <string name="brick_jumping_sumo_no_sound">Jumping Sumo بدون صوت</string>
-    <string name="brick_jumping_sumo_jump_long">قفزة طويلة لـ Jumping Sumo</string>
-    <string name="brick_jumping_sumo_jump_high">قفزة عالية لـ Jumping Sumo</string>
-    <string name="brick_jumping_sumo_rotate_left">استدارة Jumping Sumo نحو اليسار</string>
-    <string name="brick_jumping_sumo_rotate_right">استدارة Jumping Sumo نحو اليمين</string>
-    <string name="brick_jumping_sumo_rotate_text">°</string>
-    <string name="brick_jumping_sumo_turn">تشغيل Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">التقاط صورة من Jumping Sumo</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">تحريك Jumping Sumo نحو الأمام</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">تحريك Jumping Sumo نحو الخلف</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">حركات Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">Jumping Sumo بدون صوت</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">قفزة طويلة لـ Jumping Sumo</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">قفزة عالية لـ Jumping Sumo</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">استدارة Jumping Sumo نحو اليسار</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">استدارة Jumping Sumo نحو اليمين</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">°</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">تشغيل Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">التقاط صورة من Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">الصوت</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">الصوت</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">لف مغزلي</string>
-    <string name="animation_tab">تاب</string>
-    <string name="animation_slowshake">رجفة بطيئة</string>
-    <string name="animation_metronome">إيقاع</string>
-    <string name="animation_ondulation">تموج</string>
-    <string name="animation_spinjump">قفز ولف مغزلي</string>
-    <string name="animation_spiral">لولبي</string>
-    <string name="animation_slalom">تزلج متعرج</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">لف مغزلي</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">تاب</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">رجفة بطيئة</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">إيقاع</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">تموج</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">قفز ولف مغزلي</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">لولبي</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">تزلج متعرج</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">مستوى الصوت</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">مستوى الصوت</string>
     <string name="sound_default">عادي</string>
     <string name="sound_robot">روبوت</string>
     <string name="sound_insect">حشرة</string>
@@ -1659,23 +1620,23 @@
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">إيقاف محرك روبوت الاطفال</string>
-    <string name="brick_phiro_motor_forward_action">تحريك روبوت الاطفال الى الأمام</string>
-    <string name="brick_phiro_motor_backward_action">تحريك روبوت الاطفال الى الخلف</string>
-    <string name="phiro_motor_speed">سرعة</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">إيقاف محرك روبوت الاطفال</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">تحريك روبوت الاطفال الى الأمام</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">تحريك روبوت الاطفال الى الخلف</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">سرعة</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">إذا كان روبوت الاطفال</string>
-    <string name="brick_phiro_sensor_second_part">تم تفعيله</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">إذا كان روبوت الاطفال</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">تم تفعيله</string>
     <!-- tone -->
-    <string name="phiro_play_tone">تشغيل موسيقى روبوت الاطفال \n</string>
-    <string name="phiro_tone_duration">المدة</string>
-    <string name="brick_phiro_select_tone">نغمة</string>
-    <string name="phiro_seconds">ثوان</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">تشغيل موسيقى روبوت الاطفال \n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">المدة</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">نغمة</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">ثوان</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">تعيين ضوء روبوت الاطفال</string>
-    <string name="phiro_rgb_led_red">أحمر</string>
-    <string name="phiro_rgb_led_green">أخضر</string>
-    <string name="phiro_rgb_led_blue">أزرق</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">تعيين ضوء روبوت الاطفال</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">أحمر</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">أخضر</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">أزرق</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">دو</string>
@@ -1712,9 +1673,8 @@
     <string name="formula_editor_data">البيانات</string>
     <string name="formula_editor_true">صحيح</string>
     <string name="formula_editor_false">خطأ</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">محرر الصيغة</string>
-    <string name="formula_editor_changes_saved">تم حفظ التغييرات!</string>
     <string name="formula_editor_changes_discarded">تم تجاهل التغييرات!</string>
     <string name="formula_editor_parse_fail">الصيغة غير صحيحة!</string>
     <string name="formula_nothing_selected">تعريف قيمة الإدخال</string>
@@ -1722,136 +1682,137 @@
     <string name="formula_editor_choose_object_variable">خصائص لهذا الكائن</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">جيب الزاوية</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">جيب الزاوية</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">جتا الزاوية</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">جتا الزاوية</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">ظل الزاوية</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">ظل الزاوية</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln">اللوغاريثم الطبيعي</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">اللوغاريثم الطبيعي</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log">لوغاريثم</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">لوغاريثم</string>
     <string name="formula_editor_function_log_parameter">(0)</string>
-    <string name="formula_editor_function_pi">قيمة باي</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">قيمة باي</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">لون</string>
-    <string name="formula_editor_function_sqrt">الجذر التربيعي</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">لون</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">الجذر التربيعي</string>
     <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand">رقم عشوائي</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">رقم عشوائي</string>
     <string name="formula_editor_function_rand_parameter">(0، 1)</string>
-    <string name="formula_editor_function_abs">القيمة المطلقة</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">القيمة المطلقة</string>
     <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round">التقريب</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">التقريب</string>
     <string name="formula_editor_function_round_parameter">(0)</string>
-    <string name="formula_editor_function_mod">باقي القسمة</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">باقي القسمة</string>
     <string name="formula_editor_function_mod_parameter">(1.1)</string>
-    <string name="formula_editor_function_arcsin">جيب الزاوية القوسي</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">جيب الزاوية القوسي</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">قوس جيب تمام الزاوية</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">قوس جيب تمام الزاوية</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">ظل الزاوية القوسي</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">ظل الزاوية القوسي</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">قوس ظل 2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">الأس الطبيعي</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">الأس الطبيعي</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
-    <string name="formula_editor_function_power">القوة</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">القوة</string>
     <string name="formula_editor_function_power_parameter">(2, 3)</string>
-    <string name="formula_editor_function_floor">تقريب للاسفل</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">تقريب للاسفل</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">تقريب للأعلى</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">تقريب للأعلى</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">أكبر قيمة</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">أكبر قيمة</string>
     <string name="formula_editor_function_max_parameter">(0 ،1)</string>
-    <string name="formula_editor_function_min">أقل قيمة</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">أقل قيمة</string>
     <string name="formula_editor_function_min_parameter">(0، 1)</string>
-    <string name="formula_editor_function_if_then_else">if then else</string>
-    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true">صحيح</string>
-    <string name="formula_editor_function_false">خطأ</string>
-    <string name="formula_editor_function_length">طول النص</string>
+    <string name="formula_editor_function_if_then_else">إذا كان الأمر كذلك</string>
+    <string name="formula_editor_function_if_then_else_parameter">(زائف، 2، 3)</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">صحيح</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">خطأ</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">طول النص</string>
     <string name="formula_editor_function_length_parameter">(\'مرحباً بالعالم\')</string>
-    <string name="formula_editor_function_letter">حرف من النص</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">حرف من النص</string>
     <string name="formula_editor_function_letter_parameter">(1، \'مرحباً بالعالم\')</string>
-    <string name="formula_editor_function_join">الانضمام إلى</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">الانضمام إلى</string>
     <string name="formula_editor_function_join_parameter">(\'مرحباً\'، \'بالعالم\')</string>
     <string name="formula_editor_function_join3">الانضمام إلى</string>
-    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex">regular expression</string>
-    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
-    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
-        expression assistant</string>
-    <string name="formula_editor_dialog_wiki_button">More information</string>
-    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">دبوس اردوينو الرقمي</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">دبوس أردوينو التناظري</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">دبوس راسبيري باي</string>
+    <string name="formula_editor_function_join3_parameter">(\'مرحبا\'،\' عالم\'،\'!\')</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">التعبير العادي</string>
+    <string name="formula_editor_function_regex_parameter">(\' an؟ ([^ .]+)\',\'أنا بندا.\')</string>
+    <string name="formula_editor_function_regex_assistant">تعبير عادي
+        مساعد</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">مساعد التعبير العادي</string>
+    <string name="formula_editor_dialog_wiki_button">مزيد من المعلومات</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">تعذر العثور على الكلمة المفتاحية.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">مستخرج JSON</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">دبوس اردوينو الرقمي</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">دبوس أردوينو التناظري</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">دبوس راسبيري باي</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">إحداثيات_لمس_الشاشة_س</string>
-    <string name="formula_editor_function_finger_y">إحداثيات_لمس_الشاشة_ص</string>
-    <string name="formula_editor_function_is_finger_touching">تم لمس الشاشة</string>
-    <string name="formula_editor_function_multi_finger_x">إحداثيات_لمس_الشاشة_س</string>
-    <string name="formula_editor_function_multi_finger_y">إحداثيات_لمس_الشاشة_ص</string>
-    <string name="formula_editor_function_is_multi_finger_touching">تم لمس الشاشة</string>
-    <string name="formula_editor_function_index_of_last_finger">أخر_دلالة_لمس_الشاشة</string>
-    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">إحداثيات_لمس_الشاشة_س</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">إحداثيات_لمس_الشاشة_ص</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">تم لمس الشاشة</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">إحداثيات_لمس_الشاشة_س</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">إحداثيات_لمس_الشاشة_ص</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">تم لمس الشاشة</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">أخر_دلالة_لمس_الشاشة</string>
+    <string name="formula_editor_function_number_of_current_touches">عدد اللمسات الحالية</string>
+    <string name="formula_editor_function_index_of_current_touch">فهرس اللمس الحالي</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item">عنصر</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">عنصر</string>
     <string name="formula_editor_function_list_item_parameter">(1، * قائمة اسم *)</string>
-    <string name="formula_editor_function_contains">يحتوي على</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">يحتوي على</string>
     <string name="formula_editor_function_contains_parameter">(1، * قائمة اسم *)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">فهرس العنصر</string>
     <string name="formula_editor_function_index_of_item_parameter">(1، * قائمة اسم *)</string>
-    <string name="formula_editor_function_number_of_items">عدد_العناصر</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">عدد_العناصر</string>
     <string name="formula_editor_function_number_of_items_parameter">(* قائمة اسم *)</string>
     <string name="formula_editor_function_collision">العناصر_الملموسة</string>
-    <string name="formula_editor_function_collides_with_edge">الحواف_الملموسة</string>
-    <string name="formula_editor_function_touched">الأصابع_الملموسة</string>
-    <string name="formula_editor_function_collides_with_color">touches color</string>
-    <string name="formula_editor_function_color_touches_color">color touches color</string>
-    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_x_acceleration">تسارع x</string>
-    <string name="formula_editor_sensor_y_acceleration">تسارع y</string>
-    <string name="formula_editor_sensor_z_acceleration">تسارع z</string>
-    <string name="formula_editor_sensor_compass_direction">إتجاه البوصلة</string>
-    <string name="formula_editor_sensor_latitude">خط العرض</string>
-    <string name="formula_editor_sensor_longitude">خط الطول</string>
-    <string name="formula_editor_sensor_location_accuracy">دقة_الموقع</string>
-    <string name="formula_editor_sensor_altitude">الإرتفاع</string>
-    <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination">زاوية ميل x</string>
-    <string name="formula_editor_sensor_y_inclination">زاوية ميل y</string>
-    <string name="formula_editor_sensor_loudness">بريق</string>
-    <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year">السنة</string>
-    <string name="formula_editor_sensor_date_month">الشهر</string>
-    <string name="formula_editor_sensor_date_day">اليوم</string>
-    <string name="formula_editor_sensor_date_weekday">يوم من أيام الأسبوع</string>
-    <string name="formula_editor_sensor_time_hour">ساعة</string>
-    <string name="formula_editor_sensor_time_minute">دقيقة</string>
-    <string name="formula_editor_sensor_time_second">ثانية</string>
-    <string name="formula_editor_sensor_drone_battery_status">حالة_بطارية_الطيارة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_emergency_state">حالة_الطوارئ_للطيارة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_flying">أقلاع_الطيارة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_initialized">تهيئة_الطائرة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_usb_active">usb_فعال_طائرة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">usbالوقت_المتبقي_طائرة_بدون_طيار</string>
-    <string name="formula_editor_sensor_drone_camera_ready">كاميرا_الطائرة_بدون_طيار_جاهزة</string>
-    <string name="formula_editor_sensor_drone_record_ready">تسجيل_الطائرة_بدون_طيار_جاهز</string>
-    <string name="formula_editor_sensor_drone_recording">عملية_التسجيل_جارية</string>
-    <string name="formula_editor_sensor_drone_num_frames">عدد_الإطارات</string>
-    <string name="formula_editor_sensor_lego_nxt_1">جهاز استشعار_NXT_1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">جهاز_استشعار_NXT_2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">جهاز_استشعار_NXT_3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">جهاز_استشعار_NXT_4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">جهاز_استشعار_EV3_1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">جهاز_استشعار_EV3_2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">جهاز_استشعار_EV3_3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">جهاز_استشعار_EV3_4</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">الحواف_الملموسة</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">الأصابع_الملموسة</string>
+    <string name="formula_editor_function_collides_with_color">يلمس اللون</string>
+    <string name="formula_editor_function_color_touches_color">اللون يلمس اللون</string>
+    <string name="formula_editor_sensor_color_at_x_y">لون عند س ص</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">لون يساوي اللون مع ٪ من التسامح</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">تسارع x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">تسارع y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">تسارع z</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">إتجاه البوصلة</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">خط العرض</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">خط الطول</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">دقة_الموقع</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">الإرتفاع</string>
+    <string name="formula_editor_sensor_user_language">لغة المستخدم</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">زاوية ميل x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">زاوية ميل y</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">بريق</string>
+    <string name="formula_editor_sensor_timer">مؤقت</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">السنة</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">الشهر</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">اليوم</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">يوم من أيام الأسبوع</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">ساعة</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">دقيقة</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">ثانية</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">حالة_بطارية_الطيارة_بدون_طيار</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">حالة_الطوارئ_للطيارة_بدون_طيار</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">أقلاع_الطيارة_بدون_طيار</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">تهيئة_الطائرة_بدون_طيار</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">usb_فعال_طائرة_بدون_طيار</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">usbالوقت_المتبقي_طائرة_بدون_طيار</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">كاميرا_الطائرة_بدون_طيار_جاهزة</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">تسجيل_الطائرة_بدون_طيار_جاهز</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">عملية_التسجيل_جارية</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">عدد_الإطارات</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">جهاز استشعار_NXT_1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">جهاز_استشعار_NXT_2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">جهاز_استشعار_NXT_3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">جهاز_استشعار_NXT_4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">جهاز_استشعار_EV3_1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">جهاز_استشعار_EV3_2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">جهاز_استشعار_EV3_3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">جهاز_استشعار_EV3_4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">لمس_NXT</string>
     <string name="formula_editor_sensor_lego_nxt_sound">صوت_NXT</string>
     <string name="formula_editor_sensor_lego_nxt_light">ضوء_NXT</string>
@@ -1869,35 +1830,35 @@
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT ضوء نشط</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT صوت</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT فوق صوتي</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">زر لوح تحكم الألعاب a تم النقر عليه</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">زر لوح تحكم الألعاب b تم النقر عليه</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">زر لوح تحكم الألعاب للأعلى تم النقر عليه</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">زر لوح تحكم الألعاب للأسفل تم النقر عليه</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">زر لوح تحكم الألعاب لليسار تم النقر عليه</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">زر لوح تحكم الألعاب لليمين تم النقر عليه</string>
-    <string name="formula_editor_phiro_sensor_front_left">الإستشعار_الأمامي_الأيسر_لربوت الأطفال</string>
-    <string name="formula_editor_phiro_sensor_front_right">الإستشعار_الأمامي_الأيمن_لربوت الأطفال</string>
-    <string name="formula_editor_phiro_sensor_side_left">الإستشعار_الجانبي_الأيسر_لربوت الأطفال</string>
-    <string name="formula_editor_phiro_sensor_side_right">الإستشعار_الجانبي_الأيمن_لربوت الأطفال</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">الإستشعار_الأسفل_الأيسر_لربوت الأطفال</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">الإستشعار_الأسفل_الأيمن_لربوت الأطفال</string>
-    <string name="formula_editor_nfc_tag_id">معرف_وسم_NFC</string>
-    <string name="formula_editor_nfc_tag_message">رسالة_وسم_NFC</string>
-    <string name="formula_editor_object_x">الموقع x</string>
-    <string name="formula_editor_object_y">الموقع y</string>
-    <string name="formula_editor_object_transparency">الشفافية</string>
-    <string name="formula_editor_object_brightness">السطوع</string>
-    <string name="formula_editor_object_size">الحجم</string>
-    <string name="formula_editor_object_rotation">الاتجاه</string>
-    <string name="formula_editor_object_layer">طبقة</string>
-    <string name="formula_editor_object_x_velocity">سرعة_س</string>
-    <string name="formula_editor_object_y_velocity">سرعة_ص</string>
-    <string name="formula_editor_object_angular_velocity">السرعة_الزاوية</string>
-    <string name="formula_editor_object_look_number">رقم_المنظر</string>
-    <string name="formula_editor_object_look_name">إسم_المنظر</string>
-    <string name="formula_editor_object_background_number">رقم_خلفية الشاشة</string>
-    <string name="formula_editor_object_background_name">إسم_خلفية الشاشة</string>
-    <string name="formula_editor_object_distance_to">المسافة إلى</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">زر لوح تحكم الألعاب a تم النقر عليه</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">زر لوح تحكم الألعاب b تم النقر عليه</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">زر لوح تحكم الألعاب للأعلى تم النقر عليه</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">زر لوح تحكم الألعاب للأسفل تم النقر عليه</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">زر لوح تحكم الألعاب لليسار تم النقر عليه</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">زر لوح تحكم الألعاب لليمين تم النقر عليه</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">الإستشعار_الأمامي_الأيسر_لربوت الأطفال</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">الإستشعار_الأمامي_الأيمن_لربوت الأطفال</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">الإستشعار_الجانبي_الأيسر_لربوت الأطفال</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">الإستشعار_الجانبي_الأيمن_لربوت الأطفال</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">الإستشعار_الأسفل_الأيسر_لربوت الأطفال</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">الإستشعار_الأسفل_الأيمن_لربوت الأطفال</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">معرف_وسم_NFC</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">رسالة_وسم_NFC</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">الموقع x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">الموقع y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">الشفافية</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">السطوع</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">الحجم</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">الاتجاه</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">طبقة</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">سرعة_س</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">سرعة_ص</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">السرعة_الزاوية</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">رقم_المنظر</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">إسم_المنظر</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">رقم_خلفية الشاشة</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">إسم_خلفية الشاشة</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">المسافة إلى</string>
     <string name="formula_editor_compute">النتيجة</string>
     <string name="formula_editor_object">الكائن</string>
     <string name="formula_editor_functions">الدوال</string>
@@ -1909,9 +1870,9 @@
     <string name="formula_editor_functions_lists">قوائم</string>
     <string name="formula_editor_logic_boolean">عوامل التشغيل المنطقية (بوليان)</string>
     <string name="formula_editor_logic_comparison">عوامل تشغيل المقارنة</string>
-    <string name="formula_editor_object_general">الخصائص العامة</string>
+    <string name="formula_editor_object_look">خصائص المشهد</string>
     <string name="formula_editor_object_movement">خصائص الحركة</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">أجهزة الاستشعار البصرية</string>
     <string name="formula_editor_device_date_and_time">التاريخ والوقت</string>
     <string name="formula_editor_device_touch_detection">الكشف عن التلامس</string>
     <string name="formula_editor_device_lego_nxt">ليغو NXT</string>
@@ -1923,41 +1884,49 @@
     <string name="formula_editor_device_nfc">تقنية الاتصال قريب المدى (NFC)</string>
     <string name="formula_editor_device_cast">بث وإرسال</string>
     <string name="formula_editor_string">أ ب ج</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">و</string>
-    <string name="formula_editor_logic_or">أو</string>
-    <string name="formula_editor_logic_not">لا</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">و</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">أو</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">لا</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">حذف</string>
+    <string name="formula_editor_image_button_description_color_picker">منتقي الألوان</string>
+    <string name="formula_editor_image_button_description_functions_toggle">تبديل الدوال</string>
     <string name="formula_editor_variable_dialog_title">متغير جديد</string>
     <string name="formula_editor_list_dialog_title">قائمة جديدة</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">مستخرج HTML</string>
     <string name="formula_editor_discard_changes_dialog_message">هل تريد حفظ التغييرات؟</string>
     <string name="formula_editor_discard_changes_dialog_title">حفظ التغييرات؟</string>
     <string name="formula_editor_new_string_name">نص جديد</string>
     <string name="formula_editor_dialog_change_text">تغيير النص</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
+    <string name="formula_editor_dialog_change_regular_expression">تغيير التعبير العادي</string>
     <string name="formula_editor_fragment_data_current_items">العناصر الحالية</string>
     <string name="formula_editor_data_dialog_is_list">اجعله قائمة</string>
-    <string name="formula_editor_sensor_face_detected">هل تم تحري الوجه</string>
-    <string name="formula_editor_sensor_face_size">حجم الوجه</string>
-    <string name="formula_editor_sensor_face_x_position">موقع الوجه باتجاه س</string>
-    <string name="formula_editor_sensor_face_y_position">موقع الوجه باتجاه y</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">هل تم تحري الوجه</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">حجم الوجه</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">موقع الوجه باتجاه س</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">موقع الوجه باتجاه y</string>
+    <string name="formula_editor_sensor_second_face_detected">الوجه الثاني مرئي</string>
+    <string name="formula_editor_sensor_second_face_size">حجم الوجه الثاني</string>
+    <string name="formula_editor_sensor_second_face_x_position">الوجه الثاني X الموضع</string>
+    <string name="formula_editor_sensor_second_face_y_position">موضع الوجه الثاني ص</string>
+    <string name="formula_editor_sensor_text_from_camera">نص من الكاميرا</string>
+    <string name="formula_editor_sensor_text_blocks_number">عدد كتل النص</string>
+    <string name="formula_editor_function_text_block_x">كتلة النص x من الكاميرا</string>
+    <string name="formula_editor_function_text_block_y">كتلة النص y من الكاميرا</string>
+    <string name="formula_editor_function_text_block_size">حجم كتلة النص من الكاميرا</string>
+    <string name="formula_editor_function_text_block_from_camera">كتلة نصية من الكاميرا</string>
+    <string name="formula_editor_function_text_block_language_from_camera">لغة كتلة النص من الكاميرا</string>
+    <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_intro_title_formula_editor">محرر الصيغة</string>
     <string name="formula_editor_intro_summary_formula_editor">محرر الصيغة يسمح لك بإنشاء صيغ رياضية و        صيغ منطقية والتي يمكنك استخدامها ضمن لّبناتك البرمجية.\n\nيمكنك التقدم بهذه المقدمة الصغيرة من خلال لمس         زر \"التالي\" في الزاوية السفلى اليمنى, ويمكنك تخطي ذلك  من خلال لمس زر \"تخطي\" في        الزاوية السفلى اليسرى.</string>
     <string name="formula_editor_intro_title_input_field">حقل إدخال</string>
@@ -1976,32 +1945,34 @@
     <string name="formula_editor_intro_summary_device">في \"الجهاز\" يمكنك إيجاد معلومات والتي        يقوم هاتفك أو لوحك الذكي بتسجيلها.\n مثلاً, مَيل جهازك, أو قيمة الضجيج في مُحيطك.</string>
     <string name="formula_editor_intro_title_data">البيانات</string>
     <string name="formula_editor_intro_summary_data">المتغيرات والقوائم المُستخدمة في          برنامجك موجودة هنا.\n يمكنك ببساطة إدراجها في صيغتك, أو إضافة واحدة جديدة.</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="formula_editor_listening_language_sensor">لغة الاستماع</string>
+    <string name="formula_editor_speech_recognition">التعرف على الكلام</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">مسطحة</string>
+    <string name="formula_editor_function_flatten_parameter">(* قائمة اسم *)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">إظهار المتغير</string>
-    <string name="brick_hide_variable">إخفاء المتغير</string>
-    <string name="brick_show_variable_position">في </string>
-    <string name="brick_show_variable_size">الحجم:</string>
-    <string name="brick_show_variable_color">لون:</string>
-    <string name="brick_show_variable_aligned">محاذٍ</string>
-    <string name="brick_show_variable_aligned_centered">توسيط</string>
-    <string name="brick_show_variable_aligned_left">يسار</string>
-    <string name="brick_show_variable_aligned_right">يمين</string>
-    <string name="brick_context_dialog_pick_color">Pick color</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">إظهار المتغير</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">إخفاء المتغير</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">في </string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">الحجم:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">لون:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">محاذٍ</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">توسيط</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">يسار</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">يمين</string>
+    <string name="brick_context_dialog_pick_color">اختيار اللون</string>
+    <string name="brick_context_dialog_pick_note">اختر ملاحظة</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">تشغيل الكاميرا</string>
-    <string name="video_brick_camera_on">تشغيل</string>
-    <string name="video_brick_camera_off">إطفاء</string>
-    <string name="brick_choose_camera">إستخدام الكاميرا
+    <string name="brick_video" tools:ignore="UnusedResources">تشغيل الكاميرا</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">تشغيل</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">إطفاء</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">إستخدام الكاميرا
  </string>
-    <string name="choose_camera_front">الأمامية</string>
-    <string name="choose_camera_back">خلفي</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">الأمامية</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">خلفي</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -2026,14 +1997,13 @@
     <string name="cast_connection_timout_msg">انتهاء مهلة التواصل مع شبكة الاتصال. يُرجى المحاولة مرّة أخرى.</string>
     <string name="cast_screen_pause_text">مُتوقف</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
-    <string name="deletion_alert_yes">نعم، قم بحذفه على أية حال!</string>
+    <string name="deletion_alert_title">حذف؟</string>
+    <string name="deletion_alert_text">حذف متغير أو قائمة لا تزال قيد الاستخدام يمكن أن يسبب أخطاء
+        . لا يمكنك التراجع عن هذا!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">البرنامج الخاص بك الذي قد تم تحميله إلى صفحة المجتمع  يمكن للأخرين استخدامه وتنزيله. يمكنك أيضا تحميل البرنامج الخاص بك كتطبيق مستقل.</string>
-    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
-        again!</string>
+    <string name="progress_upload_dialog_failed">فشل التحميل. الرجاء التحقق من اتصالك بالإنترنت وحاول
+        مرة أخرى!</string>
     <string name="progress_upload_dialog_show_program">عرض البرنامج</string>
     <!--  -->
     <!-- Snackbar hints -->
@@ -2056,5 +2026,12 @@
     <string name="device_language">لغة الجهاز</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">هرتز</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">هرتز</string>
+    <string name="no_internet_connection">لا يوجد اتصال بالإنترنت. تأكد من تشغيل Wi-Fi أو
+    بيانات الجوال.</string>
+    <string name="edit">تحرير</string>
+    <string name="data_value">القيمة</string>
+    <string name="category_recently_used">مستخدم مؤخرا</string>
+    <!-- Information -->
+    <string name="no_variable_selected">لا يوجد متغير محدد</string>
 </resources>

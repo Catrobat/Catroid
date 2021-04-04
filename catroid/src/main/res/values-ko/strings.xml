@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">무대</string>
     <string name="play">실행</string>
     <string name="settings">설정</string>
-    <string name="redo">다시 실행</string>
-    <string name="undo">취소</string>
+    <string name="redo" tools:ignore="UnusedResources">다시 실행</string>
+    <string name="undo" tools:ignore="UnusedResources">취소</string>
     <string name="new_option">새로운 신호</string>
+    <string name="edit_option">편집하다&#8230;</string>
     <string name="confirm">확인</string>
     <string name="ignore">무시</string>
     <string name="cancel">취소</string>
     <string name="save">저장</string>
+    <string name="discard">저장 안함</string>
     <string name="next">다음</string>
-    <string name="back">돌아가기</string>
     <string name="ok">확인</string>
     <string name="done">완료</string>
-    <string name="close">닫기</string>
+    <string name="close" tools:ignore="UnusedResources">닫기</string>
     <string name="assistant">보조 기능</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
     <string name="once">한 번</string>
     <string name="always">항상</string>
     <string name="deny">거부</string>
-    <string name="disagree">동의하지 않음</string>
     <string name="accept">승인</string>
     <string name="decline">거부</string>
     <string name="select_all">모두 선택</string>
@@ -58,20 +58,22 @@
     <string name="backpack_add">스크립트 모음에 추가</string>
     <string name="share_website_text">공유</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string name="security_warning_dialog_msg">당신이 다운로드한 프로젝트는 뒤에서 당신의 목소리를 들을 수 있을 뿐만 아니라 인터넷으로 데이터를 보냅니다. 이는 위험하지 않을 수 있으며 목적을 달성하는 데에 필수적일 수 있습니다. 그러나 프로젝트가 안전하게 진행되고 있을 때 당신이 무엇을 말하는지 확실히 해주세요. 확실하지 않을 경우, 다운로드된 프로젝트를 삭제해 주세요. 또한 만약 그 프로젝트가 유해하다는 것이 확실할 경우, 당신은 카로봇 커뮤니티 플랫폼의 해당 페이지에 그 프로젝트를 신고할 수 있습니다.</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">변경없이 업로드</string>
+    <string name="api_replacement_dialog_accept">키를 교체하여 업로드</string>
+    <string name="api_replacement_dialog_warning">이 프로젝트에는
+        웹이며 API 키도 포함하는 것 같습니다. % 1s 이유를 참조하십시오
+        이러한 키를 업로드하는 것은 위험 할 수 있습니다.</string>
+    <string name="api_replacement">여기에 API 키 삽입</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">로그인 데이터 확인&#8230;</string>
     <string name="loading_google_exchange_code">Google + 데이터 교환중&#8230;</string>
     <string name="loading_google_login">Google+ 로그인 완료&#8230;</string>
-    <string name="delete_account">내 계정 삭제</string>
     <string name="logout_successful">로그아웃 성공</string>
-    <string name="degrees">도</string>
-    <string name="background">배경</string>
+    <string name="degrees" tools:ignore="UnusedResources">도</string>
+    <string name="background" tools:ignore="UnusedResources">배경</string>
     <string name="landscape">가로 보기</string>
     <string name="portrait">세로 보기</string>
     <string name="unknown">알 수 없음</string>
@@ -81,7 +83,7 @@
     <string name="main_menu_continue">이어서 계속</string>
     <string name="main_menu_new">새 프로젝트</string>
     <string name="main_menu_programs">프로그램</string>
-    <string name="main_menu_help">도움말</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">도움말</string>
     <string name="main_menu_web">Catrobat 공유</string>
     <string name="main_menu_upload">프로그램 업로드</string>
     <string name="main_menu_rate_app">평가하기</string>
@@ -271,7 +273,7 @@
     <string name="am_backpack">묶음</string>
     <string name="am_unpack">풀기</string>
     <string name="am_copy">복사하기</string>
-    <string name="am_delete">삭제하기</string>
+    <string name="am_delete" tools:ignore="UnusedResources">삭제하기</string>
     <string name="am_rename">이름 바꾸기</string>
     <string name="am_convert">변환</string>
     <string name="am_merge">병합</string>
@@ -285,6 +287,9 @@
     <string name="merge">병합</string>
     <string name="show_details">세부 정보 표시</string>
     <string name="hide_details">세부 사항 숨기기</string>
+    <string name="project_options">프로젝트 옵션</string>
+    <string name="sort_projects">종류</string>
+    <string name="unsort_projects">정렬 취소</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">새로운 장면</string>
     <!-- Delete Dialog Titles -->
@@ -342,6 +347,7 @@
     <string name="rename_data_dialog">이름 바꾸기</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">새 그룹</string>
+    <string name="default_group_name">그룹</string>
     <!-- New Scene Menu -->
     <string name="new_scene">새로운 장면</string>
     <!-- Action Toasts -->
@@ -429,6 +435,13 @@
     <string name="import_project">프로젝트 가져오기</string>
     <string name="error_import_project">프로젝트를 가져오는 동안 문제가 발생했습니다.</string>
     <string name="error_no_files_found">프로젝트를 찾을 수 없습니다</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">설명</string>
+    <string name="project_options_notes_and_credits">만든이</string>
+    <string name="project_options_tags">태그</string>
+    <string name="project_options_aspect_ratio">원래 종횡비 유지</string>
+    <string name="project_options_more_details">자세한 내용은</string>
+    <string name="project_options_delete_project">프로젝트 삭제</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">스크립트를 추가하려면 \"+\"를 터치</string>
     <!--  -->
@@ -447,8 +460,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">NFC 태그를 추가하려면 스캔</string>
-    <string name="ndef_record_label">레코드 유형으로</string>
-    <string name="brick_set_nfc_tag">다음 NFC 태그 설정</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">레코드 유형으로</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">다음 NFC 태그 설정</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">nfc_tag</string>
     <string name="tnf_empty">비어 있음</string>
@@ -466,14 +479,15 @@
     <string name="local_vars_headline">배우와 오브젝트만을 위한 변수</string>
     <string name="global_lists_headline">배우와 오브젝트를 위한 리스트</string>
     <string name="local_lists_headline">배우와 오브젝트만을 위한 리스트</string>
+    <string name="fragment_data_text_description">변수 또는 목록을 추가하려면 \n \"+\"를 탭하세요.</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="other">블럭을 위한 입력</item>
     </plurals>
     <!-- NewDataDialog -->
     <string name="new_data_for_all_sprites">모든 장면 배우, 오브젝트, 복사본</string>
     <string name="new_data_for_this_sprite_only">이 장면 배우, 오브젝트, 복사본</string>
-    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
-        on connected multiplayer devices</string>
+    <string name="new_data_for_connected_devices">프로젝트의 모든 장면에있는 모든 배우, 오브젝트 및 클론
+        연결된 멀티 플레이어 장치</string>
     <!-- Backpack -->
     <string name="backpack_title">당신의 스크립트 모음</string>
     <string name="pack">묶기</string>
@@ -525,73 +539,8 @@
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">이 앱을 Parrot\'s  AR.Drone2.0과 함께 사용해 보십시오. 우리는 당신이 Parrot의 사용 약관과 드론을 위한 서비스, 그리고 Catrobat의 사용 약관을 준수하도록 권고합니다.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">개인 정보 보호 정책</string>
     <string name="disclaimer_privacy_police_header_headline">환영합니다!</string>
     <string name="disclaimer_privacy_policy_header">앱 사용을 위해, 허용</string>
-    <string name="dialog_privacy_policy_text">To offer you all the benefits of our services and the associated account,
-        it is necessary to collect certain data from you.\n\n
-
-        • To maintain and improve our services (apps and websites) and to do scientific research on ICT and
-            STEM/STEAM education, we use Google Analytics, Crashlytics, and Firebase, all by Google LLC (USA), 
-            as well as Dynatrace by Dynatrace LLC (USA) to get
-            metadata about the usage of our services, e.g., crash information, timestamps, visited pages/screens,
-            usage of our apps and services, used operating system, and information about the network provider. This
-            analysis and the collected data is not linked to your profile and does not contain any personal
-            information (last bits of the IP address get anonymized). However, the collected data will get
-            transferred to the service-provider (Google LLC, USA and Dynatrace LLC, USA). 
-            Data processing is based on agreements with Google LLC and Dynatrace LLC. 
-            This relationship to the service provider conforms to the European Union\'s General Data
-            Protection Regulation (EU GDPR) and EU-USA \"Privacy Shield\" agreement.\n\n
-        • To create and use an account in our systems, and to inform you about necessary changes about your
-            account per e-mail, e.g., updates or violations of our Terms of Use and Service, our community rules, or
-            our policies, we will store your username and, if provided by you, your e-mail address. If you have
-            connected your account via your Google or Facebook account, we additionally store an identification key connected
-            to your account on these services. We will not use this data for any other (e.g., marketing) purposes,
-            unless you explicitly allowed us to do so.\n\n
-        • On a voluntary basis, you can give us your country of residence through your account page on the sharing
-            site. This will get displayed on your public profile and only be used for statistical and research
-            purposes by us. It can be removed at any time in your profile settings.\n\n
-        • You can withdraw the usage of the personal data belonging to your account at any time by deleting your
-            account through your profile page on https://share.catrob.at. After deleting your account you will still
-            be able to use the provided services, but not to collaborate, e.g., through uploading programs,
-            commenting, or liking. Also, all provided content linked to your account, e.g., uploaded programs,
-            comments, etc., will be deleted.\n\n
-        • To avoid misuse of our services, e.g., through user contributed uploads or comments for illegal
-            purposes, all user generated public data (uploads, comments) will be stored internally in a database,
-            together with a timestamp and the used internet address. This data will not be used by or forwarded to
-            any institutions, unless sufficiently illegal actions are reasonably suspected and officially entitled
-            legal institutions request it based on applicable law. Each case will be thoroughly checked on an
-            individual basis by us first.\n\n
-        • You can voluntarily subscribe to the Catrobat Newsletter, on https://catrob.at/newsletter provided
-            by us through the MailChimp service (The Rocket Science Group LLC d/b/a MailChimp, USA). You will then
-            receive updates on the Catrobat project and its services to your provided e-mail address. You can withdraw
-            the newsletter at any time by using the \"unsubscribe\" link in the footer of every newsletter. This
-            newsletter is provided by MailChimp with whom we do have a data-processing agreement and who committed to
-            the EU General Data Protection Regulation and EU-USA \"Privacy Shield\". For further details on MailChimp
-            please also look up MailChimp\'s Privacy Policy and Terms of Use.\n\n
-        • All Services are provided by the free open source Catrobat project under the umbrella of the
-            International Catrobat Association – Verein zur Förderung freier Software, a non-profit NGO incorporated
-            in Graz, Austria (European Union). Our policies pay respect to EU and Austrian data protection law
-            (GDPR). To get in touch with us, please send an e-mail to contact@catrobat.org or mail us to Catrobat,\n
-                c/o\n
-                Institute of Software Technology,\n
-                Graz University of Technology,\n
-                Inffeldgasse 16b,\n
-                A-8010 Graz, Austria\n
-                (European Union).\n\n
-        In case you are below the age of 14, this policy must be accepted by a legal guardian (usually a parent).\n\n
-
-        Catrobat\'s official English language privacy policy is available on the web under
-        https://catrob.at/privacypolicy.\n\n
-
-        Version 2.2, 17 October 2019\n\n
-
-        Find the previous, outdated, version of our privacy policy (2.0) here:
-        http://developer.catrobat.org/privacy_policy_2-0
-    </string>
-    <string name="dialog_privacy_policy_declined_text">계정을 계속 사용하거나 등록하려면 개인 정보 보호 정책에 동의 해야 합니다.
-정보 수집에 동의하지 않으면 
-https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 수 있습니다.    </string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">앱 소개</string>
@@ -599,16 +548,18 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
 포켓 코드의 소스코드는 대부분 GNU AGPL v3 라이센스이다. 라이센스에 대한 정확한 세부 사항은 아래 링크 참조하세요. \n</string>
     <string name="dialog_about_license_link_text">소스 코드 라이센스</string>
     <string name="dialog_about_catrobat_link_text">Catrobat에 대하여</string>
+    <string name="dialog_about_catrobat_language_version">Catrobat 언어 버전</string>
+    <string name="dialog_about_version">버전:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">네트워크 연결 불가</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">업로드하기</string>
     <string name="upload_project_dialog_title">프로그램 업로드</string>
     <string name="upload_description">설명:</string>
     <string name="upload_notes_and_credits">노트와 크레딧</string>
     <string name="upload_notes_and_credits_explanation">어떻게 이 프로젝트를 만드셨나요? 다른 사람의 아이디어나 작품을 이용했나요? 여기에 감사를 써보세요.</string>
     <string name="upload_tag_dialog_title">최대 3개의 카테고리 선택</string>
+    <string name="upload_tags_maximum_error">3 개 이상의 태그를 선택할 수 없습니다.</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">외부 저장장치에 저장</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -627,7 +578,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_context_dialog_move_brick">블록 이동</string>
     <string name="brick_context_dialog_move_script">스크립트 이동</string>
     <string name="brick_context_dialog_move_definition">정의 이동</string>
-    <string name="brick_context_dialog_delete_brick">블럭 삭제</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">블럭 삭제</string>
     <string name="brick_context_dialog_copy_brick">블록 복사</string>
     <string name="brick_context_dialog_copy_script">스크립트 복사</string>
     <string name="brick_context_dialog_formula_edit_brick">수식 편집</string>
@@ -642,6 +593,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="comment_in_out">사용/사용 안함</string>
     <string name="catblocks">토글 2D</string>
     <string name="catblocks_reorder">스크립트 삭제</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D보기</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">플레이 장면:</string>
@@ -652,7 +604,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="sign_in_dialog_title">로그인</string>
     <string name="username">아이디</string>
     <string name="password">비밀번호</string>
-    <string name="password_forgotten">비밀 번호를 잊으셨나요?</string>
+    <string name="reset_password">암호를 재설정</string>
     <string name="new_user_registered">새 계정이 만들어졌습니다.</string>
     <string name="user_logged_in">로그인 성공</string>
     <string name="register_error">로그인 불가능</string>
@@ -729,33 +681,34 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">새 신호</string>
-    <string name="dialog_new_broadcast_message_name">신호:</string>
+    <string name="dialog_broadcast_message_name">메시지:</string>
+    <string name="dialog_edit_broadcast_message_title">메시지 수정</string>
     <!--  -->
     <!-- NFC spinner -->
-    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">NFC 태그 목록 수정</string>
     <string name="brick_when_nfc_default_all">전체</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">카테고리</string>
-    <string name="category_embroidery">자수</string>
-    <string name="category_motion">동작</string>
-    <string name="category_looks">모양</string>
-    <string name="category_pen">펜</string>
-    <string name="category_sound">소리</string>
-    <string name="category_control">제어</string>
-    <string name="category_event">이벤트</string>
-    <string name="category_user_bricks">여러분의 블록</string>
-    <string name="category_data">변수</string>
-    <string name="category_device">기기</string>
-    <string name="category_lego_nxt">레고 NXT</string>
-    <string name="category_lego_ev3">레고 EV3</string>
-    <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">Jumping Sumo</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">아두이노</string>
-    <string name="category_cast">캐스트</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">테스트 중</string>
+    <string name="categories" tools:ignore="UnusedResources">카테고리</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">자수</string>
+    <string name="category_motion" tools:ignore="UnusedResources">동작</string>
+    <string name="category_looks" tools:ignore="UnusedResources">모양</string>
+    <string name="category_pen" tools:ignore="UnusedResources">펜</string>
+    <string name="category_sound" tools:ignore="UnusedResources">소리</string>
+    <string name="category_control" tools:ignore="UnusedResources">제어</string>
+    <string name="category_event" tools:ignore="UnusedResources">이벤트</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">여러분의 블록</string>
+    <string name="category_data" tools:ignore="UnusedResources">변수</string>
+    <string name="category_device" tools:ignore="UnusedResources">기기</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">레고 NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">레고 EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">아두이노</string>
+    <string name="category_cast" tools:ignore="UnusedResources">캐스트</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">테스트 중</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">라벨 추가</string>
@@ -764,335 +717,337 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="brick_user_defined_add_label_description">블럭을 위한 라벨 추가</string>
     <string name="brick_user_defined_default_input_name">입력 이름</string>
     <string name="brick_user_defined_default_label">레이블 텍스트</string>
-    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
-    <string name="brick_user_defined_script_define">정의</string>
-    <string name="brick_user_defined_script_as">~로서</string>
+    <string name="brick_user_defined_already_exists">이 라벨이있는 브릭이 이미 존재합니다. 더 많은 레이블 또는 입력을 추가하십시오.</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">정의</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">~로서</string>
     <string name="brick_user_defined_list_empty">새 블럭을 추가하려면 \"+\"탭</string>
+    <string name="brick_report" tools:ignore="UnusedResources">보고서</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"위치 설정"</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"위치 설정"</string>
     <string name="brick_option_place_visually">보이게 위치</string>
-    <string name="x_label">"X:"</string>
-    <string name="y_label">"Y:"</string>
-    <string name="brick_set_x">"X좌표 정하기 :"</string>
-    <string name="brick_set_y">"Y좌표 정하기 :"</string>
-    <string name="brick_change_x_by">"X좌표 바꾸기 :"</string>
-    <string name="brick_change_y_by">"Y좌표 바꾸기 :"</string>
-    <string name="brick_go_back">돌아가기</string>
-    <string name="brick_set_rotation_style">"회전 스타일 설정하기"</string>
-    <string name="brick_set_rotation_style_lr">왼쪽-오른쪽만</string>
-    <string name="brick_set_rotation_style_normal">모두</string>
-    <string name="brick_set_rotation_style_no">회전 정지</string>
+    <string name="x_label" tools:ignore="UnusedResources">"X:"</string>
+    <string name="y_label" tools:ignore="UnusedResources">"Y:"</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"X좌표 정하기 :"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"Y좌표 정하기 :"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"X좌표 바꾸기 :"</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Y좌표 바꾸기 :"</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">돌아가기</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"회전 스타일 설정하기"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">왼쪽-오른쪽만</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">모두</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">회전 정지</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="other">레이어</item>
     </plurals>
-    <string name="brick_come_to_front">앞으로 이동</string>
-    <string name="brick_if_on_edge_bounce">벽에 닿으면 튕기기</string>
-    <string name="brick_move">움직이기</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">앞으로 이동</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">벽에 닿으면 튕기기</string>
+    <string name="brick_move" tools:ignore="UnusedResources">움직이기</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="other">픽셀</item>
     </plurals>
-    <string name="brick_turn_left">왼쪽으로 돌기</string>
-    <string name="brick_turn_right">오른쪽으로 돌기</string>
-    <string name="brick_point_in_direction">다음 방향 보기</string>
-    <string name="brick_point_to">지정한 방향 보기</string>
-    <string name="brick_glide">움직이기</string>
-    <string name="brick_glide_to_x">X:</string>
-    <string name="brick_go_to">이동</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">왼쪽으로 돌기</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">오른쪽으로 돌기</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">다음 방향 보기</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">지정한 방향 보기</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">움직이기</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">X:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">이동</string>
     <string name="brick_go_to_touch_position">터치 위치</string>
     <string name="brick_go_to_random_position">랜덤 위치</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">동작 형태 설정</string>
-    <string name="brick_set_physics_object_type_dynamic">중력에 따라 튕기기</string>
-    <string name="brick_set_physics_object_type_fixed">다른 오브젝트 튕기기</string>
-    <string name="brick_set_physics_object_type_no">튕기기 없음</string>
-    <string name="brick_set_mass">"무게 설정하기"</string>
-    <string name="brick_set_mass_unit">kg</string>
-    <string name="brick_set_gravity_to">"모든 오브젝트에 중력 설정"</string>
-    <string name="brick_set_gravity_unit">단계/초²</string>
-    <string name="brick_set_velocity_to">"속력 설정"</string>
-    <string name="brick_set_velocity_unit">단계/초</string>
-    <string name="brick_turn_speed_unit">도/초</string>
-    <string name="brick_set_friction">"마찰력 설정"</string>
-    <string name="brick_set_bounce_factor">"튕기기 계수 설정"</string>
-    <string name="brick_rotate_left">"왼쪽으로 돌기"</string>
-    <string name="brick_rotate_right">"오른쪽으로 돌기"</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">동작 형태 설정</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">중력에 따라 튕기기</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">다른 오브젝트 튕기기</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">튕기기 없음</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"무게 설정하기"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kg</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"모든 오브젝트에 중력 설정"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">단계/초²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"속력 설정"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">단계/초</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">도/초</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"마찰력 설정"</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"튕기기 계수 설정"</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"왼쪽으로 돌기"</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"오른쪽으로 돌기"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">모양 바꾸기</string>
-    <string name="brick_set_look_by_index">번호와 함께 모양 바꾸기</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">모양 바꾸기</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">번호와 함께 모양 바꾸기</string>
     <string name="brick_and_wait">그리고 대기</string>
-    <string name="brick_set_background">배경 설정</string>
-    <string name="brick_set_background_and_wait">배경으로 설정</string>
-    <string name="brick_set_background_by_index">설정된 숫자로 배경 설정</string>
-    <string name="brick_when_background">배경이 바뀔 때</string>
-    <string name="brick_set_size_to">크기 설정하기</string>
-    <string name="brick_change_size_by">다음 크기로 바꾸기</string>
-    <string name="brick_hide">숨기기</string>
-    <string name="brick_show">보이기</string>
-    <string name="brick_set_transparency">"투명도 정하기"</string>
-    <string name="brick_change_ghost_effect">"투명도 바꾸기"</string>
-    <string name="brick_set_brightness">"밝기 설정하기"</string>
-    <string name="brick_change_brightness">"밝기 바꾸기"</string>
-    <string name="brick_set_color">"색상 설정하기"</string>
-    <string name="brick_change_color">"색상 변경하기"</string>
-    <string name="by_label">만큼</string>
-    <string name="to_label">to</string>
-    <string name="brick_clear_graphic_effect">그래픽 효과 지우기</string>
-    <string name="brick_next_look">다음 모양으로 바꾸기</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">배경 설정</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">배경으로 설정</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">설정된 숫자로 배경 설정</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">배경이 바뀔 때</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">크기 설정하기</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">다음 크기로 바꾸기</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">숨기기</string>
+    <string name="brick_show" tools:ignore="UnusedResources">보이기</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"투명도 정하기"</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"투명도 바꾸기"</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"밝기 설정하기"</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"밝기 바꾸기"</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"색상 설정하기"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"색상 변경하기"</string>
+    <string name="by_label" tools:ignore="UnusedResources">만큼</string>
+    <string name="to_label" tools:ignore="UnusedResources">to</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">그래픽 효과 지우기</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">다음 모양으로 바꾸기</string>
     <string name="brick_next_background">다음 배경</string>
-    <string name="brick_previous_look">이전 모양</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">이전 모양</string>
     <string name="brick_previous_background">이전 배경</string>
-    <string name="brick_delete_look">모양 삭제</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">형태 편집</string>
+    <string name="brick_edit_background">배경 편집</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">모양 삭제</string>
     <string name="brick_delete_background">배경 삭제</string>
-    <string name="brick_flash">플래시 켜기</string>
-    <string name="brick_flash_on">켜기</string>
-    <string name="brick_flash_off">끄기</string>
-    <string name="brick_vibration">진동하기</string>
-    <string name="brick_ask_label">질문</string>
-    <string name="brick_ask_store">답변 저장</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">플래시 켜기</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">켜기</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">끄기</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">진동하기</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">질문</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">답변 저장</string>
     <string name="brick_ask_default_question">당신의 이름이 무엇인가요?</string>
     <string name="brick_ask_dialog_hint">"대답을 입력하세요."</string>
     <string name="brick_ask_dialog_submit">답변 제출</string>
-    <string name="brick_ask_speech_label">질문</string>
-    <string name="brick_ask_speech_store">답변 저장</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">질문</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">답변 저장</string>
     <string name="brick_ask_speech_default_question">당신의 이름이 무엇인가요?</string>
-    <string name="brick_paint_new_look">새 모양 칠하기</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">새 모양 칠하기</string>
     <string name="brick_paint_new_background">새로운 배경 그리기</string>
     <string name="brick_paint_new_look_name">"새 모양 이름"</string>
-    <string name="brick_copy_look">모양과 이름 복사</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">모양과 이름 복사</string>
     <string name="brick_copy_look_name">복사된 모양 이름</string>
     <string name="brick_copy_background">배경 복사하고 이름 정하기</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">펜 내리기</string>
-    <string name="brick_pen_up">펜 올리기</string>
-    <string name="brick_pen_size">펜 굵기 정하기</string>
-    <string name="brick_pen_color">펜 색 정하기</string>
-    <string name="brick_clear_background">펜 지우기</string>
-    <string name="brick_stamp">스탬프</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">펜 내리기</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">펜 올리기</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">펜 굵기 정하기</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">펜 색 정하기</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">펜 지우기</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">스탬프</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">소리 재생</string>
-    <string name="brick_play_sound_and_wait">소리 재생하고 기다리기</string>
-    <string name="brick_stop_sound">소리 정지</string>
-    <string name="brick_stop_all_sounds">모든 소리 멈추기</string>
-    <string name="brick_set_volume_to">음량 설정하기</string>
-    <string name="brick_change_volume_by">음량 바꾸기</string>
-    <string name="brick_speak">소리내기</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">소리 재생</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">소리 재생하고 기다리기</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">소리 정지</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">모든 소리 멈추기</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">음량 설정하기</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">음량 바꾸기</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">소리내기</string>
     <string name="brick_speak_default_value">안녕하세요!</string>
-    <string name="brick_speak_and_wait">그리고 대기</string>
-    <string name="brick_start_listening_to_voice">Start listening to voice and store spoken words in</string>
-    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
-    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
-    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
-    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
-    <string name="brick_set_listening_language">듣기 언어 설정</string>
-    <string name="set_instrument_to">악기 설정</string>
-    <string name="set_tempo_to">빠르기 설정</string>
-    <string name="change_tempo_by">빠르기를 %1 만큼 바꾸기</string>
-    <string name="pause_for">멈춤</string>
-    <string name="play_drum">드럼 연주</string>
-    <string name="beats">박자</string>
-    <string name="play_note">악보 연주</string>
-    <string name="for_string">동안</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">그리고 대기</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">음성 듣기 시작 및 음성 저장</string>
+    <string name="speech_recognition_not_available">음성 인식을 사용할 수 없습니다.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">오프라인 데이터가 없습니다.</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">오프라인 음성 인식
+    %s 에 대한 항목이 없거나 업데이트해야합니다. 지금 다운로드하거나 업데이트 하시겠습니까?</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">듣기 언어 설정</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">악기 설정</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">빠르기 설정</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">빠르기를 %1 만큼 바꾸기</string>
+    <string name="pause_for" tools:ignore="UnusedResources">멈춤</string>
+    <string name="play_drum" tools:ignore="UnusedResources">드럼 연주</string>
+    <string name="beats" tools:ignore="UnusedResources">박자</string>
+    <string name="play_note" tools:ignore="UnusedResources">악보 연주</string>
+    <string name="for_string" tools:ignore="UnusedResources">동안</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">스티치</string>
-    <string name="brick_running_stitch">길이만큼 스티치 시작</string>
-    <string name="brick_zigzag_stitch">길이만큼 지그재그 스티치 시작</string>
-    <string name="brick_zigzag_stitch_width">폭</string>
-    <string name="brick_triple_stitch">길이만큼 트리플 스티치 시작</string>
-    <string name="brick_stop_stitch">현재 스티치 멈춤</string>
-    <string name="brick_write_embroidery">Write embroidery data to file</string>
-    <string name="brick_default_embroidery_file">embroidery.dst</string>
-    <string name="brick_sew_up">바느질</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">스티치</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">길이만큼 스티치 시작</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">길이만큼 지그재그 스티치 시작</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">폭</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">길이만큼 트리플 스티치 시작</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">현재 스티치 멈춤</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">파일에 자수 데이터 쓰기</string>
+    <string name="brick_default_embroidery_file">자수 .dst</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">바느질</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">타이머 초기화</string>
-    <string name="brick_open">열기</string>
-    <string name="brick_in_browser">브라우저에서</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">타이머 초기화</string>
+    <string name="brick_open" tools:ignore="UnusedResources">열기</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">브라우저에서</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">시작할 때</string>
-    <string name="brick_when">터치할 때</string>
-    <string name="brick_when_condition_when">언제</string>
-    <string name="brick_when_becomes_true">참이 된다</string>
-    <string name="brick_wait">기다리기</string>
-    <string name="brick_wait_until">대기 조건</string>
-    <string name="brick_wait_until_second_part">참이다</string>
-    <string name="brick_when_gamepad_button">게임패드를 누를 때</string>
-    <string name="brick_when_gamepad_button_tapped">터치</string>
-    <string name="brick_when_nfc">NFC 사용할 때</string>
-    <string name="brick_stop_script">스크립트 중지</string>
-    <string name="brick_stop_this_script">이 스크립트</string>
-    <string name="brick_stop_all_scripts">모든 스크립트</string>
-    <string name="brick_stop_other_scripts">이 오브젝트의 다른 스크립트</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">시작할 때</string>
+    <string name="brick_when" tools:ignore="UnusedResources">터치할 때</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">언제</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">참이 된다</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">기다리기</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">대기 조건</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">참이다</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">게임패드를 누를 때</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">터치</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">NFC 사용할 때</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">스크립트 중지</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">이 스크립트</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">모든 스크립트</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">이 오브젝트의 다른 스크립트</string>
     <plurals name="second_plural">
         <item quantity="other">"초"</item>
     </plurals>
-    <string name="brick_collision_receive">물리적 충돌이 발생할 때</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">물리적 충돌이 발생할 때</string>
     <string name="collision_with_anything">아무거나</string>
-    <string name="brick_broadcast_receive">신호를 받을 때</string>
-    <string name="brick_broadcast">신호 보내기</string>
-    <string name="brick_broadcast_wait">신호 보내고 기다리기</string>
-    <string name="brick_scene_transition">장면 계속</string>
-    <string name="brick_scene_start">장면 시작</string>
-    <string name="brick_note">알리기</string>
-    <string name="brick_think_bubble">생각</string>
-    <string name="brick_say_bubble">말</string>
-    <string name="brick_think_say_for_text">동안</string>
-    <string name="brick_forever">계속 반복</string>
-    <string name="brick_loop_for_values_from">다음 값부터</string>
-    <string name="brick_loop_for_each_value_from">다음 각 값부터</string>
-    <string name="brick_loop_in">에서</string>
-    <string name="brick_loop_to">to</string>
-    <string name="brick_repeat">반복</string>
-    <string name="brick_repeat_until">반복 때까지</string>
-    <string name="brick_when_touched">화면을 터치할 때</string>
-    <string name="brick_clone">복사하기</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">신호를 받을 때</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">신호 보내기</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">신호 보내고 기다리기</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">장면 계속</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">장면 시작</string>
+    <string name="brick_note" tools:ignore="UnusedResources">알리기</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">생각</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">말</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">동안</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">계속 반복</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">다음 값부터</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">다음 각 값부터</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">에서</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">to</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">반복</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">반복 때까지</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">화면을 터치할 때</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">복사하기</string>
     <string name="brick_clone_this">스스로</string>
-    <string name="brick_when_cloned">복사로 시작할 때</string>
-    <string name="brick_delete_this_clone">이 형태를 삭제</string>
-    <string name="brick_assert_that">실행:</string>
-    <string name="brick_is_equal_to">예상</string>
-    <string name="brick_wait_till_idle">다른 스크립트가 정지할 때까지 기다리기</string>
-    <string name="brick_tap_at">"한 번 누르기"</string>
-    <string name="brick_touch_at">"터치"</string>
-    <string name="brick_tap_for">"동안"</string>
-    <string name="brick_touch_slide">"터치와 슬라이드"</string>
-    <string name="brick_touch_from_x">"from x:"</string>
-    <string name="brick_finish_stage">마지막 스테이지</string>
-    <string name="brick_finish_tests">Finish tests</string>
-    <string name="brick_assert_lists">Assert lists</string>
-    <string name="brick_assert_actual">Actual:</string>
-    <string name="brick_assert_expected">Expected:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">equals to expected item of</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">복사로 시작할 때</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">이 형태를 삭제</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">실행:</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">예상</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">다른 스크립트가 정지할 때까지 기다리기</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"한 번 누르기"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"터치"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"동안"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"터치와 슬라이드"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"x에서 :"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">마지막 스테이지</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">테스트 완료</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">목록 지정</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">실제 :</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">예상 :</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">주장하다</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">예상 항목과 같음</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="other">For each tuple of items of</item>
+        <item quantity="other">각 항목에 대해</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="other">stored in variables with the same names</item>
+        <item quantity="other">같은 이름의 변수에 저장</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="other">%d lists selected</item>
+        <item quantity="other">%d 목록 선택</item>
     </plurals>
     <plurals name="time_plural">
         <item quantity="other">번</item>
     </plurals>
     <string name="brick_loop_end">반복 끝</string>
-    <string name="brick_if_begin">조건문</string>
-    <string name="brick_if_begin_second_part">참이라면</string>
-    <string name="brick_if_else">아니면</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">조건문</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">참이라면</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">아니면</string>
     <string name="brick_if_end">조건문 끝</string>
-    <string name="brick_set_variable">변수 정하기</string>
-    <string name="brick_change_variable">변수 바꾸기</string>
-    <string name="brick_write_variable_on_device">변수 저장하기</string>
-    <string name="brick_read_variable_from_device">변수 불러오기</string>
-    <string name="brick_write_variable_to_file_top">Write variable</string>
-    <string name="brick_write_variable_to_file_bottom">to file</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">변수 정하기</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">변수 바꾸기</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">변수 저장하기</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">변수 불러오기</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">변수 쓰기</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">파일로</string>
     <string name="brick_write_variable_to_file_default_value">variable.txt</string>
-    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
-    <string name="brick_read_variable_from_file_top">Read variable</string>
-    <string name="brick_read_variable_from_file_center">from file</string>
-    <string name="brick_read_variable_from_file_bottom">그리고</string>
-    <string name="brick_read_variable_from_file_keep">keep the file</string>
-    <string name="brick_read_variable_from_file_delete">delete the file</string>
-    <string name="brick_write_list_on_device">리스트 저장하기</string>
-    <string name="brick_read_list_from_device">리스트 불러오기</string>
+    <string name="brick_write_variable_to_file_success">"%1$s에 데이터를 성공적으로 기록했습니다."</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">변수 읽기</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">파일에서</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">그리고</string>
+    <string name="brick_read_variable_from_file_keep">파일 보관</string>
+    <string name="brick_read_variable_from_file_delete">파일 삭제</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">리스트 저장하기</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">리스트 불러오기</string>
     <string name="brick_note_default_value">여기에 코멘트를 추가&#8230;</string>
     <string name="brick_think_bubble_default_value">흠!</string>
     <string name="brick_say_bubble_default_value">안녕하세요!</string>
     <string name="brick_broadcast_default_value">"신호 1"</string>
-    <string name="brick_add_item_to_userlist_add">추가하기</string>
-    <string name="brick_add_item_to_userlist">리스트에</string>
-    <string name="brick_clear_userlist">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete">리스트에서 항목을 삭제하기</string>
-    <string name="brick_delete_item_from_userlist">번째 위치에서</string>
-    <string name="brick_insert_item_into_userlist_insert_into">추가하기</string>
-    <string name="brick_insert_item_into_userlist_into_list">리스트로</string>
-    <string name="brick_insert_item_into_userlist_at_position">위치에서</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">리스트의 항목 바꾸기</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">위치에서</string>
-    <string name="brick_replace_item_in_userlist_with_value">으로</string>
-    <string name="brick_web_request">웹 요청 보내기</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">추가하기</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">리스트에</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">목록에서 모든 항목 삭제</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">리스트에서 항목을 삭제하기</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">번째 위치에서</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">추가하기</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">리스트로</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">위치에서</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">리스트의 항목 바꾸기</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">위치에서</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">으로</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">웹 요청 보내기</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">답변 저장</string>
-    <string name="web_request_warning_title">Allow web access?</string>
-    <string name="web_request_warning_message">Be very careful before allowing access, since the
-        link may expose your personal information, such as your precise geographical location or any text
-        you have entered to malicious others or to the public. See our
-        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
-        be extremely dangerous.
-    </string>
-    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
-    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
-        not be asked again to confirm web addresses from this domain.
-    </string>
-    <string name="trusted_domains_edit_hint">If you want to revoke this permission
-        later, you can remove the entry from the list of trusted domains in
-        the settings of this app.
-    </string>
-    <string name="brick_look_request">Get image from</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">and use as current look</string>
-    <string name="brick_background_request_result">and use as current background</string>
-    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
-    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
-    <string name="brick_store_csv_into_userlist_store">Store column</string>
-    <string name="brick_store_csv_into_userlist_of">of the</string>
-    <string name="brick_store_csv_into_userlist_csv">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into">리스트로</string>
-    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">답변 저장</string>
+    <string name="web_request_warning_title">웹 액세스를 허용 하시겠습니까?</string>
+    <string name="web_request_warning_message">액세스를 허용하기 전에 매우주의하십시오.
+        링크는 정확한 지리적 위치 또는 텍스트와 같은 개인 정보를 노출 할 수 있습니다.
+        당신은 악의적 인 타인이나 대중에게 접근했습니다. 우리를 참조하십시오
+        &lt;a href=%1s&gt; 위키 &lt;/a&gt; 왜 이것이 가능한지 더 많은 정보를 위해
+        매우 위험합니다.</string>
+    <string name="web_request_trust_domain_warning_title">항상 웹 액세스를 허용 하시겠습니까?</string>
+    <string name="web_request_trust_domain_warning_message">항상 액세스를 허용하면
+        이 도메인의 웹 주소를 확인하라는 메시지가 다시 표시되지 않습니다.</string>
+    <string name="trusted_domains_edit_hint">이 권한을 취소하려면
+        나중에 신뢰할 수있는 도메인 목록에서 항목을 제거 할 수 있습니다.
+        이 앱의 설정.</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">이미지 가져 오기</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">현재 모습으로 사용</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">현재 배경으로 사용</string>
+    <string name="look_request_http_error_message">"%1$s에서 이미지 가져 오기에서 반환 된 HTTP 오류 %2$s"</string>
+    <string name="look_request_type_error_message">"\"
+%1$s에서 이미지 가져 오기가 인식 된 이미지 형식을 검색하지 못했습니다.\""</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">상점 열</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">의</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">쉼표로 구분된 파일입니다.</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">리스트로</string>
+    <string name="brick_store_csv_into_userlist_data">키티, 귀엽다 \ n 강아지, 장난 꾸러기 \ noctopus, 지능형</string>
     <!--  -->
     <!--Instruments-->
-    <string name="piano">piano</string>
-    <string name="electric_piano">electric piano</string>
-    <string name="cello">cello</string>
-    <string name="flute">flute</string>
-    <string name="vibraphone">vibraphone</string>
-    <string name="organ">organ</string>
-    <string name="guitar">guitar</string>
-    <string name="electric_guitar">electric guitar</string>
-    <string name="bass">bass</string>
-    <string name="pizzicato">pizzicato</string>
-    <string name="synth_pad">synth pad</string>
-    <string name="choir">choir</string>
-    <string name="synth_lead">synth lead</string>
-    <string name="wooden_flute">wooden flute</string>
-    <string name="trombone">trombone</string>
-    <string name="saxophone">saxophone</string>
-    <string name="bassoon">bassoon</string>
-    <string name="clarinet">clarinet</string>
-    <string name="music_box">music box</string>
-    <string name="steel_drum">steel drum</string>
-    <string name="marimba">marimba</string>
+    <string name="piano">피아노</string>
+    <string name="electric_piano">전자 피아노</string>
+    <string name="cello">첼로</string>
+    <string name="flute">플루트</string>
+    <string name="vibraphone">비브라폰</string>
+    <string name="organ">오르간</string>
+    <string name="guitar">기타</string>
+    <string name="electric_guitar">전자 기타</string>
+    <string name="bass">베이스</string>
+    <string name="pizzicato">피치카토</string>
+    <string name="synth_pad">신스 패드</string>
+    <string name="choir">합창단</string>
+    <string name="synth_lead">신스 리드</string>
+    <string name="wooden_flute">나무 플룻</string>
+    <string name="trombone">트롬본</string>
+    <string name="saxophone">색소폰</string>
+    <string name="bassoon">바순</string>
+    <string name="clarinet">클라리넷</string>
+    <string name="music_box">뮤직 박스</string>
+    <string name="steel_drum">스틸 드럼</string>
+    <string name="marimba">마림바</string>
     <!--  -->
     <!--Drums-->
-    <string name="snare_drum">snare drum</string>
-    <string name="bass_drum">bass drum</string>
-    <string name="side_stick">side stick</string>
-    <string name="crash_cymbal">crash cymbal</string>
-    <string name="open_hi_hat">open hi-hat</string>
-    <string name="closed_hi_hat">closed hi-hat</string>
-    <string name="tambourine">tambourine</string>
-    <string name="hand_clap">hand clap</string>
-    <string name="claves">claves</string>
-    <string name="wood_block">wood block</string>
-    <string name="cowbell">cowbell</string>
-    <string name="triangle">triangle</string>
-    <string name="bongo">bongo</string>
-    <string name="conga">conga</string>
-    <string name="cabasa">cabasa</string>
-    <string name="guiro">guiro</string>
-    <string name="vibraslap">vibraslap</string>
-    <string name="open_cuica">open cuica</string>
+    <string name="snare_drum">작은 북</string>
+    <string name="bass_drum">베이스 드럼</string>
+    <string name="side_stick">사이드 스틱</string>
+    <string name="crash_cymbal">크래시 심벌즈</string>
+    <string name="open_hi_hat">하이햇 열기</string>
+    <string name="closed_hi_hat">폐쇄 형 하이햇</string>
+    <string name="tambourine">탬버린</string>
+    <string name="hand_clap">박수</string>
+    <string name="claves">갈고리</string>
+    <string name="wood_block">나무 블록</string>
+    <string name="cowbell">카우벨</string>
+    <string name="triangle">트라이앵글</string>
+    <string name="bongo">봉고</string>
+    <string name="conga">콩가</string>
+    <string name="cabasa">카바 사</string>
+    <string name="guiro">Guiro</string>
+    <string name="vibraslap">비 브라 슬랩</string>
+    <string name="open_cuica">열린 cuica</string>
     <!--  -->
     <!-- Default Values -->
-    <string name="default_project_name">My project</string>
+    <string name="default_project_name">내 프로젝트</string>
+    <string name="default_variable_name">변하기 쉬운</string>
     <string name="default_scene_name">장면 %1$d</string>
+    <string name="default_script_group_name">스크립트 그룹</string>
+    <string name="default_broadcast_message_name">메시지</string>
+    <string name="default_list_name">명부</string>
     <string name="default_project_background_name">배경</string>
     <string name="default_project_cloud_name">클라우드</string>
     <string name="default_project_cloud_sprite_name_1">클라우드1</string>
@@ -1103,11 +1058,11 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="default_project_sprites_tweet_1">Tweet1</string>
     <string name="default_project_sprites_tweet_2">Tweet2</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_needle_name">Needle</string>
+    <string name="default_project_needle_name">바늘</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_outer_loop">Outer Loop</string>
+    <string name="default_project_outer_loop">외부 루프</string>
     <!--suppress UnusedResources -->
-    <string name="default_project_inner_loop">Inner Loop</string>
+    <string name="default_project_inner_loop">내부 루프</string>
     <!-- Default ChromeCast Values -->
     <string name="default_cast_project_background_name">배경</string>
     <string name="default_cast_project_cloud_name">클라우드</string>
@@ -1187,7 +1142,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="error_project_upload">프로그램을 업로드하는 중에 오류가 발생했습니다.</string>
     <string name="error_project_download">프로그램을 다운로드하는 동안 오류가 발생했습니다.</string>
     <string name="error_project_already_in_queue">"프로그램이 %s 대기중."</string>
-    <string name="error_could_not_decode_project_name_from_url">"다운로드 되지 않습니다, 우리 서버에 문제가 있습니다."</string>
+    <string name="error_could_not_decode_project_name_from_url">다운로드 되지 않습니다, 우리 서버에 문제가 있습니다.</string>
     <string name="error_new_project">새로운 프로그램을 생성하는 동안 오류가 발생했습니다.</string>
     <string name="error_rename_scene">장면 이름 변경하는 동안 오류가 발생했습니다.</string>
     <string name="error_load_project">프로그램을 로드하는 동안 오류가 발생했습니다.</string>
@@ -1213,13 +1168,13 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="error_drone_wrong_platform">이 장치에서 AR.Drone 2.0 프로그램을 실행할 수 없습니다.</string>
     <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
     <string name="error_embroidery_file_export">자수 파일을 공유하는데 문제가 생겼습니다.</string>
-    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
-    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string name="error_embroidery_file_write">패턴 파일을 작성하는 중 문제가 생겼습니다.</string>
+    <string name="error_embroidery_data_not_found">패턴이 없습니다.</string>
     <string name="error_unknown_error">알 수 없는 오류가 발생했습니다.</string>
     <string name="error_gps_not_available">위치 정보 사용 불가.</string>
     <string name="error_set_description">저장하는 중에 오류가 발생했습니다.</string>
-    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
-        and credits.</string>
+    <string name="error_set_notes_and_credits">새 메모를 저장하는 중에 문제가 발생했습니다.
+        및 크레딧.</string>
     <string name="error_no_whatsapp">설치되지 않은 앱</string>
     <string name="error_unsupported_bricks_chromecast">이 스크립트는 크롬캐스트에 추가할 수 없습니다.</string>
     <!--  -->
@@ -1237,20 +1192,20 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="none_paired">페어링 된 장치를 찾을 수 없습니다</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">아두이노 디지털 핀 설정</string>
-    <string name="brick_arduino_select_analog_value">아두이노 PWM~ 핀 설정</string>
-    <string name="brick_arduino_set_pin_value_to">to</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">아두이노 디지털 핀 설정</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">아두이노 PWM~ 핀 설정</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">to</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Raspberry Pi 핀 설정</string>
-    <string name="brick_raspi_set_pin_value_to">to</string>
-    <string name="brick_raspi_if_begin">Raspberry Pi 핀번호가 있다면</string>
-    <string name="brick_raspi_if_begin_second_part">참이라면</string>
-    <string name="brick_raspi_when_begin">Raspberry Pi 핀번호 이면</string>
-    <string name="brick_raspi_when_equals">변경</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Raspberry Pi 핀 설정</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">to</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">Raspberry Pi 핀번호가 있다면</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">참이라면</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">Raspberry Pi 핀번호 이면</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">변경</string>
     <string name="brick_raspi_pressed_text">높게</string>
     <string name="brick_raspi_released_text">낮게</string>
-    <string name="brick_raspi_set_pwm">Raspberry Pi PWM 핀 설정</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Raspberry Pi PWM 핀 설정</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi 설정</string>
@@ -1258,16 +1213,16 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="error_connecting_to">오류: 연결 불가능 %s : %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">NXT 모터 설정</string>
-    <string name="nxt_motor_speed_to">to</string>
-    <string name="nxt_motor_speed">속도</string>
-    <string name="nxt_brick_motor_turn_angle">NXT 모터 회전</string>
-    <string name="nxt_motor_move_by">만큼</string>
-    <string name="nxt_motor_stop">NXT 모터 중지</string>
-    <string name="nxt_play_tone">NXT 톤 재생</string>
-    <string name="nxt_tone_duration">동안</string>
-    <string name="nxt_tone_frequency">주파수</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">NXT 모터 설정</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">to</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">속도</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">NXT 모터 회전</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">만큼</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">NXT 모터 중지</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">NXT 톤 재생</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">동안</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">주파수</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1322,15 +1277,15 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B + C</string>
     <string name="ev3_motor_all">모두</string>
-    <string name="ev3_play_tone">EV3 톤 재생</string>
-    <string name="ev3_tone_duration_for">동안</string>
-    <string name="ev3_tone_volume">소리 크기</string>
-    <string name="ev3_tone_percent">%</string>
-    <string name="ev3_motor_stop">EV3 모터 정지</string>
-    <string name="ev3_motor_move">EV3 모터 설정</string>
-    <string name="ev3_brick_motor_turn_angle">EV3 모터 회전</string>
-    <string name="ev3_motor_move_by">만큼</string>
-    <string name="ev3_set_led_status">EV3 LED 상태 설정</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">EV3 톤 재생</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">동안</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">소리 크기</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">EV3 모터 정지</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">EV3 모터 설정</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">EV3 모터 회전</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">만큼</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">EV3 LED 상태 설정</string>
     <string name="ev3_led_status_off">끄기</string>
     <string name="ev3_led_status_green">초록</string>
     <string name="ev3_led_status_red">빨강</string>
@@ -1343,76 +1298,76 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="ev3_led_status_orange_pulse">주황색 펄스</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">AR.Drone 2.0 이륙/착륙 시키기 </string>
-    <string name="brick_drone_play_led_animation">AR.Drone 2.0 애니메이션 재생하기</string>
-    <string name="brick_drone_flip">AR.Drone 2.0 뒤집기</string>
-    <string name="brick_drone_move_left"> AR.Drone 2.0 왼쪽으로 움직이기</string>
-    <string name="brick_drone_move_right">AR.Drone 2.0 오른쪽으로 움직이기</string>
-    <string name="brick_drone_move_forward">AR.Drone 2.0 앞으로 움직이기</string>
-    <string name="brick_drone_move_backward">AR.Drone 2.0 뒤로 움직이기</string>
-    <string name="brick_drone_move_up">AR.Drone 2.0 위로 움직이기</string>
-    <string name="brick_drone_move_down">AR.Drone 2.0 아래로 움직이기</string>
-    <string name="brick_drone_emergency">AR.Drone 2.0 긴급상황</string>
-    <string name="brick_drone_turn_right">AR.Drone 2.0 오른쪽으로 돌기</string>
-    <string name="brick_drone_turn_left">AR.Drone 2.0 왼쪽으로 돌기</string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">AR.Drone 2.0 이륙/착륙 시키기 </string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">AR.Drone 2.0 애니메이션 재생하기</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">AR.Drone 2.0 뒤집기</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources"> AR.Drone 2.0 왼쪽으로 움직이기</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">AR.Drone 2.0 오른쪽으로 움직이기</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">AR.Drone 2.0 앞으로 움직이기</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">AR.Drone 2.0 뒤로 움직이기</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">AR.Drone 2.0 위로 움직이기</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">AR.Drone 2.0 아래로 움직이기</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">AR.Drone 2.0 긴급상황</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">AR.Drone 2.0 오른쪽으로 돌기</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">AR.Drone 2.0 왼쪽으로 돌기</string>
     <string name="brick_drone_set_config">AR.Drone 2.0 환경 선택하기</string>
-    <string name="brick_drone_switch_camera">AR.Drone2.0 카메라 전환하기</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">AR.Drone2.0 카메라 전환하기</string>
     <string name="brick_drone_set_altitude">고도 제한 </string>
     <string name="brick_drone_set_vertical_speed">수직 속도 제한</string>
     <string name="brick_drone_set_rotation_speed">회전 속도 제한</string>
     <string name="brick_drone_set_tilt_limit">기울기 제한</string>
-    <string name="brick_drone_with.">으로</string>
-    <string name="brick_drone_power">거듭제곱</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">으로</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">거듭제곱</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">초록색 빨간색 깜빡이기</string>
-    <string name="drone_animation_blinkgreen">초록색 깜빡이기</string>
-    <string name="drone_animation_blinkred">빨간색 깜빡이기</string>
-    <string name="drone_animation_blinkorange">오렌지색 깜빡이기</string>
-    <string name="drone_animation_snakegreenred">스네이크 그린 레드</string>
-    <string name="drone_animation_fire">발사</string>
-    <string name="drone_animation_standard">기본값</string>
-    <string name="drone_animation_red">빨강</string>
-    <string name="drone_animation_green">초록</string>
-    <string name="drone_animation_redsnake">빨간 뱀</string>
-    <string name="drone_animation_blank">공백</string>
-    <string name="drone_animation_rightmissile">오른쪽 미사일</string>
-    <string name="drone_animation_leftmissile">왼쪽 미사일</string>
-    <string name="drone_animation_doublemissile">양쪽 미사일</string>
-    <string name="drone_animation_frontleftgreenothersred">전면 왼쪽은 녹색, 다른 것은 빨간색</string>
-    <string name="drone_animation_frontrightgreenothersred">전면 오른쪽은 녹색, 다른 것은 빨간색</string>
-    <string name="drone_animation_rearrightgreenothersred">후면 오른쪽은 녹색, 다른 것은 빨간색</string>
-    <string name="drone_animation_rearleftgreenothersred">후면 왼쪽은 녹색, 다른 것은 빨간색</string>
-    <string name="drone_animation_leftgreenrightred">왼쪽은 녹색, 오른쪽은 빨간색</string>
-    <string name="drone_animation_leftredrightgreen">왼쪽은 빨간색, 오른쪽은 녹색</string>
-    <string name="drone_animation_blinkstandard">기본 깜빡임</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">초록색 빨간색 깜빡이기</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">초록색 깜빡이기</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">빨간색 깜빡이기</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">오렌지색 깜빡이기</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">스네이크 그린 레드</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">발사</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">기본값</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">빨강</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">초록</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">빨간 뱀</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">공백</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">오른쪽 미사일</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">왼쪽 미사일</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">양쪽 미사일</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">전면 왼쪽은 녹색, 다른 것은 빨간색</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">전면 오른쪽은 녹색, 다른 것은 빨간색</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">후면 오른쪽은 녹색, 다른 것은 빨간색</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">후면 왼쪽은 녹색, 다른 것은 빨간색</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">왼쪽은 녹색, 오른쪽은 빨간색</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">왼쪽은 빨간색, 오른쪽은 녹색</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">기본 깜빡임</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">점핑 스모 앞으로 움직이기</string>
-    <string name="brick_jumping_sumo_move_backward">점핑 스모 뒤로 움직이기</string>
-    <string name="brick_jumping_sumo_animation">점핑 스모 애니메이션</string>
-    <string name="brick_jumping_sumo_no_sound">점핑 스모 소리 멈추기</string>
-    <string name="brick_jumping_sumo_jump_long">점핑 스모 멀리 점프하기</string>
-    <string name="brick_jumping_sumo_jump_high">점핑 스모 높이 점프하기</string>
-    <string name="brick_jumping_sumo_rotate_left">점핑 스모 왼쪽으로 회전하기</string>
-    <string name="brick_jumping_sumo_rotate_right">점핑 스모 오른쪽으로 회전하기</string>
-    <string name="brick_jumping_sumo_rotate_text">°</string>
-    <string name="brick_jumping_sumo_turn">점핑 스모 돌기</string>
-    <string name="brick_jumping_sumo_taking_picture">점핑 스모로 사진찍기</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">점핑 스모 앞으로 움직이기</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">점핑 스모 뒤로 움직이기</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">점핑 스모 애니메이션</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">점핑 스모 소리 멈추기</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">점핑 스모 멀리 점프하기</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">점핑 스모 높이 점프하기</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">점핑 스모 왼쪽으로 회전하기</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">점핑 스모 오른쪽으로 회전하기</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">°</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">점핑 스모 돌기</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">점핑 스모로 사진찍기</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">소리</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">소리</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">회전하기</string>
-    <string name="animation_tab">탭</string>
-    <string name="animation_slowshake">천천히 흔들기</string>
-    <string name="animation_metronome">메트로놈</string>
-    <string name="animation_ondulation">Ondulation</string>
-    <string name="animation_spinjump">Spinjump</string>
-    <string name="animation_spiral">나선형</string>
-    <string name="animation_slalom">회전</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">회전하기</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">탭</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">천천히 흔들기</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">메트로놈</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">Ondulation</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">Spinjump</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">나선형</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">회전</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">소리 크기</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">소리 크기</string>
     <string name="sound_default">보통</string>
     <string name="sound_robot">로봇</string>
     <string name="sound_insect">곤충</string>
@@ -1420,23 +1375,23 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">Phiro 모터 정지</string>
-    <string name="brick_phiro_motor_forward_action">Phiro 모터 앞으로 이동</string>
-    <string name="brick_phiro_motor_backward_action">Phiro 모터 뒤로 이동</string>
-    <string name="phiro_motor_speed">속도</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Phiro 모터 정지</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Phiro 모터 앞으로 이동</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">Phiro 모터 뒤로 이동</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">속도</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">Phiro의 센서</string>
-    <string name="brick_phiro_sensor_second_part">활성화되면</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">Phiro의 센서</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">활성화되면</string>
     <!-- tone -->
-    <string name="phiro_play_tone">Phiro에서 소리 실행 \n</string>
-    <string name="phiro_tone_duration">동안</string>
-    <string name="brick_phiro_select_tone">톤</string>
-    <string name="phiro_seconds">초</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">Phiro에서 소리 실행 \n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">동안</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">톤</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">초</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">Phiro 빛 정하기</string>
-    <string name="phiro_rgb_led_red">빨강</string>
-    <string name="phiro_rgb_led_green">초록</string>
-    <string name="phiro_rgb_led_blue">파랑</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Phiro 빛 정하기</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">빨강</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">초록</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">파랑</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">도</string>
@@ -1444,7 +1399,7 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="phiro_tone_mi">미</string>
     <string name="phiro_tone_fa">파</string>
     <string name="phiro_tone_so">솔</string>
-    <string name="phiro_tone_la">라</string>
+    <string name="phiro_tone_la">6528</string>
     <string name="phiro_tone_ti">시</string>
     <!--  -->
     <!-- Phiro motor strings -->
@@ -1473,9 +1428,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_data">변수</string>
     <string name="formula_editor_true">참</string>
     <string name="formula_editor_false">거짓</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">수식 편집기</string>
-    <string name="formula_editor_changes_saved">변경 내용이 저장되었습니다.</string>
     <string name="formula_editor_changes_discarded">변경 내용이 취소되었습니다.</string>
     <string name="formula_editor_parse_fail">수식이 바르지 않습니다!</string>
     <string name="formula_nothing_selected">블록의 입력 값을 정의</string>
@@ -1483,136 +1437,139 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_choose_object_variable">이 오브젝트의 속성</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">sine</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
-    <string name="formula_editor_function_cos">cosine</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
     <string name="formula_editor_function_cos_parameter">(0)</string>
-    <string name="formula_editor_function_tan">tangent</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
     <string name="formula_editor_function_tan_parameter">(0)</string>
-    <string name="formula_editor_function_ln">natural logarithm</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
     <string name="formula_editor_function_ln_parameter">(0)</string>
-    <string name="formula_editor_function_log">decimal logarithm</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
     <string name="formula_editor_function_log_parameter">(0)</string>
-    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">색</string>
-    <string name="formula_editor_function_sqrt">제곱근</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">색</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">제곱근</string>
     <string name="formula_editor_function_sqrt_parameter">(0)</string>
-    <string name="formula_editor_function_rand">랜덤</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">랜덤</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
-    <string name="formula_editor_function_abs">absolute value</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
     <string name="formula_editor_function_abs_parameter">(0)</string>
-    <string name="formula_editor_function_round">반올림</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">반올림</string>
     <string name="formula_editor_function_round_parameter">(0)</string>
-    <string name="formula_editor_function_mod">modulo</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
-    <string name="formula_editor_function_arcsin">arcsine</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
     <string name="formula_editor_function_arcsin_parameter">(0)</string>
-    <string name="formula_editor_function_arccos">arccosine</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctangent</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
     <string name="formula_editor_function_arctan_parameter">(0)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">exponent</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
     <string name="formula_editor_function_exp_parameter">(0)</string>
-    <string name="formula_editor_function_power">거듭제곱</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">거듭제곱</string>
     <string name="formula_editor_function_power_parameter">(2, 3)</string>
-    <string name="formula_editor_function_floor">아래</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">아래</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">위</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">위</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">최댓값</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">최댓값</string>
     <string name="formula_editor_function_max_parameter">(0, 1)</string>
-    <string name="formula_editor_function_min">최솟값</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">최솟값</string>
     <string name="formula_editor_function_min_parameter">(0, 1)</string>
-    <string name="formula_editor_function_if_then_else">if then else</string>
-    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true">참</string>
-    <string name="formula_editor_function_false">거짓</string>
-    <string name="formula_editor_function_length">길이</string>
+    <string name="formula_editor_function_if_then_else">그렇다면</string>
+    <string name="formula_editor_function_if_then_else_parameter">(거짓, 2, 3)</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">참</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">거짓</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">길이</string>
     <string name="formula_editor_function_length_parameter">(\' 안녕하세요 \')</string>
-    <string name="formula_editor_function_letter">문자</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">문자</string>
     <string name="formula_editor_function_letter_parameter">(1,\' 안녕하세요 \')</string>
-    <string name="formula_editor_function_join">결합</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">결합</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
     <string name="formula_editor_function_join3">결합</string>
-    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
-    <string name="formula_editor_function_regex">정규 표현</string>
+    <string name="formula_editor_function_join3_parameter">(\'안녕\',\'세계\',\'!\')</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">정규 표현</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
-    <string name="formula_editor_function_regex_assistant">Regular expression
-        assistant</string>
-    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
-        expression assistant</string>
+    <string name="formula_editor_function_regex_assistant">정규식
+        조수</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">정규병
+        표현 도우미</string>
     <string name="formula_editor_dialog_wiki_button">자세한 정보 보기</string>
-    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
-    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">아두이노_디지털_핀</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">아두이노_아날로그_핀</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_핀번호</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">키워드를 찾을 수 없습니다.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON 추출기</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">아두이노_디지털_핀</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">아두이노_아날로그_핀</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_핀번호</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x">터치한 x 좌표</string>
-    <string name="formula_editor_function_finger_y">터치한 y 좌표</string>
-    <string name="formula_editor_function_is_finger_touching">화면을 터치할 때</string>
-    <string name="formula_editor_function_multi_finger_x">터치한 x 좌표</string>
-    <string name="formula_editor_function_multi_finger_y">터치한 y 좌표</string>
-    <string name="formula_editor_function_is_multi_finger_touching">화면을 터치할 때</string>
-    <string name="formula_editor_function_index_of_last_finger">마지막 터치 번호</string>
-    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">터치한 x 좌표</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">터치한 y 좌표</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">화면을 터치할 때</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">터치한 x 좌표</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">터치한 y 좌표</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">화면을 터치할 때</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">마지막 터치 번호</string>
+    <string name="formula_editor_function_number_of_current_touches">현재 터치 수</string>
+    <string name="formula_editor_function_index_of_current_touch">현재 터치의 색인</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item">항목</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">항목</string>
     <string name="formula_editor_function_list_item_parameter">(1, *리스트 이름*)</string>
-    <string name="formula_editor_function_contains">포함</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">포함</string>
     <string name="formula_editor_function_contains_parameter">(*리스트 이름*, 1)</string>
-    <string name="formula_editor_function_index_of_item">item\'s index</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">항목의 색인</string>
     <string name="formula_editor_function_index_of_item_parameter">(1, *리스트 이름*)</string>
-    <string name="formula_editor_function_number_of_items">항목의 수</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">항목의 수</string>
     <string name="formula_editor_function_number_of_items_parameter">(*리스트 이름*)</string>
     <string name="formula_editor_function_collision">오브젝트 터치</string>
-    <string name="formula_editor_function_collides_with_edge">모서리 터치</string>
-    <string name="formula_editor_function_touched">손가락 터치</string>
-    <string name="formula_editor_function_collides_with_color">touches color</string>
-    <string name="formula_editor_function_color_touches_color">color touches color</string>
-    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
-    <string name="formula_editor_sensor_x_acceleration">x축방향 가속도</string>
-    <string name="formula_editor_sensor_y_acceleration">y축방향 가속도</string>
-    <string name="formula_editor_sensor_z_acceleration">z축방향 가속도</string>
-    <string name="formula_editor_sensor_compass_direction">나침반 방향</string>
-    <string name="formula_editor_sensor_latitude">위도</string>
-    <string name="formula_editor_sensor_longitude">경도</string>
-    <string name="formula_editor_sensor_location_accuracy">위치 정확도</string>
-    <string name="formula_editor_sensor_altitude">고도</string>
-    <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination">x축방향 기울기</string>
-    <string name="formula_editor_sensor_y_inclination">y축방향 기울기</string>
-    <string name="formula_editor_sensor_loudness">소리 크기</string>
-    <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year">년</string>
-    <string name="formula_editor_sensor_date_month">월</string>
-    <string name="formula_editor_sensor_date_day">일</string>
-    <string name="formula_editor_sensor_date_weekday">주중</string>
-    <string name="formula_editor_sensor_time_hour">시간</string>
-    <string name="formula_editor_sensor_time_minute">분</string>
-    <string name="formula_editor_sensor_time_second">초</string>
-    <string name="formula_editor_sensor_drone_battery_status">드론_배터리_상태</string>
-    <string name="formula_editor_sensor_drone_emergency_state">드론_비상_상태</string>
-    <string name="formula_editor_sensor_drone_flying">드론_비행중</string>
-    <string name="formula_editor_sensor_drone_initialized">드론_초기화</string>
-    <string name="formula_editor_sensor_drone_usb_active">드론_usb_활성화</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">드론_usb_남은_시간</string>
-    <string name="formula_editor_sensor_drone_camera_ready">드론_카메라_준비</string>
-    <string name="formula_editor_sensor_drone_record_ready">드론_녹화_준비</string>
-    <string name="formula_editor_sensor_drone_recording">드론_녹화중</string>
-    <string name="formula_editor_sensor_drone_num_frames">드론_수_프레임</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT_센서_1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT_센서_2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT_센서_3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT_센서_4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3 센서 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3 센서 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3 센서 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3 센서 4</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">모서리 터치</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">손가락 터치</string>
+    <string name="formula_editor_function_collides_with_color">색을 만지다</string>
+    <string name="formula_editor_function_color_touches_color">색이 색에 닿는다</string>
+    <string name="formula_editor_sensor_color_at_x_y">x y에 색칠하세요.</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">색상은 %가있는 색상과 동일
+        공차</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">x축방향 가속도</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">y축방향 가속도</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">z축방향 가속도</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">나침반 방향</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">위도</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">경도</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">위치 정확도</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">고도</string>
+    <string name="formula_editor_sensor_user_language">사용자 언어</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">x축방향 기울기</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">y축방향 기울기</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">소리 크기</string>
+    <string name="formula_editor_sensor_timer">타이머</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">년</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">월</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">일</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">주중</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">시간</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">분</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">초</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">드론_배터리_상태</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">드론_비상_상태</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">드론_비행중</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">드론_초기화</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">드론_usb_활성화</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">드론_usb_남은_시간</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">드론_카메라_준비</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">드론_녹화_준비</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">드론_녹화중</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">드론_수_프레임</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT_센서_1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT_센서_2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT_센서_3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT_센서_4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 센서 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 센서 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 센서 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 센서 4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT_터치센서</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT_소리</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT_빛센서</string>
@@ -1630,35 +1587,35 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT 빛 활성화</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT 소리</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT 초음파</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">게임패드의 a 눌림</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">게임패드의 b 눌림</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">게임패드의 위로 눌림</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">게임패드의 아래로 눌림</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">게임패드의 왼쪽으로 눌림</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">게임패드의 오른쪽으로 눌림</string>
-    <string name="formula_editor_phiro_sensor_front_left">Phiro 앞 왼쪽 센서</string>
-    <string name="formula_editor_phiro_sensor_front_right">Phiro 앞 오른쪽 센서</string>
-    <string name="formula_editor_phiro_sensor_side_left">Phiro 옆 왼쪽 센서</string>
-    <string name="formula_editor_phiro_sensor_side_right">Phiro 옆 오른쪽 센서</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">Phiro 아래 왼쪽 센서</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">Phiro 아래 오른쪽 센서</string>
-    <string name="formula_editor_nfc_tag_id">nfc_tag_id</string>
-    <string name="formula_editor_nfc_tag_message">nfc_tag_메시지</string>
-    <string name="formula_editor_object_x">x좌표</string>
-    <string name="formula_editor_object_y">y좌표</string>
-    <string name="formula_editor_object_transparency">투명도</string>
-    <string name="formula_editor_object_brightness">밝기</string>
-    <string name="formula_editor_object_size">크기</string>
-    <string name="formula_editor_object_rotation">방향</string>
-    <string name="formula_editor_object_layer">레이어</string>
-    <string name="formula_editor_object_x_velocity">x축 속도</string>
-    <string name="formula_editor_object_y_velocity">y축 속도</string>
-    <string name="formula_editor_object_angular_velocity">각속도</string>
-    <string name="formula_editor_object_look_number">모양 번호</string>
-    <string name="formula_editor_object_look_name">모양 이름</string>
-    <string name="formula_editor_object_background_number">배경 번호</string>
-    <string name="formula_editor_object_background_name">배경 이름</string>
-    <string name="formula_editor_object_distance_to">거리</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">게임패드의 a 눌림</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">게임패드의 b 눌림</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">게임패드의 위로 눌림</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">게임패드의 아래로 눌림</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">게임패드의 왼쪽으로 눌림</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">게임패드의 오른쪽으로 눌림</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">Phiro 앞 왼쪽 센서</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">Phiro 앞 오른쪽 센서</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">Phiro 옆 왼쪽 센서</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">Phiro 옆 오른쪽 센서</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">Phiro 아래 왼쪽 센서</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">Phiro 아래 오른쪽 센서</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tag_id</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc_tag_메시지</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">x좌표</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">y좌표</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">투명도</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">밝기</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">크기</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">방향</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">레이어</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x축 속도</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y축 속도</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">각속도</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">모양 번호</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">모양 이름</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">배경 번호</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">배경 이름</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">거리</string>
     <string name="formula_editor_compute">연산결과 미리보기</string>
     <string name="formula_editor_object">오브젝트</string>
     <string name="formula_editor_functions">함수</string>
@@ -1670,9 +1627,9 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_functions_lists">리스트</string>
     <string name="formula_editor_logic_boolean">논리 연산</string>
     <string name="formula_editor_logic_comparison">비교 연산</string>
-    <string name="formula_editor_object_general">일반 속성</string>
+    <string name="formula_editor_object_look">Look 속성</string>
     <string name="formula_editor_object_movement">운동 속성</string>
-    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_visual_detection">시각 센서</string>
     <string name="formula_editor_device_date_and_time">날짜와 시간</string>
     <string name="formula_editor_device_touch_detection">터치 감지</string>
     <string name="formula_editor_device_lego_nxt">레고 NXT</string>
@@ -1684,41 +1641,50 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_device_nfc">NFC</string>
     <string name="formula_editor_device_cast">캐스트</string>
     <string name="formula_editor_string">글자</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">그리고</string>
-    <string name="formula_editor_logic_or">또는</string>
-    <string name="formula_editor_logic_not">아니다</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">그리고</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">또는</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">아니다</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">삭제</string>
+    <string name="formula_editor_image_button_description_color_picker">색상 선택기</string>
+    <string name="formula_editor_image_button_description_functions_toggle">토글 기능</string>
     <string name="formula_editor_variable_dialog_title">새 변수</string>
     <string name="formula_editor_list_dialog_title">새 리스트 만들기</string>
-    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML 추출기</string>
     <string name="formula_editor_discard_changes_dialog_message">변경 내용을 저장 하시겠습니까?</string>
     <string name="formula_editor_discard_changes_dialog_title">변경사항을 저장하시겠습니까?</string>
     <string name="formula_editor_new_string_name">새로운 글자</string>
     <string name="formula_editor_dialog_change_text">텍스트 변경</string>
-    <string name="formula_editor_dialog_change_regular_expression">Change regular
-        expression</string>
+    <string name="formula_editor_dialog_change_regular_expression">정기적으로 변경
+        표현</string>
     <string name="formula_editor_fragment_data_current_items">현재 항목</string>
     <string name="formula_editor_data_dialog_is_list">리스트 만들기</string>
-    <string name="formula_editor_sensor_face_detected">얼굴이 인식되면</string>
-    <string name="formula_editor_sensor_face_size">얼굴의 크기</string>
-    <string name="formula_editor_sensor_face_x_position">얼굴의 x 좌표</string>
-    <string name="formula_editor_sensor_face_y_position">얼굴의 y 좌표</string>
-    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
-    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
-    <string name="formula_editor_function_text_block_x">text block x from camera</string>
-    <string name="formula_editor_function_text_block_y">text block y from camera</string>
-    <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">얼굴이 인식되면</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">얼굴의 크기</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">얼굴의 x 좌표</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">얼굴의 y 좌표</string>
+    <string name="formula_editor_sensor_second_face_detected">두 번째 얼굴이 보입니다.</string>
+    <string name="formula_editor_sensor_second_face_size">두 번째 얼굴 크기</string>
+    <string name="formula_editor_sensor_second_face_x_position">두 번째면 x 위치</string>
+    <string name="formula_editor_sensor_second_face_y_position">두 번째면 y 위치</string>
+    <string name="formula_editor_sensor_text_from_camera">카메라의 텍스트</string>
+    <string name="formula_editor_sensor_text_blocks_number">텍스트 블록 수</string>
+    <string name="formula_editor_function_text_block_x">카메라의 텍스트 블록 x</string>
+    <string name="formula_editor_function_text_block_y">카메라의 텍스트 블록 y</string>
+    <string name="formula_editor_function_text_block_size">카메라의 텍스트 블록 크기</string>
+    <string name="formula_editor_function_text_block_from_camera">카메라의 텍스트 블록</string>
+    <string name="formula_editor_function_text_block_language_from_camera">카메라의 텍스트 블록 언어</string>
+    <string name="formula_editor_function_text_block_parameter">(0)</string>
     <string name="formula_editor_intro_title_formula_editor">수식 편집기</string>
     <string name="formula_editor_intro_summary_formula_editor">수식 편집기로 블록에서 사용할 수학식을 만들 수 있습니다.\n\n 오른쪽 아래 \"다음\" 버튼을 터치하여 안내를 진행하고 \"건너뛰기\" 버튼으로 건너뛸 수 있습니다.</string>
     <string name="formula_editor_intro_title_input_field">입력 창</string>
@@ -1737,31 +1703,33 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="formula_editor_intro_summary_device">\"장치\"에서는 스마트폰이나 태블릿의 정보나 기록을 사용할 수 있다. \nFor 예를 들어 기울기 또는 주변 소리 크기를 알 수 있다.</string>
     <string name="formula_editor_intro_title_data">변수</string>
     <string name="formula_editor_intro_summary_data">변수 및 프로그램에서 사용되는 리스트를 보실 수 있습니다.  \nYou 단순히 수식에 삽입하거나 새로 추가할 수 있습니다.</string>
-    <string name="formula_editor_listening_language_sensor">listening language</string>
-    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="formula_editor_listening_language_sensor">듣기 언어</string>
+    <string name="formula_editor_speech_recognition">음성 인식</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">단조롭게 하다</string>
+    <string name="formula_editor_function_flatten_parameter">(*리스트 이름*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">변수 보이기</string>
-    <string name="brick_hide_variable">변수 숨기기</string>
-    <string name="brick_show_variable_position"></string>
-    <string name="brick_show_variable_size">크기:</string>
-    <string name="brick_show_variable_color">색상</string>
-    <string name="brick_show_variable_aligned">정렬</string>
-    <string name="brick_show_variable_aligned_centered">가운데</string>
-    <string name="brick_show_variable_aligned_left">왼쪽</string>
-    <string name="brick_show_variable_aligned_right">오른쪽</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">변수 보이기</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">변수 숨기기</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources"></string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">크기:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">색상</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">정렬</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">가운데</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">왼쪽</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">오른쪽</string>
     <string name="brick_context_dialog_pick_color">색 선택</string>
-    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <string name="brick_context_dialog_pick_note">메모 선택</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">카메라 켜기</string>
-    <string name="video_brick_camera_on">켜기</string>
-    <string name="video_brick_camera_off">끄기</string>
-    <string name="brick_choose_camera">카메라 사용하기</string>
-    <string name="choose_camera_front">전면</string>
-    <string name="choose_camera_back">뒤쪽</string>
+    <string name="brick_video" tools:ignore="UnusedResources">카메라 켜기</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">켜기</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">끄기</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">카메라 사용하기</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">전면</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">뒤쪽</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
     <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
@@ -1786,10 +1754,8 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="cast_connection_timout_msg">연결 시간 초과. 다시 시도하세요.</string>
     <string name="cast_screen_pause_text">정지</string>
     <!-- -->
-    <string name="deletion_alert_title">Delete?</string>
-    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
-        errors. You can\'t undo this!</string>
-    <string name="deletion_alert_yes">예, 삭제합니다!</string>
+    <string name="deletion_alert_title">삭제하시겠습니까?</string>
+    <string name="deletion_alert_text">현재 사용되고 있는 목록이나 변수를 삭제한다면 에러가 발생할 수 있습니다. 이 실행을 취소할 수 없습니다!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">프로그램을 우리의 커뮤니티 페이지에 업로드하면 여러 사람이 사용하고 다운로드할 수 있습니다. 또한 독립 실행형 응용 프로그램으로 당신의 프로그램을 다운로드할 수도 있습니다.</string>
     <string name="progress_upload_dialog_failed">업로드 실패. 인터넷 연결상태를 확인하시고 다시 해 주세요!</string>
@@ -1812,5 +1778,12 @@ https://share.catrob.at/ website 여기를 통해 계정과 정보를 삭제할 
     <string name="device_language">장치 언어</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">Hz</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">Hz</string>
+    <string name="no_internet_connection">인터넷에 연결되지 않음. Wi-Fi 또는 모바일 확인
+    데이터가 켜져 있습니다.</string>
+    <string name="edit">편집</string>
+    <string name="data_value">값</string>
+    <string name="category_recently_used">최근 사용</string>
+    <!-- Information -->
+    <string name="no_variable_selected">선택된 변수가 없습니다.</string>
 </resources>

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -21,12 +21,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.catrobat.catroid.ui.recyclerview;
+package org.catrobat.catroid.retrofittesting
 
-import org.catrobat.catroid.common.ProjectData;
+import android.content.Context
 
-public class ProjectListener {
-	public interface OnProjectListener {
-		void onProjectClick(ProjectData projectData);
-	}
+data class MockResponseFileReader(private val context: Context, val path: String) {
+
+    val content: String
+
+    init {
+        val reader = context.assets.open(path).reader()
+        content = reader.readText()
+        reader.close()
+    }
 }

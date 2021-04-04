@@ -51,6 +51,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.formulaeditor.utils.FormulaEditorWrapper.onFormulaEditor;
 
+import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -95,10 +96,17 @@ public class FormulaEditorFragmentTest {
 		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
 				.perform(click());
 		onFormulaEditor()
-				.performEnterFormula("1+");
+				.performEnterFormula("3+");
 		pressBack();
 		UiTestUtils.onToast(withText(R.string.formula_editor_parse_fail))
 				.check(matches(isDisplayed()));
+		onView(withText(R.string.formula_editor_title))
+				.check(matches(isDisplayed()));
+		onFormulaEditor()
+				.performBackspace();
+		pressBack();
+		onBrickAtPosition(1).onChildView(withId(R.id.brick_set_variable_edit_text))
+				.check(matches(withText("3 ")));
 	}
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})

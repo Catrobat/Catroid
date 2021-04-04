@@ -35,6 +35,10 @@ public final class FlavoredConstants {
 	// Web:
 	public static final String BASE_URL_HTTPS = MAIN_URL_HTTPS + "/pocketcode/";
 
+	public static final String FLAVOR_NAME = "pocketcode";
+
+	public static final String CATEGORY_URL = BASE_URL_HTTPS + "#home-projects__";
+
 	public static final String POCKET_CODE_EXTERNAL_STORAGE_FOLDER_NAME = "Pocket Code Beta";
 
 	public static final File DEFAULT_ROOT_DIRECTORY = CatroidApplication.getAppContext().getFilesDir();

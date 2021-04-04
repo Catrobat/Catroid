@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,30 +21,30 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
     <string name="stage">Aşama</string>
     <string name="play">Oynat</string>
     <string name="settings">Ayarlar</string>
-    <string name="redo">Yinele</string>
-    <string name="undo">Geri Al</string>
+    <string name="redo" tools:ignore="UnusedResources">Yinele</string>
+    <string name="undo" tools:ignore="UnusedResources">Geri Al</string>
     <string name="new_option">Yeni&#8230;</string>
+    <string name="edit_option">düzenle&#8230;</string>
     <string name="confirm">Onayla</string>
     <string name="ignore">Göz ardı et</string>
     <string name="cancel">İptal et</string>
     <string name="save">Kaydet</string>
+    <string name="discard">Vazgeç</string>
     <string name="next">İleri</string>
-    <string name="back">Geri</string>
     <string name="ok">Tamam</string>
     <string name="done">Tamam</string>
-    <string name="close">Kapat</string>
+    <string name="close" tools:ignore="UnusedResources">Kapat</string>
     <string name="assistant">Asistan</string>
     <string name="yes">Evet</string>
     <string name="no">Hayır</string>
     <string name="once">Bir kez</string>
     <string name="always">Her zaman</string>
     <string name="deny">Reddet</string>
-    <string name="disagree">Kabul etmiyorum</string>
     <string name="accept">Kabul et</string>
     <string name="decline">Reddet</string>
     <string name="select_all">Hepsini seç</string>
@@ -64,14 +64,21 @@
          proje çalışıyor güvenlidir. Şüphe durumunda, lütfen indirilen projeyi silin.
          Ayrıca projeyi Catrobat topluluk platformundaki sayfasında bildirebilirsiniz.
          zararlı olduğundan eminsin.</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">Değişiklik yapmadan yükle</string>
+    <string name="api_replacement_dialog_accept">Değiştirilen anahtarlarla yükleme</string>
+    <string name="api_replacement_dialog_warning">Proje, erişim sağlayan tuğlaları içerir.
+        web ve ayrıca API anahtarları içeriyor gibi görünüyor. Lütfen %1s nedenine bakın
+        bu anahtarları yüklemek tehlikeli olabilir.</string>
+    <string name="api_replacement">API anahtarını buraya ekleyin</string>
+    <!-- -->
     <!-- Login/Logout Mechanism -->
     <string name="loading_check_oauth_token">Giriş verileri kontrol ediliyor&#8230;</string>
     <string name="loading_google_exchange_code">Google giriş verileri değiş tokuş ediliyor&#8230;</string>
     <string name="loading_google_login">Sunucumuzdaki Google girişi tamamlandı&#8230;</string>
-    <string name="delete_account">Hesabımı sil</string>
     <string name="logout_successful">Oturum başarıyla kapatıldı</string>
-    <string name="degrees">derece</string>
-    <string name="background">Arka plan</string>
+    <string name="degrees" tools:ignore="UnusedResources">derece</string>
+    <string name="background" tools:ignore="UnusedResources">Arka plan</string>
     <string name="landscape">yatay</string>
     <string name="portrait">dikey</string>
     <string name="unknown">bilinmeyen</string>
@@ -81,7 +88,7 @@
     <string name="main_menu_continue">Projeye devam et</string>
     <string name="main_menu_new">Yeni proje</string>
     <string name="main_menu_programs">Projelerin</string>
-    <string name="main_menu_help">Yardım</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">Yardım</string>
     <string name="main_menu_web">Catrobat topluluğu</string>
     <string name="main_menu_upload">Projeyi topluluğa yükle</string>
     <string name="main_menu_rate_app">Bizi değerlendirin!</string>
@@ -166,7 +173,7 @@
     <string name="preference_description_arduino_bricks">Uygulamanın Arduino kartlarını kontrol etmesine izin ver</string>
     <string name="preference_title_enable_embroidery_bricks">Nakış uzantısı</string>
     <string name="preference_description_embroidery_bricks">Dikiş makineleri için desenler oluşturun</string>
-    <string name="preference_title_cast_feature_globally_enabled">Yayınlama özelliklerini etkinleştir</string>
+    <string name="preference_title_cast_feature_globally_enabled">Chromecast özelliklerini etkinleştir</string>
     <string name="preference_description_cast_feature_globally_enabled">Yayın düğmesini göster ve yayın projelerini etkinleştir</string>
     <string name="preference_title_enable_nfc_bricks">Yakın Alan İletişimi</string>
     <string name="preference_description_nfc_bricks">Uygulamanın projelerde NFC etiketleri kullanmasına izin verin</string>
@@ -195,7 +202,7 @@
     <string name="error_specific_scratch_program_conversion_failed_x">Eyvah! %1$s dönüştürme işlemi başarısız oldu, lütfen 
         daha sonra tekrar deneyin!</string>
     <string name="error_scratch_converter_outdated_app_version">Bu uygulamanın sürümünüz güncel değil. Scratch dönüştürücümüz yalnızca en son sürümde çalışır. Lütfen uygulamayı güncelleyin.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">Bu program açılmıyor. Öyle görünüyor ki bu esnada boş programının dönüşümünü/indirilmesini iptal etmişsiniz veya programın adını değiştirmişsiniz/silmişsiniz!</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Bu program açılmıyor. Öyle görünüyor ki bu esnada Scratch projesinin dönüşümünü/indirilmesini iptal etmişsiniz veya programın adını değiştirmişsiniz/silmişsiniz!</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">Henüz projeyi açamazsınız. Lütfen indirilene kadar bekleyin.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">Henüz projeyi açamazsınız. Lütfen önce indirin ve sonra açın.</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">%1$s dönüştürülemedi. Bu, %2$s öncesinden eski bir Scratch projesi gibi görünüyor. Lütfen başka bir tane deneyin.</string>
@@ -281,7 +288,7 @@
     <string name="am_backpack">Paketle</string>
     <string name="am_unpack">Çıkart</string>
     <string name="am_copy">Kopyala</string>
-    <string name="am_delete">Sil</string>
+    <string name="am_delete" tools:ignore="UnusedResources">Sil</string>
     <string name="am_rename">Yeniden adlandır</string>
     <string name="am_convert">Dönüştür</string>
     <string name="am_merge">Birleştir</string>
@@ -295,6 +302,9 @@
     <string name="merge">Birleştir</string>
     <string name="show_details">Detayları göster</string>
     <string name="hide_details">Detayları gizle</string>
+    <string name="project_options">Proje Seçenekleri</string>
+    <string name="sort_projects">Sırala</string>
+    <string name="unsort_projects">Sıralamayı Kaldır</string>
     <!-- New Dialog Titles -->
     <string name="new_scene_dialog">Yeni sahne</string>
     <!-- Delete Dialog Titles -->
@@ -359,6 +369,7 @@
     <string name="rename_data_dialog">Yeniden adlandır</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">Yeni Grup</string>
+    <string name="default_group_name">Grup</string>
     <!-- New Scene Menu -->
     <string name="new_scene">Yeni sahne</string>
     <!-- Action Toasts -->
@@ -468,6 +479,13 @@
     <string name="import_project">Projeyi içe aktar</string>
     <string name="error_import_project">Projeler içe aktarılırken bir şeyler ters gitti.</string>
     <string name="error_no_files_found">Proje dosyası bulunamadı.</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">Açıklama</string>
+    <string name="project_options_notes_and_credits">Yapanlar</string>
+    <string name="project_options_tags">Etiketler</string>
+    <string name="project_options_aspect_ratio">Orijinal en boy oranını koruyun</string>
+    <string name="project_options_more_details">Daha fazla detay</string>
+    <string name="project_options_delete_project">Projeyi sil</string>
     <!-- ScriptListFragment -->
     <string name="fragment_script_text_description">Komut dosyası eklemek için buraya \"+\" dokunun</string>
     <!--  -->
@@ -486,8 +504,8 @@
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Eklemek için NFC etiketlerini tarayın</string>
-    <string name="ndef_record_label">kayıt türü olarak</string>
-    <string name="brick_set_nfc_tag">Sıradaki NFC etiketine ayarlayın</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">kayıt türü olarak</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Sıradaki NFC etiketine ayarlayın</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
     <string name="default_tag_name">nfc_tag</string>
     <string name="tnf_empty">Boş</string>
@@ -505,6 +523,7 @@
     <string name="local_vars_headline">Yalnızca bu Obje için değişkenler</string>
     <string name="global_lists_headline">Tüm Objeler için listeler</string>
     <string name="local_lists_headline">Yalnızca bu Obje için listeler</string>
+    <string name="fragment_data_text_description">Değişken veya liste eklemek\niçin \"+\" simgesine dokunun</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Bu tuğla için giriş</item>
         <item quantity="other">Bu tuğla için girişler</item>
@@ -558,32 +577,14 @@
     <!-- Terms of Use Dialog Parrot ARDrone-->
     <string name="dialog_terms_of_use_link_text_parrot_reminder">Kullanım Koşulları ve Hizmetleri</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">Bu uygulamayı Parrot\'un AR.Drone 2.0 ile birlikte kullanmak üzeresiniz. Hem Parrot hem de Catrobat\'ın Kullanım ve Hizmet Koşullarına uymanızı şiddetle hatırlatırız.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Bir kez daha hatırlatma.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Bir daha hatırlatma</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Bu uygulamayı Parrot\'s Jumping Sumo ile birlikte kullanmak üzeresiniz. Hem Parrot hem de Catrobat\'ın Kullanım ve Hizmet Koşullarına uymanızı şiddetle hatırlatırız.</string>
     <!--  -->
     <!-- Privacy Policy -->
-    <string name="dialog_privacy_policy_title">Gizlilik politikası</string>
     <string name="disclaimer_privacy_police_header_headline">Hoşgeldiniz!</string>
     <string name="disclaimer_privacy_policy_header">Bu uygulamayı kullanmak için, lütfen önce kabul edin:</string>
-    <string name="dialog_privacy_policy_text">Çarpışma bilgileri, zaman damgaları, ziyaret edilen sayfalar / ekranlar, uygulamalarımızın ve hizmetlerimizin kullanımı, kullanılan işletim sistemi ve ağ sağlayıcısı hakkında bilgiler. Bu analiz ve toplanan veriler profilinizle bağlantılı değildir ve herhangi bir kişisel bilgi içermez (IP adresinin son bitleri anonimleştirilir). Bununla birlikte, toplanan veriler servis sağlayıcıya (Google LLC, ABD ve Dynatrace LLC, ABD) aktarılacaktır. Veri işleme, Google LLC ve Dynatrace LLC ile yapılan anlaşmalara dayanmaktadır. Hizmet sağlayıcıyla olan bu ilişki, Avrupa Birliği\'nin Genel Veri Koruma Yönetmeliği (AB GDPR) ve AB-ABD \"Gizlilik Kalkanı\" sözleşmesine uygundur. \n \n
-• Sistemlerimizde bir hesap oluşturmak ve kullanmak ve gerekli konularda sizi bilgilendirmek için e-posta başına hesabınızla ilgili değişiklikler, ör. Kullanım Şartları ve Hizmetimizin, topluluk kurallarımızın veya politikalarımızın güncellenmesi veya ihlali, kullanıcı adınızı ve sağladığınız takdirde e-posta adresinizi saklayacağız. Hesabınızı Google veya Facebook hesabınız üzerinden bağladıysanız, bu hizmetlerde ek olarak hesabınıza bağlı bir kimlik anahtarı saklarız. Açıkça bize izin vermedikçe, bu verileri başka (ör. Pazarlama) amaçlar için kullanmayacağız. \n \n
-• Gönüllü olarak, ikamet ettiğiniz ülkeyi paylaşımdaki hesap sayfanızdan bize verebilirsiniz. bir site. Bu, herkese açık profilinizde gösterilecek ve yalnızca bizim tarafımızdan istatistiksel ve araştırma amaçlı kullanılacaktır. Profil ayarlarınızdan dilediğiniz zaman kaldırılabilir. \n \n
-• Hesabınızı https: //share.catrob adresindeki profil sayfanız üzerinden silerek, hesabınıza ait kişisel verilerin kullanımını dilediğiniz zaman geri çekebilirsiniz. en. Hesabınızı sildikten sonra, sağlanan hizmetleri kullanmaya devam edebilirsiniz, ancak örneğin programları yükleyerek, yorum yaparak veya beğenerek işbirliği yapamazsınız. Ayrıca, hesabınıza bağlı sağlanan, örneğin yüklenen programlar, yorumlar vb. Tüm içerik silinecektir. \n \n
-• Hizmetlerimizin kötüye kullanılmasını önlemek için, örneğin kullanıcı katkısı olan yüklemeler veya yasa dışı amaçlar için yorumlar yoluyla, tüm kullanıcılar oluşturulan genel veriler (yüklemeler, yorumlar) bir zaman damgası ve kullanılan internet adresiyle birlikte bir veritabanında dahili olarak depolanacaktır. Bu veriler, yeterince yasadışı faaliyetlerden makul bir şekilde şüphelenilmedikçe ve resmi olarak yetkili yasal kurumlar geçerli yasaya dayanarak talep etmedikçe, hiçbir kurum tarafından kullanılmayacak veya herhangi bir kuruluşa iletilmeyecektir. Her durum öncelikle tarafımızca ayrı ayrı ayrıntılı olarak kontrol edilecektir. \n \n
-• MailChimp hizmeti (The Rocket Science Group) aracılığıyla tarafımızdan sağlanan https://catrob.at/newsletter adresindeki Catrobat Bültenine gönüllü olarak abone olabilirsiniz. LLC d / b / a MailChimp, ABD). Daha sonra Catrobat projesi ve hizmetleri ile ilgili güncellemeleri verdiğiniz e-posta adresinize alacaksınız. Her haber bülteninin altbilgisindeki \"abonelikten çık\" bağlantısını kullanarak bülteni istediğiniz zaman geri çekebilirsiniz. Bu haber bülteni, veri işleme anlaşmamız olan ve AB Genel Veri Koruma Yönetmeliği ve AB-ABD \"Gizlilik Kalkanı\" taahhüt eden MailChimp tarafından sağlanmaktadır. MailChimp hakkında daha fazla ayrıntı için lütfen MailChimp\'in Gizlilik Politikası ve Kullanım Koşulları\'na da bakın. \n \n
-• Tüm Hizmetler, Uluslararası Catrobat Derneği - Verein zur Förderung daha özgür Yazılım, bir non- - Avusturya, Graz\'da (Avrupa Birliği) kurulmuş kârlı STK. Politikalarımız, AB ve Avusturya veri koruma yasasına (GDPR) saygı gösterir. Bizimle iletişime geçmek için lütfen contact@catrobat.org adresine bir e-posta gönderin veya Catrobat, \n \n
-Yazılım Teknolojisi Enstitüsü, \n
-Graz Teknoloji Üniversitesi, \n
-Inffeldgasse 16b, \n
-A-8010 Graz, Avusturya \n
-(Avrupa Birliği). \n \n
-14 yaşın altındaysanız, bu politika bir yasal vasi (genellikle bir ebeveyn) tarafından kabul edilmelidir. \n \n
-Catrobat\'ın resmi İngilizce dili gizlilik politikası web\'de https://catrob.at/privacypolicy. \n \n
-Sürüm 2.2, 17 Ekim 2019 altında bulunabilir \n \n
-Gizlilik politikamızın (2.0) önceki, güncel olmayan sürümünü buradan bulabilirsiniz: http: //developer.catrobat.org/privacy_policy_2-0</string>
-    <string name="dialog_privacy_policy_declined_text">Hesabınızı kaydettirmek veya kullanmaya devam etmek için Gizlilik Politikasını kabul etmeniz gerekir. Bu verileri toplamamızı istemiyorsanız, hesabınızı https://share.catrob.at/ Sayfamızdaki profil sayfanızdan silebilirsiniz.</string>
     <!-- -->
     <!-- About Dialog -->
     <string name="dialog_about_title">Bu uygulama hakkında</string>
@@ -591,16 +592,18 @@ Gizlilik politikamızın (2.0) önceki, güncel olmayan sürümünü buradan bul
 Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanmıştır. Daha fazla ayrıntı için link aşağıda. \n</string>
     <string name="dialog_about_license_link_text">Kaynak kod lisansı</string>
     <string name="dialog_about_catrobat_link_text">Catrobat hakkında</string>
+    <string name="dialog_about_catrobat_language_version">Catrobat dil sürümü</string>
+    <string name="dialog_about_version">versiyon:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">Bağlantı yok</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_button">Topluluğa yükle</string>
     <string name="upload_project_dialog_title">Topluluğa yükle</string>
     <string name="upload_description">Açıklama:</string>
-    <string name="upload_notes_and_credits">Notlar ve krediler:</string>
+    <string name="upload_notes_and_credits">Yapanlar:</string>
     <string name="upload_notes_and_credits_explanation">Bu projeyi nasıl yarattınız? Başkalarının fikirlerini, senaryolarını veya sanat eserlerini kullandınız mı? Onlara burada teşekkür edin.</string>
     <string name="upload_tag_dialog_title">Lütfen en fazla üç kategori seçin</string>
+    <string name="upload_tags_maximum_error">3\'ten fazla etiket seçmek mümkün değildir.</string>
     <!-- Save Project to External Storage -->
     <string name="save_to_external_storage_button">Projeyi harici depolamaya kaydedin</string>
     <string name="notification_save_project_to_external_storage_title_pending">" "</string>
@@ -619,7 +622,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_context_dialog_move_brick">Tuğlayı hareket ettir</string>
     <string name="brick_context_dialog_move_script">Komut dosyasını taşı</string>
     <string name="brick_context_dialog_move_definition">Bu tanımı taşı</string>
-    <string name="brick_context_dialog_delete_brick">Tuğlayı sil</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Tuğlayı sil</string>
     <string name="brick_context_dialog_copy_brick">Tuğlayı kopyala</string>
     <string name="brick_context_dialog_copy_script">Komutu kopyala</string>
     <string name="brick_context_dialog_formula_edit_brick">Formülü düzenleyin</string>
@@ -634,6 +637,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="comment_in_out">Devre dışı bırak/Etkinleştir</string>
     <string name="catblocks">2D\'yi aç/kapat</string>
     <string name="catblocks_reorder">Komut dosyalarını temizleyin</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D görünüm</string>
     <!--  -->
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Sahneyi Oynat:</string>
@@ -644,7 +648,7 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="sign_in_dialog_title">Giriş yap</string>
     <string name="username">Kullanıcı adı</string>
     <string name="password">Şifre</string>
-    <string name="password_forgotten">Parolanızı mı unuttunuz?</string>
+    <string name="reset_password">Şifre sıfırlama</string>
     <string name="new_user_registered">Yeni bir hesap oluşturuldu</string>
     <string name="user_logged_in">Giriş başarılı</string>
     <string name="register_error">Giriş geçersiz</string>
@@ -721,33 +725,34 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Yeni mesaj</string>
-    <string name="dialog_new_broadcast_message_name">mesaj:</string>
+    <string name="dialog_broadcast_message_name">mesaj:</string>
+    <string name="dialog_edit_broadcast_message_title">Mesajı düzenle</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">NFC etiketlerinin listesini düzenleyin</string>
     <string name="brick_when_nfc_default_all">tümü</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories">Kategoriler</string>
-    <string name="category_embroidery">Nakış</string>
-    <string name="category_motion">Hareket</string>
-    <string name="category_looks">Görüntü</string>
-    <string name="category_pen">Kalem</string>
-    <string name="category_sound">Ses</string>
-    <string name="category_control">Denetim</string>
-    <string name="category_event">Etkinlik</string>
-    <string name="category_user_bricks">Senin tuğlan</string>
-    <string name="category_data">Veri</string>
-    <string name="category_device">Cihaz</string>
-    <string name="category_lego_nxt">Lego NXT</string>
-    <string name="category_lego_ev3">Levo EV3</string>
-    <string name="category_drone">AR.Drone 2.0</string>
-    <string name="category_jumping_sumo">Sumo atlama</string>
-    <string name="category_phiro">Phiro</string>
-    <string name="category_arduino">Arduino</string>
-    <string name="category_cast">Yayınlamak</string>
-    <string name="category_raspi">Raspberry Pi</string>
-    <string name="category_assertions">Test et</string>
+    <string name="categories" tools:ignore="UnusedResources">Kategoriler</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">Nakış</string>
+    <string name="category_motion" tools:ignore="UnusedResources">Hareket</string>
+    <string name="category_looks" tools:ignore="UnusedResources">Görüntü</string>
+    <string name="category_pen" tools:ignore="UnusedResources">Kalem</string>
+    <string name="category_sound" tools:ignore="UnusedResources">Ses</string>
+    <string name="category_control" tools:ignore="UnusedResources">Denetim</string>
+    <string name="category_event" tools:ignore="UnusedResources">Etkinlik</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">Senin tuğlaların</string>
+    <string name="category_data" tools:ignore="UnusedResources">Veri</string>
+    <string name="category_device" tools:ignore="UnusedResources">Cihaz</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">Levo EV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">Sumo atlama</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
+    <string name="category_cast" tools:ignore="UnusedResources">Chromecast</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">Test et</string>
     <!--  -->
     <!-- User Defined Bricks -->
     <string name="brick_user_defined_add_label">Etiket ekleyin</string>
@@ -757,212 +762,215 @@ Bu uygulamanın kaynak kodu esas olarak GNU AGPL v3 lisansı altında lisanslanm
     <string name="brick_user_defined_default_input_name">Girişin adı</string>
     <string name="brick_user_defined_default_label">Metni etiketle</string>
     <string name="brick_user_defined_already_exists">Bu etiketlere sahip bir tuğla zaten var. Lütfen daha fazla etiket veya girdi ekleyin.</string>
-    <string name="brick_user_defined_script_define">Tanımlamak</string>
-    <string name="brick_user_defined_script_as">gibi</string>
-    <string name="brick_user_defined_list_empty">Kendi yeni tuğlalarınızı eklemek için \"+\" ya dokunun.</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Tanımlamak</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">gibi</string>
+    <string name="brick_user_defined_list_empty">Kendi tuğlalarınızı eklemek için \"+\" ya dokunun.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">Bildir</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at">"Yerleştirin "</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"Yerleştirin "</string>
     <string name="brick_option_place_visually">Görsel olarak yerleştirin</string>
-    <string name="x_label">"X: "</string>
-    <string name="y_label">"Y: "</string>
-    <string name="brick_set_x">" X'e deger ver"</string>
-    <string name="brick_set_y">"Y'ye deger ver"</string>
-    <string name="brick_change_x_by">" X'in degerini değiştir"</string>
-    <string name="brick_change_y_by">"Y'nin degerini değiştir"</string>
-    <string name="brick_go_back">Geri git</string>
-    <string name="brick_set_rotation_style">"Rotasyon stilini ayarla"</string>
-    <string name="brick_set_rotation_style_lr">sadece sağdan sola</string>
-    <string name="brick_set_rotation_style_normal">çepçevre</string>
-    <string name="brick_set_rotation_style_no">Döndürme</string>
+    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
+    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">" X'e deger ver"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"Y'ye deger ver"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">" X'in degerini değiştir"</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Y'nin degerini değiştir"</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">Geri git</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Rotasyon stilini ayarla"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">sadece sağdan sola</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">çepçevre</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">Döndürme</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">Katman</item>
         <item quantity="other">Katman</item>
     </plurals>
-    <string name="brick_come_to_front">Ön tarafa git</string>
-    <string name="brick_if_on_edge_bounce">Kenar\'a geldiğinde zıpla</string>
-    <string name="brick_move">Taşı</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">Ön tarafa git</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">Kenar\'a geldiğinde zıpla</string>
+    <string name="brick_move" tools:ignore="UnusedResources">Taşı</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="one">adım</item>
         <item quantity="other">adım</item>
     </plurals>
-    <string name="brick_turn_left">Sola dön</string>
-    <string name="brick_turn_right">Sağa dön</string>
-    <string name="brick_point_in_direction">Bu yöne dön</string>
-    <string name="brick_point_to">Bu tarafa yönel</string>
-    <string name="brick_glide">Kay</string>
-    <string name="brick_glide_to_x">X\'e dogru</string>
-    <string name="brick_go_to">Git</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">Sola dön</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">Sağa dön</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Bu yöne dön</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">Bu tarafa yönel</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">Kay</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">X\'e dogru</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">Git</string>
     <string name="brick_go_to_touch_position">Dokunma pozisyonu</string>
     <string name="brick_go_to_random_position">Rastgele pozisyon</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type">Hareket türüne ayarla</string>
-    <string name="brick_set_physics_object_type_dynamic">yerçekimi ile zıpla</string>
-    <string name="brick_set_physics_object_type_fixed">yerçekimi ile hareket etmiyor, ama diğerleri yerçekimi ile sekiyor</string>
-    <string name="brick_set_physics_object_type_no">yerçekimi altında hareket etmiyor veya zıplamıyor (varsayılan)</string>
-    <string name="brick_set_mass">"Kütleyi şuna ayarla:"</string>
-    <string name="brick_set_mass_unit">kilogram</string>
-    <string name="brick_set_gravity_to">"Tüm Objeler için yerçekimini ayarlayın"</string>
-    <string name="brick_set_gravity_unit">adım/saniye²</string>
-    <string name="brick_set_velocity_to">"Hızı"</string>
-    <string name="brick_set_velocity_unit">adım/saniye</string>
-    <string name="brick_turn_speed_unit">derece/saniye</string>
-    <string name="brick_set_friction">"Sürtünmeyi ayarlayın"</string>
-    <string name="brick_set_bounce_factor">"Çıkma faktörünü şu değere ayarlayın:"</string>
-    <string name="brick_rotate_left">"Sola dön"</string>
-    <string name="brick_rotate_right">"Sağa dön"</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Hareket türüne ayarla</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">yerçekimi ile zıpla</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">yerçekimi ile hareket etmiyor, ama diğerleri yerçekimi ile sekiyor</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">yerçekimi altında hareket etmiyor veya zıplamıyor (varsayılan)</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"Kütleyi şuna ayarla:"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kilogram</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Tüm Objeler için yerçekimini ayarlayın"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">adım/saniye²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Hızı"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">adım/saniye</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">derece/saniye</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"Sürtünmeyi ayarlayın"</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Çıkma faktörünü şu değere ayarlayın:"</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"Sola dön"</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"Sağa dön"</string>
     <!-- Look bricks -->
-    <string name="brick_set_look">Görüntü\'ye geç</string>
-    <string name="brick_set_look_by_index">Görüntü\'yü numarayla değiştir</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">Görüntü\'ye geç</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Görüntü\'yü numarayla değiştir</string>
     <string name="brick_and_wait">ve bekleyin</string>
-    <string name="brick_set_background">Arka planı düzenle</string>
-    <string name="brick_set_background_and_wait">Arka planı değiştirin ve bekleyin</string>
-    <string name="brick_set_background_by_index">Arka planı numarayla değiştir</string>
-    <string name="brick_when_background">Arka plan değiştiğinde</string>
-    <string name="brick_set_size_to">Boyutu değiştir</string>
-    <string name="brick_change_size_by">Boyutu buna değiştir</string>
-    <string name="brick_hide">Gizle</string>
-    <string name="brick_show">Göster</string>
-    <string name="brick_set_transparency">"Şeffaflığını düzenle"</string>
-    <string name="brick_change_ghost_effect">"Şeffaflığı buna"</string>
-    <string name="brick_set_brightness">"Parlaklığı düzenle "</string>
-    <string name="brick_change_brightness">"Parlaklığı buna"</string>
-    <string name="brick_set_color">"Rengi düzenle "</string>
-    <string name="brick_change_color">"Rengi buna"</string>
-    <string name="by_label">değiştir</string>
-    <string name="to_label">kaça</string>
-    <string name="brick_clear_graphic_effect">Grafik efektlerini temizle</string>
-    <string name="brick_next_look">Sonraki görüntü</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">Arka planı düzenle</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Arka planı değiştirin ve bekleyin</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Arka planı numarayla değiştir</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">Arka plan değiştiğinde</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">Boyutu değiştir</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">Boyutu buna değiştir</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">Gizle</string>
+    <string name="brick_show" tools:ignore="UnusedResources">Göster</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"Şeffaflığını düzenle"</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Şeffaflığı buna"</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"Parlaklığı düzenle "</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"Parlaklığı buna"</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Rengi düzenle "</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Rengi buna"</string>
+    <string name="by_label" tools:ignore="UnusedResources">değiştir</string>
+    <string name="to_label" tools:ignore="UnusedResources">kaça</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Grafik efektlerini temizle</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">Sonraki görüntü</string>
     <string name="brick_next_background">Sonraki arka plan</string>
-    <string name="brick_previous_look">Önceki görüntü</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">Önceki görüntü</string>
     <string name="brick_previous_background">Önceki arka plan</string>
-    <string name="brick_delete_look">Görüntüyü sil</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">Görünümü düzenle</string>
+    <string name="brick_edit_background">Arka planı değiştir</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">Görüntüyü sil</string>
     <string name="brick_delete_background">Arka planı sil</string>
-    <string name="brick_flash">Flash ışığını</string>
-    <string name="brick_flash_on">aç</string>
-    <string name="brick_flash_off">kapa</string>
-    <string name="brick_vibration">Titreşim için</string>
-    <string name="brick_ask_label">Sor</string>
-    <string name="brick_ask_store">ve yazılı cevabı şurada saklayın</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">Flash ışığını</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">aç</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">kapa</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">Titreşim için</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">Sor</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">ve yazılı cevabı şurada saklayın</string>
     <string name="brick_ask_default_question">Adınız ne?</string>
     <string name="brick_ask_dialog_hint">"Cevabınızı giriniz:"</string>
     <string name="brick_ask_dialog_submit">Cevabı Gönder</string>
-    <string name="brick_ask_speech_label">Sor</string>
-    <string name="brick_ask_speech_store">ve sözlü yanıtı saklayın</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">Sor</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">ve sözlü yanıtı saklayın</string>
     <string name="brick_ask_speech_default_question">Adınız ne?</string>
-    <string name="brick_paint_new_look">Yeni görünüm boya</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Yeni görünüm boya</string>
     <string name="brick_paint_new_background">Yeni arka planı boya</string>
     <string name="brick_paint_new_look_name">"Yeni gönümün adı"</string>
-    <string name="brick_copy_look">Görüntüyü kopyala ve isimlendir</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">Görüntüyü kopyala ve isimlendir</string>
     <string name="brick_copy_look_name">kopyalanan görüntüyü isimlendir</string>
     <string name="brick_copy_background">Arkaplanı kopyala ve isimlendir</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down">Kalem aşağı</string>
-    <string name="brick_pen_up">Kalem yukarı</string>
-    <string name="brick_pen_size">Kalem boyutunu şuna ayarla:</string>
-    <string name="brick_pen_color">Kalem rengini şuna ayarla:</string>
-    <string name="brick_clear_background">Temizle</string>
-    <string name="brick_stamp">Kopyalama Aracı</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">Kalem aşağı</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">Kalem yukarı</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">Kalem boyutunu şuna ayarla:</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Kalem rengini şuna ayarla:</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">Temizle</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">Kopyalama Aracı</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound">Sesi başlat</string>
-    <string name="brick_play_sound_and_wait">Sesi başlat ve bekle</string>
-    <string name="brick_stop_sound">Sesi durdur</string>
-    <string name="brick_stop_all_sounds">Tüm sesleri durdur</string>
-    <string name="brick_set_volume_to">Ses düzeyini</string>
-    <string name="brick_change_volume_by">Ses düzeyini değiştir</string>
-    <string name="brick_speak">Konuş</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">Sesi başlat</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">Sesi başlat ve bekle</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">Sesi durdur</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Tüm sesleri durdur</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">Ses düzeyini</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">Ses düzeyini değiştir</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">Konuş</string>
     <string name="brick_speak_default_value">Merhaba!</string>
-    <string name="brick_speak_and_wait">ve bekleyin</string>
-    <string name="brick_start_listening_to_voice">Sesi dinlemeye başlayın ve konuşulan kelimeleri</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">ve bekleyin</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Sesi dinlemeye başlayın ve konuşulan kelimeleri</string>
     <string name="speech_recognition_not_available">Konuşma tanıma kullanılamıyor.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Çevrimdışı veriler eksik</string>
     <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">%s için çevrimdışı konuşma tanıma eksik veya güncellenmesi gerekiyor. Şimdi indirmek veya güncellemek ister misiniz?</string>
-    <string name="brick_set_listening_language">Dinlenilen dili şuna ayarlayın:</string>
-    <string name="set_instrument_to">Enstrümanı şuna ayarla</string>
-    <string name="set_tempo_to">Tempoyu şuna ayarlayın:</string>
-    <string name="change_tempo_by">Tempoyu değiştir</string>
-    <string name="pause_for">Duraklat</string>
-    <string name="play_drum">Davul çal</string>
-    <string name="beats">vuruş</string>
-    <string name="play_note">Nota çal</string>
-    <string name="for_string">için</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Dinlenilen dili şuna ayarlayın:</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">Enstrümanı şuna ayarla</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">Tempoyu şuna ayarlayın:</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">Tempoyu değiştir</string>
+    <string name="pause_for" tools:ignore="UnusedResources">Duraklat</string>
+    <string name="play_drum" tools:ignore="UnusedResources">Davul çal</string>
+    <string name="beats" tools:ignore="UnusedResources">vuruş</string>
+    <string name="play_note" tools:ignore="UnusedResources">Nota çal</string>
+    <string name="for_string" tools:ignore="UnusedResources">için</string>
     <!--  -->
     <!-- Embroidery bricks -->
-    <string name="brick_stitch">Dikiş</string>
-    <string name="brick_running_stitch">Uzunluğunda dikişe başla</string>
-    <string name="brick_zigzag_stitch">Zikzak dikişi uzunluğunda başla</string>
-    <string name="brick_zigzag_stitch_width">ve genişlik</string>
-    <string name="brick_triple_stitch">Uzunluğu olan üçlü dikişi başlatın</string>
-    <string name="brick_stop_stitch">Mevcut dikişi durdur</string>
-    <string name="brick_write_embroidery">Nakış verilerini dosyaya yaz</string>
+    <string name="brick_stitch" tools:ignore="UnusedResources">Dikiş</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">Uzunluğunda dikişe başla</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Zikzak dikişi uzunluğunda başla</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">ve genişlik</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Uzunluğu olan üçlü dikişi başlatın</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Mevcut dikişi durdur</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Nakış verilerini dosyaya yaz</string>
     <string name="brick_default_embroidery_file">nakıs.dst</string>
-    <string name="brick_sew_up">Yukarı dik</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">Yukarı dik</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer">Zamanlayıcıyı sıfırla</string>
-    <string name="brick_open">Açık </string>
-    <string name="brick_in_browser">tarayıcıda</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">Zamanlayıcıyı sıfırla</string>
+    <string name="brick_open" tools:ignore="UnusedResources">Aç</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">tarayıcıda</string>
     <!-- Control bricks -->
-    <string name="brick_when_started">Program başladığında</string>
-    <string name="brick_when">Objeye dokunduğunda</string>
-    <string name="brick_when_condition_when">Ne zaman</string>
-    <string name="brick_when_becomes_true">Olurşa</string>
-    <string name="brick_wait">Bekleyin</string>
-    <string name="brick_wait_until">E\'kadar bekle</string>
-    <string name="brick_wait_until_second_part">doğru olunca</string>
-    <string name="brick_when_gamepad_button">Gamepad düğmesi</string>
-    <string name="brick_when_gamepad_button_tapped">dağılmış</string>
-    <string name="brick_when_nfc">NFC olduğunda</string>
-    <string name="brick_stop_script">Dur</string>
-    <string name="brick_stop_this_script">bu komut dosyası</string>
-    <string name="brick_stop_all_scripts">bütün scriptler</string>
-    <string name="brick_stop_other_scripts">bu Objenin diğer senaryoları</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">Program başladığında</string>
+    <string name="brick_when" tools:ignore="UnusedResources">Objeye dokunduğunda</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">Ne zaman</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">Olurşa</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">Bekleyin</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">E\'kadar bekle</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">doğru olunca</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">Gamepad düğmesi</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">dağılmış</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">NFC olduğunda</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">Dur</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">Bu komut dosyası</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">Bütün komut dosyaları</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">Bu objenin diğer komut dosyaları</string>
     <plurals name="second_plural">
         <item quantity="one">"saniye"</item>
         <item quantity="other">"saniye"</item>
     </plurals>
-    <string name="brick_collision_receive">Zıpladığın zaman</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">Zıpladığın zaman</string>
     <string name="collision_with_anything">Herşey</string>
-    <string name="brick_broadcast_receive">Aldığınızda</string>
-    <string name="brick_broadcast">Yayınla</string>
-    <string name="brick_broadcast_wait">Yayınla ve bekle</string>
-    <string name="brick_scene_transition">Sahneye kaldığı yerden devam</string>
-    <string name="brick_scene_start">Sahneyi başlat</string>
-    <string name="brick_note">Not</string>
-    <string name="brick_think_bubble">Düşün</string>
-    <string name="brick_say_bubble">Söylemek</string>
-    <string name="brick_think_say_for_text">için</string>
-    <string name="brick_forever">Daima</string>
-    <string name="brick_loop_for_values_from">Değerler için</string>
-    <string name="brick_loop_for_each_value_from">Her değer için</string>
-    <string name="brick_loop_in">içinde</string>
-    <string name="brick_loop_to">kaça</string>
-    <string name="brick_repeat">Yinele</string>
-    <string name="brick_repeat_until">E\'kadar tekrar edin</string>
-    <string name="brick_when_touched">Ekrana dokunduğunda</string>
-    <string name="brick_clone">Kopyasını oluştur</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Aldığınızda</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">Yayınla</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Yayınla ve bekle</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">Sahneye kaldığı yerden devam</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">Sahneyi başlat</string>
+    <string name="brick_note" tools:ignore="UnusedResources">Not</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">Düşün</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">Söylemek</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">için</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">Daima</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">Değerler için</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">Her değer için</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">içinde</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">kaça</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">Yinele</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">E\'kadar tekrar edin</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">Ekrana dokunduğunda</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">Kopyasını oluştur</string>
     <string name="brick_clone_this">kendin</string>
-    <string name="brick_when_cloned">Klon olarak başladığın zaman</string>
-    <string name="brick_delete_this_clone">Bu kopyayı sil</string>
-    <string name="brick_assert_that">Belirt</string>
-    <string name="brick_is_equal_to">eşittir beklenen</string>
-    <string name="brick_wait_till_idle">Diğer tüm komut dosyaları durana kadar
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">Klon olarak başladığın zaman</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Bu kopyayı sil</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">Belirt</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">eşittir beklenen</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Diğer tüm komut dosyaları durana kadar
 bekleyin</string>
-    <string name="brick_tap_at">"Tek dokunuş"</string>
-    <string name="brick_touch_at">"Dokunun"</string>
-    <string name="brick_tap_for">"için"</string>
-    <string name="brick_touch_slide">"Dokun ve kaydır"</string>
-    <string name="brick_touch_from_x">"x'ten itibaren:"</string>
-    <string name="brick_finish_stage">Projeden(oyundan) çık</string>
-    <string name="brick_finish_tests">Testi bitir(çık)</string>
-    <string name="brick_assert_lists">Onay listeleri</string>
-    <string name="brick_assert_actual">Gerçek:</string>
-    <string name="brick_assert_expected">Beklenen:</string>
-    <string name="brick_parameterized_assert">assert</string>
-    <string name="brick_parameterized_equals">beklenen öğeye eşittir</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"Tek dokunuş"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"Dokunun"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"için"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Dokun ve kaydır"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"x'ten itibaren:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">Projeden(oyundan) çık</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">Testi bitir(çık)</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">Onay listeleri</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">Gerçek:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">Beklenen:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">beklenen öğeye eşittir</string>
     <plurals name="brick_parameterized_foreach_plural">
         <item quantity="one">Her bir öğe için</item>
         <item quantity="other">Öğelerin her bir parçası için</item>
@@ -980,61 +988,58 @@ bekleyin</string>
         <item quantity="other">Kere</item>
     </plurals>
     <string name="brick_loop_end">Döngünün sonu</string>
-    <string name="brick_if_begin">Eğer</string>
-    <string name="brick_if_begin_second_part">doğruysa</string>
-    <string name="brick_if_else">Başka</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">Eğer</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">doğruysa</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">Başka</string>
     <string name="brick_if_end">Bitir eğer</string>
-    <string name="brick_set_variable">Değişkeni düzenle</string>
-    <string name="brick_change_variable">Değişkeni değiştir</string>
-    <string name="brick_write_variable_on_device">Cihaza değişkeni kaydet</string>
-    <string name="brick_read_variable_from_device">Cihaza kaydedilen değişkeni oku</string>
-    <string name="brick_write_variable_to_file_top">Değişkeni cihaza</string>
-    <string name="brick_write_variable_to_file_bottom">dosyala</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">Değişkeni düzenle</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">Değişkeni değiştir</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Cihaza değişkeni kaydet</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Cihaza kaydedilen değişkeni oku</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Değişkeni cihaza</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">dosyala</string>
     <string name="brick_write_variable_to_file_default_value">degisken.txt</string>
     <string name="brick_write_variable_to_file_success">"Veriler %1$s'ye başarıyla yazıldı"</string>
-    <string name="brick_read_variable_from_file_top">Değişkeni oku</string>
-    <string name="brick_read_variable_from_file_center">şu dosyadan</string>
-    <string name="brick_read_variable_from_file_bottom">ve</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Değişkeni oku</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">şu dosyadan</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">ve</string>
     <string name="brick_read_variable_from_file_keep">dosyayı sakla</string>
     <string name="brick_read_variable_from_file_delete">dosyayı sil</string>
-    <string name="brick_write_list_on_device">Cihaza liste yaz</string>
-    <string name="brick_read_list_from_device">Listeyi cihazdan oku</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Cihaza liste yaz</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Listeyi cihazdan oku</string>
     <string name="brick_note_default_value">buraya yorum ekle&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmm!</string>
     <string name="brick_say_bubble_default_value">Merhaba!</string>
     <string name="brick_broadcast_default_value">"Yeni mesaj"</string>
-    <string name="brick_add_item_to_userlist_add">Ekle</string>
-    <string name="brick_add_item_to_userlist">listeye eklemek</string>
-    <string name="brick_clear_userlist">Listedeki tüm öğeleri sil</string>
-    <string name="brick_delete_item_from_userlist_delete">Öğeyi listeden sil</string>
-    <string name="brick_delete_item_from_userlist">pozisyon</string>
-    <string name="brick_insert_item_into_userlist_insert_into">Ekle</string>
-    <string name="brick_insert_item_into_userlist_into_list">listeye eklemek</string>
-    <string name="brick_insert_item_into_userlist_at_position">pozisyon</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list">Listedeki öğeyi değiştir</string>
-    <string name="brick_replace_item_in_userlist_item_at_index">pozisyon</string>
-    <string name="brick_replace_item_in_userlist_with_value">ile</string>
-    <string name="brick_web_request">Web isteği gönder</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Ekle</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">listeye eklemek</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Listedeki tüm öğeleri sil</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Öğeyi listeden sil</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">pozisyon</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Ekle</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">listeye eklemek</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">pozisyon</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Listedeki öğeyi değiştir</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">pozisyon</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">ile</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">Web isteği gönder</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
-    <string name="brick_web_request_result">ve yanıtı saklayın</string>
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">ve yanıtı saklayın</string>
     <string name="web_request_warning_title">Web erişimine izin verilsin mi?</string>
     <string name="web_request_warning_message">Erişime izin vermeden önce çok dikkatli olun, çünkü bağlantısı kesin coğrafi konumunuz veya herhangi bir metin gibi kişisel bilgilerinizi açığa çıkarabilir
 &lt;a href=%1s&gt;wiki&lt;/a&gt;başkalarına veya halka kötü niyetine çıkarabilir</string>
     <string name="web_request_trust_domain_warning_title">Web erişimine her zaman izin verilsin mi?</string>
     <string name="web_request_trust_domain_warning_message">Her zaman erişime izin verdiğinizde, bu etki alanındaki web adreslerini tekrar onaylamanız istenmez.</string>
     <string name="trusted_domains_edit_hint">Bu izni daha sonra iptal etmek isterseniz, girişi bu uygulamanın ayarlarındaki güvenilen alanlar listesinden kaldırabilirsiniz.</string>
-    <string name="brick_look_request">Şu kaynaktan resim al:</string>
-    <string name="brick_look_request_default_value">https://catrob.at/penguin</string>
-    <string name="brick_background_request_default_value_portrait">https://catrob.at/HalloweenPortrait</string>
-    <string name="brick_background_request_default_value_landscape">https://catrob.at/HalloweenLandscape</string>
-    <string name="brick_look_request_result">ve güncel görüntü olarak kullan</string>
-    <string name="brick_background_request_result">ve geçerli arka plan olarak kullan</string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">Şu kaynaktan resim al:</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">ve güncel görüntü olarak kullan</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">ve geçerli arka plan olarak kullan</string>
     <string name="look_request_http_error_message">"%1$s'den resim al %2$s HTTP hatası döndürdü"</string>
     <string name="look_request_type_error_message">"%1$s kaynağından görüntü al tanınan bir görüntü biçimini alamadı"</string>
-    <string name="brick_store_csv_into_userlist_store">Mağaza sütunu</string>
-    <string name="brick_store_csv_into_userlist_of">nın</string>
-    <string name="brick_store_csv_into_userlist_csv">virgülle-ayrılmış değerler</string>
-    <string name="brick_store_csv_into_userlist_into">listeye ekle</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Mağaza sütunu</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">nın</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">virgülle-ayrılmış değerler</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">listeye ekle</string>
     <string name="brick_store_csv_into_userlist_data">pisi,sevimli\npuppy, yaramaz\noctopus,akıllı</string>
     <!--  -->
     <!--Instruments-->
@@ -1082,7 +1087,11 @@ bekleyin</string>
     <!--  -->
     <!-- Default Values -->
     <string name="default_project_name">Projem</string>
-    <string name="default_scene_name">Sahne %1$d</string>
+    <string name="default_variable_name">Değişken</string>
+    <string name="default_scene_name">Sahne (%1$d)</string>
+    <string name="default_script_group_name">Komut dosyası grubu</string>
+    <string name="default_broadcast_message_name">Mesaj</string>
+    <string name="default_list_name">Liste</string>
     <string name="default_project_background_name">Arka plan</string>
     <string name="default_project_cloud_name">Bulutlar</string>
     <string name="default_project_cloud_sprite_name_1">Bulutlar 1</string>
@@ -1111,7 +1120,7 @@ bekleyin</string>
     <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
     <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
     <string name="default_cast_project_var_direction">yön</string>
-    <string name="default_cast_project_name">İlk oyuncu programım</string>
+    <string name="default_cast_project_name">İlk Chromecast programım</string>
     <!-- Default Drone Values -->
     <string name="drone_brick_set_text">Metin</string>
     <string name="drone_brick_set_x">X:</string>
@@ -1155,10 +1164,10 @@ bekleyin</string>
     <string name="notification_upload_rejected">Yüklenen program rededildi</string>
     <string name="notification_upload_retry">Yeniden deneyin</string>
     <string name="notification_open_play_store">Google play\'de aç</string>
-    <string name="notification_download_title_pending">"İndiriliyor&#8230;"</string>
-    <string name="notification_download_pending">İndirme devam ediyor&#8230;</string>
+    <string name="notification_download_title_pending">"İndiriliyor…"</string>
+    <string name="notification_download_pending">İndirme devam ediyor…</string>
     <string name="notification_download_finished">İndirme başarılı oldu</string>
-    <string name="notification_title_open">"Açık "</string>
+    <string name="notification_title_open">"Aç"</string>
     <string name="notification_low_battery_with_value">Dikkat! Pil zayıf! Mevcut durum %d</string>
     <string name="size_of_project">Boyut:</string>
     <string name="drone_emergency_battery_low">Düşük pil (otomatik iniş).</string>
@@ -1177,7 +1186,7 @@ bekleyin</string>
     <string name="error_project_upload">Programı yüklerken bir hata oluştu.</string>
     <string name="error_project_download">Programı yüklerken bir hata oluştu.</string>
     <string name="error_project_already_in_queue">"%s projesi zaten sırada."</string>
-    <string name="error_could_not_decode_project_name_from_url">"İndirme işleminiz başlatılamadı, sunucumuzda bir sorun var gibi görünüyor."</string>
+    <string name="error_could_not_decode_project_name_from_url">İndirme işleminiz başlatılamadı, sunucumuzda bir sorun var gibi görünüyor.</string>
     <string name="error_new_project">Yeni program oluşturulurken bir hata oluştu.</string>
     <string name="error_rename_scene">Sayfayı yeniden adlandırırken bir hata oluştu.</string>
     <string name="error_load_project">Program yüklenirken bir hata oluştu.</string>
@@ -1227,20 +1236,20 @@ bekleyin</string>
     <string name="none_paired">Eşleştirilmemiş aygıt bulunamadı</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value">Arduino dijital pinini ayarla</string>
-    <string name="brick_arduino_select_analog_value">Arduino PWM~ pinini ayarla</string>
-    <string name="brick_arduino_set_pin_value_to">kaça</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Arduino dijital pinini ayarla</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Arduino PWM~ pinini ayarla</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">kaça</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value">Raspberry Pi pinini ayarla</string>
-    <string name="brick_raspi_set_pin_value_to">kaça</string>
-    <string name="brick_raspi_if_begin">Raspberry Pi pimi ise</string>
-    <string name="brick_raspi_if_begin_second_part">doğruysa</string>
-    <string name="brick_raspi_when_begin">Raspberry Pi pimi</string>
-    <string name="brick_raspi_when_equals">olarak değişir</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Raspberry Pi pinini ayarla</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">kaça</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">Raspberry Pi pimi ise</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">doğruysa</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">Raspberry Pi pimi</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">olarak değişir</string>
     <string name="brick_raspi_pressed_text">yüksek</string>
     <string name="brick_raspi_released_text">düşük</string>
-    <string name="brick_raspi_set_pwm">Raspberry Pi PWM pinini ayarla</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Raspberry Pi PWM pinini ayarla</string>
     <!--  -->
     <!-- Raspi Settings -->
     <string name="raspi_settings_title_name">Raspberry Pi ayarları</string>
@@ -1248,16 +1257,16 @@ bekleyin</string>
     <string name="error_connecting_to">Hata: %s ile bağlantı kurulamadı: %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move">NXT motorunu ayarla</string>
-    <string name="nxt_motor_speed_to">kaça</string>
-    <string name="nxt_motor_speed">hız</string>
-    <string name="nxt_brick_motor_turn_angle">NXT motorunu çevir</string>
-    <string name="nxt_motor_move_by">değiştir</string>
-    <string name="nxt_motor_stop">NXT motorunu durdur</string>
-    <string name="nxt_play_tone">NXT tonu çal</string>
-    <string name="nxt_tone_duration">Süre</string>
-    <string name="nxt_tone_frequency">Frekans</string>
-    <string name="nxt_tone_hundred_hz">x100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">NXT motorunu ayarla</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">kaça</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">hız</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">NXT motorunu çevir</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">değiştir</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">NXT motorunu durdur</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">NXT tonu çal</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">Süre</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Frekans</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100Hz</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
@@ -1312,15 +1321,15 @@ bekleyin</string>
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">Tüm</string>
-    <string name="ev3_play_tone">EV3 tonunu çal</string>
-    <string name="ev3_tone_duration_for">için</string>
-    <string name="ev3_tone_volume">Ses</string>
-    <string name="ev3_tone_percent">%</string>
-    <string name="ev3_motor_stop">EV3 motorunu durdur</string>
-    <string name="ev3_motor_move">EV3 motorunu ayarla</string>
-    <string name="ev3_brick_motor_turn_angle">EV3 motoruna dön</string>
-    <string name="ev3_motor_move_by">değiştir</string>
-    <string name="ev3_set_led_status">EV3 LED durumunu ayarla</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">EV3 tonunu çal</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">için</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">Ses</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">EV3 motorunu durdur</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">EV3 motorunu ayarla</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">EV3 motoruna dön</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">değiştir</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">EV3 LED durumunu ayarla</string>
     <string name="ev3_led_status_off">Kapalı</string>
     <string name="ev3_led_status_green">Yeşil</string>
     <string name="ev3_led_status_red">Kırmızı</string>
@@ -1333,76 +1342,76 @@ bekleyin</string>
     <string name="ev3_led_status_orange_pulse">Turuncu sinyal</string>
     <!--  -->
     <!-- Drone Bricks -->
-    <string name="brick_drone_takeoff_land">Kalkış / arazi AR.Drone 2.0</string>
-    <string name="brick_drone_play_led_animation">AR.Drone 2.0 flaş animasyonunu oynat</string>
-    <string name="brick_drone_flip">Flip AR.Drone 2.0</string>
-    <string name="brick_drone_move_left">AR.Drone\'unu sola taşı</string>
-    <string name="brick_drone_move_right">AR.Drone\'unu sağa taşı</string>
-    <string name="brick_drone_move_forward">AR.Drone\'unu ileri taşı</string>
-    <string name="brick_drone_move_backward">AR.Drone\'unu geriye taşı</string>
-    <string name="brick_drone_move_up">AR.Drone\'unu yukarı taşı</string>
-    <string name="brick_drone_move_down">AR.Drone\'unu aşağı taşı</string>
-    <string name="brick_drone_emergency">AR.Drone 2.0 Acil Durum</string>
-    <string name="brick_drone_turn_right">AR.Drone 2.0\'ı sağa döndür</string>
-    <string name="brick_drone_turn_left">AR.Drone 2.0\'ı sola döndür</string>
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">Kalkış / arazi AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">AR.Drone 2.0 flaş animasyonunu oynat</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">Flip AR.Drone 2.0</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources">AR.Drone\'unu sola taşı</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources">AR.Drone\'unu sağa taşı</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources">AR.Drone\'unu ileri taşı</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources">AR.Drone\'unu geriye taşı</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources">AR.Drone\'unu yukarı taşı</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources">AR.Drone\'unu aşağı taşı</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">AR.Drone 2.0 Acil Durum</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources">AR.Drone 2.0\'ı sağa döndür</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources">AR.Drone 2.0\'ı sola döndür</string>
     <string name="brick_drone_set_config">AR.Drone 2.0 yapılandırmasını ayarla</string>
-    <string name="brick_drone_switch_camera">AR.Drone 2.0 kamerayı değiştir</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">AR.Drone 2.0 kamerayı değiştir</string>
     <string name="brick_drone_set_altitude">Yükseklik sınırı</string>
     <string name="brick_drone_set_vertical_speed">Dikey hız sınırı</string>
     <string name="brick_drone_set_rotation_speed">Dönme hızı limiti</string>
     <string name="brick_drone_set_tilt_limit">Eğim sınırı</string>
-    <string name="brick_drone_with.">ile</string>
-    <string name="brick_drone_power">güç</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">ile</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">güç</string>
     <!--  -->
     <!-- Drone play led animation strings -->
-    <string name="drone_animation_blinkgreenred">Yanıp sönen yeşil kırmızı</string>
-    <string name="drone_animation_blinkgreen">Yanıp sönen yeşil</string>
-    <string name="drone_animation_blinkred">Kırmızı yanıp sönme</string>
-    <string name="drone_animation_blinkorange">Turuncu yanıp sönme</string>
-    <string name="drone_animation_snakegreenred">Yılan yeşil kırmızı</string>
-    <string name="drone_animation_fire">Ateş</string>
-    <string name="drone_animation_standard">Standart</string>
-    <string name="drone_animation_red">Kırmızı</string>
-    <string name="drone_animation_green">Yeşil</string>
-    <string name="drone_animation_redsnake">Kırmızı yılan</string>
-    <string name="drone_animation_blank">Boş</string>
-    <string name="drone_animation_rightmissile">Doğru füze</string>
-    <string name="drone_animation_leftmissile">Sol füze</string>
-    <string name="drone_animation_doublemissile">Çift füze</string>
-    <string name="drone_animation_frontleftgreenothersred">Ön sol yeşil diğerleri kırmızı</string>
-    <string name="drone_animation_frontrightgreenothersred">Ön sağ yeşil diğerleri kırmızı</string>
-    <string name="drone_animation_rearrightgreenothersred">Arka sağ yeşil diğerleri kırmızı</string>
-    <string name="drone_animation_rearleftgreenothersred">Arka sol yeşil diğerleri kırmızı</string>
-    <string name="drone_animation_leftgreenrightred">Sol yeşil sağ kırmızı</string>
-    <string name="drone_animation_leftredrightgreen">Sol kırmızı sağ yeşil</string>
-    <string name="drone_animation_blinkstandard">Göz kırpma standardı</string>
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">Yanıp sönen yeşil kırmızı</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">Yanıp sönen yeşil</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">Kırmızı yanıp sönme</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Turuncu yanıp sönme</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Yılan yeşil kırmızı</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">Ateş</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">Standart</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">Kırmızı</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">Yeşil</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Kırmızı yılan</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">Boş</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Doğru füze</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">Sol füze</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">Çift füze</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">Ön sol yeşil diğerleri kırmızı</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">Ön sağ yeşil diğerleri kırmızı</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">Arka sağ yeşil diğerleri kırmızı</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">Arka sol yeşil diğerleri kırmızı</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">Sol yeşil sağ kırmızı</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">Sol kırmızı sağ yeşil</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">Göz kırpma standardı</string>
     <!-- Jumping Sumo Bricks -->
-    <string name="brick_jumping_sumo_move_forward">Zıplama Sumo\'yu ileriye taşı</string>
-    <string name="brick_jumping_sumo_move_backward">Zıplayan Sumo\'yu geriye doğru hareket ettirin</string>
-    <string name="brick_jumping_sumo_animation">Jumping Sumo Animasyonları</string>
-    <string name="brick_jumping_sumo_no_sound">Zıplama Sumo sesi yok</string>
-    <string name="brick_jumping_sumo_jump_long">Zıplama Sumo Uzun</string>
-    <string name="brick_jumping_sumo_jump_high">Sumo yüksek atlama atlama</string>
-    <string name="brick_jumping_sumo_rotate_left">Jumping Sumo\'yu sola döndür</string>
-    <string name="brick_jumping_sumo_rotate_right">Jumping Sumo\'yu sağa döndür</string>
-    <string name="brick_jumping_sumo_rotate_text">derece</string>
-    <string name="brick_jumping_sumo_turn">Flip Jumping Sumo</string>
-    <string name="brick_jumping_sumo_taking_picture">Fotoğraf çekimi Sumo atlama</string>
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">Zıplama Sumo\'yu ileriye taşı</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">Zıplayan Sumo\'yu geriye doğru hareket ettirin</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">Jumping Sumo Animasyonları</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">Zıplama Sumo sesi yok</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">Zıplama Sumo Uzun</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Sumo yüksek atlama atlama</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Jumping Sumo\'yu sola döndür</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Jumping Sumo\'yu sağa döndür</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">derece</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Fotoğraf çekimi Sumo atlama</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound">Ses</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Ses</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
-    <string name="animation_spin">Döndür</string>
-    <string name="animation_tab">Sekme</string>
-    <string name="animation_slowshake">Slowshake</string>
-    <string name="animation_metronome">Metronom</string>
-    <string name="animation_ondulation">ondulation</string>
-    <string name="animation_spinjump">Spinjump</string>
-    <string name="animation_spiral">Sarmal</string>
-    <string name="animation_slalom">Slalom</string>
+    <string name="animation_spin" tools:ignore="UnusedResources">Döndür</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">Sekme</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">Slowshake</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">Metronom</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">ondulation</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">Spinjump</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">Sarmal</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">Slalom</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume">Ses</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">Ses</string>
     <string name="sound_default">Normal</string>
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Böcek</string>
@@ -1410,23 +1419,23 @@ bekleyin</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop">Phiro motorunu durdur</string>
-    <string name="brick_phiro_motor_forward_action">Phiro motorunu ileri taşı</string>
-    <string name="brick_phiro_motor_backward_action">Phiro motorunu geriye taşı</string>
-    <string name="phiro_motor_speed">Hız</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Phiro motorunu durdur</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Phiro motorunu ileri taşı</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">Phiro motorunu geriye taşı</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">Hız</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin">Phiro ise</string>
-    <string name="brick_phiro_sensor_second_part">aktif edilir</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">Phiro ise</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">aktif edilir</string>
     <!-- tone -->
-    <string name="phiro_play_tone">Phiro müziği çal\n</string>
-    <string name="phiro_tone_duration">Süre</string>
-    <string name="brick_phiro_select_tone">ton</string>
-    <string name="phiro_seconds">saniyeler</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">Phiro müziği çal\n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">Süre</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">ton</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">saniyeler</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action">Phiro ışığını ayarla</string>
-    <string name="phiro_rgb_led_red">Kırmızı</string>
-    <string name="phiro_rgb_led_green">Yeşil</string>
-    <string name="phiro_rgb_led_blue">Mavi</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Phiro ışığını ayarla</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">Kırmızı</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">Yeşil</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">Mavi</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1463,9 +1472,8 @@ bekleyin</string>
     <string name="formula_editor_data">Veri</string>
     <string name="formula_editor_true">Doğru</string>
     <string name="formula_editor_false">Yanlış</string>
-    <string name="formula_editor_decimal_mark">.</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
     <string name="formula_editor_title">Formül Düzenleyicisi</string>
-    <string name="formula_editor_changes_saved">Değişiklikler kaydedildi!</string>
     <string name="formula_editor_changes_discarded">Değişiklikler çıkarıldı!</string>
     <string name="formula_editor_parse_fail">Formül geçerli değil!</string>
     <string name="formula_nothing_selected">Giriş değeri ver</string>
@@ -1473,62 +1481,62 @@ bekleyin</string>
     <string name="formula_editor_choose_object_variable">Bu nesnenin özellikleri</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
-    <string name="formula_editor_function_sin">günah</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">günah</string>
     <string name="formula_editor_function_sin_parameter">(0)</string>
-    <string name="formula_editor_function_cos">Cos</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">Cos</string>
     <string name="formula_editor_function_cos_parameter">(360)</string>
-    <string name="formula_editor_function_tan">ten rengi</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">ten rengi</string>
     <string name="formula_editor_function_tan_parameter">(45)</string>
-    <string name="formula_editor_function_ln">Içinde</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">Içinde</string>
     <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
-    <string name="formula_editor_function_log">log</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">log</string>
     <string name="formula_editor_function_log_parameter">(10)</string>
-    <string name="formula_editor_function_pi">pi</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color">renk</string>
-    <string name="formula_editor_function_sqrt">karekök</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">renk</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">karekök</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand">rastgele</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">rastgele</string>
     <string name="formula_editor_function_rand_parameter">(0,1)</string>
-    <string name="formula_editor_function_abs">abs</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">abs</string>
     <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round">yuvarlak</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">yuvarlak</string>
     <string name="formula_editor_function_round_parameter">(1.6)</string>
-    <string name="formula_editor_function_mod">mod</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">mod</string>
     <string name="formula_editor_function_mod_parameter">(1,1)</string>
-    <string name="formula_editor_function_arcsin">arcsin</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsin</string>
     <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
-    <string name="formula_editor_function_arccos">arccos</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccos</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
-    <string name="formula_editor_function_arctan">arctan</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctan</string>
     <string name="formula_editor_function_arctan_parameter">(1)</string>
-    <string name="formula_editor_function_arctan2">arctangent2</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
-    <string name="formula_editor_function_exp">üs</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">üs</string>
     <string name="formula_editor_function_exp_parameter">(1)</string>
-    <string name="formula_editor_function_power">güç</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">güç</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor">zemin</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">zemin</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil">tavan</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">tavan</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max">maksimum</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">maksimum</string>
     <string name="formula_editor_function_max_parameter">(5,4)</string>
-    <string name="formula_editor_function_min">minimum</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">minimum</string>
     <string name="formula_editor_function_min_parameter">(7,2)</string>
     <string name="formula_editor_function_if_then_else">eğer öyleyse</string>
     <string name="formula_editor_function_if_then_else_parameter">(yanlış, 2, 3)</string>
-    <string name="formula_editor_function_true">doğru</string>
-    <string name="formula_editor_function_false">yanlış</string>
-    <string name="formula_editor_function_length">Uzunluk</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">doğru</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">yanlış</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">Uzunluk</string>
     <string name="formula_editor_function_length_parameter">(\'Merhaba Dünya\')</string>
-    <string name="formula_editor_function_letter">mektup</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">mektup</string>
     <string name="formula_editor_function_letter_parameter">(1, \'Merhaba Dünya\')</string>
-    <string name="formula_editor_function_join">katıl</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">katıl</string>
     <string name="formula_editor_function_join_parameter">(\'Selam\',\' Dünya\')</string>
     <string name="formula_editor_function_join3">katıl</string>
     <string name="formula_editor_function_join3_parameter">(\'merhaba\',\' dünya\',\'!\')</string>
-    <string name="formula_editor_function_regex">Düzenli ifade</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">Düzenli ifade</string>
     <string name="formula_editor_function_regex_parameter">(\' bir? ([^ .]+)\',\'Ben bir pandayım.\')</string>
     <string name="formula_editor_function_regex_assistant">Düzenli ifade
         asistan</string>
@@ -1537,72 +1545,75 @@ bekleyin</string>
     <string name="formula_editor_dialog_wiki_button">Daha fazla bilgi</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">Anahtar kelime bulunamadı.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON çıkarıcı</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital">arduino dijital pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog">arduino analog pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital">raspberry_pi_pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino dijital pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino analog pin</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry_pi_pin</string>
     <string name="formula_editor_function_pin_default_parameter">(0)</string>
-    <string name="formula_editor_function_finger_x">sahne dokunuşu x</string>
-    <string name="formula_editor_function_finger_y">sahne dokunuşu</string>
-    <string name="formula_editor_function_is_finger_touching">sahne\'ye dokundu</string>
-    <string name="formula_editor_function_multi_finger_x">sahne dokunuşu x</string>
-    <string name="formula_editor_function_multi_finger_y">sahne dokunuşu</string>
-    <string name="formula_editor_function_is_multi_finger_touching">sahne\'ye dokundu</string>
-    <string name="formula_editor_function_index_of_last_finger">son aşama dokunmatik endeksi</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">sahne dokunuşu x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">sahne dokunuşu</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">sahne\'ye dokundu</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">sahne dokunuşu x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">sahne dokunuşu</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">sahne\'ye dokundu</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">son aşama dokunmatik endeksi</string>
     <string name="formula_editor_function_number_of_current_touches">mevcut dokunuşların sayısı</string>
+    <string name="formula_editor_function_index_of_current_touch">mevcut dokunuş indeksi</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(2)</string>
-    <string name="formula_editor_function_list_item">öğeler</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">öğeler</string>
     <string name="formula_editor_function_list_item_parameter">(1,*liste adı*)</string>
-    <string name="formula_editor_function_contains">içeren</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">içeren</string>
     <string name="formula_editor_function_contains_parameter">(*liste adı*,1)</string>
-    <string name="formula_editor_function_index_of_item">öğenin dizini</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">öğenin dizini</string>
     <string name="formula_editor_function_index_of_item_parameter">(1,*liste adı*)</string>
-    <string name="formula_editor_function_number_of_items">öğe sayısı</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">öğe sayısı</string>
     <string name="formula_editor_function_number_of_items_parameter">(*liste adı*)</string>
     <string name="formula_editor_function_collision">Objeye dokunursa</string>
-    <string name="formula_editor_function_collides_with_edge">kenara dokunursa</string>
-    <string name="formula_editor_function_touched">Objeye eli ile dokunursa</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">kenara dokunursa</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">Objeye eli ile dokunursa</string>
     <string name="formula_editor_function_collides_with_color">renge dokunur</string>
     <string name="formula_editor_function_color_touches_color">renk rengi dokunur</string>
     <string name="formula_editor_sensor_color_at_x_y">x y\'de renk</string>
-    <string name="formula_editor_sensor_x_acceleration">x_ivmesi</string>
-    <string name="formula_editor_sensor_y_acceleration">y_ivmesi</string>
-    <string name="formula_editor_sensor_z_acceleration">z_ivmesi</string>
-    <string name="formula_editor_sensor_compass_direction">pusula_yönü </string>
-    <string name="formula_editor_sensor_latitude">enlem</string>
-    <string name="formula_editor_sensor_longitude">boylam</string>
-    <string name="formula_editor_sensor_location_accuracy">konum doğruluğu</string>
-    <string name="formula_editor_sensor_altitude">yükseklik</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">Renk %
+        toleransla rengine eşittir</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">x_ivmesi</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">y_ivmesi</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">z_ivmesi</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">pusula_yönü </string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">enlem</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">boylam</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">konum doğruluğu</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">yükseklik</string>
     <string name="formula_editor_sensor_user_language">kullanıcı dili</string>
-    <string name="formula_editor_sensor_x_inclination">x_eğim açısı</string>
-    <string name="formula_editor_sensor_y_inclination">y_eğim açısı</string>
-    <string name="formula_editor_sensor_loudness">ses gürlüğü</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">x_eğim açısı</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">y_eğim açısı</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">ses gürlüğü</string>
     <string name="formula_editor_sensor_timer">Zamanlayıcı</string>
-    <string name="formula_editor_sensor_date_year">yıl</string>
-    <string name="formula_editor_sensor_date_month">ay</string>
-    <string name="formula_editor_sensor_date_day">gün</string>
-    <string name="formula_editor_sensor_date_weekday">hafta içi</string>
-    <string name="formula_editor_sensor_time_hour">saat</string>
-    <string name="formula_editor_sensor_time_minute">dakika</string>
-    <string name="formula_editor_sensor_time_second">saniye</string>
-    <string name="formula_editor_sensor_drone_battery_status">dron_pil_durum</string>
-    <string name="formula_editor_sensor_drone_emergency_state">drone acil durum</string>
-    <string name="formula_editor_sensor_drone_flying">drone uçuyor</string>
-    <string name="formula_editor_sensor_drone_initialized">drone başlatıldı</string>
-    <string name="formula_editor_sensor_drone_usb_active">drone usb etkin</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time">drone usb kalan süresi</string>
-    <string name="formula_editor_sensor_drone_camera_ready">dron_kamera_hazır</string>
-    <string name="formula_editor_sensor_drone_record_ready">dron_kayıt_hazır</string>
-    <string name="formula_editor_sensor_drone_recording">drone kamera kayıt</string>
-    <string name="formula_editor_sensor_drone_num_frames">drone kamera kare sayısı</string>
-    <string name="formula_editor_sensor_lego_nxt_1">NXT_sensör_1</string>
-    <string name="formula_editor_sensor_lego_nxt_2">NXT_sensör_2</string>
-    <string name="formula_editor_sensor_lego_nxt_3">NXT_senör_3</string>
-    <string name="formula_editor_sensor_lego_nxt_4">NXT sensörü 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1">EV3_sensör_1</string>
-    <string name="formula_editor_sensor_lego_ev3_2">EV3_sensör_1</string>
-    <string name="formula_editor_sensor_lego_ev3_3">EV3_sensör_3</string>
-    <string name="formula_editor_sensor_lego_ev3_4">EV3_sensör_4</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">yıl</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">ay</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">gün</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">hafta içi</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">saat</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">dakika</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">saniye</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">dron_pil_durum</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">drone acil durum</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">drone uçuyor</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">drone başlatıldı</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">drone usb etkin</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">drone usb kalan süresi</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">dron_kamera_hazır</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">dron_kayıt_hazır</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">drone kamera kayıt</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">drone kamera kare sayısı</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT_sensör_1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT_sensör_2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT_senör_3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT sensörü 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3_sensör_1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3_sensör_1</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3_sensör_3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3_sensör_4</string>
     <string name="formula_editor_sensor_lego_nxt_touch">NXT dokunmatik</string>
     <string name="formula_editor_sensor_lego_nxt_sound">NXT sesi</string>
     <string name="formula_editor_sensor_lego_nxt_light">NXT ışığı</string>
@@ -1620,35 +1631,35 @@ bekleyin</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT ışığı etkin</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sesi</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonik</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed">gamepad A basılı</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed">gamepad B basılı</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed">gamepad yukarı basılı</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed">gamepad aşağı basılı</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed">gamepad sol basılı</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed">gamepad sağ basılı</string>
-    <string name="formula_editor_phiro_sensor_front_left">phiro ön sol sensör</string>
-    <string name="formula_editor_phiro_sensor_front_right">phiro sağ ön sensör</string>
-    <string name="formula_editor_phiro_sensor_side_left">phiro sol taraf sensörü</string>
-    <string name="formula_editor_phiro_sensor_side_right">phiro sağ yan sensör</string>
-    <string name="formula_editor_phiro_sensor_bottom_left">phiro sol alt sensör</string>
-    <string name="formula_editor_phiro_sensor_bottom_right">phiro sağ alt sensör</string>
-    <string name="formula_editor_nfc_tag_id">nfc etiket kimliği</string>
-    <string name="formula_editor_nfc_tag_message">nfc etiket mesajı</string>
-    <string name="formula_editor_object_x">konum_x</string>
-    <string name="formula_editor_object_y">konum_y</string>
-    <string name="formula_editor_object_transparency">şeffaflık</string>
-    <string name="formula_editor_object_brightness">parlaklık</string>
-    <string name="formula_editor_object_size">boyut</string>
-    <string name="formula_editor_object_rotation">yön</string>
-    <string name="formula_editor_object_layer">Katman</string>
-    <string name="formula_editor_object_x_velocity">x hızı</string>
-    <string name="formula_editor_object_y_velocity">y hızı</string>
-    <string name="formula_editor_object_angular_velocity">açısal hız</string>
-    <string name="formula_editor_object_look_number">Görüntü numarası</string>
-    <string name="formula_editor_object_look_name">görüntü adı</string>
-    <string name="formula_editor_object_background_number">arka plan numarası</string>
-    <string name="formula_editor_object_background_name">arka plan adı</string>
-    <string name="formula_editor_object_distance_to">dokunma pozisyonuna olan mesafe</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad A basılı</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad B basılı</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad yukarı basılı</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">gamepad aşağı basılı</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">gamepad sol basılı</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">gamepad sağ basılı</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro ön sol sensör</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro sağ ön sensör</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro sol taraf sensörü</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro sağ yan sensör</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro sol alt sensör</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro sağ alt sensör</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc etiket kimliği</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc etiket mesajı</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">konum_x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">konum_y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">şeffaflık</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">parlaklık</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">boyut</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">yön</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">Katman</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x hızı</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y hızı</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">açısal hız</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">Görüntü numarası</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">görüntü adı</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">arka plan numarası</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">arka plan adı</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">dokunma pozisyonuna olan mesafe</string>
     <string name="formula_editor_compute">Hesapla</string>
     <string name="formula_editor_object">Nesne</string>
     <string name="formula_editor_functions">Fonksiyonlar</string>
@@ -1660,7 +1671,7 @@ bekleyin</string>
     <string name="formula_editor_functions_lists">Listeler</string>
     <string name="formula_editor_logic_boolean">Mantıksal (Boolean) operatörler ve sabitler</string>
     <string name="formula_editor_logic_comparison">Karşılaştırma Operatörleri</string>
-    <string name="formula_editor_object_general">Genel özellikler</string>
+    <string name="formula_editor_object_look">Görünüm özellikleri</string>
     <string name="formula_editor_object_movement">Hareket özellikleri</string>
     <string name="formula_editor_device_visual_detection">Görsel sensörler</string>
     <string name="formula_editor_device_date_and_time">Tarih ve zaman</string>
@@ -1672,23 +1683,25 @@ bekleyin</string>
     <string name="formula_editor_device_raspberry">Raspberry Pi</string>
     <string name="formula_editor_device_drone">İnsansız hava aracı</string>
     <string name="formula_editor_device_nfc">NFC</string>
-    <string name="formula_editor_device_cast">Yayınla</string>
+    <string name="formula_editor_device_cast">Chromecast</string>
     <string name="formula_editor_string">Abc</string>
-    <string name="formula_editor_logic_notequal">≠</string>
-    <string name="formula_editor_logic_lesserthan">&lt;</string>
-    <string name="formula_editor_logic_greaterthan">&gt;</string>
-    <string name="formula_editor_logic_and">ve</string>
-    <string name="formula_editor_logic_or">yada</string>
-    <string name="formula_editor_logic_not">değil</string>
-    <string name="formula_editor_logic_greaterequal">≥</string>
-    <string name="formula_editor_logic_leserequal">≤</string>
-    <string name="formula_editor_logic_equal">=</string>
-    <string name="formula_editor_operator_mult">×</string>
-    <string name="formula_editor_operator_plus">+</string>
-    <string name="formula_editor_operator_minus">-</string>
-    <string name="formula_editor_operator_divide">÷</string>
-    <string name="formula_editor_operator_power">^</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">ve</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">yada</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">değil</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">Sil</string>
+    <string name="formula_editor_image_button_description_color_picker">renk seçici</string>
+    <string name="formula_editor_image_button_description_functions_toggle">geçiş işlevleri</string>
     <string name="formula_editor_variable_dialog_title">Yeni değişken</string>
     <string name="formula_editor_list_dialog_title">Yeni liste</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML çıkarıcı</string>
@@ -1700,17 +1713,27 @@ bekleyin</string>
         ifade</string>
     <string name="formula_editor_fragment_data_current_items">şuan ki eşyalar</string>
     <string name="formula_editor_data_dialog_is_list">Liste yap</string>
-    <string name="formula_editor_sensor_face_detected">bir_yüz_bulundu</string>
-    <string name="formula_editor_sensor_face_size">yüz_boyutlar</string>
-    <string name="formula_editor_sensor_face_x_position">yüzün_x_pozisyonu</string>
-    <string name="formula_editor_sensor_face_y_position">yüzün_y_pozisyonu</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">bir_yüz_bulundu</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">yüz_boyutlar</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">yüzün_x_pozisyonu</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">yüzün_y_pozisyonu</string>
+    <string name="formula_editor_sensor_second_face_detected">ikinci yüz görünür</string>
+    <string name="formula_editor_sensor_second_face_size">ikinci yüz boyutu</string>
+    <string name="formula_editor_sensor_second_face_x_position">ikinci yüz x konumu</string>
+    <string name="formula_editor_sensor_second_face_y_position">ikinci yüz y konumu</string>
     <string name="formula_editor_sensor_text_from_camera">kameradan metin</string>
     <string name="formula_editor_sensor_text_blocks_number">metin bloklarının sayısı</string>
     <string name="formula_editor_function_text_block_x">kameradan x\'e metin bloğu</string>
     <string name="formula_editor_function_text_block_y">kameradan y\'e metin bloğu</string>
     <string name="formula_editor_function_text_block_size">kameradan gelen metin bloğu boyutu</string>
+    <string name="formula_editor_function_text_block_from_camera">kameradan gelen metin bloğu</string>
+    <string name="formula_editor_function_text_block_language_from_camera">kameradan gelen metin bloğu dili</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">Formül düzenleyicisi</string>
-    <string name="formula_editor_intro_summary_formula_editor">Formül düzenleyici, tuğlalarda kullanabileceğiniz matematiksel ve mantıksal         formüller oluşturmanıza olanak tanır. \n\nBu küçük tanıtmayı, sağ alt köşedeki \"İleri\" düğmesine dokunarak geliştirebilirsiniz ve sol alt köşedeki \"ATLA\" düğmesine dokunarak atlayabilirsiniz.</string>
+    <string name="formula_editor_intro_summary_formula_editor">Formül düzenleyici ile bileşenlerinizde kullanmak için
+        matematiksel ve mantıksal formüller oluşturabilirsiniz. \n\nDevam etmek için \"İLERİ\" ye dokunun veya öğretici den çıkımak için
+        \"ATLA\" ya dokunun.
+    </string>
     <string name="formula_editor_intro_title_input_field">Giriş alanı</string>
     <string name="formula_editor_intro_summary_input_field">Burada formülünüzü görebilir ve düzenleyebilirsiniz.</string>
     <string name="formula_editor_intro_title_keyboard">Klavye</string>
@@ -1737,27 +1760,29 @@ bekleyin</string>
     <string name="formula_editor_speech_recognition">Konuşma tanıma</string>
     <string name="camera_error_text_detection">        Metni algılamayla ilgili bir sorun yaşandı. Bazı bileşenler hala arka planda indiriliyor olabilir
         . Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar deneyin.</string>
+    <string name="formula_editor_function_flatten">düzleştir</string>
+    <string name="formula_editor_function_flatten_parameter">(*liste adı*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable">Değişkeni göster</string>
-    <string name="brick_hide_variable">Değişkeni gizle</string>
-    <string name="brick_show_variable_position">en</string>
-    <string name="brick_show_variable_size">boyut:</string>
-    <string name="brick_show_variable_color">renk:</string>
-    <string name="brick_show_variable_aligned">hizalı</string>
-    <string name="brick_show_variable_aligned_centered">merkezli</string>
-    <string name="brick_show_variable_aligned_left">sol</string>
-    <string name="brick_show_variable_aligned_right">sağ</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">Değişkeni göster</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">Değişkeni gizle</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">en</string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">boyut:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">renk:</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">hizalı</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">merkezli</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">sol</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">sağ</string>
     <string name="brick_context_dialog_pick_color">Renk seç</string>
     <string name="brick_context_dialog_pick_note">Nota seç</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video">Kamerayı</string>
-    <string name="video_brick_camera_on">aç</string>
-    <string name="video_brick_camera_off">kapa</string>
-    <string name="brick_choose_camera">Kamerayı çevir</string>
-    <string name="choose_camera_front">ön</string>
-    <string name="choose_camera_back">Arka</string>
+    <string name="brick_video" tools:ignore="UnusedResources">Kamerayı</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">aç</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">kapa</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">Kamerayı çevir</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">ön</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">Arka</string>
     <string name="camera_error_generic">Kamerayı kullanmaya çalışırken bir şeyler ters gitti.</string>
     <string name="camera_error_face_detection">Yüz tanıma ile ilgili bir sorun vardı. Bazı bileşenler hala arka planda indiriliyor olabilir. Lütfen İnternet\'e bağlı olduğunuzdan emin olun ve daha sonra tekrar kontrol edin.</string>
     <!-- -->
@@ -1769,12 +1794,12 @@ bekleyin</string>
     <string name="cast_gamepad_left">sol</string>
     <string name="cast_gamepad_right">sağ</string>
     <string name="cast_error_not_connected_msg">Lütfen önce Chromecast\'ınız ile iletişime geçin</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">Projeniz kalıp modeller kullanıyor ve yerel olarak başlatılamıyor</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">Projeniz Chromecast tuğlalarını kullanıyor ve yerel olarak başlatılamıyor</string>
     <string name="cast_device_selector_dialog_title">Yayınla</string>
     <string name="cast_button_menu_item_title">Gönder butonu</string>
     <string name="cast_ready_to_cast">Gönderime hazır</string>
-    <string name="cast_enable_cast_feature">Gönderim özellikleri devre dışı bırakıldı. Lütfen gönderim özelliklerini ayarlardan etkin hale getir.</string>
-    <string name="cast_searching_for_cast_devices">Cast aygınları için taranıyor</string>
+    <string name="cast_enable_cast_feature">Chromecast özellikleri devre dışı bırakıldı. Lütfen gönderim özelliklerini ayarlardan etkin hale getir.</string>
+    <string name="cast_searching_for_cast_devices">Chromecast aygınları için taranıyor</string>
     <string name="cast_trouble_finding_devices_tip">.\nCihazınızı görmüyor musunuz? Cihazınızın Wifi\'ını kapatıp açmayı deneyin.</string>
     <string name="cast_connection_timout_msg">Bağlantı zaman aşımına uğradı. Lütfen tekrar deneyin.</string>
     <string name="cast_screen_pause_text">Duraklatıldı</string>
@@ -1782,7 +1807,6 @@ bekleyin</string>
     <string name="deletion_alert_title">Silinsin mi?</string>
     <string name="deletion_alert_text">Halen kullanımda olan bir değişkeni veya listeyi silmek,
         hatalara yol açar. Bunu geri alamazsınız!</string>
-    <string name="deletion_alert_yes">Evet, yine de silin!</string>
     <!-- Upload progress dialog -->
     <string name="progress_upload_dialog_message">Programınız başkalarının kullanabileceği
         ve indirebildiği uygulamanın paylaşım sitesine yüklenir. 
@@ -1807,5 +1831,12 @@ bekleyin</string>
     <string name="device_language">Aygıt Dili</string>
     <!-- Symbols -->
     <string name="percent_symbol">%</string>
-    <string name="hertz_symbol">㎐</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="no_internet_connection">İnternet bağlantısı yok. Wi-Fi veya mobil verinin açık
+    olduğundan emin olun.</string>
+    <string name="edit">Düzenle</string>
+    <string name="data_value">Değer</string>
+    <string name="category_recently_used">En son kullanılan</string>
+    <!-- Information -->
+    <string name="no_variable_selected">Değişken seçilmedi</string>
 </resources>
