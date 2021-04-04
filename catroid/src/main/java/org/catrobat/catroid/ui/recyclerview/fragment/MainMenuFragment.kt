@@ -45,7 +45,7 @@ import kotlinx.android.synthetic.main.landing_page.uploadProject
 import kotlinx.android.synthetic.main.progress_bar.progress_bar
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants
-import org.catrobat.catroid.common.FlavoredConstants.CATEGORY_URL
+import org.catrobat.catroid.common.FlavoredConstants.BASE_URL_HTTPS
 import org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader
@@ -334,7 +334,7 @@ class MainMenuFragment : Fragment(),
     }
 
     override fun onCategoryTitleClicked(categoryId: String) {
-        val categoryUrl = CATEGORY_URL.plus(categoryId)
+        val categoryUrl = BASE_URL_HTTPS
         openWebView(categoryUrl)
     }
 
