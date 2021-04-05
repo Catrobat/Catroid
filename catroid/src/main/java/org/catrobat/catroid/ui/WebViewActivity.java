@@ -74,12 +74,14 @@ public class WebViewActivity extends AppCompatActivity {
 	private static final String TAG = WebViewActivity.class.getSimpleName();
 
 	public static final String INTENT_PARAMETER_URL = "url";
+	public static final String INTENT_FORCE_OPEN_IN_APP = "openInApp";
 	public static final String ANDROID_APPLICATION_EXTENSION = ".apk";
 	public static final String MEDIA_FILE_PATH = "media_file_path";
 	private static final String PACKAGE_NAME_WHATSAPP = "com.whatsapp";
 
 	private WebView webView;
 	private boolean allowGoBack = false;
+	private boolean forceOpenInApp = false;
 	private ProgressDialog progressDialog;
 	private ProgressDialog webViewLoadingDialog;
 	private Intent resultIntent = new Intent();
@@ -93,6 +95,8 @@ public class WebViewActivity extends AppCompatActivity {
 		if (url == null) {
 			url = FlavoredConstants.BASE_URL_HTTPS;
 		}
+
+		forceOpenInApp = getIntent().getBooleanExtra(INTENT_FORCE_OPEN_IN_APP, false);
 
 		webView = findViewById(R.id.webView);
 		webView.setBackgroundColor(ResourcesCompat.getColor(getResources(), R.color.app_background, null));
@@ -190,7 +194,7 @@ public class WebViewActivity extends AppCompatActivity {
 					ToastUtil.showError(getBaseContext(), R.string.error_no_whatsapp);
 				}
 				return true;
-			} else if (checkIfWebViewVisitExternalWebsite(url)) {
+			} else if (!forceOpenInApp && checkIfWebViewVisitExternalWebsite(url)) {
 				Uri uri = Uri.parse(url);
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
