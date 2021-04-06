@@ -227,8 +227,8 @@
     <string name="status_started">শুরু &#8230;</string>
     <string name="status_conversion_finished">রূপান্তর সমাপ্ত</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">চলমান %d% কাজ</item>
-        <item quantity="other">চলমান %d% কাজসমূহ</item>
+        <item quantity="one">চলমান %d কাজ</item>
+        <item quantity="other">চলমান %d কাজসমূহ</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
         <item quantity="one">সম্পন্ন:%d কাজ</item>

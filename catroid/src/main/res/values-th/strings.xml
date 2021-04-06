@@ -227,14 +227,10 @@
     <string name="status_started">เริ่มต้น&#8230;</string>
     <string name="status_conversion_finished">การแปลงเสร็จสิ้น</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">กำลังดำเนินการ %d งาน
-
-กำลังดำเนินการ %d งาน</item>
+        <item quantity="other">กำลังดำเนินการ %d งานกำลังดำเนินการ</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">เสร็จงาน %d
-
-เสร็จงาน %d</item>
+        <item quantity="other">เสร็จงาน %d</item>
     </plurals>
     <string name="status_conversion_failed">การแปลงล้มเหลว!</string>
     <string name="status_downloading">ดาวน์โหลด&#8230;</string>
