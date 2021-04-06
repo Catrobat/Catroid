@@ -78,6 +78,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
 
+	private int oldPrivacyPolicy = 0;
+
 	public static Survey surveyCampaign;
 
 	@Override
@@ -89,10 +91,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		loadContent();
-
-		int oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
+		oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+
+		loadContent();
 
 		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
 			showTermsOfUseDialog();
@@ -142,6 +144,10 @@ public class MainMenuActivity extends BaseCastActivity implements
 				.edit()
 				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.apply();
+
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			prepareStandaloneProject();
+		}
 	}
 
 	public void handleDeclinedPrivacyPolicyButton() {
@@ -176,7 +182,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 	private void loadContent() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
-			prepareStandaloneProject();
+			if (oldPrivacyPolicy == Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
+				prepareStandaloneProject();
+			}
 			return;
 		}
 
