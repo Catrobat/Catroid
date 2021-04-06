@@ -60,7 +60,7 @@ fun Activity?.removeTabLayout() {
     if (this is SpriteActivity) {
         val tabLayout = findViewById<View>(R.id.tab_layout)
         val viewGroup = findViewById<ViewGroup>(R.id.activity_sprite)
-        viewGroup.removeView(tabLayout)
+        viewGroup?.removeView(tabLayout)
     }
 }
 
