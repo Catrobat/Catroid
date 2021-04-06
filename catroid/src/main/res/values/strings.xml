@@ -2062,6 +2062,15 @@ needs read and write access to it. You can always change permissions through you
         To add a new actor or object, tap the \"+\" symbol.</string>
     <!--  -->
 
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Show hints?</string>
+    <string name="dialog_disable_hints_text">Hints provide you with helpful information
+        while making your first project.\n\nVisibility of hints can be changed in the
+        settings.</string>
+    <string name="dialog_disable_hints_button_hide">HIDE</string>
+    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <!--  -->
+
     <!-- Crash report dialog -->
     <string name="plus" translatable="false">+</string>
     <!--  -->
