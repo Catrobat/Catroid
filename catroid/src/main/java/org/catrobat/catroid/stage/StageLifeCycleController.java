@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -233,7 +233,9 @@ public final class StageLifeCycleController {
 
 	static void stageDestroy(StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
-			stageActivity.brickDialogManager.dismissAllDialogs();
+			if (stageActivity.brickDialogManager != null) {
+				stageActivity.brickDialogManager.dismissAllDialogs();
+			}
 			stageActivity.jumpingSumoDisconnect();
 			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (service != null) {
@@ -250,10 +252,12 @@ public final class StageLifeCycleController {
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
+			if (stageActivity.stageResourceHolder != null
+					&& stageActivity.stageResourceHolder.droneInitializer != null) {
 				stageActivity.stageResourceHolder.droneInitializer.onDestroy();
 			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
+			if (stageActivity.stageResourceHolder != null
+					&& stageActivity.stageResourceHolder.droneController != null) {
 				stageActivity.stageResourceHolder.droneController.onDestroy();
 			}
 		}
