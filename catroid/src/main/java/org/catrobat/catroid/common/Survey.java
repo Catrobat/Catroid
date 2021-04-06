@@ -44,7 +44,7 @@ import static org.catrobat.catroid.common.SharedPreferenceKeys.TIME_SPENT_IN_APP
 
 public class Survey implements GetSurveyTask.SurveyResponseListener {
 	@VisibleForTesting
-	public static final int MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS = 60 * 60;
+	public static final int MINIMUM_TIME_SPENT_IN_APP_IN_SECONDS = 5 * 60;
 
 	long sessionTimeSpentInIdeInSeconds;
 	long sessionStartTimeInMilliseconds;
@@ -128,7 +128,7 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 			boolean showSurvey = PreferenceManager.getDefaultSharedPreferences(context)
 					.getBoolean(SHOW_SURVEY_KEY, false);
 
-			if (!DateUtils.isToday(oldDate) || (showSurvey && getUploadFlag())) {
+			if (DateUtils.isToday(oldDate) || (showSurvey && getUploadFlag())) {
 				if (Utils.isNetworkAvailable(context)) {
 					getSurvey(context);
 				} else {
