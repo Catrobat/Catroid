@@ -67,7 +67,11 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 			new DeviceListAccessor(projectDir).cleanUpDeletedUserData(project);
 			return true;
 		} catch (Exception e) {
-			Log.e(TAG, "Cannot load project in " + projectDir.getAbsolutePath(), e);
+			if (projectDir != null) {
+				Log.e(TAG, "Cannot load project in " + projectDir.getAbsolutePath(), e);
+			} else {
+				Log.e(TAG, "Cannot load project due to null projectDir");
+			}
 			return false;
 		}
 	}
