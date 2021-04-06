@@ -49,6 +49,7 @@ import java.util.Set;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
 import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
@@ -79,6 +80,7 @@ public class Android9SnackbarRegressionTest {
 		sharedPreferences.edit()
 				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, true)
 				.putStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>())
+				.putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
 				.commit();
 
 		createProject();

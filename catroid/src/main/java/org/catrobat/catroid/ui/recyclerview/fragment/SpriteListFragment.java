@@ -114,6 +114,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	public void onResume() {
 		initializeAdapter();
 		super.onResume();
+		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		Project currentProject = ProjectManager.getInstance().getCurrentProject();
 		String title;
 
@@ -178,7 +179,6 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 
 	@Override
 	protected void initializeAdapter() {
-		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_objects);
 		sharedPreferenceDetailsKey = SHOW_DETAILS_SPRITES_PREFERENCE_KEY;
 		List<Sprite> items = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
 		adapter = new MultiViewSpriteAdapter(items);
