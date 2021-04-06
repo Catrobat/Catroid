@@ -82,8 +82,8 @@ public class CurrentProjectTest {
 	}
 
 	Context applicationContext = ApplicationProvider.getApplicationContext();
-	private String currentProject = "currentProject";
-	String downloadedProject = "downloadedProject";
+	private final String currentProject = "currentProject";
+	private final String downloadedProject = "downloadedProject";
 	int bufferedPreferenceSetting;
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
@@ -98,6 +98,8 @@ public class CurrentProjectTest {
 		pressBack();
 		onView(withId(R.id.currentProjectLayout)).perform(click());
 		onActionBar().checkTitleMatches(downloadedProject);
+		pressBack();
+		onView(withText(R.string.main_menu_programs)).perform(click());
 	}
 
 	private void createProject() {
