@@ -174,7 +174,9 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		ScriptFragment scriptFragment = getScriptFragment(view);
 		if (scriptFragment.copyProjectForUndoOption()) {
 			scriptFragment.showUndo(true);
-			scriptFragment.setUndoBrickPosition((Brick) onItemSelectedListener);
+			if (onItemSelectedListener instanceof Brick) {
+				scriptFragment.setUndoBrickPosition((Brick) onItemSelectedListener);
+			}
 		}
 	}
 
