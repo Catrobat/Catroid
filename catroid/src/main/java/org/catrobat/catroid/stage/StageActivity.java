@@ -453,10 +453,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			clipboard.setPrimaryClip(testResult);
 		}
 
-		//Register your intent with "queueIntent"
 		if (intentListeners.indexOfKey(requestCode) >= 0) {
 			IntentListener asker = intentListeners.get(requestCode);
-			asker.onIntentResult(resultCode, data);
+			if (data != null) {
+				asker.onIntentResult(resultCode, data);
+			}
 			intentListeners.remove(requestCode);
 		} else {
 			stageResourceHolder.onActivityResult(requestCode, resultCode, data);
