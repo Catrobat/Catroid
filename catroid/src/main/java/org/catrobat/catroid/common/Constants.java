@@ -147,6 +147,7 @@ public final class Constants {
 	public static final int CATROBAT_TERMS_OF_USE_ACCEPTED = 1;
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
+	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrob.at/HuaweiAppGallery";
 
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";

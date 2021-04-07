@@ -22,58 +22,126 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/app_name"
-        android:id="@+id/title"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/marketing_created_with"
-        android:id="@+id/description"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
-        android:layout_below="@+id/title"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/pocket_code_image"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
-        android:layout_below="@+id/description"
-        android:layout_centerHorizontal="true"
-        android:background="@color/app_background"/>
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_text_view_margin_large"
+            android:text="@string/marketing_created_with"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/marketing_app_details"
-        android:id="@+id/website_link"
-        android:layout_below="@+id/pocket_code_image"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large" />
+        <ImageView
+            android:id="@+id/pocket_code_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_text_view_margin_large"
+            android:background="@color/app_background"
+            tools:ignore="ContentDescription" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/marketing_more_on_google_play"
-        android:id="@+id/playStore_link"
-        android:layout_marginTop="@dimen/activity_text_view_margin_large"
-        android:layout_below="@+id/website_link"
-        android:layout_centerHorizontal="true" />
+        <LinearLayout
+            android:id="@+id/googlePlayStore"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pocket_code_image"
+            android:layout_alignStart="@id/huaweiAppGallery"
+            android:layout_alignEnd="@id/huaweiAppGallery"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_text_view_margin_large"
+            android:background="@color/advertising_button_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-    </RelativeLayout >
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="30dp"
+                android:src="@drawable/google_playstore_logo"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@color/advertising_button_background"
+                android:text="@string/google_play_store_logo"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/huaweiAppGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/googlePlayStore"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_text_view_margin_large"
+            android:background="@color/advertising_button_background"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <ImageView
+                android:layout_width="27dp"
+                android:layout_height="30dp"
+                android:src="@drawable/huawei_app_gallery_logo"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@color/advertising_button_background"
+                android:text="@string/huawei_app_gallery"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/website_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/huaweiAppGallery"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_text_view_margin_large"
+            android:text="@string/marketing_app_details"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/playStore_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/website_link"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="@dimen/activity_text_view_margin_large"
+            android:text="@string/marketing_more_on_google_play"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
+</androidx.core.widget.NestedScrollView>
+

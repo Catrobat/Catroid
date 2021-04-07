@@ -128,6 +128,10 @@
     <string name="marketing_created_with">Created with</string>
     <string name="marketing_app_details">Details about this app</string>
     <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
+        please try again later.</string>
+    <string name="google_play_store_logo">Google Play Store</string>
+    <string name="huawei_app_gallery">Huawei App Gallery</string>
 
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
