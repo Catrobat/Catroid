@@ -34,11 +34,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.content.XmlHeader;
 import org.catrobat.catroid.utils.ToastUtil;
@@ -69,9 +71,13 @@ public class MarketingActivity extends AppCompatActivity {
 
 		Bitmap bitmap = scaleDrawable2Bitmap(xmlheader.islandscapeMode());
 
-		ImageButton imageView = (ImageButton) findViewById(R.id.pocket_code_image);
+		ImageView imageView = (ImageView) findViewById(R.id.pocket_code_image);
 		imageView.setImageBitmap(bitmap);
-		imageView.setOnClickListener(new View.OnClickListener() {
+
+		LinearLayout googlePlayStore = (LinearLayout) findViewById(R.id.googlePlayStore);
+		LinearLayout huaweiAppGallery = (LinearLayout) findViewById(R.id.huaweiAppGallery);
+
+		googlePlayStore.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Uri uri = Uri.parse("market://details?id=org.catrobat.catroid");
@@ -80,6 +86,19 @@ public class MarketingActivity extends AppCompatActivity {
 					startActivity(myAppLinkToMarket);
 				} catch (ActivityNotFoundException e) {
 					ToastUtil.showError(MarketingActivity.this, R.string.main_menu_play_store_not_installed);
+				}
+			}
+		});
+
+		huaweiAppGallery.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Uri uri = Uri.parse(Constants.HUAWEI_APP_GALLERY_LINK);
+				Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+				try {
+					startActivity(myAppLinkToMarket);
+				} catch (ActivityNotFoundException e) {
+					ToastUtil.showError(MarketingActivity.this, R.string.error_cannot_open_huawei_app_gallery);
 				}
 			}
 		});
