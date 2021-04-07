@@ -40,7 +40,10 @@ class UserDefinedBrickAction : SingleSpriteEventAction() {
     var userDefinedBrickInputs: MutableList<UserDefinedBrickInput>? = null
 
     fun setInputs(userDefinedBrickInputs: MutableList<UserDefinedBrickInput>) {
-        this.userDefinedBrickInputs = userDefinedBrickInputs
+        this.userDefinedBrickInputs = mutableListOf();
+        userDefinedBrickInputs?.forEach {
+            this.userDefinedBrickInputs?.add(UserDefinedBrickInput(it))
+        }
     }
 
     private fun getInterpretedInputs(): MutableList<Any> {
