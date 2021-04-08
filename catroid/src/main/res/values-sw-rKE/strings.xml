@@ -23,25 +23,25 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">Stage</string>
-    <string name="play">Play</string>
-    <string name="settings">Settings</string>
-    <string name="redo" tools:ignore="UnusedResources">Redo</string>
-    <string name="undo" tools:ignore="UnusedResources">Undo</string>
-    <string name="new_option">new&#8230;</string>
+    <string name="stage">Steji</string>
+    <string name="play">Cheza</string>
+    <string name="settings">Mipangilio</string>
+    <string name="redo" tools:ignore="UnusedResources">Rudia</string>
+    <string name="undo" tools:ignore="UnusedResources">Tengua</string>
+    <string name="new_option">Mpya&#8230;</string>
     <string name="edit_option">edit&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Thibitisha</string>
     <string name="ignore">Ignore</string>
-    <string name="cancel">Cancel</string>
-    <string name="save">Save</string>
-    <string name="discard">Discard</string>
-    <string name="next">Next</string>
-    <string name="ok">OK</string>
-    <string name="done">Done</string>
-    <string name="close" tools:ignore="UnusedResources">Close</string>
+    <string name="cancel">Katisha</string>
+    <string name="save">Hifadhi</string>
+    <string name="discard">Tupa</string>
+    <string name="next">Ifuatayo</string>
+    <string name="ok">Sawa</string>
+    <string name="done">Maliza</string>
+    <string name="close" tools:ignore="UnusedResources">Funga</string>
     <string name="assistant">Assistant</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="yes">Ndio</string>
+    <string name="no">Hapana</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
@@ -49,13 +49,13 @@
     <string name="decline">Decline</string>
     <string name="select_all">Select all</string>
     <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
+    <string name="skip">ruka</string>
     <string name="warning">Warning</string>
-    <string name="error">Error</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search&#8230;</string>
-    <string name="backpack_add">Add to backpack</string>
+    <string name="error">Dosari</string>
+    <string name="loading">Inapakia&#8230;</string>
+    <string name="please_wait">Subiri</string>
+    <string name="search_hint">Tafuta&#8230;</string>
+    <string name="backpack_add">Ongeza kwenye Mkoba</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -76,39 +76,39 @@
     <string name="loading_check_oauth_token">Checking login data&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees" tools:ignore="UnusedResources">degrees</string>
-    <string name="background" tools:ignore="UnusedResources">Background</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="logout_successful">Umefaulu kuondoka</string>
+    <string name="degrees" tools:ignore="UnusedResources">nyuzi</string>
+    <string name="background" tools:ignore="UnusedResources">Mandharinyuma</string>
+    <string name="landscape">kurasa mlalo</string>
+    <string name="portrait">kurasa wima</string>
+    <string name="unknown">isiyojulikana</string>
+    <string name="disconnect">Katisha mawasiliano</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">Help</string>
+    <string name="main_menu_continue">Endelea</string>
+    <string name="main_menu_new">Mpya</string>
+    <string name="main_menu_programs">Programu</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">Msaada</string>
     <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
-    <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
+    <string name="main_menu_upload">Pakia</string>
+    <string name="main_menu_rate_app">Tupime!</string>
+    <string name="main_menu_terms_of_use">Masharti ya matumizi na huduma</string>
+    <string name="main_menu_privacy_policy">Sera ya Faragha</string>
+    <string name="main_menu_about">Kuhusu programu hii</string>
+    <string name="main_menu_login">Ingia</string>
+    <string name="main_menu_logout">Kutoka</string>
+    <string name="main_menu_scratch_converter">Kigeuzi cha scratch</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Kuundwa kwa</string>
+    <string name="marketing_app_details">Maelezo kuhusu programu hii</string>
+    <string name="marketing_more_on_google_play">Programu zaidi kwenye Google Play</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
-    <string name="preference_title">Settings</string>
-    <string name="preference_title_language">Language</string>
+    <string name="preference_title">Mipangilio</string>
+    <string name="preference_title_language">Lugha</string>
     <string name="preference_description_language">Set the app\'s language</string>
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
@@ -162,33 +162,33 @@
     <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
     <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
     <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 extension</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">Mkondo wa vifaa unganiko NXT matofari</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">Mkondo wa vifaa unganiko EV3 matofari</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
     <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
-    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensors</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensors</string>
+    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Vihisio</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Lego NXT Vihisio</string>
     <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
-    <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
+    <string name="preference_title_enable_phiro_bricks">Matofari ya phiro</string>
     <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
-    <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
+    <string name="preference_title_enable_arduino_bricks">Matofali ya Arduino</string>
     <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
     <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
     <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
-    <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
+    <string name="preference_title_cast_feature_globally_enabled">wezesha vipengele vya kurushwa</string>
     <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
+    <string name="preference_title_enable_nfc_bricks">mawasiliano karibu ya uga</string>
     <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
+    <string name="preference_title_enable_crash_reports">Tuma ripoti ya ajali bila kujitambulisha</string>
     <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
+    <string name="preference_title_enable_raspi_bricks">Matofali ya Raspberry Pi</string>
     <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
-    <string name="preference_raspi_help">Help / getting started</string>
-    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
+    <string name="preference_raspi_enable_bricks">Wezesha Matofali ya Raspberri Pi</string>
+    <string name="preference_raspi_help">Msaada / namna ya kuanza</string>
+    <string name="preference_raspi_help_summary">Pata msaada jinsi ya kurekebisha vipimo vya muunganisho</string>
+    <string name="preference_raspi_host">Pi Raspberry IP-/ anwani ya mwenyeji</string>
+    <string name="preference_raspi_port">Raspberry Pi Poti</string>
     <!--  -->
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
@@ -202,15 +202,11 @@
     <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
         missing, please try again later.</string>
     <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert the project, please try again
-        later.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
-        again later.</string>
+    <string name="error_scratch_program_conversion_failed">Whoops! Imeshindwa kubadilisha programu ya mwanzo, Tafadhali jaribu tena baadaye!</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Imeshindwa kugeuza %1$s, Tafadhali jaribu tena baadaye!</string>
     <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
         converter only works on the latest version. Please update the app.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
-        have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
-        meanwhile.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Haiwezi kufungua programu hii ya Scratch. Inaonekana kwamba umefuta ubadilishaji/upakuaji wa programu ya Scratch, au umebadilisha jina/umefuta programu kwa sasa!</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
         Please wait until it is downloaded.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
@@ -234,13 +230,13 @@
         <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
-    <string name="status_scheduled">Scheduled</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="scratch_conversion_started">Imeanza kubadilisha programu ya Scratch&#8230;</string>
+    <string name="convert">Geuza</string>
+    <string name="converting">Kugeuza&#8230;</string>
+    <string name="status_scheduled">Ratibiwa</string>
+    <string name="status_waiting_for_worker">Kuangalia kwa mfanyakazi wa bure&#8230; Tafadhali subiri&#8230;</string>
+    <string name="status_started">Kuanza&#8230;</string>
+    <string name="status_conversion_finished">Mgeuzo umemalizika</string>
     <plurals name="status_in_progress_x_jobs">
         <item quantity="one">In progress: %d job</item>
         <item quantity="other">In progress: %d jobs</item>
@@ -249,26 +245,26 @@
         <item quantity="one">Completed: %d job</item>
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
+    <string name="status_conversion_failed">Mgeuzo umeshindikana!</string>
+    <string name="status_downloading">Inapakua&#8230;</string>
+    <string name="status_download_finished">Upakuaji umekamilika</string>
+    <string name="status_download_canceled">Upakuaji umeghairishwa</string>
     <string name="scratch_programs_in_progress_title">In progress</string>
     <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
+    <string name="by_x">kwa %1$s</string>
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
         convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
-    <string name="remixes">Remixes</string>
+    <string name="instructions">Maelekezo</string>
+    <string name="notes_and_credits">Madokezo na mikopo</string>
+    <string name="shared_at_x">Ubia: %1$s</string>
+    <string name="modified_at_x">Imebadilishwa: %1$s</string>
+    <string name="remixes">Michanganyo mipya</string>
     <!--  -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Stage size:</string>
-    <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
+    <string name="author">Mwandishi:</string>
+    <string name="screen_size">Ukubwa wa skrini</string>
+    <string name="mode">Hali</string>
+    <string name="remix_of">Mchanganyo mpya wa:</string>
+    <string name="description_hint">Bonyeza kuongeza maelezo</string>
     <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
@@ -303,22 +299,22 @@
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
-    <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Delete</string>
-    <string name="am_rename">Rename</string>
-    <string name="am_convert">Convert</string>
+    <string name="am_unpack">pakua</string>
+    <string name="am_copy">Nakili</string>
+    <string name="am_delete" tools:ignore="UnusedResources">Futa</string>
+    <string name="am_rename">Andika jina upya</string>
+    <string name="am_convert">Geuza</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
-    <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
+    <string name="backpack">Mkoba</string>
+    <string name="copy">Nakili</string>
+    <string name="delete">Futa</string>
+    <string name="rename">Ita jina jipya</string>
     <string name="merge">Merge</string>
-    <string name="show_details">Show details</string>
-    <string name="hide_details">Hide details</string>
+    <string name="show_details">Onyesha maelezo</string>
+    <string name="hide_details">Ficha Mafafanuzi</string>
     <string name="project_options">Project options</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
@@ -360,10 +356,10 @@
     <string name="sprite_group_name_label">Group name</string>
     <string name="script_group_label">Script group name</string>
     <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
+    <string name="sound_name_label">Jina la sauti</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
+    <string name="string_label">Maandishi</string>
+    <string name="data_label">Jina</string>
     <string name="keyword_label">Insert keyword</string>
     <string name="html_label">Insert HTML text</string>
     <string name="Image_format_not_supported">Image format not supported</string>
@@ -377,15 +373,15 @@
     <string name="sound_details">Duration: %s, size: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
-    <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_project">Patia programu jina upya</string>
+    <string name="rename_scene_dialog">Taja jina jipya la eneo</string>
+    <string name="rename_sprite_dialog">Andika tena kipengele</string>
+    <string name="rename_look_dialog">Patia jina upya mwonekano</string>
+    <string name="rename_sound_dialog">Badili jina la sauti</string>
+    <string name="rename_nfctag_dialog">Andika upya lebo ya NFC</string>
+    <string name="rename_data_dialog">Andika jina upya</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
+    <string name="new_group">Kikundi kipya</string>
     <string name="default_group_name">Group</string>
     <!-- New Scene Menu -->
     <string name="new_scene">New scene</string>
@@ -485,54 +481,54 @@
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
+    <string name="project_list_title">Programu</string>
+    <string name="last_used">Fikio la mwisho:</string>
+    <string name="size">Ukubwa:</string>
+    <string name="description">Maelezo:</string>
+    <string name="set_description">Weka maelezo</string>
     <string name="notes_and_credits_title">Notes and credits:</string>
     <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Today</string>
+    <string name="details_date_today">Leo</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <string name="error_no_files_found">No project files found.</string>
     <!-- ProjectOptionsFragment -->
-    <string name="project_options_description">Description</string>
+    <string name="project_options_description">Maelezo</string>
     <string name="project_options_notes_and_credits">Credits</string>
-    <string name="project_options_tags">Tags</string>
+    <string name="project_options_tags">Lebo</string>
     <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
     <string name="project_options_more_details">More details</string>
     <string name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">Bofya \"+\" kuongeza hati</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
     <string name="default_sprite_name">My actor or object</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_look_text_description">Gusa \"+\" kuongeza mwonekano</string>
+    <string name="select_look_from_gallery">Teua Taswira</string>
+    <string name="select_look_from_camera">Teua picha</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="fragment_sound_text_description">Bofya \"+\" kuongeza sauti</string>
+    <string name="sound_select_source">Chagua sauti</string>
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
     <string name="ndef_record_label" tools:ignore="UnusedResources">as record type</string>
-    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Wait for next NFC tag to write</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Lebo za NFC Seti inayofuata</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">NFC tag</string>
-    <string name="tnf_empty">Empty</string>
-    <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="default_tag_name">Lebo_ya_nfc</string>
+    <string name="tnf_empty">Tupu</string>
+    <string name="tnf_external_type">Aina ya nje</string>
+    <string name="tnf_mime_media">Maandishi</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">Namba ya simu</string>
     <string name="tnf_well_known_sms">SMS</string>
-    <string name="tnf_well_known_mailto">E-Mail</string>
+    <string name="tnf_well_known_mailto">Barua pepe</string>
     <!--  -->
     <!-- DataListFragment -->
     <string name="multiplayer_vars_headline">Variables for connected devices</string>
@@ -551,9 +547,9 @@
     <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
         on connected multiplayer devices</string>
     <!-- Backpack -->
-    <string name="backpack_title">Your backpack</string>
+    <string name="backpack_title">Mkoba wako</string>
     <string name="pack">Pack</string>
-    <string name="unpack">Unpack</string>
+    <string name="unpack">pakua</string>
     <!--  -->
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_example_project">Example project</string>
@@ -563,43 +559,43 @@
     <string name="merging_project_text">These two projects cannot yet be merged</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">New actor or object</string>
+    <string name="new_sprite_dialog_title">Kipengee kipya</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Add look</string>
-    <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media library</string>
+    <string name="new_look_dialog_title">Ongeza Muonekano</string>
+    <string name="add_look_from_camera">Chukua Picha</string>
+    <string name="add_look_draw_new_image">Chora picha</string>
+    <string name="add_look_choose_image">Teua Taswira</string>
+    <string name="add_look_media_library">Maktaba ya midia</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Add sound</string>
-    <string name="add_sound_from_recorder">Record sound</string>
-    <string name="add_sound_choose_file">Select file</string>
-    <string name="add_sound_music">Music composer</string>
+    <string name="new_sound_dialog_title">Ongeza sauti</string>
+    <string name="add_sound_from_recorder">Rekodi sauti</string>
+    <string name="add_sound_choose_file">Chagua faili</string>
+    <string name="add_sound_music">Mtungaji wa muziki</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Rate App</string>
     <string name="rating_google_play_dialog_text">If you enjoy this app, please rate us on the App store.</string>
-    <string name="rating_dialog_rate_now">Now</string>
-    <string name="rating_dialog_rate_later">Later</string>
-    <string name="rating_dialog_rate_never">Never</string>
+    <string name="rating_dialog_rate_now">Sasa</string>
+    <string name="rating_dialog_rate_later">Baadaye</string>
+    <string name="rating_dialog_rate_never">Kamwe</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Masharti ya matumizi na huduma</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Masharti ya matumizi na huduma</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Masharti ya matumizi na huduma</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Si Nikumbushe tena.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
@@ -611,21 +607,21 @@
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <!-- -->
     <!-- About Dialog -->
-    <string name="dialog_about_title">About this App</string>
+    <string name="dialog_about_title">Kuhusu programu hii</string>
     <string name="dialog_about_license_info">This app offers a coding
         environment and interpreter for the visual programming language Catrobat.\n
         The source code of this app is mainly licensed under the GNU AGPL v3 license.
         For further details on the license see the link below.\n</string>
-    <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_license_link_text">Leseni ya Msimbo chanzo</string>
+    <string name="dialog_about_catrobat_link_text">Kuhusu Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
     <string name="dialog_about_version">version:</string>
     <!--  -->
     <!-- NetworkAlertDialog -->
-    <string name="error_no_network_title">No network</string>
+    <string name="error_no_network_title">Mtandao haupatikani</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
+    <string name="upload_project_dialog_title">Pakia programu</string>
+    <string name="upload_description">Maelezo:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
@@ -639,10 +635,10 @@
     <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Sound recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">recording</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name">Kirekodi sauti</string>
+    <string name="soundrecorder_error">Kurekodi sauti kumeshindikana</string>
+    <string name="soundrecorder_recorded_filename">rekodi</string>
+    <string name="soundrecorder_text_view">Bonyeza ikoni ya juu kuanza na komesha kurekodi</string>
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
@@ -659,37 +655,37 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
-    <string name="comment_in_out">Disable/enable</string>
+    <string name="brick_context_dialog_help">Msaada</string>
+    <string name="comment_in_out">Dhoofisha/wezesha</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
     <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
     <!--  -->
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Play scene:</string>
-    <string name="play_scene_dialog_default">First scene (%1$s)</string>
+    <string name="play_scene_dialog_title">Chezesha tukio:</string>
+    <string name="play_scene_dialog_default">Tukio la kwanza(%1$s)</string>
     <string name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="sign_in_dialog_title">Ingia ndani</string>
+    <string name="username">Jina la mtumiaji</string>
+    <string name="password">Nenosiri</string>
     <string name="reset_password">Reset password</string>
-    <string name="new_user_registered">New account created</string>
-    <string name="user_logged_in">Login successful</string>
+    <string name="new_user_registered">Akaunti mpya imetengenezwa</string>
+    <string name="user_logged_in">Umefaulu kuingia</string>
     <string name="register_error">Login invalid</string>
-    <string name="register_terms">By registering you agree to our</string>
-    <string name="register_code_terms_of_use_text">Terms of use and service</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
-    <string name="password_confirm">Confirm password</string>
-    <string name="accountName">E-Mail</string>
-    <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
+    <string name="register_terms">Kwa kujisajili unakubaliana nasi katika</string>
+    <string name="register_code_terms_of_use_text">Masharti ya matumizi na huduma</string>
+    <string name="login">Ingia</string>
+    <string name="register">Jisajili</string>
+    <string name="password_confirm">Thibitisha nenosiri</string>
+    <string name="accountName">Barua pepe</string>
+    <string name="signin_thanks">Asante kwa kujisajili!</string>
+    <string name="signin_choose_username">Tafadhali chagua jina lako la kutumia:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
+    <string name="signin_choose_username_hint">Jina la mtumiaji si lazima jina lako halisi.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
-    <string name="show_password">Show password</string>
+    <string name="show_password">Onyesha nenosiri</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
@@ -702,7 +698,7 @@
     <string name="error_register_invalid_email_format">Invalid email format</string>
     <string name="error_register_empty_password">Password field is empty</string>
     <string name="error_register_password_at_least_6_characters">Password should be at least 6 characters</string>
-    <string name="error_register_passwords_mismatch">Passwords do not match</string>
+    <string name="error_register_passwords_mismatch">Manenosiri hayafanani</string>
     <string name="error_register_empty_confirm_password">Confirm password field is empty</string>
     <string name="error_register_username_already_exists">Username already exists</string>
     <string name="error_register_email_exists">Email address already exists</string>
@@ -711,26 +707,25 @@
     <string name="overwrite_title">Project exists.</string>
     <string name="overwrite_text">A project with this name already exists.</string>
     <string name="overwrite_replace">Overwrite project</string>
-    <string name="overwrite_rename">Choose a new name</string>
+    <string name="overwrite_rename">Andika upya programu zilizopakuliwa</string>
     <!--  -->
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Untitled song</string>
     <string name="pocket_music_default_track_name">Track 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
-    <string name="prestage_resource_not_available_title">Component not available</string>
+    <string name="prestage_text_to_speech_engine_not_installed">Injini text-to-Speech haija sanidiwa! \n je  unataka kusakinisha?</string>
+    <string name="prestage_resource_not_available_title">Kijenzi hakipatikani</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
     <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
         are the one connected to the drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
-    <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
-    <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-    <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
-    <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
+    <string name="prestage_no_acceleration_sensor_available">\u2022 sensor ongeza kasi\n</string>
+    <string name="prestage_no_inclination_sensor_available">\u2022 mwelekeo sensor\n</string>
+    <string name="prestage_no_compass_sensor_available">Mkebe</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
+    <string name="prestage_text_to_speech_error">Injini Text-to-Speech </string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
@@ -738,51 +733,51 @@
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
-    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-    <string name="no_nfc_available">NFC not available</string>
+    <string name="prestage_default_resource_not_available">\u2022 kijenzi hakijulikani\n</string>
+    <string name="no_nfc_available">NFC haipatikani</string>
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
     <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
         issues.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
-    <string name="stage_dialog_axes_on">Axes on</string>
-    <string name="stage_dialog_axes_off">Axes off</string>
-    <string name="stage_dialog_maximize">Maximize/\nstretch</string>
-    <string name="stage_dialog_screenshot">Preview</string>
+    <string name="stage_dialog_back">Nyuma</string>
+    <string name="stage_dialog_resume">Rejea</string>
+    <string name="stage_dialog_restart">Anzisha tena</string>
+    <string name="stage_dialog_axes_on">Muhimili washa </string>
+    <string name="stage_dialog_axes_off">Muhimili zima </string>
+    <string name="stage_dialog_maximize">Kuza/\nnyoosha </string>
+    <string name="stage_dialog_screenshot">Ona mwoneko awali</string>
     <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
+    <string name="dialog_new_broadcast_message_title">Ujumbe mpya</string>
     <string name="dialog_broadcast_message_name">message:</string>
     <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
     <!-- NFC spinner -->
     <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
-    <string name="brick_when_nfc_default_all">all</string>
+    <string name="brick_when_nfc_default_all">yote/wote</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories" tools:ignore="UnusedResources">Categories</string>
+    <string name="categories" tools:ignore="UnusedResources">Jamii</string>
     <string name="category_embroidery" tools:ignore="UnusedResources">Embroidery</string>
-    <string name="category_motion" tools:ignore="UnusedResources">Motion</string>
-    <string name="category_looks" tools:ignore="UnusedResources">Looks</string>
-    <string name="category_pen" tools:ignore="UnusedResources">Pen</string>
-    <string name="category_sound" tools:ignore="UnusedResources">Sound</string>
-    <string name="category_control" tools:ignore="UnusedResources">Control</string>
-    <string name="category_event" tools:ignore="UnusedResources">Event</string>
+    <string name="category_motion" tools:ignore="UnusedResources">Mwendo</string>
+    <string name="category_looks" tools:ignore="UnusedResources">Muonekano</string>
+    <string name="category_pen" tools:ignore="UnusedResources">Kalamu</string>
+    <string name="category_sound" tools:ignore="UnusedResources">Sauti</string>
+    <string name="category_control" tools:ignore="UnusedResources">Dhibiti</string>
+    <string name="category_event" tools:ignore="UnusedResources">Tukio</string>
     <string name="category_user_bricks" tools:ignore="UnusedResources">Your bricks</string>
     <string name="category_data" tools:ignore="UnusedResources">Data</string>
     <string name="category_device" tools:ignore="UnusedResources">Device</string>
-    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT </string>
     <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
     <string name="category_drone" tools:ignore="UnusedResources">AR.Drone 2.0</string>
     <string name="category_jumping_sumo" tools:ignore="UnusedResources">Jumping Sumo</string>
     <string name="category_phiro" tools:ignore="UnusedResources">Phiro</string>
     <string name="category_arduino" tools:ignore="UnusedResources">Arduino</string>
-    <string name="category_cast" tools:ignore="UnusedResources">Chromecast</string>
-    <string name="category_raspi" tools:ignore="UnusedResources">Raspberry Pi</string>
+    <string name="category_cast" tools:ignore="UnusedResources">Rusha </string>
+    <string name="category_raspi" tools:ignore="UnusedResources">Rasiberi pi</string>
     <string name="category_assertions" tools:ignore="UnusedResources">Testing</string>
     <!--  -->
     <!-- User Defined Bricks -->
@@ -796,99 +791,99 @@
     <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">Report</string>
+    <string name="brick_report" tools:ignore="UnusedResources">Ripoti</string>
     <!--  -->
     <!-- Motion bricks -->
-    <string name="brick_place_at" tools:ignore="UnusedResources">"Place at"</string>
+    <string name="brick_place_at" tools:ignore="UnusedResources">"Weka "</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label" tools:ignore="UnusedResources">"x:"</string>
-    <string name="y_label" tools:ignore="UnusedResources">"y:"</string>
-    <string name="brick_set_x" tools:ignore="UnusedResources">"Set x to"</string>
-    <string name="brick_set_y" tools:ignore="UnusedResources">"Set y to"</string>
-    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Change x by"</string>
-    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Change y by"</string>
-    <string name="brick_go_back" tools:ignore="UnusedResources">Go back</string>
-    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Set rotation style"</string>
-    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">left-right only</string>
-    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">all-around</string>
-    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">don\'t rotate</string>
+    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
+    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"Weka X iwe"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"Weka X iwe"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">"Mabadiliko ya X na "</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">"Mabadiliko ya X na "</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">Rudi</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Mzunguko wa Seti mtindo "</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">kushoto-kulia tu</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">wote-mzunguko</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">usizungushe</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">layer</item>
-        <item quantity="other">layers</item>
+        <item quantity="one">tabaka</item>
+        <item quantity="other">tabaka</item>
     </plurals>
-    <string name="brick_come_to_front" tools:ignore="UnusedResources">Go to front</string>
-    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">If on edge, bounce</string>
-    <string name="brick_move" tools:ignore="UnusedResources">Move</string>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">Nenda mbele</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">Kama ukingoni, dunda</string>
+    <string name="brick_move" tools:ignore="UnusedResources">Hamisha</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">step</item>
-        <item quantity="other">steps</item>
+        <item quantity="one">hatua</item>
+        <item quantity="other">hatua</item>
     </plurals>
-    <string name="brick_turn_left" tools:ignore="UnusedResources">Turn left</string>
-    <string name="brick_turn_right" tools:ignore="UnusedResources">Turn right</string>
-    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Point in direction</string>
-    <string name="brick_point_to" tools:ignore="UnusedResources">Point towards</string>
-    <string name="brick_glide" tools:ignore="UnusedResources">Glide</string>
-    <string name="brick_glide_to_x" tools:ignore="UnusedResources">to x:</string>
-    <string name="brick_go_to" tools:ignore="UnusedResources">Go to</string>
-    <string name="brick_go_to_touch_position">touch position</string>
-    <string name="brick_go_to_random_position">random position</string>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">Geuka kushoto</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">Geuka kulia</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">Hatua katika mwelekeo</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">Hatua kuelekea</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">bimbilika</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">kwa x:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">Nenda</string>
+    <string name="brick_go_to_touch_position">Gusa nafasi</string>
+    <string name="brick_go_to_random_position">Nafasi nasibu</string>
     <!--  -->
     <!-- Physics -->
-    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Set your motion type to</string>
-    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">moving and bouncing under gravity</string>
-    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">not moving under gravity, but others bounce off you under gravity</string>
-    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">not moving or bouncing under gravity (default)</string>
-    <string name="brick_set_mass" tools:ignore="UnusedResources">"Set mass to"</string>
-    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kilogram</string>
-    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Set gravity for all actors and objects to"</string>
-    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">steps/second²</string>
-    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Set velocity to"</string>
-    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">steps/second</string>
-    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">degrees/second</string>
-    <string name="brick_set_friction" tools:ignore="UnusedResources">"Set friction to"</string>
-    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Set bounce factor to"</string>
-    <string name="brick_rotate_left" tools:ignore="UnusedResources">"Spin left"</string>
-    <string name="brick_rotate_right" tools:ignore="UnusedResources">"Spin right"</string>
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Seti aina ya mwendo kasi kwa</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">Dunda na mvuto </string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">Nyingine zinadunda mbali na </string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">hakuna kudunda</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"Kuweka wingi kwa"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">kilogramu</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"weka mvuto kwa vitu vyote"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">hatua/sekunde</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Seti kasi "</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">hatua/sekunde</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">nyuzi/sekunde</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"Weka msuguano kwa "</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"Sababu ya mdundo seti ya "</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"Zungusha kushoto "</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"Zungusha kulia "</string>
     <!-- Look bricks -->
-    <string name="brick_set_look" tools:ignore="UnusedResources">Switch to look</string>
-    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Switch to look with number</string>
-    <string name="brick_and_wait">and wait</string>
-    <string name="brick_set_background" tools:ignore="UnusedResources">Set background</string>
+    <string name="brick_set_look" tools:ignore="UnusedResources">Nenda kwa muonekano</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">Nenda kwa muonekano wenye namba</string>
+    <string name="brick_and_wait">na subiri</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">Weka mandharinyuma</string>
     <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Set background and wait</string>
-    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Set background to number</string>
-    <string name="brick_when_background" tools:ignore="UnusedResources">When background changes to</string>
-    <string name="brick_set_size_to" tools:ignore="UnusedResources">Set size to</string>
-    <string name="brick_change_size_by" tools:ignore="UnusedResources">Change size by</string>
-    <string name="brick_hide" tools:ignore="UnusedResources">Hide</string>
-    <string name="brick_show" tools:ignore="UnusedResources">Show</string>
-    <string name="brick_set_transparency" tools:ignore="UnusedResources">"Set transparency"</string>
-    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Change transparency"</string>
-    <string name="brick_set_brightness" tools:ignore="UnusedResources">"Set brightness"</string>
-    <string name="brick_change_brightness" tools:ignore="UnusedResources">"Change brightness"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Set colour "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Change colour "</string>
-    <string name="by_label" tools:ignore="UnusedResources">by</string>
-    <string name="to_label" tools:ignore="UnusedResources">to</string>
-    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Clear graphic effects</string>
-    <string name="brick_next_look" tools:ignore="UnusedResources">Next look</string>
-    <string name="brick_next_background">Next background</string>
-    <string name="brick_previous_look" tools:ignore="UnusedResources">Previous look</string>
-    <string name="brick_previous_background">Previous background</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Weka mandharinyuma kwa namba</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">Itakapobadilika mandharinyuma kuwa</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">Weka ukubwa kuwa</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">Badilisha ukubwa kwa</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">Ficha</string>
+    <string name="brick_show" tools:ignore="UnusedResources">Onyesha</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"Weka uwazi "</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Badili uwazi "</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"Weka Mwangaza "</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"Badili mwangaza "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Seti rangi "</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Badili rangi "</string>
+    <string name="by_label" tools:ignore="UnusedResources">na</string>
+    <string name="to_label" tools:ignore="UnusedResources">kwa</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Athari ya wazi ya kielezo</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">Angalia ijayo</string>
+    <string name="brick_next_background">Mandharinyuma inayofuata</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">Muonekano uliopita</string>
+    <string name="brick_previous_background">Mandharinyuma iliyopita</string>
     <string name="brick_edit_look" tools:ignore="UnusedResources">Edit look</string>
     <string name="brick_edit_background">Edit background</string>
     <string name="brick_delete_look" tools:ignore="UnusedResources">Delete look</string>
     <string name="brick_delete_background">Delete background</string>
-    <string name="brick_flash" tools:ignore="UnusedResources">Turn flashlight</string>
-    <string name="brick_flash_on" tools:ignore="UnusedResources">on</string>
-    <string name="brick_flash_off" tools:ignore="UnusedResources">off</string>
-    <string name="brick_vibration" tools:ignore="UnusedResources">Vibrate for</string>
-    <string name="brick_ask_label" tools:ignore="UnusedResources">Ask</string>
-    <string name="brick_ask_store" tools:ignore="UnusedResources">and store written answer in</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">Washa tochi</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">waka</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">zimwa</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">Tetemesha kwa</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">Uliza</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">na hifadhi majibu yaliyoandikwa kwenye</string>
     <string name="brick_ask_default_question">What\'s your name?</string>
-    <string name="brick_ask_dialog_hint">"Enter your answer:"</string>
-    <string name="brick_ask_dialog_submit">Submit answer</string>
-    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">Ask</string>
-    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">and store spoken answer in</string>
+    <string name="brick_ask_dialog_hint">"Ingiza jibu lako:"</string>
+    <string name="brick_ask_dialog_submit">Tuma majibu</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">Uliza</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">na hifadhi majibu yaliyosemwa kwenye</string>
     <string name="brick_ask_speech_default_question">What\'s your name?</string>
     <string name="brick_paint_new_look" tools:ignore="UnusedResources">Paint new look</string>
     <string name="brick_paint_new_background">Paint new background</string>
@@ -898,23 +893,23 @@
     <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
-    <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
-    <string name="brick_pen_size" tools:ignore="UnusedResources">Set pen size to</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen colour to</string>
-    <string name="brick_clear_background" tools:ignore="UnusedResources">Clear</string>
-    <string name="brick_stamp" tools:ignore="UnusedResources">Stamp</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">Kalamu chini</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">Kalamu juu</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">Seti ukubwa wa kalamu kwa</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Seti rangi ya kalamu kwa</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">Safisha</string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">Muhuri</string>
     <!--  -->
     <!-- Sound bricks -->
-    <string name="brick_play_sound" tools:ignore="UnusedResources">Start sound</string>
-    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">Start sound and wait</string>
+    <string name="brick_play_sound" tools:ignore="UnusedResources">Anzisha sauti</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">Anzisha sauti na subiri</string>
     <string name="brick_stop_sound" tools:ignore="UnusedResources">Stop sound</string>
-    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Stop all sounds</string>
-    <string name="brick_set_volume_to" tools:ignore="UnusedResources">Set volume to</string>
-    <string name="brick_change_volume_by" tools:ignore="UnusedResources">Change volume by</string>
-    <string name="brick_speak" tools:ignore="UnusedResources">Speak</string>
-    <string name="brick_speak_default_value">Hello!</string>
-    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">and wait</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">Komesha sauti zote</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">Seti sauti kwa</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">Badili sauti kwa</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">Ongea</string>
+    <string name="brick_speak_default_value">Habari!</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">na subiri</string>
     <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Start listening to voice and store spoken words in</string>
     <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
     <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
@@ -928,7 +923,7 @@
     <string name="play_drum" tools:ignore="UnusedResources">Play drum</string>
     <string name="beats" tools:ignore="UnusedResources">beats</string>
     <string name="play_note" tools:ignore="UnusedResources">Play note</string>
-    <string name="for_string" tools:ignore="UnusedResources">for</string>
+    <string name="for_string" tools:ignore="UnusedResources">kwa ajili ya</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch" tools:ignore="UnusedResources">Stitch</string>
@@ -943,56 +938,56 @@
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
-    <string name="brick_open" tools:ignore="UnusedResources">Open</string>
+    <string name="brick_open" tools:ignore="UnusedResources">Fungua </string>
     <string name="brick_in_browser" tools:ignore="UnusedResources">in browser</string>
     <!-- Control bricks -->
-    <string name="brick_when_started" tools:ignore="UnusedResources">When scene starts</string>
-    <string name="brick_when" tools:ignore="UnusedResources">When tapped</string>
-    <string name="brick_when_condition_when" tools:ignore="UnusedResources">When</string>
-    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">becomes true</string>
-    <string name="brick_wait" tools:ignore="UnusedResources">Wait</string>
-    <string name="brick_wait_until" tools:ignore="UnusedResources">Wait until</string>
-    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">is true</string>
-    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">When gamepad button</string>
-    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">tapped</string>
-    <string name="brick_when_nfc" tools:ignore="UnusedResources">When NFC</string>
-    <string name="brick_stop_script" tools:ignore="UnusedResources">Stop</string>
-    <string name="brick_stop_this_script" tools:ignore="UnusedResources">this script</string>
-    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">all scripts</string>
-    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">other scripts of this actor or object</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">Programu itakapoanza</string>
+    <string name="brick_when" tools:ignore="UnusedResources">Inapokingwa</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">Wakati</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">inakuwa kweli</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">Subiri</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">Subiri hadi</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">ni kweli</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">Wakati gamepad kitufe</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">kingwa</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">Wakati NFC</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">Komesha</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">hati hii</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">hati zote</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">hati nyingine ya kipengee hiki</string>
     <plurals name="second_plural">
-        <item quantity="one">"second"</item>
+        <item quantity="one">"sekunde "</item>
         <item quantity="other">"seconds"</item>
     </plurals>
-    <string name="brick_collision_receive" tools:ignore="UnusedResources">When you bounce off</string>
-    <string name="collision_with_anything">any edge, actor, or object</string>
-    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">When you receive</string>
-    <string name="brick_broadcast" tools:ignore="UnusedResources">Broadcast</string>
-    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Broadcast and wait</string>
-    <string name="brick_scene_transition" tools:ignore="UnusedResources">Continue scene</string>
-    <string name="brick_scene_start" tools:ignore="UnusedResources">Start scene</string>
-    <string name="brick_note" tools:ignore="UnusedResources">Note</string>
-    <string name="brick_think_bubble" tools:ignore="UnusedResources">Think</string>
-    <string name="brick_say_bubble" tools:ignore="UnusedResources">Say</string>
-    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">for</string>
-    <string name="brick_forever" tools:ignore="UnusedResources">Forever</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">Inapogongana na</string>
+    <string name="collision_with_anything">kitu chochote</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Wakati unapokea</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">Tangaza</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Tangaza na subiri</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">Endeleza tukio</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">Anzisha tukio</string>
+    <string name="brick_note" tools:ignore="UnusedResources">Kumbukumbu</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">Fikiria</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">Sema</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">kwa ajili ya</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">Milele</string>
     <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
     <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">For each value from</string>
     <string name="brick_loop_in" tools:ignore="UnusedResources">in</string>
-    <string name="brick_loop_to" tools:ignore="UnusedResources">to</string>
-    <string name="brick_repeat" tools:ignore="UnusedResources">Repeat</string>
-    <string name="brick_repeat_until" tools:ignore="UnusedResources">Repeat until</string>
-    <string name="brick_when_touched" tools:ignore="UnusedResources">When stage is tapped</string>
-    <string name="brick_clone" tools:ignore="UnusedResources">Create clone of</string>
-    <string name="brick_clone_this">yourself</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">When you start as a clone</string>
-    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Delete this clone</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">kwa</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">Rudia</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">Rudia hadi</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">Wakati skrini imeguswa</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">Unda kiunganishi cha</string>
+    <string name="brick_clone_this">mwenyewe</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">Unapoanza kama kiunganishi</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Futa hiki kiunganisho</string>
     <string name="brick_assert_that" tools:ignore="UnusedResources">Assert</string>
     <string name="brick_is_equal_to" tools:ignore="UnusedResources">equals expected</string>
     <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at" tools:ignore="UnusedResources">"Single tap at"</string>
     <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
-    <string name="brick_tap_for" tools:ignore="UnusedResources">"for"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"kwa ajili ya"</string>
     <string name="brick_touch_slide" tools:ignore="UnusedResources">"Touch and slide"</string>
     <string name="brick_touch_from_x" tools:ignore="UnusedResources">"from x:"</string>
     <string name="brick_finish_stage" tools:ignore="UnusedResources">Finish stage</string>
@@ -1015,16 +1010,16 @@
         <item quantity="other">%d lists selected</item>
     </plurals>
     <plurals name="time_plural">
-        <item quantity="one">time</item>
-        <item quantity="other">times</item>
+        <item quantity="one">muda</item>
+        <item quantity="other">muda</item>
     </plurals>
-    <string name="brick_loop_end">End of loop</string>
-    <string name="brick_if_begin" tools:ignore="UnusedResources">If</string>
-    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">is true then</string>
-    <string name="brick_if_else" tools:ignore="UnusedResources">Else</string>
-    <string name="brick_if_end">End if</string>
-    <string name="brick_set_variable" tools:ignore="UnusedResources">Set variable</string>
-    <string name="brick_change_variable" tools:ignore="UnusedResources">Change variable</string>
+    <string name="brick_loop_end">Mwisho wa kitanzi</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">kama</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">ni kweli basi</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">Vinginevyo</string>
+    <string name="brick_if_end">Mwisho kama</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">Weka aina</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">Badilisha aina</string>
     <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Write variable on device</string>
     <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Read variable from device</string>
     <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Write variable</string>
@@ -1033,26 +1028,26 @@
     <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
     <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Read variable</string>
     <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">from file</string>
-    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">and</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">NA</string>
     <string name="brick_read_variable_from_file_keep">keep the file</string>
     <string name="brick_read_variable_from_file_delete">delete the file</string>
     <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Write list on device</string>
     <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Read list from device</string>
-    <string name="brick_note_default_value">add comment here&#8230;</string>
+    <string name="brick_note_default_value">ongeza maoni yako hapa&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
-    <string name="brick_say_bubble_default_value">Hello!</string>
-    <string name="brick_broadcast_default_value">"new message"</string>
-    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Add</string>
-    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">to list</string>
+    <string name="brick_say_bubble_default_value">Habari!</string>
+    <string name="brick_broadcast_default_value">"ujumbe mpya"</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Ongeza</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">katika orodha</string>
     <string name="brick_clear_userlist" tools:ignore="UnusedResources">Delete all items from list</string>
-    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Delete item from list</string>
-    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">at position</string>
-    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Insert</string>
-    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">into list</string>
-    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">at position</string>
-    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Replace item in list</string>
-    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">at position</string>
-    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">with</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">Futa kipengele kutoka kwenye orodha</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">katika nafasi ya</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">Weka</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">katika orodha</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">katika nafasi ya</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">Badilisha kipengele katika orodha</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">katika nafasi ya</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">na</string>
     <string name="brick_web_request" tools:ignore="UnusedResources">Send web request to</string>
     <string name="brick_web_request_default_value">https://catrob.at/joke</string>
     <string name="brick_web_request_result" tools:ignore="UnusedResources">and store answer in</string>
@@ -1079,7 +1074,7 @@
     <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Store column</string>
     <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">of the</string>
     <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">comma-separated values</string>
-    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">into list</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">katika orodha</string>
     <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
     <!--  -->
     <!--Instruments-->
@@ -1128,14 +1123,14 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Tukio %1$d</string>
     <string name="default_script_group_name">Script group</string>
-    <string name="default_broadcast_message_name">Message</string>
+    <string name="default_broadcast_message_name">Ujumbe</string>
     <string name="default_list_name">List</string>
-    <string name="default_project_background_name">Background</string>
-    <string name="default_project_cloud_name">Clouds</string>
-    <string name="default_project_cloud_sprite_name_1">Clouds1</string>
-    <string name="default_project_cloud_sprite_name_2">Clouds2</string>
+    <string name="default_project_background_name">Mandharinyuma</string>
+    <string name="default_project_cloud_name">Mawingu</string>
+    <string name="default_project_cloud_sprite_name_1">Mawingu 1</string>
+    <string name="default_project_cloud_sprite_name_2">Mawingu</string>
     <string name="default_project_sprites_animal_name">Animal</string>
     <string name="default_project_sprites_animal_wings_up">Wings up</string>
     <string name="default_project_sprites_animal_wings_down">Wings down</string>
@@ -1148,78 +1143,78 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Background</string>
-    <string name="default_cast_project_cloud_name">Clouds</string>
-    <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
-    <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
-    <string name="default_cast_project_sprites_bird_name">Bird</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up">Bird Wings up</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down">Bird Wings down</string>
-    <string name="default_cast_project_sprites_bird_name_wing_up_left">Bird Wings up left</string>
-    <string name="default_cast_project_sprites_bird_name_wing_down_left">Bird Wings down left</string>
+    <string name="default_cast_project_background_name">Mandharinyuma</string>
+    <string name="default_cast_project_cloud_name">Mawingu</string>
+    <string name="default_cast_project_cloud_sprite_name1">Mawingu1</string>
+    <string name="default_cast_project_cloud_sprite_name2">Mawingu2</string>
+    <string name="default_cast_project_sprites_bird_name">Ndege</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up">Mabawa ya ndege juu</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down">Mabawa ya ndege chini</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">Mabawa ya ndege juu kushoto</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">Mabawa ya ndege chini kushoto</string>
     <string name="default_cast_project_sprites_tweet_1">Tweet1</string>
     <string name="default_cast_project_sprites_tweet_2">Tweet2</string>
-    <string name="default_cast_project_var_direction">direction</string>
-    <string name="default_cast_project_name">My first Chromecast project</string>
+    <string name="default_cast_project_var_direction">mwelekeo</string>
+    <string name="default_cast_project_name">Programu yangu ya kwanza kurushwa</string>
     <!-- Default Drone Values -->
-    <string name="drone_brick_set_text">Text</string>
+    <string name="drone_brick_set_text">Maandishi</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
-    <string name="drone_config_indoor_with_hull">indoor with hull</string>
-    <string name="drone_config_indoor_without_hull">indoor without hull</string>
-    <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
-    <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+    <string name="drone_config_indoor_with_hull">ndani na ganda</string>
+    <string name="drone_config_indoor_without_hull">ndani bila ganda</string>
+    <string name="drone_config_outdoor_with_hull">nje na ganda</string>
+    <string name="drone_config_outdoor_without_hull">nje bila ganda</string>
     <!-- Drone altitude limit values  -->
-    <string name="drone_set_altitude_max_3m">3 meters</string>
-    <string name="drone_set_altitude_max_5m">5 meters</string>
-    <string name="drone_set_altitude_max_10m">10 meters</string>
-    <string name="drone_set_altitude_max_100m">100 meters</string>
+    <string name="drone_set_altitude_max_3m">mita 3</string>
+    <string name="drone_set_altitude_max_5m">mita 5</string>
+    <string name="drone_set_altitude_max_10m">mita 10</string>
+    <string name="drone_set_altitude_max_100m">mita 100</string>
     <!-- Drone max vertical speed limit values  -->
     <string name="drone_set_vertical_min">200 mm/s</string>
-    <string name="drone_set_vertical_indoor">700 mm/s</string>
+    <string name="drone_set_vertical_indoor">200 mm/s</string>
     <string name="drone_set_vertical_outdoor">1000 mm/s</string>
     <string name="drone_set_vertical_max">2000 mm/s</string>
     <!-- Drone max rotation speed limit values  -->
-    <string name="drone_set_rotation_min">40 degrees/s</string>
-    <string name="drone_set_rotation_indoor">100 degrees/s</string>
-    <string name="drone_set_rotation_outdoor">200 degrees/s</string>
-    <string name="drone_set_rotation_max">350 degrees/s</string>
+    <string name="drone_set_rotation_min">40 nyuzi/s</string>
+    <string name="drone_set_rotation_indoor">100 nyuzi/s</string>
+    <string name="drone_set_rotation_outdoor">200 nyuzi/s</string>
+    <string name="drone_set_rotation_max">350 nyuzi/s</string>
     <!-- Drone max tilt limit values  -->
-    <string name="drone_set_tilt_min">5 degrees</string>
-    <string name="drone_set_tilt_indoor">12 degrees</string>
-    <string name="drone_set_tilt_outdoor">20 degrees </string>
-    <string name="drone_set_tilt_max">30 degrees</string>
+    <string name="drone_set_tilt_min">nyuzi 5</string>
+    <string name="drone_set_tilt_indoor">nyuzi 12</string>
+    <string name="drone_set_tilt_outdoor">nyuzi 20 </string>
+    <string name="drone_set_tilt_max">nyuzi 30</string>
     <!-- Notification Channel -->
     <string name="channel_description">%1$s notification channel</string>
     <!--  -->
     <!-- Notifications -->
-    <string name="notification_screenshot_ok">Preview image saved</string>
+    <string name="notification_screenshot_ok">Mwonekano wa picha iliyohifadhiwa</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
-    <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Uploading"</string>
-    <string name="notification_upload_title_finished">"Look at"</string>
-    <string name="notification_upload_pending">Upload in progress</string>
-    <string name="notification_upload_finished">Upload successful</string>
-    <string name="notification_upload_rejected">Uploaded project rejected</string>
-    <string name="notification_upload_retry">Retry</string>
-    <string name="notification_open_play_store">Open App store</string>
-    <string name="notification_download_title_pending">"Downloading"</string>
-    <string name="notification_download_pending">Download in progress</string>
-    <string name="notification_download_finished">Download successful</string>
-    <string name="notification_title_open">"Open"</string>
+    <string name="notification_reconvert_download_program_cancel">Upakuaji umefutwa/inarejesha programu</string>
+    <string name="notification_upload_title_pending">"Kuweka "</string>
+    <string name="notification_upload_title_finished">"Tazama "</string>
+    <string name="notification_upload_pending">Inaendelea kupakia</string>
+    <string name="notification_upload_finished">Kupakia kumefaulu</string>
+    <string name="notification_upload_rejected">Programu iliyopakiwa imekataliwa</string>
+    <string name="notification_upload_retry">Jaribu tena</string>
+    <string name="notification_open_play_store">Fungua Play Store</string>
+    <string name="notification_download_title_pending">"Inapakua "</string>
+    <string name="notification_download_pending">Inaendelea kupakua</string>
+    <string name="notification_download_finished">Kupakua kumefaulu</string>
+    <string name="notification_title_open">"Fungua "</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
-    <string name="size_of_project">Size:</string>
-    <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
-    <string name="drone_emergency_camera">One or more cameras are not responding.</string>
-    <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR. Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behaviour.</string>
-    <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
-    <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
+    <string name="size_of_project">Ukubwa:</string>
+    <string name="drone_emergency_battery_low">Betri iko chini (kutua otomatiki).</string>
+    <string name="drone_emergency_camera">Kamera moja au zaidi ni haziitiki.</string>
+    <string name="drone_emergency_ultrasound">Kihisio cha ultrasound hakiitikii.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
+    <string name="drone_emergency_cutout">mota Moja au zaidi walisimamishwa na mazingira.</string>
+    <string name="drone_alert_battery_low">Betri iko chini sana kuchukua tena.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
-    <string name="drone_alert_vision">No speed estimation from bottom facing camera.</string>
-    <string name="drone_emergency_title">Emergency</string>
+    <string name="drone_alert_vision">Hakuna hesabu ya kasi kutoka chini inakabiliwa na kamera.</string>
+    <string name="drone_emergency_title">Dharura</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1227,173 +1222,167 @@ Camera brick needs access to the device\'s camera, the \"location\" formula elem
 device\'s geolocation sensor, and in order to import and export projects from and to the local memory, the app
 needs read and write access to it. You can always change permissions through your device\'s settings.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Something went wrong while uploading the project.</string>
-    <string name="error_project_download">Something went wrong while downloading the project.</string>
+    <string name="error_project_upload">Kosa limetokea wakati wa kupakia programu.</string>
+    <string name="error_project_download">Kosa limetokea wakati wa kupakua programu.</string>
     <string name="error_project_already_in_queue">"Project %s already in queue."</string>
     <string name="error_could_not_decode_project_name_from_url">"Your download could not be
         started, seems there is a problem with our server."</string>
-    <string name="error_new_project">Something went wrong while creating a new project.</string>
-    <string name="error_rename_scene">Something went wrong while renaming the scene.</string>
-    <string name="error_load_project">Something went wrong while loading the project.</string>
-    <string name="error_screenshot_failed">Something went wrong while saving the preview image.</string>
-    <string name="error_internet_connection">An unknown error occurred. Check your Internet connection.</string>
+    <string name="error_new_project">Kosa limetokea wakati wa kuunda programu upya.</string>
+    <string name="error_rename_scene">Kosa limetokea wakati wa kuandika upya tukio hili.</string>
+    <string name="error_load_project">Kosa limetokea wakati wa kuiwezesha programu.</string>
+    <string name="error_screenshot_failed">Kosa limetokea wakati wa kuhifadhi mwonekano wa picha.</string>
+    <string name="error_internet_connection">Kosa lisilojulikana limetokea. Kagua muunganisho wa mtandao wako.</string>
     <string name="error_project_compatibility">The project is not compatible with this version of the app.</string>
-    <string name="error_outdated_version">This app version is outdated. Update now?</string>
+    <string name="error_outdated_version">Toleo hili la programu limepitwa na wakati. Sasisha sasa?</string>
     <string name="error_upload_project_with_default_name">You cannot upload a project with the name \"My first project\".
         Please rename the project.</string>
     <string name="error_upload_default_project">You cannot upload an unmodified example project. Please
         change something and try again.</string>
-    <string name="error_adding_brick">Something went wrong while adding this brick.</string>
-    <string name="error_copying_brick">Something went wrong while copying this brick.</string>
+    <string name="error_adding_brick">Kosa limetokea wakati wa kuongeza tofali hili.</string>
+    <string name="error_copying_brick">Kosa limetokea wakati wa kunakili tofali hili.</string>
     <string name="error_no_drone_connected_title">Cannot find AR.Drone 2.0.</string>
     <string name="error_no_drone_connected">Connect your wifi to the AR.Drone 2.0 and try again.</string>
     <string name="error_drone_low_battery_title">AR.Drone 2.0 battery low: %d%%</string>
-    <string name="error_drone_low_battery">Insert a charged battery and try again.</string>
+    <string name="error_drone_low_battery">Chomeka betri iliyochagiwa na jaribu tena.</string>
     <string name="error_jumpingsumo_wrong_platform">We cannot run a Jumping Sumo project on your device.</string>
     <string name="error_no_jumpingsumo_connected_title">Cannot find Jumping Sumo</string>
     <string name="error_no_jumpingsumo_connected">Connect your wifi to the Jumping Sumo and try again.</string>
     <string name="error_jumpingsumo_battery_title">Jumping Sumo battery low</string>
-    <string name="error_jumpingsumo_battery">Insert a charged battery and try again.</string>
+    <string name="error_jumpingsumo_battery">Chomeka betri iliyochagiwa na jaribu tena.</string>
     <string name="error_jumpingsumo_wrong_platform_title">No Jumping Sumo support</string>
     <string name="error_drone_wrong_platform_title">No AR.Drone 2.0 support.</string>
     <string name="error_drone_wrong_platform">We cannot run an AR.Drone 2.0 project on your device.</string>
-    <string name="error_rename_incompatible_project">Renaming an incompatible project is not possible.</string>
+    <string name="error_rename_incompatible_project">Haiwezekani kuita jina jipya wa mradi usiopatanifu.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
     <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
-    <string name="error_unknown_error">Something went wrong.</string>
+    <string name="error_unknown_error">Kosa lisilojulikana limetokea.</string>
     <string name="error_gps_not_available">Geolocation data is not available.</string>
-    <string name="error_set_description">Something went wrong while saving the new description.</string>
+    <string name="error_set_description">Kosa limetokea wakati wa kuhifadhi maelezo mapya.</string>
     <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
         and credits.</string>
-    <string name="error_no_whatsapp">WhatsApp not installed</string>
+    <string name="error_no_whatsapp">WhatsApp haija wekwa</string>
     <string name="error_unsupported_bricks_chromecast">This script can\'t be added  to a Chromecast
         project.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
     <string name="notification_blueth_err">Can\'t enable Bluetooth, please try turning it off and on again.</string>
-    <string name="title_paired_devices">Paired devices</string>
-    <string name="title_other_devices">New devices</string>
-    <string name="searching_devices">Looking for devices&#8230;</string>
-    <string name="button_scan">Search Bluetooth devices</string>
-    <string name="select_device">Select device:</string>
-    <string name="connecting_please_wait">Connecting to your device.\nPlease wait&#8230;</string>
+    <string name="title_paired_devices">Vifaa vya jozi</string>
+    <string name="title_other_devices">Vifaa vipya</string>
+    <string name="searching_devices">Inatafuta vifaa&#8230;</string>
+    <string name="button_scan">Tafuta vifaa vya Bluetooth</string>
+    <string name="select_device">Chagua kifaa:</string>
+    <string name="connecting_please_wait">Inaunganisha kwenye kifaa chako.\nTafadhari subiri&#8230;</string>
     <!-- <string name="pairing_message">After pairing, connect.</string> -->
-    <string name="bt_connection_failed">Connection to device failed!</string>
-    <string name="none_found">No unpaired devices found</string>
-    <string name="none_paired">No paired devices found</string>
+    <string name="bt_connection_failed">Muunganisho kwenye kifaa umeshindikana!</string>
+    <string name="none_found">Hakuna vifaa visivyo na jozi vilivyopatikana</string>
+    <string name="none_paired">Hakuna vifaa vilivyo na jozi vilivyopatikana</string>
     <!--  -->
     <!-- Arduino Bricks -->
-    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Set Arduino digital pin</string>
-    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Set Arduino PWM~ pin</string>
-    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">to</string>
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">Kuweka pin ya dijiti ya Arduino</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">Kuweka Arduino PWM ~ Bana</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">kwa</string>
     <!--  -->
     <!-- Raspi Bricks -->
-    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Set Raspberry Pi pin</string>
-    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">to</string>
-    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">If Raspberry Pi pin</string>
-    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">is true then</string>
-    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">When Raspberry Pi pin</string>
-    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">changes to</string>
-    <string name="brick_raspi_pressed_text">high</string>
-    <string name="brick_raspi_released_text">low</string>
-    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Set Raspberry Pi PWM pin</string>
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">Bana seti ya rasiberi Pi</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">kwa</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources">Bana seti ya rasiberi Pi</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">ni kweli basi</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">Bana seti ya rasiberi Pi</string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">mabidiliko kwa</string>
+    <string name="brick_raspi_pressed_text">juu</string>
+    <string name="brick_raspi_released_text">chini</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">Bana seti ya rasiberi Pi</string>
     <!--  -->
     <!-- Raspi Settings -->
-    <string name="raspi_settings_title_name">Raspberry Pi settings</string>
-    <string name="raspi_settings_gpio_version">GPIO Version</string>
+    <string name="raspi_settings_title_name">mipangilio Pi ya raspberry</string>
+    <string name="raspi_settings_gpio_version">Toleo la GPIO</string>
     <string name="error_connecting_to">Error: Could not connect to %s : %d</string>
     <!--  -->
     <!-- Lego Mindstorms Strings -->
-    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">Set NXT motor</string>
-    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">to</string>
-    <string name="nxt_motor_speed" tools:ignore="UnusedResources">speed</string>
-    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">Turn NXT motor</string>
-    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">by</string>
-    <string name="nxt_motor_stop" tools:ignore="UnusedResources">Stop NXT motor</string>
-    <string name="nxt_play_tone" tools:ignore="UnusedResources">Play NXT tone</string>
-    <string name="nxt_tone_duration" tools:ignore="UnusedResources">Duration</string>
-    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Frequency</string>
-    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">×100Hz</string>
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">Seti NXT mota</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">kwa</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">kasi</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">geuza NXT mota</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">na</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">simamisha NXT mota</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">Cheza toni ya NXT</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">Muda</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">Marudio</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">x100HZ</string>
     <string name="nxt_motor_a">A</string>
     <string name="nxt_motor_b">B</string>
     <string name="nxt_motor_c">C</string>
     <string name="nxt_motor_b_and_c">B+C</string>
-    <string name="nxt_motor_all">All</string>
-    <string name="nxt_choose_sensor_1">Sensor connected on port 1</string>
-    <string name="nxt_choose_sensor_2">Sensor connected on port 2</string>
-    <string name="nxt_choose_sensor_3">Sensor connected on port 3</string>
-    <string name="nxt_choose_sensor_4">Sensor connected on port 4</string>
-    <string name="nxt_no_sensor">none</string>
-    <string name="nxt_sensor_touch">NXT touch sensor</string>
-    <string name="nxt_sensor_sound">NXT sound sensor</string>
-    <string name="nxt_sensor_light">NXT light sensor</string>
-    <string name="nxt_sensor_light_active">NXT light sensor active</string>
-    <string name="nxt_sensor_ultrasonic">NXT ultrasonic sensor</string>
-    <string name="nxt_sensor_not_found">Sensor not found!</string>
-    <string name="lego_nxt_sensor_config_info_title">NXT sensor configuration</string>
-    <string name="preference_disable_nxt_info_dialog">Disable info dialog</string>
-    <string name="preference_disable_nxt_info_dialog_description">Project specific NXT settings are not shown when
-        opening a project.</string>
-    <string name="preference_title_mindstorms_nxt_sensors_description">The mapping of NXT sensors to ports is project
-        specific and can only be configured for opened projects.</string>
-    <string name="lego_nxt_sensor_config_info_text">The current project uses Lego Mindstorms NXT bricks or sensors. For
-        proper functionality please connect the sensors to the robot as follows</string>
+    <string name="nxt_motor_all">Vyote/Yote</string>
+    <string name="nxt_choose_sensor_1">Kihisio imeunganishwa kwenye kituo 1</string>
+    <string name="nxt_choose_sensor_2">Kihisio imeunganishwa kwenye kituo 1</string>
+    <string name="nxt_choose_sensor_3">Kihisio imeunganishwa kwenye kituo 3</string>
+    <string name="nxt_choose_sensor_4">Kihisio imeunganishwa kwenye kituoi 4</string>
+    <string name="nxt_no_sensor">hamna</string>
+    <string name="nxt_sensor_touch">NXT kihisio gusa</string>
+    <string name="nxt_sensor_sound">NXT kihisio sauti</string>
+    <string name="nxt_sensor_light">Kihisio cha mwanga NXT</string>
+    <string name="nxt_sensor_light_active">NXT kihisi mwanga amilifu</string>
+    <string name="nxt_sensor_ultrasonic">NXT ultrasonic kihisio</string>
+    <string name="nxt_sensor_not_found">Kihisio hakijapatikana!</string>
+    <string name="lego_nxt_sensor_config_info_title">NXT usanikishaji wa kihisio</string>
+    <string name="preference_disable_nxt_info_dialog">Lemaza taarifa ongezi</string>
+    <string name="preference_disable_nxt_info_dialog_description">Vipimo Programu maalum NXT hazionyeshwi unapofungua programu.</string>
+    <string name="preference_title_mindstorms_nxt_sensors_description">Ramani ya NXT Vihisio katika bandari ni programu maalum na inaweza tu kusakinishwa kwa programu zilizofunguliwa!</string>
+    <string name="lego_nxt_sensor_config_info_text">Programu ya sasa hutumia matofali ya Lego Mindstorms NXT au Vihisio. Kwa ajili ya utendaji sahihi Tafadhali kuunganisha Vihisio ya robot kama ifuatavyo</string>
     <string name="lego_port_1">Port 1</string>
     <string name="lego_port_2">Port 2</string>
     <string name="lego_port_3">Port 3</string>
     <string name="lego_port_4">Port 4</string>
     <string name="lego_sensor_config_dont_show_again">Do not show this message again.</string>
     <string name="lego_sensor_port_config_dialog_title">Choose a port for connecting to %1$s.</string>
-    <string name="lego_ev3_sensor_config_info_title">EV3 sensor configuration</string>
-    <string name="preference_disable_ev3_info_dialog_description">Project specific EV3 settings are not shown when
-        opening a project.</string>
-    <string name="preference_title_mindstorms_ev3_sensors_description">The mapping of EV3 sensors to ports is project
-        specific and can only be configured for opened projects.</string>
-    <string name="lego_ev3_sensor_config_info_text">The current project uses Lego Mindstorms EV3 bricks or sensors. For
-        proper functionality please connect the sensors to the robot as follows</string>
-    <string name="ev3_choose_sensor_1">Sensor connected on port 1</string>
-    <string name="ev3_choose_sensor_2">Sensor connected on port 2</string>
-    <string name="ev3_choose_sensor_3">Sensor connected on port 3</string>
-    <string name="ev3_choose_sensor_4">Sensor connected on port 4</string>
-    <string name="ev3_no_sensor">none</string>
-    <string name="ev3_sensor_touch">EV3 touch sensor</string>
-    <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="ev3_sensor_color">EV3 colour sensor</string>
-    <string name="ev3_sensor_color_ambient">EV3 colour sensor ambient</string>
-    <string name="ev3_sensor_color_reflected">EV3 colour sensor reflected</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic colour sensor</string>
+    <string name="lego_ev3_sensor_config_info_title">NXT usanikishaji wa kihisio</string>
+    <string name="preference_disable_ev3_info_dialog_description">Vipimo Programu maalum NXT hazionyeshwi unapofungua programu.</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">Ramani ya NXT Vihisio katika bandari ni programu maalum na inaweza tu kusakinishwa kwa programu zilizofunguliwa!</string>
+    <string name="lego_ev3_sensor_config_info_text">Programu ya sasa hutumia matofali ya Lego Mindstorms NXT au Vihisio. Kwa ajili ya utendaji sahihi Tafadhali kuunganisha Vihisio ya robot kama ifuatavyo</string>
+    <string name="ev3_choose_sensor_1">Kihisio imeunganishwa kwenye kituo 1</string>
+    <string name="ev3_choose_sensor_2">Kihisio imeunganishwa kwenye kituo 1</string>
+    <string name="ev3_choose_sensor_3">Kihisio imeunganishwa kwenye kituo 3</string>
+    <string name="ev3_choose_sensor_4">Kihisio imeunganishwa kwenye kituoi 4</string>
+    <string name="ev3_no_sensor">hamna</string>
+    <string name="ev3_sensor_touch">NXT gusa kihisio</string>
+    <string name="ev3_sensor_infrared">EV3 miali fiche butu kihisio</string>
+    <string name="ev3_sensor_color">EV3 rangi kihisio</string>
+    <string name="ev3_sensor_color_ambient">EV3 rangi kihisio iliyoko</string>
+    <string name="ev3_sensor_color_reflected">Kihisio cha rangi ya Ev3 kilicho akisiwa</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
-    <string name="ev3_sensor_nxt_light">NXT light sensor</string>
-    <string name="ev3_sensor_nxt_light_active">NXT light sensor active</string>
-    <string name="ev3_sensor_nxt_sound">NXT sound sensor</string>
-    <string name="ev3_sensor_nxt_ultrasonic">NXT ultrasonic sensor</string>
+    <string name="ev3_sensor_nxt_light">Kihisio cha mwanga NXT</string>
+    <string name="ev3_sensor_nxt_light_active">NXT kihisi mwanga amilifu</string>
+    <string name="ev3_sensor_nxt_sound">NXT kihisio sauti</string>
+    <string name="ev3_sensor_nxt_ultrasonic">NXT ultrasonic kihisio</string>
     <string name="ev3_motor_a">A</string>
     <string name="ev3_motor_b">B</string>
     <string name="ev3_motor_c">C</string>
     <string name="ev3_motor_d">D</string>
     <string name="ev3_motor_b_and_c">B+C</string>
-    <string name="ev3_motor_all">All</string>
-    <string name="ev3_play_tone" tools:ignore="UnusedResources">Play EV3 tone</string>
-    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">for</string>
-    <string name="ev3_tone_volume" tools:ignore="UnusedResources">Volume</string>
+    <string name="ev3_motor_all">Vyote/Yote</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">Cheza toni ya EV3</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">kwa ajili ya</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">Kiasi</string>
     <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
-    <string name="ev3_motor_stop" tools:ignore="UnusedResources">Stop EV3 motor</string>
-    <string name="ev3_motor_move" tools:ignore="UnusedResources">Set EV3 motor</string>
-    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">Turn EV3 motor</string>
-    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">by</string>
-    <string name="ev3_set_led_status" tools:ignore="UnusedResources">Set EV3 LED status</string>
-    <string name="ev3_led_status_off">Off</string>
-    <string name="ev3_led_status_green">Green</string>
-    <string name="ev3_led_status_red">Red</string>
-    <string name="ev3_led_status_orange">Orange</string>
-    <string name="ev3_led_status_green_flashing">Green flashing</string>
-    <string name="ev3_led_status_red_flashing">Red flashing</string>
-    <string name="ev3_led_status_orange_flashing">Orange flashing</string>
-    <string name="ev3_led_status_green_pulse">Green pulse</string>
-    <string name="ev3_led_status_red_pulse">Red pulse</string>
-    <string name="ev3_led_status_orange_pulse">Orange pulse</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">simamisha NXT mota</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">unganisha NXT mota</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">geuza NXT mota</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">na</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">Seti EV3 LED hali</string>
+    <string name="ev3_led_status_off">Zima</string>
+    <string name="ev3_led_status_green">Kijani</string>
+    <string name="ev3_led_status_red">Nyekundu</string>
+    <string name="ev3_led_status_orange">Machungwa</string>
+    <string name="ev3_led_status_green_flashing">mwanga kijani</string>
+    <string name="ev3_led_status_red_flashing">mwanga mwekundu</string>
+    <string name="ev3_led_status_orange_flashing">mwanga njano</string>
+    <string name="ev3_led_status_green_pulse">mshipa kijani</string>
+    <string name="ev3_led_status_red_pulse">mshipa mwekundu</string>
+    <string name="ev3_led_status_orange_pulse">mshipa wa njano</string>
     <!--  -->
     <!-- Drone Bricks -->
     <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">Take off / land AR.Drone 2.0</string>
@@ -1411,11 +1400,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_drone_set_config">Set config AR.Drone 2.0</string>
     <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">Switch AR.Drone 2.0 camera</string>
     <string name="brick_drone_set_altitude">Altitude limit </string>
-    <string name="brick_drone_set_vertical_speed">Vertical speed limit</string>
-    <string name="brick_drone_set_rotation_speed">Rotation speed limit</string>
-    <string name="brick_drone_set_tilt_limit">Tilt limit</string>
-    <string name="brick_drone_with." tools:ignore="UnusedResources">with</string>
-    <string name="brick_drone_power" tools:ignore="UnusedResources">power</string>
+    <string name="brick_drone_set_vertical_speed">Kidhibiti mwendokasi wima</string>
+    <string name="brick_drone_set_rotation_speed">Kidhibiti kasi mzunguko</string>
+    <string name="brick_drone_set_tilt_limit">Geuza kikomo</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">na</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">nguvu</string>
     <!--  -->
     <!-- Drone play led animation strings -->
     <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">Blink green red</string>
@@ -1424,9 +1413,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Blink orange</string>
     <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Snake green red</string>
     <string name="drone_animation_fire" tools:ignore="UnusedResources">Fire</string>
-    <string name="drone_animation_standard" tools:ignore="UnusedResources">Standard</string>
-    <string name="drone_animation_red" tools:ignore="UnusedResources">Red</string>
-    <string name="drone_animation_green" tools:ignore="UnusedResources">Green</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">Kiwango</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">Nyekunduu</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">Kijani</string>
     <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Red snake</string>
     <string name="drone_animation_blank" tools:ignore="UnusedResources">Blank</string>
     <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">Right missile</string>
@@ -1448,12 +1437,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">nyuzi</string>
     <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Sauti</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin" tools:ignore="UnusedResources">Spin</string>
@@ -1465,7 +1454,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="animation_spiral" tools:ignore="UnusedResources">Spiral</string>
     <string name="animation_slalom" tools:ignore="UnusedResources">Slalom</string>
     <!-- Jumping Sumo sound strings -->
-    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">Volume</string>
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">Kiasi</string>
     <string name="sound_default">Normal</string>
     <string name="sound_robot">Robot</string>
     <string name="sound_insect">Insect</string>
@@ -1473,23 +1462,23 @@ needs read and write access to it. You can always change permissions through you
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
-    <string name="phiro_motor_stop" tools:ignore="UnusedResources">Stop Phiro motor</string>
-    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">Move Phiro motor forward</string>
-    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">Move Phiro motor backward</string>
-    <string name="phiro_motor_speed" tools:ignore="UnusedResources">Speed</string>
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">simamisha mota ya phiro</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">sogeza mota ya phiro mbele</string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">sogeza mota ya phiro nyuma</string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">Kasi</string>
     <!-- sensor -->
-    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">If Phiro</string>
-    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">is activated</string>
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">Kama Phiro</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">imeamilishwa</string>
     <!-- tone -->
-    <string name="phiro_play_tone" tools:ignore="UnusedResources">Play Phiro music\n</string>
-    <string name="phiro_tone_duration" tools:ignore="UnusedResources">Duration</string>
-    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">tone</string>
-    <string name="phiro_seconds" tools:ignore="UnusedResources">seconds</string>
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">Cheza Phiro muziki\n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">Muda</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">toni</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">sekunde</string>
     <!-- light -->
-    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Set Phiro light</string>
-    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">Red</string>
-    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">Green</string>
-    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">Blue</string>
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Seti mwanga wa Phiro</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">Nyekundu</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">Kijani</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">Bluu</string>
     <!--  -->
     <!-- Phiro tone strings -->
     <string name="phiro_tone_do">Do</string>
@@ -1501,94 +1490,94 @@ needs read and write access to it. You can always change permissions through you
     <string name="phiro_tone_ti">Ti</string>
     <!--  -->
     <!-- Phiro motor strings -->
-    <string name="phiro_motor_left">Left</string>
-    <string name="phiro_motor_right">Right</string>
-    <string name="phiro_motor_both">Both</string>
+    <string name="phiro_motor_left">Kushoto</string>
+    <string name="phiro_motor_right">Kulia</string>
+    <string name="phiro_motor_both">Wote</string>
     <!--  -->
     <!-- Phiro light strings -->
-    <string name="phiro_light_left">Left</string>
-    <string name="phiro_light_right">Right</string>
-    <string name="phiro_light_both">Both</string>
+    <string name="phiro_light_left">Kushoto</string>
+    <string name="phiro_light_right">Kulia</string>
+    <string name="phiro_light_both">Wote</string>
     <!--  -->
     <!-- Phiro sensor strings -->
-    <string name="phiro_sensor_front_left">Front Left Sensor</string>
-    <string name="phiro_sensor_front_right">Front Right Sensor</string>
-    <string name="phiro_sensor_side_left">Side Left Sensor</string>
-    <string name="phiro_sensor_side_right">Side Right Sensor</string>
-    <string name="phiro_sensor_bottom_left">Bottom Left Sensor</string>
-    <string name="phiro_sensor_bottom_right">Bottom Right Sensor</string>
+    <string name="phiro_sensor_front_left">Kihisio mbele kushoto</string>
+    <string name="phiro_sensor_front_right">Kihisio mbele kulia</string>
+    <string name="phiro_sensor_side_left">Kihisio upande kushoto</string>
+    <string name="phiro_sensor_side_right">Kihisio upande kulia</string>
+    <string name="phiro_sensor_bottom_left">Kihisio chini kushoto</string>
+    <string name="phiro_sensor_bottom_right">Kihisio chini kulia</string>
     <!--  -->
-    <string name="color_red">red</string>
-    <string name="color_green">green</string>
-    <string name="color_blue">blue</string>
+    <string name="color_red">Nyekundu</string>
+    <string name="color_green">Kijani</string>
+    <string name="color_blue">Bluu</string>
     <!-- -->
     <!-- Formula editor strings -->
     <string name="formula_editor_data">Data</string>
-    <string name="formula_editor_true">true</string>
-    <string name="formula_editor_false">false</string>
+    <string name="formula_editor_true">Kweli</string>
+    <string name="formula_editor_false">Sikweli</string>
     <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
-    <string name="formula_editor_title">Formula editor</string>
-    <string name="formula_editor_changes_discarded">Changes discarded!</string>
-    <string name="formula_editor_parse_fail">Formula is not valid!</string>
-    <string name="formula_nothing_selected">Define input value</string>
-    <string name="formula_editor_parse_fail_formula_too_long">Formula too long!</string>
-    <string name="formula_editor_choose_object_variable">Properties of this actor or object</string>
+    <string name="formula_editor_title">Kihariri fomula</string>
+    <string name="formula_editor_changes_discarded">Mabadiliko yameondolewa!</string>
+    <string name="formula_editor_parse_fail">Fomula siyo halali!</string>
+    <string name="formula_nothing_selected">Fasili thamani ingizwa</string>
+    <string name="formula_editor_parse_fail_formula_too_long">Fomula ni ndefu sana!</string>
+    <string name="formula_editor_choose_object_variable">Sifa za kipengele hiki</string>
     <string name="formula_editor_bracket_open">(</string>
     <string name="formula_editor_bracket_close">)</string>
     <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
     <string name="formula_editor_function_sin_parameter">(90)</string>
     <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
-    <string name="formula_editor_function_cos_parameter">(360)</string>
+    <string name="formula_editor_function_cos_parameter">(0)</string>
     <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
-    <string name="formula_editor_function_tan_parameter">(45)</string>
+    <string name="formula_editor_function_tan_parameter">(0)</string>
     <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
-    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
+    <string name="formula_editor_function_ln_parameter">(0)</string>
     <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
-    <string name="formula_editor_function_log_parameter">(10)</string>
+    <string name="formula_editor_function_log_parameter">(0)</string>
     <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">colour</string>
-    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">square root</string>
-    <string name="formula_editor_function_sqrt_parameter">(4)</string>
-    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random value from to</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">rangi</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">sqrt</string>
+    <string name="formula_editor_function_sqrt_parameter">(0)</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">ovyo/nasibu</string>
     <string name="formula_editor_function_rand_parameter">(1,6)</string>
     <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
-    <string name="formula_editor_function_abs_parameter">(1)</string>
-    <string name="formula_editor_function_round" tools:ignore="UnusedResources">round</string>
-    <string name="formula_editor_function_round_parameter">(1.6)</string>
+    <string name="formula_editor_function_abs_parameter">(0)</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">pande zote</string>
+    <string name="formula_editor_function_round_parameter">(0)</string>
     <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
     <string name="formula_editor_function_mod_parameter">(3,2)</string>
     <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
-    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
+    <string name="formula_editor_function_arcsin_parameter">(0)</string>
     <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
     <string name="formula_editor_function_arccos_parameter">(0)</string>
     <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
-    <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan_parameter">(0)</string>
     <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
     <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
     <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
-    <string name="formula_editor_function_exp_parameter">(1)</string>
-    <string name="formula_editor_function_power" tools:ignore="UnusedResources">power</string>
+    <string name="formula_editor_function_exp_parameter">(0)</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">nguvu</string>
     <string name="formula_editor_function_power_parameter">(2,3)</string>
-    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">floor</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">sakafu</string>
     <string name="formula_editor_function_floor_parameter">(0.7)</string>
-    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">ceiling</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">ubao wa paa</string>
     <string name="formula_editor_function_ceil_parameter">(0.3)</string>
-    <string name="formula_editor_function_max" tools:ignore="UnusedResources">maximum of</string>
-    <string name="formula_editor_function_max_parameter">(5,4)</string>
-    <string name="formula_editor_function_min" tools:ignore="UnusedResources">minimum of</string>
-    <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">upeo</string>
+    <string name="formula_editor_function_max_parameter">(0,1)</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">chini</string>
+    <string name="formula_editor_function_min_parameter">(0,1)</string>
     <string name="formula_editor_function_if_then_else">if then else</string>
     <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
-    <string name="formula_editor_function_true" tools:ignore="UnusedResources">true</string>
-    <string name="formula_editor_function_false" tools:ignore="UnusedResources">false</string>
-    <string name="formula_editor_function_length" tools:ignore="UnusedResources">length</string>
-    <string name="formula_editor_function_length_parameter">(\'hello world\')</string>
-    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">letter</string>
-    <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
-    <string name="formula_editor_function_join" tools:ignore="UnusedResources">join</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">KWELI</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">SIKWELI</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">urefu</string>
+    <string name="formula_editor_function_length_parameter">(\'ulimwengu habari\')</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">barua</string>
+    <string name="formula_editor_function_letter_parameter">(1,\'ulimwengu habari\')</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">jiunga</string>
     <string name="formula_editor_function_join_parameter">(\'hello\',\' world\')</string>
-    <string name="formula_editor_function_join3">join</string>
+    <string name="formula_editor_function_join3">jiunga</string>
     <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
     <string name="formula_editor_function_regex" tools:ignore="UnusedResources">regular expression</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
@@ -1599,152 +1588,152 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_dialog_wiki_button">More information</string>
     <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
     <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
-    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">arduino digital pin</string>
-    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino analog pin</string>
-    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">aduino_digatili_funga</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino_analogia_pin</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberi_funga</string>
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
-    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">stage touch x</string>
-    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">stage touch y</string>
-    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">stage is touched</string>
-    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">stage touch x</string>
-    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">stage touch y</string>
-    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">stage is touched</string>
-    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">last stage touch index</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">gusa_skrini_x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">gusa_skirini_y</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">skrini_ime_guswa</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">gusa_skrini_x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">gusa_skirini_y</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">skrini_ime_guswa</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">mwisha_kioo_gusa_kielezo</string>
     <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
     <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
     <string name="formula_editor_function_no_parameter"></string>
     <string name="formula_editor_function_touch_parameter">(1)</string>
-    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">item</string>
-    <string name="formula_editor_function_list_item_parameter">(1,*list name*)</string>
-    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">contains</string>
-    <string name="formula_editor_function_contains_parameter">(*list name*,1)</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">elementi</string>
+    <string name="formula_editor_function_list_item_parameter">(1,*orodhesha jina*)</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">ina</string>
+    <string name="formula_editor_function_contains_parameter">(*orodhesha jina*,1)</string>
     <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">item\'s index</string>
-    <string name="formula_editor_function_index_of_item_parameter">(1,*list name*)</string>
-    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">number of items</string>
-    <string name="formula_editor_function_number_of_items_parameter">(*list name*)</string>
-    <string name="formula_editor_function_collision">touches actor or object</string>
-    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
-    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches colour</string>
-    <string name="formula_editor_function_color_touches_color">colour touches colour</string>
-    <string name="formula_editor_sensor_color_at_x_y">colour at x y</string>
+    <string name="formula_editor_function_index_of_item_parameter">(1,*orodhesha jina*)</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">namba_ya_vipengele</string>
+    <string name="formula_editor_function_number_of_items_parameter">(*jina la orodha*)</string>
+    <string name="formula_editor_function_collision">gusa_kipengee</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">gusa_incha</string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">gusa_kidole</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
-    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
-    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">acceleration y</string>
-    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">acceleration z</string>
-    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">compass direction</string>
-    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitude</string>
-    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">longitude</string>
-    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">location accuracy</string>
-    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">altitude</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">mchapuko_x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">mchapuko_y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">mchapuko_z</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">mwelekeo_dira</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">latitudo</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">longitudo</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">mahali_linganifu</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">muinuko</string>
     <string name="formula_editor_sensor_user_language">user language</string>
-    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclination x</string>
-    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclination y</string>
-    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">loudness</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">mwelekeo_x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">mwelekeo_y</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">kisawazishi</string>
     <string name="formula_editor_sensor_timer">timer</string>
-    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">year</string>
-    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">month</string>
-    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">day</string>
-    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">weekday</string>
-    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">hour</string>
-    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">minute</string>
-    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">second</string>
-    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">drone battery status</string>
-    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">drone emergency state</string>
-    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">drone flying</string>
-    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">drone initialized</string>
-    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">drone usb active</string>
-    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">drone usb remaining time</string>
-    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">drone camera ready</string>
-    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">drone record ready</string>
-    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">drone camera recording</string>
-    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">drone camera number of frames</string>
-    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT sensor 1</string>
-    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT sensor 2</string>
-    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT sensor 3</string>
-    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT sensor 4</string>
-    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 sensor 1</string>
-    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 sensor 2</string>
-    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 sensor 3</string>
-    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 sensor 4</string>
-    <string name="formula_editor_sensor_lego_nxt_touch">NXT touch</string>
-    <string name="formula_editor_sensor_lego_nxt_sound">NXT sound</string>
-    <string name="formula_editor_sensor_lego_nxt_light">NXT light</string>
-    <string name="formula_editor_sensor_lego_nxt_light_active">NXT light active</string>
-    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_colour</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_colour_ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_colour_reflected</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_colour</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">mwaka</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">mwezi</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">siku</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">siku ya wiki</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">saa</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">dakika</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">sekunde</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">ndegenyuki_betri_hali</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">ndegenyuki_hali_ya_dharura</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">ndegenyuki_inaruka</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">ndegenyuka_imeanzishwa</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">ndegenyuki_usb_amilifu</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">ndegenyuki_usb_muda_uliobaki</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">ndegenyuki_kamera_tayari</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">ndegenyuki_rekodi_tayari</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">ndegenyuki_inarekodi</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">ndege iso na rubani_num_fremu</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT_kihisio_1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT_kihisio_2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT_kihisio_3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT_kihisio_4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3_kihisio_1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3_kihisio_2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3_kihisio_3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3_kihisio_4</string>
+    <string name="formula_editor_sensor_lego_nxt_touch">NXT_gusa</string>
+    <string name="formula_editor_sensor_lego_nxt_sound">NXT_sauti</string>
+    <string name="formula_editor_sensor_lego_nxt_light">NXT_mwanga</string>
+    <string name="formula_editor_sensor_lego_nxt_light_active">NXT_mwanga_amilifu</string>
+    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NTX_ultrasonic</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3_gusa</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3_infraredi</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_rangi</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_rangi_iliyoko</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_rangi_imeakisiwa</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT light active</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT sound</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT ultrasonic</string>
-    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">gamepad A pressed</string>
-    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">gamepad B pressed</string>
-    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">gamepad up pressed</string>
-    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">gamepad down pressed</string>
-    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">gamepad left pressed</string>
-    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">gamepad right pressed</string>
-    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro front left sensor</string>
-    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro front right sensor</string>
-    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro side left sensor</string>
-    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro side right sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro bottom left sensor</string>
-    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro bottom right sensor</string>
-    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc tag id</string>
-    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc tag message</string>
-    <string name="formula_editor_object_x" tools:ignore="UnusedResources">position x</string>
-    <string name="formula_editor_object_y" tools:ignore="UnusedResources">position y</string>
-    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">transparency</string>
-    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">brightness</string>
-    <string name="formula_editor_object_size" tools:ignore="UnusedResources">size</string>
-    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">direction</string>
-    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">layer</string>
-    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x velocity</string>
-    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y velocity</string>
-    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">angular velocity</string>
-    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">look number</string>
-    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">look name</string>
-    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">background number</string>
-    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">background name</string>
-    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">distance to touch position</string>
-    <string name="formula_editor_compute">Compute</string>
-    <string name="formula_editor_object">Properties</string>
-    <string name="formula_editor_functions">Functions</string>
-    <string name="formula_editor_logic">Logic</string>
-    <string name="formula_editor_device">Sensors</string>
-    <string name="formula_editor_device_sensors">Device sensors</string>
-    <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Text</string>
-    <string name="formula_editor_functions_lists">Lists</string>
-    <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
-    <string name="formula_editor_logic_comparison">Comparison operators</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">bonyeza_a_mchezopadi</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">bonyeza_b_mchezopadi</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">bonyeza_juu_mchezopadi</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">bonyeza_chini_mchezopadi</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">bonyeza_kushoto_mchezopadi</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">gamepad_kulia_imebonyezwa</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">phiro_mbele_kulia_kihisi</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">phiro_mbele_kulia_kihisi</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">phiro_upande_kushoto_kihisi</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">phiro_upande_kulia_kihisi</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">phiro_chini_kushoto_kihisi</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">phiro_chini_kulia_kihisi</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">nfc_tagi_id</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">nfc_tagi_ujumbe</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">nafasi_x</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">nafasi_y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">uwazi</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">mwangaza</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">ukubwa</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">mwelekeo</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">safu</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">x_mwendokasi</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">y_mwendokasi</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">angula_kasi</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">tazama_namba</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">tazama_jina</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">namba_ya_mandharinyuma</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">jina_la_mandharinyuma</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">umbali wa</string>
+    <string name="formula_editor_compute">kokotoa</string>
+    <string name="formula_editor_object">Kipengee</string>
+    <string name="formula_editor_functions">Kazi</string>
+    <string name="formula_editor_logic">Mantiki</string>
+    <string name="formula_editor_device">Kifaa</string>
+    <string name="formula_editor_device_sensors">kifaa kihisi</string>
+    <string name="formula_editor_functions_maths">Hesabu</string>
+    <string name="formula_editor_functions_strings">Maandishi</string>
+    <string name="formula_editor_functions_lists">Orodha</string>
+    <string name="formula_editor_logic_boolean">vikokotoa logiki</string>
+    <string name="formula_editor_logic_comparison">vikokotoa mfanano</string>
     <string name="formula_editor_object_look">Look properties</string>
-    <string name="formula_editor_object_movement">Motion properties</string>
+    <string name="formula_editor_object_movement">mwendo mali</string>
     <string name="formula_editor_device_visual_detection">Visual sensors</string>
-    <string name="formula_editor_device_date_and_time">Date and time</string>
-    <string name="formula_editor_device_touch_detection">Touch detection</string>
-    <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
-    <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
+    <string name="formula_editor_device_date_and_time">Tarehe na saa</string>
+    <string name="formula_editor_device_touch_detection">Gusa kigunduzi</string>
+    <string name="formula_editor_device_lego_nxt">Lego NXT </string>
+    <string name="formula_editor_device_lego_ev3">Lego EV3</string>
     <string name="formula_editor_device_arduino">Arduino</string>
     <string name="formula_editor_device_phiro">Phiro</string>
-    <string name="formula_editor_device_raspberry">Raspberry Pi</string>
-    <string name="formula_editor_device_drone">Drone</string>
+    <string name="formula_editor_device_raspberry">Rasiberi pi</string>
+    <string name="formula_editor_device_drone">Ndengenyuki</string>
     <string name="formula_editor_device_nfc">NFC</string>
-    <string name="formula_editor_device_cast">Chromecast</string>
+    <string name="formula_editor_device_cast">Rusha </string>
     <string name="formula_editor_string">Abc</string>
     <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
     <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
     <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
-    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">and</string>
-    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">or</string>
-    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">not</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">NA</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">AU</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">SI</string>
     <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
     <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
     <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
@@ -1753,24 +1742,24 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
-    <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">colour picker</string>
+    <string name="formula_editor_image_button_description_delete">futa</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
-    <string name="formula_editor_variable_dialog_title">New variable</string>
-    <string name="formula_editor_list_dialog_title">New list</string>
+    <string name="formula_editor_variable_dialog_title">Kitofautishi kipya</string>
+    <string name="formula_editor_list_dialog_title">Orodha mpya</string>
     <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
-    <string name="formula_editor_discard_changes_dialog_message">Do you want to save your changes?</string>
-    <string name="formula_editor_discard_changes_dialog_title">Save changes?</string>
-    <string name="formula_editor_new_string_name">New text</string>
-    <string name="formula_editor_dialog_change_text">Change text</string>
+    <string name="formula_editor_discard_changes_dialog_message">Je, unataka kuhifadhi madiliko yako?</string>
+    <string name="formula_editor_discard_changes_dialog_title">Hifadhi mabadiliko?</string>
+    <string name="formula_editor_new_string_name">Maandishi mapya</string>
+    <string name="formula_editor_dialog_change_text">Badili andishi</string>
     <string name="formula_editor_dialog_change_regular_expression">Change regular
         expression</string>
-    <string name="formula_editor_fragment_data_current_items">current items</string>
-    <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">face is visible</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">face size</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">face x position</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">face y position</string>
+    <string name="formula_editor_fragment_data_current_items">vipengele vya sasa</string>
+    <string name="formula_editor_data_dialog_is_list">Tengeneza orodha</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">uso_una_onekana</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">ukubwa_wa_uso</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">uso_x_mahali</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">uso_y_mahali</string>
     <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
@@ -1782,63 +1771,51 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_size">text block size from camera</string>
     <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
-    <string name="formula_editor_function_text_block_parameter">(1)</string>
-    <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
-        the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
-        bottom left corner.</string>
-    <string name="formula_editor_intro_title_input_field">Input field</string>
-    <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
-    <string name="formula_editor_intro_title_keyboard">Keyboard</string>
-    <string name="formula_editor_intro_summary_keyboard">This is where you can create
-        your formula, just like on a calculator.</string>
-    <string name="formula_editor_intro_title_compute">Compute</string>
-    <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
-        use \"Compute\".</string>
-    <string name="formula_editor_intro_title_object">Properties</string>
-    <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
-        current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
-    <string name="formula_editor_intro_title_functions">Functions</string>
-    <string name="formula_editor_intro_summary_functions">Like a calculator, the formula editor offers
-        many mathematical functions.\nYou can find trigonometric functions such as \"sin\" and \"cos\",
-        a random number generator, and text and list functions.</string>
-    <string name="formula_editor_intro_title_logic">Logic</string>
-    <string name="formula_editor_intro_summary_logic">Logic is used to compare values and combine logical formulas.\nTo
-        compare values you can use logical operations such as \"&gt;\" (greater than) or \"=\" (equals).\nTo combine
-        logical formulas you can use logical operations such as \"AND\", \"OR\" and \"NOT\".</string>
-    <string name="formula_editor_intro_title_device">Sensors</string>
-    <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
-        device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
+    <string name="formula_editor_function_text_block_parameter">(0)</string>
+    <string name="formula_editor_intro_title_formula_editor">Kihariri fomula</string>
+    <string name="formula_editor_intro_summary_formula_editor">Kihariri fomula kinakuwezesha kutunga fomula za kihisabati na kimantiki ambazo unaweza kutumia kwenye matofali yako.\n\nUnaweza ukaendeleza utangulizi huu mdogo kwa kugusa kifungo\"Mbele\" chini upande wa kona ya kulia, na unaweza kuruka kwa kugusa kifungo\"RUKA\" chini upande wa kona ya kushoto.</string>
+    <string name="formula_editor_intro_title_input_field">Eneo la kujaza</string>
+    <string name="formula_editor_intro_summary_input_field">Hapa unaweza kuona fomula yako, na unaweza kuhariri pia.</string>
+    <string name="formula_editor_intro_title_keyboard">Kibodi</string>
+    <string name="formula_editor_intro_summary_keyboard">Sawa na kikokotozi, hapa unaweza kuunda fomula yako.</string>
+    <string name="formula_editor_intro_title_compute">Kompyuta</string>
+    <string name="formula_editor_intro_summary_compute">Kujaribu fomula yako na kuonyesha jibu la sasa, unaweza kutumia \"fanya\".</string>
+    <string name="formula_editor_intro_title_object">Kipengee</string>
+    <string name="formula_editor_intro_summary_object">Huu ni mkusanyiko wa thamani ambao unaelezea kipengee chako cha sasa. Baadhi ya thamani hizi mfano ni x- na y-majira, au spidi ya sasa.</string>
+    <string name="formula_editor_intro_title_functions">Kazi</string>
+    <string name="formula_editor_intro_summary_functions">Kama kikokotoleo, kihariri fomula kinatoa kiasi fulani cha kazi za hisabati.\nUnaweza kupata kazi za trigonometric kama \"sin\" na \"cos\", lakini pia jenereta nasibu namba au kazi maandishi na orodha.</string>
+    <string name="formula_editor_intro_title_logic">Mantiki</string>
+    <string name="formula_editor_intro_summary_logic">Mantiki imetumika kulinganisha thamani na kuunganisha fomula mantiki.\nKulinganisha thamani unaweza kutumia  operesheni mantiki kama \"&gt;\"(kubwa kuliko) au\"=\"(sawasawa na).\n Kuunganisha fomula mantiki unaweza kutumia operesheni mantiki kama \"NA\",\"AU\" na \"SI\".</string>
+    <string name="formula_editor_intro_title_device">Vihisio</string>
+    <string name="formula_editor_intro_summary_device">Kwenye \"kifaa\"unaweza kupata taarifa kuhusu rekodi za simu au tableti yako.\n Kwa mfano, ugeuzaji wa kifaa chako, au sauti kubwa ya sehemu inayokuzunguka.</string>
     <string name="formula_editor_intro_title_data">Data</string>
-    <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
-        \nYou can simply insert these in your formula, or add new ones.</string>
+    <string name="formula_editor_intro_summary_data">Vitofautishi na orodha ambazo hutumika kwenye programu vinaweza kupatikana hapa\nUnaweza ongeza haya kwenye fomula yako, au ongeza mpya.</string>
     <string name="formula_editor_listening_language_sensor">listening language</string>
     <string name="formula_editor_speech_recognition">Speech recognition</string>
     <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
         background. Please make sure you are connected to the internet and check back later.</string>
     <string name="formula_editor_function_flatten">flatten</string>
-    <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
+    <string name="formula_editor_function_flatten_parameter">(*jina la orodha*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable" tools:ignore="UnusedResources">Show variable</string>
-    <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
-    <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">Onyesha kitofautishi</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">Ficha kitofautishi</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">katika </string>
     <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">colour:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
     <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
     <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
-    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
-    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
-    <string name="brick_context_dialog_pick_color">Pick colour</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">kushoto</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">kulia</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
-    <string name="brick_video" tools:ignore="UnusedResources">Turn camera</string>
-    <string name="video_brick_camera_on" tools:ignore="UnusedResources">on</string>
-    <string name="video_brick_camera_off" tools:ignore="UnusedResources">off</string>
-    <string name="brick_choose_camera" tools:ignore="UnusedResources">Use camera</string>
-    <string name="choose_camera_front" tools:ignore="UnusedResources">front</string>
+    <string name="brick_video" tools:ignore="UnusedResources">Geuza kamera</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">waka</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">zimwa</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">Tumia kamera</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">mbele</string>
     <string name="choose_camera_back" tools:ignore="UnusedResources">rear</string>
     <string name="camera_error_generic">        Something went wrong while trying to use the camera.
     </string>
@@ -1849,39 +1826,37 @@ needs read and write access to it. You can always change permissions through you
     <!-- Cast strings -->
     <string name="cast_gamepad_A">A</string>
     <string name="cast_gamepad_B">B</string>
-    <string name="cast_gamepad_up">up</string>
-    <string name="cast_gamepad_down">down</string>
-    <string name="cast_gamepad_left">left</string>
-    <string name="cast_gamepad_right">right</string>
-    <string name="cast_error_not_connected_msg">Please connect to your Chromecast first</string>
-    <string name="cast_error_cast_bricks_in_no_cast_project">Your project uses Chromecast bricks and can\'t be started
-        locally</string>
-    <string name="cast_device_selector_dialog_title">Cast to</string>
-    <string name="cast_button_menu_item_title">Cast button</string>
-    <string name="cast_ready_to_cast">Ready to cast to</string>
-    <string name="cast_enable_cast_feature">Chromecast features disabled. Please enable cast features in the settings.</string>
-    <string name="cast_searching_for_cast_devices">Searching for Chromecast devices</string>
+    <string name="cast_gamepad_up">juu</string>
+    <string name="cast_gamepad_down">chini</string>
+    <string name="cast_gamepad_left">kushoto</string>
+    <string name="cast_gamepad_right">kulia</string>
+    <string name="cast_error_not_connected_msg">Tafadhali unganisha kwenye Chromecast yako kwanza</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project">Mradi wako unatumia matofali yakutupwa na hauwezi anzishwa kienyeji</string>
+    <string name="cast_device_selector_dialog_title">Tupa kwenye</string>
+    <string name="cast_button_menu_item_title">Kitufe kwaajili ya kutupa</string>
+    <string name="cast_ready_to_cast">Tayari kutupwa kwenye</string>
+    <string name="cast_enable_cast_feature">Vipengele vya kutupwa havijawezeshwa. Tafadhali wezesha vipengele vya kutupwa kwenye vipimo.</string>
+    <string name="cast_searching_for_cast_devices">Inatafuta vifaa vya kutupwa</string>
     <string name="cast_trouble_finding_devices_tip">.\nDon\'t see your device? Try turning your device\'s Wifi off
         and on.</string>
-    <string name="cast_connection_timout_msg">Connection timeout. Please try again.</string>
-    <string name="cast_screen_pause_text">Paused</string>
+    <string name="cast_connection_timout_msg">Uunganisho umeisha muda wake. Tafadhali jaribu tena.</string>
+    <string name="cast_screen_pause_text">Umesitishwa</string>
     <!-- -->
     <string name="deletion_alert_title">Delete?</string>
     <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
         errors. You can\'t undo this!</string>
     <!-- Upload progress dialog -->
-    <string name="progress_upload_dialog_message">Your project gets uploaded to the app\’s sharing site where others
-        can use and download it. You can also download your project as a standalone app.</string>
+    <string name="progress_upload_dialog_message">Programu yako inapakiwa kwenye tovuti ya kushirikisha programu ambapo wengine wanaweza kutumia na kuipakua. Unaweza pia kupakua programu yako kama programu yenyewe.</string>
     <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
         again!</string>
-    <string name="progress_upload_dialog_show_program">Show project</string>
+    <string name="progress_upload_dialog_show_program">Onyesha programu</string>
     <!--  -->
     <!-- Snackbar hints -->
-    <string name="got_it">Got it</string>
-    <string name="preference_description_hints">Enable to show hints</string>
-    <string name="preference_title_enable_hints">Show hints </string>
-    <string name="hint_category">All bricks are sorted in categories. Choose the category you are looking for.</string>
-    <string name="hint_bricks">To add a brick to your script, tap on the brick you want to use.</string>
+    <string name="got_it">Nimeelewa</string>
+    <string name="preference_description_hints">Wezesha kuonyesha vidokezo</string>
+    <string name="preference_title_enable_hints">Onyesha vidokezo </string>
+    <string name="hint_category">Matofali yote yana chukuliwa katika makundi. Chagua kundi unaloliona.</string>
+    <string name="hint_bricks">Kuongeza tofali kwenye hati yako, bonyesha tofali unalolitaka.</string>
     <string name="hint_scripts">The script defines the behavior of your actor or object. To add bricks to the script,
         tap the \"+\" symbol.</string>
     <string name="hint_looks">Here you can find the different appearances of your actor or object. To add a new look,
@@ -1900,7 +1875,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
     <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
     data is turned on.</string>
-    <string name="edit">Edit</string>
+    <string name="edit">Hariri</string>
     <string name="data_value">Value</string>
     <string name="category_recently_used">Recently used</string>
     <!-- Information -->

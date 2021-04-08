@@ -32,16 +32,16 @@
     <string name="edit_option">edit&#8230;</string>
     <string name="confirm">Confirm</string>
     <string name="ignore">Ignore</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Откажи</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
-    <string name="next">Next</string>
-    <string name="ok">OK</string>
-    <string name="done">Done</string>
+    <string name="next">Следно</string>
+    <string name="ok">Во ред</string>
+    <string name="done">Готово</string>
     <string name="close" tools:ignore="UnusedResources">Close</string>
     <string name="assistant">Assistant</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="yes">Да</string>
+    <string name="no">Не</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
@@ -51,7 +51,7 @@
     <string name="deselect_all">Deselect all</string>
     <string name="skip">skip</string>
     <string name="warning">Warning</string>
-    <string name="error">Error</string>
+    <string name="error">Грешка</string>
     <string name="loading">Loading&#8230;</string>
     <string name="please_wait">Please wait</string>
     <string name="search_hint">Search&#8230;</string>
@@ -93,9 +93,9 @@
     <string name="main_menu_upload">Upload project</string>
     <string name="main_menu_rate_app">Rate us!</string>
     <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
+    <string name="main_menu_privacy_policy">Политика за приватност</string>
     <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
+    <string name="main_menu_login">Најава</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_scratch_converter">Scratch converter</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
@@ -305,8 +305,8 @@
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
     <string name="am_copy">Copy</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Delete</string>
-    <string name="am_rename">Rename</string>
+    <string name="am_delete" tools:ignore="UnusedResources">Избриши</string>
+    <string name="am_rename">Преименувај</string>
     <string name="am_convert">Convert</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
@@ -314,8 +314,8 @@
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
     <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
+    <string name="delete">Избриши</string>
+    <string name="rename">Преименувај</string>
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
@@ -383,7 +383,7 @@
     <string name="rename_look_dialog">Rename look</string>
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_data_dialog">Преименувај</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
     <string name="default_group_name">Group</string>
@@ -497,7 +497,7 @@
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <string name="error_no_files_found">No project files found.</string>
     <!-- ProjectOptionsFragment -->
-    <string name="project_options_description">Description</string>
+    <string name="project_options_description">Објаснување</string>
     <string name="project_options_notes_and_credits">Credits</string>
     <string name="project_options_tags">Tags</string>
     <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
@@ -672,22 +672,22 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="username">Корисничко име</string>
+    <string name="password">Лозинка</string>
     <string name="reset_password">Reset password</string>
     <string name="new_user_registered">New account created</string>
     <string name="user_logged_in">Login successful</string>
     <string name="register_error">Login invalid</string>
     <string name="register_terms">By registering you agree to our</string>
     <string name="register_code_terms_of_use_text">Terms of use and service</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
+    <string name="login">Најава</string>
+    <string name="register">Регистрирај се</string>
     <string name="password_confirm">Confirm password</string>
     <string name="accountName">E-Mail</string>
     <string name="signin_thanks">Thank you for signing up!</string>
-    <string name="signin_choose_username">Please choose your username:</string>
+    <string name="signin_choose_username">Изберете корисничко име:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>
-    <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
+    <string name="signin_choose_username_hint">Вашето корисничко име не треба да се совпаѓа со вашето вистинското име.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
     <string name="show_password">Show password</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
@@ -796,7 +796,7 @@
     <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">Report</string>
+    <string name="brick_report" tools:ignore="UnusedResources">Пријави</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at" tools:ignore="UnusedResources">"Place at"</string>
@@ -865,8 +865,8 @@
     <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Change transparency"</string>
     <string name="brick_set_brightness" tools:ignore="UnusedResources">"Set brightness"</string>
     <string name="brick_change_brightness" tools:ignore="UnusedResources">"Change brightness"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Set colour "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Change colour "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Set color"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Change color"</string>
     <string name="by_label" tools:ignore="UnusedResources">by</string>
     <string name="to_label" tools:ignore="UnusedResources">to</string>
     <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Clear graphic effects</string>
@@ -901,7 +901,7 @@
     <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
     <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
     <string name="brick_pen_size" tools:ignore="UnusedResources">Set pen size to</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen colour to</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen color to</string>
     <string name="brick_clear_background" tools:ignore="UnusedResources">Clear</string>
     <string name="brick_stamp" tools:ignore="UnusedResources">Stamp</string>
     <!--  -->
@@ -1128,7 +1128,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene %1$d</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1213,8 +1213,8 @@
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR. Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behaviour.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
@@ -1359,10 +1359,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_no_sensor">none</string>
     <string name="ev3_sensor_touch">EV3 touch sensor</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="ev3_sensor_color">EV3 colour sensor</string>
-    <string name="ev3_sensor_color_ambient">EV3 colour sensor ambient</string>
-    <string name="ev3_sensor_color_reflected">EV3 colour sensor reflected</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic colour sensor</string>
+    <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
@@ -1547,7 +1547,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">colour</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">color</string>
     <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">square root</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random value from to</string>
@@ -1625,9 +1625,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
     <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches colour</string>
-    <string name="formula_editor_function_color_touches_color">colour touches colour</string>
-    <string name="formula_editor_sensor_color_at_x_y">colour at x y</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
@@ -1675,10 +1675,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_colour</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_colour_ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_colour_reflected</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_colour</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
@@ -1754,7 +1754,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">colour picker</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
@@ -1825,12 +1825,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
     <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
     <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">colour:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
     <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
     <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
     <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
     <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
-    <string name="brick_context_dialog_pick_color">Pick colour</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->

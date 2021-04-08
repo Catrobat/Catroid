@@ -23,39 +23,39 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">Stage</string>
-    <string name="play">Play</string>
-    <string name="settings">Settings</string>
-    <string name="redo" tools:ignore="UnusedResources">Redo</string>
-    <string name="undo" tools:ignore="UnusedResources">Undo</string>
-    <string name="new_option">new&#8230;</string>
+    <string name="stage">Сахна</string>
+    <string name="play">Ойнау</string>
+    <string name="settings">Баптаулар</string>
+    <string name="redo" tools:ignore="UnusedResources">Қайталау</string>
+    <string name="undo" tools:ignore="UnusedResources">Бас тарту</string>
+    <string name="new_option">жаңа&#8230;</string>
     <string name="edit_option">edit&#8230;</string>
-    <string name="confirm">Confirm</string>
-    <string name="ignore">Ignore</string>
-    <string name="cancel">Cancel</string>
+    <string name="confirm">Растау</string>
+    <string name="ignore">Ескермеу</string>
+    <string name="cancel">Болдырмау</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
-    <string name="next">Next</string>
-    <string name="ok">OK</string>
-    <string name="done">Done</string>
-    <string name="close" tools:ignore="UnusedResources">Close</string>
+    <string name="next">Келесі</string>
+    <string name="ok">Жарайды</string>
+    <string name="done">Дайын</string>
+    <string name="close" tools:ignore="UnusedResources">Жабу</string>
     <string name="assistant">Assistant</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
+    <string name="yes">Иә</string>
+    <string name="no">Жоқ</string>
+    <string name="once">Бір рет</string>
+    <string name="always">Әрқашан</string>
+    <string name="deny">Бас тарту</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
-    <string name="error">Error</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search&#8230;</string>
-    <string name="backpack_add">Add to backpack</string>
+    <string name="select_all">Барлығын таңдау</string>
+    <string name="deselect_all">Барлығын қайтару</string>
+    <string name="skip">өткізу</string>
+    <string name="warning">Ескерту</string>
+    <string name="error">Қате</string>
+    <string name="loading">Жүктелуде&#8230;</string>
+    <string name="please_wait">Күте тұрыңыз</string>
+    <string name="search_hint">Іздеу&#8230;</string>
+    <string name="backpack_add">Рюкзакқа салу</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -73,429 +73,410 @@
     <string name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees" tools:ignore="UnusedResources">degrees</string>
-    <string name="background" tools:ignore="UnusedResources">Background</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="loading_check_oauth_token">Кіру деректері тексерілуде&#8230;</string>
+    <string name="loading_google_exchange_code">Google кіру деректері алмасуда&#8230;</string>
+    <string name="loading_google_login">Біздің серверде Google-ге кіру&#8230;аяқталды</string>
+    <string name="logout_successful">Жүйеден шығу сәтті аяқталды</string>
+    <string name="degrees" tools:ignore="UnusedResources">градус</string>
+    <string name="background" tools:ignore="UnusedResources">Фон</string>
+    <string name="landscape">альбомды</string>
+    <string name="portrait">портретті</string>
+    <string name="unknown">белгісіз</string>
+    <string name="disconnect">Байланыс ажыратылды</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">Help</string>
-    <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
-    <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_continue">Жобаны жалғастыру</string>
+    <string name="main_menu_new">Жаңа жоба</string>
+    <string name="main_menu_programs">Құрылғыдағы жобалар</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">Жəрдем</string>
+    <string name="main_menu_web">Catrobat қауымдастығы</string>
+    <string name="main_menu_upload">Жобаны жүктеу</string>
+    <string name="main_menu_rate_app">Бізді бағалаңыз!</string>
+    <string name="main_menu_terms_of_use">Пайдалану және Қызмет Көрсету шарттары</string>
+    <string name="main_menu_privacy_policy">Құпиялық саясаты</string>
+    <string name="main_menu_about">Бұл бағдарлама туралы</string>
+    <string name="main_menu_login">Кіру</string>
+    <string name="main_menu_logout">Шығу</string>
+    <string name="main_menu_scratch_converter">Scratch түрлендіргіші</string>
+    <string name="main_menu_play_store_not_installed">App store табылмады</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Жасалған</string>
+    <string name="marketing_app_details">Бұл қолданба туралы толық ақпарат</string>
+    <string name="marketing_more_on_google_play">Басқа бағдарламаларымыз Google Play-де</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
-    <string name="preference_title">Settings</string>
-    <string name="preference_title_language">Language</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="preference_title">Параметрлер</string>
+    <string name="preference_title_language">Тіл</string>
+    <string name="preference_description_language">Қолданба тілін таңдаңыз</string>
+    <string name="preference_title_web_access">Веб-байланыс</string>
+    <string name="preference_description_web_access">Сенімді домендерді қосу немесе жою үшін өңдеу</string>
+    <string name="preference_screen_web_access_title">Сенімді домендерді өңдеу</string>
+    <string name="preference_title_accessibility">Қол жеткізу мүмкіндігі</string>
+    <string name="preference_description_accessibility">Бағдарламаның көрінісін өзгерту</string>
+    <string name="preference_title_accessibility_profiles">Қол жетімділік профильдері</string>
+    <string name="preference_title_accessibility_profile">Алдын-ала анықталған профильдер</string>
+    <string name="preference_title_accessibility_profile_headline">Профильдер</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Алдын-ала анықталған профильдер</string>
+    <string name="preference_description_accessibility_profiles">Алдын ала анықталған қол жетімділік профилін таңдаңыз</string>
+    <string name="preference_title_accessibility_text_appearance">Мәтін көрінісі</string>
+    <string name="preference_title_accessibility_handling">Өңдеу</string>
+    <string name="preference_title_accessibility_category_icons_big">Үлкен белгішелер</string>
+    <string name="preference_description_accessibility_category_icons_big">Белгішенің өлшемін үлкейту.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Жоғары контрастты белгішелер</string>
+    <string name="preference_title_accessibility_Brick_icons">Белгішелер</string>
+    <string name="preference_title_accessibility_category_icons">Белгішелерді көрсету</string>
+    <string name="preference_description_accessibility_category_icons">Белгішелерді санаттар мен блоктарға қосу.</string>
+    <string name="preference_title_accessibility_high_contrast">Жоғары контраст</string>
+    <string name="preference_description_accessibility_high_contrast">Мәтін контрастын үлкейту.</string>
+    <string name="preference_description_accessibility_large_text">Мәтін өлшемін үлкейту.</string>
+    <string name="preference_title_accessibility_large_text">Үлкен мәтін</string>
+    <string name="preference_title_accessibility_element_spacing">Үлкен элементтер аралығы</string>
+    <string name="preference_description_accessibility_element_spacing">Тізімдердегі элементтер аралығын көбейту.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop кідірту</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Блоктар үшін drag\'n\'drop кідірту.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Қарапайым режим</string>
+    <string name="preference_description_accessibility_beginner_bricks">Тек қарапайым мүмкіндіктерді көрсету.</string>
+    <string name="preference_title_accessibility_font_style">Мәтін түрін таңдаңыз</string>
+    <string name="accessibility_font_regular">Қалыпты</string>
     <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
-    <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
-    <string name="preference_access_title_profile_argus">Argus</string>
-    <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
-    <string name="preference_access_title_profile_odin">Odin</string>
-    <string name="preference_access_summary_profile_odin">Large text, large icons, large element
-       spacing, high contrast</string>
-    <string name="preference_access_title_profile_fenrir">Fenrir</string>
-    <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
-       delay</string>
-    <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="accessibility_font_dyslexic">Дислексиялық</string>
+    <string name="accessibility_settings_applied">Өзгерістер қолданылды</string>
+    <string name="preference_access_title_profile_default">Бастапқы</string>
+    <string name="preference_access_summary_profile_default">Бастапқы параметрлер</string>
+    <string name="preference_access_title_profile_custom">Менің профилім</string>
+    <string name="preference_access_summary_profile_custom">Менің жеке параметрлерім</string>
+    <string name="preference_access_title_profile_argus">Аргус</string>
+    <string name="preference_access_summary_profile_argus">Жоғары контраст, қосымша белгішелер</string>
+    <string name="preference_access_title_profile_odin">Один</string>
+    <string name="preference_access_summary_profile_odin">Үлкен мәтін, үлкен белгішелер, үлкен элементтер        аралығы, жоғары контраст</string>
+    <string name="preference_access_title_profile_fenrir">Фенрир</string>
+    <string name="preference_access_summary_profile_fenrir">Үлкен элементтер аралығы, drag\'n\'drop        кідірту</string>
+    <string name="preference_access_title_profile_tiro">Тиро</string>
+    <string name="preference_access_summary_profile_tiro">Қарапайым режим</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
-    <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
-    <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 extension</string>
-    <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
-    <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
-    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensors</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensors</string>
-    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
-    <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
-    <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
-    <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
-    <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
-    <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
-    <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
-    <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
-    <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
-    <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
-    <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 кеңейтімі</string>
+    <string name="preference_description_quadcopter_bricks">Қолданбаға Parrot AR.Drone 2.0 квадкоптарын басқаруға рұқсат ету</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo кеңейтімі</string>
+    <string name="preference_description_jumpingsumo_bricks">Қолданбаға Parrot\'s Jumping Sumo роботтарын басқаруға рұқсат ету</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT кеңейтімі</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 кеңейтімі</string>
+    <string name="preference_description_mindstorms_nxt_bricks">Қолданбаға Lego Mindstorms NXT роботтарын басқаруға рұқсат ету</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Қолданбаға Lego Mindstorms EV3 роботтарын басқаруға рұқсат ету</string>
+    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT сенсорлары</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 сенсорлары</string>
+    <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 конфигурациясы</string>
+    <string name="preference_title_enable_phiro_bricks">RobotixEdu Phiro кеңейтімі</string>
+    <string name="preference_description_phiro_bricks">Қолданбаға RobotixEdu-ның Phiro роботтарын басқаруға рұқсат ету</string>
+    <string name="preference_title_enable_arduino_bricks">Arduino кеңейтімі</string>
+    <string name="preference_description_arduino_bricks">Қолданбаға Arduino тақталарын басқаруға рұқсат ету</string>
+    <string name="preference_title_enable_embroidery_bricks">Кесте тігу кеңейтімі</string>
+    <string name="preference_description_embroidery_bricks">Тігіс машиналарына арналған үлгіні жасау</string>
+    <string name="preference_title_cast_feature_globally_enabled">Chromecast кеңейтімі</string>
+    <string name="preference_description_cast_feature_globally_enabled">Трансляция түймесін көрсетіп, трансляция жобаларын іске қосу</string>
+    <string name="preference_title_enable_nfc_bricks">Near Field Communication (NFC) кеңейтімі </string>
+    <string name="preference_description_nfc_bricks">Қолданбаға NFC тегтерін жобаларда пайдалануға рұқсат ету</string>
+    <string name="preference_title_enable_crash_reports">Қателер туралы анонимдік есептер жіберу</string>
+    <string name="preference_description_crash_reports">Қолданбаға қателер туралы анонимдік есептер жіберуге рұқсат ету</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
-    <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
-    <string name="preference_raspi_help">Help / getting started</string>
-    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
+    <string name="preference_title_enable_raspi_bricks">Raspberry Pi кеңейтімі</string>
+    <string name="preference_description_raspi_bricks">Қолданбаға Raspberry Pi компьютерлерін басқаруға рұқсат ету</string>
+    <string name="preference_raspi_enable_bricks">Блоктар мен датчиктерді қосу</string>
+    <string name="preference_raspi_help">Жәрдем / Жұмыс барысы</string>
+    <string name="preference_raspi_help_summary">Қосылым параметрлерін қалай күйге келтіру туралы анықтама алу</string>
+    <string name="preference_raspi_host">Raspberry Pi IP-/хост-адрес</string>
+    <string name="preference_raspi_port">Raspberry Pi порты</string>
     <!--  -->
-    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
-    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
-        multiplayer variables shared via Bluetooth</string>
-    <string name="preference_title_enable_test_bricks">Testing extension</string>
-    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <string name="preference_title_multiplayer_variables_enabled">Мультиплеер кеңейтімі</string>
+    <string name="preference_description_multiplayer_variables_enabled">Қолданбаға Bluetooth арқылы берілетін         мультиплеер айнымалыларын пайдалануға рұқсат беру</string>
+    <string name="preference_title_enable_test_bricks">Тест кеңейтімі</string>
+    <string name="preference_description_test_bricks">Тесттер жасауға мүмкіндік береді</string>
     <!-- Scratch Converter activity -->
-    <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Whoops! The project seems to have disappeared
-        or you might have lost access to it.</string>
-    <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
-        missing, please try again later.</string>
-    <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert the project, please try again
-        later.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
-        again later.</string>
-    <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
-        converter only works on the latest version. Please update the app.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
-        have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
-        meanwhile.</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
-        Please wait until it is downloaded.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
-        Please download it first and then open it.</string>
-    <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
-        an old Scratch project from before %2$s. Please try another one.</string>
+    <string name="beta">Бета</string>
+    <string name="error_scratch_program_not_accessible_any_more">Қап! Жоба жоғалып кеткен сияқты         немесе оған кіру мүмкіндігіңіз жоғалған болуы мүмкін.</string>
+    <string name="error_scratch_project_data_not_available">Қап! Жобаның кейбір бөліктері         жоғалған сияқты, кейінірек қайталап көріңіз.</string>
+    <string name="error_request_timeout">Қап! Біздің сервер уақытында жауап бермеді, кейінірек қайталап көріңіз.</string>
+    <string name="error_scratch_program_conversion_failed">Өкінішке орай Scratch программасы түрлендірілмеді, кейінірек қайталап көріңіз.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Өкінішке орай %1$s түрлендірілмеді, кейінірек қайталап көріңіз.</string>
+    <string name="error_scratch_converter_outdated_app_version">Бұл бағдарламаның нұсқасы ескірген. Біздің Scratch         түрлендіргіш тек соңғы нұсқада жұмыс істейді. Бағдарламаны жаңартыңыз.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Мен бұл Scratch жобасын аша алмадым. Сіз         Scratch жобасын түрлендіруді/жүктеуді болдырмаған немесе         бұл арада жобаның атын өзгерткен/жойған сияқтысыз.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">Сіз әлі жобаны аша алмайсыз.         Жүктелгенге дейін күте тұрыңыз.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Сіз әлі жобаны аша алмайсыз.         Алдымен жүктеп алыңыз, содан кейін ашыңыз</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">Мен %1$s түрлендіре алмадым. Бұл %2$s дейінгі ескі Scratch жобасы сияқты. Басқасын байқап көріңіз.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
-        <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
-            running conversions to finish first.</item>
+        <item quantity="one">Бір уақытта %d санынан көп жобаны түрлендіре алмайсыз. Алдымен             жүргізіліп жатқан түрлендіру аяқталғанша күте тұрыңыз.</item>
+        <item quantity="other">Бір уақытта %d санынан көп жобаларды түрлендіре алмайсыз. Алдымен жүргізіліп жатқан түрлендіру аяқталғанша күте тұрыңыз.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">You cannot open the project because it wasn\'t
-        converted correctly. Please try to convert it again.</string>
-    <string name="search_failed">Nothing found, please retry later.</string>
-    <string name="connection_lost_or_closed_by_server">Server connection lost.</string>
-    <string name="connection_failed">We can\'t connect you to the server right now, please try again later.</string>
-    <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
-        contact the Catrobat team.</string>
+    <string name="error_cannot_open_failed_scratch_program">Сіз жобаны аша алмайсыз, себебі ол дұрыс         түрлендірілмеген. Қайта түрлендіріп көріңіз.</string>
+    <string name="search_failed">Ешнәрсе табылмады, кейінірек қайталап көріңіз.</string>
+    <string name="connection_lost_or_closed_by_server">Сервермен байланыс үзілді.</string>
+    <string name="connection_failed">Сізді дәл қазір серверге қосу мүмкін емес, кейінірек қайталап көріңіз.</string>
+    <string name="authentication_failed">Қызметке қосылуда қиындықтар туындады. Catrobat командасымен байланысып көріңіз.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
-        <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
+        <item quantity="one">%d Scratch жобасы кезекке қосылды&#8230;</item>
+        <item quantity="other">%d Scratch жобалары кезекке қосылды&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
-    <string name="status_scheduled">Scheduled</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="scratch_conversion_started">Scratch жобасын түрлендіру басталды&#8230;</string>
+    <string name="convert">Түрлендіру</string>
+    <string name="converting">Түрлендірілуде&#8230;</string>
+    <string name="status_scheduled">Жоспарланды</string>
+    <string name="status_waiting_for_worker">Бос процесс ізделуде&#8230; Күте тұрыңыз&#8230;</string>
+    <string name="status_started">Басталды&#8230;</string>
+    <string name="status_conversion_finished">Түрлендіру аяқталды</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
-        <item quantity="other">In progress: %d jobs</item>
+        <item quantity="one">Орындалуда: %d операция</item>
+        <item quantity="other">Орындалуда: %d операциялар</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
-        <item quantity="other">Completed: %d jobs</item>
+        <item quantity="one">Орындалды: %d операция</item>
+        <item quantity="other">Орындалды: %d операциялар</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
-    <string name="scratch_programs_in_progress_title">In progress</string>
-    <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
-    <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
-        convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
-    <string name="remixes">Remixes</string>
+    <string name="status_conversion_failed">Түрлендіру сәтсіз аяқталды!</string>
+    <string name="status_downloading">Жүктелуде&#8230;</string>
+    <string name="status_download_finished">Жүктеу аяқталды.</string>
+    <string name="status_download_canceled">Жүктеу тоқтатылды!</string>
+    <string name="scratch_programs_in_progress_title">Орындалуда</string>
+    <string name="scratch_programs_finished_title">Түрлендірілген жобалар</string>
+    <string name="by_x">жасаған – %1$s</string>
+    <string name="warning_program_visibility">ЕСКЕРТУ:\nБұл жеке жоба сияқты. Сіз оны         түрлендіре аласыз, бірақ ол жұмыс істемеуі мүмкін.</string>
+    <string name="instructions">Нұсқамалар</string>
+    <string name="notes_and_credits">Ескертпелер мен ұпайлар</string>
+    <string name="shared_at_x">Бөлісті: %1$s</string>
+    <string name="modified_at_x">Өзгертілді: %1$s</string>
+    <string name="remixes">Ремикстер</string>
     <!--  -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Stage size:</string>
-    <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
+    <string name="author">Авторы:</string>
+    <string name="screen_size">Экран өлшемі:</string>
+    <string name="mode">Ориентациясы:</string>
+    <string name="remix_of">Программа ремиксі:</string>
+    <string name="description_hint">Сипаттама қосу үшін басыңыз</string>
     <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
-    <string name="reconvert_text">You converted this project %1$s ago.</string>
+    <string name="reconvert_text">Сіз бұл жобаны %1$s бұрын түрлендірдіңіз.</string>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
-        <item quantity="other">%d minutes</item>
+        <item quantity="one">%d минут</item>
+        <item quantity="other">%d минут</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
-        <item quantity="other">%d hours</item>
+        <item quantity="one">%d сағат</item>
+        <item quantity="other">%d сағат</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
+        <item quantity="one">%d күн</item>
+        <item quantity="other">%d күн</item>
     </plurals>
-    <string name="reconvert_dialog_download">Download the project again</string>
-    <string name="reconvert_dialog_reconvert">Convert this project again</string>
+    <string name="reconvert_dialog_download">Жобаны қайта жүктеу</string>
+    <string name="reconvert_dialog_reconvert">Осы жобаны қайта түрлендіру</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
     <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
         However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
-    <string name="wtf_error">An unexpected error occurred: I could not restore the sample project.</string>
+    <string name="wtf_error">Күтпеген қате пайда болды: мен үлгі жобасын қалпына келтіре алмаймын.</string>
     <!-- Project Handling Errors -->
-    <string name="error_copy_project">An error occurred while copying project</string>
+    <string name="error_copy_project">Жобаны көшіру кезінде қате пайда болды</string>
     <!-- Dialog Errors -->
-    <string name="name_already_exists">This name is already in use, please choose another one.</string>
-    <string name="name_consists_of_spaces_only">You only put spaces into the text field, please enter a text
-        using letters, numbers or other special characters.</string>
-    <string name="name_empty">Please enter a text</string>
+    <string name="name_already_exists">Бұл атау қолданыста, басқасын таңдаңыз.</string>
+    <string name="name_consists_of_spaces_only">Сіз мәтін өрісіне тек бос орындарды енгіздіңіз, мәтінді         әріптер, сандар немесе басқа арнайы таңбалар арқылы енгізіңіз.</string>
+    <string name="name_empty">Мәтінді енгізіңіз</string>
     <!-- Recycler View -->
-    <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
-    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
-    <string name="am_backpack">Pack</string>
-    <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Delete</string>
-    <string name="am_rename">Rename</string>
-    <string name="am_convert">Convert</string>
-    <string name="am_merge">Merge</string>
-    <string name="dialog_confirm_delete">You can\'t undo this!</string>
-    <string name="list_headline_sprites">Actors and objects</string>
+    <string name="am_empty_list">Бұл тізімде әлі элементтер жоқ. Алдымен бірнешеуін қосыңыз.</string>
+    <string name="am_merge_error">Біріктіру жасалмады. Біріктіру үшін кем дегенде 2 жобаны таңдау керек.</string>
+    <string name="am_backpack">Салу</string>
+    <string name="am_unpack">Алу</string>
+    <string name="am_copy">Көшіру</string>
+    <string name="am_delete" tools:ignore="UnusedResources">Жою</string>
+    <string name="am_rename">Атын өзгерту</string>
+    <string name="am_convert">Түрлендіру</string>
+    <string name="am_merge">Біріктіру</string>
+    <string name="dialog_confirm_delete">Сіз бұны қайтара алмайсыз!</string>
+    <string name="list_headline_sprites">Актерлер мен объектілер</string>
     <!-- Options Menu Options -->
-    <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
-    <string name="merge">Merge</string>
-    <string name="show_details">Show details</string>
-    <string name="hide_details">Hide details</string>
+    <string name="backpack">Рюкзак</string>
+    <string name="copy">Көшіру</string>
+    <string name="delete">Жою</string>
+    <string name="rename">Атын өзгерту</string>
+    <string name="merge">Біріктіру</string>
+    <string name="show_details">Мәліметтерді көрсету</string>
+    <string name="hide_details">Мәліметтерді жасыру</string>
     <string name="project_options">Project options</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
     <!-- New Dialog Titles -->
-    <string name="new_scene_dialog">New scene</string>
+    <string name="new_scene_dialog">Жаңа сахна</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">Delete this project?</item>
-        <item quantity="other">Delete these projects?</item>
+        <item quantity="one">Осы жобаны жою керек пе?</item>
+        <item quantity="other">Осы жобаларды жою керек пе?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="one">Delete this scene?</item>
-        <item quantity="other">Delete these scenes?</item>
+        <item quantity="one">Осы сахнаны жою керек пе?</item>
+        <item quantity="other">Осы сахналарды жою керек пе?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">Delete this actor or object?</item>
-        <item quantity="other">Delete these actors or objects?</item>
+        <item quantity="one">Осы актерды немесе объектіні жою керек пе?</item>
+        <item quantity="other">Осы актерлерді немесе объектілерді жою керек пе?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Delete this look?</item>
-        <item quantity="other">Delete these looks?</item>
+        <item quantity="one">Осы суретті жою керек пе?</item>
+        <item quantity="other">Осы суреттерді жою керек пе?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
-        <item quantity="other">Delete these sounds?</item>
+        <item quantity="one">Осы дыбысты жою керек пе?</item>
+        <item quantity="other">Осы дыбыстарды жою керек пе?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="one">Delete this tag?</item>
-        <item quantity="other">Delete these tags?</item>
+        <item quantity="one">Осы тегті жою керек пе?</item>
+        <item quantity="other">Осы тегтерді жою керек пе?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">Delete this script?</item>
-        <item quantity="other">Delete these scripts?</item>
+        <item quantity="one">Осы скриптті жою керек пе?</item>
+        <item quantity="other">Осы скриптілерді жою керек пе?</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Project name</string>
-    <string name="scene_name_label">Scene name</string>
-    <string name="sprite_name_label">Actor or object name</string>
-    <string name="sprite_group_name_label">Group name</string>
-    <string name="script_group_label">Script group name</string>
-    <string name="look_name_label">Look name</string>
-    <string name="sound_name_label">Sound name</string>
-    <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Text</string>
-    <string name="data_label">Name</string>
+    <string name="project_name_label">Жоба атауы</string>
+    <string name="scene_name_label">Сахна атауы</string>
+    <string name="sprite_name_label">Актердің немесе объектінің атауы</string>
+    <string name="sprite_group_name_label">Топ атауы</string>
+    <string name="script_group_label">Скриптілер тобының атауы</string>
+    <string name="look_name_label">Суреттің атауы</string>
+    <string name="sound_name_label">Дыбыстың атауы</string>
+    <string name="nfc_tag_name_label">NFC тегінің атауы</string>
+    <string name="string_label">Мәтін</string>
+    <string name="data_label">Аты</string>
     <string name="keyword_label">Insert keyword</string>
     <string name="html_label">Insert HTML text</string>
-    <string name="Image_format_not_supported">Image format not supported</string>
+    <string name="Image_format_not_supported">Сурет форматына қолдау көрсетілмейді</string>
     <!-- Details -->
-    <string name="project_details">Last access: %s, size: %s</string>
-    <string name="last_access_today">today, %s</string>
-    <string name="scene_details">Actors and objects: %d, looks: %d, sounds: %d</string>
-    <string name="sprite_details">Bricks: %d, looks: %d, sounds: %d</string>
-    <string name="look_details">Resolution: %s, size: %s</string>
-    <string name="sound_duration">Duration: %s</string>
-    <string name="sound_details">Duration: %s, size: %s</string>
+    <string name="project_details">Соңғы қатынас: %s, өлшем: %s</string>
+    <string name="last_access_today">Бүгін, %s</string>
+    <string name="scene_details">Актерлер мен объектілер: %d, суреттер: %d, дыбыстар: %d</string>
+    <string name="sprite_details">Блоктар: %d, суреттер: %d, дыбыстар: %d</string>
+    <string name="look_details">Ажыратымдылық: %s, өлшем: %s</string>
+    <string name="sound_duration">Ұзақтығы: %s</string>
+    <string name="sound_details">Ұзақтығы: %s, өлшем: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
-    <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_project">Жобаның атын өзгерту</string>
+    <string name="rename_scene_dialog">Сахнаның атын өзгерту</string>
+    <string name="rename_sprite_dialog">Актер немесе объектінің атын өзгерту</string>
+    <string name="rename_look_dialog">Суреттің атын өзгерту</string>
+    <string name="rename_sound_dialog">Дыбыстың атын өзгерту</string>
+    <string name="rename_nfctag_dialog">NFC тегінің атын өзгерту</string>
+    <string name="rename_data_dialog">Атын өзгерту</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
+    <string name="new_group">Жаңа топ</string>
     <string name="default_group_name">Group</string>
     <!-- New Scene Menu -->
-    <string name="new_scene">New scene</string>
+    <string name="new_scene">Жаңа сахна</string>
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">Backpacked %d scene.</item>
-        <item quantity="other">Backpacked %d scenes.</item>
+        <item quantity="one">%d сахна салынды.</item>
+        <item quantity="other">%d сахна салынды.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Backpacked %d actor or object.</item>
-        <item quantity="other">Backpacked %d actors or objects.</item>
+        <item quantity="one">%d актер немесе объект салынды.</item>
+        <item quantity="other">%d актер немесе объект салынды.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">Backpacked %d look.</item>
-        <item quantity="other">Backpacked %d looks.</item>
+        <item quantity="one">%d сурет салынды.</item>
+        <item quantity="other">%d сурет салынды.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">Backpacked %d sound.</item>
-        <item quantity="other">Backpacked %d sounds.</item>
+        <item quantity="one">%d дыбыс салынды.</item>
+        <item quantity="other">%d дыбыс салынды.</item>
     </plurals>
-    <string name="packed_script_group">Backpacked one script group.</string>
+    <string name="packed_script_group">Бір скрипт тобы салынды.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
-        <item quantity="other">Unpacked %d scenes.</item>
+        <item quantity="one">%d сахна шығарылды.</item>
+        <item quantity="other">%d сахна шығарылды.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Unpacked %d actor or object.</item>
-        <item quantity="other">Unpacked %d actors or objects.</item>
+        <item quantity="one">%d актер немесе объект шығарылды.</item>
+        <item quantity="other">%d актер немесе объект шығарылды.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
-        <item quantity="other">Unpacked %d looks.</item>
+        <item quantity="one">%d сурет шығарылды.</item>
+        <item quantity="other">%d сурет шығарылды.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
-        <item quantity="other">Unpacked %d sounds.</item>
+        <item quantity="one">%d дыбыс шығарылды.</item>
+        <item quantity="other">%d дыбыс шығарылды.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
-        <item quantity="other">Unpacked %d scripts.</item>
+        <item quantity="one">%d скрипт шығарылды.</item>
+        <item quantity="other">%d скрипт шығарылды.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
-        <item quantity="other">Copied %d scenes.</item>
+        <item quantity="one">%d сахна көшірілді.</item>
+        <item quantity="other">%d сахна көшірілді.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
-        <item quantity="other">Copied %d actors or objects.</item>
+        <item quantity="one">%d актер немесе объект көшірілді.</item>
+        <item quantity="other">%d актер немесе объект көшірілді.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
-        <item quantity="other">Copied %d looks.</item>
+        <item quantity="one">%d сурет көшірілді.</item>
+        <item quantity="other">%d сурет көшірілді.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
-        <item quantity="other">Copied %d sounds.</item>
+        <item quantity="one">%d дыбыс көшірілді.</item>
+        <item quantity="other">%d дыбыс көшірілді.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
-        <item quantity="other">Copied %d NFC tags.</item>
+        <item quantity="one">%d NFC тег көшірілді.</item>
+        <item quantity="other">%d NFC тег көшірілді.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
-        <item quantity="other">Deleted %d projects.</item>
+        <item quantity="one">%d жоба жойылды.</item>
+        <item quantity="other">%d жоба жойылды.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
-        <item quantity="other">Deleted %d scenes.</item>
+        <item quantity="one">%d сахна жойылды.</item>
+        <item quantity="other">%d сахна жойылды.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="one">%d спрайт жойылды.</item>
+        <item quantity="other">%d спрайт жойылды.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
-        <item quantity="other">Deleted %d looks.</item>
+        <item quantity="one">%d сурет жойылды.</item>
+        <item quantity="other">%d сурет жойылды.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
-        <item quantity="other">Deleted %d sounds.</item>
+        <item quantity="one">%d дыбыс жойылды.</item>
+        <item quantity="other">%d дыбыс жойылды.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
-        <item quantity="other">Deleted %d NFC tags.</item>
+        <item quantity="one">%d NFC тег жойылды.</item>
+        <item quantity="other">%d NFC тег жойылды.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
-        <item quantity="other">Deleted %d scripts.</item>
+        <item quantity="one">%d скрипт жойылды.</item>
+        <item quantity="other">%d скрипт жойылды.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
-        <item quantity="other">Deleted %d items.</item>
+        <item quantity="one">%d элемент жойылды.</item>
+        <item quantity="other">%d элемент жойылды.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
+    <string name="project_list_title">Жобалар</string>
+    <string name="last_used">Соңғы қолданыс:</string>
+    <string name="size">Өлшем:</string>
+    <string name="description">Сипаттама:</string>
+    <string name="set_description">Сипаттама орнату</string>
     <string name="notes_and_credits_title">Notes and credits:</string>
     <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Today</string>
-    <string name="import_project">Import project</string>
-    <string name="error_import_project">Something went wrong while importing projects.</string>
-    <string name="error_no_files_found">No project files found.</string>
+    <string name="details_date_today">Бүгін</string>
+    <string name="import_project">Жобаны импорттау</string>
+    <string name="error_import_project">Жобаларды импорттау кезінде қате пайда болды.</string>
+    <string name="error_no_files_found">Жоба файлдары табылмады.</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Description</string>
     <string name="project_options_notes_and_credits">Credits</string>
@@ -504,14 +485,14 @@
     <string name="project_options_more_details">More details</string>
     <string name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">Скриптілерді қосу үшін \"+\" түймесін басыңыз</string>
     <!--  -->
     <!-- SpriteListFragment -->
-    <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
-    <string name="default_sprite_name">My actor or object</string>
+    <string name="fragment_sprite_text_description">Актерлер немесе объектілерді қосу үшін \"+\" түймесін басыңыз</string>
+    <string name="default_sprite_name">Менің актер немесе объектім</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
+    <string name="fragment_look_text_description">Суреттерді қосу үшін «+» түймесін басыңыз</string>
     <string name="select_look_from_gallery">Select image</string>
     <string name="select_look_from_camera">Select photo</string>
     <!--  -->
@@ -527,19 +508,19 @@
     <string name="default_tag_name">NFC tag</string>
     <string name="tnf_empty">Empty</string>
     <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="tnf_mime_media">Мәтін</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">Телефон нөмірі</string>
     <string name="tnf_well_known_sms">SMS</string>
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
     <!-- DataListFragment -->
-    <string name="multiplayer_vars_headline">Variables for connected devices</string>
-    <string name="global_vars_headline">Variables for all actors and objects</string>
-    <string name="local_vars_headline">Variables for this actor or object only</string>
-    <string name="global_lists_headline">Lists for all actors and objects</string>
-    <string name="local_lists_headline">Lists for this actor or object only</string>
+    <string name="multiplayer_vars_headline">Қосылған құрылғыларға арналған айнымалылар</string>
+    <string name="global_vars_headline">Барлық актерлер мен объектілерге арналған айнымалылар</string>
+    <string name="local_vars_headline">Тек осы актер немесе объектіге арналған айнымалылар</string>
+    <string name="global_lists_headline">Барлық актерлер мен объектілерге арналған тізімдер</string>
+    <string name="local_lists_headline">Тек осы актер немесе объектіге арналған тізімдер</string>
     <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
         <item quantity="one">Input for this brick</item>
@@ -588,15 +569,15 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Пайдалану және Қызмет Көрсету шарттары</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Пайдалану және Қызмет Көрсету шарттары</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Пайдалану және Қызмет Көрсету шарттары</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
@@ -625,7 +606,7 @@
     <string name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
+    <string name="upload_description">Сипаттама:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
@@ -865,8 +846,8 @@
     <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Change transparency"</string>
     <string name="brick_set_brightness" tools:ignore="UnusedResources">"Set brightness"</string>
     <string name="brick_change_brightness" tools:ignore="UnusedResources">"Change brightness"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Set colour "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Change colour "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Set color"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Change color"</string>
     <string name="by_label" tools:ignore="UnusedResources">by</string>
     <string name="to_label" tools:ignore="UnusedResources">to</string>
     <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Clear graphic effects</string>
@@ -901,7 +882,7 @@
     <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
     <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
     <string name="brick_pen_size" tools:ignore="UnusedResources">Set pen size to</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen colour to</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen color to</string>
     <string name="brick_clear_background" tools:ignore="UnusedResources">Clear</string>
     <string name="brick_stamp" tools:ignore="UnusedResources">Stamp</string>
     <!--  -->
@@ -1128,7 +1109,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene %1$d</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1209,12 +1190,12 @@
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
-    <string name="size_of_project">Size:</string>
+    <string name="size_of_project">Өлшем:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR. Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behaviour.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
@@ -1359,10 +1340,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_no_sensor">none</string>
     <string name="ev3_sensor_touch">EV3 touch sensor</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="ev3_sensor_color">EV3 colour sensor</string>
-    <string name="ev3_sensor_color_ambient">EV3 colour sensor ambient</string>
-    <string name="ev3_sensor_color_reflected">EV3 colour sensor reflected</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic colour sensor</string>
+    <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
@@ -1448,7 +1429,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">градус</string>
     <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Taking picture Jumping Sumo</string>
     <!--  -->
@@ -1547,7 +1528,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">colour</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">color</string>
     <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">square root</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random value from to</string>
@@ -1625,9 +1606,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
     <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches colour</string>
-    <string name="formula_editor_function_color_touches_color">colour touches colour</string>
-    <string name="formula_editor_sensor_color_at_x_y">colour at x y</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
@@ -1675,10 +1656,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_colour</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_colour_ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_colour_reflected</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_colour</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
@@ -1754,7 +1735,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">colour picker</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
@@ -1825,12 +1806,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
     <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
     <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">colour:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
     <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
     <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
     <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
     <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
-    <string name="brick_context_dialog_pick_color">Pick colour</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->

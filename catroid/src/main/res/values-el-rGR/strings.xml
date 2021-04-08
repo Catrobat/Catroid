@@ -23,39 +23,39 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">Stage</string>
-    <string name="play">Play</string>
-    <string name="settings">Settings</string>
-    <string name="redo" tools:ignore="UnusedResources">Redo</string>
-    <string name="undo" tools:ignore="UnusedResources">Undo</string>
+    <string name="stage">Σκηνή</string>
+    <string name="play">Παίξε</string>
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="redo" tools:ignore="UnusedResources">Ακύρωση Αναίρεσης</string>
+    <string name="undo" tools:ignore="UnusedResources">Αναίρεση</string>
     <string name="new_option">new&#8230;</string>
     <string name="edit_option">edit&#8230;</string>
-    <string name="confirm">Confirm</string>
+    <string name="confirm">Επιβεβαίωση</string>
     <string name="ignore">Ignore</string>
-    <string name="cancel">Cancel</string>
+    <string name="cancel">Ακύρωση</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>
-    <string name="next">Next</string>
-    <string name="ok">OK</string>
-    <string name="done">Done</string>
-    <string name="close" tools:ignore="UnusedResources">Close</string>
+    <string name="next">Επόμενο</string>
+    <string name="ok">ΟΚ</string>
+    <string name="done">Ολοκληρώθηκε</string>
+    <string name="close" tools:ignore="UnusedResources">Κλείσιμο</string>
     <string name="assistant">Assistant</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="yes">Ναι</string>
+    <string name="no">Όχι</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
-    <string name="skip">skip</string>
-    <string name="warning">Warning</string>
-    <string name="error">Error</string>
-    <string name="loading">Loading&#8230;</string>
-    <string name="please_wait">Please wait</string>
-    <string name="search_hint">Search&#8230;</string>
-    <string name="backpack_add">Add to backpack</string>
+    <string name="select_all">Επιλογή όλων</string>
+    <string name="deselect_all">Αποεπιλογή όλων</string>
+    <string name="skip">παράλειψη</string>
+    <string name="warning">Προσοχή</string>
+    <string name="error">Σφάλμα</string>
+    <string name="loading">Φόρτωση&#8230;</string>
+    <string name="please_wait">Παρακαλώ περιμένετε</string>
+    <string name="search_hint">Αναζήτηση&#8230;</string>
+    <string name="backpack_add">Προσθέστε στο σακίδιο</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -73,65 +73,65 @@
     <string name="api_replacement">insert API key here</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
+    <string name="loading_check_oauth_token">Έλεγχος στοιχείων σύνδεσης&#8230;</string>
     <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
     <string name="loading_google_login">Google login on our server is complete&#8230;</string>
-    <string name="logout_successful">Logout successful</string>
-    <string name="degrees" tools:ignore="UnusedResources">degrees</string>
-    <string name="background" tools:ignore="UnusedResources">Background</string>
-    <string name="landscape">landscape</string>
-    <string name="portrait">portrait</string>
-    <string name="unknown">unknown</string>
-    <string name="disconnect">Disconnect</string>
+    <string name="logout_successful">Επιτυχής αποσύνδεση</string>
+    <string name="degrees" tools:ignore="UnusedResources">μοίρες</string>
+    <string name="background" tools:ignore="UnusedResources">Παρασκήνιο</string>
+    <string name="landscape">οριζόντια</string>
+    <string name="portrait">κατακόρυφα</string>
+    <string name="unknown">άγνωστο</string>
+    <string name="disconnect">Αποσύνδεση</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
-    <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">Help</string>
-    <string name="main_menu_web">Catrobat community</string>
-    <string name="main_menu_upload">Upload project</string>
-    <string name="main_menu_rate_app">Rate us!</string>
-    <string name="main_menu_terms_of_use">Terms of Use and Service</string>
-    <string name="main_menu_privacy_policy">Privacy Policy</string>
-    <string name="main_menu_about">About this app</string>
-    <string name="main_menu_login">Login</string>
-    <string name="main_menu_logout">Logout</string>
-    <string name="main_menu_scratch_converter">Scratch converter</string>
+    <string name="main_menu_continue">Συνέχεια</string>
+    <string name="main_menu_new">Νέα</string>
+    <string name="main_menu_programs">Προγράμματα</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">Βοήθεια</string>
+    <string name="main_menu_web">Catrobat κοινότητα</string>
+    <string name="main_menu_upload">Ανέβασμα</string>
+    <string name="main_menu_rate_app">Βαθμολογήστε μας!</string>
+    <string name="main_menu_terms_of_use">Όροι χρήσης και υπηρεσιών</string>
+    <string name="main_menu_privacy_policy">Πολιτική απορρήτου</string>
+    <string name="main_menu_about">Σχετικά με αυτή την εφαρμογή</string>
+    <string name="main_menu_login">Σύνδεση</string>
+    <string name="main_menu_logout">Αποσύνδεση</string>
+    <string name="main_menu_scratch_converter">Μετατροπέας Scratch</string>
     <string name="main_menu_play_store_not_installed">App store not found</string>
     <!--  -->
     <!-- Marketing activity -->
-    <string name="marketing_created_with">Created with</string>
-    <string name="marketing_app_details">Details about this app</string>
-    <string name="marketing_more_on_google_play">More apps on App store</string>
+    <string name="marketing_created_with">Δημιουργήθηκε με</string>
+    <string name="marketing_app_details">Λεπτομέρειες σχετικά με αυτή την εφαρμογή</string>
+    <string name="marketing_more_on_google_play">Περισσότερες εφαρμογές στο Google Play</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
-    <string name="preference_title">Settings</string>
-    <string name="preference_title_language">Language</string>
+    <string name="preference_title">Ρυθμίσεις</string>
+    <string name="preference_title_language">Γλώσσα</string>
     <string name="preference_description_language">Set the app\'s language</string>
     <string name="preference_title_web_access">Web access</string>
     <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
     <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_accessibility">Accessibility</string>
+    <string name="preference_title_accessibility">Προσβασιμότητα</string>
     <string name="preference_description_accessibility">Change the app\'s appearance</string>
     <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
+    <string name="preference_title_accessibility_profile">Προκαθορισμένα προφίλ</string>
+    <string name="preference_title_accessibility_profile_headline">Προφίλ</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Προκαθορισμένα προφίλ</string>
     <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
     <string name="preference_title_accessibility_text_appearance">Text appearance</string>
     <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
+    <string name="preference_title_accessibility_category_icons_big">Μεγάλα Εικονίδια</string>
+    <string name="preference_description_accessibility_category_icons_big">Αύξηση μεγέθους εικονιδίου.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Εικόνες υψηλής αντίθεσης</string>
+    <string name="preference_title_accessibility_Brick_icons">Εικονίδια</string>
+    <string name="preference_title_accessibility_category_icons">Εμφάνιση εικονιδίων</string>
     <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
+    <string name="preference_title_accessibility_high_contrast">Υψηλή αντίθεση</string>
+    <string name="preference_description_accessibility_high_contrast">Αύξηση αντίθεσης κειμένου.</string>
+    <string name="preference_description_accessibility_large_text">Αύξηση μεγέθους κειμένου.</string>
+    <string name="preference_title_accessibility_large_text">Μεγάλο κείμενο</string>
     <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
     <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
@@ -139,14 +139,14 @@
     <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
     <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
     <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="accessibility_font_regular">Κανονικό</string>
     <string name="accessibility_font_serif">Serif</string>
     <string name="accessibility_font_dyslexic">Dyslexic</string>
     <string name="accessibility_settings_applied">Changes applied</string>
     <string name="preference_access_title_profile_default">Default</string>
     <string name="preference_access_summary_profile_default">Default settings</string>
     <string name="preference_access_title_profile_custom">My custom profile</string>
-    <string name="preference_access_summary_profile_custom">My personal settings</string>
+    <string name="preference_access_summary_profile_custom">Προσωπικές ρυθμίσεις</string>
     <string name="preference_access_title_profile_argus">Argus</string>
     <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
     <string name="preference_access_title_profile_odin">Odin</string>
@@ -158,37 +158,37 @@
     <string name="preference_access_title_profile_tiro">Tiro</string>
     <string name="preference_access_summary_profile_tiro">Beginner mode</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
-    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 extension</string>
+    <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 τούβλα</string>
     <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
-    <string name="preference_title_enable_jumpingsumo_bricks">Parrot Jumping Sumo extension</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">Τούβλα Parrot Jumping Sumo</string>
     <string name="preference_description_jumpingsumo_bricks">Allow the app to control Parrot\'s Jumping Sumo robots</string>
-    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT extension</string>
-    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego Mindstorms EV3 extension</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">Τούβλα Lego Mindstorms NXT</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">Τούβλα Lego Mindstorms EV3</string>
     <string name="preference_description_mindstorms_nxt_bricks">Allow the app to control Lego Mindstorms NXT robots</string>
     <string name="preference_description_mindstorms_ev3_bricks">Allow the app to control Lego Mindstorms EV3 robots</string>
-    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT Sensors</string>
-    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 Sensors</string>
+    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT αισθητήρες</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Lego EV3 αισθητήρες</string>
     <string name="preference_title_drone_config_properties">Parrot AR.Drone 2.0 configuration</string>
-    <string name="preference_title_enable_phiro_bricks">RobotixEdu\'s Phiro extension</string>
+    <string name="preference_title_enable_phiro_bricks">Phiro τούβλα</string>
     <string name="preference_description_phiro_bricks">Allow the app to control RobotixEdu\'s Phiro robots</string>
-    <string name="preference_title_enable_arduino_bricks">Arduino extension</string>
+    <string name="preference_title_enable_arduino_bricks">Τούβλα Arduino</string>
     <string name="preference_description_arduino_bricks">Allow the app to control Arduino boards</string>
     <string name="preference_title_enable_embroidery_bricks">Embroidery extension</string>
     <string name="preference_description_embroidery_bricks">Create patterns for stitching machines</string>
-    <string name="preference_title_cast_feature_globally_enabled">Chromecast extension</string>
+    <string name="preference_title_cast_feature_globally_enabled">Ενεργοποίηση της λειτουργίας μετάδοσης</string>
     <string name="preference_description_cast_feature_globally_enabled">Show cast button and enable cast projects</string>
-    <string name="preference_title_enable_nfc_bricks">Near Field Communication extension</string>
+    <string name="preference_title_enable_nfc_bricks">Επικοινωνία Κοντινών Πεδίων</string>
     <string name="preference_description_nfc_bricks">Allow the app to use NFC tags in projects</string>
-    <string name="preference_title_enable_crash_reports">Sending anonymous crash reports</string>
+    <string name="preference_title_enable_crash_reports">Στείλτε ανώνυμα αναφορές σφαλμάτων</string>
     <string name="preference_description_crash_reports">Allow the app to send crash reports automatically</string>
     <!-- -->
-    <string name="preference_title_enable_raspi_bricks">Raspberry Pi extension</string>
+    <string name="preference_title_enable_raspi_bricks">Raspberry Pi τούβλα</string>
     <string name="preference_description_raspi_bricks">Allow the app to control Raspberry Pi computers</string>
-    <string name="preference_raspi_enable_bricks">Enable bricks and sensors</string>
-    <string name="preference_raspi_help">Help / getting started</string>
-    <string name="preference_raspi_help_summary">Get help on how to configure the connection settings</string>
-    <string name="preference_raspi_host">Raspberry Pi IP-/host-address</string>
-    <string name="preference_raspi_port">Raspberry Pi port</string>
+    <string name="preference_raspi_enable_bricks">Ενεργοποίηση των Raspberry Pi τούβλων</string>
+    <string name="preference_raspi_help">Βοήθεια / Αρχάριος</string>
+    <string name="preference_raspi_help_summary">Λάβετε βοήθεια σχετικά με το πώς να διαμορφώσετε τις ρυθμίσεις σύνδεσης</string>
+    <string name="preference_raspi_host">Raspberry Pi IP-/-Διεύθυνση φιλοξενίας</string>
+    <string name="preference_raspi_port">Raspberry Pi θύρα</string>
     <!--  -->
     <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
     <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
@@ -202,15 +202,11 @@
     <string name="error_scratch_project_data_not_available">Whoops! Some parts of the project seem to be
         missing, please try again later.</string>
     <string name="error_request_timeout">Whoops! Our server did not respond in time, please try again later.</string>
-    <string name="error_scratch_program_conversion_failed">Whoops! Failed to convert the project, please try again
-        later.</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Whoops! Failed to convert %1$s, please try
-        again later.</string>
+    <string name="error_scratch_program_conversion_failed">Ουπς! Απέτυχε η μετατροπή του προγράμματος Scratch, παρακαλώ προσπαθήστε ξανά αργότερα!</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Ουπς! Απέτυχε η μετατροπή %1$s, Παρακαλώ δοκιμάστε ξανά αργότερα!</string>
     <string name="error_scratch_converter_outdated_app_version">Your version of this app is outdated. Our Scratch
         converter only works on the latest version. Please update the app.</string>
-    <string name="error_cannot_open_not_existing_scratch_program">I could not open this Scratch project. It seems that you
-        have canceled the conversion/download of the Scratch project, or you have renamed/deleted the project in the
-        meanwhile.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">Δεν είναι δυνατό να ανοίξει αυτό το Scratch πρόγραμμα. Φαίνεται ότι έχετε ακυρώσει τη μετατροπή/λήψη του προγράμματος Scratch, ή έχετε μετονομαστεί/διαγράψει το πρόγραμμα εν τω μεταξύ!</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">You cannot yet open the project.
         Please wait until it is downloaded.</string>
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">You cannot yet open the project.
@@ -234,13 +230,13 @@
         <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
-    <string name="convert">Convert</string>
-    <string name="converting">Converting&#8230;</string>
-    <string name="status_scheduled">Scheduled</string>
-    <string name="status_waiting_for_worker">Looking for a free worker&#8230; Please wait&#8230;</string>
-    <string name="status_started">Started&#8230;</string>
-    <string name="status_conversion_finished">Conversion finished</string>
+    <string name="scratch_conversion_started">Εκκίνηση μετατροπής προγράμματος Scratch&#8230;</string>
+    <string name="convert">Μετατροπή</string>
+    <string name="converting">Μετατροπή&#8230;</string>
+    <string name="status_scheduled">Χρονοδιάγραμμα</string>
+    <string name="status_waiting_for_worker">Ανίχνευση για διαθέσιμο μετατροπέα&#8230; Παρακαλώ περίμενε&#8230;</string>
+    <string name="status_started">Εκκίνηση&#8230;</string>
+    <string name="status_conversion_finished">Η μετατροπή ολοκληρώθηκε</string>
     <plurals name="status_in_progress_x_jobs">
         <item quantity="one">In progress: %d job</item>
         <item quantity="other">In progress: %d jobs</item>
@@ -249,26 +245,26 @@
         <item quantity="one">Completed: %d job</item>
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
-    <string name="status_conversion_failed">Conversion failed!</string>
-    <string name="status_downloading">Downloading&#8230;</string>
-    <string name="status_download_finished">Download finished.</string>
-    <string name="status_download_canceled">Download canceled!</string>
+    <string name="status_conversion_failed">Η μετατροπή απέτυχε!</string>
+    <string name="status_downloading">Λήψη&#8230;</string>
+    <string name="status_download_finished">Η λήψη ολοκληρώθηκε!</string>
+    <string name="status_download_canceled">Η λήψη ακυρώθηκε!</string>
     <string name="scratch_programs_in_progress_title">In progress</string>
     <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">by %1$s</string>
+    <string name="by_x">από τον %1$s</string>
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
         convert it but it might not work.</string>
-    <string name="instructions">Instructions</string>
-    <string name="notes_and_credits">Notes and Credits</string>
-    <string name="shared_at_x">Shared: %1$s</string>
-    <string name="modified_at_x">Modified: %1$s</string>
-    <string name="remixes">Remixes</string>
+    <string name="instructions">Οδηγίες</string>
+    <string name="notes_and_credits">Σημειώσεις και Ευχαριστίες</string>
+    <string name="shared_at_x">Διαμοιρασμένα: %1$s</string>
+    <string name="modified_at_x">Τροποποιημένα: %1$s</string>
+    <string name="remixes">Ανακατασκευές</string>
     <!--  -->
-    <string name="author">Author:</string>
-    <string name="screen_size">Stage size:</string>
-    <string name="mode">Mode:</string>
-    <string name="remix_of">Remix of:</string>
-    <string name="description_hint">Press to add description</string>
+    <string name="author">Συγγραφέας:</string>
+    <string name="screen_size">Μέγεθος οθόνης:</string>
+    <string name="mode">Λειτουργία:</string>
+    <string name="remix_of">Ανακατασκευή του:</string>
+    <string name="description_hint">Πατήστε για να προσθέσετε Περιγραφή</string>
     <string name="notes_and_credits_hint">Press to add notes and credits</string>
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
@@ -303,22 +299,22 @@
     <string name="am_empty_list">There are no items in this list yet. Please add some first.</string>
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
-    <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Delete</string>
-    <string name="am_rename">Rename</string>
-    <string name="am_convert">Convert</string>
+    <string name="am_unpack">Αποσυμπίεση</string>
+    <string name="am_copy">Αντιγραφή</string>
+    <string name="am_delete" tools:ignore="UnusedResources">Διαγραφή</string>
+    <string name="am_rename">Μετονομασία</string>
+    <string name="am_convert">Μετατροπή</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
-    <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
+    <string name="backpack">Σακίδιο</string>
+    <string name="copy">Αντιγραφή</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="rename">Μετονομασία</string>
     <string name="merge">Merge</string>
-    <string name="show_details">Show details</string>
-    <string name="hide_details">Hide details</string>
+    <string name="show_details">Εμφάνιση λεπτομερειών</string>
+    <string name="hide_details">Απόκρυψη λεπτομερειών</string>
     <string name="project_options">Project options</string>
     <string name="sort_projects">Sort</string>
     <string name="unsort_projects">Unsort</string>
@@ -377,15 +373,15 @@
     <string name="sound_details">Duration: %s, size: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rename project</string>
-    <string name="rename_scene_dialog">Rename scene</string>
-    <string name="rename_sprite_dialog">Rename actor or object</string>
-    <string name="rename_look_dialog">Rename look</string>
-    <string name="rename_sound_dialog">Rename sound</string>
-    <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_project">Μετονομασία προγράμματος</string>
+    <string name="rename_scene_dialog">Μετονομασία σκηνής</string>
+    <string name="rename_sprite_dialog">Μετονομασία αντικειμένου</string>
+    <string name="rename_look_dialog">Μετονομασία εμφάνισης</string>
+    <string name="rename_sound_dialog">Μετονομασία ήχου</string>
+    <string name="rename_nfctag_dialog">Μετονομασία ετικετών NFC</string>
+    <string name="rename_data_dialog">Μετονομασία</string>
     <!-- New Script Group Dialog -->
-    <string name="new_group">New group</string>
+    <string name="new_group">Νέα ομάδα</string>
     <string name="default_group_name">Group</string>
     <!-- New Scene Menu -->
     <string name="new_scene">New scene</string>
@@ -485,52 +481,52 @@
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Projects</string>
-    <string name="last_used">Last access:</string>
-    <string name="size">Size:</string>
-    <string name="description">Description:</string>
-    <string name="set_description">Set description</string>
+    <string name="project_list_title">Προγράμματα</string>
+    <string name="last_used">Τελευταία σύνδεση:</string>
+    <string name="size">Μέγεθος:</string>
+    <string name="description">Περιγραφή:</string>
+    <string name="set_description">Ορίστε περιγραφή</string>
     <string name="notes_and_credits_title">Notes and credits:</string>
     <string name="set_notes_and_credits">Set notes and credits</string>
-    <string name="details_date_today">Today</string>
+    <string name="details_date_today">Σήμερα</string>
     <string name="import_project">Import project</string>
     <string name="error_import_project">Something went wrong while importing projects.</string>
     <string name="error_no_files_found">No project files found.</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Description</string>
     <string name="project_options_notes_and_credits">Credits</string>
-    <string name="project_options_tags">Tags</string>
+    <string name="project_options_tags">Ετικέτες</string>
     <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
     <string name="project_options_more_details">More details</string>
     <string name="project_options_delete_project">Delete project</string>
     <!-- ScriptListFragment -->
-    <string name="fragment_script_text_description">Tap \"+\" to add scripts</string>
+    <string name="fragment_script_text_description">Πατήστε «+» για να προσθέσετε σενάρια</string>
     <!--  -->
     <!-- SpriteListFragment -->
     <string name="fragment_sprite_text_description">Tap \"+\" to add actors or objects</string>
     <string name="default_sprite_name">My actor or object</string>
     <!--  -->
     <!-- LookListFragment -->
-    <string name="fragment_look_text_description">Tap \"+\" to add looks</string>
-    <string name="select_look_from_gallery">Select image</string>
-    <string name="select_look_from_camera">Select photo</string>
+    <string name="fragment_look_text_description">Πατήστε «+» για να προσθέσετε εμφάνιση</string>
+    <string name="select_look_from_gallery">Επιλέξτε εικόνα</string>
+    <string name="select_look_from_camera">Επιλέξτε φωτογραφία</string>
     <!--  -->
     <!-- SoundListFragment -->
-    <string name="fragment_sound_text_description">Tap \"+\" to add sounds</string>
-    <string name="sound_select_source">Select a sound</string>
+    <string name="fragment_sound_text_description">Πατήστε «+» για να προσθέσετε ήχους</string>
+    <string name="sound_select_source">Επιλέξτε έναν ήχο</string>
     <!--  -->
     <!-- NfcTagListFragment -->
     <string name="fragment_nfctag_text_description">Scan NFC tags to add them</string>
     <string name="ndef_record_label" tools:ignore="UnusedResources">as record type</string>
-    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Wait for next NFC tag to write</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Ορίστε την επόμενη ετικέτα NFC στο</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
-    <string name="default_tag_name">NFC tag</string>
-    <string name="tnf_empty">Empty</string>
-    <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Text</string>
+    <string name="default_tag_name">ετικέτα_nfc</string>
+    <string name="tnf_empty">Κενό</string>
+    <string name="tnf_external_type">Εξωτερικός τύπος</string>
+    <string name="tnf_mime_media">Κείμενο</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
-    <string name="tnf_well_known_tel">Phone number</string>
+    <string name="tnf_well_known_tel">Αριθμός τηλεφώνου</string>
     <string name="tnf_well_known_sms">SMS</string>
     <string name="tnf_well_known_mailto">E-Mail</string>
     <!--  -->
@@ -551,9 +547,9 @@
     <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
         on connected multiplayer devices</string>
     <!-- Backpack -->
-    <string name="backpack_title">Your backpack</string>
+    <string name="backpack_title">Το σακίδιό σας</string>
     <string name="pack">Pack</string>
-    <string name="unpack">Unpack</string>
+    <string name="unpack">Αποσυμπίεση</string>
     <!--  -->
     <!-- NewProjectDialog -->
     <string name="new_project_dialog_example_project">Example project</string>
@@ -563,20 +559,20 @@
     <string name="merging_project_text">These two projects cannot yet be merged</string>
     <!--  -->
     <!-- NewSpriteDialog -->
-    <string name="new_sprite_dialog_title">New actor or object</string>
+    <string name="new_sprite_dialog_title">Νέο αντικείμενο</string>
     <!--  -->
     <!-- NewLookDialog -->
-    <string name="new_look_dialog_title">Add look</string>
-    <string name="add_look_from_camera">Take picture</string>
-    <string name="add_look_draw_new_image">Draw image</string>
-    <string name="add_look_choose_image">Select image</string>
-    <string name="add_look_media_library">Media library</string>
+    <string name="new_look_dialog_title">Προσθήκη Εμφάνησης</string>
+    <string name="add_look_from_camera">Τραβήξτε φωτογραφία</string>
+    <string name="add_look_draw_new_image">Ζωγραφίστε εικόνα</string>
+    <string name="add_look_choose_image">Επιλέξτε εικόνα</string>
+    <string name="add_look_media_library">Βιβλιοθήκη πολυμέσων</string>
     <!--  -->
     <!-- NewSoundDialog -->
-    <string name="new_sound_dialog_title">Add sound</string>
-    <string name="add_sound_from_recorder">Record sound</string>
-    <string name="add_sound_choose_file">Select file</string>
-    <string name="add_sound_music">Music composer</string>
+    <string name="new_sound_dialog_title">Προσθήκη ήχου</string>
+    <string name="add_sound_from_recorder">Εγγραφή ήχου</string>
+    <string name="add_sound_choose_file">Επιλογή αρχείου</string>
+    <string name="add_sound_music">Σύνθεση μουσικής</string>
     <!-- NotePickerDialog -->
     <string name="note_picker_title">Note Picker</string>
     <!--  -->
@@ -588,18 +584,18 @@
     <string name="rating_dialog_rate_never">Never</string>
     <!--  -->
     <!-- Terms of Use Dialog -->
-    <string name="dialog_terms_of_use_title">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_title">Όροι χρήσης και υπηρεσιών</string>
     <string name="dialog_terms_of_use_info">In order to
         be allowed to use the apps and other services offered by the Catrobat project, you
         must agree to our Terms of Use and Service. You have to follow these terms strictly when using our apps
         and other services. Please see the link below for their precise formulation.\n</string>
-    <string name="dialog_terms_of_use_link_text">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text">Όροι χρήσης και υπηρεσιών</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Terms of Use and Service</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Όροι χρήσης και υπηρεσιών</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
         AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Do not remind me again.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Να μην ξαναγίνει υπενθύμιση.</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot Jumping Sumo-->
     <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
@@ -611,13 +607,13 @@
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
     <!-- -->
     <!-- About Dialog -->
-    <string name="dialog_about_title">About this App</string>
+    <string name="dialog_about_title">Σχετικά με αυτή την εφαρμογή</string>
     <string name="dialog_about_license_info">This app offers a coding
         environment and interpreter for the visual programming language Catrobat.\n
         The source code of this app is mainly licensed under the GNU AGPL v3 license.
         For further details on the license see the link below.\n</string>
-    <string name="dialog_about_license_link_text">Source code license</string>
-    <string name="dialog_about_catrobat_link_text">About Catrobat</string>
+    <string name="dialog_about_license_link_text">Άδεια πηγαίου κώδικα</string>
+    <string name="dialog_about_catrobat_link_text">Σχετικά με το Catrobat</string>
     <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
     <string name="dialog_about_version">version:</string>
     <!--  -->
@@ -625,7 +621,7 @@
     <string name="error_no_network_title">No network</string>
     <!-- UploadProjectDialog -->
     <string name="upload_project_dialog_title">Upload project</string>
-    <string name="upload_description">Description:</string>
+    <string name="upload_description">Περιγραφή:</string>
     <string name="upload_notes_and_credits">Notes and credits:</string>
     <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
     <string name="upload_tag_dialog_title">Please choose up to three categories</string>
@@ -639,10 +635,10 @@
     <string name="save_project_to_external_storage_io_exception_message">Failed to save project, not enough memory is available!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Sound recorder</string>
-    <string name="soundrecorder_error">Sound recording failed</string>
-    <string name="soundrecorder_recorded_filename">recording</string>
-    <string name="soundrecorder_text_view">Tap the icon above to start and stop recording.</string>
+    <string name="soundrecorder_name">Ηχογράφηση</string>
+    <string name="soundrecorder_error">Η ηχογράφηση απέτυχε</string>
+    <string name="soundrecorder_recorded_filename">εγγραφή</string>
+    <string name="soundrecorder_text_view">Πατήστε το εικονίδιο παραπάνω για να ξεκινήσετε και να διακόψετε την εγγραφή.</string>
     <!--  -->
     <!-- Brick context dialog -->
     <string name="brick_context_dialog_move_brick">Move brick</string>
@@ -659,37 +655,37 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Help</string>
-    <string name="comment_in_out">Disable/enable</string>
+    <string name="brick_context_dialog_help">Βοήθεια</string>
+    <string name="comment_in_out">Απενεργοποίηση/Ενεργοποίηση</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
     <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
     <!--  -->
     <!-- Play scene dialog -->
-    <string name="play_scene_dialog_title">Play scene:</string>
-    <string name="play_scene_dialog_default">First scene (%1$s)</string>
+    <string name="play_scene_dialog_title">Σκηνή παιχνιδιού:</string>
+    <string name="play_scene_dialog_default">Πρώτη σκηνή (%1$s)</string>
     <string name="play_scene_dialog_current">Current scene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
-    <string name="sign_in_dialog_title">Sign in</string>
+    <string name="sign_in_dialog_title">Σύνδεση</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="reset_password">Reset password</string>
-    <string name="new_user_registered">New account created</string>
+    <string name="new_user_registered">Ο νέος λογαριασμός δημιουργήθηκε</string>
     <string name="user_logged_in">Login successful</string>
     <string name="register_error">Login invalid</string>
     <string name="register_terms">By registering you agree to our</string>
-    <string name="register_code_terms_of_use_text">Terms of use and service</string>
-    <string name="login">Login</string>
-    <string name="register">Register</string>
-    <string name="password_confirm">Confirm password</string>
+    <string name="register_code_terms_of_use_text">Όροι χρήσης και υπηρεσιών</string>
+    <string name="login">Σύνδεση</string>
+    <string name="register">Εγγραφή</string>
+    <string name="password_confirm">Επιβεβαίωση κωδικού πρόσβασης</string>
     <string name="accountName">E-Mail</string>
     <string name="signin_thanks">Thank you for signing up!</string>
     <string name="signin_choose_username">Please choose your username:</string>
     <string name="signin_choose_username_empty">Please enter a username.</string>
     <string name="signin_choose_username_hint">The username should not be your real name nor should it be an email address.</string>
     <string name="oauth_username_taken">Someone else already uses this name. Please choose a different one!</string>
-    <string name="show_password">Show password</string>
+    <string name="show_password">Εμφάνιση κωδικού πρόσβασης</string>
     <string name="sign_in_error">Something went wrong during sign in.</string>
     <string name="error_google_plus_sign_in">Google sign-in error. Status: %s</string>
     <string name="error_session_expired">Session expired, please log in.</string>
@@ -718,18 +714,16 @@
     <string name="pocket_music_default_track_name">Track 1</string>
     <!--  -->
     <!-- Resource initialization fka PrestageActivity -->
-    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech engine not installed!\nDo you want to
-        install it?</string>
-    <string name="prestage_resource_not_available_title">Component not available</string>
+    <string name="prestage_text_to_speech_engine_not_installed">Η μηχανή Κείμενο-σε-Ομιλία δεν είναι εγκατεστημένη\nΘέλετε να την εγκαταστήσετε;</string>
+    <string name="prestage_resource_not_available_title">Το στοιχείο δεν είναι διαθέσιμο</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Another device is connected to the Jumping Sumo. Make sure you
-        are the one connected to the drone.</string>
+    <string name="prestage_resource_in_use_text">Μια άλλη συσκευή συνδέεται με το Jumping Sumo. Βεβαιωθείτε ότι, είστε ο μοναδικός ελεγκτής του Drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Acceleration sensor\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Inclination sensor\n</string>
-    <string name="prestage_no_compass_sensor_available">\u2022 Compass\n</string>
-    <string name="prestage_no_gps_sensor_available">\u2022 Geolocation\n</string>
+    <string name="prestage_no_compass_sensor_available">\u2022 Πυξίδα\n</string>
+    <string name="prestage_no_gps_sensor_available">\u2022 GPS\n</string>
     <string name="prestage_text_to_speech_error">\u2022 Text-To-Speech engine\n</string>
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
@@ -738,16 +732,16 @@
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
-    <string name="prestage_default_resource_not_available">\u2022 Unknown component\n</string>
-    <string name="no_nfc_available">NFC not available</string>
+    <string name="prestage_default_resource_not_available">\u2022 άγνωστo συστατικό\n</string>
+    <string name="no_nfc_available">NFC μη διαθέσιμο</string>
     <string name="nfc_not_activated">Please activate NFC and press Back to return to the app.</string>
     <string name="nfc_facedetection_support">Using NFC and face detection at the same time might lead to performance
         issues.</string>
     <!--  -->
     <!-- Stage menu dialog -->
-    <string name="stage_dialog_back">Back</string>
-    <string name="stage_dialog_resume">Resume</string>
-    <string name="stage_dialog_restart">Restart</string>
+    <string name="stage_dialog_back">Πίσω</string>
+    <string name="stage_dialog_resume">Συνέχιση</string>
+    <string name="stage_dialog_restart">Επανεκκίνηση</string>
     <string name="stage_dialog_axes_on">Axes on</string>
     <string name="stage_dialog_axes_off">Axes off</string>
     <string name="stage_dialog_maximize">Maximize/\nstretch</string>
@@ -755,7 +749,7 @@
     <string name="stage_dialog_embroidery">Embroidery</string>
     <!--  -->
     <!-- Broadcast spinner -->
-    <string name="dialog_new_broadcast_message_title">New message</string>
+    <string name="dialog_new_broadcast_message_title">Νέο μήνυμα</string>
     <string name="dialog_broadcast_message_name">message:</string>
     <string name="dialog_edit_broadcast_message_title">Edit message</string>
     <!--  -->
@@ -764,16 +758,16 @@
     <string name="brick_when_nfc_default_all">all</string>
     <!-- -->
     <!-- Brick categories -->
-    <string name="categories" tools:ignore="UnusedResources">Categories</string>
+    <string name="categories" tools:ignore="UnusedResources">Κατηγορίες</string>
     <string name="category_embroidery" tools:ignore="UnusedResources">Embroidery</string>
-    <string name="category_motion" tools:ignore="UnusedResources">Motion</string>
-    <string name="category_looks" tools:ignore="UnusedResources">Looks</string>
-    <string name="category_pen" tools:ignore="UnusedResources">Pen</string>
-    <string name="category_sound" tools:ignore="UnusedResources">Sound</string>
-    <string name="category_control" tools:ignore="UnusedResources">Control</string>
-    <string name="category_event" tools:ignore="UnusedResources">Event</string>
+    <string name="category_motion" tools:ignore="UnusedResources">Κίνηση</string>
+    <string name="category_looks" tools:ignore="UnusedResources">Όψεις</string>
+    <string name="category_pen" tools:ignore="UnusedResources">Πένα</string>
+    <string name="category_sound" tools:ignore="UnusedResources">Ήχος</string>
+    <string name="category_control" tools:ignore="UnusedResources">Έλεγχος</string>
+    <string name="category_event" tools:ignore="UnusedResources">Συμβάν</string>
     <string name="category_user_bricks" tools:ignore="UnusedResources">Your bricks</string>
-    <string name="category_data" tools:ignore="UnusedResources">Data</string>
+    <string name="category_data" tools:ignore="UnusedResources">Δεδομένα</string>
     <string name="category_device" tools:ignore="UnusedResources">Device</string>
     <string name="category_lego_nxt" tools:ignore="UnusedResources">Lego NXT</string>
     <string name="category_lego_ev3" tools:ignore="UnusedResources">Lego EV3</string>
@@ -796,7 +790,7 @@
     <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">Report</string>
+    <string name="brick_report" tools:ignore="UnusedResources">Αναφορά</string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at" tools:ignore="UnusedResources">"Place at"</string>
@@ -856,7 +850,7 @@
     <string name="brick_set_background" tools:ignore="UnusedResources">Set background</string>
     <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">Set background and wait</string>
     <string name="brick_set_background_by_index" tools:ignore="UnusedResources">Set background to number</string>
-    <string name="brick_when_background" tools:ignore="UnusedResources">When background changes to</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">Όταν το φόντο αλλάξει σε</string>
     <string name="brick_set_size_to" tools:ignore="UnusedResources">Set size to</string>
     <string name="brick_change_size_by" tools:ignore="UnusedResources">Change size by</string>
     <string name="brick_hide" tools:ignore="UnusedResources">Hide</string>
@@ -865,15 +859,15 @@
     <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Change transparency"</string>
     <string name="brick_set_brightness" tools:ignore="UnusedResources">"Set brightness"</string>
     <string name="brick_change_brightness" tools:ignore="UnusedResources">"Change brightness"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Set colour "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Change colour "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Set color"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Change color"</string>
     <string name="by_label" tools:ignore="UnusedResources">by</string>
     <string name="to_label" tools:ignore="UnusedResources">to</string>
     <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Clear graphic effects</string>
     <string name="brick_next_look" tools:ignore="UnusedResources">Next look</string>
-    <string name="brick_next_background">Next background</string>
+    <string name="brick_next_background">Επόμενο φόντο</string>
     <string name="brick_previous_look" tools:ignore="UnusedResources">Previous look</string>
-    <string name="brick_previous_background">Previous background</string>
+    <string name="brick_previous_background">Προηγούμενο φόντο</string>
     <string name="brick_edit_look" tools:ignore="UnusedResources">Edit look</string>
     <string name="brick_edit_background">Edit background</string>
     <string name="brick_delete_look" tools:ignore="UnusedResources">Delete look</string>
@@ -898,10 +892,10 @@
     <string name="brick_copy_background">Copy background and name it</string>
     <!--  -->
     <!-- Pen bricks -->
-    <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
-    <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
-    <string name="brick_pen_size" tools:ignore="UnusedResources">Set pen size to</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen colour to</string>
+    <string name="brick_pen_down" tools:ignore="UnusedResources">Κατέβασε πένα</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">Ανέβασε πένα</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">Όρισε μέγεθος πένας σε</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Όρισε χρώμα πένας σε</string>
     <string name="brick_clear_background" tools:ignore="UnusedResources">Clear</string>
     <string name="brick_stamp" tools:ignore="UnusedResources">Stamp</string>
     <!--  -->
@@ -928,7 +922,7 @@
     <string name="play_drum" tools:ignore="UnusedResources">Play drum</string>
     <string name="beats" tools:ignore="UnusedResources">beats</string>
     <string name="play_note" tools:ignore="UnusedResources">Play note</string>
-    <string name="for_string" tools:ignore="UnusedResources">for</string>
+    <string name="for_string" tools:ignore="UnusedResources">για</string>
     <!--  -->
     <!-- Embroidery bricks -->
     <string name="brick_stitch" tools:ignore="UnusedResources">Stitch</string>
@@ -948,7 +942,7 @@
     <!-- Control bricks -->
     <string name="brick_when_started" tools:ignore="UnusedResources">When scene starts</string>
     <string name="brick_when" tools:ignore="UnusedResources">When tapped</string>
-    <string name="brick_when_condition_when" tools:ignore="UnusedResources">When</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">Όταν</string>
     <string name="brick_when_becomes_true" tools:ignore="UnusedResources">becomes true</string>
     <string name="brick_wait" tools:ignore="UnusedResources">Wait</string>
     <string name="brick_wait_until" tools:ignore="UnusedResources">Wait until</string>
@@ -974,8 +968,8 @@
     <string name="brick_note" tools:ignore="UnusedResources">Note</string>
     <string name="brick_think_bubble" tools:ignore="UnusedResources">Think</string>
     <string name="brick_say_bubble" tools:ignore="UnusedResources">Say</string>
-    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">for</string>
-    <string name="brick_forever" tools:ignore="UnusedResources">Forever</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">για</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">Για πάντα</string>
     <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
     <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">For each value from</string>
     <string name="brick_loop_in" tools:ignore="UnusedResources">in</string>
@@ -992,7 +986,7 @@
     <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Wait until all other scripts have stopped</string>
     <string name="brick_tap_at" tools:ignore="UnusedResources">"Single tap at"</string>
     <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
-    <string name="brick_tap_for" tools:ignore="UnusedResources">"for"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"για"</string>
     <string name="brick_touch_slide" tools:ignore="UnusedResources">"Touch and slide"</string>
     <string name="brick_touch_from_x" tools:ignore="UnusedResources">"from x:"</string>
     <string name="brick_finish_stage" tools:ignore="UnusedResources">Finish stage</string>
@@ -1019,7 +1013,7 @@
         <item quantity="other">times</item>
     </plurals>
     <string name="brick_loop_end">End of loop</string>
-    <string name="brick_if_begin" tools:ignore="UnusedResources">If</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">Αν</string>
     <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">is true then</string>
     <string name="brick_if_else" tools:ignore="UnusedResources">Else</string>
     <string name="brick_if_end">End if</string>
@@ -1041,7 +1035,7 @@
     <string name="brick_note_default_value">add comment here&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
     <string name="brick_say_bubble_default_value">Hello!</string>
-    <string name="brick_broadcast_default_value">"new message"</string>
+    <string name="brick_broadcast_default_value">"νέο μήνυμα"</string>
     <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">Add</string>
     <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">to list</string>
     <string name="brick_clear_userlist" tools:ignore="UnusedResources">Delete all items from list</string>
@@ -1128,11 +1122,11 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene %1$d</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
-    <string name="default_project_background_name">Background</string>
+    <string name="default_project_background_name">Φόντο</string>
     <string name="default_project_cloud_name">Clouds</string>
     <string name="default_project_cloud_sprite_name_1">Clouds1</string>
     <string name="default_project_cloud_sprite_name_2">Clouds2</string>
@@ -1148,7 +1142,7 @@
     <!--suppress UnusedResources -->
     <string name="default_project_inner_loop">Inner Loop</string>
     <!-- Default ChromeCast Values -->
-    <string name="default_cast_project_background_name">Background</string>
+    <string name="default_cast_project_background_name">Φόντο</string>
     <string name="default_cast_project_cloud_name">Clouds</string>
     <string name="default_cast_project_cloud_sprite_name1">Clouds1</string>
     <string name="default_cast_project_cloud_sprite_name2">Clouds2</string>
@@ -1209,12 +1203,12 @@
     <string name="notification_download_finished">Download successful</string>
     <string name="notification_title_open">"Open"</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
-    <string name="size_of_project">Size:</string>
+    <string name="size_of_project">Μέγεθος:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR. Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behaviour.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
@@ -1359,10 +1353,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_no_sensor">none</string>
     <string name="ev3_sensor_touch">EV3 touch sensor</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="ev3_sensor_color">EV3 colour sensor</string>
-    <string name="ev3_sensor_color_ambient">EV3 colour sensor ambient</string>
-    <string name="ev3_sensor_color_reflected">EV3 colour sensor reflected</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic colour sensor</string>
+    <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
@@ -1376,7 +1370,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_motor_b_and_c">B+C</string>
     <string name="ev3_motor_all">All</string>
     <string name="ev3_play_tone" tools:ignore="UnusedResources">Play EV3 tone</string>
-    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">for</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">για</string>
     <string name="ev3_tone_volume" tools:ignore="UnusedResources">Volume</string>
     <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
     <string name="ev3_motor_stop" tools:ignore="UnusedResources">Stop EV3 motor</string>
@@ -1424,7 +1418,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="drone_animation_blinkorange" tools:ignore="UnusedResources">Blink orange</string>
     <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">Snake green red</string>
     <string name="drone_animation_fire" tools:ignore="UnusedResources">Fire</string>
-    <string name="drone_animation_standard" tools:ignore="UnusedResources">Standard</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">Προκαθορισμένο</string>
     <string name="drone_animation_red" tools:ignore="UnusedResources">Red</string>
     <string name="drone_animation_green" tools:ignore="UnusedResources">Green</string>
     <string name="drone_animation_redsnake" tools:ignore="UnusedResources">Red snake</string>
@@ -1448,12 +1442,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
     <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Turn Jumping Sumo left</string>
     <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Turn Jumping Sumo right</string>
-    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">degrees</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">μοίρες</string>
     <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
     <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">Taking picture Jumping Sumo</string>
     <!--  -->
     <!-- defaultJumpingSumoValues -->
-    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Sound</string>
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">Ήχος</string>
     <!--  -->
     <!-- Jumping Sumo animation strings -->
     <string name="animation_spin" tools:ignore="UnusedResources">Spin</string>
@@ -1467,9 +1461,9 @@ needs read and write access to it. You can always change permissions through you
     <!-- Jumping Sumo sound strings -->
     <string name="jumping_sumo_volume" tools:ignore="UnusedResources">Volume</string>
     <string name="sound_default">Normal</string>
-    <string name="sound_robot">Robot</string>
-    <string name="sound_insect">Insect</string>
-    <string name="sound_monster">Monster</string>
+    <string name="sound_robot">Ρομπότ</string>
+    <string name="sound_insect">Έντομo</string>
+    <string name="sound_monster">Τέρας</string>
     <!--  -->
     <!-- Phiro bricks -->
     <!-- motor -->
@@ -1523,7 +1517,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="color_blue">blue</string>
     <!-- -->
     <!-- Formula editor strings -->
-    <string name="formula_editor_data">Data</string>
+    <string name="formula_editor_data">Δεδομένα</string>
     <string name="formula_editor_true">true</string>
     <string name="formula_editor_false">false</string>
     <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
@@ -1547,7 +1541,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">colour</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">color</string>
     <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">square root</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random value from to</string>
@@ -1625,9 +1619,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
     <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches colour</string>
-    <string name="formula_editor_function_color_touches_color">colour touches colour</string>
-    <string name="formula_editor_sensor_color_at_x_y">colour at x y</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
@@ -1675,10 +1669,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_colour</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_colour_ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_colour_reflected</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_colour</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
@@ -1715,7 +1709,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">background name</string>
     <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">distance to touch position</string>
     <string name="formula_editor_compute">Compute</string>
-    <string name="formula_editor_object">Properties</string>
+    <string name="formula_editor_object">Αντικείμενο</string>
     <string name="formula_editor_functions">Functions</string>
     <string name="formula_editor_logic">Logic</string>
     <string name="formula_editor_device">Sensors</string>
@@ -1754,7 +1748,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">colour picker</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
@@ -1796,7 +1790,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_title_compute">Compute</string>
     <string name="formula_editor_intro_summary_compute">To show your formula\'s current result, you can
         use \"Compute\".</string>
-    <string name="formula_editor_intro_title_object">Properties</string>
+    <string name="formula_editor_intro_title_object">Αντικείμενο</string>
     <string name="formula_editor_intro_summary_object">This is a collection of values that describe the properties of your
         current actor or object. Examples are the x- and y-coordinates, or the current speed.</string>
     <string name="formula_editor_intro_title_functions">Functions</string>
@@ -1810,7 +1804,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_intro_title_device">Sensors</string>
     <string name="formula_editor_intro_summary_device">In \"Sensors\" you can find information that your
         device records.\nFor example, the tilt of your device, or the loudness of your surroundings.</string>
-    <string name="formula_editor_intro_title_data">Data</string>
+    <string name="formula_editor_intro_title_data">Δεδομένα</string>
     <string name="formula_editor_intro_summary_data">Variables and lists that are used in your project can be found here.
         \nYou can simply insert these in your formula, or add new ones.</string>
     <string name="formula_editor_listening_language_sensor">listening language</string>
@@ -1821,16 +1815,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_flatten_parameter">(*list name*)</string>
     <!--  -->
     <!-- Brick Data Editor Strings -->
-    <string name="brick_show_variable" tools:ignore="UnusedResources">Show variable</string>
+    <string name="brick_show_variable" tools:ignore="UnusedResources">Δείξε μεταβλητή</string>
     <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
     <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
     <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">colour:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
     <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
     <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
     <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
     <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
-    <string name="brick_context_dialog_pick_color">Pick colour</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->

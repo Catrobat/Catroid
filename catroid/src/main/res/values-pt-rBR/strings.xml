@@ -745,9 +745,9 @@
     <string name="stage_dialog_restart">Reiniciar</string>
     <string name="stage_dialog_axes_on">Ativar eixos</string>
     <string name="stage_dialog_axes_off">Desativar eixos</string>
-    <string name="stage_dialog_maximize">Maximizar/\nEsticar</string>
-    <string name="stage_dialog_screenshot">Pré-visualizar</string>
-    <string name="stage_dialog_embroidery">Embaixador</string>
+    <string name="stage_dialog_maximize">Ajustar/\nEsticar</string>
+    <string name="stage_dialog_screenshot">Pré-visualizacão</string>
+    <string name="stage_dialog_embroidery">Bordado</string>
     <!--  -->
     <!-- Broadcast spinner -->
     <string name="dialog_new_broadcast_message_title">Nova mensagem</string>
@@ -803,10 +803,10 @@
     <string name="brick_change_x_by" tools:ignore="UnusedResources">"Alterar X por "</string>
     <string name="brick_change_y_by" tools:ignore="UnusedResources">"Alterar Y por "</string>
     <string name="brick_go_back" tools:ignore="UnusedResources">Retornar</string>
-    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Definir estilo de rotação"</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"Definir tipo de rotação"</string>
     <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">Apenas esquerda e direita</string>
-    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">todos os lados</string>
-    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">não rotacionar</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">Todas as direções</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">Não rotacionar</string>
     <plurals name="brick_go_back_layer_plural">
         <item quantity="one">camada</item>
         <item quantity="other">camadas</item>
@@ -830,13 +830,13 @@
     <!--  -->
     <!-- Physics -->
     <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">Defina o seu tipo de movimento para</string>
-    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">mover-se e saltar sob gravidade</string>
-    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">não se movendo sob gravidade, mas outros te saltam sob gravidade</string>
-    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">não se mover ou saltar sob gravidade (padrão)</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">Mover e colidir sob gravidade</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">Não se mover sob gravidade, mas colide sob gravidade</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">Não se mover ou colidir sob gravidade (padrão)</string>
     <string name="brick_set_mass" tools:ignore="UnusedResources">"Definir massa para"</string>
     <string name="brick_set_mass_unit" tools:ignore="UnusedResources">quilograma</string>
-    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Definir gravidade para todos os atores e objetos"</string>
-    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">passos/segundo2</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"Definir gravidade de todos os atores e objetos"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">passos/segundo²</string>
     <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"Definir velocidade para"</string>
     <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">passos/segundo</string>
     <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">graus/segundo</string>
@@ -937,14 +937,14 @@
     <string name="brick_sew_up" tools:ignore="UnusedResources">Costurar para cima</string>
     <!--  -->
     <!-- Device bricks -->
-    <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">Resetar cronômetro</string>
     <string name="brick_open" tools:ignore="UnusedResources">Abrir </string>
     <string name="brick_in_browser" tools:ignore="UnusedResources">no navegador</string>
     <!-- Control bricks -->
     <string name="brick_when_started" tools:ignore="UnusedResources">Quando a cena começar</string>
     <string name="brick_when" tools:ignore="UnusedResources">Quando tocado</string>
     <string name="brick_when_condition_when" tools:ignore="UnusedResources">Quando</string>
-    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">se torna verdadeiro</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">se tornar verdadeiro</string>
     <string name="brick_wait" tools:ignore="UnusedResources">Aguardar</string>
     <string name="brick_wait_until" tools:ignore="UnusedResources">Aguardar até</string>
     <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">é verdadeiro</string>
@@ -959,7 +959,7 @@
         <item quantity="one">"segundo "</item>
         <item quantity="other">"segundos "</item>
     </plurals>
-    <string name="brick_collision_receive" tools:ignore="UnusedResources">Quando se recuperar</string>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">Quando colidir com</string>
     <string name="collision_with_anything">qualquer borda, ator ou objeto</string>
     <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Quando você receber</string>
     <string name="brick_broadcast" tools:ignore="UnusedResources">Enviar</string>
@@ -977,10 +977,10 @@
     <string name="brick_loop_to" tools:ignore="UnusedResources">para</string>
     <string name="brick_repeat" tools:ignore="UnusedResources">Repetir</string>
     <string name="brick_repeat_until" tools:ignore="UnusedResources">Repetir até</string>
-    <string name="brick_when_touched" tools:ignore="UnusedResources">Quando o estágio for pressionado</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">Quando a tela for pressionada</string>
     <string name="brick_clone" tools:ignore="UnusedResources">Criar clone de</string>
     <string name="brick_clone_this">você mesmo</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">Quando o clone começar </string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">Quando um clone for criado </string>
     <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Excluir este clone</string>
     <string name="brick_assert_that" tools:ignore="UnusedResources">Asserir</string>
     <string name="brick_is_equal_to" tools:ignore="UnusedResources">é esperado igual</string>
@@ -990,8 +990,8 @@
     <string name="brick_tap_for" tools:ignore="UnusedResources">"para"</string>
     <string name="brick_touch_slide" tools:ignore="UnusedResources">"Toque e deslize"</string>
     <string name="brick_touch_from_x" tools:ignore="UnusedResources">"do x:"</string>
-    <string name="brick_finish_stage" tools:ignore="UnusedResources">Concluir etapa</string>
-    <string name="brick_finish_tests" tools:ignore="UnusedResources">Terminar testes</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">Fechar esta cena</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">Finalizar testes</string>
     <string name="brick_assert_lists" tools:ignore="UnusedResources">Listas de pedidos</string>
     <string name="brick_assert_actual" tools:ignore="UnusedResources">Realizado:</string>
     <string name="brick_assert_expected" tools:ignore="UnusedResources">Esperado:</string>
@@ -1031,7 +1031,7 @@
     <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">e</string>
     <string name="brick_read_variable_from_file_keep">manter o arquivo</string>
     <string name="brick_read_variable_from_file_delete">excluir o arquivo</string>
-    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Escrever lista no dispositivo</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Gravar lista no dispositivo</string>
     <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Ler lista a partir do dispositivo</string>
     <string name="brick_note_default_value">adicionar comentário aqui&#8230;</string>
     <string name="brick_think_bubble_default_value">Hmmmm!</string>
@@ -1191,7 +1191,7 @@
     <!-- Notifications -->
     <string name="notification_screenshot_ok">Pré-visualizar imagem salva</string>
     <string name="notification_download_project_cancel">Cancelar download do projeto</string>
-    <string name="notification_reconvert_download_program_cancel">Cancelado download/conversão do projeto</string>
+    <string name="notification_reconvert_download_program_cancel">Download/conversão do projeto cancelado</string>
     <string name="notification_upload_title_pending">"Fazendo upload "</string>
     <string name="notification_upload_title_finished">"Olhar para "</string>
     <string name="notification_upload_pending">Upload em progresso</string>
@@ -1599,11 +1599,11 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_function_pin_default_parameter">(3)</string>
     <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">toque x</string>
     <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">toque y</string>
-    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">tela é tocada</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">tela está tocada</string>
     <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">toque x</string>
     <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">toque y</string>
-    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">tela é tocada</string>
-    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">índice de toque da última etapa</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">tela está tocada</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">Índice do último toque</string>
     <string name="formula_editor_function_number_of_current_touches">número de toques atuais</string>
     <string name="formula_editor_function_index_of_current_touch">Índice do toque atual</string>
     <string name="formula_editor_function_no_parameter"></string>
@@ -1636,7 +1636,7 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
     <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclinação x</string>
     <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclinação y</string>
     <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">volume</string>
-    <string name="formula_editor_sensor_timer">tempo</string>
+    <string name="formula_editor_sensor_timer">cronômetro</string>
     <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">Ano</string>
     <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">Mês</string>
     <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">Dia</string>
@@ -1761,14 +1761,14 @@ precisa de acesso de leitura e escrita a ele. Você sempre pode alterar as permi
         expressão regular</string>
     <string name="formula_editor_fragment_data_current_items">itens atuais</string>
     <string name="formula_editor_data_dialog_is_list">Tornar uma lista</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">foi_detectado_rosto</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">tamanho_rosto</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">posição_x_rosto</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">posição_y_rosto</string>
-    <string name="formula_editor_sensor_second_face_detected">Segundo rosto visível</string>
-    <string name="formula_editor_sensor_second_face_size">Tamanho do segundo rosto</string>
-    <string name="formula_editor_sensor_second_face_x_position">Posição X do segundo rosto</string>
-    <string name="formula_editor_sensor_second_face_y_position">Posição Y do segundo rosto</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">rosto detectado</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">tamanho do rosto</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">posição x do rosto </string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">posição y rosto</string>
+    <string name="formula_editor_sensor_second_face_detected">segundo rosto detectado</string>
+    <string name="formula_editor_sensor_second_face_size">tamanho do segundo rosto</string>
+    <string name="formula_editor_sensor_second_face_x_position">posição x do segundo rosto</string>
+    <string name="formula_editor_sensor_second_face_y_position">posição y do segundo rosto</string>
     <string name="formula_editor_sensor_text_from_camera">texto da câmera</string>
     <string name="formula_editor_sensor_text_blocks_number">número de blocos de texto</string>
     <string name="formula_editor_function_text_block_x">bloco de texto x da câmera</string>
