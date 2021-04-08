@@ -1282,7 +1282,7 @@
     <!-- Default Values -->
     <string name="default_project_name">مشروعي</string>
     <string name="default_variable_name">متغير</string>
-    <string name="default_scene_name">المشهد %1$d</string>
+    <string name="default_scene_name">المشهد (%1$d)</string>
     <string name="default_script_group_name">مجموعة سكريبت</string>
     <string name="default_broadcast_message_name">رسالة</string>
     <string name="default_list_name">قائمة</string>

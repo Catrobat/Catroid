@@ -23,39 +23,39 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- General terms -->
-    <string name="stage">Aswir</string>
-    <string name="play">Urar</string>
-    <string name="settings">Iɣewwaṛen</string>
-    <string name="redo" tools:ignore="UnusedResources">Err-d</string>
-    <string name="undo" tools:ignore="UnusedResources">Sefsex</string>
-    <string name="new_option">amaynut&#8230;</string>
-    <string name="edit_option">zreg&#8230;</string>
-    <string name="confirm">Sentem</string>
-    <string name="ignore">Anef</string>
-    <string name="cancel">Sefsex</string>
-    <string name="save">Sekles</string>
-    <string name="discard">sefsex</string>
-    <string name="next">Uḍfiṛ</string>
-    <string name="ok">OK</string>
-    <string name="done">Yettwaxdem</string>
-    <string name="close" tools:ignore="UnusedResources">Mdel</string>
-    <string name="assistant">Amεiwen</string>
-    <string name="yes">Ih</string>
-    <string name="no">Ala</string>
-    <string name="once">Tikkelt</string>
-    <string name="always">Yal tikelt</string>
-    <string name="deny">Agwi</string>
-    <string name="accept">Qbel</string>
-    <string name="decline">Agwi</string>
-    <string name="select_all">Fren meṛṛa</string>
-    <string name="deselect_all">Kkes afran meṛṛa</string>
-    <string name="skip">zgel</string>
-    <string name="warning">Ḥader</string>
-    <string name="error">Tuccḍa</string>
-    <string name="loading">Yessalay-d&#8230;</string>
-    <string name="please_wait">Rǧu ttxil-k.m</string>
-    <string name="search_hint">Anadi&#8230;</string>
-    <string name="backpack_add">Rnu ɣer uqrab n weεrur</string>
+    <string name="stage">Stage</string>
+    <string name="play">കളിക്കുക</string>
+    <string name="settings">Settings</string>
+    <string name="redo" tools:ignore="UnusedResources">Redo</string>
+    <string name="undo" tools:ignore="UnusedResources">Undo</string>
+    <string name="new_option">new&#8230;</string>
+    <string name="edit_option">edit&#8230;</string>
+    <string name="confirm">Confirm</string>
+    <string name="ignore">Ignore</string>
+    <string name="cancel">വേണ്ടെന്നു വയ്ക്കുക</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="next">അടുത്തത്</string>
+    <string name="ok">ശരി</string>
+    <string name="done">പൂർത്തിയായി</string>
+    <string name="close" tools:ignore="UnusedResources">അടയ്‌ക്കുക</string>
+    <string name="assistant">Assistant</string>
+    <string name="yes">ശരി</string>
+    <string name="no">അല്ല</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="select_all">Select all</string>
+    <string name="deselect_all">Deselect all</string>
+    <string name="skip">skip</string>
+    <string name="warning">Warning</string>
+    <string name="error">തെറ്റ്</string>
+    <string name="loading">ലോഡിങ്&#8230;</string>
+    <string name="please_wait">Please wait</string>
+    <string name="search_hint">Search&#8230;</string>
+    <string name="backpack_add">Add to backpack</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
     <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
@@ -85,10 +85,10 @@
     <string name="disconnect">Disconnect</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">തുടരുക</string>
+    <string name="main_menu_new">പുതിയത്</string>
     <string name="main_menu_programs">Projects on device</string>
-    <string name="main_menu_help" tools:ignore="UnusedResources">Tallelt</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">സഹായിക്കൂ</string>
     <string name="main_menu_web">Catrobat community</string>
     <string name="main_menu_upload">Upload project</string>
     <string name="main_menu_rate_app">Rate us!</string>
@@ -304,18 +304,18 @@
     <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
     <string name="am_backpack">Pack</string>
     <string name="am_unpack">Unpack</string>
-    <string name="am_copy">Copy</string>
-    <string name="am_delete" tools:ignore="UnusedResources">Delete</string>
-    <string name="am_rename">Rename</string>
+    <string name="am_copy">പകര്‍പ്പ്‌</string>
+    <string name="am_delete" tools:ignore="UnusedResources">ഒഴിവാക്കുക</string>
+    <string name="am_rename">പോക്കറ്റ് കോഡ്</string>
     <string name="am_convert">Convert</string>
     <string name="am_merge">Merge</string>
     <string name="dialog_confirm_delete">You can\'t undo this!</string>
     <string name="list_headline_sprites">Actors and objects</string>
     <!-- Options Menu Options -->
     <string name="backpack">Backpack</string>
-    <string name="copy">Copy</string>
-    <string name="delete">Delete</string>
-    <string name="rename">Rename</string>
+    <string name="copy">പകര്‍പ്പ്‌</string>
+    <string name="delete">ഒഴിവാക്കുക</string>
+    <string name="rename">പോക്കറ്റ് കോഡ്</string>
     <string name="merge">Merge</string>
     <string name="show_details">Show details</string>
     <string name="hide_details">Hide details</string>
@@ -362,7 +362,7 @@
     <string name="look_name_label">Look name</string>
     <string name="sound_name_label">Sound name</string>
     <string name="nfc_tag_name_label">NFC tag name</string>
-    <string name="string_label">Aḍris</string>
+    <string name="string_label">Text</string>
     <string name="data_label">Name</string>
     <string name="keyword_label">Insert keyword</string>
     <string name="html_label">Insert HTML text</string>
@@ -383,7 +383,7 @@
     <string name="rename_look_dialog">Rename look</string>
     <string name="rename_sound_dialog">Rename sound</string>
     <string name="rename_nfctag_dialog">Rename NFC tag</string>
-    <string name="rename_data_dialog">Rename</string>
+    <string name="rename_data_dialog">പോക്കറ്റ് കോഡ്</string>
     <!-- New Script Group Dialog -->
     <string name="new_group">New group</string>
     <string name="default_group_name">Group</string>
@@ -498,7 +498,7 @@
     <string name="error_no_files_found">No project files found.</string>
     <!-- ProjectOptionsFragment -->
     <string name="project_options_description">Description</string>
-    <string name="project_options_notes_and_credits">Notes and credits</string>
+    <string name="project_options_notes_and_credits">Credits</string>
     <string name="project_options_tags">Tags</string>
     <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
     <string name="project_options_more_details">More details</string>
@@ -527,7 +527,7 @@
     <string name="default_tag_name">NFC tag</string>
     <string name="tnf_empty">Empty</string>
     <string name="tnf_external_type">External type</string>
-    <string name="tnf_mime_media">Aḍris</string>
+    <string name="tnf_mime_media">Text</string>
     <string name="tnf_well_known_http">HTTP</string>
     <string name="tnf_well_known_https">HTTPS</string>
     <string name="tnf_well_known_tel">Phone number</string>
@@ -659,7 +659,7 @@
     <string name="brick_context_dialog_highlight_brick_parts">Highlight brick parts</string>
     <string name="brick_context_dialog_comment_in_script">Enable script</string>
     <string name="brick_context_dialog_comment_out_script">Disable script</string>
-    <string name="brick_context_dialog_help">Tallelt</string>
+    <string name="brick_context_dialog_help">Help</string>
     <string name="comment_in_out">Disable/enable</string>
     <string name="catblocks">Toggle 2D</string>
     <string name="catblocks_reorder">Clean up scripts</string>
@@ -672,8 +672,8 @@
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Sign in</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="username">ഉപയോക്തൃനാമം</string>
+    <string name="password">പാസ്‌വേഡ്</string>
     <string name="reset_password">Reset password</string>
     <string name="new_user_registered">New account created</string>
     <string name="user_logged_in">Login successful</string>
@@ -796,7 +796,7 @@
     <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
     <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
     <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
-    <string name="brick_report" tools:ignore="UnusedResources">Cetki</string>
+    <string name="brick_report" tools:ignore="UnusedResources">റിപ്പോർട്ട് </string>
     <!--  -->
     <!-- Motion bricks -->
     <string name="brick_place_at" tools:ignore="UnusedResources">"Place at"</string>
@@ -818,7 +818,7 @@
     </plurals>
     <string name="brick_come_to_front" tools:ignore="UnusedResources">Go to front</string>
     <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">If on edge, bounce</string>
-    <string name="brick_move" tools:ignore="UnusedResources">Move</string>
+    <string name="brick_move" tools:ignore="UnusedResources">നീക്കുക</string>
     <plurals name="brick_move_n_step_plural">
         <item quantity="one">step</item>
         <item quantity="other">steps</item>
@@ -1128,7 +1128,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene (%1$d)</string>
+    <string name="default_scene_name">Scene %1$d</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1162,7 +1162,7 @@
     <string name="default_cast_project_var_direction">direction</string>
     <string name="default_cast_project_name">My first Chromecast project</string>
     <!-- Default Drone Values -->
-    <string name="drone_brick_set_text">Aḍris</string>
+    <string name="drone_brick_set_text">Text</string>
     <string name="drone_brick_set_x">X:</string>
     <!--  -->
     <!-- Drone config spinner values  -->
@@ -1721,7 +1721,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_device">Sensors</string>
     <string name="formula_editor_device_sensors">Device sensors</string>
     <string name="formula_editor_functions_maths">Maths</string>
-    <string name="formula_editor_functions_strings">Aḍris</string>
+    <string name="formula_editor_functions_strings">Text</string>
     <string name="formula_editor_functions_lists">Lists</string>
     <string name="formula_editor_logic_boolean">Logical (Boolean) operators and constants</string>
     <string name="formula_editor_logic_comparison">Comparison operators</string>
@@ -1767,10 +1767,10 @@ needs read and write access to it. You can always change permissions through you
         expression</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">first face is visible</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">first face size</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">first face x position</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">first face y position</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">face is visible</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">face size</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">face x position</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">face y position</string>
     <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
@@ -1784,10 +1784,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nContinue by tapping “NEXT” or exit
-        with “SKIP”.
-    </string>
+    <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
+        logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
+        the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
+        bottom left corner.</string>
     <string name="formula_editor_intro_title_input_field">Input field</string>
     <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
     <string name="formula_editor_intro_title_keyboard">Keyboard</string>
