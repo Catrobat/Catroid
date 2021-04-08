@@ -942,11 +942,18 @@ public class ScriptFragment extends ListFragment implements
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 				if(firstVisibleItem + visibleItemCount == totalItemCount && fab.getVisibility() == View.VISIBLE){
+					view.removeCallbacks(showRunnable);
+					view.postDelayed(showRunnable,2000);
 					fab.setVisibility(View.GONE);
-				} else if(firstVisibleItem + visibleItemCount < totalItemCount && fab.getVisibility() == View.GONE){
-					fab.setVisibility(View.VISIBLE);
 				}
 			}
 		});
 	}
+
+	Runnable showRunnable = new Runnable() {
+		@Override
+		public void run() {
+			fab.setVisibility(View.VISIBLE);
+		}
+	};
 }
