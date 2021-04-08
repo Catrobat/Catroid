@@ -22,6 +22,7 @@
  */
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -34,6 +35,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.RelativeLayout;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -126,6 +129,7 @@ public class ScriptFragment extends ListFragment implements
 	private String currentSceneName;
 	private String currentSpriteName;
 	private int undoBrickPosition;
+	private RelativeLayout fab;
 
 	private ScriptController scriptController = new ScriptController();
 	private BrickController brickController = new BrickController();
@@ -245,6 +249,7 @@ public class ScriptFragment extends ListFragment implements
 		listView = view.findViewById(android.R.id.list);
 		setHasOptionsMenu(true);
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
+		hideFab();
 		return view;
 	}
 
@@ -922,5 +927,26 @@ public class ScriptFragment extends ListFragment implements
 		}
 		scriptToFocus = null;
 		brickToFocus = null;
+	}
+
+	private void hideFab() {
+		LayoutInflater inflater2 =
+				(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		View rootView = inflater2.inflate(R.layout.activity_sprite,
+				getActivity().findViewById(R.id.activity_sprite));
+		fab = rootView.findViewById(R.id.bottom_bar);
+		listView.setOnScrollListener(new BrickListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) { }
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				if(firstVisibleItem + visibleItemCount == totalItemCount && fab.getVisibility() == View.VISIBLE){
+					fab.setVisibility(View.GONE);
+				} else if(firstVisibleItem + visibleItemCount < totalItemCount && fab.getVisibility() == View.GONE){
+					fab.setVisibility(View.VISIBLE);
+				}
+			}
+		});
 	}
 }
