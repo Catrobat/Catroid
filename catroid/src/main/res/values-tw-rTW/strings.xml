@@ -40,8 +40,8 @@
     <string name="done">Done</string>
     <string name="close" tools:ignore="UnusedResources">Close</string>
     <string name="assistant">Assistant</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
+    <string name="yes">Aane</string>
+    <string name="no">Daabi</string>
     <string name="once">Once</string>
     <string name="always">Always</string>
     <string name="deny">Deny</string>
@@ -865,8 +865,8 @@
     <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Change transparency"</string>
     <string name="brick_set_brightness" tools:ignore="UnusedResources">"Set brightness"</string>
     <string name="brick_change_brightness" tools:ignore="UnusedResources">"Change brightness"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Set colour "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Change colour "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Set color"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Change color"</string>
     <string name="by_label" tools:ignore="UnusedResources">by</string>
     <string name="to_label" tools:ignore="UnusedResources">to</string>
     <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Clear graphic effects</string>
@@ -901,7 +901,7 @@
     <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
     <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
     <string name="brick_pen_size" tools:ignore="UnusedResources">Set pen size to</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen colour to</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen color to</string>
     <string name="brick_clear_background" tools:ignore="UnusedResources">Clear</string>
     <string name="brick_stamp" tools:ignore="UnusedResources">Stamp</string>
     <!--  -->
@@ -1213,8 +1213,8 @@
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR. Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behaviour.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
@@ -1359,10 +1359,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_no_sensor">none</string>
     <string name="ev3_sensor_touch">EV3 touch sensor</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="ev3_sensor_color">EV3 colour sensor</string>
-    <string name="ev3_sensor_color_ambient">EV3 colour sensor ambient</string>
-    <string name="ev3_sensor_color_reflected">EV3 colour sensor reflected</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic colour sensor</string>
+    <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
@@ -1547,7 +1547,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">colour</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">color</string>
     <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">square root</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random value from to</string>
@@ -1625,9 +1625,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
     <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches colour</string>
-    <string name="formula_editor_function_color_touches_color">colour touches colour</string>
-    <string name="formula_editor_sensor_color_at_x_y">colour at x y</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
@@ -1675,10 +1675,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_colour</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_colour_ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_colour_reflected</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_colour</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
@@ -1754,7 +1754,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">colour picker</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
@@ -1825,12 +1825,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
     <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
     <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">colour:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
     <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
     <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
     <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
     <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
-    <string name="brick_context_dialog_pick_color">Pick colour</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->

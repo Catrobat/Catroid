@@ -1,0 +1,1910 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- General terms -->
+    <string name="stage">مرحلہ</string>
+    <string name="play">چلائیں</string>
+    <string name="settings">ترتیبات</string>
+    <string name="redo" tools:ignore="UnusedResources">واپس ے آؤ</string>
+    <string name="undo" tools:ignore="UnusedResources">واپس کریں</string>
+    <string name="new_option">نئی</string>
+    <string name="edit_option">edit&#8230;</string>
+    <string name="confirm">تصدیق کریں</string>
+    <string name="ignore">Ignore</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="save">محفوظ </string>
+    <string name="discard">مسترد کریں</string>
+    <string name="next">اگلا</string>
+    <string name="ok">ٹھيک ہے</string>
+    <string name="done">مکمل</string>
+    <string name="close" tools:ignore="UnusedResources">بند کریں</string>
+    <string name="assistant">Assistant</string>
+    <string name="yes">ہاں</string>
+    <string name="no">نہيں</string>
+    <string name="once">Once</string>
+    <string name="always">Always</string>
+    <string name="deny">Deny</string>
+    <string name="accept">Accept</string>
+    <string name="decline">Decline</string>
+    <string name="select_all">تمام منتخب کریں</string>
+    <string name="deselect_all">سب منسوخ کریں</string>
+    <string name="skip">چھوڑ دو</string>
+    <string name="warning">خبردار</string>
+    <string name="error">خرابی</string>
+    <string name="loading">لدائی کا عمل ہورہاہے&#8230;</string>
+    <string name="please_wait">براۓ مہربانی انتظار کريں</string>
+    <string name="search_hint">تلاش کریں&#8230;</string>
+    <string name="backpack_add">بستہ میں جمع کریں</string>
+    <string name="share_website_text">share.catrob.at</string>
+    <!-- Security warning dialog -->
+    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
+        in the background and also sends data to the internet. This may be harmless, and necessary
+        for its intended behavior. However, please make sure that what you are saying while the
+        project is running is safe. In case of doubt, please delete the downloaded project.
+        You may also report the project on its page on the Catrobat community platform in case
+        you are sure that it is harmful.</string>
+    <!-- Replace Api dialog -->
+    <string name="api_replacement_dialog_neutral">Upload without change</string>
+    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
+    <string name="api_replacement_dialog_warning">The project contains bricks that access the
+        web, and also seems to contain API keys. Please see %1s why
+        uploading these keys can be dangerous.</string>
+    <string name="api_replacement">insert API key here</string>
+    <!-- -->
+    <!-- Login/Logout Mechanism -->
+    <string name="loading_check_oauth_token">لاگ ان کے اعداد و شمار کی جانچ پڑتال&#8230;</string>
+    <string name="loading_google_exchange_code">گوگل لاگ ان کے اعداد و شمار کو تبدیل کرنے&#8230;</string>
+    <string name="loading_google_login">ہمارے سرور پر گوگل لاگ ان مکمل ہو گیا ہے&#8230;</string>
+    <string name="logout_successful">لاگ آؤٹ کامیاب ہوا</string>
+    <string name="degrees" tools:ignore="UnusedResources">ڈگری</string>
+    <string name="background" tools:ignore="UnusedResources">پس پشت</string>
+    <string name="landscape">افقی انداز</string>
+    <string name="portrait">عمودی انداز</string>
+    <string name="unknown">نامعلوم</string>
+    <string name="disconnect">منقطع کریں</string>
+    <!--  -->
+    <!-- Main Menu -->
+    <string name="main_menu_continue">پروجیکٹ جاری رکھیں</string>
+    <string name="main_menu_new">نیا پروجیکٹ</string>
+    <string name="main_menu_programs">پروگرامات</string>
+    <string name="main_menu_help" tools:ignore="UnusedResources">مدد</string>
+    <string name="main_menu_web">کاٹروبٹ کے تمام لوگ                      </string>
+    <string name="main_menu_upload">پروجیکٹ کو اپ لوڈ کریں</string>
+    <string name="main_menu_rate_app">ہمیں اعزاز دیں!</string>
+    <string name="main_menu_terms_of_use">استعمال اور خدمات کی شرائط</string>
+    <string name="main_menu_privacy_policy">رازداری کا طریقہ کار</string>
+    <string name="main_menu_about">اس ایپ کے بارے میں</string>
+    <string name="main_menu_login">لاگ اِن</string>
+    <string name="main_menu_logout">لاگ آؤٹ</string>
+    <string name="main_menu_scratch_converter">  سکریچ بدلنے والا </string>
+    <string name="main_menu_play_store_not_installed">اپلی کیشن اسٹور نہیں ملا</string>
+    <!--  -->
+    <!-- Marketing activity -->
+    <string name="marketing_created_with">کے ساتھ پیدا</string>
+    <string name="marketing_app_details">اس ایپ کے بارے میں تفصیلات</string>
+    <string name="marketing_more_on_google_play">اپلی کیشن سٹور پر مزید ایپ</string>
+    <!-- NFC activity -->
+    <string name="nfc_activity_title">NFC tags</string>
+    <!-- Settings activity -->
+    <string name="preference_title">ترتیبات</string>
+    <string name="preference_title_language">زبان</string>
+    <string name="preference_description_language">ایپ کی زبان کو سیٹ کریں</string>
+    <string name="preference_title_web_access">Web access</string>
+    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
+    <string name="preference_screen_web_access_title">Edit trusted domains</string>
+    <string name="preference_title_accessibility">رسائی</string>
+    <string name="preference_description_accessibility">اپلی کیشن کی ظاہری شکل تبدیل کریں</string>
+    <string name="preference_title_accessibility_profiles"> پروفائل رسائی</string>
+    <string name="preference_title_accessibility_profile">پہلے سے واضح کردہ پروفائل</string>
+    <string name="preference_title_accessibility_profile_headline">پروفائل</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">پہلے سے واضح کردہ پروفائل</string>
+    <string name="preference_description_accessibility_profiles">پیش وضاحتی رسائی پروفائل منتخب کریں</string>
+    <string name="preference_title_accessibility_text_appearance">لکھائی ظہور</string>
+    <string name="preference_title_accessibility_handling">ترتیب دینے کا طریقہ</string>
+    <string name="preference_title_accessibility_category_icons_big">بڑی نَقش</string>
+    <string name="preference_description_accessibility_category_icons_big">نَقش کا سائز بڑھائیں.</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">اعلی برعکس شبیہیں</string>
+    <string name="preference_title_accessibility_Brick_icons">شبیہیں</string>
+    <string name="preference_title_accessibility_category_icons">شبیہیں نمایش کریں</string>
+    <string name="preference_description_accessibility_category_icons">زمرے اور اینٹوں میں شبیہیں شامل کریں.</string>
+    <string name="preference_title_accessibility_high_contrast">اعلی برعکس</string>
+    <string name="preference_description_accessibility_high_contrast">متن کے برعکس میں اضافہ کریں.</string>
+    <string name="preference_description_accessibility_large_text">متن کا سائز بڑھائیں ۔</string>
+    <string name="preference_title_accessibility_large_text">بڑے متن</string>
+    <string name="preference_title_accessibility_element_spacing">بڑے عنصر کی جگہ</string>
+    <string name="preference_description_accessibility_element_spacing">فہرستوں میں عنصر کی جگہ بڑھائیں.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">ڈریگ \'این\' ڈراپ تاخیر</string>
+    <string name="preference_description_accessibility_dragndrop_delay">اینٹوں کے لئے ڈریگ ڈراپ کی تاخیر</string>
+    <string name="preference_title_accessibility_beginner_bricks">ابتدائی موڈ</string>
+    <string name="preference_description_accessibility_beginner_bricks">صرف سادہ خصوصیات دکھائیں.</string>
+    <string name="preference_title_accessibility_font_style">ایک متن کی قسم منتخب کریں</string>
+    <string name="accessibility_font_regular">باقاعدہ</string>
+    <string name="accessibility_font_serif">سیرف</string>
+    <string name="accessibility_font_dyslexic">دیسلیک</string>
+    <string name="accessibility_settings_applied">تبدیلیاں لاگو</string>
+    <string name="preference_access_title_profile_default">پہلے سے طے شدہ</string>
+    <string name="preference_access_summary_profile_default">پہلے سے طے شدہ ترتیبات</string>
+    <string name="preference_access_title_profile_custom">میری اپنی مرضی کے مطابق پروفائل</string>
+    <string name="preference_access_summary_profile_custom">میری ذاتی ترتیبات</string>
+    <string name="preference_access_title_profile_argus">بحث</string>
+    <string name="preference_access_summary_profile_argus">اعلی برعکس، اضافی شبیہیں</string>
+    <string name="preference_access_title_profile_odin">اوڈن</string>
+    <string name="preference_access_summary_profile_odin">بڑے متن، بڑے شبیہیں، بڑے عنصر کی جگہ، اعلی برعکس</string>
+    <string name="preference_access_title_profile_fenrir">فانریر</string>
+    <string name="preference_access_summary_profile_fenrir">بڑے عنصر کی جگہ، ڈریگن ڈراپ تاخیر</string>
+    <string name="preference_access_title_profile_tiro">ٹارو</string>
+    <string name="preference_access_summary_profile_tiro">ابتدائی موڈ</string>
+    <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
+    <string name="preference_title_enable_quadcopter_bricks">توتے AR.ڈرون2.0 توسیع</string>
+    <string name="preference_description_quadcopter_bricks">AR.ڈرون 2.0 کوارڈ کاپٹر کو سمبھالنے کی اجازت دیں</string>
+    <string name="preference_title_enable_jumpingsumo_bricks">توتا جمپنگ سومو توسیع</string>
+    <string name="preference_description_jumpingsumo_bricks">اطلاق توتے کی جمپنگ سمو روبوٹ کو کنٹرول کرنے کی اجازت دیں</string>
+    <string name="preference_title_enable_mindstorms_nxt_bricks">Lego Mindstorms NXT توسیع</string>
+    <string name="preference_title_enable_mindstorms_ev3_bricks">Lego مانڈسٹارمس EV3 ایکسٹینشن</string>
+    <string name="preference_description_mindstorms_nxt_bricks">Lego مانڈسٹارمس ن روبوٹ کو کنٹرول کرنے کے لیے اپلی کیشن کی اجازت دیں</string>
+    <string name="preference_description_mindstorms_ev3_bricks">Lego مانڈسٹارمس ن روبوٹ کو کنٹرول کرنے کے لیے اپلی کیشن کی اجازت دیں</string>
+    <string name="preference_title_mindstorms_nxt_sensors">Lego NXT سینسر</string>
+    <string name="preference_title_mindstorms_ev3_sensors">Lego NXT سینسر</string>
+    <string name="preference_title_drone_config_properties">توتے AR.Done 2.0 ترتیب</string>
+    <string name="preference_title_enable_phiro_bricks">روبوٹکس ایڈی کے فروے توسیع</string>
+    <string name="preference_description_phiro_bricks">ایپس کو RobotixEdu کے Phiro روبوٹ کو کنٹرول کرنے کی اجازت دیں</string>
+    <string name="preference_title_enable_arduino_bricks">آردوانو توسیع</string>
+    <string name="preference_description_arduino_bricks">اپلی کیشن کو آردوانوبورڈوں کو کنٹرول کرنے کی اجازت دیں</string>
+    <string name="preference_title_enable_embroidery_bricks">کشیدہ کاری کی توسیع</string>
+    <string name="preference_description_embroidery_bricks">سلائی مشینوں کے لئے پیٹرن بنائیں</string>
+    <string name="preference_title_cast_feature_globally_enabled">Chromecast توسیع</string>
+    <string name="preference_description_cast_feature_globally_enabled">کاسٹ بٹن دکھائیں اور کاسٹ منصوبوں کو فعال کریں</string>
+    <string name="preference_title_enable_nfc_bricks">قریب فیلڈ مواصلات کی توسیع</string>
+    <string name="preference_description_nfc_bricks">ایپ کو منصوبوں میں این ایف سی ٹیگز استعمال کرنے کی اجازت دیں</string>
+    <string name="preference_title_enable_crash_reports">گمنام حادثات کی اطلاع بھیج رہا ہے</string>
+    <string name="preference_description_crash_reports">اپلی کیشن کو خود کار طریقے سے کریش رپورٹ بھیجنے کی اجازت دیں</string>
+    <!-- -->
+    <string name="preference_title_enable_raspi_bricks">ریکسیری Pi توسیع</string>
+    <string name="preference_description_raspi_bricks">رس بھر  پی آئی کمپیوٹرز کو کنٹرول کرنے کے لئے ایپ کی اجازت دیں</string>
+    <string name="preference_raspi_enable_bricks">اینٹوں اور سینسر کو فعال کریں</string>
+    <string name="preference_raspi_help">مدد / شروع کرنا</string>
+    <string name="preference_raspi_help_summary">کنکشن کی ترتیبات کو ترتیب دینے کے بارے میں مدد حاصل کریں</string>
+    <string name="preference_raspi_host">رس بھری Pi IP/ میزبان ایڈریس</string>
+    <string name="preference_raspi_port">  رس بھری Pi  پورٹ </string>
+    <!--  -->
+    <string name="preference_title_multiplayer_variables_enabled">Multiplayer extension</string>
+    <string name="preference_description_multiplayer_variables_enabled">Allow the app to use
+        multiplayer variables shared via Bluetooth</string>
+    <string name="preference_title_enable_test_bricks">Testing extension</string>
+    <string name="preference_description_test_bricks">Allows to create tests</string>
+    <!-- Scratch Converter activity -->
+    <string name="beta">بیٹا</string>
+    <string name="error_scratch_program_not_accessible_any_more">افسوس! لگتا ہے کہ پراجیکٹ  غائب ہوسکتا ہے یا آپ کو اس تک رسائی کھو دی.</string>
+    <string name="error_scratch_project_data_not_available">افسوس! اس پراجیکٹ  کے کچھ حصے غائب ہو جاتے ہیں، براہ کرم بعد میں دوبارہ کوشش کریں.</string>
+    <string name="error_request_timeout">افسوس! ہمارے سرور نے وقت میں جواب نہیں دیا، براہ کرم بعد میں دوبارہ کوشش کریں</string>
+    <string name="error_scratch_program_conversion_failed">افسوس! اس پراجیکٹ میں تبدیل کرنے میں ناکام، دوبارہ
+        بعد میں کوشش کریں ۔</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">افسوس! %1$sمیں تبدیل کرنے میں ناکام رہا،
+        بعد میں پھر کوشش کریں ۔</string>
+    <string name="error_scratch_converter_outdated_app_version">اس ایپ کا اپنا ورژن ختم ہو گیا ہے. ہمارے سکریچ کنورٹر صرف تازہ ترین ورژن پر کام کرتا ہے. اپلی کیشن کو اپ ڈیٹ کریں.</string>
+    <string name="error_cannot_open_not_existing_scratch_program">میں اس سکریچ پراجیکٹ کو نہیں کھول سکا. ایسا لگتا ہے کہ اس نے سکریچ پروجیکٹ کے تبادلوں / ڈاؤن لوڈ کو منسوخ کر دیا ہے، یا اس کے بعد آپ نے اس منصوبے میں ترمیم / منصوبے کو خارج کر دیا ہے.</string>
+    <string name="error_cannot_open_currently_downloading_scratch_program">آپ ابھی تک اس منصوبے کو کھول نہیں سکتے ہیں. براہ مہربانی انتظار کریں جب تک یہ ڈاؤن لوڈ نہ ہو.</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">آپ ابھی تک اس منصوبے کو کھول نہیں سکتے ہیں. براہ کرم اسے پہلے ڈاؤن لوڈ کریں اور پھر کھولیں.</string>
+    <string name="error_cannot_convert_deprecated_scratch_program_x_x">میں %1$s کو تبدیل نہیں کر سکا. ایسا لگتا ہے کہ %2$s سے پہلے ایک پرانے سکریچ پروجیکٹ ہو. ایک اور کوشش کریں.</string>
+    <plurals name="error_cannot_convert_more_than_x_programs">
+        <item quantity="one">آپ ایک ہی وقت میں٪ d منصوبے سے زیادہ تبدیل نہیں کر سکتے ہیں. براہ کرم سب سے پہلے ختم کرنے کیلئے چلنے والے تبادلے کا انتظار کریں.</item>
+        <item quantity="other">آپ ایک ہی وقت میں٪ d منصوبے سے زیادہ تبدیل نہیں کر سکتے ہیں. براہ کرم سب سے پہلے ختم کرنے کیلئے چلنے والے تبادلے کا انتظار کریں.</item>
+    </plurals>
+    <string name="error_cannot_open_failed_scratch_program">آپ اس منصوبے کو کھول نہیں سکتے کیونکہ اس کو صحیح طریقے سے تبدیل نہیں کیا گیا تھا. براہ کرم اسے دوبارہ تبدیل کرنے کی کوشش کریں.</string>
+    <string name="search_failed">کچھ بھی نہیں مل سکا، بعد میں دوبارہ کوشش کریں.</string>
+    <string name="connection_lost_or_closed_by_server">سرور کنکشن کھو دیا.</string>
+    <string name="connection_failed">ہم ابھی آپ سرور سے رابطہ نہیں کر سکتے ہیں، براہ کرم بعد میں دوبارہ کوشش کریں.</string>
+    <string name="authentication_failed">سروس سے آپ کے کنکشن کے ساتھ ایک مسئلہ لگتا ہے. براہ کرم  کیتروبیٹ ٹیم سے رابطہ کریں.</string>
+    <plurals name="scratch_conversion_scheduled_x">
+        <item quantity="one">شامل %d سکریچ منصوبے کے لئے قطار&#8230;</item>
+        <item quantity="other">شامل %d سکریچ منصوبے کے لئے قطار&#8230;</item>
+    </plurals>
+    <string name="scratch_conversion_started">سکریچ پروجیکٹ کو تبدیل کرنے کے لئے شروع کر دیا&#8230;</string>
+    <string name="convert">تبدیل کریں</string>
+    <string name="converting">بدل رہا ہے&#8230;</string>
+    <string name="status_scheduled">شیڈول کردہ</string>
+    <string name="status_waiting_for_worker">مفت کارکن کی تلاش&#8230; برائے مہربانی انتظار کریں&#8230;</string>
+    <string name="status_started">شروع&#8230;</string>
+    <string name="status_conversion_finished">تبادلوں کا خاتمہ</string>
+    <plurals name="status_in_progress_x_jobs">
+        <item quantity="one">ترقی میں:٪ d کام
+ترقی میں:٪ d ملازمت</item>
+        <item quantity="other">ترقی میں:٪ d کام
+ترقی میں:٪ d ملازمت</item>
+    </plurals>
+    <plurals name="status_completed_x_jobs">
+        <item quantity="one">مکمل:٪ d ملازمت
+مکمل:٪ d ملازمت</item>
+        <item quantity="other">مکمل:٪ d ملازمت
+مکمل:٪ d ملازمت</item>
+    </plurals>
+    <string name="status_conversion_failed">تبادلوں میں ناکامی</string>
+    <string name="status_downloading">ڈاؤن لوڈ کر رہا ہے&#8230;</string>
+    <string name="status_download_finished">ڈاؤن لوڈ مکمل ہوگیا</string>
+    <string name="status_download_canceled">ڈاؤن لوڈ منسوخ کر دیا</string>
+    <string name="scratch_programs_in_progress_title">جاری ہے</string>
+    <string name="scratch_programs_finished_title">پروجیکٹ تبدیل کریں</string>
+    <string name="by_x">%1$s کی طرف سے</string>
+    <string name="warning_program_visibility">انتباہ: \ n یہ ایک نجی منصوبے لگ رہا ہے. آپ اسے تبدیل کرنے کی کوشش کر سکتے ہیں لیکن یہ کام نہیں کرسکتا.</string>
+    <string name="instructions">ہدایات</string>
+    <string name="notes_and_credits">نوٹس اور کریڈٹ</string>
+    <string name="shared_at_x">مشترکہ %1$s</string>
+    <string name="modified_at_x">ترمیم شدہ: %1$s</string>
+    <string name="remixes">ریمکسس</string>
+    <!--  -->
+    <string name="author">مصنف</string>
+    <string name="screen_size">اسٹیج کا سائز:</string>
+    <string name="mode">موڈ</string>
+    <string name="remix_of">ریمکس کا:</string>
+    <string name="description_hint">وضاحت شامل کرنے کیلئے دبائیں</string>
+    <string name="notes_and_credits_hint">Press to add notes and credits</string>
+    <!-- ScratchReconvertDialog Strings -->
+    <string name="reconvert_text">آپ نے اس منصوبے کو %1$s پہلے تبدیل کر دیا.</string>
+    <plurals name="minutes">
+        <item quantity="one">٪ d منٹ
+٪ d منٹ</item>
+        <item quantity="other">٪ d منٹ
+٪ d منٹ</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">٪ d گھنٹے
+٪ d گھنٹے</item>
+        <item quantity="other">٪ d گھنٹے
+٪ d گھنٹے</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">٪ d دن
+٪ d دن</item>
+        <item quantity="other">٪ d دن
+٪ d دن</item>
+    </plurals>
+    <string name="reconvert_dialog_download">پروجیکٹ دوبارہ ڈاؤن لوڈ کریں</string>
+    <string name="reconvert_dialog_reconvert">اس پروجیکٹ  کو دوبارہ تبدیل کریں</string>
+    <!--  -->
+    <!-- ERRORS -->
+    <!-- Terms of Use and Service Error -->
+    <string name="declined_terms_of_use_and_service_alert">To use our app, it is necessary to accept our Terms of Use and Service.
+        However, if you don\’t feel comfortable to do so, you can use our free web-services on</string>
+    <string name="wtf_error">ایک غیر متوقع غلطی ہوئی ہے: میں نمونہ پروجیکٹ کو بحال نہیں کر سکا.</string>
+    <!-- Project Handling Errors -->
+    <string name="error_copy_project">منصوبے کاپی کرتے وقت ایک خرابی واقع ہوئی</string>
+    <!-- Dialog Errors -->
+    <string name="name_already_exists">This name is already in use, please choose another one.</string>
+    <string name="name_consists_of_spaces_only">آپ صرف خالی جگہوں کو ٹیکسٹ فیلڈ میں ڈالتے ہیں، براہ کرم خط، تعداد یا دیگر خاص حروف کے ذریعے متن درج کریں.</string>
+    <string name="name_empty">براہ مہربانی ایک متن درج کریں</string>
+    <!-- Recycler View -->
+    <string name="am_empty_list">اس فہرست میں ابھی تک کوئی چیز نہیں ہیں. براہ مہربانی کچھ پہلے شامل کریں.</string>
+    <string name="am_merge_error">No merging is done. Exactly 2 projects need to be selected to merge.</string>
+    <string name="am_backpack">پیک</string>
+    <string name="am_unpack">کھولنا</string>
+    <string name="am_copy">نقل بنائین</string>
+    <string name="am_delete" tools:ignore="UnusedResources">خارج کر دیں</string>
+    <string name="am_rename">نام تبدیل کریں</string>
+    <string name="am_convert">تبدیل کریں</string>
+    <string name="am_merge">Merge</string>
+    <string name="dialog_confirm_delete">آپ اس کو رد نہیں کر سکتے ہیں!</string>
+    <string name="list_headline_sprites">اداکار اور آبجیکٹ</string>
+    <!-- Options Menu Options -->
+    <string name="backpack">بستہ</string>
+    <string name="copy">نقل بنائین</string>
+    <string name="delete">خارج کر دیں</string>
+    <string name="rename">نام تبدیل کریں</string>
+    <string name="merge">Merge</string>
+    <string name="show_details">تفصیلات دکھائیں</string>
+    <string name="hide_details">تفصیلات چھپائیں</string>
+    <string name="project_options">Project options</string>
+    <string name="sort_projects">Sort</string>
+    <string name="unsort_projects">Unsort</string>
+    <!-- New Dialog Titles -->
+    <string name="new_scene_dialog">نیا منظر</string>
+    <!-- Delete Dialog Titles -->
+    <plurals name="delete_projects">
+        <item quantity="one">٪ d پروجیکٹ ختم کرو?
+٪ d پروجیکٹ کو ختم کرو?</item>
+        <item quantity="other">٪ d پروجیکٹ ختم کرو?
+٪ d پروجیکٹ کو ختم کرو?</item>
+    </plurals>
+    <plurals name="delete_scenes">
+        <item quantity="one">ختم٪ d منظر?
+ختم٪ d مناظر?</item>
+        <item quantity="other">ختم٪ d منظر?
+ختم٪ d مناظر?</item>
+    </plurals>
+    <plurals name="delete_sprites">
+        <item quantity="one">یہ اداکار یا آبجیکٹ حذف کریں؟</item>
+        <item quantity="other">ان اداکاروں یا آبجیکٹ ختم کریں؟</item>
+    </plurals>
+    <plurals name="delete_looks">
+        <item quantity="one">اس نظر کو ختم کریں؟</item>
+        <item quantity="other">اس نظر کو ختم کریں؟</item>
+    </plurals>
+    <plurals name="delete_sounds">
+        <item quantity="one">یہ آواز ختم کرو ؟</item>
+        <item quantity="other">یہ آواز ختم کرو ؟</item>
+    </plurals>
+    <plurals name="delete_nfc_tags">
+        <item quantity="one">اس ٹیگ کو  ختم کریں؟</item>
+        <item quantity="other">اس ٹیگ کو  ختم کریں؟</item>
+    </plurals>
+    <plurals name="delete_scripts">
+        <item quantity="one">ان سکرپٹ کو  ختم کریں؟</item>
+        <item quantity="other">ان سکرپٹ کو ختم کریں؟</item>
+    </plurals>
+    <!-- Dialog Labels -->
+    <string name="project_name_label">نام پروجیکٹ</string>
+    <string name="scene_name_label">نام منظر</string>
+    <string name="sprite_name_label">اداکار یا آبجیکٹ نام</string>
+    <string name="sprite_group_name_label">گروپ کا نام</string>
+    <string name="script_group_label">اسکرپٹ گروپ کا نام</string>
+    <string name="look_name_label">نظر نام</string>
+    <string name="sound_name_label">آواز کا نام</string>
+    <string name="nfc_tag_name_label">این ایف سی ٹیگ کا نام</string>
+    <string name="string_label">متن</string>
+    <string name="data_label">نام</string>
+    <string name="keyword_label">Insert keyword</string>
+    <string name="html_label">Insert HTML text</string>
+    <string name="Image_format_not_supported">Image format not supported</string>
+    <!-- Details -->
+    <string name="project_details">آخری رسائی: %s، سائز: %s</string>
+    <string name="last_access_today">today, %s</string>
+    <string name="scene_details">اداکار اور آبجیکٹ: %d،  نظر: %d، آواز: %d</string>
+    <string name="sprite_details">اینٹوں: %d،  نظر  : %d، آواز: %d</string>
+    <string name="look_details">قرارداد:٪ %s، سائز:٪ %s</string>
+    <string name="sound_duration">دورانیہ: %1$s</string>
+    <string name="sound_details">قرارداد:٪ %s، سائز:٪ %s</string>
+    <!--  -->
+    <!-- Rename Dialog Titles -->
+    <string name="rename_project">پروگرام کو نیا نام دیں</string>
+    <string name="rename_scene_dialog">منظر کو نیا نام دیں</string>
+    <string name="rename_sprite_dialog">آبجیکٹ کو نیا نام دیں</string>
+    <string name="rename_look_dialog"> نظر ٪ d  کا نام تبدیل کریں</string>
+    <string name="rename_sound_dialog">آواز کو نیا نام دیں</string>
+    <string name="rename_nfctag_dialog">٪ d این ایف سی ٹیگ کا نام تبدیل کریں</string>
+    <string name="rename_data_dialog">نام تبدیل کریں</string>
+    <!-- New Script Group Dialog -->
+    <string name="new_group">نیا گروپ</string>
+    <string name="default_group_name">Group</string>
+    <!-- New Scene Menu -->
+    <string name="new_scene">نیا منظر</string>
+    <!-- Action Toasts -->
+    <!-- Backpack -->
+    <plurals name="packed_scenes">
+        <item quantity="one">بیگ پیک ٪ d منظر.</item>
+        <item quantity="other">بیگ پیک ٪ d منظر.</item>
+    </plurals>
+    <plurals name="packed_sprites">
+        <item quantity="one">بیک پیک  %d اداکار یا آبجیکٹ ہے ۔</item>
+        <item quantity="other">بیک پیک  %d اداکار یا آبجیکٹ ہے ۔</item>
+    </plurals>
+    <plurals name="packed_looks">
+        <item quantity="one">بیگ پیک ٪ d نظر.</item>
+        <item quantity="other">بیگ پیک ٪ d نظر.</item>
+    </plurals>
+    <plurals name="packed_sounds">
+        <item quantity="one">بیگ پیک ٪ d  آواز.</item>
+        <item quantity="other">بیگ پیک ٪ d  آواز.</item>
+    </plurals>
+    <string name="packed_script_group">بیگ پیک  ایک سکرپٹ گروپ</string>
+    <!-- Unpack -->
+    <plurals name="unpacked_scenes">
+        <item quantity="one">  کھولیں٪ d منظر</item>
+        <item quantity="other">  کھولیں٪ d منظر</item>
+    </plurals>
+    <plurals name="unpacked_sprites">
+        <item quantity="one">غیر فعال %d اداکار یا آبجیکٹ ہے ۔</item>
+        <item quantity="other">غیر فعال %d اداکار یا آبجیکٹ ہے ۔</item>
+    </plurals>
+    <plurals name="unpacked_looks">
+        <item quantity="one">  کھولیں٪ d نظر</item>
+        <item quantity="other">  کھولیں٪ d نظر</item>
+    </plurals>
+    <plurals name="unpacked_sounds">
+        <item quantity="one">  کھولیں٪ d آواز.</item>
+        <item quantity="other">  کھولیں٪ d آواز.</item>
+    </plurals>
+    <plurals name="unpacked_scripts">
+        <item quantity="one">  کھولیں٪ d سکرپٹ</item>
+        <item quantity="other">کھولیں %d سکرپٹ.</item>
+    </plurals>
+    <!-- Copy -->
+    <plurals name="copied_scenes">
+        <item quantity="one">کاپی کیا ٪ d منظر  
+ کاپی٪ d مناظر.</item>
+        <item quantity="other">کاپی کیا ٪ d منظر  
+ کاپی٪ d مناظر.</item>
+    </plurals>
+    <plurals name="copied_sprites">
+        <item quantity="one">٪ d اداکاروں یا آبجیکٹ کاپی کریں
+٪ d اداکاروں یا آبجیکٹ کاپی کریں</item>
+        <item quantity="other">٪ d اداکاروں یا آبجیکٹ کاپی کریں
+٪ d اداکاروں یا آبجیکٹ کاپی کریں</item>
+    </plurals>
+    <plurals name="copied_looks">
+        <item quantity="one">کاپی کیا %d نظر.</item>
+        <item quantity="other">کاپی کیا %d نظر.</item>
+    </plurals>
+    <plurals name="copied_sounds">
+        <item quantity="one">٪ d آواز کاپی کریں:
+٪ d آواز کاپی کریں:</item>
+        <item quantity="other">٪ d آواز کاپی کریں:
+٪ d آواز کاپی کریں:</item>
+    </plurals>
+    <plurals name="copied_nfc_tags">
+        <item quantity="one">٪ d این ایف سی ٹیگ کو کاپی کریں
+٪ d این ایف سی ٹیگز کاپی کریں</item>
+        <item quantity="other">٪ d این ایف سی ٹیگ کو کاپی کریں
+٪ d این ایف سی ٹیگز کاپی کریں</item>
+    </plurals>
+    <!-- Delete -->
+    <plurals name="deleted_projects">
+        <item quantity="one">٪ d پروجیکٹ ختم کرو
+٪ d پروجیکٹ کو ختم کرو</item>
+        <item quantity="other">٪ d پروجیکٹ ختم کرو
+٪ d پروجیکٹ کو ختم کرو</item>
+    </plurals>
+    <plurals name="deleted_scenes">
+        <item quantity="one">ختم٪ d منظر
+ختم٪ d مناظر</item>
+        <item quantity="other">ختم٪ d منظر
+ختم٪ d مناظر</item>
+    </plurals>
+    <plurals name="deleted_sprites">
+        <item quantity="one">ختم٪ d جن.
+ختم٪ d جن.</item>
+        <item quantity="other">Deleted %d sprites.</item>
+    </plurals>
+    <plurals name="deleted_looks">
+        <item quantity="one"> ختم کریں % نظکوکو.</item>
+        <item quantity="other"> ختم کریں % نظکوکو.</item>
+    </plurals>
+    <plurals name="deleted_sounds">
+        <item quantity="one">٪ d آواز ختم کریں</item>
+        <item quantity="other">٪ d آواز ختم کریں</item>
+    </plurals>
+    <plurals name="deleted_nfc_tags">
+        <item quantity="one">٪ d این ایف سی ٹیگ کو حذف کریں
+٪ d این ایف سی ٹیگ کو حذف کریں </item>
+        <item quantity="other">٪ d این ایف سی ٹیگ کو حذف کریں
+٪ d این ایف سی ٹیگ کو حذف کریں </item>
+    </plurals>
+    <plurals name="deleted_scripts">
+        <item quantity="one">٪ d سکرپٹ کو حذف کریں
+٪ d سکرپٹ حذف کریں</item>
+        <item quantity="other">٪ d سکرپٹ کو حذف کریں
+٪ d سکرپٹ حذف کریں</item>
+    </plurals>
+    <plurals name="deleted_Items">
+        <item quantity="one">٪ d اشیاء کو خارج کر دیا
+٪ d اشیاء کو خارج کر دیا</item>
+        <item quantity="other">٪ d اشیاء کو خارج کر دیا
+٪ d اشیاء کو خارج کر دیا</item>
+    </plurals>
+    <!--  -->
+    <!-- ProjectListActivity and ProjectListFragment -->
+    <string name="project_list_title">پروگرامات</string>
+    <string name="last_used">آخری رسائی:</string>
+    <string name="size">پیمائش:</string>
+    <string name="description">وضاحت:</string>
+    <string name="set_description">تفصیل مقرر کریں</string>
+    <string name="notes_and_credits_title">Notes and credits:</string>
+    <string name="set_notes_and_credits">Set notes and credits</string>
+    <string name="details_date_today">آج</string>
+    <string name="import_project">پروجیکٹ درآمد کریں</string>
+    <string name="error_import_project">پروجیکٹ کو درآمد کرتے وقت کچھ غلط ہو گیا.</string>
+    <string name="error_no_files_found">کوئی پروجیکٹ فائل نہیں ملی.</string>
+    <!-- ProjectOptionsFragment -->
+    <string name="project_options_description">تفصیل (وضاحت)</string>
+    <string name="project_options_notes_and_credits">Credits</string>
+    <string name="project_options_tags">ٹیگز</string>
+    <string name="project_options_aspect_ratio">Keep original aspect ratio</string>
+    <string name="project_options_more_details">More details</string>
+    <string name="project_options_delete_project">Delete project</string>
+    <!-- ScriptListFragment -->
+    <string name="fragment_script_text_description">نئے نوشتہ جات اضافہ کرنے کے لیے \"+\" پر کلک کریں</string>
+    <!--  -->
+    <!-- SpriteListFragment -->
+    <string name="fragment_sprite_text_description">اداکاروں یا اشیاء کو شامل کرنے کیلئے \"+\" ٹیپ کریں</string>
+    <string name="default_sprite_name">میرا اداکار یا اعتراض</string>
+    <!--  -->
+    <!-- LookListFragment -->
+    <string name="fragment_look_text_description">نظر ڈالنے کیلئے \"+\" ٹیپ کریں</string>
+    <string name="select_look_from_gallery">تصویر منتخب کریں</string>
+    <string name="select_look_from_camera">تصویر منتخب کریں</string>
+    <!--  -->
+    <!-- SoundListFragment -->
+    <string name="fragment_sound_text_description">آواز شامل کرنے کیلئے \"+\" ٹپ کریں</string>
+    <string name="sound_select_source">آواز کا انتخاب کریں</string>
+    <!--  -->
+    <!-- NfcTagListFragment -->
+    <string name="fragment_nfctag_text_description">انہیں شامل کرنے کے لئے NFC ٹیگز اسکین کریں</string>
+    <string name="ndef_record_label" tools:ignore="UnusedResources">ریکارڈ کی قسم کے طور پر</string>
+    <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">لکھنے کے لئے اگلے  NFC  ٹیگ کے لئے انتظار کریں</string>
+    <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
+    <string name="default_tag_name">NFC tag</string>
+    <string name="tnf_empty">خالی کریں</string>
+    <string name="tnf_external_type">بیرونی قسم</string>
+    <string name="tnf_mime_media">متن</string>
+    <string name="tnf_well_known_http">HTTP</string>
+    <string name="tnf_well_known_https">HTTPS</string>
+    <string name="tnf_well_known_tel">فون نمبر</string>
+    <string name="tnf_well_known_sms">ایس ایم ایس</string>
+    <string name="tnf_well_known_mailto">ای-میل</string>
+    <!--  -->
+    <!-- DataListFragment -->
+    <string name="multiplayer_vars_headline">Variables for connected devices</string>
+    <string name="global_vars_headline">تمام اداکاروں اور اشیاء کے لئے متغیرات</string>
+    <string name="local_vars_headline">اس اداکار یا صرف آبجیکٹ کے لیے متغیرات</string>
+    <string name="global_lists_headline">فہرست تمام اداکاروں اور اشیاء کے لئے</string>
+    <string name="local_lists_headline">اس اداکار یا صرف آبجیکٹ کے لیے فہرستیں</string>
+    <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
+    <plurals name="user_defined_brick_input_headline">
+        <item quantity="one">Input for this brick</item>
+        <item quantity="other">Inputs for this brick</item>
+    </plurals>
+    <!-- NewDataDialog -->
+    <string name="new_data_for_all_sprites">تمام مناظر میں تمام اداکاروں، اشیاء اور کلونوں کے لئے</string>
+    <string name="new_data_for_this_sprite_only">یہ اداکار، آبجیکٹ یا صرف اس کلون میں سے ایک کے لئے</string>
+    <string name="new_data_for_connected_devices">For all actors, objects, and clones in all scenes of projects
+        on connected multiplayer devices</string>
+    <!-- Backpack -->
+    <string name="backpack_title">آپ کا بیک پیک</string>
+    <string name="pack">پیک</string>
+    <string name="unpack">غیر پیکنگ</string>
+    <!--  -->
+    <!-- NewProjectDialog -->
+    <string name="new_project_dialog_example_project">Example project</string>
+    <!--  -->
+    <!-- NewMergedProjectDialog -->
+    <string name="new_merge_project_dialog_title">Merged project</string>
+    <string name="merging_project_text">These two projects cannot yet be merged</string>
+    <!--  -->
+    <!-- NewSpriteDialog -->
+    <string name="new_sprite_dialog_title">نئی آبجیکٹ</string>
+    <!--  -->
+    <!-- NewLookDialog -->
+    <string name="new_look_dialog_title">نظر کا ا ضافہ کریں</string>
+    <string name="add_look_from_camera">تصویر لیجئے</string>
+    <string name="add_look_draw_new_image">تصویر بنائیں</string>
+    <string name="add_look_choose_image">تصویر منتخب کریں</string>
+    <string name="add_look_media_library">میڈیا لائبریری</string>
+    <!--  -->
+    <!-- NewSoundDialog -->
+    <string name="new_sound_dialog_title">آواز ا ضافہ کریں</string>
+    <string name="add_sound_from_recorder">ریکارڈ آواز</string>
+    <string name="add_sound_choose_file">فائل منتخب کریں</string>
+    <string name="add_sound_music">موسیقی کے کمپوزر</string>
+    <!-- NotePickerDialog -->
+    <string name="note_picker_title">Note Picker</string>
+    <!--  -->
+    <!-- Rating Dialog -->
+    <string name="rating_dialog_title"> اپلی کیشن درجہ بندی</string>
+    <string name="rating_google_play_dialog_text">اگر آپ اس اپلی کیشن سے لطف اندوز کرتے ہیں تو، براہ کرم ہمیں اپلی کیشن سٹور پر  درجہ بندی دیں.</string>
+    <string name="rating_dialog_rate_now">اب</string>
+    <string name="rating_dialog_rate_later">بعد میں</string>
+    <string name="rating_dialog_rate_never">کبھی نہیں</string>
+    <!--  -->
+    <!-- Terms of Use Dialog -->
+    <string name="dialog_terms_of_use_title">استعمال اور خدمات کی شرائط</string>
+    <string name="dialog_terms_of_use_info">کرنے کے لئے
+         آپ کو کیٹروبیٹ پراجیکٹ کی طرف سے پیش کردہ اطلاقات اور دیگر خدمات استعمال کرنے کی اجازت دی جاسکتی ہے
+         ہماری استعمال کی شرائط اور سروس سے اتفاق کرنا ضروری ہے. آپ کو ہمارے اطلاقات کا استعمال کرتے وقت سختی سے ان شرائط پر عمل کرنا ہوگا
+         اور دیگر خدمات. برائے مہربانی ذیل میں دیئے گئے لنک کو ان کے عین مطابق تشکیل کے لئے ملاحظہ کریں. \ n</string>
+    <string name="dialog_terms_of_use_link_text">استعمال اور خدمات کی شرائط</string>
+    <!--  -->
+    <!-- Terms of Use Dialog Parrot ARDrone-->
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">استعمال اور خدمات کی شرائط</string>
+    <string name="dialog_terms_of_use_parrot_reminder_text">آپ اس اپلی کیشن کو طوطا کے ساتھ ساتھ استعمال کرنا چاہتے ہیں
+         AR.Done 2.0. ہم آپ کو پادری اور کیٹتوٹ دونوں کے استعمال اور خدمات کی شرائط دونوں کی طرف سے اطمینان دینے پر زور دیتے ہیں.</string>
+    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">مجھے دوبارہ یاد نہ دلائیں۔</string>
+    <!--  -->
+    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
+    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">آپ اس اپلی کیشن کے ساتھ مل کر استعمال کرتے ہیں
+          طوطا کی جمپنگ سومو. ہم آپ کو پادری اور Catrobat کے استعمال کی شرائط اور دونوں دونوں کی طرف سے اطمینان دینے پر زور دیتے ہیں
+         خدمات</string>
+    <!--  -->
+    <!-- Privacy Policy -->
+    <string name="disclaimer_privacy_police_header_headline">خوش آمدید</string>
+    <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
+    <!-- -->
+    <!-- About Dialog -->
+    <string name="dialog_about_title">اس ایپ کے بارے میں</string>
+    <string name="dialog_about_license_info">یہ اپلی کیشن بصری پروگرامنگ زبان کیٹروبیٹ کے لئے کوڈنگ کا ماحول اور مترجم پیش کرتا ہے. \ n
+         اس ایپ کا ذریعہ کوڈ بنیادی طور پر GNU AGPL v3 لائسنس کے تحت لائسنس یافتہ ہے.
+         لائسنس پر مزید تفصیلات کے لئے ذیل میں لنک دیکھیں. \ n</string>
+    <string name="dialog_about_license_link_text">ماخذ کوڈ لائسنس</string>
+    <string name="dialog_about_catrobat_link_text">کیٹروبیٹ کے بارے میں</string>
+    <string name="dialog_about_catrobat_language_version">Catrobat language version</string>
+    <string name="dialog_about_version">version:</string>
+    <!--  -->
+    <!-- NetworkAlertDialog -->
+    <string name="error_no_network_title">کوئی نیٹ ورک نہیں</string>
+    <!-- UploadProjectDialog -->
+    <string name="upload_project_dialog_title">پروجیکٹ کو اپ لوڈ کریں</string>
+    <string name="upload_description">وضاحت:</string>
+    <string name="upload_notes_and_credits">Notes and credits:</string>
+    <string name="upload_notes_and_credits_explanation">How did you create this project? Did you use ideas, scripts or artwork from other people? Thank them here.</string>
+    <string name="upload_tag_dialog_title">تین زمرے کا انتخاب کریں</string>
+    <string name="upload_tags_maximum_error">Selecting more than 3 tags is not possible.</string>
+    <!-- Save Project to External Storage -->
+    <string name="save_to_external_storage_button">پراجیکٹ کے لیے بیرونی ذخیرہ محفوظ کریں</string>
+    <string name="notification_save_project_to_external_storage_title_pending">" "</string>
+    <string name="notification_save_project_to_external_storage_pending">پراجیکٹ کے لیے بیرونی ذخیرہ محفوظ کریں</string>
+    <string name="notification_save_project_to_external_storage_title_open">" "</string>
+    <string name="notification_save_project_to_external_storage_open">"%1$s کے لیے محفوظ کردہ پراجیکٹ"</string>
+    <string name="save_project_to_external_storage_io_exception_message">پراجیکٹ محفوظ کرنے میں ناکام، ناکافی میموری دستیاب ہے!</string>
+    <!--  -->
+    <!-- SoundRecorderActivity -->
+    <string name="soundrecorder_name">پاکٹ کوڈ ریکارڈر</string>
+    <string name="soundrecorder_error">آواز ریکارڈ کاری ناکام</string>
+    <string name="soundrecorder_recorded_filename">ریکارڈ</string>
+    <string name="soundrecorder_text_view">ریکارڈنگ شروع اور بند کرنے کے لئے اوپر دی گئی آئیکون کو ٹیپ کریں</string>
+    <!--  -->
+    <!-- Brick context dialog -->
+    <string name="brick_context_dialog_move_brick">Move brick</string>
+    <string name="brick_context_dialog_move_script">سکرپٹ منتقل کریں</string>
+    <string name="brick_context_dialog_move_definition">Move this definition</string>
+    <string name="brick_context_dialog_delete_brick" tools:ignore="UnusedResources">Delete brick</string>
+    <string name="brick_context_dialog_copy_brick">Copy brick</string>
+    <string name="brick_context_dialog_copy_script">سکرپٹ کاپی کریں</string>
+    <string name="brick_context_dialog_formula_edit_brick">Edit formula</string>
+    <string name="brick_context_dialog_delete_script">Delete script</string>
+    <string name="brick_context_dialog_delete_definition">Delete this definition</string>
+    <string name="brick_context_dialog_comment_in">Enable brick</string>
+    <string name="brick_context_dialog_comment_out">Disable brick</string>
+    <string name="brick_context_dialog_highlight_brick_parts">اینٹ حصوں کو نمایاں کریں</string>
+    <string name="brick_context_dialog_comment_in_script">سکرپٹ کو فعال کریں</string>
+    <string name="brick_context_dialog_comment_out_script">اینٹ کو غیر فعال کریں</string>
+    <string name="brick_context_dialog_help">مدد</string>
+    <string name="comment_in_out">اہل/نااہل</string>
+    <string name="catblocks">Toggle 2D</string>
+    <string name="catblocks_reorder">Clean up scripts</string>
+    <string name="switch_to_1d" tools:ignore="UnusedResources">1D view</string>
+    <!--  -->
+    <!-- Play scene dialog -->
+    <string name="play_scene_dialog_title">منظر چلائیں:</string>
+    <string name="play_scene_dialog_default">پہلا منظر (%1$s)</string>
+    <string name="play_scene_dialog_current">موجودہ منظر (%1$s)</string>
+    <!--  -->
+    <!-- Sign In dialogs -->
+    <string name="sign_in_dialog_title">سائن ان کریں</string>
+    <string name="username">صارف کا نام</string>
+    <string name="password">خفیہ کوڈ</string>
+    <string name="reset_password">Reset password</string>
+    <string name="new_user_registered">نیا اکاؤنٹ بن گیا</string>
+    <string name="user_logged_in">لاگ ان کامیاب</string>
+    <string name="register_error">غلط لاگ ان کریں</string>
+    <string name="register_terms">رجسٹر ہوتے ہوئے آپ متفق ہیں ہمارے</string>
+    <string name="register_code_terms_of_use_text">سروس اور استعمال کی شرائط</string>
+    <string name="login">لاگ اِن</string>
+    <string name="register">رجسٹر کریں</string>
+    <string name="password_confirm">پاس ورڈ کی تصدیق</string>
+    <string name="accountName">ای-میل</string>
+    <string name="signin_thanks">سائن اپ کرنے کے لئے شکریہ!</string>
+    <string name="signin_choose_username">برائے مہربانی صارف نام منتخب کریں</string>
+    <string name="signin_choose_username_empty">برائے مہربانی صارف نام درج کریں</string>
+    <string name="signin_choose_username_hint">صارف نام آپ کا اصلی نام نہیں ہونا چاہئے اور نہ ہی اسے ایک ای میل ایڈریس ہونا چاہیے ۔</string>
+    <string name="oauth_username_taken">کسی اور پہلے ہی اس نام کا استعمال کرتا ہے ۔ ایک مختلف انتخاب کریں!</string>
+    <string name="show_password">پاسورڈ دکھاو</string>
+    <string name="sign_in_error">سائن اپ کے دوران کچ غلط ہوگیا</string>
+    <string name="error_google_plus_sign_in">Google سائن ان کی خرابی. حیثیت:٪ %s</string>
+    <string name="error_session_expired">Session expired, please log in.</string>
+    <string name="error_register_empty_username">خالی صارف نام</string>
+    <string name="error_register_username_as_email">Email address cannot be used as username</string>
+    <string name="error_register_invalid_username">صارف کا نام صرف حروف (a-z), نمبروں کا (0-9),
+        ڈیش (-)، اجاگر کرتی (_) اور نکتے (.) کا حامل ہونا چاہیے ۔</string>
+    <string name="error_register_username_start_with">صارف کا نام ڈیشز (-)، اندراج (_)، یا کے ساتھ شروع نہیں ہونا چاہئے
+         دور (.).</string>
+    <string name="error_register_invalid_email_format">غلط ای میل کی شکل</string>
+    <string name="error_register_empty_password">پاس ورڈ خالی ہے</string>
+    <string name="error_register_password_at_least_6_characters">پاس ورڈ کی لمبائی کم از کم 6 حروف ہونی چاہئے۔</string>
+    <string name="error_register_passwords_mismatch">پاس ورڈ ایک جیسے نہیں ہیں</string>
+    <string name="error_register_empty_confirm_password">تصدیق کریں کہ پاس ورڈ فیلڈ خالی ہے</string>
+    <string name="error_register_username_already_exists">یوزر/صارف کا نام پہلے سے موجود ہے</string>
+    <string name="error_register_email_exists">ای میل پتہ پہلے سے موجود ہے</string>
+    <!--  -->
+    <!-- OverwriteRenameDialog Strings -->
+    <string name="overwrite_title">پروجیکٹ موجود ہے.</string>
+    <string name="overwrite_text">ایک پروجیکٹ اس نام سے پہلے ہی موجود ہے ۔</string>
+    <string name="overwrite_replace">پراجیکٹ کو لکھنا</string>
+    <string name="overwrite_rename">ایک نیا نام کا انتخاب کریں</string>
+    <!--  -->
+    <!-- Music activity -->
+    <string name="pocket_music_default_project_name">غیر عنوان گیت</string>
+    <string name="pocket_music_default_track_name">ٹریک 1</string>
+    <!--  -->
+    <!-- Resource initialization fka PrestageActivity -->
+    <string name="prestage_text_to_speech_engine_not_installed">Text-to-Speech انجن نصب نہیں! کیا آپ اسے نصب کرنا چاہتے ہیں؟</string>
+    <string name="prestage_resource_not_available_title">اجزاء دستیاب نہیں</string>
+    <string name="prestage_resource_not_available_text">بدقسمتی سے یہ منصوبہ آپ کے آلے پر کام نہیں کرتا.
+         مندرجہ ذیل اجزاء دستیاب نہیں ہیں: \ n \ n</string>
+    <string name="prestage_resource_in_use_text">ایک اور آلہ جمپنگ سومو سے منسلک ہے. یقینی بنائیں کہ آپ
+         ڈرون سے منسلک ہے.</string>
+    <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
+    <string name="prestage_no_acceleration_sensor_available">\ u2022 تیز رفتار سینسر n\ </string>
+    <string name="prestage_no_inclination_sensor_available">\ u2022 چڑھنے سینسر n\</string>
+    <string name="prestage_no_compass_sensor_available">\ u2022 کمپاس \ n</string>
+    <string name="prestage_no_gps_sensor_available">\ u2022 جغرافیائی مقام \ n</string>
+    <string name="prestage_text_to_speech_error">\ u2022 متن سے بات کرنے والے انجن \ n</string>
+    <string name="prestage_no_back_camera_available">\ u2022 ریئر کیمرے \ n</string>
+    <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
+    <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
+    <string name="prestage_no_jumping_sumo_available">\ u2022 جموں سمو \ n</string>
+    <string name="prestage_no_front_camera_available">\ u2022 فرنٹ کیمرے \ n</string>
+    <string name="prestage_no_camera_available">\u2022 Camera\n</string>
+    <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
+    <string name="prestage_default_resource_not_available">\ u2022 نامعلوم اجزاء \ n</string>
+    <string name="no_nfc_available">این ایف سی دستیاب نہیں</string>
+    <string name="nfc_not_activated">براہ کرم این ایف سی کو چالو کریں اور اپلی کیشن پر واپسی کیلئے واپس دبائیں.</string>
+    <string name="nfc_facedetection_support">این ایف سی اور چہرے کا پتہ لگانے کا استعمال کرتے ہوئے ایک ہی وقت میں کارکردگی کا باعث بن سکتا ہے
+         مسائل.</string>
+    <!--  -->
+    <!-- Stage menu dialog -->
+    <string name="stage_dialog_back">واپس</string>
+    <string name="stage_dialog_resume">دوبارہ شروع کریں</string>
+    <string name="stage_dialog_restart">پھر شروع کریں</string>
+    <string name="stage_dialog_axes_on">Axes on</string>
+    <string name="stage_dialog_axes_off">Axes off</string>
+    <string name="stage_dialog_maximize">زیادہ سے زیادہ /\n توسیع</string>
+    <string name="stage_dialog_screenshot">پیش منظر</string>
+    <string name="stage_dialog_embroidery">کشیدہ کاری</string>
+    <!--  -->
+    <!-- Broadcast spinner -->
+    <string name="dialog_new_broadcast_message_title">نیا پیغام</string>
+    <string name="dialog_broadcast_message_name">message:</string>
+    <string name="dialog_edit_broadcast_message_title">Edit message</string>
+    <!--  -->
+    <!-- NFC spinner -->
+    <string name="brick_when_nfc_edit_list_of_nfc_tags">Edit list of NFC tags</string>
+    <string name="brick_when_nfc_default_all">تمام</string>
+    <!-- -->
+    <!-- Brick categories -->
+    <string name="categories" tools:ignore="UnusedResources">درجہ بندی</string>
+    <string name="category_embroidery" tools:ignore="UnusedResources">کشیدہ کاری</string>
+    <string name="category_motion" tools:ignore="UnusedResources">حرکت</string>
+    <string name="category_looks" tools:ignore="UnusedResources">نظر</string>
+    <string name="category_pen" tools:ignore="UnusedResources">قلم</string>
+    <string name="category_sound" tools:ignore="UnusedResources">آواز</string>
+    <string name="category_control" tools:ignore="UnusedResources">کنٹرول</string>
+    <string name="category_event" tools:ignore="UnusedResources">واقعہ</string>
+    <string name="category_user_bricks" tools:ignore="UnusedResources">Your bricks</string>
+    <string name="category_data" tools:ignore="UnusedResources">ڈیٹا</string>
+    <string name="category_device" tools:ignore="UnusedResources">Device</string>
+    <string name="category_lego_nxt" tools:ignore="UnusedResources">لیگوNXT</string>
+    <string name="category_lego_ev3" tools:ignore="UnusedResources">لیگوEV3</string>
+    <string name="category_drone" tools:ignore="UnusedResources">AR.ڈرون 2.0</string>
+    <string name="category_jumping_sumo" tools:ignore="UnusedResources">جمپنگ سومو</string>
+    <string name="category_phiro" tools:ignore="UnusedResources">پہرو</string>
+    <string name="category_arduino" tools:ignore="UnusedResources">آردوانو</string>
+    <string name="category_cast" tools:ignore="UnusedResources">کروم کاسٹ</string>
+    <string name="category_raspi" tools:ignore="UnusedResources">راسباری پائی Pi</string>
+    <string name="category_assertions" tools:ignore="UnusedResources">Testing</string>
+    <!--  -->
+    <!-- User Defined Bricks -->
+    <string name="brick_user_defined_add_label">Add label</string>
+    <string name="brick_user_defined_add_input">Add input</string>
+    <string name="brick_user_defined_add_input_description">Add input for this brick:</string>
+    <string name="brick_user_defined_add_label_description">Add label for this brick:</string>
+    <string name="brick_user_defined_default_input_name">Name of input</string>
+    <string name="brick_user_defined_default_label">Label text</string>
+    <string name="brick_user_defined_already_exists">A brick with these labels already exists. Please add more labels or inputs.</string>
+    <string name="brick_user_defined_script_define" tools:ignore="UnusedResources">Define</string>
+    <string name="brick_user_defined_script_as" tools:ignore="UnusedResources">as</string>
+    <string name="brick_user_defined_list_empty">Tap \"+\" to add your own new bricks.</string>
+    <string name="brick_report" tools:ignore="UnusedResources">رپورٹ</string>
+    <!--  -->
+    <!-- Motion bricks -->
+    <string name="brick_place_at" tools:ignore="UnusedResources">"جگہ رکھیں"</string>
+    <string name="brick_option_place_visually">Place visually</string>
+    <string name="x_label" tools:ignore="UnusedResources">"ایکس:"</string>
+    <string name="y_label" tools:ignore="UnusedResources">"وائے: "</string>
+    <string name="brick_set_x" tools:ignore="UnusedResources">"ایکس سیٹ کریں"</string>
+    <string name="brick_set_y" tools:ignore="UnusedResources">"وائے  سیٹ کریں"</string>
+    <string name="brick_change_x_by" tools:ignore="UnusedResources">" تبدیل کریں x کی طرف "</string>
+    <string name="brick_change_y_by" tools:ignore="UnusedResources">" تبدیل کریں y کی طرف "</string>
+    <string name="brick_go_back" tools:ignore="UnusedResources">واپس جائیں</string>
+    <string name="brick_set_rotation_style" tools:ignore="UnusedResources">"گردش سٹائل مقرر کریں"</string>
+    <string name="brick_set_rotation_style_lr" tools:ignore="UnusedResources">بایاں-دایاں صرف</string>
+    <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">چاروں طرف</string>
+    <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">گھومنا مت کرو</string>
+    <plurals name="brick_go_back_layer_plural">
+        <item quantity="one">تہوں</item>
+        <item quantity="other">تہوں</item>
+    </plurals>
+    <string name="brick_come_to_front" tools:ignore="UnusedResources">سامنے جاؤ</string>
+    <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">کنارے پر، اچھال</string>
+    <string name="brick_move" tools:ignore="UnusedResources">حر کت</string>
+    <plurals name="brick_move_n_step_plural">
+        <item quantity="one">قدم</item>
+        <item quantity="other">قدم</item>
+    </plurals>
+    <string name="brick_turn_left" tools:ignore="UnusedResources">بائیں مڑو</string>
+    <string name="brick_turn_right" tools:ignore="UnusedResources">دائیں مڑیں</string>
+    <string name="brick_point_in_direction" tools:ignore="UnusedResources">طرف اشارہ کریں</string>
+    <string name="brick_point_to" tools:ignore="UnusedResources">طرف اشارہ</string>
+    <string name="brick_glide" tools:ignore="UnusedResources">سرکنا</string>
+    <string name="brick_glide_to_x" tools:ignore="UnusedResources">ایکس کے لئے:</string>
+    <string name="brick_go_to" tools:ignore="UnusedResources">کے پاس جاؤ</string>
+    <string name="brick_go_to_touch_position">ٹچ پوزیشن</string>
+    <string name="brick_go_to_random_position">بے ترتیب پوزیشن</string>
+    <!--  -->
+    <!-- Physics -->
+    <string name="brick_set_physics_object_type" tools:ignore="UnusedResources">اپنی حرکت کی قسم مقرر کریں</string>
+    <string name="brick_set_physics_object_type_dynamic" tools:ignore="UnusedResources">کشش ثقل کے تحت منتقل اور شیخی</string>
+    <string name="brick_set_physics_object_type_fixed" tools:ignore="UnusedResources">کشش ثقل کے تحت نہیں بڑھتی ہے، لیکن دوسروں کو کشش ثقل کے تحت آپ کو اچھالنا پڑتا ہے</string>
+    <string name="brick_set_physics_object_type_no" tools:ignore="UnusedResources">کشش ثقل کے تحت منتقل یا شیخی نہیں (پہلے سے طے شدہ)</string>
+    <string name="brick_set_mass" tools:ignore="UnusedResources">"بڑے پیمانے پر مقرر کریں"</string>
+    <string name="brick_set_mass_unit" tools:ignore="UnusedResources">کلوگرام</string>
+    <string name="brick_set_gravity_to" tools:ignore="UnusedResources">"تمام اداکاروں اور اشیاء کے لئے کشش ثقل مقرر کریں"</string>
+    <string name="brick_set_gravity_unit" tools:ignore="UnusedResources">اقدامات / دوسرا²</string>
+    <string name="brick_set_velocity_to" tools:ignore="UnusedResources">"رفتار کو سیٹ کریں"</string>
+    <string name="brick_set_velocity_unit" tools:ignore="UnusedResources">اقدامات / دوسرا²</string>
+    <string name="brick_turn_speed_unit" tools:ignore="UnusedResources">ڈگری / سیکنڈ</string>
+    <string name="brick_set_friction" tools:ignore="UnusedResources">"رگڑ سیٹ کریں"</string>
+    <string name="brick_set_bounce_factor" tools:ignore="UnusedResources">"اچھال فیکٹر مقرر کریں"</string>
+    <string name="brick_rotate_left" tools:ignore="UnusedResources">"سپن چھوڑ دیا"</string>
+    <string name="brick_rotate_right" tools:ignore="UnusedResources">"دائیں اسپن"</string>
+    <!-- Look bricks -->
+    <string name="brick_set_look" tools:ignore="UnusedResources">نظر میں تبدیلی کریں</string>
+    <string name="brick_set_look_by_index" tools:ignore="UnusedResources">نمبر کے ساتھ نظر میں تبدیلی کریں</string>
+    <string name="brick_and_wait">اور انتظار کریں</string>
+    <string name="brick_set_background" tools:ignore="UnusedResources">پس منظر مقرر کریں</string>
+    <string name="brick_set_background_and_wait" tools:ignore="UnusedResources">پس منظر سیٹ کریں اور انتظار کریں</string>
+    <string name="brick_set_background_by_index" tools:ignore="UnusedResources">نمبر سیٹ کریں پس منظر</string>
+    <string name="brick_when_background" tools:ignore="UnusedResources">جب پس منظر کو تبدیل کرتا ہے</string>
+    <string name="brick_set_size_to" tools:ignore="UnusedResources">سائز کو سیٹ کریں</string>
+    <string name="brick_change_size_by" tools:ignore="UnusedResources">سائز تبدیل کریں</string>
+    <string name="brick_hide" tools:ignore="UnusedResources">چھپائیں</string>
+    <string name="brick_show" tools:ignore="UnusedResources">نمایش کریں</string>
+    <string name="brick_set_transparency" tools:ignore="UnusedResources">"شفافیت مقرر کریں"</string>
+    <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"شفافیت کو تبدیل کریں"</string>
+    <string name="brick_set_brightness" tools:ignore="UnusedResources">"چمک مقرر کریں"</string>
+    <string name="brick_change_brightness" tools:ignore="UnusedResources">"چمک تبدیل کریں"</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"رنگ مقرر کریں"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"رنگ تبدیل کریں"</string>
+    <string name="by_label" tools:ignore="UnusedResources">کی طرف سے</string>
+    <string name="to_label" tools:ignore="UnusedResources">کرنا</string>
+    <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">گرافک اثرات صاف کریں</string>
+    <string name="brick_next_look" tools:ignore="UnusedResources">اگلی نظر</string>
+    <string name="brick_next_background">اگلے پس منظر</string>
+    <string name="brick_previous_look" tools:ignore="UnusedResources">پچھلے نظر</string>
+    <string name="brick_previous_background">پچھلے پس منظر</string>
+    <string name="brick_edit_look" tools:ignore="UnusedResources">Edit look</string>
+    <string name="brick_edit_background">Edit background</string>
+    <string name="brick_delete_look" tools:ignore="UnusedResources">Delete look</string>
+    <string name="brick_delete_background">Delete background</string>
+    <string name="brick_flash" tools:ignore="UnusedResources">ٹارچ کو چالو کریں</string>
+    <string name="brick_flash_on" tools:ignore="UnusedResources">پر</string>
+    <string name="brick_flash_off" tools:ignore="UnusedResources">بند</string>
+    <string name="brick_vibration" tools:ignore="UnusedResources">جھولنا کے لئے</string>
+    <string name="brick_ask_label" tools:ignore="UnusedResources">پوچھیں</string>
+    <string name="brick_ask_store" tools:ignore="UnusedResources">اور تحریر جواب اسٹور میں</string>
+    <string name="brick_ask_default_question">آپ کا نام کيا ہے?</string>
+    <string name="brick_ask_dialog_hint">"آپ جواب داخل کریں:"</string>
+    <string name="brick_ask_dialog_submit">جواب جمع کروائیں</string>
+    <string name="brick_ask_speech_label" tools:ignore="UnusedResources">پوچھیں</string>
+    <string name="brick_ask_speech_store" tools:ignore="UnusedResources">اور بولۓ الفاظ کو ذخیرہ کرو</string>
+    <string name="brick_ask_speech_default_question">آپ کا نام کيا ہے?</string>
+    <string name="brick_paint_new_look" tools:ignore="UnusedResources">Paint new look</string>
+    <string name="brick_paint_new_background">Paint new background</string>
+    <string name="brick_paint_new_look_name">"name of new look"</string>
+    <string name="brick_copy_look" tools:ignore="UnusedResources">Copy look and name it</string>
+    <string name="brick_copy_look_name">name of copied look</string>
+    <string name="brick_copy_background">Copy background and name it</string>
+    <!--  -->
+    <!-- Pen bricks -->
+    <string name="brick_pen_down" tools:ignore="UnusedResources">قلم نیچے</string>
+    <string name="brick_pen_up" tools:ignore="UnusedResources">قلم اٹھاو</string>
+    <string name="brick_pen_size" tools:ignore="UnusedResources">قلم کا سائز مقرر کریں</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">قلم کا رنگ مقرر کریں</string>
+    <string name="brick_clear_background" tools:ignore="UnusedResources">واضح </string>
+    <string name="brick_stamp" tools:ignore="UnusedResources">مہر</string>
+    <!--  -->
+    <!-- Sound bricks -->
+    <string name="brick_play_sound" tools:ignore="UnusedResources">آواز کا آغاز</string>
+    <string name="brick_play_sound_and_wait" tools:ignore="UnusedResources">آواز کا آغاز اور انتظار کریں</string>
+    <string name="brick_stop_sound" tools:ignore="UnusedResources">Stop sound</string>
+    <string name="brick_stop_all_sounds" tools:ignore="UnusedResources">تمام آوازیں بند کریں</string>
+    <string name="brick_set_volume_to" tools:ignore="UnusedResources">حجم سیٹ کریں</string>
+    <string name="brick_change_volume_by" tools:ignore="UnusedResources">حجم تبدیل کریں</string>
+    <string name="brick_speak" tools:ignore="UnusedResources">بولیے</string>
+    <string name="brick_speak_default_value">ہیلو!</string>
+    <string name="brick_speak_and_wait" tools:ignore="UnusedResources">اور انتظار کریں</string>
+    <string name="brick_start_listening_to_voice" tools:ignore="UnusedResources">Start listening to voice and store spoken words in</string>
+    <string name="speech_recognition_not_available">Speech recognition isn\'t available.</string>
+    <string name="speech_recognition_offline_mode_error_dialog_title">Missing offline data</string>
+    <string name="speech_recognition_offline_mode_missing_data_error_dialog_msg">Offline speech recognition
+    for %s is missing or needs to be updated. Would you like to download or update it now?</string>
+    <string name="brick_set_listening_language" tools:ignore="UnusedResources">Set listening language to</string>
+    <string name="set_instrument_to" tools:ignore="UnusedResources">Set instrument to</string>
+    <string name="set_tempo_to" tools:ignore="UnusedResources">Set tempo to</string>
+    <string name="change_tempo_by" tools:ignore="UnusedResources">Change tempo by</string>
+    <string name="pause_for" tools:ignore="UnusedResources">Pause for</string>
+    <string name="play_drum" tools:ignore="UnusedResources">Play drum</string>
+    <string name="beats" tools:ignore="UnusedResources">beats</string>
+    <string name="play_note" tools:ignore="UnusedResources">Play note</string>
+    <string name="for_string" tools:ignore="UnusedResources">کےلیے</string>
+    <!--  -->
+    <!-- Embroidery bricks -->
+    <string name="brick_stitch" tools:ignore="UnusedResources">سلائی</string>
+    <string name="brick_running_stitch" tools:ignore="UnusedResources">Start running stitch with length</string>
+    <string name="brick_zigzag_stitch" tools:ignore="UnusedResources">Start zigzag stitch with length</string>
+    <string name="brick_zigzag_stitch_width" tools:ignore="UnusedResources">and width</string>
+    <string name="brick_triple_stitch" tools:ignore="UnusedResources">Start triple stitch with length</string>
+    <string name="brick_stop_stitch" tools:ignore="UnusedResources">Stop current stitch</string>
+    <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
+    <string name="brick_default_embroidery_file">embroidery.dst</string>
+    <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
+    <!--  -->
+    <!-- Device bricks -->
+    <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
+    <string name="brick_open" tools:ignore="UnusedResources">کھولیں</string>
+    <string name="brick_in_browser" tools:ignore="UnusedResources">in browser</string>
+    <!-- Control bricks -->
+    <string name="brick_when_started" tools:ignore="UnusedResources">جب منظر شروع ہوتا ہے</string>
+    <string name="brick_when" tools:ignore="UnusedResources">جب ٹیپ کیا</string>
+    <string name="brick_when_condition_when" tools:ignore="UnusedResources">جب</string>
+    <string name="brick_when_becomes_true" tools:ignore="UnusedResources">سچ ہو جاتا ہے</string>
+    <string name="brick_wait" tools:ignore="UnusedResources">انتظار کریں</string>
+    <string name="brick_wait_until" tools:ignore="UnusedResources">تک انتظار کریں</string>
+    <string name="brick_wait_until_second_part" tools:ignore="UnusedResources">سچ ہے</string>
+    <string name="brick_when_gamepad_button" tools:ignore="UnusedResources">جب گیم پیڈ بٹن</string>
+    <string name="brick_when_gamepad_button_tapped" tools:ignore="UnusedResources">ٹیپ</string>
+    <string name="brick_when_nfc" tools:ignore="UnusedResources">جب این ایف سی</string>
+    <string name="brick_stop_script" tools:ignore="UnusedResources">بند کریں</string>
+    <string name="brick_stop_this_script" tools:ignore="UnusedResources">اس سکرپٹ</string>
+    <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">تمام سکرپٹ</string>
+    <string name="brick_stop_other_scripts" tools:ignore="UnusedResources"> اس اداکار یا آبجیکٹ کی دوسرے سکرپٹ</string>
+    <plurals name="second_plural">
+        <item quantity="one">"سیکنڈ"</item>
+        <item quantity="other">"سیکنڈ"</item>
+    </plurals>
+    <string name="brick_collision_receive" tools:ignore="UnusedResources">جب تم اچھلاتے ہو</string>
+    <string name="collision_with_anything">کسی بھی کنارے، اداکار یا آبجیکٹ</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">جب آپ وصول کریں</string>
+    <string name="brick_broadcast" tools:ignore="UnusedResources">نشریات</string>
+    <string name="brick_broadcast_wait" tools:ignore="UnusedResources">نشریات اور انتظار</string>
+    <string name="brick_scene_transition" tools:ignore="UnusedResources">منظر جاری رکھیں</string>
+    <string name="brick_scene_start" tools:ignore="UnusedResources">منظر شروع کریں</string>
+    <string name="brick_note" tools:ignore="UnusedResources">نوٹ</string>
+    <string name="brick_think_bubble" tools:ignore="UnusedResources">خیال</string>
+    <string name="brick_say_bubble" tools:ignore="UnusedResources">کہہ دو</string>
+    <string name="brick_think_say_for_text" tools:ignore="UnusedResources">کےلیے</string>
+    <string name="brick_forever" tools:ignore="UnusedResources">ہمیشہ کے لئے</string>
+    <string name="brick_loop_for_values_from" tools:ignore="UnusedResources">For values from</string>
+    <string name="brick_loop_for_each_value_from" tools:ignore="UnusedResources">For each value from</string>
+    <string name="brick_loop_in" tools:ignore="UnusedResources">in</string>
+    <string name="brick_loop_to" tools:ignore="UnusedResources">کرنا</string>
+    <string name="brick_repeat" tools:ignore="UnusedResources">دہرائیں</string>
+    <string name="brick_repeat_until" tools:ignore="UnusedResources">تک دہرائیں</string>
+    <string name="brick_when_touched" tools:ignore="UnusedResources">جب اسٹیج  ٹیپ کیا جاتا ہے</string>
+    <string name="brick_clone" tools:ignore="UnusedResources">کلون کی تخلیق</string>
+    <string name="brick_clone_this">اپنے آپ کو</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">جب آپ کلون کے طور پر شروع کرتے ہیں</string>
+    <string name="brick_delete_this_clone" tools:ignore="UnusedResources">اس کلون کو ختم کریں؟</string>
+    <string name="brick_assert_that" tools:ignore="UnusedResources">Assert</string>
+    <string name="brick_is_equal_to" tools:ignore="UnusedResources">equals expected</string>
+    <string name="brick_wait_till_idle" tools:ignore="UnusedResources">Wait until all other scripts have stopped</string>
+    <string name="brick_tap_at" tools:ignore="UnusedResources">"Single tap at"</string>
+    <string name="brick_touch_at" tools:ignore="UnusedResources">"Touch at"</string>
+    <string name="brick_tap_for" tools:ignore="UnusedResources">"کےلیے"</string>
+    <string name="brick_touch_slide" tools:ignore="UnusedResources">"Touch and slide"</string>
+    <string name="brick_touch_from_x" tools:ignore="UnusedResources">"from x:"</string>
+    <string name="brick_finish_stage" tools:ignore="UnusedResources">Finish stage</string>
+    <string name="brick_finish_tests" tools:ignore="UnusedResources">Finish tests</string>
+    <string name="brick_assert_lists" tools:ignore="UnusedResources">Assert lists</string>
+    <string name="brick_assert_actual" tools:ignore="UnusedResources">Actual:</string>
+    <string name="brick_assert_expected" tools:ignore="UnusedResources">Expected:</string>
+    <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
+    <string name="brick_parameterized_equals" tools:ignore="UnusedResources">equals to expected item of</string>
+    <plurals name="brick_parameterized_foreach_plural">
+        <item quantity="one">For each item of</item>
+        <item quantity="other">For each tuple of items of</item>
+    </plurals>
+    <plurals name="brick_parameterized_stored_plural">
+        <item quantity="one">stored in variable with the same name</item>
+        <item quantity="other">stored in variables with the same names</item>
+    </plurals>
+    <plurals name="list_selection_plural">
+        <item quantity="one">%d list selected</item>
+        <item quantity="other">%d lists selected</item>
+    </plurals>
+    <plurals name="time_plural">
+        <item quantity="one">وقت</item>
+        <item quantity="other">وقت</item>
+    </plurals>
+    <string name="brick_loop_end">لوپ کے اختتام</string>
+    <string name="brick_if_begin" tools:ignore="UnusedResources">اگر</string>
+    <string name="brick_if_begin_second_part" tools:ignore="UnusedResources">سچ ہے تو</string>
+    <string name="brick_if_else" tools:ignore="UnusedResources">علوه</string>
+    <string name="brick_if_end">ختم کرو اگر</string>
+    <string name="brick_set_variable" tools:ignore="UnusedResources">متغیر سیٹ کریں</string>
+    <string name="brick_change_variable" tools:ignore="UnusedResources">متغیر تبدیل کریں</string>
+    <string name="brick_write_variable_on_device" tools:ignore="UnusedResources">Write variable on device</string>
+    <string name="brick_read_variable_from_device" tools:ignore="UnusedResources">Read variable from device</string>
+    <string name="brick_write_variable_to_file_top" tools:ignore="UnusedResources">Write variable</string>
+    <string name="brick_write_variable_to_file_bottom" tools:ignore="UnusedResources">to file</string>
+    <string name="brick_write_variable_to_file_default_value">variable.txt</string>
+    <string name="brick_write_variable_to_file_success">"Data successfully written to %1$s"</string>
+    <string name="brick_read_variable_from_file_top" tools:ignore="UnusedResources">Read variable</string>
+    <string name="brick_read_variable_from_file_center" tools:ignore="UnusedResources">from file</string>
+    <string name="brick_read_variable_from_file_bottom" tools:ignore="UnusedResources">اور</string>
+    <string name="brick_read_variable_from_file_keep">keep the file</string>
+    <string name="brick_read_variable_from_file_delete">delete the file</string>
+    <string name="brick_write_list_on_device" tools:ignore="UnusedResources">Write list on device</string>
+    <string name="brick_read_list_from_device" tools:ignore="UnusedResources">Read list from device</string>
+    <string name="brick_note_default_value">تبصرہ شامل کریں یہاں&#8230;</string>
+    <string name="brick_think_bubble_default_value">ہمی!</string>
+    <string name="brick_say_bubble_default_value">ہیلو!</string>
+    <string name="brick_broadcast_default_value">"نیا پیغام"</string>
+    <string name="brick_add_item_to_userlist_add" tools:ignore="UnusedResources">جمع</string>
+    <string name="brick_add_item_to_userlist" tools:ignore="UnusedResources">فہرست کے لیے</string>
+    <string name="brick_clear_userlist" tools:ignore="UnusedResources">Delete all items from list</string>
+    <string name="brick_delete_item_from_userlist_delete" tools:ignore="UnusedResources">فہرست سے اشیاء حذف کریں</string>
+    <string name="brick_delete_item_from_userlist" tools:ignore="UnusedResources">پوزیشن پر</string>
+    <string name="brick_insert_item_into_userlist_insert_into" tools:ignore="UnusedResources">داخل کریں</string>
+    <string name="brick_insert_item_into_userlist_into_list" tools:ignore="UnusedResources">فہرست میں</string>
+    <string name="brick_insert_item_into_userlist_at_position" tools:ignore="UnusedResources">پوزیشن پر</string>
+    <string name="brick_replace_item_in_userlist_replace_in_list" tools:ignore="UnusedResources">فہرست میں شے بدل دیں</string>
+    <string name="brick_replace_item_in_userlist_item_at_index" tools:ignore="UnusedResources">پوزیشن پر</string>
+    <string name="brick_replace_item_in_userlist_with_value" tools:ignore="UnusedResources">کے ساتھ</string>
+    <string name="brick_web_request" tools:ignore="UnusedResources">Send web request to</string>
+    <string name="brick_web_request_default_value">https://catrob.at/joke</string>
+    <string name="brick_web_request_result" tools:ignore="UnusedResources">and store answer in</string>
+    <string name="web_request_warning_title">Allow web access?</string>
+    <string name="web_request_warning_message">Be very careful before allowing access, since the
+        link may expose your personal information, such as your precise geographical location or any text
+        you have entered to malicious others or to the public. See our
+        &lt;a href=%1s&gt;wiki&lt;/a&gt; for more information why this can
+        be extremely dangerous.
+    </string>
+    <string name="web_request_trust_domain_warning_title">Always allow web access?</string>
+    <string name="web_request_trust_domain_warning_message">By always allowing access, you will
+        not be asked again to confirm web addresses from this domain.
+    </string>
+    <string name="trusted_domains_edit_hint">If you want to revoke this permission
+        later, you can remove the entry from the list of trusted domains in
+        the settings of this app.
+    </string>
+    <string name="brick_look_request" tools:ignore="UnusedResources">Get image from</string>
+    <string name="brick_look_request_result" tools:ignore="UnusedResources">and use as current look</string>
+    <string name="brick_background_request_result" tools:ignore="UnusedResources">and use as current background</string>
+    <string name="look_request_http_error_message">"Get image from %1$s returned HTTP error %2$s"</string>
+    <string name="look_request_type_error_message">"Get image from %1$s could not retrieve a recognized image format"</string>
+    <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">Store column</string>
+    <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">of the</string>
+    <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">comma-separated values</string>
+    <string name="brick_store_csv_into_userlist_into" tools:ignore="UnusedResources">فہرست میں</string>
+    <string name="brick_store_csv_into_userlist_data">kitty,cute\npuppy,naughty\noctopus,intelligent</string>
+    <!--  -->
+    <!--Instruments-->
+    <string name="piano">piano</string>
+    <string name="electric_piano">electric piano</string>
+    <string name="cello">cello</string>
+    <string name="flute">flute</string>
+    <string name="vibraphone">vibraphone</string>
+    <string name="organ">organ</string>
+    <string name="guitar">guitar</string>
+    <string name="electric_guitar">electric guitar</string>
+    <string name="bass">bass</string>
+    <string name="pizzicato">pizzicato</string>
+    <string name="synth_pad">synth pad</string>
+    <string name="choir">choir</string>
+    <string name="synth_lead">synth lead</string>
+    <string name="wooden_flute">wooden flute</string>
+    <string name="trombone">trombone</string>
+    <string name="saxophone">saxophone</string>
+    <string name="bassoon">bassoon</string>
+    <string name="clarinet">clarinet</string>
+    <string name="music_box">music box</string>
+    <string name="steel_drum">steel drum</string>
+    <string name="marimba">marimba</string>
+    <!--  -->
+    <!--Drums-->
+    <string name="snare_drum">snare drum</string>
+    <string name="bass_drum">bass drum</string>
+    <string name="side_stick">side stick</string>
+    <string name="crash_cymbal">crash cymbal</string>
+    <string name="open_hi_hat">open hi-hat</string>
+    <string name="closed_hi_hat">closed hi-hat</string>
+    <string name="tambourine">tambourine</string>
+    <string name="hand_clap">hand clap</string>
+    <string name="claves">claves</string>
+    <string name="wood_block">wood block</string>
+    <string name="cowbell">cowbell</string>
+    <string name="triangle">triangle</string>
+    <string name="bongo">bongo</string>
+    <string name="conga">conga</string>
+    <string name="cabasa">cabasa</string>
+    <string name="guiro">guiro</string>
+    <string name="vibraslap">vibraslap</string>
+    <string name="open_cuica">open cuica</string>
+    <!--  -->
+    <!-- Default Values -->
+    <string name="default_project_name">My project</string>
+    <string name="default_variable_name">Variable</string>
+    <string name="default_scene_name">منظر %1$d</string>
+    <string name="default_script_group_name">Script group</string>
+    <string name="default_broadcast_message_name">پیغام</string>
+    <string name="default_list_name">List</string>
+    <string name="default_project_background_name">پس پشت</string>
+    <string name="default_project_cloud_name">کلا وڈ</string>
+    <string name="default_project_cloud_sprite_name_1">کلا وڈ 1</string>
+    <string name="default_project_cloud_sprite_name_2">کلا وڈ 2</string>
+    <string name="default_project_sprites_animal_name">جانور</string>
+    <string name="default_project_sprites_animal_wings_up">پروں کو اوپر</string>
+    <string name="default_project_sprites_animal_wings_down">پروں کے نیچے</string>
+    <string name="default_project_sprites_tweet_1">ٹویٹ1</string>
+    <string name="default_project_sprites_tweet_2">ٹویٹ2</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_needle_name">Needle</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_outer_loop">Outer Loop</string>
+    <!--suppress UnusedResources -->
+    <string name="default_project_inner_loop">Inner Loop</string>
+    <!-- Default ChromeCast Values -->
+    <string name="default_cast_project_background_name">پس پشت</string>
+    <string name="default_cast_project_cloud_name">کلا وڈ</string>
+    <string name="default_cast_project_cloud_sprite_name1">کلا وڈ 1</string>
+    <string name="default_cast_project_cloud_sprite_name2">کلا وڈ 2</string>
+    <string name="default_cast_project_sprites_bird_name">پرندہ</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up">پرندوں کے پر اوپر</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down">پرندوں کے پر نیچے</string>
+    <string name="default_cast_project_sprites_bird_name_wing_up_left">پرندوں کے پر اوپر بائیں</string>
+    <string name="default_cast_project_sprites_bird_name_wing_down_left">پرندوں کے پروں بایاں نیچے</string>
+    <string name="default_cast_project_sprites_tweet_1">ٹویٹ1</string>
+    <string name="default_cast_project_sprites_tweet_2">ٹویٹ2</string>
+    <string name="default_cast_project_var_direction">سمت</string>
+    <string name="default_cast_project_name">میرا پہلا کروم کاسٹ پروجیکٹ</string>
+    <!-- Default Drone Values -->
+    <string name="drone_brick_set_text">متن</string>
+    <string name="drone_brick_set_x">ایکس:</string>
+    <!--  -->
+    <!-- Drone config spinner values  -->
+    <string name="drone_config_indoor_with_hull">ہول کے ساتھ انڈور</string>
+    <string name="drone_config_indoor_without_hull">بغیر انڈور ڈور</string>
+    <string name="drone_config_outdoor_with_hull">outdoor with hull</string>
+    <string name="drone_config_outdoor_without_hull">outdoor without hull</string>
+    <!-- Drone altitude limit values  -->
+    <string name="drone_set_altitude_max_3m">3 میٹر</string>
+    <string name="drone_set_altitude_max_5m">5 میٹر</string>
+    <string name="drone_set_altitude_max_10m">10 میٹر</string>
+    <string name="drone_set_altitude_max_100m">10 میٹر</string>
+    <!-- Drone max vertical speed limit values  -->
+    <string name="drone_set_vertical_min">200 ملی میٹر / ایس</string>
+    <string name="drone_set_vertical_indoor">700 ملی میٹر / ایس</string>
+    <string name="drone_set_vertical_outdoor">1000 ملی میٹر / ایس</string>
+    <string name="drone_set_vertical_max">2000 ملی میٹر / ایس</string>
+    <!-- Drone max rotation speed limit values  -->
+    <string name="drone_set_rotation_min">40 ڈگری / ایس</string>
+    <string name="drone_set_rotation_indoor">100 ڈگری / ایس</string>
+    <string name="drone_set_rotation_outdoor">200 ڈگری / ایس</string>
+    <string name="drone_set_rotation_max">350 ڈگری/ایس</string>
+    <!-- Drone max tilt limit values  -->
+    <string name="drone_set_tilt_min">5 ڈگری</string>
+    <string name="drone_set_tilt_indoor">12 ڈگری</string>
+    <string name="drone_set_tilt_outdoor">20 ڈگری </string>
+    <string name="drone_set_tilt_max">30 ڈگری</string>
+    <!-- Notification Channel -->
+    <string name="channel_description">%1$s نوٹیفکیشن چینل</string>
+    <!--  -->
+    <!-- Notifications -->
+    <string name="notification_screenshot_ok">پیش منظر تصویر محفوظ</string>
+    <string name="notification_download_project_cancel">پروجیکٹ ڈاؤن لوڈ منسوخ کریں</string>
+    <string name="notification_reconvert_download_program_cancel">منسوخ ڈاؤن لوڈ / منصوبے کی بحالی</string>
+    <string name="notification_upload_title_pending">"اپ لوڈ کررہا ہے"</string>
+    <string name="notification_upload_title_finished">"پر دیکھو"</string>
+    <string name="notification_upload_pending">اپ لوڈنگ جاری ہے</string>
+    <string name="notification_upload_finished">اپ لوڈ کامیاب</string>
+    <string name="notification_upload_rejected">اپ لوڈ کردہ منصوبے کو مسترد کر دیا</string>
+    <string name="notification_upload_retry">دوبارہ کوشش کریں</string>
+    <string name="notification_open_play_store">اپلی کیشن اسٹور کھولیں</string>
+    <string name="notification_download_title_pending">"ڈاؤن لوڈ کیا جا رہا ہے …"</string>
+    <string name="notification_download_pending">ڈاؤن لوڈ جاری ہے</string>
+    <string name="notification_download_finished">ڈاؤن لوڈ کامیاب</string>
+    <string name="notification_title_open">"کھولیں"</string>
+    <string name="notification_low_battery_with_value">توجہ. بیٹری کم ہے. موجودہ حیثیت٪ %d ہے</string>
+    <string name="size_of_project">پیمائش:</string>
+    <string name="drone_emergency_battery_low">بیٹری کم ہے (خودکار لینڈنگ).</string>
+    <string name="drone_emergency_camera">ایک یا زیادہ کیمرے جواب نہیں دے رہے ہیں.</string>
+    <string name="drone_emergency_ultrasound">الٹراساؤنڈ سینسر جواب نہیں دے رہا ہے.</string>
+    <string name="drone_emergency_angle">AR.Done 2.0 Euler زاویہ بہت زیادہ چلا گیا. خطرناک رویے کو روکنے کے لئے موٹر بند   </string>
+    <string name="drone_emergency_cutout">ایک یا زیادہ موٹرز ماحول کی طرف سے بند کر دیا گیا تھا.</string>
+    <string name="drone_alert_battery_low">دوبارہ دوبارہ لینے کے لئے بیٹری بہت کم ہے.</string>
+    <string name="drone_alert_ultrasound">الٹراسوناؤن سینسر AR.Dron 2.0 اونچائی کا تعین نہیں کرسکتا ہے.</string>
+    <string name="drone_alert_vision">رفتار کا تخمینہ نہیں ہے, نیچے کا سامنا کیمرے سے.</string>
+    <string name="drone_emergency_title">ہنگامی</string>
+    <!--  -->
+    <!-- Runtime permission messages -->
+    <string name="runtime_permission_general">یہ اپلی کیشن مناسب طریقے سے کام کرنے کے لئے مطلوبہ اجازت کی ضرورت ہے. مثال کے طور پر
+کیمرے کی اینٹ آلہ کی کیمرہ تک رسائی کی ضرورت ہے، \"محل وقوع\" فارمولہ عنصر تک رسائی کی ضرورت ہے
+آلے کے جغرافیائیشن سینسر، اور مقامی میموری سے اور مقامی میموری پر درآمد اور برآمد کرنے کے لئے
+اس تک رسائی پڑھنے اور لکھنے کی ضرورت ہے. آپ ہمیشہ اپنے آلات کی ترتیبات کے ذریعے اجازت کو تبدیل کرسکتے ہیں.</string>
+    <!-- Error messages -->
+    <string name="error_project_upload">اس منصوبے کو اپ لوڈ کرتے وقت کچھ غلط ہوگیا.</string>
+    <string name="error_project_download">منصوبے کو ڈاؤن لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
+    <string name="error_project_already_in_queue">"Project %s already in queue."</string>
+    <string name="error_could_not_decode_project_name_from_url">"Your download could not be
+        started, seems there is a problem with our server."</string>
+    <string name="error_new_project">نئی منصوبہ بنانے کے دوران کچھ غلط ہو گیا.</string>
+    <string name="error_rename_scene">منظر تبدیل کرنے کے دوران کچھ غلط ہوا.</string>
+    <string name="error_load_project">اس منصوبے کو لوڈ کرتے ہوئے کچھ غلط ہوگیا.</string>
+    <string name="error_screenshot_failed">پیش منظر کی تصویر کو بچانے کے دوران کچھ غلط ہوا.</string>
+    <string name="error_internet_connection">ایک نامعلوم غلطی واقع ہوئی. اپنا انٹرنیٹ کنکشن چیک کریں.</string>
+    <string name="error_project_compatibility">اس منصوبے کے اطلاق کا یہ ورژن کے ساتھ ہم آہنگ نہیں ہے ۔</string>
+    <string name="error_outdated_version">یہ ایپ ورژن ختم ہو گیا ہے. تازہ ترین کریں. جدید بنایں؟</string>
+    <string name="error_upload_project_with_default_name">آپ \"میری پہلی پروجیکٹ\" کے نام سے ایک پراجیکٹ اپ لوڈ نہیں کرسکتے.
+         برائے مہربانی اس منصوبے کا نام تبدیل کریں.</string>
+    <string name="error_upload_default_project">آپ ایک غیر جمود شدہ مثال پروجیکٹ اپ لوڈ نہیں کر سکتے ہیں. براہ کرم
+         کچھ تبدیل کریں اور دوبارہ کوشش کریں.</string>
+    <string name="error_adding_brick">اس اینٹ کو شامل کرتے وقت کچھ غلط ہوا.</string>
+    <string name="error_copying_brick">اس اینٹ کاپی کرتے وقت کچھ غلط ہوگیا.</string>
+    <string name="error_no_drone_connected_title">AR.Done 2.0 نہیں مل سکا.</string>
+    <string name="error_no_drone_connected">اپنی وائی فائی AR.Dron 2.0 پر مربوط کریں اور دوبارہ کوشش کریں.</string>
+    <string name="error_drone_low_battery_title"> ڈرون 2.0 بیٹری کم: %d%%</string>
+    <string name="error_drone_low_battery">ایک چارج شدہ بیٹری  داخل کریں اور دوبارہ کوشش کریں.</string>
+    <string name="error_jumpingsumo_wrong_platform">ہم آپ کے آلے پر جمپنگ سومو منصوبے کو نہیں چل سکتے.</string>
+    <string name="error_no_jumpingsumo_connected_title">جمپنگ سومو کو نہیں ڈھونڈ سکتا</string>
+    <string name="error_no_jumpingsumo_connected">اپنی وائی فائی AR.Dron 2.0 پر مربوط کریں اور دوبارہ کوشش کریں.</string>
+    <string name="error_jumpingsumo_battery_title">جموں سمو بیٹری کم</string>
+    <string name="error_jumpingsumo_battery">ایک چارج شدہ بیٹری  داخل کریں اور دوبارہ کوشش کریں.</string>
+    <string name="error_jumpingsumo_wrong_platform_title">جمپنگ سومو کی حمایت نہیں</string>
+    <string name="error_drone_wrong_platform_title"> ڈرون 2.0 کی حمایت  نہیں ہے ۔</string>
+    <string name="error_drone_wrong_platform">ہم آپ کے آلہ پر AR.Done 2.0 پروجیکٹ نہیں چل سکتے.</string>
+    <string name="error_rename_incompatible_project">ناممکن منصوبے کا نام تبدیل کرنا ممکن نہیں ہے.</string>
+    <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
+    <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
+    <string name="error_embroidery_data_not_found">Embroidery is missing.</string>
+    <string name="error_unknown_error">کچھ غلط ہو گیا!.</string>
+    <string name="error_gps_not_available">جغرافیائی اعداد و شمار دستیاب نہیں ہے.</string>
+    <string name="error_set_description">نئی وضاحت کو بچانے کے دوران کچھ غلط ہوا.</string>
+    <string name="error_set_notes_and_credits">Something went wrong while saving the new notes
+        and credits.</string>
+    <string name="error_no_whatsapp">واٹس ایپ انسٹال نہیں ہے</string>
+    <string name="error_unsupported_bricks_chromecast">یہ سکرپٹ کسی کروم کاسٹ میں شامل نہیں کیا جاسکتا ہے
+         منصوبے</string>
+    <!--  -->
+    <!-- Bluetooth Connection Strings -->
+    <string name="notification_blueth_err">بلوٹوت کو فعال نہیں کر سکتے ہیں، براہ مہربانی دوبارہ کوشش کریں اور پھر دوبارہ کوشش کریں.</string>
+    <string name="title_paired_devices">جوڑی آلات</string>
+    <string name="title_other_devices">جوڑی آلات</string>
+    <string name="searching_devices">آلات تلاش کر رہے ہیں &#8230;</string>
+    <string name="button_scan">بلوٹوت آلات تلاش کریں</string>
+    <string name="select_device">آلہ منتخب کریں:</string>
+    <string name="connecting_please_wait">آپ کے آلہ سے جڑ رہا ہے ۔\n&#8230; براۓ مہربانی انتظار کريں</string>
+    <!-- <string name="pairing_message">After pairing, connect.</string> -->
+    <string name="bt_connection_failed">آلہ میں کنکشن ناکام ہوگیا!</string>
+    <string name="none_found">کوئی غیر جوڑا آلات نہیں ملے</string>
+    <string name="none_paired">کوئی غیر جوڑا آلات نہیں ملے</string>
+    <!--  -->
+    <!-- Arduino Bricks -->
+    <string name="brick_arduino_select_digital_value" tools:ignore="UnusedResources">اردینو ڈیجیٹل پن سیٹ کریں</string>
+    <string name="brick_arduino_select_analog_value" tools:ignore="UnusedResources">آردوانو PWM سیٹ ~ پن</string>
+    <string name="brick_arduino_set_pin_value_to" tools:ignore="UnusedResources">کرنا</string>
+    <!--  -->
+    <!-- Raspi Bricks -->
+    <string name="brick_raspi_select_digital_value" tools:ignore="UnusedResources">ریکسیری Pi  پن سیٹ کریں</string>
+    <string name="brick_raspi_set_pin_value_to" tools:ignore="UnusedResources">کرنا</string>
+    <string name="brick_raspi_if_begin" tools:ignore="UnusedResources"> اگر ریکسیری Pi  پن</string>
+    <string name="brick_raspi_if_begin_second_part" tools:ignore="UnusedResources">سچ ہے تو</string>
+    <string name="brick_raspi_when_begin" tools:ignore="UnusedResources">جب ریکسیری Pi  پن </string>
+    <string name="brick_raspi_when_equals" tools:ignore="UnusedResources">میں تبدیلیاں</string>
+    <string name="brick_raspi_pressed_text">اونچا</string>
+    <string name="brick_raspi_released_text">کم</string>
+    <string name="brick_raspi_set_pwm" tools:ignore="UnusedResources">راسبری پیئ PWM پن مقرر کریں</string>
+    <!--  -->
+    <!-- Raspi Settings -->
+    <string name="raspi_settings_title_name">Raspberry Pi ترتیبات</string>
+    <string name="raspi_settings_gpio_version">GPIO ورژن</string>
+    <string name="error_connecting_to">خرابی:٪ %s سے منسلک نہیں کیا جا سکتا:٪ %d</string>
+    <!--  -->
+    <!-- Lego Mindstorms Strings -->
+    <string name="nxt_brick_motor_move" tools:ignore="UnusedResources">NXT موٹر مقرر کریں</string>
+    <string name="nxt_motor_speed_to" tools:ignore="UnusedResources">کرنا</string>
+    <string name="nxt_motor_speed" tools:ignore="UnusedResources">رفتار</string>
+    <string name="nxt_brick_motor_turn_angle" tools:ignore="UnusedResources">تبدیل کریں NXT موٹر</string>
+    <string name="nxt_motor_move_by" tools:ignore="UnusedResources">کی طرف سے</string>
+    <string name="nxt_motor_stop" tools:ignore="UnusedResources">بند کرو NXT موٹر</string>
+    <string name="nxt_play_tone" tools:ignore="UnusedResources">کھیلیں NXT سر</string>
+    <string name="nxt_tone_duration" tools:ignore="UnusedResources">دورانیہ</string>
+    <string name="nxt_tone_frequency" tools:ignore="UnusedResources">فریکوئینسی</string>
+    <string name="nxt_tone_hundred_hz" tools:ignore="UnusedResources">×100Hz</string>
+    <string name="nxt_motor_a">اے</string>
+    <string name="nxt_motor_b">بی</string>
+    <string name="nxt_motor_c">سی</string>
+    <string name="nxt_motor_b_and_c">بی + سی</string>
+    <string name="nxt_motor_all">تمام</string>
+    <string name="nxt_choose_sensor_1"> سینسر پورٹ 1 پر منسلک ہے</string>
+    <string name="nxt_choose_sensor_2"> سینسر پورٹ 2 پر منسلک ہے</string>
+    <string name="nxt_choose_sensor_3"> سینسر پورٹ 3 پر منسلک ہے</string>
+    <string name="nxt_choose_sensor_4"> سینسر پورٹ 4  پر منسلک ہے</string>
+    <string name="nxt_no_sensor">کوئی نہیں</string>
+    <string name="nxt_sensor_touch">NXT ٹچ سینسر</string>
+    <string name="nxt_sensor_sound">NXT آواز سینسر</string>
+    <string name="nxt_sensor_light">NXT روشنی سینسر</string>
+    <string name="nxt_sensor_light_active">NXT روشنی سینسر فعال</string>
+    <string name="nxt_sensor_ultrasonic">NXT الٹراسونک سینسر</string>
+    <string name="nxt_sensor_not_found">سینسر نہیں ملا!</string>
+    <string name="lego_nxt_sensor_config_info_title">NXT سینسر ترتیب</string>
+    <string name="preference_disable_nxt_info_dialog">معلومات کے ڈائیلاگ کو غیر فعال کریں</string>
+    <string name="preference_disable_nxt_info_dialog_description">پراجیکٹ کی مخصوص NXT کی ترتیبات ایک منصوبے کھولنے پر نہیں دکھائے جاتے ہیں.</string>
+    <string name="preference_title_mindstorms_nxt_sensors_description">بندرگاہوں پر NXT سینسر کی نقشہ سازی کی منصوبہ بندی مخصوص ہے اور صرف کھلی منصوبوں کے لئے تشکیل دیا جاسکتا ہے.</string>
+    <string name="lego_nxt_sensor_config_info_text">موجودہ منصوبے لیگو دماغی NXT  اینٹوں یا سینسر کا استعمال کرتا ہے. مناسب فعالیت کیلئے برائے مہربانی سینسر کو مندرجہ ذیل روبوٹ سے منسلک کریں</string>
+    <string name="lego_port_1">پورٹ 1</string>
+    <string name="lego_port_2">پورٹ 2</string>
+    <string name="lego_port_3">پورٹ 3</string>
+    <string name="lego_port_4">پورٹ 4</string>
+    <string name="lego_sensor_config_dont_show_again">دوبارہ یہ پیغام نہ دیکھائیں</string>
+    <string name="lego_sensor_port_config_dialog_title">%1$s سے منسلک کرنے کے لئے ایک پورٹ منتخب کریں.</string>
+    <string name="lego_ev3_sensor_config_info_title">NXT سینسر ترتیب</string>
+    <string name="preference_disable_ev3_info_dialog_description">منصوبے کھولنے پر پروجیکٹ مخصوص EV3 ترتیبات نہیں دکھائے جاتے ہیں.</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">بندرگاہوں پر EV3 سینسر کی تعریفیں پروجیکٹ کی مخصوص ہے اور صرف کھلی منصوبوں کے لئے تشکیل دیا جاسکتا ہے.</string>
+    <string name="lego_ev3_sensor_config_info_text">موجودہ منصوبے لیگو Mindstorms EV3 اینٹوں یا سینسر کا استعمال کرتا ہے. مناسب فعالیت کیلئے برائے مہربانی سینسر کو مندرجہ ذیل روبوٹ سے منسلک کریں</string>
+    <string name="ev3_choose_sensor_1"> سینسر پورٹ 1 پر منسلک ہے</string>
+    <string name="ev3_choose_sensor_2"> سینسر پورٹ 2 پر منسلک ہے</string>
+    <string name="ev3_choose_sensor_3"> سینسر پورٹ 3 پر منسلک ہے</string>
+    <string name="ev3_choose_sensor_4"> سینسر پورٹ 4  پر منسلک ہے</string>
+    <string name="ev3_no_sensor">کوئی نہیں</string>
+    <string name="ev3_sensor_touch">NXT ٹچ سینسر</string>
+    <string name="ev3_sensor_infrared">EV3 اورکت سینسر</string>
+    <string name="ev3_sensor_color">EV3 رنگ سینسر</string>
+    <string name="ev3_sensor_color_ambient">EV3 رنگ سینسر وسیع</string>
+    <string name="ev3_sensor_color_reflected">EV3 رنگ سینسر کی عکاسی</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic رنگ سینسر</string>
+    <string name="ev3_sensor_nxt_temperature_c">NXT درجہ حرارت سینسر (° C)</string>
+    <string name="ev3_sensor_nxt_temperature_f">NXT درجہ حرارت سینسر (° C)</string>
+    <string name="ev3_sensor_nxt_light">NXT روشنی سینسر</string>
+    <string name="ev3_sensor_nxt_light_active">NXT روشنی سینسر فعال</string>
+    <string name="ev3_sensor_nxt_sound">NXT آواز سینسر</string>
+    <string name="ev3_sensor_nxt_ultrasonic">NXT الٹراسونک سینسر</string>
+    <string name="ev3_motor_a">اے</string>
+    <string name="ev3_motor_b">بی</string>
+    <string name="ev3_motor_c">سی</string>
+    <string name="ev3_motor_d">ڈی</string>
+    <string name="ev3_motor_b_and_c">بی + سی</string>
+    <string name="ev3_motor_all">تمام</string>
+    <string name="ev3_play_tone" tools:ignore="UnusedResources">کھیلیں NXT سر</string>
+    <string name="ev3_tone_duration_for" tools:ignore="UnusedResources">کےلیے</string>
+    <string name="ev3_tone_volume" tools:ignore="UnusedResources">حجم</string>
+    <string name="ev3_tone_percent" tools:ignore="UnusedResources">%</string>
+    <string name="ev3_motor_stop" tools:ignore="UnusedResources">بند کرو NXT موٹر</string>
+    <string name="ev3_motor_move" tools:ignore="UnusedResources">NXT موٹر مقرر کریں</string>
+    <string name="ev3_brick_motor_turn_angle" tools:ignore="UnusedResources">تبدیل کریں NXT موٹر</string>
+    <string name="ev3_motor_move_by" tools:ignore="UnusedResources">کی طرف سے</string>
+    <string name="ev3_set_led_status" tools:ignore="UnusedResources">EV3 ایل ای ڈی کی حیثیت کا تعین کریں</string>
+    <string name="ev3_led_status_off">بند</string>
+    <string name="ev3_led_status_green">سبز</string>
+    <string name="ev3_led_status_red">سرخ</string>
+    <string name="ev3_led_status_orange">سنتری</string>
+    <string name="ev3_led_status_green_flashing">سبز چمکتا</string>
+    <string name="ev3_led_status_red_flashing">لال چمکتا</string>
+    <string name="ev3_led_status_orange_flashing">اورنج چمکتا ہے</string>
+    <string name="ev3_led_status_green_pulse">سبز پلس</string>
+    <string name="ev3_led_status_red_pulse">سرخ پلس</string>
+    <string name="ev3_led_status_orange_pulse">سنتری پلس</string>
+    <!--  -->
+    <!-- Drone Bricks -->
+    <string name="brick_drone_takeoff_land" tools:ignore="UnusedResources">Take off / land AR.Drone 2.0</string>
+    <string name="brick_drone_play_led_animation" tools:ignore="UnusedResources">Play AR.Drone 2.0 flash animation</string>
+    <string name="brick_drone_flip" tools:ignore="UnusedResources">Flip AR.Drone 2.0</string>
+    <string name="brick_drone_move_left" tools:ignore="UnusedResources"> AR.Done 2.0 کو  بائیں منتقل کریں</string>
+    <string name="brick_drone_move_right" tools:ignore="UnusedResources"> AR.Done 2.0 کو  دائیں منتقل کریں</string>
+    <string name="brick_drone_move_forward" tools:ignore="UnusedResources"> AR.Done 2.0 کو آگےمنتقل کریں</string>
+    <string name="brick_drone_move_backward" tools:ignore="UnusedResources"> AR.Done 2.0 کوپیچھے منتقل کریں</string>
+    <string name="brick_drone_move_up" tools:ignore="UnusedResources"> AR.Done 2.0 کو اوپر منتقل کریں</string>
+    <string name="brick_drone_move_down" tools:ignore="UnusedResources"> AR.Done 2.0 کو نیچے  منتقل کریں</string>
+    <string name="brick_drone_emergency" tools:ignore="UnusedResources">ایمرجنسی AR.Done 2.0</string>
+    <string name="brick_drone_turn_right" tools:ignore="UnusedResources"> AR.Done 2.0 کو  دائیں منتقل کریں</string>
+    <string name="brick_drone_turn_left" tools:ignore="UnusedResources"> AR.Done 2.0 کو  بائیں منتقل کریں</string>
+    <string name="brick_drone_set_config">ایک تشکیل سیٹ کریں ڈرون 2.0</string>
+    <string name="brick_drone_switch_camera" tools:ignore="UnusedResources">AR.Done 2.0 کیمرے سوئچ کریں</string>
+    <string name="brick_drone_set_altitude">اونچائی کی حد </string>
+    <string name="brick_drone_set_vertical_speed">عمودی رفتار کی حد</string>
+    <string name="brick_drone_set_rotation_speed">گردش کی رفتار کی حد</string>
+    <string name="brick_drone_set_tilt_limit">جھکاؤ کی حد</string>
+    <string name="brick_drone_with." tools:ignore="UnusedResources">کے ساتھ</string>
+    <string name="brick_drone_power" tools:ignore="UnusedResources">قوت</string>
+    <!--  -->
+    <!-- Drone play led animation strings -->
+    <string name="drone_animation_blinkgreenred" tools:ignore="UnusedResources">سبز سرخ جھکنا</string>
+    <string name="drone_animation_blinkgreen" tools:ignore="UnusedResources">سبز جھکنا</string>
+    <string name="drone_animation_blinkred" tools:ignore="UnusedResources">سرخ جھکنا</string>
+    <string name="drone_animation_blinkorange" tools:ignore="UnusedResources"> اورنج جھکنا</string>
+    <string name="drone_animation_snakegreenred" tools:ignore="UnusedResources">سانپ سبز سرخ</string>
+    <string name="drone_animation_fire" tools:ignore="UnusedResources">آگ</string>
+    <string name="drone_animation_standard" tools:ignore="UnusedResources">معیار</string>
+    <string name="drone_animation_red" tools:ignore="UnusedResources">سرخ</string>
+    <string name="drone_animation_green" tools:ignore="UnusedResources">سبز</string>
+    <string name="drone_animation_redsnake" tools:ignore="UnusedResources">سرخ سانپ</string>
+    <string name="drone_animation_blank" tools:ignore="UnusedResources">خالی</string>
+    <string name="drone_animation_rightmissile" tools:ignore="UnusedResources">دائیں میزائل</string>
+    <string name="drone_animation_leftmissile" tools:ignore="UnusedResources">بائیں میزائل</string>
+    <string name="drone_animation_doublemissile" tools:ignore="UnusedResources">ڈبل میزائل</string>
+    <string name="drone_animation_frontleftgreenothersred" tools:ignore="UnusedResources">سامنے بائیں سبز اس کے علاوہ سرخ</string>
+    <string name="drone_animation_frontrightgreenothersred" tools:ignore="UnusedResources">سامنے دائیں سبز اس کے علاوہ سرخ</string>
+    <string name="drone_animation_rearrightgreenothersred" tools:ignore="UnusedResources">پیچھے دائیں سبز اس کے علاوہ سرخ</string>
+    <string name="drone_animation_rearleftgreenothersred" tools:ignore="UnusedResources">پیچھے بائیں سبز اس کے علاوہ سرخ</string>
+    <string name="drone_animation_leftgreenrightred" tools:ignore="UnusedResources">بائیں سبز دائیں سرخ</string>
+    <string name="drone_animation_leftredrightgreen" tools:ignore="UnusedResources">بائیں سرخ دائیں سبز</string>
+    <string name="drone_animation_blinkstandard" tools:ignore="UnusedResources">معیاری جھکنا</string>
+    <!-- Jumping Sumo Bricks -->
+    <string name="brick_jumping_sumo_move_forward" tools:ignore="UnusedResources">آگے جمپنگ سمو منتقل کریں</string>
+    <string name="brick_jumping_sumo_move_backward" tools:ignore="UnusedResources">جمپنگ سومو پسماندہ منتقل کریں</string>
+    <string name="brick_jumping_sumo_animation" tools:ignore="UnusedResources">Animations Jumping Sumo</string>
+    <string name="brick_jumping_sumo_no_sound" tools:ignore="UnusedResources">جمپنگ سومو کی حمایت نہیں</string>
+    <string name="brick_jumping_sumo_jump_long" tools:ignore="UnusedResources">Jump Jumping Sumo long</string>
+    <string name="brick_jumping_sumo_jump_high" tools:ignore="UnusedResources">Jump Jumping Sumo high</string>
+    <string name="brick_jumping_sumo_rotate_left" tools:ignore="UnusedResources">Turn Jumping Sumo left</string>
+    <string name="brick_jumping_sumo_rotate_right" tools:ignore="UnusedResources">Turn Jumping Sumo right</string>
+    <string name="brick_jumping_sumo_rotate_text" tools:ignore="UnusedResources">ڈگری</string>
+    <string name="brick_jumping_sumo_turn" tools:ignore="UnusedResources">Flip Jumping Sumo</string>
+    <string name="brick_jumping_sumo_taking_picture" tools:ignore="UnusedResources">جمپنگ سومو تصویر لے رہا ہے</string>
+    <!--  -->
+    <!-- defaultJumpingSumoValues -->
+    <string name="default_jumping_sumo_project_sprites_sound" tools:ignore="UnusedResources">آواز</string>
+    <!--  -->
+    <!-- Jumping Sumo animation strings -->
+    <string name="animation_spin" tools:ignore="UnusedResources">اسپن</string>
+    <string name="animation_tab" tools:ignore="UnusedResources">ٹیب</string>
+    <string name="animation_slowshake" tools:ignore="UnusedResources">آہستہ ہلا</string>
+    <string name="animation_metronome" tools:ignore="UnusedResources">میٹرنوموم</string>
+    <string name="animation_ondulation" tools:ignore="UnusedResources">Ondulation</string>
+    <string name="animation_spinjump" tools:ignore="UnusedResources">Spinjump</string>
+    <string name="animation_spiral" tools:ignore="UnusedResources">Spiral</string>
+    <string name="animation_slalom" tools:ignore="UnusedResources">Slalom</string>
+    <!-- Jumping Sumo sound strings -->
+    <string name="jumping_sumo_volume" tools:ignore="UnusedResources">حجم</string>
+    <string name="sound_default">عمومی</string>
+    <string name="sound_robot">روبوٹ</string>
+    <string name="sound_insect">کیڑے</string>
+    <string name="sound_monster">مونسٹر</string>
+    <!--  -->
+    <!-- Phiro bricks -->
+    <!-- motor -->
+    <string name="phiro_motor_stop" tools:ignore="UnusedResources">پہرو موٹر بند کرو</string>
+    <string name="brick_phiro_motor_forward_action" tools:ignore="UnusedResources">پہرو موٹر آگے بڑھو </string>
+    <string name="brick_phiro_motor_backward_action" tools:ignore="UnusedResources">پہرو موٹر پیچھے بڑھو </string>
+    <string name="phiro_motor_speed" tools:ignore="UnusedResources">رفتار</string>
+    <!-- sensor -->
+    <string name="brick_phiro_sensor_begin" tools:ignore="UnusedResources">اگر پہرو</string>
+    <string name="brick_phiro_sensor_second_part" tools:ignore="UnusedResources">زیر عمل ہے</string>
+    <!-- tone -->
+    <string name="phiro_play_tone" tools:ignore="UnusedResources">پہرو موسیقی کھیلیں \ n</string>
+    <string name="phiro_tone_duration" tools:ignore="UnusedResources">دورانیہ</string>
+    <string name="brick_phiro_select_tone" tools:ignore="UnusedResources">ٹون</string>
+    <string name="phiro_seconds" tools:ignore="UnusedResources">سیکنڈ</string>
+    <!-- light -->
+    <string name="brick_phiro_rgb_led_action" tools:ignore="UnusedResources">Phiro روشنی مقرر کریں</string>
+    <string name="phiro_rgb_led_red" tools:ignore="UnusedResources">سرخ</string>
+    <string name="phiro_rgb_led_green" tools:ignore="UnusedResources">سبز</string>
+    <string name="phiro_rgb_led_blue" tools:ignore="UnusedResources">نیلا</string>
+    <!--  -->
+    <!-- Phiro tone strings -->
+    <string name="phiro_tone_do">کرنا</string>
+    <string name="phiro_tone_re">دوبارہ</string>
+    <string name="phiro_tone_mi">ایم آئی</string>
+    <string name="phiro_tone_fa">فا</string>
+    <string name="phiro_tone_so">تو</string>
+    <string name="phiro_tone_la">لا</string>
+    <string name="phiro_tone_ti">Ti</string>
+    <!--  -->
+    <!-- Phiro motor strings -->
+    <string name="phiro_motor_left">بائیں طرف</string>
+    <string name="phiro_motor_right">دائیں طرف</string>
+    <string name="phiro_motor_both">دونوں</string>
+    <!--  -->
+    <!-- Phiro light strings -->
+    <string name="phiro_light_left">بائیں طرف</string>
+    <string name="phiro_light_right">دائیں طرف</string>
+    <string name="phiro_light_both">دونوں</string>
+    <!--  -->
+    <!-- Phiro sensor strings -->
+    <string name="phiro_sensor_front_left">سامنے بائیں سینسر</string>
+    <string name="phiro_sensor_front_right">سامنے بائیں سینسر</string>
+    <string name="phiro_sensor_side_left">سامنے بائیں سینسر</string>
+    <string name="phiro_sensor_side_right">سائیڈ دائیں سینسر</string>
+    <string name="phiro_sensor_bottom_left">نیچے بائیں سینسر</string>
+    <string name="phiro_sensor_bottom_right">نیچے دائیں سینسر</string>
+    <!--  -->
+    <string name="color_red">سرخ</string>
+    <string name="color_green">سبز</string>
+    <string name="color_blue">نیلا</string>
+    <!-- -->
+    <!-- Formula editor strings -->
+    <string name="formula_editor_data">ڈیٹا</string>
+    <string name="formula_editor_true">درست</string>
+    <string name="formula_editor_false">غلط</string>
+    <string name="formula_editor_decimal_mark" tools:ignore="UnusedResources">.</string>
+    <string name="formula_editor_title">فارمولہ ایڈیٹر
+ </string>
+    <string name="formula_editor_changes_discarded">تبدیلیاں مسترد کر دی گئی!</string>
+    <string name="formula_editor_parse_fail">فارمولہ درست نہیں ہے!</string>
+    <string name="formula_nothing_selected">ان پٹ ویلیو کی وضاحت کریں</string>
+    <string name="formula_editor_parse_fail_formula_too_long">فارمولا بہت لمبا ہے!</string>
+    <string name="formula_editor_choose_object_variable"> اس اداکار یا آبجیکٹ کی خصوصیات</string>
+    <string name="formula_editor_bracket_open">(</string>
+    <string name="formula_editor_bracket_close">)</string>
+    <string name="formula_editor_function_sin" tools:ignore="UnusedResources">sine</string>
+    <string name="formula_editor_function_sin_parameter">(90)</string>
+    <string name="formula_editor_function_cos" tools:ignore="UnusedResources">cosine</string>
+    <string name="formula_editor_function_cos_parameter">(360)</string>
+    <string name="formula_editor_function_tan" tools:ignore="UnusedResources">tangent</string>
+    <string name="formula_editor_function_tan_parameter">(45)</string>
+    <string name="formula_editor_function_ln" tools:ignore="UnusedResources">natural logarithm</string>
+    <string name="formula_editor_function_ln_parameter">(2.718281828459)</string>
+    <string name="formula_editor_function_log" tools:ignore="UnusedResources">decimal logarithm</string>
+    <string name="formula_editor_function_log_parameter">(10)</string>
+    <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
+    <string name="formula_editor_function_pi_parameter"></string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">رنگ</string>
+    <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">سکویر روٹ</string>
+    <string name="formula_editor_function_sqrt_parameter">(4)</string>
+    <string name="formula_editor_function_rand" tools:ignore="UnusedResources">سے بے ترتیب قیمت</string>
+    <string name="formula_editor_function_rand_parameter">(1,6)</string>
+    <string name="formula_editor_function_abs" tools:ignore="UnusedResources">absolute value</string>
+    <string name="formula_editor_function_abs_parameter">(1)</string>
+    <string name="formula_editor_function_round" tools:ignore="UnusedResources">گول</string>
+    <string name="formula_editor_function_round_parameter">(1.6)</string>
+    <string name="formula_editor_function_mod" tools:ignore="UnusedResources">modulo</string>
+    <string name="formula_editor_function_mod_parameter">(3,2)</string>
+    <string name="formula_editor_function_arcsin" tools:ignore="UnusedResources">arcsine</string>
+    <string name="formula_editor_function_arcsin_parameter">(0.5)</string>
+    <string name="formula_editor_function_arccos" tools:ignore="UnusedResources">arccosine</string>
+    <string name="formula_editor_function_arccos_parameter">(0)</string>
+    <string name="formula_editor_function_arctan" tools:ignore="UnusedResources">arctangent</string>
+    <string name="formula_editor_function_arctan_parameter">(1)</string>
+    <string name="formula_editor_function_arctan2" tools:ignore="UnusedResources">arctangent2</string>
+    <string name="formula_editor_function_arctan2_parameter">(-1, 0)</string>
+    <string name="formula_editor_function_exp" tools:ignore="UnusedResources">exponent</string>
+    <string name="formula_editor_function_exp_parameter">(1)</string>
+    <string name="formula_editor_function_power" tools:ignore="UnusedResources">قوت</string>
+    <string name="formula_editor_function_power_parameter">(2,3)</string>
+    <string name="formula_editor_function_floor" tools:ignore="UnusedResources">فرش</string>
+    <string name="formula_editor_function_floor_parameter">(0.7)</string>
+    <string name="formula_editor_function_ceil" tools:ignore="UnusedResources">چھت</string>
+    <string name="formula_editor_function_ceil_parameter">(0.3)</string>
+    <string name="formula_editor_function_max" tools:ignore="UnusedResources">زیادہ سے زیادہ</string>
+    <string name="formula_editor_function_max_parameter">(5,4)</string>
+    <string name="formula_editor_function_min" tools:ignore="UnusedResources">کم از کم</string>
+    <string name="formula_editor_function_min_parameter">(7,2)</string>
+    <string name="formula_editor_function_if_then_else">if then else</string>
+    <string name="formula_editor_function_if_then_else_parameter">(false, 2, 3)</string>
+    <string name="formula_editor_function_true" tools:ignore="UnusedResources">درست</string>
+    <string name="formula_editor_function_false" tools:ignore="UnusedResources">غلط</string>
+    <string name="formula_editor_function_length" tools:ignore="UnusedResources">لمبائی</string>
+    <string name="formula_editor_function_length_parameter">(\'ہیلو دنیا\')</string>
+    <string name="formula_editor_function_letter" tools:ignore="UnusedResources">حرف</string>
+    <string name="formula_editor_function_letter_parameter">(1، \'ہیلو دنیا\')</string>
+    <string name="formula_editor_function_join" tools:ignore="UnusedResources">شامل ہوں</string>
+    <string name="formula_editor_function_join_parameter">(\'ہیلو دنیا\')</string>
+    <string name="formula_editor_function_join3">شامل ہوں</string>
+    <string name="formula_editor_function_join3_parameter">(\'hello\',\' world\',\'!\')</string>
+    <string name="formula_editor_function_regex" tools:ignore="UnusedResources">regular expression</string>
+    <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
+    <string name="formula_editor_function_regex_assistant">Regular expression
+        assistant</string>
+    <string name="formula_editor_dialog_regular_expression_assistant_title">Regular
+        expression assistant</string>
+    <string name="formula_editor_dialog_wiki_button">مزید معلومات</string>
+    <string name="formula_editor_function_regex_html_extractor_not_found">The keyword could not be found.</string>
+    <string name="formula_editor_function_regex_json_extractor_title">JSON extractor</string>
+    <string name="formula_editor_function_arduino_read_pin_value_digital" tools:ignore="UnusedResources">آردوانو ڈیجیٹل پن</string>
+    <string name="formula_editor_function_arduino_read_pin_value_analog" tools:ignore="UnusedResources">arduino اینالاگ پن</string>
+    <string name="formula_editor_function_raspi_read_pin_value_digital" tools:ignore="UnusedResources">raspberry pi pin</string>
+    <string name="formula_editor_function_pin_default_parameter">(3)</string>
+    <string name="formula_editor_function_finger_x" tools:ignore="UnusedResources">stage touch x</string>
+    <string name="formula_editor_function_finger_y" tools:ignore="UnusedResources">مرحلے ٹچ y</string>
+    <string name="formula_editor_function_is_finger_touching" tools:ignore="UnusedResources">مرحلے چھوڑا جاتا ہے</string>
+    <string name="formula_editor_function_multi_finger_x" tools:ignore="UnusedResources">مرحلے ٹچ  x</string>
+    <string name="formula_editor_function_multi_finger_y" tools:ignore="UnusedResources">مرحلے ٹچ y</string>
+    <string name="formula_editor_function_is_multi_finger_touching" tools:ignore="UnusedResources">مرحلے چھوڑا جاتا ہے</string>
+    <string name="formula_editor_function_index_of_last_finger" tools:ignore="UnusedResources">آخری مرحلے ٹچ انڈیکس</string>
+    <string name="formula_editor_function_number_of_current_touches">number of current touches</string>
+    <string name="formula_editor_function_index_of_current_touch">index of current touch</string>
+    <string name="formula_editor_function_no_parameter"></string>
+    <string name="formula_editor_function_touch_parameter">(1)</string>
+    <string name="formula_editor_function_list_item" tools:ignore="UnusedResources">اشیاء</string>
+    <string name="formula_editor_function_list_item_parameter">(* فہرست نام *)</string>
+    <string name="formula_editor_function_contains" tools:ignore="UnusedResources">مشتمل</string>
+    <string name="formula_editor_function_contains_parameter">(* فہرست نام *)</string>
+    <string name="formula_editor_function_index_of_item" tools:ignore="UnusedResources">item\'s index</string>
+    <string name="formula_editor_function_index_of_item_parameter">(* فہرست نام *)</string>
+    <string name="formula_editor_function_number_of_items" tools:ignore="UnusedResources">اشیاء کی تعداد</string>
+    <string name="formula_editor_function_number_of_items_parameter">(* فہرست نام *)</string>
+    <string name="formula_editor_function_collision">کردار اداکار یا اعتراض</string>
+    <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">کنارے  چھونا </string>
+    <string name="formula_editor_function_touched" tools:ignore="UnusedResources">انگلی چھوتی ہے</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
+    <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
+        tolerance</string>
+    <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">تیز رفتار x</string>
+    <string name="formula_editor_sensor_y_acceleration" tools:ignore="UnusedResources">تیز رفتار y</string>
+    <string name="formula_editor_sensor_z_acceleration" tools:ignore="UnusedResources">تیز رفتار z</string>
+    <string name="formula_editor_sensor_compass_direction" tools:ignore="UnusedResources">کمپاس سمت</string>
+    <string name="formula_editor_sensor_latitude" tools:ignore="UnusedResources">طول</string>
+    <string name="formula_editor_sensor_longitude" tools:ignore="UnusedResources">طول و عرض</string>
+    <string name="formula_editor_sensor_location_accuracy" tools:ignore="UnusedResources">مقام کی درستگی</string>
+    <string name="formula_editor_sensor_altitude" tools:ignore="UnusedResources">اونچائی</string>
+    <string name="formula_editor_sensor_user_language">user language</string>
+    <string name="formula_editor_sensor_x_inclination" tools:ignore="UnusedResources">inclination x</string>
+    <string name="formula_editor_sensor_y_inclination" tools:ignore="UnusedResources">inclination y</string>
+    <string name="formula_editor_sensor_loudness" tools:ignore="UnusedResources">بلند آواز</string>
+    <string name="formula_editor_sensor_timer">timer</string>
+    <string name="formula_editor_sensor_date_year" tools:ignore="UnusedResources">سال</string>
+    <string name="formula_editor_sensor_date_month" tools:ignore="UnusedResources">ماہ</string>
+    <string name="formula_editor_sensor_date_day" tools:ignore="UnusedResources">دن</string>
+    <string name="formula_editor_sensor_date_weekday" tools:ignore="UnusedResources">ہفتہ کے دن</string>
+    <string name="formula_editor_sensor_time_hour" tools:ignore="UnusedResources">گھنٹے</string>
+    <string name="formula_editor_sensor_time_minute" tools:ignore="UnusedResources">منٹ</string>
+    <string name="formula_editor_sensor_time_second" tools:ignore="UnusedResources">سیکنڈ</string>
+    <string name="formula_editor_sensor_drone_battery_status" tools:ignore="UnusedResources">ڈرون بیٹری کی حیثیت</string>
+    <string name="formula_editor_sensor_drone_emergency_state" tools:ignore="UnusedResources">ڈرون ہنگامی حالت</string>
+    <string name="formula_editor_sensor_drone_flying" tools:ignore="UnusedResources">ڈرون پرواز</string>
+    <string name="formula_editor_sensor_drone_initialized" tools:ignore="UnusedResources">ڈرون کی ابتدا</string>
+    <string name="formula_editor_sensor_drone_usb_active" tools:ignore="UnusedResources">  ڈرون usb فعال</string>
+    <string name="formula_editor_sensor_drone_usb_remaining_time" tools:ignore="UnusedResources">ڈرون USB باقی وقت ہے</string>
+    <string name="formula_editor_sensor_drone_camera_ready" tools:ignore="UnusedResources">ڈرون کیمرے تیار</string>
+    <string name="formula_editor_sensor_drone_record_ready" tools:ignore="UnusedResources">ڈرون ریکارڈ تیار</string>
+    <string name="formula_editor_sensor_drone_recording" tools:ignore="UnusedResources">ڈرون کیمرے ریکارڈنگ</string>
+    <string name="formula_editor_sensor_drone_num_frames" tools:ignore="UnusedResources">ڈرون کیمرے تعداد فریم</string>
+    <string name="formula_editor_sensor_lego_nxt_1" tools:ignore="UnusedResources">NXT سینسر 1</string>
+    <string name="formula_editor_sensor_lego_nxt_2" tools:ignore="UnusedResources">NXT سینسر 2</string>
+    <string name="formula_editor_sensor_lego_nxt_3" tools:ignore="UnusedResources">NXT سینسر 3</string>
+    <string name="formula_editor_sensor_lego_nxt_4" tools:ignore="UnusedResources">NXT سینسر 4</string>
+    <string name="formula_editor_sensor_lego_ev3_1" tools:ignore="UnusedResources">EV3 سینسر 1</string>
+    <string name="formula_editor_sensor_lego_ev3_2" tools:ignore="UnusedResources">EV3 سینسر 2</string>
+    <string name="formula_editor_sensor_lego_ev3_3" tools:ignore="UnusedResources">EV3 سینسر 3</string>
+    <string name="formula_editor_sensor_lego_ev3_4" tools:ignore="UnusedResources">EV3 سینسر 4</string>
+    <string name="formula_editor_sensor_lego_nxt_touch">NXT چھونا</string>
+    <string name="formula_editor_sensor_lego_nxt_sound">NXT آواز</string>
+    <string name="formula_editor_sensor_lego_nxt_light">NXT روشنی </string>
+    <string name="formula_editor_sensor_lego_nxt_light_active">NXT روشنی فعال</string>
+    <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT الٹراسونک</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 چھونا</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 رنگ</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 وسیع  رنگ</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 رنگ کی عکاسی </string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 ہائے ٹیکنیک  رنگ</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT درجہ حرارت ° C میں</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT درجہ حرارت ° F میں</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT روشنی</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light_active">EV3 NXT  روشنی فعال</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_sound">EV3 NXT آواز</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_nxt_ultrasonic">EV3 NXT الٹراسونک</string>
+    <string name="formula_editor_sensor_gamepad_a_pressed" tools:ignore="UnusedResources">گیم پیڈ بی پر زور دیا</string>
+    <string name="formula_editor_sensor_gamepad_b_pressed" tools:ignore="UnusedResources">گیم پیڈ بی پر زور دیا</string>
+    <string name="formula_editor_sensor_gamepad_up_pressed" tools:ignore="UnusedResources">گیم پیڈ پر زور دیا</string>
+    <string name="formula_editor_sensor_gamepad_down_pressed" tools:ignore="UnusedResources">گیم پیڈ نیچے دباؤ</string>
+    <string name="formula_editor_sensor_gamepad_left_pressed" tools:ignore="UnusedResources">گیم پیڈ پر بائیں دبائیں</string>
+    <string name="formula_editor_sensor_gamepad_right_pressed" tools:ignore="UnusedResources">گیم پیڈ پر دائیں دبائیں</string>
+    <string name="formula_editor_phiro_sensor_front_left" tools:ignore="UnusedResources">فیرو سامنے بائیں سینسر</string>
+    <string name="formula_editor_phiro_sensor_front_right" tools:ignore="UnusedResources">فیرو سامنے دائیں سینسر</string>
+    <string name="formula_editor_phiro_sensor_side_left" tools:ignore="UnusedResources">فیرو بائیں طرف سینسر</string>
+    <string name="formula_editor_phiro_sensor_side_right" tools:ignore="UnusedResources">فیرو دائیں طرف سینسر</string>
+    <string name="formula_editor_phiro_sensor_bottom_left" tools:ignore="UnusedResources">فیرو نیچے بائیں طرف سینسر</string>
+    <string name="formula_editor_phiro_sensor_bottom_right" tools:ignore="UnusedResources">فیرو نیچے دائیں طرف سینسر</string>
+    <string name="formula_editor_nfc_tag_id" tools:ignore="UnusedResources">این ایف سی کے ٹیگ کی شناخت</string>
+    <string name="formula_editor_nfc_tag_message" tools:ignore="UnusedResources">این ایف سی ٹیگ پیغام</string>
+    <string name="formula_editor_object_x" tools:ignore="UnusedResources">پوزیشن ایکس</string>
+    <string name="formula_editor_object_y" tools:ignore="UnusedResources">پوزیشن y</string>
+    <string name="formula_editor_object_transparency" tools:ignore="UnusedResources">شفافیت</string>
+    <string name="formula_editor_object_brightness" tools:ignore="UnusedResources">چمک</string>
+    <string name="formula_editor_object_size" tools:ignore="UnusedResources">سائز</string>
+    <string name="formula_editor_object_rotation" tools:ignore="UnusedResources">سمت</string>
+    <string name="formula_editor_object_layer" tools:ignore="UnusedResources">تہوں</string>
+    <string name="formula_editor_object_x_velocity" tools:ignore="UnusedResources">ایکس رفتار</string>
+    <string name="formula_editor_object_y_velocity" tools:ignore="UnusedResources">Y رفتار</string>
+    <string name="formula_editor_object_angular_velocity" tools:ignore="UnusedResources">کونیی رفتار</string>
+    <string name="formula_editor_object_look_number" tools:ignore="UnusedResources">نمبر دیکھیں</string>
+    <string name="formula_editor_object_look_name" tools:ignore="UnusedResources">نام دیکھو</string>
+    <string name="formula_editor_object_background_number" tools:ignore="UnusedResources">پس منظر نمبر</string>
+    <string name="formula_editor_object_background_name" tools:ignore="UnusedResources">پس منظر کے نام</string>
+    <string name="formula_editor_object_distance_to" tools:ignore="UnusedResources">پوزیشن کو چھونے کے لئے فاصلہ</string>
+    <string name="formula_editor_compute">شمار</string>
+    <string name="formula_editor_object">آبجیکٹ</string>
+    <string name="formula_editor_functions">افعال</string>
+    <string name="formula_editor_logic">منطق</string>
+    <string name="formula_editor_device">سینسر</string>
+    <string name="formula_editor_device_sensors">آلہ سینسر</string>
+    <string name="formula_editor_functions_maths">ریاضی</string>
+    <string name="formula_editor_functions_strings">متن</string>
+    <string name="formula_editor_functions_lists">فہرستیں</string>
+    <string name="formula_editor_logic_boolean">منطقی (بولین) آپریٹرز اور رکاوٹوں</string>
+    <string name="formula_editor_logic_comparison">موازنہ آپریٹرز</string>
+    <string name="formula_editor_object_look">Look properties</string>
+    <string name="formula_editor_object_movement">حرکت خصوصیات</string>
+    <string name="formula_editor_device_visual_detection">Visual sensors</string>
+    <string name="formula_editor_device_date_and_time">تاریخ اور وقت</string>
+    <string name="formula_editor_device_touch_detection"> چھونا کھوج</string>
+    <string name="formula_editor_device_lego_nxt">Lego Mindstorms NXT</string>
+    <string name="formula_editor_device_lego_ev3">Lego Mindstorms EV3</string>
+    <string name="formula_editor_device_arduino">آردوانو</string>
+    <string name="formula_editor_device_phiro">پہرو</string>
+    <string name="formula_editor_device_raspberry">راسباری پائی Pi</string>
+    <string name="formula_editor_device_drone">ڈرون</string>
+    <string name="formula_editor_device_nfc">این ایف سی</string>
+    <string name="formula_editor_device_cast">کروم کاسٹ</string>
+    <string name="formula_editor_string">اے بی سی</string>
+    <string name="formula_editor_logic_notequal" tools:ignore="UnusedResources">≠</string>
+    <string name="formula_editor_logic_lesserthan" tools:ignore="UnusedResources">&lt;</string>
+    <string name="formula_editor_logic_greaterthan" tools:ignore="UnusedResources">&gt;</string>
+    <string name="formula_editor_logic_and" tools:ignore="UnusedResources">اور</string>
+    <string name="formula_editor_logic_or" tools:ignore="UnusedResources">یا</string>
+    <string name="formula_editor_logic_not" tools:ignore="UnusedResources">نہیں</string>
+    <string name="formula_editor_logic_greaterequal" tools:ignore="UnusedResources">≥</string>
+    <string name="formula_editor_logic_leserequal" tools:ignore="UnusedResources">≤</string>
+    <string name="formula_editor_logic_equal" tools:ignore="UnusedResources">=</string>
+    <string name="formula_editor_operator_mult" tools:ignore="UnusedResources">×</string>
+    <string name="formula_editor_operator_plus" tools:ignore="UnusedResources">+</string>
+    <string name="formula_editor_operator_minus" tools:ignore="UnusedResources">-</string>
+    <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
+    <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
+    <string name="formula_editor_image_button_description_delete">ختم کریں</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
+    <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
+    <string name="formula_editor_variable_dialog_title">نئی متغیر</string>
+    <string name="formula_editor_list_dialog_title">نئی فہرست</string>
+    <string name="formula_editor_regex_html_extractor_dialog_title">HTML extractor</string>
+    <string name="formula_editor_discard_changes_dialog_message">کیا آپ تبدیلیاں محفوظ کرنا چاہتے ہیں?</string>
+    <string name="formula_editor_discard_changes_dialog_title">تبدیلیاں محفوظ کریں؟</string>
+    <string name="formula_editor_new_string_name">نیا متن</string>
+    <string name="formula_editor_dialog_change_text">متن تبدیل کریں</string>
+    <string name="formula_editor_dialog_change_regular_expression">Change regular
+        expression</string>
+    <string name="formula_editor_fragment_data_current_items">حالیہ اشیا</string>
+    <string name="formula_editor_data_dialog_is_list">اس کی ایک فہرست بنائیں</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">چہرہ دکھائی دیتا ہے</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">چہرے کا سائز</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">چہرہ  x پوزیشن</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">چہرہ y پوزیشن</string>
+    <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
+    <string name="formula_editor_sensor_second_face_size">second face size</string>
+    <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
+    <string name="formula_editor_sensor_second_face_y_position">second face y position</string>
+    <string name="formula_editor_sensor_text_from_camera">text from camera</string>
+    <string name="formula_editor_sensor_text_blocks_number">number of text blocks</string>
+    <string name="formula_editor_function_text_block_x">text block x from camera</string>
+    <string name="formula_editor_function_text_block_y">text block y from camera</string>
+    <string name="formula_editor_function_text_block_size">text block size from camera</string>
+    <string name="formula_editor_function_text_block_from_camera">text block from camera</string>
+    <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
+    <string name="formula_editor_function_text_block_parameter">(1)</string>
+    <string name="formula_editor_intro_title_formula_editor">فارمولہ ایڈیٹر
+ </string>
+    <string name="formula_editor_intro_summary_formula_editor">فارمولا ایڈیٹر کے ساتھ آپ ریاضی اور تخلیق کرسکتے ہیں
+         منطقی فارمولا جو آپ اپنے اینٹوں میں استعمال کرسکتے ہیں. \ n \ n آپ کو ٹیپ کرکے اس چھوٹا سا تعارف کے ذریعہ جاری رکھ سکتے ہیں
+         نیچے دائیں کونے میں \"اگلا\" بٹن، اور آپ اس میں \"SKIP\" بٹن پر کلک کرکے اسے چھوڑ سکتے ہیں
+         نیچے بائیں کونے.</string>
+    <string name="formula_editor_intro_title_input_field">ان پٹ میدان</string>
+    <string name="formula_editor_intro_summary_input_field">یہاں آپ اپنے فارمولا کو دیکھ سکتے ہیں اور ترمیم کرسکتے ہیں.</string>
+    <string name="formula_editor_intro_title_keyboard">کی بورڈ</string>
+    <string name="formula_editor_intro_summary_keyboard">یہ ہے، جہاں آپ بنا سکتے ہیں
+آپ کا فارمولا، صرف ایک کیلکولیٹر کی طرح.</string>
+    <string name="formula_editor_intro_title_compute">حساب لگائیں</string>
+    <string name="formula_editor_intro_summary_compute">اپنے فارمولا کے موجودہ نتائج کو دکھانے کے لئے،
+         \"کمپیوٹ\" کا استعمال  آپ کر سکتے ہیں.</string>
+    <string name="formula_editor_intro_title_object">آبجیکٹ</string>
+    <string name="formula_editor_intro_summary_object">یہ قیمت کا ایک مجموعہ ہے جو آپ کی خصوصیات کی وضاحت کرتا ہے
+         موجودہ اداکار یا آبجیکٹ. مثال کے طور پر x- اور y  نقاط، یا موجودہ رفتار ہے.</string>
+    <string name="formula_editor_intro_title_functions">افعال</string>
+    <string name="formula_editor_intro_summary_functions">ایک کیلکولیٹر کی طرح، فارمولہ ایڈیٹر بہت سے ریاضیاتی افعال پیش کرتا ہے. \ \"آپ trigonometric افعال جیسے\" ساین \"اور\" کاس \"، بے ترتیب تعداد جنریٹر، اور متن اور فہرست کے افعال کو تلاش کرسکتے ہیں.</string>
+    <string name="formula_editor_intro_title_logic">منطق</string>
+    <string name="formula_editor_intro_summary_logic">منطق اقدار کا موازنہ کرنے کے لئے استعمال کیا جاتا ہے اور منطقی فارمولا کو یکجا جاتا ہے. \ n
+         اقدار کی موازنہ کریں جو آپ منطقی کارروائیوں کا استعمال کرسکتے ہیں جیسے \"&amp; gt؛\" (سے زیادہ) یا \"=\" (مساوات). \ n جمع کرنے کے لئے
+         منطقی فارمولا آپ منطقی کارروائیوں جیسے \"AND\"، \"OR\" اور \"NOT\" استعمال کرسکتے ہیں.</string>
+    <string name="formula_editor_intro_title_device">سینسر</string>
+    <string name="formula_editor_intro_summary_device">\"سینسر\" میں آپ معلومات حاصل کرسکتے ہیں کہ آپ کے آلے کا ریکارڈ. \ n مثال کے طور پر، آپ کے آلے کا جھگڑا، یا آپ کے ارد گرد کی بلند آواز.</string>
+    <string name="formula_editor_intro_title_data">ڈیٹا</string>
+    <string name="formula_editor_intro_summary_data">متغیرات اور فہرستیں جو آپ کے منصوبے میں استعمال ہوتے ہیں یہاں پایا جا سکتا ہے. \ آپ ان کو اپنی فارمولہ میں داخل کر سکتے ہیں، یا نئے شامل کریں.</string>
+    <string name="formula_editor_listening_language_sensor">listening language</string>
+    <string name="formula_editor_speech_recognition">Speech recognition</string>
+    <string name="camera_error_text_detection">        There was a problem with text detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.</string>
+    <string name="formula_editor_function_flatten">flatten</string>
+    <string name="formula_editor_function_flatten_parameter">(* فہرست نام *)</string>
+    <!--  -->
+    <!-- Brick Data Editor Strings -->
+    <string name="brick_show_variable" tools:ignore="UnusedResources">ویریئبل دکھائیں</string>
+    <string name="brick_hide_variable" tools:ignore="UnusedResources">متغیر چھپائیں</string>
+    <string name="brick_show_variable_position" tools:ignore="UnusedResources">پر</string>
+    <string name="brick_show_variable_size" tools:ignore="UnusedResources">پیمائش:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">رنگ</string>
+    <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">منسلک</string>
+    <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">مرکوز</string>
+    <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">بائیں</string>
+    <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">دائیں</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
+    <string name="brick_context_dialog_pick_note">Pick note</string>
+    <!-- -->
+    <!-- Camera related strings -->
+    <string name="brick_video" tools:ignore="UnusedResources">کیمرے کو چالو کریں</string>
+    <string name="video_brick_camera_on" tools:ignore="UnusedResources">پر</string>
+    <string name="video_brick_camera_off" tools:ignore="UnusedResources">بند</string>
+    <string name="brick_choose_camera" tools:ignore="UnusedResources">کیمرے کا استعمال کریں</string>
+    <string name="choose_camera_front" tools:ignore="UnusedResources">سامنے</string>
+    <string name="choose_camera_back" tools:ignore="UnusedResources">پیچھے</string>
+    <string name="camera_error_generic">        Something went wrong while trying to use the camera.
+    </string>
+    <string name="camera_error_face_detection">        There was a problem with face detection. Some components may still be downloading in the
+        background. Please make sure you are connected to the internet and check back later.
+    </string>
+    <!-- -->
+    <!-- Cast strings -->
+    <string name="cast_gamepad_A">اے</string>
+    <string name="cast_gamepad_B">ب</string>
+    <string name="cast_gamepad_up">اپ</string>
+    <string name="cast_gamepad_down">نیچے</string>
+    <string name="cast_gamepad_left">بائیں</string>
+    <string name="cast_gamepad_right">دائیں</string>
+    <string name="cast_error_not_connected_msg">براہ کرم سب سے پہلے اپنے کروم کاسٹ سے  منسلق کریں</string>
+    <string name="cast_error_cast_bricks_in_no_cast_project"> آپ کا پروجیکٹ کروم کاسٹ اینٹوں کا استعمال کرتا ہے اور مقامی طور پر شروع نہیں کیا جا سکتا</string>
+    <string name="cast_device_selector_dialog_title">کاسٹ کریں</string>
+    <string name="cast_button_menu_item_title">کاسٹ بٹن</string>
+    <string name="cast_ready_to_cast">کاسٹ کرنے کے لیے تیار</string>
+    <string name="cast_enable_cast_feature">کروم کاسٹ خصوصیات غیر فعال ہیں. براہ مہربانی ترتیبات میں کاسٹ خصوصیات کو فعال کریں.</string>
+    <string name="cast_searching_for_cast_devices">کروم کاسٹ آلات کیلئے تلاش کرنا</string>
+    <string name="cast_trouble_finding_devices_tip">\ n آپ کا آلہ نہیں دیکھا؟ آپ کے آلے کی وائی فائی بند کرو اور شروع کرو تبدیل کرنے کی کوشش کریں.</string>
+    <string name="cast_connection_timout_msg">رابطے کا وقت ختم. دوبارہ کوشش کریں.</string>
+    <string name="cast_screen_pause_text">روک دیا</string>
+    <!-- -->
+    <string name="deletion_alert_title">Delete?</string>
+    <string name="deletion_alert_text">Deleting a variable or list that is still in use can cause
+        errors. You can\'t undo this!</string>
+    <!-- Upload progress dialog -->
+    <string name="progress_upload_dialog_message">آپ کا پروجیکٹ ایپ  شراکت دار سائٹ پر اپ لوڈ ہو جاتا ہے جہاں دوسروں کو اس کا استعمال اور اسے ڈاؤن لوڈ کرسکتا ہے. آپ اپنے منصوبے کو ایک اسٹائل ایپ کے طور پر بھی ڈاؤن لوڈ کرسکتے ہیں.</string>
+    <string name="progress_upload_dialog_failed">Upload failed. Please check your internet connection and try
+        again!</string>
+    <string name="progress_upload_dialog_show_program">منصوبے دکھائیں</string>
+    <!--  -->
+    <!-- Snackbar hints -->
+    <string name="got_it">سمجھ گیا</string>
+    <string name="preference_description_hints">نشان دکھانے کے لئے فعال کریں</string>
+    <string name="preference_title_enable_hints">اشارہ دکھائیے</string>
+    <string name="hint_category"> تمام اینٹوں کو کیٹیگری میں ترتیب دیا جاتا ہے. اس کیٹیگری کا انتخاب کریں جو آپ تلاش کر رہے ہیں.</string>
+    <string name="hint_bricks">آپ کی سکرپٹ میں اینٹ شامل کرنے کے لئے، اینٹ پر ٹپ کریں جسے آپ استعمال کرنا چاہتے ہیں.</string>
+    <string name="hint_scripts">اسکرپٹ نے آپ کے اداکار یا اعتراض کا رویہ بیان کیا ہے. اسکرپٹ میں اینٹوں شامل کرنے کے لئے،
+         \"+\" علامت کو ٹیپ کریں.</string>
+    <string name="hint_looks">یہاں آپ اپنے اداکار یا اعتراض کے مختلف ظہور تلاش کرسکتے ہیں. نئی نظر شامل کرنے کے لئے،
+         \"+\" علامت کو ٹیپ کریں.</string>
+    <string name="hint_sounds">یہاں آپ اپنے اداکار یا اعتراض میں نئی آواز شامل کر سکتے ہیں. صوتی قسم سے ایک اینٹوں کا استعمال کرتے ہوئے یاد رکھیں.</string>
+    <string name="hint_objects">آپ کا پروگرام مختلف اداکاروں اور اشیاء پر مشتمل ہوتا ہے جو ایک دوسرے کے ساتھ بات چیت کرسکتا ہے.
+         نیا اداکار یا اعتراض شامل کرنے کے لئے، \"+\" علامت کو ٹیپ کریں.</string>
+    <!--  -->
+    <!-- Crash report dialog -->
+    <!--  -->
+    <!-- Multilingual List -->
+    <string name="device_language">آپ کے آلے کی زبان</string>
+    <!-- Symbols -->
+    <string name="percent_symbol">%</string>
+    <string name="hertz_symbol" tools:ignore="UnusedResources">㎐</string>
+    <string name="no_internet_connection">No internet connection. Make sure Wi-Fi or mobile
+    data is turned on.</string>
+    <string name="edit">تدوین کریں</string>
+    <string name="data_value">Value</string>
+    <string name="category_recently_used">Recently used</string>
+    <!-- Information -->
+    <string name="no_variable_selected">No variable selected</string>
+</resources>

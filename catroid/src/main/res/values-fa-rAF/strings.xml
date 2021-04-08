@@ -218,8 +218,6 @@
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">I could not convert %1$s. This seems to be
         an old Scratch project from before %2$s. Please try another one.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">You cannot convert more than %d project at the same time. Please wait for the
-            running conversions to finish first.</item>
         <item quantity="other">You cannot convert more than %d projects at the same time. Please wait for the
             running conversions to finish first.</item>
     </plurals>
@@ -231,7 +229,6 @@
     <string name="authentication_failed">There seems to be a problem with your connection to the service. Please
         contact the Catrobat team.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Added %d Scratch project to the queue&#8230;</item>
         <item quantity="other">Added %d Scratch projects to the queue&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">Started to convert Scratch project&#8230;</string>
@@ -242,11 +239,9 @@
     <string name="status_started">Started&#8230;</string>
     <string name="status_conversion_finished">Conversion finished</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">In progress: %d job</item>
         <item quantity="other">In progress: %d jobs</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">Completed: %d job</item>
         <item quantity="other">Completed: %d jobs</item>
     </plurals>
     <string name="status_conversion_failed">Conversion failed!</string>
@@ -273,15 +268,12 @@
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">You converted this project %1$s ago.</string>
     <plurals name="minutes">
-        <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">%d day</item>
         <item quantity="other">%d days</item>
     </plurals>
     <string name="reconvert_dialog_download">Download the project again</string>
@@ -326,31 +318,24 @@
     <string name="new_scene_dialog">New scene</string>
     <!-- Delete Dialog Titles -->
     <plurals name="delete_projects">
-        <item quantity="one">Delete this project?</item>
         <item quantity="other">Delete these projects?</item>
     </plurals>
     <plurals name="delete_scenes">
-        <item quantity="one">Delete this scene?</item>
         <item quantity="other">Delete these scenes?</item>
     </plurals>
     <plurals name="delete_sprites">
-        <item quantity="one">Delete this actor or object?</item>
         <item quantity="other">Delete these actors or objects?</item>
     </plurals>
     <plurals name="delete_looks">
-        <item quantity="one">Delete this look?</item>
         <item quantity="other">Delete these looks?</item>
     </plurals>
     <plurals name="delete_sounds">
-        <item quantity="one">Delete this sound?</item>
         <item quantity="other">Delete these sounds?</item>
     </plurals>
     <plurals name="delete_nfc_tags">
-        <item quantity="one">Delete this tag?</item>
         <item quantity="other">Delete these tags?</item>
     </plurals>
     <plurals name="delete_scripts">
-        <item quantity="one">Delete this script?</item>
         <item quantity="other">Delete these scripts?</item>
     </plurals>
     <!-- Dialog Labels -->
@@ -392,95 +377,73 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">Backpacked %d scene.</item>
         <item quantity="other">Backpacked %d scenes.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">Backpacked %d actor or object.</item>
         <item quantity="other">Backpacked %d actors or objects.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">Backpacked %d look.</item>
         <item quantity="other">Backpacked %d looks.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">Backpacked %d sound.</item>
         <item quantity="other">Backpacked %d sounds.</item>
     </plurals>
     <string name="packed_script_group">Backpacked one script group.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">Unpacked %d scene.</item>
         <item quantity="other">Unpacked %d scenes.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">Unpacked %d actor or object.</item>
         <item quantity="other">Unpacked %d actors or objects.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">Unpacked %d look.</item>
         <item quantity="other">Unpacked %d looks.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">Unpacked %d sound.</item>
         <item quantity="other">Unpacked %d sounds.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">Unpacked %d script.</item>
         <item quantity="other">Unpacked %d scripts.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">Copied %d scene.</item>
         <item quantity="other">Copied %d scenes.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">Copied %d actor or object.</item>
         <item quantity="other">Copied %d actors or objects.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">Copied %d look.</item>
         <item quantity="other">Copied %d looks.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">Copied %d sound.</item>
         <item quantity="other">Copied %d sounds.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">Copied %d NFC tag.</item>
         <item quantity="other">Copied %d NFC tags.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">Deleted %d project.</item>
         <item quantity="other">Deleted %d projects.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">Deleted %d scene.</item>
         <item quantity="other">Deleted %d scenes.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">Deleted %d sprite.</item>
         <item quantity="other">Deleted %d sprites.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">Deleted %d look.</item>
         <item quantity="other">Deleted %d looks.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">Deleted %d sound.</item>
         <item quantity="other">Deleted %d sounds.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">Deleted %d NFC tag.</item>
         <item quantity="other">Deleted %d NFC tags.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">Deleted %d script.</item>
         <item quantity="other">Deleted %d scripts.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">Deleted %d item.</item>
         <item quantity="other">Deleted %d items.</item>
     </plurals>
     <!--  -->
@@ -542,7 +505,6 @@
     <string name="local_lists_headline">Lists for this actor or object only</string>
     <string name="fragment_data_text_description">Tap \"+\" to add\nvariables or lists</string>
     <plurals name="user_defined_brick_input_headline">
-        <item quantity="one">Input for this brick</item>
         <item quantity="other">Inputs for this brick</item>
     </plurals>
     <!-- NewDataDialog -->
@@ -813,14 +775,12 @@
     <string name="brick_set_rotation_style_normal" tools:ignore="UnusedResources">all-around</string>
     <string name="brick_set_rotation_style_no" tools:ignore="UnusedResources">don\'t rotate</string>
     <plurals name="brick_go_back_layer_plural">
-        <item quantity="one">layer</item>
         <item quantity="other">layers</item>
     </plurals>
     <string name="brick_come_to_front" tools:ignore="UnusedResources">Go to front</string>
     <string name="brick_if_on_edge_bounce" tools:ignore="UnusedResources">If on edge, bounce</string>
     <string name="brick_move" tools:ignore="UnusedResources">Move</string>
     <plurals name="brick_move_n_step_plural">
-        <item quantity="one">step</item>
         <item quantity="other">steps</item>
     </plurals>
     <string name="brick_turn_left" tools:ignore="UnusedResources">Turn left</string>
@@ -865,8 +825,8 @@
     <string name="brick_change_ghost_effect" tools:ignore="UnusedResources">"Change transparency"</string>
     <string name="brick_set_brightness" tools:ignore="UnusedResources">"Set brightness"</string>
     <string name="brick_change_brightness" tools:ignore="UnusedResources">"Change brightness"</string>
-    <string name="brick_set_color" tools:ignore="UnusedResources">"Set colour "</string>
-    <string name="brick_change_color" tools:ignore="UnusedResources">"Change colour "</string>
+    <string name="brick_set_color" tools:ignore="UnusedResources">"Set color"</string>
+    <string name="brick_change_color" tools:ignore="UnusedResources">"Change color"</string>
     <string name="by_label" tools:ignore="UnusedResources">by</string>
     <string name="to_label" tools:ignore="UnusedResources">to</string>
     <string name="brick_clear_graphic_effect" tools:ignore="UnusedResources">Clear graphic effects</string>
@@ -901,7 +861,7 @@
     <string name="brick_pen_down" tools:ignore="UnusedResources">Pen down</string>
     <string name="brick_pen_up" tools:ignore="UnusedResources">Pen up</string>
     <string name="brick_pen_size" tools:ignore="UnusedResources">Set pen size to</string>
-    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen colour to</string>
+    <string name="brick_pen_color" tools:ignore="UnusedResources">Set pen color to</string>
     <string name="brick_clear_background" tools:ignore="UnusedResources">Clear</string>
     <string name="brick_stamp" tools:ignore="UnusedResources">Stamp</string>
     <!--  -->
@@ -961,7 +921,6 @@
     <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">all scripts</string>
     <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">other scripts of this actor or object</string>
     <plurals name="second_plural">
-        <item quantity="one">"second"</item>
         <item quantity="other">"seconds"</item>
     </plurals>
     <string name="brick_collision_receive" tools:ignore="UnusedResources">When you bounce off</string>
@@ -1003,19 +962,15 @@
     <string name="brick_parameterized_assert" tools:ignore="UnusedResources">assert</string>
     <string name="brick_parameterized_equals" tools:ignore="UnusedResources">equals to expected item of</string>
     <plurals name="brick_parameterized_foreach_plural">
-        <item quantity="one">For each item of</item>
         <item quantity="other">For each tuple of items of</item>
     </plurals>
     <plurals name="brick_parameterized_stored_plural">
-        <item quantity="one">stored in variable with the same name</item>
         <item quantity="other">stored in variables with the same names</item>
     </plurals>
     <plurals name="list_selection_plural">
-        <item quantity="one">%d list selected</item>
         <item quantity="other">%d lists selected</item>
     </plurals>
     <plurals name="time_plural">
-        <item quantity="one">time</item>
         <item quantity="other">times</item>
     </plurals>
     <string name="brick_loop_end">End of loop</string>
@@ -1213,8 +1168,8 @@
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>
     <string name="drone_emergency_camera">One or more cameras are not responding.</string>
     <string name="drone_emergency_ultrasound">Ultrasound sensor is not responding.</string>
-    <string name="drone_emergency_angle">AR. Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behaviour.</string>
+    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
+        behavior.</string>
     <string name="drone_emergency_cutout">One or more motors were stopped by environment.</string>
     <string name="drone_alert_battery_low">Battery is too low to take off again.</string>
     <string name="drone_alert_ultrasound">Ultrasound sensor can\'t determine AR.Drone 2.0 altitude.</string>
@@ -1359,10 +1314,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="ev3_no_sensor">none</string>
     <string name="ev3_sensor_touch">EV3 touch sensor</string>
     <string name="ev3_sensor_infrared">EV3 infrared sensor</string>
-    <string name="ev3_sensor_color">EV3 colour sensor</string>
-    <string name="ev3_sensor_color_ambient">EV3 colour sensor ambient</string>
-    <string name="ev3_sensor_color_reflected">EV3 colour sensor reflected</string>
-    <string name="ev3_sensor_hitechnic_color">HiTechnic colour sensor</string>
+    <string name="ev3_sensor_color">EV3 color sensor</string>
+    <string name="ev3_sensor_color_ambient">EV3 color sensor ambient</string>
+    <string name="ev3_sensor_color_reflected">Ev3 color sensor reflected</string>
+    <string name="ev3_sensor_hitechnic_color">HiTechnic color sensor</string>
     <string name="ev3_sensor_nxt_temperature_c">NXT temperature sensor (°C)</string>
     <string name="ev3_sensor_nxt_temperature_f">NXT temperature sensor (°F)</string>
     <string name="ev3_sensor_nxt_light">NXT light sensor</string>
@@ -1547,7 +1502,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_log_parameter">(10)</string>
     <string name="formula_editor_function_pi" tools:ignore="UnusedResources">pi</string>
     <string name="formula_editor_function_pi_parameter"></string>
-    <string name="formula_editor_object_color" tools:ignore="UnusedResources">colour</string>
+    <string name="formula_editor_object_color" tools:ignore="UnusedResources">color</string>
     <string name="formula_editor_function_sqrt" tools:ignore="UnusedResources">square root</string>
     <string name="formula_editor_function_sqrt_parameter">(4)</string>
     <string name="formula_editor_function_rand" tools:ignore="UnusedResources">random value from to</string>
@@ -1625,9 +1580,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_collision">touches actor or object</string>
     <string name="formula_editor_function_collides_with_edge" tools:ignore="UnusedResources">touches edge</string>
     <string name="formula_editor_function_touched" tools:ignore="UnusedResources">touches finger</string>
-    <string name="formula_editor_function_collides_with_color">touches colour</string>
-    <string name="formula_editor_function_color_touches_color">colour touches colour</string>
-    <string name="formula_editor_sensor_color_at_x_y">colour at x y</string>
+    <string name="formula_editor_function_collides_with_color">touches color</string>
+    <string name="formula_editor_function_color_touches_color">color touches color</string>
+    <string name="formula_editor_sensor_color_at_x_y">color at x y</string>
     <string name="formula_editor_sensor_color_equals_color" tools:ignore="UnusedResources">color equals color with %
         tolerance</string>
     <string name="formula_editor_sensor_x_acceleration" tools:ignore="UnusedResources">acceleration x</string>
@@ -1675,10 +1630,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_sensor_lego_nxt_ultrasonic">NXT ultrasonic</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_touch">EV3 touch</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_infrared">EV3 infrared</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3_colour</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3_colour_ambient</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3_colour_reflected</string>
-    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3_hitechnic_colour</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color">EV3 color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_ambient">EV3 ambient color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_color_reflected">EV3 reflected color</string>
+    <string name="formula_editor_sensor_lego_ev3_sensor_hitechnic_color">EV3 hitechnic color</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_c">EV3 NXT temperature in °C</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_temperature_f">EV3 NXT temperature in °F</string>
     <string name="formula_editor_sensor_lego_ev3_sensor_nxt_light">EV3 NXT light</string>
@@ -1754,7 +1709,7 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_operator_divide" tools:ignore="UnusedResources">÷</string>
     <string name="formula_editor_operator_power" tools:ignore="UnusedResources">^</string>
     <string name="formula_editor_image_button_description_delete">delete</string>
-    <string name="formula_editor_image_button_description_color_picker">colour picker</string>
+    <string name="formula_editor_image_button_description_color_picker">color picker</string>
     <string name="formula_editor_image_button_description_functions_toggle">toggle functions</string>
     <string name="formula_editor_variable_dialog_title">New variable</string>
     <string name="formula_editor_list_dialog_title">New list</string>
@@ -1767,10 +1722,10 @@ needs read and write access to it. You can always change permissions through you
         expression</string>
     <string name="formula_editor_fragment_data_current_items">current items</string>
     <string name="formula_editor_data_dialog_is_list">Make it a list</string>
-    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">face is visible</string>
-    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">face size</string>
-    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">face x position</string>
-    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">face y position</string>
+    <string name="formula_editor_sensor_face_detected" tools:ignore="UnusedResources">first face is visible</string>
+    <string name="formula_editor_sensor_face_size" tools:ignore="UnusedResources">first face size</string>
+    <string name="formula_editor_sensor_face_x_position" tools:ignore="UnusedResources">first face x position</string>
+    <string name="formula_editor_sensor_face_y_position" tools:ignore="UnusedResources">first face y position</string>
     <string name="formula_editor_sensor_second_face_detected">second face is visible</string>
     <string name="formula_editor_sensor_second_face_size">second face size</string>
     <string name="formula_editor_sensor_second_face_x_position">second face x position</string>
@@ -1784,10 +1739,10 @@ needs read and write access to it. You can always change permissions through you
     <string name="formula_editor_function_text_block_language_from_camera">text block language from camera</string>
     <string name="formula_editor_function_text_block_parameter">(1)</string>
     <string name="formula_editor_intro_title_formula_editor">Formula editor</string>
-    <string name="formula_editor_intro_summary_formula_editor">With the  formula editor you can create mathematical and
-        logical formulas that you can use in your bricks.\n\nYou can continue through this little intro by tapping
-        the \"Next\" button in the bottom right corner, and you can skip it by clicking the \"SKIP\" button in the
-        bottom left corner.</string>
+    <string name="formula_editor_intro_summary_formula_editor">With the formula editor you can create mathematical and
+        logical formulas that you can use in your bricks.\n\nContinue by tapping “NEXT” or exit
+        with “SKIP”.
+    </string>
     <string name="formula_editor_intro_title_input_field">Input field</string>
     <string name="formula_editor_intro_summary_input_field">Here you can see and edit your formula.</string>
     <string name="formula_editor_intro_title_keyboard">Keyboard</string>
@@ -1825,12 +1780,12 @@ needs read and write access to it. You can always change permissions through you
     <string name="brick_hide_variable" tools:ignore="UnusedResources">Hide variable</string>
     <string name="brick_show_variable_position" tools:ignore="UnusedResources">at</string>
     <string name="brick_show_variable_size" tools:ignore="UnusedResources">size:</string>
-    <string name="brick_show_variable_color" tools:ignore="UnusedResources">colour:</string>
+    <string name="brick_show_variable_color" tools:ignore="UnusedResources">color:</string>
     <string name="brick_show_variable_aligned" tools:ignore="UnusedResources">aligned</string>
     <string name="brick_show_variable_aligned_centered" tools:ignore="UnusedResources">centered</string>
     <string name="brick_show_variable_aligned_left" tools:ignore="UnusedResources">left</string>
     <string name="brick_show_variable_aligned_right" tools:ignore="UnusedResources">right</string>
-    <string name="brick_context_dialog_pick_color">Pick colour</string>
+    <string name="brick_context_dialog_pick_color">Pick color</string>
     <string name="brick_context_dialog_pick_note">Pick note</string>
     <!-- -->
     <!-- Camera related strings -->
