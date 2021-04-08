@@ -70,7 +70,7 @@
     <string name="api_replacement_dialog_neutral">बदलाव के बिना अपलोड करें</string>
     <string name="api_replacement_dialog_accept">प्रतिस्थापित कुंजी के साथ अपलोड करें</string>
     <string name="api_replacement_dialog_warning">इस परियोजना में ईंटें शामिल हैं जो तक पहुँचती हैं
-         वेब, और एपीआई कुंजियाँ भी लगती हैं। कृपया% 1s क्यों देखें
+         वेब, और एपीआई कुंजियाँ भी लगती हैं। कृपया %1s क्यों देखें
          इन कुंजियों को अपलोड करना खतरनाक हो सकता है।</string>
     <string name="api_replacement">यहाँ एपीआई कुंजी डालें</string>
     <!-- -->
@@ -213,13 +213,14 @@
          इस दौरान।</string>
     <string name="error_cannot_open_currently_downloading_scratch_program">आप अभी तक परियोजना नहीं खोल सकते।
          कृपया इसे डाउनलोड होने तक प्रतीक्षा करें।</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">आप प्रोग्राम अभी नहीं खोल सकते  । &lt; div class = \"notranslate\" &gt; 0 &lt;/div&gt; कृपया इसे पहले डाउनलोड करें और फिर इसे खोलें ।</string>
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">आप अभी तक परियोजना नहीं खोल सकते।
+        कृपया इसे पहले डाउनलोड करें और फिर खोलें।</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">मैं%1$s को परिवर्तित नहीं कर सका। ऐसा लगता है
          %2$s से पहले एक पुराना स्क्रैच प्रोजेक्ट। कृपया एक और कोशिश करें।</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">आप एक ही समय में% d प्रोजेक्ट से अधिक परिवर्तित नहीं कर सकते हैं। कृपया प्रतीक्षा करें
+        <item quantity="one">आप एक ही समय में %d प्रोजेक्ट से अधिक परिवर्तित नहीं कर सकते हैं। कृपया प्रतीक्षा करें
              पहले खत्म करने के लिए रूपांतरण चल रहा है।</item>
-        <item quantity="other">आप एक ही समय में% d प्रोजेक्ट से अधिक परिवर्तित नहीं कर सकते हैं। कृपया प्रतीक्षा करें
+        <item quantity="other">आप एक ही समय में %d प्रोजेक्ट से अधिक परिवर्तित नहीं कर सकते हैं। कृपया प्रतीक्षा करें
              पहले खत्म करने के लिए रूपांतरण चल रहा है।</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">आप प्रोजेक्ट नहीं खोल सकते क्योंकि यह नहीं था
@@ -231,7 +232,7 @@
          कैटोबैट टीम से संपर्क करें।</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="one">कतार में %d स्क्रैच प्रोजेक्ट जोड़ा गया&#8230;</item>
-        <item quantity="other">कतार में% d स्क्रैच प्रोजेक्ट जोड़े गए&#8230;</item>
+        <item quantity="other">कतार में %d स्क्रैच प्रोजेक्ट जोड़े गए&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">स्क्रैच परियोजना को बदलने के लिए शुरू किया &#8230;</string>
     <string name="convert">बदलें</string>
@@ -241,12 +242,12 @@
     <string name="status_started">शुरू</string>
     <string name="status_conversion_finished">रूपांतरण पूर्ण हो गया है</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">प्रगति में:% d नौकरियां</item>
-        <item quantity="other">प्रगति में:% d नौकरियां</item>
+        <item quantity="one">प्रगति में: %d नौकरियां</item>
+        <item quantity="other">प्रगति में: %d नौकरियां</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">पूर्ण:% d कार्य</item>
-        <item quantity="other">पूर्ण:% d कार्य</item>
+        <item quantity="one">पूर्ण: %d कार्य</item>
+        <item quantity="other">पूर्ण: %d कार्य</item>
     </plurals>
     <string name="status_conversion_failed">रूपांतरण असफल हो गया है</string>
     <string name="status_downloading">डाउनलोड हो रहा है&#8230;</string>
@@ -272,16 +273,16 @@
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">आपने यह प्रोजेक्ट%1$s में परिवर्तित कर दिया है।</string>
     <plurals name="minutes">
-        <item quantity="one">% d मिनट</item>
-        <item quantity="other">% d मिनट</item>
+        <item quantity="one">%d मिनट</item>
+        <item quantity="other">%d मिनट</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">% d घंटा</item>
-        <item quantity="other">% d घंटे</item>
+        <item quantity="one">%d घंटा</item>
+        <item quantity="other">%d घंटे</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">% D दिन</item>
-        <item quantity="other">% d दिन</item>
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
     </plurals>
     <string name="reconvert_dialog_download">प्रोजेक्ट को फिर से डाउनलोड करें</string>
     <string name="reconvert_dialog_reconvert">इस प्रोजेक्ट को फिर से कन्वर्ट करें</string>
@@ -369,8 +370,8 @@
     <!-- Details -->
     <string name="project_details">अंतिम पहुँच: %s, आकार: %s</string>
     <string name="last_access_today">आज, %s</string>
-    <string name="scene_details">अभिनेताओं और वस्तुओं:% d, लग रहा है:% d, ध्वनियों:% d</string>
-    <string name="sprite_details">ईंटें:% d, लग रहा है:% d, लगता है:% d</string>
+    <string name="scene_details">अभिनेताओं और वस्तुओं: %d, लग रहा है: %d, ध्वनियों: %d</string>
+    <string name="sprite_details">ईंटें: %d, लग रहा है: %d, लगता है: %d</string>
     <string name="look_details">रिज़ॉल्यूशन: %s, आकार: %s</string>
     <string name="sound_duration">अवधि: %s</string>
     <string name="sound_details">अवधि: %s, आकार: %s</string>
@@ -391,34 +392,34 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">बैकपैक% d दृश्य।</item>
-        <item quantity="other">बैकपैक% d दृश्य</item>
+        <item quantity="one">बैकपैक %d दृश्य।</item>
+        <item quantity="other">बैकपैक %d दृश्य</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">बैकपैक% d अभिनेता या वस्तु।</item>
-        <item quantity="other">बैकपैकड% d अभिनेता या ऑब्जेक्ट।</item>
+        <item quantity="one">बैकपैक %d अभिनेता या वस्तु।</item>
+        <item quantity="other">बैकपैकड %d अभिनेता या ऑब्जेक्ट।</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">बैकपैक% d लुक।</item>
-        <item quantity="other">बैकपैक% d दिखता है।</item>
+        <item quantity="one">बैकपैक %d लुक।</item>
+        <item quantity="other">बैकपैक %d दिखता है।</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">बैकपैक% d ध्वनि।</item>
-        <item quantity="other">बैकपैक% d नाद।</item>
+        <item quantity="one">बैकपैक %d ध्वनि।</item>
+        <item quantity="other">बैकपैक %d नाद।</item>
     </plurals>
     <string name="packed_script_group">बैकपैक किया गया एक स्क्रिप्ट समूह।</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">अनपैक% d दृश्य।</item>
-        <item quantity="other">अनपैक% d दृश्य।</item>
+        <item quantity="one">अनपैक %d दृश्य।</item>
+        <item quantity="other">अनपैक %d दृश्य।</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">अनपैक% d अभिनेता या वस्तु।</item>
-        <item quantity="other">अनपैक% d अभिनेता या ऑब्जेक्ट।</item>
+        <item quantity="one">अनपैक %d अभिनेता या वस्तु।</item>
+        <item quantity="other">अनपैक %d अभिनेता या ऑब्जेक्ट।</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">अनपैक% d लुक।</item>
-        <item quantity="other">अनपैक% d लग रहा है।</item>
+        <item quantity="one">अनपैक %d लुक।</item>
+        <item quantity="other">अनपैक %d लग रहा है।</item>
     </plurals>
     <plurals name="unpacked_sounds">
         <item quantity="one">अनपैक %d ड साउंड।</item>
@@ -958,8 +959,8 @@
     <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">सभी स्क्रिप्ट</string>
     <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">इस अभिनेता या वस्तु की अन्य स्क्रिप्ट</string>
     <plurals name="second_plural">
-        <item quantity="one">"\"\"सेकंड
-सेकंड्स\"\""</item>
+        <item quantity="one">"\"\"\"सेकंड
+सेकंड्स\"\"\""</item>
         <item quantity="other">"सेकंड"</item>
     </plurals>
     <string name="brick_collision_receive" tools:ignore="UnusedResources">जब तुम उछलते हो</string>

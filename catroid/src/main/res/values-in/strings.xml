@@ -1752,7 +1752,7 @@ needs read and write access to it. You can always change permissions through you
          juga generator bilangan acak atau fungsi teks dan daftar.</string>
     <string name="formula_editor_intro_title_logic">Logika</string>
     <string name="formula_editor_intro_summary_logic">Logika digunakan untuk membandingkan nilai dan menggabungkan formula logis.\n Untuk membandingkan
-         nilai, Anda dapat menggunakan operasi logis seperti \" &amp; gt; \" (lebih besar dari) atau \"=\" (sama dengan).\n Untuk menggabungkan formula logis
+         nilai, Anda dapat menggunakan operasi logis seperti \"&gt;\" (lebih besar dari) atau \"=\" (sama dengan).\n Untuk menggabungkan formula logis
          Anda dapat menggunakan operasi logis seperti \"AND\", \"OR\" dan \"NOT\".</string>
     <string name="formula_editor_intro_title_device">Sensor</string>
     <string name="formula_editor_intro_summary_device">Di \"Perangkat\", Anda dapat menemukan informasi yang

@@ -255,7 +255,7 @@
     <string name="status_download_canceled">Endirilmə ləğv olundu!</string>
     <string name="scratch_programs_in_progress_title">In progress</string>
     <string name="scratch_programs_finished_title">Converted projects</string>
-    <string name="by_x">%1$-larla</string>
+    <string name="by_x">tərəfindən %1$s</string>
     <string name="warning_program_visibility">WARNING:\nThis seems to be a private project. You can try to
         convert it but it might not work.</string>
     <string name="instructions">Təlimatlar</string>
@@ -1128,7 +1128,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene (%1$d)</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>

@@ -669,7 +669,7 @@
     <string name="dialog_terms_of_use_link_text">Условия пользования и обслуживания</string>
     <!--  -->
     <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Условия пользования и обслуживания Pocket Code</string>
+    <string name="dialog_terms_of_use_link_text_parrot_reminder">Условия использования и обслуживания</string>
     <string name="dialog_terms_of_use_parrot_reminder_text">Вы собираетесь использовать это приложение вместе с Parrot
         AR.Drone 2.0. Мы напоминаем вам о соблюдении Условий использования Parrot и Catrobat.</string>
     <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Не напоминать мне снова.</string>
@@ -712,7 +712,7 @@
     <string name="save_project_to_external_storage_io_exception_message">Не удалось сохранить проект, недостаточно памяти!</string>
     <!--  -->
     <!-- SoundRecorderActivity -->
-    <string name="soundrecorder_name">Pocket Code диктофон</string>
+    <string name="soundrecorder_name">Запись звука</string>
     <string name="soundrecorder_error">Ошибка записи звука</string>
     <string name="soundrecorder_recorded_filename">Новая запись</string>
     <string name="soundrecorder_text_view">Нажмите на верхнюю иконку для начала или остановки записи.</string>
