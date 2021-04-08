@@ -124,8 +124,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisual
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered), ALIGNMENT_STYLE_CENTERED));
 		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right), ALIGNMENT_STYLE_RIGHT));
 		BrickSpinner<AlignmentStyle> spinner =
-				new BrickSpinner<>(R.id.brick_show_variable_color_size_align_spinner, view, items
-						, this);
+				new BrickSpinner<>(R.id.brick_show_variable_color_size_align_spinner, view, items, this);
 		spinner.setSelection(alignmentSelection);
 		spinner.setOnItemSelectedListener(new BrickSpinner.OnItemSelectedListener<AlignmentStyle>() {
 
