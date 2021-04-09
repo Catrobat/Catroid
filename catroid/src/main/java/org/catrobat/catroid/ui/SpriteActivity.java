@@ -191,7 +191,7 @@ public class SpriteActivity extends BaseActivity {
 	}
 
 	private String createActionBarTitle() {
-		if (currentProject.getSceneList().size() == 1) {
+		if (currentProject != null && currentProject.getSceneList() != null && currentProject.getSceneList().size() == 1) {
 			return currentSprite.getName();
 		} else {
 			return currentScene.getName() + ": " + currentSprite.getName();
