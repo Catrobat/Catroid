@@ -155,6 +155,7 @@ public class Survey implements GetSurveyTask.SurveyResponseListener {
 		if (isUrlNew(context, surveyUrl)) {
 			Intent intent = new Intent(context, WebViewActivity.class);
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, surveyUrl);
+			intent.putExtra(WebViewActivity.INTENT_FORCE_OPEN_IN_APP, true);
 			context.startActivity(intent);
 
 			saveUrlHash(context, surveyUrl);
