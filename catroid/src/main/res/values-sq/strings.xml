@@ -801,8 +801,8 @@
     <!-- Motion bricks -->
     <string name="brick_place_at" tools:ignore="UnusedResources">"Place at"</string>
     <string name="brick_option_place_visually">Place visually</string>
-    <string name="x_label" tools:ignore="UnusedResources">"X: "</string>
-    <string name="y_label" tools:ignore="UnusedResources">"Y: "</string>
+    <string name="x_label" tools:ignore="UnusedResources">"x:"</string>
+    <string name="y_label" tools:ignore="UnusedResources">"y:"</string>
     <string name="brick_set_x" tools:ignore="UnusedResources">"Set x to"</string>
     <string name="brick_set_y" tools:ignore="UnusedResources">"Set y to"</string>
     <string name="brick_change_x_by" tools:ignore="UnusedResources">"Change x by"</string>
@@ -1128,7 +1128,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene (%1$d)</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">Message</string>
     <string name="default_list_name">List</string>
@@ -1197,17 +1197,17 @@
     <string name="notification_screenshot_ok">Preview image saved</string>
     <string name="notification_download_project_cancel">Cancel project download</string>
     <string name="notification_reconvert_download_program_cancel">Canceled downloading/reconverting project</string>
-    <string name="notification_upload_title_pending">"Duke Ngarkuar "</string>
-    <string name="notification_upload_title_finished">"Shiko në "</string>
+    <string name="notification_upload_title_pending">"Duke Ngarkuar"</string>
+    <string name="notification_upload_title_finished">"Shiko në"</string>
     <string name="notification_upload_pending">Duke u ngarkuar</string>
     <string name="notification_upload_finished">Ngarkimi i sukseshëm</string>
     <string name="notification_upload_rejected">Uploaded project rejected</string>
     <string name="notification_upload_retry">Provo përsëri</string>
     <string name="notification_open_play_store">Open App store</string>
-    <string name="notification_download_title_pending">"Duke u shkarkuar "</string>
+    <string name="notification_download_title_pending">"Duke u shkarkuar"</string>
     <string name="notification_download_pending">Duke u shkarkuar</string>
     <string name="notification_download_finished">Shkarkimi i suksesshëm</string>
-    <string name="notification_title_open">"Hape "</string>
+    <string name="notification_title_open">"Hape"</string>
     <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
     <string name="size_of_project">Madhësia:</string>
     <string name="drone_emergency_battery_low">Battery is low (automatic landing).</string>

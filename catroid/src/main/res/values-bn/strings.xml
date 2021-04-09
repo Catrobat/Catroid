@@ -207,7 +207,7 @@
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">আপনি এখনও প্রজেক্টি খুলতে পারবেন না। দয়া করে প্রথমে এটি ডাউনলোড করুন এবং তারপরে এটি খুলুন।</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">আমি %1$s রূপান্তর করতে পারিনি। এটি %2$s এর আগে থেকে একটি পুরানো স্ক্র্যাচ প্রজেক্ট বলে মনে হচ্ছে। অন্য একটি চেষ্টা করুন।</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">আপনি একই সাথে% d প্রকল্পের বেশি রূপান্তর করতে পারবেন না। প্রথমে চলমান রূপান্তরগুলি শেষ হওয়ার জন্য অপেক্ষা করুন।</item>
+        <item quantity="one">আপনি একই সাথে %d প্রকল্পের বেশি রূপান্তর করতে পারবেন না। প্রথমে চলমান রূপান্তরগুলি শেষ হওয়ার জন্য অপেক্ষা করুন।</item>
         <item quantity="other">আপনি একই সময়ে %d টিরও বেশি প্রকল্পকে রূপান্তর করতে পারবেন না। প্রথমে চলমান রূপান্তরগুলি শেষ হওয়ার জন্য অপেক্ষা করুন।</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">আপনি প্রজেক্টি খুলতে পারবেন না কারণ এটি সঠিকভাবে রূপান্তরিত হয়নি। এটি আবার রূপান্তর করার চেষ্টা করুন।</string>
@@ -232,7 +232,7 @@
     </plurals>
     <plurals name="status_completed_x_jobs">
         <item quantity="one">সম্পন্ন:%d কাজ</item>
-        <item quantity="other">সম্পন্ন:% d কাজসমূহ</item>
+        <item quantity="other">সম্পন্ন: %d কাজসমূহ</item>
     </plurals>
     <string name="status_conversion_failed">রূপান্তর ব্যর্থ!</string>
     <string name="status_downloading">ডাউনলোড করা হচ্ছ&#8230;</string>
@@ -240,7 +240,7 @@
     <string name="status_download_canceled">ডাউনলোড বাতিল করা হয়েছে</string>
     <string name="scratch_programs_in_progress_title">চলমান:</string>
     <string name="scratch_programs_finished_title">রূপান্তরিত প্রজেক্ট</string>
-    <string name="by_x">%s এর দ্বারা</string>
+    <string name="by_x">%1$s এর দ্বারা</string>
     <string name="warning_program_visibility">সতর্কতা: এটি একটি ব্যক্তিগত প্রকল্প বলে মনে হচ্ছে। আপনি এটি রূপান্তর করার চেষ্টা করতে পারেন তবে এটি কার্যকর নাও হতে পারে।</string>
     <string name="instructions">নির্দেশনা</string>
     <string name="notes_and_credits">নোট এবং ক্রেডিট</string>
@@ -352,7 +352,7 @@
     <string name="Image_format_not_supported">Image format not supported</string>
     <!-- Details -->
     <string name="project_details">শেষ অ্যাক্সেস: %s, আকার: %s</string>
-    <string name="last_access_today">আজ, %1$s</string>
+    <string name="last_access_today">আজ, %s</string>
     <string name="scene_details">অভিনেতা এবং অবজেক্টস: %d , চেহারা: %d , শব্দ: %d</string>
     <string name="sprite_details">ব্রিক: %d, চেহারা:%d, শব্দ:%d</string>
     <string name="look_details">রেজোলিউশন: %s, আকার: %s</string>
@@ -375,25 +375,25 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">ব্যাকপ্যাক করা হয়েছে % d দৃশ্য</item>
-        <item quantity="other">ব্যাকপ্যাক করা হয়েছে % d দৃশ্যসমূহ</item>
+        <item quantity="one">ব্যাকপ্যাক করা হয়েছে %d দৃশ্য</item>
+        <item quantity="other">ব্যাকপ্যাক করা হয়েছে %d দৃশ্যসমূহ</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">ব্যাকপ্যাক করা হয়েছে % d অভিনেতা বা বস্তু</item>
-        <item quantity="other">ব্যাকপ্যাক করা হয়েছে % d অভিনেতা বা বস্তু</item>
+        <item quantity="one">ব্যাকপ্যাক করা হয়েছে %d অভিনেতা বা বস্তু</item>
+        <item quantity="other">ব্যাকপ্যাক করা হয়েছে %d অভিনেতা বা বস্তু</item>
     </plurals>
     <plurals name="packed_looks">
         <item quantity="one">ব্যাকপ্যাক করা হয়েছে %d দৃশ্য</item>
         <item quantity="other">ব্যাকপ্যাক করা হয়েছে %d দৃশ্যেসমূহ</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">ব্যাকপ্যাক করা হয়েছে % d শব্দ</item>
-        <item quantity="other">ব্যাকপ্যাক করা হয়েছে % d শব্দসমূহ</item>
+        <item quantity="one">ব্যাকপ্যাক করা হয়েছে %d শব্দ</item>
+        <item quantity="other">ব্যাকপ্যাক করা হয়েছে %d শব্দসমূহ</item>
     </plurals>
     <string name="packed_script_group">একটি স্ক্রিপ্ট শ্রেণী ব্যাকপ্যাক করা হয়েছে।</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">মোড়ক খুলন % d দৃশ্য</item>
+        <item quantity="one">মোড়ক খুলন %d দৃশ্য</item>
         <item quantity="other">মোড়ক খুলন %d দৃশ্যগুলি</item>
     </plurals>
     <plurals name="unpacked_sprites">
@@ -405,12 +405,12 @@
         <item quantity="other">%d দৃশ্যেসমূহ মোড়ক খোলা হয়েছে</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">আনপ্যাক করা হয়েছে % d শব্দ।</item>
-        <item quantity="other">আনপ্যাক করা হয়েছে % d শব্দসমূহ।</item>
+        <item quantity="one">আনপ্যাক করা হয়েছে %d শব্দ।</item>
+        <item quantity="other">আনপ্যাক করা হয়েছে %d শব্দসমূহ।</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">আনপ্যাক করা হয়েছে % d স্ক্রিপ্ট</item>
-        <item quantity="other">আনপ্যাক করা হয়েছে % d স্ক্রিপ্টগুলি</item>
+        <item quantity="one">আনপ্যাক করা হয়েছে %d স্ক্রিপ্ট</item>
+        <item quantity="other">আনপ্যাক করা হয়েছে %d স্ক্রিপ্টগুলি</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
@@ -1096,7 +1096,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">দৃশ্য %d</string>
+    <string name="default_scene_name">দৃশ্য (%1$d)</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">বার্তা</string>
     <string name="default_list_name">List</string>

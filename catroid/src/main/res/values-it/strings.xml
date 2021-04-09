@@ -1126,7 +1126,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Il mio progetto</string>
     <string name="default_variable_name">Variabile</string>
-    <string name="default_scene_name">Scena %1$d</string>
+    <string name="default_scene_name">Scena (%1$d)</string>
     <string name="default_script_group_name">Gruppo di script</string>
     <string name="default_broadcast_message_name">Messaggio</string>
     <string name="default_list_name">Lista</string>

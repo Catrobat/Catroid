@@ -28,10 +28,10 @@
     <string name="settings">Einstellungen</string>
     <string name="redo" tools:ignore="UnusedResources">Wiederholen</string>
     <string name="undo" tools:ignore="UnusedResources">Rückgängig</string>
-    <string name="new_option">Neu&#8230;</string>
+    <string name="new_option">neu&#8230;</string>
     <string name="edit_option">bearbeiten&#8230;</string>
     <string name="confirm">Bestätigen</string>
-    <string name="ignore">Ignorieren </string>
+    <string name="ignore">Ignorieren</string>
     <string name="cancel">Abbrechen</string>
     <string name="save">Speichern</string>
     <string name="discard">Verwerfen</string>
@@ -49,7 +49,7 @@
     <string name="decline">Ablehnen</string>
     <string name="select_all">Alle auswählen</string>
     <string name="deselect_all">Auswahl aufheben</string>
-    <string name="skip">SKIP</string>
+    <string name="skip">überspringen</string>
     <string name="warning">Achtung</string>
     <string name="error">Fehler</string>
     <string name="loading">Lade&#8230;</string>
@@ -113,30 +113,30 @@
     <string name="preference_description_web_access">Bearbeiten, um vertrauenswürdige Domänen hinzuzufügen oder zu entfernen</string>
     <string name="preference_screen_web_access_title">Bearbeiten Sie vertrauenswürdige Domänen</string>
     <string name="preference_title_accessibility">Bedienungshilfe</string>
-    <string name="preference_description_accessibility">Wähle ein Profil und konfiguriere deine eigenen Einstellungen für die Benutzeroberfläche der App.</string>
+    <string name="preference_description_accessibility">Aussehen der App ändern</string>
     <string name="preference_title_accessibility_profiles">Bediehnungshilfen</string>
     <string name="preference_title_accessibility_profile">Vordefinierte Profile</string>
     <string name="preference_title_accessibility_profile_headline">Profile</string>
     <string name="preference_title_accessibility_predefined_profile_headline">Vordefinierte Profile</string>
-    <string name="preference_description_accessibility_profiles">Wähle ein Profil dass dir mit der App behilflich ist.</string>
+    <string name="preference_description_accessibility_profiles">Wähle ein Profil dass dir mit der App behilflich ist</string>
     <string name="preference_title_accessibility_text_appearance">Textdarstellungen</string>
     <string name="preference_title_accessibility_handling">Bearbeitungshilfen</string>
     <string name="preference_title_accessibility_category_icons_big">Große Symbole</string>
-    <string name="preference_description_accessibility_category_icons_big">Symbole vergrößern</string>
+    <string name="preference_description_accessibility_category_icons_big">Symbole vergrößern.</string>
     <string name="preference_title_accessibility_category_icons_high_contrast">Symbol Kontrast</string>
     <string name="preference_title_accessibility_Brick_icons">Bausteinsymbole</string>
     <string name="preference_title_accessibility_category_icons">Zeige Symbole</string>
-    <string name="preference_description_accessibility_category_icons">Fügt zusätzliche Sybole zu Kategorien und Bausteine hinzu </string>
+    <string name="preference_description_accessibility_category_icons">Fügt zusätzliche Symbole zu Kategorien und Bausteine hinzu.</string>
     <string name="preference_title_accessibility_high_contrast">Hoher Kontrast</string>
-    <string name="preference_description_accessibility_high_contrast">Erhöht den Kontrast der Schrift auf Bausteine </string>
-    <string name="preference_description_accessibility_large_text">Diese Option erhöht die Schriftgröße</string>
+    <string name="preference_description_accessibility_high_contrast">Erhöht den Kontrast der Schrift auf Bausteine.</string>
+    <string name="preference_description_accessibility_large_text">Diese Option erhöht die Schriftgröße.</string>
     <string name="preference_title_accessibility_large_text">Große Schrift</string>
     <string name="preference_title_accessibility_element_spacing">Erhöhter Abstand der Elemente</string>
-    <string name="preference_description_accessibility_element_spacing">Diese Einstellung erhöht den Abstand zwischen interaktiven Elementen</string>
+    <string name="preference_description_accessibility_element_spacing">Diese Einstellung erhöht den Abstand zwischen interaktiven Elementen.</string>
     <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'Drop Verzögerung</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Fügt eine Verzögerung zu den Drag\'n\'Drop Bausteinen hinzu</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Fügt eine Verzögerung zu den Drag\'n\'Drop Bausteinen hinzu.</string>
     <string name="preference_title_accessibility_beginner_bricks">Start Bausteine</string>
-    <string name="preference_description_accessibility_beginner_bricks">Zeigt Basuteine zur schnellen und einfachen Programmerstellung</string>
+    <string name="preference_description_accessibility_beginner_bricks">Zeigt Bausteine zur schnellen und einfachen Programmerstellung.</string>
     <string name="preference_title_accessibility_font_style">Schriftart auswählen</string>
     <string name="accessibility_font_regular">Standard</string>
     <string name="accessibility_font_serif">Serif</string>
@@ -201,8 +201,8 @@
         fehlen, bitte versuchen Sie es später erneut.</string>
     <string name="error_request_timeout">Hoppla! Unser Server hat nicht geantwortet, in der Zeit, bitte versuchen Sie es später erneut.</string>
     <string name="error_scratch_program_conversion_failed">Hoppla! Konvertierung des Scratch Projektes ist
-      fehlgeschlagen. Bitte probiere es etwas später noch einmal!</string>
-    <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von %1$s fehlgeschlagen. Bitte probiere es später noch einmal!</string>
+      fehlgeschlagen. Bitte probiere es etwas später noch einmal.</string>
+    <string name="error_specific_scratch_program_conversion_failed_x">Hoppla! Konvertierung von %1$s fehlgeschlagen. Bitte probiere es später noch einmal.</string>
     <string name="error_scratch_converter_outdated_app_version">Die Version der App ist veraltet. Unser Scratch
         Konverter funktioniert nur mit der neuesten Version. Bitte aktualisiere die App.</string>
     <string name="error_cannot_open_not_existing_scratch_program">Dieses Scratch Projekt kann nicht geöffnet werden. Es
@@ -224,8 +224,8 @@
         korrekt konvertiert wurde. Bitte versuche es erneut zu konvertieren.</string>
     <string name="search_failed">Nichts gefunden, bitte versuchen eine andere Abfrage.</string>
     <string name="connection_lost_or_closed_by_server">Serververbindung unterbrochen.</string>
-    <string name="connection_failed">Es konnte keine Verbindung mit dem Server hergestellt werden, bitte probiere es später nochmal</string>
-    <string name="authentication_failed">Kein Verbindung möglich. Bitte kontaktiere das Catrobat Team!</string>
+    <string name="connection_failed">Es konnte keine Verbindung mit dem Server hergestellt werden, bitte probiere es später nochmal.</string>
+    <string name="authentication_failed">Kein Verbindung möglich. Bitte kontaktiere das Catrobat Team.</string>
     <plurals name="scratch_conversion_scheduled_x">
         <item quantity="one">Hinzufügen von %d Scratch Projekte zur Warteliste&#8230;</item>
         <item quantity="other">Hinzufügen von %d Scratch Projekte zur Warteliste&#8230;</item>
@@ -247,10 +247,10 @@
     </plurals>
     <string name="status_conversion_failed">Konvertierung fehlgeschlagen!</string>
     <string name="status_downloading">Download läuft&#8230;</string>
-    <string name="status_download_finished">Download abgeschlossen!</string>
+    <string name="status_download_finished">Download abgeschlossen.</string>
     <string name="status_download_canceled">Download abgebrochen!</string>
     <string name="scratch_programs_in_progress_title">In Bearbeitung</string>
-    <string name="scratch_programs_finished_title">Konvertierte Projekte </string>
+    <string name="scratch_programs_finished_title">Konvertierte Projekte</string>
     <string name="by_x">von %1$s</string>
     <string name="warning_program_visibility">ACHTUNG: \nEs handelt sich um ein auf privat gesetztes Projekt. Du kannst versuchen es zu
         konvertieren aber möglicherweise funktioniert es nicht.</string>
@@ -387,96 +387,96 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">%d Szene eingepackt!</item>
-        <item quantity="other">%d Szenen eingepackt!</item>
+        <item quantity="one">%d Szene eingepackt.</item>
+        <item quantity="other">%d Szenen eingepackt.</item>
     </plurals>
     <plurals name="packed_sprites">
         <item quantity="one">%d Figur oder Objekt eingepackt.</item>
         <item quantity="other">%d Figuren oder Objekte eingepackt.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">%d Aussehen eingepackt!</item>
-        <item quantity="other">%d Aussehen eingepackt!</item>
+        <item quantity="one">%d Aussehen eingepackt.</item>
+        <item quantity="other">%d Aussehen eingepackt.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">%d Klang eingepackt!</item>
-        <item quantity="other">%d Klänge eingepackt!</item>
+        <item quantity="one">%d Klang eingepackt.</item>
+        <item quantity="other">%d Klänge eingepackt.</item>
     </plurals>
-    <string name="packed_script_group">1 Skriptgruppe eingepackt!</string>
+    <string name="packed_script_group">1 Skriptgruppe eingepackt.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">%d Szene ausgepackt!</item>
-        <item quantity="other">%d Szenen ausgepackt!</item>
+        <item quantity="one">%d Szene ausgepackt.</item>
+        <item quantity="other">%d Szenen ausgepackt.</item>
     </plurals>
     <plurals name="unpacked_sprites">
         <item quantity="one">%d Figur oder Objekt ausgepackt.</item>
         <item quantity="other">%d Figuren oder Objekte ausgepackt.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">%d Aussehen ausgepackt!</item>
-        <item quantity="other">%d Aussehen ausgepackt!</item>
+        <item quantity="one">%d Aussehen ausgepackt.</item>
+        <item quantity="other">%d Aussehen ausgepackt.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">%d Klang ausgepackt!</item>
-        <item quantity="other">%d Klänge ausgepackt!</item>
+        <item quantity="one">%d Klang ausgepackt.</item>
+        <item quantity="other">%d Klänge ausgepackt.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">%d Skript ausgepackt!</item>
-        <item quantity="other">%d Skripte ausgepackt!</item>
+        <item quantity="one">%d Skript ausgepackt.</item>
+        <item quantity="other">%d Skripte ausgepackt.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">%d Szene kopiert!</item>
-        <item quantity="other">%d Szenen kopiert!</item>
+        <item quantity="one">%d Szene kopiert.</item>
+        <item quantity="other">%d Szenen kopiert.</item>
     </plurals>
     <plurals name="copied_sprites">
         <item quantity="one">%d Figur oder Objekt kopiert.</item>
         <item quantity="other">%d Figuren oder Objekte kopiert.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">%d Aussehen kopiert!</item>
-        <item quantity="other">%d Aussehen kopiert!</item>
+        <item quantity="one">%d Aussehen kopiert.</item>
+        <item quantity="other">%d Aussehen kopiert.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">%d Klang kopiert!</item>
-        <item quantity="other">%d Klänge kopiert!</item>
+        <item quantity="one">%d Klang kopiert.</item>
+        <item quantity="other">%d Klänge kopiert.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">%d NFC Tag kopiert!</item>
-        <item quantity="other">%d NFC Tags kopiert!</item>
+        <item quantity="one">%d NFC Tag kopiert.</item>
+        <item quantity="other">%d NFC Tags kopiert.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">%d Projekt gelöscht!</item>
-        <item quantity="other">%d Projekte gelöscht!</item>
+        <item quantity="one">%d Projekt gelöscht.</item>
+        <item quantity="other">%d Projekte gelöscht.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">%d Szene gelöscht!</item>
-        <item quantity="other">%d Szenen gelöscht!</item>
+        <item quantity="one">%d Szene gelöscht.</item>
+        <item quantity="other">%d Szenen gelöscht.</item>
     </plurals>
     <plurals name="deleted_sprites">
         <item quantity="one">%d Figur und Objekt gelöscht!</item>
         <item quantity="other">%d Figuren und Objekte gelöscht!</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">%d Aussehen gelöscht!</item>
-        <item quantity="other">%d Aussehen gelöscht!</item>
+        <item quantity="one">%d Aussehen gelöscht.</item>
+        <item quantity="other">%d Aussehen gelöscht.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">%d Klang gelöscht!</item>
-        <item quantity="other">%d Klänge gelöscht!</item>
+        <item quantity="one">%d Klang gelöscht.</item>
+        <item quantity="other">%d Klänge gelöscht.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">%d NFC Tag gelöscht!</item>
-        <item quantity="other">%d NFC Tags gelöscht!</item>
+        <item quantity="one">%d NFC Tag gelöscht.</item>
+        <item quantity="other">%d NFC Tags gelöscht.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">%d Skript gelöscht!</item>
-        <item quantity="other">%d Skripte gelöscht!</item>
+        <item quantity="one">%d Skript gelöscht.</item>
+        <item quantity="other">%d Skripte gelöscht.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">%d Elemente wurden gelöscht!</item>
-        <item quantity="other">%d Elemente wurden gelöscht!</item>
+        <item quantity="one">%d Elemente wurden gelöscht.</item>
+        <item quantity="other">%d Elemente wurden gelöscht.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -515,7 +515,7 @@
     <string name="sound_select_source">Klang auswählen</string>
     <!--  -->
     <!-- NfcTagListFragment -->
-    <string name="fragment_nfctag_text_description">Zum Hinzufügen scanne NFC-Tags </string>
+    <string name="fragment_nfctag_text_description">Zum Hinzufügen scanne NFC-Tags</string>
     <string name="ndef_record_label" tools:ignore="UnusedResources">als Recordtype</string>
     <string name="brick_set_nfc_tag" tools:ignore="UnusedResources">Setze NFC Tag auf</string>
     <string name="brick_set_nfc_tag_default_value">www.catrobat.org</string>
@@ -577,7 +577,7 @@
     <!--  -->
     <!-- Rating Dialog -->
     <string name="rating_dialog_title">Bewerte die App</string>
-    <string name="rating_google_play_dialog_text">Wenn dir diese App gefällt, gibt uns bitte eine Bewertung auf Google Play!</string>
+    <string name="rating_google_play_dialog_text">Wenn dir diese App gefällt, gibt uns bitte eine Bewertung auf Google Play.</string>
     <string name="rating_dialog_rate_now">Jetzt</string>
     <string name="rating_dialog_rate_later">Später</string>
     <string name="rating_dialog_rate_never">Nie</string>
@@ -663,7 +663,7 @@
     <!-- Play scene dialog -->
     <string name="play_scene_dialog_title">Spiele Szene:</string>
     <string name="play_scene_dialog_default">Erste Szene (%1$s)</string>
-    <string name="play_scene_dialog_current">Aktuelle Szene %1$s</string>
+    <string name="play_scene_dialog_current">Aktuelle Szene (%1$s)</string>
     <!--  -->
     <!-- Sign In dialogs -->
     <string name="sign_in_dialog_title">Einloggen</string>
@@ -689,7 +689,7 @@
     <string name="error_google_plus_sign_in">Google Sign-In Fehler. Status: %s</string>
     <string name="error_session_expired">Sitzung abgelaufen, bitte erneut einloggen.</string>
     <string name="error_register_empty_username">Leerer Benuzername</string>
-    <string name="error_register_username_as_email">E-Mail-Adressen können nicht als Benutzername verwendet werden.</string>
+    <string name="error_register_username_as_email">E-Mail-Adressen können nicht als Benutzername verwendet werden</string>
     <string name="error_register_invalid_username">Benutzernamen dürfen nur Buchstaben (a–Z), Zahlen (0–9), Bindestriche (-), Unterstriche (_) und Punkte (.) enthalten.</string>
     <string name="error_register_username_start_with">Benutzername darf nicht mit Bindestrichen (-), Unterstrichen (_) oder Punkten (.) beginnen.</string>
     <string name="error_register_invalid_email_format">Ungültiges E-Mail-Format</string>
@@ -1107,7 +1107,7 @@
     <!-- Default Values -->
     <string name="default_project_name">Mein Projekt</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Szene %1$d</string>
+    <string name="default_scene_name">Szene (%1$d)</string>
     <string name="default_script_group_name">Skript Gruppe</string>
     <string name="default_broadcast_message_name">Nachricht</string>
     <string name="default_list_name">Liste</string>
@@ -1771,7 +1771,7 @@
         aber auch einen Zufallsgenerator.</string>
     <string name="formula_editor_intro_title_logic">Logik</string>
     <string name="formula_editor_intro_summary_logic">Logik wird zum Vergleichen und Verknüpfen von Werten verwendet. Um Werte zu
-        vergleichen kannst du zum Beispiel \"&amp;gt\"; (größer als) oder \"=\" (ist gleich) verwenden.\nUm Werte zu verknüpfen, können
+        vergleichen kannst du zum Beispiel \"&gt;\" (größer als) oder \"=\" (ist gleich) verwenden.\nUm Werte zu verknüpfen, können
         \"UND\", \"ODER\" und \"NICHT\" verwendet werden. </string>
     <string name="formula_editor_intro_title_device">Sensoren</string>
     <string name="formula_editor_intro_summary_device">Unter \"Gerät\" findest du sämtliche Daten, die dein 
