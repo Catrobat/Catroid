@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ package org.catrobat.catroid.test.io.asynctask;
 import android.Manifest;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
@@ -35,7 +36,6 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.utils.notifications.NotificationData;
 import org.catrobat.catroid.utils.notifications.StatusBarNotificationManager;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,17 +43,27 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 
 @RunWith(AndroidJUnit4.class)
 public class ProjectExportTaskTest {
+
+	public static final String TAG = ProjectExportTaskTest.class.getSimpleName();
 
 	private Project project;
 	private Context contextMock;
@@ -80,6 +90,8 @@ public class ProjectExportTaskTest {
 
 	@Test
 	public void exportProjectTest() {
+		createUndoCodeXmlFile();
+
 		StatusBarNotificationManager notificationManager = new StatusBarNotificationManager(contextMock);
 		NotificationData notificationData = notificationManager
 				.createSaveProjectToExternalMemoryNotification(ApplicationProvider.getApplicationContext(), project.getName());
@@ -89,7 +101,38 @@ public class ProjectExportTaskTest {
 
 		File externalProjectZip = new File(EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY,
 				project.getDirectory().getName() + CATROBAT_EXTENSION);
-		Assert.assertTrue(externalProjectZip.exists());
+		assertTrue(externalProjectZip.exists());
+
+		checkUndoCodeXmlFileIsDeleted(externalProjectZip);
+	}
+
+	private void createUndoCodeXmlFile() {
+		File currentCodeFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(project.getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		try {
+			StorageOperations.transferData(currentCodeFile, undoCodeFile);
+		} catch (IOException exception) {
+			Log.e(TAG, "Copying project " + project.getName() + " failed.", exception);
+		}
+	}
+
+	private void checkUndoCodeXmlFileIsDeleted(File externalProjectZip) {
+		String zipFileName = externalProjectZip.getAbsolutePath().replace(CATROBAT_EXTENSION, ".zip");
+		externalProjectZip.renameTo(new File(zipFileName));
+
+		try {
+			ZipFile zipFile = new ZipFile(zipFileName);
+			Enumeration zipEntries = zipFile.entries();
+			String fileName;
+
+			while (zipEntries.hasMoreElements()) {
+				fileName = ((ZipEntry) zipEntries.nextElement()).getName();
+				assertFalse(fileName.equals(UNDO_CODE_XML_FILE_NAME));
+			}
+		} catch (IOException exception) {
+			Log.e(TAG, "Creating zip folder failed.", exception);
+		}
 	}
 
 	@After
