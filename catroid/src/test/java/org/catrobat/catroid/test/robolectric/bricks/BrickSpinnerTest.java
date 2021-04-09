@@ -67,6 +67,7 @@ import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.bricks.WhenBackgroundChangesBrick;
 import org.catrobat.catroid.content.bricks.WhenBounceOffBrick;
 import org.catrobat.catroid.content.bricks.WhenGamepadButtonBrick;
@@ -117,6 +118,7 @@ public class BrickSpinnerTest {
 				{CloneBrick.class.getSimpleName(), new CloneBrick(), R.id.brick_clone_spinner, "yourself", asList("yourself", "otherTestSprite")},
 				{SetNfcTagBrick.class.getSimpleName(), new SetNfcTagBrick(), R.id.brick_set_nfc_tag_ndef_record_spinner, "HTTPS", asList("Text", "HTTP", "HTTPS", "SMS", "Phone number", "E-Mail", "External type", "Empty")},
 				{GoToBrick.class.getSimpleName(), new GoToBrick(), R.id.brick_go_to_spinner, "touch position", asList("touch position", "random position", "otherTestSprite")},
+				{UserDefinedReceiverBrick.class.getSimpleName(), new UserDefinedReceiverBrick(), R.id.brick_set_screen_refresh_spinner, "with", asList("with", "without")},
 				{PointToBrick.class.getSimpleName(), new PointToBrick(), R.id.brick_point_to_spinner, "otherTestSprite", asList("new…", "otherTestSprite")},
 				{SetRotationStyleBrick.class.getSimpleName(), new SetRotationStyleBrick(), R.id.brick_set_rotation_style_spinner, "left-right only", asList("left-right only", "all-around", "don't rotate")},
 				{PlaySoundBrick.class.getSimpleName(), new PlaySoundBrick(), R.id.brick_play_sound_spinner, "someSound", asList("new…", "someSound")},

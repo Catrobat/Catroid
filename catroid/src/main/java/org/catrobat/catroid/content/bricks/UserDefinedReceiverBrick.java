@@ -29,14 +29,22 @@ import android.widget.LinearLayout;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.BrickValues;
+import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.UserDefinedScript;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
+import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 
-public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
+public class UserDefinedReceiverBrick extends ScriptBrickBaseType implements BrickSpinner.OnItemSelectedListener<StringOption> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -44,7 +52,11 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
 	private LinearLayout userBrickSpace;
 	private Brick userDefinedBrick;
 
+	public int spinnerSelection;
+
 	public UserDefinedReceiverBrick(UserDefinedScript userDefinedScript) {
+		this.spinnerSelection = userDefinedScript.getScreenRefresh() ? BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH
+				: BrickValues.USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH;
 		this.userDefinedScript = userDefinedScript;
 	}
 
@@ -90,7 +102,27 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
 		if (userDefinedBrick != null) {
 			userBrickSpace.addView(userDefinedBrick.getView(context));
 		}
+		setUpSpinner(context);
 		return view;
+	}
+
+	private void setUpSpinner(Context context) {
+		List<Nameable> items = new ArrayList<>();
+		items.add(new StringOption(context.getString(R.string.brick_user_defined_with_screen_refreshing)));
+		items.add(new StringOption(context.getString(R.string.brick_user_defined_without_screen_refreshing)));
+
+		BrickSpinner<StringOption> spinner =
+				new BrickSpinner<>(R.id.brick_set_screen_refresh_spinner, view, R.layout.userdefined_brick_spinner_item, items);
+		spinner.setSpinnerFontColor(context, R.color.dark_blue);
+		spinner.setOnItemSelectedListener(this);
+
+		if (spinnerSelection == BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH) {
+			spinner.setSelection(0);
+		}
+
+		if (spinnerSelection == BrickValues.USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH) {
+			spinner.setSelection(1);
+		}
 	}
 
 	@Override
@@ -100,5 +132,30 @@ public class UserDefinedReceiverBrick extends ScriptBrickBaseType {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+	}
+
+	@Override
+	public void onNewOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
+	public void onStringOptionSelected(Integer spinnerId, String string) {
+		Context context = view.getContext();
+
+		if (string.equals(context.getString(R.string.brick_user_defined_with_screen_refreshing))) {
+			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH;
+		}
+		if (string.equals(context.getString(R.string.brick_user_defined_without_screen_refreshing))) {
+			spinnerSelection = BrickValues.USER_DEFINED_BRICK_WITHOUT_SCREEN_REFRESH;
+		}
+		userDefinedScript.setScreenRefresh(spinnerSelection == BrickValues.USER_DEFINED_BRICK_WITH_SCREEN_REFRESH);
+	}
+
+	@Override
+	public void onItemSelected(Integer spinnerId, @Nullable StringOption item) {
 	}
 }

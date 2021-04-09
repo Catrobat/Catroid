@@ -24,6 +24,7 @@
 package org.catrobat.catroid.content.bricks.brickspinner;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -44,6 +45,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -56,13 +58,17 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 
 	private OnItemSelectedListener<T> onItemSelectedListener;
 
-	public BrickSpinner(Integer spinnerId, @NonNull View parent, List<Nameable> items) {
+	public BrickSpinner(Integer spinnerId, @NonNull View parent, int spinnerLayout, List<Nameable> items) {
 		spinnerid = spinnerId;
-		adapter = new BrickSpinnerAdapter(parent.getContext(), android.R.layout.simple_spinner_item, items);
+		adapter = new BrickSpinnerAdapter(parent.getContext(), spinnerLayout, items);
 		spinner = parent.findViewById(spinnerId);
 		spinner.setAdapter(adapter);
 		spinner.setSelection(0);
 		spinner.setOnItemSelectedListener(this);
+	}
+
+	public BrickSpinner(Integer spinnerId, @NonNull View parent, List<Nameable> items) {
+		this(spinnerId, parent, android.R.layout.simple_spinner_item, items);
 	}
 
 	public void setOnItemSelectedListener(OnItemSelectedListener<T> onItemSelectedListener) {
@@ -196,13 +202,19 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		return null;
 	}
 
+	public void setSpinnerFontColor(Context context, int color) {
+		spinner.getBackground().setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_ATOP);
+	}
+
 	@VisibleForTesting
 	public class BrickSpinnerAdapter extends ArrayAdapter<Nameable> {
 
+		private int resource;
 		private List<Nameable> items;
 
 		BrickSpinnerAdapter(@NonNull Context context, int resource, @NonNull List<Nameable> items) {
 			super(context, resource, items);
+			this.resource = resource;
 			this.items = items;
 		}
 
@@ -236,7 +248,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 			if (convertView == null) {
 				convertView = LayoutInflater.from(parent.getContext())
-						.inflate(android.R.layout.simple_spinner_item, parent, false);
+						.inflate(resource, parent, false);
 			}
 
 			Nameable item = getItem(position);
