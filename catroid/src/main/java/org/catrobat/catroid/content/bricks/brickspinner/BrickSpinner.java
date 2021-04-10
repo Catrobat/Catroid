@@ -53,6 +53,7 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 	private BrickSpinnerAdapter adapter;
 	private Integer spinnerid;
 	private T previousItem;
+	private Brick showTextColorSizeAlignmentBrick = null;
 
 	private OnItemSelectedListener<T> onItemSelectedListener;
 
@@ -63,6 +64,16 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 		spinner.setAdapter(adapter);
 		spinner.setSelection(0);
 		spinner.setOnItemSelectedListener(this);
+	}
+
+	public BrickSpinner(Integer spinnerId, @NonNull View parent, List<Nameable> items, Brick brick) {
+		spinnerid = spinnerId;
+		adapter = new BrickSpinnerAdapter(parent.getContext(), android.R.layout.simple_spinner_item, items);
+		spinner = parent.findViewById(spinnerId);
+		spinner.setAdapter(adapter);
+		spinner.setSelection(0);
+		spinner.setOnItemSelectedListener(this);
+		showTextColorSizeAlignmentBrick = brick;
 	}
 
 	public void setOnItemSelectedListener(OnItemSelectedListener<T> onItemSelectedListener) {
@@ -176,6 +187,8 @@ public class BrickSpinner<T extends Nameable> implements AdapterView.OnItemSelec
 			scriptFragment.showUndo(true);
 			if (onItemSelectedListener instanceof Brick) {
 				scriptFragment.setUndoBrickPosition((Brick) onItemSelectedListener);
+			} else if (showTextColorSizeAlignmentBrick != null) {
+				scriptFragment.setUndoBrickPosition(showTextColorSizeAlignmentBrick);
 			}
 		}
 	}
