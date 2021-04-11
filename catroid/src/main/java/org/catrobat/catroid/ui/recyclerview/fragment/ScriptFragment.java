@@ -249,7 +249,7 @@ public class ScriptFragment extends ListFragment implements
 		listView = view.findViewById(android.R.id.list);
 		setHasOptionsMenu(true);
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_scripts);
-		hideFab();
+		hideFabOnScroll();
 		return view;
 	}
 
@@ -929,7 +929,7 @@ public class ScriptFragment extends ListFragment implements
 		brickToFocus = null;
 	}
 
-	private void hideFab() {
+	private void hideFabOnScroll() {
 		LayoutInflater inflater2 =
 				(LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
