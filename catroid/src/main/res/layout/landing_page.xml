@@ -172,25 +172,6 @@
 
                 </RelativeLayout>
 
-                <com.facebook.shimmer.ShimmerFrameLayout
-                    android:id="@+id/shimmerViewContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    shimmer:duration="800">
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                        <include layout="@layout/main_menu_shimmer_dummy_view" />
-                    </LinearLayout>
-
-                </com.facebook.shimmer.ShimmerFrameLayout>
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/categoriesRecyclerView"
                     android:layout_width="match_parent"
@@ -202,6 +183,22 @@
                     android:nestedScrollingEnabled="false"
                     android:visibility="gone"
                     app:layoutManager="LinearLayoutManager" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerViewContainer"
+                    android:layout_marginTop="-12dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    shimmer:duration="800">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/main_menu_shimmer_dummy_view" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
             </LinearLayout>
 

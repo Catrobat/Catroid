@@ -1,25 +1,25 @@
 /*
-* Catroid: An on-device visual programming system for Android devices
-* Copyright (C) 2010-2021 The Catrobat Team
-* (<http://developer.catrobat.org/credits>)
-*
-* This program is free software: you can redistribute it and/or modify
-* it under the terms of the GNU Affero General Public License as
-* published by the Free Software Foundation, either version 3 of the
-* License, or (at your option) any later version.
-*
-* An additional term exception under section 7 of the GNU Affero
-* General Public License, version 3, is available at
-* http://developer.catrobat.org/license_additional_term
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-* GNU Affero General Public License for more details.
-*
-* You should have received a copy of the GNU Affero General Public License
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2021 The Catrobat Team
+ * (<http://developer.catrobat.org/credits>)
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * An additional term exception under section 7 of the GNU Affero
+ * General Public License, version 3, is available at
+ * http://developer.catrobat.org/license_additional_term
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package org.catrobat.catroid.ui.recyclerview.viewmodel
 
@@ -31,16 +31,22 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.common.ProjectData
 import org.catrobat.catroid.content.backwardcompatibility.ProjectMetaDataParser
-import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.retrofit.models.FeaturedProject
-import org.catrobat.catroid.retrofit.models.ProjectsCategory
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.catrobat.catroid.retrofit.models.ProjectCategory
+import org.catrobat.catroid.ui.recyclerview.DefaultProjectCategoriesRepository
 import java.io.File
 import java.io.IOException
 
-class MainFragmentViewModel(private val webServer: WebService) : ViewModel() {
+class MainFragmentViewModel(
+    private val repository: DefaultProjectCategoriesRepository
+) : ViewModel() {
+
+    private val isLoadingData = MutableLiveData<Boolean>(true)
+
+    fun isLoading(): LiveData<Boolean> = isLoadingData
+
+    fun setIsLoading(loading: Boolean = false) = isLoadingData.postValue(loading)
+
     private val projectList = MutableLiveData<List<ProjectData>>()
 
     fun getProjects(): LiveData<List<ProjectData>> = projectList
@@ -61,59 +67,11 @@ class MainFragmentViewModel(private val webServer: WebService) : ViewModel() {
         return myProjects.sortedByDescending { it.lastUsed }
     }
 
-    fun forceUpdate() {
-        projectList.postValue(getProjectData())
-    }
+    fun forceUpdate() = projectList.postValue(getProjectData())
 
-    init {
-        fetchData()
-    }
+    fun getFeaturedProjects(): LiveData<List<FeaturedProject>> = repository.getFeaturedProjects()
 
-    private val isLoadingData = MutableLiveData<Boolean>(true)
+    fun getProjectCategories(): LiveData<List<ProjectCategory>> = repository.getProjectCategories()
 
-    fun isLoading(): LiveData<Boolean> = isLoadingData
-
-    fun setIsLoading(loading: Boolean = false) {
-        isLoadingData.postValue(loading)
-    }
-
-    private val featuredProjects = MutableLiveData<List<FeaturedProject>>()
-
-    fun getFeaturedProjects(): LiveData<List<FeaturedProject>> = featuredProjects
-
-    private val projectCategories = MutableLiveData<List<ProjectsCategory>>()
-
-    fun getProjectCategories(): LiveData<List<ProjectsCategory>> = projectCategories
-
-    fun fetchData() {
-        webServer.getProjectCategories().enqueue(object : Callback<List<ProjectsCategory>> {
-            override fun onResponse(
-                call: Call<List<ProjectsCategory>>,
-                response: Response<List<ProjectsCategory>>
-            ) {
-                response.body()?.let { items ->
-                    projectCategories.postValue(items.filter { it.type != "example" })
-                }
-            }
-
-            override fun onFailure(call: Call<List<ProjectsCategory>>, t: Throwable) {
-                Log.w(javaClass.simpleName, "failed to fetch project categories!!", t)
-            }
-        })
-
-        webServer.getFeaturedProjects().enqueue(object : Callback<List<FeaturedProject>> {
-            override fun onResponse(
-                call: Call<List<FeaturedProject>>,
-                response: Response<List<FeaturedProject>>
-            ) {
-                response.body()?.let {
-                    featuredProjects.postValue(it)
-                }
-            }
-
-            override fun onFailure(call: Call<List<FeaturedProject>>, t: Throwable) {
-                Log.w(javaClass.simpleName, "failed to fetch featured projects!!", t)
-            }
-        })
-    }
+    fun fetchData() = repository.triggerFreshUpdate()
 }

@@ -33,9 +33,9 @@ data class FeaturedProject(
     val featured_image: String
 )
 
-data class ProjectsCategory(
+data class ProjectCategory(
     val type: String,
-    val name: String,
+    val nameStringId: Int,
     val projectsList: List<ProjectResponse>
 )
 

@@ -2115,4 +2115,11 @@ needs read and write access to it. You can always change permissions through you
     <string name="cut">Cut</string>
     <string name="paste">Paste</string>
 
+    <string name="main_menu_category_recent">Newest projects</string>
+    <string name="main_menu_category_random">Random projects</string>
+    <string name="main_menu_category_most_viewed">Most viewed</string>
+    <string name="main_menu_category_most_downloaded">Most downloaded</string>
+    <string name="main_menu_category_scratch_remixes">Scratch remixes</string>
+    <string name="main_menu_category_recommended">Recommended projects</string>
+
 </resources>

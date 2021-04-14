@@ -26,6 +26,8 @@ package org.catrobat.catroid.koin
 import android.app.Application
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.retrofit.CatroidWebServer
+import org.catrobat.catroid.ui.recyclerview.DefaultProjectCategoriesRepository
+import org.catrobat.catroid.ui.recyclerview.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
 import org.catrobat.catroid.ui.recyclerview.viewmodel.MainFragmentViewModel
@@ -55,6 +57,10 @@ val repositoryModules = module {
     single {
         CatroidWebServer.getWebService("https://share.catrob.at/api/")
     }
+
+    single {
+        ProjectCategoriesRepository(get()) as DefaultProjectCategoriesRepository
+    }
 }
 
 val adapterModules = module {
@@ -67,7 +73,12 @@ val adapterModules = module {
     }
 }
 
-val myModules = listOf(componentsModules, viewModelModules, repositoryModules, adapterModules)
+val myModules = listOf(
+    componentsModules,
+    repositoryModules,
+    viewModelModules,
+    adapterModules
+)
 
 fun start(application: Application, modules: List<Module>) {
     startKoin {

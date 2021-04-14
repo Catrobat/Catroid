@@ -108,17 +108,6 @@ class MainMenuFragmentTest : KoinTest {
     }
 
     @Test
-    fun testIsLoading() {
-        waitFor(800)
-        onView(withId(R.id.shimmerViewContainer))
-            .perform(scrollTo())
-            .check(matches(isDisplayed()))
-
-        onView(withId(R.id.categoriesRecyclerView))
-            .check(matches(not(isDisplayed())))
-    }
-
-    @Test
     fun testCategoriesAreLoadedAfter9Seconds() {
         waitFor(9000)
         onView(withId(R.id.categoriesRecyclerView))

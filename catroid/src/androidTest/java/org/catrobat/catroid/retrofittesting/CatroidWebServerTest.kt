@@ -35,6 +35,7 @@ import org.catrobat.catroid.common.Constants
 import org.catrobat.catroid.common.FlavoredConstants
 import org.catrobat.catroid.retrofit.WebService
 import org.catrobat.catroid.testsuites.annotations.Cat.OutgoingNetworkTests
+import org.catrobat.catroid.ui.recyclerview.ProjectCategoriesRepository
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -150,12 +151,12 @@ class CatroidWebServerTest : KoinTest {
 
     @Test
     @Throws(Exception::class)
-    fun testFeaturedProjectsEmptyFlavorNameReturnsEmptyList() {
+    fun testFeaturedProjectsEmptyFlavorNameReturnsNONEmptyList() {
         val response = webServer.getFeaturedProjects(flavor = "")
             .execute()
             .body()
         assertNotNull(response)
-        assertTrue(response!!.isEmpty())
+        assertTrue(response!!.isNotEmpty())
     }
 
     @Test
@@ -173,35 +174,35 @@ class CatroidWebServerTest : KoinTest {
     @Test
     @Throws(Exception::class)
     fun testProjectCategoriesCallUsesHTTPS() {
-        assertTrue(webServer.getProjectCategories().request().isHttps)
+        ProjectCategoriesRepository.categoryPairList.forEach {
+            assertTrue(webServer.getProjectCategory(it.first).request().isHttps)
+        }
     }
 
     @Test
     @Throws(Exception::class)
     fun testProjectCategoriesCallWithDefaultValues() {
-        val expectedRawResponse =
-            "Response{protocol=h2, code=200, message=," +
-                " url=https://share.catrob.at/api/projects/categories?" +
-                "max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
-                "&flavor=${FlavoredConstants.FLAVOR_NAME}}"
-        val rawResponse = webServer.getProjectCategories().execute().raw().toString()
-        assertEquals(expectedRawResponse, rawResponse)
+        ProjectCategoriesRepository.categoryPairList.forEach {
+            val expectedRawResponse =
+                "Response{protocol=h2, code=200, message=," +
+                    " url=https://share.catrob.at/api/projects?" +
+                    "category=${it.first}" +
+                    "&max_version=${Constants.CURRENT_CATROBAT_LANGUAGE_VERSION}" +
+                    "&limit=20&offset=0" +
+                    "&flavor=${FlavoredConstants.FLAVOR_NAME}}"
+            val rawResponse = webServer.getProjectCategory(it.first).execute().raw().toString()
+            assertEquals(expectedRawResponse, rawResponse)
+        }
     }
 
     @Test
     @Throws(Exception::class)
     fun testProjectCategoriesResponseHasCorrectStructure() {
-        val response = webServer.getProjectCategories().execute().body()
-        assertNotNull(response)
-        webServer.getProjectCategories()
-            .execute()
-            .body()
-            ?.forEach {
-                assertNotNull(it)
-                assertNotNull(it.name)
-                assertNotNull(it.type)
-                assertNotNull(it.projectsList)
-                it.projectsList.forEach { projectResponse ->
+        ProjectCategoriesRepository.categoryPairList.forEach {
+            val response = webServer.getProjectCategory(it.first).execute().body()
+            assertNotNull(response)
+            response
+                ?.forEach { projectResponse ->
                     assertNotNull(projectResponse.id)
                     assertNotNull(projectResponse.name)
                     assertNotNull(projectResponse.author)
@@ -224,7 +225,7 @@ class CatroidWebServerTest : KoinTest {
                     assertTrue(Patterns.WEB_URL.matcher(projectResponse.download_url).matches())
                     assertNotNull(projectResponse.filesize)
                 }
-            }
+        }
     }
 
     private fun String.containsOkHttpCode() = contains(200.toString())

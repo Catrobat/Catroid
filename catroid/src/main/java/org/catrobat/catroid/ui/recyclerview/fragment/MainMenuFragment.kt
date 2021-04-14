@@ -58,6 +58,7 @@ import org.catrobat.catroid.ui.WebViewActivity
 import org.catrobat.catroid.ui.recyclerview.CategoryTitleCallback
 import org.catrobat.catroid.ui.recyclerview.FeaturedProjectCallback
 import org.catrobat.catroid.ui.recyclerview.IndicatorDecoration
+import org.catrobat.catroid.ui.recyclerview.ProjectCategoriesRepository
 import org.catrobat.catroid.ui.recyclerview.ProjectListener
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoriesAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.FeaturedProjectsAdapter
@@ -131,11 +132,15 @@ class MainMenuFragment : Fragment(),
         }
 
         viewModel.getProjectCategories().observe(viewLifecycleOwner, Observer { items ->
-            stopShimmer()
             if (items.isNullOrEmpty()) {
                 return@Observer
             }
+            val recommendedExists = items.findLast { it.type == ProjectCategoriesRepository
+                .RECOMMENDED_CATEGORY } != null
             categoriesAdapter.setItems(items)
+            if (recommendedExists) {
+                stopShimmer()
+            }
         })
     }
 
@@ -147,7 +152,7 @@ class MainMenuFragment : Fragment(),
             featuredProjectsTextView.isEnabled = connectionActive
             categoriesRecyclerView.setVisibleOrGone(connectionActive)
 
-            if (connectionActive && viewModel.getProjectCategories().value == null) {
+            if (connectionActive) {
                 startShimmer()
             } else {
                 stopShimmer()
