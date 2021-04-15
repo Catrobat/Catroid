@@ -168,17 +168,6 @@
 
     <issue
         id="StaticFieldLeak"
-        message="This `AsyncTask` class should be static or leaks might occur (anonymous com.parrot.freeflight.tasks.CheckDroneNetworkAvailabilityTask)"
-        errorLine1="  checkDroneConnectionTask = new CheckDroneNetworkAvailabilityTask() {"
-        errorLine2="                             ^">
-        <location
-            file="src\main\java\org\catrobat\catroid\drone\ardrone\DroneInitializer.java"
-            line="101"
-            column="30"/>
-    </issue>
-
-    <issue
-        id="StaticFieldLeak"
         message="This field leaks a context object"
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">

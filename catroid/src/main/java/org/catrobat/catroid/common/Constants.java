@@ -162,7 +162,6 @@ public final class Constants {
 
 	// XStream:
 	public static final String BLUETOOTH_LEGO_NXT = "BLUETOOTH_LEGO_NXT";
-	public static final String ARDRONE_SUPPORT = "ARDRONE_SUPPORT";
 	public static final String NFC = "NFC";
 
 	//Broadcast system:
