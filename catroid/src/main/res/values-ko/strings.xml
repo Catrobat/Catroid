@@ -63,7 +63,7 @@
     <string name="api_replacement_dialog_neutral">변경없이 업로드</string>
     <string name="api_replacement_dialog_accept">키를 교체하여 업로드</string>
     <string name="api_replacement_dialog_warning">이 프로젝트에는
-        웹이며 API 키도 포함하는 것 같습니다. % 1s 이유를 참조하십시오
+        웹이며 API 키도 포함하는 것 같습니다. %1s 이유를 참조하십시오
         이러한 키를 업로드하는 것은 위험 할 수 있습니다.</string>
     <string name="api_replacement">여기에 API 키 삽입</string>
     <!-- -->
@@ -990,8 +990,8 @@
     <string name="brick_look_request_result" tools:ignore="UnusedResources">현재 모습으로 사용</string>
     <string name="brick_background_request_result" tools:ignore="UnusedResources">현재 배경으로 사용</string>
     <string name="look_request_http_error_message">"%1$s에서 이미지 가져 오기에서 반환 된 HTTP 오류 %2$s"</string>
-    <string name="look_request_type_error_message">"\"\"
-%1$s에서 이미지 가져 오기가 인식 된 이미지 형식을 검색하지 못했습니다.\"\""</string>
+    <string name="look_request_type_error_message">"\"\"\"
+%1$s에서 이미지 가져 오기가 인식 된 이미지 형식을 검색하지 못했습니다.\"\"\""</string>
     <string name="brick_store_csv_into_userlist_store" tools:ignore="UnusedResources">상점 열</string>
     <string name="brick_store_csv_into_userlist_of" tools:ignore="UnusedResources">의</string>
     <string name="brick_store_csv_into_userlist_csv" tools:ignore="UnusedResources">쉼표로 구분된 파일입니다.</string>
@@ -1044,7 +1044,7 @@
     <!-- Default Values -->
     <string name="default_project_name">내 프로젝트</string>
     <string name="default_variable_name">변하기 쉬운</string>
-    <string name="default_scene_name">장면 %1$d</string>
+    <string name="default_scene_name">장면 (%1$d)</string>
     <string name="default_script_group_name">스크립트 그룹</string>
     <string name="default_broadcast_message_name">메시지</string>
     <string name="default_list_name">명부</string>

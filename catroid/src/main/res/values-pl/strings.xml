@@ -1631,7 +1631,7 @@ Jeśli jednak nie chcesz tego robić, możesz skorzystać z naszych bezpłatnych
     <string name="formula_editor_function_letter_parameter">(1,\'hello world\')</string>
     <string name="formula_editor_function_join" tools:ignore="UnusedResources">połącz</string>
     <string name="formula_editor_function_join_parameter">(\'witaj\',\'świecie\')</string>
-    <string name="formula_editor_function_join3">dołącz</string>
+    <string name="formula_editor_function_join3">połącz</string>
     <string name="formula_editor_function_join3_parameter">(\'witaj\',\'świecie\',\'!\')</string>
     <string name="formula_editor_function_regex" tools:ignore="UnusedResources">wyrażenie regularne</string>
     <string name="formula_editor_function_regex_parameter">(\' an? ([^ .]+)\',\'I am a panda.\')</string>
