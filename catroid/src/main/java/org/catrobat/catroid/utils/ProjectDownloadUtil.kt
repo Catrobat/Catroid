@@ -27,13 +27,13 @@ import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment
 import java.lang.ref.WeakReference
 
 object ProjectDownloadUtil : ProjectDownloadCallback {
-    private lateinit var fragment: WeakReference<MainMenuFragment>
+    private var fragment: WeakReference<MainMenuFragment>? = null
     fun setFragment(fragment: MainMenuFragment) {
         this.fragment = WeakReference<MainMenuFragment>(fragment)
     }
 
     override fun onDownloadFinished(catrobatProgramName: String, url: String) {
-        fragment.get()?.refreshData()
+        fragment?.get()?.refreshData()
     }
 
     override fun onDownloadStarted(string: String) = Unit
