@@ -46,5 +46,8 @@ allprojects {
     repositories {
         google()
         jcenter()
+        flatDir {
+            dirs ‘src/main/libs’
+        }
     }
 }
