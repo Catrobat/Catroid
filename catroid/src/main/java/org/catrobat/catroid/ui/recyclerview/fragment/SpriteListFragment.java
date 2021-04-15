@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class SpriteListFragment extends RecyclerViewFragment<Sprite> {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.new_group).setVisible(true);
 	}
