@@ -48,6 +48,7 @@ import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTex
 import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -280,12 +281,12 @@ public abstract class RecyclerViewFragment<T extends Nameable> extends Fragment 
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		Context context = getActivity();
 		// necessary because of cast! blows up when activity is restored (CATROID-37)
 		// see BaseCastActivity
-		if (context != null) {
+		if (context != null && adapter != null) {
 			adapter.showDetails = PreferenceManager.getDefaultSharedPreferences(
 					context).getBoolean(sharedPreferenceDetailsKey, false);
 
