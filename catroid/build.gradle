@@ -50,7 +50,7 @@ ext {
     gdxVersion = "1.9.10"
     mockitoVersion = "2.8.47"
     espressoVersion = "3.1.0"
-    paintroidVersion = '2.7.1'
+    // paintroidVersion = '2.7.1'
     playServicesVersion = "17.0.0"
     cameraXVersion = "1.0.0-beta07"
 }
@@ -334,10 +334,11 @@ configurations {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
 
     // Paintroid local aar lib files
-    compile(name:'colorpicker-release-2.7.1', ext:'aar')
-    compile(name:'Paintroid-release-2.7.1', ext:'aar')
+    // compile(name:'colorpicker-release-2.7.1', ext:'aar')
+    // compile(name:'Paintroid-release-2.7.1', ext:'aar')
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
