@@ -404,13 +404,13 @@ dependencies {
     implementation 'com.github.billthefarmer:mididriver:v1.16'
 
     // Pocket Paint
-    catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    embroideryDesignerImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    pocketCodeBetaImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
-    implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
+    // catroidImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    // createAtSchoolImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    // embroideryDesignerImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    // lunaAndCatImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    // phiroImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    // pocketCodeBetaImplementation "org.catrobat.paintroid:paintroid:$paintroidVersion"
+    // implementation "org.catrobat.paintroid:colorpicker:$paintroidVersion"
 
     // CameraX
     implementation "androidx.camera:camera-camera2:$cameraXVersion"
