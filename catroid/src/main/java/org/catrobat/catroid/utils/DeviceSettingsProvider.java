@@ -22,33 +22,18 @@
  */
 package org.catrobat.catroid.utils;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.content.Context;
-
-import java.util.Locale;
 
 public final class DeviceSettingsProvider {
 
-	private static final String SERVER_VALUE_FOR_UNDEFINED_COUNTRY = "aq";
+	private static final String ANONYMIZED_COUNTRY_DEFAULT_ANTARCTICA = "aq";
 
 	public static String getUserEmail(Context context) {
-		if (context == null) {
-			return null;
-		}
-		Account[] accounts = AccountManager.get(context).getAccountsByType("com.google");
-		if (accounts.length > 0) {
-			return accounts[0].name;
-		}
 		return null;
 	}
 
 	public static String getUserCountryCode() {
-		String country = Locale.getDefault().getCountry();
-		if (country.isEmpty()) {
-			country = SERVER_VALUE_FOR_UNDEFINED_COUNTRY;
-		}
-		return country;
+		return ANONYMIZED_COUNTRY_DEFAULT_ANTARCTICA;
 	}
 
 	private DeviceSettingsProvider() {
