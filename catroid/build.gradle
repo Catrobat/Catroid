@@ -329,7 +329,7 @@ configurations {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    
+
     // Paintroid local aar lib files
     implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
 
