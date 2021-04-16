@@ -334,11 +334,9 @@ configurations {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
-
+    
     // Paintroid local aar lib files
-    // compile(name:'colorpicker-release-2.7.1', ext:'aar')
-    // compile(name:'Paintroid-release-2.7.1', ext:'aar')
+    implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
