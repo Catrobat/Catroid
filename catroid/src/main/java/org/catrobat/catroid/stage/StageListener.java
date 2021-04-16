@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,6 +66,7 @@ import org.catrobat.catroid.content.eventids.EventId;
 import org.catrobat.catroid.content.eventids.GamepadEventId;
 import org.catrobat.catroid.embroidery.DSTPatternManager;
 import org.catrobat.catroid.embroidery.EmbroideryPatternManager;
+import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.physics.PhysicsDebugSettings;
@@ -73,6 +74,7 @@ import org.catrobat.catroid.physics.PhysicsLook;
 import org.catrobat.catroid.physics.PhysicsObject;
 import org.catrobat.catroid.physics.PhysicsWorld;
 import org.catrobat.catroid.physics.shapebuilder.PhysicsShapeBuilder;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.recyclerview.controller.SpriteController;
 import org.catrobat.catroid.utils.TouchUtil;
@@ -83,8 +85,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -247,6 +247,7 @@ public class StageListener implements ApplicationListener {
 		}
 
 		stage = new Stage(viewPort, batch);
+		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
 	}
 
 	private void initActors(List<Sprite> sprites) {
@@ -312,25 +313,21 @@ public class StageListener implements ApplicationListener {
 
 	public List<Sprite> getAllClonesOfSprite(Sprite sprite) {
 		List<Sprite> clonesOfSprite = new ArrayList<>();
-		Pattern pattern = createCloneRegexPattern(sprite.getName());
-
 		for (Sprite spriteOfStage : sprites) {
-			if (!spriteOfStage.isClone) {
-				continue;
-			}
-
-			Matcher matcher = pattern.matcher(spriteOfStage.getName());
-			if (matcher.matches()) {
+			if (spriteIsCloneOfSprite(sprite, spriteOfStage)) {
 				clonesOfSprite.add(spriteOfStage);
 			}
 		}
-
 		return clonesOfSprite;
 	}
 
-	private Pattern createCloneRegexPattern(String spriteName) {
-		String cloneRegexMask = "^" + spriteName + "\\-c\\d+$";
-		return Pattern.compile(cloneRegexMask);
+	private Boolean spriteIsCloneOfSprite(Sprite sprite, Sprite cloneSprite) {
+		if (!cloneSprite.isClone) {
+			return false;
+		}
+		String cloneNameExtensionRegexPattern = "\\-c\\d+$";
+		String[] splitCloneNameStrings = cloneSprite.getName().split(cloneNameExtensionRegexPattern);
+		return splitCloneNameStrings[0].contentEquals(sprite.getName());
 	}
 
 	private void disposeClonedSprites() {
@@ -443,6 +440,7 @@ public class StageListener implements ApplicationListener {
 		}
 		VibrationUtil.reset();
 		TouchUtil.reset();
+		MidiSoundManager.getInstance().reset();
 		removeAllClonedSpritesFromStage();
 
 		UserDataWrapper.resetAllUserData(ProjectManager.getInstance().getCurrentProject());

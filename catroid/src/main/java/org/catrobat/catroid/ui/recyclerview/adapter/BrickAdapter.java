@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -55,20 +55,23 @@ public class BrickAdapter extends BaseAdapter implements
 		AdapterView.OnItemClickListener,
 		AdapterView.OnItemLongClickListener {
 
-	private static final float DISABLED_BRICK_ALPHA = .8f;
+	public static final float DISABLED_BRICK_ALPHA = .8f;
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({NONE, ALL, SCRIPTS_ONLY})
+	@IntDef({NONE, ALL, SCRIPTS_ONLY, CONNECTED_ONLY})
 	@interface CheckBoxMode {}
 	public static final int NONE = 0;
 	public static final int ALL = 1;
 	public static final int SCRIPTS_ONLY = 2;
+	public static final int CONNECTED_ONLY = 3;
 
 	@CheckBoxMode
 	private int checkBoxMode = NONE;
 
 	private List<Script> scripts = new ArrayList<>();
 	private List<Brick> items = new ArrayList<>();
+	private int firstConnectedItem = -1;
+	private int lastConnectedItem = -1;
 
 	private MultiSelectionManager selectionManager = new MultiSelectionManager();
 	private ViewStateManager viewStateManager = new ViewStateManager();
@@ -123,10 +126,7 @@ public class BrickAdapter extends BaseAdapter implements
 		Drawable background = brickViewContainer.getBackground();
 
 		if (item.isCommentedOut()) {
-			ColorMatrix matrix = new ColorMatrix();
-			matrix.setSaturation(0);
-			ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
-			background.setColorFilter(filter);
+			colorAsCommentedOut(background);
 		} else {
 			background.clearColorFilter();
 		}
@@ -142,6 +142,7 @@ public class BrickAdapter extends BaseAdapter implements
 					((ListSelectorBrick) item).setClickListeners();
 				}
 				break;
+			case CONNECTED_ONLY:
 			case ALL:
 				item.getCheckBox().setVisibility(View.VISIBLE);
 				item.disableSpinners();
@@ -155,6 +156,13 @@ public class BrickAdapter extends BaseAdapter implements
 		item.getCheckBox().setChecked(selectionManager.isPositionSelected(position));
 		item.getCheckBox().setEnabled(viewStateManager.isEnabled(position));
 		return itemView;
+	}
+
+	public static void colorAsCommentedOut(Drawable background) {
+		ColorMatrix matrix = new ColorMatrix();
+		matrix.setSaturation(0);
+		ColorMatrixColorFilter filter = new ColorMatrixColorFilter(matrix);
+		background.setColorFilter(filter);
 	}
 
 	@Override
@@ -188,13 +196,74 @@ public class BrickAdapter extends BaseAdapter implements
 		List<Brick> flatItems = new ArrayList<>();
 		item.addToFlatList(flatItems);
 
+		boolean scriptSelected = item instanceof ScriptBrick;
+		int adapterPosition = -1;
+
+		if (selected && noConnectedItemsSelected()) {
+			firstConnectedItem = position - 1;
+			lastConnectedItem = position + 1;
+		}
+
 		for (int i = 0; i < flatItems.size(); i++) {
-			int adapterPosition = items.indexOf(flatItems.get(i));
+			adapterPosition = items.indexOf(flatItems.get(i));
 			selectionManager.setSelectionTo(selected, adapterPosition);
 			if (i > 0) {
 				viewStateManager.setEnabled(!selected, adapterPosition);
 			}
 		}
+
+		if (checkBoxMode == CONNECTED_ONLY) {
+			int firstFlatListPosition = items.indexOf(flatItems.get(0));
+			updateConnectedItems(position, firstFlatListPosition, adapterPosition, selected, scriptSelected);
+		}
+	}
+
+	private void updateConnectedItems(int selectedPosition, int firstFlatListPosition, 
+			int lastFlatListPosition, boolean selected, boolean scriptSelected) {
+		if (selected) {
+			if (lastFlatListPosition >= lastConnectedItem) {
+				lastConnectedItem = lastFlatListPosition + 1;
+			}
+			if (firstFlatListPosition <= firstConnectedItem) {
+				firstConnectedItem = firstFlatListPosition - 1;
+			}
+		} else {
+			if (selectedPosition == firstConnectedItem + 1) {
+				firstConnectedItem = firstFlatListPosition;
+			}
+			if (selectedPosition == lastConnectedItem - 1) {
+				lastConnectedItem = firstFlatListPosition;
+			}
+			if (selectionManager.getSelectedPositions().isEmpty()) {
+				clearConnectedItems();
+			}
+		}
+		for (Brick item : items) {
+			int brickPosition = items.indexOf(item);
+			viewStateManager.setEnabled(selectableForCopy(brickPosition, scriptSelected), brickPosition);
+		}
+	}
+
+	private boolean selectableForCopy(int brickPosition, boolean scriptSelected) {
+		return noConnectedItemsSelected()
+				|| (isItemWithinConnectedRange(brickPosition, scriptSelected)
+				&& !isItemOfNewScript(brickPosition, scriptSelected));
+	}
+	private boolean isItemWithinConnectedRange(int brickPosition, boolean scriptSelected) {
+		return ((brickPosition >= firstConnectedItem && brickPosition <= firstConnectedItem + 1)
+				|| (brickPosition <= lastConnectedItem && brickPosition >= lastConnectedItem - 1 && !scriptSelected));
+	}
+	private boolean isItemOfNewScript(int brickPosition, boolean scriptSelected) {
+		return (lastConnectedItem == brickPosition && items.get(brickPosition) instanceof ScriptBrick)
+				|| (scriptSelected && brickPosition <= firstConnectedItem);
+	}
+	private boolean noConnectedItemsSelected() {
+		return firstConnectedItem == -1 && lastConnectedItem == -1;
+	}
+
+	private void clearConnectedItems() {
+		firstConnectedItem = -1;
+		lastConnectedItem = -1;
 	}
 
 	public List<Brick> getSelectedItems() {
@@ -208,6 +277,7 @@ public class BrickAdapter extends BaseAdapter implements
 	public void clearSelection() {
 		selectionManager.clearSelection();
 		viewStateManager.clearDisabledPositions();
+		clearConnectedItems();
 		notifyDataSetChanged();
 	}
 

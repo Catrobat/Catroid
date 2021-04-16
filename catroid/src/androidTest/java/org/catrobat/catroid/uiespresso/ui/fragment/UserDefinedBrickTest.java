@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import org.junit.runner.RunWith;
 
 import java.io.IOException;
 
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static junit.framework.TestCase.assertTrue;
@@ -59,7 +58,6 @@ import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
-import static androidx.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
@@ -100,13 +98,13 @@ public class UserDefinedBrickTest {
 	@Test
 	public void testAddInputToUserBrickDefaultText() {
 		clickOnAddInputToUserBrick();
-		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_input_name)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name) + " (1)")));
 	}
 
 	@Test
 	public void testAddLabelToUserBrickDefaultText() {
 		clickOnAddLabelToUserBrick();
-		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(R.string.brick_user_defined_default_label)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).check(matches(withText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_label) + " (1)")));
 	}
 
 	@Test
@@ -148,13 +146,13 @@ public class UserDefinedBrickTest {
 				.perform(click());
 		onView(withId(R.id.button_add_input))
 				.perform(click());
-		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name)));
+		onView(withId(R.id.user_data_user_brick_edit_field)).perform(replaceText(baseActivityTestRule.getActivity().getString(R.string.brick_user_defined_default_input_name) + " (1)"));
 		onView(withText(R.string.name_already_exists)).check(matches(isDisplayed()));
 		onView(withId(R.id.next)).check(matches(not(isEnabled())));
 	}
 
 	@Test
-	public void testAddUserDefinedBrickToScriptFragment() throws InterruptedException {
+	public void testAddUserDefinedBrickToScriptFragment() {
 		clickOnAddInputToUserBrick();
 		onView(withId(R.id.next))
 				.perform(click());
@@ -177,26 +175,6 @@ public class UserDefinedBrickTest {
 		onView(withId(R.id.fragment_script)).perform(waitFor(isDisplayed(), waitThreshold));
 
 		assertTrue(scriptFragment.isCurrentlyMoving());
-	}
-
-	@Test
-	public void testUserDefinedBrickDescriptionExists() throws InterruptedException {
-		selectYourBricks();
-
-		onView(withText(R.string.brick_user_defined_list_empty)).perform(waitFor(isDisplayed(), waitThreshold));
-
-		onView(withId(R.id.button_add_user_brick))
-				.perform(click());
-		onView(withId(R.id.button_add_input))
-				.perform(click());
-		onView(withId(R.id.next))
-				.perform(click());
-		onView(withId(R.id.confirm))
-				.perform(click());
-		onView(withId(R.id.fragment_script)).perform(click());
-		selectYourBricks();
-
-		onView(withText(R.string.brick_user_defined_list_empty)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
 	}
 
 	private void selectYourBricks() {

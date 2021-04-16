@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -94,10 +94,14 @@ public class UserDefinedBrick extends FormulaBrick {
 	@Override
 	public Brick clone() throws CloneNotSupportedException {
 		UserDefinedBrick clone = (UserDefinedBrick) super.clone();
-		clone.copyUserDefinedDataList(this);
 		clone.userDefinedBrickID = this.getUserDefinedBrickID();
 		clone.isCallingBrick = this.isCallingBrick;
 		return clone;
+	}
+
+	public void clearFormulaMaps() {
+		formulaFieldToTextViewMap = HashBiMap.create(2);
+		formulaMap = new ConcurrentFormulaHashMap();
 	}
 
 	private void copyUserDefinedDataList(UserDefinedBrick userDefinedBrick) {
@@ -251,19 +255,31 @@ public class UserDefinedBrick extends FormulaBrick {
 	}
 
 	private String getDefaultText(Context context, UserDefinedBrickDataType dataTypeToAdd) {
+
+		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider();
+
 		String defaultText;
 		if (dataTypeToAdd == INPUT) {
 			defaultText = context.getResources().getString(R.string.brick_user_defined_default_input_name);
 		} else {
 			defaultText = context.getResources().getString(R.string.brick_user_defined_default_label);
 		}
-		defaultText = new UniqueNameProvider().getUniqueName(defaultText, getUserDataListAsStrings(dataTypeToAdd));
+		defaultText = uniqueNameProvider.getUniqueName(defaultText, getUserDataListAsStrings(dataTypeToAdd));
 		return defaultText;
 	}
 
 	protected void addAllowedBrickField(FormulaField formulaField, TextView textView) {
 		formulaMap.putIfAbsent(formulaField, new Formula(0));
 		formulaFieldToTextViewMap.put(formulaField, textView);
+	}
+
+	private void updateUserDefinedBrickDataValues() {
+		for (UserDefinedBrickData userDefinedBrickData : userDefinedBrickDataList) {
+			if (userDefinedBrickData.isInput()) {
+				UserDefinedBrickInput input = (UserDefinedBrickInput) userDefinedBrickData;
+				input.setValue(getFormulaWithBrickField(input.getInputFormulaField()));
+			}
+		}
 	}
 
 	@Override
@@ -299,5 +315,8 @@ public class UserDefinedBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
+		updateUserDefinedBrickDataValues();
+		sequence.addAction(sprite.getActionFactory().createUserBrickAction(sprite, sequence,
+				getUserDefinedBrickInputs(), userDefinedBrickID));
 	}
 }

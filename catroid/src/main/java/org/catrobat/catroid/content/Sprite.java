@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -152,7 +152,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		if (userDefinedBrick == null) {
 			return null;
 		}
-		for (Brick brick: userDefinedBrickList) {
+		for (Brick brick : userDefinedBrickList) {
 			if (((UserDefinedBrick) brick).isUserDefinedBrickDataEqual(userDefinedBrick)) {
 				return (UserDefinedBrick) brick;
 			}
@@ -196,6 +196,53 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 	}
 
+	public <T> boolean hasUserDataChanged(List<T> newUserData, List<T> oldUserData) {
+		if (newUserData.size() != oldUserData.size()) {
+			return true;
+		}
+
+		for (T userData : newUserData) {
+			if (!checkUserData(userData, oldUserData)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public <T> boolean checkUserData(T newUserData, List<T> oldUserData) {
+		for (T userData : oldUserData) {
+			if (userData.equals(newUserData)) {
+				if (userData.getClass() == UserVariable.class) {
+					UserVariable userVariable = (UserVariable) userData;
+					return userVariable.hasSameValue((UserVariable) newUserData);
+				} else {
+					UserList userList = (UserList) userData;
+					return userList.hasSameListSize((UserList) newUserData);
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public void setUserVariables(List<UserVariable> newUserVariables) {
+		userVariables = newUserVariables;
+	}
+
+	public List<UserVariable> getUserVariablesCopy() {
+		if (userVariables == null) {
+			userVariables = new ArrayList<>();
+		}
+
+		List<UserVariable> userVariablesCopy = new ArrayList<>();
+		for (UserVariable userVariable : userVariables) {
+			userVariablesCopy.add(new UserVariable(userVariable.getName(), userVariable.getValue()));
+		}
+
+		return userVariablesCopy;
+	}
+
 	public List<UserVariable> getUserVariables() {
 		return userVariables;
 	}
@@ -211,6 +258,23 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public boolean addUserVariable(UserVariable userVariable) {
 		return userVariables.add(userVariable);
+	}
+
+	public void setUserLists(List<UserList> newUserLists) {
+		userLists = newUserLists;
+	}
+
+	public List<UserList> getUserListsCopy() {
+		if (userLists == null) {
+			userLists = new ArrayList<>();
+		}
+
+		List<UserList> userListsCopy = new ArrayList<>();
+		for (UserList userList : userLists) {
+			userListsCopy.add(new UserList(userList.getName(), userList.getValue()));
+		}
+
+		return userListsCopy;
 	}
 
 	public List<UserList> getUserLists() {
@@ -346,9 +410,11 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return convertedSprite;
 	}
 
-	private ScriptSequenceAction createSequenceAction(Script script) {
+	public ScriptSequenceAction createSequenceAction(Script script) {
 		ScriptSequenceAction sequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(script);
-		script.run(this, sequence);
+		if (!script.getClass().equals(UserDefinedScript.class)) {
+			script.run(this, sequence);
+		}
 		return sequence;
 	}
 
@@ -434,19 +500,23 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	}
 
 	public void rename(String newSpriteName) {
-		if (hasCollision()) {
-			renameSpriteInCollisionFormulas(newSpriteName, CatroidApplication.getAppContext());
+		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
+		renameSpriteAndUpdateCollisionFormulas(newSpriteName, scene);
+	}
+
+	public void renameSpriteAndUpdateCollisionFormulas(String newSpriteName, Scene scene) {
+		if (hasCollision(scene)) {
+			renameSpriteInCollisionFormulas(newSpriteName, scene);
 		}
 		setName(newSpriteName);
 	}
 
-	public boolean hasCollision() {
+	public boolean hasCollision(Scene scene) {
 		Brick.ResourcesSet resourcesSet = new Brick.ResourcesSet();
 		addRequiredResources(resourcesSet);
 		if (resourcesSet.contains(Brick.COLLISION)) {
 			return true;
 		}
-		Scene scene = ProjectManager.getInstance().getCurrentlyEditedScene();
 		for (Sprite sprite : scene.getSpriteList()) {
 			if (sprite.hasToCollideWith(this)) {
 				return true;
@@ -473,9 +543,9 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return false;
 	}
 
-	private void renameSpriteInCollisionFormulas(String newName, Context context) {
+	private void renameSpriteInCollisionFormulas(String newName, Scene scene) {
 		String oldName = getName();
-		List<Sprite> spriteList = ProjectManager.getInstance().getCurrentlyEditedScene().getSpriteList();
+		List<Sprite> spriteList = scene.getSpriteList();
 		for (Sprite sprite : spriteList) {
 			for (Script currentScript : sprite.getScriptList()) {
 				if (currentScript == null) {
@@ -487,7 +557,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 					if (brick instanceof FormulaBrick) {
 						List<Formula> formulaList = ((FormulaBrick) brick).getFormulas();
 						for (Formula formula : formulaList) {
-							formula.updateCollisionFormulas(oldName, newName, context);
+							formula.updateCollisionFormulas(oldName, newName, CatroidApplication.getAppContext());
 						}
 					}
 				}
@@ -570,5 +640,42 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 			}
 		}
 		usedTouchPointer.clear();
+	}
+
+	public Brick findBrickInSprite(UUID brickId) {
+		for (Script script : scriptList) {
+			if (script.getScriptId().equals(brickId)) {
+				return script.getScriptBrick();
+			}
+		}
+
+		List<UUID> brickIdList = new ArrayList<>();
+		brickIdList.add(brickId);
+		for (Script script : scriptList) {
+			List<Brick> foundBricks = script.findBricksInScript(brickIdList);
+			if (foundBricks != null && !foundBricks.isEmpty()) {
+				return foundBricks.get(0);
+			}
+		}
+
+		return null;
+	}
+
+	public List<UUID> removeAllEmptyScriptBricks() {
+		List<UUID> idsToRemove = new ArrayList<>();
+		List<Script> scriptsToRemove = new ArrayList<>();
+
+		for (Script script : scriptList) {
+			if (script instanceof EmptyScript && (script.brickList == null || script.brickList.isEmpty())) {
+				scriptsToRemove.add(script);
+				idsToRemove.add(script.getScriptId());
+			}
+		}
+
+		for (Script toRemove : scriptsToRemove) {
+			scriptList.remove(toRemove);
+		}
+
+		return idsToRemove;
 	}
 }

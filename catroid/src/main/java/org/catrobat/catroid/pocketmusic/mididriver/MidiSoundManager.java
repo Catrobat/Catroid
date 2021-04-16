@@ -27,8 +27,8 @@ import android.util.Log;
 
 import org.catrobat.catroid.content.SoundFilePathWithSprite;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.pocketmusic.note.Drum;
 import org.catrobat.catroid.pocketmusic.note.MusicalInstrument;
-import org.catrobat.catroid.pocketmusic.note.NoteLength;
 import org.catrobat.catroid.pocketmusic.note.Project;
 import org.catrobat.catroid.pocketmusic.note.midi.MidiException;
 
@@ -41,7 +41,7 @@ import androidx.annotation.VisibleForTesting;
 
 public class MidiSoundManager {
 	private MusicalInstrument instrument = Project.DEFAULT_INSTRUMENT;
-	private float tempo = 100.0f;
+	private float tempo = 60.0f;
 	private float volume = 70.0f;
 
 	public static final int MAX_MIDI_PLAYERS = 15;
@@ -89,6 +89,20 @@ public class MidiSoundManager {
 				Log.e(TAG, "Couldn't play sound file '" + soundFilePath + "'", exception);
 			}
 			startedSoundfilePaths.add(new SoundFilePathWithSprite(soundFilePath, sprite));
+		}
+	}
+
+	public void playDrumForBeats(Drum drum, float beats, Sprite sprite) {
+		MidiPlayer midiPlayer = getAvailableMidiPlayer();
+		if (midiPlayer != null) {
+			try {
+				midiPlayer.setStartedBySprite(sprite);
+				midiPlayer.setTempo(tempo);
+				midiPlayer.setVolume(this.volume * 127 / 100);
+				midiPlayer.playDrumForBeats(drum, beats);
+			} catch (Exception exception) {
+				Log.e(TAG, "Couldn't play drums", exception);
+			}
 		}
 	}
 
@@ -143,15 +157,26 @@ public class MidiSoundManager {
 		}
 	}
 
-	public void pauseForBeats(int beats) {
+	public void playNoteForBeats(int midiValue, float beats) {
+		MidiPlayer midiPlayer = getAvailableMidiPlayer();
+		if (midiPlayer != null) {
+			midiPlayer.setInstrument(instrument);
+			midiPlayer.setTempo(tempo);
+			midiPlayer.setVolume(this.volume * 127 / 100);
+			midiPlayer.playNoteForBeats(midiValue, beats);
+		}
+	}
+
+	public long getDurationForBeats(float beats) {
+		return (long) (60000 / tempo * beats);
+	}
+
+	public void resume() {
 		for (MidiPlayer midiPlayer : midiPlayers) {
-			if (midiPlayer.isPlaying()) {
-				midiPlayer.pauseForBeats(beats);
+			if (!midiPlayer.isPlaying()) {
+				midiPlayer.resume();
 			}
 		}
-		long playLength = NoteLength.QUARTER.toTicks(Project.DEFAULT_BEATS_PER_MINUTE);
-		playLength /= tempo / 100;
-		pausedUntil = System.currentTimeMillis() + (playLength * beats);
 	}
 
 	public boolean isSoundInSpritePlaying(Sprite sprite, String soundFilePath) {
@@ -197,6 +222,10 @@ public class MidiSoundManager {
 		for (MidiPlayer midiPlayer : midiPlayers) {
 			midiPlayer.setVolume(this.volume * 127 / 100);
 		}
+	}
+
+	public void reset() {
+		setTempo(60);
 	}
 
 	public float getVolume() {

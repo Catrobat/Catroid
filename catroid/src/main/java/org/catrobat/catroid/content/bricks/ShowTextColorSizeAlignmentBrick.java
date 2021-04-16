@@ -23,11 +23,12 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.View;
 
+import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.R;
-import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -40,20 +41,27 @@ import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 import org.catrobat.catroid.formulaeditor.common.Conversions;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormula {
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_ALIGNMENT;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_COLOR;
+import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_TEXT_SIZE;
+import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_CENTERED;
+import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_LEFT;
+import static org.catrobat.catroid.utils.ShowTextUtils.ALIGNMENT_STYLE_RIGHT;
+import static org.catrobat.catroid.utils.ShowTextUtils.convertColorToString;
+import static org.catrobat.catroid.utils.ShowTextUtils.isValidColorString;
+
+public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithVisualPlacement {
 
 	private static final long serialVersionUID = 1L;
-
-	public static final int ALIGNMENT_STYLE_LEFT = 0;
-	public static final int ALIGNMENT_STYLE_CENTERED = 1;
-	public static final int ALIGNMENT_STYLE_RIGHT = 2;
 
 	public int alignmentSelection = ALIGNMENT_STYLE_CENTERED;
 
@@ -86,7 +94,7 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view) {
-		if (view.getId() == R.id.brick_show_variable_color_size_edit_color) {
+		if (view.getId() == R.id.brick_show_variable_color_size_edit_color && isValidColorString(getColor())) {
 			ShowFormulaEditorStrategy.Callback callback = new ShowTextColorSizeAlignmentBrickCallback(view);
 			showFormulaEditorStrategy.showFormulaEditorToEditFormula(view, callback);
 		} else {
@@ -112,12 +120,9 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 	public View getView(Context context) {
 		super.getView(context);
 		List<Nameable> items = new ArrayList<>();
-		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_left),
-				ALIGNMENT_STYLE_LEFT));
-		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered),
-				ALIGNMENT_STYLE_CENTERED));
-		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right),
-				ALIGNMENT_STYLE_RIGHT));
+		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_left), ALIGNMENT_STYLE_LEFT));
+		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_centered), ALIGNMENT_STYLE_CENTERED));
+		items.add(new AlignmentStyle(context.getString(R.string.brick_show_variable_aligned_right), ALIGNMENT_STYLE_RIGHT));
 		BrickSpinner<AlignmentStyle> spinner =
 				new BrickSpinner<>(R.id.brick_show_variable_color_size_align_spinner, view, items);
 		spinner.setSelection(alignmentSelection);
@@ -135,6 +140,10 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 			}
 
 			@Override
+			public void onEditOptionSelected(Integer spinnerId) {
+			}
+
+			@Override
 			public void onNewOptionSelected(Integer spinnerId) {
 			}
 		});
@@ -144,15 +153,53 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		if (userVariable == null || userVariable.getName() == null) {
-			userVariable = new UserVariable("NoVariableSet", Constants.NO_VARIABLE_SELECTED);
+			userVariable = new UserVariable("NoVariableSet",
+					CatroidApplication.getAppContext().getString(R.string.no_variable_selected));
 			userVariable.setDummy(true);
 		}
 
 		sequence.addAction(sprite.getActionFactory().createShowVariableColorAndSizeAction(sprite,
-				getFormulaWithBrickField(BrickField.X_POSITION),
+				sequence, getFormulaWithBrickField(BrickField.X_POSITION),
 				getFormulaWithBrickField(BrickField.Y_POSITION),
 				getFormulaWithBrickField(BrickField.SIZE),
 				getFormulaWithBrickField(BrickField.COLOR), userVariable, alignmentSelection));
+	}
+
+	private String getColor() {
+		return getFormulaWithBrickField(BrickField.COLOR).getRoot().getValue();
+	}
+
+	private float sanitizeTextSize() {
+		Formula sizeFormula = getFormulaWithBrickField(BrickField.SIZE);
+		float size = 1.0f;
+
+		if (sizeFormula.getRoot().getElementType() == ElementType.NUMBER) {
+			size = Float.parseFloat(sizeFormula.getRoot().getValue()) / 100.f;
+		}
+		if (size < 0.1f) {
+			size = 1.0f;
+		}
+
+		return size;
+	}
+
+	@Override
+	public int getXEditTextId() {
+		return R.id.brick_show_variable_color_size_edit_text_x;
+	}
+
+	@Override
+	public int getYEditTextId() {
+		return R.id.brick_show_variable_color_size_edit_text_y;
+	}
+
+	@Override
+	public Intent generateIntentForVisualPlacement(BrickField brickFieldX, BrickField brickFieldY) {
+		Intent intent = super.generateIntentForVisualPlacement(brickFieldX, brickFieldY);
+		intent.putExtra(EXTRA_TEXT_COLOR, getColor());
+		intent.putExtra(EXTRA_TEXT_SIZE, sanitizeTextSize());
+		intent.putExtra(EXTRA_TEXT_ALIGNMENT, alignmentSelection);
+		return intent;
 	}
 
 	private static class AlignmentStyle implements Nameable {
@@ -193,11 +240,12 @@ public class ShowTextColorSizeAlignmentBrick extends UserVariableBrickWithFormul
 			setFormulaWithBrickField(BrickField.COLOR, new Formula(colorString));
 
 			AppCompatActivity activity = UiUtils.getActivityFromView(view);
+			Fragment currentFragment = activity.getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 			notifyDataSetChanged(activity);
-		}
 
-		private String convertColorToString(int color) {
-			return String.format("#%02X%02X%02X", Color.red(color), Color.green(color), Color.blue(color));
+			if (currentFragment instanceof FormulaEditorFragment) {
+				((FormulaEditorFragment) currentFragment).updateFragmentAfterColorPicker();
+			}
 		}
 
 		@Override

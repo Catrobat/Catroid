@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -102,7 +102,7 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		onView(Control.TEXT)
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(typeText(UiTestUtils.getResourcesString(stringResourceId)));
+				.perform(clearText(), typeText(UiTestUtils.getResourcesString(stringResourceId)));
 		onView(withText(R.string.ok))
 				.perform(click());
 		return new FormulaEditorWrapper();
@@ -128,11 +128,6 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 
 	public void performOpenDataFragment() {
 		onView(Control.DATA)
-				.perform(click());
-	}
-
-	public void performCloseAndSave() {
-		onView(Control.OK)
 				.perform(click());
 	}
 
@@ -186,7 +181,6 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		numpad.put('/', Math.DIVIDE);
 		numpad.put('(', Math.BRACKETOPEN);
 		numpad.put(')', Math.BRACKETCLOSE);
-		numpad.put('=', Math.EQUAL);
 
 		charToButtonMapping = Collections.unmodifiableMap(numpad);
 	}
@@ -210,17 +204,16 @@ public final class FormulaEditorWrapper extends ViewInteractionWrapper {
 		public static final Matcher<View> MINUS = withId(R.id.formula_editor_keyboard_minus);
 		public static final Matcher<View> MULT = withId(R.id.formula_editor_keyboard_mult);
 		public static final Matcher<View> DIVIDE = withId(R.id.formula_editor_keyboard_divide);
-		public static final Matcher<View> EQUAL = withId(R.id.formula_editor_keyboard_equal);
 		public static final Matcher<View> BRACKETOPEN = withId(R.id.formula_editor_keyboard_bracket_open);
 		public static final Matcher<View> BRACKETCLOSE = withId(R.id.formula_editor_keyboard_bracket_close);
 	}
 
 	public static final class Control {
-		public static final Matcher<View> OK = withId(R.id.formula_editor_keyboard_ok);
 		public static final Matcher<View> COMPUTE = withId(R.id.formula_editor_keyboard_compute);
 		public static final Matcher<View> BACKSPACE = withId(R.id.formula_editor_keyboard_delete);
 		public static final Matcher<View> DATA = withId(R.id.formula_editor_keyboard_data);
 		public static final Matcher<View> TEXT = withId(R.id.formula_editor_keyboard_string);
+		public static final Matcher<View> PROPERTIES = withId(R.id.formula_editor_keyboard_object);
 	}
 
 	public static final class Category {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,6 +22,8 @@
  */
 package org.catrobat.catroid.content;
 
+import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
+
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.CompositeBrick;
@@ -35,6 +37,7 @@ import org.catrobat.catroid.formulaeditor.UserData;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public abstract class Script implements Serializable, Cloneable {
 
@@ -42,6 +45,13 @@ public abstract class Script implements Serializable, Cloneable {
 
 	protected List<Brick> brickList = new ArrayList<>();
 	protected boolean commentedOut = false;
+
+	@XStreamAsAttribute
+	protected float posX;
+	@XStreamAsAttribute
+	protected float posY;
+
+	protected UUID scriptId = UUID.randomUUID();
 
 	protected transient ScriptBrick scriptBrick;
 
@@ -62,7 +72,30 @@ public abstract class Script implements Serializable, Cloneable {
 
 		clone.commentedOut = commentedOut;
 		clone.scriptBrick = null;
+		clone.posX = posX;
+		clone.posY = posY;
+		clone.scriptId = UUID.randomUUID();
 		return clone;
+	}
+
+	public float getPosX() {
+		return posX;
+	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+
+	public UUID getScriptId() {
+		return scriptId;
 	}
 
 	public boolean isCommentedOut() {
@@ -185,5 +218,72 @@ public abstract class Script implements Serializable, Cloneable {
 				((ListSelectorBrick) brick).deselectElements(elements);
 			}
 		}
+	}
+
+	public List<Brick> findBricksInScript(List<UUID> brickIds) {
+		List<Brick> bricks = new ArrayList<>();
+
+		for (Brick brick : brickList) {
+			if (brickIds.contains(brick.getBrickID())) {
+				bricks.add(brick);
+			} else if (brick instanceof CompositeBrick) {
+				List<Brick> tmpBricks = brick.findBricksInNestedBricks(brickIds);
+				if (tmpBricks != null) {
+					return tmpBricks;
+				}
+			}
+
+			if (bricks.size() == brickIds.size()) {
+				return bricks;
+			}
+		}
+
+		if (bricks.size() > 0) {
+			return bricks;
+		}
+		return null;
+	}
+
+	public List<Brick> removeBricksFromScript(List<UUID> brickIds) {
+		List<Brick> bricks = findBricksInScript(brickIds);
+
+		if (bricks != null) {
+			for (Brick brick : bricks) {
+				removeBrick(brick);
+			}
+		}
+
+		return bricks;
+	}
+
+	public boolean insertBrickAfter(UUID parentId, int subStackIndex, List<Brick> bricksToAdd) {
+
+		if (subStackIndex == -1) {
+			if (scriptId.equals(parentId) || getScriptBrick().getBrickID().equals(parentId)) {
+				brickList.addAll(0, bricksToAdd);
+				return true;
+			}
+
+			boolean found = false;
+			int index = 0;
+			for (Brick brick : brickList) {
+				++index;
+				if (brick.getBrickID().equals(parentId)) {
+					found = true;
+					break;
+				}
+			}
+			if (found) {
+				brickList.addAll(index, bricksToAdd);
+				return true;
+			}
+		}
+
+		for (Brick brick : brickList) {
+			if (brick.addBrickInNestedBrick(parentId, subStackIndex, bricksToAdd)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

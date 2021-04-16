@@ -1,6 +1,5 @@
-/*
- * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+/*Catroid: An on-device visual programming system for Android devices
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,11 +30,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.IntDef
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+import kotlinx.android.synthetic.main.fragment_list_view.view.empty_view
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.content.bricks.ScriptBrick
@@ -46,7 +48,7 @@ import org.catrobat.catroid.ui.BottomBar
 import org.catrobat.catroid.ui.recyclerview.adapter.DataListAdapter
 import org.catrobat.catroid.ui.recyclerview.adapter.RVAdapter
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.RenameItemTextWatcher
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput
 import org.catrobat.catroid.utils.ToastUtil
@@ -65,6 +67,7 @@ class DataListFragment : Fragment(),
     private var actionMode: ActionMode? = null
     private var formulaEditorDataInterface: FormulaEditorDataInterface? = null
     private var parentScriptBrick: ScriptBrick? = null
+    private var emptyView: TextView? = null
 
     @ActionModeType
     var actionModeType = NONE
@@ -103,6 +106,19 @@ class DataListFragment : Fragment(),
         return true
     }
 
+    fun shouldShowEmptyView(): Boolean = adapter!!.itemCount == 0
+
+    fun setShowEmptyView(visible: Boolean) {
+        emptyView!!.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    private var observer: AdapterDataObserver = object : AdapterDataObserver() {
+        override fun onChanged() {
+            super.onChanged()
+            setShowEmptyView(shouldShowEmptyView())
+        }
+    }
+
     override fun onDestroyActionMode(mode: ActionMode) {
         resetActionModeParameters()
         adapter?.clearSelection()
@@ -134,6 +150,7 @@ class DataListFragment : Fragment(),
         val parent =
             inflater.inflate(R.layout.fragment_list_view, container, false)
         recyclerView = parent.findViewById(R.id.recycler_view)
+        emptyView = parent.empty_view
         setHasOptionsMenu(true)
         return parent
     }
@@ -146,8 +163,19 @@ class DataListFragment : Fragment(),
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)?.supportActionBar?.setTitle(R.string.formula_editor_data)
+        adapter?.apply {
+            notifyDataSetChanged()
+            registerAdapterDataObserver(observer)
+        }
+        setShowEmptyView(shouldShowEmptyView())
+
         BottomBar.showBottomBar(activity)
         BottomBar.hidePlayButton(activity)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        adapter?.unregisterAdapterDataObserver(observer)
     }
 
     override fun onStop() {
@@ -178,6 +206,7 @@ class DataListFragment : Fragment(),
             userDefinedBrickInputs, multiplayerVars, globalVars, localVars, globalLists,
             localLists
         )
+        emptyView?.setText(R.string.fragment_data_text_description)
         onAdapterReady()
     }
 
@@ -209,10 +238,10 @@ class DataListFragment : Fragment(),
 
     private fun startActionMode(@ActionModeType type: Int) {
         if (adapter?.items?.isEmpty() != false) {
-            ToastUtil.showError(activity, R.string.am_empty_list)
+            ToastUtil.showError(requireActivity(), R.string.am_empty_list)
         } else {
             actionModeType = type
-            actionMode = activity!!.startActionMode(this)
+            actionMode = requireActivity().startActionMode(this)
         }
     }
 
@@ -224,15 +253,15 @@ class DataListFragment : Fragment(),
     }
 
     private fun showDeleteAlert(selectedItems: List<UserData<*>>) {
-        AlertDialog.Builder(context!!)
+        AlertDialog.Builder(requireContext())
             .setTitle(R.string.deletion_alert_title)
             .setMessage(R.string.deletion_alert_text)
             .setPositiveButton(
-                R.string.deletion_alert_yes
+                R.string.delete
             ) { _: DialogInterface?, _: Int ->
                 deleteItems(selectedItems)
             }
-            .setNegativeButton(R.string.no, null)
+            .setNegativeButton(R.string.cancel, null)
             .setCancelable(false)
             .show()
     }
@@ -254,14 +283,14 @@ class DataListFragment : Fragment(),
 
     private fun showRenameDialog(selectedItems: List<UserData<*>>) {
         val item = selectedItems[0]
-        val builder = TextInputDialog.Builder(context!!)
+        val builder = TextInputDialog.Builder(requireContext())
+        val items = adapter!!.items
 
         builder.setHint(getString(R.string.data_label))
             .setText(item.name)
             .setTextWatcher(
-                RenameItemTextWatcher(
-                    item,
-                    adapter!!.items
+                DuplicateInputTextWatcher(
+                    items
                 )
             )
             .setPositiveButton(
@@ -293,6 +322,34 @@ class DataListFragment : Fragment(),
         }
     }
 
+    private fun showEditDialog(selectedItems: List<UserData<*>>) {
+        val item = selectedItems[0]
+        val builder = TextInputDialog.Builder(requireContext())
+
+        builder.setHint(getString(R.string.data_value))
+            .setText(item.value.toString())
+            .setPositiveButton(
+                getString(R.string.save)
+            ) { _: DialogInterface?, textInput: String? ->
+                editItem(
+                    item,
+                    textInput
+                )
+            }
+        builder.setTitle("Edit " + item.name)
+            .setNegativeButton(R.string.cancel, null)
+            .show()
+    }
+
+    private fun editItem(
+        item: UserData<*>,
+        value: String?
+    ) {
+        updateUserVariableValue(value, item)
+        adapter?.updateDataSet()
+        finishActionMode()
+    }
+
     override fun onSelectionChanged(selectedItemCnt: Int) {
         if (actionModeType == DELETE) {
             actionMode?.title = getString(R.string.am_delete) + " " + selectedItemCnt
@@ -312,28 +369,66 @@ class DataListFragment : Fragment(),
     ) {
         if (item is UserDefinedBrickInput) {
             return
-        }
-        val items =
-            arrayOf<CharSequence>(getString(R.string.delete), getString(R.string.rename))
-        AlertDialog.Builder(activity!!)
-            .setItems(
-                items
-            ) { dialog: DialogInterface, which: Int ->
-                when (which) {
-                    0 -> showDeleteAlert(
-                        ArrayList(
-                            listOf(item)
+        } else if (item is UserVariable) {
+            val items =
+                arrayOf<CharSequence>(
+                    getString(R.string.delete), getString(R.string.rename),
+                    getString(R.string.edit)
+                )
+            AlertDialog.Builder(requireActivity())
+                .setItems(
+                    items
+                ) { dialog: DialogInterface, which: Int ->
+                    when (which) {
+                        0 -> showDeleteAlert(
+                            ArrayList(
+                                listOf(item)
+                            )
                         )
-                    )
-                    1 -> showRenameDialog(
-                        ArrayList(
-                            listOf(item)
+                        1 -> showRenameDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
                         )
-                    )
-                    else -> dialog.dismiss()
+                        2 -> showEditDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        else -> dialog.dismiss()
+                    }
                 }
-            }
-            .show()
+                .show()
+        } else {
+            val items =
+                arrayOf<CharSequence>(
+                    getString(R.string.delete), getString(R.string.rename)
+                )
+            AlertDialog.Builder(requireActivity())
+                .setItems(
+                    items
+                ) { dialog: DialogInterface, which: Int ->
+                    when (which) {
+                        0 -> showDeleteAlert(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        1 -> showRenameDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        2 -> showEditDialog(
+                            ArrayList(
+                                listOf(item)
+                            )
+                        )
+                        else -> dialog.dismiss()
+                    }
+                }
+                .show()
+        }
     }
 
     interface FormulaEditorDataInterface {
@@ -357,6 +452,11 @@ class DataListFragment : Fragment(),
         fun updateUserDataReferences(oldName: String?, newName: String?, item: UserData<*>?) {
             ProjectManager.getInstance().currentProject
                 .updateUserDataReferences(oldName, newName, item)
+        }
+
+        @JvmStatic
+        fun updateUserVariableValue(value: String?, item: UserData<*>) {
+            item.value = value
         }
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,8 @@ import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.ui.recyclerview.adapter.CategoryListRVAdapter;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
+import org.catrobat.catroid.utils.AddUserListDialog;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +38,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static java.util.Arrays.asList;
 
 @RunWith(Parameterized.class)
+@PrepareForTest(AddUserListDialog.class)
 public class AddUserListToActiveFormulaTest {
 
 	@Parameterized.Parameters(name = "{0}")
@@ -71,15 +76,20 @@ public class AddUserListToActiveFormulaTest {
 	CategoryListRVAdapter.CategoryListItem categoryListItemMock;
 	@Mock
 	FragmentActivity activityMock;
-
+	@Mock
+	UniqueNameProvider uniqueNameProviderMock;
+	@Mock
 	TextInputDialog.Builder builderMock;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-
-		builderMock = Mockito.mock(TextInputDialog.Builder.class, Mockito.RETURNS_DEEP_STUBS);
-		Mockito.when(builderMock.setHint(any())).thenReturn(builderMock);
+		uniqueNameProviderMock = PowerMockito.mock(UniqueNameProvider.class);
+		PowerMockito.when(uniqueNameProviderMock.isUnique(any())).thenReturn(true);
+		builderMock = PowerMockito.mock(TextInputDialog.Builder.class, Mockito.RETURNS_DEEP_STUBS);
+		PowerMockito.when(builderMock.setHint(any())).thenReturn(builderMock);
+		PowerMockito.when(builderMock.getContext().getString(R.string.default_list_name)).thenReturn("List");
+		PowerMockito.when(builderMock.createUniqueNameProvider(R.string.default_list_name)).thenReturn(uniqueNameProviderMock);
 	}
 
 	@Test

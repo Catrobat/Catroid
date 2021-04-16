@@ -24,7 +24,9 @@ package org.catrobat.catroid.content
 
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.EventListener
+import org.catrobat.catroid.content.actions.ScriptSequenceAction
 import org.catrobat.catroid.content.actions.ScriptSequenceActionWithWaiter
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId
 
 class EventWrapperListener internal constructor(private val look: Look) : EventListener {
 
@@ -37,6 +39,10 @@ class EventWrapperListener internal constructor(private val look: Look) : EventL
     private fun handleEvent(event: EventWrapper) {
         with(look) {
             sprite.idToEventThreadMap[event.eventId].forEach { sequenceAction ->
+                if (event.eventId is UserDefinedBrickEventId) {
+                    handleUserBrickEvent(sequenceAction, event)
+                    return
+                }
                 stopThreadWithScript(sequenceAction.script)
                 if (event.addSpriteToWaitList(sprite)) {
                     startThread(ScriptSequenceActionWithWaiter(sequenceAction, event, sprite))
@@ -44,6 +50,19 @@ class EventWrapperListener internal constructor(private val look: Look) : EventL
                     startThread(sequenceAction)
                 }
             }
+        }
+    }
+
+    private fun handleUserBrickEvent(sequenceAction: ScriptSequenceAction, event: EventWrapper) {
+        with(look) {
+            val scriptClone = (sequenceAction.script as UserDefinedScript).clone() as
+                UserDefinedScript
+            scriptClone.setUserDefinedBrickInputs((event.eventId as
+                UserDefinedBrickEventId).userBrickParameters)
+            val sequenceClone: ScriptSequenceAction = sequenceAction.cloneAndChangeScript(scriptClone)
+            sequenceClone.script.run(sprite, sequenceClone)
+            event.addSpriteToWaitList(sprite)
+            startThread(ScriptSequenceActionWithWaiter(sequenceClone, event, sprite))
         }
     }
 }

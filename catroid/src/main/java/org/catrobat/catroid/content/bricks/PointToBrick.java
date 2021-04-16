@@ -98,6 +98,10 @@ public class PointToBrick extends BrickBaseType implements BrickSpinner.OnItemSe
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void addItem(Sprite item) {
 		spinner.add(item);
 		spinner.setSelection(item);

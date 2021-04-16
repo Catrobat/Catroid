@@ -58,4 +58,13 @@
         android:title="@string/comment_in_out"
         android:visible="false"
         app:showAsAction="never" />
+     <item
+         android:id="@+id/catblocks"
+         android:title="@string/catblocks"
+         app:showAsAction="never"
+         />
+    <item android:id="@+id/catblocks_reorder_scripts"
+        android:title="@string/catblocks_reorder"
+        app:showAsAction="never"
+        />
 </menu>

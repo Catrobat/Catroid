@@ -96,6 +96,10 @@ public class WhenBounceOffBrick extends ScriptBrickBaseType implements BrickSpin
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 		script.setSpriteToBounceOffName(null);
 	}

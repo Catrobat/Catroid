@@ -35,6 +35,7 @@ import org.catrobat.catroid.utils.FileMetaDataExtractor;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -76,8 +77,18 @@ public class ProjectImportTask extends AsyncTask<File, Boolean, Boolean> {
 			return false;
 		}
 
-		projectName = new UniqueNameProvider()
-				.getUniqueName(projectName, FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY));
+		UniqueNameProvider uniqueNameProvider = new UniqueNameProvider() {
+			@Override
+
+			public String getUniqueName(String name, List<String> scope) {
+				if (!scope.contains(name)) {
+					return name;
+				}
+				return super.getUniqueName(name, scope);
+			}
+		};
+		projectName = uniqueNameProvider.getUniqueName(projectName,
+				FileMetaDataExtractor.getProjectNames(DEFAULT_ROOT_DIRECTORY));
 
 		File dstDir = new File(DEFAULT_ROOT_DIRECTORY,
 				FileMetaDataExtractor.encodeSpecialCharsForFileSystem(projectName));

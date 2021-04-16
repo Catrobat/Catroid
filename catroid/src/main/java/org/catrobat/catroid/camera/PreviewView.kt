@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,7 +32,7 @@ import java.util.concurrent.Executors
 import kotlin.math.roundToInt
 
 class PreviewView(context: Context) : FrameLayout(context) {
-    private val surfaceView = SurfaceView(context)
+    val surfaceView = SurfaceView(context)
 
     init {
         addView(surfaceView)
@@ -56,19 +56,13 @@ class PreviewView(context: Context) : FrameLayout(context) {
 
         if (screenAspectRatio < 1) { // portrait mode
             val scalingFactor = imageAspectRatio / screenAspectRatio
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                val scaledWidth = (imageWidth * scalingFactor).roundToInt()
-                surfaceView.layoutParams = LayoutParams(scaledWidth, imageHeight)
-            } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
                 surfaceView.layoutParams.width = (this.width * scalingFactor).roundToInt()
             }
             surfaceView.scaleX = scalingFactor
         } else { // landscape mode
             val scalingFactor = imageAspectRatio * screenAspectRatio
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                val scaledHeight = (imageHeight * scalingFactor).roundToInt()
-                surfaceView.layoutParams = LayoutParams(imageWidth, scaledHeight)
-            } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M) {
                 surfaceView.layoutParams.height = (this.height * scalingFactor).roundToInt()
             }
             surfaceView.scaleY = scalingFactor

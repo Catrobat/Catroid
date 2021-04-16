@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.stage;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.WindowManager;
@@ -46,6 +47,7 @@ import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UserDataWrapper;
 import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.StageAudioFocus;
+import org.catrobat.catroid.pocketmusic.mididriver.MidiSoundManager;
 import org.catrobat.catroid.ui.dialogs.StageDialog;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.VibrationUtil;
@@ -112,6 +114,7 @@ public final class StageLifeCycleController {
 		}
 		stageActivity.stageAudioFocus = new StageAudioFocus(stageActivity);
 		stageActivity.stageResourceHolder = new StageResourceHolder(stageActivity);
+		MidiSoundManager.getInstance().reset();
 
 		List<String> requiredPermissions = getProjectsRuntimePermissionList();
 		if (requiredPermissions.isEmpty()) {
@@ -135,8 +138,12 @@ public final class StageLifeCycleController {
 				}
 			}
 			SpeechRecognitionHolder.Companion.getInstance().destroy();
+
+			SensorHandler.timerPauseValue = SystemClock.uptimeMillis();
+
 			SensorHandler.stopSensorListeners();
 			SoundManager.getInstance().pause();
+			MidiSoundManager.getInstance().pause();
 			StageActivity.stageListener.menuPause();
 			stageActivity.stageAudioFocus.releaseAudioFocus();
 			if (stageActivity.cameraManager != null) {
@@ -151,12 +158,6 @@ public final class StageLifeCycleController {
 			VibrationUtil.pauseVibration();
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 				CastManager.getInstance().setRemoteLayoutToPauseScreen(stageActivity);
-			}
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
-				stageActivity.stageResourceHolder.droneInitializer.onPause();
-			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
-				stageActivity.stageResourceHolder.droneController.onPause();
 			}
 		}
 	}
@@ -211,22 +212,18 @@ public final class StageLifeCycleController {
 			}
 
 			SoundManager.getInstance().resume();
+			MidiSoundManager.getInstance().resume();
 			if (stageActivity.stageResourceHolder.initFinished()) {
 				StageActivity.stageListener.menuResume();
-			}
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
-				stageActivity.stageResourceHolder.droneInitializer.onResume();
-			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
-				stageActivity.stageResourceHolder.droneController.onResume();
 			}
 		}
 	}
 
 	static void stageDestroy(StageActivity stageActivity) {
 		if (checkPermission(stageActivity, getProjectsRuntimePermissionList())) {
-			stageActivity.brickDialogManager.dismissAllDialogs();
-			stageActivity.jumpingSumoDisconnect();
+			if (stageActivity.brickDialogManager != null) {
+				stageActivity.brickDialogManager.dismissAllDialogs();
+			}
 			BluetoothDeviceService service = ServiceProvider.getService(CatroidService.BLUETOOTH_DEVICE_SERVICE);
 			if (service != null) {
 				service.destroy();
@@ -242,12 +239,6 @@ public final class StageLifeCycleController {
 			}
 			StageActivity.stageListener.finish();
 			stageActivity.manageLoadAndFinish();
-			if (stageActivity.stageResourceHolder.droneInitializer != null) {
-				stageActivity.stageResourceHolder.droneInitializer.onDestroy();
-			}
-			if (stageActivity.stageResourceHolder.droneController != null) {
-				stageActivity.stageResourceHolder.droneController.onDestroy();
-			}
 		}
 		ProjectManager.getInstance().setCurrentlyPlayingScene(ProjectManager.getInstance().getCurrentlyEditedScene());
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,12 +30,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UniqueNameProvider {
+public class UniqueNameProvider implements UniqueNameProviderInterface {
+	private List<String> scope;
 
 	public String getUniqueName(String name, List<String> scope) {
-		if (!scope.contains(name)) {
-			return name;
-		}
+		this.scope = scope;
 
 		Pattern pattern = Pattern.compile("\\((\\d+)\\)");
 		Matcher matcher = pattern.matcher(name);
@@ -49,13 +48,18 @@ public class UniqueNameProvider {
 
 		while (n < Integer.MAX_VALUE) {
 			String newName = name + " (" + n + ")";
-			if (!scope.contains(newName)) {
+			if (isUnique(newName)) {
 				return newName;
 			}
 			n++;
 		}
 
 		return name;
+	}
+
+	@Override
+	public boolean isUnique(String newName) {
+		return !scope.contains(newName);
 	}
 
 	public String getUniqueNameInNameables(String name, List<? extends Nameable> scope) {

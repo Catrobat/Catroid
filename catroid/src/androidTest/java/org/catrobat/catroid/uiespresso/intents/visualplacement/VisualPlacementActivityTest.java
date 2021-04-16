@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -100,20 +100,26 @@ public class VisualPlacementActivityTest {
 
 	@Test
 	public void testResultWhenBackAndSaveClicked() {
+		baseActivityTestRule.getActivity().setXCoordinate(XRETURNPOS);
+		baseActivityTestRule.getActivity().setYCoordinate(YRETURNPOS);
+
 		Espresso.pressBack();
-		onView(withText(R.string.yes))
+		onView(withText(R.string.save))
 				.perform(click());
 
 		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());
 		Intent resultIntent = baseActivityTestRule.getActivityResult().getResultData();
-		Assert.assertEquals(XPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
-		Assert.assertEquals(YPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
+		Assert.assertEquals(XRETURNPOS, resultIntent.getExtras().get(X_COORDINATE_BUNDLE_ARGUMENT));
+		Assert.assertEquals(YRETURNPOS, resultIntent.getExtras().get(Y_COORDINATE_BUNDLE_ARGUMENT));
 	}
 
 	@Test
 	public void testResultWhenDiscarded() {
+		baseActivityTestRule.getActivity().setXCoordinate(XRETURNPOS);
+		baseActivityTestRule.getActivity().setYCoordinate(YRETURNPOS);
+
 		Espresso.pressBack();
-		onView(withText(R.string.no))
+		onView(withText(R.string.discard))
 				.perform(click());
 
 		Assert.assertTrue(baseActivityTestRule.getActivity().isFinishing());

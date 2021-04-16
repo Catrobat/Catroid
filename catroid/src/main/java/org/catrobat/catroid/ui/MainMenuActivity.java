@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -30,8 +30,10 @@ import android.preference.PreferenceManager;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +44,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.Constants;
+import org.catrobat.catroid.common.Survey;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.ZipArchiver;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
@@ -49,7 +52,6 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.ui.dialogs.TermsOfUseDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.AboutDialogFragment;
-import org.catrobat.catroid.ui.recyclerview.dialog.PrivacyPolicyDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.MainMenuFragment;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.utils.FileMetaDataExtractor;
@@ -61,72 +63,128 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.inject.Inject;
-
 import androidx.appcompat.app.AlertDialog;
-import dagger.android.AndroidInjection;
+import kotlin.Lazy;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.PRIVACY_POLICY_URL;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.koin.java.KoinJavaComponent.inject;
 
 public class MainMenuActivity extends BaseCastActivity implements
 		ProjectLoadTask.ProjectLoadListener {
 
-	@Inject
-	ProjectManager projectManager;
+	private final Lazy<ProjectManager> projectManager = inject(ProjectManager.class);
 
 	public static final String TAG = MainMenuActivity.class.getSimpleName();
+
+	private int oldPrivacyPolicy = 0;
+
+	public static Survey surveyCampaign;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		AndroidInjection.inject(this);
 
 		SettingsFragment.setToChosenLanguage(this);
 
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, true);
 		ScreenValueHandler.updateScreenWidthAndHeight(this);
 
-		int oldPrivacyPolicyHash = PreferenceManager.getDefaultSharedPreferences(this)
-						.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
-		int currentPrivacyPolicyHash = getResources().getString(R.string.dialog_privacy_policy_text)
-						.hashCode();
-		if (oldPrivacyPolicyHash == currentPrivacyPolicyHash) {
-			loadContent();
-		} else {
-			setContentView(R.layout.privacy_policy_view);
+		oldPrivacyPolicy = PreferenceManager.getDefaultSharedPreferences(this)
+				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
+
+		loadContent();
+
+		if (oldPrivacyPolicy != Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
+			showTermsOfUseDialog();
+		}
+
+		surveyCampaign = new Survey(this);
+		surveyCampaign.showSurvey(this);
+	}
+
+	private void showTermsOfUseDialog() {
+		View view = View.inflate(this, R.layout.privacy_policy_view, null);
+
+		TextView termsOfUseUrlTextView = view.findViewById(R.id.dialog_privacy_policy_text_view_url);
+
+		termsOfUseUrlTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		String termsOfUseUrlStringText = getString(R.string.main_menu_terms_of_use);
+
+		String termsOfUseUrl = getString(R.string.terms_of_use_link_template, Constants.CATROBAT_TERMS_OF_USE_URL
+						+ Constants.CATROBAT_TERMS_OF_USE_TOKEN_FLAVOR_URL + BuildConfig.FLAVOR
+						+ Constants.CATROBAT_TERMS_OF_USE_TOKEN_VERSION_URL + BuildConfig.VERSION_CODE,
+				termsOfUseUrlStringText);
+
+		termsOfUseUrlTextView.setText(Html.fromHtml(termsOfUseUrl));
+
+		new AlertDialog.Builder(this)
+				.setNegativeButton(R.string.decline, (dialog, which) -> {
+					handleDeclinedPrivacyPolicyButton();
+				})
+				.setPositiveButton(R.string.accept, (dialog, which) -> {
+					handleAgreedToPrivacyPolicyButton();
+				})
+				.setCancelable(false)
+				.setOnKeyListener((dialog, keyCode, event) -> {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						finish();
+						return true;
+					}
+					return false;
+				})
+				.setView(view)
+				.show();
+	}
+
+	public void handleAgreedToPrivacyPolicyButton() {
+		PreferenceManager.getDefaultSharedPreferences(this)
+				.edit()
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
+				.apply();
+
+		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
+			prepareStandaloneProject();
 		}
 	}
 
-	public void handleAgreedToPrivacyPolicyButton(View view) {
-		PreferenceManager.getDefaultSharedPreferences(this)
-				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, getResources()
-						.getString(R.string.dialog_privacy_policy_text)
-						.hashCode())
-				.apply();
-		loadContent();
-	}
-
-	public void handleDeclinedPrivacyPolicyButton(View view) {
-		View dialogView = View.inflate(this, R.layout.declined_privacy_agreement_alert_view, null);
+	public void handleDeclinedPrivacyPolicyButton() {
+		View dialogView = View.inflate(this,
+				R.layout.declined_terms_of_use_and_service_alert_view, null);
 
 		String linkString = getString(R.string.about_link_template,
-				Constants.CATROBAT_ABOUT_URL,
+				Constants.BASE_APP_URL_HTTPS,
 				getString(R.string.share_website_text));
+
 		TextView linkTextView = dialogView.findViewById(R.id.share_website_view);
+		linkTextView.setMovementMethod(LinkMovementMethod.getInstance());
 		linkTextView.setText(Html.fromHtml(linkString));
 
 		new AlertDialog.Builder(this)
 				.setView(dialogView)
-				.setNeutralButton(R.string.ok, null)
+				.setPositiveButton(R.string.ok, (dialog, which) -> {
+					showTermsOfUseDialog();
+				})
+				.setCancelable(false)
+				.setOnKeyListener((dialog, keyCode, event) -> {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						dialog.cancel();
+						showTermsOfUseDialog();
+						return true;
+					}
+					return false;
+				})
 				.show();
 	}
 
 	private void loadContent() {
 		if (BuildConfig.FEATURE_APK_GENERATOR_ENABLED) {
 			setContentView(R.layout.activity_main_menu_splashscreen);
-			prepareStandaloneProject();
+			if (oldPrivacyPolicy == Constants.CATROBAT_TERMS_OF_USE_ACCEPTED) {
+				prepareStandaloneProject();
+			}
 			return;
 		}
 
@@ -146,7 +204,8 @@ public class MainMenuActivity extends BaseCastActivity implements
 
 	private void loadFragment() {
 		getSupportFragmentManager().beginTransaction()
-				.replace(R.id.fragment_container, new MainMenuFragment(), MainMenuFragment.TAG)
+				.replace(R.id.fragment_container, new MainMenuFragment(),
+						MainMenuFragment.Companion.getTAG())
 				.commit();
 		setShowProgressBar(false);
 
@@ -172,7 +231,7 @@ public class MainMenuActivity extends BaseCastActivity implements
 	public void onPause() {
 		super.onPause();
 
-		Project currentProject = projectManager.getCurrentProject();
+		Project currentProject = projectManager.getValue().getCurrentProject();
 
 		if (currentProject != null) {
 			new ProjectSaveTask(currentProject, getApplicationContext())
@@ -225,7 +284,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 				new TermsOfUseDialogFragment().show(getSupportFragmentManager(), TermsOfUseDialogFragment.TAG);
 				break;
 			case R.id.menu_privacy_policy:
-				new PrivacyPolicyDialogFragment().show(getSupportFragmentManager(), PrivacyPolicyDialogFragment.TAG);
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+						Uri.parse(PRIVACY_POLICY_URL));
+				startActivity(browserIntent);
 				break;
 			case R.id.menu_about:
 				new AboutDialogFragment().show(getSupportFragmentManager(), AboutDialogFragment.TAG);
@@ -244,6 +305,9 @@ public class MainMenuActivity extends BaseCastActivity implements
 			case R.id.menu_logout:
 				Utils.logoutUser(this);
 				ToastUtil.showSuccess(this, R.string.logout_successful);
+				break;
+			case R.id.menu_help:
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.CATROBAT_HELP_URL)));
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -79,7 +79,7 @@ public class CopySceneTest {
 	public BaseActivityTestRule<ProjectActivity> baseActivityTestRule = new BaseActivityTestRule<>(ProjectActivity.class, false, false);
 
 	private String projectName = "CopySceneTest";
-	private String toBeCopiedSceneName = "Scene 1";
+	private String toBeCopiedSceneName = "Scene";
 
 	@Before
 	public void setUp() throws Exception {
@@ -105,10 +105,10 @@ public class CopySceneTest {
 		onView(withId(R.id.confirm))
 				.perform(click());
 
-		onView(withText(toBeCopiedSceneName))
+		onView(withText(toBeCopiedSceneName + " (1)"))
 				.check(matches(isDisplayed()));
 
-		onView(withText(toBeCopiedSceneName + " (1)"))
+		onView(withText(toBeCopiedSceneName + " (3)"))
 				.check(matches(isDisplayed()));
 		int copiedSceneSpritesCount =
 				ProjectManager.getInstance().getCurrentProject().getSceneList().get(2).getSpriteList().size();
@@ -127,7 +127,7 @@ public class CopySceneTest {
 		Project project = new Project(context, projectName);
 		Sprite sprite = new Sprite("firstSprite");
 		project.getDefaultScene().addSprite(sprite);
-		Scene scene2 = new Scene("Scene 2", project);
+		Scene scene2 = new Scene("Scene (2)", project);
 		project.addScene(scene2);
 
 		ProjectManager.getInstance().setCurrentProject(project);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -33,7 +33,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,11 +45,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.common.base.Charsets;
+import com.google.common.io.Files;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.exceptions.ProjectException;
 import org.catrobat.catroid.io.ProjectAndSceneScreenshotLoader;
 import org.catrobat.catroid.io.asynctask.ProjectLoadTask;
 import org.catrobat.catroid.io.asynctask.ProjectRenameTask;
@@ -63,17 +68,25 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AlertDialog;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
 import static org.catrobat.catroid.common.Constants.EXTRA_PROJECT_ID;
+import static org.catrobat.catroid.common.Constants.MAX_NUMBER_OF_CHECKED_TAGS;
 import static org.catrobat.catroid.common.Constants.PLAY_STORE_PAGE_LINK;
 import static org.catrobat.catroid.common.Constants.SHARE_PROJECT_URL;
 import static org.catrobat.catroid.common.Constants.UPLOAD_RESULT_RECEIVER_RESULT_CODE;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_CODE_INVALID;
 import static org.catrobat.catroid.web.ServerAuthenticationConstants.TOKEN_LENGTH;
 
@@ -88,10 +101,22 @@ public class ProjectUploadActivity extends BaseActivity implements
 	public static final String PROJECT_DIR = "projectDir";
 	public static final int SIGN_IN_CODE = 42;
 
-	public static final int MAX_NUMBER_OF_TAGS_CHECKED = 3;
 	public static final String NUMBER_OF_UPLOADED_PROJECTS = "number_of_uploaded_projects";
+	private static final String WEB_REQUEST_BRICK = "WebRequestBrick";
+	private static final String BACKGROUND_REQUEST_BRICK = "BackgroundRequestBrick";
+	private static final String LOOK_REQUEST_BRICK = "LookRequestBrick";
+	private static final String OPEN_URL_BRICK = "OpenUrlBrick";
+	private static final String WIKI_URL = "<a href='https://catrob.at/webbricks'>"
+			+ "https://catrob.at/webbricks</a>";
+	private static final String PROGRAM_NAME_START_TAG = "<programName>";
+	private static final String PROGRAM_NAME_END_TAG = "</programName>";
 
 	private Project project;
+	private String xml = "";
+	private String originalProjectName = "";
+	private String backUpXml = "";
+	File xmlFile;
+	private Matcher apiMatcher;
 
 	private AlertDialog uploadProgressDialog;
 
@@ -170,7 +195,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 		notesAndCreditsInputLayout.getEditText().setText(project.getNotesAndCredits());
 
 		nameInputLayout.getEditText().addTextChangedListener(nameInputTextWatcher);
-
+		originalProjectName = project.getName();
+		checkCodeforApiKey();
 		setShowProgressBar(false);
 		setNextButtonEnabled(true);
 	}
@@ -201,6 +227,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 			setScreen(notesAndCreditsScreen);
 			notesAndCreditsScreen = false;
 		} else {
+			loadBackup();
 			super.onBackPressed();
 		}
 	}
@@ -263,6 +290,99 @@ public class ProjectUploadActivity extends BaseActivity implements
 		}
 	}
 
+	private void checkCodeforApiKey() {
+		String regex = "<value>.*?((?=[A-Za-z]+[0-9]|[0-9]+[A-Za-z])[A-Za-z0-9]{24,45})";
+		xmlFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+
+		try {
+			xml = Files.asCharSource(xmlFile, Charsets.UTF_8).read();
+			backUpXml = xml;
+		} catch (IOException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		if (xml.contains(WEB_REQUEST_BRICK) || xml.contains(BACKGROUND_REQUEST_BRICK) || xml.contains(LOOK_REQUEST_BRICK) || xml.contains(OPEN_URL_BRICK)) {
+			Pattern apiPattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+			apiMatcher = apiPattern.matcher(xml);
+			if (apiMatcher.find()) {
+				showApiReplacementDialog(Objects.requireNonNull(apiMatcher.group(1)));
+			}
+		}
+	}
+
+	private void apiKeyFound() {
+		if (apiMatcher.find(apiMatcher.end())) {
+			showApiReplacementDialog(Objects.requireNonNull(apiMatcher.group(1)));
+		}
+	}
+
+	private void replaceSecret(String secret) {
+		xml = xml.replaceAll(secret, getString(R.string.api_replacement));
+		try {
+			FileOutputStream stream = new FileOutputStream(xmlFile);
+			stream.write(xml.getBytes(StandardCharsets.UTF_8));
+			stream.close();
+		} catch (IOException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		reloadProject();
+		apiKeyFound();
+	}
+
+	private void reloadProject() {
+		try {
+			ProjectManager.getInstance().loadProject(project.getDirectory());
+			project = ProjectManager.getInstance().getCurrentProject();
+		} catch (ProjectException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+	}
+
+	private void loadBackup() {
+		String currentName = project.getName();
+		if (!currentName.equals(originalProjectName)) {
+			String toReplace = PROGRAM_NAME_START_TAG + originalProjectName + PROGRAM_NAME_END_TAG;
+			String replaceWith = PROGRAM_NAME_START_TAG + currentName + PROGRAM_NAME_END_TAG;
+			xmlFile = new File(project.getDirectory(), CODE_XML_FILE_NAME);
+			backUpXml = backUpXml.replace(toReplace, replaceWith);
+		}
+		try {
+			FileOutputStream stream = new FileOutputStream(xmlFile);
+			stream.write(backUpXml.getBytes(StandardCharsets.UTF_8));
+			stream.close();
+		} catch (IOException exception) {
+			Log.e(TAG, Log.getStackTraceString(exception));
+		}
+		reloadProject();
+	}
+
+	private void showApiReplacementDialog(String secret) {
+		View view = View.inflate(this, R.layout.dialog_replace_api_key, null);
+		TextView warningText = view.findViewById(R.id.replace_api_key_warning);
+		warningText.setMovementMethod(LinkMovementMethod.getInstance());
+		String warningURL = getString(R.string.api_replacement_dialog_warning,
+				WIKI_URL);
+		warningText.setText(Html.fromHtml(warningURL));
+		AlertDialog alertDialog = new AlertDialog.Builder(this)
+				.setTitle(R.string.warning)
+				.setView(view)
+				.setPositiveButton(getString(R.string.api_replacement_dialog_accept), (dialog, which) -> {
+					replaceSecret(secret);
+				})
+				.setNegativeButton(getText(R.string.api_replacement_dialog_neutral), (dialog, which) -> {
+					apiKeyFound();
+				})
+				.setNeutralButton(getText(R.string.cancel), (dialog, which) -> {
+					loadBackup();
+					finish();
+				})
+				.setCancelable(false)
+				.create();
+
+		alertDialog.show();
+		TextView keyField = alertDialog.findViewById(R.id.replace_api_key);
+		keyField.setText(secret);
+	}
+
 	private void showSelectTagsDialog() {
 		List<String> checkedTags = new ArrayList<>();
 		String[] availableTags = tags.toArray(new String[0]);
@@ -271,7 +391,8 @@ public class ProjectUploadActivity extends BaseActivity implements
 				.setTitle(R.string.upload_tag_dialog_title)
 				.setMultiChoiceItems(availableTags, null, (dialog, indexSelected, isChecked) -> {
 					if (isChecked) {
-						if (checkedTags.size() >= MAX_NUMBER_OF_TAGS_CHECKED) {
+						if (checkedTags.size() >= MAX_NUMBER_OF_CHECKED_TAGS) {
+							ToastUtil.showError(getContext(), R.string.upload_tags_maximum_error);
 							((AlertDialog) dialog).getListView().setItemChecked(indexSelected, false);
 						} else {
 							checkedTags.add(availableTags[indexSelected]);
@@ -328,12 +449,23 @@ public class ProjectUploadActivity extends BaseActivity implements
 	}
 
 	public void showUploadDialog() {
+		if (surveyCampaign != null) {
+			surveyCampaign.setUploadFlag(true);
+		}
 
 		uploadProgressDialog = new AlertDialog.Builder(this)
 				.setTitle(getString(R.string.upload_project_dialog_title))
 				.setView(R.layout.dialog_upload_project_progress)
-				.setPositiveButton(R.string.progress_upload_dialog_show_program, null)
+				.setPositiveButton(R.string.progress_upload_dialog_show_program, (dialog, which) -> {
+					loadBackup();
+				})
 				.setNegativeButton(R.string.done, (dialog, which) -> {
+					loadBackup();
+
+					if (surveyCampaign != null) {
+						surveyCampaign.showSurvey(this);
+					}
+
 					finish();
 				})
 				.setCancelable(false)
@@ -377,6 +509,7 @@ public class ProjectUploadActivity extends BaseActivity implements
 			Intent intent = new Intent(this, WebViewActivity.class);
 			intent.putExtra(WebViewActivity.INTENT_PARAMETER_URL, projectUrl);
 			startActivity(intent);
+			loadBackup();
 			finish();
 		});
 		positiveButton.setEnabled(true);

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,9 +47,10 @@ import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
 import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
+import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SceneListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.SpriteListFragment;
@@ -68,6 +69,7 @@ import androidx.fragment.app.FragmentTransaction;
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EV3;
 import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
+import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
@@ -153,11 +155,11 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			case R.id.new_scene:
 				handleAddSceneButton();
 				break;
-			case R.id.upload:
-				setShowProgressBar(true);
-				Project currentProject = ProjectManager.getInstance().getCurrentProject();
-				new ProjectSaveTask(currentProject, getApplicationContext()).setListener(this).execute();
-				Utils.setLastUsedProjectName(getApplicationContext(), currentProject.getName());
+			case R.id.project_options:
+				getSupportFragmentManager().beginTransaction()
+						.replace(R.id.fragment_container, new ProjectOptionsFragment(), ProjectOptionsFragment.TAG)
+						.addToBackStack(ProjectOptionsFragment.TAG)
+						.commit();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
@@ -191,10 +193,15 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 			return;
 		}
 
-		saveProject(currentProject);
+		Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+		if (!(currentFragment instanceof ProjectOptionsFragment)) {
+			saveProject(currentProject);
+		}
 
 		if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
 			getSupportFragmentManager().popBackStack();
+			BottomBar.showBottomBar(this);
 			return;
 		}
 
@@ -256,11 +263,11 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				break;
 			case SPRITE_FILE:
 				uri = data.getData();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 			case SPRITE_CAMERA:
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
-				addSpriteFromUri(uri);
+				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
 		}
 	}
@@ -274,6 +281,10 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 	}
 
 	public void addSpriteFromUri(final Uri uri) {
+		addSpriteFromUri(uri, DEFAULT_IMAGE_EXTENSION);
+	}
+
+	public void addSpriteFromUri(final Uri uri, final String imageExtension) {
 		final Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
 
 		String resolvedName;
@@ -287,7 +298,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		if (useDefaultSpriteName) {
 			resolvedName = getString(R.string.default_sprite_name);
-			lookFileName = resolvedName + DEFAULT_IMAGE_EXTENSION;
+			lookFileName = resolvedName + imageExtension;
 		} else {
 			resolvedName = StorageOperations.getSanitizedFileName(resolvedFileName);
 			lookFileName = resolvedFileName;
@@ -298,13 +309,15 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
 		builder.setHint(getString(R.string.sprite_name_label))
 				.setText(lookDataName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentScene.getSpriteList()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(currentScene.getSpriteList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Sprite sprite = new Sprite(textInput);
 					currentScene.addSprite(sprite);
 					try {
 						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-						File file = StorageOperations.copyUriToDir(getContentResolver(), uri, imageDirectory, lookFileName);
+						File file = StorageOperations.copyUriToDir(getContentResolver(), uri,
+								imageDirectory, lookFileName);
+						Utils.removeExifData(imageDirectory, lookFileName);
 						LookData lookData = new LookData(textInput, file);
 						if (lookData.getImageMimeType() == null) {
 							imgFormatNotSupportedDialog();
@@ -354,7 +367,7 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		builder.setHint(getString(R.string.scene_name_label))
 				.setText(defaultSceneName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentProject.getSceneList()))
+				.setTextWatcher(new DuplicateInputTextWatcher<>(currentProject.getSceneList()))
 				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Scene scene = SceneController
 							.newSceneWithBackgroundSprite(textInput, getString(R.string.background), currentProject);

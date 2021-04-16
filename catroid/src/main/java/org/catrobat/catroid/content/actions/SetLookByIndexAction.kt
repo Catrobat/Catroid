@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.actions
 
 import android.util.Log
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.content.Sprite
 import org.catrobat.catroid.content.eventids.EventId
 import org.catrobat.catroid.formulaeditor.Formula
@@ -34,14 +35,13 @@ open class SetLookByIndexAction : SetLookAction() {
         get() = super.sprite
         set(value) {
             super.sprite = value
-            scopeSprite = value
         }
-    var scopeSprite: Sprite? = null
+    var scope: Scope? = null
 
     override fun getEventId(): EventId? {
         try {
-            if (sprite != null && scopeSprite != null) {
-                val lookPosition = formula?.interpretInteger(scopeSprite) ?: 0
+            if (sprite != null && scope?.sprite != null && scope?.sequence != null) {
+                val lookPosition = formula?.interpretInteger(scope) ?: 0
                 lookData = sprite!!.lookList?.getOrNull(lookPosition - 1)
             }
         } catch (e: InterpretationException) {

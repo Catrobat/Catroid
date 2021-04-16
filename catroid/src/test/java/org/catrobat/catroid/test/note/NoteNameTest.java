@@ -59,7 +59,7 @@ public class NoteNameTest {
 
 	@Test
 	public void testNext2() {
-		NoteName lastNoteName = NoteName.C8;
+		NoteName lastNoteName = NoteName.EXT130;
 
 		assertEquals(lastNoteName, lastNoteName.next());
 	}
@@ -74,7 +74,7 @@ public class NoteNameTest {
 
 	@Test
 	public void testPrevious2() {
-		NoteName firstNoteName = NoteName.A0;
+		NoteName firstNoteName = NoteName.EXT0;
 
 		assertEquals(firstNoteName, firstNoteName.previous());
 	}

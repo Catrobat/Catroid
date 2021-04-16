@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,6 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.bricks.ChangeVariableBrick;
 import org.catrobat.catroid.ui.SpriteActivity;
-import org.catrobat.catroid.uiespresso.content.brick.utils.BrickCoordinatesProvider;
 import org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
 import org.junit.Before;
@@ -68,8 +67,8 @@ public class ChangeVariableTest {
 
 	@Test
 	public void testCreateNewUserVariableAndDeletion() {
-		String userVariableName = "testVariable1";
-		String secondUserVariableName = "testVariable2";
+		String userVariableName = "TestVariable1";
+		String secondUserVariableName = "TestVariable2";
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -108,8 +107,8 @@ public class ChangeVariableTest {
 
 	@Test
 	public void testViewInFormulaEditorAfterClone() {
-		String userVariableName = "testvariable1";
-		String userVariableName2 = "testvariable2";
+		String userVariableName = "Testvariable1";
+		String userVariableName2 = "Testvariable2";
 
 		performNewVariableFromFormulaEditor(1, userVariableName);
 
@@ -121,7 +120,6 @@ public class ChangeVariableTest {
 
 		performNewVariableFromFormulaEditor(1, userVariableName2);
 
-		onBrickAtPosition(1).performDragNDrop(BrickCoordinatesProvider.DOWN_ONE_POSITION);
 		onBrickAtPosition(1).onVariableSpinner(R.id.change_variable_spinner)
 				.checkShowsVariableNamesInAdapter(Arrays.asList(userVariableName, userVariableName2));
 	}
@@ -134,8 +132,7 @@ public class ChangeVariableTest {
 		onDataList()
 				.performAdd(variableName)
 				.performClose();
-		onFormulaEditor()
-				.performCloseAndSave();
+		pressBack();
 	}
 
 	public void createProject() {

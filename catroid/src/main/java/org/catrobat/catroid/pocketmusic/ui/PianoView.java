@@ -26,6 +26,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.pocketmusic.note.NoteName;
@@ -37,8 +38,8 @@ import androidx.core.content.ContextCompat;
 
 public class PianoView extends ViewGroup {
 
-	private List<View> whitePianoKeys = new ArrayList<>();
-	private List<View> blackPianoKeys = new ArrayList<>();
+	private List<TextView> whitePianoKeys = new ArrayList<>();
+	private List<TextView> blackPianoKeys = new ArrayList<>();
 	private static final int WHITE_KEY_COUNT = 8;
 	private static final int BLACK_KEY_COUNT = 5;
 	private static final ButtonHeight[] HEIGHT_DISTRIBUTION = new ButtonHeight[] {
@@ -62,14 +63,24 @@ public class PianoView extends ViewGroup {
 		super(context, attributeSet);
 		margin = getResources().getDimensionPixelSize(R.dimen.pocketmusic_trackrow_margin);
 		for (int i = 0; i < WHITE_KEY_COUNT; i++) {
-			View whiteButton = new View(context);
+			TextView whiteButton = new TextView(context);
 			whiteButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_white));
+
+			whiteButton.setTextAlignment(TEXT_ALIGNMENT_VIEW_END);
+			whiteButton.setTextColor(ContextCompat.getColor(context, R.color.solid_black));
+			whiteButton.setText(String.valueOf(TrackRowView.getMidiValueForRow(TrackView.WHITE_KEY_INDICES[i])));
+
 			whitePianoKeys.add(whiteButton);
 			addView(whiteButton);
 		}
 		for (int i = 0; i < BLACK_KEY_COUNT; i++) {
-			View blackButton = new View(context);
+			TextView blackButton = new TextView(context);
 			blackButton.setBackgroundColor(ContextCompat.getColor(context, R.color.solid_black));
+
+			blackButton.setTextAlignment(TEXT_ALIGNMENT_VIEW_END);
+			blackButton.setTextColor(ContextCompat.getColor(context, R.color.solid_white));
+			blackButton.setText(String.valueOf(TrackRowView.getMidiValueForRow(TrackView.BLACK_KEY_INDICES[i])));
+
 			blackPianoKeys.add(blackButton);
 			addView(blackButton);
 		}
@@ -106,6 +117,8 @@ public class PianoView extends ViewGroup {
 						currentHeight += singleButtonHeight;
 						collectiveButtonHeight -= round(singleButtonHeight);
 						currentButtonCount += 1f;
+						whitePianoKeys.get(i).setPadding(0, singleButtonHeight / 2
+								- round(whitePianoKeys.get(i).getTextSize()) / 2, 0, 0);
 						break;
 					case oneAndAHalfButtonHeight:
 						whitePianoKeys.get(i).layout(
@@ -117,6 +130,13 @@ public class PianoView extends ViewGroup {
 						currentHeight += round(oneAndAHalfButtonHeight);
 						collectiveButtonHeight -= round(singleButtonHeight * 1.5f);
 						currentButtonCount += 1.5f;
+						if (i == 0 || i == 3) {
+							whitePianoKeys.get(i).setPadding(0, singleButtonHeight / 2
+									- round(whitePianoKeys.get(i).getTextSize()) / 2, 0, 0);
+						} else {
+							whitePianoKeys.get(i).setPadding(0, round(oneAndAHalfButtonHeight) / 3 * 2
+									- round(whitePianoKeys.get(i).getTextSize()) / 2, 0, 0);
+						}
 						break;
 					case doubleButtonHeight:
 						whitePianoKeys.get(i).layout(
@@ -128,6 +148,8 @@ public class PianoView extends ViewGroup {
 						currentHeight += doubleButtonHeight;
 						collectiveButtonHeight -= singleButtonHeight * 2;
 						currentButtonCount += 2f;
+						whitePianoKeys.get(i).setPadding(0, doubleButtonHeight / 2
+								- round(whitePianoKeys.get(i).getTextSize()) / 2, 0, 0);
 						break;
 				}
 				currentHeight += 2 * margin;
@@ -152,6 +174,9 @@ public class PianoView extends ViewGroup {
 						currentHeight + singleButtonHeight + 4 * margin
 				);
 
+				blackPianoKeys.get(i).setPadding(0, singleButtonHeight / 2
+						- round(blackPianoKeys.get(i).getTextSize()) / 2, 0, 0);
+
 				currentHeight += 2 * singleButtonHeight + 4 * margin;
 				collectiveButtonHeight -= 2 * singleButtonHeight;
 				currentButtonCount += 2f;
@@ -167,7 +192,8 @@ public class PianoView extends ViewGroup {
 
 	public void setButtonColor(NoteName note, boolean active) {
 		int i = 0;
-		for (int counter = NoteName.DEFAULT_NOTE_NAME.getMidi(); counter < NoteName.C2.getMidi(); counter++) {
+		for (int counter = TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT; counter <= TrackRowView.getMidiValueForRow(TrackView.ROW_COUNT);
+				counter += TrackView.HIGHEST_MIDI / TrackView.ROW_COUNT) {
 			NoteName tempNote = NoteName.getNoteNameFromMidiValue(counter);
 			if (note.equals(tempNote)) {
 				break;

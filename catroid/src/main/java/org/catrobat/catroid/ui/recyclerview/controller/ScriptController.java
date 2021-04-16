@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,9 +29,11 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Script;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundAndWaitBrick;
 import org.catrobat.catroid.content.bricks.PlaySoundBrick;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
@@ -92,15 +94,18 @@ public class ScriptController {
 
 			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
+				Scope scope = new Scope(dstProject, dstSprite, null);
 				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+						.getUserVariable(previousUserVar.getName(), scope);
 				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
+
+				Scope scope = new Scope(dstProject, dstSprite, null);
 				UserList updatedUserList = UserDataWrapper
-						.getUserList(previousUserList.getName(), dstSprite, dstProject);
+						.getUserList(previousUserList.getName(), scope);
 				((UserListBrick) brick).setUserList(updatedUserList);
 			}
 
@@ -109,12 +114,13 @@ public class ScriptController {
 						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
 					UserData previousUserData = entry.getValue();
 					UserData updatedUserList;
+					Scope scope = new Scope(dstProject, dstSprite, null);
 					if (Brick.BrickData.isUserList(entry.getKey())) {
 						updatedUserList = UserDataWrapper
-								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+								.getUserList(previousUserData.getName(), scope);
 					} else {
 						updatedUserList = UserDataWrapper
-								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+								.getUserVariable(previousUserData.getName(), scope);
 					}
 					entry.setValue(updatedUserList);
 				}
@@ -177,6 +183,7 @@ public class ScriptController {
 
 	public void unpack(Script scriptToUnpack, Sprite dstSprite) throws CloneNotSupportedException {
 		Script script = scriptToUnpack.clone();
+		copyBroadcastMessages(script.getScriptBrick());
 
 		for (Brick brick : script.getBrickList()) {
 			if (ProjectManager.getInstance().getCurrentProject().isCastProject()
@@ -184,9 +191,18 @@ public class ScriptController {
 				Log.e(TAG, "CANNOT insert bricks into ChromeCast project");
 				return;
 			}
+			copyBroadcastMessages(brick);
 		}
 
 		dstSprite.getScriptList().add(script);
+	}
+
+	private boolean copyBroadcastMessages(Brick brick) {
+		if (brick instanceof BroadcastMessageBrick) {
+			String broadcastMessage = ((BroadcastMessageBrick) brick).getBroadcastMessage();
+			return ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().addBroadcastMessage(broadcastMessage);
+		}
+		return false;
 	}
 
 	void unpackForSprite(Script scriptToUnpack, Project dstProject, Scene dstScene, Sprite dstSprite)
@@ -226,15 +242,17 @@ public class ScriptController {
 
 			if (brick instanceof UserVariableBrickInterface && ((UserVariableBrickInterface) brick).getUserVariable() != null) {
 				UserVariable previousUserVar = ((UserVariableBrickInterface) brick).getUserVariable();
+				Scope scope = new Scope(dstProject, dstSprite, null);
 				UserVariable updatedUserVar = UserDataWrapper
-						.getUserVariable(previousUserVar.getName(), dstSprite, dstProject);
+						.getUserVariable(previousUserVar.getName(), scope);
 				((UserVariableBrickInterface) brick).setUserVariable(updatedUserVar);
 			}
 
 			if (brick instanceof UserListBrick && ((UserListBrick) brick).getUserList() != null) {
 				UserList previousUserList = ((UserListBrick) brick).getUserList();
+				Scope scope = new Scope(dstProject, dstSprite, null);
 				UserList updatedUserList = UserDataWrapper
-						.getUserList(previousUserList.getName(), dstSprite, dstProject);
+						.getUserList(previousUserList.getName(), scope);
 				((UserListBrick) brick).setUserList(updatedUserList);
 			}
 
@@ -243,12 +261,13 @@ public class ScriptController {
 						: ((UserDataBrick) brick).getUserDataMap().entrySet()) {
 					UserData previousUserData = entry.getValue();
 					UserData updatedUserList;
+					Scope scope = new Scope(dstProject, dstSprite, null);
 					if (Brick.BrickData.isUserList(entry.getKey())) {
 						updatedUserList = UserDataWrapper
-								.getUserList(previousUserData.getName(), dstSprite, dstProject);
+								.getUserList(previousUserData.getName(), scope);
 					} else {
 						updatedUserList = UserDataWrapper
-								.getUserVariable(previousUserData.getName(), dstSprite, dstProject);
+								.getUserVariable(previousUserData.getName(), scope);
 					}
 					entry.setValue(updatedUserList);
 				}

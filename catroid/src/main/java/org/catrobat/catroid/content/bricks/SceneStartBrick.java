@@ -37,7 +37,7 @@ import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NewItemTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 
 		builder.setHint(activity.getString(R.string.scene_name_label))
 				.setText(defaultSceneName)
-				.setTextWatcher(new NewItemTextWatcher<>(currentSceneList))
+				.setTextWatcher(new DuplicateInputTextWatcher(currentSceneList))
 				.setPositiveButton(activity.getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
 					Scene scene = SceneController.newSceneWithBackgroundSprite(
 							textInput, activity.getString(R.string.background), currentProject);
@@ -126,6 +126,10 @@ public class SceneStartBrick extends BrickBaseType implements BrickSpinner.OnIte
 				.setNegativeButton(R.string.cancel, (dialog, which) -> spinner.setSelection(sceneToStart))
 				.setOnCancelListener(dialog -> spinner.setSelection(sceneToStart))
 				.show();
+	}
+
+	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
 	}
 
 	@Override

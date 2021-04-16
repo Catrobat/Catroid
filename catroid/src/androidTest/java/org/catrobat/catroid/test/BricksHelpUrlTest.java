@@ -384,6 +384,10 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetInstrumentBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetTempoBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetTempoBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeTempoByNBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeTempoByNBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayDrumForBeatsBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayDrumForBeatsBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ThinkBubbleBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ThinkBubbleBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AskBrick",
@@ -406,12 +410,16 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ZigZagStitchBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TripleStitchBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TripleStitchBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SewUpBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SewUpBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.WriteEmbroideryToFileBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/WriteEmbroideryToFileBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/UserDefinedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/UserDefinedReceiverBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ReportBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ReportBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StoreCSVIntoUserListBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StoreCSVIntoUserListBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.AssertUserListsBrick",
@@ -424,12 +432,30 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ParameterizedEndBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TapForBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TapForBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TouchAndSlideBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TouchAndSlideBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.StartListeningBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/StartListeningBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetListeningLanguageBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetListeningLanguageBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PauseForBeatsBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PauseForBeatsBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.DeleteLookBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/DeleteLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ResetTimerBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ResetTimerBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PaintNewLookBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PaintNewLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.PlayNoteForBeatsBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/PlayNoteForBeatsBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.OpenUrlBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/OpenUrlBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.CopyLookBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/CopyLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EditLookBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EditLookBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.EmptyEventBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/EmptyEventBrick");
 	}
 
 	@Parameterized.Parameters(name = "{0}")

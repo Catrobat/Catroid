@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.utils.Utils;
@@ -61,8 +62,16 @@ public class AboutDialogFragment extends DialogFragment {
 		aboutCatrobatView.setText(Html.fromHtml(aboutCatrobatUrl));
 
 		TextView aboutVersionNameTextView = view.findViewById(R.id.dialog_about_text_view_version_name);
-		String versionName = this.getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
+		String versionCode = BuildConfig.FLAVOR.equals("pocketCodeBeta") ? "-" + BuildConfig.VERSION_CODE : "";
+		String versionName = getString(R.string.app_name) + versionCode + " " + getString(R.string.dialog_about_version)
+				+ " " + getString(R.string.android_version_prefix) + Utils.getVersionName(getActivity());
 		aboutVersionNameTextView.setText(versionName);
+
+		TextView aboutCatrobatVersionTextView = view.findViewById(R.id.dialog_about_text_view_catrobat_version_name);
+		double catrobatVersion = Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
+		String catrobatVersionName =
+				getString(R.string.dialog_about_catrobat_language_version) + ": " + catrobatVersion;
+		aboutCatrobatVersionTextView.setText(catrobatVersionName);
 
 		return new AlertDialog.Builder(getActivity())
 				.setTitle(R.string.dialog_about_title)

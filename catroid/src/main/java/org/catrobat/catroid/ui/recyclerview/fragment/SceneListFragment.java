@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -76,7 +77,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.new_group).setVisible(false);
 		menu.findItem(R.id.new_scene).setVisible(false);
@@ -228,6 +229,10 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 
 	@Override
 	public void onItemClick(Scene item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
 		if (actionModeType == NONE) {
 			ProjectManager.getInstance().setCurrentlyEditedScene(item);
 			getFragmentManager().beginTransaction()

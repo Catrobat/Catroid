@@ -81,7 +81,7 @@ public class CopyProjectTest {
 
 	@Before
 	public void setUp() throws Exception {
-		createProject();
+		createProject(toBeCopiedProjectName);
 		baseActivityTestRule.launchActivity(null);
 	}
 
@@ -104,8 +104,45 @@ public class CopyProjectTest {
 				.check(matches(isDisplayed()));
 	}
 
-	private void createProject() throws IOException {
-		Project project = new Project(ApplicationProvider.getApplicationContext(), toBeCopiedProjectName);
+	@Category({Cat.AppUi.class, Level.Smoke.class})
+	@Test
+	public void copyCopiedProjectsTest() {
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText(R.string.copy)).perform(click());
+
+		onRecyclerView().atPosition(0)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm))
+				.perform(click());
+
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText(R.string.copy)).perform(click());
+
+		onRecyclerView().atPosition(0)
+				.performCheckItem();
+
+		onRecyclerView().atPosition(1)
+				.performCheckItem();
+
+		onView(withId(R.id.confirm))
+				.perform(click());
+
+		onView(withText(toBeCopiedProjectName))
+				.check(matches(isDisplayed()));
+
+		onView(withText(toBeCopiedProjectName + " (1)"))
+				.check(matches(isDisplayed()));
+
+		onView(withText(toBeCopiedProjectName + " (2)"))
+				.check(matches(isDisplayed()));
+
+		onView(withText(toBeCopiedProjectName + " (3)"))
+				.check(matches(isDisplayed()));
+	}
+
+	private void createProject(String projectName) throws IOException {
+		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 		Sprite sprite = new Sprite("firstSprite");
 		Script script = new StartScript();
 		script.addBrick(new SetXBrick(new Formula(BrickValues.X_POSITION)));

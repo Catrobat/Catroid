@@ -47,7 +47,7 @@ public class AssertEqualsBrick extends FormulaBrick {
 
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
-		sequence.addAction(sprite.getActionFactory().createAssertEqualsAction(sprite,
+		sequence.addAction(sprite.getActionFactory().createAssertEqualsAction(sprite, sequence,
 				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_ACTUAL),
 				getFormulaWithBrickField(BrickField.ASSERT_EQUALS_EXPECTED),
 				getPositionInformation()));

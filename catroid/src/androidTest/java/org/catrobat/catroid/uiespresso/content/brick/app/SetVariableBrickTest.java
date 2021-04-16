@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import static org.hamcrest.Matchers.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.pressBack;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -78,8 +79,8 @@ public class SetVariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCreateNewUserVariableAndDeletion() {
-		String userVariableName = "testVariable1";
-		String secondUserVariableName = "testVariable2";
+		String userVariableName = "TestVariable1";
+		String secondUserVariableName = "TestVariable2";
 
 		onBrickAtPosition(0)
 				.checkShowsText(R.string.brick_when_started);
@@ -111,13 +112,13 @@ public class SetVariableBrickTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testIfSetVariableSpinnerCanHoldMultipleVariables() {
-		String userVariableName = "testVariable1";
-		String userVariableNameTwo = "testVariable2";
+		String userVariableName = "TestVariable1";
+		String userVariableNameTwo = "TestVariable2";
 
 		addNewVariableViaFormulaEditor(1, userVariableName);
 
-		onView(withId(R.id.formula_editor_keyboard_ok))
-				.perform(click());
+		pressBack();
+
 		onBrickAtPosition(1).onVariableSpinner(R.id.set_variable_spinner)
 				.performNewVariable(userVariableNameTwo);
 
@@ -136,7 +137,7 @@ public class SetVariableBrickTest {
 		onView(withId(R.id.button_add))
 				.perform(click());
 		onView(withId(R.id.input_edit_text))
-				.perform(typeText(userVariableName), closeSoftKeyboard());
+				.perform(clearText(), typeText(userVariableName), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
 		onView(allOf(withChild(withText(userVariableName)), withChild(withText("0"))))

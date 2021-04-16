@@ -259,13 +259,13 @@ public abstract class BackpackRecyclerViewFragment<T> extends Fragment implement
 		new AlertDialog.Builder(getContext())
 				.setTitle(getResources().getQuantityString(getDeleteAlertTitleId(), selectedItems.size()))
 				.setMessage(R.string.dialog_confirm_delete)
-				.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+				.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						deleteItems(selectedItems);
 					}
 				})
-				.setNegativeButton(R.string.no, null)
+				.setNegativeButton(R.string.cancel, null)
 				.setCancelable(false)
 				.show();
 	}

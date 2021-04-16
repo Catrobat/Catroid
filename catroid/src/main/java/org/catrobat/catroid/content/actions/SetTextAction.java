@@ -26,7 +26,7 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.stage.StageActivity;
@@ -37,15 +37,15 @@ public class SetTextAction extends TemporalAction {
 	private Formula endX;
 	private Formula endY;
 	private Formula text;
-	private Sprite sprite;
+	private Scope scope;
 	private TextActor actor;
 
 	@Override
 	protected void begin() {
 		try {
-			String string = text.interpretString(sprite);
-			int posX = endX.interpretInteger(sprite);
-			int posY = endY.interpretInteger(sprite);
+			String string = text.interpretString(scope);
+			int posX = endX.interpretInteger(scope);
+			int posY = endY.interpretInteger(scope);
 
 			actor = new TextActor(string, posX, posY);
 			StageActivity.stageListener.addActor(actor);
@@ -57,9 +57,9 @@ public class SetTextAction extends TemporalAction {
 	@Override
 	protected void update(float percent) {
 		try {
-			String str = text.interpretString(sprite);
-			int posX = endX.interpretInteger(sprite);
-			int posY = endY.interpretInteger(sprite);
+			String str = text.interpretString(scope);
+			int posX = endX.interpretInteger(scope);
+			int posY = endY.interpretInteger(scope);
 
 			actor.setText(str);
 			actor.setPosX(posX);
@@ -78,7 +78,7 @@ public class SetTextAction extends TemporalAction {
 		this.text = text;
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 }

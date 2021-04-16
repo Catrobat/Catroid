@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -47,12 +47,14 @@ import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_BRICK_HASH;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_X_TRANSFORM;
 import static org.catrobat.catroid.ui.SpriteActivity.EXTRA_Y_TRANSFORM;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickTestUtils.createProjectAndGetStartScript;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.CHANGED_COORDINATES;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
 import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 import static org.hamcrest.core.AllOf.allOf;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.intent.Intents.intended;
 import static androidx.test.espresso.intent.Intents.intending;
@@ -112,6 +114,7 @@ public class SpriteActivityVisualPlacementTest {
 		Intent intent = new Intent();
 		intent.putExtra(X_COORDINATE_BUNDLE_ARGUMENT, XRETURN);
 		intent.putExtra(Y_COORDINATE_BUNDLE_ARGUMENT, YRETURN);
+		intent.putExtra(CHANGED_COORDINATES, true);
 		intent.putExtra(EXTRA_BRICK_HASH, bricktoAdd.hashCode());
 		Instrumentation.ActivityResult intentResult = new Instrumentation.ActivityResult(Activity.RESULT_OK, intent);
 
@@ -138,8 +141,6 @@ public class SpriteActivityVisualPlacementTest {
 		intending(anyIntent()).respondWith(intentResult);
 
 		onView(withText(R.string.brick_place_at)).perform(click());
-		onView(withText(R.string.brick_option_place_visually)).perform(click());
-		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_X_TRANSFORM, 0)));
-		intended(allOf(hasComponent(VisualPlacementActivity.class.getName()), hasExtra(EXTRA_Y_TRANSFORM, 0)));
+		onView(withId(R.string.brick_option_place_visually)).check(doesNotExist());
 	}
 }

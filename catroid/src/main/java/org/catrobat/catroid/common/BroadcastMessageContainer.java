@@ -50,6 +50,13 @@ public class BroadcastMessageContainer {
 				&& broadcastMessages.add(messageToAdd);
 	}
 
+	public boolean removeBroadcastMessage(String messageToRemove) {
+		return messageToRemove != null
+				&& !messageToRemove.isEmpty()
+				&& broadcastMessages.contains(messageToRemove)
+				&& broadcastMessages.remove(messageToRemove);
+	}
+
 	public List<String> getBroadcastMessages() {
 		if (broadcastMessages.size() == 0) {
 			update();

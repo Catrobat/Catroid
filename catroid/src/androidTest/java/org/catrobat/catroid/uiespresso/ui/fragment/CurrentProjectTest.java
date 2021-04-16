@@ -28,13 +28,13 @@ import android.preference.PreferenceManager;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.test.utils.TestUtils;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
 import org.junit.After;
 import org.junit.Before;
@@ -75,32 +75,31 @@ public class CurrentProjectTest {
 				.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext())
 				.getInt(AGREED_TO_PRIVACY_POLICY_VERSION, 0);
 
-		int privacyPolicyHash =
-				UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text).hashCode();
-
 		PreferenceManager.getDefaultSharedPreferences(applicationContext)
-				.edit().putInt(AGREED_TO_PRIVACY_POLICY_VERSION, privacyPolicyHash).commit();
+				.edit().putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED).commit();
 		createProject();
 		baseActivityTestRule.launchActivity(null);
 	}
 
 	Context applicationContext = ApplicationProvider.getApplicationContext();
-	private String currentProject = "currentProject";
-	String downloadedProject = "downloadedProject";
+	private final String currentProject = "currentProject";
+	private final String downloadedProject = "downloadedProject";
 	int bufferedPreferenceSetting;
 
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testCurrentProjectAfterDownload() {
-		onView(withId(R.id.current_project)).perform(click());
+		onView(withId(R.id.currentProjectLayout)).perform(click());
 		onActionBar().checkTitleMatches(currentProject);
 		pressBack();
 		onView(withText(R.string.main_menu_programs)).perform(click());
 		Project project2 = new Project(applicationContext, downloadedProject);
 		XstreamSerializer.getInstance().saveProject(project2);
 		pressBack();
-		onView(withId(R.id.current_project)).perform(click());
+		onView(withId(R.id.currentProjectLayout)).perform(click());
 		onActionBar().checkTitleMatches(downloadedProject);
+		pressBack();
+		onView(withText(R.string.main_menu_programs)).perform(click());
 	}
 
 	private void createProject() {

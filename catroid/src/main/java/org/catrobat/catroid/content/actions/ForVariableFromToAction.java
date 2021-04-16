@@ -25,23 +25,21 @@ package org.catrobat.catroid.content.actions;
 
 import android.util.Log;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 import org.catrobat.catroid.formulaeditor.UserVariable;
 
-public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.actions.RepeatAction {
+public class ForVariableFromToAction extends LoopAction {
 
 	private UserVariable controlVariable;
 	private Formula from;
 	private Formula to;
-	private Sprite sprite;
+	private Scope scope;
 	private boolean isCurrentLoopInitialized = false;
 	private boolean isRepeatActionInitialized = false;
 	private int fromValue;
 	private int toValue;
-	private static final float LOOP_DELAY = 0.02f;
-	private float currentTime = 0f;
 	private int executedCount = 0;
 	private int step = 1;
 
@@ -53,14 +51,14 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 		}
 
 		if (!isCurrentLoopInitialized) {
-			currentTime = 0f;
+			setCurrentTime(0.f);
 			isCurrentLoopInitialized = true;
 		}
 
 		setControlVariable(fromValue + step * executedCount);
-		currentTime += delta;
+		setCurrentTime(getCurrentTime() + delta);
 
-		if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
+		if (action != null && action.act(delta) && !isLoopDelayNeeded()) {
 			executedCount++;
 
 			if (Math.abs(step * executedCount) > Math.abs(toValue - fromValue)) {
@@ -81,8 +79,8 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 		super.restart();
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setRange(Formula from, Formula to) {
@@ -97,9 +95,10 @@ public class ForVariableFromToAction extends com.badlogic.gdx.scenes.scene2d.act
 	private boolean interpretParameters() {
 		isRepeatActionInitialized = true;
 		try {
-			Double fromInterpretation = from == null ? Double.valueOf(0d) : from.interpretDouble(sprite);
+			Double fromInterpretation = from == null ? Double.valueOf(0d)
+					: from.interpretDouble(scope);
 			fromValue = fromInterpretation.intValue();
-			Double toInterpretation = to == null ? Double.valueOf(0d) : to.interpretDouble(sprite);
+			Double toInterpretation = to == null ? Double.valueOf(0d) : to.interpretDouble(scope);
 			toValue = toInterpretation.intValue();
 			setStepValue();
 			return true;

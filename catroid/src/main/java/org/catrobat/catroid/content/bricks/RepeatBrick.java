@@ -33,10 +33,12 @@ import com.badlogic.gdx.scenes.scene2d.Action;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.content.ActionFactory;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
+import org.catrobat.catroid.utils.LoopUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.util.ArrayList;
@@ -155,10 +157,13 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 		TextView label = view.findViewById(R.id.brick_repeat_time_text_view);
 		if (getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT).isNumber()) {
 			try {
+				ProjectManager projectManager = ProjectManager.getInstance();
+				Scope scope = new Scope(projectManager.getCurrentProject(),
+						projectManager.getCurrentSprite(), null);
 				label.setText(view.getResources().getQuantityString(
 						R.plurals.time_plural,
 						Utils.convertDoubleToPluralInteger(getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT)
-								.interpretDouble(ProjectManager.getInstance().getCurrentSprite()))
+								.interpretDouble(scope))
 				));
 			} catch (InterpretationException interpretationException) {
 				Log.d(getClass().getSimpleName(), "Couldn't interpret Formula", interpretationException);
@@ -174,6 +179,7 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 	@Override
 	public void addActionToSequence(Sprite sprite, ScriptSequenceAction sequence) {
 		ScriptSequenceAction repeatSequence = (ScriptSequenceAction) ActionFactory.createScriptSequenceAction(sequence.getScript());
+		boolean isLoopDelay = LoopUtil.checkLoopBrickForLoopDelay(this);
 
 		for (Brick brick : loopBricks) {
 			if (!brick.isCommentedOut()) {
@@ -181,8 +187,8 @@ public class RepeatBrick extends FormulaBrick implements CompositeBrick {
 			}
 		}
 
-		Action action = sprite.getActionFactory()
-				.createRepeatAction(sprite, getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT), repeatSequence);
+		Action action = sprite.getActionFactory().createRepeatAction(sprite, sequence,
+				getFormulaWithBrickField(BrickField.TIMES_TO_REPEAT), repeatSequence, isLoopDelay);
 
 		sequence.addAction(action);
 	}

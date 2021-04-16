@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,11 +25,14 @@ package org.catrobat.catroid.ui.fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -43,23 +46,33 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
+import com.google.common.io.Files;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
+import org.catrobat.catroid.content.Script;
+import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.UserDefinedScript;
+import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
+import org.catrobat.catroid.content.strategy.ShowFormulaEditorStrategy;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaEditorEditText;
 import org.catrobat.catroid.formulaeditor.FormulaElement;
-import org.catrobat.catroid.formulaeditor.InternFormula;
 import org.catrobat.catroid.formulaeditor.InternFormulaKeyboardAdapter;
 import org.catrobat.catroid.formulaeditor.InternFormulaParser;
-import org.catrobat.catroid.formulaeditor.InternFormulaState;
 import org.catrobat.catroid.formulaeditor.SensorHandler;
 import org.catrobat.catroid.formulaeditor.UndoState;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.formulaeditor.UserList;
 import org.catrobat.catroid.formulaeditor.UserVariable;
+import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.ui.BottomBar;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorComputeDialog;
 import org.catrobat.catroid.ui.dialogs.FormulaEditorIntroDialog;
@@ -67,32 +80,48 @@ import org.catrobat.catroid.ui.dialogs.regexassistant.RegularExpressionAssistant
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.fragment.CategoryListFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.DataListFragment;
+import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
 import org.catrobat.catroid.ui.runtimepermissions.BrickResourcesToRuntimePermissions;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.ui.settingsfragments.SettingsFragment;
 import org.catrobat.catroid.userbrick.UserDefinedBrickInput;
+import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import static org.catrobat.catroid.common.Constants.CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.common.Constants.UNDO_CODE_XML_FILE_NAME;
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.utils.SnackbarUtil.wasHintAlreadyShown;
+
+import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
 
 public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.OnGlobalLayoutListener,
 		DataListFragment.FormulaEditorDataInterface {
 
+	public static final String TAG = FormulaEditorFragment.class.getSimpleName();
+
 	private static final int SET_FORMULA_ON_CREATE_VIEW = 0;
 	private static final int SET_FORMULA_ON_SWITCH_EDIT_TEXT = 1;
 	private static final int SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT = 2;
+	private static final int SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER = 3;
 	private static final int TIME_WINDOW = 2000;
 	public static final int REQUEST_GPS = 1;
 	public static final int REQUEST_PERMISSIONS_COMPUTE_DIALOG = 701;
@@ -220,6 +249,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT);
 	}
 
+	public void updateFragmentAfterColorPicker() {
+		updateBrickView();
+		setInputFormula(currentFormulaField, SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER);
+	}
+
 	private void onUserDismiss() {
 		refreshFormulaPreviewString(currentFormula.getTrimmedFormulaString(getActivity()));
 		formulaEditorEditText.endEdit();
@@ -247,8 +281,12 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		setInputFormula(currentFormulaField, SET_FORMULA_ON_CREATE_VIEW);
 
 		formulaEditorEditText.init(this);
+		AppCompatActivity activity = (AppCompatActivity) getActivity();
 
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.formula_editor_title);
+		if (activity != null && activity.getSupportActionBar() != null) {
+			activity.getSupportActionBar().setTitle(R.string.formula_editor_title);
+		}
+
 		return fragmentView;
 	}
 
@@ -325,8 +363,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_data:
 							showDataFragment();
 							return true;
-						case R.id.formula_editor_keyboard_ok:
-							endFormulaEditor();
+						case R.id.formula_editor_keyboard_functional_button_toggle:
+							toggleFunctionalButtons();
 							return true;
 						case R.id.formula_editor_keyboard_string:
 							if (isSelectedTextFirstParamOfRegularExpression()) {
@@ -338,6 +376,9 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 						case R.id.formula_editor_keyboard_delete:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return handleLongClick(view, event);
+						case R.id.formula_editor_keyboard_color_picker:
+							showColorPickerDialog(view);
+							return true;
 						default:
 							formulaEditorEditText.handleKeyEvent(view.getId(), "");
 							return true;
@@ -361,6 +402,60 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		super.onStart();
 	}
 
+	private void showColorPicker(ShowFormulaEditorStrategy.Callback callback,
+			FragmentManager fragmentManager) {
+		int currentColor = callback.getValue();
+		ColorPickerDialog dialog = ColorPickerDialog.newInstance(currentColor);
+		Bitmap projectBitmap = ProjectManagerExtensionsKt
+				.getProjectBitmap(ProjectManager.getInstance());
+		dialog.setBitmap(projectBitmap);
+		dialog.addOnColorPickedListener(callback::setValue);
+		dialog.setStyle(STYLE_NORMAL, R.style.AlertDialogWithTitle);
+		dialog.show(fragmentManager, null);
+	}
+
+	private void showColorPickerDialog(View view) {
+		AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (activity == null) {
+			return;
+		}
+		FragmentManager fragmentManager = activity.getSupportFragmentManager();
+		if (fragmentManager.isStateSaved()) {
+			return;
+		}
+		showColorPicker(new ShowFormulaEditorStrategy.Callback() {
+			@Override
+			public void showFormulaEditor(View view) {
+			}
+
+			@Override
+			public void setValue(int value) {
+				addString(String.format("#%06X", (0xFFFFFF & value)));
+			}
+
+			@Override
+			public int getValue() {
+				String currentValue = getSelectedFormulaText();
+				if (currentValue != null && currentValue.matches("^#[0-9A-Fa-f]{6}$")) {
+					return Color.parseColor(currentValue);
+				} else {
+					return 0;
+				}
+			}
+		}, fragmentManager);
+	}
+
+	public void toggleFunctionalButtons() {
+		View row1 = getActivity().findViewById(R.id.tableRow11);
+		View row2 = getActivity().findViewById(R.id.tableRow12);
+		ImageButton toggleButton = getActivity().findViewById(R.id.formula_editor_keyboard_functional_button_toggle);
+
+		boolean isVisible = row1.getVisibility() == View.VISIBLE;
+		row1.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+		row2.setVisibility(isVisible ? View.INVISIBLE : View.VISIBLE);
+		toggleButton.setImageDrawable(ContextCompat.getDrawable(getContext(), isVisible ? R.drawable.ic_keyboard_toggle_caret_up : R.drawable.ic_keyboard_toggle_caret_down));
+	}
+
 	@VisibleForTesting
 	public FormulaEditorEditText getFormulaEditorEditText() {
 		return formulaEditorEditText;
@@ -369,7 +464,11 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	@Override
 	public void onStop() {
 		super.onStop();
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(actionBarTitleBuffer);
+		AppCompatActivity activity = (AppCompatActivity) getActivity();
+		if (activity == null || activity.getSupportActionBar() == null) {
+			return;
+		}
+		activity.getSupportActionBar().setTitle(actionBarTitleBuffer);
 	}
 
 	private boolean isSelectedTextFirstParamOfRegularExpression() {
@@ -428,7 +527,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 
 	private void showComputeDialog() {
 		InternFormulaParser internFormulaParser = formulaEditorEditText.getFormulaParser();
-		final FormulaElement formulaElement = internFormulaParser.parseFormula();
+		final FormulaElement formulaElement = internFormulaParser.parseFormula(generateScope());
 		if (formulaElement == null) {
 			if (internFormulaParser.getErrorTokenIndex() >= 0) {
 				formulaEditorEditText.setParseErrorCursorAndSelection();
@@ -452,7 +551,8 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 					}
 				}
 				Formula formulaToCompute = new Formula(formulaElement);
-				FormulaEditorComputeDialog computeDialog = new FormulaEditorComputeDialog(getActivity());
+				FormulaEditorComputeDialog computeDialog =
+						new FormulaEditorComputeDialog(getActivity(), generateScope());
 				computeDialog.setFormula(formulaToCompute);
 				computeDialog.show();
 			}
@@ -529,6 +629,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				refreshFormulaPreviewString(formulaEditorEditText.getStringFromInternFormula());
 				break;
 			case SET_FORMULA_ON_RETURN_FROM_VISUAL_PLACEMENT:
+			case SET_FORMULA_ON_RETURN_FROM_COLOR_PICKER:
 			case SET_FORMULA_ON_SWITCH_EDIT_TEXT:
 				Formula newFormula = formulaBrick.getFormulaWithBrickField(formulaField);
 				if (currentFormula == newFormula && formulaEditorEditText.hasChanges()) {
@@ -565,9 +666,29 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
+	private Scope generateScope() {
+		Project project = ProjectManager.getInstance().getCurrentProject();
+		Sprite sprite = ProjectManager.getInstance().getCurrentSprite();
+		ScriptSequenceAction sequence = null;
+		Script script = formulaBrick.getScript();
+		if (script instanceof UserDefinedScript) {
+			UserDefinedReceiverBrick brick = (UserDefinedReceiverBrick) script.getScriptBrick();
+			List<UserDefinedBrickInput> inputs =
+					brick.getUserDefinedBrick().getUserDefinedBrickInputs();
+			List<Object> inputNames = new ArrayList<>();
+			for (UserDefinedBrickInput input : inputs) {
+				inputNames.add(new UserVariable(input.getName()));
+			}
+
+			sequence = new ScriptSequenceAction(script);
+			((UserDefinedScript) (sequence.getScript())).setUserDefinedBrickInputs(inputNames);
+		}
+		return new Scope(project, sprite, sequence);
+	}
+
 	public boolean saveFormulaIfPossible() {
 		InternFormulaParser formulaToParse = formulaEditorEditText.getFormulaParser();
-		FormulaElement formulaParseTree = formulaToParse.parseFormula();
+		FormulaElement formulaParseTree = formulaToParse.parseFormula(generateScope());
 
 		switch (formulaToParse.getErrorTokenIndex()) {
 			case InternFormulaParser.PARSER_OK:
@@ -613,33 +734,41 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
-	public void promptSave() {
-		exitFormulaEditorFragment();
+	private boolean hasFileChanged() {
+		File currentCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), CODE_XML_FILE_NAME);
+		File undoCodeFile = new File(ProjectManager.getInstance().getCurrentProject().getDirectory(), UNDO_CODE_XML_FILE_NAME);
+
+		if (currentCodeFile.exists() && undoCodeFile.exists()) {
+			try {
+				List<String> currentFile = Files.readLines(currentCodeFile, StandardCharsets.UTF_8);
+				List<String> undoFile = Files.readLines(undoCodeFile, StandardCharsets.UTF_8);
+
+				return !currentFile.equals(undoFile);
+			} catch (IOException exception) {
+				Log.e(TAG, "Comparing project files failed.", exception);
+			}
+		}
+
+		return false;
 	}
 
-	private void exitFormulaEditorFragment() {
+	public void exitFormulaEditorFragment() {
+		((SpriteActivity) getActivity()).setUndoMenuItemVisibility(false);
 		if (hasFormulaBeenChanged || formulaEditorEditText.hasChanges()) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-			builder.setTitle(R.string.formula_editor_discard_changes_dialog_title)
-					.setMessage(R.string.formula_editor_discard_changes_dialog_message)
-					.setNegativeButton(R.string.no, (dialog, which) -> {
-						Map<Brick.FormulaField, InternFormulaState> initialStates = formulaEditorEditText
-								.getHistory().getInitialStates();
-						restoreInitialStates(initialStates);
-						ToastUtil.showError(getActivity(), R.string.formula_editor_changes_discarded);
-						onUserDismiss();
-					})
-					.setPositiveButton(R.string.yes, (dialog, which) -> {
-						if (saveFormulaIfPossible()) {
-							ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
-							hasFormulaBeenChanged = false;
-							onUserDismiss();
-						}
-					})
-					.create()
-					.show();
-		} else {
-			onUserDismiss();
+			if (saveFormulaIfPossible()) {
+				hasFormulaBeenChanged = false;
+			} else {
+				return;
+			}
+		}
+		onUserDismiss();
+
+		ScriptFragment fragment = (ScriptFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ScriptFragment.TAG);
+
+		XstreamSerializer.getInstance().saveProject(ProjectManager.getInstance().getCurrentProject());
+
+		if (hasFileChanged() || fragment.checkVariables()) {
+			((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
 		}
 	}
 
@@ -647,7 +776,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 	public void endFormulaEditor() {
 		if (formulaEditorEditText.hasChanges()) {
 			if (saveFormulaIfPossible()) {
-				ToastUtil.showSuccess(getActivity(), R.string.formula_editor_changes_saved);
 				hasFormulaBeenChanged = false;
 				onUserDismiss();
 			}
@@ -668,6 +796,7 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 				getActivity().getString(actionbarResId));
 		bundle.putString(CategoryListFragment.FRAGMENT_TAG_BUNDLE_ARGUMENT, tag);
 		fragment.setArguments(bundle);
+		fragment.onPrepareOptionsMenu(currentMenu);
 
 		getFragmentManager().beginTransaction()
 				.hide(getFragmentManager().findFragmentByTag(FORMULA_EDITOR_FRAGMENT_TAG))
@@ -760,10 +889,6 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		return formulaEditorEditText.getSelectedTextFromInternFormula();
 	}
 
-	public void setCurrentBrickField(Brick.FormulaField currentFormulaField) {
-		FormulaEditorFragment.currentFormulaField = currentFormulaField;
-	}
-
 	public FormulaBrick getFormulaBrick() {
 		return formulaBrick;
 	}
@@ -803,19 +928,23 @@ public class FormulaEditorFragment extends Fragment implements ViewTreeObserver.
 		}
 	}
 
-	private void restoreInitialStates(Map<Brick.FormulaField, InternFormulaState> initialStates) {
-		for (Map.Entry<Brick.FormulaField, InternFormulaState> state : initialStates.entrySet()) {
-			InternFormula internFormula = state.getValue().createInternFormulaFromState();
-			formulaBrick.setFormulaWithBrickField(state.getKey(),
-					new Formula(internFormula.getInternFormulaParser().parseFormula()));
-		}
-	}
-
 	public int getIndexOfCorrespondingRegularExpression() {
 		return formulaEditorEditText.getIndexOfCorrespondingRegularExpression();
 	}
 
 	public void setSelectionToFirstParamOfRegularExpressionAtInternalIndex(int indexOfRegularExpression) {
 		formulaEditorEditText.setSelectionToFirstParamOfRegularExpressionAtInternalIndex(indexOfRegularExpression);
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onDetach() {
+		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
+		super.onDetach();
 	}
 }

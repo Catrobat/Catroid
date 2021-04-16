@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -73,12 +73,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.exifinterface.media.ExifInterface;
 import okhttp3.Response;
 
 import static android.speech.RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS;
 import static android.speech.RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE;
 import static android.speech.RecognizerIntent.EXTRA_SUPPORTED_LANGUAGES;
 
+import static org.catrobat.catroid.common.Constants.EXIFTAGS_FOR_EXIFREMOVER;
 import static org.catrobat.catroid.common.Constants.MAX_FILE_NAME_LENGTH;
 import static org.catrobat.catroid.common.Constants.PREF_PROJECTNAME_KEY;
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
@@ -432,11 +434,19 @@ public final class Utils {
 			}
 
 			String projectToCheckSpriteList = stringFinder.getResult();
+
+			String scriptIdRegex = "((?s)<scriptId>.*?</scriptId>)";
+			String brickIdRegex = "(?s)<brickId>.*?</brickId>";
+			String scriptIdReplacement = "<scriptId></scriptId>";
+			String brickIdIdReplacement = "<bricktId></brickId>";
+			projectToCheckSpriteList = projectToCheckSpriteList.replaceAll(scriptIdRegex, scriptIdReplacement);
+			projectToCheckSpriteList = projectToCheckSpriteList.replaceAll(brickIdRegex, brickIdIdReplacement);
+			defaultProjectSpriteList = defaultProjectSpriteList.replaceAll(scriptIdRegex, scriptIdReplacement);
+			defaultProjectSpriteList = defaultProjectSpriteList.replaceAll(brickIdRegex, brickIdIdReplacement);
+
 			return defaultProjectSpriteList.contentEquals(projectToCheckSpriteList);
-		} catch (IllegalArgumentException illegalArgumentException) {
+		} catch (IllegalArgumentException | IOException illegalArgumentException) {
 			Log.e(TAG, Log.getStackTraceString(illegalArgumentException));
-		} catch (IOException ioException) {
-			Log.e(TAG, Log.getStackTraceString(ioException));
 		}
 		return true;
 	}
@@ -540,5 +550,24 @@ public final class Utils {
 				}
 			}
 		}, null, Activity.RESULT_OK, null, null);
+	}
+
+	public static void removeExifData(File directory, String fileName) {
+		boolean isJPG = fileName.toLowerCase(Locale.US).endsWith(".jpeg") || fileName.toLowerCase(Locale.US).endsWith(".jpg");
+
+		if (!isJPG) {
+			return;
+		}
+
+		File file = new File(directory, fileName);
+		try {
+			ExifInterface exif = new ExifInterface(file.getAbsolutePath());
+			for (String exifTag: EXIFTAGS_FOR_EXIFREMOVER) {
+				exif.setAttribute(exifTag, "");
+			}
+			exif.saveAttributes();
+		} catch (IOException e) {
+			Log.e(TAG, "removeExifData: Failed to remove exif data");
+		}
 	}
 }

@@ -71,7 +71,8 @@ public class RaspiIfLogicBeginBrick extends IfLogicBeginBrick {
 		}
 
 		Action action = sprite.getActionFactory()
-				.createRaspiIfLogicActionAction(sprite, getFormulaWithBrickField(BrickField.IF_CONDITION), ifSequence, elseSequence);
+				.createRaspiIfLogicActionAction(sprite, sequence,
+						getFormulaWithBrickField(BrickField.IF_CONDITION), ifSequence, elseSequence);
 
 		sequence.addAction(action);
 	}

@@ -25,6 +25,7 @@ package org.catrobat.catroid.test.content.script;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.WhenConditionScript;
 import org.catrobat.catroid.content.bricks.ChangeXByNBrick;
@@ -70,7 +71,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptOnce() throws InterpretationException {
-		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true);
+		when(formula.interpretBoolean(any(Scope.class))).thenReturn(true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -85,7 +86,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptMultipleTimes() throws InterpretationException {
-		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
+		when(formula.interpretBoolean(any(Scope.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		sprite.initializeEventThreads(EventId.START);
 		sprite.initConditionScriptTriggers();
@@ -99,7 +100,7 @@ public class WhenConditionScriptTest {
 
 	@Test
 	public void executeWhenConditionScriptBeforeAndAfterBeingStopped() throws InterpretationException {
-		when(formula.interpretBoolean(any(Sprite.class))).thenReturn(true, true, false, true);
+		when(formula.interpretBoolean(any(Scope.class))).thenReturn(true, true, false, true);
 		conditionScript.addBrick(new ChangeXByNBrick(POSITION_DELTA));
 		conditionScript.addBrick(new StopScriptBrick(0));
 		sprite.initializeEventThreads(EventId.START);

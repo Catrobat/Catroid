@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.GdxNativesLoader;
 
 import org.catrobat.catroid.ProjectManager;
@@ -103,7 +104,7 @@ public class GoNStepsBackActionPMTest {
 		assertEquals(penActorLayer, penActorSprite.look.getZIndex());
 		assertEquals(embroideryActorLayer, embroideryActorSprite.look.getZIndex());
 
-		sprite1.getActionFactory().createGoNStepsBackAction(sprite1, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite1.getActionFactory().createGoNStepsBackAction(sprite1, new SequenceAction(), new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals(expectedLayer, sprite1.look.getZIndex());
 	}
 }

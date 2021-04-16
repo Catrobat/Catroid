@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,7 @@ import org.catrobat.catroid.io.SoundManager;
 import org.catrobat.catroid.io.XstreamSerializer;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
-import org.catrobat.catroid.ui.SpriteAttributesActivity;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.uiespresso.annotations.Device;
 import org.catrobat.catroid.uiespresso.util.actions.CustomActions;
 import org.catrobat.catroid.uiespresso.util.rules.BaseActivityTestRule;
@@ -63,14 +63,13 @@ import androidx.test.rule.GrantPermissionRule;
 import static org.catrobat.catroid.common.Constants.SOUND_DIRECTORY_NAME;
 import static org.catrobat.catroid.uiespresso.content.brick.utils.BrickDataInteractionWrapper.onBrickAtPosition;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
+import static org.catrobat.catroid.uiespresso.util.UiTestUtils.openActionBar;
+import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.instanceOf;
 
-import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-import static androidx.test.espresso.Espresso.pressBack;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -94,8 +93,8 @@ public class PlaySoundAndWaitBrickTest {
 	private int playSoundBrickPosition;
 
 	@Rule
-	public BaseActivityTestRule<SpriteAttributesActivity> programMenuActivityRule = new
-			BaseActivityTestRule<>(SpriteAttributesActivity.class, true, false);
+	public BaseActivityTestRule<SpriteActivity> programMenuActivityRule = new
+			BaseActivityTestRule<>(SpriteActivity.class, true, false);
 
 	@Rule
 	public GrantPermissionRule runtimePermissionRule = GrantPermissionRule.grant(Manifest.permission.RECORD_AUDIO);
@@ -119,19 +118,18 @@ public class PlaySoundAndWaitBrickTest {
 	@Category({Cat.AppUi.class, Level.Functional.class})
 	@Test
 	public void testPlaySoundUpdateDelete() {
-		onView(withText(R.string.scripts))
-				.perform(click());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
-		pressBack();
 
 		deleteSound(0);
 
-		onView(withText(R.string.scripts))
-				.perform(click());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName2);
@@ -143,8 +141,8 @@ public class PlaySoundAndWaitBrickTest {
 	@Test
 	@Device
 	public void testPlaySoundBrickUpdateAddNew() {
-		onView(withText(R.string.scripts))
-				.perform(click());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
@@ -167,20 +165,18 @@ public class PlaySoundAndWaitBrickTest {
 	public void testPlaySoundBrickUpdateRename() {
 		String newName = "newName";
 
-		onView(withText(R.string.scripts))
-				.perform(click());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 		onBrickAtPosition(playSoundBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(soundName);
 
-		pressBack();
-
 		renameSound(0, soundName, newName);
 
-		onView(withText(R.string.scripts))
-				.perform(click());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SCRIPTS));
 
 		onBrickAtPosition(playSoundAndWaitBrickPosition).onSpinner(R.id.brick_play_sound_spinner)
 				.checkShowsText(newName);
@@ -189,9 +185,9 @@ public class PlaySoundAndWaitBrickTest {
 	}
 
 	private void deleteSound(int position) {
-		onView(withText(R.string.sounds))
-				.perform(click());
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
+		openActionBar();
 		onView(withText(R.string.delete))
 				.perform(click());
 		onRecyclerView().atPosition(position)
@@ -199,27 +195,22 @@ public class PlaySoundAndWaitBrickTest {
 		onView(withId(R.id.confirm))
 				.perform(click());
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.check(matches(isDisplayed()));
-		onView(allOf(withId(android.R.id.button2), withText(R.string.no)))
+		onView(allOf(withId(android.R.id.button2), withText(R.string.cancel)))
 				.check(matches(isDisplayed()));
 
-		onView(allOf(withId(android.R.id.button1), withText(R.string.yes)))
+		onView(allOf(withId(android.R.id.button1), withText(R.string.delete)))
 				.perform(click());
-
-		pressBack();
 	}
 
 	private void renameSound(int position, String oldName, String newName) {
-		onView(withText(R.string.sounds))
-				.perform(click());
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withId(R.id.tab_layout))
+				.perform(selectTabAtPosition(SpriteActivity.FRAGMENT_SOUNDS));
+		openActionBar();
 		onView(withText(R.string.rename))
 				.perform(click());
 		onRecyclerView().atPosition(position)
-				.performCheckItem();
-
-		onView(withId(R.id.confirm))
 				.perform(click());
 
 		onView(withText(R.string.rename_sound_dialog)).inRoot(isDialog())
@@ -234,8 +225,6 @@ public class PlaySoundAndWaitBrickTest {
 				.check(matches(isDisplayed()));
 		onView(withText(oldName))
 				.check(doesNotExist());
-
-		pressBack();
 	}
 
 	private void recordNewSound(int durationMillis) {

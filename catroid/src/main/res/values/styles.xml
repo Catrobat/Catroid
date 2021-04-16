@@ -1,6 +1,6 @@
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -23,12 +23,14 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Catroid" parent="Theme.AppCompat.NoActionBar">
+    <style name="Catroid" parent="Theme.MaterialComponents.NoActionBar.Bridge">
 
         <!-- Colors -->
         <item name="android:windowBackground">@color/app_background</item>
 
         <item name="colorAccent">@color/accent</item>
+
+        <item name="seekBarStyle">@style/CustomSeekBarStyle</item>
 
         <!-- android:textColorPrimary changes TextViews, and DialogTitles -->
         <item name="android:textColorPrimary">@color/dialog_title_and_text_view</item>
@@ -89,6 +91,7 @@
         <item name="icon_embroidery">@drawable/embroidery_pos</item>
         <item name="icon_userbrick">@drawable/yourbrick_pos</item>
         <item name="icon_device">@drawable/device_pos</item>
+        <item name="icon_recently_used">@drawable/recently_used_pos</item>
     </style>
 
     <!-- Toolbar -->
@@ -142,14 +145,6 @@
         <item name="android:layout_weight">1.5</item>
         <item name="android:textScaleX">0.7</item>
         <item name="android:background">@null</item>
-    </style>
-
-    <style name="BottomBarButton">
-        <item name="android:layout_width">0dip</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:background">@drawable/bottom_bar_background_selector</item>
     </style>
 
     <style name="Button">
@@ -225,7 +220,7 @@
         <item name="android:scaleType">fitXY</item>
     </style>
 
-    <style name="BrickContainer.Motion"></style>
+    <style name="BrickContainer.Motion" />
 
     <style name="BrickContainer.Motion.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -247,7 +242,7 @@
         <item name="android:background">@drawable/brick_blue_3h</item>
     </style>
 
-    <style name="BrickContainer.Sound"></style>
+    <style name="BrickContainer.Sound" />
 
     <style name="BrickContainer.Sound.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -264,7 +259,7 @@
         <item name="android:background">@drawable/brick_violet_3h</item>
     </style>
 
-    <style name="BrickContainer.Look"></style>
+    <style name="BrickContainer.Look" />
 
     <style name="BrickContainer.Look.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -281,9 +276,14 @@
         <item name="android:background">@drawable/brick_green_3h</item>
     </style>
 
-    <style name="BrickContainer.Device"></style>
+    <style name="BrickContainer.Device" />
 
-    <style name="BrickContainer.Device.Small" tools:ignore="UnusedResources">
+    <style name="BrickContainer.Device.Small">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_gold_1h</item>
+    </style>
+
+    <style name="BrickContainer.Device.SmallWhen" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
         <item name="android:background">@drawable/brick_control_gold_1h</item>
     </style>
@@ -303,7 +303,7 @@
         <item name="android:background">@drawable/brick_gold_3h</item>
     </style>
 
-    <style name="BrickContainer.Embroidery"></style>
+    <style name="BrickContainer.Embroidery" />
 
     <style name="BrickContainer.Embroidery.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -320,7 +320,7 @@
         <item name="android:background">@drawable/brick_pink_3h</item>
     </style>
 
-    <style name="BrickContainer.Pen"></style>
+    <style name="BrickContainer.Pen" />
 
     <style name="BrickContainer.Pen.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -337,7 +337,7 @@
         <item name="android:background">@drawable/brick_green_3h</item>
     </style>
 
-    <style name="BrickContainer.UserVariables"></style>
+    <style name="BrickContainer.UserVariables" />
 
     <style name="BrickContainer.UserVariables.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -354,14 +354,14 @@
         <item name="android:background">@drawable/brick_red_3h</item>
     </style>
 
-    <style name="BrickContainer.UserList"></style>
+    <style name="BrickContainer.UserList" />
 
     <style name="BrickContainer.UserList.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
         <item name="android:background">@drawable/brick_red_2h</item>
     </style>
 
-    <style name="BrickContainer.Drone" tools:ignore="UnusedResources"></style>
+    <style name="BrickContainer.Drone" tools:ignore="UnusedResources" />
 
     <style name="BrickContainer.Drone.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -378,7 +378,7 @@
         <item name="android:background">@drawable/brick_olive_3h</item>
     </style>
 
-    <style name="BrickContainer.Phiro"></style>
+    <style name="BrickContainer.Phiro" />
 
     <style name="BrickContainer.Phiro.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -400,7 +400,7 @@
         <item name="android:background">@drawable/brick_phiro_green_3h</item>
     </style>
 
-    <style name="BrickContainer.Arduino"></style>
+    <style name="BrickContainer.Arduino" />
 
     <style name="BrickContainer.Arduino.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -417,7 +417,7 @@
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
 
-    <style name="BrickContainer.Raspi" tools:ignore="UnusedResources"></style>
+    <style name="BrickContainer.Raspi" tools:ignore="UnusedResources" />
 
     <style name="BrickContainer.Raspi.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -434,7 +434,7 @@
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
 
-    <style name="BrickContainer.Test" tools:ignore="UnusedResources"></style>
+    <style name="BrickContainer.Test" tools:ignore="UnusedResources" />
 
     <style name="BrickContainer.Test.Small" tools:ignore="UnusedResources">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -451,7 +451,7 @@
         <item name="android:background">@drawable/brick_cyan_3h</item>
     </style>
 
-    <style name="BrickContainer.Lego"></style>
+    <style name="BrickContainer.Lego" />
 
     <style name="BrickContainer.Lego.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -468,7 +468,7 @@
         <item name="android:background">@drawable/brick_yellow_3h</item>
     </style>
 
-    <style name="BrickContainer.Control"></style>
+    <style name="BrickContainer.Control" />
 
     <style name="BrickContainer.Control.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -485,14 +485,14 @@
         <item name="android:background">@drawable/brick_orange_3h</item>
     </style>
 
-    <style name ="BrickContainer.UserDefinedBrick"></style>
+    <style name ="BrickContainer.UserDefinedBrick" />
 
     <style name="BrickContainer.UserDefinedBrick.Medium">
         <item name="android:minHeight">@dimen/brick_height_medium</item>
         <item name="android:background">@drawable/brick_darkblue_1h</item>
     </style>
 
-    <style name="BrickContainer.Event"></style>
+    <style name="BrickContainer.Event" />
 
     <style name="BrickContainer.Event.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -509,7 +509,7 @@
         <item name="android:background">@drawable/brick_brown_2h_9</item>
     </style>
 
-    <style name="BrickContainer.Script"></style>
+    <style name="BrickContainer.Script" />
 
     <style name="BrickContainer.Script.Small">
         <item name="android:minHeight">@dimen/brick_height_small</item>
@@ -526,6 +526,11 @@
         <item name="android:background">@drawable/brick_white_define_2h</item>
         <item name="android:layout_marginTop">@dimen/material_design_spacing_large</item>
         <item name="android:layout_marginBottom">@dimen/script_spacing</item>
+    </style>
+
+    <style name ="BrickContainer.Report">
+        <item name="android:minHeight">@dimen/brick_height_small</item>
+        <item name="android:background">@drawable/brick_white_1h</item>
     </style>
 
     <style name ="BrickContainer.Script.As">
@@ -558,14 +563,13 @@
         <item name="android:textColor">@color/formula_editor_category_text</item>
     </style>
 
+    <style name="FormulaEditorToggleFunctionsButton" parent="@style/FormulaEditorButton">
+        <item name="android:background">@drawable/formula_editor_toggle_functions_button</item>
+    </style>
+
     <style name="FormulaEditorKeyboardButton" parent="@style/FormulaEditorButton">
         <item name="android:background">@drawable/formula_editor_keyboard_button</item>
         <item name="android:textColor">@color/formula_editor_symbol_text</item>
-    </style>
-
-    <style name="FormulaEditorOkButton" parent="@style/FormulaEditorButton">
-        <item name="android:background">@drawable/formula_editor_ok_button</item>
-        <item name="android:textColor">@color/formula_editor_ok_text</item>
     </style>
 
     <style name="BrickCategory">
@@ -583,6 +587,10 @@
         <item name="android:layout_marginTop">?attr/element_spacing</item>
         <item name="android:layout_marginBottom">?attr/element_spacing</item>
         <item name="android:textSize">?attr/x_large</item>
+    </style>
+
+    <style name="BrickCategory.RecentlyUsed">
+        <item name="android:background">@drawable/brick_selection_background_recently_used</item>
     </style>
 
     <style name="BrickCategory.Control">
@@ -664,7 +672,6 @@
         <item name="android:topDark">@color/transparent</item>
     </style>
 
-    <!-- Color Picker -->
     <style name="TitleTextStyle">
         <item name="android:textAppearance">@style/TextAppearance.AppCompat.Title</item>
     </style>
@@ -672,4 +679,27 @@
     <style name="AlertDialogWithTitle" parent="Theme.AppCompat.Dialog.Alert">
         <item name="android:windowTitleStyle">@style/TitleTextStyle</item>
     </style>
+
+    <!-- Color Picker -->
+    <!-- override the colorPickerDialog style -->
+    <style name="AlertDialogTheme" tools:ignore="UnusedResources"
+        parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="buttonBarNegativeButtonStyle">@style/ColorPickerButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/ColorPickerButtonStyle</item>
+        <item name="android:background">@color/solid_white</item>
+    </style>
+
+    <style name="ColorPickerButtonStyle" tools:ignore="UnusedResources"
+        parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?colorAccent</item>
+
+    </style>
+
+    <style name="CustomSeekBarStyle" parent="Widget.AppCompat.SeekBar">
+        <item name="android:progressBackgroundTint">@color/seekBarBackgroundTint</item>
+        <item name="android:progressTint">?colorAccent</item>
+        <item name="android:colorControlActivated">?colorAccent</item>
+    </style>
+
+    <!-- END -->
 </resources>

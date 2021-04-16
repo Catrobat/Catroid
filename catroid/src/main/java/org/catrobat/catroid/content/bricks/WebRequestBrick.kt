@@ -44,7 +44,7 @@ class WebRequestBrick() : UserVariableBrickWithFormula() {
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(sprite.actionFactory.createWebRequestAction(
-                sprite,
+                sprite, sequence,
                 getFormulaWithBrickField(BrickField.WEB_REQUEST), userVariable
             )
         )

@@ -23,11 +23,15 @@
 
 package org.catrobat.catroid.content.strategy;
 
+import android.graphics.Bitmap;
 import android.view.View;
 
+import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.UiUtils;
+import org.catrobat.catroid.ui.fragment.FormulaEditorFragment;
 import org.catrobat.catroid.ui.recyclerview.fragment.ScriptFragment;
+import org.catrobat.catroid.utils.ProjectManagerExtensionsKt;
 import org.catrobat.paintroid.colorpicker.ColorPickerDialog;
 
 import androidx.appcompat.app.AlertDialog;
@@ -35,22 +39,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import static androidx.fragment.app.DialogFragment.STYLE_NORMAL;
-
 public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorStrategy {
 	private static final int OPTION_PICK_COLOR = 0;
 	private static final int OPTION_FORMULA_EDIT_BRICK = 1;
 
 	@Override
 	public void showFormulaEditorToEditFormula(View view, Callback callback) {
-		if (isViewInScriptFragment(view)) {
+		if (isInCorrectFragment(view, callback)) {
 			showSelectEditDialog(view, callback);
 		} else {
 			callback.showFormulaEditor(view);
 		}
 	}
 
-	private boolean isViewInScriptFragment(View view) {
+	private boolean isInCorrectFragment(View view, Callback callback) {
 		AppCompatActivity activity = UiUtils.getActivityFromView(view);
 		if (activity == null) {
 			return false;
@@ -59,7 +61,11 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 		FragmentManager supportFragmentManager = activity.getSupportFragmentManager();
 		Fragment currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container);
 
-		return currentFragment instanceof ScriptFragment;
+		if (currentFragment instanceof FormulaEditorFragment) {
+			callback.showFormulaEditor(view);
+		}
+
+		return currentFragment instanceof ScriptFragment || currentFragment instanceof FormulaEditorFragment;
 	}
 
 	private void showSelectEditDialog(View view, Callback callback) {
@@ -93,8 +99,10 @@ public class ShowColorPickerFormulaEditorStrategy implements ShowFormulaEditorSt
 	private void showColorPicker(Callback callback, FragmentManager fragmentManager) {
 		int currentColor = callback.getValue();
 		ColorPickerDialog dialog = ColorPickerDialog.newInstance(currentColor);
+		Bitmap projectBitmap = ProjectManagerExtensionsKt
+				.getProjectBitmap(ProjectManager.getInstance());
+		dialog.setBitmap(projectBitmap);
 		dialog.addOnColorPickedListener(callback::setValue);
-		dialog.setStyle(STYLE_NORMAL, R.style.AlertDialogWithTitle);
 		dialog.show(fragmentManager, null);
 	}
 }

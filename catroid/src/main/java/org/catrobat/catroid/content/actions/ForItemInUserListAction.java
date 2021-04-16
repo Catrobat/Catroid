@@ -28,31 +28,32 @@ import org.catrobat.catroid.formulaeditor.UserVariable;
 
 import java.util.List;
 
-public class ForItemInUserListAction extends com.badlogic.gdx.scenes.scene2d.actions.RepeatAction {
+public class ForItemInUserListAction extends LoopAction {
 
 	private UserList userList;
 	private UserVariable currentItemVariable;
 	private boolean isCurrentLoopInitialized = false;
-	private static final float LOOP_DELAY = 0.02f;
-	private float currentTime = 0f;
 	private int index = 0;
 
 	@Override
 	public boolean delegate(float delta) {
 		if (!isCurrentLoopInitialized) {
-			currentTime = 0f;
+			setCurrentTime(0f);
 			isCurrentLoopInitialized = true;
 		}
 
+		if (userList == null) {
+			return true;
+		}
 		List<Object> list = userList.getValue();
-		if (index >= list.size()) {
+		if (list == null || index >= list.size()) {
 			return true;
 		}
 
 		setCurrentItemVariable(list.get(index));
-		currentTime += delta;
+		setCurrentTime(getCurrentTime() + delta);
 
-		if (action != null && action.act(delta) && currentTime >= LOOP_DELAY) {
+		if (action != null && action.act(delta) && !isLoopDelayNeeded()) {
 			index++;
 
 			isCurrentLoopInitialized = false;

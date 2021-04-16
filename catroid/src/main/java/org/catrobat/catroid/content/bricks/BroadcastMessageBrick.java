@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,13 +29,16 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Nameable;
+import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
+import org.catrobat.catroid.content.bricks.brickspinner.EditOption;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
 import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.UiUtils;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
-import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.NonEmptyStringTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
+import org.catrobat.catroid.ui.recyclerview.util.UniqueNameProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -84,10 +87,35 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		}
 		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
 
-		builder.setHint(activity.getString(R.string.dialog_new_broadcast_message_name))
-				.setTextWatcher(new NonEmptyStringTextWatcher())
+		builder.setHint(activity.getString(R.string.dialog_broadcast_message_name))
+				.setTextWatcher(new DuplicateInputTextWatcher(new ArrayList()))
+				.setText(new UniqueNameProvider().getUniqueName(activity.getString(R.string.default_broadcast_message_name), ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().getBroadcastMessages()))
 				.setPositiveButton(activity.getString(R.string.ok), getOkButtonListener(activity))
 				.setTitle(R.string.dialog_new_broadcast_message_title)
+				.setNegativeButton(R.string.cancel, getNegativeButtonListener())
+				.setOnCancelListener(getCanceledListener())
+				.show();
+	}
+
+	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+		final AppCompatActivity activity = UiUtils.getActivityFromView(view);
+		if (!(activity instanceof SpriteActivity)) {
+			return;
+		}
+
+		Object currentItem = spinner.getSelection();
+		String editMessage = null;
+		if (currentItem instanceof StringOption) {
+			editMessage = ((StringOption) spinner.getSelection()).getName();
+		}
+
+		TextInputDialog.Builder builder = new TextInputDialog.Builder(activity);
+
+		builder.setText(editMessage)
+				.setTextWatcher(new DuplicateInputTextWatcher(new ArrayList()))
+				.setPositiveButton(activity.getString(R.string.ok), getEditButtonListener(activity, editMessage))
+				.setTitle(R.string.dialog_edit_broadcast_message_title)
 				.setNegativeButton(R.string.cancel, getNegativeButtonListener())
 				.setOnCancelListener(getCanceledListener())
 				.show();
@@ -98,6 +126,10 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 			spinner.add(new StringOption(item));
 		}
 		spinner.setSelection(item);
+	}
+
+	public boolean removeItem(String item) {
+		return ProjectManager.getInstance().getCurrentProject().getBroadcastMessageContainer().removeBroadcastMessage(item);
 	}
 
 	@Override
@@ -114,6 +146,18 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 		return (dialog, textInput) -> {
 			addItem(textInput);
 			notifyDataSetChanged(activity);
+		};
+	}
+
+	@VisibleForTesting
+	public TextInputDialog.OnClickListener getEditButtonListener(AppCompatActivity activity, String editMessage) {
+		return (dialog, textInput) -> {
+			if (removeItem(editMessage)) {
+				addItem(textInput);
+				Scene currentScene = ProjectManager.getInstance().getCurrentlyEditedScene();
+				currentScene.editBroadcastMessagesInUse(editMessage, textInput);
+				notifyDataSetChanged(activity);
+			}
 		};
 	}
 
@@ -138,6 +182,7 @@ public abstract class BroadcastMessageBrick extends BrickBaseType implements
 
 		List<Nameable> items = new ArrayList<>();
 		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.add(new EditOption(context.getString(R.string.edit_option)));
 
 		for (String message : messages) {
 			items.add(new StringOption(message));

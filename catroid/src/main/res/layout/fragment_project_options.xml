@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/project_options_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/project_options_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/project_name_label"
+                android:paddingEnd="@dimen/dialog_content_area_padding"
+                android:paddingStart="@dimen/dialog_content_area_padding"
+                android:paddingTop="@dimen/dialog_content_area_padding_top"
+                app:errorEnabled="true"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/project_options_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:selectAllOnFocus="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/project_options_description_layout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="@string/project_options_description"
+               android:paddingEnd="@dimen/dialog_content_area_padding"
+               android:paddingStart="@dimen/dialog_content_area_padding"
+               android:paddingTop="@dimen/dialog_content_area_padding_top"
+               app:errorEnabled="true"
+               app:hintEnabled="true">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/project_options_description"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:selectAllOnFocus="true" />
+
+           </com.google.android.material.textfield.TextInputLayout>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <com.google.android.material.textfield.TextInputLayout
+               android:id="@+id/project_options_notes_and_credits_layout"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="@string/project_options_notes_and_credits"
+               android:paddingEnd="@dimen/dialog_content_area_padding"
+               android:paddingStart="@dimen/dialog_content_area_padding"
+               android:paddingTop="@dimen/dialog_content_area_padding_top"
+               app:errorEnabled="true"
+               app:hintEnabled="true">
+
+               <com.google.android.material.textfield.TextInputEditText
+                   android:id="@+id/project_options_notes_and_credits"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:selectAllOnFocus="true" />
+
+           </com.google.android.material.textfield.TextInputLayout>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:id="@+id/tags"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingStart="@dimen/dialog_content_area_padding"
+               android:paddingEnd="@dimen/dialog_content_area_padding"
+               android:paddingTop="@dimen/dialog_content_area_padding_top"
+               android:hint="@string/project_options_tags" />
+
+           <com.google.android.material.chip.ChipGroup
+               android:id="@+id/chip_group_tags"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingBottom="@dimen/dialog_content_area_padding_input"
+               android:paddingStart="@dimen/dialog_content_area_padding"
+               android:paddingEnd="@dimen/dialog_content_area_padding"/>
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <Switch
+               android:id="@+id/project_options_aspect_ratio"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:checked="true"
+               android:paddingBottom="@dimen/material_design_spacing_x_large"
+               android:paddingEnd="@dimen/material_design_spacing_x_large"
+               android:paddingStart="@dimen/material_design_spacing_x_large"
+               android:paddingTop="@dimen/material_design_spacing_x_large"
+               android:textColor="#B2FFFFFF"
+               android:text="@string/project_options_aspect_ratio"/>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <TextView
+               android:id="@+id/project_options_upload"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingBottom="@dimen/material_design_spacing_x_large"
+               android:paddingEnd="@dimen/material_design_spacing_x_large"
+               android:paddingStart="@dimen/material_design_spacing_x_large"
+               android:paddingTop="@dimen/material_design_spacing_x_large"
+               android:background="@drawable/button_background_selector_dark"
+               android:text="@string/upload_project_dialog_title" />
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <TextView
+               android:id="@+id/project_options_save_external"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingBottom="@dimen/material_design_spacing_x_large"
+               android:paddingEnd="@dimen/material_design_spacing_x_large"
+               android:paddingStart="@dimen/material_design_spacing_x_large"
+               android:paddingTop="@dimen/material_design_spacing_x_large"
+               android:background="@drawable/button_background_selector_dark"
+               android:text="@string/save_to_external_storage_button" />
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:divider="@drawable/divider"
+           android:orientation="vertical"
+           android:showDividers="end">
+
+           <TextView
+               android:id="@+id/project_options_more_details"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:paddingBottom="@dimen/material_design_spacing_x_large"
+               android:paddingEnd="@dimen/material_design_spacing_x_large"
+               android:paddingStart="@dimen/material_design_spacing_x_large"
+               android:paddingTop="@dimen/material_design_spacing_x_large"
+               android:background="@drawable/button_background_selector_dark"
+               android:text="@string/project_options_more_details" />
+
+       </LinearLayout>
+
+       <Button
+           android:id="@+id/project_options_delete"
+           android:layout_width="220dp"
+           android:layout_height="wrap_content"
+           android:layout_gravity="center"
+           android:layout_marginBottom="@dimen/material_design_spacing_x_large"
+           android:layout_marginTop="@dimen/material_design_spacing_x_large"
+           android:backgroundTint="@color/red"
+           android:text="@string/project_options_delete_project"
+           android:textAllCaps="true" />
+
+    </LinearLayout>
+</ScrollView>

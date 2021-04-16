@@ -48,7 +48,7 @@ class ParameterizedAssertAction : AssertAction() {
             return false
         }
 
-        val actualValue = actualFormula?.interpretObject(sprite).toString()
+        val actualValue = actualFormula?.interpretObject(scope).toString()
         val expectedValue =
             expectedList?.value?.get(parameterizedData?.currentPosition ?: 0) ?: "null"
 

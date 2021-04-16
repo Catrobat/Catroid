@@ -25,12 +25,12 @@ package org.catrobat.catroid.content.actions
 import android.util.Log
 import com.badlogic.gdx.scenes.scene2d.Action
 import com.badlogic.gdx.scenes.scene2d.Actor
-import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.Scope
 import org.catrobat.catroid.formulaeditor.Formula
 import org.catrobat.catroid.formulaeditor.InterpretationException
 
 class IfLogicAction : Action() {
-    var sprite: Sprite? = null
+    var scope: Scope? = null
     var ifAction: Action? = null
     var elseAction: Action? = null
     var ifCondition: Formula? = null
@@ -40,7 +40,7 @@ class IfLogicAction : Action() {
 
     private fun interpretCondition() {
         isInterpretedCorrectly = try {
-            ifConditionValue = ifCondition?.interpretDouble(sprite)?.toInt() != 0
+            ifConditionValue = ifCondition?.interpretDouble(scope)?.toInt() != 0
             ifCondition != null
         } catch (interpretationException: InterpretationException) {
             Log.d(javaClass.simpleName, "Formula interpretation for this specific Brick failed.", interpretationException)

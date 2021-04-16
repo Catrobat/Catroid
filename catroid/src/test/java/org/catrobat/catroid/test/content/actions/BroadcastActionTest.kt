@@ -151,15 +151,12 @@ class BroadcastActionTest {
         assertNotEquals(expectedXPosition, sprite.look.xInUserInterfaceDimensionUnit.toInt())
 
         startScript.apply {
+            addBrick(BroadcastWaitBrick(MESSAGE_1))
+            addBrick(SetXBrick(Formula(expectedXPosition)))
             addBrick(WaitBrick(1))
             addBrick(BroadcastBrick(MESSAGE_1))
         }
         broadcastScript.addBrick(WaitBrick(50))
-        StartScript().apply {
-            addBrick(BroadcastWaitBrick(MESSAGE_1))
-            addBrick(SetXBrick(Formula(expectedXPosition)))
-            sprite.addScript(this)
-        }
 
         executeAllActions()
         assertEquals(expectedXPosition, sprite.look.xInUserInterfaceDimensionUnit.toInt())

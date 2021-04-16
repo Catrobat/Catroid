@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,6 +40,7 @@ import org.catrobat.catroid.R;
 import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.FlavoredConstants;
 import org.catrobat.catroid.transfers.LoginTask;
+import org.catrobat.catroid.ui.ViewUtils;
 import org.catrobat.catroid.ui.WebViewActivity;
 import org.catrobat.catroid.web.ServerCalls;
 
@@ -88,7 +89,9 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 				.setTitle(R.string.login)
 				.setView(view)
 				.setPositiveButton(R.string.login, null)
-				.setNeutralButton(R.string.password_forgotten, null)
+				.setNegativeButton(R.string.cancel, null)
+				.setNeutralButton(R.string.reset_password, null)
+				.setCancelable(true)
 				.create();
 
 		usernameEditText.addTextChangedListener(new TextWatcher() {
@@ -135,24 +138,12 @@ public class LoginDialogFragment extends DialogFragment implements LoginTask.OnL
 			}
 		});
 
-		alertDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-			@Override
-			public void onShow(DialogInterface dialog) {
-				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
-				alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						onLoginButtonClick();
-					}
-				});
+		alertDialog.setOnShowListener(dialog -> {
+			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+			alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(buttonView -> onLoginButtonClick());
+			alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(buttonView -> onPasswordForgottenButtonClick());
 
-				alertDialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View view) {
-						onPasswordForgottenButtonClick();
-					}
-				});
-			}
+			ViewUtils.showKeyboard(usernameEditText);
 		});
 
 		return alertDialog;

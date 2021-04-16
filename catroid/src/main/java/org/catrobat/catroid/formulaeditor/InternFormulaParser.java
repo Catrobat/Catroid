@@ -24,9 +24,7 @@ package org.catrobat.catroid.formulaeditor;
 
 import android.util.Log;
 
-import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 
 import java.util.ArrayList;
 import java.util.EmptyStackException;
@@ -129,7 +127,7 @@ public class InternFormulaParser {
 		internTokensToParse.remove(internTokensToParse.size() - 1);
 	}
 
-	public FormulaElement parseFormula() {
+	public FormulaElement parseFormula(Scope scope) {
 		errorTokenIndex = PARSER_OK;
 		currentTokenParseIndex = 0;
 
@@ -158,7 +156,7 @@ public class InternFormulaParser {
 		FormulaElement formulaParseTree = null;
 
 		try {
-			formulaParseTree = formula();
+			formulaParseTree = formula(scope);
 		} catch (InternFormulaParserException parseExeption) {
 			errorTokenIndex = currentTokenParseIndex;
 		}
@@ -166,8 +164,8 @@ public class InternFormulaParser {
 		return formulaParseTree;
 	}
 
-	private FormulaElement formula() throws InternFormulaParserException {
-		FormulaElement termListTree = termList();
+	private FormulaElement formula(Scope scope) throws InternFormulaParserException {
+		FormulaElement termListTree = termList(scope);
 
 		if (currentToken.isEndOfFileToken()) {
 			return termListTree;
@@ -176,22 +174,22 @@ public class InternFormulaParser {
 		throw new InternFormulaParserException("Parse Error");
 	}
 
-	private FormulaElement termList() throws InternFormulaParserException {
-		FormulaElement currentElement = term();
+	private FormulaElement termList(Scope scope) throws InternFormulaParserException {
+		FormulaElement currentElement = term(scope);
 		FormulaElement loopTermTree;
 		String operatorStringValue;
 
 		while (currentToken.isOperator() && !currentToken.getTokenStringValue().equals(Operators.LOGICAL_NOT.name())) {
 			operatorStringValue = currentToken.getTokenStringValue();
 			getNextToken();
-			loopTermTree = term();
+			loopTermTree = term(scope);
 			handleOperator(operatorStringValue, currentElement, loopTermTree);
 			currentElement = loopTermTree;
 		}
 		return currentElement.getRoot();
 	}
 
-	private FormulaElement term() throws InternFormulaParserException {
+	private FormulaElement term(Scope scope) throws InternFormulaParserException {
 
 		FormulaElement termTree = new FormulaElement(FormulaElement.ElementType.NUMBER, null, null);
 		FormulaElement currentElement = termTree;
@@ -218,7 +216,7 @@ public class InternFormulaParser {
 			case BRACKET_OPEN:
 				getNextToken();
 				currentElement.replaceElement(new FormulaElement(FormulaElement.ElementType.BRACKET, null, null, null,
-						termList()));
+						termList(scope)));
 				if (!currentToken.isBracketClose()) {
 					throw new InternFormulaParserException("Parse Error");
 				}
@@ -226,7 +224,7 @@ public class InternFormulaParser {
 				break;
 
 			case FUNCTION_NAME:
-				currentElement.replaceElement(function());
+				currentElement.replaceElement(function(scope));
 				break;
 
 			case SENSOR:
@@ -234,15 +232,15 @@ public class InternFormulaParser {
 				break;
 
 			case USER_VARIABLE:
-				currentElement.replaceElement(userVariable());
+				currentElement.replaceElement(userVariable(scope));
 				break;
 
 			case USER_LIST:
-				currentElement.replaceElement(userList());
+				currentElement.replaceElement(userList(scope));
 				break;
 
 			case USER_DEFINED_BRICK_INPUT:
-				currentElement.replaceElement(userDefinedBrickInput());
+				currentElement.replaceElement(userDefinedBrickInput(scope));
 				break;
 
 			case STRING:
@@ -260,11 +258,9 @@ public class InternFormulaParser {
 		return termTree;
 	}
 
-	private FormulaElement userVariable() throws InternFormulaParserException {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+	private FormulaElement userVariable(Scope scope) throws InternFormulaParserException {
 		UserVariable userVariable = UserDataWrapper
-				.getUserVariable(currentToken.getTokenStringValue(), currentSprite, currentProject);
+				.getUserVariable(currentToken.getTokenStringValue(), scope);
 
 		if (userVariable == null) {
 			throw new InternFormulaParserException("Parse Error");
@@ -285,11 +281,9 @@ public class InternFormulaParser {
 		return lookTree;
 	}
 
-	private FormulaElement userList() throws InternFormulaParserException {
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+	private FormulaElement userList(Scope scope) throws InternFormulaParserException {
 		String listName = currentToken.getTokenStringValue();
-		UserList userList = UserDataWrapper.getUserList(listName, currentSprite, currentProject);
+		UserList userList = UserDataWrapper.getUserList(listName, scope);
 
 		if (userList == null) {
 			throw new InternFormulaParserException("Parse Error");
@@ -302,7 +296,15 @@ public class InternFormulaParser {
 		return lookTree;
 	}
 
-	private FormulaElement userDefinedBrickInput() {
+	private FormulaElement userDefinedBrickInput(Scope scope) throws InternFormulaParserException {
+		String listName = currentToken.getTokenStringValue();
+		UserData userInput = UserDataWrapper.getUserDefinedBrickInput(listName,
+				scope.getSequence());
+
+		if (userInput == null) {
+			throw new InternFormulaParserException("Parse Error");
+		}
+
 		FormulaElement lookTree = new FormulaElement(FormulaElement.ElementType.USER_DEFINED_BRICK_INPUT,
 				currentToken.getTokenStringValue(), null);
 
@@ -321,7 +323,7 @@ public class InternFormulaParser {
 		return sensorTree;
 	}
 
-	private FormulaElement function() throws InternFormulaParserException {
+	private FormulaElement function(Scope scope) throws InternFormulaParserException {
 		if (!Functions.isFunction(currentToken.getTokenStringValue())) {
 			throw new InternFormulaParserException("Parse Error");
 		}
@@ -331,10 +333,14 @@ public class InternFormulaParser {
 
 		if (currentToken.isFunctionParameterBracketOpen()) {
 			getNextToken();
-			functionTree.setLeftChild(termList());
+			functionTree.setLeftChild(termList(scope));
 			if (currentToken.isFunctionParameterDelimiter()) {
 				getNextToken();
-				functionTree.setRightChild(termList());
+				functionTree.setRightChild(termList(scope));
+				while (currentToken.isFunctionParameterDelimiter()) {
+					getNextToken();
+					functionTree.addAdditionalChild(termList(scope));
+				}
 			}
 			if (!currentToken.isFunctionParameterBracketClose()) {
 				throw new InternFormulaParserException("Parse Error");

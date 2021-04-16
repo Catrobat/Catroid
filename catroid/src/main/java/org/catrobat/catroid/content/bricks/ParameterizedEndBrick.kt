@@ -49,7 +49,8 @@ class ParameterizedEndBrick() : UserListBrick() {
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
         sequence.addAction(
             sprite.actionFactory.createParameterizedAssertAction(
-                sprite, getFormulaWithBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL), userList,
+                sprite, sequence, getFormulaWithBrickField(Brick.BrickField.ASSERT_LOOP_ACTUAL),
+                userList,
                 (parent as ParameterizedBrick).parameterizedData, positionInformation
             )
         )

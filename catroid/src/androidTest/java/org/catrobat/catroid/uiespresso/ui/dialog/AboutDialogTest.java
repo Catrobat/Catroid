@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,12 +25,14 @@ package org.catrobat.catroid.uiespresso.ui.dialog;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.testsuites.annotations.Cat;
 import org.catrobat.catroid.testsuites.annotations.Level;
 import org.catrobat.catroid.ui.MainMenuActivity;
-import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.DontGenerateDefaultProjectActivityTestRule;
+import org.catrobat.catroid.utils.Utils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -42,6 +44,8 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.catrobat.catroid.common.SharedPreferenceKeys.AGREED_TO_PRIVACY_POLICY_VERSION;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
@@ -49,6 +53,7 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
@@ -70,9 +75,7 @@ public class AboutDialogTest {
 
 		sharedPreferences
 				.edit()
-				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION,
-						UiTestUtils.getResourcesString(R.string.dialog_privacy_policy_text)
-								.hashCode())
+				.putInt(AGREED_TO_PRIVACY_POLICY_VERSION, Constants.CATROBAT_TERMS_OF_USE_ACCEPTED)
 				.commit();
 		baseActivityTestRule.launchActivity(null);
 	}
@@ -106,6 +109,12 @@ public class AboutDialogTest {
 
 		onView(withText(R.string.dialog_about_catrobat_link_text))
 				.check(matches(isDisplayed()));
+
+		onView(withId(R.id.dialog_about_text_view_catrobat_version_name))
+				.check(matches(isDisplayed()));
+
+		assertNotNull(Utils.getVersionName(ApplicationProvider.getApplicationContext()));
+		assertNotEquals("", BuildConfig.VERSION_NAME);
 
 		onView(withText(R.string.ok))
 				.perform(click());

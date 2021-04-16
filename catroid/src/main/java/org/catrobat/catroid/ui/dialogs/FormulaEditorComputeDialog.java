@@ -37,7 +37,7 @@ import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
@@ -53,10 +53,12 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 	private Formula formulaToCompute = null;
 	private Context context;
 	private TextView computeTextView;
+	private Scope scope;
 
-	public FormulaEditorComputeDialog(Context context) {
+	public FormulaEditorComputeDialog(Context context, Scope scope) {
 		super(context);
 		this.context = context;
+		this.scope = scope;
 	}
 
 	@Override
@@ -70,9 +72,8 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 			setContentView(R.layout.dialog_formulaeditor_compute);
 			computeTextView = findViewById(R.id.formula_editor_compute_dialog_textview);
 		}
-		Sprite currentSprite = projectManager.getCurrentSprite();
 		AndroidStringProvider stringProvider = new AndroidStringProvider(context);
-		showFormulaResult(currentSprite, stringProvider);
+		showFormulaResult(scope, stringProvider);
 	}
 
 	public void setFormula(Formula formula) {
@@ -124,12 +125,12 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 		return true;
 	}
 
-	private void showFormulaResult(Sprite currentSprite, Formula.StringProvider stringProvider) {
+	private void showFormulaResult(Scope scope, Formula.StringProvider stringProvider) {
 		if (computeTextView == null) {
 			return;
 		}
 
-		String result = formulaToCompute.getResultForComputeDialog(stringProvider, currentSprite);
+		String result = formulaToCompute.getResultForComputeDialog(stringProvider, scope);
 		setDialogTextView(trimTrailingCharacters(result));
 	}
 
@@ -139,10 +140,8 @@ public class FormulaEditorComputeDialog extends AlertDialog implements SensorEve
 
 	@Override
 	public void onSensorChanged(SensorEvent event) {
-		ProjectManager projectManager = ProjectManager.getInstance();
-		Sprite currentSprite = projectManager.getCurrentSprite();
 		AndroidStringProvider stringProvider = new AndroidStringProvider(context);
-		showFormulaResult(currentSprite, stringProvider);
+		showFormulaResult(scope, stringProvider);
 	}
 
 	private void setDialogTextView(final String newString) {

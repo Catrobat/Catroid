@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Toolbar and Bottombar Colors -->
     <color name="toolbar_background">#002B3B</color>
@@ -48,29 +48,31 @@
     <color name="image_view_border">@color/accent</color>
     <color name="snackbar">#FF33B5E5</color>
     <color name="separator">#51656C</color>
+    <color name="action_button">#ffab08</color>
 
     <!-- Formula Editor Colors -->
-    <color name="formula_editor_compute_button">#005D7F</color>
-    <color name="formula_editor_compute_button_pressed">#002B3B</color>
-    <color name="formula_editor_compute_text">#E9E9E9</color>
-    <color name="formula_editor_delete_button">#D3D3D3</color>
+    <color name="formula_editor_compute_button">#D3D3D3</color>
+    <color name="formula_editor_compute_button_pressed">#A9A9A9</color>
+    <color name="formula_editor_compute_text">#242424</color>
+    <color name="formula_editor_delete_button">#E9E9E9</color>
     <color name="formula_editor_delete_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_delete_icon">#005D7F</color>
+    <color name="formula_editor_delete_icon">#242424</color>
+    <color name="formula_editor_toggle_functions_button">#D3D3D3</color>
+    <color name="formula_editor_toggle_functions_button_pressed">#A9A9A9</color>
+    <color name="formula_editor_toggle_functions_icon">#242424</color>
     <color name="formula_editor_category_button">#D3D3D3</color>
     <color name="formula_editor_category_button_pressed">#A9A9A9</color>
-    <color name="formula_editor_category_text">#002B3B</color>
+    <color name="formula_editor_category_text">#242424</color>
     <color name="formula_editor_symbol_button">#E9E9E9</color>
     <color name="formula_editor_symbol_button_pressed">#A9A9A9</color>
     <color name="formula_editor_symbol_text">#242424</color>
-    <color name="formula_editor_ok_button">#A5DFF3</color>
-    <color name="formula_editor_ok_button_pressed">#4FC2F7</color>
-    <color name="formula_editor_ok_text">#002B3B</color>
 
     <!-- Material Design Colors -->
     <color name="solid_black">#000</color>
     <color name="solid_white">#FFFFFF</color>
     <color name="transparent">#00000000</color>
     <color name="orange">#E68B00</color>
+    <color name="red">#D50000</color>
     <color name="dark_blue">#32529D</color>
 
     <!-- Misc Text Colors -->
@@ -98,5 +100,15 @@
     <color name="landing_page_icons">@color/accent</color>
     <color name="project_icons">@color/accent</color>
     <color name="stage_icons_pressed">#e3f9fd</color>
+
+    <color name="seekBarBackgroundTint">#FFA3A3A3</color>
+    <!-- override the color of ColorPickerPreviewActivity toolbar -->
+    <color name="pocketpaint_color_picker_actionbar_color"
+        tools:ignore="UnusedResources">@color/toolbar_background</color>
+
+    <!-- indicator colors -->
+    <color name="indicator_selected_color">#FFFFFF</color>
+    <color name="indicator_unselected_color">#ACA3A3</color>
+    <color name="no_internet_color">#606060</color>
 
 </resources>

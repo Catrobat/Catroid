@@ -23,6 +23,7 @@
 package org.catrobat.catroid.test.content.actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.formulaeditor.Formula;
@@ -53,14 +54,13 @@ public class ChangeYByNActionTest {
 	public void testNormalBehavior() {
 		assertEquals(0f, sprite.look.getXInUserInterfaceDimensionUnit());
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(CHANGE_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(CHANGE_VALUE)).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
-	@Test
+	@Test(expected = NullPointerException.class)
 	public void testNullSprite() {
-		Action action = sprite.getActionFactory().createChangeYByNAction(null, new Formula(CHANGE_VALUE));
-		exception.expect(NullPointerException.class);
+		Action action = sprite.getActionFactory().createChangeYByNAction(null, new SequenceAction(), new Formula(CHANGE_VALUE));
 		action.act(1.0f);
 	}
 
@@ -69,34 +69,34 @@ public class ChangeYByNActionTest {
 		int yPosition = 10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Integer.MAX_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(Integer.MAX_VALUE)).act(1.0f);
 		assertEquals(Integer.MAX_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 
 		yPosition = -10;
 		sprite.look.setPositionInUserInterfaceDimensionUnit(sprite.look.getXInUserInterfaceDimensionUnit(), yPosition);
 
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Integer.MIN_VALUE)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(Integer.MIN_VALUE)).act(1.0f);
 		assertEquals(Integer.MIN_VALUE, (int) sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testBrickWithStringFormula() {
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(String.valueOf(CHANGE_VALUE))).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(NOT_NUMERICAL_STRING)).act(1.0f);
 		assertEquals(CHANGE_VALUE, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNullFormula() {
-		sprite.getActionFactory().createChangeYByNAction(sprite, null).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), null).act(1.0f);
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 
 	@Test
 	public void testNotANumberFormula() {
-		sprite.getActionFactory().createChangeYByNAction(sprite, new Formula(Double.NaN)).act(1.0f);
+		sprite.getActionFactory().createChangeYByNAction(sprite, new SequenceAction(), new Formula(Double.NaN)).act(1.0f);
 		assertEquals(0f, sprite.look.getYInUserInterfaceDimensionUnit());
 	}
 }

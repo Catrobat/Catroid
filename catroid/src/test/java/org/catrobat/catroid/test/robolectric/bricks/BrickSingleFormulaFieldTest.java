@@ -104,7 +104,6 @@ import org.catrobat.catroid.content.bricks.SetVelocityBrick;
 import org.catrobat.catroid.content.bricks.SetVolumeToBrick;
 import org.catrobat.catroid.content.bricks.SetXBrick;
 import org.catrobat.catroid.content.bricks.SetYBrick;
-import org.catrobat.catroid.content.bricks.ShowTextBrick;
 import org.catrobat.catroid.content.bricks.ShowTextColorSizeAlignmentBrick;
 import org.catrobat.catroid.content.bricks.SpeakAndWaitBrick;
 import org.catrobat.catroid.content.bricks.SpeakBrick;
@@ -208,10 +207,7 @@ public class BrickSingleFormulaFieldTest {
 				{SayForBubbleBrick.class.getSimpleName() + " duration", new SayForBubbleBrick(), R.id.brick_for_bubble_edit_text_duration},
 				{ThinkForBubbleBrick.class.getSimpleName() + " text", new ThinkForBubbleBrick(), R.id.brick_for_bubble_edit_text_text},
 				{ThinkForBubbleBrick.class.getSimpleName() + " duration", new ThinkForBubbleBrick(), R.id.brick_for_bubble_edit_text_duration},
-				{ShowTextBrick.class.getSimpleName() + " x", new ShowTextBrick(), R.id.brick_show_variable_edit_text_x},
-				{ShowTextBrick.class.getSimpleName() + " y", new ShowTextBrick(), R.id.brick_show_variable_edit_text_y},
-				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " x", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_text_x},
-				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " y", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_text_y},
+				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " color", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_color},
 				{ShowTextColorSizeAlignmentBrick.class.getSimpleName() + " size", new ShowTextColorSizeAlignmentBrick(), R.id.brick_show_variable_color_size_edit_relative_size},
 				{InsertItemIntoUserListBrick.class.getSimpleName() + " value", new InsertItemIntoUserListBrick(), R.id.brick_insert_item_into_userlist_value_edit_text},
 				{InsertItemIntoUserListBrick.class.getSimpleName() + " index", new InsertItemIntoUserListBrick(), R.id.brick_insert_item_into_userlist_at_index_edit_text},

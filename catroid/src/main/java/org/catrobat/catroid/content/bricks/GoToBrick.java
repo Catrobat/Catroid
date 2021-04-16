@@ -89,6 +89,10 @@ public class GoToBrick extends BrickBaseType implements BrickSpinner.OnItemSelec
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 		Context context = view.getContext();
 

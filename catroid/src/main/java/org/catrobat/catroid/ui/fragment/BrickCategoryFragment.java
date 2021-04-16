@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,14 @@
  */
 package org.catrobat.catroid.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.ui.BottomBar;
@@ -45,11 +43,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.ListFragment;
 
+import static org.catrobat.catroid.ui.SpriteActivity.FRAGMENT_SCRIPTS;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.addTabLayout;
+import static org.catrobat.catroid.ui.SpriteActivityOnTabSelectedListenerKt.removeTabLayout;
 import static org.catrobat.catroid.ui.settingsfragments.AccessibilityProfile.BEGINNER_BRICKS;
 
 public class BrickCategoryFragment extends ListFragment {
@@ -96,17 +98,14 @@ public class BrickCategoryFragment extends ListFragment {
 	public void onStart() {
 		super.onStart();
 
-		getListView().setOnItemClickListener(new ListView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (!viewSwitchLock.tryLock()) {
-					return;
-				}
+		getListView().setOnItemClickListener((parent, view, position, id) -> {
+			if (!viewSwitchLock.tryLock()) {
+				return;
+			}
 
-				if (scriptFragment != null) {
-					scriptFragment.onCategorySelected(adapter.getItem(position));
-					SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
-				}
+			if (scriptFragment != null) {
+				scriptFragment.onCategorySelected(adapter.getItem(position));
+				SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_bricks);
 			}
 		});
 	}
@@ -145,6 +144,8 @@ public class BrickCategoryFragment extends ListFragment {
 		menu.findItem(R.id.copy).setVisible(false);
 		menu.findItem(R.id.backpack).setVisible(false);
 		menu.findItem(R.id.comment_in_out).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
 	}
 
 	private void setUpActionBar() {
@@ -156,6 +157,8 @@ public class BrickCategoryFragment extends ListFragment {
 	private void setupBrickCategories() {
 		LayoutInflater inflater = getActivity().getLayoutInflater();
 		List<View> categories = new ArrayList<>();
+
+		categories.add(inflater.inflate(R.layout.brick_category_recently_used, null));
 
 		if (SettingsFragment.isEmroiderySharedPreferenceEnabled(getActivity())) {
 			categories.add(inflater.inflate(R.layout.brick_category_embroidery, null));
@@ -204,7 +207,7 @@ public class BrickCategoryFragment extends ListFragment {
 		}
 		categories.add(inflater.inflate(R.layout.brick_category_data, null));
 		categories.add(inflater.inflate(R.layout.brick_category_device, null));
-		if (!onlyBeginnerBricks() && BuildConfig.FEATURE_USERBRICKS_ENABLED) {
+		if (!onlyBeginnerBricks()) {
 			categories.add(inflater.inflate(R.layout.brick_category_userbrick, null));
 		}
 		if (SettingsFragment.isTestSharedPreferenceEnabled(getActivity())) {
@@ -213,6 +216,18 @@ public class BrickCategoryFragment extends ListFragment {
 
 		adapter = new BrickCategoryAdapter(categories);
 		setListAdapter(adapter);
+	}
+
+	@Override
+	public void onAttach(@NonNull Context context) {
+		super.onAttach(context);
+		removeTabLayout(getActivity());
+	}
+
+	@Override
+	public void onDetach() {
+		addTabLayout(getActivity(), FRAGMENT_SCRIPTS);
+		super.onDetach();
 	}
 
 	public interface OnCategorySelectedListener {

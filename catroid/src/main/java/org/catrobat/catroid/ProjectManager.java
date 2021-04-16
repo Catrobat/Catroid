@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,8 +41,9 @@ import org.catrobat.catroid.content.backwardcompatibility.BrickTreeBuilder;
 import org.catrobat.catroid.content.bricks.ArduinoSendPWMValueBrick;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.FormulaBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexAndWaitBrick;
+import org.catrobat.catroid.content.bricks.SetBackgroundByIndexBrick;
 import org.catrobat.catroid.content.bricks.SetPenColorBrick;
-import org.catrobat.catroid.dagger.EagerSingleton;
 import org.catrobat.catroid.exceptions.CompatibilityProjectException;
 import org.catrobat.catroid.exceptions.LoadingProjectException;
 import org.catrobat.catroid.exceptions.OutdatedVersionProjectException;
@@ -66,7 +67,7 @@ import androidx.annotation.VisibleForTesting;
 import static org.catrobat.catroid.common.Constants.CURRENT_CATROBAT_LANGUAGE_VERSION;
 import static org.catrobat.catroid.common.Constants.PERMISSIONS_FILE_NAME;
 
-public final class ProjectManager implements EagerSingleton {
+public final class ProjectManager {
 
 	private static ProjectManager instance;
 	private static final String TAG = ProjectManager.class.getSimpleName();
@@ -84,17 +85,16 @@ public final class ProjectManager implements EagerSingleton {
 	}
 
 	public ProjectManager(Context applicationContext) {
-		if (instance != null) {
-			throw new RuntimeException("ProjectManager should be instantiated only once");
-		}
 		this.applicationContext = applicationContext;
-		instance = this;
+		if (instance == null) {
+			instance = this;
+		}
 	}
 
 	/**
 	 * Replaced with dependency injection
 	 *
-	 * @deprecated use dependency injection with Dagger instead.
+	 * @deprecated use dependency injection with koin instead.
 	 */
 	@Deprecated
 	public static ProjectManager getInstance() {
@@ -154,6 +154,9 @@ public final class ProjectManager implements EagerSingleton {
 		if (project.getCatrobatLanguageVersion() <= 0.99992) {
 			removePermissionsFile(project);
 		}
+		if (project.getCatrobatLanguageVersion() <= 0.9999995) {
+			updateBackgroundIndexTo9999995(project);
+		}
 		project.setCatrobatLanguageVersion(CURRENT_CATROBAT_LANGUAGE_VERSION);
 
 		localizeBackgroundSprites(project, context.getString(R.string.background));
@@ -166,10 +169,6 @@ public final class ProjectManager implements EagerSingleton {
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_PHIRO)) {
 			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
-		}
-
-		if (resourcesSet.contains(Brick.JUMPING_SUMO)) {
-			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
 		}
 
 		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
@@ -237,7 +236,7 @@ public final class ProjectManager implements EagerSingleton {
 		for (Scene scene : project.getSceneList()) {
 			if (!scene.getSpriteList().isEmpty()) {
 				Sprite background = scene.getSpriteList().get(0);
-				background.setName(localizedBackgroundName);
+				background.renameSpriteAndUpdateCollisionFormulas(localizedBackgroundName, scene);
 				background.look.setZIndex(0);
 			}
 		}
@@ -382,6 +381,27 @@ public final class ProjectManager implements EagerSingleton {
 	}
 
 	@VisibleForTesting
+	public static void updateBackgroundIndexTo9999995(Project project) {
+		for (Scene scene : project.getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				for (Script script : sprite.getScriptList()) {
+					for (Brick brick : script.getBrickList()) {
+						if (brick instanceof SetBackgroundByIndexBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_INDEX);
+						} else if (brick instanceof SetBackgroundByIndexAndWaitBrick) {
+							FormulaBrick formulaBrick = (FormulaBrick) brick;
+							formulaBrick.replaceFormulaBrickField(Brick.BrickField.LOOK_INDEX,
+									Brick.BrickField.BACKGROUND_WAIT_INDEX);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@VisibleForTesting
 	public static void updateScriptsToTreeStructure(Project project) {
 		for (Scene scene : project.getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
@@ -515,6 +535,21 @@ public final class ProjectManager implements EagerSingleton {
 
 	public void setCurrentSprite(Sprite sprite) {
 		currentSprite = sprite;
+	}
+
+	public boolean setCurrentSceneAndSprite(String sceneName, String spriteName) {
+		for (Scene scene : project.getSceneList()) {
+			if (scene.getName().equals(sceneName)) {
+				setCurrentlyEditedScene(scene);
+				for (Sprite sprite : scene.getSpriteList()) {
+					if (sprite.getName().equals(spriteName)) {
+						currentSprite = sprite;
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public void setCurrentlyEditedScene(Scene scene) {

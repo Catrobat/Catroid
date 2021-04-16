@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -25,6 +25,7 @@ package org.catrobat.catroid.ui.recyclerview.fragment;
 
 import android.content.Intent;
 import android.util.Log;
+import android.view.Menu;
 
 import org.catrobat.catroid.BuildConfig;
 import org.catrobat.catroid.ProjectManager;
@@ -39,6 +40,7 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SoundController;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,6 +55,10 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	private SoundController soundController = new SoundController();
 
+	public SoundListFragment() {
+		// required empty constructor
+	}
+
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_sounds);
@@ -61,6 +67,14 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 		adapter = new SoundAdapter(items);
 		emptyView.setText(R.string.fragment_sound_text_description);
 		onAdapterReady();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
 	}
 
 	@Override
@@ -163,6 +177,11 @@ public class SoundListFragment extends RecyclerViewFragment<SoundInfo> {
 
 	@Override
 	public void onItemClick(SoundInfo item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
+
 		if (actionModeType != NONE) {
 			return;
 		}

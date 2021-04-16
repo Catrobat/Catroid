@@ -26,7 +26,10 @@ package org.catrobat.catroid.content;
 import org.catrobat.catroid.content.bricks.ScriptBrick;
 import org.catrobat.catroid.content.bricks.UserDefinedReceiverBrick;
 import org.catrobat.catroid.content.eventids.EventId;
+import org.catrobat.catroid.content.eventids.UserDefinedBrickEventId;
+import org.catrobat.catroid.formulaeditor.UserData;
 
+import java.util.List;
 import java.util.UUID;
 
 import androidx.annotation.VisibleForTesting;
@@ -35,6 +38,7 @@ public class UserDefinedScript extends Script {
 
 	private static final long serialVersionUID = 1L;
 	private UUID userDefinedBrickID;
+	private List<Object> userDefinedBrickInputs;
 
 	public UserDefinedScript(UUID userDefinedBrickID) {
 		this.userDefinedBrickID = userDefinedBrickID;
@@ -54,6 +58,19 @@ public class UserDefinedScript extends Script {
 
 	@Override
 	public EventId createEventId(Sprite sprite) {
+		return new UserDefinedBrickEventId(userDefinedBrickID);
+	}
+
+	public void setUserDefinedBrickInputs(List<Object> userDefinedBrickInputs) {
+		this.userDefinedBrickInputs = userDefinedBrickInputs;
+	}
+
+	public UserData getUserDefinedBrickInput(String name) {
+		for (Object variable : userDefinedBrickInputs) {
+			if (variable instanceof UserData && ((UserData) (variable)).getName().equals(name)) {
+				return (UserData) variable;
+			}
+		}
 		return null;
 	}
 

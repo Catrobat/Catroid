@@ -1,0 +1,52 @@
+.blocklyText {
+  fill: #fff;
+  font-family: 'Helvetica Neue', 'Segoe UI', Helvetica, sans-serif;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.blocklyNonEditableText > rect:not(.blocklyDropdownRect),
+.blocklyEditableText > rect:not(.blocklyDropdownRect) {
+  fill: #fff;
+}
+
+.blocklyNonEditableText > text,
+.blocklyEditableText > text,
+.blocklyNonEditableText > g > text,
+.blocklyEditableText > g > text {
+  fill: #575e75;
+}
+
+.blocklyDropdownText {
+  fill: #fff !important;
+}
+
+.search {
+  border: none;
+}
+
+#formulaPopupContent {
+  word-wrap: break-word;
+}
+
+.catblockls-blockly-invisible > .blocklyPath {
+  fill-opacity: 0;
+  stroke-opacity: 0;
+}
+
+html,
+body {
+  height: 100vh;
+  width: 100%;
+}
+
+#catroid-catblocks-container {
+  height: 100vh;
+  width: 100%;
+}
+
+#catroid-catblocks-container.blocklySvg {
+  height: 100vh;
+  width: 100%;
+}
+

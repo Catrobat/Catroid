@@ -23,6 +23,7 @@
 package org.catrobat.catroid.content.bricks;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 
 import org.catrobat.catroid.ProjectManager;
@@ -36,6 +37,7 @@ import org.catrobat.catroid.content.actions.ScriptSequenceAction;
 import org.catrobat.catroid.content.bricks.brickspinner.BrickSpinner;
 import org.catrobat.catroid.content.bricks.brickspinner.NewOption;
 import org.catrobat.catroid.content.bricks.brickspinner.StringOption;
+import org.catrobat.catroid.ui.NfcTagsActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +85,7 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		List<Nameable> items = new ArrayList<>();
-		items.add(new NewOption(context.getString(R.string.new_option)));
+		items.add(new NewOption(context.getString(R.string.brick_when_nfc_edit_list_of_nfc_tags)));
 		items.add(new StringOption(context.getString(R.string.brick_when_nfc_default_all)));
 		items.addAll(currentSprite.getNfcTagList());
 		BrickSpinner<NfcTagData> spinner = new BrickSpinner<>(R.id.brick_when_nfc_spinner, view, items);
@@ -95,7 +97,17 @@ public class WhenNfcBrick extends ScriptBrickBaseType implements BrickSpinner.On
 
 	@Override
 	public void onNewOptionSelected(Integer spinnerId) {
-		script.setNfcTag(null);
+		if (view == null) {
+			return;
+		}
+		Context context = view.getContext();
+		if (context != null) {
+			context.startActivity(new Intent(context, NfcTagsActivity.class));
+		}
+	}
+
+	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
 	}
 
 	@Override

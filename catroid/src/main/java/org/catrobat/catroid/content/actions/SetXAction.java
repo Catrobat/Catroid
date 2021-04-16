@@ -26,27 +26,27 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class SetXAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula xPosition;
 
 	@Override
 	protected void update(float delta) {
 		try {
-			Float newX = xPosition == null ? Float.valueOf(0f) : xPosition.interpretFloat(sprite);
-			sprite.look.setXInUserInterfaceDimensionUnit(newX);
+			Float newX = xPosition == null ? Float.valueOf(0f) : xPosition.interpretFloat(scope);
+			scope.getSprite().look.setXInUserInterfaceDimensionUnit(newX);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setX(Formula x) {

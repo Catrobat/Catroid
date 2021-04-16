@@ -48,7 +48,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);
@@ -56,7 +56,7 @@ public class ParserTestErrorDedection {
 		internTokenList = new LinkedList<InternToken>();
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(0, errorTokenIndex);
@@ -65,7 +65,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.PLUS.name()));
 		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);
@@ -77,7 +77,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MINUS.name()));
 		internParser = new InternFormulaParser(internTokenList);
-		parseTree = internParser.parseFormula();
+		parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(5, errorTokenIndex);
@@ -90,7 +90,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.42"));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);
@@ -103,7 +103,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.OPERATOR, Operators.MULT.name()));
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(0, errorTokenIndex);
@@ -117,7 +117,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.NUMBER, "42.53"));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(2, errorTokenIndex);
@@ -131,7 +131,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);
@@ -145,7 +145,7 @@ public class ParserTestErrorDedection {
 		internTokenList.add(new InternToken(InternTokenType.BRACKET_CLOSE));
 
 		InternFormulaParser internParser = new InternFormulaParser(internTokenList);
-		FormulaElement parseTree = internParser.parseFormula();
+		FormulaElement parseTree = internParser.parseFormula(null);
 		assertNull(parseTree);
 		int errorTokenIndex = internParser.getErrorTokenIndex();
 		assertEquals(1, errorTokenIndex);

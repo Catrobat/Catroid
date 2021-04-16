@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,37 +23,54 @@
 
 package org.catrobat.catroid.ui.recyclerview.fragment;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.io.StorageOperations;
+import org.catrobat.catroid.ui.SpriteActivity;
 import org.catrobat.catroid.ui.controller.BackpackListManager;
 import org.catrobat.catroid.ui.recyclerview.adapter.LookAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.PluralsRes;
+
+import static android.app.Activity.RESULT_OK;
 
 import static org.catrobat.catroid.common.Constants.EXTRA_PICTURE_PATH_POCKET_PAINT;
 import static org.catrobat.catroid.common.Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME;
 import static org.catrobat.catroid.common.SharedPreferenceKeys.SHOW_DETAILS_LOOKS_PREFERENCE_KEY;
+import static org.catrobat.catroid.ui.SpriteActivity.EDIT_LOOK;
 
 public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	public static final String TAG = LookListFragment.class.getSimpleName();
 
 	private LookController lookController = new LookController();
+
+	private LookData currentItem;
+
+	public LookListFragment() {
+		// required empty constructor
+	}
 
 	@Override
 	protected void initializeAdapter() {
@@ -63,6 +80,14 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		adapter = new LookAdapter(items);
 		emptyView.setText(R.string.fragment_look_text_description);
 		onAdapterReady();
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+
+		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);
+		menu.findItem(R.id.catblocks).setVisible(false);
 	}
 
 	@Override
@@ -128,6 +153,24 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		finishActionMode();
 	}
 
+	private void disposeItem() {
+		if (Constants.TEMP_LOOK_FILE.exists()) {
+			Constants.TEMP_LOOK_FILE.delete();
+			currentItem = null;
+		}
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		disposeItem();
+		Activity activity = getActivity();
+		if (activity instanceof SpriteActivity) {
+			((SpriteActivity) activity).setUndoMenuItemVisibility(false);
+			((SpriteActivity) activity).showUndo(false);
+		}
+	}
+
 	@Override
 	@PluralsRes
 	protected int getDeleteAlertTitleId() {
@@ -164,13 +207,55 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	}
 
 	@Override
+	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == EDIT_LOOK && resultCode == RESULT_OK) {
+			Activity activity = getActivity();
+			if (activity instanceof SpriteActivity) {
+				((SpriteActivity) getActivity()).setUndoMenuItemVisibility(true);
+			}
+		}
+	}
+
+	public boolean undo() {
+		if (currentItem != null) {
+			try {
+				StorageOperations.copyFile(Constants.TEMP_LOOK_FILE, currentItem.getFile());
+			} catch (IOException e) {
+				Log.e(TAG, Log.getStackTraceString(e));
+			}
+			currentItem.invalidateThumbnailBitmap();
+			adapter.notifyDataSetChanged();
+			disposeItem();
+			return true;
+		}
+		return false;
+	}
+
+	public void deleteItem(LookData lookData) {
+		deleteItems(Collections.singletonList(lookData));
+	}
+
+	@Override
 	public void onItemClick(LookData item) {
+		if (actionModeType == RENAME) {
+			super.onItemClick(item);
+			return;
+		}
 		if (actionModeType != NONE) {
 			return;
 		}
 
+		currentItem = item;
+
 		item.invalidateThumbnailBitmap();
 		item.clearCollisionInformation();
+
+		try {
+			StorageOperations.copyFile(currentItem.getFile(), Constants.TEMP_LOOK_FILE);
+		} catch (IOException e) {
+			Log.e(TAG, Log.getStackTraceString(e));
+		}
 
 		Intent intent = new Intent("android.intent.action.MAIN");
 		intent.setComponent(new ComponentName(getActivity(), POCKET_PAINT_INTENT_ACTIVITY_NAME));
@@ -179,6 +264,6 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 		intent.putExtras(bundle);
 		intent.addCategory("android.intent.category.LAUNCHER");
 
-		startActivity(intent);
+		startActivityForResult(intent, EDIT_LOOK);
 	}
 }

@@ -257,35 +257,35 @@ platform :android do
     )
   end
 
-  desc "upload Playground metadata only"
-  lane :upload_Metadata_Playground do
-    upload_to_play_store(
-      package_name:               'org.catrobat.catroid.test',
-      track:                      'alpha',
-      json_key_data:              ENV['googlePlayJsonKey'],
-      metadata_path:              './fastlane/metadata/android',
-      skip_upload_apk:            'true',
-      skip_upload_metadata:       'false',
-      skip_upload_images:         'false',
-      skip_upload_screenshots:    'false',
-      validate_only:              'false',
-      check_superseded_tracks:    'false',
-    )
-  end
+  desc "upload PocketCodeBeta metadata only"
+    lane :upload_Metadata_PocketCodeBeta do
+      upload_to_play_store(
+        package_name:               'org.catrobat.catroid.test',
+        track:                      'alpha',
+        json_key_data:              ENV['googlePlayJsonKey'],
+        metadata_path:              './fastlane/metadata/android',
+        skip_upload_apk:            'true',
+        skip_upload_metadata:       'false',
+        skip_upload_images:         'false',
+        skip_upload_screenshots:    'false',
+        validate_only:              'false',
+        check_superseded_tracks:    'false',
+      )
+    end
 
-  desc "upload Playground APK to alpha track"
-  lane :upload_APK_Playground do
-    upload_to_play_store(
-      package_name:               'org.catrobat.catroid.test',
-      track:                      'alpha',
-      json_key_data:              ENV['googlePlayJsonKey'],
-      apk_paths:                  './catroid/build/outputs/apk/catroid/signedRelease/catroid-catroid-signedRelease.apk',
-      skip_upload_apk:            'false',
-      skip_upload_metadata:       'true',
-      skip_upload_images:         'true',
-      skip_upload_screenshots:    'true',
-      validate_only:              'false',
-      check_superseded_tracks:    'false',
-    )
-  end
+    desc "upload PocketCodeBeta APK to alpha track"
+    lane :upload_APK_PocketCodeBeta do
+      upload_to_play_store(
+        package_name:               'org.catrobat.catroid.test',
+        track:                      'alpha',
+        json_key_data:              ENV['googlePlayJsonKey'],
+        apk_paths:                  './catroid/build/outputs/apk/pocketcodebeta/signedRelease/catroid-pocketcodebeta-signedRelease.apk',
+        skip_upload_apk:            'false',
+        skip_upload_metadata:       'true',
+        skip_upload_images:         'true',
+        skip_upload_screenshots:    'true',
+        validate_only:              'false',
+        check_superseded_tracks:    'false',
+      )
+    end
 end

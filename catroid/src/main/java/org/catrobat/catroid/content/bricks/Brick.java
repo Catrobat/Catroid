@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -35,27 +35,30 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import androidx.annotation.IntDef;
 
 public interface Brick extends Serializable, Cloneable {
 
-	interface FormulaField extends Serializable{ }
+	interface FormulaField extends Serializable {
+	}
 
 	enum BrickField implements FormulaField {
 		COLOR, COLOR_CHANGE, BRIGHTNESS, BRIGHTNESS_CHANGE, X_POSITION, Y_POSITION, X_POSITION_CHANGE, Y_POSITION_CHANGE,
 		TRANSPARENCY, TRANSPARENCY_CHANGE, SIZE, SIZE_CHANGE, VOLUME, VOLUME_CHANGE, X_DESTINATION, Y_DESTINATION, STEPS,
 		DURATION_IN_SECONDS, DEGREES, TURN_RIGHT_DEGREES, TURN_LEFT_DEGREES, TIME_TO_WAIT_IN_SECONDS, VARIABLE,
 
-		VARIABLE_CHANGE, WEB_REQUEST, LOOK_REQUEST, BACKGROUND_REQUEST, WRITE_FILENAME, READ_FILENAME, TEMPO,
-		BEATS_TO_PAUSE,
+		VARIABLE_CHANGE, WEB_REQUEST, LOOK_REQUEST, LOOK_NEW, LOOK_COPY, BACKGROUND_REQUEST, WRITE_FILENAME,
+		READ_FILENAME, TEMPO,
+		TEMPO_CHANGE, BEATS_TO_PAUSE, NOTE_TO_PLAY, BEATS_TO_PLAY_NOTE, OPEN_URL, PLAY_DRUM,
 
 		PEN_SIZE, PEN_COLOR_RED, PEN_COLOR_GREEN, PEN_COLOR_BLUE,
 
 		IF_CONDITION, TIMES_TO_REPEAT, FOR_LOOP_FROM, FOR_LOOP_TO, VIBRATE_DURATION_IN_SECONDS,
 		USER_BRICK, NOTE, SPEAK, SHOWTEXT, STRING, ROTATION_STYLE, REPEAT_UNTIL_CONDITION,
 		ASK_QUESTION, NFC_NDEF_MESSAGE, ASK_SPEECH_QUESTION, LOOK_INDEX, BACKGROUND_INDEX,
-		BACKGROUND_WAIT_INDEX,
+		BACKGROUND_WAIT_INDEX, REPORT_BRICK,
 
 		LEGO_NXT_SPEED, LEGO_NXT_DEGREES, LEGO_NXT_FREQUENCY, LEGO_NXT_DURATION_IN_SECONDS,
 
@@ -118,10 +121,10 @@ public interface Brick extends Serializable, Cloneable {
 	}
 
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION, ARDRONE_SUPPORT,
+	@IntDef({TEXT_TO_SPEECH, BLUETOOTH_LEGO_NXT, PHYSICS, FACE_DETECTION,
 			BLUETOOTH_SENSORS_ARDUINO, SOCKET_RASPI, CAMERA_FLASH, VIBRATION, BLUETOOTH_PHIRO, CAMERA_BACK, CAMERA_FRONT,
 			SENSOR_ACCELERATION, SENSOR_INCLINATION, SENSOR_COMPASS, NFC_ADAPTER, VIDEO, SENSOR_GPS, COLLISION,
-			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, JUMPING_SUMO, MICROPHONE, STORAGE_WRITE, STORAGE_READ,
+			BLUETOOTH_LEGO_EV3, NETWORK_CONNECTION, CAST_REQUIRED, MICROPHONE, STORAGE_WRITE, STORAGE_READ,
 			SPEECH_RECOGNITION, TEXT_DETECTION})
 	@interface Resources {
 	}
@@ -130,7 +133,7 @@ public interface Brick extends Serializable, Cloneable {
 	int BLUETOOTH_LEGO_NXT = 2;
 	int PHYSICS = 3;
 	int FACE_DETECTION = 4;
-	int ARDRONE_SUPPORT = 5;
+	int TEXT_DETECTION = 5;
 	int BLUETOOTH_SENSORS_ARDUINO = 6;
 	int SOCKET_RASPI = 7;
 	int CAMERA_FLASH = 8;
@@ -148,12 +151,10 @@ public interface Brick extends Serializable, Cloneable {
 	int BLUETOOTH_LEGO_EV3 = 20;
 	int NETWORK_CONNECTION = 21;
 	int CAST_REQUIRED = 22;
-	int JUMPING_SUMO = 23;
+	int SPEECH_RECOGNITION = 23;
 	int MICROPHONE = 24;
 	int STORAGE_READ = 25;
 	int STORAGE_WRITE = 26;
-	int SPEECH_RECOGNITION = 27;
-	int TEXT_DETECTION = 28;
 
 	class ResourcesSet extends HashSet<Integer> {
 		@Override
@@ -203,4 +204,10 @@ public interface Brick extends Serializable, Cloneable {
 	boolean hasHelpPage();
 
 	String getHelpUrl(String category);
+
+	UUID getBrickID();
+
+	List<Brick> findBricksInNestedBricks(List<UUID> brickIds);
+
+	boolean addBrickInNestedBrick(UUID parentBrickId, int subStackIndex, List<Brick> bricksToAdd);
 }

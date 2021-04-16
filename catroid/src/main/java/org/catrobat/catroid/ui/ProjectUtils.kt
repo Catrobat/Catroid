@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -133,7 +133,7 @@ fun showWarningForSuspiciousBricksOnce(context: Context) {
         MODE_PRIVATE
     )
     val currentProject = ProjectManager.getInstance().currentProject
-    val projectUrl = currentProject.xmlHeader.remixParentsUrlString
+    val projectUrl = currentProject?.xmlHeader?.remixParentsUrlString ?: return
     // if project has an url => is a downloaded project
     val isDownloadedProject = projectUrl.isNotBlank()
     // since the projectUrl is kinda unique, ues it as key for the shared preference, if it's null

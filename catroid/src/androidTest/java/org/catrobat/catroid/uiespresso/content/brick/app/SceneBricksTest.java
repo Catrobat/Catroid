@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -66,7 +66,7 @@ public class SceneBricksTest {
 
 	@Test
 	public void testAllSceneBricksSpinnersShowTheNewAddedScene() {
-		String newSceneName = "Scene 2";
+		String newSceneName = ApplicationProvider.getApplicationContext().getString(R.string.default_scene_name, 2);
 		onBrickAtPosition(1)
 				.onSpinner(R.id.brick_scene_start_spinner)
 				.performSelectNameable(R.string.new_option);

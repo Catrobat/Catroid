@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -48,6 +48,7 @@ import static org.hamcrest.Matchers.is;
 import static androidx.test.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static androidx.test.espresso.action.ViewActions.clearText;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
@@ -96,16 +97,14 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateOrientation() {
-		onView(withText(R.string.main_menu_new))
+		onView(withId(R.id.newProjectFloatingActionButton))
 				.perform(click());
-		onView(withText(R.string.new_project_dialog_title))
+		onView(withId(R.id.input_edit_text))
 				.check(matches(isDisplayed()));
-		onView(withClassName(is("android.support.design.widget.TextInputEditText")))
-				.perform(typeText("TestProject"), closeSoftKeyboard());
+		onView(withClassName(is("com.google.android.material.textfield.TextInputEditText")))
+				.perform(clearText(), typeText("TestProject"), closeSoftKeyboard());
 		onView(withText(R.string.ok))
 				.perform(click());
-		onView(withText(R.string.project_orientation_title)).inRoot(isDialog())
-				.check(matches(isDisplayed()));
 
 		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
 			@Override
@@ -121,18 +120,13 @@ public class MainMenuFragemtnActivityRecreateRegressionTest {
 	@Flaky
 	@Test
 	public void testActivityRecreateNewProgramDialog() {
-		onView(withText(R.string.main_menu_new))
+		onView(withId(R.id.newProjectFloatingActionButton))
 				.perform(click());
 
-		onView(withText(R.string.new_project_dialog_title)).inRoot(isDialog())
+		onView(withId(R.id.input_edit_text)).inRoot(isDialog())
 				.check(matches(isDisplayed()));
 
-		InstrumentationRegistry.getInstrumentation().runOnMainSync(new Runnable() {
-			@Override
-			public void run() {
-				baseActivityTestRule.getActivity().recreate();
-			}
-		});
+		InstrumentationRegistry.getInstrumentation().runOnMainSync(() -> baseActivityTestRule.getActivity().recreate());
 
 		InstrumentationRegistry.getInstrumentation().waitForIdleSync();
 	}

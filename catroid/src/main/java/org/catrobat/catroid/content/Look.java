@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -40,7 +40,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 
-import org.catrobat.catroid.common.DroneVideoLookData;
 import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.common.ThreadScheduler;
 import org.catrobat.catroid.content.actions.ScriptSequenceAction;
@@ -68,6 +67,7 @@ public class Look extends Image {
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
 	private boolean simultaneousMovementXY = false;
+	private int lookListIndexBeforeLookRequest = -1;
 	protected LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
@@ -117,6 +117,14 @@ public class Look extends Image {
 
 	public synchronized void setLookVisible(boolean lookVisible) {
 		this.lookVisible = lookVisible;
+	}
+
+	public synchronized int getLookListIndexBeforeLookRequest() {
+		return lookListIndexBeforeLookRequest;
+	}
+
+	public synchronized void setLookListIndexBeforeLookRequest(int lookListIndexBeforeLookRequest) {
+		this.lookListIndexBeforeLookRequest = lookListIndexBeforeLookRequest;
 	}
 
 	@Override
@@ -181,10 +189,6 @@ public class Look extends Image {
 			super.setVisible(false);
 		} else {
 			super.setVisible(true);
-		}
-
-		if (lookData instanceof DroneVideoLookData) {
-			lookData.draw(batch, alpha);
 		}
 
 		if (isLookVisible() && this.getDrawable() != null) {

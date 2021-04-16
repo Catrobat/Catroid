@@ -26,8 +26,7 @@ import android.content.Context;
 
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
-import org.catrobat.catroid.content.Project;
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.FormulaElement.ElementType;
 import org.catrobat.catroid.utils.EnumUtils;
 import org.jetbrains.annotations.NotNull;
@@ -115,30 +114,30 @@ public class Formula implements Serializable {
 		return formulaTree.containsSpriteInCollision(name);
 	}
 
-	public Integer interpretInteger(Sprite sprite) throws InterpretationException {
-		return interpretDouble(sprite).intValue();
+	public Integer interpretInteger(Scope scope) throws InterpretationException {
+		return interpretDouble(scope).intValue();
 	}
 
 	@NotNull
-	private String tryInterpretDouble(Sprite sprite) {
+	private String tryInterpretDouble(Scope scope) {
 		try {
-			return String.valueOf(interpretDouble(sprite));
+			return String.valueOf(interpretDouble(scope));
 		} catch (InterpretationException interpretationException) {
 			return ERROR_STRING;
 		}
 	}
 
-	public Double interpretDouble(Sprite sprite) throws InterpretationException {
+	public Double interpretDouble(Scope scope) throws InterpretationException {
 		try {
-			return assertNotNaN(interpretDoubleInternal(sprite));
+			return assertNotNaN(interpretDoubleInternal(scope));
 		} catch (ClassCastException | NumberFormatException exception) {
 			throw new InterpretationException("Couldn't interpret Formula.", exception);
 		}
 	}
 
 	@NotNull
-	private Double interpretDoubleInternal(Sprite sprite) {
-		Object o = formulaTree.interpretRecursive(sprite);
+	private Double interpretDoubleInternal(Scope scope) {
+		Object o = formulaTree.interpretRecursive(scope);
 		Double doubleReturnValue;
 		if (o instanceof String) {
 			doubleReturnValue = Double.valueOf((String) o);
@@ -155,12 +154,12 @@ public class Formula implements Serializable {
 		return doubleReturnValue;
 	}
 
-	public Float interpretFloat(Sprite sprite) throws InterpretationException {
-		return interpretDouble(sprite).floatValue();
+	public Float interpretFloat(Scope scope) throws InterpretationException {
+		return interpretDouble(scope).floatValue();
 	}
 
-	public String interpretString(Sprite sprite) throws InterpretationException {
-		Object interpretation = formulaTree.interpretRecursive(sprite);
+	public String interpretString(Scope scope) throws InterpretationException {
+		Object interpretation = formulaTree.interpretRecursive(scope);
 
 		if (interpretation instanceof Double && ((Double) interpretation).isNaN()) {
 			throw new InterpretationException("NaN in interpretString()");
@@ -170,8 +169,8 @@ public class Formula implements Serializable {
 		return trimTrailingCharacters(value);
 	}
 
-	public Object interpretObject(Sprite sprite) {
-		return formulaTree.interpretRecursive(sprite);
+	public Object interpretObject(Scope scope) {
+		return formulaTree.interpretRecursive(scope);
 	}
 
 	public void setRoot(FormulaElement formula) {
@@ -212,19 +211,17 @@ public class Formula implements Serializable {
 		formulaTree.addRequiredResources(requiredResourcesSet);
 	}
 
-	public String getResultForComputeDialog(StringProvider stringProvider, Sprite sprite) {
+	public String getResultForComputeDialog(StringProvider stringProvider, Scope scope) {
 		ElementType type = formulaTree.getElementType();
-		Project currentProject = ProjectManager.getInstance().getCurrentProject();
-		Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
 
 		if (formulaTree.isLogicalOperator()) {
-			return tryInterpretBooleanToString(stringProvider, sprite);
+			return tryInterpretBooleanToString(stringProvider, scope);
 		} else if (isStringInterpretableType(type, formulaTree.getValue())) {
-			return tryInterpretString(sprite);
-		} else if (isVariableWithTypeString(sprite, currentProject)) {
-			return interpretUserVariable(currentProject, currentSprite);
+			return tryInterpretString(scope);
+		} else if (isVariableWithTypeString(scope)) {
+			return interpretUserVariable(scope);
 		} else {
-			return tryInterpretDouble(sprite);
+			return tryInterpretDouble(scope);
 		}
 	}
 
@@ -236,47 +233,48 @@ public class Formula implements Serializable {
 
 	private boolean isInterpretableFunction(String formulaValue) {
 		Functions function = EnumUtils.getEnum(Functions.class, formulaValue);
-		return function == Functions.LETTER || function == Functions.JOIN || function == Functions.REGEX;
+		return function == Functions.LETTER || function == Functions.JOIN || function == Functions.JOIN3 || function == Functions.REGEX;
 	}
 
-	private boolean isVariableWithTypeString(Sprite sprite, Project currentProject) {
+	private boolean isVariableWithTypeString(Scope scope) {
 		if (formulaTree.getElementType() == ElementType.USER_VARIABLE) {
-			UserVariable userVariable = UserDataWrapper.getUserVariable(formulaTree.getValue(), sprite, currentProject);
+			UserVariable userVariable = UserDataWrapper.getUserVariable(formulaTree.getValue(), scope);
 			return userVariable.getValue() instanceof String;
 		} else {
 			return false;
 		}
 	}
 
-	private String interpretUserVariable(Project currentProject, Sprite currentSprite) {
+	private String interpretUserVariable(Scope scope) {
 		UserVariable userVariable = UserDataWrapper
-				.getUserVariable(formulaTree.getValue(), currentSprite, currentProject);
+				.getUserVariable(formulaTree.getValue(), scope);
 		return (String) userVariable.getValue();
 	}
 
-	private String tryInterpretString(Sprite sprite) {
+	private String tryInterpretString(Scope scope) {
 		try {
-			return interpretString(sprite);
+			return interpretString(scope);
 		} catch (InterpretationException interpretationException) {
 			return ERROR_STRING;
 		}
 	}
 
-	private String tryInterpretBooleanToString(StringProvider stringProvider, Sprite sprite) {
+	private String tryInterpretBooleanToString(StringProvider stringProvider, Scope scope) {
 		try {
-			return interpretBooleanToString(sprite, stringProvider);
+			return interpretBooleanToString(scope, stringProvider);
 		} catch (InterpretationException interpretationException) {
 			return ERROR_STRING;
 		}
 	}
 
-	public String interpretBooleanToString(Sprite sprite, StringProvider stringProvider) throws InterpretationException {
-		boolean booleanValue = interpretBoolean(sprite);
+	public String interpretBooleanToString(Scope scope,
+			StringProvider stringProvider) throws InterpretationException {
+		boolean booleanValue = interpretBoolean(scope);
 		return toLocalizedString(booleanValue, stringProvider);
 	}
 
-	public boolean interpretBoolean(Sprite sprite) throws InterpretationException {
-		return interpretDouble(sprite).intValue() != 0;
+	public boolean interpretBoolean(Scope scope) throws InterpretationException {
+		return interpretDouble(scope).intValue() != 0;
 	}
 
 	private String toLocalizedString(boolean value, StringProvider stringProvider) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:background="@color/button_background"
     android:layout_marginTop="?attr/element_spacing"
     android:layout_marginBottom="?attr/element_spacing">
@@ -35,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -44,16 +46,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <RelativeLayout
-                    android:id="@+id/current_project"
+                    android:id="@+id/currentProjectLayout"
                     android:layout_width="match_parent"
                     android:layout_height="280dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/image_view"
+                        android:id="@+id/projectImageView"
                         android:contentDescription="@string/main_menu_continue"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -71,12 +72,12 @@
                         android:contentDescription="@string/main_menu_continue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/edit_button"
+                        android:id="@+id/editProject"
                         android:layout_centerInParent="true"
                         android:src="@drawable/ic_edit_circle" />
 
                     <ImageView
-                        android:id="@+id/upload_button"
+                        android:id="@+id/uploadProject"
                         android:contentDescription="@string/main_menu_upload"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,7 +90,7 @@
                 </RelativeLayout>
 
                 <TextView
-                    android:id="@+id/my_projects"
+                    android:id="@+id/myProjectsTextView"
                     android:text="@string/main_menu_programs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,14 +99,14 @@
                     android:paddingStart="20dp"
                     android:paddingEnd="32dp"
                     android:textColor="@color/landing_page_icons"
-                    android:drawableEnd="@drawable/ic_arrow_forward_vector"
+                    app:drawableEndCompat="@drawable/ic_arrow_forward_vector"
                     android:clickable="true"
                     android:focusable="true"
                     android:textSize="?attr/x_large"
                     android:background="@drawable/button_background_selector" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/my_projects_recyclerview"
+                    android:id="@+id/myProjectsRecyclerView"
                     android:paddingStart="14dp"
                     android:paddingEnd="0dp"
                     android:clipToPadding ="false"
@@ -114,21 +115,100 @@
                     app:layoutManager="LinearLayoutManager"
                     android:orientation="horizontal" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
+                <TextView
+                    android:id="@+id/featuredProjectsTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="180dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_background_selector"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:paddingBottom="16dp"
+                    android:paddingEnd="32dp"
+                    android:paddingStart="20dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/main_menu_web"
+                    android:textColor="@color/landing_page_icons"
+                    android:textSize="?attr/x_large"
+                    app:drawableEndCompat="@drawable/ic_arrow_forward_vector" />
+
+                <org.catrobat.catroid.ui.recyclerview.AutoScrollableRecyclerView
+                    android:id="@+id/featuredProjectsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
                     android:overScrollMode="never"
-                    app:layoutManager="LinearLayoutManager">
-                    </androidx.recyclerview.widget.RecyclerView>
+                    app:layoutManager="LinearLayoutManager" />
+
+                <RelativeLayout
+                    android:id="@+id/noInternetLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:layout_alignParentStart="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_centerVertical="true"
+                        android:id="@+id/noInternetImageView"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_wifi_off"
+                        android:contentDescription="@string/no_internet_image" />
+
+                    <TextView
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/noInternetImageView"
+                        android:textColor="@color/no_internet_color"
+                        android:fontFamily="sans-serif"
+                        android:textSize="16sp"
+                        android:text="@string/no_internet_connection"/>
+
+                </RelativeLayout>
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmerViewContainer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    shimmer:duration="800">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <include layout="@layout/main_menu_shimmer_dummy_view" />
+                        <include layout="@layout/main_menu_shimmer_dummy_view" />
+                        <include layout="@layout/main_menu_shimmer_dummy_view" />
+                        <include layout="@layout/main_menu_shimmer_dummy_view" />
+                        <include layout="@layout/main_menu_shimmer_dummy_view" />
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoriesRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:visibility="gone"
+                    app:layoutManager="LinearLayoutManager" />
 
             </LinearLayout>
-        </ScrollView>
+
+        </androidx.core.widget.NestedScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
+        android:id="@+id/newProjectFloatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -138,7 +218,7 @@
         android:src="@drawable/ic_plus"
         android:tint="@color/solid_white"
         android:theme="@style/Theme.AppCompat"
-        app:backgroundTint="@color/orange"
+        app:backgroundTint="@color/action_button"
         app:elevation="10dp" />
 
     </RelativeLayout>

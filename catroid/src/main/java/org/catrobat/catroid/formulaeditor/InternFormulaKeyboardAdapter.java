@@ -148,6 +148,11 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.MIN,
 						NUMBER, "7",
 						NUMBER, "2");
+			case R.string.formula_editor_function_if_then_else:
+				return buildTripleParameterFunction(Functions.IF_THEN_ELSE,
+						FUNCTION_NAME, Functions.getFunctionByValue("FALSE").toString(),
+						NUMBER, "2",
+						NUMBER, "3");
 			case R.string.formula_editor_function_true:
 				return buildFunctionWithoutParametersAndBrackets(Functions.TRUE);
 			case R.string.formula_editor_function_false:
@@ -162,6 +167,9 @@ public class InternFormulaKeyboardAdapter {
 			case R.string.formula_editor_function_join:
 				return buildDoubleParameterFunction(Functions.JOIN, STRING, "hello",
 						STRING, " world");
+			case R.string.formula_editor_function_join3:
+				return buildTripleParameterFunction(Functions.JOIN3, STRING, "hello",
+						STRING, " world", STRING, "!");
 			case R.string.formula_editor_function_regex:
 				return buildDoubleParameterFunction(Functions.REGEX, STRING, " an? ([^ .]+)",
 						STRING, "I am a panda.");
@@ -176,7 +184,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildDoubleParameterFunction(Functions.INDEX_OF_ITEM,
 						NUMBER, "1",
 						USER_LIST, "list_name");
-
+			case R.string.formula_editor_function_flatten:
+				return buildSingleParameterFunction(Functions.FLATTEN, STRING, "list_name");
 			case R.string.formula_editor_function_arduino_read_pin_value_digital:
 				return buildSingleParameterFunction(Functions.ARDUINODIGITAL, NUMBER, "0");
 			case R.string.formula_editor_function_arduino_read_pin_value_analog:
@@ -199,7 +208,15 @@ public class InternFormulaKeyboardAdapter {
 				return buildSingleParameterFunction(Functions.MULTI_FINGER_TOUCHED, NUMBER, "1");
 			case R.string.formula_editor_function_index_of_last_finger:
 				return buildSensor(Sensors.LAST_FINGER_INDEX);
-
+			case R.string.formula_editor_function_number_of_current_touches:
+				return buildSensor(Sensors.NUMBER_CURRENT_TOUCHES);
+			case R.string.formula_editor_function_index_of_current_touch:
+				return buildSingleParameterFunction(Functions.INDEX_CURRENT_TOUCH, NUMBER, "1");
+			case R.string.formula_editor_sensor_color_at_x_y:
+				return buildDoubleParameterFunction(Functions.COLOR_AT_XY, NUMBER, "100", NUMBER, "200");
+			case R.string.formula_editor_sensor_color_equals_color:
+				return buildTripleParameterFunction(Functions.COLOR_EQUALS_COLOR, STRING, "#ff0000",
+						STRING, "#fe0000", NUMBER, "1");
 			case R.string.formula_editor_sensor_x_acceleration:
 				return buildSensor(Sensors.X_ACCELERATION);
 			case R.string.formula_editor_sensor_y_acceleration:
@@ -232,6 +249,14 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.FACE_X_POSITION);
 			case R.string.formula_editor_sensor_face_y_position:
 				return buildSensor(Sensors.FACE_Y_POSITION);
+			case R.string.formula_editor_sensor_second_face_detected:
+				return buildSensor(Sensors.SECOND_FACE_DETECTED);
+			case R.string.formula_editor_sensor_second_face_size:
+				return buildSensor(Sensors.SECOND_FACE_SIZE);
+			case R.string.formula_editor_sensor_second_face_x_position:
+				return buildSensor(Sensors.SECOND_FACE_X_POSITION);
+			case R.string.formula_editor_sensor_second_face_y_position:
+				return buildSensor(Sensors.SECOND_FACE_Y_POSITION);
 			case R.string.formula_editor_phiro_sensor_front_left:
 				return buildSensor(Sensors.PHIRO_FRONT_LEFT);
 			case R.string.formula_editor_phiro_sensor_front_right:
@@ -244,6 +269,8 @@ public class InternFormulaKeyboardAdapter {
 				return buildSensor(Sensors.PHIRO_BOTTOM_LEFT);
 			case R.string.formula_editor_phiro_sensor_bottom_right:
 				return buildSensor(Sensors.PHIRO_BOTTOM_RIGHT);
+			case R.string.formula_editor_sensor_timer:
+				return buildSensor(Sensors.TIMER);
 			case R.string.formula_editor_sensor_date_year:
 				return buildSensor(Sensors.DATE_YEAR);
 			case R.string.formula_editor_sensor_date_month:
@@ -328,7 +355,6 @@ public class InternFormulaKeyboardAdapter {
 				return buildOperator(Operators.DIVIDE);
 			case R.string.formula_editor_operator_power:
 				return buildOperator(Operators.POW);
-			case R.id.formula_editor_keyboard_equal:
 			case R.string.formula_editor_logic_equal:
 				return buildOperator(Operators.EQUAL);
 			case R.string.formula_editor_logic_notequal:
@@ -402,6 +428,12 @@ public class InternFormulaKeyboardAdapter {
 						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_text_block_size:
 				return buildSingleParameterFunction(Functions.TEXT_BLOCK_SIZE,
+						InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_text_block_from_camera:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_FROM_CAMERA,
+						InternTokenType.NUMBER, "1");
+			case R.string.formula_editor_function_text_block_language_from_camera:
+				return buildSingleParameterFunction(Functions.TEXT_BLOCK_LANGUAGE_FROM_CAMERA,
 						InternTokenType.NUMBER, "1");
 			case R.string.formula_editor_function_collides_with_color:
 				return buildSingleParameterFunction(Functions.COLLIDES_WITH_COLOR, STRING, "#ff0000");
@@ -477,6 +509,21 @@ public class InternFormulaKeyboardAdapter {
 	private List<InternToken> buildSensor(Sensors sensor) {
 		List<InternToken> returnList = new LinkedList<InternToken>();
 		returnList.add(new InternToken(SENSOR, sensor.name()));
+		return returnList;
+	}
+
+	private List<InternToken> buildTripleParameterFunction(Functions function, InternTokenType firstParameter,
+			String firstParameterNumberValue, InternTokenType secondParameter, String secondParameterNumberValue,
+			InternTokenType thirdParameter, String thirdParameterNumberValue) {
+		List<InternToken> returnList = new LinkedList<InternToken>();
+		returnList.add(new InternToken(FUNCTION_NAME, function.name()));
+		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_OPEN));
+		returnList.add(new InternToken(firstParameter, firstParameterNumberValue));
+		returnList.add(new InternToken(FUNCTION_PARAMETER_DELIMITER));
+		returnList.add(new InternToken(secondParameter, secondParameterNumberValue));
+		returnList.add(new InternToken(FUNCTION_PARAMETER_DELIMITER));
+		returnList.add(new InternToken(thirdParameter, thirdParameterNumberValue));
+		returnList.add(new InternToken(FUNCTION_PARAMETERS_BRACKET_CLOSE));
 		return returnList;
 	}
 

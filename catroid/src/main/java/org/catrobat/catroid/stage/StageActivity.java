@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -23,9 +23,12 @@
 package org.catrobat.catroid.stage;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -34,6 +37,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.util.SparseArray;
@@ -57,8 +61,6 @@ import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.devices.raspberrypi.RaspberryPiService;
-import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoDeviceController;
-import org.catrobat.catroid.drone.jumpingsumo.JumpingSumoInitializer;
 import org.catrobat.catroid.io.StageAudioFocus;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.ui.MarketingActivity;
@@ -83,6 +85,7 @@ import androidx.test.espresso.idling.CountingIdlingResource;
 
 import static org.catrobat.catroid.common.Constants.SCREENSHOT_AUTOMATIC_FILE_NAME;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
+import static org.catrobat.catroid.ui.MainMenuActivity.surveyCampaign;
 
 public class StageActivity extends AndroidApplication implements PermissionHandlingActivity, PermissionAdaptingActivity {
 
@@ -107,7 +110,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	static int numberOfSpritesCloned;
 
 	public static Handler messageHandler;
-	JumpingSumoDeviceController jumpingSumoDeviceController;
 	CameraManager cameraManager;
 
 	public static SparseArray<IntentListener> intentListeners = new SparseArray<>();
@@ -131,6 +133,41 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	public void onPause() {
 		StageLifeCycleController.stagePause(this);
 		super.onPause();
+
+		if (surveyCampaign != null) {
+			surveyCampaign.endStageTime();
+
+			PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+			if (isApplicationSentToBackground(this) || !pm.isInteractive()) {
+				surveyCampaign.endAppTime(this);
+			}
+		}
+	}
+
+	private boolean isApplicationSentToBackground(final Context context) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+			List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+			ComponentName topActivity = tasks.get(0).topActivity;
+			if (topActivity.getPackageName().equals(context.getPackageName())) {
+				return false;
+			}
+		} else {
+			List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
+			for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+				if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+					for (String activeProcess : processInfo.pkgList) {
+						if (activeProcess.equals(context.getPackageName())) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override
@@ -138,6 +175,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		StageLifeCycleController.stageResume(this);
 		super.onResume();
 		activeStageActivity = new WeakReference<>(this);
+
+		if (surveyCampaign != null) {
+			surveyCampaign.startAppTime(this);
+			surveyCampaign.startStageTime();
+		}
 	}
 
 	@Override
@@ -243,15 +285,6 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		}
 
 		RaspberryPiService.getInstance().disconnect();
-	}
-
-	public boolean jumpingSumoDisconnect() {
-		boolean success;
-		if (jumpingSumoDeviceController != null && !jumpingSumoDeviceController.isConnected()) {
-			return true;
-		}
-		success = JumpingSumoInitializer.getInstance().disconnect();
-		return success;
 	}
 
 	public static CameraManager getActiveCameraManager() {
@@ -385,12 +418,15 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		if (intentListeners.indexOfKey(intentKey) < 0) {
 			return;
 		}
-		Intent i = intentListeners.get(intentKey).getTargetIntent();
+		Intent queuedIntent = intentListeners.get(intentKey).getTargetIntent();
+		if (queuedIntent == null) {
+			return;
+		}
 		Package pack = this.getClass().getPackage();
 		if (pack != null) {
-			i.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, pack.getName());
+			queuedIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, pack.getName());
 		}
-		this.startActivityForResult(i, intentKey);
+		this.startActivityForResult(queuedIntent, intentKey);
 	}
 
 	@Override
@@ -405,10 +441,11 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 			clipboard.setPrimaryClip(testResult);
 		}
 
-		//Register your intent with "queueIntent"
 		if (intentListeners.indexOfKey(requestCode) >= 0) {
 			IntentListener asker = intentListeners.get(requestCode);
-			asker.onIntentResult(resultCode, data);
+			if (data != null) {
+				asker.onIntentResult(resultCode, data);
+			}
 			intentListeners.remove(requestCode);
 		} else {
 			stageResourceHolder.onActivityResult(requestCode, resultCode, data);

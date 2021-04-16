@@ -84,6 +84,10 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 	}
 
 	@Override
+	public void onEditOptionSelected(Integer spinnerId) {
+	}
+
+	@Override
 	public void onStringOptionSelected(Integer spinnerId, String string) {
 	}
 

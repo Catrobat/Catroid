@@ -258,6 +258,12 @@
         <item>@string/brick_context_dialog_formula_edit_brick</item>
     </string-array>
 
+    <!-- Note picker selection -->
+    <string-array name="brick_select_note_picker">
+        <item>@string/brick_context_dialog_pick_note</item>
+        <item>@string/brick_context_dialog_formula_edit_brick</item>
+    </string-array>
+
     <!-- Physics object type spinner -->
     <string-array name="physics_object_types">
         <item>@string/brick_set_physics_object_type_dynamic</item>

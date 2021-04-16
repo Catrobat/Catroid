@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,9 +28,15 @@ import com.google.gson.JsonElement;
 
 import org.catrobat.catroid.content.bricks.Brick;
 
+import java.io.File;
 import java.lang.reflect.Type;
 
 public class BackpackFormulaFieldSerializerAndDeserializer extends BackpackInterfaceSerializerAndDeserializer<Brick.FormulaField> {
+
+	public BackpackFormulaFieldSerializerAndDeserializer(File file) {
+		super(file);
+	}
+
 	@Override
 	public Brick.FormulaField deserialize(JsonElement json, Type interfaceType, JsonDeserializationContext context) {
 		if (!json.isJsonObject()) {

@@ -26,27 +26,28 @@ import android.util.Log;
 
 import com.badlogic.gdx.scenes.scene2d.actions.TemporalAction;
 
-import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.Scope;
 import org.catrobat.catroid.formulaeditor.Formula;
 import org.catrobat.catroid.formulaeditor.InterpretationException;
 
 public class SetTransparencyAction extends TemporalAction {
 
-	private Sprite sprite;
+	private Scope scope;
 	private Formula transparency;
 
 	@Override
 	protected void update(float percent) {
 		try {
-			Float newTransparency = transparency == null ? Float.valueOf(0f) : transparency.interpretFloat(sprite);
-			sprite.look.setTransparencyInUserInterfaceDimensionUnit(newTransparency);
+			Float newTransparency = transparency == null ? Float.valueOf(0f)
+					: transparency.interpretFloat(scope);
+			scope.getSprite().look.setTransparencyInUserInterfaceDimensionUnit(newTransparency);
 		} catch (InterpretationException interpretationException) {
 			Log.d(getClass().getSimpleName(), "Formula interpretation for this specific Brick failed.", interpretationException);
 		}
 	}
 
-	public void setSprite(Sprite sprite) {
-		this.sprite = sprite;
+	public void setScope(Scope scope) {
+		this.scope = scope;
 	}
 
 	public void setTransparency(Formula transparency) {

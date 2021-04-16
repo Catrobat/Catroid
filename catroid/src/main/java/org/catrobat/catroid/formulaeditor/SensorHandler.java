@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -37,21 +37,17 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.WindowManager;
 
-import com.parrot.freeflight.service.DroneControlService;
-
 import org.catrobat.catroid.CatroidApplication;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
 import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
-import org.catrobat.catroid.camera.FaceDetector;
-import org.catrobat.catroid.camera.TextDetector;
+import org.catrobat.catroid.camera.FaceAndTextDetector;
 import org.catrobat.catroid.cast.CastManager;
 import org.catrobat.catroid.common.CatroidService;
 import org.catrobat.catroid.common.ServiceProvider;
 import org.catrobat.catroid.devices.arduino.phiro.Phiro;
 import org.catrobat.catroid.devices.mindstorms.ev3.LegoEV3;
 import org.catrobat.catroid.devices.mindstorms.nxt.LegoNXT;
-import org.catrobat.catroid.drone.ardrone.DroneServiceWrapper;
 import org.catrobat.catroid.nfc.NfcHandler;
 import org.catrobat.catroid.utils.TouchUtil;
 
@@ -82,10 +78,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float linearAccelerationY = 0f;
 	private float linearAccelerationZ = 0f;
 	private float loudness = 0f;
-	private float faceDetected = 0f;
-	private float faceSize = 0f;
-	private float facePositionX = 0f;
-	private float facePositionY = 0f;
+	private float firstFaceDetected = 0f;
+	private float firstFaceSize = 0f;
+	private float firstFacePositionX = 0f;
+	private float firstFacePositionY = 0f;
+	private float secondFaceDetected = 0f;
+	private float secondFaceSize = 0f;
+	private float secondFacePositionX = 0f;
+	private float secondFacePositionY = 0f;
 	private float textBlocksNumber = 0f;
 	private String textFromCamera = "0";
 
@@ -102,6 +102,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 	private float locationAccuracy = 0f;
 	private double altitude = 0d;
 	private static String userLocaleTag = Locale.getDefault().toLanguageTag();
+	public static double timerReferenceValue = 0d;
+	public static double timerPauseValue = 0d;
 
 	private static String listeningLanguageSensor;
 
@@ -204,8 +206,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 		SensorHandler.registerListener(instance);
 
-		FaceDetector.addListener(instance);
-		TextDetector.addListener(instance);
+		FaceAndTextDetector.addListener(instance);
 
 		if (instance.sensorLoudness != null) {
 			instance.sensorLoudness.registerListener(instance);
@@ -276,21 +277,18 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			instance.locationManager.removeGpsStatusListener(instance);
 		}
 
-		FaceDetector.removeListener(instance);
-		TextDetector.removeListener(instance);
+		FaceAndTextDetector.removeListener(instance);
 	}
 
 	public static Object getSensorValue(Sensors sensor) {
 		if (instance.sensorManager == null) {
 			return 0d;
 		}
-		DroneControlService dcs = DroneServiceWrapper.getDroneService();
 		Double sensorValue;
 		float[] rotationMatrixOut = new float[16];
 		int rotate;
 
 		switch (sensor) {
-
 			case X_ACCELERATION:
 				if ((rotate = rotateOrientation()) != 0) {
 					return (double) ((-instance.linearAccelerationY) * rotate);
@@ -445,20 +443,36 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 					}
 				}
 			case FACE_DETECTED:
-				return (double) instance.faceDetected;
+				return (double) instance.firstFaceDetected;
 			case FACE_SIZE:
-				return (double) instance.faceSize;
+				return (double) instance.firstFaceSize;
 			case FACE_X_POSITION:
 				if ((rotate = rotateOrientation()) != 0) {
-					return (double) ((-instance.facePositionY) * rotate);
+					return (double) ((-instance.firstFacePositionY) * rotate);
 				} else {
-					return (double) instance.facePositionX;
+					return (double) instance.firstFacePositionX;
 				}
 			case FACE_Y_POSITION:
 				if ((rotate = rotateOrientation()) != 0) {
-					return (double) instance.facePositionX * rotate;
+					return (double) instance.firstFacePositionX * rotate;
 				} else {
-					return (double) instance.facePositionY;
+					return (double) instance.firstFacePositionY;
+				}
+			case SECOND_FACE_DETECTED:
+				return (double) instance.secondFaceDetected;
+			case SECOND_FACE_SIZE:
+				return (double) instance.secondFaceSize;
+			case SECOND_FACE_X_POSITION:
+				if ((rotate = rotateOrientation()) != 0) {
+					return (double) ((-instance.secondFacePositionY) * rotate);
+				} else {
+					return (double) instance.secondFacePositionX;
+				}
+			case SECOND_FACE_Y_POSITION:
+				if ((rotate = rotateOrientation()) != 0) {
+					return (double) instance.secondFacePositionX * rotate;
+				} else {
+					return (double) instance.secondFacePositionY;
 				}
 			case TEXT_FROM_CAMERA:
 				return instance.textFromCamera;
@@ -466,6 +480,8 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return (double) instance.textBlocksNumber;
 			case LOUDNESS:
 				return (double) instance.loudness;
+			case TIMER:
+				return (SystemClock.uptimeMillis() - timerReferenceValue) / 1000d;
 			case DATE_YEAR:
 				return Double.valueOf(Calendar.getInstance().get(Calendar.YEAR));
 			case DATE_MONTH:
@@ -530,63 +546,22 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
 			case FINGER_Y:
 				return Double.valueOf(TouchUtil.getY(TouchUtil.getLastTouchIndex()));
+			case NUMBER_CURRENT_TOUCHES:
+				return Double.valueOf(TouchUtil.getNumberOfCurrentTouches());
 
 			case DRONE_BATTERY_STATUS:
-				return (double) dcs.getDroneNavData().batteryStatus;
-
 			case DRONE_EMERGENCY_STATE:
-				return (double) dcs.getDroneNavData().emergencyState;
-
 			case DRONE_USB_REMAINING_TIME:
-				return (double) dcs.getDroneNavData().usbRemainingTime;
-
 			case DRONE_NUM_FRAMES:
-				return (double) dcs.getDroneNavData().numFrames;
-
 			case DRONE_RECORDING:
-				if (dcs.getDroneNavData().recording) {
-					return 1d;
-				} else {
-					return 0d;
-				}
-
 			case DRONE_FLYING:
-				if (dcs.getDroneNavData().flying) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_INITIALIZED:
-				if (dcs.getDroneNavData().initialized) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_USB_ACTIVE:
-				if (dcs.getDroneNavData().usbActive) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_CAMERA_READY:
-				if (dcs.getDroneNavData().cameraReady) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
-
 			case DRONE_RECORD_READY:
-				if (dcs.getDroneNavData().recordReady) {
-					return 1.0;
-				} else {
-					return 0.0;
-				}
+				return 0d;
 			case NFC_TAG_MESSAGE:
 				return String.valueOf(NfcHandler.getLastNfcTagMessage());
-
 			case NFC_TAG_ID:
 				return String.valueOf(NfcHandler.getLastNfcTagId());
 			case SPEECH_RECOGNITION_LANGUAGE:
@@ -606,10 +581,14 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 
 	public static void clearFaceDetectionValues() {
 		if (instance != null) {
-			instance.faceDetected = 0f;
-			instance.faceSize = 0f;
-			instance.facePositionX = 0f;
-			instance.facePositionY = 0f;
+			instance.firstFaceDetected = 0f;
+			instance.firstFaceSize = 0f;
+			instance.firstFacePositionX = 0f;
+			instance.firstFacePositionY = 0f;
+			instance.secondFaceDetected = 0f;
+			instance.secondFaceSize = 0f;
+			instance.secondFacePositionX = 0f;
+			instance.secondFacePositionY = 0f;
 			instance.textFromCamera = "0";
 			instance.textBlocksNumber = 0f;
 		}
@@ -691,16 +670,28 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 				instance.loudness = event.values[0];
 				break;
 			case FACE_DETECTED:
-				instance.faceDetected = event.values[0];
+				instance.firstFaceDetected = event.values[0];
 				break;
 			case FACE_SIZE:
-				instance.faceSize = event.values[0];
+				instance.firstFaceSize = event.values[0];
 				break;
 			case FACE_X_POSITION:
-				instance.facePositionX = event.values[0];
+				instance.firstFacePositionX = event.values[0];
 				break;
 			case FACE_Y_POSITION:
-				instance.facePositionY = event.values[0];
+				instance.firstFacePositionY = event.values[0];
+				break;
+			case SECOND_FACE_DETECTED:
+				instance.secondFaceDetected = event.values[0];
+				break;
+			case SECOND_FACE_SIZE:
+				instance.secondFaceSize = event.values[0];
+				break;
+			case SECOND_FACE_X_POSITION:
+				instance.secondFacePositionX = event.values[0];
+				break;
+			case SECOND_FACE_Y_POSITION:
+				instance.secondFacePositionY = event.values[0];
 				break;
 			case TEXT_BLOCKS_NUMBER:
 				instance.textBlocksNumber = event.values[0];
