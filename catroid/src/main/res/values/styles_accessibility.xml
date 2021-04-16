@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Catroid: An on-device visual programming system for Android devices
-  ~ Copyright (C) 2010-2018 The Catrobat Team
+  ~ Copyright (C) 2010-2021 The Catrobat Team
   ~ (<http://developer.catrobat.org/credits>)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -86,20 +86,22 @@
 
     <!-- Icon Contrast -->
     <style name="CategoryIconContrastHigh" tools:ignore="UnusedResources">
-        <item name="icon_ardrone">@drawable/ardrone_neg</item>
-        <item name="icon_data">@drawable/data_neg</item>
-        <item name="icon_motion">@drawable/motion_neg</item>
-        <item name="icon_sound">@drawable/sound_neg</item>
-        <item name="icon_arduino">@drawable/arduino_neg</item>
-        <item name="icon_event">@drawable/event_neg</item>
-        <item name="icon_pen">@drawable/pen_neg</item>
-        <item name="icon_chromecast">@drawable/chromecast_neg</item>
-        <item name="icon_legonxt">@drawable/legonxt_neg</item>
-        <item name="icon_phiro">@drawable/phiro_neg</item>
-        <item name="icon_control">@drawable/control_neg</item>
-        <item name="icon_look">@drawable/look_neg</item>
-        <item name="icon_raspberrypi">@drawable/raspberrypi_neg</item>
-        <item name="icon_embroidery">@drawable/embroidery_neg</item>
-        <item name="icon_device">@drawable/device_neg</item>
+        <item name="icon_ardrone">@drawable/ic_ardrone_neg</item>
+        <item name="icon_data">@drawable/ic_data_neg</item>
+        <item name="icon_motion">@drawable/ic_motion_neg</item>
+        <item name="icon_sound">@drawable/ic_sound_neg</item>
+        <item name="icon_arduino">@drawable/ic_arduino_neg</item>
+        <item name="icon_event">@drawable/ic_event_neg</item>
+        <item name="icon_pen">@drawable/ic_pen_neg</item>
+        <item name="icon_chromecast">@drawable/ic_chromecast_neg</item>
+        <item name="icon_legonxt">@drawable/ic_legonxt_neg</item>
+        <item name="icon_phiro">@drawable/ic_phiro_neg</item>
+        <item name="icon_control">@drawable/ic_control_neg</item>
+        <item name="icon_look">@drawable/ic_look_neg</item>
+        <item name="icon_raspberrypi">@drawable/ic_raspberrypi_neg</item>
+        <item name="icon_embroidery">@drawable/ic_embroidery_neg</item>
+        <item name="icon_userbrick">@drawable/ic_your_brick_neg</item>
+        <item name="icon_device">@drawable/ic_device_neg</item>
+        <item name="icon_recently_used">@drawable/ic_recently_used_neg</item>
     </style>
 </resources>

@@ -1,0 +1,33 @@
+<!--
+  ~ Catroid: An on-device visual programming system for Android devices
+  ~ Copyright (C) 2010-2021 The Catrobat Team
+  ~ (<http://developer.catrobat.org/credits>)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License, or (at your option) any later version.
+  ~
+  ~ An additional term exception under section 7 of the GNU Affero
+  ~ General Public License, version 3, is available at
+  ~ http://developer.catrobat.org/license_additional_term
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<vector android:autoMirrored="true" android:height="24dp"
+    android:viewportHeight="200" android:viewportWidth="200"
+    android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path
+        android:fillColor="#fff"
+        android:pathData="M131.774,83.883l-15.808,-0.633c-8.813,-6.903 -15.534,-10.466 -25.11,-10.081c-7.172,0.29 -16.264,6.951 -16.552,15.029c-0.307,8.655 8.117,15.384 16.107,15.639c9.323,0.298 18.327,-3.422 27.078,-9.408l13.505,-0.366c3.448,4.049 8.643,6.347 14.075,6.232c6.512,-0.413 11.441,-5.831 11.012,-12.099c-0.406,-5.905 -5.439,-10.525 -11.578,-10.628C140.151,77.545 135.268,80.055 131.774,83.883z"/>
+    <path
+        android:fillColor="#fff"
+        android:pathData="M176.546,82.542c0.076,-18.743 0.156,-37.487 0.233,-56.229c1.952,-0.735 3.149,-2.638 2.918,-4.643c-0.444,-2.204 -2.493,-3.763 -4.82,-3.666c-2.486,-0.102 -4.586,1.757 -4.694,4.153c-0.087,2.066 1.345,3.907 3.426,4.4v40.686c-2.704,-2.052 -4.65,-3.132 -5.823,-3.243C144.328,27.935 94.964,17.018 57.526,39.618C20.091,62.217 8.761,109.777 32.218,145.842c23.459,36.067 72.82,46.986 110.259,24.384C173.074,151.756 187.031,115.83 176.546,82.542L176.546,82.542zM99.683,175.433C59.307,175.445 26.568,143.918 26.558,105.019c-0.01,-38.897 32.711,-70.44 73.083,-70.451c40.375,-0.01 73.119,31.514 73.129,70.414c0,0.006 0,0.013 0,0.019C172.774,143.894 140.051,175.428 99.683,175.433z"/>
+</vector>
