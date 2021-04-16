@@ -67,9 +67,9 @@ apply from: 'gradle/release_crowdin_tasks.gradle'
 apply from: 'gradle/release_fastlane_tasks.gradle'
 apply from: 'gradle/standalone_apk_tasks.gradle'
 
-if(rootProject.hasProperty('paintroidLocal')) {
-    paintroidVersion = paintroidVersion + "-LOCAL"
-}
+// if(rootProject.hasProperty('paintroidLocal')) {
+//     paintroidVersion = paintroidVersion + "-LOCAL"
+// }
 
 if (rootProject.hasProperty('independent')) {
     println "Independent build"
