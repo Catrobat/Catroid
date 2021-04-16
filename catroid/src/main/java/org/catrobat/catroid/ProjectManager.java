@@ -171,10 +171,6 @@ public final class ProjectManager {
 			SettingsFragment.setPhiroSharedPreferenceEnabled(context, true);
 		}
 
-		if (resourcesSet.contains(Brick.JUMPING_SUMO)) {
-			SettingsFragment.setJumpingSumoSharedPreferenceEnabled(context, true);
-		}
-
 		if (resourcesSet.contains(Brick.BLUETOOTH_SENSORS_ARDUINO)) {
 			SettingsFragment.setArduinoSharedPreferenceEnabled(context, true);
 		}

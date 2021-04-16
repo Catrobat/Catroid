@@ -206,9 +206,7 @@
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">คุณยังไม่สามารถเปิดโครงการ  โปรดดาวน์โหลดก่อนแล้วจึงเปิด</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">ฉันไม่สามารถแปลง %1$s ได้  ดูเหมือนว่าจะเป็นโครงการเก่าก่อนหน้า %2$s  โปรดลองอันอื่น</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="other">คุณไม่สามารถแปลงมากกว่า %d โครงการได้ในเวลาเดียวกัน  โปรดรอให้การแปลงที่ดำเนินการเสร็จสิ้นก่อน
-
- คุณไม่สามารถแปลงมากกว่า %d โครงการได้ในเวลาเดียวกัน  โปรดรอให้การแปลงที่ดำเนินการเสร็จสิ้นก่อน</item>
+        <item quantity="other">คุณไม่สามารถแปลงมากกว่า %d โครงการได้ในเวลาเดียวกัน  โปรดรอให้การแปลงที่ดำเนินการเสร็จสิ้นก่อน</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">คุณไม่สามารถเปิดโครงการเพราะมันไม่ได้แปลงอย่างถูกต้อง  โปรดลองแปลงอีกครั้ง</string>
     <string name="search_failed">ไม่พบสิ่งใดโปรดลองอีกครั้งในภายหลัง</string>
@@ -216,8 +214,7 @@
     <string name="connection_failed">เราไม่สามารถเชื่อมต่อคุณกับเซิร์ฟเวอร์ได้ในขณะนี้โปรดลองอีกครั้งในภายหลัง</string>
     <string name="authentication_failed">ดูเหมือนว่าจะมีปัญหากับการเชื่อมต่อกับบริการของคุณ  กรุณาติดต่อทีม Catrobat</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="other">เพิ่ม %d โครงการไปยังคิว&#8230;
-เพิ่ม %d โครงการไปยังคิว&#8230;</item>
+        <item quantity="other">เพิ่ม %d โครงการไปยังคิว&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">เริ่มแปลงโครงการแล้ว&#8230;</string>
     <string name="convert">แปลง</string>
@@ -227,14 +224,10 @@
     <string name="status_started">เริ่มต้น&#8230;</string>
     <string name="status_conversion_finished">การแปลงเสร็จสิ้น</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="other">กำลังดำเนินการ %d งาน
-
-กำลังดำเนินการ %d งาน</item>
+        <item quantity="other">กำลังดำเนินการ %d งาน</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="other">เสร็จงาน %d
-
-เสร็จงาน %d</item>
+        <item quantity="other">เสร็จงาน %d</item>
     </plurals>
     <string name="status_conversion_failed">การแปลงล้มเหลว!</string>
     <string name="status_downloading">ดาวน์โหลด&#8230;</string>
@@ -259,16 +252,13 @@
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">คุณแปลงโครงการนี้ %1$s ที่ผ่านมา</string>
     <plurals name="minutes">
-        <item quantity="other">%d นาที
-%d นาที</item>
+        <item quantity="other">%d นาที</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">%d ชั่วโมง
-%d ชั่วโมง</item>
+        <item quantity="other">%d ชั่วโมง</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">%d วัน
-%d วัน</item>
+        <item quantity="other">%d วัน</item>
     </plurals>
     <string name="reconvert_dialog_download">ดาวน์โหลดโครงการอีกครั้ง</string>
     <string name="reconvert_dialog_reconvert">แปลงโครงการนี้อีกครั้ง</string>

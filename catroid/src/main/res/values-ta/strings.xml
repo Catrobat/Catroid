@@ -212,9 +212,9 @@
 முதலில் அதை பதிவிறக்கம் செய்து பின்னர் திறக்கவும்.</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">என்னால் %1$s ஐ மாற்ற முடியவில்லை. இது %2$s க்கு முந்தைய பழைய கீறல் திட்டமாகத் தெரிகிறது. தயவுசெய்து இன்னொன்றை முயற்சிக்கவும்.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">நீங்கள் ஒரே நேரத்தில்% d திட்டத்தை விட அதிகமாக மாற்ற முடியாது. தயவுசெய்து காத்திருங்கள்
+        <item quantity="one">நீங்கள் ஒரே நேரத்தில் %d திட்டத்தை விட அதிகமாக மாற்ற முடியாது. தயவுசெய்து காத்திருங்கள்
             முதலில் முடித்த மாற்றங்களை இயக்குகிறது.</item>
-        <item quantity="other">நீங்கள் ஒரே நேரத்தில்% d திட்டத்தை விட அதிகமாக மாற்ற முடியாது. தயவுசெய்து காத்திருங்கள்
+        <item quantity="other">நீங்கள் ஒரே நேரத்தில் %d திட்டத்தை விட அதிகமாக மாற்ற முடியாது. தயவுசெய்து காத்திருங்கள்
             முதலில் முடித்த மாற்றங்களை இயக்குகிறது.</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">திட்டத்தை நீங்கள் திறக்க முடியாது, ஏனெனில் அது         சரியாக மாற்றப்படவில்லை. அதை மீண்டும் மாற்ற முயற்சிக்கவும்.</string>
@@ -224,8 +224,8 @@
     <string name="authentication_failed">சேவையுடனான உங்கள் இணைப்பில் சிக்கல் இருப்பதாகத் தெரிகிறது. தயவு செய்து
         கேட்ரோபாட் குழுவைத் தொடர்பு கொள்ளுங்கள்.</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">வரிசையில்% d கீறல் திட்டம் சேர்க்கப்பட்டது&#8230;</item>
-        <item quantity="other">வரிசையில்% d கீறல் திட்டம் சேர்க்கப்பட்டது&#8230;</item>
+        <item quantity="one">வரிசையில் %d கீறல் திட்டம் சேர்க்கப்பட்டது&#8230;</item>
+        <item quantity="other">வரிசையில் %d கீறல் திட்டம் சேர்க்கப்பட்டது&#8230;</item>
     </plurals>
     <string name="scratch_conversion_started">கீறல் திட்டத்தை மாற்றத் தொடங்கியது&#8230;</string>
     <string name="convert">மாற்று</string>
@@ -235,12 +235,12 @@
     <string name="status_started">தொடங்கியது&#8230;</string>
     <string name="status_conversion_finished">மாற்றம் பூர்த்தியானது</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">செயலில் உள்ளது:% d வேலை</item>
-        <item quantity="other">செயலில் உள்ளது:% d வேலை</item>
+        <item quantity="one">செயலில் உள்ளது: %d வேலை</item>
+        <item quantity="other">செயலில் உள்ளது: %d வேலை</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">முடிந்தது:% d வேலை</item>
-        <item quantity="other">முடிந்தது:% d வேலை</item>
+        <item quantity="one">முடிந்தது: %d வேலை</item>
+        <item quantity="other">முடிந்தது: %d வேலை</item>
     </plurals>
     <string name="status_conversion_failed">மாற்றம் தோல்வியுற்றது!</string>
     <string name="status_downloading">பதிவிறக்கம் நடைபெறுகிறுது&#8230;</string>
@@ -248,7 +248,7 @@
     <string name="status_download_canceled">பதிவிறக்கம் ரத்து செய்யப்பட்டது!</string>
     <string name="scratch_programs_in_progress_title">செயலில் உள்ளது</string>
     <string name="scratch_programs_finished_title">மாற்றப்பட்ட திட்டங்கள்</string>
-    <string name="by_x">மூலம் %s</string>
+    <string name="by_x">மூலம் %1$s</string>
     <string name="warning_program_visibility">எச்சரிக்கை: \ n இது ஒரு தனியார் திட்டமாகத் தெரிகிறது. நீங்கள் அதை மாற்ற முயற்சி செய்யலாம், ஆனால் அது வேலை செய்யாமல் போகலாம்.</string>
     <string name="instructions">அறிவுறுத்தல்கள்</string>
     <string name="notes_and_credits">குறிப்புகள் மற்றும் வரவுகள்</string>
@@ -266,15 +266,15 @@
     <string name="reconvert_text">இந்த திட்டத்தை %1$s க்கு முன்பு மாற்றியுள்ளீர்கள்.</string>
     <plurals name="minutes">
         <item quantity="one">%d நிமிடம்</item>
-        <item quantity="other">% d நிமிடங்கள்</item>
+        <item quantity="other">%d நிமிடங்கள்</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">% d மணி</item>
-        <item quantity="other">% d மணிநேரம்</item>
+        <item quantity="one">%d மணி</item>
+        <item quantity="other">%d மணிநேரம்</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">% d நாள்</item>
-        <item quantity="other">% d நாட்கள்</item>
+        <item quantity="one">%d நாள்</item>
+        <item quantity="other">%d நாட்கள்</item>
     </plurals>
     <string name="reconvert_dialog_download">திட்டத்தை மீண்டும் பதிவிறக்கவும்</string>
     <string name="reconvert_dialog_reconvert">இந்த திட்டத்தை மீண்டும் மாற்றவும்</string>
@@ -364,7 +364,7 @@
     <string name="scene_details">நடிகர்கள் %d மற்றும் %d பொருள்கள் %d</string>
     <string name="sprite_details">செங்கல் %d தோற்றம் %d ஒலி %d</string>
     <string name="look_details">தீர்மானம் %s அளவு %s</string>
-    <string name="sound_duration">கால அளவு:%1$s</string>
+    <string name="sound_duration">கால அளவு: %s</string>
     <string name="sound_details">கால அளவு:%s, அளவு:%s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
@@ -383,42 +383,42 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d காட்சி.</item>
-        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d காட்சிகள்.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட%d காட்சி.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட%d காட்சிகள்.</item>
     </plurals>
     <plurals name="packed_sprites">
-        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d நடிகர் அல்லது பொருள்.</item>
-        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d நடிகர்கள் அல்லது பொருள்கள்.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட%d நடிகர் அல்லது பொருள்.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட%d நடிகர்கள் அல்லது பொருள்கள்.</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d தோற்றம்.</item>
-        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d தோற்றங்கள்.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட%d தோற்றம்.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட%d தோற்றங்கள்.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">பேக் பேக் செய்யப்பட்ட% d ஒலி.</item>
-        <item quantity="other">பேக் பேக் செய்யப்பட்ட% d ஒலிகள்.</item>
+        <item quantity="one">பேக் பேக் செய்யப்பட்ட%d ஒலி.</item>
+        <item quantity="other">பேக் பேக் செய்யப்பட்ட%d ஒலிகள்.</item>
     </plurals>
     <string name="packed_script_group">ஒரு ஸ்கிரிப்ட்  குழுவை பேக் பேக் செய்தது.</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">தொகுக்கப்படாத% d காட்சி.</item>
-        <item quantity="other">தொகுக்கப்படாத% d காட்சிகள்.</item>
+        <item quantity="one">தொகுக்கப்படாத %d காட்சி.</item>
+        <item quantity="other">தொகுக்கப்படாத %d காட்சிகள்.</item>
     </plurals>
     <plurals name="unpacked_sprites">
-        <item quantity="one">தொகுக்கப்படாத% d நடிகர் அல்லது பொருள்.</item>
-        <item quantity="other">தொகுக்கப்படாத % d நடிகர்கள் அல்லது பொருள்கள்.</item>
+        <item quantity="one">தொகுக்கப்படாத %d நடிகர் அல்லது பொருள்.</item>
+        <item quantity="other">தொகுக்கப்படாத %d நடிகர்கள் அல்லது பொருள்கள்.</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">தொகுக்கப்படாத% d தோற்றங்கள்.</item>
-        <item quantity="other">தொகுக்கப்படாத% d தோற்றம்.</item>
+        <item quantity="one">தொகுக்கப்படாத %d தோற்றங்கள்.</item>
+        <item quantity="other">தொகுக்கப்படாத %d தோற்றம்.</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">தொகுக்கப்படாத% d ஒலி.</item>
-        <item quantity="other">தொகுக்கப்படாத% d ஒலிகள்.</item>
+        <item quantity="one">தொகுக்கப்படாத %d ஒலி.</item>
+        <item quantity="other">தொகுக்கப்படாத %d ஒலிகள்.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">தொகுக்கப்படாத% d ஸ்கிரிப்ட்.</item>
-        <item quantity="other">தொகுக்கப்படாத% d ஸ்கிரிப்ட்கள்.</item>
+        <item quantity="one">தொகுக்கப்படாத %d ஸ்கிரிப்ட்.</item>
+        <item quantity="other">தொகுக்கப்படாத %d ஸ்கிரிப்ட்கள்.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
@@ -430,49 +430,49 @@
         <item quantity="other">%d நடிகர்கள் அல்லது பொருள்கள் நகலெடுக்கப்பட்டன.</item>
     </plurals>
     <plurals name="copied_looks">
-        <item quantity="one">% D தோற்றம் நகலெடுக்கப்பட்டது.</item>
-        <item quantity="other">நகலெடுக்கப்பட்ட% d தோற்றம்.</item>
+        <item quantity="one">%d தோற்றம் நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">நகலெடுக்கப்பட்ட%d தோற்றம்.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">% D ஒலி நகலெடுக்கப்பட்டது.</item>
-        <item quantity="other">% D ஒலிகளை நகலெடுத்தது.</item>
+        <item quantity="one">%d ஒலி நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">%d ஒலிகளை நகலெடுத்தது.</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">% D NFC குறிச்சொல் நகலெடுக்கப்பட்டது.</item>
-        <item quantity="other">% D NFC குறிச்சொற்கள் நகலெடுக்கப்பட்டன.</item>
+        <item quantity="one">%d NFC குறிச்சொல் நகலெடுக்கப்பட்டது.</item>
+        <item quantity="other">%d NFC குறிச்சொற்கள் நகலெடுக்கப்பட்டன.</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">% D திட்டம் நீக்கப்பட்டது.</item>
-        <item quantity="other">% D திட்டங்கள் நீக்கப்பட்டன.</item>
+        <item quantity="one">%d திட்டம் நீக்கப்பட்டது.</item>
+        <item quantity="other">%d திட்டங்கள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">% D காட்சி நீக்கப்பட்டது.</item>
-        <item quantity="other">% D காட்சிகள் நீக்கப்பட்டன.</item>
+        <item quantity="one">%d காட்சி நீக்கப்பட்டது.</item>
+        <item quantity="other">%d காட்சிகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">% D ஸ்பிரிட் நீக்கப்பட்டது.</item>
-        <item quantity="other">% D ஸ்பிரிட்டுகள் நீக்கப்பட்டன.</item>
+        <item quantity="one">%d ஸ்பிரிட் நீக்கப்பட்டது.</item>
+        <item quantity="other">%d ஸ்பிரிட்டுகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one">% D காட்சி நீக்கப்பட்டது.</item>
-        <item quantity="other">% D காட்சிகள் நீக்கப்பட்டன.</item>
+        <item quantity="one">%d காட்சி நீக்கப்பட்டது.</item>
+        <item quantity="other">%d காட்சிகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">% D ஒலி நீக்கப்பட்டது.</item>
-        <item quantity="other">% D ஒலிகளை நீக்கப்பட்டன.</item>
+        <item quantity="one">%d ஒலி நீக்கப்பட்டது.</item>
+        <item quantity="other">%d ஒலிகளை நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">% D NFC குறிச்சொல் நீக்கப்பட்டது.</item>
-        <item quantity="other">% D NFC குறிச்சொற்கள் நீக்கப்பட்டது.</item>
+        <item quantity="one">%d NFC குறிச்சொல் நீக்கப்பட்டது.</item>
+        <item quantity="other">%d NFC குறிச்சொற்கள் நீக்கப்பட்டது.</item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">% D ஸ்பிரிட் நீக்கப்பட்டது.</item>
-        <item quantity="other">% D ஸ்பிரிட்டுகள் நீக்கப்பட்டன.</item>
+        <item quantity="one">%d ஸ்பிரிட் நீக்கப்பட்டது.</item>
+        <item quantity="other">%d ஸ்பிரிட்டுகள் நீக்கப்பட்டன.</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">% D உருப்படி நீக்கப்பட்டது.</item>
-        <item quantity="other">% D உருப்படிகளை நீக்கியது.</item>
+        <item quantity="one">%d உருப்படி நீக்கப்பட்டது.</item>
+        <item quantity="other">%d உருப்படிகளை நீக்கியது.</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -1116,7 +1116,7 @@
     <!-- Default Values -->
     <string name="default_project_name">My project</string>
     <string name="default_variable_name">Variable</string>
-    <string name="default_scene_name">Scene %1$d</string>
+    <string name="default_scene_name">Scene (%1$d)</string>
     <string name="default_script_group_name">Script group</string>
     <string name="default_broadcast_message_name">செய்தி</string>
     <string name="default_list_name">List</string>

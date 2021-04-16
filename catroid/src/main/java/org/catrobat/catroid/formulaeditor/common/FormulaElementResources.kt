@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -69,17 +69,6 @@ object FormulaElementResources {
             Sensors.PHIRO_SIDE_RIGHT,
             Sensors.PHIRO_BOTTOM_LEFT,
             Sensors.PHIRO_BOTTOM_RIGHT -> Brick.BLUETOOTH_PHIRO
-
-            Sensors.DRONE_BATTERY_STATUS,
-            Sensors.DRONE_CAMERA_READY,
-            Sensors.DRONE_EMERGENCY_STATE,
-            Sensors.DRONE_FLYING,
-            Sensors.DRONE_INITIALIZED,
-            Sensors.DRONE_NUM_FRAMES,
-            Sensors.DRONE_RECORD_READY,
-            Sensors.DRONE_RECORDING,
-            Sensors.DRONE_USB_ACTIVE,
-            Sensors.DRONE_USB_REMAINING_TIME -> Brick.ARDRONE_SUPPORT
 
             Sensors.NFC_TAG_MESSAGE,
             Sensors.NFC_TAG_ID -> Brick.NFC_ADAPTER

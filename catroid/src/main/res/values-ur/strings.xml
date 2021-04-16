@@ -208,8 +208,8 @@
     <string name="error_cannot_open_not_yet_downloaded_scratch_program">آپ ابھی تک اس منصوبے کو کھول نہیں سکتے ہیں. براہ کرم اسے پہلے ڈاؤن لوڈ کریں اور پھر کھولیں.</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">میں %1$s کو تبدیل نہیں کر سکا. ایسا لگتا ہے کہ %2$s سے پہلے ایک پرانے سکریچ پروجیکٹ ہو. ایک اور کوشش کریں.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">آپ ایک ہی وقت میں٪ d منصوبے سے زیادہ تبدیل نہیں کر سکتے ہیں. براہ کرم سب سے پہلے ختم کرنے کیلئے چلنے والے تبادلے کا انتظار کریں.</item>
-        <item quantity="other">آپ ایک ہی وقت میں٪ d منصوبے سے زیادہ تبدیل نہیں کر سکتے ہیں. براہ کرم سب سے پہلے ختم کرنے کیلئے چلنے والے تبادلے کا انتظار کریں.</item>
+        <item quantity="one">آپ ایک ہی وقت میں%d منصوبے سے زیادہ تبدیل نہیں کر سکتے ہیں. براہ کرم سب سے پہلے ختم کرنے کیلئے چلنے والے تبادلے کا انتظار کریں.</item>
+        <item quantity="other">آپ ایک ہی وقت میں %d منصوبے سے زیادہ تبدیل نہیں کر سکتے ہیں. براہ کرم سب سے پہلے ختم کرنے کیلئے چلنے والے تبادلے کا انتظار کریں.</item>
     </plurals>
     <string name="error_cannot_open_failed_scratch_program">آپ اس منصوبے کو کھول نہیں سکتے کیونکہ اس کو صحیح طریقے سے تبدیل نہیں کیا گیا تھا. براہ کرم اسے دوبارہ تبدیل کرنے کی کوشش کریں.</string>
     <string name="search_failed">کچھ بھی نہیں مل سکا، بعد میں دوبارہ کوشش کریں.</string>
@@ -228,16 +228,12 @@
     <string name="status_started">شروع&#8230;</string>
     <string name="status_conversion_finished">تبادلوں کا خاتمہ</string>
     <plurals name="status_in_progress_x_jobs">
-        <item quantity="one">ترقی میں:٪ d کام
-ترقی میں:٪ d ملازمت</item>
-        <item quantity="other">ترقی میں:٪ d کام
-ترقی میں:٪ d ملازمت</item>
+        <item quantity="one">ترقی میں:%d کام</item>
+        <item quantity="other">ترقی میں:%d ملازمت</item>
     </plurals>
     <plurals name="status_completed_x_jobs">
-        <item quantity="one">مکمل:٪ d ملازمت
-مکمل:٪ d ملازمت</item>
-        <item quantity="other">مکمل:٪ d ملازمت
-مکمل:٪ d ملازمت</item>
+        <item quantity="one">مکمل:%d ملازمت</item>
+        <item quantity="other">مکمل:%d ملازمت</item>
     </plurals>
     <string name="status_conversion_failed">تبادلوں میں ناکامی</string>
     <string name="status_downloading">ڈاؤن لوڈ کر رہا ہے&#8230;</string>
@@ -262,22 +258,16 @@
     <!-- ScratchReconvertDialog Strings -->
     <string name="reconvert_text">آپ نے اس منصوبے کو %1$s پہلے تبدیل کر دیا.</string>
     <plurals name="minutes">
-        <item quantity="one">٪ d منٹ
-٪ d منٹ</item>
-        <item quantity="other">٪ d منٹ
-٪ d منٹ</item>
+        <item quantity="one">%d منٹ</item>
+        <item quantity="other">%d منٹ</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">٪ d گھنٹے
-٪ d گھنٹے</item>
-        <item quantity="other">٪ d گھنٹے
-٪ d گھنٹے</item>
+        <item quantity="one">%d گھنٹے</item>
+        <item quantity="other">%d گھنٹے</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">٪ d دن
-٪ d دن</item>
-        <item quantity="other">٪ d دن
-٪ d دن</item>
+        <item quantity="one">%d دن</item>
+        <item quantity="other">%d دن</item>
     </plurals>
     <string name="reconvert_dialog_download">پروجیکٹ دوبارہ ڈاؤن لوڈ کریں</string>
     <string name="reconvert_dialog_reconvert">اس پروجیکٹ  کو دوبارہ تبدیل کریں</string>
@@ -371,7 +361,7 @@
     <string name="scene_details">اداکار اور آبجیکٹ: %d،  نظر: %d، آواز: %d</string>
     <string name="sprite_details">اینٹوں: %d،  نظر  : %d، آواز: %d</string>
     <string name="look_details">قرارداد:٪ %s، سائز:٪ %s</string>
-    <string name="sound_duration">دورانیہ: %1$s</string>
+    <string name="sound_duration">دورانیہ: %s</string>
     <string name="sound_details">قرارداد:٪ %s، سائز:٪ %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
@@ -390,115 +380,96 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">بیگ پیک ٪ d منظر.</item>
-        <item quantity="other">بیگ پیک ٪ d منظر.</item>
+        <item quantity="one">بیگ پیک %d منظر.</item>
+        <item quantity="other">بیگ پیک %d منظر.</item>
     </plurals>
     <plurals name="packed_sprites">
         <item quantity="one">بیک پیک  %d اداکار یا آبجیکٹ ہے ۔</item>
         <item quantity="other">بیک پیک  %d اداکار یا آبجیکٹ ہے ۔</item>
     </plurals>
     <plurals name="packed_looks">
-        <item quantity="one">بیگ پیک ٪ d نظر.</item>
-        <item quantity="other">بیگ پیک ٪ d نظر.</item>
+        <item quantity="one">بیگ پیک %d نظر.</item>
+        <item quantity="other">بیگ پیک %d نظر.</item>
     </plurals>
     <plurals name="packed_sounds">
-        <item quantity="one">بیگ پیک ٪ d  آواز.</item>
-        <item quantity="other">بیگ پیک ٪ d  آواز.</item>
+        <item quantity="one">بیگ پیک %d  آواز.</item>
+        <item quantity="other">بیگ پیک %d آواز.</item>
     </plurals>
     <string name="packed_script_group">بیگ پیک  ایک سکرپٹ گروپ</string>
     <!-- Unpack -->
     <plurals name="unpacked_scenes">
-        <item quantity="one">  کھولیں٪ d منظر</item>
-        <item quantity="other">  کھولیں٪ d منظر</item>
+        <item quantity="one">  کھولیں%d منظر</item>
+        <item quantity="other">  کھولیں%d منظر</item>
     </plurals>
     <plurals name="unpacked_sprites">
         <item quantity="one">غیر فعال %d اداکار یا آبجیکٹ ہے ۔</item>
         <item quantity="other">غیر فعال %d اداکار یا آبجیکٹ ہے ۔</item>
     </plurals>
     <plurals name="unpacked_looks">
-        <item quantity="one">  کھولیں٪ d نظر</item>
-        <item quantity="other">  کھولیں٪ d نظر</item>
+        <item quantity="one">  کھولیں%d نظر</item>
+        <item quantity="other">  کھولیں%d نظر</item>
     </plurals>
     <plurals name="unpacked_sounds">
-        <item quantity="one">  کھولیں٪ d آواز.</item>
-        <item quantity="other">  کھولیں٪ d آواز.</item>
+        <item quantity="one">  کھولیں%d آواز.</item>
+        <item quantity="other">  کھولیں%d آواز.</item>
     </plurals>
     <plurals name="unpacked_scripts">
-        <item quantity="one">  کھولیں٪ d سکرپٹ</item>
+        <item quantity="one">  کھولیں%d سکرپٹ</item>
         <item quantity="other">کھولیں %d سکرپٹ.</item>
     </plurals>
     <!-- Copy -->
     <plurals name="copied_scenes">
-        <item quantity="one">کاپی کیا ٪ d منظر  
- کاپی٪ d مناظر.</item>
-        <item quantity="other">کاپی کیا ٪ d منظر  
- کاپی٪ d مناظر.</item>
+        <item quantity="one">کاپی کیا %d منظر.</item>
+        <item quantity="other"> کاپی %d مناظر.</item>
     </plurals>
     <plurals name="copied_sprites">
-        <item quantity="one">٪ d اداکاروں یا آبجیکٹ کاپی کریں
-٪ d اداکاروں یا آبجیکٹ کاپی کریں</item>
-        <item quantity="other">٪ d اداکاروں یا آبجیکٹ کاپی کریں
-٪ d اداکاروں یا آبجیکٹ کاپی کریں</item>
+        <item quantity="one">%d اداکاروں یا آبجیکٹ کاپی کریں</item>
+        <item quantity="other">%d اداکاروں یا آبجیکٹ کاپی کریں</item>
     </plurals>
     <plurals name="copied_looks">
         <item quantity="one">کاپی کیا %d نظر.</item>
         <item quantity="other">کاپی کیا %d نظر.</item>
     </plurals>
     <plurals name="copied_sounds">
-        <item quantity="one">٪ d آواز کاپی کریں:
-٪ d آواز کاپی کریں:</item>
-        <item quantity="other">٪ d آواز کاپی کریں:
-٪ d آواز کاپی کریں:</item>
+        <item quantity="one">%d آواز کاپی کریں:</item>
+        <item quantity="other">%dآواز کاپی کریں:</item>
     </plurals>
     <plurals name="copied_nfc_tags">
-        <item quantity="one">٪ d این ایف سی ٹیگ کو کاپی کریں
-٪ d این ایف سی ٹیگز کاپی کریں</item>
-        <item quantity="other">٪ d این ایف سی ٹیگ کو کاپی کریں
-٪ d این ایف سی ٹیگز کاپی کریں</item>
+        <item quantity="one">%d این ایف سی ٹیگ کو کاپی کریں</item>
+        <item quantity="other">%d این ایف سی ٹیگز کاپی کریں</item>
     </plurals>
     <!-- Delete -->
     <plurals name="deleted_projects">
-        <item quantity="one">٪ d پروجیکٹ ختم کرو
-٪ d پروجیکٹ کو ختم کرو</item>
-        <item quantity="other">٪ d پروجیکٹ ختم کرو
-٪ d پروجیکٹ کو ختم کرو</item>
+        <item quantity="one"> %dپروجیکٹ ختم کرو</item>
+        <item quantity="other">%d پروجیکٹ کو ختم کرو</item>
     </plurals>
     <plurals name="deleted_scenes">
-        <item quantity="one">ختم٪ d منظر
-ختم٪ d مناظر</item>
-        <item quantity="other">ختم٪ d منظر
-ختم٪ d مناظر</item>
+        <item quantity="one">ختم%dمنظر</item>
+        <item quantity="other">تم%d مناظر</item>
     </plurals>
     <plurals name="deleted_sprites">
-        <item quantity="one">ختم٪ d جن.
-ختم٪ d جن.</item>
-        <item quantity="other">Deleted %d sprites.</item>
+        <item quantity="one">ختم%d جن.</item>
+        <item quantity="other">ختم%d جن.</item>
     </plurals>
     <plurals name="deleted_looks">
-        <item quantity="one"> ختم کریں % نظکوکو.</item>
-        <item quantity="other"> ختم کریں % نظکوکو.</item>
+        <item quantity="one"> ختم کریں %d نظکوکو.</item>
+        <item quantity="other"> ختم کریں %d نظکوکو.</item>
     </plurals>
     <plurals name="deleted_sounds">
-        <item quantity="one">٪ d آواز ختم کریں</item>
-        <item quantity="other">٪ d آواز ختم کریں</item>
+        <item quantity="one">%d آواز ختم کریں</item>
+        <item quantity="other">%d آواز ختم کریں</item>
     </plurals>
     <plurals name="deleted_nfc_tags">
-        <item quantity="one">٪ d این ایف سی ٹیگ کو حذف کریں
-٪ d این ایف سی ٹیگ کو حذف کریں </item>
-        <item quantity="other">٪ d این ایف سی ٹیگ کو حذف کریں
-٪ d این ایف سی ٹیگ کو حذف کریں </item>
+        <item quantity="one">%d این ایف سی ٹیگ کو حذف کریں</item>
+        <item quantity="other">%d این ایف سی ٹیگ کو حذف کریں </item>
     </plurals>
     <plurals name="deleted_scripts">
-        <item quantity="one">٪ d سکرپٹ کو حذف کریں
-٪ d سکرپٹ حذف کریں</item>
-        <item quantity="other">٪ d سکرپٹ کو حذف کریں
-٪ d سکرپٹ حذف کریں</item>
+        <item quantity="one">%d سکرپٹ کو حذف کریں</item>
+        <item quantity="other">%d سکرپٹ حذف کریں</item>
     </plurals>
     <plurals name="deleted_Items">
-        <item quantity="one">٪ d اشیاء کو خارج کر دیا
-٪ d اشیاء کو خارج کر دیا</item>
-        <item quantity="other">٪ d اشیاء کو خارج کر دیا
-٪ d اشیاء کو خارج کر دیا</item>
+        <item quantity="one">%d اشیاء کو خارج کر دیا</item>
+        <item quantity="other">%d اشیاء کو خارج کر دیا</item>
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
@@ -1812,8 +1783,8 @@
     <string name="formula_editor_intro_title_functions">افعال</string>
     <string name="formula_editor_intro_summary_functions">ایک کیلکولیٹر کی طرح، فارمولہ ایڈیٹر بہت سے ریاضیاتی افعال پیش کرتا ہے. \ \"آپ trigonometric افعال جیسے\" ساین \"اور\" کاس \"، بے ترتیب تعداد جنریٹر، اور متن اور فہرست کے افعال کو تلاش کرسکتے ہیں.</string>
     <string name="formula_editor_intro_title_logic">منطق</string>
-    <string name="formula_editor_intro_summary_logic">منطق اقدار کا موازنہ کرنے کے لئے استعمال کیا جاتا ہے اور منطقی فارمولا کو یکجا جاتا ہے. \ n
-         اقدار کی موازنہ کریں جو آپ منطقی کارروائیوں کا استعمال کرسکتے ہیں جیسے \"&amp; gt؛\" (سے زیادہ) یا \"=\" (مساوات). \ n جمع کرنے کے لئے
+    <string name="formula_editor_intro_summary_logic">منطق اقدار کا موازنہ کرنے کے لئے استعمال کیا جاتا ہے اور منطقی فارمولا کو یکجا جاتا ہے. \n
+         اقدار کی موازنہ کریں جو آپ منطقی کارروائیوں کا استعمال کرسکتے ہیں جیسے \"&gt;\" (سے زیادہ) یا \"=\" (مساوات). \n جمع کرنے کے لئے
          منطقی فارمولا آپ منطقی کارروائیوں جیسے \"AND\"، \"OR\" اور \"NOT\" استعمال کرسکتے ہیں.</string>
     <string name="formula_editor_intro_title_device">سینسر</string>
     <string name="formula_editor_intro_summary_device">\"سینسر\" میں آپ معلومات حاصل کرسکتے ہیں کہ آپ کے آلے کا ریکارڈ. \ n مثال کے طور پر، آپ کے آلے کا جھگڑا، یا آپ کے ارد گرد کی بلند آواز.</string>

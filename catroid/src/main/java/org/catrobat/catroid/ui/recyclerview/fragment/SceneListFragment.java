@@ -39,6 +39,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.SceneAdapter;
 import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -76,7 +77,7 @@ public class SceneListFragment extends RecyclerViewFragment<Scene> implements Pr
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		menu.findItem(R.id.new_group).setVisible(false);
 		menu.findItem(R.id.new_scene).setVisible(false);

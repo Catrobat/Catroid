@@ -44,6 +44,7 @@ import org.catrobat.catroid.ui.recyclerview.backpack.BackpackActivity;
 import org.catrobat.catroid.ui.recyclerview.controller.LookController;
 import org.catrobat.catroid.utils.SnackbarUtil;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -67,6 +68,10 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 
 	private LookData currentItem;
 
+	public LookListFragment() {
+		// required empty constructor
+	}
+
 	@Override
 	protected void initializeAdapter() {
 		SnackbarUtil.showHintSnackbar(getActivity(), R.string.hint_looks);
@@ -78,7 +83,7 @@ public class LookListFragment extends RecyclerViewFragment<LookData> {
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 
 		menu.findItem(R.id.catblocks_reorder_scripts).setVisible(false);

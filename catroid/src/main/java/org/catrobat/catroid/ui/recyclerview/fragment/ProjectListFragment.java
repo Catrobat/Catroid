@@ -53,6 +53,7 @@ import org.catrobat.catroid.ui.recyclerview.adapter.ProjectAdapter;
 import org.catrobat.catroid.ui.recyclerview.viewholder.CheckableVH;
 import org.catrobat.catroid.ui.runtimepermissions.RequiresPermissionTask;
 import org.catrobat.catroid.utils.ToastUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -430,7 +431,7 @@ public class ProjectListFragment extends RecyclerViewFragment<ProjectData> imple
 	}
 
 	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
+	public void onPrepareOptionsMenu(@NotNull Menu menu) {
 		super.onPrepareOptionsMenu(menu);
 		Context context = getActivity();
 		if (context != null) {

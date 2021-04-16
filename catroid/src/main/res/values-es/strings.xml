@@ -385,9 +385,7 @@
     <!-- Action Toasts -->
     <!-- Backpack -->
     <plurals name="packed_scenes">
-        <item quantity="one">Escena guardada en la mochila: %d  
-
-//[the verb backpacked doesnt exists in spanish so I instead wrote scene saved in the backpack: %d]//</item>
+        <item quantity="one">Escena guardada en la mochila: %d  </item>
         <item quantity="other">Escenas guardadas en la mochila: %d</item>
     </plurals>
     <plurals name="packed_sprites">

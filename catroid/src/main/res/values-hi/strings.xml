@@ -959,8 +959,8 @@
     <string name="brick_stop_all_scripts" tools:ignore="UnusedResources">सभी स्क्रिप्ट</string>
     <string name="brick_stop_other_scripts" tools:ignore="UnusedResources">इस अभिनेता या वस्तु की अन्य स्क्रिप्ट</string>
     <plurals name="second_plural">
-        <item quantity="one">"\"\"\"सेकंड
-सेकंड्स\"\"\""</item>
+        <item quantity="one">"\"\"\"\"सेकंड
+सेकंड्स\"\"\"\""</item>
         <item quantity="other">"सेकंड"</item>
     </plurals>
     <string name="brick_collision_receive" tools:ignore="UnusedResources">जब तुम उछलते हो</string>
