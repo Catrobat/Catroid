@@ -27,10 +27,10 @@ import android.content.Context;
 public final class DeviceSettingsProvider {
 
 	private static final String ANONYMIZED_COUNTRY_DEFAULT_ANTARCTICA = "aq";
-	private static final String ANONYMIZED_EMAIL_ADDRESS = "nobody@noemail.none";
+	private static final String EMPTY_EMAIL_ADDRESS = "";
 
 	public static String getUserEmail(Context context) {
-		return ANONYMIZED_EMAIL_ADDRESS;
+		return EMPTY_EMAIL_ADDRESS;
 	}
 
 	public static String getUserCountryCode() {
