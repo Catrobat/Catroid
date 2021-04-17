@@ -50,7 +50,6 @@ public class EmptyEventBrick extends ScriptBrickBaseType {
 	public EmptyEventBrick(@NonNull EmptyScript script) {
 		script.setScriptBrick(this);
 		this.script = script;
-		setCommentedOut(true);
 	}
 
 	@Override
