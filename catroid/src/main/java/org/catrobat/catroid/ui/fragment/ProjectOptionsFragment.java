@@ -81,6 +81,7 @@ public class ProjectOptionsFragment extends Fragment implements
 	private View view;
 
 	private Project project;
+	private String sceneName;
 
 	private TextInputLayout nameInputLayout;
 	private TextInputLayout descriptionInputLayout;
@@ -102,6 +103,7 @@ public class ProjectOptionsFragment extends Fragment implements
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.project_options);
 
 		project = ProjectManager.getInstance().getCurrentProject();
+		sceneName = ProjectManager.getInstance().getCurrentlyEditedScene().getName();
 
 		nameInputLayout = view.findViewById(R.id.project_options_name_layout);
 		nameInputLayout.getEditText().setText(project.getName());
@@ -233,9 +235,11 @@ public class ProjectOptionsFragment extends Fragment implements
 
 		if (!project.getName().equals(name)) {
 			try {
+				XstreamSerializer.getInstance().saveProject(project);
 				File renamedDirectory = ProjectRenameTask.task(project.getDirectory(), name);
 				ProjectLoadTask.task(renamedDirectory, getActivity().getApplicationContext());
 				project = ProjectManager.getInstance().getCurrentProject();
+				ProjectManager.getInstance().setCurrentlyEditedScene(project.getSceneByName(sceneName));
 			} catch (IOException e) {
 				Log.e(TAG, "Creating renamed directory failed!", e);
 			}
