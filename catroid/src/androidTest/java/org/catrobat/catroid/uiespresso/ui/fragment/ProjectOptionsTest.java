@@ -23,17 +23,26 @@
 
 package org.catrobat.catroid.uiespresso.ui.fragment;
 
+import android.app.Activity;
+import android.app.Instrumentation;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
 import android.widget.EditText;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
+import org.catrobat.catroid.common.Constants;
 import org.catrobat.catroid.common.ScreenModes;
 import org.catrobat.catroid.content.Project;
+import org.catrobat.catroid.io.ResourceImporter;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.ui.ProjectActivity;
 import org.catrobat.catroid.uiespresso.util.UiTestUtils;
 import org.catrobat.catroid.uiespresso.util.rules.FragmentActivityTestRule;
+import org.hamcrest.Matcher;
+import org.hamcrest.core.AllOf;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -49,13 +58,21 @@ import java.util.List;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.intent.Intents;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
 
+import static org.catrobat.catroid.R.id.tab_layout;
 import static org.catrobat.catroid.common.Constants.CATROBAT_EXTENSION;
-import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
 import static org.catrobat.catroid.common.Constants.EXTERNAL_STORAGE_ROOT_EXPORT_DIRECTORY;
+import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.uiespresso.util.actions.TabActionsKt.selectTabAtPosition;
+import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
+import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anyOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 
 import static androidx.test.espresso.Espresso.closeSoftKeyboard;
@@ -66,6 +83,13 @@ import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
+import static androidx.test.espresso.intent.Intents.intended;
+import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasCategories;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasExtras;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasType;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isNotChecked;
@@ -108,7 +132,7 @@ public class ProjectOptionsTest {
 	}
 
 	@Test
-	public void changeProjectName() {
+	public void changeProjectName() throws IOException {
 		onView(allOf(withText(PROJECT_NAME), isDisplayed(), instanceOf(EditText.class)))
 				.perform(replaceText(EXISTING_PROJECT_NAME));
 
@@ -131,6 +155,72 @@ public class ProjectOptionsTest {
 		onView(withText(NEW_PROJECT_NAME))
 				.check(matches(isDisplayed()));
 		Assert.assertEquals(NEW_PROJECT_NAME, project.getName());
+
+		onView(withText(R.string.default_project_background_name))
+				.perform(click());
+
+		onView(withId(tab_layout)).perform(selectTabAtPosition(1));
+
+		onView(withId(R.id.button_add))
+				.perform(click());
+
+		Matcher<Intent> expectedPaintNewLookIntent = createLookFromPaintroid();
+
+		onView(withId(R.id.dialog_new_look_paintroid))
+				.perform(click());
+
+		intended(expectedPaintNewLookIntent);
+
+		onView(withText("Background (1)"))
+				.check(matches(isDisplayed()));
+	}
+
+	private Matcher<Intent> createLookFromPaintroid() throws IOException {
+		File tmpDir = new File(
+				Environment.getExternalStorageDirectory().getAbsolutePath(), "Pocket Code Test Temp");
+		String lookFileName = "catroid_sunglasses.png";
+
+		Intents.init();
+
+		Matcher<Intent> expectedGetContentIntent = AllOf.allOf(
+				hasAction("android.intent.action.GET_CONTENT"),
+				hasType("image/*"));
+
+		String chooserTitle = UiTestUtils.getResourcesString(R.string.select_look_from_gallery);
+		Matcher<Intent> expectedChooserIntent = AllOf.allOf(
+				hasAction("android.intent.action.CHOOSER"),
+				hasExtras(bundleHasMatchingString("android.intent.extra.TITLE", chooserTitle)),
+				hasExtras(bundleHasExtraIntent(expectedGetContentIntent)));
+
+		if (!tmpDir.exists()) {
+			tmpDir.mkdirs();
+		}
+
+		File imageFile = ResourceImporter.createImageFileFromResourcesInDirectory(
+				InstrumentationRegistry.getInstrumentation().getContext().getResources(),
+				org.catrobat.catroid.test.R.drawable.catroid_banzai,
+				tmpDir,
+				lookFileName,
+				1);
+
+		Intent resultData = new Intent();
+		resultData.setData(Uri.fromFile(imageFile));
+
+		Instrumentation.ActivityResult result =
+				new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+
+		intending(expectedChooserIntent).respondWith(result);
+
+		Matcher<Intent> expectedPaintNewLookIntent = AllOf.allOf(
+				hasComponent(Constants.POCKET_PAINT_INTENT_ACTIVITY_NAME),
+				hasAction("android.intent.action.MAIN"),
+				hasCategories(hasItem(equalTo("android.intent.category.LAUNCHER"))));
+
+		Instrumentation.ActivityResult resultPaintroid = new Instrumentation.ActivityResult(Activity.RESULT_OK, null);
+
+		intending(expectedPaintNewLookIntent).respondWith(resultPaintroid);
+
+		return expectedPaintNewLookIntent;
 	}
 
 	@Test
