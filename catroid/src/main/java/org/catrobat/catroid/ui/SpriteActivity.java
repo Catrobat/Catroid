@@ -212,6 +212,19 @@ public class SpriteActivity extends BaseActivity {
 	public void showUndo(boolean visible) {
 		if (currentMenu != null) {
 			currentMenu.findItem(R.id.menu_undo).setVisible(visible);
+			if (visible) {
+				ProjectManager.getInstance().changedProject(currentProject.getName());
+			}
+		}
+	}
+
+	public void checkForChange() {
+		if (currentMenu != null) {
+			if (currentMenu.findItem(R.id.menu_undo).isVisible()) {
+				ProjectManager.getInstance().changedProject(currentProject.getName());
+			} else {
+				ProjectManager.getInstance().resetChangedFlag(currentProject);
+			}
 		}
 	}
 

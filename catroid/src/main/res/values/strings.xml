@@ -2042,6 +2042,16 @@ needs read and write access to it. You can always change permissions through you
     <string name="progress_upload_dialog_show_program">Show project</string>
     <!--  -->
 
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
+        the community platform in exactly the same form. Please change your project, ideally by
+        enhancing it, before uploading your remixed project.</string>
+    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
+        author in the Credits section on the community site or in the project options. Please note
+        that the user will get a notification after your successful upload.</string>
+    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <!-- -->
+
     <!-- Snackbar hints -->
     <string name="got_it">Got it</string>
     <string name="preference_description_hints">Enable to show hints</string>
