@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.content.Sprite;
 
 public interface EmbroideryWorkSpace {
@@ -30,4 +32,5 @@ public interface EmbroideryWorkSpace {
 	float getCurrentX();
 	float getCurrentY();
 	Sprite getLastSprite();
+	Color getColor();
 }

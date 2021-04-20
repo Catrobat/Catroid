@@ -23,7 +23,6 @@
 
 package org.catrobat.catroid.stage;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -58,11 +57,12 @@ public class EmbroideryActor extends Actor {
 		if (stitchPoints.size() >= 2) {
 			batch.end();
 
-			shapeRenderer.setColor(Color.BLACK);
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
 			StitchPoint previousStitchPoint;
 			StitchPoint stitchPoint = iterator.next();
+
+			shapeRenderer.setColor(stitchPoint.getColor());
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
 			drawCircle(stitchPoint);
 			boolean colorChange = false;
 
@@ -73,9 +73,11 @@ public class EmbroideryActor extends Actor {
 				colorChange |= stitchPoint.isColorChangePoint();
 
 				if (!colorChange) {
+					shapeRenderer.setColor(previousStitchPoint.getColor());
 					drawLine(previousStitchPoint, stitchPoint);
 				}
 				if (stitchPoint.isConnectingPoint()) {
+					shapeRenderer.setColor(stitchPoint.getColor());
 					drawCircle(stitchPoint);
 					colorChange = false;
 				}

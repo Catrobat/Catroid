@@ -25,6 +25,8 @@ package org.catrobat.catroid.test.content.actions;
 
 import android.graphics.PointF;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.ActionFactory;
 import org.catrobat.catroid.content.Project;
@@ -78,14 +80,15 @@ public class StitchActionTest {
 	public void testAddSingleStitchPoint() {
 		ActionFactory.createStitchAction(testSprite1).act(1f);
 		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(
-				Mockito.eq(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y, testSprite1.look.getZIndex(), testSprite1)));
+				Mockito.eq(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y,
+						testSprite1.look.getZIndex(), testSprite1, Color.BLACK)));
 	}
 
 	@Test
 	public void testAddPointsTwoSprites() {
 		ActionFactory.createStitchAction(testSprite1).act(1f);
 		ActionFactory.createStitchAction(testSprite2).act(1f);
-		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y, testSprite1.look.getZIndex(), testSprite1));
-		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords2.x, spriteCoords2.y, testSprite2.look.getZIndex(), testSprite2));
+		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords1.x, spriteCoords1.y, testSprite1.look.getZIndex(), testSprite1, Color.BLACK));
+		Mockito.verify(StageActivity.stageListener.embroideryPatternManager, Mockito.times(1)).addStitchCommand(new DSTStitchCommand(spriteCoords2.x, spriteCoords2.y, testSprite2.look.getZIndex(), testSprite2, Color.BLACK));
 	}
 }

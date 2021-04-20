@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.test.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.embroidery.DSTHeader;
 import org.catrobat.catroid.embroidery.DSTStitchPoint;
 import org.catrobat.catroid.embroidery.DSTStream;
@@ -58,7 +60,7 @@ public class DSTStreamTest {
 	@Test
 	public void testAddJumpStitchPoint() {
 		stream.addJump();
-		stream.addStitchPoint(0, 0);
+		stream.addStitchPoint(0, 0, Color.BLACK);
 
 		assertEquals(1, stream.getPointList().size());
 		assertTrue(stream.getPointList().get(0).isJumpPoint());
@@ -67,7 +69,7 @@ public class DSTStreamTest {
 	@Test
 	public void testAddColorChangeStitchPoint() {
 		stream.addColorChange();
-		stream.addStitchPoint(0, 0);
+		stream.addStitchPoint(0, 0, Color.BLACK);
 
 		assertEquals(1, stream.getPointList().size());
 		assertTrue(stream.getPointList().get(0).isColorChangePoint());
@@ -81,8 +83,8 @@ public class DSTStreamTest {
 
 	@Test
 	public void testInterpolatedStitchPoints() {
-		stream.addStitchPoint(0, 0);
-		stream.addStitchPoint(80, 80);
+		stream.addStitchPoint(0, 0, Color.BLACK);
+		stream.addStitchPoint(80, 80, Color.BLACK);
 
 		assertEquals(5, stream.getPointList().size());
 		assertTrue(pointAtPositionEqualsCoordinates(0, 0, 0));
@@ -99,11 +101,11 @@ public class DSTStreamTest {
 
 	@Test
 	public void testAddAllStitchPoints() {
-		StitchPoint stitchPoint1 = new DSTStitchPoint(0, 0);
+		StitchPoint stitchPoint1 = new DSTStitchPoint(0, 0, Color.BLACK);
 		stitchPoint1.setColorChange(true);
-		StitchPoint stitchPoint2 = new DSTStitchPoint(80, 80);
+		StitchPoint stitchPoint2 = new DSTStitchPoint(80, 80, Color.BLACK);
 		stitchPoint2.setJump(true);
-		StitchPoint stitchPoint3 = new DSTStitchPoint(100, 100);
+		StitchPoint stitchPoint3 = new DSTStitchPoint(100, 100, Color.BLACK);
 
 		ArrayList<StitchPoint> stitchPoints = new ArrayList<>();
 		stitchPoints.add(stitchPoint1);

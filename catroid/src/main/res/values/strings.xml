@@ -1046,6 +1046,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
+    <string name="brick_thread_color">Set thread color to</string>
     <!--  -->
 
     <!-- Device bricks -->

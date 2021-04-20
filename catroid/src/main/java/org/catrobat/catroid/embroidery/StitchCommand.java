@@ -23,11 +23,14 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.content.Sprite;
 
 public interface StitchCommand {
 	float getX();
 	float getY();
+	Color getColor();
 	int getLayer();
 	Sprite getSprite();
 

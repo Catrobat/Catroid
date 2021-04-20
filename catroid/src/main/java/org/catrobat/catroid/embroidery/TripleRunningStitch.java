@@ -66,7 +66,7 @@ public class TripleRunningStitch extends RunningStitchType {
 		if (first) {
 			first = false;
 			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(firstX, firstY,
-					sprite.look.getZIndex(), sprite));
+					sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 		}
 		float previousX = firstX;
 		float previousY = firstY;
@@ -76,11 +76,11 @@ public class TripleRunningStitch extends RunningStitchType {
 			float x = interpolate(currentX, firstX, splitFactor);
 			float y = interpolate(currentY, firstY, splitFactor);
 			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-					sprite.look.getZIndex(), sprite));
+					sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(previousX, previousY,
-					sprite.look.getZIndex(), sprite));
+					sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 			StageActivity.stageListener.embroideryPatternManager.addStitchCommand(new DSTStitchCommand(x, y,
-					sprite.look.getZIndex(), sprite));
+					sprite.look.getZIndex(), sprite, sprite.getEmbroideryThreadColor()));
 			previousX = x;
 			previousY = y;
 		}

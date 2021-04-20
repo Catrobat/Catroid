@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -36,10 +38,12 @@ public class DSTStitchPoint implements StitchPoint {
 	private int relativeY;
 	private boolean jumpPoint = false;
 	private boolean colorChangePoint = false;
+	private Color color;
 
-	public DSTStitchPoint(float x, float y) {
+	public DSTStitchPoint(float x, float y, Color color) {
 		this.xCoord = x;
 		this.yCoord = y;
+		this.color = color;
 	}
 
 	@Override
@@ -50,6 +54,11 @@ public class DSTStitchPoint implements StitchPoint {
 	@Override
 	public float getY() {
 		return yCoord;
+	}
+
+	@Override
+	public Color getColor() {
+		return color;
 	}
 
 	@Override
@@ -71,6 +80,11 @@ public class DSTStitchPoint implements StitchPoint {
 	@Override
 	public void setColorChange(boolean colorChangePoint) {
 		this.colorChangePoint = colorChangePoint;
+	}
+
+	@Override
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	@Override

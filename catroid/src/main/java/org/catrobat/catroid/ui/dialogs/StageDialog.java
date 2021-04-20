@@ -32,6 +32,8 @@ import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
@@ -135,6 +137,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	@Override
 	public void onBackPressed() {
 		clearBroadcastMaps();
+		resetEmbroideryThreadColor();
 		dismiss();
 		stageActivity.exit();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
@@ -182,6 +185,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		}
 
 		clearBroadcastMaps();
+		resetEmbroideryThreadColor();
+
 		dismiss();
 		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
 		restartProject();
@@ -231,6 +236,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				sprite.getIdToEventThreadMap().clear();
+			}
+		}
+	}
+
+	private void resetEmbroideryThreadColor() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.setEmbroideryThreadColor(Color.BLACK);
 			}
 		}
 	}
