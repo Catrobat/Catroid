@@ -381,7 +381,10 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public boolean isCurrentlyMoving() {
-		return listView.isCurrentlyMoving();
+		if (listView != null) {
+			return listView.isCurrentlyMoving();
+		}
+		return false;
 	}
 
 	public void highlightMovingItem() {
