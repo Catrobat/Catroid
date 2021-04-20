@@ -20,22 +20,19 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.bluetooth;
+package org.catrobat.catroid.bluetooth
 
-import android.content.Context;
+import android.content.Context
+import org.catrobat.catroid.bluetooth.base.BluetoothConnection
+import org.catrobat.catroid.bluetooth.base.BluetoothConnectionFactory
+import org.catrobat.catroid.bluetooth.base.BluetoothDevice
+import java.util.UUID
 
-import org.catrobat.catroid.bluetooth.base.BluetoothConnection;
-import org.catrobat.catroid.bluetooth.base.BluetoothConnectionFactory;
-import org.catrobat.catroid.bluetooth.base.BluetoothDevice;
-
-import java.util.UUID;
-
-public class BluetoothConnectionFactoryImpl implements BluetoothConnectionFactory {
-
-	@Override
-	public <T extends BluetoothDevice> BluetoothConnection createBTConnectionForDevice(Class<T> bluetoothDeviceType,
-			String address, UUID deviceUUID, Context applicationContext) {
-
-		return new BluetoothConnectionImpl(address, deviceUUID);
-	}
+class BluetoothConnectionFactoryImpl : BluetoothConnectionFactory {
+    override fun <T : BluetoothDevice?> createBTConnectionForDevice(
+        bluetoothDeviceType: Class<T>,
+        address: String, deviceUUID: UUID, applicationContext: Context
+    ): BluetoothConnection {
+        return BluetoothConnectionImpl(address, deviceUUID)
+    }
 }
