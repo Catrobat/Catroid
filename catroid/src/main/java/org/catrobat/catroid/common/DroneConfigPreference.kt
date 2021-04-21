@@ -20,33 +20,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
+package org.catrobat.catroid.common
 
-import org.catrobat.catroid.utils.EnumUtils;
+import org.catrobat.catroid.utils.EnumUtils
 
-public abstract class DroneConfigPreference {
+object DroneConfigPreference {
+    val TAG = DroneConfigPreference::class.java.simpleName
 
-	public enum Preferences {
-		FIRST,
-		SECOND,
-		THIRD,
-		FOURTH;
+    enum class Preferences {
+        FIRST, SECOND, THIRD, FOURTH;
 
-		public static String[] getPreferenceCodes() {
-			String[] valueStrings = new String[values().length];
+        companion object {
+            @JvmStatic
+			val preferenceCodes: Array<String?>
+                get() {
+                    val valueStrings = arrayOfNulls<String>(values().size)
+                    for (i in values().indices) {
+                        valueStrings[i] = values()[i].name
+                    }
+                    return valueStrings
+                }
 
-			for (int i = 0; i < values().length; ++i) {
-				valueStrings[i] = values()[i].name();
-			}
-
-			return valueStrings;
-		}
-
-		public static DroneConfigPreference.Preferences getPreferenceFromPreferenceCode(String preferenceCode) {
-			Preferences preferences = EnumUtils.getEnum(Preferences.class, preferenceCode);
-			return preferences != null ? preferences : Preferences.FIRST;
-		}
-	}
-
-	public static final String TAG = DroneConfigPreference.class.getSimpleName();
+            @JvmStatic
+			fun getPreferenceFromPreferenceCode(preferenceCode: String?): Preferences {
+                val preferences = EnumUtils.getEnum(
+                    Preferences::class.java, preferenceCode
+                )
+                return preferences ?: FIRST
+            }
+        }
+    }
 }
