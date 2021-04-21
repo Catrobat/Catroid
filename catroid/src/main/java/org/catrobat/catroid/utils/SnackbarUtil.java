@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -38,7 +38,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+
+import static org.catrobat.catroid.common.SharedPreferenceKeys.DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY;
 
 public final class SnackbarUtil {
 
@@ -53,27 +56,35 @@ public final class SnackbarUtil {
 	public static void showHintSnackbar(final Activity activity, @StringRes int resourceId) {
 		final String messageId = activity.getResources().getResourceName(resourceId);
 
-		if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
-			View contentView = activity.findViewById(android.R.id.content);
-			if (contentView == null) {
-				return;
-			}
-
-			Snackbar snackbar = Snackbar.make(contentView, resourceId, Snackbar.LENGTH_INDEFINITE);
-			snackbar.setAction(R.string.got_it, new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					setHintShown(activity, messageId);
-				}
-			});
-			snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
-			View snackbarView = snackbar.getView();
-			TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
-			textView.setMaxLines(MAX_LINES);
-			textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
-			snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));
-			snackbar.show();
+		if (areHintsEnabled(activity) && !wasHintDialogAlreadyShown(activity)) {
+			showDisableHintsDialog(activity, resourceId);
+		} else if (!wasHintAlreadyShown(activity, messageId) && areHintsEnabled(activity)) {
+			hintSnackbar(activity, resourceId);
 		}
+	}
+
+	public static void hintSnackbar(Activity activity, @StringRes int resourceId) {
+		final String messageId = activity.getResources().getResourceName(resourceId);
+
+		View contentView = activity.findViewById(android.R.id.content);
+		if (contentView == null) {
+			return;
+		}
+
+		Snackbar snackbar = Snackbar.make(contentView, resourceId, Snackbar.LENGTH_INDEFINITE);
+		snackbar.setAction(R.string.got_it, new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setHintShown(activity, messageId);
+			}
+		});
+		snackbar.setActionTextColor(ContextCompat.getColor(activity, R.color.solid_black));
+		View snackbarView = snackbar.getView();
+		TextView textView = snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
+		textView.setMaxLines(MAX_LINES);
+		textView.setTextColor(ContextCompat.getColor(activity, R.color.solid_white));
+		snackbarView.setBackgroundColor(ContextCompat.getColor(activity, R.color.snackbar));
+		snackbar.show();
 	}
 
 	public static void setHintShown(Activity activity, String messageId) {
@@ -96,5 +107,44 @@ public final class SnackbarUtil {
 	private static Set<String> getStringSetFromSharedPreferences(Context context) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 		return new HashSet<>(prefs.getStringSet(SnackbarUtil.SHOWN_HINT_LIST, new HashSet<String>()));
+	}
+
+	public static void setHintDialogShown(Activity activity) {
+		PreferenceManager.getDefaultSharedPreferences(activity)
+				.edit()
+				.putBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, true)
+				.apply();
+	}
+
+	public static boolean wasHintDialogAlreadyShown(Activity activity) {
+		return PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY, false);
+	}
+
+	public static boolean showDisableHintsDialog(final Activity activity, @StringRes int resourceId) {
+		new AlertDialog.Builder(activity)
+			.setTitle(R.string.dialog_disable_hints_title)
+			.setMessage(R.string.dialog_disable_hints_text)
+			.setPositiveButton(R.string.dialog_disable_hints_button_show,
+					(dialog, id) -> handleShowHints(activity, resourceId))
+			.setNegativeButton(R.string.dialog_disable_hints_button_hide,
+					(dialog, id) -> handleHideHints(activity))
+			.setCancelable(false)
+			.show();
+		return true;
+	}
+
+	protected static void handleHideHints(Activity activity) {
+		SharedPreferences sharedPreferencesSetFalse =
+				PreferenceManager.getDefaultSharedPreferences(activity);
+
+		sharedPreferencesSetFalse.edit()
+				.putBoolean(SettingsFragment.SETTINGS_SHOW_HINTS, false)
+				.apply();
+		setHintDialogShown(activity);
+	}
+
+	protected static void handleShowHints(Activity activity, @StringRes int resourceId) {
+		setHintDialogShown(activity);
+		hintSnackbar(activity, resourceId);
 	}
 }
