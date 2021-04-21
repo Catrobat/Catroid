@@ -88,8 +88,8 @@ open class DefaultProjectCreator : ProjectCreator() {
         backgroundImageScaleFactor = ImageEditing.calculateScaleFactor(
             options.outWidth,
             options.outHeight,
-            ScreenValues.SCREEN_WIDTH,
-            ScreenValues.SCREEN_HEIGHT
+            ScreenValues.screenWidth,
+            ScreenValues.screenHeight
         )
         val scene = project.defaultScene
         val imageDir = File(scene.directory, Constants.IMAGE_DIRECTORY_NAME)
@@ -189,30 +189,30 @@ open class DefaultProjectCreator : ProjectCreator() {
                            tweetFile2))
         var script: Script = StartScript()
         script.addBrick(PlaceAtBrick(Formula(0), Formula(0)))
-        script.addBrick(GlideToBrick(Formula(-ScreenValues.SCREEN_WIDTH), Formula(0), Formula(5)))
-        script.addBrick(PlaceAtBrick(Formula(ScreenValues.SCREEN_WIDTH), Formula(0)))
+        script.addBrick(GlideToBrick(Formula(-ScreenValues.screenWidth), Formula(0), Formula(5)))
+        script.addBrick(PlaceAtBrick(Formula(ScreenValues.screenWidth), Formula(0)))
         var loopBrick = ForeverBrick()
         loopBrick.addBrick(
             GlideToBrick(
-                Formula(-ScreenValues.SCREEN_WIDTH),
+                Formula(-ScreenValues.screenWidth),
                 Formula(0),
                 Formula(10)
             )
         )
-        loopBrick.addBrick(PlaceAtBrick(Formula(ScreenValues.SCREEN_WIDTH), Formula(0)))
+        loopBrick.addBrick(PlaceAtBrick(Formula(ScreenValues.screenWidth), Formula(0)))
         script.addBrick(loopBrick)
         cloud1.addScript(script)
         script = StartScript()
-        script.addBrick(PlaceAtBrick(Formula(ScreenValues.SCREEN_WIDTH), Formula(0)))
+        script.addBrick(PlaceAtBrick(Formula(ScreenValues.screenWidth), Formula(0)))
         loopBrick = ForeverBrick()
         loopBrick.addBrick(
             GlideToBrick(
-                Formula(-ScreenValues.SCREEN_WIDTH),
+                Formula(-ScreenValues.screenWidth),
                 Formula(0),
                 Formula(10)
             )
         )
-        loopBrick.addBrick(PlaceAtBrick(Formula(ScreenValues.SCREEN_WIDTH), Formula(0)))
+        loopBrick.addBrick(PlaceAtBrick(Formula(ScreenValues.screenWidth), Formula(0)))
         script.addBrick(loopBrick)
         cloud2.addScript(script)
         script = StartScript()

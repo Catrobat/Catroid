@@ -90,8 +90,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import kotlinx.coroutines.GlobalScope;
 
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 
 public class StageListener implements ApplicationListener {
 
@@ -199,7 +197,10 @@ public class StageListener implements ApplicationListener {
 		embroideryPatternManager = new DSTPatternManager();
 		initActors(sprites);
 
-		passepartout = new Passepartout(SCREEN_WIDTH, SCREEN_HEIGHT, maxViewPortWidth, maxViewPortHeight, virtualWidth, virtualHeight);
+		passepartout = new Passepartout(ScreenValues.Companion.getScreenWidth(),
+				ScreenValues.Companion.getScreenHeight(),
+				maxViewPortWidth,
+				maxViewPortHeight, virtualWidth, virtualHeight);
 		stage.addActor(passepartout);
 
 		axes = new Texture(Gdx.files.internal("stage/red_pixel.bmp"));
@@ -735,7 +736,8 @@ public class StageListener implements ApplicationListener {
 			default:
 				break;
 		}
-		viewPort.update(SCREEN_WIDTH, SCREEN_HEIGHT, false);
+		viewPort.update(ScreenValues.Companion.getScreenWidth(), ScreenValues.Companion.getScreenHeight(),
+				false);
 		camera.position.set(0, 0, 0);
 		camera.update();
 		shapeRenderer.updateMatrices();

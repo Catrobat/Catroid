@@ -146,7 +146,7 @@ public class ShowTextActor extends Actor {
 		float baseline = -paint.ascent();
 		paint.setAntiAlias(true);
 
-		int availableWidth = (int) Math.ceil(ScreenValues.SCREEN_WIDTH + 2 * Math.abs(posX));
+		int availableWidth = (int) Math.ceil(ScreenValues.Companion.getScreenWidth() + 2 * Math.abs(posX));
 		int bitmapWidth = Math.min(availableWidth, (int) paint.measureText(text));
 		int canvasWidth = calculateAlignmentValuesForText(paint, bitmapWidth, alignment);
 		int height = (int) (baseline + paint.descent());

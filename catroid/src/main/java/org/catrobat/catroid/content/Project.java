@@ -92,21 +92,21 @@ public class Project implements Serializable {
 		xmlHeader.setNotesAndCredits("");
 		xmlHeader.setlandscapeMode(landscapeMode);
 
-		if (ScreenValues.SCREEN_HEIGHT == 0 || ScreenValues.SCREEN_WIDTH == 0) {
+		if (ScreenValues.Companion.getScreenHeight() == 0 || ScreenValues.Companion.getScreenHeight() == 0) {
 			ScreenValueHandler.updateScreenWidthAndHeight(context);
 		}
-		if (landscapeMode && ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
-		} else if (ScreenValues.SCREEN_WIDTH > ScreenValues.SCREEN_HEIGHT) {
-			int tmp = ScreenValues.SCREEN_HEIGHT;
-			ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-			ScreenValues.SCREEN_WIDTH = tmp;
+		if (landscapeMode && ScreenValues.Companion.getScreenWidth() < ScreenValues.Companion.getScreenHeight()) {
+			int tmp = ScreenValues.Companion.getScreenHeight();
+			ScreenValues.Companion.setScreenHeight(ScreenValues.Companion.getScreenWidth());
+			ScreenValues.Companion.setScreenWidth(tmp);
+		} else if (ScreenValues.Companion.getScreenWidth() > ScreenValues.Companion.getScreenHeight()) {
+			int tmp = ScreenValues.Companion.getScreenHeight();
+			ScreenValues.Companion.setScreenHeight(ScreenValues.Companion.getScreenWidth());
+			ScreenValues.Companion.setScreenWidth(tmp);
 		}
 
-		xmlHeader.virtualScreenWidth = ScreenValues.SCREEN_WIDTH;
-		xmlHeader.virtualScreenHeight = ScreenValues.SCREEN_HEIGHT;
+		xmlHeader.virtualScreenWidth = ScreenValues.Companion.getScreenWidth();
+		xmlHeader.virtualScreenHeight = ScreenValues.Companion.getScreenHeight();
 
 		if (isCastProject) {
 			xmlHeader.virtualScreenHeight = ScreenValues.CAST_SCREEN_HEIGHT;

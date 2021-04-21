@@ -82,7 +82,7 @@ public class PhysicsWorld {
 	private PhysicsShapeBuilder physicsShapeBuilder = PhysicsShapeBuilder.getInstance();
 
 	public PhysicsWorld() {
-		this(ScreenValues.SCREEN_WIDTH, ScreenValues.SCREEN_HEIGHT);
+		this(ScreenValues.Companion.getScreenWidth(), ScreenValues.Companion.getScreenHeight());
 	}
 
 	public PhysicsWorld(int width, int height) {

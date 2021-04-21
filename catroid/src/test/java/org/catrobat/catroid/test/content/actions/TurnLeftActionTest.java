@@ -60,8 +60,8 @@ public class TurnLeftActionTest {
 		lookData.setFile(Mockito.mock(File.class));
 		lookData.setName("LookName");
 
-		ScreenValues.SCREEN_HEIGHT = 800;
-		ScreenValues.SCREEN_WIDTH = 480;
+		ScreenValues.screenHeight = 800;
+		ScreenValues.screenWidth = 480;
 	}
 
 	@Test

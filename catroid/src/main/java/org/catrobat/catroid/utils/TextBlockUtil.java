@@ -32,14 +32,13 @@ import com.google.mlkit.nl.languageid.LanguageIdentifier;
 import com.google.mlkit.vision.text.Text;
 
 import org.catrobat.catroid.ProjectManager;
+import org.catrobat.catroid.common.ScreenValues;
 import org.catrobat.catroid.stage.StageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.catrobat.catroid.common.Constants.COORDINATE_TRANSFORMATION_OFFSET;
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT;
-import static org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH;
 
 public final class TextBlockUtil {
 	private static List<Text.TextBlock> textBlocks;
@@ -106,18 +105,18 @@ public final class TextBlockUtil {
 					relativeX = invertAxis ? 1 - relativeX : relativeX;
 					return coordinatesFromRelativePosition(
 							relativeX,
-							SCREEN_WIDTH,
+							ScreenValues.Companion.getScreenWidth(),
 							1 - textBlockBounds.exactCenterY() / imageHeight,
-							(float) SCREEN_WIDTH / aspectRatio
+							(float) ScreenValues.Companion.getScreenWidth() / aspectRatio
 					);
 				} else {
 					float relativeX = textBlockBounds.exactCenterX() / imageHeight;
 					relativeX = invertAxis ? 1 - relativeX : relativeX;
 					return coordinatesFromRelativePosition(
 							relativeX,
-							SCREEN_HEIGHT / aspectRatio,
+							ScreenValues.Companion.getScreenHeight() / aspectRatio,
 							1 - textBlockBounds.exactCenterY() / imageWidth,
-							(float) SCREEN_HEIGHT
+							(float) ScreenValues.Companion.getScreenWidth()
 					);
 				}
 			} catch (NullPointerException e) {

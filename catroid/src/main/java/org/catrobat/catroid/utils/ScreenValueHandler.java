@@ -39,8 +39,8 @@ public final class ScreenValueHandler {
 			WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 			DisplayMetrics displayMetrics = new DisplayMetrics();
 			windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-			ScreenValues.SCREEN_WIDTH = displayMetrics.widthPixels;
-			ScreenValues.SCREEN_HEIGHT = displayMetrics.heightPixels;
+			ScreenValues.Companion.setScreenWidth(displayMetrics.widthPixels);
+			ScreenValues.Companion.setScreenHeight(displayMetrics.heightPixels);
 		} else {
 			ScreenValues.setToDefaultScreenSize();
 		}

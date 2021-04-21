@@ -114,8 +114,8 @@ public class StageScreenshotTest {
 	}
 
 	private void createProjectWithBlueSprite(String projectName) throws IOException {
-		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
+		ScreenValues.screenHeight = PROJECT_HEIGHT;
+		ScreenValues.screenWidth = PROJECT_WIDTH;
 
 		Project project = new Project(InstrumentationRegistry.getTargetContext(), projectName);
 

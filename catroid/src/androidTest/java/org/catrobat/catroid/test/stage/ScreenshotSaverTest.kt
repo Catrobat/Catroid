@@ -68,8 +68,8 @@ class ScreenshotSaverTest(private val name: String, private val fileName: String
     @Before
     fun setUp() {
         ScreenValues.setToDefaultScreenSize()
-        val height = ScreenValues.SCREEN_HEIGHT
-        val width = ScreenValues.SCREEN_WIDTH
+        val height = ScreenValues.screenHeight
+        val width = ScreenValues.screenWidth
         dummyData = ByteArray(NUMBER_OF_COLORS * width * height)
         val stageActivity = activityTestRule.activity
         val folder = stageActivity.cacheDir.absolutePath + "/"

@@ -84,8 +84,8 @@ public class StageSimpleTest {
 	}
 
 	public Project createProjectWithBlueSprite(String projectName) throws IOException {
-		ScreenValues.SCREEN_HEIGHT = PROJECT_HEIGHT;
-		ScreenValues.SCREEN_WIDTH = PROJECT_WIDTH;
+		ScreenValues.screenHeight = PROJECT_HEIGHT;
+		ScreenValues.screenWidth = PROJECT_WIDTH;
 
 		Project project = new Project(ApplicationProvider.getApplicationContext(), projectName);
 

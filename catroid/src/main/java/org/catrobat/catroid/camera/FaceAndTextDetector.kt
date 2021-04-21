@@ -38,8 +38,8 @@ import org.catrobat.catroid.CatroidApplication
 import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.common.Constants.COORDINATE_TRANSFORMATION_OFFSET
-import org.catrobat.catroid.common.ScreenValues.SCREEN_HEIGHT
-import org.catrobat.catroid.common.ScreenValues.SCREEN_WIDTH
+import org.catrobat.catroid.common.ScreenValues.Companion.screenHeight
+import org.catrobat.catroid.common.ScreenValues.Companion.screenWidth
 import org.catrobat.catroid.formulaeditor.SensorCustomEvent
 import org.catrobat.catroid.formulaeditor.SensorCustomEventListener
 import org.catrobat.catroid.formulaeditor.Sensors
@@ -203,17 +203,17 @@ object FaceAndTextDetector : ImageAnalysis.Analyzer {
             val relativeY = faceBounds.exactCenterX() / imageWidth
             coordinatesFromRelativePosition(
                 1 - relativeX,
-                SCREEN_WIDTH / aspectRatio,
+                screenWidth / aspectRatio,
                 if (frontCamera) relativeY else 1 - relativeY,
-                SCREEN_WIDTH.toFloat()
+                screenWidth.toFloat()
             )
         } else {
             val relativeX = faceBounds.exactCenterX() / imageHeight
             coordinatesFromRelativePosition(
                 if (frontCamera) 1 - relativeX else relativeX,
-                SCREEN_HEIGHT / aspectRatio,
+                screenHeight / aspectRatio,
                 1 - faceBounds.exactCenterY() / imageWidth,
-                SCREEN_HEIGHT.toFloat()
+                screenHeight.toFloat()
             )
         }
 

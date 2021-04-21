@@ -128,7 +128,8 @@ public class MarketingActivity extends AppCompatActivity {
 	private Bitmap scaleDrawable2Bitmap(boolean landscapeMode) {
 		Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pocket_code);
 
-		int width = landscapeMode ? ScreenValues.SCREEN_HEIGHT : ScreenValues.SCREEN_WIDTH;
+		int width = landscapeMode ? ScreenValues.Companion.getScreenHeight() :
+				ScreenValues.Companion.getScreenWidth();
 
 		double factor = ((float) width / (float) bitmap.getWidth());
 		int height = (int) ((float) bitmap.getHeight() * factor);

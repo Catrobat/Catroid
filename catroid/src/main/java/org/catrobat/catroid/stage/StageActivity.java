@@ -315,35 +315,37 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 		float aspectRatio = (float) virtualScreenWidth / (float) virtualScreenHeight;
 		float screenAspectRatio = ScreenValues.getAspectRatio();
 
-		if ((virtualScreenWidth == ScreenValues.SCREEN_WIDTH && virtualScreenHeight == ScreenValues.SCREEN_HEIGHT)
+		if ((virtualScreenWidth == ScreenValues.Companion.getScreenWidth() && virtualScreenHeight == ScreenValues.Companion.getScreenHeight())
 				|| Float.compare(screenAspectRatio, aspectRatio) == 0
 				|| ProjectManager.getInstance().getCurrentProject().isCastProject()) {
 			resizePossible = false;
-			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
-			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+			stageListener.maxViewPortWidth = ScreenValues.Companion.getScreenWidth();
+			stageListener.maxViewPortHeight = ScreenValues.Companion.getScreenHeight();
 			return;
 		}
 
 		resizePossible = true;
 
-		float ratioHeight = (float) ScreenValues.SCREEN_HEIGHT / (float) virtualScreenHeight;
-		float ratioWidth = (float) ScreenValues.SCREEN_WIDTH / (float) virtualScreenWidth;
+		float ratioHeight = (float) ScreenValues.Companion.getScreenHeight() / (float) virtualScreenHeight;
+		float ratioWidth = (float) ScreenValues.Companion.getScreenWidth() / (float) virtualScreenWidth;
 
 		if (aspectRatio < screenAspectRatio) {
 			float scale = ratioHeight / ratioWidth;
-			stageListener.maxViewPortWidth = (int) (ScreenValues.SCREEN_WIDTH * scale);
-			stageListener.maxViewPortX = (int) ((ScreenValues.SCREEN_WIDTH - stageListener.maxViewPortWidth) / 2f);
-			stageListener.maxViewPortHeight = ScreenValues.SCREEN_HEIGHT;
+			stageListener.maxViewPortWidth = (int) (ScreenValues.Companion.getScreenWidth() * scale);
+			stageListener.maxViewPortX =
+					(int) ((ScreenValues.Companion.getScreenWidth() - stageListener.maxViewPortWidth) / 2f);
+			stageListener.maxViewPortHeight = ScreenValues.Companion.getScreenHeight();
 		} else if (aspectRatio > screenAspectRatio) {
 			float scale = ratioWidth / ratioHeight;
-			stageListener.maxViewPortHeight = (int) (ScreenValues.SCREEN_HEIGHT * scale);
-			stageListener.maxViewPortY = (int) ((ScreenValues.SCREEN_HEIGHT - stageListener.maxViewPortHeight) / 2f);
-			stageListener.maxViewPortWidth = ScreenValues.SCREEN_WIDTH;
+			stageListener.maxViewPortHeight = (int) (ScreenValues.Companion.getScreenHeight() * scale);
+			stageListener.maxViewPortY =
+					(int) ((ScreenValues.Companion.getScreenHeight() - stageListener.maxViewPortHeight) / 2f);
+			stageListener.maxViewPortWidth = ScreenValues.Companion.getScreenWidth();
 		}
 	}
 
 	private boolean isInPortraitMode() {
-		return ScreenValues.SCREEN_WIDTH < ScreenValues.SCREEN_HEIGHT;
+		return ScreenValues.Companion.getScreenWidth() < ScreenValues.Companion.getScreenHeight();
 	}
 
 	private boolean isInLandscapeMode() {
@@ -351,9 +353,9 @@ public class StageActivity extends AndroidApplication implements PermissionHandl
 	}
 
 	private void swapWidthAndHeight() {
-		int tmp = ScreenValues.SCREEN_HEIGHT;
-		ScreenValues.SCREEN_HEIGHT = ScreenValues.SCREEN_WIDTH;
-		ScreenValues.SCREEN_WIDTH = tmp;
+		int tmp = ScreenValues.Companion.getScreenHeight();
+		ScreenValues.Companion.setScreenHeight(ScreenValues.Companion.getScreenWidth());
+		ScreenValues.Companion.setScreenWidth(tmp);
 	}
 
 	@Override
