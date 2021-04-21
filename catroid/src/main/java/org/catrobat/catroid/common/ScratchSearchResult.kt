@@ -20,31 +20,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.common
 
-package org.catrobat.catroid.common;
-
-import java.util.List;
-
-public class ScratchSearchResult {
-	private List<ScratchProgramData> programDataList;
-	private String query;
-	private int pageNumber;
-
-	public ScratchSearchResult(List<ScratchProgramData> programDataList, String query, int pageNumber) {
-		this.query = query;
-		this.programDataList = programDataList;
-		this.pageNumber = pageNumber;
-	}
-
-	public List<ScratchProgramData> getProgramDataList() {
-		return programDataList;
-	}
-
-	public String getQuery() {
-		return query;
-	}
-
-	public int getPageNumber() {
-		return pageNumber;
-	}
-}
+class ScratchSearchResult(
+    val programDataList: List<ScratchProgramData>,
+    val query: String,
+    val pageNumber: Int
+)
