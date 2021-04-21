@@ -29,7 +29,6 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,11 +36,12 @@ import android.view.View;
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
 import org.catrobat.catroid.cast.CastManager;
-import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.content.Scene;
 import org.catrobat.catroid.content.Sprite;
+import org.catrobat.catroid.content.StartScript;
 import org.catrobat.catroid.content.bricks.Brick;
+import org.catrobat.catroid.content.bricks.PlaceAtBrick;
 import org.catrobat.catroid.io.StorageOperations;
 import org.catrobat.catroid.io.asynctask.ProjectSaveTask;
 import org.catrobat.catroid.stage.StageActivity;
@@ -49,6 +49,7 @@ import org.catrobat.catroid.stage.TestResult;
 import org.catrobat.catroid.ui.dialogs.LegoSensorConfigInfoDialog;
 import org.catrobat.catroid.ui.fragment.ProjectOptionsFragment;
 import org.catrobat.catroid.ui.recyclerview.controller.SceneController;
+import org.catrobat.catroid.ui.recyclerview.dialog.NewSpriteDialogFragment;
 import org.catrobat.catroid.ui.recyclerview.dialog.TextInputDialog;
 import org.catrobat.catroid.ui.recyclerview.dialog.textwatcher.DuplicateInputTextWatcher;
 import org.catrobat.catroid.ui.recyclerview.fragment.RecyclerViewFragment;
@@ -59,7 +60,6 @@ import org.catrobat.catroid.utils.ToastUtil;
 import org.catrobat.catroid.utils.Utils;
 
 import java.io.File;
-import java.io.IOException;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
@@ -68,17 +68,18 @@ import androidx.fragment.app.FragmentTransaction;
 
 import static org.catrobat.catroid.common.Constants.DEFAULT_IMAGE_EXTENSION;
 import static org.catrobat.catroid.common.Constants.EV3;
-import static org.catrobat.catroid.common.Constants.IMAGE_DIRECTORY_NAME;
 import static org.catrobat.catroid.common.Constants.JPEG_IMAGE_EXTENSION;
-import static org.catrobat.catroid.common.Constants.MEDIA_LIBRARY_CACHE_DIR;
 import static org.catrobat.catroid.common.Constants.NXT;
 import static org.catrobat.catroid.common.Constants.TMP_IMAGE_FILE_NAME;
 import static org.catrobat.catroid.common.FlavoredConstants.LIBRARY_LOOKS_URL;
 import static org.catrobat.catroid.stage.TestResult.TEST_RESULT_MESSAGE;
+import static org.catrobat.catroid.ui.SpriteActivity.REQUEST_CODE_VISUAL_PLACEMENT;
 import static org.catrobat.catroid.ui.WebViewActivity.MEDIA_FILE_PATH;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_EV3_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.SETTINGS_MINDSTORMS_NXT_SHOW_SENSOR_INFO_BOX_DISABLED;
 import static org.catrobat.catroid.ui.settingsfragments.SettingsFragment.isCastSharedPreferenceEnabled;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.X_COORDINATE_BUNDLE_ARGUMENT;
+import static org.catrobat.catroid.visualplacement.VisualPlacementActivity.Y_COORDINATE_BUNDLE_ARGUMENT;
 
 public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask.ProjectSaveListener {
 
@@ -269,15 +270,21 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 				uri = new ImportFromCameraLauncher(this).getCacheCameraUri();
 				addSpriteFromUri(uri, JPEG_IMAGE_EXTENSION);
 				break;
+			case REQUEST_CODE_VISUAL_PLACEMENT:
+				Bundle extras = data.getExtras();
+				if (extras == null) {
+					return;
+				}
+				int xCoordinate = extras.getInt(X_COORDINATE_BUNDLE_ARGUMENT);
+				int yCoordinate = extras.getInt(Y_COORDINATE_BUNDLE_ARGUMENT);
+
+				PlaceAtBrick placeAtBrick = new PlaceAtBrick(xCoordinate, yCoordinate);
+				Sprite currentSprite = ProjectManager.getInstance().getCurrentSprite();
+				StartScript startScript = new StartScript();
+				currentSprite.addScript(startScript);
+				startScript.addBrick(placeAtBrick);
+				break;
 		}
-	}
-
-	public void imgFormatNotSupportedDialog() {
-
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this).setMessage(getString(R.string.Image_format_not_supported)).setPositiveButton(getString(R.string.ok), (dialog1, which) -> dialog1.cancel());
-
-		AlertDialog alertDialog = alertDialogBuilder.create();
-		alertDialog.show();
 	}
 
 	public void addSpriteFromUri(final Uri uri) {
@@ -306,45 +313,8 @@ public class ProjectActivity extends BaseCastActivity implements ProjectSaveTask
 
 		lookDataName = new UniqueNameProvider().getUniqueNameInNameables(resolvedName, currentScene.getSpriteList());
 
-		TextInputDialog.Builder builder = new TextInputDialog.Builder(this);
-		builder.setHint(getString(R.string.sprite_name_label))
-				.setText(lookDataName)
-				.setTextWatcher(new DuplicateInputTextWatcher<>(currentScene.getSpriteList()))
-				.setPositiveButton(getString(R.string.ok), (TextInputDialog.OnClickListener) (dialog, textInput) -> {
-					Sprite sprite = new Sprite(textInput);
-					currentScene.addSprite(sprite);
-					try {
-						File imageDirectory = new File(currentScene.getDirectory(), IMAGE_DIRECTORY_NAME);
-						File file = StorageOperations.copyUriToDir(getContentResolver(), uri,
-								imageDirectory, lookFileName);
-						Utils.removeExifData(imageDirectory, lookFileName);
-						LookData lookData = new LookData(textInput, file);
-						if (lookData.getImageMimeType() == null) {
-							imgFormatNotSupportedDialog();
-							currentScene.removeSprite(sprite);
-						} else {
-							sprite.getLookList().add(lookData);
-							lookData.getCollisionInformation().calculate();
-						}
-					} catch (IOException e) {
-						Log.e(TAG, Log.getStackTraceString(e));
-					}
-					if (getCurrentFragment() instanceof SpriteListFragment) {
-						((SpriteListFragment) getCurrentFragment()).notifyDataSetChanged();
-					}
-				});
-
-		builder.setTitle(R.string.new_sprite_dialog_title)
-				.setNegativeButton(R.string.cancel, (dialog, which) -> {
-					try {
-						if (MEDIA_LIBRARY_CACHE_DIR.exists()) {
-							StorageOperations.deleteDir(MEDIA_LIBRARY_CACHE_DIR);
-						}
-					} catch (IOException e) {
-						Log.e(TAG, Log.getStackTraceString(e));
-					}
-				})
-				.show();
+		new NewSpriteDialogFragment(lookDataName, lookFileName, getContentResolver(), uri, getCurrentFragment())
+				.show(getSupportFragmentManager(), NewSpriteDialogFragment.Companion.getTAG());
 	}
 
 	public void handleAddButton(View view) {

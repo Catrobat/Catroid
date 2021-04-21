@@ -29,6 +29,7 @@ import android.app.Instrumentation;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.catrobat.catroid.ProjectManager;
@@ -60,6 +61,7 @@ import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
 import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTORY;
+import static org.catrobat.catroid.common.SharedPreferenceKeys.NEW_SPRITE_VISUAL_PLACEMENT_KEY;
 import static org.catrobat.catroid.uiespresso.ui.fragment.rvutils.RecyclerViewInteractionWrapper.onRecyclerView;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasExtraIntent;
 import static org.catrobat.catroid.uiespresso.util.matchers.BundleMatchers.bundleHasMatchingString;
@@ -134,6 +136,9 @@ public class SpriteFromGalleryIntentTest {
 	@After
 	public void tearDown() throws IOException {
 		Intents.release();
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.remove(NEW_SPRITE_VISUAL_PLACEMENT_KEY)
+				.apply();
 		baseActivityTestRule.finishActivity();
 		StorageOperations.deleteDir(tmpPath);
 		try {
@@ -146,6 +151,10 @@ public class SpriteFromGalleryIntentTest {
 	@Category({Cat.AppUi.class, Level.Smoke.class})
 	@Test
 	public void testSpriteFromGalleryIntentTest() {
+		PreferenceManager.getDefaultSharedPreferences(ApplicationProvider.getApplicationContext()).edit()
+				.putBoolean(NEW_SPRITE_VISUAL_PLACEMENT_KEY, false)
+				.commit();
+
 		onView(withId(R.id.button_add))
 				.perform(click());
 
