@@ -38,6 +38,8 @@ import org.catrobat.catroid.content.Sprite;
 
 import java.util.ArrayList;
 
+import androidx.annotation.Nullable;
+
 public final class CollisionDetection {
 
 	private CollisionDetection() {
@@ -52,18 +54,18 @@ public final class CollisionDetection {
 			return false;
 		}
 
-		return checkCollisionBetweenPolygons(firstLook.getCurrentCollisionPolygon(),
+		return arePolygonsColliding(firstLook.getCurrentCollisionPolygon(),
 				secondLook.getCurrentCollisionPolygon());
 	}
 
-	public static boolean checkCollisionBetweenPolygons(Polygon[] first, Polygon[] second) {
+	public static boolean arePolygonsColliding(Polygon[] first, Polygon[] second) {
 		Rectangle[] firstBoxes = createBoundingBoxesOfCollisionPolygons(first);
 		Rectangle[] secondBoxes = createBoundingBoxesOfCollisionPolygons(second);
 
 		for (int firstIndex = 0; firstIndex < first.length; firstIndex++) {
 			for (int secondIndex = 0; secondIndex < second.length; secondIndex++) {
 				if (firstBoxes[firstIndex].overlaps(secondBoxes[secondIndex])
-						&& intersectPolygons(first[firstIndex], second[secondIndex])) {
+						&& arePolygonsIntersecting(first[firstIndex], second[secondIndex])) {
 					return true;
 				}
 			}
@@ -79,7 +81,7 @@ public final class CollisionDetection {
 		return boundingBoxes;
 	}
 
-	public static boolean intersectPolygons(Polygon first, Polygon second) {
+	private static boolean arePolygonsIntersecting(Polygon first, Polygon second) {
 		float[] firstVertices = first.getTransformedVertices();
 		int firstLength = firstVertices.length;
 		Vector2 v1 = new Vector2();
@@ -98,7 +100,7 @@ public final class CollisionDetection {
 		return false;
 	}
 
-	public static boolean checkCollisionForPolygonsInPolygons(Polygon[] first, Polygon[] second) {
+	private static boolean checkCollisionForPolygonsInPolygons(Polygon[] first, Polygon[] second) {
 		for (Polygon firstPolygon : first) {
 			int containedIn = 0;
 			for (Polygon secondPolygon : second) {
@@ -125,6 +127,7 @@ public final class CollisionDetection {
 		return false;
 	}
 
+	@Nullable
 	public static String getSecondSpriteNameFromCollisionFormulaString(String formula, Project currentProject) {
 
 		int indexOfSpriteInFormula = formula.length();
@@ -140,8 +143,7 @@ public final class CollisionDetection {
 		if (indexOfSpriteInFormula >= formula.length()) {
 			return null;
 		}
-		String secondSpriteName = formula.substring(indexOfSpriteInFormula);
-		return secondSpriteName;
+		return formula.substring(indexOfSpriteInFormula);
 	}
 
 	public static boolean collidesWithEdge(Polygon[] currentCollisionPolygon, Rectangle screen) {

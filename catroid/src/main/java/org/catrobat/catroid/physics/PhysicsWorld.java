@@ -41,6 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+
 public class PhysicsWorld {
 	static {
 		GdxNativesLoader.load();
@@ -59,8 +61,8 @@ public class PhysicsWorld {
 	public static final short MASK_TO_BOUNCE = -1; // collides with everything
 	public static final short MASK_NO_COLLISION = 0; // collides with NOBODY
 
-	public static final float ACTIVE_AREA_WIDTH_FACTOR = 3.0f;
-	public static final float ACTIVE_AREA_HEIGHT_FACTOR = 2.0f;
+	private static final float ACTIVE_AREA_WIDTH_FACTOR = 3.0f;
+	private static final float ACTIVE_AREA_HEIGHT_FACTOR = 2.0f;
 
 	public static final float RATIO = 10.0f;
 	public static final int VELOCITY_ITERATIONS = 3;
@@ -71,7 +73,7 @@ public class PhysicsWorld {
 	public static Vector2 activeArea;
 
 	public static final int STABILIZING_STEPS = 6;
-	private final World world = new World(PhysicsWorld.DEFAULT_GRAVITY, PhysicsWorld.IGNORE_SLEEPING_OBJECTS);
+	private final World world = new World(DEFAULT_GRAVITY, IGNORE_SLEEPING_OBJECTS);
 	private final Map<Sprite, PhysicsObject> physicsObjects = new HashMap<>();
 	private final ArrayList<Sprite> activeVerticalBounces = new ArrayList<>();
 	private final ArrayList<Sprite> activeHorizontalBounces = new ArrayList<>();
@@ -112,7 +114,7 @@ public class PhysicsWorld {
 			stabilizingSteCounter++;
 		} else {
 			try {
-				world.step(deltaTime, PhysicsWorld.VELOCITY_ITERATIONS, PhysicsWorld.POSITION_ITERATIONS);
+				world.step(deltaTime, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
 			} catch (Exception exception) {
 				Log.e(TAG, Log.getStackTraceString(exception));
 			}
@@ -126,7 +128,7 @@ public class PhysicsWorld {
 					PhysicsDebugSettings.Render.RENDER_INACTIVE_BODIES, PhysicsDebugSettings.Render.RENDER_VELOCITIES,
 					PhysicsDebugSettings.Render.RENDER_CONTACTS);
 		}
-		renderer.render(world, perspectiveMatrix.scl(PhysicsWorld.RATIO));
+		renderer.render(world, perspectiveMatrix.scl(RATIO));
 	}
 
 	public void setGravity(float x, float y) {
@@ -137,7 +139,7 @@ public class PhysicsWorld {
 		return world.getGravity();
 	}
 
-	public void changeLook(PhysicsObject physicsObject, Look look) {
+	void changeLook(PhysicsObject physicsObject, Look look) {
 		Shape[] shapes = null;
 		if (look.getLookData() != null && look.getLookData().getFile() != null) {
 			shapes = physicsShapeBuilder.getScaledShapes(look.getLookData(),
@@ -146,6 +148,7 @@ public class PhysicsWorld {
 		physicsObject.setShape(shapes);
 	}
 
+	@NonNull
 	public PhysicsObject getPhysicsObject(Sprite sprite) {
 		if (sprite == null) {
 			throw new NullPointerException();
@@ -166,23 +169,24 @@ public class PhysicsWorld {
 		return new PhysicsObject(world.createBody(bodyDef), sprite);
 	}
 
-	public void bouncedOnEdge(Sprite sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier boundaryBoxIdentifier) {
-		if (physicsObjects.containsKey(sprite)) {
-			PhysicsObject physicsObject = physicsObjects.get(sprite);
-			switch (boundaryBoxIdentifier) {
-				case BBI_HORIZONTAL:
-					if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
-						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicalCollision.fireBounceOffEvent(sprite, null);
-					}
-					break;
-				case BBI_VERTICAL:
-					if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
-						physicsObject.setIfOnEdgeBounce(false, sprite);
-						PhysicalCollision.fireBounceOffEvent(sprite, null);
-					}
-					break;
-			}
+	void bouncedOnEdge(Sprite sprite, PhysicsBoundaryBox.BoundaryBoxIdentifier boundaryBoxIdentifier) {
+		if (!physicsObjects.containsKey(sprite)) {
+			return;
+		}
+		PhysicsObject physicsObject = physicsObjects.get(sprite);
+		switch (boundaryBoxIdentifier) {
+			case BBI_HORIZONTAL:
+				if (activeHorizontalBounces.remove(sprite) && !activeVerticalBounces.contains(sprite)) {
+					physicsObject.setIfOnEdgeBounce(false, sprite);
+					PhysicalCollision.fireBounceOffEvent(sprite, null);
+				}
+				break;
+			case BBI_VERTICAL:
+				if (activeVerticalBounces.remove(sprite) && !activeHorizontalBounces.contains(sprite)) {
+					physicsObject.setIfOnEdgeBounce(false, sprite);
+					PhysicalCollision.fireBounceOffEvent(sprite, null);
+				}
+				break;
 		}
 	}
 }

@@ -81,24 +81,24 @@ public class PhysicsObject {
 	public PhysicsObject(Body b, Sprite sprite) {
 		body = b;
 		body.setUserData(sprite);
-		mass = PhysicsObject.DEFAULT_MASS;
-		fixtureDef.density = PhysicsObject.DEFAULT_DENSITY;
-		fixtureDef.friction = PhysicsObject.DEFAULT_FRICTION;
-		fixtureDef.restitution = PhysicsObject.DEFAULT_BOUNCE_FACTOR;
+		mass = DEFAULT_MASS;
+		fixtureDef.density = DEFAULT_DENSITY;
+		fixtureDef.friction = DEFAULT_FRICTION;
+		fixtureDef.restitution = DEFAULT_BOUNCE_FACTOR;
 		setType(Type.NONE);
 
 		tmpVertice = new Vector2();
 	}
 
 	public void copyTo(PhysicsObject destination) {
-		destination.setType(this.getType());
-		destination.setPosition(this.getPosition());
-		destination.setDirection(this.getDirection());
-		destination.setMass(this.getMass());
-		destination.setRotationSpeed(this.getRotationSpeed());
-		destination.setBounceFactor(this.getBounceFactor());
-		destination.setFriction(this.getFriction());
-		destination.setVelocity(this.getVelocity());
+		destination.setType(getType());
+		destination.setPosition(getPosition());
+		destination.setDirection(getDirection());
+		destination.setMass(getMass());
+		destination.setRotationSpeed(getRotationSpeed());
+		destination.setBounceFactor(getBounceFactor());
+		destination.setFriction(getFriction());
+		destination.setVelocity(getVelocity());
 	}
 
 	public void setShape(Shape[] shapes) {
@@ -166,6 +166,10 @@ public class PhysicsObject {
 		}
 		calculateCircumference();
 		setCollisionBits(categoryMaskRecord, collisionMaskRecord);
+	}
+
+	void setFixedRotation(boolean flag) {
+		body.setFixedRotation(flag);
 	}
 
 	public float getDirection() {
@@ -238,21 +242,21 @@ public class PhysicsObject {
 	}
 
 	public float getMass() {
-		return this.mass;
+		return mass;
 	}
 
 	public float getBounceFactor() {
-		return this.fixtureDef.restitution;
+		return fixtureDef.restitution;
 	}
 
 	public void setMass(float mass) {
 		this.mass = mass;
 
 		if (mass < 0) {
-			this.mass = PhysicsObject.MIN_MASS;
+			this.mass = MIN_MASS;
 		}
-		if (mass < PhysicsObject.MIN_MASS) {
-			mass = PhysicsObject.MIN_MASS;
+		if (mass < MIN_MASS) {
+			mass = MIN_MASS;
 		}
 		if (isStaticObject()) {
 			return;
@@ -269,7 +273,7 @@ public class PhysicsObject {
 	@VisibleForTesting
 	public void setDensity(float density) {
 		if (density < MIN_DENSITY) {
-			density = PhysicsObject.MIN_DENSITY;
+			density = MIN_DENSITY;
 		}
 		fixtureDef.density = density;
 		for (Fixture fixture : body.getFixtureList()) {
@@ -310,7 +314,7 @@ public class PhysicsObject {
 		body.setGravityScale(scale);
 	}
 
-	public float getGravityScale() {
+	private float getGravityScale() {
 		return body.getGravityScale();
 	}
 
@@ -319,7 +323,6 @@ public class PhysicsObject {
 			return;
 		}
 		ifOnEdgeBounce = bounce;
-
 		short maskBits;
 		if (bounce) {
 			maskBits = PhysicsWorld.MASK_TO_BOUNCE;
@@ -327,15 +330,14 @@ public class PhysicsObject {
 		} else {
 			maskBits = PhysicsWorld.MASK_PHYSICSOBJECT;
 		}
-
 		setCollisionBits(categoryMaskRecord, maskBits);
 	}
 
-	protected void setCollisionBits(short categoryBits, short maskBits) {
+	private void setCollisionBits(short categoryBits, short maskBits) {
 		setCollisionBits(categoryBits, maskBits, true);
 	}
 
-	protected void setCollisionBits(short categoryBits, short maskBits, boolean updateState) {
+	private void setCollisionBits(short categoryBits, short maskBits, boolean updateState) {
 		fixtureDef.filter.categoryBits = categoryBits;
 		fixtureDef.filter.maskBits = maskBits;
 
@@ -354,7 +356,7 @@ public class PhysicsObject {
 	private void updateNonCollidingState() {
 		if (body.getUserData() != null && body.getUserData() instanceof Sprite) {
 			Object look = ((Sprite) body.getUserData()).look;
-			if (look != null && look instanceof PhysicsLook) {
+			if (look instanceof PhysicsLook) {
 				((PhysicsLook) look).setNonColliding(isNonColliding());
 			}
 		}
@@ -375,7 +377,7 @@ public class PhysicsObject {
 		return new Vector2(aabbWidth, aabbHeight);
 	}
 
-	public void activateHangup() {
+	void activateHangup() {
 		velocity = new Vector2(getVelocity());
 		rotationSpeed = getRotationSpeed();
 		gravityScale = getGravityScale();
@@ -385,52 +387,44 @@ public class PhysicsObject {
 		setRotationSpeed(0);
 	}
 
-	public void deactivateHangup(boolean record) {
-		if (record) {
-			setGravityScale(gravityScale);
-			setVelocity(velocity.x, velocity.y);
-			setRotationSpeed(rotationSpeed);
-		} else {
-			setGravityScale(1);
-		}
+	void deactivateHangup() {
+		setGravityScale(gravityScale);
+		setVelocity(velocity.x, velocity.y);
+		setRotationSpeed(rotationSpeed);
 	}
 
-	public void activateNonColliding(boolean updateState) {
-		setCollisionBits(categoryMaskRecord, PhysicsWorld.MASK_NO_COLLISION, updateState);
+	void activateNonColliding() {
+		setCollisionBits(categoryMaskRecord, PhysicsWorld.MASK_NO_COLLISION, false);
 	}
 
-	public void deactivateNonColliding(boolean record, boolean updateState) {
-		if (record) {
-			setCollisionBits(categoryMaskRecord, collisionMaskRecord, updateState);
-		}
+	void deactivateNonColliding() {
+		setCollisionBits(categoryMaskRecord, collisionMaskRecord, false);
 	}
 
-	public void activateFixed() {
+	void activateFixed() {
 		savedType = getType();
 		setType(Type.FIXED);
 	}
 
-	public void deactivateFixed(boolean record) {
-		if (record) {
-			setType(savedType);
-		}
+	void deactivateFixed() {
+		setType(savedType);
 	}
 
-	public boolean isNonColliding() {
+	private boolean isNonColliding() {
 		return collisionMaskRecord == PhysicsWorld.MASK_NO_COLLISION;
 	}
 
 	private void calculateAabb() {
-		bodyAabbLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		bodyAabbUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+		bodyAabbLowerLeft = new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
+		bodyAabbUpperRight = new Vector2(Float.MIN_VALUE, Float.MIN_VALUE);
 		Transform transform = body.getTransform();
 		int len = body.getFixtureList().size;
 		Array<Fixture> fixtures = body.getFixtureList();
 		if (fixtures.size == 0) {
-			bodyAabbLowerLeft.x = 0;
-			bodyAabbLowerLeft.y = 0;
-			bodyAabbUpperRight.x = 0;
-			bodyAabbUpperRight.y = 0;
+			bodyAabbLowerLeft.x = 0.0f;
+			bodyAabbLowerLeft.y = 0.0f;
+			bodyAabbUpperRight.x = 0.0f;
+			bodyAabbUpperRight.y = 0.0f;
 		}
 		for (int i = 0; i < len; i++) {
 			Fixture fixture = fixtures.get(i);
@@ -439,8 +433,8 @@ public class PhysicsObject {
 	}
 
 	private void calculateAabb(Fixture fixture, Transform transform) {
-		fixtureAabbLowerLeft = new Vector2(Integer.MAX_VALUE, Integer.MAX_VALUE);
-		fixtureAabbUpperRight = new Vector2(Integer.MIN_VALUE, Integer.MIN_VALUE);
+		fixtureAabbLowerLeft = new Vector2(Float.MAX_VALUE, Float.MAX_VALUE);
+		fixtureAabbUpperRight = new Vector2(Float.MIN_VALUE, Float.MIN_VALUE);
 		if (fixture.getType() == Shape.Type.Circle) {
 			CircleShape shape = (CircleShape) fixture.getShape();
 			float radius = shape.getRadius();

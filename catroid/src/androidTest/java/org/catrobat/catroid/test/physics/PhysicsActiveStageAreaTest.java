@@ -80,7 +80,7 @@ public class PhysicsActiveStageAreaTest {
 	@Test
 	public void testCenteredObjectIsActive() {
 		physicsObject.setPosition(0, 0);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertFalse(physicsLook.isHangedUp());
 	}
 
@@ -89,13 +89,13 @@ public class PhysicsActiveStageAreaTest {
 		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
 				+ physicsObject.getCircumference() - 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertFalse(physicsLook.isHangedUp());
 
 		physicsObject.setX(PhysicsWorld.activeArea.x / 2.0f
 				+ physicsObject.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertTrue(physicsLook.isHangedUp());
 	}
 
@@ -104,13 +104,13 @@ public class PhysicsActiveStageAreaTest {
 		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
 				+ physicsObject.getCircumference() - 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertFalse(physicsLook.isHangedUp());
 
 		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
 				+ physicsObject.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertTrue(physicsLook.isHangedUp());
 	}
 
@@ -121,7 +121,7 @@ public class PhysicsActiveStageAreaTest {
 		physicsObject.setY(-PhysicsWorld.activeArea.y / 2.0f
 				- physicsObject.getCircumference() - 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertTrue(physicsLook.isHangedUp());
 	}
 
@@ -132,12 +132,12 @@ public class PhysicsActiveStageAreaTest {
 		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
 				+ physicsObject.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertTrue(physicsLook.isHangedUp());
 
 		physicsObject.setPosition(0.0f, 0.0f);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertFalse(physicsLook.isHangedUp());
 	}
 
@@ -158,7 +158,7 @@ public class PhysicsActiveStageAreaTest {
 		LookData lookdata = PhysicsTestUtils.generateLookData(rectangle8192x8192File);
 		sprite.look.setLookData(lookdata);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertNotNull(sprite.look.getLookData());
 
 		physicsObject = physicsWorld.getPhysicsObject(sprite);
@@ -170,12 +170,12 @@ public class PhysicsActiveStageAreaTest {
 		physicsObject.setY(PhysicsWorld.activeArea.y / 2.0f
 				+ physicsObject.getCircumference() + 1);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertTrue(physicsLook.isHangedUp());
 
 		physicsObject.setPosition(0.0f, 0.0f);
 		physicsWorld.step(0.05f);
-		physicsLook.updatePhysicsObjectState(true);
+		physicsLook.updatePhysicsObjectState();
 		assertFalse(physicsLook.isHangedUp());
 	}
 }

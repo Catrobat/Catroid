@@ -29,11 +29,12 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.EventWrapper;
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.content.eventids.BounceOffEventId;
+import org.jetbrains.annotations.NonNls;
 
 public class PhysicalCollision {
 
-	private int contactCounter = 0;
-	private CollidingSprites objects;
+	private int contactCounter;
+	private final CollidingSprites objects;
 
 	PhysicalCollision(CollidingSprites objects) {
 		this.objects = objects;
@@ -76,12 +77,12 @@ public class PhysicalCollision {
 	}
 
 	public String toString() {
-		String str = "PhysicalCollision:\n"
+		@NonNls String str = "PhysicalCollision:\n"
 				+ "     sprite1: %s\n"
 				+ "     sprite2: %s\n"
 				+ "     contactCounter: %s\n";
 
-		return String.format(str, objects.sprite1, objects.sprite2, String.valueOf(contactCounter));
+		return String.format(str, objects.sprite1, objects.sprite2, contactCounter);
 	}
 
 	@Override

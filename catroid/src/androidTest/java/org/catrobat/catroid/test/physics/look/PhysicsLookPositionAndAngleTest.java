@@ -24,6 +24,8 @@
 package org.catrobat.catroid.test.physics.look;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 
 import org.catrobat.catroid.content.Sprite;
 import org.catrobat.catroid.physics.PhysicsLook;
@@ -39,6 +41,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import static junit.framework.Assert.assertEquals;
 
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -54,9 +57,8 @@ public class PhysicsLookPositionAndAngleTest {
 	@Before
 	public void setUp() throws Exception {
 		Sprite sprite = mock(Sprite.class);
-		physicsObject = mock(PhysicsObject.class);
 		physicsWorldSpy = Mockito.spy(new PhysicsWorld(1920, 1600));
-		when(physicsWorldSpy.getPhysicsObject(sprite)).thenReturn(physicsObject);
+		physicsObject = createPhysicsObjectSpy(sprite);
 		physicsLook = new PhysicsLook(sprite, physicsWorldSpy);
 	}
 
@@ -65,13 +67,13 @@ public class PhysicsLookPositionAndAngleTest {
 		float x = 0.5f;
 		physicsLook.setX(x);
 		verify(physicsObject, times(1)).setX(eq(x));
-		Mockito.verifyNoMoreInteractions(physicsObject);
+		verifyNoMoreInteractions(physicsObject);
 	}
 
 	@Test
 	public void testPositionGetX() {
 		float x = 0.5f;
-		when(physicsObject.getX()).thenReturn(x);
+		doReturn(x).when(physicsObject).getX();
 		assertEquals(x, physicsLook.getX());
 	}
 
@@ -80,13 +82,13 @@ public class PhysicsLookPositionAndAngleTest {
 		float y = 0.5f;
 		physicsLook.setY(y);
 		verify(physicsObject, times(1)).setY(eq(y));
-		Mockito.verifyNoMoreInteractions(physicsObject);
+		verifyNoMoreInteractions(physicsObject);
 	}
 
 	@Test
 	public void testPositionGetY() {
 		float y = 0.5f;
-		when(physicsObject.getY()).thenReturn(y);
+		doReturn(y).when(physicsObject).getY();
 		assertEquals(y, physicsLook.getY());
 	}
 
@@ -110,8 +112,7 @@ public class PhysicsLookPositionAndAngleTest {
 	@Test
 	public void testCloneValues() {
 		Sprite cloneSprite = mock(Sprite.class);
-		PhysicsObject clonePhysicsObject = mock(PhysicsObject.class);
-		when(physicsWorldSpy.getPhysicsObject(cloneSprite)).thenReturn(clonePhysicsObject);
+		PhysicsObject clonePhysicsObject = createPhysicsObjectSpy(cloneSprite);
 		PhysicsLook cloneLook = new PhysicsLook(cloneSprite, physicsWorldSpy);
 
 		PhysicsWorld.activeArea = new Vector2(0.0f, 0.0f);
@@ -123,5 +124,15 @@ public class PhysicsLookPositionAndAngleTest {
 
 		assertEquals(physicsLook.getBrightnessInUserInterfaceDimensionUnit(), cloneLook.getBrightnessInUserInterfaceDimensionUnit());
 		verify(physicsObject, times(1)).copyTo(clonePhysicsObject);
+	}
+
+	private PhysicsObject createPhysicsObjectSpy(Sprite sprite) {
+		Body bodyMock = mock(Body.class);
+		when(bodyMock.getPosition()).thenReturn(new Vector2(0, 0));
+		when(bodyMock.getLinearVelocity()).thenReturn(new Vector2(0, 0));
+		when(bodyMock.getFixtureList()).thenReturn(new Array<>());
+		PhysicsObject object = Mockito.spy(new PhysicsObject(bodyMock, sprite));
+		when(physicsWorldSpy.getPhysicsObject(sprite)).thenReturn(object);
+		return object;
 	}
 }

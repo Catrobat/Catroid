@@ -58,7 +58,9 @@ public class Look extends Image {
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({ROTATION_STYLE_LEFT_RIGHT_ONLY, ROTATION_STYLE_ALL_AROUND, ROTATION_STYLE_NONE})
-	public @interface RotationStyle {}
+	public @interface RotationStyle {
+	}
+
 	public static final int ROTATION_STYLE_LEFT_RIGHT_ONLY = 0;
 	public static final int ROTATION_STYLE_ALL_AROUND = 1;
 	public static final int ROTATION_STYLE_NONE = 2;
@@ -66,9 +68,9 @@ public class Look extends Image {
 	public static final float DEGREE_UI_OFFSET = 90.0f;
 	private static final float COLOR_SCALE = 200.0f;
 	private boolean lookVisible = true;
-	private boolean simultaneousMovementXY = false;
+	private boolean noSimultaneousMovementXY = true;
 	private int lookListIndexBeforeLookRequest = -1;
-	protected LookData lookData;
+	private LookData lookData;
 	protected Sprite sprite;
 	protected float alpha = 1f;
 	protected float brightness = 1f;
@@ -92,11 +94,11 @@ public class Look extends Image {
 		rotation = getDirectionInUserInterfaceDimensionUnit();
 	}
 
-	protected void addListeners() {
-		this.addListener(new InputListener() {
+	private void addListeners() {
+		addListener(new InputListener() {
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if (doTouchDown(x, y, pointer)) {
+				if (doTouchDown(x, y)) {
 					return true;
 				}
 				setTouchable(Touchable.disabled);
@@ -108,7 +110,7 @@ public class Look extends Image {
 				return false;
 			}
 		});
-		this.addListener(new EventWrapperListener(this));
+		addListener(new EventWrapperListener(this));
 	}
 
 	public synchronized boolean isLookVisible() {
@@ -132,30 +134,30 @@ public class Look extends Image {
 		notifyAllWaiters();
 		setLookVisible(false);
 		boolean returnValue = super.remove();
-		for (EventListener listener : this.getListeners()) {
-			this.removeListener(listener);
+		for (EventListener listener : getListeners()) {
+			removeListener(listener);
 		}
 		getActions().clear();
 		scheduler = null;
-		this.sprite = null;
-		this.lookData = null;
+		sprite = null;
+		lookData = null;
 		return returnValue;
 	}
 
 	public void copyTo(final Look destination) {
-		destination.setLookVisible(this.isLookVisible());
-		destination.setPositionInUserInterfaceDimensionUnit(this.getXInUserInterfaceDimensionUnit(),
-				this.getYInUserInterfaceDimensionUnit());
-		destination.setSizeInUserInterfaceDimensionUnit(this.getSizeInUserInterfaceDimensionUnit());
-		destination.setTransparencyInUserInterfaceDimensionUnit(this.getTransparencyInUserInterfaceDimensionUnit());
-		destination.setColorInUserInterfaceDimensionUnit(this.getColorInUserInterfaceDimensionUnit());
+		destination.setLookVisible(isLookVisible());
+		destination.setPositionInUserInterfaceDimensionUnit(getXInUserInterfaceDimensionUnit(),
+				getYInUserInterfaceDimensionUnit());
+		destination.setSizeInUserInterfaceDimensionUnit(getSizeInUserInterfaceDimensionUnit());
+		destination.setTransparencyInUserInterfaceDimensionUnit(getTransparencyInUserInterfaceDimensionUnit());
+		destination.setColorInUserInterfaceDimensionUnit(getColorInUserInterfaceDimensionUnit());
 
-		destination.setRotationMode(this.getRotationMode());
-		destination.setDirectionInUserInterfaceDimensionUnit(this.getDirectionInUserInterfaceDimensionUnit());
-		destination.setBrightnessInUserInterfaceDimensionUnit(this.getBrightnessInUserInterfaceDimensionUnit());
+		destination.setRotationMode(getRotationMode());
+		destination.setDirectionInUserInterfaceDimensionUnit(getDirectionInUserInterfaceDimensionUnit());
+		destination.setBrightnessInUserInterfaceDimensionUnit(getBrightnessInUserInterfaceDimensionUnit());
 	}
 
-	public boolean doTouchDown(float x, float y, int pointer) {
+	public boolean doTouchDown(float x, float y) {
 		if (!isLookVisible()) {
 			return false;
 		}
@@ -185,14 +187,10 @@ public class Look extends Image {
 	@Override
 	public synchronized void draw(Batch batch, float parentAlpha) {
 		batch.setShader(shader);
-		if (alpha == 0.0f) {
-			super.setVisible(false);
-		} else {
-			super.setVisible(true);
-		}
+		setVisible(alpha != 0.0f);
 
-		if (isLookVisible() && this.getDrawable() != null) {
-			super.draw(batch, this.alpha);
+		if (isLookVisible() && getDrawable() != null) {
+			super.draw(batch, alpha);
 		}
 		batch.setShader(null);
 	}
@@ -209,7 +207,7 @@ public class Look extends Image {
 	@Override
 	protected void positionChanged() {
 		if (sprite != null && sprite.penConfiguration != null && sprite.penConfiguration.isPenDown()
-				&& !simultaneousMovementXY) {
+				&& noSimultaneousMovementXY) {
 			float x = getXInUserInterfaceDimensionUnit();
 			float y = getYInUserInterfaceDimensionUnit();
 			sprite.penConfiguration.addPosition(new PointF(x, y));
@@ -281,13 +279,7 @@ public class Look extends Image {
 	}
 
 	public synchronized String getImagePath() {
-		String path;
-		if (this.lookData == null) {
-			path = "";
-		} else {
-			path = this.lookData.getFile().getAbsolutePath();
-		}
-		return path;
+		return lookData != null ? lookData.getFile().getAbsolutePath() : "";
 	}
 
 	public float getXInUserInterfaceDimensionUnit() {
@@ -333,12 +325,12 @@ public class Look extends Image {
 	public void setPositionInUserInterfaceDimensionUnit(float x, float y) {
 		adjustSimultaneousMovementXY(x, y);
 		setXInUserInterfaceDimensionUnit(x);
-		adjustSimultaneousMovementXY(this.getX(), y);
+		adjustSimultaneousMovementXY(getX(), y);
 		setYInUserInterfaceDimensionUnit(y);
 	}
 
 	private void adjustSimultaneousMovementXY(float x, float y) {
-		simultaneousMovementXY = x != this.getX() && y != this.getY();
+		noSimultaneousMovementXY = x == getX() || y == getY();
 	}
 
 	public void changeXInUserInterfaceDimensionUnit(float changeX) {
@@ -424,7 +416,7 @@ public class Look extends Image {
 	}
 
 	public void setDirectionInUserInterfaceDimensionUnit(float degrees) {
-		rotation = (-degrees + DEGREE_UI_OFFSET) % 360;
+		rotation = (-degrees + DEGREE_UI_OFFSET) % 360.0F;
 		realRotation = convertStageAngleToCatroidAngle(rotation);
 
 		switch (rotationMode) {
@@ -559,7 +551,7 @@ public class Look extends Image {
 		return breakDownCatroidAngle(catroidAngle);
 	}
 
-	private class BrightnessContrastHueShader extends ShaderProgram {
+	private static class BrightnessContrastHueShader extends ShaderProgram {
 
 		private static final String VERTEX_SHADER = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
 				+ "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "

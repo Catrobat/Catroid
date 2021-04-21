@@ -30,16 +30,17 @@ import org.catrobat.catroid.common.LookData;
 import org.catrobat.catroid.content.Look;
 import org.catrobat.catroid.content.Sprite;
 
+import java.util.Collection;
 import java.util.LinkedList;
 
 public class PhysicsLook extends Look {
 
-	public static final float SCALE_FACTOR_ACCURACY = 10000.0f;
+	private static final float SCALE_FACTOR_ACCURACY = 10000.0f;
 
 	private final PhysicsObject physicsObject;
 	private final PhysicsObjectStateHandler physicsObjectStateHandler = new PhysicsObjectStateHandler();
 
-	private boolean isFlippedByAction = false;
+	private boolean isFlippedByAction;
 
 	public PhysicsLook(Sprite sprite, PhysicsWorld physicsWorld) {
 		super(sprite);
@@ -47,17 +48,17 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
-	public void copyTo(final Look destination) {
+	public void copyTo(Look destination) {
 		super.copyTo(destination);
 		if (destination instanceof PhysicsLook) {
-			this.physicsObject.copyTo(((PhysicsLook) destination).physicsObject);
+			physicsObject.copyTo(((PhysicsLook) destination).physicsObject);
 		}
 	}
 
 	@Override
 	public void setTransparencyInUserInterfaceDimensionUnit(float percent) {
 		super.setTransparencyInUserInterfaceDimensionUnit(percent);
-		updatePhysicsObjectState(true);
+		updatePhysicsObjectState();
 	}
 
 	@Override
@@ -65,7 +66,7 @@ public class PhysicsLook extends Look {
 		super.setLookData(lookData);
 		PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 		physicsWorld.changeLook(physicsObject, this);
-		updatePhysicsObjectState(true);
+		updatePhysicsObjectState();
 	}
 
 	@Override
@@ -132,19 +133,19 @@ public class PhysicsLook extends Look {
 		super.setRotation((physicsObject.getDirection() % 360));
 		float rotation = super.getRotation();
 		float realRotation = physicsObject.getDirection() % 360;
-		if (realRotation < 0) {
+		if (realRotation < 0.0f) {
 			realRotation += 360;
 		}
-		switch (super.getRotationMode()) {
+		switch (getRotationMode()) {
 			case ROTATION_STYLE_LEFT_RIGHT_ONLY:
-				super.setRotation(0f);
+				super.setRotation(0.0f);
 				flipLookDataIfNeeded(realRotation);
 				break;
 			case ROTATION_STYLE_ALL_AROUND:
 				super.setRotation(rotation);
 				break;
 			case ROTATION_STYLE_NONE:
-				super.setRotation(0f);
+				super.setRotation(0.0f);
 				break;
 		}
 		return super.getRotation();
@@ -177,12 +178,12 @@ public class PhysicsLook extends Look {
 		if (physicsObject != null) {
 			PhysicsWorld physicsWorld = ProjectManager.getInstance().getCurrentlyPlayingScene().getPhysicsWorld();
 			physicsWorld.changeLook(physicsObject, this);
-			updatePhysicsObjectState(true);
+			updatePhysicsObjectState();
 		}
 	}
 
-	public void updatePhysicsObjectState(boolean record) {
-		physicsObjectStateHandler.update(record);
+	public void updatePhysicsObjectState() {
+		physicsObjectStateHandler.update();
 	}
 
 	private void flipLookDataIfNeeded(float realRotation) {
@@ -192,7 +193,9 @@ public class PhysicsLook extends Look {
 		if (isFlippedByAction) {
 			isLookDataFlipped = !isLookDataFlipped;
 		}
-		if (lookData != null && ((isLookDataFlipped && orientedRight) || (!isLookDataFlipped && orientedLeft))) {
+
+		LookData lookData = getLookData();
+		if (lookData != null && (isLookDataFlipped ? orientedRight : orientedLeft)) {
 			lookData.getTextureRegion().flip(true, false);
 		}
 	}
@@ -219,16 +222,22 @@ public class PhysicsLook extends Look {
 	}
 
 	@Override
+	public void setRotationMode(int mode) {
+		super.setRotationMode(mode);
+		updatePhysicsObjectState();
+	}
+
+	@Override
 	public void setLookVisible(boolean visible) {
 		super.setLookVisible(visible);
-		physicsObjectStateHandler.update(true);
+		physicsObjectStateHandler.update();
 	}
 
 	public boolean isHangedUp() {
 		return physicsObjectStateHandler.isHangedUp();
 	}
 
-	public void setNonColliding(boolean nonColliding) {
+	void setNonColliding(boolean nonColliding) {
 		physicsObjectStateHandler.setNonColliding(nonColliding);
 	}
 
@@ -246,29 +255,25 @@ public class PhysicsLook extends Look {
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		physicsObjectStateHandler.checkHangup(true);
+		physicsObjectStateHandler.updateHangup();
 		super.draw(batch, parentAlpha);
 	}
 
-	private class PhysicsObjectStateHandler {
+	private final class PhysicsObjectStateHandler {
+		private boolean glideToIsActive;
+		private boolean hangedUp;
+		private boolean fixed;
+		private boolean nonColliding;
 
-		private LinkedList<PhysicsObjectStateCondition> hangupConditions = new LinkedList<>();
-		private LinkedList<PhysicsObjectStateCondition> nonCollidingConditions = new LinkedList<>();
-		private LinkedList<PhysicsObjectStateCondition> fixConditions = new LinkedList<>();
+		private final Collection<PhysicsObjectStateCondition> hangupConditions = new LinkedList<>();
+		private final Collection<PhysicsObjectStateCondition> nonCollidingConditions = new LinkedList<>();
+		private final PhysicsObjectStateCondition fixOnGlideToCondition = () -> glideToIsActive;
+		private final PhysicsObjectStateCondition fixRotationCondition = () ->
+				getRotationMode() == ROTATION_STYLE_NONE || getRotationMode() == ROTATION_STYLE_LEFT_RIGHT_ONLY;
 
-		private PhysicsObjectStateCondition positionCondition;
-		private PhysicsObjectStateCondition visibleCondition;
-		private PhysicsObjectStateCondition transparencyCondition;
-		private PhysicsObjectStateCondition glideToCondition;
+		private PhysicsObjectStateHandler() {
 
-		private boolean glideToIsActive = false;
-		private boolean hangedUp = false;
-		private boolean fixed = false;
-		private boolean nonColliding = false;
-
-		PhysicsObjectStateHandler() {
-
-			positionCondition = new PhysicsObjectStateCondition() {
+			PhysicsObjectStateCondition positionCondition = new PhysicsObjectStateCondition() {
 				@Override
 				public boolean isTrue() {
 					return isOutsideActiveArea();
@@ -289,40 +294,21 @@ public class PhysicsLook extends Look {
 				}
 			};
 
-			visibleCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return !isLookVisible();
-				}
-			};
+			PhysicsObjectStateCondition visibleCondition = () -> !isLookVisible();
 
-			transparencyCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return alpha == 0.0;
-				}
-			};
+			PhysicsObjectStateCondition transparentCondition = () -> alpha == 0.0f;
 
-			glideToCondition = new PhysicsObjectStateCondition() {
-				@Override
-				public boolean isTrue() {
-					return glideToIsActive;
-				}
-			};
-
-			hangupConditions.add(transparencyCondition);
+			hangupConditions.add(transparentCondition);
 			hangupConditions.add(positionCondition);
 			hangupConditions.add(visibleCondition);
-			hangupConditions.add(glideToCondition);
+			hangupConditions.add(fixOnGlideToCondition);
 
-			nonCollidingConditions.add(transparencyCondition);
+			nonCollidingConditions.add(transparentCondition);
 			nonCollidingConditions.add(positionCondition);
 			nonCollidingConditions.add(visibleCondition);
-
-			fixConditions.add(glideToCondition);
 		}
 
-		private boolean checkHangup(boolean record) {
+		private void updateHangup() {
 			boolean shouldBeHangedUp = false;
 			for (PhysicsObjectStateCondition hangupCondition : hangupConditions) {
 				if (hangupCondition.isTrue()) {
@@ -333,15 +319,14 @@ public class PhysicsLook extends Look {
 			boolean deactivateHangup = hangedUp && !shouldBeHangedUp;
 			boolean activateHangup = !hangedUp && shouldBeHangedUp;
 			if (deactivateHangup) {
-				physicsObject.deactivateHangup(record);
+				physicsObject.deactivateHangup();
 			} else if (activateHangup) {
 				physicsObject.activateHangup();
 			}
 			hangedUp = shouldBeHangedUp;
-			return hangedUp;
 		}
 
-		private boolean checkNonColliding(boolean record) {
+		private void updateNonColliding() {
 			boolean shouldBeNonColliding = false;
 			for (PhysicsObjectStateCondition nonCollideCondition : nonCollidingConditions) {
 				if (nonCollideCondition.isTrue()) {
@@ -352,59 +337,56 @@ public class PhysicsLook extends Look {
 			boolean deactivateNonColliding = nonColliding && !shouldBeNonColliding;
 			boolean activateNonColliding = !nonColliding && shouldBeNonColliding;
 			if (deactivateNonColliding) {
-				physicsObject.deactivateNonColliding(record, false);
+				physicsObject.deactivateNonColliding();
 			} else if (activateNonColliding) {
-				physicsObject.activateNonColliding(false);
+				physicsObject.activateNonColliding();
 			}
 			nonColliding = shouldBeNonColliding;
-			return nonColliding;
 		}
 
-		private boolean checkFixed(boolean record) {
-			boolean shouldBeFixed = false;
-			for (PhysicsObjectStateCondition fixedCondition : fixConditions) {
-				if (fixedCondition.isTrue()) {
-					shouldBeFixed = true;
-					break;
-				}
-			}
+		private void updateFixed() {
+			boolean shouldBeFixed = fixOnGlideToCondition.isTrue();
 			boolean deactivateFix = fixed && !shouldBeFixed;
 			boolean activateFix = !fixed && shouldBeFixed;
 			if (deactivateFix) {
-				physicsObject.deactivateFixed(record);
+				physicsObject.deactivateFixed();
 			} else if (activateFix) {
 				physicsObject.activateFixed();
 			}
 			fixed = shouldBeFixed;
-			return fixed;
 		}
 
-		public void update(boolean record) {
-			checkHangup(record);
-			checkNonColliding(record);
-			checkFixed(record);
+		private void updateFixedRotation() {
+			physicsObject.setFixedRotation(fixRotationCondition.isTrue());
 		}
 
-		public void activateGlideTo() {
+		public void update() {
+			updateHangup();
+			updateNonColliding();
+			updateFixed();
+			updateFixedRotation();
+		}
+
+		void activateGlideTo() {
 			if (!glideToIsActive) {
 				glideToIsActive = true;
-				updatePhysicsObjectState(true);
+				updatePhysicsObjectState();
 			}
 		}
 
-		public void deactivateGlideTo() {
+		void deactivateGlideTo() {
 			glideToIsActive = false;
-			updatePhysicsObjectState(true);
+			updatePhysicsObjectState();
 		}
 
-		public boolean isHangedUp() {
+		boolean isHangedUp() {
 			return hangedUp;
 		}
 
-		public void setNonColliding(boolean nonColliding) {
+		void setNonColliding(boolean nonColliding) {
 			if (this.nonColliding != nonColliding) {
 				this.nonColliding = nonColliding;
-				update(true);
+				update();
 			}
 		}
 	}

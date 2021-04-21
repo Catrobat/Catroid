@@ -96,12 +96,12 @@ public class SetRotationStyleBrick extends BrickBaseType implements
 		selection = item != null ? item.getRotationStyle() : 0;
 	}
 
-	class RotationStyleOption implements Nameable {
+	static class RotationStyleOption implements Nameable {
 
 		private String name;
 
 		@Look.RotationStyle
-		private int rotationStyle;
+		private final int rotationStyle;
 
 		RotationStyleOption(String name, @Look.RotationStyle int rotationStyle) {
 			this.name = name;
