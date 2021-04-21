@@ -20,28 +20,31 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
+package org.catrobat.catroid.common
 
-import org.catrobat.catroid.content.Scene;
-import org.catrobat.catroid.content.Script;
-import org.catrobat.catroid.content.Sprite;
-import org.catrobat.catroid.content.bricks.UserDefinedBrick;
+import org.catrobat.catroid.content.Scene
+import org.catrobat.catroid.content.Script
+import org.catrobat.catroid.content.Sprite
+import org.catrobat.catroid.content.bricks.UserDefinedBrick
+import java.io.Serializable
+import java.util.HashMap
+import java.util.concurrent.CopyOnWriteArrayList
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+class Backpack : Serializable {
+    @JvmField
+	var backpackedScenes: List<Scene> = CopyOnWriteArrayList()
+    @JvmField
+	var backpackedSprites: List<Sprite> = CopyOnWriteArrayList()
+    @JvmField
+	var backpackedSounds: List<SoundInfo> = CopyOnWriteArrayList()
+    @JvmField
+	var backpackedLooks: List<LookData> = CopyOnWriteArrayList()
+    @JvmField
+	var backpackedScripts = HashMap<String, List<Script>>()
+    @JvmField
+	var backpackedUserDefinedBricks = HashMap<String, List<UserDefinedBrick>>()
 
-public class Backpack implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
-	public List<Scene> backpackedScenes = new CopyOnWriteArrayList<>();
-	public List<Sprite> backpackedSprites = new CopyOnWriteArrayList<>();
-
-	public List<SoundInfo> backpackedSounds = new CopyOnWriteArrayList<>();
-	public List<LookData> backpackedLooks = new CopyOnWriteArrayList<>();
-
-	public HashMap<String, List<Script>> backpackedScripts = new HashMap<>();
-	public HashMap<String, List<UserDefinedBrick>> backpackedUserDefinedBricks = new HashMap<>();
+    companion object {
+        private const val serialVersionUID = 1L
+    }
 }
