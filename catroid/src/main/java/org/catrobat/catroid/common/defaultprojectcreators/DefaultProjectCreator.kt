@@ -54,10 +54,10 @@ import java.io.IOException
 open class DefaultProjectCreator : ProjectCreator() {
     @Throws(IOException::class)
     override fun createDefaultProject(
-        name: String,
-        context: Context,
+        name: String?,
+        context: Context?,
         landscapeMode: Boolean
-    ): Project {
+    ): Project? {
         val project = Project(context, name, landscapeMode)
         if (project.directory.exists()) {
             throw IOException(
@@ -84,7 +84,7 @@ open class DefaultProjectCreator : ProjectCreator() {
         }
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
-        BitmapFactory.decodeResource(context.resources, backgroundDrawableId, options)
+        BitmapFactory.decodeResource(context?.resources, backgroundDrawableId, options)
         backgroundImageScaleFactor = ImageEditing.calculateScaleFactor(
             options.outWidth,
             options.outHeight,
@@ -97,54 +97,54 @@ open class DefaultProjectCreator : ProjectCreator() {
         val imageFileName = "img" + Constants.DEFAULT_IMAGE_EXTENSION
         val soundFileName = "snd" + Constants.DEFAULT_SOUND_EXTENSION
         val backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             backgroundDrawableId,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val cloudFile1 = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             cloudDrawableId,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val cloudFile2 = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             cloudDrawableId,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.drawable.default_project_bird_wing_up,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.drawable.default_project_bird_wing_down,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val tweetFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.raw.default_project_tweet_1,
             soundDir,
             soundFileName
         )
         val tweetFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.raw.default_project_tweet_2,
             soundDir,
             soundFileName
         )
         ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             screenshotDrawableId,
             scene.directory,
             Constants.SCREENSHOT_AUTOMATIC_FILE_NAME, 1.0
@@ -153,38 +153,40 @@ open class DefaultProjectCreator : ProjectCreator() {
         background.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_project_background_name),
+                    context?.getString(R.string.default_project_background_name),
                     backgroundFile
                 )
             )
-        val cloud1 = Sprite(context.getString(R.string.default_project_cloud_sprite_name_1))
-        val cloud2 = Sprite(context.getString(R.string.default_project_cloud_sprite_name_2))
-        val bird = Sprite(context.getString(R.string.default_project_sprites_animal_name))
+        val cloud1 = Sprite(context?.getString(R.string.default_project_cloud_sprite_name_1))
+        val cloud2 = Sprite(context?.getString(R.string.default_project_cloud_sprite_name_2))
+        val bird = Sprite(context?.getString(R.string.default_project_sprites_animal_name))
         scene.addSprite(cloud1)
         scene.addSprite(cloud2)
         scene.addSprite(bird)
         cloud1.lookList
-            .add(LookData(context.getString(R.string.default_project_cloud_name), cloudFile1))
+            .add(LookData(context?.getString(R.string.default_project_cloud_name), cloudFile1))
         cloud2.lookList
-            .add(LookData(context.getString(R.string.default_project_cloud_name), cloudFile2))
+            .add(LookData(context?.getString(R.string.default_project_cloud_name), cloudFile2))
         bird.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_project_sprites_animal_wings_up),
+                    context?.getString(R.string.default_project_sprites_animal_wings_up),
                     birdWingUpFile
                 )
             )
         bird.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_project_sprites_animal_wings_down),
+                    context?.getString(R.string.default_project_sprites_animal_wings_down),
                     birdWingDownFile
                 )
             )
         bird.soundList
-            .add(SoundInfo(context.getString(R.string.default_project_sprites_tweet_1), tweetFile1))
+            .add(SoundInfo(context?.getString(R.string.default_project_sprites_tweet_1),
+                           tweetFile1))
         bird.soundList
-            .add(SoundInfo(context.getString(R.string.default_project_sprites_tweet_2), tweetFile2))
+            .add(SoundInfo(context?.getString(R.string.default_project_sprites_tweet_2),
+                           tweetFile2))
         var script: Script = StartScript()
         script.addBrick(PlaceAtBrick(Formula(0), Formula(0)))
         script.addBrick(GlideToBrick(Formula(-ScreenValues.SCREEN_WIDTH), Formula(0), Formula(5)))

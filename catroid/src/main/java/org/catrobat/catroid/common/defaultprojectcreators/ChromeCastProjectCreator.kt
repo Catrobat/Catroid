@@ -59,10 +59,10 @@ import java.io.IOException
 class ChromeCastProjectCreator : ProjectCreator() {
     @Throws(IOException::class)
     override fun createDefaultProject(
-        name: String,
-        context: Context,
+        name: String?,
+        context: Context?,
         landscapeMode: Boolean
-    ): Project {
+    ): Project? {
         val project = Project(context, name, true, true)
         if (project.directory.exists()) {
             throw IOException(
@@ -80,7 +80,7 @@ class ChromeCastProjectCreator : ProjectCreator() {
         val screenshotDrawableId = R.drawable.default_project_screenshot_landscape
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
-        BitmapFactory.decodeResource(context.resources, backgroundDrawableId, options)
+        BitmapFactory.decodeResource(context?.resources, backgroundDrawableId, options)
         backgroundImageScaleFactor = ImageEditing.calculateScaleFactor(
             options.outWidth,
             options.outHeight,
@@ -93,68 +93,68 @@ class ChromeCastProjectCreator : ProjectCreator() {
         val imageFileName = "img" + Constants.DEFAULT_IMAGE_EXTENSION
         val soundFileName = "snd" + Constants.DEFAULT_SOUND_EXTENSION
         val backgroundFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             backgroundDrawableId,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val cloudFile1 = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             cloudDrawableId,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val cloudFile2 = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             cloudDrawableId,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val birdWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.drawable.default_project_bird_wing_up,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val birdWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.drawable.default_project_bird_wing_down,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val birdLeftWingUpFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.drawable.default_project_bird_wing_up_left,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val birdLeftWingDownFile = ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.drawable.default_project_bird_wing_down_left,
             imageDir,
             imageFileName,
             backgroundImageScaleFactor
         )
         val tweetFile1 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.raw.default_project_tweet_1,
             soundDir,
             soundFileName
         )
         val tweetFile2 = ResourceImporter.createSoundFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             R.raw.default_project_tweet_2,
             soundDir,
             soundFileName
         )
         ResourceImporter.createImageFileFromResourcesInDirectory(
-            context.resources,
+            context?.resources,
             screenshotDrawableId,
             scene.directory,
             Constants.SCREENSHOT_AUTOMATIC_FILE_NAME, 1.0
@@ -163,59 +163,61 @@ class ChromeCastProjectCreator : ProjectCreator() {
         background.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_cast_project_background_name),
+                    context?.getString(R.string.default_cast_project_background_name),
                     backgroundFile
                 )
             )
-        val cloud1 = Sprite(context.getString(R.string.default_cast_project_cloud_sprite_name1))
-        val cloud2 = Sprite(context.getString(R.string.default_cast_project_cloud_sprite_name2))
-        val bird = Sprite(context.getString(R.string.default_cast_project_sprites_bird_name))
+        val cloud1 = Sprite(context?.getString(R.string.default_cast_project_cloud_sprite_name1))
+        val cloud2 = Sprite(context?.getString(R.string.default_cast_project_cloud_sprite_name2))
+        val bird = Sprite(context?.getString(R.string.default_cast_project_sprites_bird_name))
         scene.addSprite(cloud1)
         scene.addSprite(cloud2)
         scene.addSprite(bird)
         cloud1.lookList
-            .add(LookData(context.getString(R.string.default_cast_project_cloud_name), cloudFile1))
+            .add(LookData(context?.getString(R.string.default_cast_project_cloud_name), cloudFile1))
         cloud2.lookList
-            .add(LookData(context.getString(R.string.default_cast_project_cloud_name), cloudFile2))
+            .add(LookData(context?.getString(R.string.default_cast_project_cloud_name), cloudFile2))
         bird.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_cast_project_sprites_bird_name_wing_up),
+                    context?.getString(R.string.default_cast_project_sprites_bird_name_wing_up),
                     birdWingUpFile
                 )
             )
         bird.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_cast_project_sprites_bird_name_wing_down),
+                    context?.getString(R.string.default_cast_project_sprites_bird_name_wing_down),
                     birdWingDownFile
                 )
             )
         bird.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_cast_project_sprites_bird_name_wing_up_left),
+                    context?.getString(R.string
+                                           .default_cast_project_sprites_bird_name_wing_up_left),
                     birdLeftWingUpFile
                 )
             )
         bird.lookList
             .add(
                 LookData(
-                    context.getString(R.string.default_cast_project_sprites_bird_name_wing_down_left),
+                    context?.getString(R.string
+                                           .default_cast_project_sprites_bird_name_wing_down_left),
                     birdLeftWingDownFile
                 )
             )
         bird.soundList
             .add(
                 SoundInfo(
-                    context.getString(R.string.default_cast_project_sprites_tweet_1),
+                    context?.getString(R.string.default_cast_project_sprites_tweet_1),
                     tweetFile1
                 )
             )
         bird.soundList
             .add(
                 SoundInfo(
-                    context.getString(R.string.default_cast_project_sprites_tweet_2),
+                    context?.getString(R.string.default_cast_project_sprites_tweet_2),
                     tweetFile2
                 )
             )
@@ -332,7 +334,7 @@ class ChromeCastProjectCreator : ProjectCreator() {
         ifBrick.addBrickToIfBranch(ChangeYByNBrick(Formula(-5)))
         script.addBrick(ifBrick)
         val directionVar =
-            UserVariable(context.getString(R.string.default_cast_project_var_direction))
+            UserVariable(context?.getString(R.string.default_cast_project_var_direction))
         project.addUserVariable(directionVar)
         ifBrick = IfLogicBeginBrick(
             Formula(
@@ -428,7 +430,7 @@ class ChromeCastProjectCreator : ProjectCreator() {
         script.addBrick(ifBrick)
         script.addBrick(loopBrick)
         bird.addScript(script)
-        script = WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_A))
+        script = WhenGamepadButtonScript(context?.getString(R.string.cast_gamepad_A))
         ifBrick = IfLogicBeginBrick(
             Formula(
                 FormulaElement(FormulaElement.ElementType.USER_VARIABLE, directionVar.name, null)
@@ -450,7 +452,7 @@ class ChromeCastProjectCreator : ProjectCreator() {
         ifBrick.addBrickToIfBranch(setLookBrick)
         script.addBrick(ifBrick)
         bird.addScript(script)
-        script = WhenGamepadButtonScript(context.getString(R.string.cast_gamepad_B))
+        script = WhenGamepadButtonScript(context?.getString(R.string.cast_gamepad_B))
         ifBrick = IfLogicBeginBrick(
             Formula(
                 FormulaElement(
