@@ -20,13 +20,15 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.catrobat.catroid.common;
+package org.catrobat.catroid.common
 
-import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService;
+import org.catrobat.catroid.bluetooth.base.BluetoothDeviceService
 
 // CHECKSTYLE DISABLE InterfaceIsType FOR 1 LINES
-public interface CatroidService {
-
-	// Common services - gets created by ServiceProvider if needed
-	Class<BluetoothDeviceService> BLUETOOTH_DEVICE_SERVICE = BluetoothDeviceService.class;
+interface CatroidService {
+    companion object {
+        // Common services - gets created by ServiceProvider if needed
+		@JvmField
+		val BLUETOOTH_DEVICE_SERVICE = BluetoothDeviceService::class.java
+    }
 }

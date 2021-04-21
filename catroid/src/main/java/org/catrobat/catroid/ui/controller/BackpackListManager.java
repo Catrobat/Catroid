@@ -86,11 +86,11 @@ public final class BackpackListManager {
 	}
 
 	public List<Scene> getScenes() {
-		return getBackpack().backpackedScenes;
+		return (List<Scene>) getBackpack().backpackedScenes;
 	}
 
 	public List<Sprite> getSprites() {
-		return getBackpack().backpackedSprites;
+		return (List<Sprite>) getBackpack().backpackedSprites;
 	}
 
 	public List<String> getBackpackedScriptGroups() {
@@ -114,11 +114,11 @@ public final class BackpackListManager {
 	}
 
 	public List<LookData> getBackpackedLooks() {
-		return getBackpack().backpackedLooks;
+		return (List<LookData>) getBackpack().backpackedLooks;
 	}
 
 	public List<SoundInfo> getBackpackedSounds() {
-		return getBackpack().backpackedSounds;
+		return (List<SoundInfo>) getBackpack().backpackedSounds;
 	}
 
 	public boolean isBackpackEmpty() {
