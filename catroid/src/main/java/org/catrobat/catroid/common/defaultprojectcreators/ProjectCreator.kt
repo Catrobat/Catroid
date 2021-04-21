@@ -20,30 +20,27 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.common.defaultprojectcreators
 
-package org.catrobat.catroid.common.defaultprojectcreators;
+import android.content.Context
+import org.catrobat.catroid.content.Project
+import java.io.IOException
 
-import android.content.Context;
+abstract class ProjectCreator {
+    var defaultProjectNameID = 0
+    @Throws(IOException::class)
+    abstract fun createDefaultProject(
+        name: String?,
+        context: Context?,
+        landscapeMode: Boolean
+    ): Project?
 
-import org.catrobat.catroid.content.Project;
-
-import java.io.IOException;
-
-public abstract class ProjectCreator {
-
-	static double backgroundImageScaleFactor = 1;
-
-	int defaultProjectNameResourceId;
-
-	static int calculateValueRelativeToScaledBackground(int value) {
-		int returnValue = (int) (value * backgroundImageScaleFactor);
-		int differenceToNextFive = returnValue % 5;
-		return returnValue - differenceToNextFive;
-	}
-
-	public abstract Project createDefaultProject(String name, Context context, boolean landscapeMode) throws IOException;
-
-	public int getDefaultProjectNameID() {
-		return defaultProjectNameResourceId;
-	}
+    companion object {
+        var backgroundImageScaleFactor = 1.0
+        fun calculateValueRelativeToScaledBackground(value: Int): Int {
+            val returnValue = (value * backgroundImageScaleFactor).toInt()
+            val differenceToNextFive = returnValue % 5
+            return returnValue - differenceToNextFive
+        }
+    }
 }

@@ -286,6 +286,6 @@ open class DefaultProjectCreator : ProjectCreator() {
     }
 
     init {
-        defaultProjectNameResourceId = R.string.default_project_name
+        defaultProjectNameID = R.string.default_project_name
     }
 }

@@ -473,6 +473,6 @@ class ChromeCastProjectCreator : ProjectCreator() {
     }
 
     init {
-        defaultProjectNameResourceId = R.string.default_cast_project_name
+        defaultProjectNameID = R.string.default_cast_project_name
     }
 }
