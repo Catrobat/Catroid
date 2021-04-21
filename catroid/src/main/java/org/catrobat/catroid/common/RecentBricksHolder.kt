@@ -20,49 +20,41 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.catrobat.catroid.common
 
-package org.catrobat.catroid.common;
+import org.catrobat.catroid.content.bricks.Brick
+import java.io.Serializable
+import java.util.ArrayList
 
-import org.catrobat.catroid.content.bricks.Brick;
+class RecentBricksHolder : Serializable {
+    val recentBricks: MutableList<Brick>
+    fun find(brick: Brick): Int {
+        for (i in recentBricks.indices) {
+            val b = recentBricks[i]
+            if (b.javaClass == brick.javaClass) {
+                return i
+            }
+        }
+        return -1
+    }
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+    fun size(): Int {
+        return recentBricks.size
+    }
 
-public class RecentBricksHolder implements Serializable {
-	private List<Brick> recentBricks;
+    fun remove() {
+        recentBricks.removeAt(size() - 1)
+    }
 
-	public RecentBricksHolder() {
-		recentBricks = new ArrayList<>();
-	}
+    fun remove(index: Int) {
+        recentBricks.removeAt(index)
+    }
 
-	public List<Brick> getRecentBricks() {
-		return recentBricks;
-	}
+    fun insert(brick: Brick) {
+        recentBricks.add(0, brick)
+    }
 
-	public int find(Brick brick) {
-		for (int i = 0; i < recentBricks.size(); i++) {
-			Brick b = recentBricks.get(i);
-			if (b.getClass().equals(brick.getClass())) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
-	public int size() {
-		return recentBricks.size();
-	}
-
-	public void remove() {
-		recentBricks.remove(size() - 1);
-	}
-
-	public void remove(int index) {
-		recentBricks.remove(index);
-	}
-
-	public void insert(Brick brick) {
-		recentBricks.add(0, brick);
-	}
+    init {
+        recentBricks = ArrayList()
+    }
 }
