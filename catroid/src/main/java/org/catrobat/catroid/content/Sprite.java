@@ -228,8 +228,24 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return false;
 	}
 
-	public void setUserVariables(List<UserVariable> newUserVariables) {
-		userVariables = newUserVariables;
+	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
+		for (T userData : currentUserDataList) {
+			for (T userDataToRestore : userDataListToRestore) {
+				if (userData.getClass() == UserVariable.class) {
+					UserVariable userVariable = (UserVariable) userData;
+					UserVariable newUserVariable = (UserVariable) userDataToRestore;
+					if (userVariable.getName().equals(newUserVariable.getName())) {
+						userVariable.setValue(newUserVariable.getValue());
+					}
+				} else {
+					UserList userList = (UserList) userData;
+					UserList newUserList = (UserList) userDataToRestore;
+					if (userList.getName().equals(newUserList.getName())) {
+						userList.setValue(newUserList.getValue());
+					}
+				}
+			}
+		}
 	}
 
 	public List<UserVariable> getUserVariablesCopy() {
@@ -260,10 +276,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public boolean addUserVariable(UserVariable userVariable) {
 		return userVariables.add(userVariable);
-	}
-
-	public void setUserLists(List<UserList> newUserLists) {
-		userLists = newUserLists;
 	}
 
 	public List<UserList> getUserListsCopy() {
