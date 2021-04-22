@@ -31,6 +31,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.content.Project;
 import org.catrobat.catroid.io.DeviceListAccessor;
 import org.catrobat.catroid.io.DeviceVariableAccessor;
+import org.catrobat.catroid.io.LookFileGarbageCollector;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -65,6 +66,7 @@ public class ProjectLoadTask extends AsyncTask<Void, Void, Boolean> {
 			Project project = ProjectManager.getInstance().getCurrentProject();
 			new DeviceVariableAccessor(projectDir).cleanUpDeletedUserData(project);
 			new DeviceListAccessor(projectDir).cleanUpDeletedUserData(project);
+			new LookFileGarbageCollector().cleanUpUnusedLookFiles(project);
 			return true;
 		} catch (Exception e) {
 			Log.e(TAG, "Cannot load project in " + projectDir.getAbsolutePath(), e);
