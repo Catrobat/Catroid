@@ -249,7 +249,7 @@ class EmbeddedSurveyTest {
             .apply()
         val survey = Survey(contextMock)
         surveySpy = Mockito.spy(survey)
-        Mockito.`when`(surveySpy?.getUploadFlag()).thenReturn(uploadFlag)
+        Mockito.`when`(surveySpy?.uploadFlag).thenReturn(uploadFlag)
     }
 
     companion object {
