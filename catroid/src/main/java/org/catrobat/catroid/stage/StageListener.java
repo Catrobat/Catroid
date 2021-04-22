@@ -279,6 +279,9 @@ public class StageListener implements ApplicationListener {
 			copy.myOriginal = cloneMe;
 		}
 		copy.look.createBrightnessContrastHueShader();
+		if (!stage.getActors().contains(cloneMe.look, true)) {
+			stage.getRoot().addActor(cloneMe.look);
+		}
 		stage.getRoot().addActorBefore(cloneMe.look, copy.look);
 		sprites.add(copy);
 		if (!copy.getLookList().isEmpty()) {
