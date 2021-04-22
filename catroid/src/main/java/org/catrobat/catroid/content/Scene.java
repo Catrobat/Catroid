@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -28,6 +28,7 @@ import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.common.Nameable;
 import org.catrobat.catroid.content.bricks.Brick;
 import org.catrobat.catroid.content.bricks.BroadcastMessageBrick;
+import org.catrobat.catroid.content.bricks.CloneBrick;
 import org.catrobat.catroid.formulaeditor.UserData;
 import org.catrobat.catroid.io.XStreamFieldKeyOrder;
 import org.catrobat.catroid.physics.PhysicsWorld;
@@ -149,6 +150,25 @@ public class Scene implements Nameable, Serializable {
 			Sprite sprite = iterator.next();
 			if (sprite.isClone) {
 				iterator.remove();
+			}
+		}
+	}
+
+	public void removeSpriteFromCloneBricks(Sprite spriteToDelete) {
+		for (Sprite currentSprite : spriteList) {
+			if (!currentSprite.equals(spriteToDelete)) {
+				for (Script currentScript : currentSprite.getScriptList()) {
+					List<Brick> flatList = new ArrayList();
+					currentScript.addToFlatList(flatList);
+					for (Brick currentBrick : flatList) {
+						if (currentBrick instanceof CloneBrick) {
+							CloneBrick cloneBrick = (CloneBrick) currentBrick;
+							if (cloneBrick.getSelectedItem().equals(spriteToDelete)) {
+								cloneBrick.resetSpinner();
+							}
+						}
+					}
+				}
 			}
 		}
 	}
