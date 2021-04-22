@@ -29,75 +29,9 @@
         errorLine1=" public void onActivityResult(int requestCode, int resultCode, Intent data) {"
         errorLine2="             ~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            file="src/main/java/org/catrobat/catroid/bluetooth/ConnectBluetoothDeviceActivity.java"
             line="352"
             column="14"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `requestLegacyExternalStorage` is only used in API level 29 and higher (current min is 21)"
-        errorLine1="        android:requestLegacyExternalStorage=&quot;true&quot;"
-        errorLine2="        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\AndroidManifest.xml"
-            line="91"
-            column="9"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="57"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="65"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="75"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="83"
-            column="13"/>
-    </issue>
-
-    <issue
-        id="UnusedAttribute"
-        message="Attribute `drawableTint` is only used in API level 23 and higher (current min is 21)"
-        errorLine1="            android:drawableTint=&quot;@drawable/stage_dialog_color_selector&quot;"
-        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\dialog_stage.xml"
-            line="91"
-            column="13"/>
     </issue>
 
     <issue
@@ -106,7 +40,7 @@
         errorLine1="  stageView.surfaceChanged(stageView.getHolder(), 0, project.getXmlHeader().getVirtualScreenWidth(),"
         errorLine2="                                                  ~">
         <location
-            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
             line="287"
             column="51"/>
     </issue>
@@ -117,7 +51,7 @@
         errorLine1=" private static final CastManager INSTANCE = new CastManager();"
         errorLine2="         ~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
             line="72"
             column="10"/>
     </issue>
@@ -128,7 +62,7 @@
         errorLine1=" private static Context context;"
         errorLine2="         ~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\CatroidApplication.java"
+            file="src/main/java/org/catrobat/catroid/CatroidApplication.java"
             line="46"
             column="10"/>
     </issue>
@@ -139,7 +73,7 @@
         errorLine1=" private Activity activity;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\transfers\CheckOAuthTokenTask.java"
+            file="src/main/java/org/catrobat/catroid/transfers/CheckOAuthTokenTask.java"
             line="40"
             column="2"/>
     </issue>
@@ -150,7 +84,7 @@
         errorLine1=" private class ConnectDeviceTask extends AsyncTask&lt;String, Void, BluetoothConnection.State> {"
         errorLine2="               ~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\bluetooth\ConnectBluetoothDeviceActivity.java"
+            file="src/main/java/org/catrobat/catroid/bluetooth/ConnectBluetoothDeviceActivity.java"
             line="182"
             column="16"/>
     </issue>
@@ -161,7 +95,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\transfers\DeleteTestUserTask.java"
+            file="src/main/java/org/catrobat/catroid/transfers/DeleteTestUserTask.java"
             line="39"
             column="2"/>
     </issue>
@@ -172,7 +106,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\transfers\FetchScratchProgramDetailsTask.java"
+            file="src/main/java/org/catrobat/catroid/transfers/FetchScratchProgramDetailsTask.java"
             line="52"
             column="2"/>
     </issue>
@@ -183,8 +117,8 @@
         errorLine1=" private static FormulaEditorEditText formulaEditorEditText;"
         errorLine2="         ~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="116"
+            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
+            line="133"
             column="10"/>
     </issue>
 
@@ -194,8 +128,8 @@
         errorLine1=" private static LinearLayout formulaEditorBrick;"
         errorLine2="         ~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="118"
+            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
+            line="135"
             column="10"/>
     </issue>
 
@@ -205,8 +139,8 @@
         errorLine1=" private static FormulaBrick formulaBrick;"
         errorLine2="         ~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="120"
+            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
+            line="137"
             column="10"/>
     </issue>
 
@@ -216,7 +150,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\transfers\GoogleExchangeCodeTask.java"
+            file="src/main/java/org/catrobat/catroid/transfers/GoogleExchangeCodeTask.java"
             line="43"
             column="2"/>
     </issue>
@@ -227,7 +161,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\transfers\GoogleLogInTask.java"
+            file="src/main/java/org/catrobat/catroid/transfers/GoogleLogInTask.java"
             line="44"
             column="2"/>
     </issue>
@@ -238,7 +172,7 @@
         errorLine1=" private Context context;"
         errorLine2=" ~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\transfers\LogoutTask.java"
+            file="src/main/java/org/catrobat/catroid/transfers/LogoutTask.java"
             line="33"
             column="2"/>
     </issue>
@@ -249,7 +183,7 @@
         errorLine1=" private class ReadTask extends AsyncTask&lt;UserList, Void, Void> {"
         errorLine2="               ~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\content\actions\ReadListFromDeviceAction.java"
+            file="src/main/java/org/catrobat/catroid/content/actions/ReadListFromDeviceAction.java"
             line="62"
             column="16"/>
     </issue>
@@ -260,7 +194,7 @@
         errorLine1=" private class ReadTask extends AsyncTask&lt;UserVariable, Void, Void> {"
         errorLine2="               ~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\content\actions\ReadVariableFromDeviceAction.java"
+            file="src/main/java/org/catrobat/catroid/content/actions/ReadVariableFromDeviceAction.java"
             line="61"
             column="16"/>
     </issue>
@@ -271,8 +205,8 @@
         errorLine1=" private class FinishThreadAndDisposeTexturesTask extends AsyncTask&lt;Void, Void, Void> {"
         errorLine2="               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\ui\dialogs\StageDialog.java"
-            line="238"
+            file="src/main/java/org/catrobat/catroid/ui/dialogs/StageDialog.java"
+            line="252"
             column="16"/>
     </issue>
 
@@ -282,7 +216,7 @@
         errorLine1=" private class WriteTask extends AsyncTask&lt;UserList, Void, Void> {"
         errorLine2="               ~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\content\actions\WriteListOnDeviceAction.java"
+            file="src/main/java/org/catrobat/catroid/content/actions/WriteListOnDeviceAction.java"
             line="65"
             column="16"/>
     </issue>
@@ -293,7 +227,7 @@
         errorLine1=" private class WriteTask extends AsyncTask&lt;UserVariable, Void, Void> {"
         errorLine2="               ~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\content\actions\WriteVariableOnDeviceAction.java"
+            file="src/main/java/org/catrobat/catroid/content/actions/WriteVariableOnDeviceAction.java"
             line="63"
             column="16"/>
     </issue>
@@ -302,22 +236,22 @@
         id="UnusedResources"
         message="The resource `R.drawable.brick_brown_2h_9` appears to be unused">
         <location
-            file="src\main\res\drawable-ldpi\brick_brown_2h_9.9.png"/>
+            file="src/main/res/drawable-ldpi/brick_brown_2h_9.9.png"/>
         <location
-            file="src\main\res\drawable-mdpi\brick_brown_2h_9.9.png"/>
+            file="src/main/res/drawable-mdpi/brick_brown_2h_9.9.png"/>
         <location
-            file="src\main\res\drawable-xhdpi\brick_brown_2h_9.9.png"/>
+            file="src/main/res/drawable-xhdpi/brick_brown_2h_9.9.png"/>
     </issue>
 
     <issue
         id="UnusedResources"
         message="The resource `R.drawable.brick_control_1h` appears to be unused">
         <location
-            file="src\main\res\drawable-ldpi\brick_control_1h.9.png"/>
+            file="src/main/res/drawable-ldpi/brick_control_1h.9.png"/>
         <location
-            file="src\main\res\drawable-mdpi\brick_control_1h.9.png"/>
+            file="src/main/res/drawable-mdpi/brick_control_1h.9.png"/>
         <location
-            file="src\main\res\drawable-xhdpi\brick_control_1h.9.png"/>
+            file="src/main/res/drawable-xhdpi/brick_control_1h.9.png"/>
     </issue>
 
     <issue
@@ -326,19 +260,19 @@
         errorLine1="&lt;adaptive-icon xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;>"
         errorLine2="^">
         <location
-            file="src\main\res\mipmap-anydpi-v26\ic_launcher_round.xml"
+            file="src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml"
             line="25"
             column="1"/>
         <location
-            file="src\main\res\mipmap-hdpi\ic_launcher_round.png"/>
+            file="src/main/res/mipmap-hdpi/ic_launcher_round.png"/>
         <location
-            file="src\main\res\mipmap-mdpi\ic_launcher_round.png"/>
+            file="src/main/res/mipmap-mdpi/ic_launcher_round.png"/>
         <location
-            file="src\main\res\mipmap-xhdpi\ic_launcher_round.png"/>
+            file="src/main/res/mipmap-xhdpi/ic_launcher_round.png"/>
         <location
-            file="src\main\res\mipmap-xxhdpi\ic_launcher_round.png"/>
+            file="src/main/res/mipmap-xxhdpi/ic_launcher_round.png"/>
         <location
-            file="src\main\res\mipmap-xxxhdpi\ic_launcher_round.png"/>
+            file="src/main/res/mipmap-xxxhdpi/ic_launcher_round.png"/>
     </issue>
 
     <issue
@@ -347,7 +281,7 @@
         errorLine1="    &lt;style name=&quot;BrickContainer.Event.Medium&quot;>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\values\styles.xml"
+            file="src/main/res/values/styles.xml"
             line="507"
             column="12"/>
     </issue>
@@ -358,7 +292,7 @@
         errorLine1="    &lt;style name=&quot;BrickContainer.Script.Small&quot;>"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\values\styles.xml"
+            file="src/main/res/values/styles.xml"
             line="514"
             column="12"/>
     </issue>
@@ -367,28 +301,28 @@
         id="IconDensities"
         message="Missing the following drawables in `drawable-hdpi`: brick_blue_1h.9.png, brick_blue_2h.9.png, brick_blue_2h_when_9.9.png, brick_blue_3h.9.png, brick_brown_1h_when_9.9.png... (42 more)">
         <location
-            file="src\main\res\drawable-hdpi"/>
+            file="src/main/res/drawable-hdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (42 more)">
+        message="Missing the following drawables in `drawable-mdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_selection_background_bluetooth.9.png... (44 more)">
         <location
-            file="src\main\res\drawable-mdpi"/>
+            file="src/main/res/drawable-mdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xhdpi`: embroidery_neg.png, embroidery_pos.png, favorites_72x72.png, ic_upload_failed.png, ic_upload_success.png... (3 more)">
+        message="Missing the following drawables in `drawable-xhdpi`: embroidery_neg.png, embroidery_pos.png, favorites_72x72.png, google_playstore_logo.png, huawei_app_gallery_logo.png... (5 more)">
         <location
-            file="src\main\res\drawable-xhdpi"/>
+            file="src/main/res/drawable-xhdpi"/>
     </issue>
 
     <issue
         id="IconDensities"
-        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (86 more)">
+        message="Missing the following drawables in `drawable-xxhdpi`: ardrone_neg.png, ardrone_pos.png, arduino_neg.png, arduino_pos.png, brick_blue_1h.9.png... (88 more)">
         <location
-            file="src\main\res\drawable-xxhdpi"/>
+            file="src/main/res/drawable-xxhdpi"/>
     </issue>
 
     <issue
@@ -397,7 +331,7 @@
         errorLine1=" public boolean onTouchEvent(MotionEvent event) {"
         errorLine2="                ~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\ui\dragndrop\BrickListView.java"
+            file="src/main/java/org/catrobat/catroid/ui/dragndrop/BrickListView.java"
             line="168"
             column="17"/>
     </issue>
@@ -408,8 +342,8 @@
         errorLine1="    public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                   ~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\content\bricks\brickspinner\BrickSpinner.java"
-            line="217"
+            file="src/main/java/org/catrobat/catroid/content/bricks/brickspinner/BrickSpinner.java"
+            line="220"
             column="20"/>
     </issue>
 
@@ -419,7 +353,7 @@
         errorLine1="   public boolean onTouch(View v, MotionEvent event) {"
         errorLine2="                  ~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
             line="207"
             column="19"/>
     </issue>
@@ -430,7 +364,7 @@
         errorLine1="   btn.setOnTouchListener(otl);"
         errorLine2="   ~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\cast\CastManager.java"
+            file="src/main/java/org/catrobat/catroid/cast/CastManager.java"
             line="224"
             column="4"/>
     </issue>
@@ -441,7 +375,7 @@
         errorLine1="   public boolean onTouch(View v, MotionEvent event) {"
         errorLine2="                  ~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\pocketmusic\fastscroller\FastScroller.java"
+            file="src/main/java/org/catrobat/catroid/pocketmusic/fastscroller/FastScroller.java"
             line="152"
             column="19"/>
     </issue>
@@ -452,7 +386,7 @@
         errorLine1="  this.setOnTouchListener(this);"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\formulaeditor\FormulaEditorEditText.java"
+            file="src/main/java/org/catrobat/catroid/formulaeditor/FormulaEditorEditText.java"
             line="148"
             column="3"/>
     </issue>
@@ -463,8 +397,8 @@
         errorLine1="   public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                  ~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\ui\fragment\FormulaEditorFragment.java"
-            line="314"
+            file="src/main/java/org/catrobat/catroid/ui/fragment/FormulaEditorFragment.java"
+            line="331"
             column="19"/>
     </issue>
 
@@ -474,7 +408,7 @@
         errorLine1=" public boolean onTouchEvent(MotionEvent e) {"
         errorLine2="                ~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\pocketmusic\ui\TactScrollRecyclerView.java"
+            file="src/main/java/org/catrobat/catroid/pocketmusic/ui/TactScrollRecyclerView.java"
             line="97"
             column="17"/>
     </issue>
@@ -485,8 +419,8 @@
         errorLine1="  frameLayout.setOnTouchListener(this);"
         errorLine2="  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
-            line="242"
+            file="src/main/java/org/catrobat/catroid/visualplacement/VisualPlacementActivity.java"
+            line="243"
             column="3"/>
     </issue>
 
@@ -496,8 +430,8 @@
         errorLine1=" public boolean onTouch(View view, MotionEvent event) {"
         errorLine2="                ~~~~~~~">
         <location
-            file="src\main\java\org\catrobat\catroid\visualplacement\VisualPlacementActivity.java"
-            line="375"
+            file="src/main/java/org/catrobat/catroid/visualplacement/VisualPlacementActivity.java"
+            line="376"
             column="17"/>
     </issue>
 
@@ -507,7 +441,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\accessibility_profile.xml"
+            file="src/main/res/layout/accessibility_profile.xml"
             line="43"
             column="6"/>
     </issue>
@@ -518,7 +452,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_main_menu_splashscreen.xml"
+            file="src/main/res/layout/activity_main_menu_splashscreen.xml"
             line="30"
             column="6"/>
     </issue>
@@ -529,7 +463,7 @@
         errorLine1="        &lt;ImageButton"
         errorLine2="         ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_pocketmusic.xml"
+            file="src/main/res/layout/activity_pocketmusic.xml"
             line="37"
             column="10"/>
     </issue>
@@ -540,7 +474,7 @@
         errorLine1="                    &lt;ImageView"
         errorLine2="                     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_scratch_project_details.xml"
+            file="src/main/res/layout/activity_scratch_project_details.xml"
             line="87"
             column="22"/>
     </issue>
@@ -551,7 +485,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="31"
             column="6"/>
     </issue>
@@ -562,7 +496,7 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="40"
             column="6"/>
     </issue>
@@ -573,7 +507,7 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="52"
             column="6"/>
     </issue>
@@ -584,7 +518,7 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="66"
             column="6"/>
     </issue>
@@ -595,7 +529,7 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="77"
             column="6"/>
     </issue>
@@ -606,7 +540,7 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="87"
             column="6"/>
     </issue>
@@ -617,7 +551,7 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="97"
             column="6"/>
     </issue>
@@ -628,19 +562,8 @@
         errorLine1="    &lt;ImageButton"
         errorLine2="     ~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_stage_gamepad.xml"
+            file="src/main/res/layout/activity_stage_gamepad.xml"
             line="108"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageButton"
-        errorLine2="     ~~~~~~~~~~~">
-        <location
-            file="src\main\res\layout\activity_standalone_advertising.xml"
-            line="50"
             column="6"/>
     </issue>
 
@@ -650,7 +573,7 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
-            file="src\main\res\layout\activity_upload.xml"
+            file="src/main/res/layout/activity_upload.xml"
             line="45"
             column="10"/>
     </issue>
@@ -661,7 +584,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_stage.xml"
+            file="src/main/res/layout/dialog_stage.xml"
             line="34"
             column="6"/>
     </issue>
@@ -672,7 +595,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_stage.xml"
+            file="src/main/res/layout/dialog_stage.xml"
             line="96"
             column="6"/>
     </issue>
@@ -683,7 +606,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_stage.xml"
+            file="src/main/res/layout/dialog_stage.xml"
             line="104"
             column="6"/>
     </issue>
@@ -694,7 +617,7 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_upload_project_progress.xml"
+            file="src/main/res/layout/dialog_upload_project_progress.xml"
             line="51"
             column="10"/>
     </issue>
@@ -705,8 +628,8 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
-            file="src\main\res\layout\fragment_project_show_details.xml"
-            line="38"
+            file="src/main/res/layout/fragment_project_show_details.xml"
+            line="39"
             column="10"/>
     </issue>
 
@@ -716,7 +639,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_ardrone.xml"
+            file="src/main/res/layout/icon_brick_category_ardrone.xml"
             line="28"
             column="6"/>
     </issue>
@@ -727,7 +650,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_arduino.xml"
+            file="src/main/res/layout/icon_brick_category_arduino.xml"
             line="28"
             column="6"/>
     </issue>
@@ -738,7 +661,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_chromecast.xml"
+            file="src/main/res/layout/icon_brick_category_chromecast.xml"
             line="28"
             column="6"/>
     </issue>
@@ -749,7 +672,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_control.xml"
+            file="src/main/res/layout/icon_brick_category_control.xml"
             line="28"
             column="6"/>
     </issue>
@@ -760,7 +683,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_data.xml"
+            file="src/main/res/layout/icon_brick_category_data.xml"
             line="28"
             column="6"/>
     </issue>
@@ -771,7 +694,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_device.xml"
+            file="src/main/res/layout/icon_brick_category_device.xml"
             line="28"
             column="6"/>
     </issue>
@@ -782,7 +705,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_embroidery.xml"
+            file="src/main/res/layout/icon_brick_category_embroidery.xml"
             line="28"
             column="6"/>
     </issue>
@@ -793,7 +716,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_event.xml"
+            file="src/main/res/layout/icon_brick_category_event.xml"
             line="28"
             column="6"/>
     </issue>
@@ -804,7 +727,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_legonxt.xml"
+            file="src/main/res/layout/icon_brick_category_legonxt.xml"
             line="28"
             column="6"/>
     </issue>
@@ -815,7 +738,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_look.xml"
+            file="src/main/res/layout/icon_brick_category_look.xml"
             line="28"
             column="6"/>
     </issue>
@@ -826,7 +749,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_motion.xml"
+            file="src/main/res/layout/icon_brick_category_motion.xml"
             line="28"
             column="6"/>
     </issue>
@@ -837,7 +760,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_pen.xml"
+            file="src/main/res/layout/icon_brick_category_pen.xml"
             line="28"
             column="6"/>
     </issue>
@@ -848,7 +771,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_phiro.xml"
+            file="src/main/res/layout/icon_brick_category_phiro.xml"
             line="28"
             column="6"/>
     </issue>
@@ -859,7 +782,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_raspberrypi.xml"
+            file="src/main/res/layout/icon_brick_category_raspberrypi.xml"
             line="28"
             column="6"/>
     </issue>
@@ -870,7 +793,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_recently_used.xml"
+            file="src/main/res/layout/icon_brick_category_recently_used.xml"
             line="28"
             column="6"/>
     </issue>
@@ -881,7 +804,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_sound.xml"
+            file="src/main/res/layout/icon_brick_category_sound.xml"
             line="28"
             column="6"/>
     </issue>
@@ -892,7 +815,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\icon_brick_category_userbrick.xml"
+            file="src/main/res/layout/icon_brick_category_userbrick.xml"
             line="28"
             column="6"/>
     </issue>
@@ -903,7 +826,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\scratch_social_bar.xml"
+            file="src/main/res/layout/scratch_social_bar.xml"
             line="33"
             column="6"/>
     </issue>
@@ -914,7 +837,7 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\scratch_social_bar.xml"
+            file="src/main/res/layout/scratch_social_bar.xml"
             line="49"
             column="6"/>
     </issue>
@@ -925,19 +848,8 @@
         errorLine1="    &lt;ImageView"
         errorLine2="     ~~~~~~~~~">
         <location
-            file="src\main\res\layout\scratch_social_bar.xml"
+            file="src/main/res/layout/scratch_social_bar.xml"
             line="66"
-            column="6"/>
-    </issue>
-
-    <issue
-        id="ContentDescription"
-        message="Missing `contentDescription` attribute on image"
-        errorLine1="    &lt;ImageView"
-        errorLine2="     ~~~~~~~~~">
-        <location
-            file="src\main\res\layout\vh_button.xml"
-            line="37"
             column="6"/>
     </issue>
 
@@ -947,7 +859,7 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
-            file="src\main\res\layout\vh_sprite_group.xml"
+            file="src/main/res/layout/vh_sprite_group.xml"
             line="51"
             column="10"/>
     </issue>
@@ -958,7 +870,7 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
-            file="src\main\res\layout\vh_sprite_group_item.xml"
+            file="src/main/res/layout/vh_sprite_group_item.xml"
             line="50"
             column="10"/>
     </issue>
@@ -969,7 +881,7 @@
         errorLine1="        &lt;ImageView"
         errorLine2="         ~~~~~~~~~">
         <location
-            file="src\main\res\layout\vh_with_checkbox.xml"
+            file="src/main/res/layout/vh_with_checkbox.xml"
             line="51"
             column="10"/>
     </issue>
@@ -980,7 +892,7 @@
         errorLine1="             android:paddingStart=&quot;5dip&quot;"
         errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_move_backward.xml"
+            file="src/main/res/layout-ar/brick_drone_move_backward.xml"
             line="69"
             column="14"/>
     </issue>
@@ -991,7 +903,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_move_down.xml"
+            file="src/main/res/layout-ar/brick_drone_move_down.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1002,7 +914,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_move_forward.xml"
+            file="src/main/res/layout-ar/brick_drone_move_forward.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1013,7 +925,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_move_left.xml"
+            file="src/main/res/layout-ar/brick_drone_move_left.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1024,7 +936,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_move_right.xml"
+            file="src/main/res/layout-ar/brick_drone_move_right.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1035,7 +947,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_move_up.xml"
+            file="src/main/res/layout-ar/brick_drone_move_up.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1046,7 +958,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_turn_left.xml"
+            file="src/main/res/layout-ar/brick_drone_turn_left.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1057,7 +969,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_drone_turn_right.xml"
+            file="src/main/res/layout-ar/brick_drone_turn_right.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1068,7 +980,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_ev3_motor_move.xml"
+            file="src/main/res/layout-ar/brick_ev3_motor_move.xml"
             line="64"
             column="13"/>
     </issue>
@@ -1079,7 +991,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_if_begin_if.xml"
+            file="src/main/res/layout-ar/brick_if_begin_if.xml"
             line="53"
             column="13"/>
     </issue>
@@ -1090,7 +1002,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_if_begin_if.xml"
+            file="src/main/res/layout/brick_if_begin_if.xml"
             line="59"
             column="13"/>
     </issue>
@@ -1101,7 +1013,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_if_begin_if.xml"
+            file="src/main/res/layout-ar/brick_if_begin_if.xml"
             line="66"
             column="13"/>
     </issue>
@@ -1112,7 +1024,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_if_begin_if.xml"
+            file="src/main/res/layout/brick_if_begin_if.xml"
             line="66"
             column="13"/>
     </issue>
@@ -1123,7 +1035,7 @@
         errorLine1="             android:paddingStart=&quot;5dip&quot;"
         errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_if_begin_if.xml"
+            file="src/main/res/layout-ar/brick_if_begin_if.xml"
             line="73"
             column="14"/>
     </issue>
@@ -1134,7 +1046,7 @@
         errorLine1="             android:paddingStart=&quot;5dip&quot;"
         errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_if_begin_if.xml"
+            file="src/main/res/layout/brick_if_begin_if.xml"
             line="73"
             column="14"/>
     </issue>
@@ -1145,7 +1057,7 @@
         errorLine1="           android:paddingStart=&quot;5dip&quot;"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_if_begin_if.xml"
+            file="src/main/res/layout-ar/brick_if_begin_if.xml"
             line="80"
             column="12"/>
     </issue>
@@ -1156,7 +1068,7 @@
         errorLine1="           android:paddingStart=&quot;5dip&quot;"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_if_begin_if.xml"
+            file="src/main/res/layout/brick_if_begin_if.xml"
             line="80"
             column="12"/>
     </issue>
@@ -1167,7 +1079,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_if_then_begin_if.xml"
+            file="src/main/res/layout/brick_if_then_begin_if.xml"
             line="59"
             column="13"/>
     </issue>
@@ -1178,7 +1090,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_if_then_begin_if.xml"
+            file="src/main/res/layout/brick_if_then_begin_if.xml"
             line="66"
             column="13"/>
     </issue>
@@ -1189,7 +1101,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_jumping_sumo_move_backward.xml"
+            file="src/main/res/layout-ar/brick_jumping_sumo_move_backward.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1200,7 +1112,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_jumping_sumo_move_forward.xml"
+            file="src/main/res/layout-ar/brick_jumping_sumo_move_forward.xml"
             line="69"
             column="13"/>
     </issue>
@@ -1211,7 +1123,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_nxt_motor_action.xml"
+            file="src/main/res/layout-ar/brick_nxt_motor_action.xml"
             line="65"
             column="13"/>
     </issue>
@@ -1222,7 +1134,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_phiro_if_sensor.xml"
+            file="src/main/res/layout/brick_phiro_if_sensor.xml"
             line="59"
             column="13"/>
     </issue>
@@ -1233,7 +1145,7 @@
         errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_small&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_place_at.xml"
+            file="src/main/res/layout/brick_place_at.xml"
             line="65"
             column="13"/>
     </issue>
@@ -1244,7 +1156,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_raspi_if_begin_if.xml"
+            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
             line="59"
             column="13"/>
     </issue>
@@ -1255,7 +1167,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_raspi_if_begin_if.xml"
+            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
             line="66"
             column="13"/>
     </issue>
@@ -1266,7 +1178,7 @@
         errorLine1="             android:paddingStart=&quot;5dip&quot;"
         errorLine2="             ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_raspi_if_begin_if.xml"
+            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
             line="73"
             column="14"/>
     </issue>
@@ -1277,7 +1189,7 @@
         errorLine1="           android:paddingStart=&quot;5dip&quot;"
         errorLine2="           ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_raspi_if_begin_if.xml"
+            file="src/main/res/layout/brick_raspi_if_begin_if.xml"
             line="80"
             column="12"/>
     </issue>
@@ -1288,7 +1200,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_repeat_until.xml"
+            file="src/main/res/layout-ar/brick_repeat_until.xml"
             line="53"
             column="13"/>
     </issue>
@@ -1299,7 +1211,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_repeat_until.xml"
+            file="src/main/res/layout/brick_repeat_until.xml"
             line="60"
             column="13"/>
     </issue>
@@ -1310,7 +1222,7 @@
         errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_small&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_show_variable.xml"
+            file="src/main/res/layout/brick_show_variable.xml"
             line="76"
             column="13"/>
     </issue>
@@ -1321,7 +1233,7 @@
         errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_small&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_tap_at.xml"
+            file="src/main/res/layout/brick_tap_at.xml"
             line="65"
             column="13"/>
     </issue>
@@ -1332,7 +1244,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_wait_until.xml"
+            file="src/main/res/layout-ar/brick_wait_until.xml"
             line="54"
             column="13"/>
     </issue>
@@ -1343,7 +1255,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_wait_until.xml"
+            file="src/main/res/layout/brick_wait_until.xml"
             line="59"
             column="13"/>
     </issue>
@@ -1354,7 +1266,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout-ar\brick_when_condition_true.xml"
+            file="src/main/res/layout-ar/brick_when_condition_true.xml"
             line="54"
             column="13"/>
     </issue>
@@ -1365,7 +1277,7 @@
         errorLine1="            android:paddingStart=&quot;5dip&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\brick_when_condition_true.xml"
+            file="src/main/res/layout/brick_when_condition_true.xml"
             line="59"
             column="13"/>
     </issue>
@@ -1376,7 +1288,7 @@
         errorLine1="        android:paddingStart=&quot;@dimen/device_text_view_padding&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\device_list.xml"
+            file="src/main/res/layout/device_list.xml"
             line="34"
             column="9"/>
     </issue>
@@ -1387,7 +1299,7 @@
         errorLine1="        android:paddingStart=&quot;@dimen/device_text_view_padding&quot;"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\device_list.xml"
+            file="src/main/res/layout/device_list.xml"
             line="55"
             column="9"/>
     </issue>
@@ -1398,7 +1310,7 @@
         errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_new_project.xml"
+            file="src/main/res/layout/dialog_new_project.xml"
             line="67"
             column="17"/>
     </issue>
@@ -1409,7 +1321,7 @@
         errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_new_project.xml"
+            file="src/main/res/layout/dialog_new_project.xml"
             line="75"
             column="17"/>
     </issue>
@@ -1420,7 +1332,7 @@
         errorLine1="                android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;/>"
         errorLine2="                ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_new_project.xml"
+            file="src/main/res/layout/dialog_new_project.xml"
             line="84"
             column="17"/>
     </issue>
@@ -1431,7 +1343,7 @@
         errorLine1="        android:paddingStart=&quot;5dp&quot;>"
         errorLine2="        ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\dialog_select_cast.xml"
+            file="src/main/res/layout/dialog_select_cast.xml"
             line="35"
             column="9"/>
     </issue>
@@ -1442,7 +1354,7 @@
         errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\fragment_accesibility_profiles.xml"
+            file="src/main/res/layout/fragment_accesibility_profiles.xml"
             line="37"
             column="13"/>
     </issue>
@@ -1453,7 +1365,7 @@
         errorLine1="            android:paddingStart=&quot;@dimen/material_design_spacing_large&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\fragment_accesibility_profiles.xml"
+            file="src/main/res/layout/fragment_accesibility_profiles.xml"
             line="54"
             column="13"/>
     </issue>
@@ -1464,7 +1376,7 @@
         errorLine1="        android:paddingEnd=&quot;@dimen/material_design_spacing_small&quot; />"
         errorLine2="        ~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\single_seek_bar_view.xml"
+            file="src/main/res/layout/single_seek_bar_view.xml"
             line="42"
             column="9"/>
     </issue>
@@ -1475,7 +1387,7 @@
         errorLine1="            android:paddingEnd=&quot;@dimen/details_spacing&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\vh_list.xml"
+            file="src/main/res/layout/vh_list.xml"
             line="54"
             column="13"/>
     </issue>
@@ -1486,7 +1398,7 @@
         errorLine1="            android:paddingEnd=&quot;@dimen/details_spacing&quot;"
         errorLine2="            ~~~~~~~~~~~~~~~~~~">
         <location
-            file="src\main\res\layout\vh_variable.xml"
+            file="src/main/res/layout/vh_variable.xml"
             line="54"
             column="13"/>
     </issue>
