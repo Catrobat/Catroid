@@ -288,6 +288,7 @@ class MainMenuFragment : Fragment(),
     override fun onClick(view: View) {
         when (view.id) {
             R.id.image_view,
+            R.id.projectImageView,
             R.id.editProject -> {
                 viewModel.setIsLoading(true)
                 val projectDir = File(
