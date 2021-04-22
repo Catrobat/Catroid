@@ -212,7 +212,7 @@ class MainMenuFragment : Fragment(),
 
     private fun setAndLoadCurrentProject(myProjects: List<ProjectData>) {
         currentProject = if (myProjects.isNotEmpty()) {
-            myProjects[0].name
+            myProjects[0].getName()
         } else {
             Utils.getCurrentProjectName(context)
         }
@@ -274,7 +274,7 @@ class MainMenuFragment : Fragment(),
         val projectDir = File(
             DEFAULT_ROOT_DIRECTORY,
             FileMetaDataExtractor
-                .encodeSpecialCharsForFileSystem(projectData!!.name)
+                .encodeSpecialCharsForFileSystem(projectData!!.getName())
         )
         ProjectLoadTask(projectDir, context)
             .setListener(this)

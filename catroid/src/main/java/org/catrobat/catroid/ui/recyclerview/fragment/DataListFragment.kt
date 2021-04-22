@@ -287,7 +287,7 @@ class DataListFragment : Fragment(),
         val items = adapter!!.items
 
         builder.setHint(getString(R.string.data_label))
-            .setText(item.name)
+            .setText(item.getName())
             .setTextWatcher(
                 DuplicateInputTextWatcher(
                     items
@@ -310,7 +310,7 @@ class DataListFragment : Fragment(),
         item: UserData<*>,
         name: String?
     ) {
-        val previousName = item.name
+        val previousName = item.getName()
         updateUserDataReferences(previousName, name, item)
         renameUserData(item, name ?: "")
         adapter?.updateDataSet()
@@ -336,7 +336,7 @@ class DataListFragment : Fragment(),
                     textInput
                 )
             }
-        builder.setTitle("Edit " + item.name)
+        builder.setTitle("Edit " + item.getName())
             .setNegativeButton(R.string.cancel, null)
             .show()
     }

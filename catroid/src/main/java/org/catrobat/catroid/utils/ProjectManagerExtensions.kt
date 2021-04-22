@@ -37,7 +37,7 @@ import java.io.File
 @SuppressWarnings("TooGenericExceptionCaught")
 fun ProjectManager.getProjectBitmap(): Bitmap {
     val projectDir = File(DEFAULT_ROOT_DIRECTORY, currentProject.name)
-    val sceneDir = File(projectDir, currentlyPlayingScene.name)
+    val sceneDir = File(projectDir, currentlyPlayingScene.getName())
     val automaticScreenshot = File(sceneDir, SCREENSHOT_AUTOMATIC_FILE_NAME)
     val manualScreenshot = File(sceneDir, SCREENSHOT_MANUAL_FILE_NAME)
     val bitmapOptions = BitmapFactory.Options()

@@ -170,12 +170,12 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         val localVariables = currentSprite?.userVariables ?: emptyList()
 
         userLists.forEach { currentList ->
-            if (globalVariables.none { it.name == currentList.name } &&
-                localVariables.none { it.name == currentList.name }) {
+            if (globalVariables.none { it.getName() == currentList.getName() } &&
+                localVariables.none { it.getName() == currentList.getName() }) {
                 if (globalLists.contains(currentList)) {
-                    currentProject.addUserVariable(UserVariable(currentList.name))
+                    currentProject.addUserVariable(UserVariable(currentList.getName()))
                 } else {
-                    currentSprite.addUserVariable(UserVariable(currentList.name))
+                    currentSprite.addUserVariable(UserVariable(currentList.getName()))
                 }
             }
         }
@@ -188,8 +188,8 @@ class ParameterizedBrick : ListSelectorBrick(), CompositeBrick {
         val currentSprite = projectManager.currentSprite
 
         userLists.forEach { currentList ->
-            val variable = currentProject?.getUserVariable(currentList.name)
-                ?: currentSprite?.getUserVariable(currentList.name) ?: return@forEach
+            val variable = currentProject?.getUserVariable(currentList.getName())
+                ?: currentSprite?.getUserVariable(currentList.getName()) ?: return@forEach
 
             result.add(Pair(currentList, variable))
         }

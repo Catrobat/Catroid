@@ -75,7 +75,7 @@ abstract class ListSelectorBrick : BrickBaseType(), View.OnClickListener,
 
     fun deselectElements(deletedElements: List<*>) {
         deletedElements.filterIsInstance<UserData<*>>().forEach { element ->
-            userLists.removeAll { list -> list.name == element.name }
+            userLists.removeAll { list -> list.getName() == element.getName() }
         }
     }
 }

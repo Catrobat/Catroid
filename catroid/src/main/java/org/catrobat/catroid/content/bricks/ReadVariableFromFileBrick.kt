@@ -83,7 +83,7 @@ class ReadVariableFromFileBrick constructor() : UserVariableBrickWithFormula() {
     }
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        userVariable?.name?.let {
+        userVariable?.getName()?.let {
             sequence.addAction(
                 sprite.actionFactory.createReadVariableFromFileAction(
                     sprite, sequence,

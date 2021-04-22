@@ -188,7 +188,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
         val builder = TextInputDialog.Builder(requireContext())
         val items = adapter!!.items
         builder.setHint(getString(R.string.data_label))
-            .setText(item.name)
+            .setText(item.getName())
             .setTextWatcher(
                 DuplicateInputTextWatcher(
                     items
@@ -208,7 +208,7 @@ class ListSelectorFragment : Fragment(), RVAdapter.SelectionListener,
     }
 
     private fun renameItem(item: UserData<*>, name: String?) {
-        val previousName = item.name
+        val previousName = item.getName()
         ProjectManager.getInstance().currentProject.updateUserDataReferences(
             previousName,
             name,

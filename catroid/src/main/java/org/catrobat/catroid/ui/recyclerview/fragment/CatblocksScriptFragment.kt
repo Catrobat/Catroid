@@ -191,10 +191,10 @@ class CatblocksScriptFragment(
         }
 
         @JavascriptInterface
-        fun getSceneNameToDisplay(): String? = projectManager.currentlyEditedScene?.name?.trim()
+        fun getSceneNameToDisplay(): String? = projectManager.currentlyEditedScene?.getName()?.trim()
 
         @JavascriptInterface
-        fun getSpriteNameToDisplay(): String? = projectManager.currentSprite?.name?.trim()
+        fun getSpriteNameToDisplay(): String? = projectManager.currentSprite?.getName()?.trim()
 
         @JavascriptInterface
         fun getScriptIndexToDisplay(): Int = script

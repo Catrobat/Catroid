@@ -433,7 +433,7 @@ class ChromeCastProjectCreator : ProjectCreator() {
         script = WhenGamepadButtonScript(context?.getString(R.string.cast_gamepad_A))
         ifBrick = IfLogicBeginBrick(
             Formula(
-                FormulaElement(FormulaElement.ElementType.USER_VARIABLE, directionVar.name, null)
+                FormulaElement(FormulaElement.ElementType.USER_VARIABLE, directionVar.getName(), null)
             )
         )
         setLookBrick = SetLookBrick()
@@ -457,7 +457,7 @@ class ChromeCastProjectCreator : ProjectCreator() {
             Formula(
                 FormulaElement(
                     FormulaElement.ElementType.USER_VARIABLE,
-                    directionVar.name,
+                    directionVar.getName(),
                     null
                 )
             )

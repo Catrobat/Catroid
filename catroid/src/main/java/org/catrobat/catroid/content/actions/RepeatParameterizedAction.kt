@@ -96,12 +96,12 @@ class RepeatParameterizedAction : LoopAction() {
                 return@let true
             } else {
                 userVariable.value = data[it.currentPosition]
-                it.currentParameters += "${userVariable.name} = ${userVariable.value} | "
+                it.currentParameters += "${userVariable.getName()} = ${userVariable.value} | "
             }
         }
         it.currentParameters = it.currentParameters.removeSuffix(" | ")
         false
     } ?: true
 
-    private fun formattedPosition(): String = "on sprite ${sprite?.name}\n$position"
+    private fun formattedPosition(): String = "on sprite ${sprite?.getName()}\n$position"
 }

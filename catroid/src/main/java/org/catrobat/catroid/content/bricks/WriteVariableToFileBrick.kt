@@ -45,7 +45,7 @@ class WriteVariableToFileBrick constructor() : UserVariableBrickWithFormula() {
     override fun getSpinnerId(): Int = R.id.brick_write_variable_to_file_spinner
 
     override fun addActionToSequence(sprite: Sprite, sequence: ScriptSequenceAction) {
-        userVariable?.name?.let {
+        userVariable?.getName()?.let {
             sequence.addAction(
                 sprite.actionFactory.createWriteVariableToFileAction(
                     sprite, sequence, getFormulaWithBrickField(BrickField.WRITE_FILENAME), userVariable))

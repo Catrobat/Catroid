@@ -80,7 +80,7 @@ class EditLookAction : PocketPaintAction() {
     fun setLookData() {
         val sprite = scope?.sprite ?: return
         val lookData = sprite?.look?.lookData ?: return
-        val lookDataName = lookData.name ?: return
+        val lookDataName = lookData.getName() ?: return
         val lookDataOldFile = sprite.look?.lookData?.file ?: return
 
         try {

@@ -107,7 +107,7 @@ object FormulaElementOperations {
         lookData?.let { lookDataList.indexOf(it) + 1.0 } ?: 1.0
 
     @JvmStatic
-    fun getLookName(lookData: LookData?) = lookData?.name ?: ""
+    fun getLookName(lookData: LookData?) = lookData?.getName() ?: ""
 
     @JvmStatic
     fun tryCalculateCollidesWithEdge(

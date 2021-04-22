@@ -37,7 +37,7 @@ object UserDataUtil {
                     val flatList = mutableListOf<Brick>()
                     script.addToFlatList(flatList)
                     flatList.filterIsInstance<ListSelectorBrick>().any { brick ->
-                        brick.userLists.any { it.name == dateName }
+                        brick.userLists.any { it.getName() == dateName }
                     }
                 }
             }
@@ -46,11 +46,11 @@ object UserDataUtil {
 
     @JvmStatic
     fun renameUserData(item: UserData<*>, name: String) {
-        if (containedInListSelector(item.name)) {
-            val previousName: String = item.name
+        if (containedInListSelector(item.getName())) {
+            val previousName: String = item.getName()
             val rename = { data: UserData<*> ->
-                if (data.name == previousName) {
-                    data.name = name
+                if (data.getName() == previousName) {
+                    data.setName(name)
                 }
             }
             ProjectManager.getInstance()?.currentProject?.userLists?.forEach(rename)
@@ -58,7 +58,7 @@ object UserDataUtil {
             ProjectManager.getInstance()?.currentProject?.userVariables?.forEach(rename)
             ProjectManager.getInstance()?.currentSprite?.userVariables?.forEach(rename)
         } else {
-            item.name = name
+            item.setName(name)
         }
     }
 }
