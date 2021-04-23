@@ -46,14 +46,10 @@ public class TouchFunctionProvider implements FunctionProvider {
 	}
 
 	private double interpretFunctionFingerTouched(double argument) {
-		return booleanToDouble(TouchUtil.isFingerTouching((int) argument));
+		return TouchUtil.isFingerTouching((int) argument) ? 1d : 0d;
 	}
 
 	private double interpretFunctionIndexCurrentTouch(double argument) {
 		return TouchUtil.getIndexOfCurrentTouch((int) argument);
-	}
-
-	private double booleanToDouble(boolean value) {
-		return value ? 1 : 0;
 	}
 }

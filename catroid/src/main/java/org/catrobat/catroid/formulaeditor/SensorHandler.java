@@ -541,7 +541,7 @@ public final class SensorHandler implements SensorEventListener, SensorCustomEve
 			case LAST_FINGER_INDEX:
 				return Double.valueOf(TouchUtil.getLastTouchIndex());
 			case FINGER_TOUCHED:
-				return TouchUtil.isFingerTouching(TouchUtil.getLastTouchIndex()) ? 1d : 0d;
+				return TouchUtil.isTouching();
 			case FINGER_X:
 				return Double.valueOf(TouchUtil.getX(TouchUtil.getLastTouchIndex()));
 			case FINGER_Y:
