@@ -31,7 +31,7 @@
     <string name="new_option">Baru&#8230;</string>
     <string name="edit_option">edit&#8230;</string>
     <string name="confirm">Konfirmasi</string>
-    <string name="ignore">Ignore</string>
+    <string name="ignore">Mengabaikan</string>
     <string name="cancel">Batalkan</string>
     <string name="save">Simpan</string>
     <string name="discard">Singkirkan</string>
@@ -39,16 +39,16 @@
     <string name="ok">Oke</string>
     <string name="done">Selesai</string>
     <string name="close" tools:ignore="UnusedResources">Tutup</string>
-    <string name="assistant">Assistant</string>
+    <string name="assistant">Asisten</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
-    <string name="once">Once</string>
-    <string name="always">Always</string>
-    <string name="deny">Deny</string>
-    <string name="accept">Accept</string>
-    <string name="decline">Decline</string>
-    <string name="select_all">Select all</string>
-    <string name="deselect_all">Deselect all</string>
+    <string name="once">Sekali</string>
+    <string name="always">Selalu</string>
+    <string name="deny">Menyangkal</string>
+    <string name="accept">Menerima</string>
+    <string name="decline">Menurun</string>
+    <string name="select_all">Pilih Semua</string>
+    <string name="deselect_all">Hapus semua</string>
     <string name="skip">lewati</string>
     <string name="warning">Peringatan</string>
     <string name="error">Kesalahan</string>
@@ -58,24 +58,24 @@
     <string name="backpack_add">Tambahkan ke ransel</string>
     <string name="share_website_text">share.catrob.at</string>
     <!-- Security warning dialog -->
-    <string name="security_warning_dialog_msg">The project you have downloaded listens to your voice
-        in the background and also sends data to the internet. This may be harmless, and necessary
-        for its intended behavior. However, please make sure that what you are saying while the
-        project is running is safe. In case of doubt, please delete the downloaded project.
-        You may also report the project on its page on the Catrobat community platform in case
-        you are sure that it is harmful.</string>
+    <string name="security_warning_dialog_msg">Proyek yang telah Anda unduh mendengarkan suara Anda
+        di latar belakang dan juga mengirimkan data ke internet. Ini mungkin tidak berbahaya, dan perlu
+        untuk perilakunya yang dimaksudkan. Namun, harap pastikan bahwa apa yang Anda katakan saat
+        proyek berjalan aman. Jika ragu, harap hapus proyek yang diunduh.
+        Anda juga dapat melaporkan proyek pada halamannya di platform komunitas Catrobat jika
+        Anda yakin itu berbahaya.</string>
     <!-- Replace Api dialog -->
-    <string name="api_replacement_dialog_neutral">Upload without change</string>
-    <string name="api_replacement_dialog_accept">Upload with keys replaced</string>
-    <string name="api_replacement_dialog_warning">The project contains bricks that access the
-        web, and also seems to contain API keys. Please see %1s why
-        uploading these keys can be dangerous.</string>
-    <string name="api_replacement">insert API key here</string>
+    <string name="api_replacement_dialog_neutral">Unggah tanpa perubahan</string>
+    <string name="api_replacement_dialog_accept">Unggah dengan kunci diganti</string>
+    <string name="api_replacement_dialog_warning">Proyek ini berisi batu bata yang mengakses
+        web, dan juga tampaknya berisi kunci API. Silakan lihat %1s mengapa
+        mengunggah kunci ini bisa berbahaya.</string>
+    <string name="api_replacement">masukkan kunci API di sini</string>
     <!-- -->
     <!-- Login/Logout Mechanism -->
-    <string name="loading_check_oauth_token">Checking login data&#8230;</string>
-    <string name="loading_google_exchange_code">Exchanging Google login data&#8230;</string>
-    <string name="loading_google_login">Google login on our server is complete&#8230;</string>
+    <string name="loading_check_oauth_token">Memeriksa data login&#8230;</string>
+    <string name="loading_google_exchange_code">Bertukar data login Google&#8230;</string>
+    <string name="loading_google_login">Login Google di server kami selesai&#8230;</string>
     <string name="logout_successful">Berhasil keluar</string>
     <string name="degrees" tools:ignore="UnusedResources">derajat</string>
     <string name="background" tools:ignore="UnusedResources">Latar belakang</string>
@@ -85,11 +85,11 @@
     <string name="disconnect">Memutuskan</string>
     <!--  -->
     <!-- Main Menu -->
-    <string name="main_menu_continue">Continue project</string>
-    <string name="main_menu_new">New project</string>
+    <string name="main_menu_continue">Lanjutkan proyek</string>
+    <string name="main_menu_new">Proyek baru</string>
     <string name="main_menu_programs">Program</string>
     <string name="main_menu_help" tools:ignore="UnusedResources">Bantuan</string>
-    <string name="main_menu_web">Catrobat community</string>
+    <string name="main_menu_web">Komunitas Catrobat</string>
     <string name="main_menu_upload">Mengunggah Program</string>
     <string name="main_menu_rate_app">Nilai kami!</string>
     <string name="main_menu_terms_of_use">Syarat Penggunaan dan Layanan</string>
@@ -98,54 +98,58 @@
     <string name="main_menu_login">Masuk</string>
     <string name="main_menu_logout">Logout</string>
     <string name="main_menu_scratch_converter">Konverter Scratch</string>
-    <string name="main_menu_play_store_not_installed">App store not found</string>
+    <string name="main_menu_play_store_not_installed">App store tidak ditemukan</string>
     <!--  -->
     <!-- Marketing activity -->
     <string name="marketing_created_with">Dibuat dengan</string>
     <string name="marketing_app_details">Rincian tentang aplikasi ini</string>
     <string name="marketing_more_on_google_play">Aplikasi lainnya di Google Play</string>
+    <string name="error_cannot_open_huawei_app_gallery">Ups! Gagal membuka Huawei AppGallery,
+        silahkan coba lagi nanti.</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">Galeri Aplikasi Huawei</string>
     <!-- NFC activity -->
-    <string name="nfc_activity_title">NFC tags</string>
+    <string name="nfc_activity_title">Tag NFC</string>
     <!-- Settings activity -->
     <string name="preference_title">Pengaturan</string>
     <string name="preference_title_language">Bahasa</string>
-    <string name="preference_description_language">Set the app\'s language</string>
-    <string name="preference_title_web_access">Web access</string>
-    <string name="preference_description_web_access">Edit to add or remove trusted domains</string>
-    <string name="preference_screen_web_access_title">Edit trusted domains</string>
-    <string name="preference_title_accessibility">Accessibility</string>
-    <string name="preference_description_accessibility">Change the app\'s appearance</string>
-    <string name="preference_title_accessibility_profiles">Accessibility profiles</string>
-    <string name="preference_title_accessibility_profile">Predefined profiles</string>
-    <string name="preference_title_accessibility_profile_headline">Profiles</string>
-    <string name="preference_title_accessibility_predefined_profile_headline">Predefined profiles</string>
-    <string name="preference_description_accessibility_profiles">Pick a predefined accessibility profile</string>
-    <string name="preference_title_accessibility_text_appearance">Text appearance</string>
-    <string name="preference_title_accessibility_handling">Handling</string>
-    <string name="preference_title_accessibility_category_icons_big">Large icons</string>
-    <string name="preference_description_accessibility_category_icons_big">Increase icon size.</string>
-    <string name="preference_title_accessibility_category_icons_high_contrast">High contrast icons</string>
-    <string name="preference_title_accessibility_Brick_icons">Icons</string>
-    <string name="preference_title_accessibility_category_icons">Show icons</string>
-    <string name="preference_description_accessibility_category_icons">Add icons to categories and bricks.</string>
-    <string name="preference_title_accessibility_high_contrast">High contrast</string>
-    <string name="preference_description_accessibility_high_contrast">Increase the text contrast.</string>
-    <string name="preference_description_accessibility_large_text">Increase the text size.</string>
-    <string name="preference_title_accessibility_large_text">Large text</string>
-    <string name="preference_title_accessibility_element_spacing">Large element spacing</string>
-    <string name="preference_description_accessibility_element_spacing">Increase element spacing in lists.</string>
-    <string name="preference_title_accessibility_dragndrop_delay">Drag\'n\'drop delay</string>
-    <string name="preference_description_accessibility_dragndrop_delay">Drag\'n\'drop delay for bricks.</string>
-    <string name="preference_title_accessibility_beginner_bricks">Beginner mode</string>
-    <string name="preference_description_accessibility_beginner_bricks">Show only simple features.</string>
-    <string name="preference_title_accessibility_font_style">Choose a text type</string>
-    <string name="accessibility_font_regular">Regular</string>
+    <string name="preference_description_language">Setel bahasa aplikasi</string>
+    <string name="preference_title_web_access">akses web</string>
+    <string name="preference_description_web_access">Edit untuk menambah atau menghapus domain tepercaya</string>
+    <string name="preference_screen_web_access_title">Edit domain tepercaya</string>
+    <string name="preference_title_accessibility">Aksesibilitas</string>
+    <string name="preference_description_accessibility">Ubah tampilan aplikasi</string>
+    <string name="preference_title_accessibility_profiles">Profil aksesibilitas</string>
+    <string name="preference_title_accessibility_profile">Profil standar</string>
+    <string name="preference_title_accessibility_profile_headline">Profil</string>
+    <string name="preference_title_accessibility_predefined_profile_headline">Profil standar</string>
+    <string name="preference_description_accessibility_profiles">Pilih profil aksesibilitas yang telah ditentukan sebelumnya</string>
+    <string name="preference_title_accessibility_text_appearance">Penampilan teks</string>
+    <string name="preference_title_accessibility_handling">Penanganan</string>
+    <string name="preference_title_accessibility_category_icons_big">Ikon besar</string>
+    <string name="preference_description_accessibility_category_icons_big">Tingkatkan ukuran ikon</string>
+    <string name="preference_title_accessibility_category_icons_high_contrast">Ikon kontras tinggi</string>
+    <string name="preference_title_accessibility_Brick_icons">Ikon</string>
+    <string name="preference_title_accessibility_category_icons">Tampilkan ikon</string>
+    <string name="preference_description_accessibility_category_icons">Tambahkan ikon ke kategori dan batu bata.</string>
+    <string name="preference_title_accessibility_high_contrast">Kontras tinggi</string>
+    <string name="preference_description_accessibility_high_contrast">Tingkatkan kontras teks.</string>
+    <string name="preference_description_accessibility_large_text">Tingkatkan ukuran teks.</string>
+    <string name="preference_title_accessibility_large_text">Teks besar</string>
+    <string name="preference_title_accessibility_element_spacing">Jarak elemen yang besar</string>
+    <string name="preference_description_accessibility_element_spacing">Tingkatkan spasi elemen dalam daftar.</string>
+    <string name="preference_title_accessibility_dragndrop_delay">Penundaan drag\'n\'drop</string>
+    <string name="preference_description_accessibility_dragndrop_delay">Penundaan drag\'n\'drop untuk batu bata.</string>
+    <string name="preference_title_accessibility_beginner_bricks">Mode pemula</string>
+    <string name="preference_description_accessibility_beginner_bricks">Tampilkan hanya fitur-fitur sederhana.</string>
+    <string name="preference_title_accessibility_font_style">Pilih jenis teks</string>
+    <string name="accessibility_font_regular">Reguler</string>
     <string name="accessibility_font_serif">Serif</string>
-    <string name="accessibility_font_dyslexic">Dyslexic</string>
-    <string name="accessibility_settings_applied">Changes applied</string>
+    <string name="accessibility_font_dyslexic">Disleksia</string>
+    <string name="accessibility_settings_applied">Perubahan diterapkan</string>
     <string name="preference_access_title_profile_default">Default</string>
-    <string name="preference_access_summary_profile_default">Default settings</string>
-    <string name="preference_access_title_profile_custom">My custom profile</string>
+    <string name="preference_access_summary_profile_default">Pengaturan default</string>
+    <string name="preference_access_title_profile_custom">Profil kustom saya</string>
     <string name="preference_access_summary_profile_custom">My personal settings</string>
     <string name="preference_access_title_profile_argus">Argus</string>
     <string name="preference_access_summary_profile_argus">High contrast, additional icons</string>
@@ -156,7 +160,7 @@
     <string name="preference_access_summary_profile_fenrir">Large element spacing, drag\'n\'drop
        delay</string>
     <string name="preference_access_title_profile_tiro">Tiro</string>
-    <string name="preference_access_summary_profile_tiro">Beginner mode</string>
+    <string name="preference_access_summary_profile_tiro">Mode pemula</string>
     <!-- Lego/Drone/Raspi/Chromecast/Embroidery -->
     <string name="preference_title_enable_quadcopter_bricks">Parrot AR.Drone 2.0 batu bata</string>
     <string name="preference_description_quadcopter_bricks">Allow the app to control Parrot AR.Drone 2.0 quadcopters</string>
@@ -557,17 +561,6 @@
         and other services. Please see the link below for their precise formulation.\n</string>
     <string name="dialog_terms_of_use_link_text">Syarat Penggunaan dan Layanan</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Syarat Penggunaan dan Layanan</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">You are about to use this app together with Parrot\'s
-        AR.Drone 2.0. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and Services.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Jangan ingatkan saya lagi.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">You are about to use this app together with
-        Parrot\'s Jumping Sumo. We strongly remind you to abide by both Parrot\'s and Catrobat\'s Terms of Use and
-        Services.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Welcome!</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
@@ -684,7 +677,6 @@
     <string name="prestage_resource_not_available_title">Komponen tidak tersedia</string>
     <string name="prestage_resource_not_available_text">Unfortunately this project does not work on your device.
         The following components are unavailable:\n\n</string>
-    <string name="prestage_resource_in_use_text">Perangkat lain terhubung ke Jumping Sumo. Pastikan, Anda adalah satu-satunya Pengendali untuk Drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\\2022 Sensor akselerasi \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensor inklinasi \n</string>
@@ -694,7 +686,6 @@
     <string name="prestage_no_back_camera_available">\u2022 Rear camera\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Lompati Sumo \n</string>
     <string name="prestage_no_front_camera_available">\u2022 Front camera\n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -898,6 +889,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
+    <string name="brick_thread_color">Set thread color to</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
@@ -1161,18 +1153,7 @@
     <string name="notification_download_pending">Sedang mengunduh</string>
     <string name="notification_download_finished">Berhasil mengunduh</string>
     <string name="notification_title_open">"Buka "</string>
-    <string name="notification_low_battery_with_value">Attention. Battery is low. Current status is %d</string>
     <string name="size_of_project">Ukuran:</string>
-    <string name="drone_emergency_battery_low">Baterai rendah (landing otomatis).</string>
-    <string name="drone_emergency_camera">Satu atau lebih kamera tidak merespons.</string>
-    <string name="drone_emergency_ultrasound">Sensor ultrasound tidak merespons.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 Euler angles went too high. Motors shut down to prevent dangerous
-        behavior.</string>
-    <string name="drone_emergency_cutout">Satu atau lebih motor dihentikan oleh lingkungan.</string>
-    <string name="drone_alert_battery_low">Baterai terlalu rendah untuk lepas landas lagi.</string>
-    <string name="drone_alert_ultrasound">Sensor ultrasound tidak dapat menentukan ketinggian AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Tidak ada perkiraan kecepatan dari kamera menghadap bawah.</string>
-    <string name="drone_emergency_title">Keadaan darurat</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">This app needs the requested permissions to function properly. E.g., the
@@ -1198,18 +1179,6 @@ needs read and write access to it. You can always change permissions through you
         change something and try again.</string>
     <string name="error_adding_brick">Terjadi kesalahan saat menambahkan bata ini</string>
     <string name="error_copying_brick">Terjadi kesalahan saat menyalin bata ini</string>
-    <string name="error_no_drone_connected_title">Tidak dapat menemukan AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Hubungkan wifi Anda ke AR.Drone 2.0 dan coba lagi.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 baterai rendah: %d%%</string>
-    <string name="error_drone_low_battery">Masukkan baterai yang penuh dan coba lagi.</string>
-    <string name="error_jumpingsumo_wrong_platform">Kami tidak dapat menjalankan proyek Jumping Sumo di perangkat Anda.</string>
-    <string name="error_no_jumpingsumo_connected_title">Tidak dapat menemukan Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">Hubungkan wifi Anda ke Jumping Sumo dan coba lagi.</string>
-    <string name="error_jumpingsumo_battery_title">Melompatkan baterai Sumo rendah</string>
-    <string name="error_jumpingsumo_battery">Masukkan baterai yang penuh dan coba lagi.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Tidak ada dukungan Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">Tidak ada dukungan AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Kami tidak dapat menjalankan proyek AR.Drone 2.0 di perangkat Anda.</string>
     <string name="error_rename_incompatible_project">Mengganti nama sebuah proyek yang tidak kompatibel tidak mungkin dilakukan.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
@@ -1822,6 +1791,15 @@ needs read and write access to it. You can always change permissions through you
         again!</string>
     <string name="progress_upload_dialog_show_program">Tampilkan program</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
+        the community platform in exactly the same form. Please change your project, ideally by
+        enhancing it, before uploading your remixed project.</string>
+    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
+        author in the Credits section on the community site or in the project options. Please note
+        that the user will get a notification after your successful upload.</string>
+    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Mengerti</string>
     <string name="preference_description_hints">Aktifkan untuk menunjukkan petunjuk</string>
@@ -1837,6 +1815,14 @@ needs read and write access to it. You can always change permissions through you
     <string name="hint_objects">Your program consists of different actors and objects that can interact with each other.
         To add a new actor or object, tap the \"+\" symbol.</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Show hints?</string>
+    <string name="dialog_disable_hints_text">Hints provide you with helpful information
+        while making your first project.\n\nVisibility of hints can be changed in the
+        settings.</string>
+    <string name="dialog_disable_hints_button_hide">HIDE</string>
+    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1849,6 +1835,9 @@ needs read and write access to it. You can always change permissions through you
     <string name="edit">Edit</string>
     <string name="data_value">Value</string>
     <string name="category_recently_used">Recently used</string>
+    <string name="new_sprite_dialog_place_visually">Place visually</string>
+    <string name="place_visually_text">You will be asked to place the new actor or object on the
+        stage.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
 </resources>

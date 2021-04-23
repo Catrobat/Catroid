@@ -104,6 +104,10 @@
     <string name="marketing_created_with">Créé avec</string>
     <string name="marketing_app_details">Détails sur cette app</string>
     <string name="marketing_more_on_google_play">Plus d\'apps sur Google Play</string>
+    <string name="error_cannot_open_huawei_app_gallery">Oups ! Impossible d\'ouvrir la galerie d\'applications Huawei,
+        réessaye plus tard!</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">Huawei AppGallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">Tags NFC</string>
     <!-- Settings activity -->
@@ -590,17 +594,6 @@
         et d\'autres services. Veuillez consulter le lien ci-dessous pour leur formulation précise.\n</string>
     <string name="dialog_terms_of_use_link_text">Conditions d’utilisation et de services</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Conditions d’utilisation et de services de Pocket Code</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Vous êtes sur le point d\'utiliser cette application avec le
-        AR.Drone 2.0 de Parrot. Nous vous rappelons fortement de respecter les conditions d\'utilisation et de service de Parrot et de Catrobat.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Ne plus me le rappeler.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Vous êtes sur le point d\'utiliser cette application avec
-        Parrot Saut Sumo. Nous vous rappelons fortement de respecter les conditions d\'utilisation de Parrot et de Catrobat, ainsi que les
-        services.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Bienvenue !</string>
     <string name="disclaimer_privacy_policy_header">Pour utiliser cette application, veuillez accepter notre</string>
@@ -718,8 +711,6 @@
     <string name="prestage_resource_not_available_title">Composant non disponible</string>
     <string name="prestage_resource_not_available_text">Malheureusement, ce projet ne fonctionne pas sur votre appareil.
         Les composants suivants ne sont pas disponibles :\n\n</string>
-    <string name="prestage_resource_in_use_text">Un autre appareil est connecté au Saut Sumo. Assurez-vous que vous
-        êtes celui connecté au drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Accéléromètre\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Gyroscope\n</string>
@@ -729,7 +720,6 @@
     <string name="prestage_no_back_camera_available">\u2022 Caméra arrière\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Détection de visage\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Détection de texte\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Saut Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Caméra frontale\n</string>
     <string name="prestage_no_camera_available">\u2022 Caméra\n</string>
     <string name="prestage_no_flash_available">\u2022 Lampe de poche\n</string>
@@ -935,6 +925,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Écrire les données de la broderie dans le fichier</string>
     <string name="brick_default_embroidery_file">broderie</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Coudre</string>
+    <string name="brick_thread_color">Utilise la couleur du fil</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
@@ -961,7 +952,7 @@
     </plurals>
     <string name="brick_collision_receive" tools:ignore="UnusedResources">Lorsqu’il y a collision physique avec</string>
     <string name="collision_with_anything">n’importe quoi</string>
-    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Quand tu reçois</string>
+    <string name="brick_broadcast_receive" tools:ignore="UnusedResources">Quand vous recevez</string>
     <string name="brick_broadcast" tools:ignore="UnusedResources">Diffuser</string>
     <string name="brick_broadcast_wait" tools:ignore="UnusedResources">Diffuser et attendre</string>
     <string name="brick_scene_transition" tools:ignore="UnusedResources">Continuer la scène</string>
@@ -980,7 +971,7 @@
     <string name="brick_when_touched" tools:ignore="UnusedResources">Lorsque l’écran est touché</string>
     <string name="brick_clone" tools:ignore="UnusedResources">Créer un clone de</string>
     <string name="brick_clone_this">moi-même</string>
-    <string name="brick_when_cloned" tools:ignore="UnusedResources">Quand j’ai commencé comme un clone</string>
+    <string name="brick_when_cloned" tools:ignore="UnusedResources">Quand vous commencez en tant que clone</string>
     <string name="brick_delete_this_clone" tools:ignore="UnusedResources">Supprimer ce clone</string>
     <string name="brick_assert_that" tools:ignore="UnusedResources">Affirmer</string>
     <string name="brick_is_equal_to" tools:ignore="UnusedResources">équivaut à attendu</string>
@@ -1202,18 +1193,7 @@
     <string name="notification_download_pending">Téléchargement en cours</string>
     <string name="notification_download_finished">Téléchargement terminé</string>
     <string name="notification_title_open">"Ouvrir "</string>
-    <string name="notification_low_battery_with_value">Attention. La batterie est faible. Le statut actuel est %d</string>
     <string name="size_of_project">Taille :</string>
-    <string name="drone_emergency_battery_low">La batterie est faible (atterrissage automatique).</string>
-    <string name="drone_emergency_camera">Une ou plusieurs caméras ne répondent pas.</string>
-    <string name="drone_emergency_ultrasound">Le capteur d\'ultrasons ne répond pas.</string>
-    <string name="drone_emergency_angle">Les angles AR.Drone 2.0 Euler sont allés trop haut. Les moteurs s\'arrêtent pour éviter un comportement
-        dangereux.</string>
-    <string name="drone_emergency_cutout">Un ou plusieurs moteurs ont été arrêtés par l’environnement.</string>
-    <string name="drone_alert_battery_low">La batterie est trop faible pour décoller à nouveau.</string>
-    <string name="drone_alert_ultrasound">Le capteur à ultrasons ne peut pas déterminer l\'altitude AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Aucune estimation de la vitesse de la caméra inférieure avant.</string>
-    <string name="drone_emergency_title">Urgence</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Cette application a besoin des autorisations demandées pour fonctionner correctement. Par exemple, la brique
@@ -1239,18 +1219,6 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
         modifier quelque chose et réessayer.</string>
     <string name="error_adding_brick">Une erreur est apparue en ajoutant ce bloc</string>
     <string name="error_copying_brick">Une erreur est apparue en copiant ce bloc</string>
-    <string name="error_no_drone_connected_title">ARDrone 2.0 est introuvable.</string>
-    <string name="error_no_drone_connected">Connectez votre wifi à l\'ARDrone 2.0 et réessayez.</string>
-    <string name="error_drone_low_battery_title">Batterie de l\'AR.Drone 2.0 faible : %d%%.</string>
-    <string name="error_drone_low_battery">Insérez une batterie et essayez à nouveau.</string>
-    <string name="error_jumpingsumo_wrong_platform">Nous ne pouvons pas exécuter un projet Jumping Sumo sur votre appareil.</string>
-    <string name="error_no_jumpingsumo_connected_title">Sumo de Saut introuvable</string>
-    <string name="error_no_jumpingsumo_connected">Connectez votre wifi au Jumping Sumo et réessayez.</string>
-    <string name="error_jumpingsumo_battery_title">Sauter la batterie Sumo faible</string>
-    <string name="error_jumpingsumo_battery">Insérez une batterie et essayez à nouveau.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Pas de support de Sumo Saut</string>
-    <string name="error_drone_wrong_platform_title">Pas de support AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Nous ne pouvons pas exécuter un projet AR.Drone 2.0 sur votre appareil.</string>
     <string name="error_rename_incompatible_project">Renommer un projet incompatible n\'est pas possible.</string>
     <string name="error_embroidery_file_export">Une erreur s\'est produite lors du partage du fichier de broderie.</string>
     <string name="error_embroidery_file_write">Une erreur s\'est produite lors de l\'écriture du fichier de broderie.</string>
@@ -1864,6 +1832,15 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
         à nouveau !</string>
     <string name="progress_upload_dialog_show_program">Afficher le programme</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">Le projet que tu essaye de télécharger existe déjà sur
+        la plateforme communautaire sous exactement le même nom. Change ton projet, idéalement en
+        l\'améliorant, avant de télécharger ton projet remixé.</string>
+    <string name="unchanged_upload_info">Envisage d\'ajouter quelques mots aimables à l\'auteur
+        original dans la section Crédits sur le site communautaire ou dans les options du projet. Note que
+        l\'auteur original va recevoir une notification après ton téléversement réussi.</string>
+    <string name="unchanged_upload_url">Pour savoir plus au sujet des remixes, visite %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">J\'ai compris</string>
     <string name="preference_description_hints">Permettre d’afficher les indices</string>
@@ -1879,6 +1856,13 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="hint_objects">Votre programme est composé de différents acteurs et objets qui peuvent interagir entre eux.
         Pour ajouter un nouvel acteur ou un nouvel objet, appuyez sur le symbole \"+\".</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Montrer des explications ?</string>
+    <string name="dialog_disable_hints_text">Les explications te donnes des informations utiles
+        lors de la réalisation de ton premier projet.\n\nLa visibilité des explications peut être modifiée dans les préférences.</string>
+    <string name="dialog_disable_hints_button_hide">CACHER</string>
+    <string name="dialog_disable_hints_button_show">AFFICHER</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1891,6 +1875,8 @@ doit avoir accès en lecture et en écriture à la mémoire locale. Vous pouvez 
     <string name="edit">Éditer</string>
     <string name="data_value">Valeur</string>
     <string name="category_recently_used">Récemment utilisé</string>
+    <string name="new_sprite_dialog_place_visually">Placer visuellement</string>
+    <string name="place_visually_text">On te demandera de placer le nouvel acteur ou objet sur l\'écran.</string>
     <!-- Information -->
     <string name="no_variable_selected">Aucune variable sélectionnée</string>
 </resources>

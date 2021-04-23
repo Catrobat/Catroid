@@ -99,6 +99,10 @@
     <string name="marketing_created_with">제작</string>
     <string name="marketing_app_details">세부 정보</string>
     <string name="marketing_more_on_google_play">구글 플레이에서 다른 앱 보기</string>
+    <string name="error_cannot_open_huawei_app_gallery">이런! Huawei AppGallery를 열지 못했습니다.
+        나중에 다시 시도 해주십시오.</string>
+    <string name="google_play_store_logo">구글 플레이</string>
+    <string name="huawei_app_gallery">화웨이 앱 갤러리</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC 태그</string>
     <!-- Settings activity -->
@@ -530,14 +534,6 @@
     <string name="dialog_terms_of_use_info">포켓 코드와 Catrobat 프로그램에 의해 제공하는 다른 실행 파일을 사용하도록 허용하려면 우리의 이용 약관에 동의하고 포켓 코드와 우리의 다른 실행 파일을 사용할 때 엄격하게 약관을 따라야 합니다. 자세한 세부규정은 아래 링크를 참조하십시오.\n</string>
     <string name="dialog_terms_of_use_link_text">사용과 서비스 약관</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">포켓 코드 이용 약관 및 서비스</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">이 앱을 Parrot\'s  AR.Drone2.0과 함께 사용해 보십시오. 우리는 당신이 Parrot의 사용 약관과 드론을 위한 서비스, 그리고 Catrobat의 사용 약관을 준수하도록 권고합니다.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">다시 보지 않기</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">이 앱을 Parrot\'s  AR.Drone2.0과 함께 사용해 보십시오. 우리는 당신이 Parrot의 사용 약관과 드론을 위한 서비스, 그리고 Catrobat의 사용 약관을 준수하도록 권고합니다.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">환영합니다!</string>
     <string name="disclaimer_privacy_policy_header">앱 사용을 위해, 허용</string>
@@ -650,7 +646,6 @@
     <string name="prestage_resource_not_available_title">구성 요소 사용할 수 없음</string>
     <string name="prestage_resource_not_available_text">이 프로젝트는 기기에서 작동하지 않습니다.
 다음 장치가 사용않됩니다:\n\n</string>
-    <string name="prestage_resource_in_use_text">다른 장치가 점핑 스모와 연결되어 있습니다. 다른 기기가 드론과 연결되어 있는 것은 아닌지 확인하세요.</string>
     <string name="prestage_no_vibration_available">\u2022 진동\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 가속센서\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 기울기센서\n</string>
@@ -660,7 +655,6 @@
     <string name="prestage_no_back_camera_available">\u2022 뒤 카메라 \n</string>
     <string name="prestage_no_face_detection_available">\u2022 얼굴인식\n</string>
     <string name="prestage_no_text_detection_available">\u2022 문장인식\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 앞 카메라 \n</string>
     <string name="prestage_no_camera_available">\u2022 카메라 \n</string>
     <string name="prestage_no_flash_available">\u2022 플래시\n</string>
@@ -863,6 +857,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">파일에 자수 데이터 쓰기</string>
     <string name="brick_default_embroidery_file">자수 .dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">바느질</string>
+    <string name="brick_thread_color">실 색상을 다음으로 설정</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">타이머 초기화</string>
@@ -1124,17 +1119,7 @@
     <string name="notification_download_pending">다운로드 진행 중</string>
     <string name="notification_download_finished">다운로드 성공</string>
     <string name="notification_title_open">"열기"</string>
-    <string name="notification_low_battery_with_value">주의. 배터리가 부족합니다. 현재 상태 %d</string>
     <string name="size_of_project">크기:</string>
-    <string name="drone_emergency_battery_low">배터리 부족 (자동 종료).</string>
-    <string name="drone_emergency_camera">카메라가 응답하지 않습니다.</string>
-    <string name="drone_emergency_ultrasound">초음파 센서가 응답하지 않습니다.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 euler의 각도가 너무 높습니다. 잘못 작동되는 것을 피하려면 모터를 정지하세요.</string>
-    <string name="drone_emergency_cutout">환경때문에 모터가 정지되었습니다.</string>
-    <string name="drone_alert_battery_low">다시 이륙하기에는 배터리가 부족합니다.</string>
-    <string name="drone_alert_ultrasound">초음파 센서가 AR.Drone 2.0의 고도를 결정하지 못 합니다. </string>
-    <string name="drone_alert_vision">바닥의 카메라가 속도를 측정할 수 없습니다.</string>
-    <string name="drone_emergency_title">긴급</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">이 앱은 기능의 권한이 필요합니다. 즉, 카메라 블록은 기기의 카메라 접근, \"위치\"기능은 기기의 위치 센서의 접근, 프로젝트를 불러오거나 저장하기 위한 일고 저장하는 기능 등. 기기의 설정을 통해 접근 권한을 변경할 수 있습니다.</string>
@@ -1154,18 +1139,6 @@
     <string name="error_upload_default_project">예시 프로젝트를 그대로 업로드 할 수 없습니다. 수정후 다시 시도 하세요.</string>
     <string name="error_adding_brick">이 블록을 추가하는 동안 오류가 발생했습니다.</string>
     <string name="error_copying_brick">이 블록을 복사하는 동안 오류가 발생했습니다.</string>
-    <string name="error_no_drone_connected_title">AR.Drone 2.0을 찾을 수 없습니다.</string>
-    <string name="error_no_drone_connected">AR.Drone 2.0을 wifi에 연결하고 다시 시도하십시오.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 배터리 부족: %d%%</string>
-    <string name="error_drone_low_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
-    <string name="error_jumpingsumo_wrong_platform">당신의 장치에서는 점핑 스모 프로젝트를 실행시킬 수 없습니다.</string>
-    <string name="error_no_jumpingsumo_connected_title">Jumping Sumo 찾을 수 없습니다.</string>
-    <string name="error_no_jumpingsumo_connected">점프 스모의  wifi를 연결하고 다시 시도해 보세요.</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo의 배터리가 부족합니다.</string>
-    <string name="error_jumpingsumo_battery">충전된 배터리를 삽입하고 다시 시도하십시오.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">점핑 스모를 지원하지 않습니다.</string>
-    <string name="error_drone_wrong_platform_title">AR.Drone 2.0을 지원하지 않습니다.</string>
-    <string name="error_drone_wrong_platform">이 장치에서 AR.Drone 2.0 프로그램을 실행할 수 없습니다.</string>
     <string name="error_rename_incompatible_project">호환 되지 않는 프로그램의 이름을 바꿀 수 없습니다.</string>
     <string name="error_embroidery_file_export">자수 파일을 공유하는데 문제가 생겼습니다.</string>
     <string name="error_embroidery_file_write">패턴 파일을 작성하는 중 문제가 생겼습니다.</string>
@@ -1761,6 +1734,15 @@
     <string name="progress_upload_dialog_failed">업로드 실패. 인터넷 연결상태를 확인하시고 다시 해 주세요!</string>
     <string name="progress_upload_dialog_show_program">프로그램 보이기</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">업로드하려는 프로젝트가 이미 존재합니다.
+        완전히 같은 형태의 커뮤니티 플랫폼입니다. 프로젝트를 변경하십시오.
+        리믹스 프로젝트를 업로드하기 전에이를 향상시킵니다.</string>
+    <string name="unchanged_upload_info">원문에 친절한 단어를 추가해보세요
+        커뮤니티 사이트의 크레딧 섹션 또는 프로젝트 옵션에서 작성자. 참고
+        업로드 성공 후 사용자에게 알림이 전송됩니다.</string>
+    <string name="unchanged_upload_url">리믹스에 대해 자세히 알아 보려면 %1s를 방문하십시오.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">확인</string>
     <string name="preference_description_hints">힌트 표시 사용</string>
@@ -1771,6 +1753,14 @@
     <string name="hint_looks">여기서 개체의 다른 모양을 찾을 수 있습니다. 추가 하려면 \"+\"를 터치하세요.</string>
     <string name="hint_sounds">배우나 오브젝트에 새로운 소리를 추가할 수 있어요. 소리 카테고리의 블록을 사용하세요.</string>
     <string name="hint_objects">서로 작용할 수 있는 오브젝트가 다른 프로그램에 의하여 이루어져 있다. 추가하려면  \"+\"를 터치하세요.</string>
+    <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">힌트를 표시 하시겠습니까?</string>
+    <string name="dialog_disable_hints_text">힌트는 유용한 정보를 제공합니다.
+        첫 번째 프로젝트를 만드는 동안 \n\n 힌트의 가시성은
+        설정.</string>
+    <string name="dialog_disable_hints_button_hide">숨는 장소</string>
+    <string name="dialog_disable_hints_button_show">보여 주다</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1784,6 +1774,9 @@
     <string name="edit">편집</string>
     <string name="data_value">값</string>
     <string name="category_recently_used">최근 사용</string>
+    <string name="new_sprite_dialog_place_visually">보이게 위치</string>
+    <string name="place_visually_text">새 액터 또는 오브젝트를
+        단계.</string>
     <!-- Information -->
     <string name="no_variable_selected">선택된 변수가 없습니다.</string>
 </resources>
