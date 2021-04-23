@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2018 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -31,6 +31,8 @@ import android.view.View;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.badlogic.gdx.graphics.Color;
 
 import org.catrobat.catroid.ProjectManager;
 import org.catrobat.catroid.R;
@@ -135,6 +137,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 	@Override
 	public void onBackPressed() {
 		clearBroadcastMaps();
+		resetEmbroideryThreadColor();
 		dismiss();
 		stageActivity.exit();
 		new FinishThreadAndDisposeTexturesTask().execute(null, null, null);
@@ -182,6 +185,8 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		}
 
 		clearBroadcastMaps();
+		resetEmbroideryThreadColor();
+
 		dismiss();
 		SensorHandler.timerReferenceValue = SystemClock.uptimeMillis();
 		restartProject();
@@ -198,6 +203,7 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 				success -> {
 					if (success) {
 						ToastUtil.showSuccess(stageActivity, R.string.notification_screenshot_ok);
+						ProjectManager.getInstance().changedProject(ProjectManager.getInstance().getCurrentProject().getName());
 					} else {
 						ToastUtil.showError(stageActivity, R.string.error_screenshot_failed);
 					}
@@ -231,6 +237,14 @@ public class StageDialog extends Dialog implements View.OnClickListener {
 		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
 			for (Sprite sprite : scene.getSpriteList()) {
 				sprite.getIdToEventThreadMap().clear();
+			}
+		}
+	}
+
+	private void resetEmbroideryThreadColor() {
+		for (Scene scene : ProjectManager.getInstance().getCurrentProject().getSceneList()) {
+			for (Sprite sprite : scene.getSpriteList()) {
+				sprite.setEmbroideryThreadColor(Color.BLACK);
 			}
 		}
 	}

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2019 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -32,6 +32,7 @@ import android.os.ResultReceiver
 import android.util.Log
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
+import org.catrobat.catroid.ProjectManager
 import org.catrobat.catroid.R
 import org.catrobat.catroid.scratchconverter.Client.ProjectDownloadCallback
 import org.catrobat.catroid.transfers.project.ProjectDownloadService
@@ -141,6 +142,7 @@ class ProjectDownloader(
                 }
                 SUCCESS_CODE -> {
                     callbackWeakReference.get()?.onDownloadFinished(projectName, url)
+                    ProjectManager.getInstance().addNewDownloadedProject(projectName)
                     queue.finished(projectName)
                 }
                 ERROR_CODE -> queue.finished(projectName)

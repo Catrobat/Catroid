@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.ArrayList;
 
 public class DSTStream implements EmbroideryStream {
@@ -49,8 +51,8 @@ public class DSTStream implements EmbroideryStream {
 	}
 
 	@Override
-	public void addStitchPoint(float x, float y) {
-		DSTStitchPoint point = new DSTStitchPoint(x, y);
+	public void addStitchPoint(float x, float y, Color color) {
+		DSTStitchPoint point = new DSTStitchPoint(x, y, color);
 		point.setColorChange(colorChangeBitSet);
 		point.setJump(jumpBitSet);
 		colorChangeBitSet = false;
@@ -59,7 +61,7 @@ public class DSTStream implements EmbroideryStream {
 			header.initialize(x, y);
 			point.setRelativeCoordinatesToPreviousPoint(x, y);
 		} else {
-			addInterpolatedPoints(x, y);
+			addInterpolatedPoints(x, y, color);
 			header.update(x, y);
 			StitchPoint previousPoint = points.get(points.size() - 1);
 			point.setRelativeCoordinatesToPreviousPoint(previousPoint.getX(), previousPoint.getY());
@@ -67,7 +69,7 @@ public class DSTStream implements EmbroideryStream {
 		points.add(point);
 	}
 
-	private void addInterpolatedPoints(float currentX, float currentY) {
+	private void addInterpolatedPoints(float currentX, float currentY, Color color) {
 		StitchPoint previousPoint = points.get(points.size() - 1);
 
 		float distance = DSTFileConstants.getMaxDistanceBetweenPoints(currentX, currentY,
@@ -75,18 +77,18 @@ public class DSTStream implements EmbroideryStream {
 		if (distance > DSTFileConstants.MAX_DISTANCE) {
 			int splitCount = (int) Math.ceil(distance / DSTFileConstants.MAX_DISTANCE);
 			addJump();
-			addStitchPoint(previousPoint.getX(), previousPoint.getY());
+			addStitchPoint(previousPoint.getX(), previousPoint.getY(), previousPoint.getColor());
 
 			for (int count = 1; count < splitCount; count++) {
 				float splitFactor = (float) count / splitCount;
 				float x = interpolate(currentX, previousPoint.getX(), splitFactor);
 				float y = interpolate(currentY, previousPoint.getY(), splitFactor);
 				addJump();
-				addStitchPoint(x, y);
+				addStitchPoint(x, y, previousPoint.getColor());
 			}
 
 			addJump();
-			addStitchPoint(currentX, currentY);
+			addStitchPoint(currentX, currentY, color);
 		}
 	}
 
@@ -99,7 +101,7 @@ public class DSTStream implements EmbroideryStream {
 		if (!points.isEmpty() && !stitchPoints.isEmpty()) {
 			addJump();
 			addStitchPoint(points.get(points.size() - 1).getX(),
-					points.get(points.size() - 1).getY());
+					points.get(points.size() - 1).getY(), points.get(points.size() - 1).getColor());
 		}
 		for (StitchPoint stitchPoint : stitchPoints) {
 			if (stitchPoint.isColorChangePoint()) {
@@ -107,7 +109,7 @@ public class DSTStream implements EmbroideryStream {
 			} else if (stitchPoint.isJumpPoint()) {
 				addJump();
 			}
-			addStitchPoint(stitchPoint.getX(), stitchPoint.getY());
+			addStitchPoint(stitchPoint.getX(), stitchPoint.getY(), stitchPoint.getColor());
 		}
 	}
 

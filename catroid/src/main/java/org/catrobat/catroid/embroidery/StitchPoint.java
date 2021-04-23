@@ -23,16 +23,20 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public interface StitchPoint {
 	float getX();
 	float getY();
+	Color getColor();
 	void appendToStream(FileOutputStream fileStream) throws IOException;
 	void setJump(boolean jumpPoint);
 	boolean isJumpPoint();
 	void setColorChange(boolean colorChangePoint);
+	void setColor(Color color);
 	boolean isColorChangePoint();
 	void setRelativeCoordinatesToPreviousPoint(float previousX, float previousY);
 	boolean isConnectingPoint();

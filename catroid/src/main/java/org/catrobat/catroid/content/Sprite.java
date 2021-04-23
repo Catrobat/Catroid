@@ -25,6 +25,7 @@ package org.catrobat.catroid.content;
 import android.content.Context;
 import android.util.Log;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
@@ -88,6 +89,7 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 	private transient Multimap<EventId, ScriptSequenceAction> idToEventThreadMap = LinkedHashMultimap.create();
 	private transient Set<ConditionScriptTrigger> conditionScriptTriggers = new HashSet<>();
 	private transient List<Integer> usedTouchPointer = new ArrayList<>();
+	private transient Color embroideryThreadColor = Color.BLACK;
 
 	@XStreamAsAttribute
 	private String name;
@@ -226,8 +228,24 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		return false;
 	}
 
-	public void setUserVariables(List<UserVariable> newUserVariables) {
-		userVariables = newUserVariables;
+	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
+		for (T userData : currentUserDataList) {
+			for (T userDataToRestore : userDataListToRestore) {
+				if (userData.getClass() == UserVariable.class) {
+					UserVariable userVariable = (UserVariable) userData;
+					UserVariable newUserVariable = (UserVariable) userDataToRestore;
+					if (userVariable.getName().equals(newUserVariable.getName())) {
+						userVariable.setValue(newUserVariable.getValue());
+					}
+				} else {
+					UserList userList = (UserList) userData;
+					UserList newUserList = (UserList) userDataToRestore;
+					if (userList.getName().equals(newUserList.getName())) {
+						userList.setValue(newUserList.getValue());
+					}
+				}
+			}
+		}
 	}
 
 	public List<UserVariable> getUserVariablesCopy() {
@@ -258,10 +276,6 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 
 	public boolean addUserVariable(UserVariable userVariable) {
 		return userVariables.add(userVariable);
-	}
-
-	public void setUserLists(List<UserList> newUserLists) {
-		userLists = newUserLists;
 	}
 
 	public List<UserList> getUserListsCopy() {
@@ -677,5 +691,13 @@ public class Sprite implements Cloneable, Nameable, Serializable {
 		}
 
 		return idsToRemove;
+	}
+
+	public void setEmbroideryThreadColor(Color embroideryThreadColor) {
+		this.embroideryThreadColor = embroideryThreadColor;
+	}
+
+	public Color getEmbroideryThreadColor() {
+		return this.embroideryThreadColor;
 	}
 }

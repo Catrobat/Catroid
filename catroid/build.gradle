@@ -105,8 +105,8 @@ jacocoAndroidUnitTestReport {
     xml.enabled true
 }
 
-def defaultVersionCode = 84
-def defaultVersionName = "1.0.2"
+def defaultVersionCode = 85
+def defaultVersionName = "1.0.3"
 
 android {
     compileSdkVersion 29
@@ -332,6 +332,7 @@ dependencies {
 
     // Paintroid local aar lib files
     implementation fileTree(dir: 'src/main/libs', include: ['*.aar'])
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

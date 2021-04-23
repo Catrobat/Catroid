@@ -23,6 +23,8 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import org.catrobat.catroid.content.Sprite;
 
 public class DSTStitchCommand implements StitchCommand {
@@ -30,12 +32,14 @@ public class DSTStitchCommand implements StitchCommand {
 	private final float yCoord;
 	private int layer;
 	private final Sprite sprite;
+	Color threadColor;
 
-	public DSTStitchCommand(float x, float y, int layer, Sprite sprite) {
+	public DSTStitchCommand(float x, float y, int layer, Sprite sprite, Color threadColor) {
 		this.xCoord = x;
 		this.yCoord = y;
 		this.layer = layer;
 		this.sprite = sprite;
+		this.threadColor = threadColor;
 	}
 
 	@Override
@@ -46,6 +50,11 @@ public class DSTStitchCommand implements StitchCommand {
 	@Override
 	public float getY() {
 		return yCoord;
+	}
+
+	@Override
+	public Color getColor() {
+		return threadColor;
 	}
 
 	@Override
@@ -66,28 +75,31 @@ public class DSTStitchCommand implements StitchCommand {
 
 		if (workSpace.getLastSprite() != null && !sprite.equals(workSpace.getLastSprite())) {
 			stream.addColorChange();
-			stream.addStitchPoint(workSpace.getCurrentX(), workSpace.getCurrentY());
+			stream.addStitchPoint(workSpace.getCurrentX(), workSpace.getCurrentY(), workSpace.getColor());
 			if (DSTFileConstants.getMaxDistanceBetweenPoints(workSpace.getCurrentX(), workSpace.getCurrentY(),
 					xCoord, yCoord) > DSTFileConstants.MAX_DISTANCE) {
 				stream.addJump();
 			}
-			stream.addStitchPoint(workSpace.getCurrentX(), workSpace.getCurrentY());
+			stream.addStitchPoint(workSpace.getCurrentX(), workSpace.getCurrentY(), workSpace.getColor());
 		} else if (!stream.getPointList().isEmpty() && previousCommandOfSprite != null && previousCommandOfSprite.getLayer() != layer) {
 			stream.addColorChange();
 			if (DSTFileConstants.getMaxDistanceBetweenPoints(previousCommandOfSprite.getX(),
 					previousCommandOfSprite.getY(), xCoord, yCoord) > DSTFileConstants.MAX_DISTANCE) {
-				stream.addStitchPoint(xCoord, yCoord);
+				stream.addStitchPoint(xCoord, yCoord, threadColor);
 			} else {
-				stream.addStitchPoint(previousCommandOfSprite.getX(), previousCommandOfSprite.getY());
+				stream.addStitchPoint(previousCommandOfSprite.getX(),
+						previousCommandOfSprite.getY(), previousCommandOfSprite.getColor());
 				stream.addJump();
-				stream.addStitchPoint(previousCommandOfSprite.getX(), previousCommandOfSprite.getY());
+				stream.addStitchPoint(previousCommandOfSprite.getX(),
+						previousCommandOfSprite.getY(), previousCommandOfSprite.getColor());
 			}
 		}
 
 		if (previousCommandOfSprite != null && previousCommandOfSprite.getLayer() != layer && DSTFileConstants.getMaxDistanceBetweenPoints(previousCommandOfSprite.getX(), previousCommandOfSprite.getY(), xCoord, yCoord) < DSTFileConstants.MAX_DISTANCE) {
-			stream.addStitchPoint(previousCommandOfSprite.getX(), previousCommandOfSprite.getY());
+			stream.addStitchPoint(previousCommandOfSprite.getX(), previousCommandOfSprite.getY(),
+					previousCommandOfSprite.getColor());
 		}
-		stream.addStitchPoint(xCoord, yCoord);
+		stream.addStitchPoint(xCoord, yCoord, threadColor);
 		workSpace.set(xCoord, yCoord, sprite);
 	}
 

@@ -160,6 +160,8 @@ public class BricksHelpUrlTest {
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeXByNBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.ChangeColorByNBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/ChangeColorByNBrick");
+		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.SetThreadColorBrick",
+				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/SetThreadColorBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.TurnLeftSpeedBrick",
 				"https://wiki.catrobat.org/bin/view/Documentation/BrickDocumentation/TurnLeftSpeedBrick");
 		brickToHelpUrlMapping.put("org.catrobat.catroid.content.bricks.LegoEv3PlayToneBrick",

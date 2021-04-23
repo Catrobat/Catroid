@@ -180,6 +180,7 @@ import org.catrobat.catroid.content.bricks.SetPhysicsObjectTypeBrick;
 import org.catrobat.catroid.content.bricks.SetRotationStyleBrick;
 import org.catrobat.catroid.content.bricks.SetSizeToBrick;
 import org.catrobat.catroid.content.bricks.SetTempoBrick;
+import org.catrobat.catroid.content.bricks.SetThreadColorBrick;
 import org.catrobat.catroid.content.bricks.SetTransparencyBrick;
 import org.catrobat.catroid.content.bricks.SetVariableBrick;
 import org.catrobat.catroid.content.bricks.SetVelocityBrick;
@@ -845,6 +846,7 @@ public class CategoryBricksFactory {
 	private List<Brick> setupEmbroideryCategoryList(Context context) {
 		List<Brick> embroideryBrickList = new ArrayList<>();
 		embroideryBrickList.add(new StitchBrick());
+		embroideryBrickList.add(new SetThreadColorBrick(new Formula(BrickValues.THREAD_COLOR)));
 		embroideryBrickList.add(new RunningStitchBrick(new Formula(BrickValues.STITCH_LENGTH)));
 		embroideryBrickList.add(new ZigZagStitchBrick(new Formula(BrickValues.ZIGZAG_STITCH_LENGTH),
 				new Formula(BrickValues.ZIGZAG_STITCH_WIDTH)));

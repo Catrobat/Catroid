@@ -381,7 +381,10 @@ public class ScriptFragment extends ListFragment implements
 	}
 
 	public boolean isCurrentlyMoving() {
-		return listView.isCurrentlyMoving();
+		if (listView != null) {
+			return listView.isCurrentlyMoving();
+		}
+		return false;
 	}
 
 	public void highlightMovingItem() {
@@ -854,7 +857,9 @@ public class ScriptFragment extends ListFragment implements
 	@Override
 	public void onLoadFinished(boolean success) {
 		ProjectManager.getInstance().setCurrentSceneAndSprite(currentSceneName, currentSpriteName);
-		loadVariables();
+		if (checkVariables()) {
+			loadVariables();
+		}
 		refreshFragmentAfterUndo();
 	}
 
@@ -887,11 +892,11 @@ public class ScriptFragment extends ListFragment implements
 		Sprite currentSprite = projectManager.getCurrentSprite();
 		Project project = projectManager.getCurrentProject();
 
-		project.setUserVariables(savedUserVariables);
-		project.setMultiplayerVariables(savedMultiplayerVariables);
-		project.setUserLists(savedUserLists);
-		currentSprite.setUserVariables(savedLocalUserVariables);
-		currentSprite.setUserLists(savedLocalLists);
+		project.restoreUserDataValues(project.getUserVariables(), savedUserVariables);
+		project.restoreUserDataValues(project.getMultiplayerVariables(), savedMultiplayerVariables);
+		project.restoreUserDataValues(project.getUserLists(), savedUserLists);
+		currentSprite.restoreUserDataValues(currentSprite.getUserVariables(), savedLocalUserVariables);
+		currentSprite.restoreUserDataValues(currentSprite.getUserLists(), savedLocalLists);
 	}
 
 	private void refreshFragmentAfterUndo() {

@@ -1,6 +1,6 @@
 /*
  * Catroid: An on-device visual programming system for Android devices
- * Copyright (C) 2010-2020 The Catrobat Team
+ * Copyright (C) 2010-2021 The Catrobat Team
  * (<http://developer.catrobat.org/credits>)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -102,13 +102,13 @@ public final class TextBlockUtil {
 				float aspectRatio = (float) imageWidth / imageHeight;
 
 				if (ProjectManager.getInstance().isCurrentProjectLandscapeMode()) {
-					float relativeY = textBlockBounds.exactCenterX() / imageWidth;
-					relativeY = invertAxis ? relativeY : 1 - relativeY;
+					float relativeX = textBlockBounds.exactCenterX() / imageWidth;
+					relativeX = invertAxis ? 1 - relativeX : relativeX;
 					return coordinatesFromRelativePosition(
+							relativeX,
+							SCREEN_WIDTH,
 							1 - textBlockBounds.exactCenterY() / imageHeight,
-							SCREEN_WIDTH / aspectRatio,
-							relativeY,
-							(float) SCREEN_WIDTH
+							(float) SCREEN_WIDTH / aspectRatio
 					);
 				} else {
 					float relativeX = textBlockBounds.exactCenterX() / imageHeight;

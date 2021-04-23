@@ -50,6 +50,9 @@ public final class SharedPreferenceKeys {
 
 	public static final String SORT_PROJECTS_PREFERENCE_KEY = "sortProjectsList";
 
+	public static final String DISABLE_HINTS_DIALOG_SHOWN_PREFERENCE_KEY =
+			"disableHintsDialogShown";
+
 	public static final String SCRATCH_CONVERTER_CLIENT_ID_PREFERENCE_KEY = "scratchconverter.clientID";
 	public static final String SCRATCH_CONVERTER_DOWNLOAD_STATE_PREFERENCE_KEY = "scratchconverter"
 			+ ".downloadStatePref";
@@ -59,4 +62,5 @@ public final class SharedPreferenceKeys {
 	public static final String SHOW_SURVEY_KEY = "showSurvey";
 	public static final String SURVEY_URL1_HASH_KEY = "surveyUrl1Hash";
 	public static final String SURVEY_URL2_HASH_KEY = "surveyUrl2Hash";
+	public static final String NEW_SPRITE_VISUAL_PLACEMENT_KEY = "newSpriteVisualPlacement";
 }

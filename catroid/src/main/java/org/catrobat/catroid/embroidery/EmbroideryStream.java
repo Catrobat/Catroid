@@ -23,12 +23,14 @@
 
 package org.catrobat.catroid.embroidery;
 
+import com.badlogic.gdx.graphics.Color;
+
 import java.util.ArrayList;
 
 public interface EmbroideryStream {
 	void addColorChange();
 	void addJump();
-	void addStitchPoint(float x, float y);
+	void addStitchPoint(float x, float y, Color color);
 	void addAllStitchPoints(ArrayList<StitchPoint> stitchPoints);
 	ArrayList<StitchPoint> getPointList();
 	EmbroideryHeader getHeader();

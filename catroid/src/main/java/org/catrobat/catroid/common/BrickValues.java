@@ -180,6 +180,7 @@ public final class BrickValues {
 	public static final int STITCH_LENGTH = 10;
 	public static final int ZIGZAG_STITCH_LENGTH = 2;
 	public static final int ZIGZAG_STITCH_WIDTH = 10;
+	public static final String THREAD_COLOR = "#ff0000";
 
 	//Constants Device
 	public static final double TOUCH_DURATION = 0.3;

@@ -42,7 +42,7 @@ import static org.catrobat.catroid.common.FlavoredConstants.DEFAULT_ROOT_DIRECTO
 
 public final class Constants {
 
-	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.01;
+	public static final double CURRENT_CATROBAT_LANGUAGE_VERSION = 1.03;
 	public static final String REMOTE_DISPLAY_APP_ID = "CEBB9229";
 	public static final int CAST_CONNECTION_TIMEOUT = 5000; //in milliseconds
 	public static final int CAST_NOT_SEEING_DEVICE_TIMEOUT = 3000; //in milliseconds
@@ -147,6 +147,7 @@ public final class Constants {
 	public static final int CATROBAT_TERMS_OF_USE_ACCEPTED = 1;
 
 	public static final String PLAY_STORE_PAGE_LINK = "https://play.google.com/store/apps/details?id=";
+	public static final String HUAWEI_APP_GALLERY_LINK = "https://catrob.at/HuaweiAppGallery";
 
 	public static final String USERNAME_COOKIE_NAME = "CATRO_LOGIN_USER";
 	public static final String TOKEN_COOKIE_NAME = "CATRO_LOGIN_TOKEN";

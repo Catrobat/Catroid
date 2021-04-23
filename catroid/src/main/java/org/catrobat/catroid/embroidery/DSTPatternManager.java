@@ -67,7 +67,7 @@ public class DSTPatternManager implements EmbroideryPatternManager {
 			if (iterator.hasNext() && !stitchPoints.isEmpty()) {
 				StitchPoint lastValidPoint = stitchPoints.get(stitchPoints.size() - 1);
 				stream.addColorChange();
-				stream.addStitchPoint(lastValidPoint.getX(), lastValidPoint.getY());
+				stream.addStitchPoint(lastValidPoint.getX(), lastValidPoint.getY(), lastValidPoint.getColor());
 			}
 		}
 		return stream;
