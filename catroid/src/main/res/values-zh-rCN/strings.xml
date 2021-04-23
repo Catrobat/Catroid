@@ -104,6 +104,10 @@
     <string name="marketing_created_with">共同创建，与</string>
     <string name="marketing_app_details">关于此应用程序的详细信息</string>
     <string name="marketing_more_on_google_play">Google Play上的更多应用</string>
+    <string name="error_cannot_open_huawei_app_gallery">糟糕! 打开华为应用商店失败。
+        请稍后再试。</string>
+    <string name="google_play_store_logo">谷歌 Play 商店</string>
+    <string name="huawei_app_gallery">华为应用库</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC 标签</string>
     <!-- Settings activity -->
@@ -545,14 +549,6 @@
     <string name="dialog_terms_of_use_info">为了获权使用Catrobat 项目提供的应用程序和其他可执行文件，当您使用我们的应用程序和其他可执行文件时，您必须同意我们的使用和服务条款并严格遵循它们。请参阅下面的链接获取详细的条款 \n</string>
     <string name="dialog_terms_of_use_link_text">使用与服务条例</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">使用与服务条例</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">您即将使用此应用与 Parrot 的AR.无人机2.0。 我们强烈提醒您遵守Parrot和Catrobat的使用和服务条款。</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">不要再次提醒我。</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">您即将使用这个应用程序与Parrot Jumping Sumo。 我们强烈提醒您遵守Parrot和Catrobat的使用条款和服务。</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">欢迎!</string>
     <string name="disclaimer_privacy_policy_header">要使用这个应用，请接受我们的应用</string>
@@ -666,7 +662,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_resource_not_available_title">组件不可用</string>
     <string name="prestage_resource_not_available_text">不幸此项目无法在您的设备上运行。
 以下组件不可用:\n\n</string>
-    <string name="prestage_resource_in_use_text">另一台设备连接到Jumping Sumo。当然, 你是无人机的唯一控制者。</string>
     <string name="prestage_no_vibration_available">\u2022 振动\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 加速度传感器\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 倾角传感器\n</string>
@@ -676,7 +671,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="prestage_no_back_camera_available">\u2022 后置摄像头\n</string>
     <string name="prestage_no_face_detection_available">\u2022 人脸检测\n</string>
     <string name="prestage_no_text_detection_available">\u2022 文本检测\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 前置摄像头\n</string>
     <string name="prestage_no_camera_available">\u2022 相机\n</string>
     <string name="prestage_no_flash_available">\u2022 闪光灯\n</string>
@@ -879,6 +873,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">将刺绣数据写入文件</string>
     <string name="brick_default_embroidery_file">刺绣.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">上移</string>
+    <string name="brick_thread_color">将线的颜色设置为</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">计时器归零</string>
@@ -1142,17 +1137,7 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="notification_download_pending">Tải xuống đang diễn ra</string>
     <string name="notification_download_finished">Tải về thành công</string>
     <string name="notification_title_open">"Mở "</string>
-    <string name="notification_low_battery_with_value">注意。电池电量低。当前状态是 %d</string>
     <string name="size_of_project">Kích cỡ:</string>
-    <string name="drone_emergency_battery_low">电池电量太低  (自动着陆)。</string>
-    <string name="drone_emergency_camera">一个或多个摄像头没有响应。</string>
-    <string name="drone_emergency_ultrasound">超声波传感器无响应</string>
-    <string name="drone_emergency_angle">AR.无人机2.0 Euler 角度过高。关闭引擎以防止危险行为。</string>
-    <string name="drone_emergency_cutout">一个或多个马达受环境影响停止。</string>
-    <string name="drone_alert_battery_low">电量过低，无法再次起飞。</string>
-    <string name="drone_alert_ultrasound">超声波传感器无法确定AR 2.0无人机的高度。</string>
-    <string name="drone_alert_vision">底部摄像头无法估算出速度。</string>
-    <string name="drone_emergency_title">紧急情况</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">此应用需要所要求的权限才能正常工作。
@@ -1177,18 +1162,6 @@ dash(-), 下划线 (_), 和 句号(.).</string>
         更改某些内容，然后重试。</string>
     <string name="error_adding_brick">Có lỗi khi thêm gạch này</string>
     <string name="error_copying_brick">Lỗi đã xảy ra trong khi sao chép gạch này</string>
-    <string name="error_no_drone_connected_title">找不到AR 2.0无人机</string>
-    <string name="error_no_drone_connected">将AR 2.0无人机连接到您的无线网络，然后重试。</string>
-    <string name="error_drone_low_battery_title">AR2.0无人机电量低: %d%%</string>
-    <string name="error_drone_low_battery">Thêm pin sạc và thử lại.</string>
-    <string name="error_jumpingsumo_wrong_platform">我们无法在您的设备上运行Jumping Sumo项目。</string>
-    <string name="error_no_jumpingsumo_connected_title">找不到Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">将您的Jumping Sumo连接到您的无线网络，然后重试。</string>
-    <string name="error_jumpingsumo_battery_title">Jumping Sumo电量低</string>
-    <string name="error_jumpingsumo_battery">Thêm pin sạc và thử lại.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">暂不支持Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">暂不支持AR无人机2.0</string>
-    <string name="error_drone_wrong_platform">我们无法在您的设备上运行AR2.0无人机项目。</string>
     <string name="error_rename_incompatible_project">重命名不兼容的程序是不可能的。</string>
     <string name="error_embroidery_file_export">分享刺绣文件时出了错。</string>
     <string name="error_embroidery_file_write">写刺绣文件时出了错。</string>
@@ -1791,6 +1764,15 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="progress_upload_dialog_failed">上传失败. 请检查网络连接后重试.</string>
     <string name="progress_upload_dialog_show_program">显示程序</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">你试图上传的项目已经存在于
+        社区平台上存在，而且形式完全相同。请改变你的项目，最好是通过
+        增强它，然后再上传你的重混项目。</string>
+    <string name="unchanged_upload_info">请考虑在社区网站或项目选项中对原作者添加一些好话
+        请考虑在社区网站上的信用部分或项目选项中加入对原作者的赞誉。请注意
+        用户会在你成功上传后收到一个通知。</string>
+    <string name="unchanged_upload_url">要了解更多关于翻唱的信息，请访问%1s。</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">明白了</string>
     <string name="preference_description_hints">启用提示显示</string>
@@ -1802,6 +1784,14 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="hint_sounds">在这里您可以向演员或对象添加新声音。请记住使用
         声音类别中的积木。</string>
     <string name="hint_objects">您的程序包含了可以彼此交互作用的不同对象。若要添加一个新对象，请点击\"+\"符号。</string>
+    <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">显示暗示？</string>
+    <string name="dialog_disable_hints_text">提示为您提供有用的信息
+        当您制作第一个项目时，提示为您提供有用的信息。\n\n提示的可见性可以在设置中改变。
+        设置中改变</string>
+    <string name="dialog_disable_hints_button_hide">隐蔽</string>
+    <string name="dialog_disable_hints_button_show">显示</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1815,6 +1805,9 @@ dash(-), 下划线 (_), 和 句号(.).</string>
     <string name="edit">编辑</string>
     <string name="data_value">值</string>
     <string name="category_recently_used">最近使用的</string>
+    <string name="new_sprite_dialog_place_visually">视觉设置</string>
+    <string name="place_visually_text">你将被要求把新的演员或物体放在舞台上。
+        舞台上。</string>
     <!-- Information -->
     <string name="no_variable_selected">未选择变量</string>
 </resources>
