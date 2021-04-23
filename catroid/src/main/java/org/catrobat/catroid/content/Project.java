@@ -225,8 +225,24 @@ public class Project implements Serializable {
 		return userVariablesCopy;
 	}
 
-	public void setUserVariables(List<UserVariable> newUserVariables) {
-		userVariables = newUserVariables;
+	public <T> void restoreUserDataValues(List<T> currentUserDataList, List<T> userDataListToRestore) {
+		for (T userData : currentUserDataList) {
+			for (T userDataToRestore : userDataListToRestore) {
+				if (userData.getClass() == UserVariable.class) {
+					UserVariable userVariable = (UserVariable) userData;
+					UserVariable newUserVariable = (UserVariable) userDataToRestore;
+					if (userVariable.getName().equals(newUserVariable.getName())) {
+						userVariable.setValue(newUserVariable.getValue());
+					}
+				} else {
+					UserList userList = (UserList) userData;
+					UserList newUserList = (UserList) userDataToRestore;
+					if (userList.getName().equals(newUserList.getName())) {
+						userList.setValue(newUserList.getValue());
+					}
+				}
+			}
+		}
 	}
 
 	public UserVariable getUserVariable(String name) {
@@ -256,10 +272,6 @@ public class Project implements Serializable {
 			userLists = new ArrayList<>();
 		}
 		return userLists;
-	}
-
-	public void setUserLists(List<UserList> newUserLists) {
-		userLists = newUserLists;
 	}
 
 	public List<UserList> getUserListsCopy() {
@@ -295,10 +307,6 @@ public class Project implements Serializable {
 			}
 		}
 		return false;
-	}
-
-	public void setMultiplayerVariables(List<UserVariable> newMultiplayerVariables) {
-		multiplayerVariables = newMultiplayerVariables;
 	}
 
 	public List<UserVariable> getMultiplayerVariablesCopy() {
