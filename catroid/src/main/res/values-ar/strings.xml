@@ -102,6 +102,10 @@
     <string name="marketing_created_with">تم إنشاؤها بواسطة</string>
     <string name="marketing_app_details">تفاصيل حول هذا التطبيق</string>
     <string name="marketing_more_on_google_play">مزيد من التطبيقات في متجر جوجل بلي</string>
+    <string name="error_cannot_open_huawei_app_gallery">عذرًا! فشل في فتح متجر تطبيقات Huawei ،
+        الرجاء معاودة المحاولة في وقت لاحق.</string>
+    <string name="google_play_store_logo">متجرجوجل</string>
+    <string name="huawei_app_gallery">معرض تطبيقات هواوي</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">وسوم NFC</string>
     <!-- Settings activity -->
@@ -723,17 +727,6 @@
         وغيرها من الخدمات. يرجى الاطلاع على الرابط أدناه للحصول على صياغته الدقيقة.\n</string>
     <string name="dialog_terms_of_use_link_text">شروط الاستخدام والخدمات</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">شروط الاستخدام والخدمات لـ بوكت كود</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">أنت على وشك استخدام هذا التطبيق جنبا إلى جنب مع البارد
-        الطائرة بدون طيار 2.0. نذكركم بشدة بالتقيد بكل من شروط الاستخدام والخدمات في البارد وكاتروبات.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">لاتذكرني مرة أخرى.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">أنت على وشك استخدام هذا التطبيق مع
-        Parrot Jumping Sumo. نحن نذكركم بشدة بالتقيد بكل من شروط استخدام الببغاء وكاتروبات و
-        خدمات.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">مرحبا!</string>
     <string name="disclaimer_privacy_policy_header">لاستخدام هذا التطبيق، يرجى قبول</string>
@@ -850,8 +843,6 @@
     <string name="prestage_resource_not_available_title">المكون غير متوفر</string>
     <string name="prestage_resource_not_available_text">للأسف هذا البرنامج لا يعمل على الجهاز الخاص بك.
         المكونات التالية غير متوفرة: \n\n</string>
-    <string name="prestage_resource_in_use_text">جهاز أخر متصل بـ  Jumping Sumo. تأكد من أنك 
-        المتحكم الوحيد بالطائرة بدون طيار.</string>
     <string name="prestage_no_vibration_available">\u2022 اهتزاز\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 جهاز استشعار التسارع\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 جهاز استشعار الميل\n</string>
@@ -861,7 +852,6 @@
     <string name="prestage_no_back_camera_available">\u2022 الكاميرا الخلفية\n</string>
     <string name="prestage_no_face_detection_available">\u2022 كشف الوجه\n</string>
     <string name="prestage_no_text_detection_available">\u2022 كشف النص\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 الكاميرا الأمامية \n</string>
     <string name="prestage_no_camera_available">\u2022 الكاميرا\n</string>
     <string name="prestage_no_flash_available">\u2022 ضوء الفلاش\n</string>
@@ -1074,6 +1064,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">كتابة بيانات التطريز إلى الملف</string>
     <string name="brick_default_embroidery_file">التطريز.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">ابدأ</string>
+    <string name="brick_thread_color">اضبط لون الخيط على</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">إعادة ضبط الموقت</string>
@@ -1362,17 +1353,7 @@
     <string name="notification_download_pending">جاري التنزيل</string>
     <string name="notification_download_finished">تم التنزيل بنجاح</string>
     <string name="notification_title_open">"فتح"</string>
-    <string name="notification_low_battery_with_value">تحذير. طاقة البطارية منخفضة. الوضع الحالي %d</string>
     <string name="size_of_project">الحجم:</string>
-    <string name="drone_emergency_battery_low">البطارية منخفضة (الهبوط الأوتوماتيكي).</string>
-    <string name="drone_emergency_camera">كاميرا واحدة أو أكثر لا تعطي إستجابة.</string>
-    <string name="drone_emergency_ultrasound">استشعار الموجات فوق الصوتية لا يستجيب.</string>
-    <string name="drone_emergency_angle">زاوية أويلر الخاصة بالطائرة بدون طيار ارتفعت كثيراً. تم إيقاف المحركات لتفادي أي سلوك        خطير.</string>
-    <string name="drone_emergency_cutout">واحد أو أكثر من المحركات توقفت بسبب البيئة.</string>
-    <string name="drone_alert_battery_low">طاقة البطارية منخفض جداً للإنطلاق مرة أخرى.</string>
-    <string name="drone_alert_ultrasound">استشعار الموجات فوق الصوتية لا يمكنه تحديد إرتفاع الطائرة بدون طيار.</string>
-    <string name="drone_alert_vision">لا يوجد تقدير لسرعة الكاميرا المواجهة السفلية.</string>
-    <string name="drone_emergency_title">حالات الطوارئ</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">يحتاج هذا التطبيق الحصول على الإذونات المطلوبة ليعمل بشكل مناسب. مثلاً.,
@@ -1399,18 +1380,6 @@
         قم بتغيير شيئاً ما ثم حاول مجدداً.</string>
     <string name="error_adding_brick">حدث خطأ أثناء إضافة هذه اللبّنة البرمجية</string>
     <string name="error_copying_brick">حدث خطأ أثناء نسخ هذه اللبّنة البرمجية</string>
-    <string name="error_no_drone_connected_title">لا يمكن العثور على الطائرة بدون طيار 2.0.</string>
-    <string name="error_no_drone_connected">قم بإيصال واي فاي بالطائرة بدون طيار2.0، ثم حاول مرة أخرى.</string>
-    <string name="error_drone_low_battery_title">بطارية الطائرة بدون طيار منخفضة:%d%%</string>
-    <string name="error_drone_low_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-    <string name="error_jumpingsumo_wrong_platform">لا يمكننا تشغيل مشروع Jumping Sumo على جهازك.</string>
-    <string name="error_no_jumpingsumo_connected_title">لا يمكن العثور على Jumping Sumo</string>
-    <string name="error_no_jumpingsumo_connected">قم بإيصال واي فاي بـ Jumping Sumo ثم حاول مرة أخرى.</string>
-    <string name="error_jumpingsumo_battery_title">بطارية Jumping Sumo منخفضة</string>
-    <string name="error_jumpingsumo_battery">أدخل بطارية مشحونة وحاول مرة أخرى.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">لا يوجد دعم لـ Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">لا يوجد دعم لطائرة بدون طيار2.0.</string>
-    <string name="error_drone_wrong_platform">لا يمكننا تشغيل مشروع الطائرة بدون طيار 2.0 على الجهاز الخاص بك.</string>
     <string name="error_rename_incompatible_project">إعادة تسمية مشروع \"غير متوافق\" هو غير ممكن.</string>
     <string name="error_embroidery_file_export">حدث خطأ أثناء مشاركة ملف التطريز.</string>
     <string name="error_embroidery_file_write">حدث خطأ أثناء كتابة ملف التطريز.</string>
@@ -2006,6 +1975,15 @@
         مرة أخرى!</string>
     <string name="progress_upload_dialog_show_program">عرض البرنامج</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">المشروع الذي تحاول تحميله موجود بالفعل
+        النظام الأساسي للمجتمع بالشكل نفسه تمامًا. يرجى تغيير مشروعك ، بشكل مثالي عن طريق
+        تحسينه ، قبل تحميل مشروعك المُعاد مزجه.</string>
+    <string name="unchanged_upload_info">من فضلك ضع في اعتبارك إضافة بعض الكلمات اللطيفة إلى الأصل
+        المؤلف في قسم الاعتمادات على موقع المجتمع أو في خيارات المشروع. يرجى الملاحظة
+        أن المستخدم سيتلقى إشعارًا بعد نجاح التحميل.</string>
+    <string name="unchanged_upload_url">لمعرفة المزيد حول عمليات إعادة المزج ، الرجاء زيارة%1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">فهمت ذلك</string>
     <string name="preference_description_hints">التفعيل لإظهار التلميحات</string>
@@ -2020,6 +1998,14 @@
     <string name="hint_objects">يتكون البرنامج الخاص بك من كائنات مختلفة يمكن لها أن تتفاعل مع بعضها البعض.
          لإضافة كائن جديد أنقر على الرمز \"+\".</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">تلميحات المعرض؟</string>
+    <string name="dialog_disable_hints_text">تزودك التلميحات بمعلومات مفيدة
+        أثناء إنشاء مشروعك الأول. \n\n يمكن تغيير إمكانية رؤية التلميحات في
+        الإعدادات.</string>
+    <string name="dialog_disable_hints_button_hide">يخفي</string>
+    <string name="dialog_disable_hints_button_show">تبين</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -2032,6 +2018,9 @@
     <string name="edit">تحرير</string>
     <string name="data_value">القيمة</string>
     <string name="category_recently_used">مستخدم مؤخرا</string>
+    <string name="new_sprite_dialog_place_visually">مكان بصري</string>
+    <string name="place_visually_text">سيُطلب منك وضع الممثل أو الكائن الجديد على
+        المسرح.</string>
     <!-- Information -->
     <string name="no_variable_selected">لا يوجد متغير محدد</string>
 </resources>

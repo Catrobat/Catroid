@@ -104,6 +104,10 @@
     <string name="marketing_created_with">کے ساتھ پیدا</string>
     <string name="marketing_app_details">اس ایپ کے بارے میں تفصیلات</string>
     <string name="marketing_more_on_google_play">اپلی کیشن سٹور پر مزید ایپ</string>
+    <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
+        please try again later.</string>
+    <string name="google_play_store_logo">گوگل پلے</string>
+    <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
@@ -583,17 +587,6 @@
          اور دیگر خدمات. برائے مہربانی ذیل میں دیئے گئے لنک کو ان کے عین مطابق تشکیل کے لئے ملاحظہ کریں. \ n</string>
     <string name="dialog_terms_of_use_link_text">استعمال اور خدمات کی شرائط</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">استعمال اور خدمات کی شرائط</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">آپ اس اپلی کیشن کو طوطا کے ساتھ ساتھ استعمال کرنا چاہتے ہیں
-         AR.Done 2.0. ہم آپ کو پادری اور کیٹتوٹ دونوں کے استعمال اور خدمات کی شرائط دونوں کی طرف سے اطمینان دینے پر زور دیتے ہیں.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">مجھے دوبارہ یاد نہ دلائیں۔</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">آپ اس اپلی کیشن کے ساتھ مل کر استعمال کرتے ہیں
-          طوطا کی جمپنگ سومو. ہم آپ کو پادری اور Catrobat کے استعمال کی شرائط اور دونوں دونوں کی طرف سے اطمینان دینے پر زور دیتے ہیں
-         خدمات</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">خوش آمدید</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
@@ -709,8 +702,6 @@
     <string name="prestage_resource_not_available_title">اجزاء دستیاب نہیں</string>
     <string name="prestage_resource_not_available_text">بدقسمتی سے یہ منصوبہ آپ کے آلے پر کام نہیں کرتا.
          مندرجہ ذیل اجزاء دستیاب نہیں ہیں: \ n \ n</string>
-    <string name="prestage_resource_in_use_text">ایک اور آلہ جمپنگ سومو سے منسلک ہے. یقینی بنائیں کہ آپ
-         ڈرون سے منسلک ہے.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\ u2022 تیز رفتار سینسر n\ </string>
     <string name="prestage_no_inclination_sensor_available">\ u2022 چڑھنے سینسر n\</string>
@@ -720,7 +711,6 @@
     <string name="prestage_no_back_camera_available">\ u2022 ریئر کیمرے \ n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\ u2022 جموں سمو \ n</string>
     <string name="prestage_no_front_camera_available">\ u2022 فرنٹ کیمرے \ n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -926,6 +916,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
+    <string name="brick_thread_color">Set thread color to</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
@@ -1194,17 +1185,7 @@
     <string name="notification_download_pending">ڈاؤن لوڈ جاری ہے</string>
     <string name="notification_download_finished">ڈاؤن لوڈ کامیاب</string>
     <string name="notification_title_open">"کھولیں"</string>
-    <string name="notification_low_battery_with_value">توجہ. بیٹری کم ہے. موجودہ حیثیت٪ %d ہے</string>
     <string name="size_of_project">پیمائش:</string>
-    <string name="drone_emergency_battery_low">بیٹری کم ہے (خودکار لینڈنگ).</string>
-    <string name="drone_emergency_camera">ایک یا زیادہ کیمرے جواب نہیں دے رہے ہیں.</string>
-    <string name="drone_emergency_ultrasound">الٹراساؤنڈ سینسر جواب نہیں دے رہا ہے.</string>
-    <string name="drone_emergency_angle">AR.Done 2.0 Euler زاویہ بہت زیادہ چلا گیا. خطرناک رویے کو روکنے کے لئے موٹر بند   </string>
-    <string name="drone_emergency_cutout">ایک یا زیادہ موٹرز ماحول کی طرف سے بند کر دیا گیا تھا.</string>
-    <string name="drone_alert_battery_low">دوبارہ دوبارہ لینے کے لئے بیٹری بہت کم ہے.</string>
-    <string name="drone_alert_ultrasound">الٹراسوناؤن سینسر AR.Dron 2.0 اونچائی کا تعین نہیں کرسکتا ہے.</string>
-    <string name="drone_alert_vision">رفتار کا تخمینہ نہیں ہے, نیچے کا سامنا کیمرے سے.</string>
-    <string name="drone_emergency_title">ہنگامی</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">یہ اپلی کیشن مناسب طریقے سے کام کرنے کے لئے مطلوبہ اجازت کی ضرورت ہے. مثال کے طور پر
@@ -1230,18 +1211,6 @@
          کچھ تبدیل کریں اور دوبارہ کوشش کریں.</string>
     <string name="error_adding_brick">اس اینٹ کو شامل کرتے وقت کچھ غلط ہوا.</string>
     <string name="error_copying_brick">اس اینٹ کاپی کرتے وقت کچھ غلط ہوگیا.</string>
-    <string name="error_no_drone_connected_title">AR.Done 2.0 نہیں مل سکا.</string>
-    <string name="error_no_drone_connected">اپنی وائی فائی AR.Dron 2.0 پر مربوط کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_drone_low_battery_title"> ڈرون 2.0 بیٹری کم: %d%%</string>
-    <string name="error_drone_low_battery">ایک چارج شدہ بیٹری  داخل کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_jumpingsumo_wrong_platform">ہم آپ کے آلے پر جمپنگ سومو منصوبے کو نہیں چل سکتے.</string>
-    <string name="error_no_jumpingsumo_connected_title">جمپنگ سومو کو نہیں ڈھونڈ سکتا</string>
-    <string name="error_no_jumpingsumo_connected">اپنی وائی فائی AR.Dron 2.0 پر مربوط کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_jumpingsumo_battery_title">جموں سمو بیٹری کم</string>
-    <string name="error_jumpingsumo_battery">ایک چارج شدہ بیٹری  داخل کریں اور دوبارہ کوشش کریں.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">جمپنگ سومو کی حمایت نہیں</string>
-    <string name="error_drone_wrong_platform_title"> ڈرون 2.0 کی حمایت  نہیں ہے ۔</string>
-    <string name="error_drone_wrong_platform">ہم آپ کے آلہ پر AR.Done 2.0 پروجیکٹ نہیں چل سکتے.</string>
     <string name="error_rename_incompatible_project">ناممکن منصوبے کا نام تبدیل کرنا ممکن نہیں ہے.</string>
     <string name="error_embroidery_file_export">Something went wrong while sharing the embroidery file.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
@@ -1850,6 +1819,15 @@
         again!</string>
     <string name="progress_upload_dialog_show_program">منصوبے دکھائیں</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
+        the community platform in exactly the same form. Please change your project, ideally by
+        enhancing it, before uploading your remixed project.</string>
+    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
+        author in the Credits section on the community site or in the project options. Please note
+        that the user will get a notification after your successful upload.</string>
+    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">سمجھ گیا</string>
     <string name="preference_description_hints">نشان دکھانے کے لئے فعال کریں</string>
@@ -1864,6 +1842,14 @@
     <string name="hint_objects">آپ کا پروگرام مختلف اداکاروں اور اشیاء پر مشتمل ہوتا ہے جو ایک دوسرے کے ساتھ بات چیت کرسکتا ہے.
          نیا اداکار یا اعتراض شامل کرنے کے لئے، \"+\" علامت کو ٹیپ کریں.</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Show hints?</string>
+    <string name="dialog_disable_hints_text">Hints provide you with helpful information
+        while making your first project.\n\nVisibility of hints can be changed in the
+        settings.</string>
+    <string name="dialog_disable_hints_button_hide">HIDE</string>
+    <string name="dialog_disable_hints_button_show">SHOW</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1876,6 +1862,9 @@
     <string name="edit">تدوین کریں</string>
     <string name="data_value">Value</string>
     <string name="category_recently_used">Recently used</string>
+    <string name="new_sprite_dialog_place_visually">Place visually</string>
+    <string name="place_visually_text">You will be asked to place the new actor or object on the
+        stage.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
 </resources>

@@ -104,6 +104,10 @@
     <string name="marketing_created_with">সঙ্গে তৈরি</string>
     <string name="marketing_app_details">এই অ্যাপ্লিকেশন সম্পর্কে বিস্তারিত</string>
     <string name="marketing_more_on_google_play">অ্যাপ স্টোরের আরও অ্যাপস</string>
+    <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
+        please try again later.</string>
+    <string name="google_play_store_logo">গুগল প্লে</string>
+    <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
@@ -575,14 +579,6 @@
     <string name="dialog_terms_of_use_info">ক্যাট্রোব্যাট প্রকল্পের দেওয়া পকেট কোড এবং অন্যান্য এক্সিকিউটেবল ব্যবহার করার অনুমতি দেওয়ার জন্য, আপনাকে অবশ্যই আমাদের ব্যবহারের শর্তাদির সাথে সম্মত হতে হবে এবং আপনি পকেট কোড এবং আমাদের অন্যান্য এক্সিকিউটেবল ব্যবহার করার সময় সেগুলি কঠোরভাবে অনুসরণ করতে হবে। সঠিক সূত্রের জন্য নীচের লিঙ্কটি দেখুন।</string>
     <string name="dialog_terms_of_use_link_text">ব্যবহার এবং সেবার শর্তাদি</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">ব্যবহার এবং সেবার শর্তাদি</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">আপনি পারত এআর.ড্রোন 2.0 এর সাথে একত্রে এই অ্যাপ্লিকেশনটি ব্যবহার করতে চলেছেন। আমরা আপনাকে প্রবলভাবে স্মরণ করিয়ে দিচ্ছি যে পারত এবং ক্যাট্রোব্যাট উভয় ব্যবহারের শর্তাদি এবং পরিষেবাদি মেনে চলুন।</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">আমাকে আবার মনে করিয়ে দিবেন না</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">আপনি পারত জাম্পিং সুমো এর সাথে একত্রে এই অ্যাপ্লিকেশনটি ব্যবহার করতে চলেছেন। আমরা আপনাকে প্রবলভাবে স্মরণ করিয়ে দিচ্ছি যে পারত এবং ক্যাট্রোব্যাট উভয় ব্যবহারের শর্তাদি এবং পরিষেবাদি মেনে চলুন।</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">স্বাগতম</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
@@ -693,7 +689,6 @@
     <string name="prestage_text_to_speech_engine_not_installed">পাঠ্য থেকে স্পিচ ইঞ্জিন ইনস্টল করা হয়নি! আপনি কি এটি ইনস্টল করতে চান?</string>
     <string name="prestage_resource_not_available_title">উপাদানটি নেই</string>
     <string name="prestage_resource_not_available_text">দুর্ভাগ্যক্রমে এই প্রজেক্টটি আপনার ডিভাইসে কাজ করে না। নিম্নলিখিত উপাদানগুলি অনুপস্থিত:</string>
-    <string name="prestage_resource_in_use_text">আরেকটি ডিভাইস জাম্পিং সুমোর সাথে সংযুক্ত। নিশ্চিত হন যে আপনিই ড্রোনটির সাথে সংযুক্ত আছেন।</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 ত্বরণ সেন্সর \n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 প্রবণতা সেন্সর \n</string>
@@ -703,7 +698,6 @@
     <string name="prestage_no_back_camera_available">\u2022 পেছনের ক্যামেরা \n</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 জাম্পিং সুমো \n</string>
     <string name="prestage_no_front_camera_available">\u2022 সামনের ক্যামেরা \n</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -908,6 +902,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
+    <string name="brick_thread_color">Set thread color to</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
@@ -1176,17 +1171,7 @@
     <string name="notification_download_pending">আপলোড চলছে</string>
     <string name="notification_download_finished">ডাউনলোড সফল</string>
     <string name="notification_title_open">"খুলুন"</string>
-    <string name="notification_low_battery_with_value">মনোযোগ. ব্যাটারি স্বল্প. বর্তমান অবস্থা %d</string>
     <string name="size_of_project">আকার</string>
-    <string name="drone_emergency_battery_low">ব্যাটারি কম (স্বয়ংক্রিয় অবতরণ)।</string>
-    <string name="drone_emergency_camera">এক বা একাধিক ক্যামেরা সাড়া দিচ্ছে না।</string>
-    <string name="drone_emergency_ultrasound">আল্ট্রাসাউন্ড সেন্সর সাড়া দিচ্ছে না।</string>
-    <string name="drone_emergency_angle">এআর.ড্রোন ২.০ ইউলারের কোণগুলি খুব বেশি গেছে। মোটরগুলি বিপজ্জনক আচরণ রোধ করতে বন্ধ করে দেয়।</string>
-    <string name="drone_emergency_cutout">এক বা একাধিক মোটর পরিবেশ দ্বারা বন্ধ ছিল।</string>
-    <string name="drone_alert_battery_low">ব্যাটারি খুব কম আবার খুলে ফেলতে।</string>
-    <string name="drone_alert_ultrasound">আল্ট্রাসাউন্ড সেন্সর এআর.ড্রোন ২.০ উচ্চতা নির্ধারণ করতে পারে না।</string>
-    <string name="drone_alert_vision">নীচের মুখের ক্যামেরা থেকে গতির কোনও অনুমান নেই।</string>
-    <string name="drone_emergency_title">জরুরী</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">এই অ্যাপ্লিকেশনটির সঠিকভাবে কাজ করার জন্য অনুরোধ করা অনুমতিগুলি দরকার। উদাহরণস্বরূপ, ক্যামেরা ব্রিক ডিভাইসের ক্যামেরায় অ্যাক্সেস প্রয়োজন, \"অবস্থান\" সূত্র উপাদানটি ডিভাইসের ভূ-অবস্থান সেন্সরটিতে অ্যাক্সেসের প্রয়োজন, এবং স্থানীয় মেমরি থেকে এবং আমদানি ও রফতানি করতে অ্যাপ্লিকেশনটিকে এটি পড়তে এবং লেখার অ্যাক্সেসের প্রয়োজন । আপনি সর্বদা আপনার ডিভাইসের সেটিংসের মাধ্যমে অনুমতিগুলি পরিবর্তন করতে পারেন।</string>
@@ -1207,18 +1192,6 @@
     <string name="error_upload_default_project">আপনি একটি অপরিবর্তিত উদাহরণ প্রজেক্ট আপলোড করতে পারবেন না। দয়া করে কিছু পরিবর্তন করুন এবং আবার চেষ্টা করুন।</string>
     <string name="error_adding_brick">এই ব্রিকটি যুক্ত করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_copying_brick">এই ব্রিকটি অনুলিপি করার সময় কিছু ভুল হয়েছে।</string>
-    <string name="error_no_drone_connected_title">এআর.ড্রোন ২.০ খুঁজে পাচ্ছেন না।</string>
-    <string name="error_no_drone_connected">আপনার ওয়াইফাইটি এআর.ড্রোন ২.০ এর সাথে সংযুক্ত করুন এবং আবার চেষ্টা করুন।</string>
-    <string name="error_drone_low_battery_title">এআর.ড্রোন ২.০ ব্যাটারি কম: %d%%</string>
-    <string name="error_drone_low_battery">চার্জযুক্ত ব্যাটারি প্রবেশ করান এবং আবার চেষ্টা করুন।</string>
-    <string name="error_jumpingsumo_wrong_platform">আমরা আপনার ডিভাইসে একটি জাম্পিং সুমো প্রজেক্ট চালাতে পারি না।</string>
-    <string name="error_no_jumpingsumo_connected_title">জাম্পিং সুমো খুঁজে পাচ্ছেন না</string>
-    <string name="error_no_jumpingsumo_connected">আপনার ওয়াইফাইটি জাম্পিং সুমোর সাথে সংযুক্ত করুন এবং আবার চেষ্টা করুন।</string>
-    <string name="error_jumpingsumo_battery_title">জাম্পিং সুমোর ব্যাটারি কম</string>
-    <string name="error_jumpingsumo_battery">চার্জযুক্ত ব্যাটারি প্রবেশ করান এবং আবার চেষ্টা করুন।</string>
-    <string name="error_jumpingsumo_wrong_platform_title">জাম্পিং সুমো সমর্থন নেই</string>
-    <string name="error_drone_wrong_platform_title">এআর.ড্রোন 2.0 সমর্থন নেই।</string>
-    <string name="error_drone_wrong_platform">আমরা আপনার ডিভাইসে একটি এআর.ড্রোন ২.০ প্রজেক্ট চালাতে পারি না।</string>
     <string name="error_rename_incompatible_project">একটি অসঙ্গত প্রকল্পের নামকরণ সম্ভব নয়।</string>
     <string name="error_embroidery_file_export">সূচিকর্ম ফাইলটি শেয়ার করার সময় কিছু ভুল হয়েছে।</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
@@ -1815,6 +1788,15 @@
     <string name="progress_upload_dialog_failed">আপলোড ব্যর্থ হয়েছে। আপনার সংযোগ পরীক্ষা করুন এবং আবার চেষ্টা করুন।</string>
     <string name="progress_upload_dialog_show_program">প্রজেক্টি দেখান</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
+        the community platform in exactly the same form. Please change your project, ideally by
+        enhancing it, before uploading your remixed project.</string>
+    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
+        author in the Credits section on the community site or in the project options. Please note
+        that the user will get a notification after your successful upload.</string>
+    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">বুঝেছি</string>
     <string name="preference_description_hints">ইঙ্গিতগুলি প্রদর্শন করতে সক্ষম করুন</string>
@@ -1825,6 +1807,14 @@
     <string name="hint_looks">এখানে আপনি আপনার অভিনেতা বা বস্তুর বিভিন্ন উপস্থিতি খুঁজে পেতে পারেন। একটি নতুন চেহারা যুক্ত করতে, \"+\" চিহ্নটি আলতো চাপুন।</string>
     <string name="hint_sounds">এখানে আপনি আপনার অভিনেতা বা অবজেক্টে নতুন শব্দ যোগ করতে পারেন। শব্দ বিভাগ থেকে একটি ব্রিক ব্যবহার মনে রাখবেন।</string>
     <string name="hint_objects">আপনার প্রোগ্রামে বিভিন্ন অভিনেতা এবং অবজেক্ট রয়েছে যা একে অপরের সাথে ইন্টারঅ্যাক্ট করতে পারে। নতুন অভিনেতা বা বস্তু যুক্ত করতে, \"+\" চিহ্নটি আলতো চাপুন।</string>
+    <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Show hints?</string>
+    <string name="dialog_disable_hints_text">Hints provide you with helpful information
+        while making your first project.\n\nVisibility of hints can be changed in the
+        settings.</string>
+    <string name="dialog_disable_hints_button_hide">HIDE</string>
+    <string name="dialog_disable_hints_button_show">SHOW</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1838,6 +1828,9 @@
     <string name="edit">সম্পাদনা করুন</string>
     <string name="data_value">Value</string>
     <string name="category_recently_used">Recently used</string>
+    <string name="new_sprite_dialog_place_visually">Place visually</string>
+    <string name="place_visually_text">You will be asked to place the new actor or object on the
+        stage.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
 </resources>

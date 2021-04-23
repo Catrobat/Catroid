@@ -104,6 +104,10 @@
     <string name="marketing_created_with">உருவாக்கம்</string>
     <string name="marketing_app_details">இந்த பயன்பாட்டை பற்றி விவரம்</string>
     <string name="marketing_more_on_google_play">ஆப் ஸ்டோரில் கூடுதல் பயன்பாடுகள்</string>
+    <string name="error_cannot_open_huawei_app_gallery">Whoops! Failed to open Huawei AppGallery,
+        please try again later.</string>
+    <string name="google_play_store_logo">கூகுள் ப்ளே</string>
+    <string name="huawei_app_gallery">Huawei App Gallery</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">NFC tags</string>
     <!-- Settings activity -->
@@ -586,15 +590,6 @@
         மற்றும் பிற சேவைகள். அவற்றின் துல்லியமான வடிவமைப்பிற்கு கீழே உள்ள இணைப்பைக் காண்க. \n</string>
     <string name="dialog_terms_of_use_link_text">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">பயன்பாட்டு விதிகள் மற்றும் சேவைகள்</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Parrot\'s AR.Drone 2.0 உடன் சேர்ந்து இந்த பயன்பாட்டைப் பயன்படுத்த உள்ளீர்கள். கிளி மற்றும் கேட்ரோபாட்டின் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவைகள் இரண்டையும் பின்பற்றுமாறு நாங்கள் உங்களுக்கு கடுமையாக நினைவூட்டுகிறோம்.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">மீண்டும் நினைவுபடுத்தாதே.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">நீங்கள் இந்த பயன்பாட்டைப் பயன்படுத்தப் போகிறீர்கள்
-கிளியின் ஜம்பிங் சுமோ. கிளி மற்றும் கேட்ரோபாட்டின் பயன்பாட்டு விதிமுறைகள் மற்றும் சேவைகள் இரண்டையும் பின்பற்றுமாறு நாங்கள் உங்களுக்கு கடுமையாக நினைவூட்டுகிறோம்.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">வருக!</string>
     <string name="disclaimer_privacy_policy_header">To use this app, please accept our</string>
@@ -712,7 +707,6 @@
     <string name="prestage_resource_not_available_title">கூறு கிடைக்கவில்லை</string>
     <string name="prestage_resource_not_available_text">துரதிர்ஷ்டவசமாக இந்த திட்டம் உங்கள் சாதனத்தில் இயங்காது.
 பின்வரும் கூறுகள் கிடைக்கவில்லை</string>
-    <string name="prestage_resource_in_use_text">மற்றொரு சாதனம் ஜம்பிங் சுமோவுடன் இணைக்கப்பட்டுள்ளது. ட்ரோனுடன் இணைக்கப்பட்டவர் நீங்கள்தான் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibration\n</string>
     <string name="prestage_no_acceleration_sensor_available">முடுக்கம் சென்சார்</string>
     <string name="prestage_no_inclination_sensor_available">சாய்வு சென்சார்</string>
@@ -722,7 +716,6 @@
     <string name="prestage_no_back_camera_available">பின் கேமரா</string>
     <string name="prestage_no_face_detection_available">\u2022 Face detection\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Text detection\n</string>
-    <string name="prestage_no_jumping_sumo_available">ஜம்பிங் சுமோ</string>
     <string name="prestage_no_front_camera_available">முன் கேமரா</string>
     <string name="prestage_no_camera_available">\u2022 Camera\n</string>
     <string name="prestage_no_flash_available">\u2022 Flashlight\n</string>
@@ -928,6 +921,7 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Write embroidery data to file</string>
     <string name="brick_default_embroidery_file">embroidery.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Sew up</string>
+    <string name="brick_thread_color">Set thread color to</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reset timer</string>
@@ -1196,18 +1190,7 @@
     <string name="notification_download_pending">பதிவிறக்கம் செயலில் உள்ளது</string>
     <string name="notification_download_finished">பதிவிறக்கம் வெற்றிகரமாக</string>
     <string name="notification_title_open">"திறந்த"</string>
-    <string name="notification_low_battery_with_value">கவனம். பேட்டரி குறைவாக உள்ளது. தற்போதைய நிலை %d</string>
     <string name="size_of_project">அளவு:</string>
-    <string name="drone_emergency_battery_low">பேட்டரி குறைவாக உள்ளது (தானியங்கி தரையிறக்கம்).</string>
-    <string name="drone_emergency_camera">ஒன்று அல்லது அதற்கு மேற்பட்ட கேமராக்கள் பதிலளிக்கவில்லை.</string>
-    <string name="drone_emergency_ultrasound">அல்ட்ராசவுண்ட் சென்சார் பதிலளிக்கவில்லை.</string>
-    <string name="drone_emergency_angle">AR.Drone 2.0 யூலர் கோணங்கள் மிக அதிகமாக சென்றன. ஆபத்துகளைத் தடுக்க மோட்டார் நிறுத்தப்பட்டது
-        நடத்தை.</string>
-    <string name="drone_emergency_cutout">ஒன்று அல்லது அதற்கு மேற்பட்ட மோட்டார்கள் சூழலால் நிறுத்தப்பட்டன.</string>
-    <string name="drone_alert_battery_low">பேட்டரி மீண்டும் எடுக்க மிகவும் குறைவு.</string>
-    <string name="drone_alert_ultrasound">அல்ட்ராசவுண்ட் சென்சார் AR.Drone 2.0 உயரத்தை தீர்மானிக்க முடியாது.</string>
-    <string name="drone_alert_vision">கீழே எதிர்கொள்ளும் கேமராவிலிருந்து வேக மதிப்பீடு இல்லை.</string>
-    <string name="drone_emergency_title">அவசரம்</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">இந்த பயன்பாடு சரியாக செயல்பட கோரப்பட்ட அனுமதிகள் தேவை. எ.கா., கேமரா செங்கலுக்கு சாதனத்தின் கேமராவிற்கு அணுகல் தேவை, \"இருப்பிடம்\" சூத்திர உறுப்புக்கு சாதனத்தின் புவிஇருப்பிட சென்சார் அணுகல் தேவை, மேலும் உள்ளூர் நினைவகம் மற்றும் பயன்பாட்டிலிருந்து திட்டங்களை இறக்குமதி மற்றும் ஏற்றுமதி செய்ய.</string>
@@ -1227,18 +1210,6 @@
     <string name="error_upload_default_project">மாற்றப்படாத எடுத்துக்காட்டு திட்டத்தை நீங்கள் பதிவேற்ற முடியாது. ஏதாவது ஒன்றை மாற்றி மீண்டும் முயற்சிக்கவும்.</string>
     <string name="error_adding_brick">இந்த செங்கலைச் சேர்க்கும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_copying_brick">இந்த செங்கலை நகலெடுக்கும் போது ஏதோ தவறு ஏற்பட்டது.</string>
-    <string name="error_no_drone_connected_title">AR.Drone 2.0 ஐக் கண்டுபிடிக்க முடியவில்லை.</string>
-    <string name="error_no_drone_connected">உங்கள் வைஃபை AR.Drone 2.0 உடன் இணைத்து மீண்டும் முயற்சிக்கவும்.</string>
-    <string name="error_drone_low_battery_title">AR.Drone 2.0 பேட்டரி குறைவாக %d%%</string>
-    <string name="error_drone_low_battery">சார்ஜ் செய்யப்பட்ட பேட்டரியைச் செருகவும், மீண்டும் முயற்சிக்கவும்.</string>
-    <string name="error_jumpingsumo_wrong_platform">உங்கள் சாதனத்தில் ஜம்பிங் சுமோ திட்டத்தை எங்களால் இயக்க முடியாது.</string>
-    <string name="error_no_jumpingsumo_connected_title">ஜம்பிங் சுமோவைக் கண்டுபிடிக்க முடியவில்லை</string>
-    <string name="error_no_jumpingsumo_connected">உங்கள் வைஃபை ஜம்பிங் சுமோவுடன் இணைத்து மீண்டும் முயற்சிக்கவும்.</string>
-    <string name="error_jumpingsumo_battery_title">ஜம்பிங் சுமோ பேட்டரி குறைவாக</string>
-    <string name="error_jumpingsumo_battery">சார்ஜ் செய்யப்பட்ட பேட்டரியைச் செருகவும், மீண்டும் முயற்சிக்கவும்.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">ஜம்பிங் சுமோ ஆதரவு இல்லை</string>
-    <string name="error_drone_wrong_platform_title">AR.Drone 2.0 ஆதரவு இல்லை.</string>
-    <string name="error_drone_wrong_platform">உங்கள் சாதனத்தில் AR.Drone 2.0 திட்டத்தை எங்களால் இயக்க முடியாது.</string>
     <string name="error_rename_incompatible_project">பொருந்தாத திட்டத்தை மறுபெயரிடுவது சாத்தியமில்லை.</string>
     <string name="error_embroidery_file_export">எம்பிராய்டரி கோப்பைப் பகிரும்போது ஏதோ தவறு ஏற்பட்டது.</string>
     <string name="error_embroidery_file_write">Something went wrong while writing the embroidery file.</string>
@@ -1839,6 +1810,15 @@
     <string name="progress_upload_dialog_failed">பதிவேற்றம் தோல்வி. உங்களுடைய இணைப்பை சரி பார்த்து மீண்டும் முயற்சி செய்யவும்!</string>
     <string name="progress_upload_dialog_show_program">திட்டத்தைக் காண்பிக்கவும்</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">The project you are trying to upload already exists on
+        the community platform in exactly the same form. Please change your project, ideally by
+        enhancing it, before uploading your remixed project.</string>
+    <string name="unchanged_upload_info">Please consider adding some kind words towards the original
+        author in the Credits section on the community site or in the project options. Please note
+        that the user will get a notification after your successful upload.</string>
+    <string name="unchanged_upload_url">To learn more about remixes, please visit %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">புரிந்தது</string>
     <string name="preference_description_hints">குறிப்புகளைக் காட்ட இயக்கவும்</string>
@@ -1850,6 +1830,14 @@
     <string name="hint_sounds">இங்கே நீங்கள் உங்கள் நடிகர் அல்லது பொருளுக்கு புதிய ஒலிகளைச் சேர்க்கலாம்.  ஒலி வகையிலிருந்து ஒரு செங்கலைப் பயன்படுத்துவதை நினைவில் கொள்க.</string>
     <string name="hint_objects">உங்கள் நிரல் ஒருவருக்கொருவர் தொடர்பு கொள்ளக்கூடிய வெவ்வேறு நடிகர்கள் மற்றும் பொருள்களைக் கொண்டுள்ளது.
    புதிய நடிகர் அல்லது பொருளைச் சேர்க்க, \"+\" சின்னத்தைத் தட்டவும்.</string>
+    <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Show hints?</string>
+    <string name="dialog_disable_hints_text">Hints provide you with helpful information
+        while making your first project.\n\nVisibility of hints can be changed in the
+        settings.</string>
+    <string name="dialog_disable_hints_button_hide">HIDE</string>
+    <string name="dialog_disable_hints_button_show">SHOW</string>
     <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
@@ -1863,6 +1851,9 @@
     <string name="edit">திருத்து</string>
     <string name="data_value">Value</string>
     <string name="category_recently_used">Recently used</string>
+    <string name="new_sprite_dialog_place_visually">Place visually</string>
+    <string name="place_visually_text">You will be asked to place the new actor or object on the
+        stage.</string>
     <!-- Information -->
     <string name="no_variable_selected">No variable selected</string>
 </resources>

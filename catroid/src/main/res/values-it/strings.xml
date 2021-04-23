@@ -87,10 +87,10 @@
     <!-- Main Menu -->
     <string name="main_menu_continue">Continua il progetto</string>
     <string name="main_menu_new">Nuovo progetto</string>
-    <string name="main_menu_programs">Programmi</string>
+    <string name="main_menu_programs">Progetti sul dispositivo</string>
     <string name="main_menu_help" tools:ignore="UnusedResources">Guida</string>
     <string name="main_menu_web">Comunità di Catrobat</string>
-    <string name="main_menu_upload">Carica programma</string>
+    <string name="main_menu_upload">Carica il progetto</string>
     <string name="main_menu_rate_app">Valutaci!</string>
     <string name="main_menu_terms_of_use">Condizioni d\'uso e servizio</string>
     <string name="main_menu_privacy_policy">Informativa sulla privacy</string>
@@ -104,6 +104,10 @@
     <string name="marketing_created_with">Creato con</string>
     <string name="marketing_app_details">Dettagli sull\'app</string>
     <string name="marketing_more_on_google_play">Altre app su Google Play</string>
+    <string name="error_cannot_open_huawei_app_gallery">Ops! Errore aprendo Huawei AppGallery,
+        riprova più tardi.</string>
+    <string name="google_play_store_logo">Google Play</string>
+    <string name="huawei_app_gallery">AppGallery di Huawei</string>
     <!-- NFC activity -->
     <string name="nfc_activity_title">Tag NFC</string>
     <!-- Settings activity -->
@@ -197,33 +201,33 @@
     <string name="preference_description_test_bricks">Consente di creare test</string>
     <!-- Scratch Converter activity -->
     <string name="beta">BETA</string>
-    <string name="error_scratch_program_not_accessible_any_more">Oops! Il programma pare essere scomparso
+    <string name="error_scratch_program_not_accessible_any_more">Oops! Il progetto pare essere scomparso
         o si è perso l\'accesso ad esso.</string>
-    <string name="error_scratch_project_data_not_available">Oops! Sembrano mancare alcune parti del programma,
+    <string name="error_scratch_project_data_not_available">Oops! Sembrano mancare alcune parti del progetto,
         per favore riprova dopo.</string>
     <string name="error_request_timeout">Oops! Il nostro server non ha risposto in un tempo ragionevole, si prega di riprovare più tardi.</string>
-    <string name="error_scratch_program_conversion_failed">Oops! E\' fallita la conversione del programma Scratch, 
+    <string name="error_scratch_program_conversion_failed">Oops! E\' fallita la conversione il progetto Scratch, 
         riprova più tardi!</string>
     <string name="error_specific_scratch_program_conversion_failed_x">Oops! La conversione di \"%1$s\" è fallita, riprova
         più tardi!</string>
     <string name="error_scratch_converter_outdated_app_version">La versione di Pocket Code che utilizzi è obsoleta.
        Il convertitore Scratch funziona solo sulla versione più recente. Aggiorna il programma su Google Play</string>
-    <string name="error_cannot_open_not_existing_scratch_program">Non posso aprire il programma Scratch. Può darsi che
+    <string name="error_cannot_open_not_existing_scratch_program">Non posso aprire il progretto Scratch. Può darsi che
         tu abbia fermato la conversione/download o che tu abbia rinominato/cancellato il
         programma!</string>
-    <string name="error_cannot_open_currently_downloading_scratch_program">Al momento non è possibile aprire il programma.
+    <string name="error_cannot_open_currently_downloading_scratch_program">Al momento non è possibile aprire il progretto.
         Attendi fino a quando non viene scaricato completamente.</string>
-    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Non è ancora possibile aprire il programma.
+    <string name="error_cannot_open_not_yet_downloaded_scratch_program">Non è ancora possibile aprire il progetto.
         Prima scaricalo, poi potrai aprirlo.</string>
     <string name="error_cannot_convert_deprecated_scratch_program_x_x">Non è possibile convertire %1$s. Saembra che sia
-        un vecchio programma Scratch prima di %2$s; provare un altro.</string>
+        un vecchio progetto Scratch prima di %2$s; provare un altro.</string>
     <plurals name="error_cannot_convert_more_than_x_programs">
-        <item quantity="one">Non puoi convertire più di %d programma alla volta. Attendi che
-            l\'esecuzione dei programmi termini prima di riprovare.</item>
-        <item quantity="other">Non puoi convertire più di %d programmi alla volta. Attendi che
-            l\'esecuzione dei programmi termini prima di riprovare.</item>
+        <item quantity="one">Non puoi convertire più di %d progetto allo stesso tempo. Per favore attendi che le
+            conversioni in esecuzione finiscano prima.</item>
+        <item quantity="other">Non puoi convertire più di %d progetti allo stesso tempo. Per favore attendi che le
+            conversioni in esecuzione finiscano prima.</item>
     </plurals>
-    <string name="error_cannot_open_failed_scratch_program">Impossibile aprire il programma perché non è stato
+    <string name="error_cannot_open_failed_scratch_program">Impossibile aprire il progetto perché non è stato
         convertito correttamente. Prova a convertirlo nuovamente.</string>
     <string name="search_failed">Non è stato trovato nulla; riprovare più tardi.</string>
     <string name="connection_lost_or_closed_by_server">Connessione al server interrotta.</string>
@@ -231,10 +235,10 @@
     <string name="authentication_failed">Sembra esserci un problema con la connessione al servizio, 
      contatta il team di Catrobat!</string>
     <plurals name="scratch_conversion_scheduled_x">
-        <item quantity="one">Aggiunto %d programma Scratch alla coda&#8230;</item>
-        <item quantity="other">Aggiunti %d programmi Scratch alla coda&#8230;</item>
+        <item quantity="one">Aggiunto %d progetto Scratch alla coda&#8230;</item>
+        <item quantity="other">Aggiunti %d progetti Scratch alla coda&#8230;</item>
     </plurals>
-    <string name="scratch_conversion_started">Iniziata la conversione del programma Scratch&#8230;</string>
+    <string name="scratch_conversion_started">Iniziata la conversione il progetto Scratch&#8230;</string>
     <string name="convert">Converti</string>
     <string name="converting">Convesione in corso&#8230;</string>
     <string name="status_scheduled">Programmato</string>
@@ -254,9 +258,9 @@
     <string name="status_download_finished">Download terminato!</string>
     <string name="status_download_canceled">Download annullato!</string>
     <string name="scratch_programs_in_progress_title">In corso</string>
-    <string name="scratch_programs_finished_title">Programmi convertiti</string>
+    <string name="scratch_programs_finished_title">Progetti convertiti</string>
     <string name="by_x">per %1$s</string>
-    <string name="warning_program_visibility">ATTENZIONE:\nQuesto programma pare essere privato. Puoi provare
+    <string name="warning_program_visibility">ATTENZIONE:\nQuesto progetto pare essere privato. Puoi provare
         a convertirlo ma potrebbe non funzionare.</string>
     <string name="instructions">Istruzioni</string>
     <string name="notes_and_credits">Note e crediti</string>
@@ -284,8 +288,8 @@
         <item quantity="one">%d giorno</item>
         <item quantity="other">%d giorni</item>
     </plurals>
-    <string name="reconvert_dialog_download">Scarica nuovamente il programma</string>
-    <string name="reconvert_dialog_reconvert">Converti nuovamente il programma</string>
+    <string name="reconvert_dialog_download">Scarica nuovamente il progetto</string>
+    <string name="reconvert_dialog_reconvert">Converti nuovamente il progetto</string>
     <!--  -->
     <!-- ERRORS -->
     <!-- Terms of Use and Service Error -->
@@ -354,7 +358,7 @@
         <item quantity="other">Elimina questi script?</item>
     </plurals>
     <!-- Dialog Labels -->
-    <string name="project_name_label">Nome del programma</string>
+    <string name="project_name_label">Nome del progetto</string>
     <string name="scene_name_label">Nome della scena</string>
     <string name="sprite_name_label">Nome dell\'oggetto</string>
     <string name="sprite_group_name_label">Nome del gruppo</string>
@@ -377,7 +381,7 @@
     <string name="sound_details">Durata: %s, dimensione: %s</string>
     <!--  -->
     <!-- Rename Dialog Titles -->
-    <string name="rename_project">Rinomina il programma</string>
+    <string name="rename_project">Rinomina il progetto</string>
     <string name="rename_scene_dialog">Rinomina la scena</string>
     <string name="rename_sprite_dialog">Rinomina oggetto</string>
     <string name="rename_look_dialog">Rinomina aspetto</string>
@@ -485,7 +489,7 @@
     </plurals>
     <!--  -->
     <!-- ProjectListActivity and ProjectListFragment -->
-    <string name="project_list_title">Programmi</string>
+    <string name="project_list_title">Progetti</string>
     <string name="last_used">Ultimo accesso:</string>
     <string name="size">Dimensione:</string>
     <string name="description">Descrizione:</string>
@@ -594,16 +598,6 @@
     e gli altri programmi eseguibili. Segui il link sottostante per conoscerne i dettagli.\n</string>
     <string name="dialog_terms_of_use_link_text">Condizioni d\'uso e servizio</string>
     <!--  -->
-    <!-- Terms of Use Dialog Parrot ARDrone-->
-    <string name="dialog_terms_of_use_link_text_parrot_reminder">Termini d\'uso e servizi di Pocket Code</string>
-    <string name="dialog_terms_of_use_parrot_reminder_text">Si sta per utilizzare questa app insieme a
-        AR.Drone 2.0 della Parrot. Ti ricordiamo che sei tenuto a rispettare le Condizioni d\'uso e dei servizi sia di Parrot che di Catrobat.</string>
-    <string name="dialog_terms_of_use_parrot_reminder_do_not_remind_again">Non ricordarmelo più.</string>
-    <!--  -->
-    <!-- Terms of Use Dialog Parrot Jumping Sumo-->
-    <string name="dialog_terms_of_use_jumpingsumo_reminder_text">Si sta per utilizzare questa app insieme a Jumping Sumo
-        della Parrot. Ti ricordiamo che sei tenuto a rispettare le Condizioni d\'uso e dei servizi sia di Parrot che di Catrobat.</string>
-    <!--  -->
     <!-- Privacy Policy -->
     <string name="disclaimer_privacy_police_header_headline">Benvenuto!</string>
     <string name="disclaimer_privacy_policy_header">Per utilizzare questa app, si prega di accettare</string>
@@ -623,7 +617,7 @@
     <!-- NetworkAlertDialog -->
     <string name="error_no_network_title">Nessuna Rete</string>
     <!-- UploadProjectDialog -->
-    <string name="upload_project_dialog_title">Carica programma</string>
+    <string name="upload_project_dialog_title">Carica progetto</string>
     <string name="upload_description">Descrizione:</string>
     <string name="upload_notes_and_credits">Note e crediti:</string>
     <string name="upload_notes_and_credits_explanation">Come hai creato questo progetto? Hai usato idee, script o lavori altrui? Ringraziali qui.</string>
@@ -708,9 +702,9 @@
     <!--  -->
     <!-- OverwriteRenameDialog Strings -->
     <string name="overwrite_title">Il progetto esiste già.</string>
-    <string name="overwrite_text">Esiste già un programma con questo nome. Scegli un nome diverso!</string>
-    <string name="overwrite_replace">Sostituisci il programma</string>
-    <string name="overwrite_rename">Rinominare il programma scaricato</string>
+    <string name="overwrite_text">Esiste già un progetto con questo nome. Scegli un nome diverso!</string>
+    <string name="overwrite_replace">Sostituisci il progetto</string>
+    <string name="overwrite_rename">Scegliere un nuovo nome</string>
     <!--  -->
     <!-- Music activity -->
     <string name="pocket_music_default_project_name">Canzone senza titolo</string>
@@ -719,10 +713,8 @@
     <!-- Resource initialization fka PrestageActivity -->
     <string name="prestage_text_to_speech_engine_not_installed">Motore di sintesi vocale non installato! \nVuoi installarlo?</string>
     <string name="prestage_resource_not_available_title">Componente non disponibile</string>
-    <string name="prestage_resource_not_available_text">Questo programma non funziona sul tuo dispositivo.
+    <string name="prestage_resource_not_available_text">Questo progetto non funziona sul tuo dispositivo.
         Non sono disponibili i seguenti componenti:\n\n</string>
-    <string name="prestage_resource_in_use_text">Un altro dispositivo è connesso al Jumping Sumo. Assicurati
-    di essere il solo a controllare il drone.</string>
     <string name="prestage_no_vibration_available">\u2022 Vibrazione\n</string>
     <string name="prestage_no_acceleration_sensor_available">\u2022 Sensore di Accelerazione\n</string>
     <string name="prestage_no_inclination_sensor_available">\u2022 Sensore di Inclinazione\n</string>
@@ -732,7 +724,6 @@
     <string name="prestage_no_back_camera_available">\u2022 Videocamera posteriore\n</string>
     <string name="prestage_no_face_detection_available">\u2022 Rileva volto\n</string>
     <string name="prestage_no_text_detection_available">\u2022 Rileva testo\n</string>
-    <string name="prestage_no_jumping_sumo_available">\u2022 Jumping Sumo\n</string>
     <string name="prestage_no_front_camera_available">\u2022 Videocamera anteriore\n</string>
     <string name="prestage_no_camera_available">\u2022 Fotocamera\n</string>
     <string name="prestage_no_flash_available">\u2022 Torcia\n</string>
@@ -938,13 +929,14 @@
     <string name="brick_write_embroidery" tools:ignore="UnusedResources">Scrivi i dati del ricamo su file</string>
     <string name="brick_default_embroidery_file">ricamo.dst</string>
     <string name="brick_sew_up" tools:ignore="UnusedResources">Cucire</string>
+    <string name="brick_thread_color">Imposta il colore della conversazione a</string>
     <!--  -->
     <!-- Device bricks -->
     <string name="brick_reset_timer" tools:ignore="UnusedResources">Reimposta timer</string>
     <string name="brick_open" tools:ignore="UnusedResources">Apri </string>
     <string name="brick_in_browser" tools:ignore="UnusedResources">Nel browser</string>
     <!-- Control bricks -->
-    <string name="brick_when_started" tools:ignore="UnusedResources">Quando il programma inizia</string>
+    <string name="brick_when_started" tools:ignore="UnusedResources">Quando la scena inizia</string>
     <string name="brick_when" tools:ignore="UnusedResources">Quando premuto</string>
     <string name="brick_when_condition_when" tools:ignore="UnusedResources">Quando</string>
     <string name="brick_when_becomes_true" tools:ignore="UnusedResources">diventa vero</string>
@@ -1158,7 +1150,7 @@
     <string name="default_cast_project_sprites_tweet_1">Cinguettio1</string>
     <string name="default_cast_project_sprites_tweet_2">Cinguettio2</string>
     <string name="default_cast_project_var_direction">direzione</string>
-    <string name="default_cast_project_name">Il mio primo programma di trasmissione</string>
+    <string name="default_cast_project_name">Il mio primo progetto Chromecast</string>
     <!-- Default Drone Values -->
     <string name="drone_brick_set_text">Testo</string>
     <string name="drone_brick_set_x">X:</string>
@@ -1193,31 +1185,20 @@
     <!--  -->
     <!-- Notifications -->
     <string name="notification_screenshot_ok">Anteprima immagine salvata</string>
-    <string name="notification_download_project_cancel">Download del programma annullato</string>
-    <string name="notification_reconvert_download_program_cancel">Annullato il download/conversione del programma</string>
+    <string name="notification_download_project_cancel">Download del progetto annullato</string>
+    <string name="notification_reconvert_download_program_cancel">Annullato il download/conversione del progetto</string>
     <string name="notification_upload_title_pending">"Caricamento "</string>
     <string name="notification_upload_title_finished">"Notifica da "</string>
     <string name="notification_upload_pending">Caricamento in corso</string>
     <string name="notification_upload_finished">Caricamento terminato con successo</string>
-    <string name="notification_upload_rejected">L\'invio del programma è stato rifiutato</string>
+    <string name="notification_upload_rejected">L\'invio del progetto è stato rifiutato</string>
     <string name="notification_upload_retry">Riprova</string>
     <string name="notification_open_play_store">Apri Play Store</string>
     <string name="notification_download_title_pending">"Download di "</string>
     <string name="notification_download_pending">Download in corso</string>
     <string name="notification_download_finished">Download completato</string>
     <string name="notification_title_open">"Apri "</string>
-    <string name="notification_low_battery_with_value">Attenzione. Batteria quasi scarica. Lo stato corrente è %d</string>
     <string name="size_of_project">Dimensione:</string>
-    <string name="drone_emergency_battery_low">Batteria scarica (atterraggio automatico).</string>
-    <string name="drone_emergency_camera">Una o più fotocamere non rispondono.</string>
-    <string name="drone_emergency_ultrasound">Il sensore a ultrasuoni non risponde.</string>
-    <string name="drone_emergency_angle">Angoli euleriani del AR.Drone 2.0 troppo elevati. I motori sono stati spenti per prevenire
-        comportamenti pericolosi.</string>
-    <string name="drone_emergency_cutout">Uno o più motori sono stati interrotti da qualcosa nell\'ambiente.</string>
-    <string name="drone_alert_battery_low">Batteria troppo scarica per un nuovo decollo.</string>
-    <string name="drone_alert_ultrasound">Il sensore a ultrasuoni non può determinare l\'altitudine del AR.Drone 2.0.</string>
-    <string name="drone_alert_vision">Nessuna stima di velocità dalla fotocamera rivolta in basso.</string>
-    <string name="drone_emergency_title">Emergenza</string>
     <!--  -->
     <!-- Runtime permission messages -->
     <string name="runtime_permission_general">Questa app necessità delle autorizzazioni richieste per funzionare correttamente. Per esempio
@@ -1225,14 +1206,14 @@ il mattoncino della videocamera necessita di accedere alla videocamera del dispo
 la posizione del sensore di posizione, per importare o esportare progetti sulla memoria secondaria, l\'app
 deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modificare i permessi in un secondo momento dalle impostazioni del dispositivo.</string>
     <!-- Error messages -->
-    <string name="error_project_upload">Errore durante il caricamento del programma.</string>
-    <string name="error_project_download">Errore durante il download del programma.</string>
+    <string name="error_project_upload">Errore durante il caricamento del progetto.</string>
+    <string name="error_project_download">Errore durante il download del progetto.</string>
     <string name="error_project_already_in_queue">"Il progetto %s è già in coda."</string>
     <string name="error_could_not_decode_project_name_from_url">"Il download non può essere avviato,
         sembra che ci sia un problema con il nostro server."</string>
-    <string name="error_new_project">Errore durante la creazione di un nuovo programma.</string>
+    <string name="error_new_project">Errore durante la creazione di un nuovo progetto.</string>
     <string name="error_rename_scene">Errore durante il cambiamento di nome della scena.</string>
-    <string name="error_load_project">Errore durante il caricamento del programma.</string>
+    <string name="error_load_project">Errore durante il caricamento del progetto.</string>
     <string name="error_screenshot_failed">Errore durante il salvataggio dell\'anteprima dell\'immagine.</string>
     <string name="error_internet_connection">Si è verificato un errore non conosciuto. Controllare la connessione a Internet.</string>
     <string name="error_project_compatibility">Il progetto non è compatibile con questa versione dell\'app.</string>
@@ -1243,18 +1224,6 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
         cambia qualcosa e riprova.</string>
     <string name="error_adding_brick">Si è verificato un errore durante l\'aggiunta di questo Mattoncino</string>
     <string name="error_copying_brick">Si è verificato un errore durante la copia di questo Mattoncino</string>
-    <string name="error_no_drone_connected_title">Impossibile trovare AR.Drone 2.0.</string>
-    <string name="error_no_drone_connected">Connettiti al tuo AR.Drone 2.0 via wifi e riprova.</string>
-    <string name="error_drone_low_battery_title">Batteria del AR.Drone 2.0 bassa: %d%%</string>
-    <string name="error_drone_low_battery">Inserisci una batteria carica e riprova.</string>
-    <string name="error_jumpingsumo_wrong_platform">Impossibile eseguire un progetto Jumping Sumo sul tuo dispositivo.</string>
-    <string name="error_no_jumpingsumo_connected_title">Nessun Jumping Sumo trovato</string>
-    <string name="error_no_jumpingsumo_connected">Connettiti al wifi del Jumping Sumo e riprova.</string>
-    <string name="error_jumpingsumo_battery_title">Batteria bassa del Jumping Sumo</string>
-    <string name="error_jumpingsumo_battery">Inserisci una batteria carica e riprova.</string>
-    <string name="error_jumpingsumo_wrong_platform_title">Nessun supporto a Jumping Sumo</string>
-    <string name="error_drone_wrong_platform_title">Non c\'è supporto ad AR.Drone 2.0.</string>
-    <string name="error_drone_wrong_platform">Impossibile eseguire il progetto AR.Drone 2.0 sul tuo dispositivo.</string>
     <string name="error_rename_incompatible_project">Non è possibile rinominare un progetto non compatibile.</string>
     <string name="error_embroidery_file_export">Qualcosa è andato storto durante la condivisione del file.</string>
     <string name="error_embroidery_file_write">C\'è stato un errore durante la condivisione del file.</string>
@@ -1265,7 +1234,7 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="error_set_notes_and_credits">Qualcosa è andato storto durante il salvataggio delle nuove note
         e crediti.</string>
     <string name="error_no_whatsapp">WhatsApp non è installato</string>
-    <string name="error_unsupported_bricks_chromecast">Questo script non può essere aggiunto ad un programma
+    <string name="error_unsupported_bricks_chromecast">Questo script non può essere aggiunto ad un progetto
         per Chromecast.</string>
     <!--  -->
     <!-- Bluetooth Connection Strings -->
@@ -1331,9 +1300,9 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="nxt_sensor_not_found">Sensore non trovato!</string>
     <string name="lego_nxt_sensor_config_info_title">Configurazione sensore NXT</string>
     <string name="preference_disable_nxt_info_dialog">Disattiva finestra di dialogo</string>
-    <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un programma.</string>
-    <string name="preference_title_mindstorms_nxt_sensors_description">La mappatura dei sensori NXT alle porte è specifico per ogni programma e può essere configurata solo per i programmi aperti!</string>
-    <string name="lego_nxt_sensor_config_info_text">Il programma attuale utilizza mattoncini Lego Mindstorms NXT o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
+    <string name="preference_disable_nxt_info_dialog_description">Le impostazioni specifiche per l\'NXT non vengono mostrare quando si apre un progetto.</string>
+    <string name="preference_title_mindstorms_nxt_sensors_description">La mappatura dei sensori NXT alle porte è specifico per ogni progetto e può essere configurata solo per i progetti aperti!</string>
+    <string name="lego_nxt_sensor_config_info_text">Il progetto attuale utilizza mattoncini Lego Mindstorms NXT o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
     <string name="lego_port_1">Porta 1</string>
     <string name="lego_port_2">Porta 2</string>
     <string name="lego_port_3">Porta 3</string>
@@ -1342,8 +1311,8 @@ deve poter accedere sia in lettura che in scrittura ad essa. Puoi sempre modific
     <string name="lego_sensor_port_config_dialog_title">Scegli una porta per la connessione a %1$s!</string>
     <string name="lego_ev3_sensor_config_info_title">Configurazione sensore EV3</string>
     <string name="preference_disable_ev3_info_dialog_description">Le impostazioni specifiche per EV3 non vengono mostrare quando si apre un programma.</string>
-    <string name="preference_title_mindstorms_ev3_sensors_description">La mappatura dei sensori EV3 alle porte è specifico per ogni programma e può essere configurata solo per i programmi aperti!</string>
-    <string name="lego_ev3_sensor_config_info_text">Il programma attuale utilizza mattoncini Lego Mindstorms EV3 o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
+    <string name="preference_title_mindstorms_ev3_sensors_description">La mappatura dei sensori EV3 alle porte è specifico per ogni programma e può essere configurata solo per i progetto aperti!</string>
+    <string name="lego_ev3_sensor_config_info_text">Il progetto attuale utilizza mattoncini Lego Mindstorms EV3 o i suoi sensori. Per il corretto funzionamento si prega di collegare i sensori al robot come segue</string>
     <string name="ev3_choose_sensor_1">Sensore collegato alla porta 1</string>
     <string name="ev3_choose_sensor_2">Sensore collegato alla porta 2</string>
     <string name="ev3_choose_sensor_3">Sensore collegato alla porta 3</string>
@@ -1803,7 +1772,7 @@ con tolleranza %        </string>
     <string name="formula_editor_intro_summary_device">In \"Dispositivo\" puoi trovare informazioni che
         il tablet o lo smartphone registra.\nPer esempio, l\'inclinazione del dispositivo o il rumore di fondo.</string>
     <string name="formula_editor_intro_title_data">Dati</string>
-    <string name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo         programma possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
+    <string name="formula_editor_intro_summary_data">Variabili e liste usate nel tuo        progetto possono essere trovate qui..\nPuoi inserirle in qualsiasi tua formula o crearne di nuove.</string>
     <string name="formula_editor_listening_language_sensor">lingua di ascolto</string>
     <string name="formula_editor_speech_recognition">Riconoscimento vocale</string>
     <string name="camera_error_text_detection">        Si è verificato un problema con il rilevamento del testo. Alcuni componenti potrebbero essere ancora in fase di download
@@ -1859,13 +1828,22 @@ con tolleranza %        </string>
     <string name="deletion_alert_text">Eliminare una variabile o lista ancora in uso può portare a degli
         errori. Operazione non ripristinabile!</string>
     <!-- Upload progress dialog -->
-    <string name="progress_upload_dialog_message">Il programma viene caricato sulla pagina della community dove gli altri lo possono usare
+    <string name="progress_upload_dialog_message">Il progetto viene caricato sulla pagina della community dove gli altri lo possono usare
         e scaricare.
         Puoi anche scaricare l\'app come applicazione standalone per android.</string>
     <string name="progress_upload_dialog_failed">Upload fallito. Verifica la tua connessione a internet e
     riprova!</string>
-    <string name="progress_upload_dialog_show_program">Mostra il programma</string>
+    <string name="progress_upload_dialog_show_program">Mostra il progetto</string>
     <!--  -->
+    <!-- unchanged upload dialog -->
+    <string name="unchanged_upload_warning">Il progetto che stai cercando di caricare esiste già sulla
+        piattaforma esattamente uguale. Cambia il tuo progetto, idealmente
+        migliorandolo, prima di caricare il tuo progetto remixato.</string>
+    <string name="unchanged_upload_info">Considera il fatto di poter aggiungere alcuni ringraziamenti all\'autore
+        originale nella sezione Crediti sul sito della community o nelle opzioni del progetto.
+        L\'utente riceverà una notifica dopo il completamento del caricament.</string>
+    <string name="unchanged_upload_url">Per saperne di più sui remix, visita %1s.</string>
+    <!-- -->
     <!-- Snackbar hints -->
     <string name="got_it">Va bene</string>
     <string name="preference_description_hints">Abilita suggerimenti</string>
@@ -1880,6 +1858,13 @@ con tolleranza %        </string>
     <string name="hint_objects">Il tuo programma consiste in diversi attori ed oggetti che possono interagire fra loro.
         Per aggiungere un nuovo attore o oggetto, tocca il simbolo \"+\".</string>
     <!--  -->
+    <!-- Dialog Disable hints -->
+    <string name="dialog_disable_hints_title">Mostra suggerimenti?</string>
+    <string name="dialog_disable_hints_text">I suggerimenti ti forniscono utili informazioni
+        durante la realizzazione del tuo primo progetto.\n\nLa visibilità dei suggerimenti può essere modificata nelle impostazioni.</string>
+    <string name="dialog_disable_hints_button_hide">NASCONDI</string>
+    <string name="dialog_disable_hints_button_show">MOSTRA</string>
+    <!--  -->
     <!-- Crash report dialog -->
     <!--  -->
     <!-- Multilingual List -->
@@ -1892,6 +1877,9 @@ con tolleranza %        </string>
     <string name="edit">Modifica</string>
     <string name="data_value">Valore</string>
     <string name="category_recently_used">Usato di recente</string>
+    <string name="new_sprite_dialog_place_visually">Posiziona visivamente</string>
+    <string name="place_visually_text">Ti verrà chiesto di posizionare il nuovo personaggio o oggetto sulla scena
+.</string>
     <!-- Information -->
     <string name="no_variable_selected">Nessuna variabile selezionata</string>
 </resources>
